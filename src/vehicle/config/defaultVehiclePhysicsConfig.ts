@@ -22,6 +22,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   drivenWheelWeightFraction: 0.62,
   gravity: 9.81,
   engine: {
+    partThrottleExponent: 1.08,
     revHang: { enabled: true, holdTime: 0.12, decayTime: 0.28, strength: 0.88 },
     // Slightly brisk warm idle keeps low-speed clutch work calm without
     // turning the idle governor into hidden launch assistance.
@@ -118,6 +119,9 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     takeoverRate: 1.35,
   },
   brakes: {
+    pedalCurveExponent: 1.05,
+    applyResponse: 12,
+    releaseResponse: 18,
     // Axle totals; their sum / wheel radius equals the legacy 11.5 kN force.
     maxBrakeTorqueFront: 2_464,
     maxBrakeTorqueRear: 1_159,
@@ -140,6 +144,8 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     steeringDamping: 11,
     highSpeedSteeringReduction: 0.003,
     highSpeedReduction: 0.003,
+    highSpeedReferenceSpeed: 18.25,
+    highSpeedMinimumAuthority: 0.22,
     ackermannFactor: 0.86,
     yawResponseScale: 0.42,
     minimumYawResponseRate: 1.8,
@@ -155,6 +161,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     liftCoefficientRear: 0.06,
   },
   tires: {
+    wheelInertia: 1.2,
     rollingResistance: 0.012,
     longitudinalGrip: 0.9,
     lateralGrip: 0.92,
@@ -180,6 +187,10 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     damperReboundFront: 3_650,
     damperReboundRear: 3_250,
     suspensionTravel: 0.14,
+    bumpStopStartRatio: 0.8,
+    bumpStopStiffness: 180_000,
+    antiRollStiffnessFront: 10_500,
+    antiRollStiffnessRear: 7_500,
     antiRollStiffness: 18_000,
   },
   driverAids: {

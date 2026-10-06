@@ -13,8 +13,14 @@ export class SelectorSafety {
     this.rejectedReason = null;
     this.gearbox.setGear(this.mode === 'D' ? (typeof gear === 'number' ? gear : 1) : this.mode === 'R' ? 'R' : 'N');
   }
-  public request(mode: DriveSelector, speed: number, lateralSpeed = 0): boolean {
+  /** Service-brake interlock applies to driver PRND changes, never ratio shifts. */
+  public request(mode: DriveSelector, speed: number, lateralSpeed = 0, brake = 0): boolean {
     if (mode !== 'P' && mode !== 'R' && mode !== 'N' && mode !== 'D') return false;
+    // Re-selecting the current mode is harmless and must not produce a warning.
+    if (mode === this.mode) { this.rejectedReason = null; return true; }
+    if (!Number.isFinite(brake) || brake < 0.1) {
+      this.rejectedReason = 'brake-required'; return false;
+    }
     if (mode === 'P' && Math.hypot(speed, lateralSpeed) > this.parkMaximumSpeed) {
       this.rejectedReason = 'park-while-moving'; return false;
     }
@@ -23,7 +29,6 @@ export class SelectorSafety {
       this.rejectedReason = 'direction-while-moving'; return false;
     }
     this.rejectedReason = null;
-    if (mode === this.mode) return true;
     let targetGear: Gear = mode === 'R' ? 'R' : 'N';
     if (mode === 'D') {
       // Rolling N -> D must not select launch gear and over-speed the crank.

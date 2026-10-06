@@ -15,7 +15,15 @@
 - 不要直接双击 `index.html` 或 `dist/index.html`；这个项目必须通过本地游戏服务运行。
 - 若默认端口已被占用，打包版会自动尝试后续端口，并在窗口中显示实际地址。
 
-页面打开后，点击“进入练习场”（也可以按 Enter）。MT 车辆按 `1` 挂入一挡并平稳给油；6AT / 7DCT 测试车踩住制动，在 F3 选 D，再松开刹车起步。
+页面打开后，点击“进入练习场”（也可以按 Enter）。MT 车辆按 `1` 挂入一挡并平稳给油；6AT / 7DCT 测试车踩住制动，在 F3 选 D，或用 Q/E、LB/RB 依次选挡，再松开刹车起步。所有玩家 P/R/N/D 切换均须踩住脚刹（至少 10%），手刹不能代替；行驶中的自动升降挡不受此限制。F3 打开时自动挡仍接收脚刹，油门、转向及驾驶快捷指令被屏蔽。
+
+### 底盘与发动机基础物理
+
+四轮轮速与转角为持久物理状态，由驱动、服务制动、后轮手刹和实际纵向轮胎力共同积分。纵向 slip 使用低速保护和连续峰值曲线；重刹允许真实锁轮。接近静止时静摩擦在抓地与制动转矩范围内支持驻坡，不启用 ABS 或其他电子辅助。F6 可查看各轮轮速、slip、实际 Fx 与制动扭矩。
+
+转向链为方向盘角度 → steeringRatio → 前轮中心转角 → Ackermann；高速灵敏度保留有限下限。悬挂增加 progressive bump stop 和前后轴机械防倾杆，不重复乘视觉侧倾抑制。发动机将燃烧、怠速补偿、rev hang、恒定机械摩擦、泵气损失及传动负载分开核算。
+
+新增基础配置：`tires.wheelInertia`；`brakes.pedalCurveExponent/applyResponse/releaseResponse`；`steering.highSpeedReferenceSpeed/highSpeedMinimumAuthority`；`suspension.bumpStopStartRatio/bumpStopStiffness/antiRollStiffnessFront/antiRollStiffnessRear`；`engine.partThrottleExponent`。旧损耗、刹车和防倾杆字段保留为兼容数据；本轮不做最终车型调校。
 
 ### 命令行启动
 

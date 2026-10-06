@@ -22,7 +22,7 @@ type Harness = {
   dynamics: VehicleDynamics; snapshot: VehicleSnapshot; contacts: VehicleContactSystem;
   ground: DrivingGround; vehicleVisual: VehicleVisual; driverCamera: DriverCamera;
   mirrors: MirrorSystem; mirrorOverlay: MirrorOverlayRenderer; scene: Scene;
-  renderer: WebGLRenderer; hud: Hud; wheelRotation: number;
+  renderer: WebGLRenderer; hud: Hud;
   lightController: VehicleLightingController; vehicleLighting: VehicleLighting; feedback: VehicleFeedbackSystem;
   ignitionOn: boolean;
   switchGround(id: DrivingGroundId): void; switchVehicle(id: VehicleId): void;
@@ -52,7 +52,6 @@ function step(command: VehicleInputState) {
   g.lightController.update(dt, command, { ignitionOn: g.ignitionOn,
     actualGear: g.snapshot.gear, steeringWheelAngle: g.snapshot.steeringWheelAngle });
   g.vehicleLighting.applyState(g.lightController.state);
-  g.wheelRotation += g.snapshot.speed / g.dynamics.config.wheelRadius * dt;
   elapsed += dt;
 }
 function reset(map: DrivingGroundId, state: Parameters<VehicleDynamics['reset']>[0] = {}) {
@@ -60,7 +59,7 @@ function reset(map: DrivingGroundId, state: Parameters<VehicleDynamics['reset']>
   const spawn = g.ground.spawnPose;
   g.snapshot = g.dynamics.reset({ x: spawn.position.x, z: spawn.position.z, yaw: spawn.yawRadians, ...state });
   g.feedback.reset(g.snapshot);
-  elapsed = 0; g.wheelRotation = 0; g.driverCamera.resetHeadLook(true);
+  elapsed = 0; g.driverCamera.resetHeadLook(true);
   g.snapshot = g.contacts.step(dt, controls(), g.dynamics);
 }
 function button(text: string, action: () => void) {
@@ -81,7 +80,7 @@ button('6AT', () => { vehicle = 'test-6at-sedan'; reset('subject-2-training-grou
 button('7DCT', () => { vehicle = 'test-7dct-sedan'; reset('subject-2-training-ground'); });
 button('自动挡起停', () => {
   reset('subject-2-training-ground');
-  g.dynamics.requestDriveSelector('D');
+  g.dynamics.requestDriveSelector('D', 1);
   let remaining = 12 * 120;
   job = () => {
     for (let i = 0; i < 6 && remaining > 0; i++, remaining--) {
@@ -94,11 +93,11 @@ button('自动挡起停', () => {
 });
 button('科目二低速转向', () => { reset('subject-2-training-ground', { speed: 2, gear: 'N' }); runSeconds(4, controls({ steering: .55 }), '科目二低速'); });
 button('倒库后退', () => { reset('subject-2-training-ground', { x: -22, z: 22, yaw: 0, speed: -1.5, gear: 'N' }); runSeconds(4, controls({ steering: .05 }), '倒库车身 / 库线'); });
-button('科目二坡起', () => { reset('subject-2-training-ground', { x: -43, z: -16, yaw: 0, gear: 'N' }); if (g.snapshot.transmission.type === 'MANUAL') g.dynamics.requestGear(1); else g.dynamics.requestDriveSelector('D'); runSeconds(7, controls({ throttle: .75 }), '坡起 / 四轮地形'); });
+button('科目二坡起', () => { reset('subject-2-training-ground', { x: -43, z: -16, yaw: 0, gear: 'N' }); if (g.snapshot.transmission.type === 'MANUAL') g.dynamics.requestGear(1); else g.dynamics.requestDriveSelector('D', 1); runSeconds(7, controls({ throttle: .75 }), '坡起 / 四轮地形'); });
 button('公路制动转向', () => { reset('road-course', { x: 0, z: 95, yaw: 0, speed: 16, gear: 'N' }); runSeconds(3, controls({ steering: .22, brake: .27 }), '公路制动入弯'); });
 button('公路单侧草地', () => { reset('road-course', { x: 5.7, z: 95, yaw: 0, speed: 10, gear: 'N' }); runSeconds(4, controls(), '单侧草地拖拽'); });
 button('赛道连续两圈', () => {
-  reset('simple-circuit', { gear: 'N' }); if (g.snapshot.transmission.type === 'MANUAL') g.dynamics.requestGear(1); else g.dynamics.requestDriveSelector('D');
+  reset('simple-circuit', { gear: 'N' }); if (g.snapshot.transmission.type === 'MANUAL') g.dynamics.requestGear(1); else g.dynamics.requestDriveSelector('D', 1);
   const ground = g.ground as CircuitGround;
   const route = ground.metadata.routeCenterline.slice(0, -1);
   const spacing = ground.metadata.lapLength / route.length;

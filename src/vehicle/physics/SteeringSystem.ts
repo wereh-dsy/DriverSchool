@@ -29,10 +29,11 @@ export class SteeringSystem {
   }
 
   public update(dt: number, targetInput: number, speed: number, frontSurfaceGrip = 1): void {
-    const command = clamp(targetInput, -1, 1);
+    const command = clamp(finiteOr(targetInput, 0), -1, 1);
+    const safeDt = Math.max(0, finiteOr(dt, 0));
     const safeSpeed = Number.isFinite(speed) ? Math.abs(speed) : 0;
     const grip = Number.isFinite(frontSurfaceGrip) ? clamp(frontSurfaceGrip, 0.2, 1.4) : 1;
-    this.returnSurfaceGrip = damp(this.returnSurfaceGrip, grip, 8, dt);
+    this.returnSurfaceGrip = damp(this.returnSurfaceGrip, grip, 8, safeDt);
     const profile = this.config.returnProfile;
     const lowRate = finiteOr(profile?.lowSpeedRate, 0.18);
     const highRate = Math.max(lowRate, finiteOr(profile?.highSpeedRate, 1.22));
@@ -47,21 +48,18 @@ export class SteeringSystem {
     const response = Math.abs(command) < 1e-3
       ? this.selfCenteringRate
       : this.config.steeringResponse;
-    this.steeringInput = damp(this.steeringInput, command, response, dt);
+    this.steeringInput = damp(this.steeringInput, command, response, safeDt);
 
-    const speedReduction = 1 / (
-      1 + this.config.highSpeedSteeringReduction * speed * speed
-    );
-    const targetRoadWheelAngle =
-      this.steeringInput * this.config.maxRoadWheelAngle * speedReduction;
-    this.steeringAngle = damp(
-      this.steeringAngle,
-      targetRoadWheelAngle,
-      this.config.steeringDamping,
-      dt,
-    );
-    this.steeringWheelAngle =
-      this.steeringInput * this.config.steeringWheelLock * 0.5;
+    // Reduce sensitivity without making the rack tend to zero authority.
+    const reference = Math.max(1, finiteOr(this.config.highSpeedReferenceSpeed, 18));
+    const minimum = clamp(finiteOr(this.config.highSpeedMinimumAuthority, 0.22), 0.05, 1);
+    const authority = minimum + (1 - minimum) / (1 + (safeSpeed / reference) ** 2);
+    const wheelTarget = this.steeringInput * this.config.steeringWheelLock * 0.5 * authority;
+    this.steeringWheelAngle = damp(this.steeringWheelAngle, wheelTarget,
+      this.config.steeringDamping, safeDt);
+    const roadLimit = Math.max(0, this.config.maxRoadWheelAngle);
+    this.steeringAngle = clamp(this.steeringWheelAngle / Math.max(1, this.config.steeringRatio),
+      -roadLimit, roadLimit);
 
     this.updateAckermannAngles();
 

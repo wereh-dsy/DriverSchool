@@ -103,7 +103,6 @@ export class DrivingGame {
   private snapshot: VehicleSnapshot;
   private accumulator = 0;
   private lastFrameTime = 0;
-  private wheelRotation = 0;
   private animationFrame = 0;
   private running = false;
   private draggingLook = false;
@@ -233,23 +232,35 @@ export class DrivingGame {
     this.renderer.domElement.remove();
   }
 
+  private filterSettingsInput(sample: VehicleInputState): VehicleInputState {
+    if (!this.settingsOpen) return sample;
+    return {
+      ...createNeutralVehicleInputState(this.snapshot.controlMode, this.snapshot.clutchPedal),
+      brake: sample.brake,
+      handbrake: sample.handbrake,
+    };
+  }
+
   private readonly frame = (time: number): void => {
     if (!this.running) return;
     const frameDt = Math.min(MAX_FRAME_TIME, Math.max(0, (time - this.lastFrameTime) / 1_000));
     this.lastFrameTime = time;
     this.accumulator = Math.min(this.accumulator + frameDt, FIXED_STEP * MAX_STEPS_PER_FRAME);
 
+    // Automatic PRND buttons in F3 still need a live unified brake sample.
+    // All propulsion/steering/accessory commands remain suppressed in menus.
+    this.input.setEnabled(this.gameStarted && (!this.settingsOpen || this.snapshot.transmission.type !== 'MANUAL'));
     this.input.update(frameDt, this.snapshot.clutchEngagement);
     if (this.snapshot.transmission.type !== 'MANUAL' && this.input.controlMode !== 'normal') {
       this.input.setControlMode('normal', this.snapshot.clutchEngagement);
     }
-    this.latestInput = this.input.peekState();
+    this.latestInput = this.filterSettingsInput(this.input.peekState());
     this.updateHeadLookFromInput(frameDt, this.latestInput);
     this.reportInputChanges(this.latestInput);
 
     let stepIndex = 0;
     while (this.accumulator >= FIXED_STEP && stepIndex < MAX_STEPS_PER_FRAME) {
-      const driverControls = this.input.consumeState();
+      const driverControls = this.filterSettingsInput(this.input.consumeState());
       this.processAccessoryCommands(driverControls);
       const controls = this.cruiseControl.update(FIXED_STEP, driverControls, {
         available: getVehicleDescriptor(this.activeVehicleId).capabilities.cruiseControl,
@@ -263,7 +274,9 @@ export class DrivingGame {
       if (this.snapshot.transmission.type !== 'MANUAL' &&
         (driverControls.shiftUp || driverControls.shiftDown || driverControls.driveSelector !== undefined) &&
         this.snapshot.transmission.selectorRejectedReason !== null) {
-        this.hud.showMessage('选挡被拒绝 · 请先停车再切换行驶方向或驻车挡', 2.2);
+        this.hud.showMessage(this.snapshot.transmission.selectorRejectedReason === 'brake-required'
+          ? '选挡被拒绝 · 请踩住刹车再切换 P / R / N / D'
+          : '选挡被拒绝 · 请先停车再切换行驶方向或驻车挡', 2.2);
       }
       this.updateVehicleFeedback(FIXED_STEP);
       const previousLightMode = this.lightController.state.mainLightMode;
@@ -286,7 +299,6 @@ export class DrivingGame {
       this.latestRoadRoughness = MathUtils.lerp(
         this.latestRoadRoughness, roughness, 1 - Math.exp(-FIXED_STEP * 9),
       );
-      this.wheelRotation += this.snapshot.speed / this.dynamics.config.wheelRadius * FIXED_STEP;
       this.accumulator -= FIXED_STEP;
       stepIndex += 1;
     }
@@ -388,7 +400,12 @@ export class DrivingGame {
       -this.snapshot.rightRoadWheelAngle,
     );
     this.vehicleVisual.setSteeringWheelAngle(-this.snapshot.steeringWheelAngle);
-    this.vehicleVisual.setWheelRotation(this.wheelRotation);
+    this.vehicleVisual.setWheelRotationAngles({
+      frontLeft: this.snapshot.wheels.frontLeft.rotationAngle,
+      frontRight: this.snapshot.wheels.frontRight.rotationAngle,
+      rearLeft: this.snapshot.wheels.rearLeft.rotationAngle,
+      rearRight: this.snapshot.wheels.rearRight.rotationAngle,
+    });
     this.vehicleVisual.updateInstruments({
       speedKmh: Math.abs(this.snapshot.speed) * 3.6,
       rpm: this.snapshot.rpm,
@@ -430,7 +447,7 @@ export class DrivingGame {
 
     settings.onVisibilityChange = (visible) => {
       this.settingsOpen = visible;
-      this.input.setEnabled(this.gameStarted && !visible);
+      this.input.setEnabled(this.gameStarted && (!visible || this.snapshot.transmission.type !== 'MANUAL'));
       if (visible) this.haptics.setEnabled(false);
       if (visible) {
         this.cruiseControl.reset();
@@ -453,10 +470,12 @@ export class DrivingGame {
     settings.onVibrationChange = (enabled) => this.haptics.setEnabled(enabled && this.gameStarted && !this.settingsOpen);
     settings.onDriveSelectorChange = (mode) => {
       if (this.snapshot.transmission.type === 'MANUAL') return;
-      this.dynamics.requestDriveSelector(mode);
+      this.dynamics.requestDriveSelector(mode, this.input.peekState().brake);
       this.snapshot = this.dynamics.getSnapshot();
       settings.setDriveSelector(this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.transmission.type);
-      this.hud.showMessage(this.snapshot.transmission.selectorRejectedReason ? '挡位选择被拒绝 · 请先将车辆停稳' : `自动挡选择 ${mode}`, 1.7);
+      this.hud.showMessage(this.snapshot.transmission.selectorRejectedReason === 'brake-required'
+        ? '挡位选择被拒绝 · 请踩住刹车'
+        : this.snapshot.transmission.selectorRejectedReason ? '挡位选择被拒绝 · 请先将车辆停稳' : `自动挡选择 ${mode}`, 1.7);
     };
     settings.onMirrorSideChange = (side) => {
       this.selectedMirror = side;
@@ -550,7 +569,6 @@ export class DrivingGame {
     this.lastEngineRunning = this.snapshot.engineRunning;
     this.lastShiftEventSequence = this.snapshot.shiftEventSequence;
     this.lastHandbrakeApplied = this.snapshot.handbrake > 0.05;
-    this.wheelRotation = 0;
     this.latestRoadRoughness = 0.08;
     this.accumulator = 0;
     this.driverCamera.resetHeadLook(true);
@@ -625,7 +643,6 @@ export class DrivingGame {
     this.hud.setActiveVehicle(vehicleId);
     this.hud.settings.setLightMode(retainedLightMode);
     this.hud.settings.setMirrorAdjustment(this.mirrorAdjustment.get(this.selectedMirror));
-    this.wheelRotation = 0;
     this.lastShiftEventSequence = this.snapshot.shiftEventSequence;
     this.lastEngineRunning = this.snapshot.engineRunning;
     this.lastHandbrakeApplied = this.snapshot.handbrake > 0.05;

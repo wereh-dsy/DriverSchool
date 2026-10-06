@@ -1,4 +1,7 @@
 export { BrakeSystem } from './BrakeSystem';
+export type { WheelBrakeTorques } from './BrakeSystem';
+export { WheelRotationSystem } from './WheelRotationSystem';
+export type { WheelRotationInput, WheelRotationState } from './WheelRotationSystem';
 export { AutoClutchController } from './AutoClutchController';
 export type {
   AutoClutchContext,

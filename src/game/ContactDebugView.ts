@@ -88,7 +88,8 @@ export class ContactDebugView {
       rows.push(`   n ${wheel.normal.x.toFixed(2)}, ${wheel.normal.y.toFixed(2)}, ${wheel.normal.z.toFixed(2)} · h ${wheel.height.toFixed(2)}m`);
       const state = physics?.wheels[wheel.id];
       if (state !== undefined) {
-        rows.push(`   load ${state.normalLoad.toFixed(0)}N · drive ${state.driveForce.toFixed(0)}N · brake ${state.brakeForce.toFixed(0)}N`);
+        rows.push(`   load ${state.normalLoad.toFixed(0)}N · drive ${state.driveTorque.toFixed(0)}Nm · brake ${state.appliedBrakeTorque.toFixed(0)}Nm`);
+        rows.push(`   wheel ${state.angularVelocity.toFixed(1)}rad/s · slip ${(state.slipRatio * 100).toFixed(1)}% · Fx ${state.longitudinalForce.toFixed(0)}N`);
         rows.push(`   lateral ${state.lateralForce.toFixed(0)}N · spring ${(state.suspensionCompression * 1_000).toFixed(1)}mm · v ${state.suspensionVelocity.toFixed(3)}m/s`);
       }
     }

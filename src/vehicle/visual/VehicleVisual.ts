@@ -190,6 +190,13 @@ export class VehicleVisual {
     }
   }
 
+  /** Read the four physical spin phases, including locking and wheelspin. */
+  public setWheelRotationAngles(angles: Readonly<Record<VehicleWheelId, number>>): void {
+    VEHICLE_WHEEL_IDS.forEach((id, index) => {
+      this.wheelMeshes[index]!.rotation.x = Number.isFinite(angles[id]) ? -angles[id] : 0;
+    });
+  }
+
   /** Physics-supplied wheel displacement relative to the chassis; no visual force model. */
   public setWheelSuspensionOffsets(offsets: Readonly<Record<VehicleWheelId, number>>): void {
     for (const id of VEHICLE_WHEEL_IDS) {

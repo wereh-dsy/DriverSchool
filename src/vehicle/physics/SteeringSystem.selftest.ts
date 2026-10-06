@@ -25,15 +25,18 @@ export function runSteeringReturnSelfTest(): Record<string, number | boolean> {
   assert(grass.steeringInput / asphalt.steeringInput < 1.3, 'grass must not remove the wheel centering tendency');
   const active = new SteeringSystem(config);
   const activeGrass = new SteeringSystem(config);
-  let originalInput = 0; let originalAngle = 0;
+  let originalInput = 0; let originalWheel = 0;
   for (let step = 0; step < 360; step += 1) {
     const command = step < 100 ? 0.7 : step < 200 ? -0.55 : 0.025;
     active.update(1 / 120, command, 18, 1); activeGrass.update(1 / 120, command, 18, 0.55);
     originalInput = damp(originalInput, command, config.steeringResponse, 1 / 120);
-    const target = originalInput * config.maxRoadWheelAngle / (1 + config.highSpeedSteeringReduction * 18 * 18);
-    originalAngle = damp(originalAngle, target, config.steeringDamping, 1 / 120);
-    assert(Math.abs(active.steeringInput - originalInput) < 1e-12 && Math.abs(active.steeringAngle - originalAngle) < 1e-12,
-      'active driver input or existing high-speed road-wheel reduction changed');
+    const authority = config.highSpeedMinimumAuthority + (1 - config.highSpeedMinimumAuthority) /
+      (1 + (18 / config.highSpeedReferenceSpeed) ** 2);
+    const target = originalInput * config.steeringWheelLock * 0.5 * authority;
+    originalWheel = damp(originalWheel, target, config.steeringDamping, 1 / 120);
+    assert(Math.abs(active.steeringInput - originalInput) < 1e-12 &&
+      Math.abs(active.steeringAngle - originalWheel / config.steeringRatio) < 1e-12,
+      'active driver input or the steering wheel / ratio chain changed');
     assert(active.steeringInput === activeGrass.steeringInput, 'self-centering is fighting active player input');
   }
   const centred = new SteeringSystem(config); centred.steeringInput = 0.015;
@@ -49,6 +52,17 @@ export function runSteeringReturnSelfTest(): Record<string, number | boolean> {
     }
   }
   const reverse = release(-10); assert(reverse.steeringInput === asphalt.steeringInput, 'reverse speed should use the same centering magnitude');
+  const normalRatio = new SteeringSystem(config);
+  const slowerRatio = new SteeringSystem({ ...config, steeringRatio: config.steeringRatio * 2 });
+  const extremelyFast = new SteeringSystem(config);
+  for (let step = 0; step < 240; step++) {
+    normalRatio.update(1 / 120, 0.5, 0); slowerRatio.update(1 / 120, 0.5, 0);
+    extremelyFast.update(1 / 120, 1, 1000);
+  }
+  assert(Math.abs(slowerRatio.steeringAngle * 2 - normalRatio.steeringAngle) < 1e-12,
+    'steeringRatio must affect the physical road wheels');
+  assert(extremelyFast.steeringAngle > config.maxRoadWheelAngle * config.highSpeedMinimumAuthority * .95,
+    'high speed must retain a finite steering authority floor');
   const gt = new SteeringSystem(SPORTS_COUPE_PHYSICS_CONFIG.steering); gt.steeringInput = 0.75;
   for (let step = 0; step < 120; step += 1) gt.update(1 / 120, 0, 10);
   assert(gt.steeringInput < asphalt.steeringInput, 'GT should retain its more direct rack return character');

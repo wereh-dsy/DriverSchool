@@ -42,9 +42,9 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     if (this.activeShaft !== null) this.setShaftGear(this.activeShaft, this.gearbox.currentGear);
     this.preselect(); this.load = 0; this.torque = 0; this.inputRPM = 0; this.outputRPM = 0;
   }
-  public requestSelector(selector: DriveSelector, speed: number, lateralSpeed = 0): boolean {
+  public requestSelector(selector: DriveSelector, speed: number, lateralSpeed = 0, brake = 0): boolean {
     const previous = this.selector.mode;
-    const accepted = this.selector.request(selector, speed, lateralSpeed);
+    const accepted = this.selector.request(selector, speed, lateralSpeed, brake);
     if (accepted && previous !== this.selector.mode) {
       this.handover = null; this.controller.reset(); this.kickdown = false;
       // A direction change always opens both clutches before the new launch.
@@ -57,7 +57,7 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     return accepted;
   }
   public prepare(context: TransmissionContext): { throttleScale: number } {
-    if (context.selectorRequest !== undefined) this.requestSelector(context.selectorRequest, context.vehicleSpeed, context.vehicleLateralSpeed);
+    if (context.selectorRequest !== undefined) this.requestSelector(context.selectorRequest, context.vehicleSpeed, context.vehicleLateralSpeed, context.brake);
     const launchTarget = this.getLaunchEngagement(context);
     if (this.handover !== null) {
       this.handover.elapsed += context.dt;

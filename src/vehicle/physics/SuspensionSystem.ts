@@ -12,6 +12,8 @@ export interface SuspensionWheelState {
   readonly restCompression: number;
   readonly springForce: number;
   readonly damperForce: number;
+  readonly bumpStopForce: number;
+  readonly antiRollForce: number;
 }
 
 export interface SuspensionSnapshot {
@@ -32,6 +34,8 @@ interface CornerState {
   load: number;
   spring: number;
   damper: number;
+  bumpStop: number;
+  antiRoll: number;
 }
 
 /**
@@ -57,7 +61,7 @@ export class SuspensionSystem {
     this.chassis = { groundHeight: 0, terrainPitch: 0, terrainRoll: 0, rideOffset: 0, pitch: 0, roll: 0, verticalVelocity: 0 };
     for (const id of WHEEL_IDS) {
       const load = this.staticLoad(id);
-      this.corners[id] = { compression: load / this.springRate(id), velocity: 0, load, spring: load, damper: 0 };
+      this.corners[id] = { compression: load / this.springRate(id), velocity: 0, load, spring: load, damper: 0, bumpStop: 0, antiRoll: 0 };
     }
   }
 
@@ -88,11 +92,11 @@ export class SuspensionSystem {
     for (const id of WHEEL_IDS) targetLoads[id] = Math.max(this.staticLoad(id) * 0.08, targetLoads[id]);
     const targetTotal = WHEEL_IDS.reduce((sum, id) => sum + targetLoads[id], 0);
     const { heights, groundHeight, forwardSlope, rightSlope } = this.groundGeometry(step.contacts);
+    const antiRoll = this.antiRollForces();
     for (const id of WHEEL_IDS) {
       const corner = this.corners[id];
       const front = id.startsWith('front');
       const springRate = this.springRate(id);
-      const restCompression = this.staticLoad(id) / springRate;
       const wheel = wheelLocalPosition(this.config, id);
       const groundResidual = clamp(heights[id] - groundHeight + wheel.z * forwardSlope - wheel.x * rightSlope, -0.05, 0.05);
       const targetLoad = targetLoads[id] * supportedWeight / Math.max(1, targetTotal);
@@ -100,18 +104,27 @@ export class SuspensionSystem {
         ? (front ? this.config.suspension.damperCompressionFront : this.config.suspension.damperCompressionRear)
         : (front ? this.config.suspension.damperReboundFront : this.config.suspension.damperReboundRear);
       const cornerMass = this.staticLoad(id) / this.config.gravity;
-      const acceleration = (targetLoad + springRate * groundResidual - springRate * corner.compression - damping * corner.velocity) / Math.max(20, cornerMass);
+      const bumpStop = this.bumpStopForce(id, corner.compression);
+      const acceleration = (targetLoad + springRate * groundResidual - springRate * corner.compression -
+        damping * corner.velocity - bumpStop - antiRoll[id]) / Math.max(20, cornerMass);
       corner.velocity += acceleration * safeDt;
       corner.compression += corner.velocity * safeDt;
-      const halfTravel = this.config.suspension.suspensionTravel * 0.5;
-      const minimumCompression = Math.max(0, restCompression - halfTravel);
-      const maximumCompression = Math.min(this.config.suspension.restLength * 0.94, restCompression + halfTravel);
+      const { minimumCompression, maximumCompression } = this.travelLimits(id);
       const limited = clamp(corner.compression, minimumCompression, maximumCompression);
       if (limited !== corner.compression) corner.velocity = 0;
       corner.compression = limited;
       corner.spring = springRate * corner.compression;
       corner.damper = damping * corner.velocity;
-      corner.load = Math.max(this.staticLoad(id) * 0.08, corner.spring + corner.damper);
+      corner.bumpStop = this.bumpStopForce(id, corner.compression);
+    }
+    // Equal and opposite axle forces conserve weight. They also resist spring
+    // displacement in the integrator above: this is not a visual roll scale.
+    const updatedAntiRoll = this.antiRollForces();
+    for (const id of WHEEL_IDS) {
+      const corner = this.corners[id];
+      corner.antiRoll = updatedAntiRoll[id];
+      corner.load = Math.max(this.staticLoad(id) * 0.08,
+        corner.spring + corner.damper + corner.bumpStop + corner.antiRoll);
     }
     const actualTotal = WHEEL_IDS.reduce((sum, id) => sum + this.corners[id].load, 0);
     for (const id of WHEEL_IDS) this.corners[id].load *= supportedWeight / Math.max(1, actualTotal);
@@ -121,10 +134,6 @@ export class SuspensionSystem {
     const leftDisplacement = (displacement('frontLeft') + displacement('rearLeft')) * 0.5;
     const rightDisplacement = (displacement('frontRight') + displacement('rearRight')) * 0.5;
     const rideOffset = -(frontDisplacement + rearDisplacement) * 0.5;
-    // The existing anti-roll stiffness restrains body attitude without changing
-    // total load or inventing a grip multiplier.
-    const rollRestraint = 1 / (1 + this.config.suspension.antiRollStiffness /
-      Math.max(1, this.config.suspension.springRateFront + this.config.suspension.springRateRear));
     this.chassis = {
       groundHeight,
       terrainPitch: Math.atan(forwardSlope),
@@ -132,7 +141,7 @@ export class SuspensionSystem {
       rideOffset,
       pitch: clamp(Math.atan2(rearDisplacement - frontDisplacement, this.config.wheelBase), -0.065, 0.065),
       roll: clamp(Math.atan2(leftDisplacement - rightDisplacement,
-        (this.config.frontTrackWidth + this.config.rearTrackWidth) * 0.5) * rollRestraint, -0.075, 0.075),
+        (this.config.frontTrackWidth + this.config.rearTrackWidth) * 0.5), -0.075, 0.075),
       verticalVelocity: safeDt > 0 ? (rideOffset - this.previousRideOffset) / safeDt : 0,
     };
     this.previousRideOffset = rideOffset;
@@ -164,6 +173,8 @@ export class SuspensionSystem {
       restCompression: this.staticLoad(id) / this.springRate(id),
       springForce: this.corners[id].spring,
       damperForce: this.corners[id].damper,
+      bumpStopForce: this.corners[id].bumpStop,
+      antiRollForce: this.corners[id].antiRoll,
     }])) as Record<WheelId, SuspensionWheelState>;
     return { wheels, chassis: { ...this.chassis } };
   }
@@ -171,6 +182,32 @@ export class SuspensionSystem {
   private staticLoad(id: WheelId): number {
     const frontShare = clamp(this.config.frontWeightBias, 0.05, 0.95);
     return this.config.mass * this.config.gravity * (id.startsWith('front') ? frontShare : 1 - frontShare) * 0.5;
+  }
+
+  private travelLimits(id: WheelId) {
+    const restCompression = this.staticLoad(id) / this.springRate(id);
+    const halfTravel = Math.max(0.001, this.config.suspension.suspensionTravel) * 0.5;
+    return {
+      minimumCompression: Math.max(0, restCompression - halfTravel),
+      maximumCompression: Math.min(this.config.suspension.restLength * 0.94, restCompression + halfTravel),
+    };
+  }
+
+  private bumpStopForce(id: WheelId, compression: number): number {
+    const { minimumCompression, maximumCompression } = this.travelLimits(id);
+    const span = Math.max(0.001, maximumCompression - minimumCompression);
+    const start = minimumCompression + span * clamp(this.config.suspension.bumpStopStartRatio, 0.5, 0.98);
+    const depth = Math.max(0, compression - start);
+    return Math.max(0, this.config.suspension.bumpStopStiffness) * depth * depth /
+      Math.max(0.001, maximumCompression - start);
+  }
+
+  private antiRollForces(): Record<WheelId, number> {
+    const front = (this.corners.frontLeft.compression - this.corners.frontRight.compression) *
+      Math.max(0, this.config.suspension.antiRollStiffnessFront);
+    const rear = (this.corners.rearLeft.compression - this.corners.rearRight.compression) *
+      Math.max(0, this.config.suspension.antiRollStiffnessRear);
+    return { frontLeft: front, frontRight: -front, rearLeft: rear, rearRight: -rear };
   }
 
   private springRate(id: WheelId): number {

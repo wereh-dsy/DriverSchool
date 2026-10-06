@@ -9,6 +9,11 @@ import {
 
 export interface EngineTorqueSample {
   combustionTorque: number;
+  /** Bearing/accessory drag, always present while the crank is running. */
+  mechanicalFrictionTorque: number;
+  /** Closed-throttle airflow drag, separate from mechanical friction. */
+  pumpingLossTorque: number;
+  /** Compatibility observation: mechanical friction plus pumping loss. */
   engineBrakingTorque: number;
   idleControlTorque: number;
   netCrankTorque: number;
@@ -161,6 +166,8 @@ export class Engine {
     if (!this.isRunning) {
       return {
         combustionTorque: 0,
+        mechanicalFrictionTorque: 0,
+        pumpingLossTorque: 0,
         engineBrakingTorque: 0,
         idleControlTorque: 0,
         netCrankTorque: 0,
@@ -171,14 +178,19 @@ export class Engine {
     const rpmRange = Math.max(1, this.config.redlineRPM - this.config.idleRPM);
     const normalizedRPM = clamp((this.currentRPM - this.config.idleRPM) / rpmRange, 0, 1);
     const limiterMultiplier = this.fuelCutActive ? 0 : 1;
+    // The command curve shapes combustion only; it must not erase crank drag
+    // at wide-open throttle. Legacy configurations retain the linear mapping.
+    const combustionThrottle = clamp01(this.throttle) ** Math.max(0.1, this.config.partThrottleExponent ?? 1);
     const combustionTorque =
-      this.getTorqueAtRPM(this.currentRPM) * this.throttle * limiterMultiplier;
+      this.getTorqueAtRPM(this.currentRPM) * combustionThrottle * limiterMultiplier;
 
-    // Pumping/friction losses become much more apparent with the throttle shut.
-    const engineBrakingTorque =
-      (this.config.engineFrictionTorque +
-        this.config.engineBrakingStrength * normalizedRPM) *
-      (1 - this.throttle) ** 1.6;
+    // Mechanical drag is independent of pedal position. The existing
+    // engineBrakingStrength remains the speed-dependent pumping-loss strength;
+    // their sum preserves the former closed-throttle curve at every RPM.
+    const mechanicalFrictionTorque = Math.max(0, this.config.engineFrictionTorque);
+    const pumpingLossTorque = Math.max(0, this.config.engineBrakingStrength) *
+      normalizedRPM * (1 - clamp01(this.throttle)) ** 1.6;
+    const engineBrakingTorque = mechanicalFrictionTorque + pumpingLossTorque;
 
     // The governor exactly compensates normal friction at target idle, then
     // adds a finite reserve as RPM sags. Unlike the old minimum-RPM clamp this
@@ -204,7 +216,8 @@ export class Engine {
       clamp01(this.config.revHang?.strength ?? 0) * this.revHangFactor;
     const netCrankTorque = combustionTorque + idleControlTorque + revHangTorque - engineBrakingTorque;
 
-    return { combustionTorque, engineBrakingTorque, idleControlTorque, revHangTorque, netCrankTorque };
+    return { combustionTorque, mechanicalFrictionTorque, pumpingLossTorque,
+      engineBrakingTorque, idleControlTorque, revHangTorque, netCrankTorque };
   }
 
   /** Apply clutch load and integrate crankshaft angular velocity. */

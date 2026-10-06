@@ -61,7 +61,7 @@ export interface TransmissionSystem {
   reset(gear?: Gear, selector?: DriveSelector): void;
   prepare(context: TransmissionContext): { throttleScale: number };
   update(context: TransmissionContext): TransmissionOutput;
-  requestSelector(selector: DriveSelector, speed: number, lateralSpeed?: number): boolean;
+  requestSelector(selector: DriveSelector, speed: number, lateralSpeed?: number, brake?: number): boolean;
   getSnapshot(): TransmissionSnapshot;
 }
 

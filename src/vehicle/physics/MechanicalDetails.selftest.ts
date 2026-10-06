@@ -116,7 +116,8 @@ export function runMechanicalDetailsSelfTest() {
     assert(state.wheels[driven[0]].driveTorque > 0 && state.wheels[driven[0]].driveTorque === state.wheels[driven[1]].driveTorque,
       `${name}: each driven wheel receives an equal torque share`);
     assert(undriven.every(id => state.wheels[id].driveTorque === 0), `${name}: undriven axle receives no engine torque`);
-    assert(state.wheels[driven[1]].driveForce < state.wheels[driven[0]].driveForce, `${name}: own surface limits each driven wheel independently`);
+    assert(state.wheels[driven[1]].longitudinalForce < state.wheels[driven[0]].longitudinalForce,
+      `${name}: own surface limits actual tyre force, not the equal requested axle torques`);
     assert(WHEEL_IDS.every(id => state.wheels[id].brakeTorque === 0), `${name}: drive torque is separate from brake torque`);
     const launch = new VehicleDynamics(config, { gear: 1 });
     const launchInput = { ...createNeutralVehicleInputState(), throttle: 0.65 };

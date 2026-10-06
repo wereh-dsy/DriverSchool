@@ -20,6 +20,7 @@ import { UpshiftAdvisor } from './UpshiftAdvisor';
 import { WHEEL_IDS, type WheelContactSet, type WheelId } from './WheelContact';
 import { wheelLocalPosition } from '../VehicleDimensions';
 import { SuspensionSystem } from './SuspensionSystem';
+import { WheelRotationSystem } from './WheelRotationSystem';
 import type { ChassisPhysicsState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, clamp01, wrapAngle } from './math';
 import { createTransmissionSystem } from '../transmission/createTransmissionSystem';
@@ -61,6 +62,7 @@ export interface VehicleContactCorrection {
 }
 
 interface TyreContactForces {
+  staticSupported: boolean;
   wheelForce: number;
   powertrainForce: number;
   serviceBrakeForce: number;
@@ -231,6 +233,7 @@ export class VehicleDynamics {
   public readonly steering: SteeringSystem;
   public readonly upshiftAdvisor: UpshiftAdvisor;
   public readonly suspension: SuspensionSystem;
+  public readonly wheelRotation: WheelRotationSystem;
   public readonly transmission: TransmissionSystem;
   public readonly drivetrainLash: DrivetrainLash;
 
@@ -283,6 +286,7 @@ export class VehicleDynamics {
       this.gearbox.getMaximumForwardGear(),
     );
     this.suspension = new SuspensionSystem(config);
+    this.wheelRotation = new WheelRotationSystem(config.tires, config.wheelRadius);
     this.lastValidState = {
       x: 0,
       z: 0,
@@ -320,6 +324,7 @@ export class VehicleDynamics {
     this.lateralAcceleration = 0;
     this.rearLateralGripFactor = 1;
     this.suspension.reset();
+    this.wheelRotation.reset(this.speed);
     this.initializeWheelStates();
     this.engine.reset(
       this.finiteOr(initialState.engineRPM, this.config.engine.idleRPM),
@@ -360,6 +365,8 @@ export class VehicleDynamics {
       -this.config.safety.maxReverseSpeed,
       this.config.safety.maxForwardSpeed,
     );
+    this.wheelRotation.reset(this.speed);
+    this.initializeWheelStates();
     this.storeLastValidState();
   }
 
@@ -398,6 +405,9 @@ export class VehicleDynamics {
     );
     this.acceleration = 0;
     this.lateralAcceleration = -this.speed * this.yawRate;
+    // An impact is an explicit velocity constraint. Remove stored wheel spin
+    // energy with it so tyres cannot immediately shove the car into the wall.
+    this.constrainWheelRotation(this.speed);
     this.storeLastValidState();
     return this.getSnapshot();
   }
@@ -491,8 +501,8 @@ export class VehicleDynamics {
   }
 
   /** PRND uses the safety gate only; it never advances time or reads a device. */
-  public requestDriveSelector(selector: DriveSelector): boolean {
-    return this.transmission.requestSelector(selector, this.speed, this.lateralVelocity);
+  public requestDriveSelector(selector: DriveSelector, brake = this.brakes.brakeInput): boolean {
+    return this.transmission.requestSelector(selector, this.speed, this.lateralVelocity, this.safeUnitInput(brake));
   }
 
   /** Variable-frame entry point with bounded internal substeps. */
@@ -672,7 +682,7 @@ export class VehicleDynamics {
       dt,
       environment,
       grade,
-      transmissionOutput.drivenWheelTorque * lashFactor / Math.max(0.01, this.config.wheelRadius),
+      transmissionOutput.drivenWheelTorque * lashFactor,
       dragForce + gradeForce + externalForce,
     );
     const {
@@ -699,11 +709,10 @@ export class VehicleDynamics {
       Math.abs(dragForce + rollingForce + brakeForce);
     if (crossedZero && propulsionWouldReverse) nextSpeed = 0;
     if (Math.abs(nextSpeed) < 0.002 && Math.abs(netForce) < rollingMagnitude + 1) nextSpeed = 0;
-    // The force-based brakes already balance creep here. Resolve their tiny
-    // static deadband to actual rest rather than retaining a 0.04 m/s crawl.
-    // No change to the established manual-clutch/stall calibration.
-    if (!isManual && this.brakes.brakeInput > 0.1 && Math.abs(nextSpeed) < 0.05 &&
+    // Only remove numerical residue at rest; normal braking is tyre slip/force.
+    if (this.brakes.brakeInput > 0.1 && Math.abs(nextSpeed) < 0.003 &&
       Math.abs(netForce) < this.config.mass * 0.1) nextSpeed = 0;
+    if (tyreForces.staticSupported) nextSpeed = 0;
     this.speed = clamp(
       nextSpeed,
       -this.config.safety.maxReverseSpeed,
@@ -715,10 +724,15 @@ export class VehicleDynamics {
       // artificial braking force. It also holds gravity on a slope.
       this.speed = 0; this.acceleration = 0; this.lateralVelocity = 0; this.yawRate = 0;
       this.bodySlipAngle = 0; this.contactSlipRecovery = false; this.contactSlipHoldTime = 0;
+      this.constrainWheelRotation(0);
+    }
+    if (tyreForces.staticSupported) {
+      this.lateralVelocity = 0; this.yawRate = 0; this.bodySlipAngle = 0;
+      this.contactSlipRecovery = false; this.contactSlipHoldTime = 0;
     }
 
     const averageSpeed = transmissionOutput.parkingLocked ? 0 : (previousSpeed + this.speed) * 0.5;
-    if (!transmissionOutput.parkingLocked) this.integrateLateralDynamics(dt, averageSpeed, tyreForces);
+    if (!transmissionOutput.parkingLocked && !tyreForces.staticSupported) this.integrateLateralDynamics(dt, averageSpeed, tyreForces);
     else this.lateralAcceleration = 0;
 
     const engineBrakingForce =
@@ -849,7 +863,7 @@ export class VehicleDynamics {
     dt: number,
     environment: VehicleEnvironment,
     grade: number,
-    requestedDriveForce: number,
+    requestedDriveTorque: number,
     otherLongitudinalForce: number,
   ): TyreContactForces {
     const suspension = this.suspension.update(dt, {
@@ -894,29 +908,48 @@ export class VehicleDynamics {
       : this.config.drivetrainType === 'FWD' ? 1 : this.config.drivetrainType === 'RWD' ? 0 : 0.5;
     const driveShares: FourWheelValues = [frontDriveShare * 0.5, frontDriveShare * 0.5,
       (1 - frontDriveShare) * 0.5, (1 - frontDriveShare) * 0.5];
-    const requestedDrive = driveShares.map((share) => requestedDriveForce * share) as FourWheelValues;
-    const drive = requestedDrive.map((force, i) => this.smoothForceLimit(force, limits[i]!)) as FourWheelValues;
+    const requestedDrive = driveShares.map((share) => requestedDriveTorque * share) as FourWheelValues;
     const rollingMagnitudes = loads.map((load, i) =>
       this.config.tires.rollingResistance * load * rolling[i]!) as FourWheelValues;
     const rollingForces = rollingMagnitudes.map((magnitude, i) =>
       -magnitude * Math.tanh((this.speed + this.yawRate * localX[i]!) / 0.2)) as FourWheelValues;
     const sum = (values: number[]): number => values.reduce((total, value) => total + value, 0);
-    const forceWithoutBrakes = sum(drive) + sum(rollingForces) + otherLongitudinalForce;
-    const rawServiceForce = this.brakes.calculateServiceForce(this.speed, forceWithoutBrakes);
-    const rawHandbrakeForce = this.brakes.calculateHandbrakeForce(
-      this.speed, forceWithoutBrakes + rawServiceForce);
-    const frontBrakeShare = clamp(this.config.brakes.frontBrakeBias, 0.02, 0.98);
-    const brakeShares: FourWheelValues = [frontBrakeShare * 0.5, frontBrakeShare * 0.5,
-      (1 - frontBrakeShare) * 0.5, (1 - frontBrakeShare) * 0.5];
-    const service = brakeShares.map((share) => rawServiceForce * share) as FourWheelValues;
-    // The parking brake acts mechanically on the rear corners only.
-    const requestedHandbrake = shares.map((_, i) => i >= 2 ? rawHandbrakeForce * 0.5 : 0) as FourWheelValues;
-    const handbrake = [...requestedHandbrake] as FourWheelValues;
     const usage: FourWheelValues = [0, 0, 0, 0];
     const lateral: FourWheelValues = [0, 0, 0, 0];
     const lateralLimits: FourWheelValues = [0, 0, 0, 0];
     const angles: FourWheelValues = [this.steering.leftRoadWheelAngle, this.steering.rightRoadWheelAngle, 0, 0];
+    const brakeTorques = WHEEL_IDS.map(id => this.brakes.getWheelTorques(id));
+    // A stopped tyre supports static shear on a hill even with zero slip.
+    // Solve that dry-contact constraint only near rest and only within actual
+    // brake torque AND tyre grip. Moving/locked-wheel braking keeps real slip.
+    let staticForces: FourWheelValues | undefined;
+    if (Math.hypot(this.speed, this.lateralVelocity) < 0.08 && Math.abs(this.yawRate) < 0.03 &&
+      brakeTorques.some(b => b.appliedBrakeTorque + b.appliedHandbrakeTorque > 1) &&
+      WHEEL_IDS.every(id => Math.abs(this.wheelRotation.getSnapshot(id).angularVelocity * this.config.wheelRadius) < 0.12)) {
+      const minimum: FourWheelValues = [0, 0, 0, 0];
+      const maximum: FourWheelValues = [0, 0, 0, 0];
+      for (const i of [0, 1, 2, 3] as const) {
+        const brake = brakeTorques[i]!;
+        const capacity = brake.appliedBrakeTorque + brake.appliedHandbrakeTorque;
+        const inertiaTorque = this.config.tires.wheelInertia *
+          this.wheelRotation.getSnapshot(WHEEL_IDS[i]).angularVelocity / Math.max(1e-4, dt);
+        const cosine = Math.cos(angles[i]);
+        minimum[i] = Math.max(-limits[i], (requestedDrive[i] + inertiaTorque - capacity) /
+          this.config.wheelRadius) * cosine;
+        maximum[i] = Math.min(limits[i], (requestedDrive[i] + inertiaTorque + capacity) /
+          this.config.wheelRadius) * cosine;
+      }
+      const required = -otherLongitudinalForce - sum(rollingForces.map((f, i) => f * Math.cos(angles[i]!))) -
+        this.config.mass * this.speed / Math.max(1e-4, dt);
+      const lower = sum(minimum); const upper = sum(maximum);
+      if (minimum.every((v, i) => v <= maximum[i]!) && required >= lower && required <= upper) {
+        const blend = upper - lower > 1e-6 ? (required - lower) / (upper - lower) : 0;
+        staticForces = minimum.map((v, i) => (v + (maximum[i]! - v) * blend) /
+          Math.cos(angles[i]!)) as FourWheelValues;
+      }
+    }
     const driveBody: FourWheelValues = [0, 0, 0, 0];
+    const inertiaBody: FourWheelValues = [0, 0, 0, 0];
     const serviceBody: FourWheelValues = [0, 0, 0, 0];
     const handbrakeBody: FourWheelValues = [0, 0, 0, 0];
     const rollingBody: FourWheelValues = [0, 0, 0, 0];
@@ -928,46 +961,55 @@ export class VehicleDynamics {
       this.config.centerOfMassLongitudinalOffset, this.config.wheelBase * 0.1, this.config.wheelBase * 0.9);
     const distanceToRear = this.config.wheelBase - distanceToFront;
     const longitudinalPositions: FourWheelValues = [distanceToFront, distanceToFront, -distanceToRear, -distanceToRear];
+    let staticSupported = staticForces !== undefined;
     for (const i of [0, 1, 2, 3] as const) {
-      // Clamp net tyre force rather than treating opposing engine and brake
-      // torques as two unrelated ways to exceed the same contact's capacity.
-      const demand = drive[i] + service[i] + handbrake[i];
-      const limitedDemand = this.smoothForceLimit(demand, limits[i]);
-      const forceScale = Math.abs(demand) > 1e-6 ? limitedDemand / demand : 1;
-      drive[i] *= forceScale;
-      service[i] *= forceScale;
-      handbrake[i] *= forceScale;
-      const tyreForce = drive[i] + service[i] + handbrake[i];
-      usage[i] = limits[i] > 1 ? clamp01(Math.abs(tyreForce) / limits[i]) : 1;
+      const id = WHEEL_IDS[i];
+      const cosine = Math.cos(angles[i]);
+      const sine = Math.sin(angles[i]);
+      const wheelForwardVelocity = this.speed + this.yawRate * localX[i];
+      const wheelLateralVelocity = this.lateralVelocity - this.yawRate * longitudinalPositions[i];
+      const brake = brakeTorques[i]!;
+      const rotation = this.wheelRotation.updateWheel(id, dt, {
+        longitudinalSpeed: wheelForwardVelocity * cosine + wheelLateralVelocity * sine,
+        lateralSpeed: wheelLateralVelocity * cosine - wheelForwardVelocity * sine,
+        driveTorque: requestedDrive[i], brakeTorque: brake.appliedBrakeTorque,
+        handbrakeTorque: brake.appliedHandbrakeTorque, normalLoad: loads[i],
+        surfaceLongitudinalGrip: gripLong[i],
+        staticLongitudinalForce: staticForces?.[i],
+      });
+      staticSupported = staticSupported && rotation.staticContact;
+      const tyreForce = rotation.longitudinalForce;
+      usage[i] = rotation.longitudinalUsage;
       const combinedAvailability = 1 - clamp01(this.config.tires.combinedGripLateralReduction) * usage[i] * usage[i];
-      const handbrakeUsage = limits[i] > 1 ? clamp01(Math.abs(requestedHandbrake[i]) / limits[i]) : 0;
+      const handbrakeUsage = limits[i] > 1 ? clamp01(brake.appliedHandbrakeTorque / this.config.wheelRadius / limits[i]) : 0;
       const lockedRearAvailability = 1 - (1 - clamp01(this.config.tires.handbrakeRearGripFactor)) *
         handbrakeUsage * handbrakeUsage * (3 - 2 * handbrakeUsage);
       if (i >= 2) rearAvailability.push(lockedRearAvailability);
       const lateralAvailability = combinedAvailability * lockedRearAvailability;
       lateralLimits[i] = this.config.tires.lateralGrip * loads[i] * gripLat[i] * lateralAvailability;
-      const wheelForwardVelocity = this.speed + this.yawRate * localX[i];
-      const wheelLateralVelocity = this.lateralVelocity - this.yawRate * longitudinalPositions[i];
       // Small-angle contact error with a low-speed denominator keeps parking
-      // and reversing stable. No wheel-slip-ratio or tyre-temperature solver.
+      // and reversing stable. Preserve the established lateral tyre model.
       const slipAngle = Math.atan((wheelLateralVelocity - wheelForwardVelocity * Math.tan(angles[i])) /
         Math.max(3, Math.abs(wheelForwardVelocity)));
       const staticLoad = suspension.wheels[WHEEL_IDS[i]].staticLoad;
       const loadStiffness = Math.max(0.1, loads[i] / Math.max(1, staticLoad));
       const corneringStiffness = (i < 2 ? this.config.tires.corneringStiffnessFront : this.config.tires.corneringStiffnessRear) * 0.5 * loadStiffness;
       const tyreLateral = this.smoothForceLimit(-corneringStiffness * slipAngle, lateralLimits[i]);
-      const cosine = Math.cos(angles[i]);
-      const sine = Math.sin(angles[i]);
-      driveBody[i] = drive[i] * cosine;
-      serviceBody[i] = service[i] * cosine;
-      handbrakeBody[i] = handbrake[i] * cosine;
+      // Torque-derived diagnostics close exactly with wheel inertia. Only the
+      // actual slip-derived Fx enters the chassis: never sum the demands twice.
+      const driveForce = requestedDrive[i] / this.config.wheelRadius;
+      const serviceForce = -rotation.brakeReactionTorque / this.config.wheelRadius;
+      const handbrakeForce = -rotation.handbrakeReactionTorque / this.config.wheelRadius;
+      driveBody[i] = driveForce * cosine;
+      inertiaBody[i] = rotation.rotationalInertiaForce * cosine;
+      serviceBody[i] = serviceForce * cosine;
+      handbrakeBody[i] = handbrakeForce * cosine;
       rollingBody[i] = rollingForces[i] * cosine;
       lateralScrub[i] = -tyreLateral * sine;
       const longitudinal = (tyreForce + rollingForces[i]) * cosine + lateralScrub[i];
       lateral[i] = (tyreForce + rollingForces[i]) * sine + tyreLateral * cosine;
       asymmetricLongitudinalMoment += localX[i] * (tyreForce + rollingForces[i]);
       totalYawMoment += localX[i] * longitudinal - longitudinalPositions[i] * lateral[i];
-      const id = WHEEL_IDS[i];
       const localWheel = wheelLocalPosition(this.config, id);
       const worldX = this.x + localWheel.x * Math.cos(this.yaw) + localWheel.z * Math.sin(this.yaw);
       const worldZ = this.z - localWheel.x * Math.sin(this.yaw) + localWheel.z * Math.cos(this.yaw);
@@ -978,18 +1020,23 @@ export class VehicleDynamics {
         surfaceType: contacts?.[i]?.surfaceType ?? 'asphalt',
         groundNormal: { ...(contacts?.[i]?.normal ?? environment.groundNormal ?? { x: 0, y: Math.cos(grade), z: Math.sin(grade) }) },
         normalLoad: loads[i], steeringAngle: angles[i],
-        driveTorque: requestedDrive[i] * this.config.wheelRadius, driveForce: drive[i],
-        brakeTorque: Math.abs(rawServiceForce * brakeShares[i]) * this.config.wheelRadius, brakeForce: service[i],
-        handbrakeTorque: Math.abs(requestedHandbrake[i]) * this.config.wheelRadius, handbrakeForce: handbrake[i],
-        rollingResistanceForce: rollingForces[i], longitudinalForce: longitudinal, lateralForce: lateral[i],
+        driveTorque: requestedDrive[i], driveForce,
+        brakeTorque: brake.appliedBrakeTorque, requestedBrakeTorque: brake.requestedBrakeTorque,
+        appliedBrakeTorque: brake.appliedBrakeTorque, brakeForce: serviceForce,
+        handbrakeTorque: brake.appliedHandbrakeTorque, requestedHandbrakeTorque: brake.requestedHandbrakeTorque,
+        appliedHandbrakeTorque: brake.appliedHandbrakeTorque, handbrakeForce,
+        rollingResistanceForce: rollingForces[i], longitudinalForce: tyreForce, lateralForce: tyreLateral,
         suspensionCompression: spring.compression, suspensionVelocity: spring.compressionVelocity,
         suspensionRestCompression: spring.restCompression, springForce: spring.springForce, damperForce: spring.damperForce,
-        wheelAngularVelocity: wheelForwardVelocity / Math.max(0.01, this.config.wheelRadius), slipAngle,
+        angularVelocity: rotation.angularVelocity, wheelAngularVelocity: rotation.angularVelocity,
+        rotationAngle: rotation.rotationAngle, longitudinalSpeed: rotation.longitudinalSpeed,
+        lateralSpeed: rotation.lateralSpeed, slipRatio: rotation.slipRatio, slipAngle,
       };
     }
     this.rearLateralGripFactor = rearAvailability.reduce((total, value) => total + value, 0) * 0.5;
     return {
-      wheelForce: sum(driveBody) + sum(lateralScrub),
+      staticSupported,
+      wheelForce: sum(driveBody) + sum(inertiaBody) + sum(lateralScrub),
       powertrainForce: sum(driveBody),
       serviceBrakeForce: sum(serviceBody),
       handbrakeForce: sum(handbrakeBody),
@@ -1019,16 +1066,53 @@ export class VehicleDynamics {
     for (const id of WHEEL_IDS) {
       const local = wheelLocalPosition(this.config, id);
       const spring = springs.wheels[id];
+      const rotation = this.wheelRotation.getSnapshot(id);
       this.wheels[id] = {
         id, worldPosition: { x: this.x + local.x * Math.cos(this.yaw) + local.z * Math.sin(this.yaw), y: this.config.wheelRadius,
           z: this.z - local.x * Math.sin(this.yaw) + local.z * Math.cos(this.yaw) },
         surfaceType: 'asphalt', groundNormal: { x: 0, y: 1, z: 0 }, normalLoad: spring.normalLoad,
         steeringAngle: 0, driveTorque: 0, driveForce: 0, brakeTorque: 0, brakeForce: 0,
+        requestedBrakeTorque: 0, appliedBrakeTorque: 0,
         handbrakeTorque: 0, handbrakeForce: 0, rollingResistanceForce: 0, longitudinalForce: 0, lateralForce: 0,
+        requestedHandbrakeTorque: 0, appliedHandbrakeTorque: 0,
         suspensionCompression: spring.compression, suspensionVelocity: 0, suspensionRestCompression: spring.restCompression,
-        springForce: spring.springForce, damperForce: 0, wheelAngularVelocity: this.speed / this.config.wheelRadius, slipAngle: 0,
+        springForce: spring.springForce, damperForce: 0,
+        angularVelocity: rotation.angularVelocity, wheelAngularVelocity: rotation.angularVelocity,
+        rotationAngle: rotation.rotationAngle, longitudinalSpeed: rotation.longitudinalSpeed,
+        lateralSpeed: 0, slipRatio: 0, slipAngle: 0,
       };
     }
+  }
+
+  /** Only a discontinuous contact/pawl constraint may synchronise wheel spin. */
+  private constrainWheelRotation(speed: number): void {
+    for (const id of WHEEL_IDS) {
+      const local = wheelLocalPosition(this.config, id);
+      const angle = this.wheels[id].steeringAngle;
+      const forward = speed + this.yawRate * local.x;
+      const side = this.lateralVelocity + this.yawRate * local.z;
+      const longitudinalSpeed = forward * Math.cos(angle) + side * Math.sin(angle);
+      const lateralSpeed = side * Math.cos(angle) - forward * Math.sin(angle);
+      this.wheelRotation.constrainAngularVelocity(id, longitudinalSpeed / Math.max(0.01, this.config.wheelRadius),
+        longitudinalSpeed, lateralSpeed);
+      const rotation = this.wheelRotation.getSnapshot(id);
+      this.wheels[id] = { ...this.wheels[id], angularVelocity: rotation.angularVelocity,
+        wheelAngularVelocity: rotation.angularVelocity, rotationAngle: rotation.rotationAngle,
+        longitudinalSpeed, lateralSpeed, slipRatio: rotation.slipRatio, slipAngle: rotation.slipAngle,
+        longitudinalForce: 0, lateralForce: 0, driveForce: 0, brakeForce: 0, handbrakeForce: 0,
+        rollingResistanceForce: 0 };
+    }
+  }
+
+  private getDrivenWheelAngularVelocity(): number {
+    const front = (this.wheelRotation.getSnapshot('frontLeft').angularVelocity +
+      this.wheelRotation.getSnapshot('frontRight').angularVelocity) * 0.5;
+    const rear = (this.wheelRotation.getSnapshot('rearLeft').angularVelocity +
+      this.wheelRotation.getSnapshot('rearRight').angularVelocity) * 0.5;
+    const total = Math.max(0, this.config.frontTorqueSplit) + Math.max(0, this.config.rearTorqueSplit);
+    const share = total > 1e-6 ? Math.max(0, this.config.frontTorqueSplit) / total :
+      this.config.drivetrainType === 'FWD' ? 1 : this.config.drivetrainType === 'RWD' ? 0 : 0.5;
+    return front * share + rear * (1 - share);
   }
 
   private updateControlMode(requestedMode: VehicleControlMode): void {
@@ -1063,7 +1147,7 @@ export class VehicleDynamics {
         const selectors: readonly DriveSelector[] = ['P', 'R', 'N', 'D'];
         const current = this.transmission.getSnapshot().selectedMode ?? 'P';
         const next = selectors[selectors.indexOf(current) + direction];
-        if (next !== undefined) this.requestDriveSelector(next);
+        if (next !== undefined) this.requestDriveSelector(next, input.brake);
       }
     } else if (input.directGear !== undefined) {
       this.requestGear(input.directGear, this.controlMode);
@@ -1114,6 +1198,7 @@ export class VehicleDynamics {
       this.bodySlipAngle = 0;
       this.lateralVelocity = 0;
       this.lateralAcceleration = 0;
+      this.constrainWheelRotation(0);
     }
   }
 
@@ -1134,6 +1219,8 @@ export class VehicleDynamics {
       this.clutch.targetEngagement,
       this.brakes.brakeInput,
       this.brakes.handbrakeInput,
+      ...WHEEL_IDS.flatMap(id => [this.wheelRotation.getSnapshot(id).angularVelocity,
+        this.wheelRotation.getSnapshot(id).rotationAngle, this.wheels[id].slipRatio]),
     ];
     const positionIsReasonable =
       Math.abs(this.x) <= this.config.safety.maxAbsPosition &&
@@ -1169,6 +1256,9 @@ export class VehicleDynamics {
     }
     this.brakes.reset();
     this.steering.reset();
+    this.suspension.reset();
+    this.wheelRotation.reset(this.speed);
+    this.initializeWheelStates();
     this.upshiftAdvisor.reset();
     this.forces = { ...ZERO_FORCES };
     this.recoveredThisUpdate = true;
@@ -1219,6 +1309,6 @@ export class VehicleDynamics {
       redlineRPM: this.config.engine.redlineRPM, availableEngineTorque: this.engine.getTorqueSample().netCrankTorque,
       throttle, brake, vehicleSpeed: this.speed,
       vehicleLateralSpeed: this.lateralVelocity,
-      drivenWheelAngularVelocity: this.speed / Math.max(0.01, this.config.wheelRadius) };
+      drivenWheelAngularVelocity: this.getDrivenWheelAngularVelocity() };
   }
 }

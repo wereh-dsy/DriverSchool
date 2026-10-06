@@ -100,6 +100,8 @@ export interface ShiftRecommendationConfig {
 }
 
 export interface EngineConfig {
+  /** Mild throttle-to-combustion curve; 1 keeps the full-load curve linear. */
+  partThrottleExponent: number;
   /** Residual closed-throttle airflow; used only by the existing MT presets. */
   revHang?: { enabled: boolean; holdTime: number; decayTime: number; strength: number };
   idleRPM: number;
@@ -213,6 +215,10 @@ export interface AutoClutchConfig {
 }
 
 export interface BrakeConfig {
+  pedalCurveExponent: number;
+  /** Hydraulic pressure build/release rates, in s^-1; no ABS modulation. */
+  applyResponse: number;
+  releaseResponse: number;
   /** Maximum axle brake torque values, in Nm. */
   maxBrakeTorqueFront: number;
   maxBrakeTorqueRear: number;
@@ -248,8 +254,11 @@ export interface SteeringConfig {
   steeringDamping: number;
   /** Canonical speed-sensitivity coefficient. */
   highSpeedSteeringReduction: number;
-  /** Coefficient k in effectiveAngle = angle / (1 + k * speed²), speed in m/s. */
+  /** @deprecated Legacy coefficient; new racks use reference speed and a finite authority floor. */
   highSpeedReduction: number;
+  /** Speed at the midpoint between full steering and the authority floor, in m/s. */
+  highSpeedReferenceSpeed: number;
+  highSpeedMinimumAuthority: number;
   /** Zero gives parallel front wheels; one gives ideal Ackermann geometry. */
   ackermannFactor: number;
   /** Scales the inertia-derived yaw response without bypassing yawInertia. */
@@ -272,6 +281,8 @@ export interface AeroConfig {
 }
 
 export interface TireConfig {
+  /** Rotational inertia of each wheel/tyre assembly, kg m². */
+  wheelInertia: number;
   rollingResistance: number;
   /** Canonical dry-road longitudinal and lateral friction coefficients. */
   longitudinalGrip: number;
@@ -291,7 +302,7 @@ export interface TireConfig {
   combinedGripLateralReduction: number;
   /** Scales left/right contact-force yaw moments without adding a rigid-body solver. */
   contactYawInfluence: number;
-  /** Future nonlinear tyre-curve calibration. */
+  /** Continuous longitudinal slip curve and existing lateral calibration. */
   peakSlipRatio: number;
   peakSlipAngle: number;
   gripFalloff: number;
@@ -308,6 +319,13 @@ export interface SuspensionConfig {
   damperReboundFront: number;
   damperReboundRear: number;
   suspensionTravel: number;
+  /** Progressive support within the final part of compression travel. */
+  bumpStopStartRatio: number;
+  bumpStopStiffness: number;
+  /** Per-axle mechanical left/right coupling, N/m. */
+  antiRollStiffnessFront: number;
+  antiRollStiffnessRear: number;
+  /** @deprecated Compatibility total; no extra visual roll suppression. */
   antiRollStiffness: number;
 }
 

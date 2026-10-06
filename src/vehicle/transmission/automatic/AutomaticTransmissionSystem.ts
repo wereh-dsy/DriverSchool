@@ -31,9 +31,9 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     this.shiftTarget = null; this.shiftElapsed = 0; this.shiftChanged = false;
     this.load = 0; this.torque = 0; this.inputRPM = 0; this.outputRPM = 0; this.kickdown = false;
   }
-  public requestSelector(selector: DriveSelector, speed: number, lateralSpeed = 0): boolean {
+  public requestSelector(selector: DriveSelector, speed: number, lateralSpeed = 0, brake = 0): boolean {
     const old = this.selector.mode;
-    const accepted = this.selector.request(selector, speed, lateralSpeed);
+    const accepted = this.selector.request(selector, speed, lateralSpeed, brake);
     if (accepted && old !== this.selector.mode) {
       this.shiftTarget = null; this.shiftElapsed = 0; this.shiftChanged = false;
       this.controller.reset(); this.converter.reset(); this.kickdown = false;
@@ -41,7 +41,7 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     return accepted;
   }
   public prepare(context: TransmissionContext): { throttleScale: number } {
-    if (context.selectorRequest !== undefined) this.requestSelector(context.selectorRequest, context.vehicleSpeed, context.vehicleLateralSpeed);
+    if (context.selectorRequest !== undefined) this.requestSelector(context.selectorRequest, context.vehicleSpeed, context.vehicleLateralSpeed, context.brake);
     if (this.shiftTarget !== null) {
       this.shiftElapsed += context.dt;
       const progress = this.shiftProgress;

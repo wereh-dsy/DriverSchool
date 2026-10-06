@@ -4,6 +4,9 @@ import { runVehicleCatalogSelfTest } from '../src/vehicle/VehicleCatalog.selftes
 import { runCruiseControlControllerSelfTest } from '../src/vehicle/control/CruiseControlController.selftest';
 import { runVehicleDynamicsSelfTest } from '../src/vehicle/physics/VehicleDynamics.selftest';
 import { runMechanicalDetailsSelfTest } from '../src/vehicle/physics/MechanicalDetails.selftest';
+import { runEngineTorqueSelfTest } from '../src/vehicle/physics/EngineTorque.selftest';
+import { runWheelRotationSelfTest } from '../src/vehicle/physics/WheelRotationSystem.selftest';
+import { runSuspensionMechanicsSelfTest } from '../src/vehicle/physics/SuspensionMechanics.selftest';
 import { runWheelContactSelfTest } from '../src/vehicle/physics/WheelContact.selftest';
 import { runCollisionSystemSelfTest } from '../src/vehicle/physics/CollisionSystem.selftest';
 import { runContactDynamicsSelfTest } from '../src/vehicle/physics/ContactDynamics.selftest';
@@ -37,6 +40,9 @@ const results = {
   lighting: runVehicleLightingSelfTest(),
   physics: runVehicleDynamicsSelfTest(),
   mechanicalDetails: runMechanicalDetailsSelfTest(),
+  engineTorque: runEngineTorqueSelfTest(),
+  wheelRotation: runWheelRotationSelfTest(),
+  suspensionMechanics: runSuspensionMechanicsSelfTest(),
   wheelContact: runWheelContactSelfTest(),
   staticCollision: runCollisionSystemSelfTest(),
   contactDynamics: runContactDynamicsSelfTest(),

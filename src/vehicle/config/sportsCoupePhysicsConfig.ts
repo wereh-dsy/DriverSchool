@@ -30,6 +30,7 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   drivenWheelWeightFraction: 0.48,
   engine: {
     ...DEFAULT_VEHICLE_PHYSICS_CONFIG.engine,
+    partThrottleExponent: 1.05,
     revHang: { enabled: true, holdTime: 0.045, decayTime: 0.14, strength: 0.34 },
     idleRPM: 920,
     stallRPM: 560,
@@ -110,6 +111,9 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     takeoverRate: 1.55,
   },
   brakes: {
+    pedalCurveExponent: 1.05,
+    applyResponse: 14,
+    releaseResponse: 20,
     maxBrakeTorqueFront: 3_180,
     maxBrakeTorqueRear: 1_560,
     frontBrakeBias: 0.67,
@@ -130,6 +134,8 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     steeringDamping: 12.5,
     highSpeedSteeringReduction: 0.0032,
     highSpeedReduction: 0.0032,
+    highSpeedReferenceSpeed: 17.68,
+    highSpeedMinimumAuthority: 0.2,
     ackermannFactor: 0.91,
     yawResponseScale: 0.47,
     minimumYawResponseRate: 1.9,
@@ -145,6 +151,7 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     liftCoefficientRear: -0.05,
   },
   tires: {
+    wheelInertia: 1.45,
     rollingResistance: 0.013,
     longitudinalGrip: 1.04,
     lateralGrip: 1.08,
@@ -170,6 +177,10 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     damperReboundFront: 4_250,
     damperReboundRear: 4_400,
     suspensionTravel: 0.105,
+    bumpStopStartRatio: 0.8,
+    bumpStopStiffness: 240_000,
+    antiRollStiffnessFront: 14_000,
+    antiRollStiffnessRear: 13_000,
     antiRollStiffness: 27_000,
   },
   driverAids: {

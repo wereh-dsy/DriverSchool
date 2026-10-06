@@ -9,7 +9,7 @@ for (const factory of [createTest6ATVehiclePhysicsConfig, createTest7DCTVehicleP
     ['rolling-N-to-D', 22, 'D'], ['rolling-backward-N-to-R', -8, 'R'],
   ] as const) {
     const car = new VehicleDynamics(config, { speed, driveSelector: 'N', engineRPM: config.engine.idleRPM });
-    const accepted = car.requestDriveSelector(selector);
+    const accepted = car.requestDriveSelector(selector, 1);
     const gearImmediately = car.gearbox.currentGear;
     const input = createNeutralVehicleInputState();
     let maximumRPM = 0; let maximumCoupledRPM = 0; let maximumDeceleration = 0;
@@ -27,7 +27,7 @@ for (const factory of [createTest6ATVehiclePhysicsConfig, createTest7DCTVehicleP
   }
   const car = new VehicleDynamics(config, { driveSelector: 'D', speed: 0 });
   car.lateralVelocity = 9;
-  result.push({ type: config.transmission.type, label: 'park-while-side-sliding', accepted: car.requestDriveSelector('P'),
+  result.push({ type: config.transmission.type, label: 'park-while-side-sliding', accepted: car.requestDriveSelector('P', 1),
     beforeLateralVelocity: car.lateralVelocity, afterLateralVelocity: car.stepFixed(1 / 120, createNeutralVehicleInputState()).lateralVelocity });
 }
 console.log(JSON.stringify(result, null, 2));
