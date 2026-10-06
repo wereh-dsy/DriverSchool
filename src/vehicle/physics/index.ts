@@ -1,0 +1,42 @@
+export { BrakeSystem } from './BrakeSystem';
+export { AutoClutchController } from './AutoClutchController';
+export type {
+  AutoClutchContext,
+  AutoClutchState,
+  AutoClutchUpdateResult,
+} from './AutoClutchController';
+export { Clutch } from './Clutch';
+export type { ClutchState } from './Clutch';
+export { Engine } from './Engine';
+export type { EngineTorqueSample } from './Engine';
+export { Gearbox } from './Gearbox';
+export { SteeringSystem } from './SteeringSystem';
+export { UpshiftAdvisor } from './UpshiftAdvisor';
+export type {
+  UpshiftAdvisorContext,
+  UpshiftRecommendation,
+} from './UpshiftAdvisor';
+export { VehicleDynamics } from './VehicleDynamics';
+export { VehicleContactSystem } from './VehicleContactSystem';
+export {
+  VehicleCollisionSystem, createVehicleOBB, createStaticOBBCollider,
+  createBarrierColliders,
+} from './CollisionSystem';
+export type {
+  StaticCollider, StaticColliderType, CollisionOBB, CollisionContact, CollisionResolution,
+  CollisionDimensions, CollisionPose, CollisionPoint2, CollisionStep,
+} from './CollisionSystem';
+export { sampleWheelContacts, averageWheelGroundGeometry, WHEEL_IDS } from './WheelContact';
+export type { WheelContact, WheelContactSet, GroundNormal } from './WheelContact';
+export { runVehicleDynamicsSelfTest } from './VehicleDynamics.selftest';
+export type { VehicleDynamicsSelfTestResult } from './VehicleDynamics.selftest';
+export type {
+  EngineToggleResult,
+  ShiftRejectionReason,
+  VehicleEnvironment,
+  VehicleContactCorrection,
+  VehicleForceSnapshot,
+  VehicleInitialState,
+  VehicleSnapshot,
+  VehicleWorldBounds,
+} from './VehicleDynamics';

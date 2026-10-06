@@ -1,0 +1,27 @@
+{
+  "name": "drivergame-v0.1",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "start": "vite --host 127.0.0.1 --port 5173 --open",
+    "build": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-checkpoint.ps1",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "selftest": "esbuild scripts/run-core-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-core-selftests.mjs && node .tmp-core-selftests.mjs",
+    "selftest:vehicles": "esbuild scripts/run-vehicle-catalog-selftest.ts --bundle --platform=node --format=esm --outfile=.tmp-vehicle-catalog-selftest.mjs && node .tmp-vehicle-catalog-selftest.mjs"
+  },
+  "dependencies": {
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.180.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7"
+  }
+}

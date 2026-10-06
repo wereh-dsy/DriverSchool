@@ -1,0 +1,43 @@
+export { Cockpit } from './Cockpit';
+export {
+  formatInstrumentGear,
+  INSTRUMENT_CLUSTER_HOUSING_LAYOUT,
+  INSTRUMENT_CLUSTER_LAYOUT,
+  SPORT_INSTRUMENT_INDICATOR_IDS,
+  SPORT_INSTRUMENT_CLUSTER_LAYOUT,
+  InstrumentCluster,
+} from './InstrumentCluster';
+export { runInstrumentClusterLayoutSelfTest } from './InstrumentCluster.selftest';
+export type { InstrumentClusterLayoutSelfTestResult } from './InstrumentCluster.selftest';
+export { runDriverViewSelfTest } from './DriverView.selftest';
+export type {
+  DriverViewSelfTestResult,
+  VehicleDriverViewMetrics,
+} from './DriverView.selftest';
+export type {
+  InstrumentClusterConfig,
+  InstrumentGear,
+  InstrumentIndicatorState,
+  InstrumentTelemetry,
+} from './InstrumentCluster';
+export {
+  DEFAULT_SEDAN_VISUAL_CONFIG,
+  SPORTS_COUPE_VISUAL_CONFIG,
+  defaultSedanVisualConfig,
+  sportsCoupeVisualConfig,
+} from './VehicleVisualConfig';
+export type {
+  EulerTuple,
+  MirrorVisualConfig,
+  VehicleVisualConfig,
+  Vector3Tuple,
+  VisualTransformConfig,
+} from './VehicleVisualConfig';
+export { VehicleVisual } from './VehicleVisual';
+export { VehicleLighting, type VehicleLightMode } from './VehicleLighting';
+export type {
+  MirrorSide,
+  MirrorSurfaceMesh,
+  MirrorWorldTransform,
+  VehicleVisualPose,
+} from './VehicleVisual';
