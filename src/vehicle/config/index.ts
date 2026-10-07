@@ -4,6 +4,7 @@ export type {
   BrakeConfig,
   ClutchConfig,
   EngineConfig,
+  TurbochargerConfig,
   ForwardGear,
   ForwardGearRatios,
   Gear,
@@ -21,6 +22,7 @@ export type {
   TorqueConverterConfig,
   AutomaticTransmissionConfig,
   DualClutchTransmissionConfig,
+  CVTConfig,
   VehiclePhysicsConfig,
   DriverAidConfig,
 } from './VehiclePhysicsConfig';
@@ -34,3 +36,4 @@ export {
   createSportsCoupePhysicsConfig,
 } from './sportsCoupePhysicsConfig';
 export { createTest6ATVehiclePhysicsConfig, createTest7DCTVehiclePhysicsConfig } from './transmissionTestVehicleConfigs';
+export { createCVTSedanPhysicsConfig } from './cvtSedanPhysicsConfig';

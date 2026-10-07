@@ -26,6 +26,8 @@ export interface VisualTransformConfig {
 }
 
 export interface MirrorVisualConfig extends VisualTransformConfig {
+  /** Door-front sail mounting point, independent of the adjustable optical plane. */
+  readonly mountPosition?: Vector3Tuple;
   /** Visible reflective area, in metres. */
   readonly size: readonly [width: number, height: number];
   readonly housingDepth: number;
@@ -49,6 +51,7 @@ export interface VehicleVisualConfig {
   readonly instrumentCluster: InstrumentClusterConfig;
   readonly instrumentClusterTransform: VisualTransformConfig;
   readonly steeringWheelPosition: Vector3Tuple;
+  readonly steeringColumnMountPosition?: Vector3Tuple;
   readonly steeringWheelRotation: EulerTuple;
   readonly steeringWheelRadius: number;
   /** Cross-section radius of the steering-wheel grip. */
@@ -123,7 +126,8 @@ export const DEFAULT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   },
   // A 370 mm wheel remains full-sized; visibility comes from a plausible
   // driving position and column placement rather than shrinking the rim.
-  steeringWheelPosition: [-0.37, 0.79, -0.28],
+  steeringWheelPosition: [-0.37, 0.79, -0.245],
+  steeringColumnMountPosition: [-0.37, 0.72, -0.52],
   steeringWheelRotation: [degrees(-9), 0, 0],
   steeringWheelRadius: 0.185,
   steeringWheelRimTubeRadius: 0.016,
@@ -131,18 +135,20 @@ export const DEFAULT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   gearLeverPosition: [0.12, 0.49, 0.33],
   gearLeverRotation: [degrees(-9), 0, 0],
   leftMirrorTransform: {
-    position: [-FAMILY_SEDAN_DIMENSIONS.width * 0.5 - 0.09, 1.02, -0.61],
+    position: [-FAMILY_SEDAN_DIMENSIONS.width * 0.5 - 0.09, 0.94, -0.64],
+    mountPosition: [-FAMILY_SEDAN_DIMENSIONS.width * 0.48, 0.875, -0.655],
     // True planar glass, parking-biased: expose the door trailing edge,
-    // rear arch and boot-side corner in a narrow ~18% inner reference strip.
-    rotation: [degrees(-0.7), degrees(16), 0],
+    // rear arch and boot-side corner in a narrow ~15% inner reference strip.
+    rotation: [degrees(-5.7), degrees(15.8), 0],
     size: [0.215, 0.112],
     housingDepth: 0.045,
   },
   rightMirrorTransform: {
-    position: [FAMILY_SEDAN_DIMENSIONS.width * 0.5 + 0.09, 1.02, -0.61],
+    position: [FAMILY_SEDAN_DIMENSIONS.width * 0.5 + 0.09, 0.94, -0.64],
+    mountPosition: [FAMILY_SEDAN_DIMENSIONS.width * 0.48, 0.875, -0.655],
     // The far mirror needs its own calibrated pitch, not a copy of the left.
-    // ~17% real body reference; the rest shows the adjacent parking ground.
-    rotation: [degrees(0.3), degrees(-28), 0],
+    // ~19% real body reference; the rest shows the adjacent parking ground.
+    rotation: [degrees(-2.7), degrees(-27.5), 0],
     size: [0.215, 0.112],
     housingDepth: 0.045,
   },
@@ -204,7 +210,8 @@ export const SPORTS_COUPE_VISUAL_CONFIG: VehicleVisualConfig = {
   },
   // The lower adjustable-column setting keeps the upper rim below the GT
   // display's gear, speed and auxiliary readouts at the raised eye point.
-  steeringWheelPosition: [-0.39, 0.72, -0.31],
+  steeringWheelPosition: [-0.39, 0.72, -0.275],
+  steeringColumnMountPosition: [-0.39, 0.65, -0.55],
   steeringWheelRotation: [degrees(-8), 0, 0],
   steeringWheelRadius: 0.18,
   steeringWheelRimTubeRadius: 0.015,
@@ -212,14 +219,16 @@ export const SPORTS_COUPE_VISUAL_CONFIG: VehicleVisualConfig = {
   gearLeverPosition: [0.11, 0.44, 0.3],
   gearLeverRotation: [degrees(-10), 0, 0],
   leftMirrorTransform: {
-    position: [-SPORT_COUPE_DIMENSIONS.width * 0.5 - 0.095, 0.96, -0.58],
-    rotation: [degrees(-1.7), degrees(18), 0],
+    position: [-SPORT_COUPE_DIMENSIONS.width * 0.5 - 0.095, 0.885, -0.64],
+    mountPosition: [-SPORT_COUPE_DIMENSIONS.width * 0.48, 0.83, -0.655],
+    rotation: [degrees(-1.7), degrees(16.6), 0],
     size: [0.22, 0.115],
     housingDepth: 0.043,
   },
   rightMirrorTransform: {
-    position: [SPORT_COUPE_DIMENSIONS.width * 0.5 + 0.095, 0.96, -0.58],
-    rotation: [degrees(-0.2), degrees(-30), 0],
+    position: [SPORT_COUPE_DIMENSIONS.width * 0.5 + 0.095, 0.885, -0.64],
+    mountPosition: [SPORT_COUPE_DIMENSIONS.width * 0.48, 0.83, -0.655],
+    rotation: [degrees(-0.2), degrees(-28.6), 0],
     size: [0.22, 0.115],
     housingDepth: 0.043,
   },
@@ -256,3 +265,46 @@ export const SPORTS_COUPE_VISUAL_CONFIG: VehicleVisualConfig = {
 /** Friendly camel-case alias for application code. */
 export const defaultSedanVisualConfig = DEFAULT_SEDAN_VISUAL_CONFIG;
 export const sportsCoupeVisualConfig = SPORTS_COUPE_VISUAL_CONFIG;
+
+/**
+ * 6AT development sedan. It reuses the family-sedan cabin and exterior so the
+ * automatic transmission stays the only variable under test, but gives the
+ * car its own instrument face: one dominant central tachometer with two
+ * information wings, rather than the sedan's twin analogue dials.
+ */
+export const TEST_6AT_VISUAL_CONFIG: VehicleVisualConfig = {
+  ...DEFAULT_SEDAN_VISUAL_CONFIG,
+  name: '6AT development sedan',
+  instrumentCluster: {
+    maximumSpeedKmh: 220,
+    maximumRPM: 7_000,
+    redlineRPM: 6_500,
+    needleResponse: 11,
+    displayStyle: 'cx4-tach-wing',
+  },
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, color: 0xaab6b9 },
+};
+
+/**
+ * 7DCT development sedan. Shares the same cabin as the 6AT car but keeps the
+ * traditional twin mechanical dials with a monochrome centre display, so the
+ * two automatics are identifiable at a glance from the driver's seat.
+ */
+export const TEST_7DCT_VISUAL_CONFIG: VehicleVisualConfig = {
+  ...DEFAULT_SEDAN_VISUAL_CONFIG,
+  name: '7DCT development sedan',
+  instrumentCluster: {
+    maximumSpeedKmh: 240,
+    maximumRPM: 7_000,
+    redlineRPM: 6_500,
+    needleResponse: 12,
+    displayStyle: 'jetta-twin-dial',
+  },
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, color: 0x965f56 },
+};
+
+export const CVT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
+  ...DEFAULT_SEDAN_VISUAL_CONFIG, name: '2.0 belt CVT family sedan',
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, color: 0xc4c9c0 },
+  instrumentCluster: { ...DEFAULT_SEDAN_VISUAL_CONFIG.instrumentCluster, maximumRPM: 7000, redlineRPM: 6000 },
+};

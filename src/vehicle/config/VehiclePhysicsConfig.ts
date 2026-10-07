@@ -6,14 +6,12 @@ export type ForwardGear = 1 | 2 | 3 | 4 | 5 | 6 | 7;
  * opt into sixth and seventh.  Keeping the upper ratios optional lets the
  * family sedan remain a genuine five-speed instead of carrying dummy gears.
  */
-export type ForwardGearRatios = Readonly<
-  Record<1 | 2 | 3 | 4 | 5, number> & Partial<Record<6 | 7, number>>
->;
+export type ForwardGearRatios = Readonly<Partial<Record<ForwardGear, number>>>;
 
 /** Public gear identifier used by input, transmission, and HUD code. */
 export type Gear = 'R' | 'N' | ForwardGear;
 
-export type TransmissionType = 'MANUAL' | 'TORQUE_CONVERTER_AT' | 'DCT';
+export type TransmissionType = 'MANUAL' | 'TORQUE_CONVERTER_AT' | 'DCT' | 'CVT';
 export type DriveSelector = 'P' | 'R' | 'N' | 'D';
 
 export interface AutomaticShiftMapPoint {
@@ -99,7 +97,36 @@ export interface ShiftRecommendationConfig {
   hysteresisRPM: number;
 }
 
+/** Effective normalized-shaft parameters, not a compressor/turbine map. */
+export interface TurbochargerConfig {
+  enabled: boolean;
+  /** Effective inertia of normalized speed; torque parameters use the same scale. */
+  inertia: number;
+  pressureGain: number;
+  /** Absolute/ambient pressure ratio, not gauge boost. Ambient is 1 bar. */
+  maxPressureRatio: number;
+  turbineDriveStrength: number;
+  compressorLoadStrength: number;
+  friction: number;
+  wastegateGain: number;
+  /** Approximate unboosted full-load combustion torque, in Nm. */
+  baseTorqueCurve: readonly TorqueCurvePoint[];
+}
+
+/** Conventional belt variator with a hydrodynamic launch/lockup unit, not e-CVT. */
+export interface CVTConfig {
+  minimumRatio: number;
+  maximumRatio: number;
+  ratioChangeRate: number;
+  targetRPMResponse: number;
+  targetRPMCurve: readonly { throttle: number; rpm: number }[];
+  parkMaximumSpeed: number;
+  converter: TorqueConverterConfig;
+}
+
 export interface EngineConfig {
+  /** Omitted/disabled: preserve the original naturally aspirated torque path. */
+  turbo?: TurbochargerConfig;
   /** Mild throttle-to-combustion curve; 1 keeps the full-load curve linear. */
   partThrottleExponent: number;
   /** Residual closed-throttle airflow; used only by the existing MT presets. */
@@ -139,6 +166,7 @@ export interface EngineConfig {
   throttleReleaseResponse: number;
   /** Reserved for a future time-based starter model, in Nm. */
   starterTorque: number;
+  /** Full-boost ceiling when turbo is enabled; ordinary full-load curve otherwise. */
   torqueCurve: readonly TorqueCurvePoint[];
 }
 
@@ -149,6 +177,7 @@ export interface TransmissionConfig {
   type?: TransmissionType;
   automatic?: AutomaticTransmissionConfig;
   dct?: DualClutchTransmissionConfig;
+  cvt?: CVTConfig;
   /** Reverse is negative so wheel torque naturally points backwards. */
   reverseRatio: number;
   gearRatios: ForwardGearRatios;
@@ -281,6 +310,8 @@ export interface AeroConfig {
 }
 
 export interface TireConfig {
+  /** Mild friction-coefficient sensitivity to load relative to static wheel load. */
+  loadSensitivity?: number;
   /** Rotational inertia of each wheel/tyre assembly, kg m². */
   wheelInertia: number;
   rollingResistance: number;
@@ -298,11 +329,11 @@ export interface TireConfig {
   handbrakeRearGripFactor: number;
   /** Stable guard for body/velocity separation, in radians. */
   maximumBodySlipAngle: number;
-  /** Maximum lateral-authority loss at full longitudinal demand; V0.2A uses a mild budget. */
+  /** Shared-grip budget rounding strength; larger values give stronger combined-force interaction. */
   combinedGripLateralReduction: number;
   /** Scales left/right contact-force yaw moments without adding a rigid-body solver. */
   contactYawInfluence: number;
-  /** Continuous longitudinal slip curve and existing lateral calibration. */
+  /** Slip ratio and slip angle at the respective continuous force peaks. */
   peakSlipRatio: number;
   peakSlipAngle: number;
   gripFalloff: number;
@@ -334,6 +365,7 @@ export interface DriverAidConfig {
   hillHoldDuration: number;
   antiStallStrength: number;
   absEnabled: boolean;
+  ebdEnabled?: boolean;
   tractionControlEnabled: boolean;
   stabilityControlEnabled: boolean;
   autoBlipEnabled: boolean;
@@ -374,7 +406,10 @@ export interface VehiclePhysicsConfig {
   centerOfMassLongitudinalOffset: number;
   /** Body yaw moment of inertia, in kg m². */
   yawInertia: number;
+  /** AWD is reserved; currently only FWD/RWD open carriers are supported. */
   drivetrainType: 'FWD' | 'RWD' | 'AWD';
+  /** Only an open carrier is implemented; omitted legacy presets default to open. */
+  differentialType?: 'open';
   frontTorqueSplit: number;
   rearTorqueSplit: number;
   /** @deprecated Compatibility alias for drivetrainType. */

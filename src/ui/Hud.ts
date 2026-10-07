@@ -2,6 +2,7 @@ import type { Texture } from 'three';
 import type { GamepadThrottleDiagnostics } from '../input/GamepadInput';
 import type { VehicleFeedbackState } from '../vehicle/feedback/VehicleFeedbackSystem';
 import type { VehicleSnapshot } from '../vehicle/physics/VehicleDynamics';
+import type { EngineTurboSnapshot } from '../vehicle/physics/Engine';
 import type { TransmissionSnapshot } from '../vehicle/transmission/TransmissionSystem';
 import {
   ControlSettingsPanel,
@@ -43,8 +44,11 @@ export interface HudTelemetry {
   feedback?: Readonly<VehicleFeedbackState>;
   forces?: VehicleSnapshot['forces'];
   wheels?: VehicleSnapshot['wheels'];
+  differential?: VehicleSnapshot['differential'];
+  driverAssists?: VehicleSnapshot['driverAssists'];
   drivetrainLash?: VehicleSnapshot['drivetrainLash'];
   revHang?: VehicleSnapshot['revHang'];
+  turbo?: EngineTurboSnapshot;
 }
 
 export class Hud {
@@ -155,7 +159,7 @@ export class Hud {
             <div class="transmission-debug"><dt>TRANSMISSION</dt><dd data-debug-transmission>MANUAL</dd></div>
             <div class="transmission-debug"><dt>TRIGGER / THROTTLE</dt><dd data-debug-throttle-chain>—</dd></div>
             <div class="transmission-debug"><dt>MECHANICAL FEEDBACK</dt><dd data-debug-feedback>0%</dd></div>
-            <div class="transmission-debug"><dt>LASH / REV HANG / DRIVE</dt><dd data-debug-mechanical>—</dd></div>
+            <div class="transmission-debug"><dt>MECHANICS / TURBO</dt><dd data-debug-mechanical>—</dd></div>
           </dl>
         </section>
         <div class="input-status" data-input-status><i></i><span>键盘 · 自动离合</span></div>
@@ -317,7 +321,7 @@ export class Hud {
     const transmission = data.transmission;
     this.automaticTransmission = transmission !== undefined && transmission.type !== 'MANUAL';
     const gearLabel = this.automaticTransmission && transmission
-      ? transmission.selectedMode === 'D' ? `D${transmission.currentPhysicalGear}` : String(transmission.selectedMode)
+      ? transmission.selectedMode === 'D' && transmission.type !== 'CVT' ? `D${transmission.currentPhysicalGear}` : String(transmission.selectedMode)
       : String(data.gear);
     this.speedValue.textContent = Math.round(speedKmh).toString().padStart(2, '0');
     this.gearValue.textContent = gearLabel;
@@ -378,12 +382,29 @@ export class Hud {
       const lash = data.drivetrainLash;
       const hang = data.revHang;
       const wheels = data.wheels;
+      const differential = data.differential;
+      const aids = data.driverAssists;
+      const turbo = data.turbo?.enabled ? data.turbo : undefined;
       this.mechanicalDebug.textContent = [
+        ...(aids ? [`ABS ${aids.absEnabled ? aids.absActive ? 'ACTIVE' : 'ON' : 'OFF'} · EBD ${aids.ebdEnabled ? 'ON' : 'OFF'} ${Math.round(aids.frontBrakeBias * 100)}% FRONT · TCS ${aids.tractionControlEnabled ? aids.tcsActive ? 'ACTIVE' : 'ON' : 'OFF'} · TORQUE ${percent(aids.engineTorqueFactor)}`] : []),
+        ...(turbo ? [
+          `TURBO ${percent(turbo.turboSpeed)} · BOOST ${turbo.boostPressureBar.toFixed(2)} bar · MANIFOLD ${turbo.manifoldPressureBar.toFixed(2)} bar abs`,
+          `WASTEGATE ${percent(turbo.wastegateOpening)} · BASE ${turbo.baseTorquePotential.toFixed(1)} Nm · AIR LIMITED ${turbo.availableTorque.toFixed(1)} Nm`,
+        ] : []),
         ...(lash ? [`LASH ${lash.state.toFixed(2)} → ${lash.target} · TORQUE FACTOR ${lash.effectiveTorqueFactor.toFixed(2)}`] : []),
         ...(hang ? [`REV HANG ${hang.active ? 'ACTIVE' : 'OFF'} · ${hang.residualTorque.toFixed(1)} Nm · ${percent(hang.factor)}`] : []),
         ...(wheels ? [
           `DRIVE FL ${wheels.frontLeft.driveTorque.toFixed(1)} · FR ${wheels.frontRight.driveTorque.toFixed(1)} Nm`,
           `DRIVE RL ${wheels.rearLeft.driveTorque.toFixed(1)} · RR ${wheels.rearRight.driveTorque.toFixed(1)} Nm`,
+          ...(['frontLeft', 'frontRight', 'rearLeft', 'rearRight'] as const).map((id, index) => {
+            const w = wheels[id];
+            return `${['FL', 'FR', 'RL', 'RR'][index]} SLIP ${w.slipRatio.toFixed(3)} · α ${(w.slipAngle * 180 / Math.PI).toFixed(1)}° · ω ${w.angularVelocity.toFixed(1)} rad/s\n` +
+              `   Fx ${w.longitudinalForce.toFixed(0)} · Fy ${w.lateralForce.toFixed(0)} · Fz ${w.normalLoad.toFixed(0)} N · GRIP ${percent(w.gripUsage)}`;
+          }),
+        ] : []),
+        ...(differential ? [
+          `OPEN DIFF ${differential.axle.toUpperCase()} · CARRIER ${differential.carrierAngularVelocity.toFixed(1)} rad/s`,
+          `L / R ${differential.leftAngularVelocity.toFixed(1)} / ${differential.rightAngularVelocity.toFixed(1)} rad/s · TORQUE ${differential.leftTorque.toFixed(1)} / ${differential.rightTorque.toFixed(1)} Nm`,
         ] : []),
       ].join('\n') || '—';
     }
@@ -392,7 +413,8 @@ export class Hud {
       const dct = transmission.dct;
       this.transmissionDebug.textContent = [
         transmission.type,
-        `SELECTOR ${transmission.selectedMode ?? '—'} · GEAR ${transmission.currentPhysicalGear}`,
+        `SELECTOR ${transmission.selectedMode ?? '—'} · GEAR ${transmission.currentPhysicalGear ?? 'CONTINUOUS'}`,
+        ...(transmission.cvt ? [`RATIO ${transmission.cvt.ratio.toFixed(3)} → ${transmission.cvt.targetRatio.toFixed(3)} · TARGET ${Math.round(transmission.cvt.targetRPM)} rpm`] : []),
         `${transmission.shiftState} · LOAD ${transmission.engineLoadTorque.toFixed(1)} Nm`,
         ...(tc ? [`SLIP ${Math.round(tc.slipRPM)} rpm · RATIO ${tc.torqueRatio.toFixed(2)} · LOCK ${Math.round(tc.lockupEngagement * 100)}%`] : []),
         ...(dct ? [`A ${Math.round(dct.clutchAEngagement * 100)}% · B ${Math.round(dct.clutchBEngagement * 100)}%`, `SHAFT ${dct.activeShaft ?? '—'} · PRESELECT ${dct.preselectedGear ?? '—'}`] : []),
@@ -425,7 +447,7 @@ export class Hud {
     this.clutchModeLabel.textContent = manualClutch ? '手动' : '自动';
 
     const sourceLabel = data.inputSource === 'gamepad' ? '手柄' : data.inputSource === 'wheel' ? '方向盘' : '键盘';
-    const modeLabel = this.automaticTransmission ? (transmission?.type === 'DCT' ? '双离合自动挡' : '液力自动挡') : data.controlMode === 'manual-clutch' ? '手动离合' : '自动离合';
+    const modeLabel = this.automaticTransmission ? (transmission?.type === 'DCT' ? '双离合自动挡' : transmission?.type === 'CVT' ? '无级变速 CVT' : '液力自动挡') : data.controlMode === 'manual-clutch' ? '手动离合' : '自动离合';
     this.inputStatus.querySelector('span')!.textContent = `${sourceLabel} · ${modeLabel}`;
     this.inputStatus.classList.toggle('manual', data.controlMode === 'manual-clutch');
 
@@ -464,6 +486,9 @@ export class Hud {
     this.onStart?.();
     this.showMessage(this.automaticTransmission ? '踩住制动，在 F3 设置中选 D，再松刹车起步' : '按 1 挂入一挡，然后平稳给油', 4);
   }
+
+  /** Allows optional engine diagnostics to allocate only while F2 is open. */
+  public get isDebugOpen(): boolean { return this.debugVisible; }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
     if (event.code === 'F2') {

@@ -10,8 +10,9 @@ export interface InstrumentIndicatorState {
   readonly leftTurn?: boolean;
   readonly rightTurn?: boolean;
   readonly parkingBrake?: boolean;
-  /** Kept as a compatibility input, but not rendered until ABS is simulated. */
   readonly absWarning?: boolean;
+  readonly tcsActive?: boolean;
+  readonly tcsOff?: boolean;
   readonly engineWarning?: boolean;
   readonly batteryWarning?: boolean;
   /** Sports-car cruise status; the classic sedan face intentionally omits it. */
@@ -38,13 +39,24 @@ export interface InstrumentTelemetry {
   readonly indicators?: InstrumentIndicatorState;
 }
 
+/** Every face the physical cluster can build. Selected purely by vehicle data. */
+export type InstrumentDisplayStyle =
+  | 'dual-analog'
+  | 'sport-tft'
+  | 'cx4-tach-wing'
+  | 'jetta-twin-dial';
+
 export interface InstrumentClusterConfig {
   readonly maximumSpeedKmh: number;
   readonly maximumRPM: number;
   readonly redlineRPM: number;
   readonly needleResponse: number;
-  /** Classic twin analogue dials or the coupe's track-focused TFT layout. */
-  readonly displayStyle: 'dual-analog' | 'sport-tft';
+  /**
+   * Classic twin analogue dials, the coupe's track-focused TFT, the 6AT
+   * central-tachometer face with information wings, or the 7DCT traditional
+   * twin-dial face with a centre monochrome display.
+   */
+  readonly displayStyle: InstrumentDisplayStyle;
 }
 
 const DEFAULT_CONFIG: InstrumentClusterConfig = {
@@ -113,6 +125,45 @@ export const INSTRUMENT_CLUSTER_HOUSING_LAYOUT = Object.freeze({
   sportHoodY: 0.11,
   hoodZ: 0.006,
   hoodTiltRadians: THREE.MathUtils.degToRad(-8),
+});
+
+/**
+ * 6AT face: one dominant central tachometer flanked by two information wings.
+ * The centre dial stays clear of both wings horizontally, and every element is
+ * contained by the shared 0.5 x 0.235 m binnacle back.
+ *
+ * Measured against the real cockpit rig, the steering-wheel rim crosses this
+ * face at about local y = -0.01. The embedded digital speed is therefore drawn
+ * in the band above the needle hub; anything lower is hidden from the driver.
+ */
+export const CX4_INSTRUMENT_CLUSTER_LAYOUT = Object.freeze({
+  tachCenterX: 0,
+  tachRadius: 0.098,
+  tachFaceZ: 0.074,
+  tachNeedleLength: 0.062,
+  tachNeedleZ: 0.078,
+  wingCenterX: 0.183,
+  wingHalfWidth: 0.055,
+  wingHalfHeight: 0.095,
+  wingZ: 0.072,
+});
+
+/**
+ * 7DCT face: traditional Jetta-style twin mechanical dials with a monochrome
+ * centre display between them. Dial and display rectangles are disjoint.
+ */
+export const JETTA_INSTRUMENT_CLUSTER_LAYOUT = Object.freeze({
+  tachCenterX: -0.133,
+  speedoCenterX: 0.133,
+  dialRadius: 0.082,
+  dialFaceZ: 0.070,
+  dialNeedleLength: 0.055,
+  dialNeedleZ: 0.074,
+  /** Centre display rectangle, in cluster-local metres. */
+  displayCenterY: 0,
+  displayHalfWidth: 0.048,
+  displayHalfHeight: 0.076,
+  displayZ: 0.076,
 });
 
 /**
@@ -350,6 +401,536 @@ const makeSmallGauge = (
   return { root, needle };
 };
 
+interface StyledDialOptions {
+  readonly label: string;
+  readonly unit: string;
+  readonly maximum: number;
+  readonly majorDivisions: number;
+  readonly minorTicksPerMajor: number;
+  readonly labelDivisor?: number;
+  readonly redlineFraction?: number;
+  readonly majorTickColor: string;
+  readonly minorTickColor: string;
+  readonly labelColor: string;
+  /** Embedded digital speed, used only by the 6AT centre tachometer. */
+  readonly embeddedSpeedKmh?: number;
+}
+
+const drawBeveledPanel = (
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius: number,
+): void => {
+  const corner = Math.min(radius, width / 2, height / 2);
+  context.beginPath();
+  context.moveTo(x + corner, y);
+  context.lineTo(x + width - corner, y);
+  context.quadraticCurveTo(x + width, y, x + width, y + corner);
+  context.lineTo(x + width, y + height - corner);
+  context.quadraticCurveTo(x + width, y + height, x + width - corner, y + height);
+  context.lineTo(x + corner, y + height);
+  context.quadraticCurveTo(x, y + height, x, y + height - corner);
+  context.lineTo(x, y + corner);
+  context.quadraticCurveTo(x, y, x + corner, y);
+  context.closePath();
+};
+
+/**
+ * Shared circular dial for the 6AT and 7DCT faces. It reuses the existing
+ * arc geometry (and therefore the existing needle sweep) so both new faces
+ * stay consistent with the two original analogue clusters.
+ */
+const drawStyledDialArtwork = (options: StyledDialOptions): HTMLCanvasElement => {
+  const canvas = createCanvas(FACE_SIZE, FACE_SIZE);
+  const context = canvas.getContext('2d');
+  if (context === null) return canvas;
+  const center = FACE_SIZE / 2;
+  const tickRadius = FACE_SIZE * 0.405;
+  const radiusFactor = 0.947;
+  context.clearRect(0, 0, FACE_SIZE, FACE_SIZE);
+
+  // Machined bezel: dark outer shell, thin silver ring. Deliberately quiet so
+  // the face reads as a traditional mechanical instrument.
+  context.fillStyle = '#2a3035';
+  context.beginPath();
+  context.arc(center, center, center * radiusFactor + 26, 0, Math.PI * 2);
+  context.fill();
+  context.fillStyle = '#0a0d0f';
+  context.beginPath();
+  context.arc(center, center, center * radiusFactor + 22, 0, Math.PI * 2);
+  context.fill();
+  context.strokeStyle = '#9aa4a9';
+  context.lineWidth = 3;
+  context.beginPath();
+  context.arc(center, center, center * radiusFactor + 14, 0, Math.PI * 2);
+  context.stroke();
+
+  const background = context.createRadialGradient(
+    center,
+    center * 0.9,
+    FACE_SIZE * 0.08,
+    center,
+    center,
+    center * 0.95,
+  );
+  background.addColorStop(0, '#101315');
+  background.addColorStop(0.72, '#08090b');
+  background.addColorStop(1, '#030404');
+  context.save();
+  context.beginPath();
+  context.arc(center, center, center - 4, 0, Math.PI * 2);
+  context.clip();
+  context.fillStyle = background;
+  context.fillRect(0, 0, FACE_SIZE, FACE_SIZE);
+  context.restore();
+
+  // A solid band reads as a redline zone; tinting single ticks alone does not.
+  if (options.redlineFraction !== undefined) {
+    const redStart = THREE.MathUtils.lerp(
+      ARC_START,
+      ARC_END,
+      clamp01(options.redlineFraction),
+    );
+    context.strokeStyle = '#d2453c';
+    context.lineWidth = 11;
+    context.beginPath();
+    context.arc(
+      center,
+      center,
+      tickRadius + 21,
+      redStart - Math.PI / 2,
+      ARC_END - Math.PI / 2,
+    );
+    context.stroke();
+  }
+
+  const totalMinorTicks = options.majorDivisions * options.minorTicksPerMajor;
+  for (let index = 0; index <= totalMinorTicks; index += 1) {
+    const fraction = index / totalMinorTicks;
+    const angle = THREE.MathUtils.lerp(ARC_START, ARC_END, fraction);
+    const isMajor = index % options.minorTicksPerMajor === 0;
+    const innerRadius = tickRadius - (isMajor ? 34 : 20);
+    const outerRadius = tickRadius + 3;
+    const sin = Math.sin(angle);
+    const cos = Math.cos(angle);
+    const inRed = options.redlineFraction !== undefined &&
+      fraction >= options.redlineFraction;
+    context.strokeStyle = inRed
+      ? '#e8534a'
+      : isMajor ? options.majorTickColor : options.minorTickColor;
+    context.lineWidth = isMajor ? 6 : 2.5;
+    context.beginPath();
+    context.moveTo(center + sin * innerRadius, center - cos * innerRadius);
+    context.lineTo(center + sin * outerRadius, center - cos * outerRadius);
+    context.stroke();
+
+    if (!isMajor) continue;
+    const labelRadius = tickRadius - 95;
+    const rawValue = options.maximum * fraction;
+    const displayedValue = rawValue / (options.labelDivisor ?? 1);
+    context.fillStyle = inRed ? '#f07068' : options.labelColor;
+    context.font = '600 26px Arial, sans-serif';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(
+      Math.round(displayedValue).toString(),
+      center + sin * labelRadius,
+      center - cos * labelRadius,
+    );
+  }
+
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  if (options.embeddedSpeedKmh !== undefined) {
+    // 6AT only: an integrated digital speed. It sits in the narrow band above
+    // the needle hub because the steering-wheel rim crosses this face at about
+    // local y = -0.01, so anything lower is hidden from the driver's eye.
+    context.fillStyle = '#dfe6e6';
+    context.font = '700 46px Consolas, monospace';
+    context.fillText(
+      Math.round(options.embeddedSpeedKmh).toString().padStart(3, '0'),
+      center,
+      center - 100,
+    );
+    context.fillStyle = '#8f999e';
+    context.font = '600 21px Arial, sans-serif';
+    context.fillText('km/h', center, center - 66);
+    context.fillStyle = '#7f898e';
+    context.font = '700 20px Arial, sans-serif';
+    context.fillText(options.unit, center, center + 150);
+  } else {
+    context.fillStyle = '#c8cfd2';
+    context.font = '700 26px Arial, sans-serif';
+    context.fillText(options.label, center, center + 88);
+    context.fillStyle = '#8a9296';
+    context.font = '500 21px Arial, sans-serif';
+    context.fillText(options.unit, center, center + 118);
+  }
+  return canvas;
+};
+
+const drawWingBody = (
+  context: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  topColor: string,
+  bottomColor: string,
+): void => {
+  const gradient = context.createLinearGradient(0, 0, 0, height);
+  gradient.addColorStop(0, topColor);
+  gradient.addColorStop(1, bottomColor);
+  context.fillStyle = gradient;
+  drawBeveledPanel(context, 8, 8, width - 16, height - 16, 26);
+  context.fill();
+  context.strokeStyle = 'rgba(150, 160, 165, 0.22)';
+  context.lineWidth = 3;
+  context.stroke();
+};
+
+const drawRoundedBar = (
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  fraction: number,
+  fillColor: string,
+): void => {
+  const radius = height / 2;
+  drawBeveledPanel(context, x, y, width, height, radius);
+  context.fillStyle = '#1a1e21';
+  context.fill();
+  const fillWidth = width * clamp01(fraction);
+  if (fillWidth > height * 0.5) {
+    drawBeveledPanel(context, x, y, fillWidth, height, radius);
+    context.fillStyle = fillColor;
+    context.fill();
+  }
+};
+
+type StatusLamp = readonly [label: string, active: boolean | undefined, color: string];
+
+/**
+ * The physical status-lamp set shared by every cluster face. Conditions and
+ * colours are the ones the classic sedan LCD already used, so a lamp means the
+ * same thing on all four faces; only the presentation differs.
+ */
+const instrumentStatusLamps = (
+  state: InstrumentIndicatorState,
+): readonly StatusLamp[] => [
+  ['◀', state.leftTurn, '#5aff71'],
+  ['P', state.parkingBrake, '#ff4e4e'],
+  ['LO', state.headlights === true && state.highBeam !== true, '#72e58a'],
+  ['HI', state.highBeam, '#559dff'],
+  ['POS', state.positionLights === true && state.headlights !== true && state.highBeam !== true, '#72e58a'],
+  ['FOG', state.fogLights, '#e5bc54'],
+  ['ENG', state.engineWarning, '#ffc247'],
+  ['BAT', state.batteryWarning, '#ff4e4e'],
+  ['ABS', state.absWarning, '#ffc247'],
+  ['SKID', state.tcsActive, '#ffc247'],
+  ['TCS OFF', state.tcsOff, '#ffc247'],
+  ['▶', state.rightTurn, '#5aff71'],
+];
+
+const STATUS_LAMP_STROKE = '#0a1715';
+
+const drawStatusLamp = (
+  context: CanvasRenderingContext2D,
+  label: string,
+  color: string,
+  x: number,
+  y: number,
+  fontSize: number,
+): void => {
+  if (label === 'SKID') {
+    context.save(); context.translate(x, y); context.scale(fontSize / 24, fontSize / 24);
+    context.strokeStyle = color; context.lineWidth = 2.2;
+    context.beginPath(); context.moveTo(-8, 2); context.lineTo(-7, -8); context.lineTo(-4, -12);
+    context.lineTo(4, -12); context.lineTo(7, -8); context.lineTo(8, 2); context.closePath();
+    context.moveTo(-5, -7); context.lineTo(5, -7);
+    for (const side of [-1, 1]) {
+      context.moveTo(side * 5, 4); context.bezierCurveTo(side * 9, 7, side * 1, 10, side * 5, 13);
+    }
+    context.stroke(); context.restore(); return;
+  }
+  context.font = `700 ${fontSize}px Arial, sans-serif`;
+  context.fillStyle = color;
+  context.shadowColor = color;
+  context.shadowBlur = 13;
+  context.fillText(label, x, y);
+};
+
+/**
+ * Compact two-row status lamp panel for the narrower 6AT wing and 7DCT centre
+ * display. Only currently meaningful lamps are drawn, and the rows are fixed
+ * so a changing lamp count can never reflow the primary readouts above them.
+ */
+const drawCompactStatusLamps = (
+  context: CanvasRenderingContext2D,
+  state: InstrumentIndicatorState,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+): void => {
+  context.save();
+  context.fillStyle = STATUS_LAMP_STROKE;
+  drawBeveledPanel(context, x, y, width, height, 9);
+  context.fill();
+
+  const lamps = instrumentStatusLamps(state).filter(([, active]) => active === true);
+  if (lamps.length === 0) {
+    context.restore();
+    return;
+  }
+  const rows: readonly (readonly StatusLamp[])[] = [
+    lamps.slice(0, 5),
+    lamps.slice(5),
+  ];
+  const rowHeight = height / 2;
+  const fontSize = Math.max(11, Math.min(19, Math.floor(width / 12)));
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  rows.forEach((row, rowIndex) => {
+    if (row.length === 0) return;
+    const spacing = width / row.length;
+    row.forEach(([label, , color], index) => {
+      drawStatusLamp(
+        context,
+        label,
+        color,
+        x + spacing * (index + 0.5),
+        y + rowHeight * (rowIndex + 0.5),
+        fontSize,
+      );
+    });
+  });
+  context.shadowBlur = 0;
+  context.restore();
+};
+
+const drawCx4LeftWing = (
+  gearSelector: string,
+  physicalGear: number | null,
+  maximumForwardGear: number,
+  indicators: InstrumentIndicatorState,
+): HTMLCanvasElement => {
+  const width = 240;
+  const height = 400;
+  const canvas = createCanvas(width, height);
+  const context = canvas.getContext('2d');
+  if (context === null) return canvas;
+  context.clearRect(0, 0, width, height);
+  drawWingBody(context, width, height, '#15181b', '#08090a');
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+
+  context.fillStyle = '#828b90';
+  context.font = '700 19px Arial, sans-serif';
+  context.fillText('GEAR', width / 2, 46);
+
+  // In D the large glyph is the engaged ratio, so this wing never shows a
+  // bare "D" while the driver wants to know which ratio is actually in use.
+  const inDrive = gearSelector === 'D';
+  const primaryLabel = inDrive && physicalGear !== null
+    ? physicalGear.toString()
+    : gearSelector;
+  context.fillStyle = '#f0f3f0';
+  context.font = '700 100px Arial, sans-serif';
+  context.fillText(primaryLabel, width / 2, 116);
+
+  context.strokeStyle = 'rgba(150, 160, 165, 0.18)';
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(40, 180);
+  context.lineTo(width - 40, 180);
+  context.stroke();
+
+  if (inDrive && physicalGear !== null) {
+    const count = Math.max(maximumForwardGear, physicalGear);
+    const spanWidth = width - 56;
+    const cell = spanWidth / count;
+    for (let gear = 1; gear <= count; gear += 1) {
+      const x = 28 + cell * (gear - 0.5);
+      if (gear === physicalGear) {
+        drawBeveledPanel(context, x - cell * 0.4, 206, cell * 0.8, 38, 7);
+        context.fillStyle = '#eef2ef';
+        context.fill();
+        context.fillStyle = '#111416';
+        context.font = '700 26px Arial, sans-serif';
+      } else {
+        context.fillStyle = '#5b6367';
+        context.font = '600 22px Arial, sans-serif';
+      }
+      context.fillText(gear.toString(), x, 225);
+    }
+  }
+
+  // Reuses the sedan's lamp conditions and colours in a compact panel.
+  drawCompactStatusLamps(context, indicators, 20, 262, width - 40, 44);
+
+  context.fillStyle = '#6d7579';
+  context.font = '700 17px Arial, sans-serif';
+  context.fillText('SELECTOR', width / 2, 330);
+  context.fillStyle = '#9aa3a7';
+  context.font = '700 22px Arial, sans-serif';
+  context.fillText('P   R   N   D', width / 2, 362);
+  return canvas;
+};
+
+const drawCx4RightWing = (
+  fuelLevel: number,
+  temperatureC: number,
+): HTMLCanvasElement => {
+  const width = 240;
+  const height = 400;
+  const canvas = createCanvas(width, height);
+  const context = canvas.getContext('2d');
+  if (context === null) return canvas;
+  context.clearRect(0, 0, width, height);
+  drawWingBody(context, width, height, '#15181b', '#08090a');
+  const barX = 30;
+  const barWidth = width - 60;
+
+  context.textAlign = 'left';
+  context.textBaseline = 'middle';
+  context.fillStyle = '#828b90';
+  context.font = '700 19px Arial, sans-serif';
+  context.fillText('FUEL', barX, 62);
+  context.textAlign = 'right';
+  context.fillStyle = fuelLevel < 0.14 ? '#f0b45a' : '#dfe6e6';
+  context.font = '700 22px Arial, sans-serif';
+  context.fillText(`${Math.round(fuelLevel * 100)}%`, barX + barWidth, 62);
+  drawRoundedBar(context, barX, 84, barWidth, 17, fuelLevel, '#e8ece9');
+  context.fillStyle = '#6d7579';
+  context.font = '700 17px Arial, sans-serif';
+  context.textAlign = 'left';
+  context.fillText('E', barX, 120);
+  context.textAlign = 'right';
+  context.fillText('F', barX + barWidth, 120);
+
+  const temperatureFraction = clamp01((temperatureC - 50) / 80);
+  context.textAlign = 'left';
+  context.fillStyle = '#828b90';
+  context.font = '700 19px Arial, sans-serif';
+  context.fillText('TEMP', barX, 192);
+  context.textAlign = 'right';
+  context.fillStyle = temperatureC >= 110 ? '#ef6a5f' : '#dfe6e6';
+  context.font = '700 22px Arial, sans-serif';
+  context.fillText(`${Math.round(temperatureC)}\u00B0C`, barX + barWidth, 192);
+  drawRoundedBar(context, barX, 214, barWidth, 17, temperatureFraction, '#e8ece9');
+  context.fillStyle = '#6d7579';
+  context.font = '700 17px Arial, sans-serif';
+  context.textAlign = 'left';
+  context.fillText('C', barX, 250);
+  context.textAlign = 'right';
+  context.fillText('H', barX + barWidth, 250);
+  return canvas;
+};
+
+const drawJettaCentreDisplay = (
+  speedKmh: number,
+  gearSelector: string,
+  physicalGear: number | null,
+  fuelLevel: number,
+  indicators: InstrumentIndicatorState,
+): HTMLCanvasElement => {
+  const width = 240;
+  const height = 400;
+  const canvas = createCanvas(width, height);
+  const context = canvas.getContext('2d');
+  if (context === null) return canvas;
+  context.clearRect(0, 0, width, height);
+  const background = context.createLinearGradient(0, 0, 0, height);
+  background.addColorStop(0, '#0a0d0e');
+  background.addColorStop(1, '#050607');
+  context.fillStyle = background;
+  drawBeveledPanel(context, 6, 6, width - 12, height - 12, 20);
+  context.fill();
+  context.strokeStyle = 'rgba(150, 160, 165, 0.2)';
+  context.lineWidth = 2.5;
+  context.stroke();
+
+  // Top status panel. It reuses the sedan's lamp conditions and colours, so
+  // lights, turn signals, parking brake and engine/battery warnings read the
+  // same as on the manual car; only the compact two-row arrangement is new.
+  drawCompactStatusLamps(context, indicators, 18, 22, width - 36, 44);
+
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillStyle = '#6f787c';
+  context.font = '700 17px Arial, sans-serif';
+  context.fillText(gearSelector === 'D' && physicalGear !== null
+    ? `GEAR  D${physicalGear}`
+    : `GEAR  ${gearSelector}`, width / 2, 86);
+
+  // The preselected DCT ratio is the signature readout, so it owns the largest
+  // type on the face and is never shrunk to fit a secondary row.
+  context.fillStyle = '#f1f4f1';
+  if (gearSelector === 'D' && physicalGear !== null) {
+    context.font = '700 66px Arial, sans-serif';
+    context.fillText(`D${physicalGear}`, width / 2, 142);
+  } else {
+    context.font = '700 88px Arial, sans-serif';
+    context.fillText(gearSelector, width / 2, 146);
+  }
+
+  const separator = (y: number): void => {
+    context.strokeStyle = 'rgba(150, 160, 165, 0.16)';
+    context.lineWidth = 2;
+    context.beginPath();
+    context.moveTo(30, y);
+    context.lineTo(width - 30, y);
+    context.stroke();
+  };
+  separator(186);
+
+  context.fillStyle = '#6f787c';
+  context.font = '700 16px Arial, sans-serif';
+  context.fillText('SELECTOR', width / 2, 212);
+  context.fillStyle = '#9aa3a7';
+  context.font = '700 21px Arial, sans-serif';
+  context.fillText('P   R   N   D', width / 2, 244);
+
+  separator(280);
+
+  context.fillStyle = '#f1f4f1';
+  context.font = '700 54px Consolas, monospace';
+  context.fillText(Math.round(speedKmh).toString().padStart(3, '0'), width / 2, 314);
+  context.fillStyle = '#6f787c';
+  context.font = '700 16px Arial, sans-serif';
+  context.fillText('km/h', width / 2, 344);
+
+  context.textAlign = 'left';
+  context.fillStyle = '#6f787c';
+  context.font = '700 15px Arial, sans-serif';
+  context.fillText('FUEL', 30, 372);
+  context.textAlign = 'right';
+  context.fillStyle = fuelLevel < 0.14 ? '#f0b45a' : '#dfe6e6';
+  context.fillText(`${Math.round(fuelLevel * 100)}%`, width - 30, 372);
+  drawRoundedBar(context, 30, 382, width - 60, 10, fuelLevel, '#e8ece9');
+  return canvas;
+};
+
+/** Reads the numeric ratio from labels such as "6" or "D3". */
+const parsePhysicalGear = (gear: InstrumentGear): number | null => {
+  if (typeof gear === 'number') {
+    return Number.isFinite(gear) ? Math.round(gear) : null;
+  }
+  const match = /(\d+)/.exec(gear);
+  return match === null ? null : Number.parseInt(match[1]!, 10);
+};
+
+/** Reads the P/R/N/D selector from labels such as "D3", "N" or "R". */
+const parseGearSelector = (gear: InstrumentGear): string => {
+  if (typeof gear === 'number') return gear > 0 ? 'D' : 'N';
+  const match = /^[PRND]/i.exec(gear);
+  return match === null ? gear : match[0].toUpperCase();
+};
+
 /**
  * Low-cost cockpit instrument cluster. It owns its meshes and redraws its
  * canvas displays only when the visible value or lamp state changes.
@@ -364,6 +945,27 @@ export class InstrumentCluster extends THREE.Group {
   private readonly informationTexture: THREE.CanvasTexture;
   private readonly sportDisplayCanvas: HTMLCanvasElement | null;
   private readonly sportDisplayTexture: THREE.CanvasTexture | null;
+
+  // 6AT face: one central tachometer plus two canvas information wings.
+  private readonly cx4TachCanvas = createCanvas(FACE_SIZE, FACE_SIZE);
+  private cx4TachTexture: THREE.CanvasTexture | null = null;
+  private cx4TachNeedle: THREE.Group | null = null;
+  private cx4LeftCanvas: HTMLCanvasElement | null = null;
+  private cx4LeftTexture: THREE.CanvasTexture | null = null;
+  private cx4RightCanvas: HTMLCanvasElement | null = null;
+  private cx4RightTexture: THREE.CanvasTexture | null = null;
+  private cx4Key = '';
+  /** Widest ratio observed from telemetry; drives the 6AT gear ladder. */
+  private cx4MaximumForwardGear = 1;
+
+  // 7DCT face: twin mechanical dials plus a monochrome centre display.
+  private readonly jettaTachCanvas = createCanvas(FACE_SIZE, FACE_SIZE);
+  private readonly jettaSpeedCanvas = createCanvas(FACE_SIZE, FACE_SIZE);
+  private jettaTachNeedle: THREE.Group | null = null;
+  private jettaSpeedNeedle: THREE.Group | null = null;
+  private jettaCentreCanvas: HTMLCanvasElement | null = null;
+  private jettaCentreTexture: THREE.CanvasTexture | null = null;
+  private jettaCentreKey = '';
 
   private currentTachometerRotation = fractionToNeedleRotation(0);
   private currentSpeedometerRotation = fractionToNeedleRotation(0);
@@ -391,18 +993,17 @@ export class InstrumentCluster extends THREE.Group {
     back.receiveShadow = true;
     this.add(back);
 
-    const isSportTft = this.config.displayStyle === 'sport-tft';
-    // The wide TFT needs only a slim anti-glare eyebrow. Reusing the deep
-    // analogue binnacle hood put a large black slab into the coupe's road
-    // view even though the display itself was correctly positioned.
-    const hoodSize = isSportTft
+    // Only the wide all-digital TFT drops the deep analogue binnacle hood. The
+    // 6AT and 7DCT faces are traditional instrument layouts and keep it.
+    const isWideTft = this.config.displayStyle === 'sport-tft';
+    const hoodSize = isWideTft
       ? INSTRUMENT_CLUSTER_HOUSING_LAYOUT.sportHoodSize
       : INSTRUMENT_CLUSTER_HOUSING_LAYOUT.analogueHoodSize;
     const hood = new THREE.Mesh(new THREE.BoxGeometry(...hoodSize), housingMaterial);
     hood.name = 'Instrument binnacle hood';
     hood.position.set(
       0,
-      isSportTft
+      isWideTft
         ? INSTRUMENT_CLUSTER_HOUSING_LAYOUT.sportHoodY
         : INSTRUMENT_CLUSTER_HOUSING_LAYOUT.analogueHoodY,
       INSTRUMENT_CLUSTER_HOUSING_LAYOUT.hoodZ,
@@ -506,12 +1107,226 @@ export class InstrumentCluster extends THREE.Group {
       sportDisplay.position.z = SPORT_INSTRUMENT_CLUSTER_LAYOUT.displayZ;
       this.add(sportDisplay);
       this.redrawSportDisplay(0, 0, 'N', 0.72, 90, {});
+    } else if (this.config.displayStyle === 'cx4-tach-wing') {
+      // 6AT: one dominant central tachometer with two information wings. The
+      // shared analogue hardware stays instantiated but hidden, so this face
+      // is a different layout rather than a recoloured twin-dial cluster.
+      this.children.slice(2).forEach((child) => {
+        child.visible = false;
+      });
+      this.sportDisplayCanvas = null;
+      this.sportDisplayTexture = null;
+      this.buildCx4Face();
+    } else if (this.config.displayStyle === 'jetta-twin-dial') {
+      // 7DCT: traditional twin mechanical dials around a monochrome centre
+      // display. Distinct from both the 6AT face and the coupe TFT.
+      this.children.slice(2).forEach((child) => {
+        child.visible = false;
+      });
+      this.sportDisplayCanvas = null;
+      this.sportDisplayTexture = null;
+      this.buildJettaFace();
+      this.buildTwinDialFace();
     } else {
       this.sportDisplayCanvas = null;
       this.sportDisplayTexture = null;
       this.redrawInformation(0, 'N', {});
     }
     this.applyNeedleRotations();
+  }
+
+  /**
+   * 6AT face: central tachometer with an embedded digital speed, flanked by a
+   * gear/trip wing and a fuel/temperature wing.
+   */
+  private buildCx4Face(): void {
+    const layout = CX4_INSTRUMENT_CLUSTER_LAYOUT;
+    this.cx4TachTexture = configureTexture(this.cx4TachCanvas);
+    const tachFace = new THREE.Mesh(
+      new THREE.CircleGeometry(layout.tachRadius, 64),
+      new THREE.MeshBasicMaterial({
+        map: this.cx4TachTexture,
+        transparent: true,
+        depthWrite: false,
+        toneMapped: false,
+      }),
+    );
+    tachFace.name = '6AT central tachometer face';
+    tachFace.position.set(layout.tachCenterX, 0, layout.tachFaceZ);
+    this.add(tachFace);
+
+    const rim = new THREE.Mesh(
+      new THREE.TorusGeometry(layout.tachRadius + 0.001, 0.005, 8, 48),
+      new THREE.MeshStandardMaterial({
+        color: 0x9aa4a9,
+        roughness: 0.3,
+        metalness: 0.62,
+      }),
+    );
+    rim.name = '6AT central tachometer bezel';
+    rim.position.set(layout.tachCenterX, 0, layout.tachFaceZ + 0.004);
+    this.add(rim);
+
+    this.cx4TachNeedle = makeNeedle(
+      '6AT tachometer needle',
+      layout.tachNeedleLength,
+      0xe9edec,
+    );
+    this.cx4TachNeedle.position.set(
+      layout.tachCenterX,
+      0,
+      layout.tachNeedleZ,
+    );
+    this.add(this.cx4TachNeedle);
+
+    this.cx4LeftCanvas = drawCx4LeftWing('N', null, 1, {});
+    this.cx4LeftTexture = configureTexture(this.cx4LeftCanvas);
+    const leftWing = new THREE.Mesh(
+      new THREE.PlaneGeometry(layout.wingHalfWidth * 2, layout.wingHalfHeight * 2),
+      new THREE.MeshBasicMaterial({
+        map: this.cx4LeftTexture,
+        transparent: true,
+        depthWrite: false,
+        toneMapped: false,
+      }),
+    );
+    leftWing.name = '6AT gear wing';
+    leftWing.position.set(-layout.wingCenterX, 0, layout.wingZ);
+    this.add(leftWing);
+
+    this.cx4RightCanvas = drawCx4RightWing(0.72, 90);
+    this.cx4RightTexture = configureTexture(this.cx4RightCanvas);
+    const rightWing = new THREE.Mesh(
+      new THREE.PlaneGeometry(layout.wingHalfWidth * 2, layout.wingHalfHeight * 2),
+      new THREE.MeshBasicMaterial({
+        map: this.cx4RightTexture,
+        transparent: true,
+        depthWrite: false,
+        toneMapped: false,
+      }),
+    );
+    rightWing.name = '6AT fuel and temperature wing';
+    rightWing.position.set(layout.wingCenterX, 0, layout.wingZ);
+    this.add(rightWing);
+
+    this.currentTachometerRotation = fractionToNeedleRotation(0);
+    this.cx4Key = '';
+    this.redrawCx4Face(0, 'N', 'N', 0.72, 90, {});
+  }
+
+  /**
+   * 7DCT face: twin mechanical dials plus a monochrome centre display.
+   */
+  private buildJettaFace(): void {
+    const layout = JETTA_INSTRUMENT_CLUSTER_LAYOUT;
+    // Both dial faces are static artwork: they are painted once and the same
+    // texture objects are attached to the meshes, so a face never renders blank.
+    this.paintJettaFace(this.jettaTachCanvas, {
+      label: 'RPM',
+      unit: 'x1000 r/min',
+      maximum: this.config.maximumRPM,
+      majorDivisions: 8,
+      minorTicksPerMajor: 4,
+      labelDivisor: 1_000,
+      redlineFraction: this.config.redlineRPM / this.config.maximumRPM,
+      majorTickColor: '#e8ecea',
+      minorTickColor: '#98a1a5',
+      labelColor: '#e2e7e4',
+    });
+    this.paintJettaFace(this.jettaSpeedCanvas, {
+      label: 'km/h',
+      unit: 'SPEED',
+      maximum: this.config.maximumSpeedKmh,
+      majorDivisions: 8,
+      minorTicksPerMajor: 1,
+      majorTickColor: '#e8ecea',
+      minorTickColor: '#98a1a5',
+      labelColor: '#e2e7e4',
+    });
+    const tachTexture = configureTexture(this.jettaTachCanvas);
+    const speedTexture = configureTexture(this.jettaSpeedCanvas);
+    const faceGeometry = () => new THREE.CircleGeometry(layout.dialRadius, 64);
+    const faceMaterial = (map: THREE.CanvasTexture): THREE.MeshBasicMaterial =>
+      new THREE.MeshBasicMaterial({
+        map,
+        transparent: true,
+        depthWrite: false,
+        toneMapped: false,
+      });
+
+    const tachFace = new THREE.Mesh(faceGeometry(), faceMaterial(tachTexture));
+    tachFace.name = '7DCT tachometer face';
+    tachFace.position.set(layout.tachCenterX, 0, layout.dialFaceZ);
+    this.add(tachFace);
+
+    const speedFace = new THREE.Mesh(faceGeometry(), faceMaterial(speedTexture));
+    speedFace.name = '7DCT speedometer face';
+    speedFace.position.set(layout.speedoCenterX, 0, layout.dialFaceZ);
+    this.add(speedFace);
+
+    const rimMaterial = new THREE.MeshStandardMaterial({
+      color: 0x9aa4a9,
+      roughness: 0.3,
+      metalness: 0.62,
+    });
+    const rimGeometry = new THREE.TorusGeometry(
+      layout.dialRadius + 0.001,
+      0.005,
+      8,
+      48,
+    );
+    for (const [name, centerX] of [
+      ['7DCT tachometer bezel', layout.tachCenterX],
+      ['7DCT speedometer bezel', layout.speedoCenterX],
+    ] as const) {
+      const rim = new THREE.Mesh(rimGeometry, rimMaterial);
+      rim.name = name;
+      rim.position.set(centerX, 0, layout.dialFaceZ + 0.004);
+      this.add(rim);
+    }
+
+    // Both needles take the restrained red-orange of a traditional German
+    // cluster, which is what separates this face from the 6AT light-grey one.
+    this.jettaTachNeedle = makeNeedle(
+      '7DCT tachometer needle',
+      layout.dialNeedleLength,
+      0xe2645a,
+    );
+    this.jettaTachNeedle.position.set(layout.tachCenterX, 0, layout.dialNeedleZ);
+    this.add(this.jettaTachNeedle);
+
+    this.jettaSpeedNeedle = makeNeedle(
+      '7DCT speedometer needle',
+      layout.dialNeedleLength,
+      0xe2645a,
+    );
+    this.jettaSpeedNeedle.position.set(layout.speedoCenterX, 0, layout.dialNeedleZ);
+    this.add(this.jettaSpeedNeedle);
+
+    this.currentTachometerRotation = fractionToNeedleRotation(0);
+    this.currentSpeedometerRotation = fractionToNeedleRotation(0);
+  }
+
+  /** Monochrome centre information display for the 7DCT face. */
+  private buildTwinDialFace(): void {
+    const layout = JETTA_INSTRUMENT_CLUSTER_LAYOUT;
+    this.jettaCentreCanvas = drawJettaCentreDisplay(0, 'N', null, 0.72, {});
+    this.jettaCentreTexture = configureTexture(this.jettaCentreCanvas);
+    const display = new THREE.Mesh(
+      new THREE.PlaneGeometry(
+        layout.displayHalfWidth * 2,
+        layout.displayHalfHeight * 2,
+      ),
+      new THREE.MeshBasicMaterial({
+        map: this.jettaCentreTexture,
+        toneMapped: false,
+      }),
+    );
+    display.name = '7DCT centre information display';
+    display.position.set(0, layout.displayCenterY, layout.displayZ);
+    this.add(display);
+    this.jettaCentreKey = '';
+    this.redrawJettaFace(0, 'N', 'N', null, 0.72, 90, {}, this.getIndicatorKey({}));
   }
 
   public update(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
@@ -572,7 +1387,42 @@ export class InstrumentCluster extends THREE.Group {
       indicators.engineWarning,
       indicators.batteryWarning,
       indicators.cruise,
+      indicators.absWarning, indicators.tcsActive, indicators.tcsOff,
     ].map((value) => (value === true ? '1' : '0')).join('');
+    if (this.config.displayStyle === 'cx4-tach-wing') {
+      const gearSelector = parseGearSelector(telemetry.gear);
+      const cx4Key = [
+        displaySpeed,
+        telemetry.gear,
+        Math.round(fuelLevel * 100),
+        Math.round(temperatureC),
+      ].join('|');
+      if (cx4Key !== this.cx4Key || indicatorKey !== this.lastIndicatorKey) {
+        this.redrawCx4Face(
+          displaySpeed,
+          gearSelector,
+          telemetry.gear,
+          fuelLevel,
+          temperatureC,
+          indicators,
+        );
+      }
+      return;
+    }
+    if (this.config.displayStyle === 'jetta-twin-dial') {
+      this.redrawJettaFace(
+        displaySpeed,
+        parseGearSelector(telemetry.gear),
+        telemetry.gear,
+        parsePhysicalGear(telemetry.gear),
+        fuelLevel,
+        temperatureC,
+        indicators,
+        indicatorKey,
+      );
+      return;
+    }
+
     const informationKey = this.config.displayStyle === 'sport-tft'
       ? [
         displaySpeed,
@@ -665,6 +1515,133 @@ export class InstrumentCluster extends THREE.Group {
     this.speedometerNeedle.rotation.z = this.currentSpeedometerRotation;
     this.fuelNeedle.rotation.z = this.currentFuelRotation;
     this.temperatureNeedle.rotation.z = this.currentTemperatureRotation;
+    // The two new faces drive their own pivots from the same two tracked
+    // angles, so the needle animation and response rate stay shared.
+    if (this.cx4TachNeedle !== null) {
+      this.cx4TachNeedle.rotation.z = this.currentTachometerRotation;
+    }
+    if (this.jettaTachNeedle !== null) {
+      this.jettaTachNeedle.rotation.z = this.currentTachometerRotation;
+    }
+    if (this.jettaSpeedNeedle !== null) {
+      this.jettaSpeedNeedle.rotation.z = this.currentSpeedometerRotation;
+    }
+  }
+
+  /** Redraws the 6AT wings and the embedded speed on its central tachometer. */
+  private redrawCx4Face(
+    speedKmh: number,
+    gearSelector: string,
+    gear: InstrumentGear,
+    fuelLevel: number,
+    temperatureC: number,
+    indicators: InstrumentIndicatorState,
+  ): void {
+    const physicalGear = parsePhysicalGear(gear);
+    const gearLabel = typeof gear === 'number' ? gear.toString() : gear;
+    if (physicalGear !== null) {
+      this.cx4MaximumForwardGear = Math.max(
+        this.cx4MaximumForwardGear,
+        physicalGear,
+      );
+    }
+    this.cx4Key = [
+      speedKmh,
+      gearLabel,
+      Math.round(fuelLevel * 100),
+      Math.round(temperatureC),
+    ].join('|');
+    this.lastIndicatorKey = this.getIndicatorKey(indicators);
+
+    const tachContext = this.cx4TachCanvas.getContext('2d');
+    if (tachContext !== null) {
+      const artwork = drawStyledDialArtwork({
+        label: 'RPM',
+        unit: 'x1000 r/min',
+        maximum: this.config.maximumRPM,
+        majorDivisions: 8,
+        minorTicksPerMajor: 4,
+        labelDivisor: 1_000,
+        redlineFraction: this.config.redlineRPM / this.config.maximumRPM,
+        majorTickColor: '#eef2f0',
+        minorTickColor: '#a3abae',
+        labelColor: '#e6ebe8',
+        embeddedSpeedKmh: speedKmh,
+      });
+      tachContext.clearRect(0, 0, this.cx4TachCanvas.width, this.cx4TachCanvas.height);
+      tachContext.drawImage(artwork, 0, 0);
+      if (this.cx4TachTexture !== null) this.cx4TachTexture.needsUpdate = true;
+    }
+
+    const leftArtwork = drawCx4LeftWing(
+      gearSelector,
+      physicalGear,
+      this.cx4MaximumForwardGear,
+      indicators,
+    );
+    const leftContext = this.cx4LeftCanvas?.getContext('2d') ?? null;
+    if (leftContext !== null && this.cx4LeftCanvas !== null) {
+      leftContext.clearRect(0, 0, this.cx4LeftCanvas.width, this.cx4LeftCanvas.height);
+      leftContext.drawImage(leftArtwork, 0, 0);
+    }
+    const rightContext = this.cx4RightCanvas?.getContext('2d') ?? null;
+    const rightArtwork = drawCx4RightWing(fuelLevel, temperatureC);
+    if (rightContext !== null && this.cx4RightCanvas !== null) {
+      rightContext.clearRect(0, 0, this.cx4RightCanvas.width, this.cx4RightCanvas.height);
+      rightContext.drawImage(rightArtwork, 0, 0);
+    }
+    if (this.cx4LeftTexture !== null) this.cx4LeftTexture.needsUpdate = true;
+    if (this.cx4RightTexture !== null) this.cx4RightTexture.needsUpdate = true;
+  }
+
+  /**
+   * Paints one 7DCT dial face. The dials are static artwork, so this only runs
+   * when the authored range changes; the needle carries the live value.
+   */
+  private paintJettaFace(target: HTMLCanvasElement, options: StyledDialOptions): void {
+    const context = target.getContext('2d');
+    if (context === null) return;
+    context.clearRect(0, 0, target.width, target.height);
+    context.drawImage(drawStyledDialArtwork(options), 0, 0);
+  }
+
+  /** Redraws the monochrome 7DCT centre display when its content changes. */
+  private redrawJettaFace(
+    speedKmh: number,
+    gearSelector: string,
+    gear: InstrumentGear,
+    physicalGear: number | null,
+    fuelLevel: number,
+    temperatureC: number,
+    indicators: InstrumentIndicatorState,
+    indicatorKey: string,
+  ): void {
+    const centreKey = [
+      speedKmh,
+      gearSelector,
+      gear,
+      Math.round(fuelLevel * 100),
+      Math.round(temperatureC),
+    ].join('|');
+    // Record the lamp state before the content guard can return, otherwise a
+    // lamp-only change (for example the parking brake) would never repaint.
+    const lampsChanged = indicatorKey !== this.lastIndicatorKey;
+    if (this.jettaCentreKey === centreKey && !lampsChanged) return;
+    this.jettaCentreKey = centreKey;
+    this.lastIndicatorKey = indicatorKey;
+    const centreCanvas = drawJettaCentreDisplay(
+      speedKmh,
+      gearSelector,
+      physicalGear,
+      fuelLevel,
+      indicators,
+    );
+    const centreContext = this.jettaCentreCanvas?.getContext('2d') ?? null;
+    if (centreContext !== null && this.jettaCentreCanvas !== null) {
+      centreContext.clearRect(0, 0, this.jettaCentreCanvas.width, this.jettaCentreCanvas.height);
+      centreContext.drawImage(centreCanvas, 0, 0);
+    }
+    if (this.jettaCentreTexture !== null) this.jettaCentreTexture.needsUpdate = true;
   }
 
   private redrawInformation(
@@ -856,10 +1833,13 @@ export class InstrumentCluster extends THREE.Group {
       [796, 'PARK', indicators.parkingBrake, '#ff5764'],
       [873, 'ENGINE', indicators.engineWarning, '#ffc04b'],
       [958, 'BAT', indicators.batteryWarning, '#ff5764'],
+      [422, 'ABS', indicators.absWarning, '#ffc247'],
+      [600, 'SKID', indicators.tcsActive, '#ffc247'],
+      [722, 'TCS OFF', indicators.tcsOff, '#ffc247'],
     ];
     for (const [x, label, active, color] of lamps) {
       if (active !== true) continue;
-      const width = Math.max(44, label.length * 11 + 18);
+      const width = label === 'TCS OFF' ? 80 : Math.max(44, label.length * 11 + 18);
       roundedPanel(x - width / 2, 115, width, 28, 8);
       context.fillStyle = `${color}1f`;
       context.fill();
@@ -872,7 +1852,7 @@ export class InstrumentCluster extends THREE.Group {
       context.textAlign = 'center';
       context.textBaseline = 'middle';
       context.font = `800 ${label.length > 4 ? 14 : 17}px Arial, sans-serif`;
-      context.fillText(label, x, 129);
+      drawStatusLamp(context, label, color, x, 129, label.length > 4 ? 14 : 17);
       context.shadowBlur = 0;
     }
 
@@ -1021,6 +2001,7 @@ export class InstrumentCluster extends THREE.Group {
       state.engineWarning,
       state.batteryWarning,
       state.cruise,
+      state.absWarning, state.tcsActive, state.tcsOff,
     ].map((value) => (value === true ? '1' : '0')).join('');
   }
 
@@ -1028,22 +2009,9 @@ export class InstrumentCluster extends THREE.Group {
     context: CanvasRenderingContext2D,
     state: InstrumentIndicatorState,
   ): void {
-    const possibleLamps: ReadonlyArray<
-      readonly [label: string, active: boolean | undefined, color: string]
-    > = [
-      ['◀', state.leftTurn, '#5aff71'],
-      ['P', state.parkingBrake, '#ff4e4e'],
-      ['LO', state.headlights === true && state.highBeam !== true, '#72e58a'],
-      ['HI', state.highBeam, '#559dff'],
-      ['POS', state.positionLights === true && state.headlights !== true && state.highBeam !== true, '#72e58a'],
-      ['FOG', state.fogLights, '#e5bc54'],
-      ['ENG', state.engineWarning, '#ffc247'],
-      ['BAT', state.batteryWarning, '#ff4e4e'],
-      ['▶', state.rightTurn, '#5aff71'],
-    ];
-    const lamps = possibleLamps.filter(([, active]) => active === true);
+    const lamps = instrumentStatusLamps(state).filter(([, active]) => active === true);
 
-    context.fillStyle = '#0a1715';
+    context.fillStyle = STATUS_LAMP_STROKE;
     context.fillRect(10, 10, this.informationCanvas.width - 20, 62);
     if (lamps.length === 0) return;
     context.textAlign = 'center';
@@ -1051,11 +2019,14 @@ export class InstrumentCluster extends THREE.Group {
     const usableWidth = this.informationCanvas.width - 32;
     const spacing = usableWidth / lamps.length;
     lamps.forEach(([label, , color], index) => {
-      context.font = `700 ${label.length >= 3 ? 28 : 36}px Arial, sans-serif`;
-      context.fillStyle = color;
-      context.shadowColor = color;
-      context.shadowBlur = 13;
-      context.fillText(label, 16 + spacing * (index + 0.5), 41);
+      drawStatusLamp(
+        context,
+        label,
+        color,
+        16 + spacing * (index + 0.5),
+        41,
+        label.length >= 3 ? 28 : 36,
+      );
     });
     context.shadowBlur = 0;
   }

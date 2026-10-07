@@ -151,6 +151,7 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     liftCoefficientRear: -0.05,
   },
   tires: {
+    loadSensitivity: 0.06,
     wheelInertia: 1.45,
     rollingResistance: 0.013,
     longitudinalGrip: 1.04,

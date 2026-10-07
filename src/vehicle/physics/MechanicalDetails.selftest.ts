@@ -88,7 +88,7 @@ export function runMechanicalDetailsSelfTest() {
     revHangTelemetry.push({ vehicle: name, peakResidualTorque: peakResidual, savedRPM });
 
     const speed = 3000 * 2 * Math.PI / 60 * config.wheelRadius /
-      (config.transmission.gearRatios[2] * config.transmission.finalDriveRatio);
+      (config.transmission.gearRatios[2]! * config.transmission.finalDriveRatio);
     const car = new VehicleDynamics(config, { speed, gear: 2, engineRPM: 3000,
       clutchEngagement: 1, controlMode: 'manual-clutch' });
     const input = { ...createNeutralVehicleInputState(), controlMode: 'manual-clutch' as const, clutchPedal: 0, throttle: 0.55 };

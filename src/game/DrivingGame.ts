@@ -313,6 +313,9 @@ export class DrivingGame {
 
     this.updateVehicleVisual(frameDt);
     this.contactDebug.update(this.contacts, this.ground, frameDt, this.snapshot);
+    // Maps with authored ambient animation (for example Subject 3 traffic
+    // signals) opt in through an optional update hook.
+    this.ground.update?.(frameDt);
     this.updateSun();
     this.driverCamera.update(this.vehicleVisual.root, frameDt);
     this.engineAudio.update(
@@ -329,6 +332,7 @@ export class DrivingGame {
     const cruiseStatus = this.cruiseControl.status;
     this.hud.update({
       ...this.snapshot,
+      turbo: this.hud.isDebugOpen ? this.dynamics.engine.getTurboSnapshot() : undefined,
       inputSource: this.latestInput.source,
       cruiseAvailable: cruiseStatus.available,
       cruiseActive: cruiseStatus.active,
@@ -410,7 +414,7 @@ export class DrivingGame {
       speedKmh: Math.abs(this.snapshot.speed) * 3.6,
       rpm: this.snapshot.rpm,
       gear: this.snapshot.transmission.type !== 'MANUAL'
-        ? this.snapshot.transmission.selectedMode === 'D' ? `D${this.snapshot.gear}` : this.snapshot.transmission.selectedMode ?? 'N'
+        ? this.snapshot.transmission.selectedMode === 'D' && this.snapshot.transmission.type !== 'CVT' ? `D${this.snapshot.gear}` : this.snapshot.transmission.selectedMode ?? 'N'
         : this.snapshot.gear,
       engineRunning: this.snapshot.engineRunning,
       fuelLevel: this.fuelLevel,
@@ -429,6 +433,9 @@ export class DrivingGame {
         batteryWarning: !this.snapshot.engineRunning,
         cruise: this.cruiseControl.status.active,
         upshift: this.snapshot.upshiftRecommended,
+        absWarning: this.snapshot.driverAssists.absWarning,
+        tcsActive: this.snapshot.driverAssists.tcsLamp,
+        tcsOff: this.snapshot.driverAssists.tcsOff,
       },
     }, dt);
     this.vehicleVisual.root.updateMatrixWorld(true);
@@ -436,6 +443,8 @@ export class DrivingGame {
 
   private configureVehicleSettings(): void {
     const settings = this.hud.settings;
+    this.dynamics.setDriverAssistOptions(settings.driverAssistOptions);
+    settings.onDriverAssistsChange = options => this.dynamics.setDriverAssistOptions(options);
     const storedLightMode = this.readStoredLightMode();
     this.lightController.setMainLightMode(storedLightMode);
     this.vehicleLighting.applyState(this.lightController.state);
@@ -626,6 +635,7 @@ export class DrivingGame {
     this.vehicleLighting.applyState(this.lightController.state);
     this.mirrorAdjustment = this.createMirrorAdjustment(nextVisual);
     this.dynamics = nextDynamics;
+    this.dynamics.setDriverAssistOptions(this.hud.settings.driverAssistOptions);
     this.contacts.setCollisionDimensions(descriptor.visualConfig.collisionDimensions);
     this.snapshot = nextDynamics.getSnapshot();
     this.feedback.setVehicleConfig(nextPhysicsConfig);

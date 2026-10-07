@@ -2,10 +2,12 @@ import type { DrivingGround, DrivingGroundDescriptor } from './DrivingGround';
 import { DrivingTestTrack } from './DrivingTestTrack';
 import { CircuitGround } from './circuit';
 import { Subject2Ground } from './subject2';
+import { Subject3Ground } from './subject3';
 
 export const DRIVING_GROUND_IDS = [
   'road-course',
   'subject-2-training-ground',
+  'subject-3-shared-city-map',
   'simple-circuit',
 ] as const;
 export type DrivingGroundId = (typeof DRIVING_GROUND_IDS)[number];
@@ -32,6 +34,13 @@ const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDesc
       label: '科目二训练场',
       description: '候考、倒库、侧方、直角、S 弯、坡起与结束区的一条连续路线。',
       create: (): DrivingGround => new Subject2Ground({ shadows: true }),
+    }),
+    'subject-3-shared-city-map': Object.freeze({
+      id: 'subject-3-shared-city-map',
+      version: 1,
+      label: '科目三共享城市地图',
+      description: '共享城市街区路网：两条长直主路、多个十字与丁字路口、信号灯路口、学校、公交站、商业区和北侧地标。',
+      create: (): DrivingGround => new Subject3Ground({ shadows: true }),
     }),
     'simple-circuit': Object.freeze({
       id: 'simple-circuit',

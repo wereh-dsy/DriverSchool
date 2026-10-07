@@ -6,6 +6,17 @@ import {
   radiansPerSecondToRPM,
   rpmToRadiansPerSecond,
 } from './math';
+import { Turbocharger } from './Turbocharger';
+
+export interface EngineTurboSnapshot {
+  enabled: boolean;
+  turboSpeed: number;
+  manifoldPressureBar: number;
+  boostPressureBar: number;
+  wastegateOpening: number;
+  baseTorquePotential: number;
+  availableTorque: number;
+}
 
 export interface EngineTorqueSample {
   combustionTorque: number;
@@ -38,11 +49,16 @@ export interface RevHangContext {
  * wheels: the clutch supplies the load torque applied to the crankshaft.
  */
 export class Engine {
+  private torqueLimitFactor = 1;
+  /** Combustion-only intervention; does not change pedal, throttle actuator, drag or idle governor. */
+  public setTorqueLimitFactor(factor: number): void { this.torqueLimitFactor = clamp01(Number.isFinite(factor) ? factor : 1); }
   public currentRPM: number;
   public throttle = 0;
   public isRunning = true;
 
   private readonly torqueCurve: readonly TorqueCurvePoint[];
+  private readonly baseTorqueCurve: readonly TorqueCurvePoint[] | undefined;
+  private readonly turbo: Turbocharger | undefined;
   private fuelCutActive = false;
   private previousThrottleCommand = 0;
   private recentLiftTime = 0;
@@ -54,10 +70,20 @@ export class Engine {
       throw new Error('Engine torqueCurve must contain at least one sample.');
     }
     this.torqueCurve = [...config.torqueCurve].sort((a, b) => a.rpm - b.rpm);
+    if (config.turbo?.enabled === true) {
+      if (config.turbo.baseTorqueCurve.length === 0 ||
+        config.turbo.baseTorqueCurve.some((point) => !Number.isFinite(point.rpm) ||
+          !Number.isFinite(point.torque) || point.torque < 0)) {
+        throw new Error('Turbo baseTorqueCurve must contain finite non-negative samples.');
+      }
+      this.baseTorqueCurve = [...config.turbo.baseTorqueCurve].sort((a, b) => a.rpm - b.rpm);
+      this.turbo = new Turbocharger(config.turbo);
+    }
     this.currentRPM = config.idleRPM;
   }
 
   public reset(rpm = this.config.idleRPM, running = true): void {
+    this.torqueLimitFactor = 1;
     this.isRunning = running;
     this.currentRPM = running
       ? clamp(rpm, this.config.stallRPM + 1, this.config.maxRPM)
@@ -65,6 +91,7 @@ export class Engine {
     this.throttle = 0;
     this.fuelCutActive = false;
     this.resetRevHang();
+    this.turbo?.reset();
   }
 
   /** Starter abstraction; ignition timing and battery state can be added later. */
@@ -143,15 +170,19 @@ export class Engine {
 
   /** Linear interpolation of the data-driven full-load torque curve. */
   public getTorqueAtRPM(rpm: number): number {
-    const first = this.torqueCurve[0];
-    const last = this.torqueCurve[this.torqueCurve.length - 1];
+    return this.interpolateTorque(this.torqueCurve, rpm);
+  }
+
+  private interpolateTorque(curve: readonly TorqueCurvePoint[], rpm: number): number {
+    const first = curve[0];
+    const last = curve[curve.length - 1];
     if (first === undefined || last === undefined) return 0;
     if (rpm <= first.rpm) return first.torque;
     if (rpm >= last.rpm) return last.torque;
 
-    for (let index = 1; index < this.torqueCurve.length; index += 1) {
-      const upper = this.torqueCurve[index];
-      const lower = this.torqueCurve[index - 1];
+    for (let index = 1; index < curve.length; index += 1) {
+      const upper = curve[index];
+      const lower = curve[index - 1];
       if (upper !== undefined && lower !== undefined && rpm <= upper.rpm) {
         const range = Math.max(1, upper.rpm - lower.rpm);
         const fraction = (rpm - lower.rpm) / range;
@@ -159,6 +190,27 @@ export class Engine {
       }
     }
     return last.torque;
+  }
+
+  /** Read-only air-limited potential. Sampling never advances turbo state. */
+  public get availableTorque(): number {
+    const ceiling = this.getTorqueAtRPM(this.currentRPM);
+    if (!this.turbo || !this.baseTorqueCurve) return ceiling;
+    return Math.min(ceiling,
+      this.interpolateTorque(this.baseTorqueCurve, this.currentRPM) * this.turbo.manifoldPressure);
+  }
+
+  /** On-demand debug snapshot; not allocated inside the fixed physics tick. */
+  public getTurboSnapshot(): EngineTurboSnapshot {
+    return {
+      enabled: this.turbo !== undefined,
+      turboSpeed: this.turbo?.turboSpeed ?? 0,
+      manifoldPressureBar: this.turbo?.manifoldPressure ?? 1,
+      boostPressureBar: (this.turbo?.manifoldPressure ?? 1) - 1,
+      wastegateOpening: this.turbo?.wastegateOpening ?? 0,
+      baseTorquePotential: this.interpolateTorque(this.baseTorqueCurve ?? this.torqueCurve, this.currentRPM),
+      availableTorque: this.availableTorque,
+    };
   }
 
   /** Current net torque available at the crank before clutch load. */
@@ -182,7 +234,7 @@ export class Engine {
     // at wide-open throttle. Legacy configurations retain the linear mapping.
     const combustionThrottle = clamp01(this.throttle) ** Math.max(0.1, this.config.partThrottleExponent ?? 1);
     const combustionTorque =
-      this.getTorqueAtRPM(this.currentRPM) * combustionThrottle * limiterMultiplier;
+      this.availableTorque * combustionThrottle * limiterMultiplier * this.torqueLimitFactor;
 
     // Mechanical drag is independent of pedal position. The existing
     // engineBrakingStrength remains the speed-dependent pumping-loss strength;
@@ -225,7 +277,14 @@ export class Engine {
     if (!Number.isFinite(dt) || dt <= 0) return;
     if (!this.isRunning) {
       this.currentRPM = 0;
+      this.turbo?.update(dt, 0, 0, 0, 0, 0, false);
       return;
+    }
+    if (this.turbo) {
+      const demand = this.fuelCutActive ? 0
+        : clamp01(this.throttle) ** Math.max(0.1, this.config.partThrottleExponent ?? 1);
+      this.turbo.update(dt, this.currentRPM, this.throttle, demand,
+        clutchLoadTorque, this.getTorqueAtRPM(this.currentRPM), true);
     }
     const torque = this.getTorqueSample().netCrankTorque - clutchLoadTorque;
     const angularAcceleration = torque / Math.max(0.01, this.config.engineInertia);

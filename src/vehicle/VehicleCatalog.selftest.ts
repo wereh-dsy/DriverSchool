@@ -72,7 +72,11 @@ const validatePhysics = (id: VehicleId, config: VehiclePhysicsConfig): void => {
   const ratios = ([1, 2, 3, 4, 5, 6, 7] as const)
     .map((gear) => config.transmission.gearRatios[gear])
     .filter((ratio): ratio is number => ratio !== undefined);
-  assert(ratios.length >= 5 && ratios.length <= 7, `${id} must have five to seven gears`);
+  if (config.transmission.type === 'CVT') {
+    assert(ratios.length === 0, `${id} CVT must not have simulated gears`);
+    assert(config.transmission.cvt !== undefined && config.transmission.cvt.minimumRatio > 0 &&
+      config.transmission.cvt.maximumRatio > config.transmission.cvt.minimumRatio, `${id} CVT variator limits`);
+  } else assert(ratios.length >= 5 && ratios.length <= 7, `${id} must have five to seven gears`);
   assert(
     ([1, 2, 3, 4, 5, 6, 7] as const).every((gear, index) =>
       index < ratios.length

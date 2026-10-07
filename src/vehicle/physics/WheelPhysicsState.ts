@@ -41,6 +41,10 @@ export interface WheelPhysicsState {
   readonly lateralSpeed: number;
   readonly slipRatio: number;
   readonly slipAngle: number;
+  readonly longitudinalUsage: number;
+  readonly lateralUsage: number;
+  /** Usage of the shared, forgiving per-wheel grip budget. */
+  readonly gripUsage: number;
 }
 
 export type WheelPhysicsStateSet = Readonly<Record<WheelId, WheelPhysicsState>>;

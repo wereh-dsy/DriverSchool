@@ -5,7 +5,12 @@ import { runCruiseControlControllerSelfTest } from '../src/vehicle/control/Cruis
 import { runVehicleDynamicsSelfTest } from '../src/vehicle/physics/VehicleDynamics.selftest';
 import { runMechanicalDetailsSelfTest } from '../src/vehicle/physics/MechanicalDetails.selftest';
 import { runEngineTorqueSelfTest } from '../src/vehicle/physics/EngineTorque.selftest';
+import { runEngineTurboSelfTest } from '../src/vehicle/physics/EngineTurbo.selftest';
 import { runWheelRotationSelfTest } from '../src/vehicle/physics/WheelRotationSystem.selftest';
+import { runTyreDifferentialSelfTest } from '../src/vehicle/physics/TyreDifferential.selftest';
+import { runDriverAssistSelfTest } from '../src/vehicle/physics/DriverAssistSystem.selftest';
+import { runCVTSelfTest } from '../src/vehicle/transmission/cvt/CVTTransmission.selftest';
+import { runVehicleStructureSelfTest } from '../src/vehicle/visual/VehicleStructure.selftest';
 import { runSuspensionMechanicsSelfTest } from '../src/vehicle/physics/SuspensionMechanics.selftest';
 import { runWheelContactSelfTest } from '../src/vehicle/physics/WheelContact.selftest';
 import { runCollisionSystemSelfTest } from '../src/vehicle/physics/CollisionSystem.selftest';
@@ -19,6 +24,7 @@ import { runVehicleVisualDimensionsSelfTest } from '../src/vehicle/visual/Vehicl
 import { runDrivingTestTrackSelfTest } from '../src/world/DrivingTestTrack.selftest';
 import { runCircuitGroundSelfTest } from '../src/world/circuit/CircuitGround.selftest';
 import { runSubject2GroundSelfTest } from '../src/world/subject2/Subject2Ground.selftest';
+import { runSubject3GroundSelfTest } from '../src/world/subject3/Subject3Ground.selftest';
 import { runVehicleFeedbackSelfTest } from '../src/vehicle/feedback/VehicleFeedbackSystem.selftest';
 import { runGamepadHapticsSelfTest } from '../src/input/GamepadHaptics.selftest';
 import { runSteeringReturnSelfTest } from '../src/vehicle/physics/SteeringSystem.selftest';
@@ -41,7 +47,12 @@ const results = {
   physics: runVehicleDynamicsSelfTest(),
   mechanicalDetails: runMechanicalDetailsSelfTest(),
   engineTorque: runEngineTorqueSelfTest(),
+  engineTurbo: runEngineTurboSelfTest(),
   wheelRotation: runWheelRotationSelfTest(),
+  tyreDifferential: runTyreDifferentialSelfTest(),
+  driverAssists: runDriverAssistSelfTest(),
+  cvt: runCVTSelfTest(),
+  vehicleStructure: runVehicleStructureSelfTest(),
   suspensionMechanics: runSuspensionMechanicsSelfTest(),
   wheelContact: runWheelContactSelfTest(),
   staticCollision: runCollisionSystemSelfTest(),
@@ -58,6 +69,7 @@ const results = {
   roadCourse: runDrivingTestTrackSelfTest(),
   circuit: runCircuitGroundSelfTest(),
   subject2: runSubject2GroundSelfTest(),
+  subject3: runSubject3GroundSelfTest(),
 };
 
 console.log(JSON.stringify(results, null, 2));

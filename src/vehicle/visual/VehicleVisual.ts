@@ -505,17 +505,28 @@ export class VehicleVisual {
     surface.renderOrder = 3;
     this.mirrorSurfaceRoot.add(surface);
 
-    const stalk = new THREE.Mesh(
-      new THREE.BoxGeometry(0.1, 0.032, 0.052),
-      housingMaterial,
-    );
+    const sign = side === 'left' ? -1 : 1;
+    const mount = new THREE.Vector3(...(mirrorConfig.mountPosition ?? [sign * this.config.vehicleWidth * .48,
+      this.config.cabin.windshieldBottomY + .04, this.config.cabin.windshieldBottomZ + .065]));
+    const sailShape = new THREE.Shape();
+    sailShape.moveTo(-.07, -.035); sailShape.lineTo(.065, -.035); sailShape.lineTo(-.04, .09); sailShape.closePath();
+    const sail = new THREE.Mesh(new THREE.ExtrudeGeometry(sailShape,
+      { depth: .035, bevelEnabled: false, steps: 1 }), housingMaterial);
+    sail.name = `${side} door mirror sail mount`;
+    sail.position.copy(mount); sail.rotation.y = sign * Math.PI / 2;
+    sail.userData.vehicleBodyPart = 'mirror-housing';
+    this.exteriorRoot.add(sail);
+    const housingConnection = new THREE.Vector3(-sign * .1, -housingHeight * .18, -mirrorConfig.housingDepth * .68)
+      .applyEuler(assembly.rotation).add(assembly.position);
+    const start = mount.clone().add(new THREE.Vector3(sign * .025, .02, 0));
+    const delta = housingConnection.clone().sub(start);
+    const stalk = new THREE.Mesh(new THREE.CylinderGeometry(.019, .026, delta.length(), 8), housingMaterial);
     stalk.name = `${side} mirror stalk`;
-    stalk.position.x = side === 'left' ? 0.105 : -0.105;
-    stalk.position.y = -housingHeight * 0.18;
-    stalk.position.z = -mirrorConfig.housingDepth * 0.68;
+    stalk.position.copy(start).add(housingConnection).multiplyScalar(.5);
+    stalk.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.normalize());
     stalk.castShadow = true;
     stalk.userData.vehicleBodyPart = 'mirror-housing';
-    assembly.add(stalk);
+    this.exteriorRoot.add(stalk);
 
     this.exteriorRoot.add(assembly);
     return surface;

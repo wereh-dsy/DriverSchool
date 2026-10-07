@@ -39,6 +39,8 @@ export interface DrivingGround {
   ): RoadSurfaceSample;
   getRoadHeightAt(x: number, z: number): number;
   getRoadPitchAt(x: number, z: number, yawRadians: number): number;
+  /** Optional per-frame hook for maps with authored ambient animation. */
+  update?(deltaSeconds: number): void;
   dispose(): void;
 }
 

@@ -45,6 +45,21 @@ export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
     revHang: { ...config.engine.revHang!, enabled: false },
     idleControlStrength: 72, idleControlMaxTorque: 72, redlineRPM: 6200,
     revLimiterRPM: 6200, maxRPM: 6400, redlineWarningRPM: 5800,
+    // This curve now starts from unboosted air potential, rather than assuming
+    // full boost at every pedal position. Preserve useful everyday load demand.
+    partThrottleExponent: 0.65,
+    turbo: {
+      enabled: true, inertia: 0.42, pressureGain: 1.3, maxPressureRatio: 2.15,
+      turbineDriveStrength: 1.75, compressorLoadStrength: 0.18,
+      friction: 0.16, wastegateGain: 5,
+      // Initial 1.4-litre unboosted potential. The existing 250 Nm curve
+      // remains the full-boost envelope; this is not final vehicle tuning.
+      baseTorqueCurve: [
+        { rpm: 850, torque: 75 }, { rpm: 1200, torque: 95 }, { rpm: 1500, torque: 118 },
+        { rpm: 2000, torque: 128 }, { rpm: 3500, torque: 130 }, { rpm: 4500, torque: 120 },
+        { rpm: 5500, torque: 105 }, { rpm: 6200, torque: 86 }, { rpm: 6400, torque: 70 },
+      ],
+    },
     torqueCurve: [ { rpm: 850, torque: 115 }, { rpm: 1200, torque: 180 }, { rpm: 1500, torque: 240 },
       { rpm: 2000, torque: 250 }, { rpm: 3500, torque: 250 }, { rpm: 4500, torque: 220 },
       { rpm: 5500, torque: 185 }, { rpm: 6200, torque: 142 }, { rpm: 6400, torque: 100 } ] };

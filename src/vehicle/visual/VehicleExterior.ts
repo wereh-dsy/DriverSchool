@@ -402,7 +402,7 @@ const addCabinGlazingAndPillars = (
         `${direction < 0 ? 'Left' : 'Right'} A-pillar exterior`,
         direction < 0 ? frontBottomLeft : frontBottomRight,
         direction < 0 ? frontTopLeft : frontTopRight,
-        sport ? 0.042 : 0.048,
+        sport ? 0.027 : 0.03,
         materials.paintDark,
       ),
       createBeam(

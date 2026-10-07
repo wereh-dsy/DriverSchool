@@ -9,6 +9,7 @@ import {
 } from '../input';
 import type { AdjustableMirrorSide, MirrorAdjustment } from '../camera';
 import type { VehicleLightMode } from '../vehicle/visual';
+import type { DriverAssistOptions } from '../vehicle/physics/DriverAssistSystem';
 
 export interface DrivingMapOption {
   readonly id: string;
@@ -27,6 +28,8 @@ export class ControlSettingsPanel {
   public onLightModeChange?: (mode: VehicleLightMode) => void;
   public onFogToggle?: () => void;
   public onVibrationChange?: (enabled: boolean) => void;
+  public onDriverAssistsChange?: (options: DriverAssistOptions) => void;
+  public readonly driverAssistOptions: DriverAssistOptions = this.readDriverAssistPreferences();
   public onDriveSelectorChange?: (selector: DriveSelector) => void;
   public onMirrorSideChange?: (side: AdjustableMirrorSide) => void;
   public onMirrorNudge?: (
@@ -95,6 +98,14 @@ export class ControlSettingsPanel {
             </div>
           </section>
           <section class="settings-group">
+            <div class="settings-group-title"><span>驾驶辅助</span><small>独立开关 · 手刹不受 ABS 控制</small></div>
+            <div class="settings-segments">
+              <button type="button" data-aid="absEnabled">ABS: ON</button>
+              <button type="button" data-aid="ebdEnabled">EBD: ON</button>
+              <button type="button" data-aid="tractionControlEnabled">TCS: ON</button>
+            </div>
+          </section>
+          <section class="settings-group">
             <div class="settings-group-title"><span>后视镜</span><small data-mirror-value>水平 0.0° · 垂直 0.0°</small></div>
             <div class="settings-segments mirror-selector">
               <button type="button" data-mirror-side="left">左镜</button>
@@ -111,7 +122,7 @@ export class ControlSettingsPanel {
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>标准手柄</span><small>统一车辆输入</small></div>
-            <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑：关→示宽→近光→远光 · ↓：双闪<br>A：驻车制动 · X：GT 定速巡航 · Y：前后雾灯 · B：预留<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
+            <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑：关→示宽→近光→远光 · ↓：双闪<br>A：驻车制动 · X：GT 定速巡航 · Y：前后雾灯 · B：预留<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
             <label><input type="checkbox" data-vibration aria-label="Controller Vibration"> Controller Vibration · 手柄震动</label>
           </section>
           <section class="settings-group keyboard-settings">
@@ -133,6 +144,21 @@ export class ControlSettingsPanel {
     this.setLightMode('off');
     this.setMirrorSide('left');
     this.require<HTMLInputElement>(shell, '[data-vibration]').checked = this.vibrationOn;
+    shell.querySelectorAll<HTMLButtonElement>('[data-aid]').forEach(button => {
+      const key = button.dataset.aid as keyof DriverAssistOptions;
+      const label = key === 'absEnabled' ? 'ABS' : key === 'ebdEnabled' ? 'EBD' : 'TCS';
+      const refresh = () => {
+        button.textContent = `${label}: ${this.driverAssistOptions[key] ? 'ON' : 'OFF'}`;
+        button.classList.toggle('active', this.driverAssistOptions[key]);
+        button.setAttribute('aria-pressed', String(this.driverAssistOptions[key]));
+      };
+      refresh();
+      button.addEventListener('click', () => {
+        this.driverAssistOptions[key] = !this.driverAssistOptions[key]; refresh();
+        try { localStorage.setItem('drivergame.driver-assists.v1', JSON.stringify(this.driverAssistOptions)); } catch { /* Optional preference. */ }
+        this.onDriverAssistsChange?.({ ...this.driverAssistOptions });
+      });
+    });
 
     this.toggleButton.addEventListener('click', () => this.setVisible(!this.visible));
     this.require<HTMLButtonElement>(shell, '[data-settings-close]')
@@ -386,5 +412,15 @@ export class ControlSettingsPanel {
       const value = localStorage.getItem('drivergame.controller-vibration.v1');
       return value === null || value !== 'false';
     } catch { return true; }
+  }
+  private readDriverAssistPreferences(): DriverAssistOptions {
+    const defaults = { absEnabled: true, ebdEnabled: true, tractionControlEnabled: true };
+    try {
+      const saved = JSON.parse(localStorage.getItem('drivergame.driver-assists.v1') ?? '{}');
+      for (const key of Object.keys(defaults) as (keyof DriverAssistOptions)[]) {
+        if (typeof saved?.[key] === 'boolean') defaults[key] = saved[key];
+      }
+    } catch { /* Defaults apply when unavailable/corrupt. */ }
+    return defaults;
   }
 }

@@ -1,8 +1,10 @@
 export { Cockpit } from './Cockpit';
 export {
+  CX4_INSTRUMENT_CLUSTER_LAYOUT,
   formatInstrumentGear,
   INSTRUMENT_CLUSTER_HOUSING_LAYOUT,
   INSTRUMENT_CLUSTER_LAYOUT,
+  JETTA_INSTRUMENT_CLUSTER_LAYOUT,
   SPORT_INSTRUMENT_INDICATOR_IDS,
   SPORT_INSTRUMENT_CLUSTER_LAYOUT,
   InstrumentCluster,
@@ -16,6 +18,7 @@ export type {
 } from './DriverView.selftest';
 export type {
   InstrumentClusterConfig,
+  InstrumentDisplayStyle,
   InstrumentGear,
   InstrumentIndicatorState,
   InstrumentTelemetry,
@@ -23,6 +26,9 @@ export type {
 export {
   DEFAULT_SEDAN_VISUAL_CONFIG,
   SPORTS_COUPE_VISUAL_CONFIG,
+  TEST_6AT_VISUAL_CONFIG,
+  TEST_7DCT_VISUAL_CONFIG,
+  CVT_SEDAN_VISUAL_CONFIG,
   defaultSedanVisualConfig,
   sportsCoupeVisualConfig,
 } from './VehicleVisualConfig';

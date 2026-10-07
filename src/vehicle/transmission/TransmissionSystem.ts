@@ -3,7 +3,8 @@ import type { DriveSelector, Gear, TransmissionType } from '../config';
 export interface TransmissionSnapshot {
   type: TransmissionType;
   selectedMode: DriveSelector | null;
-  currentPhysicalGear: Gear;
+  currentPhysicalGear: Gear | null;
+  cvt?: { ratio: number; targetRatio: number; targetRPM: number };
   inputRPM: number;
   outputRPM: number;
   engineLoadTorque: number;

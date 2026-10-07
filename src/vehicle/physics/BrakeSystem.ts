@@ -16,6 +16,11 @@ export interface WheelBrakeTorques {
  * forces; this class neither reduces chassis speed nor performs ABS modulation.
  */
 export class BrakeSystem {
+  private dynamicFrontBias: number | undefined;
+  private absPressures: readonly number[] | undefined;
+  public setDriverAidState(frontBias: number, pressures: readonly number[]): void {
+    this.dynamicFrontBias = frontBias; this.absPressures = pressures;
+  }
   public brakeInput = 0;
   public handbrakeInput = 0;
 
@@ -23,6 +28,7 @@ export class BrakeSystem {
   public constructor(public readonly config: BrakeConfig, _wheelRadius = 0.315) {}
 
   public reset(): void {
+    this.dynamicFrontBias = undefined; this.absPressures = undefined;
     this.brakeInput = 0;
     this.handbrakeInput = 0;
   }
@@ -52,12 +58,14 @@ export class BrakeSystem {
       this.config.maxBrakeTorqueRear / (1 - frontBias),
     ));
     const front = id === 'frontLeft' || id === 'frontRight';
-    const requestedBrakeTorque = maximumTotalTorque * this.brakeInput *
-      (front ? frontBias : 1 - frontBias) * 0.5;
+    const allocation = this.dynamicFrontBias ?? frontBias;
+    const requestedBrakeTorque = Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
+      maximumTotalTorque * this.brakeInput * (front ? allocation : 1 - allocation)) * 0.5;
+    const index = id === 'frontLeft' ? 0 : id === 'frontRight' ? 1 : id === 'rearLeft' ? 2 : 3;
     const requestedHandbrakeTorque = front ? 0
       : Math.max(0, this.config.handbrakeTorque) * this.handbrakeInput * 0.5;
     return {
-      requestedBrakeTorque, appliedBrakeTorque: requestedBrakeTorque,
+      requestedBrakeTorque, appliedBrakeTorque: requestedBrakeTorque * (this.absPressures?.[index] ?? 1),
       requestedHandbrakeTorque, appliedHandbrakeTorque: requestedHandbrakeTorque,
     };
   }

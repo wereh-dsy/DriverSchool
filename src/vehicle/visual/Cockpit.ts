@@ -216,18 +216,23 @@ export class Cockpit extends THREE.Group {
     setPosition(this.steeringWheelBase, config.steeringWheelPosition);
     this.steeringWheelBase.rotation.set(...config.steeringWheelRotation);
 
-    const column = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.047, 0.28, 14), dark);
+    const columnStart = new THREE.Vector3(0, 0, -.015).applyEuler(this.steeringWheelBase.rotation)
+      .add(this.steeringWheelBase.position);
+    const columnEnd = new THREE.Vector3(...(config.steeringColumnMountPosition ??
+      [config.steeringWheelPosition[0], config.cabin.dashboardTopY - .08, config.dashboard.position[2] + .04]));
+    const axis = columnEnd.clone().sub(columnStart);
+    const column = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.042, axis.length(), 12), dark);
     column.name = 'Steering column';
-    column.rotation.x = Math.PI / 2;
-    column.position.z = -0.145;
+    column.position.copy(columnStart).add(columnEnd).multiplyScalar(.5);
+    column.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), axis.clone().normalize());
     column.castShadow = true;
-    this.steeringWheelBase.add(column);
+    this.add(column);
 
     const shroud = new THREE.Mesh(new THREE.CylinderGeometry(0.068, 0.052, 0.13, 16), dark);
     shroud.name = 'Steering column shroud';
-    shroud.rotation.x = Math.PI / 2;
-    shroud.position.z = -0.07;
-    this.steeringWheelBase.add(shroud);
+    shroud.position.copy(columnStart).addScaledVector(axis.clone().normalize(), .065);
+    shroud.quaternion.copy(column.quaternion);
+    this.add(shroud);
 
     this.steeringWheelRotationGroup.name = 'Animated steering wheel';
     const ring = new THREE.Mesh(
@@ -268,16 +273,17 @@ export class Cockpit extends THREE.Group {
     dark: THREE.Material,
     satin: THREE.Material,
   ): void {
-    const stack = makeBox('Centre stack', [0.34, 0.49, 0.14], [0.13, 0.65, -0.4], interior);
+    const stackTop = config.cabin.dashboardTopY + .055;
+    const stack = makeBox('Centre stack', [0.34, 0.40, 0.12], [0.13, stackTop - .20, -0.43], interior);
     stack.rotation.x = THREE.MathUtils.degToRad(-5);
     this.add(stack);
 
-    const display = makeBox('Infotainment display', [0.25, 0.13, 0.012], [0.13, 0.78, -0.321], dark);
+    const display = makeBox('Infotainment display', [0.25, 0.10, 0.012], [0.13, stackTop - .13, -0.364], dark);
     display.rotation.x = THREE.MathUtils.degToRad(-5);
     this.add(display);
 
     for (const x of [0.075, 0.185]) {
-      const vent = makeBox('Centre air vent', [0.085, 0.055, 0.014], [x, 0.875, -0.327], dark);
+      const vent = makeBox('Centre air vent', [0.085, 0.038, 0.014], [x, stackTop - .038, -0.36], dark);
       vent.rotation.x = THREE.MathUtils.degToRad(-5);
       this.add(vent);
     }
@@ -318,7 +324,8 @@ export class Cockpit extends THREE.Group {
     satin: THREE.Material,
   ): void {
     const leftX = -config.cabin.width / 2 - 0.025;
-    const upperRail = makeBox('Left door upper rail', [0.09, 0.11, 1.36], [leftX, 0.82, 0.25], softTrim);
+    const beltY = config.cabin.windshieldBottomY;
+    const upperRail = makeBox('Left door upper rail', [0.065, 0.065, 1.55], [leftX, beltY - .018, 0.115], softTrim);
     upperRail.rotation.x = THREE.MathUtils.degToRad(-1.5);
     this.add(upperRail);
 
@@ -330,6 +337,10 @@ export class Cockpit extends THREE.Group {
 
     const handle = makeBox('Left door handle', [0.025, 0.045, 0.2], [leftX + 0.06, 0.7, -0.01], satin);
     this.add(handle);
+    const rightRail = upperRail.clone(); rightRail.name = 'Right door upper rail'; rightRail.position.x = -leftX;
+    const rightCard = doorCard.clone(); rightCard.name = 'Right door card'; rightCard.position.x = -doorCard.position.x;
+    const rightArm = armRest.clone(); rightArm.name = 'Right door armrest'; rightArm.position.x = -armRest.position.x;
+    this.add(rightRail, rightCard, rightArm);
   }
 
   private addWindshieldFrame(
@@ -352,26 +363,18 @@ export class Cockpit extends THREE.Group {
     frame.position.set(0, (bottomY + topY) / 2, (bottomZ + topZ) / 2);
     frame.rotation.x = tilt;
 
-    const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xa8d5df,
-      transparent: true,
-      opacity: 0.085,
-      roughness: 0.06,
-      metalness: 0,
-      transmission: 0.18,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    });
-    const glass = new THREE.Mesh(new THREE.PlaneGeometry(frameWidth - 0.13, glassHeight - 0.07), glassMaterial);
-    glass.name = 'Front windshield glass';
-    glass.renderOrder = 2;
-    frame.add(glass);
-
-    const pillarLength = glassHeight + 0.12;
-    const leftPillar = makeBox('Left A-pillar', [0.07, pillarLength, 0.065], [-frameWidth / 2, 0, 0.005], dark);
-    leftPillar.rotation.z = THREE.MathUtils.degToRad(-4);
-    const rightPillar = makeBox('Right A-pillar', [0.07, pillarLength, 0.065], [frameWidth / 2, 0, 0.005], dark);
-    rightPillar.rotation.z = THREE.MathUtils.degToRad(4);
+    // Exterior owns the one windshield pane. Interior trim follows precisely
+    // the same tapered endpoints instead of overlaying a second wider frame.
+    for (const sign of [-1, 1]) {
+      const from = new THREE.Vector3(sign * (config.cabin.width / 2 - .038), bottomY, bottomZ + .012);
+      const to = new THREE.Vector3(sign * (config.body.roofWidth / 2 - .057), topY, topZ + .012);
+      const direction = to.clone().sub(from);
+      const pillar = new THREE.Mesh(new THREE.CylinderGeometry(.022, .028, direction.length(), 6), dark);
+      pillar.name = sign < 0 ? 'Left A-pillar' : 'Right A-pillar';
+      pillar.position.copy(from).add(to).multiplyScalar(.5);
+      pillar.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+      this.add(pillar);
+    }
     const topRail = makeBox('Windshield header', [frameWidth + 0.03, 0.075, 0.07], [0, glassHeight / 2, 0.005], dark);
     // Keep the lower seal visible without turning it into a thick horizontal
     // bar across the driver's road view. It sits mostly below the glass edge,
@@ -382,7 +385,7 @@ export class Cockpit extends THREE.Group {
       [0, -glassHeight / 2 - 0.012, 0.005],
       dark,
     );
-    frame.add(leftPillar, rightPillar, topRail, lowerRail);
+    frame.add(topRail, lowerRail);
     this.add(frame);
 
     const headliner = makeBox(

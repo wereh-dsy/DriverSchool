@@ -4,15 +4,19 @@ import {
   SPORTS_COUPE_PHYSICS_CONFIG,
   createTest6ATVehiclePhysicsConfig,
   createTest7DCTVehiclePhysicsConfig,
+  createCVTSedanPhysicsConfig,
   type VehiclePhysicsConfig,
 } from './config';
 import {
   DEFAULT_SEDAN_VISUAL_CONFIG,
   SPORTS_COUPE_VISUAL_CONFIG,
+  TEST_6AT_VISUAL_CONFIG,
+  TEST_7DCT_VISUAL_CONFIG,
+  CVT_SEDAN_VISUAL_CONFIG,
   type VehicleVisualConfig,
 } from './visual';
 
-export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan'] as const;
+export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
 
 export interface VehicleCapabilities {
@@ -58,8 +62,8 @@ const TEST_6AT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
   description: '2.0 自然吸气前驱 · 液力蠕行、渐进锁止、六挡自动换挡与 kickdown；复用轿车外观。',
   capabilities: Object.freeze({ cruiseControl: false }),
   physicsConfig: createTest6ATVehiclePhysicsConfig(),
-  visualConfig: { ...DEFAULT_SEDAN_VISUAL_CONFIG, name: '6AT development sedan',
-    body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, color: 0xaab6b9 } },
+  // Central-tachometer face with information wings; see VehicleVisualConfig.
+  visualConfig: TEST_6AT_VISUAL_CONFIG,
 });
 
 const TEST_7DCT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
@@ -67,11 +71,15 @@ const TEST_7DCT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
   description: '涡轮前驱 · 双离合蠕行、奇偶轴预选与快速扭矩交接；齿比为测试标定。',
   capabilities: Object.freeze({ cruiseControl: false }),
   physicsConfig: createTest7DCTVehiclePhysicsConfig(),
-  visualConfig: { ...DEFAULT_SEDAN_VISUAL_CONFIG, name: '7DCT development sedan',
-    body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, color: 0x965f56 } },
+  // Traditional twin-dial face with a monochrome centre display.
+  visualConfig: TEST_7DCT_VISUAL_CONFIG,
 });
 
 const VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = Object.freeze({
+  'cvt-family-sedan': Object.freeze({ id: 'cvt-family-sedan', version: 1, name: '2.0 CVT 家用轿车',
+    description: '2.0L 自然吸气前驱 · 传统钢带 CVT，连续变速与液力起步，无模拟挡位。',
+    capabilities: Object.freeze({ cruiseControl: false }),
+    physicsConfig: createCVTSedanPhysicsConfig(), visualConfig: CVT_SEDAN_VISUAL_CONFIG }),
   'family-sedan': FAMILY_SEDAN_DESCRIPTOR,
   'sport-coupe': SPORTS_COUPE_DESCRIPTOR,
   'test-6at-sedan': TEST_6AT_DESCRIPTOR,

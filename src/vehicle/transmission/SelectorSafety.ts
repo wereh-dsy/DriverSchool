@@ -30,7 +30,12 @@ export class SelectorSafety {
     }
     this.rejectedReason = null;
     let targetGear: Gear = mode === 'R' ? 'R' : 'N';
-    if (mode === 'D') {
+    if (mode === 'D' && this.gearbox.config.type === 'CVT') {
+      const minimumRPM = Math.abs(speed) / Math.max(.01, this.wheelRadius) *
+        this.gearbox.config.finalDriveRatio * (this.gearbox.config.cvt?.minimumRatio ?? 1) * 60 / (2 * Math.PI);
+      if (minimumRPM > this.maximumSafeInputRPM) { this.rejectedReason = 'drive-over-speed'; return false; }
+      targetGear = 1; // Direction/drive marker only; CVT never uses this as a physical ratio.
+    } else if (mode === 'D') {
       // Rolling N -> D must not select launch gear and over-speed the crank.
       // Pick a gentle cruise ratio; the normal shift map can kick down later.
       const wheelOmega = Math.abs(speed) / Math.max(0.01, this.wheelRadius);

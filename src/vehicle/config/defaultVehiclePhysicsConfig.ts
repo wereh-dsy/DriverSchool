@@ -16,6 +16,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   centerOfMassLongitudinalOffset: 0,
   yawInertia: 2_500,
   drivetrainType: 'FWD',
+  differentialType: 'open',
   frontTorqueSplit: 1,
   rearTorqueSplit: 0,
   drivetrainLayout: 'FWD',
@@ -161,6 +162,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     liftCoefficientRear: 0.06,
   },
   tires: {
+    loadSensitivity: 0.06,
     wheelInertia: 1.2,
     rollingResistance: 0.012,
     longitudinalGrip: 0.9,
@@ -224,6 +226,10 @@ export function cloneVehiclePhysicsConfig(
     ...config,
     engine: {
       ...config.engine,
+      turbo: config.engine.turbo === undefined ? undefined : {
+        ...config.engine.turbo,
+        baseTorqueCurve: config.engine.turbo.baseTorqueCurve.map((point) => ({ ...point })),
+      },
       revHang: config.engine.revHang === undefined ? undefined : { ...config.engine.revHang },
       shiftRecommendation: {
         ...config.engine.shiftRecommendation,
@@ -249,6 +255,12 @@ export function cloneVehiclePhysicsConfig(
           map: config.transmission.dct.shiftStrategy.map.map((point) => ({ ...point })),
           minimumUpshiftSpeeds: [...config.transmission.dct.shiftStrategy.minimumUpshiftSpeeds],
           gearRPMCorrections: config.transmission.dct.shiftStrategy.gearRPMCorrections?.slice() },
+      },
+      cvt: config.transmission.cvt === undefined ? undefined : {
+        ...config.transmission.cvt,
+        targetRPMCurve: config.transmission.cvt.targetRPMCurve.map(point => ({ ...point })),
+        converter: { ...config.transmission.cvt.converter,
+          torqueRatioCurve: config.transmission.cvt.converter.torqueRatioCurve.map(point => ({ ...point })) },
       },
     },
     clutch: { ...config.clutch },
