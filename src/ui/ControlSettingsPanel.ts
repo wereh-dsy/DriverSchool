@@ -122,7 +122,7 @@ export class ControlSettingsPanel {
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>标准手柄</span><small>统一车辆输入</small></div>
-            <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑：关→示宽→近光→远光 · ↓：双闪<br>A：驻车制动 · X：GT 定速巡航 · Y：前后雾灯 · B：预留<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
+            <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑：关→示宽→近光→远光 · ↓：双闪<br>A：驻车制动 · X：GT/自动挡定速巡航（键盘 V） · Y：前后雾灯 · B：预留<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
             <label><input type="checkbox" data-vibration aria-label="Controller Vibration"> Controller Vibration · 手柄震动</label>
           </section>
           <section class="settings-group keyboard-settings">

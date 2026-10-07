@@ -318,6 +318,8 @@ export class VehicleVisual {
 
   private buildWheels(): readonly [THREE.Group, THREE.Group] {
     const sport = this.config.body.profile === 'sport-coupe';
+    const design = this.config.body.design;
+    const rimFraction = design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
     const tyreMaterial = new THREE.MeshStandardMaterial({
       color: 0x111214,
       roughness: 0.88,
@@ -341,8 +343,8 @@ export class VehicleVisual {
     );
     tyreGeometry.rotateZ(Math.PI / 2);
     const rimGeometry = new THREE.CylinderGeometry(
-      this.config.wheelRadius * (sport ? 0.64 : 0.59),
-      this.config.wheelRadius * (sport ? 0.64 : 0.59),
+      this.config.wheelRadius * rimFraction,
+      this.config.wheelRadius * rimFraction,
       this.config.dimensions.wheelWidth * 0.94,
       sport ? 20 : 16,
       1,
@@ -364,7 +366,7 @@ export class VehicleVisual {
     );
     hubGeometry.rotateZ(Math.PI / 2);
     const rimLipGeometry = new THREE.TorusGeometry(
-      this.config.wheelRadius * (sport ? 0.57 : 0.52),
+      this.config.wheelRadius * (rimFraction - .07),
       0.012,
       6,
       sport ? 20 : 16,
@@ -372,7 +374,7 @@ export class VehicleVisual {
     rimLipGeometry.rotateY(Math.PI / 2);
     const spokeGeometry = new THREE.BoxGeometry(
       this.config.dimensions.wheelWidth * 0.96,
-      sport ? 0.024 : 0.028,
+      design === 'comfort' ? .045 : design === 'flow' ? .019 : sport ? .024 : .028,
       this.config.wheelRadius * (sport ? 0.42 : 0.38),
     );
     spokeGeometry.translate(0, 0, this.config.wheelRadius * (sport ? 0.27 : 0.25));
@@ -408,11 +410,13 @@ export class VehicleVisual {
         wheel.add(lip);
       }
 
-      const spokeCount = sport ? 5 : 6;
+      const spokeCount = design === 'flow' ? 10 : design === 'formal' ? 5 : design === 'comfort' ? 7 : sport ? 5 : 6;
       for (let spokeIndex = 0; spokeIndex < spokeCount; spokeIndex += 1) {
         const spoke = new THREE.Mesh(spokeGeometry, rimMaterial);
         spoke.name = sport ? 'Sports wheel spoke' : 'Sedan wheel spoke';
-        spoke.rotation.x = spokeIndex / spokeCount * Math.PI * 2;
+        spoke.rotation.x = design === 'flow'
+          ? Math.floor(spokeIndex / 2) / 5 * Math.PI * 2 + (spokeIndex % 2 === 0 ? -.08 : .08)
+          : spokeIndex / spokeCount * Math.PI * 2;
         wheel.add(spoke);
       }
       pivot.add(wheel);
@@ -508,8 +512,23 @@ export class VehicleVisual {
     const sign = side === 'left' ? -1 : 1;
     const mount = new THREE.Vector3(...(mirrorConfig.mountPosition ?? [sign * this.config.vehicleWidth * .48,
       this.config.cabin.windshieldBottomY + .04, this.config.cabin.windshieldBottomZ + .065]));
+    // Attach the sail to the actual upper front-door skin, rather than a
+    // width-based point suspended outside the tapered body. Optical glass
+    // position/orientation remains exactly the configured reflective plane.
+    const label = side === 'left' ? 'Left' : 'Right';
+    const door = (this.exteriorRoot.getObjectByName(`${label} front door`)
+      ?? this.exteriorRoot.getObjectByName(`${label} coupe door`)) as THREE.Mesh | undefined;
+    if (door !== undefined) {
+      const vertices = door.geometry.getAttribute('position');
+      let closestZ = Infinity, topY = -Infinity, edgeX = mount.x;
+      for (let i = 2; i < vertices.count; i += 3) {
+        const distance = Math.abs(vertices.getZ(i) - mount.z);
+        if (distance < closestZ) { closestZ = distance; topY = vertices.getY(i); edgeX = vertices.getX(i); }
+      }
+      if (Number.isFinite(topY)) { mount.x = edgeX + sign * .004; mount.y = topY + .06; }
+    }
     const sailShape = new THREE.Shape();
-    sailShape.moveTo(-.07, -.035); sailShape.lineTo(.065, -.035); sailShape.lineTo(-.04, .09); sailShape.closePath();
+    sailShape.moveTo(-.07, -.09); sailShape.lineTo(.065, -.09); sailShape.lineTo(-.04, .09); sailShape.closePath();
     const sail = new THREE.Mesh(new THREE.ExtrudeGeometry(sailShape,
       { depth: .035, bevelEnabled: false, steps: 1 }), housingMaterial);
     sail.name = `${side} door mirror sail mount`;

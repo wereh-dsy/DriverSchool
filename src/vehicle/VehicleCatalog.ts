@@ -58,27 +58,27 @@ const SPORTS_COUPE_DESCRIPTOR: VehicleDescriptor = Object.freeze({
 });
 
 const TEST_6AT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
-  id: 'test-6at-sedan', version: 1, name: '6AT 测试轿车',
-  description: '2.0 自然吸气前驱 · 液力蠕行、渐进锁止、六挡自动换挡与 kickdown；复用轿车外观。',
-  capabilities: Object.freeze({ cruiseControl: false }),
+  id: 'test-6at-sedan', version: 2, name: '6AT 测试轿车',
+  description: '2.0 自然吸气前驱 · 流线低鼻车身、灵活转向、偏运动底盘与平顺六挡自动变速。',
+  capabilities: Object.freeze({ cruiseControl: true }),
   physicsConfig: createTest6ATVehiclePhysicsConfig(),
   // Central-tachometer face with information wings; see VehicleVisualConfig.
   visualConfig: TEST_6AT_VISUAL_CONFIG,
 });
 
 const TEST_7DCT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
-  id: 'test-7dct-sedan', version: 1, name: '7DCT 测试轿车',
-  description: '涡轮前驱 · 双离合蠕行、奇偶轴预选与快速扭矩交接；齿比为测试标定。',
-  capabilities: Object.freeze({ cruiseControl: false }),
+  id: 'test-7dct-sedan', version: 2, name: '7DCT 测试轿车',
+  description: '1.4T 涡轮前驱 · 方正三厢、稳定底盘、低中转速扭矩与快速七挡双离合。',
+  capabilities: Object.freeze({ cruiseControl: true }),
   physicsConfig: createTest7DCTVehiclePhysicsConfig(),
   // Traditional twin-dial face with a monochrome centre display.
   visualConfig: TEST_7DCT_VISUAL_CONFIG,
 });
 
 const VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = Object.freeze({
-  'cvt-family-sedan': Object.freeze({ id: 'cvt-family-sedan', version: 1, name: '2.0 CVT 家用轿车',
-    description: '2.0L 自然吸气前驱 · 传统钢带 CVT，连续变速与液力起步，无模拟挡位。',
-    capabilities: Object.freeze({ cruiseControl: false }),
+  'cvt-family-sedan': Object.freeze({ id: 'cvt-family-sedan', version: 2, name: '2.0 CVT 家用轿车',
+    description: '2.0L 自然吸气前驱 · 圆润三厢、舒适悬挂、柔和踏板与钢带无级变速，无模拟挡位。',
+    capabilities: Object.freeze({ cruiseControl: true }),
     physicsConfig: createCVTSedanPhysicsConfig(), visualConfig: CVT_SEDAN_VISUAL_CONFIG }),
   'family-sedan': FAMILY_SEDAN_DESCRIPTOR,
   'sport-coupe': SPORTS_COUPE_DESCRIPTOR,

@@ -267,6 +267,7 @@ export class DrivingGame {
         speedMetersPerSecond: this.snapshot.speed,
         engineRunning: this.snapshot.engineRunning,
         gear: this.snapshot.gear,
+        driveSelector: this.snapshot.transmission.selectedMode ?? undefined,
       });
       this.reportCruiseControlEvent();
 

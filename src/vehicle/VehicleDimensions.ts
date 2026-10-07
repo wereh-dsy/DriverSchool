@@ -26,6 +26,20 @@ export const SPORT_COUPE_DIMENSIONS: VehicleDimensions = Object.freeze({
   wheelRadius: 0.335, wheelWidth: 0.255,
 });
 
+/** Independent automatic saloon envelopes, shared by physics and all visuals. */
+export const FLOW_6AT_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.58, width: 1.795, height: 1.49, wheelBase: 2.7,
+  frontTrackWidth: 1.555, rearTrackWidth: 1.555, wheelRadius: .318, wheelWidth: .215,
+});
+export const FORMAL_DCT_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.67, width: 1.8, height: 1.50, wheelBase: 2.73,
+  frontTrackWidth: 1.54, rearTrackWidth: 1.535, wheelRadius: .316, wheelWidth: .205,
+});
+export const COMFORT_CVT_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.65, width: 1.82, height: 1.515, wheelBase: 2.71,
+  frontTrackWidth: 1.585, rearTrackWidth: 1.585, wheelRadius: .316, wheelWidth: .215,
+});
+
 /** A wheel centre, not its ground sample. The latter shares x/z and supplies ground height. */
 export function wheelLocalPosition(
   dimensions: Pick<VehicleDimensions, 'wheelBase' | 'frontTrackWidth' | 'rearTrackWidth'>

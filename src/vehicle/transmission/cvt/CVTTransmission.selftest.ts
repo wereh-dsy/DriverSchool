@@ -14,7 +14,10 @@ export function runCVTSelfTest() {
     assert(!car.requestDriveSelector('D', 0), 'brake interlock');
     assert(car.requestDriveSelector('D', 1), 'select drive');
     let last = car.getSnapshot();
-    for (let i = 0; i < 1200; i++) {
+    // Comfort calibration feeds torque in more gently: allow twelve seconds
+    // at light pedal to leave the launch ratio, without weakening the checks.
+    const steps = throttle < .5 ? 1440 : 1200;
+    for (let i = 0; i < steps; i++) {
       const s = car.stepFixed(1/120, { ...input, throttle });
       const ratio = s.transmission.cvt!.ratio;
       assert(Number.isFinite(s.speed) && s.engineRunning && Number.isFinite(s.rpm), 'finite, running engine');

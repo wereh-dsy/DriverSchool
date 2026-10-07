@@ -7,6 +7,8 @@ export interface InstrumentIndicatorState {
   readonly headlights?: boolean;
   readonly highBeam?: boolean;
   readonly fogLights?: boolean;
+  readonly frontFogLights?: boolean;
+  readonly rearFogLights?: boolean;
   readonly leftTurn?: boolean;
   readonly rightTurn?: boolean;
   readonly parkingBrake?: boolean;
@@ -15,7 +17,7 @@ export interface InstrumentIndicatorState {
   readonly tcsOff?: boolean;
   readonly engineWarning?: boolean;
   readonly batteryWarning?: boolean;
-  /** Sports-car cruise status; the classic sedan face intentionally omits it. */
+  /** Active cruise state shared by all equipped vehicle faces. */
   readonly cruise?: boolean;
   /** Compatibility input for external HUDs; physical clusters do not render it. */
   readonly upshift?: boolean;
@@ -625,13 +627,15 @@ const instrumentStatusLamps = (
   ['P', state.parkingBrake, '#ff4e4e'],
   ['LO', state.headlights === true && state.highBeam !== true, '#72e58a'],
   ['HI', state.highBeam, '#559dff'],
-  ['POS', state.positionLights === true && state.headlights !== true && state.highBeam !== true, '#72e58a'],
-  ['FOG', state.fogLights, '#e5bc54'],
+  ['POS', state.positionLights, '#72e58a'],
+  ['FRFOG', state.frontFogLights ?? state.fogLights, '#72e58a'],
+  ['RRFOG', state.rearFogLights ?? state.fogLights, '#e5bc54'],
   ['ENG', state.engineWarning, '#ffc247'],
   ['BAT', state.batteryWarning, '#ff4e4e'],
   ['ABS', state.absWarning, '#ffc247'],
   ['SKID', state.tcsActive, '#ffc247'],
   ['TCS OFF', state.tcsOff, '#ffc247'],
+  ['CRUISE', state.cruise, '#72e58a'],
   ['▶', state.rightTurn, '#5aff71'],
 ];
 
@@ -645,28 +649,63 @@ const drawStatusLamp = (
   y: number,
   fontSize: number,
 ): void => {
-  if (label === 'SKID') {
-    context.save(); context.translate(x, y); context.scale(fontSize / 24, fontSize / 24);
-    context.strokeStyle = color; context.lineWidth = 2.2;
-    context.beginPath(); context.moveTo(-8, 2); context.lineTo(-7, -8); context.lineTo(-4, -12);
-    context.lineTo(4, -12); context.lineTo(7, -8); context.lineTo(8, 2); context.closePath();
-    context.moveTo(-5, -7); context.lineTo(5, -7);
-    for (const side of [-1, 1]) {
-      context.moveTo(side * 5, 4); context.bezierCurveTo(side * 9, 7, side * 1, 10, side * 5, 13);
-    }
-    context.stroke(); context.restore(); return;
+  context.save(); context.translate(x,y); context.scale(fontSize/24,fontSize/24);
+  context.strokeStyle=color; context.fillStyle=color; context.lineWidth=1.9;
+  context.lineJoin='round'; context.lineCap='round'; context.shadowColor=color; context.shadowBlur=4;
+  const path = (points: readonly (readonly [number,number])[], close=false): void => {
+    context.beginPath(); context.moveTo(...points[0]!); points.slice(1).forEach(p=>context.lineTo(...p));
+    if(close) context.closePath(); context.stroke();
+  };
+  const bulb = (rear=false, dipped=false, fog=false): void => {
+    context.save(); if(rear) context.scale(-1,1);
+    context.beginPath(); context.moveTo(0,-8); context.bezierCurveTo(12,-7,12,7,0,8); context.closePath(); context.stroke();
+    for(const y of [-6,0,6]) path([[-13,y+(dipped?4:0)],[-4,y]]);
+    if(fog) { context.beginPath(); context.moveTo(-8,-10); context.bezierCurveTo(-4,-5,-12,0,-8,5);
+      context.bezierCurveTo(-4,8,-9,10,-8,12); context.stroke(); }
+    context.restore();
+  };
+  if(label==='◀' || label==='▶') {
+    context.save(); if(label==='▶') context.scale(-1,1);
+    path([[-12,0],[-2,-9],[-2,-4],[11,-4],[11,4],[-2,4],[-2,9]],true); context.fill(); context.restore();
+  } else if(label==='HI' || label==='HIGH') bulb();
+  else if(label==='LO' || label==='LOW') bulb(false,true);
+  else if(label==='FRFOG') bulb(false,true,true);
+  else if(label==='RRFOG') bulb(true,false,true);
+  else if(label==='FOG') {
+    context.save(); context.translate(-7,0); context.scale(.6,.6); context.strokeStyle='#72e58a'; bulb(false,true,true); context.restore();
+    context.save(); context.translate(7,0); context.scale(.6,.6); context.strokeStyle='#e5bc54'; bulb(true,false,true); context.restore();
+  } else if(label==='POS') {
+    for(const sign of [-1,1]) { context.save(); context.scale(sign*.6,.8); context.translate(8,0); bulb(); context.restore(); }
+  } else if(label==='ENG' || label==='ENGINE') {
+    path([[-12,-5],[-6,-5],[-6,-9],[4,-9],[4,-5],[9,-5],[12,-1],[12,6],[8,6],[5,10],[-6,10],[-6,5],[-12,5]],true);
+    path([[-1,-9],[-1,-12],[5,-12]]); path([[-15,-4],[-15,5]]);
+  } else if(label==='BAT') {
+    context.strokeRect(-12,-7,24,16); context.strokeRect(-9,-10,5,3); context.strokeRect(4,-10,5,3);
+    path([[-8,1],[-3,1]]); path([[4,1],[9,1]]); path([[6.5,-1.5],[6.5,3.5]]);
+  } else if(label==='CRUISE') {
+    context.beginPath(); context.arc(0,1,10,Math.PI*.9,Math.PI*2.1); context.stroke();
+    for(const angle of [Math.PI,Math.PI*1.25,Math.PI*1.5,Math.PI*1.75,Math.PI*2])
+      path([[Math.cos(angle)*8,1+Math.sin(angle)*8],[Math.cos(angle)*6,1+Math.sin(angle)*6]]);
+    path([[0,1],[5,-4]]); path([[-4,8],[10,8],[7,5]]); path([[10,8],[7,11]]);
+  } else if(label==='SKID' || label==='TCS OFF') {
+    path([[-8,1],[-7,-8],[-4,-12],[4,-12],[7,-8],[8,1]],true); path([[-5,-7],[5,-7]]);
+    for(const side of [-1,1]) { context.beginPath(); context.moveTo(side*5,3);
+      context.bezierCurveTo(side*9,5,side*1,7,side*5,9); context.stroke(); }
+    if(label==='TCS OFF') { context.font='bold 8px Arial'; context.textAlign='center'; context.fillText('OFF',0,15); }
+  } else if(label==='P' || label==='PARK' || label==='ABS') {
+    context.beginPath(); context.arc(0,0,9,0,Math.PI*2); context.stroke();
+    context.beginPath(); context.arc(0,0,13,Math.PI*.77,Math.PI*1.23); context.stroke();
+    context.beginPath(); context.arc(0,0,13,-Math.PI*.23,Math.PI*.23); context.stroke();
+    context.font=`bold ${label==='ABS'?8:14}px Arial`; context.textAlign='center'; context.textBaseline='middle';
+    context.fillText(label==='ABS'?'ABS':'P',0,.5);
   }
-  context.font = `700 ${fontSize}px Arial, sans-serif`;
-  context.fillStyle = color;
-  context.shadowColor = color;
-  context.shadowBlur = 13;
-  context.fillText(label, x, y);
+  context.restore();
 };
 
 /**
  * Compact two-row status lamp panel for the narrower 6AT wing and 7DCT centre
- * display. Only currently meaningful lamps are drawn, and the rows are fixed
- * so a changing lamp count can never reflow the primary readouts above them.
+ * display. Allocate slots from the full inventory, never the active subset.
+ * Switching a lamp changes brightness only; no active-count reflow.
  */
 const drawCompactStatusLamps = (
   context: CanvasRenderingContext2D,
@@ -675,38 +714,24 @@ const drawCompactStatusLamps = (
   y: number,
   width: number,
   height: number,
+  labels?: readonly string[],
 ): void => {
   context.save();
   context.fillStyle = STATUS_LAMP_STROKE;
   drawBeveledPanel(context, x, y, width, height, 9);
   context.fill();
 
-  const lamps = instrumentStatusLamps(state).filter(([, active]) => active === true);
-  if (lamps.length === 0) {
-    context.restore();
-    return;
-  }
-  const rows: readonly (readonly StatusLamp[])[] = [
-    lamps.slice(0, 5),
-    lamps.slice(5),
-  ];
-  const rowHeight = height / 2;
-  const fontSize = Math.max(11, Math.min(19, Math.floor(width / 12)));
+  const lamps = labels === undefined ? instrumentStatusLamps(state)
+    : labels.map(label => instrumentStatusLamps(state).find(lamp => lamp[0]===label)!);
+  const columns = Math.min(7,lamps.length), rows = Math.ceil(lamps.length/columns);
+  const rowHeight = height / rows;
+  const fontSize = Math.min(26,rowHeight*.8,width/columns*.72);
   context.textAlign = 'center';
   context.textBaseline = 'middle';
-  rows.forEach((row, rowIndex) => {
-    if (row.length === 0) return;
-    const spacing = width / row.length;
-    row.forEach(([label, , color], index) => {
-      drawStatusLamp(
-        context,
-        label,
-        color,
-        x + spacing * (index + 0.5),
-        y + rowHeight * (rowIndex + 0.5),
-        fontSize,
-      );
-    });
+  lamps.forEach(([label,active,color],index) => {
+    if(active!==true) return;
+    drawStatusLamp(context,label,color,x+width/columns*(index%columns+.5),
+      y+rowHeight*(Math.floor(index/columns)+.5),fontSize);
   });
   context.shadowBlur = 0;
   context.restore();
@@ -730,7 +755,7 @@ const drawCx4LeftWing = (
 
   context.fillStyle = '#828b90';
   context.font = '700 19px Arial, sans-serif';
-  context.fillText('GEAR', width / 2, 46);
+  context.fillText('GEAR', width / 2, 54);
 
   // In D the large glyph is the engaged ratio, so this wing never shows a
   // bare "D" while the driver wants to know which ratio is actually in use.
@@ -770,7 +795,8 @@ const drawCx4LeftWing = (
   }
 
   // Reuses the sedan's lamp conditions and colours in a compact panel.
-  drawCompactStatusLamps(context, indicators, 20, 262, width - 40, 44);
+  drawCompactStatusLamps(context, indicators,20,14,width-40,26,['◀','P','ABS']);
+  drawCompactStatusLamps(context, indicators,20,268,width-40,28,['ENG','BAT','SKID','TCS OFF']);
 
   context.fillStyle = '#6d7579';
   context.font = '700 17px Arial, sans-serif';
@@ -784,6 +810,7 @@ const drawCx4LeftWing = (
 const drawCx4RightWing = (
   fuelLevel: number,
   temperatureC: number,
+  indicators: InstrumentIndicatorState = {},
 ): HTMLCanvasElement => {
   const width = 240;
   const height = 400;
@@ -792,6 +819,8 @@ const drawCx4RightWing = (
   if (context === null) return canvas;
   context.clearRect(0, 0, width, height);
   drawWingBody(context, width, height, '#15181b', '#08090a');
+  drawCompactStatusLamps(context,indicators,20,14,width-40,26,['POS','LO','HI']);
+  drawCompactStatusLamps(context,indicators,20,304,width-40,28,['FRFOG','RRFOG','CRUISE','▶']);
   const barX = 30;
   const barWidth = width - 60;
 
@@ -1383,6 +1412,7 @@ export class InstrumentCluster extends THREE.Group {
       indicators.highBeam,
       indicators.positionLights,
       indicators.fogLights,
+      indicators.frontFogLights, indicators.rearFogLights,
       indicators.parkingBrake,
       indicators.engineWarning,
       indicators.batteryWarning,
@@ -1585,7 +1615,7 @@ export class InstrumentCluster extends THREE.Group {
       leftContext.drawImage(leftArtwork, 0, 0);
     }
     const rightContext = this.cx4RightCanvas?.getContext('2d') ?? null;
-    const rightArtwork = drawCx4RightWing(fuelLevel, temperatureC);
+    const rightArtwork = drawCx4RightWing(fuelLevel, temperatureC, indicators);
     if (rightContext !== null && this.cx4RightCanvas !== null) {
       rightContext.clearRect(0, 0, this.cx4RightCanvas.width, this.cx4RightCanvas.height);
       rightContext.drawImage(rightArtwork, 0, 0);
@@ -1997,6 +2027,7 @@ export class InstrumentCluster extends THREE.Group {
       state.highBeam,
       state.positionLights,
       state.fogLights,
+      state.frontFogLights, state.rearFogLights,
       state.parkingBrake,
       state.engineWarning,
       state.batteryWarning,
@@ -2009,25 +2040,6 @@ export class InstrumentCluster extends THREE.Group {
     context: CanvasRenderingContext2D,
     state: InstrumentIndicatorState,
   ): void {
-    const lamps = instrumentStatusLamps(state).filter(([, active]) => active === true);
-
-    context.fillStyle = STATUS_LAMP_STROKE;
-    context.fillRect(10, 10, this.informationCanvas.width - 20, 62);
-    if (lamps.length === 0) return;
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    const usableWidth = this.informationCanvas.width - 32;
-    const spacing = usableWidth / lamps.length;
-    lamps.forEach(([label, , color], index) => {
-      drawStatusLamp(
-        context,
-        label,
-        color,
-        16 + spacing * (index + 0.5),
-        41,
-        label.length >= 3 ? 28 : 36,
-      );
-    });
-    context.shadowBlur = 0;
+    drawCompactStatusLamps(context,state,16,10,this.informationCanvas.width-32,62);
   }
 }

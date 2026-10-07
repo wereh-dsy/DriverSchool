@@ -11,6 +11,16 @@ const bodyHalfLength = (config: VehicleVisualConfig): number =>
 const bodyHalfWidth = (config: VehicleVisualConfig): number =>
   (config.dimensions.width - 0.01) * 0.5;
 
+const roofRearZ = (config: VehicleVisualConfig): number => config.body.design === undefined
+  ? config.body.profile === 'sport-coupe' ? .69 : .84
+  : config.body.roofCenterZ + config.body.roofLength * .5;
+const rearGlassBottomZ = (config: VehicleVisualConfig): number => config.body.design === undefined
+  ? config.body.profile === 'sport-coupe' ? 1.17 : 1.04
+  : bodyHalfLength(config) - config.body.trunkLength - .06;
+const pillarBZ = (config: VehicleVisualConfig): number => config.body.design === 'flow' ? .20
+  : config.body.design === 'formal' ? .34 : config.body.design === 'comfort' ? .25
+  : config.body.profile === 'sport-coupe' ? .27 : .31;
+
 interface BodyStation {
   readonly z: number;
   readonly bottomY: number;
@@ -305,9 +315,9 @@ const addCabinGlazingAndPillars = (
   const side = cabin.width * 0.5 + 0.018;
   const topHalfWidth = body.roofWidth * 0.5 - 0.045;
   const windscreenBottomHalfWidth = cabin.width * 0.5 - 0.025;
-  const rearGlassBottomZ = sport ? 1.17 : 1.04;
-  const rearGlassTopZ = sport ? 0.62 : 0.79;
-  const rearGlassBottomY = sport ? 0.73 : 0.82;
+  const glassBottomZ = rearGlassBottomZ(config);
+  const rearGlassTopZ = body.design === undefined ? sport ? .62 : .79 : roofRearZ(config) - .05;
+  const rearGlassBottomY = body.design === undefined ? sport ? .73 : .82 : body.trunkDeckY + .035;
   const rearGlassTopY = cabin.roofY - 0.055;
 
   const frontBottomLeft = new THREE.Vector3(-windscreenBottomHalfWidth, cabin.windshieldBottomY, cabin.windshieldBottomZ);
@@ -329,8 +339,8 @@ const addCabinGlazingAndPillars = (
   windshield.renderOrder = 2;
   root.add(windshield);
 
-  const rearBottomLeft = new THREE.Vector3(-windscreenBottomHalfWidth * 0.95, rearGlassBottomY, rearGlassBottomZ);
-  const rearBottomRight = new THREE.Vector3(windscreenBottomHalfWidth * 0.95, rearGlassBottomY, rearGlassBottomZ);
+  const rearBottomLeft = new THREE.Vector3(-windscreenBottomHalfWidth * 0.95, rearGlassBottomY, glassBottomZ);
+  const rearBottomRight = new THREE.Vector3(windscreenBottomHalfWidth * 0.95, rearGlassBottomY, glassBottomZ);
   const rearTopLeft = new THREE.Vector3(-topHalfWidth, rearGlassTopY, rearGlassTopZ);
   const rearTopRight = new THREE.Vector3(topHalfWidth, rearGlassTopY, rearGlassTopZ);
   const rearWindow = createMesh(
@@ -368,11 +378,12 @@ const addCabinGlazingAndPillars = (
     const rearLow: QuadPoint = {
       x: outwardX,
       y: rearGlassBottomY + 0.01,
-      z: rearGlassBottomZ - 0.05,
+      z: glassBottomZ - 0.05,
     };
-    const middleLow = new THREE.Vector3(outwardX, sport ? 0.8 : 0.83, sport ? 0.27 : 0.31);
+    const beltY = body.design === undefined ? sport ? .8 : .83 : cabin.windshieldBottomY + .025;
+    const middleLow = new THREE.Vector3(outwardX, beltY, pillarBZ(config));
     const middleHigh = new THREE.Vector3(direction * topHalfWidth,
-      THREE.MathUtils.lerp(cabin.windshieldTopY, rearGlassTopY, 0.58), sport ? 0.21 : 0.29);
+      THREE.MathUtils.lerp(cabin.windshieldTopY, rearGlassTopY, 0.58), pillarBZ(config) - (sport ? .06 : .02));
     const frontMiddleLow = middleLow.clone();
     const frontMiddleHigh = middleHigh.clone();
     const rearMiddleLow = middleLow.clone();
@@ -424,11 +435,11 @@ const addCabinGlazingAndPillars = (
     );
     root.add(beltline);
 
-    const bPillarZ = sport ? 0.27 : 0.31;
+    const bPillarZ = pillarBZ(config);
     const upperY = THREE.MathUtils.lerp(cabin.windshieldTopY, rearGlassTopY, 0.52);
     root.add(createBeam(
       `${direction < 0 ? 'Left' : 'Right'} B-pillar exterior`,
-      new THREE.Vector3(outwardX, sport ? 0.8 : 0.83, bPillarZ),
+      new THREE.Vector3(outwardX, beltY, bPillarZ),
       new THREE.Vector3(direction * topHalfWidth, upperY, bPillarZ - (sport ? 0.06 : 0.02)),
       sport ? 0.027 : 0.038,
       materials.trim,
@@ -444,7 +455,7 @@ const addRoof = (
   const { body, cabin } = config;
   const sport = body.profile === 'sport-coupe';
   const roofFront = cabin.windshieldTopZ - 0.04;
-  const roofRear = sport ? 0.69 : 0.84;
+  const roofRear = roofRearZ(config);
   const halfWidth = body.roofWidth * 0.5;
   const stations: BodyStation[] = [
     {
@@ -462,7 +473,7 @@ const addRoof = (
       lowerHalfWidth: halfWidth * 0.92,
       shoulderY: cabin.roofY - 0.01,
       shoulderHalfWidth: halfWidth,
-      topY: cabin.roofY + (sport ? 0.028 : 0.035),
+      topY: cabin.roofY + (body.design === 'formal' ? .02 : sport ? .028 : .035),
       topHalfWidth: halfWidth * 0.8,
     },
     {
@@ -490,7 +501,8 @@ const addSedanDetails = (
 ): void => {
   const halfLength = bodyHalfLength(config);
   const halfWidth = bodyHalfWidth(config);
-  const hoodFront = -halfLength + 0.24;
+  const hoodFront = config.body.design === undefined ? -halfLength + .24
+    : Math.max(-halfLength + .18, config.cabin.windshieldBottomZ - .1 - config.body.hoodLength);
   const hoodRear = config.cabin.windshieldBottomZ - 0.1;
   root.add(createMesh(
     'Sedan sculpted bonnet',
@@ -510,7 +522,7 @@ const addSedanDetails = (
   root.add(createMesh(
     'Sedan boot lid',
     createTaperedPanelGeometry(
-      1.06,
+      config.body.design === undefined ? 1.06 : rearGlassBottomZ(config) + .025,
       halfLength - 0.14,
       halfWidth * 0.87,
       halfWidth * 0.82,
@@ -522,6 +534,9 @@ const addSedanDetails = (
     'trunk',
   ));
 
+  if (config.body.design !== undefined) {
+    addAutomaticFascia(root, config, materials);
+  } else {
   const grille = createMesh(
     'Sedan chrome framed grille',
     new THREE.CapsuleGeometry(0.095, 0.48, 4, 12),
@@ -562,12 +577,14 @@ const addSedanDetails = (
     tailLamp.castShadow = false;
     root.add(tailLamp);
   }
+  }
 
   // Quiet brightwork and panel breaks make the family car read as a real
   // four-door saloon without adding expensive high-resolution geometry.
   for (const side of [-1, 1] as const) {
     const sideX = side * (halfWidth - 0.008);
-    for (const z of [0.3, 1.015]) {
+    for (const z of [config.body.design === undefined ? .3 : pillarBZ(config),
+      config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055]) {
       const sideStation = sampleStation(createSedanStations(config), z);
       const lowerX = side * stationHalfWidthAtY(sideStation, 0.39);
       const upperX = side * stationHalfWidthAtY(sideStation, 0.78);
@@ -607,6 +624,55 @@ const sampleStation = (stations: readonly BodyStation[], z: number): BodyStation
   };
 };
 
+/** A few silhouette-defining surfaces, not badges or cosmetic model clutter. */
+const addAutomaticFascia = (root: THREE.Group, config: VehicleVisualConfig, materials: ExteriorMaterials): void => {
+  const theme = config.body.design!;
+  const halfLength = bodyHalfLength(config);
+  const halfWidth = bodyHalfWidth(config);
+  const face = (name: string, points: readonly (readonly [number, number])[], z: number,
+    material: THREE.Material, category: string, front: boolean): THREE.Mesh => {
+    const shape = new THREE.Shape(); shape.moveTo(points[0]![0], points[0]![1]);
+    points.slice(1).forEach(([x, y]) => shape.lineTo(x, y)); shape.closePath();
+    const geometry = new THREE.ShapeGeometry(shape);
+    if (front) geometry.rotateY(Math.PI);
+    geometry.translate(0, 0, z);
+    const mesh = createMesh(name, geometry, material, category); root.add(mesh); return mesh;
+  };
+  if (theme === 'flow') {
+    face('Flow tapered shield grille', [[-.48,.55],[.48,.55],[.41,.36],[.24,.30],[-.24,.30],[-.41,.36]],
+      -halfLength-.006, materials.trim, 'grille', true);
+  } else if (theme === 'formal') {
+    face('Formal horizontal grille', [[-.50,.60],[.50,.60],[.50,.44],[-.50,.44]],
+      -halfLength-.006, materials.trim, 'grille', true);
+    for (const y of [.47,.52,.57]) face('Horizontal grille bar', [[-.48,y],[.48,y],[.48,y+.012],[-.48,y+.012]],
+      -halfLength-.007, materials.chrome, 'grille', true);
+  } else {
+    face('Comfort trapezoid grille', [[-.45,.60],[.45,.60],[.30,.33],[-.30,.33]],
+      -halfLength-.006, materials.trim, 'grille', true);
+    for (const sign of [-1,1]) face('Comfort V grille surround', [[sign*.47,.62],[sign*.43,.62],[sign*.28,.35],[sign*.32,.35]],
+      -halfLength-.007, materials.chrome, 'grille', true);
+  }
+  for (const sign of [-1,1] as const) {
+    const x = sign * halfWidth * .66;
+    const h = theme === 'flow' ? .065 : theme === 'formal' ? .09 : .13;
+    const y = theme === 'flow' ? .595 : theme === 'formal' ? .675 : .655;
+    const w = theme === 'formal' ? .205 : .225;
+    const head = createMesh(`${sign < 0 ? 'Left' : 'Right'} swept sedan headlamp`, createQuadGeometry([
+      {x:x-w,y:y-h*.5,z:-halfLength-.008}, {x:x+w,y:y-h*.5,z:-halfLength-.008},
+      {x:x+w*.85,y:y+h*.5,z:-halfLength+(theme==='formal'?.025:.24)},
+      {x:x-w*.8,y:y+h*(theme==='comfort'?.8:.5),z:-halfLength+.065},
+    ],true), materials.lamp,'headlamp'); head.castShadow=false; root.add(head);
+    const ty=config.body.trunkDeckY-.11;
+    const points: readonly (readonly [number,number])[] = theme === 'flow'
+      ? [[x-.22,ty],[x+.22,ty+.015],[x+.17,ty+.078],[x-.19,ty+.07]]
+      : theme === 'formal'
+        ? [[x-.215,ty],[x+.215,ty],[x+.215,ty+.105],[x-.215,ty+.105]]
+        : [[x-.22,ty-.035],[x+.22,ty],[x+.22,ty+.14],[x+.10,ty+.09],[x-.18,ty+.07]];
+    const tail=face(`${sign < 0 ? 'Left' : 'Right'} sedan tail lamp`,points,halfLength+.009,materials.rearLamp,'tail-lamp',false);
+    tail.castShadow=false;
+  }
+};
+
 const stationHalfWidthAtY = (station: BodyStation, y: number): number => y <= station.shoulderY
   ? THREE.MathUtils.lerp(station.lowerHalfWidth, station.shoulderHalfWidth,
     THREE.MathUtils.clamp((y - station.bottomY) / (station.shoulderY - station.bottomY), 0, 1))
@@ -625,9 +691,11 @@ const addFlankPanels = (root: THREE.Group, config: VehicleVisualConfig, material
     ] as const
     : [
       ['front fender', -bodyHalfLength(config) + 0.23, -0.79, 'front-fender'],
-      ['front door', -0.79, 0.3, 'door'],
-      ['rear door', 0.3, 1.015, 'door'],
-      ['rear quarter panel and tail corner', 1.015, bodyHalfLength(config) - 0.12, 'rear-quarter'],
+      ['front door', -0.79, config.body.design === undefined ? .3 : pillarBZ(config), 'door'],
+      ['rear door', config.body.design === undefined ? .3 : pillarBZ(config),
+        config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055, 'door'],
+      ['rear quarter panel and tail corner', config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055,
+        bodyHalfLength(config) - 0.12, 'rear-quarter'],
     ] as const;
   const archRadius = config.dimensions.wheelRadius * 1.12;
   const halfWheelBase = config.dimensions.wheelBase * 0.5;
@@ -900,6 +968,30 @@ const createMaterials = (config: VehicleVisualConfig): ExteriorMaterials => ({
 const createSedanStations = (config: VehicleVisualConfig): readonly BodyStation[] => {
   const halfLength = bodyHalfLength(config);
   const halfWidth = bodyHalfWidth(config);
+  if (config.body.design !== undefined) {
+    const formal = config.body.design === 'formal', flow = config.body.design === 'flow';
+    const nose = flow ? .60 : formal ? .73 : .72;
+    const tail = flow ? .64 : formal ? .72 : .68;
+    const endWidth = formal ? .94 : flow ? .82 : .86;
+    return [
+      {z:-halfLength,bottomY:.23,lowerHalfWidth:halfWidth*(formal?.80:.70),shoulderY:flow?.43:.50,
+        shoulderHalfWidth:halfWidth*endWidth,topY:nose,topHalfWidth:halfWidth*(formal?.91:.76)},
+      {z:-halfLength+(formal?.19:flow?.30:.40),bottomY:.20,lowerHalfWidth:halfWidth*.74,
+        shoulderY:.52,shoulderHalfWidth:halfWidth*.98,topY:nose+.06,topHalfWidth:halfWidth*.91},
+      {z:-config.wheelBase*.5,bottomY:.20,lowerHalfWidth:halfWidth*.74,shoulderY:flow?.53:.57,
+        shoulderHalfWidth:halfWidth,topY:config.body.hoodTopY-.015,topHalfWidth:halfWidth*.93},
+      {z:config.cabin.windshieldBottomZ-.06,bottomY:.20,lowerHalfWidth:halfWidth*.73,shoulderY:formal?.62:.58,
+        shoulderHalfWidth:halfWidth*.988,topY:config.body.hoodTopY,topHalfWidth:halfWidth*.91},
+      {z:.54,bottomY:.20,lowerHalfWidth:halfWidth*.73,shoulderY:formal?.62:flow?.57:.60,
+        shoulderHalfWidth:halfWidth*.988,topY:config.cabin.windshieldBottomY-.025,topHalfWidth:halfWidth*.91},
+      {z:config.wheelBase*.5,bottomY:.20,lowerHalfWidth:halfWidth*.74,shoulderY:formal?.59:.55,
+        shoulderHalfWidth:halfWidth,topY:config.body.trunkDeckY,topHalfWidth:halfWidth*.92},
+      {z:halfLength-(formal?.17:.32),bottomY:.22,lowerHalfWidth:halfWidth*.73,shoulderY:.51,
+        shoulderHalfWidth:halfWidth*(formal?.985:.95),topY:tail+.055,topHalfWidth:halfWidth*.87},
+      {z:halfLength,bottomY:.25,lowerHalfWidth:halfWidth*(formal?.79:.69),shoulderY:.47,
+        shoulderHalfWidth:halfWidth*endWidth,topY:tail,topHalfWidth:halfWidth*(formal?.90:.76)},
+    ];
+  }
   return [
     { z: -halfLength, bottomY: 0.22, lowerHalfWidth: halfWidth * 0.68, shoulderY: 0.46, shoulderHalfWidth: halfWidth * 0.86, topY: 0.62, topHalfWidth: halfWidth * 0.76 },
     { z: -halfLength + 0.27, bottomY: 0.21, lowerHalfWidth: halfWidth * 0.73, shoulderY: 0.49, shoulderHalfWidth: halfWidth * 0.97, topY: 0.69, topHalfWidth: halfWidth * 0.91 },
@@ -945,14 +1037,17 @@ export function buildVehicleExterior(
 
   const halfLength = bodyHalfLength(config);
   const halfWidth = bodyHalfWidth(config);
+  const formal = config.body.design === 'formal', comfort = config.body.design === 'comfort';
+  const bumperLowerWidth = formal ? .86 : comfort ? .80 : .77;
+  const bumperUpperY = formal ? .57 : comfort ? .55 : sport ? .47 : .52;
   root.add(
     createMesh(
       'Front bumper fascia',
       createQuadGeometry([
-        { x: -halfWidth * 0.77, y: sport ? 0.22 : 0.25, z: -halfLength - 0.004 },
-        { x: halfWidth * 0.77, y: sport ? 0.22 : 0.25, z: -halfLength - 0.004 },
-        { x: halfWidth * 0.88, y: sport ? 0.47 : 0.52, z: -halfLength + 0.006 },
-        { x: -halfWidth * 0.88, y: sport ? 0.47 : 0.52, z: -halfLength + 0.006 },
+        { x: -halfWidth * bumperLowerWidth, y: sport ? 0.22 : 0.25, z: -halfLength - 0.004 },
+        { x: halfWidth * bumperLowerWidth, y: sport ? 0.22 : 0.25, z: -halfLength - 0.004 },
+        { x: halfWidth * (formal ? .94 : .88), y: bumperUpperY, z: -halfLength + 0.006 },
+        { x: -halfWidth * (formal ? .94 : .88), y: bumperUpperY, z: -halfLength + 0.006 },
       ], true),
       materials.paintDark,
       'bumper',
@@ -960,10 +1055,10 @@ export function buildVehicleExterior(
     createMesh(
       'Rear bumper fascia',
       createQuadGeometry([
-        { x: -halfWidth * 0.78, y: sport ? 0.23 : 0.26, z: halfLength + 0.004 },
-        { x: halfWidth * 0.78, y: sport ? 0.23 : 0.26, z: halfLength + 0.004 },
-        { x: halfWidth * 0.88, y: sport ? 0.48 : 0.51, z: halfLength - 0.006 },
-        { x: -halfWidth * 0.88, y: sport ? 0.48 : 0.51, z: halfLength - 0.006 },
+        { x: -halfWidth * (formal ? .86 : .78), y: sport ? 0.23 : 0.26, z: halfLength + 0.004 },
+        { x: halfWidth * (formal ? .86 : .78), y: sport ? 0.23 : 0.26, z: halfLength + 0.004 },
+        { x: halfWidth * (formal ? .94 : .88), y: sport ? 0.48 : comfort ? .55 : .51, z: halfLength - 0.006 },
+        { x: -halfWidth * (formal ? .94 : .88), y: sport ? 0.48 : comfort ? .55 : .51, z: halfLength - 0.006 },
       ]),
       materials.paintDark,
       'bumper',

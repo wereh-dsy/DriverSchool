@@ -111,6 +111,7 @@ export class Cockpit extends THREE.Group {
   ): void {
     const width = config.dashboard.dimensions[0];
     const dashboardTop = config.cabin.dashboardTopY;
+    const design = config.body.design;
 
     // Leave a real opening around the driver's binnacle. A single dashboard
     // box intersects the cluster face and hides its lower half even when the
@@ -142,6 +143,21 @@ export class Cockpit extends THREE.Group {
           [(sectionLeft + sectionRight) / 2, y, z],
           material,
         );
+        if (design === 'comfort' && depth > .1) {
+          const shape = new THREE.Shape();
+          const w = sectionWidth / 2, d = depth / 2, r = Math.min(.055, w * .25);
+          shape.moveTo(-w, -d); shape.lineTo(w, -d); shape.lineTo(w, d-r);
+          shape.quadraticCurveTo(w,d,w-r,d); shape.lineTo(-w+r,d);
+          shape.quadraticCurveTo(-w,d,-w,d-r); shape.closePath();
+          section.geometry.dispose();
+          const geometry = new THREE.ExtrudeGeometry(shape,{depth:height,bevelEnabled:false,steps:1});
+          geometry.rotateX(Math.PI/2); geometry.translate(0,height/2,0);
+          (section as THREE.Mesh<THREE.BufferGeometry>).geometry = geometry;
+        } else if (design === 'flow' && depth > .1) {
+          const vertices = section.geometry.getAttribute('position');
+          for (let i=0;i<vertices.count;i++) if (vertices.getZ(i)>0) vertices.setX(i,vertices.getX(i)*.94);
+          section.geometry.computeVertexNormals();
+        }
         section.rotation.x = tiltRadians;
         this.add(section);
       }
@@ -161,8 +177,8 @@ export class Cockpit extends THREE.Group {
     addSplitSurface(
       'Dashboard leading brow',
       width - 0.06,
-      0.05,
-      0.075,
+      design === 'flow' ? .035 : design === 'comfort' ? .06 : .05,
+      design === 'comfort' ? .09 : .075,
       dashboardTop - 0.055,
       -0.38,
       interior,
@@ -180,7 +196,7 @@ export class Cockpit extends THREE.Group {
 
     const passengerAccent = makeBox(
       'Passenger dashboard accent',
-      [0.62, 0.018, 0.018],
+      [design === 'formal' ? .70 : .62, design === 'formal' ? .035 : .018, .018],
       [0.42, dashboardTop - 0.12, -0.41],
       dark,
     );
@@ -247,12 +263,20 @@ export class Cockpit extends THREE.Group {
       dark,
     );
     ring.name = 'Steering wheel rim';
+    if (config.body.design === 'formal') {
+      const vertices = ring.geometry.getAttribute('position');
+      for(let i=0;i<vertices.count;i++) if(vertices.getY(i)<-config.steeringWheelRadius*.86)
+        vertices.setY(i,-config.steeringWheelRadius*.86);
+      ring.geometry.computeVertexNormals();
+    }
     ring.castShadow = true;
     this.steeringWheelRotationGroup.add(ring);
 
-    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.064, 0.07, 0.04, 20), dark);
+    const hub = new THREE.Mesh<THREE.BufferGeometry>(config.body.design === 'formal'
+      ? new THREE.BoxGeometry(.15,.095,.04) : new THREE.CylinderGeometry(0.064, 0.07, 0.04, 20), dark);
     hub.name = 'Steering wheel hub';
-    hub.rotation.x = Math.PI / 2;
+    if (config.body.design !== 'formal') hub.rotation.x = Math.PI / 2;
+    if (config.body.design === 'comfort') hub.scale.set(1.15,1,1);
     hub.position.z = 0.015;
     this.steeringWheelRotationGroup.add(hub);
 
@@ -261,7 +285,19 @@ export class Cockpit extends THREE.Group {
     leftSpoke.rotation.z = THREE.MathUtils.degToRad(18);
     const rightSpoke = makeBox('Steering wheel right spoke', [0.14, 0.027, 0.024], [0.095, -0.028, 0], satin);
     rightSpoke.rotation.z = THREE.MathUtils.degToRad(-18);
-    this.steeringWheelRotationGroup.add(lowerSpoke, leftSpoke, rightSpoke);
+    if (config.body.design === 'comfort') {
+      for (const sign of [-1,1]) {
+        const spoke=makeBox('Comfort lower wheel spoke',[.031,.12,.025],[sign*.065,-.10,0],satin);
+        spoke.rotation.z = sign * THREE.MathUtils.degToRad(-32);
+        this.steeringWheelRotationGroup.add(spoke);
+      }
+      lowerSpoke.geometry.dispose();
+    } else this.steeringWheelRotationGroup.add(lowerSpoke);
+    if (config.body.design === 'flow') {
+      leftSpoke.scale.y=.8; rightSpoke.scale.y=.8;
+      leftSpoke.rotation.z=THREE.MathUtils.degToRad(9); rightSpoke.rotation.z=-THREE.MathUtils.degToRad(9);
+    }
+    this.steeringWheelRotationGroup.add(leftSpoke, rightSpoke);
 
     this.steeringWheelBase.add(this.steeringWheelRotationGroup);
     this.add(this.steeringWheelBase);
@@ -274,16 +310,20 @@ export class Cockpit extends THREE.Group {
     satin: THREE.Material,
   ): void {
     const stackTop = config.cabin.dashboardTopY + .055;
-    const stack = makeBox('Centre stack', [0.34, 0.40, 0.12], [0.13, stackTop - .20, -0.43], interior);
+    const design = config.body.design;
+    const stackWidth = design === 'flow' ? .28 : design === 'comfort' ? .40 : .34;
+    const stack = makeBox('Centre stack', [stackWidth, 0.40, 0.12], [0.13, stackTop - .20, -0.43], interior);
     stack.rotation.x = THREE.MathUtils.degToRad(-5);
     this.add(stack);
 
-    const display = makeBox('Infotainment display', [0.25, 0.10, 0.012], [0.13, stackTop - .13, -0.364], dark);
+    const display = makeBox('Infotainment display', [design === 'comfort' ? .29 : .25, design === 'formal' ? .12 : .10, .012],
+      [0.13, design === 'flow' ? stackTop + .015 : stackTop - .13, design === 'flow' ? -.45 : -.364], dark);
     display.rotation.x = THREE.MathUtils.degToRad(-5);
     this.add(display);
 
-    for (const x of [0.075, 0.185]) {
-      const vent = makeBox('Centre air vent', [0.085, 0.038, 0.014], [x, stackTop - .038, -0.36], dark);
+    for (const x of design === 'comfort' ? [.05,.21] : [0.075, 0.185]) {
+      const vent = makeBox('Centre air vent', [design === 'comfort' ? .12 : .085, .038, .014],
+        [x, design === 'comfort' ? stackTop - .23 : stackTop - .038, -0.36], dark);
       vent.rotation.x = THREE.MathUtils.degToRad(-5);
       this.add(vent);
     }
@@ -292,7 +332,7 @@ export class Cockpit extends THREE.Group {
     tunnel.rotation.x = THREE.MathUtils.degToRad(-2);
     this.add(tunnel);
 
-    const consoleTop = makeBox('Centre console top', [0.31, 0.055, 0.72], [0.12, 0.445, 0.28], dark);
+    const consoleTop = makeBox('Centre console top', [design === 'flow' ? .27 : design === 'comfort' ? .34 : .31, 0.055, 0.72], [0.12, 0.445, 0.28], dark);
     this.add(consoleTop);
 
     this.gearLever.name = 'Gear lever';

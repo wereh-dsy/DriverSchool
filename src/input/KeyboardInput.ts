@@ -65,6 +65,7 @@ export class KeyboardInput implements VehicleInputDevice {
   private pendingHazard = false;
   private pendingCycleLights = false;
   private pendingEngineStart = false;
+  private pendingCruiseToggle = false;
   private pendingFogToggle = false;
   private pendingDriveSelector: DriveSelector | undefined;
   private lastInputAt: number | null = null;
@@ -149,6 +150,7 @@ export class KeyboardInput implements VehicleInputDevice {
     const hazard = this.enabled && this.pendingHazard;
     const cycleLights = this.enabled && this.pendingCycleLights;
     const engineStart = this.enabled && this.pendingEngineStart;
+    const cruiseToggle = this.enabled && this.pendingCruiseToggle;
     const fogToggle = this.enabled && this.pendingFogToggle;
     const highBeamFlash = this.enabled && this.held.has('highBeamFlash');
     const hornPressed = this.enabled && this.held.has('horn');
@@ -158,7 +160,7 @@ export class KeyboardInput implements VehicleInputDevice {
       Math.abs(this.steeringValue) > 1e-4 ||
       clutchPedalRate !== 0 || shiftUp || shiftDown || directGear !== undefined ||
       toggleControlMode || toggleHandbrake || leftIndicator || rightIndicator ||
-      hazard || cycleLights || engineStart || fogToggle || highBeamFlash || hornPressed || driveSelector !== undefined;
+      hazard || cycleLights || engineStart || cruiseToggle || fogToggle || highBeamFlash || hornPressed || driveSelector !== undefined;
 
     const state: VehicleInputDeviceState = {
       throttle,
@@ -175,7 +177,7 @@ export class KeyboardInput implements VehicleInputDevice {
       hazard,
       cycleLights,
       engineStart,
-      cruiseToggle: false,
+      cruiseToggle,
       fogToggle,
       highBeamFlash,
       hornPressed,
@@ -206,6 +208,7 @@ export class KeyboardInput implements VehicleInputDevice {
     this.pendingHazard = false;
     this.pendingCycleLights = false;
     this.pendingEngineStart = false;
+    this.pendingCruiseToggle = false;
     this.pendingFogToggle = false;
     this.pendingDriveSelector = undefined;
     return state;
@@ -280,6 +283,7 @@ export class KeyboardInput implements VehicleInputDevice {
     if (action === 'hazard') this.pendingHazard = true;
     if (action === 'cycleLights') this.pendingCycleLights = true;
     if (action === 'engineStart') this.pendingEngineStart = true;
+    if (action === 'cruiseToggle') this.pendingCruiseToggle = true;
     if (action === 'fogToggle') this.pendingFogToggle = true;
     const selectorByAction: Partial<Record<KeyboardDrivingAction, DriveSelector>> = {
       selectorPark: 'P', selectorReverse: 'R', selectorNeutral: 'N', selectorDrive: 'D',
@@ -322,6 +326,7 @@ export class KeyboardInput implements VehicleInputDevice {
     this.pendingHazard = false;
     this.pendingCycleLights = false;
     this.pendingEngineStart = false;
+    this.pendingCruiseToggle = false;
     this.pendingFogToggle = false;
     this.pendingDriveSelector = undefined;
   }

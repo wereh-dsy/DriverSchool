@@ -2,6 +2,9 @@ import type { InstrumentClusterConfig } from './InstrumentCluster';
 import {
   FAMILY_SEDAN_DIMENSIONS,
   SPORT_COUPE_DIMENSIONS,
+  FLOW_6AT_DIMENSIONS,
+  FORMAL_DCT_DIMENSIONS,
+  COMFORT_CVT_DIMENSIONS,
   type VehicleDimensions,
 } from '../VehicleDimensions';
 
@@ -78,6 +81,8 @@ export interface VehicleVisualConfig {
   };
   readonly body: {
     readonly profile: 'sedan' | 'sport-coupe';
+    /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
+    readonly design?: 'flow' | 'formal' | 'comfort';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;
@@ -266,15 +271,34 @@ export const SPORTS_COUPE_VISUAL_CONFIG: VehicleVisualConfig = {
 export const defaultSedanVisualConfig = DEFAULT_SEDAN_VISUAL_CONFIG;
 export const sportsCoupeVisualConfig = SPORTS_COUPE_VISUAL_CONFIG;
 
-/**
- * 6AT development sedan. It reuses the family-sedan cabin and exterior so the
- * automatic transmission stays the only variable under test, but gives the
- * car its own instrument face: one dominant central tachometer with two
- * information wings, rather than the sedan's twin analogue dials.
- */
+/** Share construction, not dimensions or anchors, between the three automatics. */
+const automaticEnvelope = (dimensions: VehicleDimensions): Pick<VehicleVisualConfig,
+  'dimensions' | 'collisionDimensions' | 'vehicleWidth' | 'vehicleLength' | 'wheelBase' | 'trackWidth' | 'wheelRadius'> => ({
+  dimensions, collisionDimensions: dimensions, vehicleWidth: dimensions.width, vehicleLength: dimensions.length,
+  wheelBase: dimensions.wheelBase, trackWidth: dimensions.frontTrackWidth, wheelRadius: dimensions.wheelRadius,
+});
+
+const automaticMirrors = (dimensions: VehicleDimensions, y: number, z: number): Pick<VehicleVisualConfig,
+  'leftMirrorTransform' | 'rightMirrorTransform'> => ({
+  leftMirrorTransform: { ...DEFAULT_SEDAN_VISUAL_CONFIG.leftMirrorTransform,
+    position: [-dimensions.width * .5 - .09, y, z], mountPosition: [-dimensions.width * .46, y - .075, z] },
+  rightMirrorTransform: { ...DEFAULT_SEDAN_VISUAL_CONFIG.rightMirrorTransform,
+    position: [dimensions.width * .5 + .09, y, z], mountPosition: [dimensions.width * .46, y - .075, z] },
+});
+
+/** Low nose, swept glass, supported chassis; retain the central-tachometer face. */
 export const TEST_6AT_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG,
-  name: '6AT development sedan',
+  ...automaticEnvelope(FLOW_6AT_DIMENSIONS), ...automaticMirrors(FLOW_6AT_DIMENSIONS, .905, -.68),
+  name: 'Flow 2.0 / 6AT sedan',
+  driverEyePosition: [-.37, 1.205, .31],
+  instrumentClusterTransform: { position: [-.37, .93, -.415], rotation: [degrees(-7), 0, 0] },
+  steeringWheelPosition: [-.37, .775, -.245], steeringColumnMountPosition: [-.37, .70, -.52],
+  steeringWheelRadius: .18, steeringWheelLockDegrees: 33 * 15.2 * 2,
+  gearLeverPosition: [.13, .455, .30],
+  dashboard: { position: [0, .73, -.565], dimensions: [1.54, .065, .32], tiltRadians: degrees(-6) },
+  cabin: { width: 1.54, dashboardTopY: .78, windshieldBottomY: .815, windshieldTopY: 1.415,
+    windshieldBottomZ: -.76, windshieldTopZ: -.42, roofY: FLOW_6AT_DIMENSIONS.height - .035 },
   instrumentCluster: {
     maximumSpeedKmh: 220,
     maximumRPM: 7_000,
@@ -282,29 +306,48 @@ export const TEST_6AT_VISUAL_CONFIG: VehicleVisualConfig = {
     needleResponse: 11,
     displayStyle: 'cx4-tach-wing',
   },
-  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, color: 0xaab6b9 },
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'flow', sillY: .32, hoodTopY: .765,
+    hoodLength: 1.30, trunkDeckY: .755, trunkLength: 1.03, roofWidth: 1.35,
+    roofLength: 1.42, roofCenterZ: .14, color: 0x9e2733, interiorColor: 0x20232a },
 };
 
-/**
- * 7DCT development sedan. Shares the same cabin as the 6AT car but keeps the
- * traditional twin mechanical dials with a monochrome centre display, so the
- * two automatics are identifiable at a glance from the driver's seat.
- */
+/** Square three-box saloon; retain twin mechanical dials / dark centre screen. */
 export const TEST_7DCT_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG,
-  name: '7DCT development sedan',
+  ...automaticEnvelope(FORMAL_DCT_DIMENSIONS), ...automaticMirrors(FORMAL_DCT_DIMENSIONS, .925, -.64),
+  name: 'Formal 1.4T / 7DCT sedan',
+  driverEyePosition: [-.37, 1.215, .31],
+  instrumentClusterTransform: { position: [-.37, .94, -.405], rotation: [degrees(-7), 0, 0] },
+  steeringWheelPosition: [-.37, .78, -.245], steeringColumnMountPosition: [-.37, .71, -.52],
+  steeringWheelLockDegrees: 32 * 16.6 * 2, gearLeverPosition: [.12, .465, .32],
+  dashboard: { position: [0, .74, -.57], dimensions: [1.56, .085, .35], tiltRadians: degrees(-3) },
+  cabin: { width: 1.56, dashboardTopY: .80, windshieldBottomY: .84, windshieldTopY: 1.44,
+    windshieldBottomZ: -.72, windshieldTopZ: -.43, roofY: FORMAL_DCT_DIMENSIONS.height - .035 },
   instrumentCluster: {
     maximumSpeedKmh: 240,
     maximumRPM: 7_000,
-    redlineRPM: 6_500,
+    redlineRPM: 6_200,
     needleResponse: 12,
     displayStyle: 'jetta-twin-dial',
   },
-  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, color: 0x965f56 },
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'formal', sillY: .34, hoodTopY: .805,
+    hoodLength: 1.29, trunkDeckY: .80, trunkLength: 1.04, roofWidth: 1.43,
+    roofLength: 1.50, roofCenterZ: .17, color: 0x607786, interiorColor: 0x292b2e },
 };
 
 export const CVT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG, name: '2.0 belt CVT family sedan',
-  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, color: 0xc4c9c0 },
-  instrumentCluster: { ...DEFAULT_SEDAN_VISUAL_CONFIG.instrumentCluster, maximumRPM: 7000, redlineRPM: 6000 },
+  ...automaticEnvelope(COMFORT_CVT_DIMENSIONS), ...automaticMirrors(COMFORT_CVT_DIMENSIONS, .94, -.67),
+  driverEyePosition: [-.37, 1.225, .31],
+  instrumentClusterTransform: { position: [-.37, .95, -.415], rotation: [degrees(-7), 0, 0] },
+  steeringWheelPosition: [-.37, .79, -.245], steeringColumnMountPosition: [-.37, .72, -.53],
+  steeringWheelRadius: .187, steeringWheelLockDegrees: 33 * 17.1 * 2,
+  gearLeverPosition: [.12, .46, .30],
+  dashboard: { position: [0, .745, -.58], dimensions: [1.58, .08, .37], tiltRadians: degrees(-5) },
+  cabin: { width: 1.58, dashboardTopY: .81, windshieldBottomY: .85, windshieldTopY: 1.45,
+    windshieldBottomZ: -.75, windshieldTopZ: -.48, roofY: COMFORT_CVT_DIMENSIONS.height - .035 },
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'comfort', sillY: .35, hoodTopY: .825,
+    hoodLength: 1.23, trunkDeckY: .79, trunkLength: .98, roofWidth: 1.45,
+    roofLength: 1.66, roofCenterZ: .13, color: 0xc7c9c4, interiorColor: 0x3c3935 },
+  instrumentCluster: { ...DEFAULT_SEDAN_VISUAL_CONFIG.instrumentCluster, maximumRPM: 7000, redlineRPM: 6250 },
 };

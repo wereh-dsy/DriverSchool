@@ -34,12 +34,14 @@ export const DEFAULT_CRUISE_CONTROL_CONFIG: Readonly<CruiseControlConfig> = {
 };
 
 export interface CruiseControlContext {
-  /** Vehicle-level feature flag; currently enabled only for the sports coupe. */
+  /** Vehicle-level feature flag; one controller handles all supported cars. */
   available: boolean;
   /** Signed longitudinal speed. Positive is forward. */
   speedMetersPerSecond: number;
   engineRunning: boolean;
   gear: string | number;
+  /** Omitted for MT: keep GT's existing policy. Automatics require forward D. */
+  driveSelector?: 'P' | 'R' | 'N' | 'D';
 }
 
 export type CruiseControlEventReason =
@@ -181,8 +183,9 @@ export class CruiseControlController {
     if (input.controlMode === 'manual-clutch') return 'manual-clutch';
     if (input.handbrake > 0.05) return 'parking-brake';
     if (input.brake > this.config.driverBrakeCancelThreshold) return 'driver-brake';
-    if (typeof context.gear !== 'number' || context.gear < 1) return 'not-forward-gear';
-    const minimumSpeedKmh = this.active
+    if (context.driveSelector !== undefined ? context.driveSelector !== 'D'
+      : typeof context.gear !== 'number' || context.gear < 1) return 'not-forward-gear';
+    const minimumSpeedKmh = this.active && context.driveSelector === undefined
       ? this.config.minimumSetSpeedKmh * 0.4
       : this.config.minimumSetSpeedKmh;
     if (

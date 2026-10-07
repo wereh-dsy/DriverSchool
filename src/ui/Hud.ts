@@ -189,7 +189,7 @@ export class Hud {
               <div><small>起步</small><strong>MT 按 <kbd data-key-action="gear1">1</kbd>；AT / DCT 按 RB 选到 D，或在 F3 选 D</strong></div>
               <div><small>换挡</small><strong><kbd data-key-action="shiftUp">E</kbd> 升挡 · <kbd data-key-action="shiftDown">Q</kbd> 降挡</strong></div>
               <div><small>观察 / 调试</small><strong>拖动鼠标转头 · <kbd>C</kbd> 回正 · <kbd>F6</kbd> 接触调试</strong></div>
-              <div><small>标准手柄</small><strong>LS 转向 · LT/RT 踏板 · LB/RB：MT 换挡、自动挡 PRND 选挡 · A 手刹 · 跑车 X 巡航</strong></div>
+              <div><small>标准手柄</small><strong>LS 转向 · LT/RT 踏板 · LB/RB：MT 换挡、自动挡 PRND 选挡 · A 手刹 · GT/自动挡 X 巡航（键盘 V）</strong></div>
               <div><small>灯光与点火</small><strong>十字键 ←/→ 转向灯 · ↑ 大灯 · ↓ 双闪 · Start 点火/熄火</strong></div>
               <div><small>手动离合 / 附件</small><strong>键盘 M 切换离合模式 · Y 雾灯 · 按住 L3 闪灯 · R3 喇叭</strong></div>
             </div>
