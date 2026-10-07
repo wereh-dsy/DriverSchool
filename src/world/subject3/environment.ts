@@ -116,6 +116,7 @@ export class Subject3Environment implements Subject3AreaModule {
     const headGeometry = new THREE.BoxGeometry(0.36, 0.16, 0.72);
     const heads = new THREE.InstancedMesh(headGeometry, materials.lampHead, instances.length);
     heads.name = '路灯灯头';
+    heads.userData.environmentLamp = true;
     heads.castShadow = shadows;
     const matrix = new THREE.Matrix4();
     const rotation = new THREE.Matrix4();
@@ -300,8 +301,8 @@ export class Subject3Environment implements Subject3AreaModule {
     const signs = [
       { x: -270.9, z: 140, yaw: 0, text: '↑ 北侧主路\n→ 学校 / 展览馆' },
       { x: -289.1, z: -180, yaw: Math.PI, text: '↑ 商业街\n← 学校路' },
-      { x: 274.5, z: 160, yaw: Math.PI, text: '↑ 商业街\n邻里超市' },
-      { x: 285.5, z: -140, yaw: 0, text: '↑ 展览馆路\n← 中央内街' },
+      { x: 270.9, z: 160, yaw: Math.PI, text: '↑ 商业街\n邻里超市' },
+      { x: 289.1, z: -140, yaw: 0, text: '↑ 展览馆路\n← 中央内街' },
     ];
     for (const sign of signs) {
       addLabelBoard(this.root, context, '道路方向牌', sign.text, '#1f5ba6', materials.signBlue,
@@ -309,13 +310,13 @@ export class Subject3Environment implements Subject3AreaModule {
     }
     for (const sign of [
       { x: -270.9, z: 180, yaw: 0 }, { x: -289.1, z: -230, yaw: Math.PI },
-      { x: 274.5, z: 200, yaw: Math.PI }, { x: 285.5, z: -230, yaw: 0 },
+      { x: 270.9, z: 200, yaw: Math.PI }, { x: 289.1, z: -230, yaw: 0 },
     ]) {
       addLabelBoard(this.root, context, '主路限速50', '50', '#ffffff', materials.signWhite,
         sign, sign.yaw, [0.85, 0.85], 2.35, 'speed');
     }
-    addLabelBoard(this.root, context, '窄街会车提示', '窄路会车\n限速 30', '#e6b439', materials.signYellow,
-      { x: 5.3, z: -240 }, 0, [1.5, 1.0], 2.3);
+    addLabelBoard(this.root, context, '内街限速30', '30', '#ffffff', materials.signWhite,
+      { x: 8.7, z: -240 }, 0, [0.85, 0.85], 2.3, 'speed');
   }
 }
 

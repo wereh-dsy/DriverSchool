@@ -24,6 +24,8 @@ export type {
   DualClutchTransmissionConfig,
   CVTConfig,
   VehiclePhysicsConfig,
+  VehicleDriveMode,
+  DriveModeCalibration,
   DriverAidConfig,
 } from './VehiclePhysicsConfig';
 export {
@@ -37,3 +39,5 @@ export {
 } from './sportsCoupePhysicsConfig';
 export { createTest6ATVehiclePhysicsConfig, createTest7DCTVehiclePhysicsConfig } from './transmissionTestVehicleConfigs';
 export { createCVTSedanPhysicsConfig } from './cvtSedanPhysicsConfig';
+export { createAWDTestVehiclePhysicsConfig } from './awdTestVehicleConfigs';
+export { createExecutiveSedanPhysicsConfig } from './executiveSedanPhysicsConfig';

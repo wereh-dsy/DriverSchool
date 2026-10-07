@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import { VEHICLE_CATALOG } from '../VehicleCatalog';
 import { VehicleVisual } from './VehicleVisual';
+import { frontDoorSkinAnchor, frontWindowAnchors } from './VehicleExterior';
+import { MirrorAdjustmentController } from '../../camera/MirrorAdjustmentController';
+import { MirrorSystem } from '../../camera/MirrorSystem';
+import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 
 /** Small solid-clearance check, not appearance/handling optimisation. */
 export function runVehicleStructureSelfTest() {
@@ -23,21 +27,118 @@ export function runVehicleStructureSelfTest() {
           `${car.id}: column joins hub`);
         assert(Math.min(...ends.map(p => p.distanceTo(new THREE.Vector3(...config.steeringColumnMountPosition!)))) < 1e-8,
           `${car.id}: column reaches dashboard anchor`);
-        const rim = visual.root.getObjectByName('Steering wheel rim') as THREE.Mesh;
+        const rim = visual.root.getObjectByName('Steering wheel rim') as THREE.Mesh<THREE.TorusGeometry>;
+        const diameter = (rim.geometry.parameters.radius + rim.geometry.parameters.tube) * 2;
+        assert(diameter >= .35 && diameter <= .39, `${car.id}: ordinary 350–390 mm wheel diameter`);
+        assert(rim.geometry.parameters.arc === Math.PI * 2, `${car.id}: closed wheel rim`);
+        const columnDirection = new THREE.Vector3(...config.steeringColumnMountPosition!)
+          .sub(new THREE.Vector3(...config.steeringWheelPosition)).normalize();
+        const wheelAxis = new THREE.Vector3(0, 0, -1).applyEuler(visual.cockpitRoot.steeringWheelBase.rotation);
+        assert(columnDirection.dot(wheelAxis) > .999, `${car.id}: column follows the wheel axis`);
         const points = rim.geometry.getAttribute('position');
         const solids: THREE.Mesh[] = [];
+        const cabinObstructions: THREE.Mesh[] = [];
         visual.root.traverse(o => { if (o instanceof THREE.Mesh && /Dashboard|Instrument binnacle|Centre stack/.test(o.name)) solids.push(o); });
-        for (const solid of solids) {
-          solid.geometry.computeBoundingBox();
-          const inverse = solid.matrixWorld.clone().invert();
-          const box = solid.geometry.boundingBox!.clone().expandByScalar(-.002);
-          let hits = 0;
-          for (let i = 0; i < points.count; i += 4) {
-            const p = new THREE.Vector3().fromBufferAttribute(points, i).applyMatrix4(rim.matrixWorld).applyMatrix4(inverse);
-            if (box.containsPoint(p)) hits++;
+        // Include exterior-category geometry: the old body deck filled the
+        // cabin even though it was not owned by Cockpit or named Dashboard.
+        visual.root.traverse(o => {
+          if (o instanceof THREE.Mesh && !visual.cockpitRoot.steeringWheelBase.getObjectById(o.id)) cabinObstructions.push(o);
+        });
+        const eye = new THREE.Vector3(...config.driverEyePosition);
+        const clearanceRay = new THREE.Raycaster();
+        clearanceRay.layers.enableAll();
+        if (config.body.profile !== 'sport-coupe') {
+          const cluster = visual.cockpitRoot.instrumentCluster;
+          const visor = cluster.getObjectByName('Instrument binnacle contoured visor') as THREE.Mesh;
+          assert(cluster.getObjectByName('Instrument binnacle hood') === undefined && visor !== undefined,
+            `${car.id}: thick cuboid hood is replaced by an open contoured visor`);
+          assert(!(visor.geometry instanceof THREE.BoxGeometry) && visor.userData.apertureBorder <= .010,
+            `${car.id}: visor has a fine aperture edge, not a solid transverse beam`);
+          const back = cluster.getObjectByName('Instrument binnacle back') as THREE.Mesh;
+          back.geometry.computeBoundingBox();
+          assert(back.geometry.boundingBox!.getSize(new THREE.Vector3()).z <= .007,
+            `${car.id}: instruments sit on a thin recessed backing`);
+          // Include the upper warning/status bands as well as the dial centres.
+          for (const x of [-.19, 0, .19]) {
+            const target = new THREE.Vector3(x, .094, config.body.design === 'executive' ? .071 : .080)
+              .applyMatrix4(cluster.matrixWorld);
+            clearanceRay.set(eye, target.clone().sub(eye).normalize());
+            clearanceRay.far = eye.distanceTo(target) - .002;
+            assert(clearanceRay.intersectObjects(cabinObstructions, false).length === 0,
+              `${car.id}: visor leaves the upper instrument band readable`);
           }
-          assert(hits === 0, `${car.id}: wheel rim penetrates ${solid.name}`);
+          // Samples just above the visor across the driver-side road aperture.
+          for (const x of [-.32, 0, .32]) {
+            const target = visual.root.localToWorld(new THREE.Vector3(config.driverEyePosition[0] + x,
+              config.driverEyePosition[1] - .06, config.cabin.windshieldBottomZ - 2));
+            clearanceRay.set(eye, target.clone().sub(eye).normalize());
+            clearanceRay.far = eye.distanceTo(target);
+            assert(clearanceRay.intersectObjects(solids, false).length === 0,
+              `${car.id}: upper dash and visor do not block the forward road view`);
+          }
         }
+        for (const angle of [0, Math.PI * .25, Math.PI * .5, Math.PI, -Math.PI * .5]) {
+          visual.setSteeringWheelAngle(angle);
+          visual.root.updateMatrixWorld(true);
+          for (const solid of solids) {
+            solid.geometry.computeBoundingBox();
+            const inverse = solid.matrixWorld.clone().invert();
+            const box = solid.geometry.boundingBox!.clone().expandByScalar(-.002);
+            let hits = 0;
+            for (let i = 0; i < points.count; i += 4) {
+              const p = new THREE.Vector3().fromBufferAttribute(points, i).applyMatrix4(rim.matrixWorld).applyMatrix4(inverse);
+              if (box.containsPoint(p)) hits++;
+            }
+            assert(hits === 0, `${car.id}: wheel rim penetrates ${solid.name}`);
+          }
+          for (let step = 0; step < 24; step++) {
+            const theta = step / 24 * Math.PI * 2;
+            const target = new THREE.Vector3(Math.cos(theta) * rim.geometry.parameters.radius,
+              Math.sin(theta) * rim.geometry.parameters.radius, 0).applyMatrix4(rim.matrixWorld);
+            clearanceRay.set(eye, target.clone().sub(eye).normalize());
+            clearanceRay.far = eye.distanceTo(target) - .002;
+            assert(clearanceRay.intersectObjects(cabinObstructions, false).length === 0,
+              `${car.id}: full wheel rim must be visible through the actual vehicle hierarchy`);
+          }
+        }
+        visual.setSteeringWheelAngle(0);
+        visual.root.updateMatrixWorld(true);
+        const floor = visual.root.getObjectByName('Cabin floor') as THREE.Mesh<THREE.BoxGeometry>;
+        assert(floor !== undefined && floor.geometry.parameters.height <= .03,
+          `${car.id}: floor is a thin surface at the bottom of the cabin`);
+        const floorY = new THREE.Box3().setFromObject(floor).max.y;
+        const consoleRight = config.gearLeverPosition[0] +
+          (new THREE.Box3().setFromObject(visual.root.getObjectByName('Transmission tunnel')!).getSize(new THREE.Vector3()).x) * .5;
+        for (const x of [config.driverEyePosition[0], (consoleRight + config.cabin.width * .5 - .04) * .5]) {
+          clearanceRay.set(new THREE.Vector3(x, floorY + .20, .12), new THREE.Vector3(0, 0, -1));
+          clearanceRay.far = .12 - (config.cabin.windshieldBottomZ + .04);
+          assert(clearanceRay.intersectObjects(cabinObstructions, false).length === 0,
+            `${car.id}: driver/passenger footwell must remain an open cavity`);
+        }
+        const footwellTarget = new THREE.Vector3(config.driverEyePosition[0], floorY + .004,
+          config.steeringWheelPosition[2] - .10);
+        clearanceRay.set(eye, footwellTarget.clone().sub(eye).normalize());
+        clearanceRay.far = eye.distanceTo(footwellTarget) - .002;
+        assert(clearanceRay.intersectObjects(cabinObstructions, false).length === 0,
+          `${car.id}: DriverEye can see the open footwell below the wheel`);
+        assert(eye.z > config.steeringWheelPosition[2] && config.steeringWheelPosition[2] >
+          config.instrumentClusterTransform.position[2] && config.instrumentClusterTransform.position[2] >
+          config.cabin.windshieldBottomZ, `${car.id}: eye / wheel / cluster / windshield order`);
+        const ray = new THREE.Raycaster();
+        ray.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR);
+        const obstructions: THREE.Object3D[] = [...solids, visual.cockpitRoot.steeringWheelBase, column];
+        // Dial centres, central readout and upper information bands must be
+        // visible through the real cockpit meshes from the configured eye.
+        const readouts = config.instrumentCluster.displayStyle === 'executive-virtual'
+          ? [[0, .025], [-.128, .025], [-.128, -.025], [.128, .025], [.128, -.02], [-.211, 0], [.211, 0]]
+          : [[0, .025], [-.13, 0], [.13, 0], [-.19, .07], [.19, .07]];
+        for (const [x, y] of readouts) {
+          const target = new THREE.Vector3(x, y, .08).applyMatrix4(visual.cockpitRoot.instrumentCluster.matrixWorld);
+          ray.set(eye, target.clone().sub(eye).normalize());
+          ray.far = eye.distanceTo(target) - .004;
+          assert(ray.intersectObjects(obstructions, true).length === 0, `${car.id}: cockpit blocks instrument readout ${x}/${y}`);
+        }
+        ray.far = Infinity;
         assert(visual.root.getObjectByName('Front windshield glass') === undefined, `${car.id}: no duplicate windshield pane`);
         for (const side of ['left', 'right'] as const) {
           const optical = side === 'left' ? config.leftMirrorTransform : config.rightMirrorTransform;
@@ -48,7 +149,48 @@ export function runVehicleStructureSelfTest() {
           assert(inward > config.cabin.width / 2 + .03, `${car.id}/${side}: housing stays outside glass`);
           assert(visual.root.getObjectByName(`${side} door mirror sail mount`) !== undefined &&
             visual.root.getObjectByName(`${side} mirror stalk`) !== undefined, `${car.id}/${side}: connected mount/stalk/housing`);
+          const sail = visual.root.getObjectByName(`${side} door mirror sail mount`)!;
+          const doorEdge = frontDoorSkinAnchor(config, sail.position.z);
+          assert(Math.abs(Math.abs(sail.position.x) - doorEdge.x) < .005 &&
+            Math.abs(sail.position.y - doorEdge.y - .06) < 1e-8, `${car.id}/${side}: sail attaches to door skin`);
+          const opening = frontWindowAnchors(config);
+          assert(Math.abs(sail.position.z - opening.frontBottomZ) < .04,
+            `${car.id}/${side}: mirror is at the door triangle, not midway up the A-pillar`);
         }
+        const camera = new THREE.PerspectiveCamera(62, 16 / 9, .025, 2500);
+        camera.position.copy(eye);
+        visual.root.add(camera);
+        const mirrors = new MirrorSystem({ capabilities: { maxTextureSize: 4096 } } as THREE.WebGLRenderer,
+          new THREE.Scene(), { driverCamera: camera, vehicleRoot: visual.root, autoBindSurfaces: false,
+            mirrors: {
+              left: { surface: visual.mirrorSurfaces.left, size: config.leftMirrorTransform.size },
+              right: { surface: visual.mirrorSurfaces.right, size: config.rightMirrorTransform.size },
+            } });
+        const adjustment = new MirrorAdjustmentController(visual.mirrorSurfaces, { storage: null });
+        try {
+          for (const side of ['left', 'right'] as const) {
+            const housing = visual.root.getObjectByName(`${side} mirror housing`) as THREE.Mesh<THREE.BoxGeometry>;
+            const glass = visual.getMirrorSurface(side);
+            const size = side === 'left' ? config.leftMirrorTransform.size : config.rightMirrorTransform.size;
+            for (const yaw of [-10, 0, 10]) for (const pitch of [-7, 0, 7]) {
+              adjustment.reset(side);
+              adjustment.nudge(side, THREE.MathUtils.degToRad(yaw), THREE.MathUtils.degToRad(pitch));
+              mirrors.update();
+              const view = mirrors.getView(side);
+              assert(view.valid && view.worldNormal.dot(visual.getMirrorWorldTransform(side).normal) > .999999,
+                `${car.id}/${side}: reflection follows the actual adjusted glass`);
+              assert(mirrors.getTexture(side) === view.texture, `${car.id}/${side}: preview shares the reflection target`);
+              const inverse = housing.matrixWorld.clone().invert();
+              for (const x of [-size[0] * .5, size[0] * .5]) for (const y of [-size[1] * .5, size[1] * .5]) {
+                const p = new THREE.Vector3(x, y, 0).applyMatrix4(glass.matrixWorld).applyMatrix4(inverse);
+                assert(Math.abs(p.x) < housing.geometry.parameters.width * .5 &&
+                  Math.abs(p.y) < housing.geometry.parameters.height * .5 &&
+                  p.z > -housing.geometry.parameters.depth * .5 + .002,
+                  `${car.id}/${side}: adjustable glass clears housing sides/back`);
+              }
+            }
+          }
+        } finally { mirrors.dispose(); camera.removeFromParent(); }
       } finally { visual.dispose(); }
     }
   } finally { if (needsDocument) Reflect.deleteProperty(globalThis, 'document'); }

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { StaticCollider } from '../../vehicle/physics/CollisionSystem';
 import type { DrivingGround } from '../DrivingGround';
+import type { RoadNetworkData } from '../navigation/RoadNetwork';
 import type { RoadSurfaceSample, TrackSpawnPose } from '../DrivingTestTrack';
 import {
   blendSurfaceMaterials,
@@ -47,6 +48,7 @@ export class Subject3Ground implements DrivingGround {
   public readonly config: Subject3GroundConfig;
   public readonly metadata: Subject3MapMetadata;
   public readonly topology: Subject3Topology;
+  public readonly roadNetwork: RoadNetworkData;
   public readonly worldBounds: DrivingGround['worldBounds'];
   public readonly spawnPose: TrackSpawnPose;
   public readonly colliders: readonly StaticCollider[];
@@ -59,6 +61,11 @@ export class Subject3Ground implements DrivingGround {
     this.config = options.config ?? DEFAULT_SUBJECT3_GROUND_CONFIG;
     this.topology = buildSubject3Topology(this.config);
     this.metadata = createSubject3MapMetadata(this.config, this.topology);
+    // Reuse the existing metadata arrays rather than maintaining another map.
+    this.roadNetwork = {
+      mapId: this.metadata.mapId, bounds: this.metadata.bounds,
+      segments: this.metadata.roads, intersections: this.metadata.junctions,
+    };
     this.worldBounds = Object.freeze({
       minX: this.metadata.bounds.minimumX,
       maxX: this.metadata.bounds.maximumX,

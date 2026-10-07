@@ -340,6 +340,7 @@ export interface TireConfig {
 }
 
 export interface SuspensionConfig {
+  /** Loaded, flat-road underfloor clearance, metres; not the unloaded strut length. */
   rideHeight: number;
   /** Unloaded spring strut length; compression is measured from this length. */
   restLength: number;
@@ -349,6 +350,7 @@ export interface SuspensionConfig {
   damperCompressionRear: number;
   damperReboundFront: number;
   damperReboundRear: number;
+  /** Total usable travel about load / springRate static compression. */
   suspensionTravel: number;
   /** Progressive support within the final part of compression travel. */
   bumpStopStartRatio: number;
@@ -368,6 +370,14 @@ export interface DriverAidConfig {
   ebdEnabled?: boolean;
   tractionControlEnabled: boolean;
   stabilityControlEnabled: boolean;
+  /** Optional vehicle calibration; omitted fields use conservative road-car values. */
+  esc?: {
+    minimumSpeed?: number;
+    yawErrorThreshold?: number;
+    sideslipThreshold?: number;
+    maximumBrakeGripFraction?: number;
+    response?: number;
+  };
   autoBlipEnabled: boolean;
 }
 
@@ -386,7 +396,19 @@ export interface SimulationSafetyConfig {
  * All handling-affecting data for a vehicle. Values use SI units unless noted.
  * Visual/cockpit measurements intentionally live in a separate visual config.
  */
+export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'SPORT';
+/** Optional calibration only; existing engine, rack, shift controller and AWD own behavior. */
+export interface DriveModeCalibration {
+  throttleExponent: number;
+  throttleResponse: number;
+  shiftStrategy: AutomaticShiftConfig;
+  steeringResponse: number;
+  steeringDamping: number;
+  accelerationRearTorqueSplit: number;
+}
+
 export interface VehiclePhysicsConfig {
+  driveModes?: Readonly<Record<VehicleDriveMode, DriveModeCalibration>>;
   /** Exterior envelope and wheel geometry, in metres. */
   length: number;
   width: number;
@@ -406,12 +428,20 @@ export interface VehiclePhysicsConfig {
   centerOfMassLongitudinalOffset: number;
   /** Body yaw moment of inertia, in kg m². */
   yawInertia: number;
-  /** AWD is reserved; currently only FWD/RWD open carriers are supported. */
+  /** AWD uses two independent open axle carriers. */
   drivetrainType: 'FWD' | 'RWD' | 'AWD';
   /** Only an open carrier is implemented; omitted legacy presets default to open. */
   differentialType?: 'open';
   frontTorqueSplit: number;
   rearTorqueSplit: number;
+  /** Nominal split reuses frontTorqueSplit/rearTorqueSplit above. */
+  awd?: {
+    mode: 'full-time' | 'on-demand';
+    accelerationRearTorqueSplit?: number;
+    maximumRearTorqueSplit?: number;
+    /** First-order axle distribution response, s^-1. */
+    response?: number;
+  };
   /** @deprecated Compatibility alias for drivetrainType. */
   drivetrainLayout: 'FWD' | 'RWD' | 'AWD';
   /** Static vehicle weight carried by driven wheels; used for launch grip. */

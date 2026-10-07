@@ -104,6 +104,25 @@ canvas.webgl {
   filter: drop-shadow(0 15px 20px rgba(0,0,0,.32));
 }
 
+.hud-minimap {
+  position: absolute;
+  width: 208px;
+  overflow: hidden;
+  border: 1px solid rgba(220, 234, 240, .18);
+  border-radius: 8px;
+  background: rgba(8, 15, 20, .66);
+  pointer-events: none;
+}
+.hud-minimap[hidden] { display: none; }
+.hud-minimap[data-position="top-left"] { top: 154px; left: 28px; }
+.hud-minimap[data-position="top-right"] {
+  top: calc(60px + clamp(260px, 24vw, 390px) / 1.92);
+  right: 28px;
+}
+.hud-minimap header { padding: 8px 10px 0; color: #b9cad3; font-size: 9px; letter-spacing: .08em; }
+.hud-minimap canvas { display: block; width: 100%; aspect-ratio: 1; }
+.game-ui:has(.debug-panel:not([hidden])) .hud-minimap[data-position="top-left"] { visibility: hidden; }
+
 .mirror-label {
   display: flex;
   align-items: center;
@@ -930,6 +949,9 @@ kbd {
 .contact-debug-panel[hidden] { display: none; }
 
 @media (max-width: 760px) {
+  .hud-minimap { width: min(160px, 36vw); }
+  .hud-minimap[data-position="top-left"] { top: 140px; left: 14px; }
+  .hud-minimap[data-position="top-right"] { top: calc(50px + min(48vw, 300px) / 1.92); right: 14px; }
   .brand-chip { top: 14px; left: 14px; }
   .map-chip { display: none; }
   .mirror-pod { top: 14px; right: 14px; width: min(48vw, 300px); }
@@ -946,6 +968,7 @@ kbd {
 }
 
 @media (max-height: 520px) {
+  .hud-minimap { width: 136px; }
   .clutch-meter:not(.manual) { display: none; }
   .clutch-meter.manual { bottom: 50px; padding-top: 7px; padding-bottom: 6px; }
 }

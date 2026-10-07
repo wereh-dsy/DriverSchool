@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "units": { "position": "metres", "rotation": "radians", "footprint": "width X × depth Z metres" },
+  "parameters": {
+    "position": { "default": { "x": 0, "y": 0, "z": 0 } },
+    "rotation": { "default": 0 },
+    "mainRoadLanes": { "default": 6, "values": [4, 6] },
+    "crossRoadLanes": { "default": 4, "values": [4, 6] },
+    "mainElevation": { "default": 6, "range": [5, 12] },
+    "rampLaneCount": { "default": 1, "values": [1, 2] },
+    "rampRadius": { "default": 55, "range": [40, 100] }
+  },
+  "presets": [
+    { "id": "urban_overpass", "category": "ROAD", "description": "Elevated urban road crosses a ground street without a logical connection.", "footprint": [420, 520], "parameters": ["position", "rotation", "mainRoadLanes", "crossRoadLanes", "mainElevation"], "ports": ["North Mainline", "South Mainline", "East Crossroad", "West Crossroad"], "usage": "Grade-separated urban crossing; end ramps return the main road to ground." },
+    { "id": "diamond_interchange", "category": "INTERCHANGE", "description": "Divided elevated mainline with four directional ramps and two signal junctions.", "footprint": [620, 620], "parameters": ["position", "rotation", "mainRoadLanes", "crossRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["North Mainline In", "North Mainline Out", "South Mainline In", "South Mainline Out", "East Crossroad", "West Crossroad"], "usage": "Compact interchange joining the mainline to a local crossroad." },
+    { "id": "cloverleaf_interchange", "category": "INTERCHANGE", "description": "Two divided roads with four right-turn ramps and four 270-degree left-turn loops.", "footprint": [800, 800], "parameters": ["position", "rotation", "mainRoadLanes", "crossRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["North Mainline In", "North Mainline Out", "South Mainline In", "South Mainline Out", "East Crossroad In", "East Crossroad Out", "West Crossroad In", "West Crossroad Out"], "usage": "Complete low-poly 4×4, 6×4 or 6×6 interchange; explicit endpoint merges." },
+    { "id": "trumpet_interchange", "category": "INTERCHANGE", "description": "Divided mainline and a terminating branch with a loop and directional connectors.", "footprint": [800, 800], "parameters": ["position", "rotation", "mainRoadLanes", "crossRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["North Mainline In", "North Mainline Out", "South Mainline In", "South Mainline Out", "East Branch In", "East Branch Out"], "usage": "Three-arm highway junction with all branch/mainline movements." },
+    { "id": "roundabout", "category": "INTERCHANGE", "description": "One-way counterclockwise ring with four split entry/exit approaches.", "footprint": [320, 320], "parameters": ["position", "rotation", "rampLaneCount", "rampRadius"], "ports": ["North In", "North Out", "East In", "East Out", "South In", "South Out", "West In", "West Out"], "usage": "Low-speed roundabout; explicit links at ring entry/exit nodes." },
+    { "id": "highway_entry", "category": "INTERCHANGE", "description": "One-way ramp ascends from local street height to a continuing mainline.", "footprint": [220, 500], "parameters": ["position", "rotation", "mainRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["Mainline In", "Mainline Out", "Local Entry"], "usage": "Stamp a simple elevated highway merge." },
+    { "id": "highway_exit", "category": "INTERCHANGE", "description": "One-way ramp descends from a continuing mainline to local street height.", "footprint": [220, 500], "parameters": ["position", "rotation", "mainRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["Mainline In", "Mainline Out", "Local Exit"], "usage": "Stamp a simple elevated highway diverge." },
+    { "id": "residential_block", "category": "DISTRICT", "description": "Low/mid-rise housing, trees, lamps and a parking placeholder.", "footprint": [140, 110], "parameters": ["position", "rotation"], "ports": [], "usage": "Fill an existing residential roadside block." },
+    { "id": "commercial_block", "category": "DISTRICT", "description": "Office, commercial boxes, parking, bus stop and trees.", "footprint": [170, 130], "parameters": ["position", "rotation"], "ports": [], "usage": "Fill an existing commercial block." },
+    { "id": "industrial_block", "category": "DISTRICT", "description": "Factories, garage, parking and guardrails.", "footprint": [180, 130], "parameters": ["position", "rotation"], "ports": [], "usage": "Fill an existing industrial block." }
+  ]
+}

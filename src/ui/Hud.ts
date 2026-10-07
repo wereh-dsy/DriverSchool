@@ -1,4 +1,6 @@
 import type { Texture } from 'three';
+import { Minimap } from './Minimap';
+import type { RoadNetworkData } from '../world/navigation/RoadNetwork';
 import type { GamepadThrottleDiagnostics } from '../input/GamepadInput';
 import type { VehicleFeedbackState } from '../vehicle/feedback/VehicleFeedbackSystem';
 import type { VehicleSnapshot } from '../vehicle/physics/VehicleDynamics';
@@ -52,6 +54,7 @@ export interface HudTelemetry {
 }
 
 export class Hud {
+  private readonly minimap: Minimap;
   readonly rightMirrorViewport: HTMLElement;
   readonly settings: ControlSettingsPanel;
   private readonly speedValue: HTMLElement;
@@ -168,6 +171,8 @@ export class Hud {
           <span><kbd data-key-action="steerLeft">A</kbd><kbd data-key-action="steerRight">D</kbd> 转向</span>
           <span><kbd data-key-action="shiftDown">Q</kbd><kbd data-key-action="shiftUp">E</kbd> 换挡</span>
           <span><kbd data-key-action="handbrake">空格</kbd> 手刹开关</span><span><kbd data-key-action="cycleLights">L</kbd> 灯光</span>
+          <span><kbd data-key-action="cycleWipers">B</kbd> 雨刷</span>
+          <span><kbd data-key-action="cycleDriveMode">T</kbd> 驾驶模式</span>
           <span><kbd>F2</kbd> 数据</span><span><kbd>F3</kbd> 设置</span><span><kbd>F4</kbd> 场地</span><span><kbd>F5</kbd> 车辆</span>
           <span><kbd data-key-action="toggleClutchMode">M</kbd> 离合模式</span><span><kbd>鼠标</kbd> 观察</span>
         </div>
@@ -189,7 +194,7 @@ export class Hud {
               <div><small>起步</small><strong>MT 按 <kbd data-key-action="gear1">1</kbd>；AT / DCT 按 RB 选到 D，或在 F3 选 D</strong></div>
               <div><small>换挡</small><strong><kbd data-key-action="shiftUp">E</kbd> 升挡 · <kbd data-key-action="shiftDown">Q</kbd> 降挡</strong></div>
               <div><small>观察 / 调试</small><strong>拖动鼠标转头 · <kbd>C</kbd> 回正 · <kbd>F6</kbd> 接触调试</strong></div>
-              <div><small>标准手柄</small><strong>LS 转向 · LT/RT 踏板 · LB/RB：MT 换挡、自动挡 PRND 选挡 · A 手刹 · GT/自动挡 X 巡航（键盘 V）</strong></div>
+              <div><small>标准手柄</small><strong>LS 转向 · LT/RT 踏板 · LB/RB：MT 换挡、自动挡 PRND 选挡 · A 手刹 · GT/自动挡 X 巡航（键盘 V） · B 驾驶模式（支持车型）</strong></div>
               <div><small>灯光与点火</small><strong>十字键 ←/→ 转向灯 · ↑ 大灯 · ↓ 双闪 · Start 点火/熄火</strong></div>
               <div><small>手动离合 / 附件</small><strong>键盘 M 切换离合模式 · Y 雾灯 · 按住 L3 闪灯 · R3 喇叭</strong></div>
             </div>
@@ -244,6 +249,9 @@ export class Hud {
     };
 
     this.settings = new ControlSettingsPanel(host);
+    this.minimap = new Minimap(this.require('.game-ui'));
+    this.minimap.setPosition(this.settings.minimapPosition);
+    this.settings.onMinimapPositionChange = position => this.minimap.setPosition(position);
     this.settings.onMapChange = (mapId) => this.onMapChange?.(mapId);
     this.settings.onVehicleChange = (vehicleId) => this.onVehicleChange?.(vehicleId);
 
@@ -254,6 +262,12 @@ export class Hud {
   onStart?: () => void;
   onMapChange?: (mapId: string) => void;
   onVehicleChange?: (vehicleId: string) => void;
+
+  setRoadNetwork(network: RoadNetworkData | undefined): void { this.minimap.setNetwork(network); }
+
+  updateMinimap(x: number, z: number, yaw: number, dt: number): void {
+    this.minimap.update(x, z, yaw, dt);
+  }
 
   setMapOptions(options: readonly DrivingMapOption[], activeMapId: string): void {
     this.mapOptions = [...options];
@@ -474,6 +488,7 @@ export class Hud {
   }
 
   dispose(): void {
+    this.minimap.dispose();
     window.removeEventListener('keydown', this.onKeyDown);
     this.settings.dispose();
   }

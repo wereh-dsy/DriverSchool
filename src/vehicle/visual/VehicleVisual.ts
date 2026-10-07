@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
 
 import { Cockpit } from './Cockpit';
-import { buildVehicleExterior } from './VehicleExterior';
+import { buildVehicleExterior, frontDoorSkinAnchor } from './VehicleExterior';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import {
@@ -201,6 +201,7 @@ export class VehicleVisual {
   public setWheelSuspensionOffsets(offsets: Readonly<Record<VehicleWheelId, number>>): void {
     for (const id of VEHICLE_WHEEL_IDS) {
       this.wheelPivots[id].position.y = this.config.dimensions.wheelRadius
+        - (this.config.staticBodyOffsetY ?? 0)
         + (Number.isFinite(offsets[id]) ? offsets[id] : 0);
     }
   }
@@ -387,7 +388,7 @@ export class VehicleVisual {
       const pivot = new THREE.Group();
       pivot.name = `${id} ${index < 2 ? 'steering pivot' : 'suspension mount'}`;
       pivot.userData.wheelId = id;
-      pivot.position.set(position.x, position.y, position.z);
+      pivot.position.set(position.x, position.y - (this.config.staticBodyOffsetY ?? 0), position.z);
       this.wheelPivots[id] = pivot;
 
       const wheel = new THREE.Mesh(tyreGeometry, tyreMaterial);
@@ -439,6 +440,7 @@ export class VehicleVisual {
       color: this.config.body.trimColor,
       roughness: 0.42,
       metalness: 0.12,
+      side: THREE.DoubleSide,
     });
     // Keep the side mirror deliberately simple and legible.  The previous
     // stretched sphere produced a half-oval/half-rectangle silhouette that
@@ -450,6 +452,18 @@ export class VehicleVisual {
       housingHeight,
       mirrorConfig.housingDepth,
     );
+    // Open the glass-facing side. The real adjustable plane can then pivot
+    // inside the shell without its edges disappearing into a solid front slab.
+    const vertices = housingGeometry.getAttribute('position');
+    const sourceIndices = housingGeometry.getIndex()!;
+    const shellIndices: number[] = [];
+    for (let i = 0; i < sourceIndices.count; i += 3) {
+      const triangle = [sourceIndices.getX(i), sourceIndices.getX(i + 1), sourceIndices.getX(i + 2)];
+      if (triangle.every(index => vertices.getZ(index) > mirrorConfig.housingDepth * .49)) continue;
+      shellIndices.push(...triangle);
+    }
+    housingGeometry.setIndex(shellIndices);
+    housingGeometry.clearGroups();
     const housing = new THREE.Mesh(housingGeometry, housingMaterial);
     housing.name = `${side} mirror housing`;
     housing.position.z = -mirrorConfig.housingDepth * 0.5;
@@ -510,34 +524,28 @@ export class VehicleVisual {
     this.mirrorSurfaceRoot.add(surface);
 
     const sign = side === 'left' ? -1 : 1;
-    const mount = new THREE.Vector3(...(mirrorConfig.mountPosition ?? [sign * this.config.vehicleWidth * .48,
-      this.config.cabin.windshieldBottomY + .04, this.config.cabin.windshieldBottomZ + .065]));
+    const mountZ = mirrorConfig.mountPosition?.[2] ?? this.config.cabin.windshieldBottomZ + .065;
+    const doorEdge = frontDoorSkinAnchor(this.config, mountZ);
+    const mount = new THREE.Vector3(sign * (doorEdge.x + .004), doorEdge.y + .06, mountZ);
     // Attach the sail to the actual upper front-door skin, rather than a
     // width-based point suspended outside the tapered body. Optical glass
     // position/orientation remains exactly the configured reflective plane.
-    const label = side === 'left' ? 'Left' : 'Right';
-    const door = (this.exteriorRoot.getObjectByName(`${label} front door`)
-      ?? this.exteriorRoot.getObjectByName(`${label} coupe door`)) as THREE.Mesh | undefined;
-    if (door !== undefined) {
-      const vertices = door.geometry.getAttribute('position');
-      let closestZ = Infinity, topY = -Infinity, edgeX = mount.x;
-      for (let i = 2; i < vertices.count; i += 3) {
-        const distance = Math.abs(vertices.getZ(i) - mount.z);
-        if (distance < closestZ) { closestZ = distance; topY = vertices.getY(i); edgeX = vertices.getX(i); }
-      }
-      if (Number.isFinite(topY)) { mount.x = edgeX + sign * .004; mount.y = topY + .06; }
-    }
     const sailShape = new THREE.Shape();
-    sailShape.moveTo(-.07, -.09); sailShape.lineTo(.065, -.09); sailShape.lineTo(-.04, .09); sailShape.closePath();
+    // Shape X maps to longitudinal Z after rotation. Its forward tip sits in
+    // the door's triangle region, below the main side-window opening.
+    sailShape.moveTo(sign * .055, -.065);
+    sailShape.lineTo(-sign * .095, -.065);
+    sailShape.lineTo(sign * .045, .07);
+    sailShape.closePath();
     const sail = new THREE.Mesh(new THREE.ExtrudeGeometry(sailShape,
-      { depth: .035, bevelEnabled: false, steps: 1 }), housingMaterial);
+      { depth: .028, bevelEnabled: false, steps: 1 }), housingMaterial);
     sail.name = `${side} door mirror sail mount`;
     sail.position.copy(mount); sail.rotation.y = sign * Math.PI / 2;
     sail.userData.vehicleBodyPart = 'mirror-housing';
     this.exteriorRoot.add(sail);
     const housingConnection = new THREE.Vector3(-sign * .1, -housingHeight * .18, -mirrorConfig.housingDepth * .68)
       .applyEuler(assembly.rotation).add(assembly.position);
-    const start = mount.clone().add(new THREE.Vector3(sign * .025, .02, 0));
+    const start = mount.clone().add(new THREE.Vector3(sign * .014, -.015, .005));
     const delta = housingConnection.clone().sub(start);
     const stalk = new THREE.Mesh(new THREE.CylinderGeometry(.019, .026, delta.length(), 8), housingMaterial);
     stalk.name = `${side} mirror stalk`;

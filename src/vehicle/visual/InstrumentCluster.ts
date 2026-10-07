@@ -15,6 +15,7 @@ export interface InstrumentIndicatorState {
   readonly absWarning?: boolean;
   readonly tcsActive?: boolean;
   readonly tcsOff?: boolean;
+  readonly escOff?: boolean;
   readonly engineWarning?: boolean;
   readonly batteryWarning?: boolean;
   /** Active cruise state shared by all equipped vehicle faces. */
@@ -32,6 +33,8 @@ export interface InstrumentTelemetry {
   readonly speedKmh: number;
   readonly rpm: number;
   readonly gear: InstrumentGear;
+  readonly driveMode?: import('../config').VehicleDriveMode;
+  readonly cruiseTargetSpeedKmh?: number;
   readonly fuelLevel?: number;
   readonly coolantTemperatureC?: number;
   readonly handbrake?: number;
@@ -46,7 +49,8 @@ export type InstrumentDisplayStyle =
   | 'dual-analog'
   | 'sport-tft'
   | 'cx4-tach-wing'
-  | 'jetta-twin-dial';
+  | 'jetta-twin-dial'
+  | 'executive-virtual';
 
 export interface InstrumentClusterConfig {
   readonly maximumSpeedKmh: number;
@@ -616,6 +620,19 @@ const drawRoundedBar = (
 type StatusLamp = readonly [label: string, active: boolean | undefined, color: string];
 
 /**
+ * One fixed lamp row of one cluster face. Slots are allocated from this table
+ * only, never from the currently active subset, and a `null` label is a
+ * reserved empty cell that keeps the mirrored columns aligned.
+ */
+interface StatusLampRow {
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+  readonly labels: readonly (string | null)[];
+}
+
+/**
  * The physical status-lamp set shared by every cluster face. Conditions and
  * colours are the ones the classic sedan LCD already used, so a lamp means the
  * same thing on all four faces; only the presentation differs.
@@ -634,12 +651,14 @@ const instrumentStatusLamps = (
   ['BAT', state.batteryWarning, '#ff4e4e'],
   ['ABS', state.absWarning, '#ffc247'],
   ['SKID', state.tcsActive, '#ffc247'],
-  ['TCS OFF', state.tcsOff, '#ffc247'],
+  ['TCS OFF', state.tcsOff || state.escOff, '#ffc247'],
   ['CRUISE', state.cruise, '#72e58a'],
   ['▶', state.rightTurn, '#5aff71'],
 ];
 
 const STATUS_LAMP_STROKE = '#0a1715';
+const assistOffLabel = (state: InstrumentIndicatorState): string =>
+  state.escOff ? (state.tcsOff ? 'TCS/ESC OFF' : 'ESC OFF') : 'TCS OFF';
 
 const drawStatusLamp = (
   context: CanvasRenderingContext2D,
@@ -687,11 +706,12 @@ const drawStatusLamp = (
     for(const angle of [Math.PI,Math.PI*1.25,Math.PI*1.5,Math.PI*1.75,Math.PI*2])
       path([[Math.cos(angle)*8,1+Math.sin(angle)*8],[Math.cos(angle)*6,1+Math.sin(angle)*6]]);
     path([[0,1],[5,-4]]); path([[-4,8],[10,8],[7,5]]); path([[10,8],[7,11]]);
-  } else if(label==='SKID' || label==='TCS OFF') {
+  } else if(label==='SKID' || label==='TCS OFF' || label==='ESC OFF' || label==='TCS/ESC OFF') {
     path([[-8,1],[-7,-8],[-4,-12],[4,-12],[7,-8],[8,1]],true); path([[-5,-7],[5,-7]]);
     for(const side of [-1,1]) { context.beginPath(); context.moveTo(side*5,3);
       context.bezierCurveTo(side*9,5,side*1,7,side*5,9); context.stroke(); }
-    if(label==='TCS OFF') { context.font='bold 8px Arial'; context.textAlign='center'; context.fillText('OFF',0,15); }
+    if(label!=='SKID') { context.font='bold 6px Arial'; context.textAlign='center';
+      context.fillText(label,0,15); }
   } else if(label==='P' || label==='PARK' || label==='ABS') {
     context.beginPath(); context.arc(0,0,9,0,Math.PI*2); context.stroke();
     context.beginPath(); context.arc(0,0,13,Math.PI*.77,Math.PI*1.23); context.stroke();
@@ -703,9 +723,10 @@ const drawStatusLamp = (
 };
 
 /**
- * Compact two-row status lamp panel for the narrower 6AT wing and 7DCT centre
- * display. Allocate slots from the full inventory, never the active subset.
- * Switching a lamp changes brightness only; no active-count reflow.
+ * Compact status lamp panel for the narrower 6AT wings and 7DCT centre display.
+ * Allocate slots from the authored label list, never the active subset, so the
+ * cell of every lamp is fixed. Switching a lamp changes brightness only; no
+ * active-count reflow. A `null` label reserves an empty cell.
  */
 const drawCompactStatusLamps = (
   context: CanvasRenderingContext2D,
@@ -714,27 +735,97 @@ const drawCompactStatusLamps = (
   y: number,
   width: number,
   height: number,
-  labels?: readonly string[],
+  labels?: readonly (string | null)[],
 ): void => {
   context.save();
   context.fillStyle = STATUS_LAMP_STROKE;
   drawBeveledPanel(context, x, y, width, height, 9);
   context.fill();
 
-  const lamps = labels === undefined ? instrumentStatusLamps(state)
-    : labels.map(label => instrumentStatusLamps(state).find(lamp => lamp[0]===label)!);
+  const inventory = instrumentStatusLamps(state);
+  const lamps: readonly (StatusLamp | null)[] = labels === undefined
+    ? inventory
+    : labels.map(label => label === null
+      ? null
+      : inventory.find(lamp => lamp[0] === label) ?? null);
   const columns = Math.min(7,lamps.length), rows = Math.ceil(lamps.length/columns);
   const rowHeight = height / rows;
   const fontSize = Math.min(26,rowHeight*.8,width/columns*.72);
   context.textAlign = 'center';
   context.textBaseline = 'middle';
-  lamps.forEach(([label,active,color],index) => {
-    if(active!==true) return;
-    drawStatusLamp(context,label,color,x+width/columns*(index%columns+.5),
+  lamps.forEach((lamp,index) => {
+    if(lamp===null || lamp[1]!==true) return;
+    const [label,,color] = lamp;
+    drawStatusLamp(context,label === 'TCS OFF' ? assistOffLabel(state) : label,color,x+width/columns*(index%columns+.5),
       y+rowHeight*(Math.floor(index/columns)+.5),fontSize);
   });
   context.shadowBlur = 0;
   context.restore();
+};
+
+/**
+ * Fixed lamp layout tables. Every face draws whole rows from one of these, so a
+ * category keeps one region and no lamp can move when another one lights up.
+ *
+ * Twin-dial centre LCD (512 x 240) shared by the driving-school 5MT and the CVT
+ * sedan: seven equal cells per row. The turn lamps own the two outer cells of
+ * the upper row and therefore share one horizontal line, mirrored about the
+ * cluster centre, with the lighting group between them. The lower row carries
+ * the vehicle-status group on the left and the driver-assist group on the
+ * right. Both rows stay above the speed/gear readout.
+ */
+const CENTRE_LCD_LAMP_ROWS: readonly StatusLampRow[] = [
+  { x: 16, y: 10, width: 480, height: 30,
+    labels: ['◀', 'POS', 'LO', 'HI', 'FRFOG', 'RRFOG', '▶'] },
+  { x: 16, y: 42, width: 480, height: 30,
+    labels: ['P', 'ENG', 'BAT', 'ABS', 'SKID', 'TCS OFF', 'CRUISE'] },
+];
+
+/**
+ * 6AT wings (240 x 400 each, mirrored about the central tachometer). Both wings
+ * use the same two bands and the same four cell centres, so the outer cells of
+ * the upper band are exact mirrors: the left turn lamp sits at the outer left
+ * and the right turn lamp at the outer right, on the same height. The upper
+ * band holds the lighting group, the lower band the vehicle-status and
+ * driver-assist groups; the two reserved cells face the central dial so it
+ * keeps its full visual weight.
+ */
+const CX4_LEFT_LAMP_ROWS: readonly StatusLampRow[] = [
+  { x: 20, y: 14, width: 200, height: 26,
+    labels: ['◀', 'POS', 'LO', 'HI'] },
+  { x: 20, y: 268, width: 200, height: 26,
+    labels: ['P', 'ENG', 'BAT', null] },
+];
+const CX4_RIGHT_LAMP_ROWS: readonly StatusLampRow[] = [
+  // Canvas x grows away from the tachometer here, so this row mirrors the left
+  // upper band read right to left.
+  { x: 20, y: 14, width: 200, height: 26,
+    labels: [null, 'RRFOG', 'FRFOG', '▶'] },
+  { x: 20, y: 268, width: 200, height: 26,
+    labels: ['CRUISE', 'TCS OFF', 'SKID', 'ABS'] },
+];
+
+/**
+ * 7DCT centre display (240 x 400): the same two-row, seven-cell arrangement as
+ * the twin-dial LCD, tightened to the narrower screen and kept clear of the
+ * gear and speed readouts below it.
+ */
+const JETTA_CENTRE_LAMP_ROWS: readonly StatusLampRow[] = [
+  { x: 18, y: 22, width: 204, height: 22,
+    labels: ['◀', 'POS', 'LO', 'HI', 'FRFOG', 'RRFOG', '▶'] },
+  { x: 18, y: 46, width: 204, height: 22,
+    labels: ['P', 'ENG', 'BAT', 'ABS', 'SKID', 'TCS OFF', 'CRUISE'] },
+];
+
+/** Draws one face's complete, fixed lamp layout. */
+const drawStatusLampRows = (
+  context: CanvasRenderingContext2D,
+  state: InstrumentIndicatorState,
+  rows: readonly StatusLampRow[],
+): void => {
+  for (const row of rows) {
+    drawCompactStatusLamps(context, state, row.x, row.y, row.width, row.height, row.labels);
+  }
 };
 
 const drawCx4LeftWing = (
@@ -794,9 +885,8 @@ const drawCx4LeftWing = (
     }
   }
 
-  // Reuses the sedan's lamp conditions and colours in a compact panel.
-  drawCompactStatusLamps(context, indicators,20,14,width-40,26,['◀','P','ABS']);
-  drawCompactStatusLamps(context, indicators,20,268,width-40,28,['ENG','BAT','SKID','TCS OFF']);
+  // Reuses the sedan's lamp conditions and colours in the fixed 6AT bands.
+  drawStatusLampRows(context, indicators, CX4_LEFT_LAMP_ROWS);
 
   context.fillStyle = '#6d7579';
   context.font = '700 17px Arial, sans-serif';
@@ -819,8 +909,8 @@ const drawCx4RightWing = (
   if (context === null) return canvas;
   context.clearRect(0, 0, width, height);
   drawWingBody(context, width, height, '#15181b', '#08090a');
-  drawCompactStatusLamps(context,indicators,20,14,width-40,26,['POS','LO','HI']);
-  drawCompactStatusLamps(context,indicators,20,304,width-40,28,['FRFOG','RRFOG','CRUISE','▶']);
+  // Mirrors the left wing's bands so both turn lamps share one height.
+  drawStatusLampRows(context, indicators, CX4_RIGHT_LAMP_ROWS);
   const barX = 30;
   const barWidth = width - 60;
 
@@ -883,10 +973,10 @@ const drawJettaCentreDisplay = (
   context.lineWidth = 2.5;
   context.stroke();
 
-  // Top status panel. It reuses the sedan's lamp conditions and colours, so
-  // lights, turn signals, parking brake and engine/battery warnings read the
-  // same as on the manual car; only the compact two-row arrangement is new.
-  drawCompactStatusLamps(context, indicators, 18, 22, width - 36, 44);
+  // Fixed two-row lamp layout. It reuses the sedan's lamp conditions and
+  // colours, so lights, turn signals, parking brake and engine/battery warnings
+  // read the same as on the manual car; only the arrangement is new.
+  drawStatusLampRows(context, indicators, JETTA_CENTRE_LAMP_ROWS);
 
   context.textAlign = 'center';
   context.textBaseline = 'middle';
@@ -1000,6 +1090,11 @@ export class InstrumentCluster extends THREE.Group {
   private currentSpeedometerRotation = fractionToNeedleRotation(0);
   private currentFuelRotation = fractionToSmallGaugeRotation(0.72);
   private currentTemperatureRotation = fractionToSmallGaugeRotation(0.5);
+  private executiveCanvas: HTMLCanvasElement | null = null;
+  private executiveTexture: THREE.CanvasTexture | null = null;
+  private executiveTachArtwork: HTMLCanvasElement | null = null;
+  private executiveSpeedArtwork: HTMLCanvasElement | null = null;
+  private executiveKey = '';
   private lastInformationKey = '';
   private lastIndicatorKey = '';
 
@@ -1113,7 +1208,12 @@ export class InstrumentCluster extends THREE.Group {
     );
     this.add(informationDisplay);
 
-    if (this.config.displayStyle === 'sport-tft') {
+    if (this.config.displayStyle === 'executive-virtual') {
+      this.children.slice(2).forEach(child => { child.visible = false; });
+      this.sportDisplayCanvas = null;
+      this.sportDisplayTexture = null;
+      this.buildExecutiveFace();
+    } else if (this.config.displayStyle === 'sport-tft') {
       // The coupe owns a genuinely different display rather than a recoloured
       // sedan cluster.  Keep the shared analogue hardware instantiated for a
       // small, predictable code path, but cover and hide it behind one TFT.
@@ -1417,8 +1517,17 @@ export class InstrumentCluster extends THREE.Group {
       indicators.engineWarning,
       indicators.batteryWarning,
       indicators.cruise,
-      indicators.absWarning, indicators.tcsActive, indicators.tcsOff,
+      indicators.absWarning, indicators.tcsActive, indicators.tcsOff, indicators.escOff,
     ].map((value) => (value === true ? '1' : '0')).join('');
+    if (this.config.displayStyle === 'executive-virtual') {
+      const key = [displaySpeed, Math.round(rpm / 25), telemetry.gear, telemetry.driveMode,
+        Math.round(fuelLevel * 100), Math.round(temperatureC), telemetry.cruiseTargetSpeedKmh, indicatorKey].join('|');
+      if (key !== this.executiveKey) {
+        this.redrawExecutiveFace(telemetry, indicators, speedKmh, rpm, fuelLevel, temperatureC);
+        this.executiveKey = key;
+      }
+      return;
+    }
     if (this.config.displayStyle === 'cx4-tach-wing') {
       const gearSelector = parseGearSelector(telemetry.gear);
       const cx4Key = [
@@ -1479,6 +1588,87 @@ export class InstrumentCluster extends THREE.Group {
         this.redrawInformation(displaySpeed, telemetry.gear, indicators);
       }
     }
+  }
+
+  private buildExecutiveFace(): void {
+    this.executiveCanvas = createCanvas(1440, 600);
+    this.executiveTexture = configureTexture(this.executiveCanvas);
+    const common = { label: '', unit: '', minorTicksPerMajor: 5,
+      majorTickColor: '#e4e8ed', minorTickColor: '#727c87', labelColor: '#cfd5dc' };
+    this.executiveTachArtwork = drawStyledDialArtwork({ ...common, maximum: this.config.maximumRPM,
+      majorDivisions: 7, labelDivisor: 1000, redlineFraction: this.config.redlineRPM / this.config.maximumRPM });
+    this.executiveSpeedArtwork = drawStyledDialArtwork({ ...common, maximum: this.config.maximumSpeedKmh,
+      majorDivisions: 7, minorTicksPerMajor: 4 });
+    const display = new THREE.Mesh(new THREE.PlaneGeometry(.49, .2042),
+      new THREE.MeshBasicMaterial({ map: this.executiveTexture, toneMapped: false }));
+    display.name = 'Executive Virtual Cockpit twin dials and central road display';
+    display.position.z = .070;
+    this.add(display);
+    this.redrawExecutiveFace({ speedKmh: 0, rpm: 0, gear: 'P', driveMode: 'NORMAL' }, {}, 0, 0, .72, 90);
+  }
+
+  private redrawExecutiveFace(telemetry: InstrumentTelemetry, indicators: InstrumentIndicatorState,
+    speed: number, rpm: number, fuel: number, temperature: number): void {
+    const context = this.executiveCanvas?.getContext('2d');
+    if (context == null || this.executiveTachArtwork === null || this.executiveSpeedArtwork === null) return;
+    const mode = telemetry.driveMode ?? 'NORMAL';
+    const accent = mode === 'ECO' ? '#81bd9d' : mode === 'SPORT' ? '#e46666' : '#e0e4e9';
+    context.fillStyle = '#070a0e'; context.fillRect(0, 0, 1440, 600);
+    context.drawImage(this.executiveTachArtwork, 145, 95, 400, 400);
+    context.drawImage(this.executiveSpeedArtwork, 895, 95, 400, 400);
+    // Existing lamp artwork and states, in a fixed top warning band.
+    drawStatusLampRows(context, indicators, [
+      { x: 230, y: 12, width: 980, height: 32, labels: ['◀', 'POS', 'LO', 'HI', 'FRFOG', 'RRFOG', '▶'] },
+      { x: 400, y: 49, width: 640, height: 30, labels: ['P', 'ENG', 'BAT', 'ABS', 'SKID', 'TCS OFF', 'CRUISE'] },
+    ]);
+    const text = (value: string, x: number, y: number, size: number, color = '#e3e7ec'): void => {
+      context.fillStyle = color; context.font = `500 ${size}px "Segoe UI", sans-serif`;
+      context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText(value, x, y);
+    };
+    // Short digital needles avoid the centres containing primary readouts.
+    const needle = (x: number, fraction: number): void => {
+      const angle = THREE.MathUtils.lerp(ARC_START, ARC_END, clamp01(fraction));
+      context.strokeStyle = '#ec6a64'; context.lineWidth = 5;
+      context.beginPath(); context.moveTo(x + Math.sin(angle) * 115, 295 - Math.cos(angle) * 115);
+      context.lineTo(x + Math.sin(angle) * 162, 295 - Math.cos(angle) * 162); context.stroke();
+    };
+    needle(345, rpm / this.config.maximumRPM); needle(1095, speed / this.config.maximumSpeedKmh);
+    text(formatInstrumentGear(telemetry.gear), 345, 270, 62);
+    text(mode, 345, 336, 28, accent);
+    context.fillStyle = accent; context.fillRect(305, 358, 80, 3);
+    text('1/min x 1000', 345, 425, 19, '#8e98a5');
+    text(String(Math.round(speed)), 1095, 270, 74);
+    text('km/h', 1095, 337, 24, '#9ca5b0');
+    // Wide central area is independent of dial artwork and can host future navigation.
+    context.fillStyle = '#10161e'; drawBeveledPanel(context, 565, 110, 310, 366, 8); context.fill();
+    text(indicators.cruise ? 'CRUISE ACTIVE' : 'DRIVING INFORMATION', 720, 144, 20);
+    text(indicators.cruise && telemetry.cruiseTargetSpeedKmh !== undefined
+      ? `SET ${Math.round(telemetry.cruiseTargetSpeedKmh)} km/h` : 'CRUISE STANDBY', 720, 178, 21, '#9faab6');
+    // Static road illustration only: no implied lane sensing or new driver assistance.
+    context.strokeStyle = '#75808d'; context.lineWidth = 3;
+    for (const sign of [-1, 1]) {
+      context.beginPath(); context.moveTo(720 + sign * 95, 446); context.lineTo(720 + sign * 28, 230); context.stroke();
+    }
+    context.setLineDash([16, 18]); context.strokeStyle = '#3c4654';
+    for (const sign of [-1, 1]) {
+      context.beginPath(); context.moveTo(720 + sign * 48, 440); context.lineTo(720 + sign * 14, 232); context.stroke();
+    }
+    context.setLineDash([]);
+    context.fillStyle = '#bdc5cf'; drawBeveledPanel(context, 699, 343, 42, 77, 10); context.fill();
+    context.fillStyle = '#26323f'; drawBeveledPanel(context, 705, 358, 30, 22, 4); context.fill();
+    const bar = (x: number, fraction: number, label: string, bottom: string, top: string): void => {
+      context.fillStyle = '#26313d'; context.fillRect(x - 5, 157, 10, 254);
+      context.fillStyle = '#c3cbd4'; context.fillRect(x - 5, 411 - 254 * fraction, 10, 254 * fraction);
+      text(top, x, 134, 18, '#9ba5af'); text(bottom, x, 438, 18, '#9ba5af'); text(label, x, 478, 18);
+    };
+    bar(100, clamp01((temperature - 50) / 80), 'TEMP', '50', '130');
+    bar(1340, fuel, 'FUEL', 'E', 'F');
+    context.strokeStyle = '#323b46'; context.lineWidth = 1;
+    context.beginPath(); context.moveTo(72, 520); context.lineTo(1368, 520); context.stroke();
+    text('AWD', 180, 555, 21, '#a3acb6');
+    text(telemetry.engineRunning === false ? 'IGNITION ON / ENGINE OFF' : 'EXECUTIVE  |  2.0 TURBO', 720, 555, 22, '#a3acb6');
+    text(`${Math.round(temperature)} C`, 1260, 555, 21, '#a3acb6');
+    this.executiveTexture!.needsUpdate = true;
   }
 
   /** Releases the canvases, materials and small geometries owned by this cluster. */
@@ -1865,11 +2055,11 @@ export class InstrumentCluster extends THREE.Group {
       [958, 'BAT', indicators.batteryWarning, '#ff5764'],
       [422, 'ABS', indicators.absWarning, '#ffc247'],
       [600, 'SKID', indicators.tcsActive, '#ffc247'],
-      [722, 'TCS OFF', indicators.tcsOff, '#ffc247'],
+      [722, assistOffLabel(indicators), indicators.tcsOff || indicators.escOff, '#ffc247'],
     ];
     for (const [x, label, active, color] of lamps) {
       if (active !== true) continue;
-      const width = label === 'TCS OFF' ? 80 : Math.max(44, label.length * 11 + 18);
+      const width = label.endsWith('OFF') ? 80 : Math.max(44, label.length * 11 + 18);
       roundedPanel(x - width / 2, 115, width, 28, 8);
       context.fillStyle = `${color}1f`;
       context.fill();
@@ -2032,7 +2222,7 @@ export class InstrumentCluster extends THREE.Group {
       state.engineWarning,
       state.batteryWarning,
       state.cruise,
-      state.absWarning, state.tcsActive, state.tcsOff,
+      state.absWarning, state.tcsActive, state.tcsOff, state.escOff,
     ].map((value) => (value === true ? '1' : '0')).join('');
   }
 
@@ -2040,6 +2230,8 @@ export class InstrumentCluster extends THREE.Group {
     context: CanvasRenderingContext2D,
     state: InstrumentIndicatorState,
   ): void {
-    drawCompactStatusLamps(context,state,16,10,this.informationCanvas.width-32,62);
+    // Two fixed rows inside the centre LCD: lighting and the mirrored turn
+    // lamps above, vehicle status and driver assist below.
+    drawStatusLampRows(context, state, CENTRE_LCD_LAMP_ROWS);
   }
 }

@@ -112,6 +112,7 @@ const addLamp = (
     context.materials.metal,
     context.shadows,
   );
+  head.userData.environmentLamp = true;
   lamp.add(pole, head);
   root.add(lamp);
 };

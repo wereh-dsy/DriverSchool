@@ -1,12 +1,13 @@
 import * as THREE from 'three';
+import { wetRoadMaterial } from '../environment/WetRoadMaterial';
 
 export interface Subject3Materials {
   readonly grass: THREE.MeshStandardMaterial;
   readonly asphalt: THREE.MeshStandardMaterial;
   readonly sidewalk: THREE.MeshStandardMaterial;
   readonly curb: THREE.MeshStandardMaterial;
-  readonly whitePaint: THREE.MeshBasicMaterial;
-  readonly yellowPaint: THREE.MeshBasicMaterial;
+  readonly whitePaint: THREE.MeshStandardMaterial;
+  readonly yellowPaint: THREE.MeshStandardMaterial;
   readonly metal: THREE.MeshStandardMaterial;
   readonly darkMetal: THREE.MeshStandardMaterial;
   readonly lampHead: THREE.MeshStandardMaterial;
@@ -35,7 +36,7 @@ export interface Subject3Materials {
 }
 
 const markingOptions = {
-  toneMapped: false,
+  roughness: 0.8,
   polygonOffset: true,
   polygonOffsetFactor: -3,
   polygonOffsetUnits: -3,
@@ -43,11 +44,11 @@ const markingOptions = {
 
 export const createSubject3Materials = (): Subject3Materials => ({
   grass: new THREE.MeshStandardMaterial({ color: 0x6b7f52, roughness: 1 }),
-  asphalt: new THREE.MeshStandardMaterial({ color: 0x33383b, roughness: 0.96 }),
-  sidewalk: new THREE.MeshStandardMaterial({ color: 0x9d9b93, roughness: 0.94 }),
-  curb: new THREE.MeshStandardMaterial({ color: 0xc6c4b8, roughness: 0.9 }),
-  whitePaint: new THREE.MeshBasicMaterial({ color: 0xf2efe0, ...markingOptions }),
-  yellowPaint: new THREE.MeshBasicMaterial({ color: 0xe8c247, ...markingOptions }),
+  asphalt: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x33383b, roughness: 0.96 })),
+  sidewalk: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x9d9b93, roughness: 0.94 })),
+  curb: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0xc6c4b8, roughness: 0.9 })),
+  whitePaint: new THREE.MeshStandardMaterial({ color: 0xf2efe0, ...markingOptions }),
+  yellowPaint: new THREE.MeshStandardMaterial({ color: 0xe8c247, ...markingOptions }),
   metal: new THREE.MeshStandardMaterial({ color: 0xa9afb0, roughness: 0.55, metalness: 0.5 }),
   darkMetal: new THREE.MeshStandardMaterial({ color: 0x353b3e, roughness: 0.62, metalness: 0.4 }),
   lampHead: new THREE.MeshStandardMaterial({ color: 0xd8d5c8, roughness: 0.7 }),

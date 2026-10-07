@@ -7,7 +7,12 @@ if (!host) {
   throw new Error('Application host #app is missing.');
 }
 
-try {
+if (new URLSearchParams(location.search).get('editor') === 'city') {
+  void import('./editor/CityMapEditor').then(({ CityMapEditor }) => {
+    const editor = new CityMapEditor(host);
+    window.addEventListener('pagehide', () => editor.dispose(), { once: true });
+  }).catch(error => { console.error(error); host.textContent = `City Editor 无法启动：${String(error)}`; });
+} else try {
   const game = new DrivingGame(host);
   game.start();
   window.addEventListener('beforeunload', () => game.dispose(), { once: true });

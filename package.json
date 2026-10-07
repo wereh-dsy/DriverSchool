@@ -9,6 +9,8 @@
   },
   "scripts": {
     "dev": "vite",
+    "editor": "node scripts/start-editor.mjs",
+    "map": "node scripts/map-cli.mjs",
     "start": "vite --host 127.0.0.1 --port 5173 --open",
     "build": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-checkpoint.ps1",
     "preview": "vite preview",

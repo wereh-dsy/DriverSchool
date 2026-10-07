@@ -113,7 +113,7 @@ export class Subject3Junctions implements Subject3AreaModule {
       crosswalkCentreDistance,
     );
     if (arm.approachLaneCount > 1) {
-      this.addApproachLaneDivider(context, junction, forward, right, crosswalkCentreDistance);
+      this.addApproachLaneDivider(context, junction, arm, forward, right, crosswalkCentreDistance);
     }
     if (junction.hasTrafficSignals) {
       this.addSignalHead(
@@ -245,12 +245,13 @@ export class Subject3Junctions implements Subject3AreaModule {
   private addApproachLaneDivider(
     context: Subject3BuildContext,
     junction: Subject3JunctionTopology,
+    arm: Subject3JunctionArm,
     forward: Subject3Point2,
     right: Subject3Point2,
     crosswalkCentreDistance: number,
   ): void {
     const { config, materials, heightAt } = context;
-    const lateral = config.lanes.arterialLaneWidth;
+    const lateral = arm.approachLaneWidth;
     const from = crosswalkCentreDistance + config.junction.arrowOffset - 4;
     const to = crosswalkCentreDistance + config.junction.secondArrowOffset + 7;
     const points: Subject3Point2[] = [
@@ -297,8 +298,10 @@ export class Subject3Junctions implements Subject3AreaModule {
   ): void {
     const { config, materials, shadows } = context;
     const lateral = halfWidth + config.environment.sidewalkWidth * 0.55;
+    // Far-side pole, past the opposite crossing. The head still faces this
+    // approach and keeps its original control group and signal cycle.
     const position = pointAlongLateral(
-      pointAlong(arm.junctionCentre, forward, crosswalkCentreDistance + 1.4),
+      pointAlong(arm.junctionCentre, forward, -(crosswalkCentreDistance + config.junction.crosswalkWidth * 0.5 + 1.4)),
       right,
       lateral,
     );

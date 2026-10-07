@@ -10,6 +10,7 @@ function Get-SourceFingerprint {
   $sourceFiles = @(
     Get-ChildItem -LiteralPath (Join-Path $projectRoot 'src'), (Join-Path $projectRoot 'scripts') -Recurse -File
     Get-Item -LiteralPath (Join-Path $projectRoot 'package.json'), (Join-Path $projectRoot 'tsconfig.json'), (Join-Path $projectRoot 'index.html')
+    Get-Item -LiteralPath (Join-Path $projectRoot 'vite.config.ts'), (Join-Path $projectRoot 'start-editor.cmd')
   ) | Sort-Object FullName
   # .NET hashing also works in the minimal PowerShell used by the launcher.
   $hasher = [Security.Cryptography.SHA256]::Create()

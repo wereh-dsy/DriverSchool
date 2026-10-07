@@ -1,0 +1,25 @@
+.city-editor { position:fixed;inset:0;display:grid;grid-template:48px 1fr 30px / 175px 1fr 290px;background:#171d25;color:#dde5ee;font:13px/1.45 'Segoe UI',sans-serif; }
+.city-editor * { box-sizing:border-box; }
+.city-editor header { grid-column:1/-1;display:flex;align-items:center;gap:6px;padding:7px 12px;border-bottom:1px solid #394251;overflow-x:auto;white-space:nowrap; }
+.city-editor header > * { flex-shrink:0; }
+.city-editor header strong { margin-right:10px; }
+.city-editor button,.city-editor input,.city-editor select { background:#252e3a;color:#e7edf6;border:1px solid #475366;border-radius:3px;font:inherit;padding:5px 7px;min-width:0; }
+.city-editor button { cursor:pointer; }
+.city-editor button.active { border-color:#64b7ec;background:#274761; }
+.city-editor button:disabled { opacity:.35;cursor:default; }
+.city-editor aside { overflow:auto;padding:12px;border-right:1px solid #394251; }
+.city-editor .ce-inspector { border-left:1px solid #394251;border-right:0; }
+.city-editor label { display:flex;justify-content:space-between;align-items:center;gap:8px;margin:9px 0; }
+.city-editor label input:not([type=checkbox]),.city-editor label select { width:145px; }
+.city-editor .ce-tools button { width:100%;text-align:left;margin-bottom:6px; }
+.city-editor .ce-tools select { width:100%;margin-bottom:7px; }
+.city-editor .ce-viewport { position:relative;overflow:hidden;min-width:0;min-height:0; }
+.city-editor canvas { display:block;touch-action:none; }
+.city-editor footer { grid-column:1/-1;padding:5px 12px;border-top:1px solid #394251;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.city-editor h3 { margin:0 0 12px;font-size:14px;overflow-wrap:anywhere; }
+.city-editor hr { border:0;border-top:1px solid #394251;margin:15px 0; }
+.city-editor .ce-hint { color:#9daabb;font-size:12px; }
+.city-editor .ce-object-list { width:100%;height:120px;margin-top:8px; }
+.city-editor .ce-inspector button { margin:4px 3px 4px 0; }
+.city-editor .ce-preset-params label input,.city-editor .ce-preset-params label select { width:80px; margin:0; }
+.city-editor details { color:#ffcf7e; margin-bottom:12px; }

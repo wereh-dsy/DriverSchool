@@ -5,6 +5,8 @@ import {
   createTest6ATVehiclePhysicsConfig,
   createTest7DCTVehiclePhysicsConfig,
   createCVTSedanPhysicsConfig,
+  createAWDTestVehiclePhysicsConfig,
+  createExecutiveSedanPhysicsConfig,
   type VehiclePhysicsConfig,
 } from './config';
 import {
@@ -13,10 +15,13 @@ import {
   TEST_6AT_VISUAL_CONFIG,
   TEST_7DCT_VISUAL_CONFIG,
   CVT_SEDAN_VISUAL_CONFIG,
+  EXECUTIVE_SEDAN_VISUAL_CONFIG,
   type VehicleVisualConfig,
 } from './visual';
+import { withSuspensionStance } from './visual/VehicleVisualConfig';
 
-export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan'] as const;
+export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
+  'test-awd-full-time', 'test-awd-on-demand', 'executive-lwb-2t'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
 
 export interface VehicleCapabilities {
@@ -75,7 +80,19 @@ const TEST_7DCT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
   visualConfig: TEST_7DCT_VISUAL_CONFIG,
 });
 
-const VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = Object.freeze({
+const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = Object.freeze({
+  'executive-lwb-2t': Object.freeze({ id: 'executive-lwb-2t', version: 1, name: 'A6L-inspired 行政轿车',
+    description: '2.0T · 7DCT · AWD · 长轴豪华行政轿车，Virtual Cockpit，ECO / NORMAL / SPORT（T / 手柄 B）。',
+    capabilities: Object.freeze({ cruiseControl: true }),
+    physicsConfig: createExecutiveSedanPhysicsConfig(), visualConfig: EXECUTIVE_SEDAN_VISUAL_CONFIG }),
+  'test-awd-full-time': Object.freeze({ id: 'test-awd-full-time', version: 1, name: '全时 AWD 测试轿车',
+    description: '复用 6AT 轿车 · 前 40% / 后 60% 固定四驱，前后轴开放式差速器。',
+    capabilities: Object.freeze({ cruiseControl: true }),
+    physicsConfig: createAWDTestVehiclePhysicsConfig('full-time'), visualConfig: TEST_6AT_VISUAL_CONFIG }),
+  'test-awd-on-demand': Object.freeze({ id: 'test-awd-on-demand', version: 1, name: '适时 AWD 测试轿车',
+    description: '复用 6AT 轿车 · 巡航 90:10，加速 70:30，前轮滑转时逐渐接近 50:50。',
+    capabilities: Object.freeze({ cruiseControl: true }),
+    physicsConfig: createAWDTestVehiclePhysicsConfig('on-demand'), visualConfig: TEST_6AT_VISUAL_CONFIG }),
   'cvt-family-sedan': Object.freeze({ id: 'cvt-family-sedan', version: 2, name: '2.0 CVT 家用轿车',
     description: '2.0L 自然吸气前驱 · 圆润三厢、舒适悬挂、柔和踏板与钢带无级变速，无模拟挡位。',
     capabilities: Object.freeze({ cruiseControl: true }),
@@ -85,6 +102,12 @@ const VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = Object.fre
   'test-6at-sedan': TEST_6AT_DESCRIPTOR,
   'test-7dct-sedan': TEST_7DCT_DESCRIPTOR,
 });
+
+const VEHICLE_BY_ID = Object.freeze(Object.fromEntries(VEHICLE_IDS.map(id => {
+  const descriptor = AUTHORED_VEHICLE_BY_ID[id];
+  return [id, Object.freeze({ ...descriptor,
+    visualConfig: withSuspensionStance(descriptor.visualConfig, descriptor.physicsConfig.suspension) })];
+}))) as Readonly<Record<VehicleId, VehicleDescriptor>>;
 
 /** Ordered list used by a keyboard cycle command or a future garage UI. */
 export const VEHICLE_CATALOG: readonly VehicleDescriptor[] = Object.freeze(

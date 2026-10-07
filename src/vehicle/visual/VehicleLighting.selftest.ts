@@ -147,11 +147,23 @@ export function runVehicleLightingSelfTest(): VehicleLightingSelfTestResult {
         const growth = visual.getVisualBodyBounds().getSize(new THREE.Vector3()).z - baselineLength;
         maximumBodyLengthIncreaseMetres = Math.max(maximumBodyLengthIncreaseMetres, growth);
         assert(growth < 0.008, `${config.name}: lamp lenses must not enlarge the contact/body envelope materially`);
+        const spotlights = visual.root.children.filter((object) => object instanceof THREE.SpotLight) as THREE.SpotLight[];
+        const fogBeams = spotlights.filter(light => light.name.includes('fog'));
+        lamps.applyState({ ...controller.state, mainLightMode: 'position', positionLight: true, fogLightsEnabled: true });
+        assert(fogBeams.length === 3 && fogBeams.every(light => light.intensity > 0 && !light.castShadow),
+          'fog-only mode supplies actual lightweight front and rear illumination');
+        assert(spotlights.filter(light => !light.name.includes('fog')).every(light => light.intensity === 0),
+          'fog does not switch on the low/high beams');
+        const frontFog = fogBeams.filter(light => light.name.includes('front'));
+        const rearFog = fogBeams.find(light => light.name.includes('Rear'))!;
+        assert(frontFog.every(light => light.target.position.z < light.position.z && light.angle > Math.PI / 4 && light.distance <= 24),
+          'front fog lights illuminate a wide, short range ahead of the vehicle');
+        assert(rearFog.target.position.z > rearFog.position.z && rearFog.color.r > rearFog.color.g && rearFog.distance <= 6,
+          'rear fog supplies only a short red spill behind the vehicle');
         lamps.applyState(controller.state);
         assert(all.every((mesh) => mesh.material.emissiveIntensity === 0), 'all outputs return to OFF without hidden lamp states');
-        const spotlights = visual.root.children.filter((object) => object instanceof THREE.SpotLight) as THREE.SpotLight[];
-        assert(spotlights.length === 2 && spotlights.every((light) => !light.castShadow && light.intensity === 0),
-          'headlight effects remain lightweight and OFF removes real beam output');
+        assert(spotlights.length === 5 && spotlights.every((light) => !light.castShadow && light.intensity === 0),
+          'lamp effects remain lightweight and OFF removes all real beam output');
       } finally { lamps.dispose(); visual.dispose(); }
     }
   } finally {

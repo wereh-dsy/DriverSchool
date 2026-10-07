@@ -189,7 +189,7 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     antiStallStrength: 0.62,
     absEnabled: false,
     tractionControlEnabled: false,
-    stabilityControlEnabled: false,
+    stabilityControlEnabled: true,
   },
   safety: {
     ...DEFAULT_VEHICLE_PHYSICS_CONFIG.safety,

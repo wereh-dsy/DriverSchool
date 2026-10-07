@@ -65,3 +65,9 @@ export function localWheelPositions(
     rearRight: wheelLocalPosition(dimensions, 'rearRight'),
   };
 }
+
+/** Long-wheelbase executive three-box saloon; all render/contact anchors share this. */
+export const EXECUTIVE_LWB_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 5.05, width: 1.89, height: 1.50, wheelBase: 3.025,
+  frontTrackWidth: 1.63, rearTrackWidth: 1.62, wheelRadius: .345, wheelWidth: .245,
+});

@@ -9,6 +9,7 @@ import type {
   Subject3ZoneKind,
 } from './Subject3GroundConfig';
 import type { Subject3TrafficSignalState } from './trafficSignals';
+import type { RoadSegmentData, RoadIntersectionArmData } from '../navigation/RoadNetwork';
 
 export interface Subject3Bounds {
   readonly minimumX: number;
@@ -17,7 +18,7 @@ export interface Subject3Bounds {
   readonly maximumZ: number;
 }
 
-export interface Subject3RoadMetadata {
+export interface Subject3RoadMetadata extends RoadSegmentData {
   readonly id: string;
   readonly name: string;
   readonly roadClass: Subject3RoadClass;
@@ -29,7 +30,7 @@ export interface Subject3RoadMetadata {
   readonly length: number;
 }
 
-export interface Subject3JunctionArmMetadata {
+export interface Subject3JunctionArmMetadata extends RoadIntersectionArmData {
   readonly segmentId: string;
   /** Unit vector pointing from the junction outwards along the arm. */
   readonly outward: Subject3Point2;
@@ -59,9 +60,9 @@ export interface Subject3ZoneMetadata {
 
 export interface Subject3MapMetadata extends DrivingGroundMetadata {
   readonly id: 'subject-3-shared-city-map';
-  readonly version: 1;
+  readonly version: 2;
   readonly mapId: 'cn-subject-3-shared-city-map';
-  readonly schemaVersion: '1.0.0';
+  readonly schemaVersion: '1.1.0';
   readonly displayName: '科目三共享城市地图';
   readonly coordinateUnits: 'metres';
   readonly bounds: Subject3Bounds;

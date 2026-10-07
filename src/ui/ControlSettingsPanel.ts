@@ -10,6 +10,9 @@ import {
 import type { AdjustableMirrorSide, MirrorAdjustment } from '../camera';
 import type { VehicleLightMode } from '../vehicle/visual';
 import type { DriverAssistOptions } from '../vehicle/physics/DriverAssistSystem';
+import type { EnvironmentTime, Weather } from '../world/environment/EnvironmentState';
+import type { WiperMode } from '../vehicle/control/WiperController';
+import type { MinimapPosition } from './Minimap';
 
 export interface DrivingMapOption {
   readonly id: string;
@@ -24,9 +27,14 @@ export interface DrivingVehicleOption {
 }
 
 export class ControlSettingsPanel {
+  public onMinimapPositionChange?: (position: MinimapPosition) => void;
+  public minimapPosition: MinimapPosition = this.readMinimapPosition();
   public onVisibilityChange?: (visible: boolean) => void;
   public onLightModeChange?: (mode: VehicleLightMode) => void;
   public onFogToggle?: () => void;
+  public onWeatherChange?: (weather: Weather) => void;
+  public onTimeChange?: (time: EnvironmentTime) => void;
+  public onWiperModeChange?: (mode: WiperMode) => void;
   public onVibrationChange?: (enabled: boolean) => void;
   public onDriverAssistsChange?: (options: DriverAssistOptions) => void;
   public readonly driverAssistOptions: DriverAssistOptions = this.readDriverAssistPreferences();
@@ -71,12 +79,42 @@ export class ControlSettingsPanel {
         </header>
         <div class="settings-scroll">
           <section class="settings-group">
+            <div class="settings-group-title"><span>道路小地图 · Minimap</span><small>科目三场地</small></div>
+            <div class="settings-segments">
+              <button type="button" data-minimap="off">Off · 关闭</button>
+              <button type="button" data-minimap="top-left">Top Left · 左上</button>
+              <button type="button" data-minimap="top-right">Top Right · 右上</button>
+            </div>
+          </section>
+          <section class="settings-group">
             <div class="settings-group-title"><span>训练场地</span><small>切换后车辆回到该场地起点</small></div>
             <div class="map-selection-list" data-map-buttons></div>
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>训练车辆</span><small>切换后以新车回到当前场地起点</small></div>
             <div class="map-selection-list" data-vehicle-buttons></div>
+          </section>
+          <section class="settings-group">
+            <div class="settings-group-title"><span>环境 · Weather / Time</span><small>所有场地通用 · 可自由组合</small></div>
+            <div class="settings-segments">
+              <button type="button" data-weather="CLEAR">晴天 Clear</button>
+              <button type="button" data-weather="LIGHT_RAIN">小雨 Light Rain</button>
+              <button type="button" data-weather="HEAVY_RAIN">大雨 Heavy Rain</button>
+            </div>
+            <div class="settings-segments">
+              <button type="button" data-time="DAY">白天 Day</button>
+              <button type="button" data-time="DUSK">黄昏 Dusk</button>
+              <button type="button" data-time="NIGHT">夜间 Night</button>
+            </div>
+          </section>
+          <section class="settings-group">
+            <div class="settings-group-title"><span>前雨刷</span><small><kbd data-key-action="cycleWipers">B</kbd> 关→间歇→低速→高速</small></div>
+            <div class="settings-segments">
+              <button type="button" data-wiper="OFF">关闭</button>
+              <button type="button" data-wiper="INTERMITTENT">间歇</button>
+              <button type="button" data-wiper="LOW">低速</button>
+              <button type="button" data-wiper="HIGH">高速</button>
+            </div>
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>灯光</span><small><kbd data-key-action="cycleLights">L</kbd> 循环切换</small></div>
@@ -103,6 +141,7 @@ export class ControlSettingsPanel {
               <button type="button" data-aid="absEnabled">ABS: ON</button>
               <button type="button" data-aid="ebdEnabled">EBD: ON</button>
               <button type="button" data-aid="tractionControlEnabled">TCS: ON</button>
+              <button type="button" data-aid="stabilityControlEnabled">ESC: ON</button>
             </div>
           </section>
           <section class="settings-group">
@@ -122,7 +161,7 @@ export class ControlSettingsPanel {
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>标准手柄</span><small>统一车辆输入</small></div>
-            <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑：关→示宽→近光→远光 · ↓：双闪<br>A：驻车制动 · X：GT/自动挡定速巡航（键盘 V） · Y：前后雾灯 · B：预留<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
+            <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑：关→示宽→近光→远光 · ↓：双闪<br>A：驻车制动 · X：GT/自动挡定速巡航（键盘 V） · Y：前后雾灯 · B：驾驶模式 ECO→NORMAL→SPORT（键盘 T，支持车型）<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
             <label><input type="checkbox" data-vibration aria-label="Controller Vibration"> Controller Vibration · 手柄震动</label>
           </section>
           <section class="settings-group keyboard-settings">
@@ -142,11 +181,22 @@ export class ControlSettingsPanel {
     this.buildBindingRows(this.require(shell, '[data-binding-grid]'));
     this.setBindings(this.bindings);
     this.setLightMode('off');
+    this.setEnvironment('CLEAR', 'DAY');
+    this.setWiperMode('OFF');
     this.setMirrorSide('left');
+    this.refreshMinimapButtons();
+    shell.querySelectorAll<HTMLButtonElement>('[data-minimap]').forEach(button => {
+      button.addEventListener('click', () => {
+        this.minimapPosition = button.dataset.minimap as MinimapPosition;
+        this.refreshMinimapButtons();
+        try { localStorage.setItem('drivergame.minimap-position.v1', this.minimapPosition); } catch { /* Optional preference. */ }
+        this.onMinimapPositionChange?.(this.minimapPosition);
+      });
+    });
     this.require<HTMLInputElement>(shell, '[data-vibration]').checked = this.vibrationOn;
     shell.querySelectorAll<HTMLButtonElement>('[data-aid]').forEach(button => {
       const key = button.dataset.aid as keyof DriverAssistOptions;
-      const label = key === 'absEnabled' ? 'ABS' : key === 'ebdEnabled' ? 'EBD' : 'TCS';
+      const label = key === 'absEnabled' ? 'ABS' : key === 'ebdEnabled' ? 'EBD' : key === 'stabilityControlEnabled' ? 'ESC' : 'TCS';
       const refresh = () => {
         button.textContent = `${label}: ${this.driverAssistOptions[key] ? 'ON' : 'OFF'}`;
         button.classList.toggle('active', this.driverAssistOptions[key]);
@@ -170,6 +220,15 @@ export class ControlSettingsPanel {
       });
     });
     this.require<HTMLButtonElement>(shell, '[data-fog-toggle]').addEventListener('click', () => this.onFogToggle?.());
+    shell.querySelectorAll<HTMLButtonElement>('[data-weather]').forEach(button => {
+      button.addEventListener('click', () => this.onWeatherChange?.(button.dataset.weather as Weather));
+    });
+    shell.querySelectorAll<HTMLButtonElement>('[data-time]').forEach(button => {
+      button.addEventListener('click', () => this.onTimeChange?.(button.dataset.time as EnvironmentTime));
+    });
+    shell.querySelectorAll<HTMLButtonElement>('[data-wiper]').forEach(button => {
+      button.addEventListener('click', () => this.onWiperModeChange?.(button.dataset.wiper as WiperMode));
+    });
     this.require<HTMLInputElement>(shell, '[data-vibration]').addEventListener('change', (event) => {
       this.setVibrationEnabled((event.currentTarget as HTMLInputElement).checked);
     });
@@ -413,8 +472,41 @@ export class ControlSettingsPanel {
       return value === null || value !== 'false';
     } catch { return true; }
   }
+
+  private readMinimapPosition(): MinimapPosition {
+    try {
+      const stored = localStorage.getItem('drivergame.minimap-position.v1');
+      if (stored === 'off' || stored === 'top-left' || stored === 'top-right') return stored;
+    } catch { /* Optional preference. */ }
+    return 'top-right';
+  }
+
+  private refreshMinimapButtons(): void {
+    this.panel.querySelectorAll<HTMLButtonElement>('[data-minimap]').forEach(button => {
+      const active = button.dataset.minimap === this.minimapPosition;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  }
+
+  public setEnvironment(weather: Weather, time: EnvironmentTime): void {
+    this.setEnvironmentButtons('weather', weather);
+    this.setEnvironmentButtons('time', time);
+  }
+
+  public setWiperMode(mode: WiperMode): void {
+    this.setEnvironmentButtons('wiper', mode);
+  }
+
+  private setEnvironmentButtons(key: string, value: string): void {
+    this.panel.querySelectorAll<HTMLButtonElement>(`[data-${key}]`).forEach(button => {
+      const active = button.dataset[key] === value;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  }
   private readDriverAssistPreferences(): DriverAssistOptions {
-    const defaults = { absEnabled: true, ebdEnabled: true, tractionControlEnabled: true };
+    const defaults: DriverAssistOptions = { absEnabled: true, ebdEnabled: true, tractionControlEnabled: true, stabilityControlEnabled: true };
     try {
       const saved = JSON.parse(localStorage.getItem('drivergame.driver-assists.v1') ?? '{}');
       for (const key of Object.keys(defaults) as (keyof DriverAssistOptions)[]) {

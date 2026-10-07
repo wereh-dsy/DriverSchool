@@ -1,10 +1,12 @@
 import type { InstrumentClusterConfig } from './InstrumentCluster';
+import type { SuspensionConfig } from '../config/VehiclePhysicsConfig';
 import {
   FAMILY_SEDAN_DIMENSIONS,
   SPORT_COUPE_DIMENSIONS,
   FLOW_6AT_DIMENSIONS,
   FORMAL_DCT_DIMENSIONS,
   COMFORT_CVT_DIMENSIONS,
+  EXECUTIVE_LWB_DIMENSIONS,
   type VehicleDimensions,
 } from '../VehicleDimensions';
 
@@ -45,7 +47,12 @@ export interface VehicleVisualConfig {
    * Contact geometry uses this independently of drivetrain calibration and
    * never derives a collider from visual triangles. Exterior tests keep it aligned.
    */
-  readonly collisionDimensions: VehicleDimensions;
+  readonly collisionDimensions: VehicleDimensions & {
+    readonly groundClearance?: number;
+    readonly bodyOffsetY?: number;
+  };
+  /** Derived from suspension rideHeight and the authored underfloor datum. */
+  readonly staticBodyOffsetY?: number;
   readonly wheelBase: number;
   readonly trackWidth: number;
   readonly wheelRadius: number;
@@ -56,6 +63,7 @@ export interface VehicleVisualConfig {
   readonly steeringWheelPosition: Vector3Tuple;
   readonly steeringColumnMountPosition?: Vector3Tuple;
   readonly steeringWheelRotation: EulerTuple;
+  /** Torus centreline radius; outside radius also includes the grip tube. */
   readonly steeringWheelRadius: number;
   /** Cross-section radius of the steering-wheel grip. */
   readonly steeringWheelRimTubeRadius: number;
@@ -80,9 +88,15 @@ export interface VehicleVisualConfig {
     readonly roofY: number;
   };
   readonly body: {
+    /** Underfloor Y in the authored frame, before the shared chassis transform. */
+    readonly groundClearance: number;
+    /** Loaded tyre-to-arch gap; stance integration reserves compression travel. */
+    readonly wheelArchClearance: number;
+    /** Derived wheel centre in the authored body frame. */
+    readonly wheelArchCenterY?: number;
     readonly profile: 'sedan' | 'sport-coupe';
     /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
-    readonly design?: 'flow' | 'formal' | 'comfort';
+    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;
@@ -133,8 +147,9 @@ export const DEFAULT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   // driving position and column placement rather than shrinking the rim.
   steeringWheelPosition: [-0.37, 0.79, -0.245],
   steeringColumnMountPosition: [-0.37, 0.72, -0.52],
-  steeringWheelRotation: [degrees(-9), 0, 0],
-  steeringWheelRadius: 0.185,
+  steeringWheelRotation: [degrees(-15), 0, 0],
+  // Torus centreline radius + grip radius = 185 mm (370 mm outside diameter).
+  steeringWheelRadius: 0.169,
   steeringWheelRimTubeRadius: 0.016,
   steeringWheelLockDegrees: 720,
   gearLeverPosition: [0.12, 0.49, 0.33],
@@ -172,6 +187,8 @@ export const DEFAULT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
     roofY: FAMILY_SEDAN_DIMENSIONS.height - 0.035,
   },
   body: {
+    groundClearance: .2,
+    wheelArchClearance: .075,
     profile: 'sedan',
     sillY: 0.34,
     hoodTopY: 0.79,
@@ -217,8 +234,8 @@ export const SPORTS_COUPE_VISUAL_CONFIG: VehicleVisualConfig = {
   // display's gear, speed and auxiliary readouts at the raised eye point.
   steeringWheelPosition: [-0.39, 0.72, -0.275],
   steeringColumnMountPosition: [-0.39, 0.65, -0.55],
-  steeringWheelRotation: [degrees(-8), 0, 0],
-  steeringWheelRadius: 0.18,
+  steeringWheelRotation: [degrees(-14), 0, 0],
+  steeringWheelRadius: 0.17,
   steeringWheelRimTubeRadius: 0.015,
   steeringWheelLockDegrees: 780,
   gearLeverPosition: [0.11, 0.44, 0.3],
@@ -252,6 +269,8 @@ export const SPORTS_COUPE_VISUAL_CONFIG: VehicleVisualConfig = {
     roofY: SPORT_COUPE_DIMENSIONS.height - 0.028,
   },
   body: {
+    groundClearance: .18,
+    wheelArchClearance: .055,
     profile: 'sport-coupe',
     sillY: 0.3,
     hoodTopY: 0.73,
@@ -294,7 +313,7 @@ export const TEST_6AT_VISUAL_CONFIG: VehicleVisualConfig = {
   driverEyePosition: [-.37, 1.205, .31],
   instrumentClusterTransform: { position: [-.37, .93, -.415], rotation: [degrees(-7), 0, 0] },
   steeringWheelPosition: [-.37, .775, -.245], steeringColumnMountPosition: [-.37, .70, -.52],
-  steeringWheelRadius: .18, steeringWheelLockDegrees: 33 * 15.2 * 2,
+  steeringWheelRadius: .166, steeringWheelLockDegrees: 33 * 15.2 * 2,
   gearLeverPosition: [.13, .455, .30],
   dashboard: { position: [0, .73, -.565], dimensions: [1.54, .065, .32], tiltRadians: degrees(-6) },
   cabin: { width: 1.54, dashboardTopY: .78, windshieldBottomY: .815, windshieldTopY: 1.415,
@@ -306,7 +325,7 @@ export const TEST_6AT_VISUAL_CONFIG: VehicleVisualConfig = {
     needleResponse: 11,
     displayStyle: 'cx4-tach-wing',
   },
-  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'flow', sillY: .32, hoodTopY: .765,
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'flow', wheelArchClearance: .078, sillY: .32, hoodTopY: .765,
     hoodLength: 1.30, trunkDeckY: .755, trunkLength: 1.03, roofWidth: 1.35,
     roofLength: 1.42, roofCenterZ: .14, color: 0x9e2733, interiorColor: 0x20232a },
 };
@@ -319,6 +338,7 @@ export const TEST_7DCT_VISUAL_CONFIG: VehicleVisualConfig = {
   driverEyePosition: [-.37, 1.215, .31],
   instrumentClusterTransform: { position: [-.37, .94, -.405], rotation: [degrees(-7), 0, 0] },
   steeringWheelPosition: [-.37, .78, -.245], steeringColumnMountPosition: [-.37, .71, -.52],
+  steeringWheelRadius: .174,
   steeringWheelLockDegrees: 32 * 16.6 * 2, gearLeverPosition: [.12, .465, .32],
   dashboard: { position: [0, .74, -.57], dimensions: [1.56, .085, .35], tiltRadians: degrees(-3) },
   cabin: { width: 1.56, dashboardTopY: .80, windshieldBottomY: .84, windshieldTopY: 1.44,
@@ -330,7 +350,7 @@ export const TEST_7DCT_VISUAL_CONFIG: VehicleVisualConfig = {
     needleResponse: 12,
     displayStyle: 'jetta-twin-dial',
   },
-  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'formal', sillY: .34, hoodTopY: .805,
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'formal', wheelArchClearance: .08, sillY: .34, hoodTopY: .805,
     hoodLength: 1.29, trunkDeckY: .80, trunkLength: 1.04, roofWidth: 1.43,
     roofLength: 1.50, roofCenterZ: .17, color: 0x607786, interiorColor: 0x292b2e },
 };
@@ -341,13 +361,50 @@ export const CVT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   driverEyePosition: [-.37, 1.225, .31],
   instrumentClusterTransform: { position: [-.37, .95, -.415], rotation: [degrees(-7), 0, 0] },
   steeringWheelPosition: [-.37, .79, -.245], steeringColumnMountPosition: [-.37, .72, -.53],
-  steeringWheelRadius: .187, steeringWheelLockDegrees: 33 * 17.1 * 2,
+  steeringWheelRadius: .176, steeringWheelLockDegrees: 33 * 17.1 * 2,
   gearLeverPosition: [.12, .46, .30],
   dashboard: { position: [0, .745, -.58], dimensions: [1.58, .08, .37], tiltRadians: degrees(-5) },
   cabin: { width: 1.58, dashboardTopY: .81, windshieldBottomY: .85, windshieldTopY: 1.45,
     windshieldBottomZ: -.75, windshieldTopZ: -.48, roofY: COMFORT_CVT_DIMENSIONS.height - .035 },
-  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'comfort', sillY: .35, hoodTopY: .825,
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'comfort', wheelArchClearance: .095, sillY: .35, hoodTopY: .825,
     hoodLength: 1.23, trunkDeckY: .79, trunkLength: .98, roofWidth: 1.45,
     roofLength: 1.66, roofCenterZ: .13, color: 0xc7c9c4, interiorColor: 0x3c3935 },
   instrumentCluster: { ...DEFAULT_SEDAN_VISUAL_CONFIG.instrumentCluster, maximumRPM: 7000, redlineRPM: 6250 },
+};
+
+/** Calibrate the existing authored body once; dimensions and wheel anchors stay intact. */
+export function withSuspensionStance(config: VehicleVisualConfig, suspension: SuspensionConfig): VehicleVisualConfig {
+  const staticBodyOffsetY = suspension.rideHeight - config.body.groundClearance;
+  return {
+    ...config,
+    staticBodyOffsetY,
+    collisionDimensions: { ...config.collisionDimensions,
+      groundClearance: config.body.groundClearance, bodyOffsetY: staticBodyOffsetY },
+    body: { ...config.body,
+      wheelArchCenterY: config.dimensions.wheelRadius - staticBodyOffsetY,
+      wheelArchClearance: Math.max(config.body.wheelArchClearance, suspension.suspensionTravel * .5 + .005) },
+  };
+}
+
+/** Broad, restrained executive cabin on a true long-wheelbase envelope. */
+export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
+  ...DEFAULT_SEDAN_VISUAL_CONFIG,
+  ...automaticEnvelope(EXECUTIVE_LWB_DIMENSIONS), ...automaticMirrors(EXECUTIVE_LWB_DIMENSIONS, .955, -.81),
+  name: 'A6L-inspired long-wheelbase executive sedan',
+  driverEyePosition: [-.40, 1.235, .30],
+  // Keep the broad display behind the visor lip and naturally ahead of the wheel.
+  instrumentClusterTransform: { position: [-.40, .96, -.485], rotation: [degrees(-7), 0, 0], scale: 1.22 },
+  instrumentCluster: { maximumSpeedKmh: 280, maximumRPM: 7000, redlineRPM: 6400,
+    needleResponse: 12, displayStyle: 'executive-virtual' },
+  steeringWheelPosition: [-.40, .755, -.245], steeringColumnMountPosition: [-.40, .668, -.57],
+  steeringWheelRadius: .17, steeringWheelRimTubeRadius: .019,
+  steeringWheelLockDegrees: 32 * 17.5 * 2,
+  gearLeverPosition: [.13, .47, .34],
+  dashboard: { position: [0, .75, -.64], dimensions: [1.67, .075, .39], tiltRadians: degrees(-3) },
+  cabin: { width: 1.67, dashboardTopY: .81, windshieldBottomY: .85, windshieldTopY: 1.44,
+    windshieldBottomZ: -.91, windshieldTopZ: -.57, roofY: EXECUTIVE_LWB_DIMENSIONS.height - .035 },
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'executive', groundClearance: .20,
+    wheelArchClearance: .095, sillY: .34, hoodTopY: .80, hoodLength: 1.60,
+    trunkDeckY: .81, trunkLength: 1.12, roofWidth: 1.46,
+    roofLength: 1.72, roofCenterZ: .29, color: 0x27313f, trimColor: 0x12171f, interiorColor: 0x242326 },
 };

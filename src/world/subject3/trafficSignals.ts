@@ -200,6 +200,18 @@ export class Subject3TrafficSignals {
     return this.heads.length;
   }
 
+  /** Sector unloading: release only this junction's geometry and private lamps. */
+  public removeHeadsForJunction(junctionIndex: number): void {
+    for (let i = this.heads.length - 1; i >= 0; i -= 1) {
+      const head = this.heads[i]!;
+      if (head.junctionIndex !== junctionIndex) continue;
+      head.root.removeFromParent();
+      head.root.traverse(object => { if (object instanceof THREE.Mesh) object.geometry.dispose(); });
+      for (const lamp of Object.values(head.lamps)) (lamp.material as THREE.Material).dispose();
+      this.heads.splice(i, 1);
+    }
+  }
+
   public dispose(): void {
     const geometries = new Set<THREE.BufferGeometry>();
     const materials = new Set<THREE.Material>();
@@ -238,6 +250,7 @@ export class Subject3TrafficSignals {
   ): SignalHead {
     const root = new THREE.Group();
     root.name = `Traffic signal ${arm.segmentId}`;
+    root.userData.subject3JunctionIndex = junctionIndex;
     root.position.set(center.x, 0, center.z);
     root.rotation.y = yawRadians;
 
@@ -264,7 +277,7 @@ export class Subject3TrafficSignals {
       shadows,
     ));
 
-    // Local -Z points OUT of the intersection, toward the approaching driver.
+    // Local -Z faces the served approach, across the intersection from this pole.
     const lampY: Readonly<Record<Subject3SignalColor, number>> = {
       red: headHeight + 0.02,
       amber: headHeight - 0.5,

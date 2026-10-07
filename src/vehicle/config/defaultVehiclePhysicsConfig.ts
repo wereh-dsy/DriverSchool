@@ -1,4 +1,4 @@
-import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
+import type { DriveModeCalibration, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 import { FAMILY_SEDAN_DIMENSIONS } from '../VehicleDimensions';
 
 const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
@@ -201,7 +201,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     antiStallStrength: 0.55,
     absEnabled: false,
     tractionControlEnabled: false,
-    stabilityControlEnabled: false,
+    stabilityControlEnabled: true,
     autoBlipEnabled: false,
   },
   safety: {
@@ -224,6 +224,11 @@ export function cloneVehiclePhysicsConfig(
 ): VehiclePhysicsConfig {
   return {
     ...config,
+    driveModes: config.driveModes === undefined ? undefined : {
+      ECO: cloneDriveMode(config.driveModes.ECO), NORMAL: cloneDriveMode(config.driveModes.NORMAL),
+      SPORT: cloneDriveMode(config.driveModes.SPORT),
+    },
+    awd: config.awd === undefined ? undefined : { ...config.awd },
     engine: {
       ...config.engine,
       turbo: config.engine.turbo === undefined ? undefined : {
@@ -270,11 +275,18 @@ export function cloneVehiclePhysicsConfig(
     aero: { ...config.aero },
     tires: { ...config.tires },
     suspension: { ...config.suspension },
-    driverAids: { ...config.driverAids },
+    driverAids: { ...config.driverAids, esc: config.driverAids.esc === undefined ? undefined : { ...config.driverAids.esc } },
     safety: { ...config.safety },
   };
 }
 
 export function createDefaultVehiclePhysicsConfig(): VehiclePhysicsConfig {
   return cloneVehiclePhysicsConfig(DEFAULT_VEHICLE_PHYSICS_CONFIG);
+}
+
+function cloneDriveMode(calibration: DriveModeCalibration): DriveModeCalibration {
+  return { ...calibration, shiftStrategy: { ...calibration.shiftStrategy,
+    map: calibration.shiftStrategy.map.map(point => ({ ...point })),
+    minimumUpshiftSpeeds: [...calibration.shiftStrategy.minimumUpshiftSpeeds],
+    gearRPMCorrections: calibration.shiftStrategy.gearRPMCorrections?.slice() } };
 }

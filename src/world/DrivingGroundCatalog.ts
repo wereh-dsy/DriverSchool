@@ -3,12 +3,17 @@ import { DrivingTestTrack } from './DrivingTestTrack';
 import { CircuitGround } from './circuit';
 import { Subject2Ground } from './subject2';
 import { Subject3Ground } from './subject3';
+import { CityGround } from './city/CityGround';
+import { CITY_EDITOR_STORAGE_KEY } from './city/CityMapLoader';
+import cityAlpha from './city/maps/city-alpha.json';
 
 export const DRIVING_GROUND_IDS = [
   'road-course',
   'subject-2-training-ground',
   'subject-3-shared-city-map',
   'simple-circuit',
+  'city-alpha',
+  'city-editor-map',
 ] as const;
 export type DrivingGroundId = (typeof DRIVING_GROUND_IDS)[number];
 
@@ -21,6 +26,14 @@ export interface RegisteredDrivingGroundDescriptor extends DrivingGroundDescript
 
 const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDescriptor>> =
   Object.freeze({
+    'city-alpha': Object.freeze({ id: 'city-alpha', version: cityAlpha.version, label: 'City Alpha',
+      description: '全新数据城市：主干道、住宅街区、老城弯路、商业区和外围预留。', create: (): DrivingGround => new CityGround(cityAlpha) }),
+    'city-editor-map': Object.freeze({ id: 'city-editor-map', version: 1, label: 'City Editor 保存地图',
+      description: '加载编辑器通过 Play 保存的地图；未保存时使用 City Alpha。', create: (): DrivingGround => {
+        try { const saved = typeof localStorage === 'undefined' ? null : localStorage.getItem(CITY_EDITOR_STORAGE_KEY); if (saved) return new CityGround(JSON.parse(saved)); }
+        catch (error) { console.warn('Unable to load editor map; using City Alpha.', error); }
+        return new CityGround(cityAlpha);
+      } }),
     'road-course': Object.freeze({
       id: 'road-course',
       version: 2,

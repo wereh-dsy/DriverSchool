@@ -67,6 +67,8 @@ export interface VehicleInputState {
   cruiseToggle: boolean;
   /** Discrete toggle; held buttons never repeat this command. */
   fogToggle?: boolean;
+  cycleWipers?: boolean;
+  cycleDriveMode?: boolean;
   /** Momentary controls, independent from persistent light/gear modes. */
   highBeamFlash?: boolean;
   hornPressed?: boolean;
@@ -100,6 +102,8 @@ export function createNeutralVehicleInputState(
     engineStart: false,
     cruiseToggle: false,
     fogToggle: false,
+    cycleWipers: false,
+    cycleDriveMode: false,
     highBeamFlash: false,
     hornPressed: false,
     controlMode,

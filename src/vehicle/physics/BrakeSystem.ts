@@ -18,8 +18,9 @@ export interface WheelBrakeTorques {
 export class BrakeSystem {
   private dynamicFrontBias: number | undefined;
   private absPressures: readonly number[] | undefined;
-  public setDriverAidState(frontBias: number, pressures: readonly number[]): void {
-    this.dynamicFrontBias = frontBias; this.absPressures = pressures;
+  private stabilityTorques: readonly number[] | undefined;
+  public setDriverAidState(frontBias: number, pressures: readonly number[], stabilityTorques?: readonly number[]): void {
+    this.dynamicFrontBias = frontBias; this.absPressures = pressures; this.stabilityTorques = stabilityTorques;
   }
   public brakeInput = 0;
   public handbrakeInput = 0;
@@ -29,6 +30,7 @@ export class BrakeSystem {
 
   public reset(): void {
     this.dynamicFrontBias = undefined; this.absPressures = undefined;
+    this.stabilityTorques = undefined;
     this.brakeInput = 0;
     this.handbrakeInput = 0;
   }
@@ -59,9 +61,13 @@ export class BrakeSystem {
     ));
     const front = id === 'frontLeft' || id === 'frontRight';
     const allocation = this.dynamicFrontBias ?? frontBias;
-    const requestedBrakeTorque = Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
+    const serviceTorque = Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
       maximumTotalTorque * this.brakeInput * (front ? allocation : 1 - allocation)) * 0.5;
     const index = id === 'frontLeft' ? 0 : id === 'frontRight' ? 1 : id === 'rearLeft' ? 2 : 3;
+    // Both requests command the same hydraulic actuator. Taking the larger
+    // demand avoids double-counting braking; ABS modulates the merged pressure.
+    const requestedBrakeTorque = Math.min((front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear) * .5,
+      Math.max(serviceTorque, this.stabilityTorques?.[index] ?? 0));
     const requestedHandbrakeTorque = front ? 0
       : Math.max(0, this.config.handbrakeTorque) * this.handbrakeInput * 0.5;
     return {

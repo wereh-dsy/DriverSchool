@@ -1,4 +1,6 @@
 export { BrakeSystem } from './BrakeSystem';
+export { ESCController } from './ESCController';
+export { AWDTorqueDistribution } from './AWDTorqueDistribution';
 export type { WheelBrakeTorques } from './BrakeSystem';
 export { WheelRotationSystem } from './WheelRotationSystem';
 export type { WheelRotationInput, WheelRotationState } from './WheelRotationSystem';

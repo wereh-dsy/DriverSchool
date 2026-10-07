@@ -18,6 +18,8 @@ const lightsOff = (): VehicleLightingState => ({
 export class VehicleLighting {
   private readonly headlamps: readonly [SpotLight, SpotLight];
   private readonly targets: readonly [Object3D, Object3D];
+  private readonly foglamps: readonly [SpotLight, SpotLight, SpotLight];
+  private readonly fogTargets: readonly [Object3D, Object3D, Object3D];
   private readonly lampMeshes: Mesh[] = [];
   private readonly materials = new Map<string, MeshStandardMaterial>();
   private state = lightsOff();
@@ -26,6 +28,7 @@ export class VehicleLighting {
     const sport = vehicle.config.body.profile === 'sport-coupe';
     const halfLength = (vehicle.config.dimensions.length - (sport ? 0.12 : 0.0226)) * 0.5;
     const halfWidth = vehicle.config.dimensions.width * 0.5 - 0.005;
+    const executive = vehicle.config.body.design === 'executive';
     const frontZ = -halfLength - 0.01;
     const rearZ = halfLength + 0.009;
     // Authored lenses remain housings, not permanently glowing outputs.
@@ -45,20 +48,27 @@ export class VehicleLighting {
     const leftTarget = new Object3D();
     const rightTarget = new Object3D();
     this.targets = [leftTarget, rightTarget];
-    this.headlamps = [this.createHeadlamp(-0.55, frontZ + 0.025, leftTarget),
-      this.createHeadlamp(0.55, frontZ + 0.025, rightTarget)];
+    this.headlamps = [this.createHeadlamp(executive ? -halfWidth * .66 : -0.55, frontZ + 0.025, leftTarget),
+      this.createHeadlamp(executive ? halfWidth * .66 : 0.55, frontZ + 0.025, rightTarget)];
     vehicle.root.add(...this.headlamps, ...this.targets);
+    this.fogTargets = [new Object3D(), new Object3D(), new Object3D()];
+    this.foglamps = [
+      this.createFoglamp('Left front fog beam', -0.62, frontZ - 0.012, false, this.fogTargets[0]),
+      this.createFoglamp('Right front fog beam', 0.62, frontZ - 0.012, false, this.fogTargets[1]),
+      this.createFoglamp('Rear fog light spill', -0.29, rearZ + 0.012, true, this.fogTargets[2]),
+    ];
+    vehicle.root.add(...this.foglamps, ...this.fogTargets);
     for (const side of [-1, 1] as const) {
       const label = side < 0 ? 'Left' : 'Right';
       const signalKey = side < 0 ? 'left' : 'right';
-      this.addBox(label + ' low/high headlamp', 'head', [0.33, 0.061, 0.004], [side * 0.54, 0.641, frontZ]);
-      this.addBox(label + ' front position lamp', 'position', [0.24, 0.016, 0.004], [side * 0.55, 0.588, frontZ]);
-      this.addBox(label + ' front fog lamp', 'fogFront', [0.13, 0.048, 0.004], [side * 0.62, 0.355, frontZ + 0.004]);
-      this.addBox(label + ' rear tail lamp', 'tail', [0.32, 0.025, 0.004], [side * 0.55, 0.731, rearZ]);
-      this.addBox(label + ' brake lamp', 'brake', [0.33, 0.036, 0.004], [side * 0.55, 0.676, rearZ]);
-      this.addBox(label + ' reverse lamp', 'reverse', [0.14, 0.026, 0.004], [side * 0.49, 0.602, rearZ]);
-      this.addBox(label + ' front turn signal', signalKey, [0.13, 0.038, 0.004], [side * 0.73, 0.6, frontZ]);
-      this.addBox(label + ' rear turn signal', signalKey, [0.17, 0.024, 0.004], [side * 0.56, 0.633, rearZ]);
+      this.addBox(label + ' low/high headlamp', 'head', [executive ? .43 : .33, executive ? .040 : .061, .004], [side * (executive ? halfWidth * .66 : .54), executive ? .735 : .641, frontZ]);
+      this.addBox(label + ' front position lamp', 'position', [0.24, 0.016, 0.004], [side * (executive ? halfWidth * .66 : .55), executive ? .720 : .588, frontZ]);
+      this.addBox(label + ' front fog lamp', 'fogFront', [0.13, 0.048, 0.004], [side * (executive ? .76 : .62), .355, frontZ + .004]);
+      this.addBox(label + ' rear tail lamp', 'tail', [0.32, 0.025, 0.004], [side * (executive ? halfWidth * .66 : .55), executive ? .778 : .731, rearZ]);
+      this.addBox(label + ' brake lamp', 'brake', [0.33, 0.036, 0.004], [side * (executive ? halfWidth * .66 : .55), executive ? .750 : .676, rearZ]);
+      this.addBox(label + ' reverse lamp', 'reverse', [0.14, 0.026, 0.004], [side * (executive ? .52 : .49), executive ? .715 : .602, rearZ]);
+      this.addBox(label + ' front turn signal', signalKey, [0.13, 0.038, 0.004], [side * (executive ? .81 : .73), executive ? .733 : .6, frontZ]);
+      this.addBox(label + ' rear turn signal', signalKey, [0.17, 0.024, 0.004], [side * (executive ? .80 : .56), executive ? .763 : .633, rearZ]);
       // The same lamp output wraps around a real rear corner, visible to the
       // real planar mirror; there is no mirror-specific lighting model.
       this.addCornerLens(label + ' tail corner lens', 'tail', side, halfWidth, halfLength, 0.731, 0.023);
@@ -69,7 +79,8 @@ export class VehicleLighting {
     }
     this.addBox('Rear fog lamp', 'fogRear', [0.13, 0.052, 0.004], [-0.29, 0.383, rearZ]);
     this.addBox('High-mounted centre brake lamp', 'brake', [0.2, 0.024, 0.007],
-      [0, sport ? 0.78 : 0.84, sport ? 1.105 : 1.015]);
+      [0, executive ? vehicle.config.body.trunkDeckY + .08 : sport ? .78 : .84,
+        executive ? halfLength - vehicle.config.body.trunkLength - .075 : sport ? 1.105 : 1.015]);
     this.applyState(this.state);
   }
 
@@ -85,21 +96,24 @@ export class VehicleLighting {
     output('tail', state.positionLight ? 0.8 : 0);
     output('brake', state.brakeLight ? 2.1 : 0);
     output('reverse', state.reverseLight ? 1.4 : 0);
-    output('fogFront', state.fogLightsEnabled ? 1.7 : 0);
-    output('fogRear', state.fogLightsEnabled ? 1.9 : 0);
+    output('fogFront', state.fogLightsEnabled ? 2.6 : 0);
+    output('fogRear', state.fogLightsEnabled ? 3 : 0);
     output('left', state.leftBlinkOn ? 1.8 : 0);
     output('right', state.rightBlinkOn ? 1.8 : 0);
     this.materials.get('head')!.color.set(state.effectiveHighBeam ? 0xddefff : 0xfff1cf);
     const mainBeam = state.lowBeam || state.effectiveHighBeam;
     for (const light of this.headlamps) {
-      light.intensity = mainBeam ? (state.effectiveHighBeam ? 185 : 105) : 0;
-      light.distance = state.effectiveHighBeam ? 82 : 52;
-      light.angle = state.effectiveHighBeam ? Math.PI / 10 : Math.PI / 7.5;
+      light.intensity = mainBeam ? (state.effectiveHighBeam ? 850 : 380) : 0;
+      light.distance = state.effectiveHighBeam ? 130 : 65;
+      light.angle = state.effectiveHighBeam ? Math.PI / 12 : Math.PI / 5.5;
     }
     for (const target of this.targets) {
-      target.position.y = state.effectiveHighBeam ? 0.58 : 0.08;
-      target.position.z = state.effectiveHighBeam ? -56 : -34;
+      target.position.y = state.effectiveHighBeam ? 0.15 : -0.65;
+      target.position.z = state.effectiveHighBeam ? -90 : -38;
     }
+    this.foglamps[0].intensity = state.fogLightsEnabled ? 150 : 0;
+    this.foglamps[1].intensity = state.fogLightsEnabled ? 150 : 0;
+    this.foglamps[2].intensity = state.fogLightsEnabled ? 28 : 0;
   }
 
   /** Compatibility during migration; the game's controller remains authoritative. */
@@ -120,6 +134,8 @@ export class VehicleLighting {
   public dispose(): void {
     for (const light of this.headlamps) light.removeFromParent();
     for (const target of this.targets) target.removeFromParent();
+    for (const light of this.foglamps) light.removeFromParent();
+    for (const target of this.fogTargets) target.removeFromParent();
     for (const lens of this.lampMeshes) { lens.removeFromParent(); lens.geometry.dispose(); }
     for (const material of this.materials.values()) material.dispose();
     this.materials.clear();
@@ -128,12 +144,25 @@ export class VehicleLighting {
   private createHeadlamp(x: number, z: number, target: Object3D): SpotLight {
     const light = new SpotLight(new Color(0xffefc0), 0, 55, Math.PI / 7.5, 0.42, 1.25);
     light.name = x < 0 ? 'Left low/high beam' : 'Right low/high beam';
-    light.position.set(x, 0.66, z);
+    light.position.set(x, this.vehicle.config.body.design === 'executive' ? .735 : .66, z);
     light.castShadow = false;
     light.layers.enable(VEHICLE_RENDER_LAYERS.EXTERIOR);
     light.layers.enable(VEHICLE_RENDER_LAYERS.INTERIOR);
     light.target = target;
     target.position.set(x * 0.82, 0.08, -34);
+    return light;
+  }
+
+  private createFoglamp(name: string, x: number, z: number, rear: boolean, target: Object3D): SpotLight {
+    const light = new SpotLight(rear ? 0xff253b : 0xffefc5, 0, rear ? 6 : 24,
+      rear ? Math.PI / 2.5 : Math.PI / 3.2, 0.65, 1.4);
+    light.name = name;
+    light.position.set(x, rear ? 0.383 : 0.355, z);
+    light.castShadow = false;
+    light.layers.enable(VEHICLE_RENDER_LAYERS.EXTERIOR);
+    light.layers.enable(VEHICLE_RENDER_LAYERS.INTERIOR);
+    light.target = target;
+    target.position.set(x, rear ? 0.10 : -0.25, z + (rear ? 2 : -8));
     return light;
   }
 
@@ -145,6 +174,9 @@ export class VehicleLighting {
   }
 
   private addCornerLens(name: string, key: string, side: -1 | 1, halfWidth: number, halfLength: number, y: number, height: number): void {
+    if (this.vehicle.config.body.design === 'executive') {
+      y = key === 'tail' ? .778 : key === 'brake' ? .750 : key === 'reverse' ? .715 : key === 'fogRear' ? .56 : .763;
+    }
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new Float32BufferAttribute([
       side * halfWidth * 0.935, y - height * 0.5, halfLength - 0.29,

@@ -1,3 +1,4 @@
+import { wetRoadMaterial } from './environment/WetRoadMaterial';
 import * as THREE from 'three';
 import {
   createBarrierColliders,
@@ -194,6 +195,7 @@ const createRoadMarkingRibbonGeometry = (
   geometry.setIndex(indices);
   geometry.computeBoundingSphere();
   geometry.userData.roadMarkingMaxJoinGap = maxJoinGap;
+  geometry.computeVertexNormals();
   return geometry;
 };
 
@@ -554,6 +556,7 @@ export class DrivingTestTrack {
       ),
       asphaltMaterial,
     );
+    wetRoadMaterial(asphaltMaterial);
     road.name = 'Main course asphalt';
     road.receiveShadow = this.shadows;
     this.root.add(road);
@@ -574,16 +577,16 @@ export class DrivingTestTrack {
   }
 
   private buildMarkings(): void {
-    const white = new THREE.MeshBasicMaterial({
+    const white = new THREE.MeshStandardMaterial({
       color: 0xf3f0dc,
-      toneMapped: false,
+      roughness: 0.8,
       polygonOffset: true,
       polygonOffsetFactor: -2,
       polygonOffsetUnits: -2,
     });
-    const yellow = new THREE.MeshBasicMaterial({
+    const yellow = new THREE.MeshStandardMaterial({
       color: 0xf2c649,
-      toneMapped: false,
+      roughness: 0.8,
       polygonOffset: true,
       polygonOffsetFactor: -2,
       polygonOffsetUnits: -2,
@@ -759,6 +762,7 @@ export class DrivingTestTrack {
     const heads = new THREE.InstancedMesh(headGeometry, lightMaterial, lampPositions.length);
     poles.name = 'Lamp posts';
     heads.name = 'Lamp heads';
+    heads.userData.environmentLamp = true;
     lampPositions.forEach(([x, z], index) => {
       const baseY = this.getRoadHeightAt(x, z);
       dummy.position.set(x, baseY + 3.2, z);
@@ -777,10 +781,10 @@ export class DrivingTestTrack {
   }
 
   private buildParkingArea(): void {
-    const asphalt = new THREE.MeshStandardMaterial({ color: 0x34383a, roughness: 0.96 });
-    const lineMaterial = new THREE.MeshBasicMaterial({
+    const asphalt = wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x34383a, roughness: 0.96 }));
+    const lineMaterial = new THREE.MeshStandardMaterial({
       color: 0xeae8d8,
-      toneMapped: false,
+      roughness: 0.8,
       polygonOffset: true,
       polygonOffsetFactor: -2,
       polygonOffsetUnits: -2,

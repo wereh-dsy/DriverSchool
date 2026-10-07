@@ -23,6 +23,7 @@ import { wheelLocalPosition } from '../VehicleDimensions';
 import { SuspensionSystem } from './SuspensionSystem';
 import { WheelRotationSystem } from './WheelRotationSystem';
 import { OpenDifferential, type OpenDifferentialSnapshot } from './OpenDifferential';
+import { AWDTorqueDistribution, type AWDTorqueDistributionSnapshot } from './AWDTorqueDistribution';
 import type { ChassisPhysicsState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, clamp01, wrapAngle } from './math';
 import { createTransmissionSystem } from '../transmission/createTransmissionSystem';
@@ -128,6 +129,7 @@ export interface VehicleForceSnapshot {
 }
 
 export interface VehicleSnapshot {
+  driveMode?: import('../config').VehicleDriveMode;
   x: number;
   z: number;
   yaw: number;
@@ -185,6 +187,8 @@ export interface VehicleSnapshot {
   drivetrainLash: DrivetrainLashSnapshot;
   revHang: RevHangSnapshot;
   differential: OpenDifferentialSnapshot;
+  rearDifferential?: OpenDifferentialSnapshot;
+  awd?: AWDTorqueDistributionSnapshot;
   driverAssists: DriverAssistSnapshot;
   /** True for the update in which corrupt numeric state was restored. */
   recoveredFromInvalidState: boolean;
@@ -241,6 +245,8 @@ export class VehicleDynamics {
   public readonly suspension: SuspensionSystem;
   public readonly wheelRotation: WheelRotationSystem;
   public readonly differential: OpenDifferential;
+  public readonly rearDifferential: OpenDifferential | undefined;
+  public readonly awd: AWDTorqueDistribution | undefined;
   public readonly transmission: TransmissionSystem;
   public readonly drivetrainLash: DrivetrainLash;
 
@@ -268,7 +274,10 @@ export class VehicleDynamics {
   private lastValidState: ValidCoreState;
   private recoveredThisUpdate = false;
   private wheels = {} as Record<WheelId, WheelPhysicsState>;
+  private readonly escLateralLimits = [0, 0, 0, 0];
   /** Preserve an oblique collision's tangent velocity while contact settles. */
+  public driveMode: import('../config').VehicleDriveMode | undefined;
+  private driveModeThrottleExponent = 1;
   private contactSlipRecovery = false;
   private contactSlipHoldTime = 0;
 
@@ -276,8 +285,9 @@ export class VehicleDynamics {
     public readonly config: VehiclePhysicsConfig = createDefaultVehiclePhysicsConfig(),
     initialState: VehicleInitialState = {},
   ) {
-    if (config.drivetrainType === 'AWD') throw new Error('AWD drivetrain is not implemented; select FWD or RWD.');
     this.differential = new OpenDifferential(config.drivetrainType === 'RWD' ? 'rear' : 'front');
+    this.rearDifferential = config.drivetrainType === 'AWD' ? new OpenDifferential('rear') : undefined;
+    this.awd = config.drivetrainType === 'AWD' ? new AWDTorqueDistribution(config) : undefined;
     this.engine = new Engine(config.engine);
     this.clutch = new Clutch(config.clutch);
     this.autoClutch = new AutoClutchController(config.autoClutch, config.engine.idleRPM);
@@ -317,6 +327,7 @@ export class VehicleDynamics {
   }
 
   public reset(initialState: VehicleInitialState = {}): VehicleSnapshot {
+    if (this.config.driveModes !== undefined) this.setDriveMode('NORMAL');
     this.x = this.finiteOr(initialState.x, 0);
     this.z = this.finiteOr(initialState.z, 0);
     this.yaw = wrapAngle(this.finiteOr(initialState.yaw, 0));
@@ -336,6 +347,9 @@ export class VehicleDynamics {
     this.suspension.reset();
     this.wheelRotation.reset(this.speed);
     this.differential.distributeTorque(0);
+    this.rearDifferential?.distributeTorque(0);
+    this.awd?.reset();
+    this.driverAssists.esc.reset();
     this.initializeWheelStates();
     this.engine.reset(
       this.finiteOr(initialState.engineRPM, this.config.engine.idleRPM),
@@ -380,6 +394,9 @@ export class VehicleDynamics {
     );
     this.wheelRotation.reset(this.speed);
     this.differential.distributeTorque(0);
+    this.rearDifferential?.distributeTorque(0);
+    this.awd?.reset();
+    this.driverAssists.esc.reset();
     this.initializeWheelStates();
     this.storeLastValidState();
   }
@@ -519,6 +536,25 @@ export class VehicleDynamics {
     return this.transmission.requestSelector(selector, this.speed, this.lateralVelocity, this.safeUnitInput(brake));
   }
 
+  /** Apply calibration in place: existing subsystems retain their config references. */
+  private setDriveMode(mode: import('../config').VehicleDriveMode): void {
+    const calibration = this.config.driveModes?.[mode];
+    if (calibration === undefined) return;
+    this.driveMode = mode;
+    this.driveModeThrottleExponent = calibration.throttleExponent;
+    this.config.engine.throttleResponse = this.config.engine.throttleResponseRate = calibration.throttleResponse;
+    this.config.steering.steeringResponse = calibration.steeringResponse;
+    this.config.steering.steeringDamping = calibration.steeringDamping;
+    const strategy = this.config.transmission.dct?.shiftStrategy;
+    if (strategy !== undefined) Object.assign(strategy, calibration.shiftStrategy);
+    if (this.config.awd !== undefined) this.config.awd.accelerationRearTorqueSplit = calibration.accelerationRearTorqueSplit;
+  }
+
+  public cycleDriveMode(): void {
+    if (this.config.driveModes === undefined) return;
+    this.setDriveMode(this.driveMode === 'ECO' ? 'NORMAL' : this.driveMode === 'NORMAL' ? 'SPORT' : 'ECO');
+  }
+
   /** Variable-frame entry point with bounded internal substeps. */
   public update(
     deltaTime: number,
@@ -528,6 +564,7 @@ export class VehicleDynamics {
     this.recoveredThisUpdate = false;
     this.validateOrRecover();
     this.updateControlMode(input.controlMode);
+    if (input.cycleDriveMode) this.cycleDriveMode();
     this.processShiftCommands(input);
 
     if (!Number.isFinite(deltaTime) || deltaTime <= 0) return this.getSnapshot();
@@ -552,6 +589,7 @@ export class VehicleDynamics {
     this.recoveredThisUpdate = false;
     this.validateOrRecover();
     this.updateControlMode(input.controlMode);
+    if (input.cycleDriveMode) this.cycleDriveMode();
     this.processShiftCommands(input);
     if (Number.isFinite(dt) && dt > 0) {
       const maxFrameTime = Math.max(1e-4, this.config.safety.maxFrameTime);
@@ -572,6 +610,7 @@ export class VehicleDynamics {
       yaw: this.yaw,
       speed: this.speed,
       speedKmh: Math.abs(this.speed) * 3.6,
+      driveMode: this.driveMode,
       acceleration: this.acceleration,
       yawRate: this.yawRate,
       bodySlipAngle: this.bodySlipAngle,
@@ -619,6 +658,8 @@ export class VehicleDynamics {
       drivetrainLash: this.drivetrainLash.getSnapshot(),
       revHang: this.engine.getRevHangSnapshot(),
       differential: this.getDifferentialSnapshot(),
+      rearDifferential: this.rearDifferential?.getSnapshot(),
+      awd: this.awd?.getSnapshot(),
       driverAssists: this.driverAssists.getSnapshot(),
       recoveredFromInvalidState: this.recoveredThisUpdate,
     };
@@ -629,7 +670,7 @@ export class VehicleDynamics {
     input: VehicleInputState,
     environment: VehicleEnvironment,
   ): void {
-    const throttleCommand = this.safeUnitInput(input.throttle);
+    const throttleCommand = Math.pow(this.safeUnitInput(input.throttle), this.driveModeThrottleExponent);
     const brakeCommand = this.safeUnitInput(input.brake);
     const handbrakeCommand = this.safeUnitInput(input.handbrake);
     const steerCommand = clamp(this.finiteOr(input.steering, 0), -1, 1);
@@ -640,6 +681,7 @@ export class VehicleDynamics {
       cutThrottle: false,
     };
     const isManual = this.transmission.type === 'MANUAL';
+    this.awd?.update(dt, throttleCommand, this.wheels, this.engine.isRunning && this.gearbox.currentGear !== 'N');
     this.driverAssists.updateTraction(dt, this.wheels, throttleCommand, this.engine.isRunning,
       this.gearbox.currentGear !== 'N');
     this.engine.setTorqueLimitFactor(this.driverAssists.engineTorqueFactor);
@@ -920,12 +962,19 @@ export class VehicleDynamics {
     const loads = WHEEL_IDS.map((id) => suspension.wheels[id].normalLoad) as FourWheelValues;
     const limits = loads.map((load, i) => this.config.tires.longitudinalGrip * load *
       this.wheelRotation.gripModel.loadFactor(load, suspension.wheels[WHEEL_IDS[i]!].staticLoad) * gripLong[i]!) as FourWheelValues;
+    for (let i = 0; i < 4; i++) this.escLateralLimits[i] = this.config.tires.lateralGrip * loads[i]! *
+      this.wheelRotation.gripModel.loadFactor(loads[i]!, suspension.wheels[WHEEL_IDS[i]!].staticLoad) * gripLat[i]!;
+    this.driverAssists.updateStability(dt, this.speed, this.steering.steeringAngle,
+      this.yawRate, this.lateralVelocity, this.wheels, limits, this.escLateralLimits);
     this.driverAssists.updateBrakes(dt, this.speed, this.brakes.brakeInput, this.wheels, limits);
-    this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures);
+    this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
     // Transmission has already applied the final drive and efficiency. Only
-    // the selected axle receives this torque; open side gears never bias grip.
-    this.differential.distributeTorque(requestedDriveTorque);
-    const requestedDrive: FourWheelValues = this.differential.axle === 'front'
+    // each open carrier receives its axle share without biasing left/right grip.
+    this.differential.distributeTorque(requestedDriveTorque * (this.awd ? 1 - this.awd.rearTorqueSplit : 1));
+    this.rearDifferential?.distributeTorque(requestedDriveTorque * (this.awd?.rearTorqueSplit ?? 0));
+    const requestedDrive: FourWheelValues = this.rearDifferential
+      ? [this.differential.leftTorque, this.differential.rightTorque, this.rearDifferential.leftTorque, this.rearDifferential.rightTorque]
+      : this.differential.axle === 'front'
       ? [this.differential.leftTorque, this.differential.rightTorque, 0, 0]
       : [0, 0, this.differential.leftTorque, this.differential.rightTorque];
     const rollingMagnitudes = loads.map((load, i) =>
@@ -1117,6 +1166,13 @@ export class VehicleDynamics {
   }
 
   private getDrivenWheelAngularVelocity(): number {
+    if (this.awd && this.rearDifferential) {
+      const front = this.differential.updateSpeeds(this.wheelRotation.getAngularVelocity('frontLeft'),
+        this.wheelRotation.getAngularVelocity('frontRight'));
+      const rear = this.rearDifferential.updateSpeeds(this.wheelRotation.getAngularVelocity('rearLeft'),
+        this.wheelRotation.getAngularVelocity('rearRight'));
+      return this.awd.updateSpeeds(front, rear);
+    }
     const front = this.differential.axle === 'front';
     return this.differential.updateSpeeds(
       this.wheelRotation.getAngularVelocity(front ? 'frontLeft' : 'rearLeft'),
@@ -1272,6 +1328,9 @@ export class VehicleDynamics {
     this.suspension.reset();
     this.wheelRotation.reset(this.speed);
     this.differential.distributeTorque(0);
+    this.rearDifferential?.distributeTorque(0);
+    this.awd?.reset();
+    this.driverAssists.esc.reset();
     this.initializeWheelStates();
     this.upshiftAdvisor.reset();
     this.forces = { ...ZERO_FORCES };

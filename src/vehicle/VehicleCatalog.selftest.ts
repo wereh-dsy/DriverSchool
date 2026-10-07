@@ -304,7 +304,8 @@ export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
     validatePhysics(id, descriptor.physicsConfig);
     assertFiniteTree(descriptor.visualConfig, `${id}.visual`);
     assert(descriptor.visualConfig.vehicleWidth > 1, `${id} visual width is invalid`);
-    assert(descriptor.visualConfig.steeringWheelRadius >= 0.175, `${id} wheel is unrealistically small`);
+    const wheelRadius = descriptor.visualConfig.steeringWheelRadius + descriptor.visualConfig.steeringWheelRimTubeRadius;
+    assert(wheelRadius >= .175 && wheelRadius <= .195, `${id} wheel outside diameter must be 350–390 mm`);
   }
 
   const sedanDescriptor = getVehicleDescriptor('family-sedan');

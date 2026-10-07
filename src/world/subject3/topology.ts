@@ -54,8 +54,8 @@ export const segmentCenterline = (road: Subject3RoadSegmentConfig): readonly Sub
 export const laneWidthFor = (roadClass: Subject3RoadClass, config: Subject3GroundConfig): number =>
   roadClass === 'arterial' ? config.lanes.arterialLaneWidth
     : roadClass === 'standard' ? config.lanes.standardLaneWidth : config.lanes.narrowLaneWidth;
-export const laneCountPerDirection = (roadClass: Subject3RoadClass): number =>
-  roadClass === 'arterial' ? 2 : 1;
+/** All shared-city streets have two lanes in each direction, regardless of class. */
+export const laneCountPerDirection = (_roadClass: Subject3RoadClass): number => 2;
 export const defaultSpeedLimit = (roadClass: Subject3RoadClass): number =>
   roadClass === 'arterial' ? 50 : roadClass === 'standard' ? 40 : 30;
 

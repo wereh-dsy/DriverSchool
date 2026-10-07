@@ -34,7 +34,7 @@ export class Subject3Landmarks implements Subject3AreaModule {
     const s = SUBJECT3_PLACES.school;
     this.pave('学校院落', (s.minimumX + s.maximumX) / 2, (s.minimumZ + s.maximumZ) / 2,
       s.maximumX - s.minimumX, s.maximumZ - s.minimumZ);
-    this.pave('校门步行入口', s.gateX, 43, 14, 6);
+    this.pave('校门步行入口', s.gateX, 41.4, 14, 2.8);
     const buildings = [
       { x: -198, z: -18, width: 44, depth: 16, height: 11 },
       { x: -138, z: -14, width: 32, depth: 14, height: 8.5 },
@@ -89,13 +89,16 @@ export class Subject3Landmarks implements Subject3AreaModule {
       trunk.castShadow = crown.castShadow = shadows;
       this.root.add(trunk, crown);
     }
-    for (let i = 0; i < 8; i += 1) {
+    const schoolRoad = context.topology.segments.find((road) => road.id === 'middle-west')!;
+    const schoolCrossingStripes = Math.floor(schoolRoad.width / 0.86);
+    for (let i = 0; i < schoolCrossingStripes; i += 1) {
       const stripe = makeMarkingRectangle('校门前人行横道',
-        { x: s.gateX, z: 50 + (i - 3.5) * 0.86 }, -Math.PI / 2, 0.45, 3.2,
+        { x: s.gateX, z: 50 + (i - (schoolCrossingStripes - 1) / 2) * 0.86 }, -Math.PI / 2, 0.45, 3.2,
         materials.whitePaint, context.heightAt, context.config.markings.surfaceClearance);
       if (stripe) this.root.add(stripe);
     }
-    for (const [x, z, yaw] of [[-214, 55.4, -Math.PI / 2], [-127, 44.6, Math.PI / 2]]) {
+    const schoolSignOffset = schoolRoad.width / 2 + context.config.environment.sidewalkWidth * 0.55;
+    for (const [x, z, yaw] of [[-214, 50 + schoolSignOffset, -Math.PI / 2], [-127, 50 - schoolSignOffset, Math.PI / 2]]) {
       addLabelBoard(this.root, context, '学校区域警示', '学校区域\n注意儿童', '#e6b439', materials.signYellow,
         { x: x!, z: z! }, yaw!, [2.1, 1.1], 2.2);
       addLabelBoard(this.root, context, '学校限速30', '30', '#ffffff', materials.signWhite,
@@ -139,7 +142,9 @@ export class Subject3Landmarks implements Subject3AreaModule {
     this.pave('超市停车场', (f.minimumX + f.maximumX) / 2, (f.minimumZ + f.maximumZ) / 2,
       f.maximumX - f.minimumX, f.maximumZ - f.minimumZ);
     // Flush driveway through the matching sidewalk gap in Subject3Roads.
-    this.pave('超市车辆入口', b.drivewayX, 285.1, b.drivewayWidth, 6);
+    const roadEdge = 280 + context.topology.segments.find((road) => road.id === 'south-road')!.width / 2;
+    this.pave('超市车辆入口', b.drivewayX, (roadEdge + f.minimumZ) / 2,
+      b.drivewayWidth, f.minimumZ - roadEdge + 0.2);
     this.root.add(
       makeBox('超市主体', [b.width, 7.5, b.depth], [b.x, 3.75, b.z], materials.buildingCool, shadows),
       makeBox('超市屋顶', [b.width + 1, 0.4, b.depth + 1], [b.x, 7.7, b.z], materials.roof, shadows),
@@ -163,7 +168,7 @@ export class Subject3Landmarks implements Subject3AreaModule {
       0, 9 * bayWidth, 0.12, materials.whitePaint, context.heightAt, context.config.markings.surfaceClearance);
     if (end) this.root.add(end);
     addLabelBoard(this.root, context, '超市停车提示', 'P  停车场', '#1f5ba6', materials.signBlue,
-      { x: b.drivewayX + 5.5, z: 288 }, Math.PI, [1.8, 0.7], 2.3);
+      { x: b.drivewayX + 5.5, z: f.minimumZ + 1 }, Math.PI, [1.8, 0.7], 2.3);
     this.root.userData.landmarks.push({ id: 'commercial', center: { x: b.x, z: b.z } });
   }
 

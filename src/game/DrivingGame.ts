@@ -32,6 +32,10 @@ import {
 } from '../input';
 import { Hud } from '../ui/Hud';
 import { MirrorOverlayRenderer } from '../ui/MirrorOverlayRenderer';
+import { EnvironmentState } from '../world/environment/EnvironmentState';
+import { EnvironmentVisual } from '../world/environment/EnvironmentVisual';
+import { WindshieldRain } from '../camera/WindshieldRain';
+import { WiperController } from '../vehicle/control/WiperController';
 import {
   DEFAULT_VEHICLE_ID,
   VEHICLE_CATALOG,
@@ -50,6 +54,7 @@ import { VehicleLightingController } from '../vehicle/control/VehicleLightingCon
 import { VehicleFeedbackSystem } from '../vehicle/feedback/VehicleFeedbackSystem';
 import { GamepadHaptics } from '../input/GamepadHaptics';
 import { VehicleContactSystem } from '../vehicle/physics/VehicleContactSystem';
+import { chassisBodyPose } from '../vehicle/physics/WheelPhysicsState';
 import { MirrorGeometryDebug } from '../camera/MirrorGeometryDebug';
 import { ContactDebugView } from './ContactDebugView';
 import { VehicleVisualDebugView } from './VehicleVisualDebugView';
@@ -93,6 +98,11 @@ export class DrivingGame {
   private readonly feedback = new VehicleFeedbackSystem();
   private readonly haptics = new GamepadHaptics({ getGamepad: () => this.input.gamepad?.getActiveGamepad() ?? null });
   private readonly sun = new DirectionalLight(0xfff1cf, 3.4);
+  private readonly hemisphere = new HemisphereLight(0xd9edf2, 0x52613e, 2.1);
+  private readonly environment = new EnvironmentState();
+  private readonly environmentVisual: EnvironmentVisual;
+  private readonly wiperController = new WiperController();
+  private windshieldRain: WindshieldRain;
   private skyGeometry: SphereGeometry | null = null;
   private skyMaterial: ShaderMaterial | null = null;
   private readonly contacts: VehicleContactSystem;
@@ -138,17 +148,21 @@ export class DrivingGame {
 
     this.activeGroundId = this.readStoredGroundId();
     this.ground = createDrivingGround(this.activeGroundId);
+    this.hud.setRoadNetwork(this.ground.roadNetwork);
     this.activeVehicleId = this.readStoredVehicleId();
     const initialVehicle = getVehicleDescriptor(this.activeVehicleId);
     this.contacts = new VehicleContactSystem(this.ground, initialVehicle.visualConfig.collisionDimensions);
     this.vehicleVisual = new VehicleVisual(initialVehicle.visualConfig);
     this.vehicleLighting = new VehicleLighting(this.vehicleVisual);
+    this.windshieldRain = new WindshieldRain(this.vehicleVisual);
     this.mirrorAdjustment = this.createMirrorAdjustment(this.vehicleVisual);
 
     this.scene.background = new Color(0xaebfc0);
     this.scene.fog = new Fog(0xaebfc0, 180, 1_100);
     this.scene.add(this.ground.root, this.vehicleVisual.root);
     this.addLightingAndSky();
+    this.environmentVisual = new EnvironmentVisual(this.scene, this.environment, this.sun, this.hemisphere, this.skyMaterial!);
+    this.environmentVisual.setGround(this.ground);
 
     const spawn = this.ground.spawnPose;
     this.dynamics = new VehicleDynamics(createVehiclePhysicsConfig(this.activeVehicleId), {
@@ -218,6 +232,8 @@ export class DrivingGame {
     this.contactDebug.dispose();
     this.visualDebug.dispose();
     this.mirrorGeometryDebug.dispose();
+    this.windshieldRain.dispose();
+    this.environmentVisual.dispose();
     this.vehicleLighting.dispose();
     this.mirrors.dispose();
     this.vehicleVisual.dispose();
@@ -262,6 +278,12 @@ export class DrivingGame {
     while (this.accumulator >= FIXED_STEP && stepIndex < MAX_STEPS_PER_FRAME) {
       const driverControls = this.filterSettingsInput(this.input.consumeState());
       this.processAccessoryCommands(driverControls);
+      if (driverControls.cycleWipers) {
+        const mode = this.wiperController.cycle();
+        this.hud.settings.setWiperMode(mode);
+        const labels = { OFF: '关闭', INTERMITTENT: '间歇', LOW: '低速', HIGH: '高速' };
+        this.hud.showMessage(`前雨刷 · ${labels[mode]}`, 1.6);
+      }
       const controls = this.cruiseControl.update(FIXED_STEP, driverControls, {
         available: getVehicleDescriptor(this.activeVehicleId).capabilities.cruiseControl,
         speedMetersPerSecond: this.snapshot.speed,
@@ -272,6 +294,9 @@ export class DrivingGame {
       this.reportCruiseControlEvent();
 
       this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
+      if (driverControls.cycleDriveMode && this.snapshot.driveMode !== undefined) {
+        this.hud.showMessage(`驾驶模式 · ${this.snapshot.driveMode}`, 1.6);
+      }
       if (this.snapshot.transmission.type !== 'MANUAL' &&
         (driverControls.shiftUp || driverControls.shiftDown || driverControls.driveSelector !== undefined) &&
         this.snapshot.transmission.selectorRejectedReason !== null) {
@@ -317,8 +342,13 @@ export class DrivingGame {
     // Maps with authored ambient animation (for example Subject 3 traffic
     // signals) opt in through an optional update hook.
     this.ground.update?.(frameDt);
+    if (this.ground.updatePlayerPosition?.(this.snapshot.x, this.snapshot.z)) this.environmentVisual.setGround(this.ground);
+    this.hud.updateMinimap(this.snapshot.x, this.snapshot.z, this.snapshot.yaw, frameDt);
     this.updateSun();
     this.driverCamera.update(this.vehicleVisual.root, frameDt);
+    this.wiperController.update(frameDt);
+    this.windshieldRain.update(frameDt, this.environment.weather, this.wiperController);
+    this.environmentVisual.update(frameDt, this.driverCamera.camera.position);
     this.engineAudio.update(
       this.snapshot.rpm,
       this.snapshot.throttle,
@@ -346,6 +376,7 @@ export class DrivingGame {
 
     this.mirrors.render();
     this.visualDebug.update(this.vehicleVisual, this.contacts, this.driverCamera, this.mirrors);
+    this.windshieldRain.root.visible = this.visualDebug.renderCamera === null;
     this.renderer.setRenderTarget(null);
     this.renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     this.renderer.setScissorTest(false);
@@ -373,13 +404,15 @@ export class DrivingGame {
     // Support heights capture a flat-topped curb even when all normals are up.
     // Never add the averaged normal's slope again to this fitted terrain plane.
     const roadRoll = contacts === null ? 0 : chassis.terrainRoll;
+    const body = chassisBodyPose({ ...chassis, groundHeight: roadHeight,
+      terrainPitch: roadPitch, terrainRoll: roadRoll }, this.vehicleVisual.config.staticBodyOffsetY);
     this.vehicleVisual.setWorldPose(
       this.snapshot.x,
-      roadHeight + 0.03 + chassis.rideOffset,
+      body.y,
       this.snapshot.z,
       this.snapshot.yaw,
-      roadPitch + chassis.pitch,
-      roadRoll + chassis.roll,
+      body.pitch,
+      body.roll,
     );
     if (contacts !== null) {
       this.vehicleVisual.setWheelWorldPositions({
@@ -418,6 +451,8 @@ export class DrivingGame {
         ? this.snapshot.transmission.selectedMode === 'D' && this.snapshot.transmission.type !== 'CVT' ? `D${this.snapshot.gear}` : this.snapshot.transmission.selectedMode ?? 'N'
         : this.snapshot.gear,
       engineRunning: this.snapshot.engineRunning,
+      driveMode: this.snapshot.driveMode,
+      cruiseTargetSpeedKmh: this.cruiseControl.status.targetSpeedKmh ?? undefined,
       fuelLevel: this.fuelLevel,
       coolantTemperatureC: this.coolantTemperatureC,
       handbrake: this.snapshot.handbrake,
@@ -435,8 +470,9 @@ export class DrivingGame {
         cruise: this.cruiseControl.status.active,
         upshift: this.snapshot.upshiftRecommended,
         absWarning: this.snapshot.driverAssists.absWarning,
-        tcsActive: this.snapshot.driverAssists.tcsLamp,
+        tcsActive: this.snapshot.driverAssists.skidLamp,
         tcsOff: this.snapshot.driverAssists.tcsOff,
+        escOff: this.snapshot.driverAssists.escOff,
       },
     }, dt);
     this.vehicleVisual.root.updateMatrixWorld(true);
@@ -444,6 +480,21 @@ export class DrivingGame {
 
   private configureVehicleSettings(): void {
     const settings = this.hud.settings;
+    try {
+      const stored = JSON.parse(localStorage.getItem('drivergame.environment.v1') ?? '{}');
+      if (['CLEAR', 'LIGHT_RAIN', 'HEAVY_RAIN'].includes(stored.weather)) this.environment.weather = stored.weather;
+      if (['DAY', 'DUSK', 'NIGHT'].includes(stored.time)) this.environment.time = stored.time;
+    } catch { /* Optional preferences must not prevent driving. */ }
+    const applyEnvironment = () => {
+      this.contacts.setWetness(this.environment.wetness);
+      this.environmentVisual.applyState();
+      settings.setEnvironment(this.environment.weather, this.environment.time);
+      try { localStorage.setItem('drivergame.environment.v1', JSON.stringify(this.environment)); } catch { /* Optional preference. */ }
+    };
+    applyEnvironment();
+    settings.onWeatherChange = weather => { this.environment.weather = weather; applyEnvironment(); };
+    settings.onTimeChange = time => { this.environment.time = time; applyEnvironment(); };
+    settings.onWiperModeChange = mode => { this.wiperController.setMode(mode); settings.setWiperMode(mode); };
     this.dynamics.setDriverAssistOptions(settings.driverAssistOptions);
     settings.onDriverAssistsChange = options => this.dynamics.setDriverAssistOptions(options);
     const storedLightMode = this.readStoredLightMode();
@@ -539,9 +590,11 @@ export class DrivingGame {
     const previousGround = this.ground;
     this.scene.remove(previousGround.root);
     this.ground = nextGround;
+    this.hud.setRoadNetwork(nextGround.roadNetwork);
     this.contacts.setGround(nextGround);
     this.activeGroundId = groundId;
     this.scene.add(nextGround.root);
+    this.environmentVisual.setGround(nextGround);
     previousGround.dispose();
 
     this.resetVehicleToGroundStart();
@@ -627,12 +680,14 @@ export class DrivingGame {
 
     const retainedLightMode = this.lightController.state.mainLightMode;
     this.mirrors.dispose();
+    this.windshieldRain.dispose();
     this.vehicleLighting.dispose();
     this.scene.remove(this.vehicleVisual.root);
     this.vehicleVisual.dispose();
 
     this.vehicleVisual = nextVisual;
     this.vehicleLighting = new VehicleLighting(nextVisual);
+    this.windshieldRain = new WindshieldRain(nextVisual);
     this.vehicleLighting.applyState(this.lightController.state);
     this.mirrorAdjustment = this.createMirrorAdjustment(nextVisual);
     this.dynamics = nextDynamics;
@@ -681,7 +736,7 @@ export class DrivingGame {
       defaultResolution: [640, 336],
       // Real exterior geometry supplies parking references. Only the cabin
       // and reflective glass are excluded; never hide the complete car body.
-      hiddenDuringReflection: [vehicle.cockpitRoot],
+      hiddenDuringReflection: [vehicle.cockpitRoot, this.windshieldRain.root],
       autoBindSurfaces: true,
       mirrors: {
         left: {
@@ -715,6 +770,7 @@ export class DrivingGame {
   }
 
   private readStoredGroundId(): DrivingGroundId {
+    if (new URLSearchParams(location.search).get('city') === 'editor') return 'city-editor-map';
     try {
       const stored = localStorage.getItem('drivergame.ground-id.v1');
       if (stored !== null && isDrivingGroundId(stored)) return stored;
@@ -836,8 +892,7 @@ export class DrivingGame {
   }
 
   private addLightingAndSky(): void {
-    const hemisphere = new HemisphereLight(0xd9edf2, 0x52613e, 2.1);
-    this.scene.add(hemisphere);
+    this.scene.add(this.hemisphere);
 
     this.sun.castShadow = true;
     this.sun.shadow.mapSize.set(2_048, 2_048);

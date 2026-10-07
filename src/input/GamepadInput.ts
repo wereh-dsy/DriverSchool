@@ -122,6 +122,7 @@ export class GamepadInput implements VehicleInputDevice {
   private pendingCycleLights = false;
   private pendingEngineStart = false;
   private pendingCruiseToggle = false;
+  private pendingCycleDriveMode = false;
   private pendingFogToggle = false;
 
   public constructor(options: GamepadInputOptions = {}) {
@@ -180,7 +181,7 @@ export class GamepadInput implements VehicleInputDevice {
     } else if (this.enabled) {
       this.pendingShiftUp ||= this.isRisingEdge(pressed, 5); // RB
       this.pendingShiftDown ||= this.isRisingEdge(pressed, 4); // LB
-      this.pendingFogToggle ||= this.isRisingEdge(pressed, 3); // Y. B deliberately reserved.
+      this.pendingFogToggle ||= this.isRisingEdge(pressed, 3); // Y
       this.pendingHandbrakeToggle ||= this.isRisingEdge(pressed, 0); // A
       this.pendingLeftIndicator ||= this.isRisingEdge(pressed, 14); // D-pad Left
       this.pendingRightIndicator ||= this.isRisingEdge(pressed, 15); // D-pad Right
@@ -188,6 +189,7 @@ export class GamepadInput implements VehicleInputDevice {
       this.pendingCycleLights ||= this.isRisingEdge(pressed, 12); // D-pad Up
       this.pendingEngineStart ||= this.isRisingEdge(pressed, 9); // Start
       this.pendingCruiseToggle ||= this.isRisingEdge(pressed, 2); // X
+      this.pendingCycleDriveMode ||= this.isRisingEdge(pressed, 1); // B
       this.previousButtons = pressed;
     } else {
       this.previousButtons = pressed;
@@ -279,6 +281,7 @@ export class GamepadInput implements VehicleInputDevice {
       cycleLights: this.pendingCycleLights,
       engineStart: this.pendingEngineStart,
       cruiseToggle: this.pendingCruiseToggle,
+      cycleDriveMode: this.pendingCycleDriveMode,
       fogToggle: this.pendingFogToggle,
       highBeamFlash: this.continuous.highBeamFlash,
       hornPressed: this.continuous.hornPressed,
@@ -414,6 +417,7 @@ export class GamepadInput implements VehicleInputDevice {
     this.pendingCycleLights = false;
     this.pendingEngineStart = false;
     this.pendingCruiseToggle = false;
+    this.pendingCycleDriveMode = false;
     this.pendingFogToggle = false;
   }
 
@@ -422,7 +426,7 @@ export class GamepadInput implements VehicleInputDevice {
       this.pendingHandbrakeToggle || this.pendingLeftIndicator ||
       this.pendingRightIndicator || this.pendingHazard ||
       this.pendingCycleLights || this.pendingEngineStart ||
-      this.pendingCruiseToggle || this.pendingFogToggle;
+      this.pendingCruiseToggle || this.pendingCycleDriveMode || this.pendingFogToggle;
   }
 
   private now(): number {

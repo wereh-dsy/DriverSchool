@@ -1,5 +1,6 @@
 import type { RoadSurfaceSample, SurfaceMaterial, SurfaceType } from '../../world/SurfaceMaterial';
 import { VEHICLE_WHEEL_IDS, wheelLocalPosition } from '../VehicleDimensions';
+import { wetGripScale } from '../../world/environment/EnvironmentState';
 
 export const WHEEL_IDS = VEHICLE_WHEEL_IDS;
 export type WheelId = typeof WHEEL_IDS[number];
@@ -43,6 +44,7 @@ export function sampleWheelContacts(
   ground: WheelSurfaceQuery,
   pose: WheelContactPose,
   dimensions: WheelContactDimensions,
+  wetness = 0,
 ): WheelContactSet {
   const sine = Math.sin(pose.yaw);
   const cosine = Math.cos(pose.yaw);
@@ -51,12 +53,13 @@ export function sampleWheelContacts(
     const x = pose.x + localX * cosine + localZ * sine;
     const z = pose.z - localX * sine + localZ * cosine;
     const surface = ground.sampleRoadSurface(x, z);
+    const weatherGrip = wetGripScale(surface, wetness);
     return {
       id, x, z, height: surface.height,
       normal: { x: surface.normal.x, y: surface.normal.y, z: surface.normal.z },
       surfaceType: surface.surfaceType,
-      longitudinalGrip: surface.longitudinalGrip,
-      lateralGrip: surface.lateralGrip,
+      longitudinalGrip: surface.longitudinalGrip * weatherGrip,
+      lateralGrip: surface.lateralGrip * weatherGrip,
       rollingResistance: surface.rollingResistance,
       roughness: surface.roughness,
     };

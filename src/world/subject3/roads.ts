@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { Subject3AreaModule, Subject3BuildContext } from './BuildContext';
-import { makeMarkingRibbon, makeRoadRibbon } from './geometry';
+import { makeMarkingRibbon, makeRoadRibbon, sampleRibbonPolyline } from './geometry';
 import { clipPolylineRange, dashRangesAlong, polylineLength, type Subject3Point2 } from './math';
 import type { Subject3SegmentTopology } from './topology';
 import { SUBJECT3_PLACES } from './Subject3GroundConfig';
@@ -17,33 +17,7 @@ const resample = (
   points: readonly Subject3Point2[],
   maximumSpacing: number,
 ): { readonly point: Subject3Point2; readonly tangent: Subject3Point2 }[] => {
-  const fine: { point: Subject3Point2; tangent: Subject3Point2 }[] = [];
-  for (let index = 0; index < points.length; index += 1) {
-    const previous = points[Math.max(0, index - 1)]!;
-    const next = points[Math.min(points.length - 1, index + 1)]!;
-    const dx = next.x - previous.x;
-    const dz = next.z - previous.z;
-    const length = Math.hypot(dx, dz);
-    const tangent = length < 1e-9 ? { x: 0, z: -1 } : { x: dx / length, z: dz / length };
-    fine.push({ point: points[index]!, tangent });
-    if (index === points.length - 1) break;
-    const segmentLength = Math.hypot(
-      points[index + 1]!.x - points[index]!.x,
-      points[index + 1]!.z - points[index]!.z,
-    );
-    const steps = Math.max(1, Math.ceil(segmentLength / maximumSpacing));
-    for (let step = 1; step < steps; step += 1) {
-      const t = step / steps;
-      fine.push({
-        point: {
-          x: points[index]!.x + (points[index + 1]!.x - points[index]!.x) * t,
-          z: points[index]!.z + (points[index + 1]!.z - points[index]!.z) * t,
-        },
-        tangent,
-      });
-    }
-  }
-  return fine;
+  return sampleRibbonPolyline(points, maximumSpacing);
 };
 
 const buildRibbonGeometry = (
@@ -119,15 +93,10 @@ const offsetPolyline = (
   points: readonly Subject3Point2[],
   side: number,
   offset: number,
-): Subject3Point2[] => points.map((point, index) => {
-  const previous = points[Math.max(0, index - 1)]!;
-  const next = points[Math.min(points.length - 1, index + 1)]!;
-  const dx = next.x - previous.x;
-  const dz = next.z - previous.z;
-  const length = Math.hypot(dx, dz) || 1;
+): Subject3Point2[] => sampleRibbonPolyline(points, Infinity).map(({ point, tangent }) => {
   return {
-    x: point.x - (dz / length) * offset * side,
-    z: point.z + (dx / length) * offset * side,
+    x: point.x - tangent.z * offset * side,
+    z: point.z + tangent.x * offset * side,
   };
 });
 
@@ -236,15 +205,14 @@ export class Subject3Roads implements Subject3AreaModule {
     // The approach paint begins upstream of the pedestrian crossing.
     const parts = this.keepOutsideGaps(segment.centerline, gaps, config.junction.crosswalkWidth + 1);
     const edgeOffset = segment.width * 0.5 - 0.35;
-    const isArterial = segment.roadClass === 'arterial';
 
     for (const part of parts) {
       if (polylineLength(part) < 1) continue;
-      for (const offset of isArterial ? [-0.22, 0.22] : [0]) {
+      for (const offset of [-0.22, 0.22]) {
         const mesh = makeMarkingRibbon(
           `${segment.name} 中心线`,
           part,
-          isArterial ? config.markings.thinLineWidth : lineWidth,
+          config.markings.thinLineWidth,
           materials.yellowPaint,
           heightAt,
           clearance,
@@ -253,16 +221,14 @@ export class Subject3Roads implements Subject3AreaModule {
         );
         if (mesh !== null) this.root.add(mesh);
       }
-      if (isArterial) {
-        for (const side of [-1, 1] as const) {
-          this.addDashedLine(
-            `${segment.name} 车道虚线`,
-            part,
-            side * (segment.width / 4),
-            config.markings.thinLineWidth,
-            materials.whitePaint,
-          );
-        }
+      for (const side of [-1, 1] as const) {
+        this.addDashedLine(
+          `${segment.name} 车道虚线`,
+          part,
+          side * (segment.width / 4),
+          config.markings.thinLineWidth,
+          materials.whitePaint,
+        );
       }
       for (const side of [-1, 1] as const) {
         const mesh = makeMarkingRibbon(

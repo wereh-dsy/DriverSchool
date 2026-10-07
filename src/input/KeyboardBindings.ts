@@ -23,6 +23,7 @@ export type KeyboardDrivingAction =
   | 'hazard'
   | 'cycleLights'
   | 'fogToggle'
+  | 'cycleWipers'
   | 'highBeamFlash'
   | 'horn'
   | 'selectorPark'
@@ -30,7 +31,8 @@ export type KeyboardDrivingAction =
   | 'selectorNeutral'
   | 'selectorDrive'
   | 'engineStart'
-  | 'cruiseToggle';
+  | 'cruiseToggle'
+  | 'cycleDriveMode';
 
 export type KeyboardBindings = Record<KeyboardDrivingAction, string>;
 
@@ -64,6 +66,7 @@ export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] 
   { action: 'rightIndicator', label: '右转向灯', group: '车辆附件' },
   { action: 'hazard', label: '双闪', group: '车辆附件' },
   { action: 'cycleLights', label: '切换灯光', group: '车辆附件' },
+  { action: 'cycleWipers', label: '雨刷（关→间歇→低速→高速）', group: '车辆附件' },
   { action: 'fogToggle', label: '前后雾灯', group: '车辆附件' },
   { action: 'highBeamFlash', label: '闪远光（按住）', group: '车辆附件' },
   { action: 'horn', label: '喇叭（按住）', group: '车辆附件' },
@@ -72,6 +75,7 @@ export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] 
   { action: 'selectorNeutral', label: '自动挡 N 空挡', group: '车辆附件' },
   { action: 'selectorDrive', label: '自动挡 D 前进', group: '车辆附件' },
   { action: 'engineStart', label: '发动机开关（点火/熄火）', group: '车辆附件' },
+  { action: 'cycleDriveMode', label: '驾驶模式 ECO→NORMAL→SPORT（支持车型）', group: '车辆附件' },
   { action: 'cruiseToggle', label: '定速巡航开关', group: '车辆附件' },
 ] as const;
 
@@ -100,6 +104,7 @@ export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.free
   hazard: 'KeyH',
   cycleLights: 'KeyL',
   fogToggle: 'KeyF',
+  cycleWipers: 'KeyB',
   highBeamFlash: 'ShiftLeft',
   horn: 'KeyO',
   selectorPark: 'KeyP',
@@ -108,6 +113,7 @@ export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.free
   selectorDrive: 'BracketRight',
   engineStart: 'KeyI',
   cruiseToggle: 'KeyV',
+  cycleDriveMode: 'KeyT',
 });
 
 /** Keys owned by the game shell rather than the keyboard driving adapter. */

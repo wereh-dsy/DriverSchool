@@ -3,6 +3,7 @@ import type * as THREE from 'three';
 import type { TrackSpawnPose } from './DrivingTestTrack';
 import type { RoadSurfaceSample } from './SurfaceMaterial';
 import type { StaticCollider } from '../vehicle/physics/CollisionSystem';
+import type { RoadNetworkData } from './navigation/RoadNetwork';
 
 export interface DrivingGroundBounds {
   readonly minX: number;
@@ -30,6 +31,8 @@ export interface DrivingGround {
   readonly spawnPose: TrackSpawnPose;
   readonly worldBounds: DrivingGroundBounds;
   readonly metadata: DrivingGroundMetadata;
+  /** Shared by HUD, future routes and instrument navigation. */
+  readonly roadNetwork?: RoadNetworkData;
   /** Authored solids, deliberately separate from the road surface query. */
   readonly colliders: readonly StaticCollider[];
   sampleRoadSurface(
@@ -41,6 +44,10 @@ export interface DrivingGround {
   getRoadPitchAt(x: number, z: number, yawRadians: number): number;
   /** Optional per-frame hook for maps with authored ambient animation. */
   update?(deltaSeconds: number): void;
+  /** Optional streaming hook; true asks the environment to discover new visuals. */
+  updatePlayerPosition?(x: number, z: number): boolean;
+  /** Multi-level worlds select support near this height. Existing height-field maps ignore it. */
+  setSurfaceReferenceHeight?(height: number): void;
   dispose(): void;
 }
 

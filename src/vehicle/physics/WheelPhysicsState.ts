@@ -13,7 +13,7 @@ export interface WheelPhysicsState {
   /** Torque-equivalent diagnostic, Tdrive/r; not an additional chassis force. */
   readonly driveForce: number;
   readonly brakeTorque: number;
-  /** Hydraulic demand and delivery are equal until an explicit future ABS module exists. */
+  /** Merged service/ESC hydraulic demand before independent ABS modulation. */
   readonly requestedBrakeTorque: number;
   readonly appliedBrakeTorque: number;
   readonly brakeForce: number;
@@ -61,4 +61,13 @@ export interface ChassisPhysicsState {
   /** Positive raises the right side; a right turn compresses the left side. */
   readonly roll: number;
   readonly verticalVelocity: number;
+}
+
+/** Shared authored-body pose for rendering and the planar collider's vertical envelope. */
+export function chassisBodyPose(chassis: ChassisPhysicsState, staticBodyOffsetY = 0) {
+  return {
+    y: chassis.groundHeight + staticBodyOffsetY + chassis.rideOffset,
+    pitch: chassis.terrainPitch + chassis.pitch,
+    roll: chassis.terrainRoll + chassis.roll,
+  };
 }

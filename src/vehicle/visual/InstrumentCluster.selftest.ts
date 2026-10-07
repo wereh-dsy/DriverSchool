@@ -210,7 +210,8 @@ export function runInstrumentClusterLayoutSelfTest(): InstrumentClusterLayoutSel
   );
 
   assert(
-    config.steeringWheelRadius >= 0.175 && config.steeringWheelRadius <= 0.195,
+    config.steeringWheelRadius + config.steeringWheelRimTubeRadius >= 0.175 &&
+      config.steeringWheelRadius + config.steeringWheelRimTubeRadius <= 0.195,
     'visibility must use a realistic 350–390 mm road-car steering wheel',
   );
   assert(

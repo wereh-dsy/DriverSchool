@@ -8,12 +8,17 @@ export interface CollisionPose extends CollisionPoint2 {
   /** Three.js Y rotation: local -Z is forward. */
   readonly yaw: number;
   readonly y?: number;
+  readonly pitch?: number;
+  readonly roll?: number;
 }
 
 export interface CollisionDimensions {
   readonly length: number;
   readonly width: number;
   readonly height?: number;
+  /** Authored body bottom and loaded chassis offset; omitted preserves legacy callers. */
+  readonly groundClearance?: number;
+  readonly bodyOffsetY?: number;
 }
 
 export type StaticColliderType = 'guardrail' | 'wall' | 'building' | 'obstacle';
@@ -333,7 +338,13 @@ export class VehicleCollisionSystem {
     let impactDampingApplied = this.contactClock - this.lastContactTime <= this.contactReleaseTime;
     const contacts = new Map<string, CollisionContact>();
     const y = step.pose.y ?? step.previousPose.y ?? 0;
-    const top = y + (dimensions.height ?? 1.5);
+    const pitch = step.pose.pitch ?? 0;
+    const roll = step.pose.roll ?? 0;
+    const verticalScale = Math.cos(pitch) * Math.cos(roll);
+    const tiltExtent = Math.abs(Math.sin(pitch)) * dimensions.length * .5
+      + Math.abs(Math.cos(pitch) * Math.sin(roll)) * dimensions.width * .5;
+    const bottom = y + (dimensions.groundClearance ?? .12) * verticalScale - tiltExtent;
+    const top = y + (dimensions.height ?? 1.5) * verticalScale + tiltExtent;
 
     for (let substep = 1; substep <= count; substep += 1) {
       x += motionX;
@@ -349,7 +360,7 @@ export class VehicleCollisionSystem {
           minZ: bounds.minZ - this.separationSkin, maxZ: bounds.maxZ + this.separationSkin,
         });
         for (const collider of candidates) {
-          if (top < collider.minHeight || y + 0.12 > collider.maxHeight) continue;
+          if (top < collider.minHeight || bottom > collider.maxHeight) continue;
           const currentBox = createVehicleOBB({ x, z, yaw }, dimensions);
           const hit = intersectOBB(
             currentBox, collider, { x: velocityX, z: velocityZ }, this.separationSkin,

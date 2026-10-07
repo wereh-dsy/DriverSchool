@@ -176,18 +176,20 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     setButton(connectedPad, 13, 0);
 
     setButton(connectedPad, 3, 1); // Y
-    setButton(connectedPad, 1, 1); // B reserved
+    setButton(connectedPad, 1, 1); // B drive mode
     setButton(connectedPad, 10, 1); // L3 hold
     setButton(connectedPad, 11, 1); // R3 horn
     advance(connectedPad);
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
     assert(state.fogToggle === true, 'Y requests one front/rear-fog toggle');
+    assert(state.cycleDriveMode === true, 'B emits one independent drive-mode edge');
     assert(state.directGear === undefined, 'Y/B do not request Neutral or Reverse');
     assert(state.highBeamFlash === true && state.hornPressed === true, 'L3/R3 provide independent held flash/horn');
     assert(state.controlMode === 'normal', 'R3 is no longer a manual-clutch shortcut');
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
+    assert(state.cycleDriveMode === false, 'held B does not repeat its drive-mode command');
     assert(state.fogToggle === false && state.highBeamFlash === true && state.hornPressed === true,
       'fog consumes its edge while flash/horn remain held');
     setButton(connectedPad, 3, 0);
@@ -333,6 +335,22 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     const keyboard = keyboardInput.keyboard;
     if (keyboard === null) throw new Error('Keyboard adapter was not created');
     try {
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyT');
+      keyboardInput.update(1 / 240, 0);
+      assert(keyboardInput.peekState().cycleDriveMode === true, 'T drive mode edge survives between render and physics');
+      assert(keyboardInput.consumeState().cycleDriveMode === true, 'T emits one drive mode command');
+      assert(keyboardInput.consumeState().cycleDriveMode === false, 'additional fixed steps consume no repeated mode edge');
+      keyboardInput.update(1 / 60, 0);
+      assert(keyboardInput.consumeState().cycleDriveMode === false, 'held T never repeats');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyT');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyB');
+      keyboardInput.update(1 / 240, 0);
+      assert(keyboardInput.peekState().cycleWipers === true, 'B is latched before the next physics step');
+      assert(keyboardInput.consumeState().cycleWipers === true, 'B emits one wiper command');
+      assert(keyboardInput.consumeState().cycleWipers === false, 'additional fixed steps do not repeat the wiper command');
+      keyboardInput.update(1 / 60, 0);
+      assert(keyboardInput.consumeState().cycleWipers === false, 'holding B does not repeat');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyB');
       dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyW');
       keyboardInput.update(0.5, 0);
       let keyboardState = keyboardInput.consumeState();

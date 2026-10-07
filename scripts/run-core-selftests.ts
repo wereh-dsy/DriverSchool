@@ -1,3 +1,4 @@
+import { runExecutiveSedanSelfTest } from '../src/vehicle/physics/ExecutiveSedan.selftest';
 import { runMirrorGeometrySelfTest } from '../src/camera/MirrorSystem.selftest';
 import { runVehicleInputSystemSelfTest } from '../src/input/VehicleInputSystem.selftest';
 import { runVehicleCatalogSelfTest } from '../src/vehicle/VehicleCatalog.selftest';
@@ -9,9 +10,11 @@ import { runEngineTurboSelfTest } from '../src/vehicle/physics/EngineTurbo.selft
 import { runWheelRotationSelfTest } from '../src/vehicle/physics/WheelRotationSystem.selftest';
 import { runTyreDifferentialSelfTest } from '../src/vehicle/physics/TyreDifferential.selftest';
 import { runDriverAssistSelfTest } from '../src/vehicle/physics/DriverAssistSystem.selftest';
+import { runESCAWDSelfTest } from '../src/vehicle/physics/ESCAWD.selftest';
 import { runCVTSelfTest } from '../src/vehicle/transmission/cvt/CVTTransmission.selftest';
 import { runVehicleStructureSelfTest } from '../src/vehicle/visual/VehicleStructure.selftest';
 import { runSuspensionMechanicsSelfTest } from '../src/vehicle/physics/SuspensionMechanics.selftest';
+import { runSuspensionStanceSelfTest } from '../src/vehicle/visual/SuspensionStance.selftest';
 import { runWheelContactSelfTest } from '../src/vehicle/physics/WheelContact.selftest';
 import { runCollisionSystemSelfTest } from '../src/vehicle/physics/CollisionSystem.selftest';
 import { runContactDynamicsSelfTest } from '../src/vehicle/physics/ContactDynamics.selftest';
@@ -32,8 +35,17 @@ import { runTransmissionBackendSelfTest, runTransmissionVehicleSelfTest, runTran
 import { runAutomaticGroundSelfTest } from '../src/vehicle/transmission/AutomaticGround.selftest';
 import { runAutomaticSelectorInputSelfTest } from '../src/vehicle/transmission/AutomaticSelectorInput.selftest';
 import { runVehicleLightingSelfTest } from '../src/vehicle/visual/VehicleLighting.selftest';
+import { runEnvironmentSelfTest } from '../src/world/environment/Environment.selftest';
+import { runCityMapSelfTest } from '../src/world/city/CityMap.selftest';
+import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToolchain.selftest';
 
 const results = {
+  cityToolchain: validateAuthoringAPI(),
+  cityPresets: validatePresets(),
+  cityMap: runCityMapSelfTest(),
+  executiveSedan: runExecutiveSedanSelfTest(),
+  suspensionStance: runSuspensionStanceSelfTest(),
+  environment: runEnvironmentSelfTest(),
   input: runVehicleInputSystemSelfTest(),
   feedback: runVehicleFeedbackSelfTest(),
   haptics: await runGamepadHapticsSelfTest(),
@@ -51,6 +63,7 @@ const results = {
   wheelRotation: runWheelRotationSelfTest(),
   tyreDifferential: runTyreDifferentialSelfTest(),
   driverAssists: runDriverAssistSelfTest(),
+  escAWD: runESCAWDSelfTest(),
   cvt: runCVTSelfTest(),
   vehicleStructure: runVehicleStructureSelfTest(),
   suspensionMechanics: runSuspensionMechanicsSelfTest(),

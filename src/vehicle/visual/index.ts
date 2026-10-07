@@ -29,6 +29,7 @@ export {
   TEST_6AT_VISUAL_CONFIG,
   TEST_7DCT_VISUAL_CONFIG,
   CVT_SEDAN_VISUAL_CONFIG,
+  EXECUTIVE_SEDAN_VISUAL_CONFIG,
   defaultSedanVisualConfig,
   sportsCoupeVisualConfig,
 } from './VehicleVisualConfig';

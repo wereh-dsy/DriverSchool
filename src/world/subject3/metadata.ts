@@ -1,5 +1,5 @@
 import type { Subject3GroundConfig, Subject3Point2 } from './Subject3GroundConfig';
-import type { Subject3Topology } from './topology';
+import { laneCountPerDirection, type Subject3Topology } from './topology';
 import type {
   Subject3Bounds,
   Subject3JunctionArmMetadata,
@@ -38,6 +38,9 @@ export const createSubject3MapMetadata = (
       name: segment.name,
       roadClass: segment.roadClass,
       width: segment.width,
+      laneCountPerDirection: laneCountPerDirection(segment.roadClass),
+      laneWidth: segment.width / (laneCountPerDirection(segment.roadClass) * 2),
+      travelDirection: 'two-way',
       speedLimitKmh: segment.speedLimitKmh,
       headingRadians: yawFacing(second.x - first.x, second.z - first.z),
       centerline: segment.centerline.map((point) => ({ ...point })),
@@ -52,6 +55,8 @@ export const createSubject3MapMetadata = (
       approachYawRadians: arm.approachYawRadians,
       approachLaneCount: arm.approachLaneCount,
       roadWidth: arm.roadWidth,
+      trafficSignal: junction.hasTrafficSignals
+        ? { junctionId: junction.id, controlKind: arm.controlKind } : undefined,
     }));
     return {
       id: junction.id,
@@ -76,11 +81,11 @@ export const createSubject3MapMetadata = (
 
   return {
     id: 'subject-3-shared-city-map',
-    version: 1,
+    version: 2,
     displayName: '科目三共享城市地图',
     description: '共享城市街区路网：两条长直主路、多处十字与丁字路口、信号灯路口、学校、公交站、商业区与北侧地标。',
     mapId: 'cn-subject-3-shared-city-map',
-    schemaVersion: '1.0.0',
+    schemaVersion: '1.1.0',
     coordinateUnits: 'metres',
     bounds: boundsAround({ x: 0, z: 0 }, config.site.length, config.site.width),
     spawn: {

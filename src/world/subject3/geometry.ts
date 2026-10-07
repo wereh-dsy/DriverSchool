@@ -4,9 +4,39 @@ import type { Subject3Point2 } from './Subject3GroundConfig';
 export const SUBJECT3_ROAD_SURFACE_OFFSET = 0.024;
 
 export type Subject3HeightSampler = (x: number, z: number) => number;
+interface RibbonPoint extends Subject3Point2 { readonly y?: number }
+
+/** Exact bend vertices with mitered offsets, shared by asphalt, paint and kerbs. */
+export const sampleRibbonPolyline = (points: readonly RibbonPoint[], maximumSpacing: number):
+  { point: RibbonPoint; tangent: Subject3Point2 }[] => {
+  const samples: { point: RibbonPoint; tangent: Subject3Point2 }[] = [];
+  const direction = (a: Subject3Point2, b: Subject3Point2): Subject3Point2 => {
+    const length = Math.hypot(b.x - a.x, b.z - a.z) || 1;
+    return { x: (b.x - a.x) / length, z: (b.z - a.z) / length };
+  };
+  for (let i = 0; i < points.length; i += 1) {
+    const point = points[i]!;
+    const incoming = direction(points[Math.max(0, i - 1)]!, point);
+    const outgoing = direction(point, points[Math.min(points.length - 1, i + 1)]!);
+    const divisor = Math.max(0.25, 1 + incoming.x * outgoing.x + incoming.z * outgoing.z);
+    const tangent = i === 0 ? outgoing : i === points.length - 1 ? incoming
+      : { x: (incoming.x + outgoing.x) / divisor, z: (incoming.z + outgoing.z) / divisor };
+    samples.push({ point, tangent });
+    if (i === points.length - 1) continue;
+    const next = points[i + 1]!;
+    const steps = Math.max(1, Math.ceil(Math.hypot(next.x - point.x, next.z - point.z) / maximumSpacing));
+    for (let step = 1; step < steps; step += 1) {
+      const t = step / steps;
+      samples.push({ point: { x: point.x + (next.x - point.x) * t, z: point.z + (next.z - point.z) * t,
+        y: point.y === undefined && next.y === undefined ? undefined : (point.y ?? 0) + ((next.y ?? 0) - (point.y ?? 0)) * t },
+        tangent: outgoing });
+    }
+  }
+  return samples;
+};
 
 export const createStripGeometry = (
-  points: readonly Subject3Point2[],
+  points: readonly RibbonPoint[],
   heightAt: Subject3HeightSampler,
   options: {
     readonly innerOffset: number;
@@ -19,57 +49,17 @@ export const createStripGeometry = (
   const positions: number[] = [];
   const uvs: number[] = [];
   const indices: number[] = [];
-  const maximumSpacing = options.maximumSpacing ?? 1.4;
-  const samples: Subject3Point2[] = [];
-  let travelled = 0;
-  for (let index = 0; index < points.length; index += 1) {
-    const point = points[index]!;
-    if (index > 0) travelled += Math.hypot(point.x - points[index - 1]!.x, point.z - points[index - 1]!.z);
-    samples.push(point);
-  }
-  const totalLength = Math.max(travelled, 0.001);
-  const fine: Subject3Point2[] = [];
-  const count = Math.max(1, Math.ceil(totalLength / maximumSpacing));
-  for (let index = 0; index <= count; index += 1) {
-    const target = totalLength * index / count;
-    let accumulated = 0;
-    let placed = false;
-    for (let segment = 1; segment < samples.length; segment += 1) {
-      const start = samples[segment - 1]!;
-      const end = samples[segment]!;
-      const length = Math.hypot(end.x - start.x, end.z - start.z);
-      if (length < 1e-9) continue;
-      if (accumulated + length >= target - 1e-9 || segment === samples.length - 1) {
-        const t = THREE.MathUtils.clamp((target - accumulated) / length, 0, 1);
-        fine.push({ x: start.x + (end.x - start.x) * t, z: start.z + (end.z - start.z) * t });
-        placed = true;
-        break;
-      }
-      accumulated += length;
-    }
-    if (!placed) fine.push({ ...samples[samples.length - 1]! });
-  }
+  const fine = sampleRibbonPolyline(points, options.maximumSpacing ?? 1.4);
 
   for (let index = 0; index < fine.length; index += 1) {
-    const previous = fine[Math.max(0, index - 1)]!;
-    const next = fine[Math.min(fine.length - 1, index + 1)]!;
-    let tangentX = next.x - previous.x;
-    let tangentZ = next.z - previous.z;
-    const length = Math.hypot(tangentX, tangentZ);
-    if (length < 1e-9) {
-      tangentX = 0;
-      tangentZ = -1;
-    } else {
-      tangentX /= length;
-      tangentZ /= length;
-    }
-    const rightX = -tangentZ;
-    const rightZ = tangentX;
-    const point = fine[index]!;
+    const sample = fine[index]!;
+    const rightX = -sample.tangent.z;
+    const rightZ = sample.tangent.x;
+    const point = sample.point;
     for (const offset of [options.innerOffset, options.outerOffset]) {
       const x = point.x + rightX * offset;
       const z = point.z + rightZ * offset;
-      positions.push(x, heightAt(x, z) + options.yOffset, z);
+      positions.push(x, (point.y ?? heightAt(x, z)) + options.yOffset, z);
       uvs.push(offset === options.innerOffset ? 0 : 1, index / (fine.length - 1 || 1));
     }
   }
@@ -234,21 +224,22 @@ const ARROW_OUTLINES: Readonly<Record<Subject3ArrowKind, readonly (readonly [num
       [-0.18, 1.9], [-0.18, -0.35], [-0.58, -0.35], [0, -1.7], [0.58, -0.35], [0.18, -0.35], [0.18, 1.9],
     ],
     left: [
-      [-0.18, 1.9], [-0.18, -0.15], [-0.62, -0.15], [-0.62, -0.45], [-1.35, 0.25],
-      [-0.62, 0.95], [-0.62, 0.65], [0.18, 0.65], [0.18, 1.9],
+      [-0.18, 1.9], [-0.18, 0.65], [-0.62, 0.65], [-0.62, 0.95], [-1.35, 0.25],
+      [-0.62, -0.45], [-0.62, -0.15], [0.18, -0.15], [0.18, 1.9],
     ],
     right: [
       [0.18, 1.9], [0.18, 0.65], [0.62, 0.65], [0.62, 0.95], [1.35, 0.25],
       [0.62, -0.45], [0.62, -0.15], [-0.18, -0.15], [-0.18, 1.9],
     ],
     'straight-left': [
-      [-0.18, 1.9], [-0.18, -0.35], [-0.55, -0.35], [0, -1.6], [0.55, -0.35], [0.18, -0.35],
-      [0.18, 0.35], [-0.62, 0.35], [-0.62, 0.6], [-1.4, 0.05], [-0.62, -0.5], [-0.62, -0.2],
-      [-0.18, -0.2],
+      [-0.18, 1.9], [-0.18, 0.35], [-0.62, 0.35], [-0.62, 0.6], [-1.4, 0.05],
+      [-0.62, -0.5], [-0.62, -0.2], [-0.18, -0.2], [-0.18, -0.35], [-0.55, -0.35],
+      [0, -1.6], [0.55, -0.35], [0.18, -0.35], [0.18, 1.9],
     ],
     'straight-right': [
-      [0.18, 1.9], [0.18, -0.2], [0.62, -0.2], [0.62, -0.5], [1.4, 0.05], [0.62, 0.6],
-      [0.62, 0.35], [-0.18, 0.35], [-0.18, -0.35], [-0.55, -0.35], [0, -1.6], [0.55, -0.35],
+      [0.18, 1.9], [0.18, 0.35], [0.62, 0.35], [0.62, 0.6], [1.4, 0.05],
+      [0.62, -0.5], [0.62, -0.2], [0.18, -0.2], [0.18, -0.35], [0.55, -0.35],
+      [0, -1.6], [-0.55, -0.35], [-0.18, -0.35], [-0.18, 1.9],
     ],
   });
 

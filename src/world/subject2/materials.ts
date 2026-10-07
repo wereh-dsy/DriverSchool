@@ -1,11 +1,12 @@
 import * as THREE from 'three';
+import { wetRoadMaterial } from '../environment/WetRoadMaterial';
 
 export interface Subject2Materials {
   readonly grass: THREE.MeshStandardMaterial;
   readonly asphalt: THREE.MeshStandardMaterial;
   readonly asphaltPractice: THREE.MeshStandardMaterial;
-  readonly whiteMarking: THREE.MeshBasicMaterial;
-  readonly yellowMarking: THREE.MeshBasicMaterial;
+  readonly whiteMarking: THREE.MeshStandardMaterial;
+  readonly yellowMarking: THREE.MeshStandardMaterial;
   readonly curb: THREE.MeshStandardMaterial;
   readonly metal: THREE.MeshStandardMaterial;
   readonly darkMetal: THREE.MeshStandardMaterial;
@@ -24,18 +25,18 @@ export interface Subject2Materials {
 
 export const createSubject2Materials = (): Subject2Materials => {
   const markingOptions = {
-    toneMapped: false,
+    roughness: 0.8,
     polygonOffset: true,
     polygonOffsetFactor: -2,
     polygonOffsetUnits: -2,
   } as const;
   return {
     grass: new THREE.MeshStandardMaterial({ color: 0x687d4d, roughness: 1 }),
-    asphalt: new THREE.MeshStandardMaterial({ color: 0x303437, roughness: 0.96 }),
-    asphaltPractice: new THREE.MeshStandardMaterial({ color: 0x35393b, roughness: 0.97 }),
-    whiteMarking: new THREE.MeshBasicMaterial({ color: 0xf4f1df, ...markingOptions }),
-    yellowMarking: new THREE.MeshBasicMaterial({ color: 0xe9c349, ...markingOptions }),
-    curb: new THREE.MeshStandardMaterial({ color: 0xc7c5b9, roughness: 0.9 }),
+    asphalt: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x303437, roughness: 0.96 })),
+    asphaltPractice: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x35393b, roughness: 0.97 })),
+    whiteMarking: new THREE.MeshStandardMaterial({ color: 0xf4f1df, ...markingOptions }),
+    yellowMarking: new THREE.MeshStandardMaterial({ color: 0xe9c349, ...markingOptions }),
+    curb: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0xc7c5b9, roughness: 0.9 })),
     metal: new THREE.MeshStandardMaterial({ color: 0xa9afb0, roughness: 0.55, metalness: 0.52 }),
     darkMetal: new THREE.MeshStandardMaterial({ color: 0x353b3e, roughness: 0.62, metalness: 0.42 }),
     foliage: new THREE.MeshStandardMaterial({ color: 0x3e673f, roughness: 0.96 }),

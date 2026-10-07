@@ -1,10 +1,11 @@
 import * as THREE from 'three';
+import { wetRoadMaterial } from '../environment/WetRoadMaterial';
 
 export interface CircuitMaterials {
   readonly grass: THREE.MeshStandardMaterial;
   readonly shoulder: THREE.MeshStandardMaterial;
   readonly asphalt: THREE.MeshStandardMaterial;
-  readonly marking: THREE.MeshBasicMaterial;
+  readonly marking: THREE.MeshStandardMaterial;
   readonly guardrail: THREE.MeshStandardMaterial;
   readonly guardrailPost: THREE.MeshStandardMaterial;
   readonly structure: THREE.MeshStandardMaterial;
@@ -17,10 +18,10 @@ export interface CircuitMaterials {
 export const createCircuitMaterials = (): CircuitMaterials => ({
   grass: new THREE.MeshStandardMaterial({ color: 0x68804d, roughness: 1 }),
   shoulder: new THREE.MeshStandardMaterial({ color: 0x777467, roughness: 0.98 }),
-  asphalt: new THREE.MeshStandardMaterial({ color: 0x292d30, roughness: 0.93 }),
-  marking: new THREE.MeshBasicMaterial({
+  asphalt: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x292d30, roughness: 0.93 })),
+  marking: new THREE.MeshStandardMaterial({
     color: 0xf4f3e9,
-    toneMapped: false,
+    roughness: 0.8,
     polygonOffset: true,
     polygonOffsetFactor: -2,
     polygonOffsetUnits: -2,
