@@ -1,17 +1,9 @@
-export interface OpenDifferentialSnapshot {
-  readonly type: 'open';
-  readonly axle: 'front' | 'rear';
-  /** After-final-drive carrier angular speed, rad/s. */
-  readonly carrierAngularVelocity: number;
-  readonly leftAngularVelocity: number;
-  readonly rightAngularVelocity: number;
-  readonly inputTorque: number;
-  readonly leftTorque: number;
-  readonly rightTorque: number;
-}
+import type { Differential, DifferentialSnapshot } from './Differential';
+/** @deprecated Shared observation type now covers open and LSD carriers. */
+export type OpenDifferentialSnapshot = DifferentialSnapshot;
 
 /** Ideal massless open carrier. Wheel inertia/tyre reaction live in the wheel solver. */
-export class OpenDifferential {
+export class OpenDifferential implements Differential {
   public carrierAngularVelocity = 0;
   public leftAngularVelocity = 0;
   public rightAngularVelocity = 0;
@@ -21,6 +13,10 @@ export class OpenDifferential {
 
   public constructor(public readonly axle: 'front' | 'rear') {}
 
+  public reset(): void {
+    this.updateSpeeds(0, 0); this.distributeTorque(0);
+  }
+
   public updateSpeeds(left: number, right: number): number {
     this.leftAngularVelocity = left;
     this.rightAngularVelocity = right;
@@ -28,7 +24,7 @@ export class OpenDifferential {
     return this.carrierAngularVelocity;
   }
 
-  public distributeTorque(afterFinalDriveTorque: number): void {
+  public distributeTorque(afterFinalDriveTorque: number, _dt?: number): void {
     this.inputTorque = afterFinalDriveTorque;
     // Equal side-gear torque, NOT equal speed and NOT traction-biased torque.
     // A spinning low-grip wheel raises carrier speed and therefore backdrives

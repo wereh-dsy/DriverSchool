@@ -14,7 +14,7 @@ export class ParkingCamera {
   private elapsed = Infinity;
   public renderCount = 0;
   public constructor(private readonly renderer: THREE.WebGLRenderer, private readonly scene: THREE.Scene,
-    private readonly vehicle: VehicleVisual) {
+    private readonly vehicle: VehicleVisual, private readonly surroundView = true) {
     this.display = vehicle.cockpitRoot.getObjectByName('Infotainment display') as THREE.Mesh | undefined;
     this.original = this.display?.material;
     this.material = new THREE.MeshBasicMaterial({ map: this.target.texture, toneMapped: false });
@@ -50,11 +50,14 @@ export class ParkingCamera {
     try {
       root.visible = false; this.renderer.shadowMap.autoUpdate = false;
       this.renderer.setRenderTarget(this.target); this.renderer.setScissorTest(true); this.renderer.autoClear = true;
-      this.renderer.setViewport(0, 0, 384, 192); this.renderer.setScissor(0, 0, 384, 192);
+      this.renderer.setViewport(0, 0, this.surroundView ? 384 : 576, 192); this.renderer.setScissor(0, 0, this.surroundView ? 384 : 576, 192);
       this.renderer.render(this.scene, this.rear);
-      this.marker.visible = true;
-      this.renderer.setViewport(384, 0, 192, 192); this.renderer.setScissor(384, 0, 192, 192);
-      this.renderer.render(this.scene, this.bird); this.renderCount += 2;
+      if (this.surroundView) {
+        this.marker.visible = true;
+        this.renderer.setViewport(384, 0, 192, 192); this.renderer.setScissor(384, 0, 192, 192);
+        this.renderer.render(this.scene, this.bird);
+      }
+      this.renderCount += this.surroundView ? 2 : 1;
     } finally {
       this.marker.visible = false; root.visible = visible; this.renderer.shadowMap.autoUpdate = shadows;
       this.renderer.autoClear = autoClear; this.renderer.setRenderTarget(previous);

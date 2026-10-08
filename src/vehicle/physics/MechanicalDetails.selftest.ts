@@ -113,8 +113,10 @@ export function runMechanicalDetailsSelfTest() {
     for (let i = 0; i < 45; i++) state = car.stepFixed(dt, input, { wheelContacts: contacts });
     const driven = config.frontTorqueSplit === 1 ? ['frontLeft', 'frontRight'] as const : ['rearLeft', 'rearRight'] as const;
     const undriven = config.frontTorqueSplit === 1 ? ['rearLeft', 'rearRight'] as const : ['frontLeft', 'frontRight'] as const;
-    assert(state.wheels[driven[0]].driveTorque > 0 && state.wheels[driven[0]].driveTorque === state.wheels[driven[1]].driveTorque,
-      `${name}: each driven wheel receives an equal torque share`);
+    assert(state.wheels[driven[0]].driveTorque > 0 && (state.differential.type === 'lsd'
+        ? Math.abs(state.wheels[driven[0]].driveTorque + state.wheels[driven[1]].driveTorque - state.differential.inputTorque) < 1e-9
+        : state.wheels[driven[0]].driveTorque === state.wheels[driven[1]].driveTorque),
+      `${name}: driven wheels receive conserving configured differential torque`);
     assert(undriven.every(id => state.wheels[id].driveTorque === 0), `${name}: undriven axle receives no engine torque`);
     assert(state.wheels[driven[1]].longitudinalForce < state.wheels[driven[0]].longitudinalForce,
       `${name}: own surface limits actual tyre force, not the equal requested axle torques`);

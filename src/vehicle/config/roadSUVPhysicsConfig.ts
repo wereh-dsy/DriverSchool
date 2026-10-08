@@ -1,3 +1,4 @@
+import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
 import { FAMILY_CONVERTER_CONFIG } from './transmissionTestVehicleConfigs';
 import { ROAD_SUV_DIMENSIONS } from '../VehicleDimensions';
@@ -77,5 +78,11 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
   config.aero = { ...config.aero, dragCoefficient: .33, frontalArea: 2.76 };
   config.driverAids = { ...config.driverAids, absEnabled: true, ebdEnabled: true,
     tractionControlEnabled: true, stabilityControlEnabled: true };
+  config.frontDiff = { type: 'open' };
+  config.rearDiff = { type: 'open' };
+  config.electronicDifferential = { slipThreshold: .18, speedDifferenceThreshold: .65,
+    maximumBrakeTorque: 450, response: 8 };
+  config.parkingBrake = createRoadParkingBrakeConfig(config.brakes.handbrakeTorque);
+  config.autoHold = createRoadAutoHoldConfig();
   return config;
 }

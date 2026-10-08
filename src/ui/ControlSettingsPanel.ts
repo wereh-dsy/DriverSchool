@@ -38,6 +38,7 @@ export class ControlSettingsPanel {
   public onWiperModeChange?: (mode: WiperMode) => void;
   public onVibrationChange?: (enabled: boolean) => void;
   public onDriverAssistsChange?: (options: DriverAssistOptions) => void;
+  public onAutoHoldChange?: (enabled: boolean) => void;
   public readonly driverAssistOptions: DriverAssistOptions = this.readDriverAssistPreferences();
   public onDriveSelectorChange?: (selector: DriveSelector) => void;
   public onMirrorSideChange?: (side: AdjustableMirrorSide) => void;
@@ -149,12 +150,13 @@ export class ControlSettingsPanel {
             </div>
           </section>
           <section class="settings-group">
-            <div class="settings-group-title"><span>驾驶辅助</span><small>独立开关 · 手刹不受 ABS 控制</small></div>
+            <div class="settings-group-title"><span>驾驶辅助</span><small>独立开关 · 机械手刹不受 ABS 控制</small></div>
             <div class="settings-segments">
               <button type="button" data-aid="absEnabled">ABS: ON</button>
               <button type="button" data-aid="ebdEnabled">EBD: ON</button>
               <button type="button" data-aid="tractionControlEnabled">TCS: ON</button>
               <button type="button" data-aid="stabilityControlEnabled">ESC: ON</button>
+              <button type="button" data-auto-hold hidden aria-pressed="false">AUTO HOLD: OFF</button>
             </div>
           </section>
           <section class="settings-group">
@@ -220,6 +222,10 @@ export class ControlSettingsPanel {
       });
     });
     this.require<HTMLInputElement>(shell, '[data-vibration]').checked = this.vibrationOn;
+    this.require<HTMLButtonElement>(shell, '[data-auto-hold]').addEventListener('click', event => {
+      const button = event.currentTarget as HTMLButtonElement;
+      this.onAutoHoldChange?.(button.getAttribute('aria-pressed') !== 'true');
+    });
     shell.querySelectorAll<HTMLButtonElement>('[data-aid]').forEach(button => {
       const key = button.dataset.aid as keyof DriverAssistOptions;
       const label = key === 'absEnabled' ? 'ABS' : key === 'ebdEnabled' ? 'EBD' : key === 'stabilityControlEnabled' ? 'ESC' : 'TCS';
@@ -408,6 +414,14 @@ export class ControlSettingsPanel {
       this.vehicleButtons.set(option.id, button);
       this.vehicleButtonsContainer.append(button);
     }
+  }
+
+  public setAutoHold(available: boolean, enabled: boolean): void {
+    const button = this.require<HTMLButtonElement>(this.panel, '[data-auto-hold]');
+    button.hidden = !available;
+    button.textContent = `AUTO HOLD: ${enabled ? 'ON' : 'OFF'}`;
+    button.classList.toggle('active', enabled);
+    button.setAttribute('aria-pressed', String(enabled));
   }
 
   public setActiveVehicle(vehicleId: string): void {

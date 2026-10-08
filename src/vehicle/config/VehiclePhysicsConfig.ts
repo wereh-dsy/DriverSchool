@@ -1,3 +1,6 @@
+import type { VehicleFeatureDeclarations } from '../VehicleCapabilities';
+import type { AutoHoldConfig, DifferentialConfig, ElectronicDifferentialConfig, ParkingBrakeConfig } from './VehiclePlatformConfig';
+
 /** Forward gears supported by the shared transmission model. */
 export type ForwardGear = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
@@ -425,8 +428,16 @@ export interface DriveModeCalibration {
   accelerationRearTorqueSplit: number;
 }
 
-export interface VehiclePhysicsConfig {
-  fuel: FuelConfig;
+export interface VehicleChassisConfig {
+  /** Optional declarations cannot override installed topology. */
+  capabilities?: VehicleFeatureDeclarations;
+  /** Existing ICE transmission calibration; an injected powertrain may omit it. */
+  transmission?: TransmissionConfig;
+  frontDiff?: DifferentialConfig;
+  rearDiff?: DifferentialConfig;
+  electronicDifferential?: ElectronicDifferentialConfig;
+  parkingBrake?: ParkingBrakeConfig;
+  autoHold?: AutoHoldConfig;
   driveModes?: Readonly<Record<VehicleDriveMode, DriveModeCalibration>>;
   /** Exterior envelope and wheel geometry, in metres. */
   length: number;
@@ -448,9 +459,9 @@ export interface VehiclePhysicsConfig {
   centerOfMassLongitudinalOffset: number;
   /** Body yaw moment of inertia, in kg m². */
   yawInertia: number;
-  /** AWD uses two independent open axle carriers. */
+  /** Layout is independent of axle differential calibration. */
   drivetrainType: 'FWD' | 'RWD' | 'AWD';
-  /** Only an open carrier is implemented; omitted legacy presets default to open. */
+  /** @deprecated Use frontDiff/rearDiff; legacy presets default to open. */
   differentialType?: 'open';
   frontTorqueSplit: number;
   rearTorqueSplit: number;
@@ -467,10 +478,6 @@ export interface VehiclePhysicsConfig {
   /** Static vehicle weight carried by driven wheels; used for launch grip. */
   drivenWheelWeightFraction: number;
   gravity: number;
-  engine: EngineConfig;
-  transmission: TransmissionConfig;
-  clutch: ClutchConfig;
-  autoClutch: AutoClutchConfig;
   brakes: BrakeConfig;
   steering: SteeringConfig;
   aero: AeroConfig;
@@ -478,6 +485,15 @@ export interface VehiclePhysicsConfig {
   suspension: SuspensionConfig;
   driverAids: DriverAidConfig;
   safety: SimulationSafetyConfig;
+}
+
+/** Compatibility configuration for every currently authored ICE vehicle. */
+export interface VehiclePhysicsConfig extends VehicleChassisConfig {
+  fuel: FuelConfig;
+  engine: EngineConfig;
+  transmission: TransmissionConfig;
+  clutch: ClutchConfig;
+  autoClutch: AutoClutchConfig;
 }
 
 export interface FuelConfig {

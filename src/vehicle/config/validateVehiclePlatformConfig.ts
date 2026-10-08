@@ -1,0 +1,93 @@
+import { STRUCTURAL_CAPABILITIES } from '../VehicleCapabilities';
+import type { VehicleChassisConfig } from './VehiclePhysicsConfig';
+import type { DifferentialConfig } from './VehiclePlatformConfig';
+import type { VehicleVisualConfig } from '../visual/VehicleVisualConfig';
+
+/** Startup/test validation only; no schema framework or work in the fixed loop. */
+export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visual?: VehicleVisualConfig): void {
+  const require = (ok: boolean, field: string): void => {
+    if (!ok) throw new Error(`Invalid vehicle platform config: ${field}`);
+  };
+  const nonnegative = (value: number, field: string): void => require(Number.isFinite(value) && value >= 0, field);
+  const positive = (value: number, field: string): void => require(Number.isFinite(value) && value > 0, field);
+  const fraction = (value: number, field: string): void => require(Number.isFinite(value) && value >= 0 && value <= 1, field);
+  const features = config.capabilities;
+  if (features) {
+    for (const key of STRUCTURAL_CAPABILITIES) require(!(key in features), `capabilities.${key} is derived; configure its system instead`);
+    for (const [key, value] of Object.entries(features)) require(typeof value === 'boolean', `capabilities.${key}`);
+    require(features.driveModes !== true || config.driveModes !== undefined, 'driveModes declaration requires calibration');
+  }
+  require(['FWD', 'RWD', 'AWD'].includes(config.drivetrainType), 'drivetrain type');
+  require(config.drivetrainLayout === config.drivetrainType, 'drivetrain layout aliases disagree');
+  require((config.awd !== undefined) === (config.drivetrainType === 'AWD'), 'AWD controller and drivetrainType disagree');
+  fraction(config.frontTorqueSplit, 'frontTorqueSplit'); fraction(config.rearTorqueSplit, 'rearTorqueSplit');
+  require(Math.abs(config.frontTorqueSplit + config.rearTorqueSplit - 1) < 1e-6, 'axle torque shares must sum to one');
+  require(config.drivetrainType !== 'FWD' || config.frontTorqueSplit === 1, 'FWD axle shares');
+  require(config.drivetrainType !== 'RWD' || config.rearTorqueSplit === 1, 'RWD axle shares');
+  if (config.awd) {
+    require(config.awd.mode === 'full-time' || config.awd.mode === 'on-demand', 'AWD mode');
+    if (config.awd.response !== undefined) positive(config.awd.response, 'AWD response');
+    const maximum = config.awd.maximumRearTorqueSplit;
+    const acceleration = config.awd.accelerationRearTorqueSplit;
+    if (maximum !== undefined) {
+      fraction(maximum, 'AWD maximumRearTorqueSplit');
+      require(config.awd.mode === 'full-time' || maximum >= config.rearTorqueSplit, 'AWD maximum share is below nominal');
+    }
+    if (acceleration !== undefined) {
+      fraction(acceleration, 'AWD accelerationRearTorqueSplit');
+      // Full-time ignores acceleration calibration; on-demand clamps to nominal.
+      require(config.awd.mode === 'full-time' || maximum === undefined || acceleration <= maximum, 'AWD acceleration share exceeds maximum');
+    }
+  }
+  const differential = (diff: DifferentialConfig | undefined, axle: string): void => {
+    if (!diff) return; // Legacy omission means the existing open carrier.
+    require(diff.type === 'open' || diff.type === 'lsd', `${axle} differential type`);
+    if (diff.type !== 'lsd') return;
+    nonnegative(diff.preload, `${axle} LSD preload`); fraction(diff.lockStrength, `${axle} LSD lockStrength`);
+    require(Number.isFinite(diff.torqueBiasRatio) && diff.torqueBiasRatio >= 1, `${axle} LSD torqueBiasRatio`);
+    nonnegative(diff.speedDifferenceSensitivity, `${axle} LSD sensitivity`); positive(diff.response, `${axle} LSD response`);
+  };
+  differential(config.frontDiff, 'front'); differential(config.rearDiff, 'rear');
+  require(config.drivetrainType !== 'FWD' || config.rearDiff?.type !== 'lsd', 'FWD cannot install a rear drive LSD');
+  require(config.drivetrainType !== 'RWD' || config.frontDiff?.type !== 'lsd', 'RWD cannot install a front drive LSD');
+  if (config.electronicDifferential) {
+    const d = config.electronicDifferential;
+    fraction(d.slipThreshold, 'eDiff slipThreshold'); nonnegative(d.speedDifferenceThreshold, 'eDiff speed threshold');
+    nonnegative(d.maximumBrakeTorque, 'eDiff brake torque'); positive(d.response, 'eDiff response');
+  }
+  const transmission = config.transmission;
+  const type = transmission?.type ?? 'MANUAL';
+  if (transmission) {
+    require(['MANUAL', 'TORQUE_CONVERTER_AT', 'DCT', 'CVT'].includes(type), 'transmission type');
+    require(!transmission.supportsManualSelection || type === 'TORQUE_CONVERTER_AT' || type === 'DCT',
+      'manual selection requires a stepped AT/DCT');
+    if (type === 'CVT') require(Object.keys(transmission.gearRatios).length === 0, 'CVT cannot have fake stepped gears');
+  }
+  const parking = config.parkingBrake;
+  if (parking) {
+    require(parking.axle === 'front' || parking.axle === 'rear', 'EPB axle');
+    nonnegative(parking.maximumTorque, 'EPB torque'); nonnegative(parking.applyRate, 'EPB applyRate');
+    nonnegative(parking.releaseRate, 'EPB releaseRate'); nonnegative(parking.maximumStaticApplySpeed, 'EPB static speed');
+    fraction(parking.emergencyBrakeDemand, 'EPB emergency demand'); positive(parking.emergencyResponse, 'EPB emergency response');
+    fraction(parking.releaseThrottle, 'EPB release throttle');
+  }
+  if (config.autoHold) {
+    const hold = config.autoHold;
+    require(type !== 'MANUAL' || transmission === undefined, 'Auto Hold requires a selector-based transmission');
+    positive(config.brakes.maxBrakeTorqueFront, 'Auto Hold front service brake capacity');
+    positive(config.brakes.maxBrakeTorqueRear, 'Auto Hold rear service brake capacity');
+    positive(config.brakes.applyResponse, 'Auto Hold service apply response');
+    positive(config.brakes.releaseResponse, 'Auto Hold service release response');
+    require(config.brakes.frontBrakeBias > 0 && config.brakes.frontBrakeBias < 1, 'Auto Hold service brake allocation');
+    nonnegative(hold.maximumCaptureSpeed, 'Auto Hold capture speed');
+    require(hold.maximumCaptureSpeed <= .5, 'Auto Hold capture speed must be near rest');
+    positive(hold.captureBrake, 'Auto Hold capture brake'); fraction(hold.captureBrake, 'Auto Hold capture brake');
+    positive(hold.minimumHoldPressure, 'Auto Hold hold pressure'); fraction(hold.minimumHoldPressure, 'Auto Hold hold pressure');
+    positive(hold.releaseThrottle, 'Auto Hold release throttle'); fraction(hold.releaseThrottle, 'Auto Hold release throttle');
+    nonnegative(hold.releaseThrottleHysteresis, 'Auto Hold throttle hysteresis');
+    require(hold.releaseThrottleHysteresis < hold.releaseThrottle, 'Auto Hold release hysteresis must be below threshold');
+    nonnegative(hold.releaseDelay, 'Auto Hold release delay');
+    positive(hold.applyRate, 'Auto Hold applyRate'); positive(hold.releaseRate, 'Auto Hold releaseRate');
+  }
+  if (visual?.parkingCamera) require(typeof visual.parkingCamera.surroundView === 'boolean', 'camera surroundView flag');
+}

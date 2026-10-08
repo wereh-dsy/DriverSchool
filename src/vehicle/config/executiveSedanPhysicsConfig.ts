@@ -1,3 +1,4 @@
+import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
 import { EXECUTIVE_LWB_DIMENSIONS } from '../VehicleDimensions';
 import type { AutomaticShiftConfig, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
@@ -77,5 +78,11 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
       shiftStrategy: shiftMap([2400, 3000, 4600, 6100], [1400, 1800, 2400, 3200], .68, 4800, 1.1),
       steeringResponse: 3.25, steeringDamping: 12, accelerationRearTorqueSplit: .46 },
   };
+  config.frontDiff = { type: 'open' };
+  config.rearDiff = { type: 'open' };
+  config.electronicDifferential = { slipThreshold: .18, speedDifferenceThreshold: .65,
+    maximumBrakeTorque: 380, response: 8 };
+  config.parkingBrake = createRoadParkingBrakeConfig(config.brakes.handbrakeTorque);
+  config.autoHold = createRoadAutoHoldConfig();
   return config;
 }

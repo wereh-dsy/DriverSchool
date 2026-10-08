@@ -25,6 +25,7 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
   private readonly controller: AutomaticShiftController;
   private handover: Handover | null = null;
   private kickdown = false;
+  private outputTorque = 0;
   private load = 0;
   private torque = 0;
   private inputRPM = 0;
@@ -40,7 +41,7 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     this.shaftAGear = null; this.shaftBGear = null; this.preselectedGear = null;
     this.activeShaft = this.selector.driving ? this.shaftFor(this.gearbox.currentGear) : null;
     if (this.activeShaft !== null) this.setShaftGear(this.activeShaft, this.gearbox.currentGear);
-    this.preselect(); this.load = 0; this.torque = 0; this.inputRPM = 0; this.outputRPM = 0;
+    this.preselect(); this.outputTorque = 0; this.load = 0; this.torque = 0; this.inputRPM = 0; this.outputRPM = 0;
   }
   public requestSelector(selector: DriveSelector, speed: number, lateralSpeed = 0, brake = 0): boolean {
     const previous = this.selector.mode;
@@ -124,6 +125,7 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     torqueA *= safetyScale; torqueB *= safetyScale; this.torque = torqueA + torqueB;
     const outputTorque = (torqueA * (this.shaftAGear === null ? 0 : this.gearbox.getRatio(this.shaftAGear)) +
       torqueB * (this.shaftBGear === null ? 0 : this.gearbox.getRatio(this.shaftBGear))) * this.gearbox.config.drivetrainEfficiency;
+    this.outputTorque = outputTorque;
     return { engineLoadTorque: this.load, transmittedTorque: this.torque, outputTorque,
       drivenWheelTorque: outputTorque * this.gearbox.config.finalDriveRatio, parkingLocked: this.selector.parkingLocked };
   }
@@ -164,6 +166,7 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     return { manualSelectionActive: this.controller.manualSelectionActive,
       manualSelectionRejectedReason: this.controller.manualSelectionRejectedReason,
       type: this.type, selectedMode: this.selector.mode, currentPhysicalGear: this.gearbox.currentGear,
+      currentRatio: this.gearbox.getRatio(), outputTorque: this.outputTorque,
       inputRPM: this.inputRPM, outputRPM: this.outputRPM, engineLoadTorque: this.load, transmittedTorque: this.torque,
       shiftInProgress: this.handover !== null, shiftState: this.handover === null ? 'IDLE' : this.handover.unexpected ? 'PRESELECT_HANDOVER' : 'CLUTCH_HANDOVER',
       shiftProgress: this.handover === null ? 0 : clamp01(this.handover.elapsed / this.handover.duration),

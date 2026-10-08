@@ -16,6 +16,7 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
   private shiftTarget: ForwardGear | null = null;
   private shiftChanged = false;
   private kickdown = false;
+  private outputTorque = 0;
   private load = 0;
   private torque = 0;
   private inputRPM = 0;
@@ -29,7 +30,7 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
   public reset(gear: Gear = 'N', selector?: DriveSelector): void {
     this.selector.reset(gear, selector); this.controller.reset(); this.converter.reset();
     this.shiftTarget = null; this.shiftElapsed = 0; this.shiftChanged = false;
-    this.load = 0; this.torque = 0; this.inputRPM = 0; this.outputRPM = 0; this.kickdown = false;
+    this.outputTorque = 0; this.load = 0; this.torque = 0; this.inputRPM = 0; this.outputRPM = 0; this.kickdown = false;
   }
   public requestSelector(selector: DriveSelector, speed: number, lateralSpeed = 0, brake = 0): boolean {
     const old = this.selector.mode;
@@ -75,6 +76,7 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     const converter = this.converter.update(context, turbine, this.selector.driving ? shiftScale : 0);
     this.load = converter.load; this.torque = converter.turbineTorque;
     const outputTorque = this.torque * this.gearbox.getRatio() * this.gearbox.config.drivetrainEfficiency;
+    this.outputTorque = outputTorque;
     return { engineLoadTorque: this.load, transmittedTorque: this.torque, outputTorque,
       drivenWheelTorque: outputTorque * this.gearbox.config.finalDriveRatio, parkingLocked: this.selector.parkingLocked };
   }
@@ -86,6 +88,7 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     return { manualSelectionActive: this.controller.manualSelectionActive,
       manualSelectionRejectedReason: this.controller.manualSelectionRejectedReason,
       type: this.type, selectedMode: this.selector.mode, currentPhysicalGear: this.gearbox.currentGear,
+      currentRatio: this.gearbox.getRatio(), outputTorque: this.outputTorque,
       inputRPM: this.inputRPM, outputRPM: this.outputRPM, engineLoadTorque: this.load, transmittedTorque: this.torque,
       shiftInProgress: this.shiftTarget !== null, shiftState: state, shiftProgress: progress,
       kickdown: this.shiftTarget !== null && this.kickdown, selectorRejectedReason: this.selector.rejectedReason,

@@ -98,6 +98,7 @@ export class DrivingGame {
   private readonly lapTimer = new LapTimer();
   private readonly engineAudio = new EngineAudio();
   private executiveDisplay: ExecutiveDisplayContext | null = null;
+  private combustionAudioLoad = false;
   private parkingCamera: ParkingCamera | null = null;
   private readonly cruiseControl = new CruiseControlController();
   private readonly lightController = new VehicleLightingController();
@@ -136,6 +137,8 @@ export class DrivingGame {
   // A real stall leaves the electrical ignition on; an intentional stop does not.
   private ignitionOn = true;
   private lastHandbrakeApplied = false;
+  private lastParkingBrakeState: VehicleSnapshot['parkingBrake']['state'] = 'RELEASED';
+  private lastEmergencyBraking = false;
   private lastEngineRunning = true;
   private lastCruiseEventSequence = 0;
   private latestRoadRoughness = 0.08;
@@ -182,7 +185,7 @@ export class DrivingGame {
     this.snapshot = this.dynamics.getSnapshot();
     this.configureVehicleDisplays();
     this.lapTimer.configure(this.ground.lapCourse, this.activeVehicleId, this.snapshot);
-    this.ignitionOn = this.snapshot.engineRunning;
+    this.ignitionOn = this.snapshot.vehicleOperational;
     this.feedback.setVehicleConfig(this.dynamics.config);
     this.feedback.reset(this.snapshot);
     this.lastEngineRunning = this.snapshot.engineRunning;
@@ -306,6 +309,7 @@ export class DrivingGame {
       this.reportCruiseControlEvent();
 
       this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
+      this.ignitionOn = this.snapshot.vehicleOperational;
       this.lapTimer.update(FIXED_STEP, this.snapshot, this.gameStarted && !this.settingsOpen && !document.hidden);
       if (driverControls.cycleDriveMode && this.snapshot.driveMode !== undefined) {
         this.hud.showMessage(`驾驶模式 · ${this.snapshot.driveMode}`, 1.6);
@@ -345,6 +349,7 @@ export class DrivingGame {
 
     this.reportShiftResult();
     this.reportEngineState();
+    this.reportParkingBrakeState();
     this.updateAuxiliaryGauges(frameDt);
     this.vehicleLighting.applyState(this.lightController.state, this.ignitionOn, frameDt);
     this.haptics.setEnabled(this.gameStarted && !this.settingsOpen && !document.hidden && this.hud.settings.vibrationEnabled);
@@ -371,7 +376,7 @@ export class DrivingGame {
       {
         engineCharacter: this.dynamics.engine.config,
         vehicleSpeed: Math.abs(this.snapshot.speed),
-        engineLoad: MathUtils.clamp((this.executiveDisplay
+        engineLoad: MathUtils.clamp((this.combustionAudioLoad
           ? Math.max(this.dynamics.engine.getTorqueSample().combustionTorque, Math.abs(this.snapshot.transmission.engineLoadTorque))
           : Math.abs(this.snapshot.transmission.engineLoadTorque)) / Math.max(1, this.dynamics.engine.getTorqueAtRPM(this.snapshot.rpm)), 0, 1),
         clutchEngagement: this.snapshot.clutchEngagement,
@@ -498,7 +503,8 @@ export class DrivingGame {
         fogLights: this.lightController.state.fogLightsEnabled,
         leftTurn: this.lightController.state.leftBlinkOn,
         rightTurn: this.lightController.state.rightBlinkOn,
-        parkingBrake: this.snapshot.handbrake > 0.05,
+        parkingBrake: this.snapshot.parkingBrake.engaged || this.snapshot.parkingBrake.applying,
+        autoHold: this.snapshot.autoHold.holding,
         engineWarning: !this.snapshot.engineRunning,
         batteryWarning: !this.snapshot.engineRunning,
         cruise: this.cruiseControl.status.active,
@@ -515,9 +521,11 @@ export class DrivingGame {
   private configureVehicleDisplays(): void {
     const descriptor = getVehicleDescriptor(this.activeVehicleId);
     this.engineAudio.configure(descriptor.audioProfile);
-    const executive = descriptor.visualConfig.instrumentCluster.displayStyle === 'executive-virtual';
+    this.combustionAudioLoad = descriptor.audioProfile?.loadSource === 'combustion-and-transmission';
+    this.hud.settings.setAutoHold(descriptor.capabilities.autoHold, this.snapshot.autoHold.enabled);
+    const executive = descriptor.capabilities.advancedInstrument;
     this.executiveDisplay = executive ? new ExecutiveDisplayContext(this.snapshot.fuel) : null;
-    this.parkingCamera = executive ? new ParkingCamera(this.renderer, this.scene, this.vehicleVisual) : null;
+    this.parkingCamera = descriptor.capabilities.parkingCamera ? new ParkingCamera(this.renderer, this.scene, this.vehicleVisual, descriptor.capabilities.surroundView) : null;
   }
 
   private configureVehicleSettings(): void {
@@ -546,6 +554,11 @@ export class DrivingGame {
     settings.onWiperModeChange = mode => { this.wiperController.setMode(mode); settings.setWiperMode(mode); };
     this.dynamics.setDriverAssistOptions(settings.driverAssistOptions);
     settings.onDriverAssistsChange = options => this.dynamics.setDriverAssistOptions(options);
+    settings.onAutoHoldChange = enabled => {
+      this.dynamics.setAutoHoldEnabled(enabled);
+      this.snapshot = this.dynamics.getSnapshot();
+      settings.setAutoHold(this.dynamics.capabilities.autoHold, this.snapshot.autoHold.enabled);
+    };
     const storedLightMode = this.readStoredLightMode();
     this.lightController.setMainLightMode(storedLightMode);
     this.vehicleLighting.applyState(this.lightController.state);
@@ -673,6 +686,7 @@ export class DrivingGame {
       controlMode,
       clutchEngagement,
       engineRunning,
+      vehicleOperational: this.snapshot.vehicleOperational,
       engineRPM: engineRunning ? this.dynamics.config.engine.idleRPM : 0,
     });
     this.feedback.reset(this.snapshot);
@@ -686,6 +700,8 @@ export class DrivingGame {
     this.lastEngineRunning = this.snapshot.engineRunning;
     this.lastShiftEventSequence = this.snapshot.shiftEventSequence;
     this.lastHandbrakeApplied = this.snapshot.handbrake > 0.05;
+    this.lastParkingBrakeState = this.snapshot.parkingBrake.state;
+    this.lastEmergencyBraking = this.snapshot.parkingBrake.emergencyBraking;
     this.latestRoadRoughness = 0.08;
     this.accumulator = 0;
     this.driverCamera.resetHeadLook(true);
@@ -763,7 +779,7 @@ export class DrivingGame {
     this.mirrorOverlay.setView(this.mirrors.getView(this.settingsOpen ? this.selectedMirror : 'right'));
 
     this.activeVehicleId = vehicleId;
-    this.ignitionOn = this.snapshot.engineRunning;
+    this.ignitionOn = this.snapshot.vehicleOperational;
     this.configureVehicleDisplays();
     this.lapTimer.configure(this.ground.lapCourse, vehicleId, this.snapshot);
     this.hud.setActiveVehicle(vehicleId);
@@ -773,6 +789,8 @@ export class DrivingGame {
     this.lastShiftEventSequence = this.snapshot.shiftEventSequence;
     this.lastEngineRunning = this.snapshot.engineRunning;
     this.lastHandbrakeApplied = this.snapshot.handbrake > 0.05;
+    this.lastParkingBrakeState = this.snapshot.parkingBrake.state;
+    this.lastEmergencyBraking = this.snapshot.parkingBrake.emergencyBraking;
     this.latestRoadRoughness = 0.08;
     this.updateVehicleVisual(0);
     this.storeVehicleId(vehicleId);
@@ -1061,6 +1079,7 @@ export class DrivingGame {
     }
 
     const handbrakeApplied = input.handbrake > 0.5;
+    if (this.dynamics.capabilities.electronicParkingBrake) return;
     if (handbrakeApplied !== this.lastHandbrakeApplied) {
       this.lastHandbrakeApplied = handbrakeApplied;
       this.hud.showMessage(
@@ -1068,6 +1087,18 @@ export class DrivingGame {
         1.6,
       );
     }
+  }
+
+  private reportParkingBrakeState(): void {
+    if (!this.dynamics.capabilities.electronicParkingBrake) return;
+    const parking = this.snapshot.parkingBrake;
+    if (parking.emergencyBraking && !this.lastEmergencyBraking) this.hud.showMessage('EPB · 受控紧急制动', 1.6);
+    this.lastEmergencyBraking = parking.emergencyBraking;
+    if (parking.state === this.lastParkingBrakeState) return;
+    this.lastParkingBrakeState = parking.state;
+    const messages = { APPLYING: 'EPB · 正在施加', ENGAGED: 'EPB · 已驻车',
+      RELEASING: 'EPB · 正在释放', RELEASED: 'EPB · 已释放' };
+    this.hud.showMessage(messages[parking.state], 1.6);
   }
 
   private reportEngineState(): void {

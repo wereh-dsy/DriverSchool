@@ -28,6 +28,8 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   drivetrainType: 'RWD',
   frontTorqueSplit: 0,
   rearTorqueSplit: 1,
+  rearDiff: { type: 'lsd', preload: 35, lockStrength: .12, torqueBiasRatio: 2.5,
+    speedDifferenceSensitivity: .16, response: 8 },
   drivetrainLayout: 'RWD',
   drivenWheelWeightFraction: 0.48,
   engine: {

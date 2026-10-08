@@ -4,31 +4,28 @@ import {
   type Gear,
   type DriveSelector,
   type VehiclePhysicsConfig,
+  type VehicleChassisConfig,
 } from '../config';
-import {
-  AutoClutchController,
-  type AutoClutchState,
-  type AutoClutchUpdateResult,
-} from './AutoClutchController';
 import { BrakeSystem } from './BrakeSystem';
 import { DriverAssistSystem, type DriverAssistOptions, type DriverAssistSnapshot } from './DriverAssistSystem';
-import { Clutch, type ClutchState } from './Clutch';
-import { Engine, type RevHangSnapshot } from './Engine';
-import { FuelSystem, type FuelSnapshot } from './FuelSystem';
-import { DrivetrainLash, type DrivetrainLashSnapshot } from './DrivetrainLash';
-import { Gearbox } from './Gearbox';
 import { SteeringSystem } from './SteeringSystem';
-import { UpshiftAdvisor } from './UpshiftAdvisor';
 import { WHEEL_IDS, type WheelContactSet, type WheelId } from './WheelContact';
 import { wheelLocalPosition } from '../VehicleDimensions';
 import { SuspensionSystem } from './SuspensionSystem';
 import { WheelRotationSystem } from './WheelRotationSystem';
-import { OpenDifferential, type OpenDifferentialSnapshot } from './OpenDifferential';
+import type { Differential, DifferentialSnapshot } from './Differential';
+import { createDifferential } from './LimitedSlipDifferential';
+import { resolveVehicleCapabilities, type VehicleCapabilities } from '../VehicleCapabilities';
+import type { DriveTorqueSource } from './DriveTorqueSource';
+import { ElectronicParkingBrake, type ParkingBrakeSnapshot } from '../control/ElectronicParkingBrake';
+import { AutoHoldController, type AutoHoldSnapshot } from '../control/AutoHoldController';
 import { AWDTorqueDistribution, type AWDTorqueDistributionSnapshot } from './AWDTorqueDistribution';
 import type { ChassisPhysicsState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, clamp01, wrapAngle } from './math';
-import { createTransmissionSystem } from '../transmission/createTransmissionSystem';
-import type { TransmissionContext, TransmissionSnapshot, TransmissionSystem } from '../transmission/TransmissionSystem';
+import { ICEPowertrain } from '../powertrain/ICEPowertrain';
+import type { Powertrain, PowertrainSnapshot, PowertrainInitialState, PowertrainUpdateContext, ICEVehicleTelemetry, PowertrainTransmissionSnapshot, ShiftRejectionReason } from '../powertrain/Powertrain';
+import { validateVehiclePlatformConfig } from '../config/validateVehiclePlatformConfig';
+import type { TransmissionSnapshot } from '../transmission/TransmissionSystem';
 
 export interface VehicleWorldBounds {
   minX: number;
@@ -87,6 +84,9 @@ interface TyreContactForces {
 type FourWheelValues = [number, number, number, number];
 
 export interface VehicleInitialState {
+  vehicleOperational?: boolean;
+  driveAvailable?: boolean;
+  shaftAngularVelocity?: number;
   currentFuelL?: number;
   x?: number;
   z?: number;
@@ -101,12 +101,7 @@ export interface VehicleInitialState {
   driveSelector?: DriveSelector;
 }
 
-export type ShiftRejectionReason =
-  | 'clutch-not-disengaged'
-  | 'engine-over-speed'
-  | 'gear-not-available'
-  | 'already-selected'
-  | 'shift-in-progress';
+export type { ShiftRejectionReason } from '../powertrain/Powertrain';
 
 /** Result lets the UI distinguish a successful stop from a blocked restart. */
 export type EngineToggleResult = 'started' | 'stopped' | 'start-rejected';
@@ -130,8 +125,10 @@ export interface VehicleForceSnapshot {
   clutchSlipAngularVelocity: number;
 }
 
-export interface VehicleSnapshot {
-  fuel: FuelSnapshot;
+export interface VehicleSnapshot extends ICEVehicleTelemetry {
+  powertrain: PowertrainSnapshot;
+  vehicleOperational: boolean;
+  driveAvailable: boolean;
   baseVehicleMass: number;
   effectiveVehicleMass: number;
   driveMode?: import('../config').VehicleDriveMode;
@@ -150,32 +147,11 @@ export interface VehicleSnapshot {
   lateralAcceleration: number;
   /** Remaining rear lateral authority after parking-brake lockup. */
   rearLateralGripFactor: number;
-  rpm: number;
-  /** False after a stall and until a valid start request succeeds. */
-  engineRunning: boolean;
-  idleRPM: number;
-  /** Compatibility alias for the current load-dependent recommendation. */
-  shiftWarningRPM: number;
-  /** Everyday-driving target; intentionally far below the engine redline. */
-  recommendedUpshiftRPM: number;
-  upshiftRecommendationAvailable: boolean;
-  upshiftRecommended: boolean;
-  redlineWarningRPM: number;
-  nearRedline: boolean;
-  onRevLimiter: boolean;
-  redlineRPM: number;
-  gear: Gear;
-  requestedGear: Gear | null;
   throttle: number;
   brake: number;
   handbrake: number;
   steer: number;
   controlMode: VehicleControlMode;
-  /** Pedal down = 1; deliberately distinct from mechanical engagement. */
-  clutchPedal: number;
-  clutchEngagement: number;
-  clutchState: ClutchState;
-  autoClutchState: AutoClutchState;
   /** State of the most recent shift event; compare sequence for a new event. */
   shiftRejected: boolean;
   shiftRejectionReason: ShiftRejectionReason | null;
@@ -189,10 +165,11 @@ export interface VehicleSnapshot {
   wheels: WheelPhysicsStateSet;
   chassis: ChassisPhysicsState;
   transmission: TransmissionSnapshot;
-  drivetrainLash: DrivetrainLashSnapshot;
-  revHang: RevHangSnapshot;
-  differential: OpenDifferentialSnapshot;
-  rearDifferential?: OpenDifferentialSnapshot;
+  parkingBrake: ParkingBrakeSnapshot;
+  autoHold: AutoHoldSnapshot;
+  electronicDifferentialActive: boolean;
+  differential: DifferentialSnapshot;
+  rearDifferential?: DifferentialSnapshot;
   awd?: AWDTorqueDistributionSnapshot;
   driverAssists: DriverAssistSnapshot;
   /** True for the update in which corrupt numeric state was restored. */
@@ -200,21 +177,17 @@ export interface VehicleSnapshot {
 }
 
 interface ValidCoreState {
+  powertrain: PowertrainInitialState;
   x: number;
   z: number;
   yaw: number;
   speed: number;
-  rpm: number;
-  engineRunning: boolean;
-  gear: Gear;
-  clutchEngagement: number;
   controlMode: VehicleControlMode;
   bodySlipAngle: number;
   lateralVelocity: number;
   contactSlipRecovery: boolean;
   contactSlipHoldTime: number;
   yawRate: number;
-  driveSelector?: DriveSelector;
 }
 
 const ZERO_FORCES: VehicleForceSnapshot = {
@@ -237,37 +210,49 @@ const ZERO_FORCES: VehicleForceSnapshot = {
  * consumes only the normalized VehicleInputState contract. It has no knowledge
  * of keyboards, gamepads, steering wheels, renderers, or wall-clock time.
  */
-export class VehicleDynamics {
-  public readonly fuel: FuelSystem;
+type ICEAccess<P extends Powertrain, K extends keyof ICEPowertrain> = P extends ICEPowertrain ? ICEPowertrain[K] : ICEPowertrain[K] | undefined;
+type DynamicsConfig<P extends Powertrain> = P extends ICEPowertrain ? VehiclePhysicsConfig : VehicleChassisConfig;
+export type VehicleSnapshotFor<P extends Powertrain> = P extends ICEPowertrain ? VehicleSnapshot :
+  Omit<VehicleSnapshot, keyof ICEVehicleTelemetry | 'transmission'> & { gear: Gear | null; transmission: PowertrainTransmissionSnapshot };
+
+export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
+  public readonly powertrain: TPowertrain;
+  private get icePowertrain(): ICEPowertrain | undefined { return this.powertrain instanceof ICEPowertrain ? this.powertrain : undefined; }
+
+  public get fuel(): ICEAccess<TPowertrain, 'fuel'> { return this.icePowertrain?.fuel as ICEAccess<TPowertrain, 'fuel'>; }
+  public get engine(): ICEAccess<TPowertrain, 'engine'> { return this.icePowertrain?.engine as ICEAccess<TPowertrain, 'engine'>; }
+  public get clutch(): ICEAccess<TPowertrain, 'clutch'> { return this.icePowertrain?.clutch as ICEAccess<TPowertrain, 'clutch'>; }
+  public get autoClutch(): ICEAccess<TPowertrain, 'autoClutch'> { return this.icePowertrain?.autoClutch as ICEAccess<TPowertrain, 'autoClutch'>; }
+  public get gearbox(): ICEAccess<TPowertrain, 'gearbox'> { return this.icePowertrain?.gearbox as ICEAccess<TPowertrain, 'gearbox'>; }
+  public get upshiftAdvisor(): ICEAccess<TPowertrain, 'upshiftAdvisor'> { return this.icePowertrain?.upshiftAdvisor as ICEAccess<TPowertrain, 'upshiftAdvisor'>; }
+  public get drivetrainLash(): ICEAccess<TPowertrain, 'drivetrainLash'> { return this.icePowertrain?.drivetrainLash as ICEAccess<TPowertrain, 'drivetrainLash'>; }
   /** Shared mass entry for all mass-dependent physics; config.mass stays base mass. */
-  private readonly runtimeConfig: VehiclePhysicsConfig;
+  private readonly runtimeConfig: VehicleChassisConfig;
   public get effectiveVehicleMass(): number { return this.runtimeConfig.mass; }
 
   public setCurrentFuelL(litres: number): void {
-    this.fuel.setCurrentFuelL(litres);
-    this.synchronizeFuel();
+    this.icePowertrain?.setCurrentFuelL(litres);
+    this.synchronizePowertrainMass();
   }
 
-  private synchronizeFuel(): void {
-    this.runtimeConfig.mass = this.config.mass + this.fuel.fuelMassKg;
-    this.engine.setFuelAvailable(this.fuel.hasFuel);
+  private synchronizePowertrainMass(): void {
+    this.runtimeConfig.mass = this.config.mass + this.powertrain.variableMassKg;
   }
-  public readonly engine: Engine;
-  public readonly clutch: Clutch;
-  public readonly autoClutch: AutoClutchController;
-  public readonly gearbox: Gearbox;
+  public readonly capabilities: VehicleCapabilities;
+  public get torqueSource(): DriveTorqueSource { return this.powertrain.torqueSource; }
+  public readonly parkingBrake: ElectronicParkingBrake | undefined;
+  public readonly autoHold: AutoHoldController | undefined;
+  public setAutoHoldEnabled(enabled: boolean): void { this.autoHold?.setEnabled(enabled); }
   public readonly brakes: BrakeSystem;
   public readonly driverAssists: DriverAssistSystem;
   public setDriverAssistOptions(options: DriverAssistOptions): void { this.driverAssists.setOptions(options); }
   public readonly steering: SteeringSystem;
-  public readonly upshiftAdvisor: UpshiftAdvisor;
   public readonly suspension: SuspensionSystem;
   public readonly wheelRotation: WheelRotationSystem;
-  public readonly differential: OpenDifferential;
-  public readonly rearDifferential: OpenDifferential | undefined;
+  public readonly differential: Differential;
+  public readonly rearDifferential: Differential | undefined;
   public readonly awd: AWDTorqueDistribution | undefined;
-  public readonly transmission: TransmissionSystem;
-  public readonly drivetrainLash: DrivetrainLash;
+  public get transmission(): TPowertrain['transmission'] { return this.powertrain.transmission; }
 
   public x = 0;
   public z = 0;
@@ -282,11 +267,14 @@ export class VehicleDynamics {
   public lateralAcceleration = 0;
   public rearLateralGripFactor = 1;
 
+  private readonly powertrainContext: PowertrainUpdateContext = {
+    dt: 0, throttle: 0, brake: 0, vehicleSpeed: 0, vehicleLateralSpeed: 0,
+    drivenWheelAngularVelocity: 0, torqueLimitFactor: 1, clutchPedal: 1,
+  };
   private forces: VehicleForceSnapshot = { ...ZERO_FORCES };
   private previousShiftUp = false;
   private previousShiftDown = false;
   private controlMode: VehicleControlMode = 'normal';
-  private clutchPedal = 1;
   private shiftRejected = false;
   private shiftRejectionReason: ShiftRejectionReason | null = null;
   private shiftEventSequence = 0;
@@ -301,20 +289,27 @@ export class VehicleDynamics {
   private contactSlipHoldTime = 0;
 
   public constructor(
-    public readonly config: VehiclePhysicsConfig = createDefaultVehiclePhysicsConfig(),
+    public readonly config: DynamicsConfig<TPowertrain> = createDefaultVehiclePhysicsConfig() as DynamicsConfig<TPowertrain>,
     initialState: VehicleInitialState = {},
+    injectedPowertrain?: TPowertrain,
   ) {
-    this.fuel = new FuelSystem(config.fuel, config.engine);
-    this.runtimeConfig = { ...config, mass: config.mass + this.fuel.fuelMassKg };
-    this.differential = new OpenDifferential(config.drivetrainType === 'RWD' ? 'rear' : 'front');
-    this.rearDifferential = config.drivetrainType === 'AWD' ? new OpenDifferential('rear') : undefined;
-    this.awd = config.drivetrainType === 'AWD' ? new AWDTorqueDistribution(config) : undefined;
-    this.engine = new Engine(config.engine);
-    this.clutch = new Clutch(config.clutch);
-    this.autoClutch = new AutoClutchController(config.autoClutch, config.engine.idleRPM);
-    this.gearbox = new Gearbox(config.transmission);
-    this.transmission = createTransmissionSystem(config.transmission, this.gearbox, this.clutch, this.autoClutch, config.wheelRadius);
-    this.drivetrainLash = new DrivetrainLash(this.transmission.type === 'MANUAL' ? config.transmission.drivetrainLash : undefined);
+    validateVehiclePlatformConfig(config);
+    if (injectedPowertrain === undefined && !('engine' in config)) throw new Error('A non-ICE chassis requires a Powertrain');
+    this.powertrain = injectedPowertrain ?? (new ICEPowertrain(config as VehiclePhysicsConfig) as unknown as TPowertrain);
+    if (config.transmission && (config.transmission.type ?? 'MANUAL') !== this.powertrain.transmission.type) throw new Error('Powertrain transmission disagrees with config');
+    if (this.powertrain.supportsManualSelection && this.powertrain.transmission.type !== 'TORQUE_CONVERTER_AT' && this.powertrain.transmission.type !== 'DCT') throw new Error('Manual selection requires stepped AT/DCT');
+    if (config.transmission && (config.transmission.supportsManualSelection === true) !== this.powertrain.supportsManualSelection) throw new Error('Powertrain manual selection disagrees with config');
+    if (config.autoHold && this.powertrain.transmission.type === 'MANUAL') throw new Error('Auto Hold requires a selector-based Powertrain');
+    this.capabilities = resolveVehicleCapabilities(config, undefined, this.powertrain);
+    this.parkingBrake = this.capabilities.electronicParkingBrake && config.parkingBrake
+      ? new ElectronicParkingBrake(config.parkingBrake) : undefined;
+    this.autoHold = this.capabilities.autoHold && config.autoHold && this.powertrain.transmission.type !== 'MANUAL'
+      ? new AutoHoldController(config.autoHold) : undefined;
+    this.runtimeConfig = { ...config, mass: config.mass + this.powertrain.variableMassKg };
+    const axle = config.drivetrainType === 'RWD' ? 'rear' : 'front';
+    this.differential = createDifferential(axle, axle === 'rear' ? config.rearDiff : config.frontDiff);
+    this.rearDifferential = this.capabilities.awd ? createDifferential('rear', config.rearDiff) : undefined;
+    this.awd = this.capabilities.awd ? new AWDTorqueDistribution(config) : undefined;
     this.brakes = new BrakeSystem(config.brakes, config.wheelRadius);
     this.driverAssists = new DriverAssistSystem(this.runtimeConfig);
     this.steering = new SteeringSystem(
@@ -322,21 +317,14 @@ export class VehicleDynamics {
       config.wheelBase,
       config.frontTrackWidth,
     );
-    this.upshiftAdvisor = new UpshiftAdvisor(
-      config.engine.shiftRecommendation,
-      this.gearbox.getMaximumForwardGear(),
-    );
     this.suspension = new SuspensionSystem(this.runtimeConfig);
     this.wheelRotation = new WheelRotationSystem(config.tires, config.wheelRadius);
     this.lastValidState = {
+      powertrain: {},
       x: 0,
       z: 0,
       yaw: 0,
       speed: 0,
-      rpm: config.engine.idleRPM,
-      engineRunning: true,
-      gear: 'N',
-      clutchEngagement: 0,
       controlMode: 'normal',
       bodySlipAngle: 0,
       lateralVelocity: 0,
@@ -347,10 +335,14 @@ export class VehicleDynamics {
     this.reset(initialState);
   }
 
-  public reset(initialState: VehicleInitialState = {}): VehicleSnapshot {
-    if (initialState.currentFuelL !== undefined) this.fuel.setCurrentFuelL(initialState.currentFuelL);
-    this.fuel.resetTrip();
-    this.synchronizeFuel();
+  public reset(initialState: VehicleInitialState = {}): VehicleSnapshotFor<TPowertrain> {
+    this.powertrain.reset({ vehicleOperational: initialState.vehicleOperational, driveAvailable: initialState.driveAvailable,
+      shaftAngularVelocity: initialState.shaftAngularVelocity, gear: initialState.gear, driveSelector: initialState.driveSelector,
+      controlMode: initialState.controlMode, ice: this.icePowertrain ? {
+        currentFuelL: initialState.currentFuelL, engineRPM: initialState.engineRPM,
+        engineRunning: initialState.engineRunning, clutchEngagement: initialState.clutchEngagement,
+      } : undefined });
+    this.synchronizePowertrainMass();
     if (this.config.driveModes !== undefined) this.setDriveMode('NORMAL');
     this.x = this.finiteOr(initialState.x, 0);
     this.z = this.finiteOr(initialState.z, 0);
@@ -375,25 +367,13 @@ export class VehicleDynamics {
     this.awd?.reset();
     this.driverAssists.esc.reset();
     this.initializeWheelStates();
-    this.engine.reset(
-      this.finiteOr(initialState.engineRPM, this.config.engine.idleRPM),
-      initialState.engineRunning !== false,
-    );
-    this.driverAssists.reset(this.engine.isRunning);
-    this.engine.setTorqueLimitFactor(1);
-    this.gearbox.reset(initialState.gear ?? 'N');
-    const initialEngagement = this.safeUnitInput(initialState.clutchEngagement ?? 0);
-    this.clutch.reset(initialEngagement);
-    this.autoClutch.reset(initialEngagement);
-    this.transmission.reset(initialState.gear ?? 'N', initialState.driveSelector);
-    this.drivetrainLash.reset();
+    this.driverAssists.reset(this.powertrain.vehicleOperational);
     this.brakes.reset();
+    this.parkingBrake?.reset(this.powertrain.vehicleOperational, this.transmission.getSnapshot().selectedMode === 'P');
+    this.autoHold?.reset();
+    this.differential.reset(); this.rearDifferential?.reset();
     this.steering.reset();
-    this.upshiftAdvisor.reset();
-    this.controlMode = this.transmission.type === 'MANUAL' && initialState.controlMode === 'manual-clutch'
-      ? 'manual-clutch'
-      : 'normal';
-    this.clutchPedal = 1 - initialEngagement;
+    this.controlMode = this.powertrain.setControlMode(initialState.controlMode ?? 'normal');
     this.forces = { ...ZERO_FORCES };
     this.previousShiftUp = false;
     this.previousShiftDown = false;
@@ -430,7 +410,7 @@ export class VehicleDynamics {
    * CollisionSystem owns contact detection and response; this method only keeps
    * the drivetrain's local velocity and body/velocity heading consistent.
    */
-  public applyContactCorrection(correction: VehicleContactCorrection): VehicleSnapshot {
+  public applyContactCorrection(correction: VehicleContactCorrection): VehicleSnapshotFor<TPowertrain> {
     if (![correction.x, correction.z, correction.velocityX, correction.velocityZ]
       .every(Number.isFinite)) return this.getSnapshot();
     this.x = correction.x;
@@ -473,16 +453,7 @@ export class VehicleDynamics {
    * feedback without knowing any drivetrain internals.
    */
   public requestEngineStart(): boolean {
-    if (this.engine.isRunning || this.engine.isStarting || !this.fuel.hasFuel) return false;
-    const automaticMode = this.transmission.getSnapshot().selectedMode;
-    const drivetrainIsSafe = this.transmission.type !== 'MANUAL'
-      ? automaticMode === 'P' || automaticMode === 'N'
-      :
-      this.gearbox.currentGear === 'N' ||
-      1 - this.clutch.engagement >=
-        this.config.transmission.minimumClutchDisengagementForShift;
-    if (!drivetrainIsSafe) return false;
-    this.engine.start();
+    if (!this.powertrain.requestStart()) return false;
     this.storeLastValidState();
     return true;
   }
@@ -493,8 +464,7 @@ export class VehicleDynamics {
    * the normal clutch model and no pose or velocity state is rewritten.
    */
   public requestEngineStop(): boolean {
-    if (!this.engine.isRunning && !this.engine.isStarting) return false;
-    this.engine.stop();
+    if (!this.powertrain.requestStop()) return false;
     this.updateUpshiftRecommendation();
     this.storeLastValidState();
     return true;
@@ -502,7 +472,10 @@ export class VehicleDynamics {
 
   /** One edge-triggered cockpit command can safely operate both directions. */
   public requestEngineToggle(): EngineToggleResult {
-    if (this.engine.isRunning || this.engine.isStarting) {
+    // Legacy ICE toggle restarts a stall, but still stops a fuel-starved coasting engine.
+    const ice = this.icePowertrain;
+    const running = ice ? ice.engine.isRunning || ice.engine.isStarting : this.powertrain.vehicleOperational;
+    if (running) {
       this.requestEngineStop();
       return 'stopped';
     }
@@ -517,42 +490,9 @@ export class VehicleDynamics {
     requestedGear: Gear,
     mode: VehicleControlMode = this.controlMode,
   ): boolean {
-    if (this.transmission.type !== 'MANUAL') return this.rejectShift('gear-not-available');
-    if (!this.gearbox.isGearAvailable(requestedGear)) {
-      return this.rejectShift('gear-not-available');
-    }
-    let targetGear = requestedGear;
-    const directionConflict =
-      (requestedGear === 'R' && this.speed > this.config.transmission.reverseLockoutSpeed) ||
-      (Gearbox.isForwardGear(requestedGear) &&
-        this.speed < -this.config.transmission.reverseLockoutSpeed);
-    if (directionConflict) targetGear = 'N';
-
-    if (targetGear !== 'N' && this.wouldOverRev(targetGear)) {
-      return this.rejectShift('engine-over-speed');
-    }
-
-    if (targetGear === this.gearbox.currentGear && this.autoClutch.pendingGear === null) {
-      return this.rejectShift('already-selected');
-    }
-
-    if (mode === 'manual-clutch') {
-      if (
-        1 - this.clutch.engagement <
-        this.config.transmission.minimumClutchDisengagementForShift
-      ) {
-        return this.rejectShift('clutch-not-disengaged');
-      }
-      this.gearbox.setGear(targetGear);
-      this.acceptShift();
-      return true;
-    }
-
-    if (!this.autoClutch.requestShift(targetGear)) {
-      return this.rejectShift('shift-in-progress');
-    }
-    this.acceptShift();
-    return true;
+    const rejection = this.powertrain.requestGear(requestedGear, mode, this.speed);
+    if (rejection) return this.rejectShift(rejection);
+    this.acceptShift(); return true;
   }
 
   /** PRND uses the safety gate only; it never advances time or reads a device. */
@@ -563,14 +503,12 @@ export class VehicleDynamics {
   /** Apply calibration in place: existing subsystems retain their config references. */
   private setDriveMode(mode: import('../config').VehicleDriveMode): void {
     const calibration = this.config.driveModes?.[mode];
-    if (calibration === undefined) return;
+    if (!this.capabilities.driveModes || calibration === undefined) return;
     this.driveMode = mode;
     this.driveModeThrottleExponent = calibration.throttleExponent;
-    this.config.engine.throttleResponse = this.config.engine.throttleResponseRate = calibration.throttleResponse;
+    this.powertrain.applyDriveMode?.(calibration);
     this.config.steering.steeringResponse = calibration.steeringResponse;
     this.config.steering.steeringDamping = calibration.steeringDamping;
-    const strategy = this.config.transmission.dct?.shiftStrategy;
-    if (strategy !== undefined) Object.assign(strategy, calibration.shiftStrategy);
     if (this.config.awd !== undefined) this.config.awd.accelerationRearTorqueSplit = calibration.accelerationRearTorqueSplit;
   }
 
@@ -584,7 +522,7 @@ export class VehicleDynamics {
     deltaTime: number,
     input: VehicleInputState,
     environment: VehicleEnvironment = {},
-  ): VehicleSnapshot {
+  ): VehicleSnapshotFor<TPowertrain> {
     this.recoveredThisUpdate = false;
     this.validateOrRecover();
     this.updateControlMode(input.controlMode);
@@ -609,7 +547,7 @@ export class VehicleDynamics {
     dt: number,
     input: VehicleInputState,
     environment: VehicleEnvironment = {},
-  ): VehicleSnapshot {
+  ): VehicleSnapshotFor<TPowertrain> {
     this.recoveredThisUpdate = false;
     this.validateOrRecover();
     this.updateControlMode(input.controlMode);
@@ -622,14 +560,13 @@ export class VehicleDynamics {
     return this.getSnapshot();
   }
 
-  public getSnapshot(): VehicleSnapshot {
+  public getSnapshot(): VehicleSnapshotFor<TPowertrain> {
     this.synchronizeWheelPositions();
-    const upshift = this.upshiftAdvisor.getSample();
-    const transmission = this.transmission.getSnapshot();
-    const automaticEngagement = transmission.dct === undefined ? 0 :
-      transmission.dct.clutchAEngagement + transmission.dct.clutchBEngagement;
+    const powertrain = this.powertrain.getSnapshot();
+    const transmission = powertrain.transmission;
     return {
-      fuel: this.fuel.getSnapshot(),
+      ...powertrain.ice, powertrain,
+      vehicleOperational: powertrain.vehicleOperational, driveAvailable: powertrain.driveAvailable,
       baseVehicleMass: this.config.mass,
       effectiveVehicleMass: this.effectiveVehicleMass,
       x: this.x,
@@ -644,30 +581,12 @@ export class VehicleDynamics {
       lateralVelocity: this.lateralVelocity,
       lateralAcceleration: this.lateralAcceleration,
       rearLateralGripFactor: this.rearLateralGripFactor,
-      rpm: this.engine.currentRPM,
-      engineRunning: this.engine.isRunning,
-      idleRPM: this.config.engine.idleRPM,
-      shiftWarningRPM: upshift.targetRPM,
-      recommendedUpshiftRPM: upshift.targetRPM,
-      upshiftRecommendationAvailable: upshift.available,
-      upshiftRecommended: upshift.recommended,
-      redlineWarningRPM: this.config.engine.redlineWarningRPM,
-      nearRedline: this.engine.currentRPM >= this.config.engine.redlineWarningRPM,
-      onRevLimiter: this.engine.isOnLimiter,
-      redlineRPM: this.config.engine.redlineRPM,
-      gear: this.gearbox.currentGear,
-      requestedGear: this.autoClutch.pendingGear,
-      throttle: this.engine.throttle,
+      gear: this.powertrain.gear,
+      throttle: this.powertrain.throttle,
       brake: this.brakes.brakeInput,
       handbrake: this.brakes.handbrakeInput,
       steer: this.steering.steeringInput,
       controlMode: this.controlMode,
-      clutchPedal: this.transmission.type !== 'MANUAL' ? 1 - automaticEngagement : this.controlMode === 'manual-clutch'
-        ? this.clutchPedal
-        : 1 - this.clutch.engagement,
-      clutchEngagement: this.transmission.type === 'MANUAL' ? this.clutch.engagement : automaticEngagement,
-      clutchState: this.clutch.state,
-      autoClutchState: this.autoClutch.state,
       shiftRejected: this.shiftRejected,
       shiftRejectionReason: this.shiftRejectionReason,
       shiftEventSequence: this.shiftEventSequence,
@@ -682,14 +601,18 @@ export class VehicleDynamics {
       }])) as Record<WheelId, WheelPhysicsState>,
       chassis: this.suspension.getSnapshot().chassis,
       transmission,
-      drivetrainLash: this.drivetrainLash.getSnapshot(),
-      revHang: this.engine.getRevHangSnapshot(),
       differential: this.getDifferentialSnapshot(),
       rearDifferential: this.rearDifferential?.getSnapshot(),
       awd: this.awd?.getSnapshot(),
       driverAssists: this.driverAssists.getSnapshot(),
+      parkingBrake: this.parkingBrake?.getSnapshot() ?? {
+        state: this.brakes.handbrakeInput > .05 ? 'ENGAGED' : 'RELEASED',
+        engaged: this.brakes.handbrakeInput > .05, applying: false,
+        fraction: this.brakes.handbrakeInput, emergencyBraking: false },
+      autoHold: this.autoHold?.getSnapshot() ?? { state: 'OFF', enabled: false, holding: false, releasing: false, pressure: 0 },
+      electronicDifferentialActive: this.driverAssists.electronicDifferentialActive,
       recoveredFromInvalidState: this.recoveredThisUpdate,
-    };
+    } as VehicleSnapshotFor<TPowertrain>;
   }
 
   private integrateStep(
@@ -702,63 +625,38 @@ export class VehicleDynamics {
     const handbrakeCommand = this.safeUnitInput(input.handbrake);
     const steerCommand = clamp(this.finiteOr(input.steering, 0), -1, 1);
 
-    let clutchTarget = 0;
-    let autoUpdate: AutoClutchUpdateResult = {
-      targetEngagement: this.clutch.engagement,
-      cutThrottle: false,
-    };
-    const isManual = this.transmission.type === 'MANUAL';
-    this.awd?.update(dt, throttleCommand, this.wheels, this.engine.isRunning && this.gearbox.currentGear !== 'N');
-    this.driverAssists.updateTraction(dt, this.wheels, throttleCommand, this.engine.isRunning,
-      this.gearbox.currentGear !== 'N');
-    this.engine.setTorqueLimitFactor(this.driverAssists.engineTorqueFactor);
-    let automaticThrottleScale = 1;
-    if (!isManual) {
-      automaticThrottleScale = this.transmission.prepare({
-        ...this.getTransmissionContext(dt, throttleCommand, brakeCommand), selectorRequest: input.driveSelector,
-      }).throttleScale;
-    } else if (this.controlMode === 'normal') {
-      autoUpdate = this.autoClutch.update(dt, {
-        currentEngagement: this.clutch.engagement,
-        currentGear: this.gearbox.currentGear,
-        vehicleSpeed: this.speed,
-        engineRPM: this.engine.currentRPM,
-        coupledEngineRPM: this.gearbox.getCoupledEngineRPM(
-          this.speed,
-          this.config.wheelRadius,
-        ),
-        throttle: throttleCommand,
-      });
-      if (autoUpdate.gearToEngage !== undefined) {
-        this.gearbox.setGear(autoUpdate.gearToEngage);
-      }
-      clutchTarget = autoUpdate.targetEngagement;
-    } else {
-      this.clutchPedal = this.safeUnitInput(input.clutchPedal);
-      clutchTarget = this.clutch.pedalToEngagement(this.clutchPedal);
-    }
-
-    if (isManual) this.clutch.update(dt, clutchTarget);
-    this.engine.updateThrottle(autoUpdate.cutThrottle ? 0 : throttleCommand * automaticThrottleScale, dt, {
-      enabled: isManual,
-      gearEngaged: this.gearbox.currentGear !== 'N',
-      clutchEngagement: this.clutch.engagement,
-    });
-    this.brakes.update(dt, brakeCommand, handbrakeCommand);
+    this.awd?.update(dt, throttleCommand, this.wheels, this.powertrain.driveAvailable && this.powertrain.driving);
+    this.driverAssists.updateTraction(dt, this.wheels, throttleCommand, this.powertrain.vehicleOperational,
+      this.powertrain.driving, this.powertrain.driveAvailable);
+    const context = this.powertrainContext;
+    context.dt = dt; context.throttle = throttleCommand; context.brake = brakeCommand;
+    context.vehicleSpeed = this.speed; context.vehicleLateralSpeed = this.lateralVelocity;
+    context.drivenWheelAngularVelocity = this.getDrivenWheelAngularVelocity();
+    context.torqueLimitFactor = this.driverAssists.engineTorqueFactor;
+    context.clutchPedal = this.safeUnitInput(input.clutchPedal);
+    context.selectorRequest = input.driveSelector; context.driveMode = this.driveMode;
+    this.powertrain.prepare(context);
+    this.brakes.update(dt, brakeCommand, this.capabilities.mechanicalHandbrake && !this.parkingBrake ? handbrakeCommand : 0);
+    const mode = this.transmission.getSnapshot().selectedMode;
+    const driving = mode === 'D' || mode === 'R';
+    this.parkingBrake?.update(dt, handbrakeCommand, Math.hypot(this.speed, this.lateralVelocity),
+      this.powertrain.vehicleOperational, mode === 'P', driving, throttleCommand, brakeCommand, this.powertrain.driveAvailable);
+    this.autoHold?.update(dt, this.powertrain.vehicleOperational, driving,
+      Math.hypot(this.speed, this.lateralVelocity), brakeCommand, throttleCommand,
+      this.powertrain.driveAvailable, this.parkingBrake?.state === 'ENGAGED',
+      this.parkingBrake !== undefined && ((!this.powertrain.vehicleOperational && this.parkingBrake.config.autoApplyOnIgnitionOff) ||
+        (mode === 'P' && this.parkingBrake.config.autoApplyInPark)));
+    this.brakes.setHoldingRequests(this.autoHold?.pressure ?? 0, this.parkingBrake?.emergencyDemand ?? 0,
+      this.parkingBrake?.config, this.parkingBrake?.fraction ?? 0);
+    this.brakes.setTractionRequests(this.driverAssists.differentialBrakeTorques);
     const frontSurfaceGrip = environment.wheelContacts === undefined ?
       Math.max(0, this.finiteOr(environment.surfaceLateralGripMultiplier,
         this.finiteOr(environment.surfaceGripMultiplier, 1))) :
       (environment.wheelContacts.frontLeft.lateralGrip + environment.wheelContacts.frontRight.lateralGrip) * 0.5;
     this.steering.update(dt, steerCommand, this.speed, frontSurfaceGrip);
-    const transmissionOutput = this.transmission.update(this.getTransmissionContext(dt, throttleCommand, brakeCommand));
-    const clutchTorque = transmissionOutput.engineLoadTorque;
-    const lashFactor = this.drivetrainLash.update(dt, transmissionOutput.transmittedTorque,
-      this.config.clutch.maxClutchTorque);
-    const fuelRPM = this.engine.currentRPM;
-    const fuelThrottle = this.engine.throttle;
-    const engineTorque = this.engine.integrate(dt, clutchTorque);
-    this.fuel.update(dt, fuelRPM, fuelThrottle, engineTorque, this.speed, this.lateralVelocity, this.driveMode);
-    this.synchronizeFuel();
+    const transmissionOutput = this.powertrain.update(context);
+    const clutchTorque = transmissionOutput.inputLoadTorque;
+    this.synchronizePowertrainMass();
 
     const dragForce =
       -0.5 *
@@ -774,7 +672,7 @@ export class VehicleDynamics {
       dt,
       environment,
       grade,
-      transmissionOutput.drivenWheelTorque * lashFactor,
+      transmissionOutput.drivenWheelTorque,
       dragForce + gradeForce + externalForce,
     );
     const {
@@ -843,8 +741,7 @@ export class VehicleDynamics {
       netForce,
       engineBrakingForce,
       clutchTorque,
-      clutchSlipAngularVelocity: isManual ? this.clutch.lastSlipAngularVelocity :
-        (this.engine.currentRPM - this.transmission.getSnapshot().inputRPM) * 2 * Math.PI / 60,
+      clutchSlipAngularVelocity: transmissionOutput.couplingSlipAngularVelocity,
     };
 
     this.applyWorldBounds(environment.bounds);
@@ -997,12 +894,14 @@ export class VehicleDynamics {
       this.wheelRotation.gripModel.loadFactor(loads[i]!, suspension.wheels[WHEEL_IDS[i]!].staticLoad) * gripLat[i]!;
     this.driverAssists.updateStability(dt, this.speed, this.steering.steeringAngle,
       this.yawRate, this.lateralVelocity, this.wheels, limits, this.escLateralLimits);
-    this.driverAssists.updateBrakes(dt, this.speed, this.brakes.brakeInput, this.wheels, limits);
     this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
-    // Transmission has already applied the final drive and efficiency. Only
-    // each open carrier receives its axle share without biasing left/right grip.
-    this.differential.distributeTorque(requestedDriveTorque * (this.awd ? 1 - this.awd.rearTorqueSplit : 1));
-    this.rearDifferential?.distributeTorque(requestedDriveTorque * (this.awd?.rearTorqueSplit ?? 0));
+    this.brakes.prepareRequests();
+    this.driverAssists.updateBrakes(dt, this.speed, this.brakes.brakeInput, this.wheels, limits, this.brakes.coordinator);
+    this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
+    // Transmission owns final drive/efficiency; AWD owns axle shares and each
+    // configured carrier owns left/right torque distribution.
+    this.differential.distributeTorque(requestedDriveTorque * (this.awd ? 1 - this.awd.rearTorqueSplit : 1), dt);
+    this.rearDifferential?.distributeTorque(requestedDriveTorque * (this.awd?.rearTorqueSplit ?? 0), dt);
     const requestedDrive: FourWheelValues = this.rearDifferential
       ? [this.differential.leftTorque, this.differential.rightTorque, this.rearDifferential.leftTorque, this.rearDifferential.rightTorque]
       : this.differential.axle === 'front'
@@ -1210,28 +1109,13 @@ export class VehicleDynamics {
       this.wheelRotation.getAngularVelocity(front ? 'frontRight' : 'rearRight'));
   }
 
-  private getDifferentialSnapshot(): OpenDifferentialSnapshot {
+  private getDifferentialSnapshot(): DifferentialSnapshot {
     this.getDrivenWheelAngularVelocity();
     return this.differential.getSnapshot();
   }
 
   private updateControlMode(requestedMode: VehicleControlMode): void {
-    if (this.transmission.type !== 'MANUAL') { this.controlMode = 'normal'; return; }
-    const nextMode: VehicleControlMode = requestedMode === 'manual-clutch'
-      ? 'manual-clutch'
-      : 'normal';
-    if (nextMode === this.controlMode) return;
-
-    if (nextMode === 'manual-clutch') {
-      this.autoClutch.releaseControl(this.clutch.engagement);
-      // The input layer mirrors this value on R3; retaining it here makes the
-      // physics transition continuous even if a custom adapter is one frame late.
-      this.clutchPedal = 1 - this.clutch.engagement;
-    } else {
-      this.autoClutch.takeOver(this.clutch.engagement);
-      this.clutchPedal = 1 - this.clutch.engagement;
-    }
-    this.controlMode = nextMode;
+    this.controlMode = this.powertrain.setControlMode(requestedMode);
   }
 
   private processShiftCommands(input: VehicleInputState): void {
@@ -1251,29 +1135,21 @@ export class VehicleDynamics {
           const selectors: readonly DriveSelector[] = ['P', 'R', 'N', 'D'];
           const next = selectors[selectors.indexOf(current) + direction];
           if (next !== undefined) this.requestDriveSelector(next, input.brake);
-        } else if (current === 'D' && this.config.transmission.supportsManualSelection === true && input.returnToAuto !== true) {
+        } else if (current === 'D' && this.capabilities.manualSelection && input.returnToAuto !== true) {
           this.transmission.requestManualSelection?.(direction);
         }
       }
     } else if (input.directGear !== undefined) {
       this.requestGear(input.directGear, this.controlMode);
     } else if (shiftUp && !this.previousShiftUp && !shiftDown) {
-      this.requestGear(this.gearbox.getShiftUpGear(), this.controlMode);
+      const gear = this.powertrain.getShiftGear(1);
+      if (gear !== null) this.requestGear(gear, this.controlMode);
     } else if (shiftDown && !this.previousShiftDown && !shiftUp) {
-      this.requestGear(this.gearbox.getShiftDownGear(), this.controlMode);
+      const gear = this.powertrain.getShiftGear(-1);
+      if (gear !== null) this.requestGear(gear, this.controlMode);
     }
     this.previousShiftUp = shiftUp;
     this.previousShiftDown = shiftDown;
-  }
-
-  private wouldOverRev(targetGear: Exclude<Gear, 'N'>): boolean {
-    const ratio = this.gearbox.getRatio(targetGear);
-    const wheelAngularVelocity = this.speed / Math.max(0.01, this.config.wheelRadius);
-    const coupledRPM = Math.abs(
-      (wheelAngularVelocity * ratio * this.config.transmission.finalDriveRatio * 60) /
-        (Math.PI * 2),
-    );
-    return coupledRPM > this.config.engine.maxRPM * 1.05;
   }
 
   private acceptShift(): void {
@@ -1320,9 +1196,8 @@ export class VehicleDynamics {
       this.lateralVelocity,
       this.lateralAcceleration,
       this.rearLateralGripFactor,
-      this.engine.currentRPM,
-      this.clutch.engagement,
-      this.clutch.targetEngagement,
+      this.torqueSource.shaftAngularVelocity,
+      this.powertrain.variableMassKg,
       this.brakes.brakeInput,
       this.brakes.handbrakeInput,
       ...WHEEL_IDS.flatMap(id => [this.wheelRotation.getSnapshot(id).angularVelocity,
@@ -1331,7 +1206,7 @@ export class VehicleDynamics {
     const positionIsReasonable =
       Math.abs(this.x) <= this.config.safety.maxAbsPosition &&
       Math.abs(this.z) <= this.config.safety.maxAbsPosition;
-    if (values.every(Number.isFinite) && positionIsReasonable) {
+    if (this.powertrain.numericallyValid && values.every(Number.isFinite) && positionIsReasonable) {
       this.storeLastValidState();
       return;
     }
@@ -1348,19 +1223,13 @@ export class VehicleDynamics {
     this.contactSlipHoldTime = this.lastValidState.contactSlipHoldTime;
     this.lateralAcceleration = -this.speed * this.yawRate;
     this.rearLateralGripFactor = 1;
-    this.engine.reset(this.lastValidState.rpm, this.lastValidState.engineRunning);
-    this.gearbox.reset(this.lastValidState.gear);
-    this.transmission.reset(this.lastValidState.gear, this.lastValidState.driveSelector);
-    this.drivetrainLash.reset();
-    this.clutch.reset(this.lastValidState.clutchEngagement);
+    this.powertrain.reset(this.lastValidState.powertrain, true);
     this.controlMode = this.lastValidState.controlMode;
-    this.clutchPedal = 1 - this.clutch.engagement;
-    if (this.transmission.type === 'MANUAL' && this.controlMode === 'normal') {
-      this.autoClutch.takeOver(this.clutch.engagement);
-    } else if (this.transmission.type === 'MANUAL') {
-      this.autoClutch.releaseControl(this.clutch.engagement);
-    }
+    this.synchronizePowertrainMass();
     this.brakes.reset();
+    this.parkingBrake?.reset(this.powertrain.vehicleOperational, this.transmission.getSnapshot().selectedMode === 'P');
+    this.autoHold?.reset();
+    this.differential.reset(); this.rearDifferential?.reset();
     this.steering.reset();
     this.suspension.reset();
     this.wheelRotation.reset(this.speed);
@@ -1369,56 +1238,27 @@ export class VehicleDynamics {
     this.awd?.reset();
     this.driverAssists.esc.reset();
     this.initializeWheelStates();
-    this.upshiftAdvisor.reset();
     this.forces = { ...ZERO_FORCES };
     this.recoveredThisUpdate = true;
   }
 
   private storeLastValidState(): void {
-    this.lastValidState = {
-      x: this.x,
-      z: this.z,
-      yaw: this.yaw,
-      speed: this.speed,
-      rpm: this.engine.currentRPM,
-      engineRunning: this.engine.isRunning,
-      gear: this.gearbox.currentGear,
-      clutchEngagement: this.clutch.engagement,
-      controlMode: this.controlMode,
-      bodySlipAngle: this.bodySlipAngle,
-      lateralVelocity: this.lateralVelocity,
-      contactSlipRecovery: this.contactSlipRecovery,
-      contactSlipHoldTime: this.contactSlipHoldTime,
-      yawRate: this.yawRate,
-      driveSelector: this.transmission.getSnapshot().selectedMode ?? undefined,
-    };
+    const state = this.lastValidState;
+    state.x = this.x; state.z = this.z; state.yaw = this.yaw; state.speed = this.speed;
+    state.controlMode = this.controlMode; state.bodySlipAngle = this.bodySlipAngle;
+    state.lateralVelocity = this.lateralVelocity; state.contactSlipRecovery = this.contactSlipRecovery;
+    state.contactSlipHoldTime = this.contactSlipHoldTime; state.yawRate = this.yawRate;
+    state.powertrain = this.powertrain.captureState(state.powertrain);
   }
 
   private safeUnitInput(value: number): number {
     return clamp01(this.finiteOr(value, 0));
   }
 
-  private updateUpshiftRecommendation(): void {
-    this.upshiftAdvisor.update({
-      engineRPM: this.engine.currentRPM,
-      throttle: this.engine.throttle,
-      speedKmh: Math.abs(this.speed) * 3.6,
-      gear: this.gearbox.currentGear,
-      shiftInProgress: this.autoClutch.isShifting || this.transmission.type !== 'MANUAL',
-    });
-  }
+  private updateUpshiftRecommendation(): void { this.powertrain.finishStep(this.speed); }
 
   private finiteOr(value: number | undefined, fallback: number): number {
     return value !== undefined && Number.isFinite(value) ? value : fallback;
   }
 
-  private getTransmissionContext(dt: number, throttle: number, brake: number): TransmissionContext {
-    return { dt, engineAngularVelocity: this.engine.angularVelocity, engineRPM: this.engine.currentRPM,
-      engineRunning: this.engine.isRunning, engineInertia: this.engine.rotationalInertia,
-      idleRPM: this.config.engine.idleRPM, stallRPM: this.config.engine.stallRPM,
-      redlineRPM: this.config.engine.redlineRPM, availableEngineTorque: this.engine.getTorqueSample().netCrankTorque,
-      throttle, brake, vehicleSpeed: this.speed,
-      vehicleLateralSpeed: this.lateralVelocity,
-      drivenWheelAngularVelocity: this.getDrivenWheelAngularVelocity() };
-  }
 }

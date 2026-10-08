@@ -15,6 +15,7 @@ export interface InstrumentIndicatorState {
   readonly leftTurn?: boolean;
   readonly rightTurn?: boolean;
   readonly parkingBrake?: boolean;
+  readonly autoHold?: boolean;
   readonly absWarning?: boolean;
   readonly tcsActive?: boolean;
   readonly tcsOff?: boolean;
@@ -60,6 +61,7 @@ export type InstrumentDisplayStyle =
   | 'executive-virtual';
 
 export interface InstrumentClusterConfig {
+  readonly featureClass?: 'standard' | 'advanced';
   readonly visualProfile?: InstrumentVisualProfile;
   readonly maximumSpeedKmh: number;
   readonly maximumRPM: number;

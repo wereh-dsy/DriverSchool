@@ -19,6 +19,8 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   yawInertia: 2_500,
   drivetrainType: 'FWD',
   differentialType: 'open',
+  frontDiff: { type: 'open' },
+  rearDiff: { type: 'open' },
   frontTorqueSplit: 1,
   rearTorqueSplit: 0,
   drivetrainLayout: 'FWD',
@@ -228,6 +230,12 @@ export function cloneVehiclePhysicsConfig(
 ): VehiclePhysicsConfig {
   return {
     ...config,
+    capabilities: config.capabilities === undefined ? undefined : { ...config.capabilities },
+    frontDiff: config.frontDiff === undefined ? undefined : { ...config.frontDiff },
+    rearDiff: config.rearDiff === undefined ? undefined : { ...config.rearDiff },
+    electronicDifferential: config.electronicDifferential === undefined ? undefined : { ...config.electronicDifferential },
+    parkingBrake: config.parkingBrake === undefined ? undefined : { ...config.parkingBrake },
+    autoHold: config.autoHold === undefined ? undefined : { ...config.autoHold },
     fuel: { ...config.fuel },
     driveModes: config.driveModes === undefined ? undefined : {
       ECO: cloneDriveMode(config.driveModes.ECO), NORMAL: cloneDriveMode(config.driveModes.NORMAL),

@@ -1,4 +1,8 @@
 export { BrakeSystem } from './BrakeSystem';
+export { BrakeTorqueCoordinator } from './BrakeTorqueCoordinator';
+export type { DriveTorqueSource } from './DriveTorqueSource';
+export type { Differential, DifferentialSnapshot } from './Differential';
+export { createDifferential, LimitedSlipDifferential } from './LimitedSlipDifferential';
 export { ESCController } from './ESCController';
 export { AWDTorqueDistribution } from './AWDTorqueDistribution';
 export type { WheelBrakeTorques } from './BrakeSystem';

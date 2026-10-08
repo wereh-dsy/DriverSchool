@@ -7,6 +7,9 @@ export interface TransmissionSnapshot {
   manualSelectionActive?: boolean;
   manualSelectionRejectedReason?: string | null;
   cvt?: { ratio: number; targetRatio: number; targetRPM: number };
+  /** Signed mechanical ratio before final drive; zero in neutral. */
+  currentRatio: number;
+  outputTorque: number;
   inputRPM: number;
   outputRPM: number;
   engineLoadTorque: number;

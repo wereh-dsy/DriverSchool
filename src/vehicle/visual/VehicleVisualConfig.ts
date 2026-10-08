@@ -42,6 +42,7 @@ export interface MirrorVisualConfig extends VisualTransformConfig {
 }
 
 export interface VehicleVisualConfig {
+  readonly parkingCamera?: { readonly surroundView: boolean };
   readonly windowGlass?: { readonly color: number; readonly windshieldOpacity: number; readonly windowOpacity: number };
   readonly automaticMirrorFold?: { readonly angleRadians: number; readonly response: number };
   readonly exteriorLighting?: ExteriorLightingVisualProfile;
@@ -395,6 +396,7 @@ export function withSuspensionStance(config: VehicleVisualConfig, suspension: Su
 
 /** Broad, restrained executive cabin on a true long-wheelbase envelope. */
 export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
+  parkingCamera: { surroundView: true },
   ...DEFAULT_SEDAN_VISUAL_CONFIG,
   ...automaticEnvelope(EXECUTIVE_LWB_DIMENSIONS), ...automaticMirrors(EXECUTIVE_LWB_DIMENSIONS, .955, -.81),
   name: 'A6L-inspired long-wheelbase executive sedan',
@@ -406,7 +408,7 @@ export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   // Keep the broad display behind the visor lip and naturally ahead of the wheel.
   instrumentClusterTransform: { position: [-.40, .96, -.485], rotation: [degrees(-7), 0, 0], scale: 1.22 },
   instrumentCluster: { maximumSpeedKmh: 280, maximumRPM: 7000, redlineRPM: 6400,
-    needleResponse: 12, displayStyle: 'executive-virtual', visualProfile: EXECUTIVE_INSTRUMENT_PROFILE },
+    needleResponse: 12, displayStyle: 'executive-virtual', featureClass: 'advanced', visualProfile: EXECUTIVE_INSTRUMENT_PROFILE },
   steeringWheelPosition: [-.40, .755, -.245], steeringColumnMountPosition: [-.40, .668, -.57],
   steeringWheelRadius: .17, steeringWheelRimTubeRadius: .019,
   steeringWheelLockDegrees: 32 * 17.5 * 2,

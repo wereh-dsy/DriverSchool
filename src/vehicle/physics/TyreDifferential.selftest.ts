@@ -107,8 +107,9 @@ export function runTyreDifferentialSelfTest() {
     });
     const a = snapshot.wheels[front ? 'frontLeft' : 'rearLeft'];
     const b = snapshot.wheels[front ? 'frontRight' : 'rearRight'];
-    assert(snapshot.differential.axle === (front ? 'front' : 'rear') && a.driveTorque === b.driveTorque,
-      'all four shipping powertrains route equal torque through the correct open carrier');
+    assert(snapshot.differential.axle === (front ? 'front' : 'rear') &&
+      (snapshot.differential.type === 'lsd' ? Math.abs(a.driveTorque + b.driveTorque - snapshot.differential.inputTorque) < 1e-9 : a.driveTorque === b.driveTorque),
+      'powertrains route conserving torque through the configured axle carrier');
     assert(snapshot.wheels[front ? 'rearLeft' : 'frontLeft'].driveTorque === 0 &&
       snapshot.wheels[front ? 'rearRight' : 'frontRight'].driveTorque === 0, 'non-driven axle never receives propulsion');
     assert(Math.abs(snapshot.differential.carrierAngularVelocity - (a.angularVelocity + b.angularVelocity) / 2) < 1e-9,

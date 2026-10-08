@@ -7,6 +7,7 @@ import {
   rpmToRadiansPerSecond,
 } from './math';
 import { Turbocharger } from './Turbocharger';
+import type { DriveTorqueSource } from './DriveTorqueSource';
 
 export interface EngineTurboSnapshot {
   enabled: boolean;
@@ -48,7 +49,22 @@ export interface RevHangContext {
  * Rotational crankshaft model. It deliberately owns no knowledge of gears or
  * wheels: the clutch supplies the load torque applied to the crankshaft.
  */
-export class Engine {
+export class Engine implements DriveTorqueSource {
+  public requestedDrive = 0;
+  public deliveredDriveTorque = 0;
+  public lastTorqueSample: EngineTorqueSample | undefined;
+  public get shaftAngularVelocity(): number { return this.angularVelocity; }
+  public get availableDriveTorque(): number { return this.getTorqueSample().netCrankTorque; }
+  public get canDeliverTorque(): boolean { return this.isRunning && this.fuelAvailable; }
+  private revHangContext: RevHangContext | undefined;
+  public setRevHangContext(context: RevHangContext): void { this.revHangContext = context; }
+  public requestDrive(demand: number, dt: number): void {
+    this.requestedDrive = clamp01(demand); this.updateThrottle(this.requestedDrive, dt, this.revHangContext);
+  }
+  public updateState(dt: number, loadTorque: number): void {
+    this.lastTorqueSample = this.integrate(dt, loadTorque);
+    this.deliveredDriveTorque = this.lastTorqueSample?.netCrankTorque ?? 0;
+  }
   private firingPhase = 0;
   private rippleWave = 0;
   /** Existing engineInertia remains the configured kg m² reference. */
@@ -64,6 +80,7 @@ export class Engine {
   public currentRPM: number;
   public throttle = 0;
   public isRunning = true;
+  public ignitionOn = true;
   public ignitionPhase: 'OFF' | 'CRANKING' | 'CATCH' | 'RUNNING' | 'STOPPING' = 'RUNNING';
   private ignitionElapsed = 0;
   public get isStarting(): boolean { return this.ignitionPhase === 'CRANKING' || this.ignitionPhase === 'CATCH'; }
@@ -110,6 +127,9 @@ export class Engine {
   }
 
   public reset(rpm = this.config.idleRPM, running = true): void {
+    this.ignitionOn = running;
+    this.requestedDrive = 0; this.deliveredDriveTorque = 0;
+    this.lastTorqueSample = undefined; this.revHangContext = undefined;
     this.firingPhase = 0; this.rippleWave = 0;
     this.torqueLimitFactor = 1;
     this.fuelStarvedCoasting = false;
@@ -128,6 +148,7 @@ export class Engine {
   /** Starter abstraction; ignition timing and battery state can be added later. */
   public start(): void {
     if (!this.fuelAvailable) return;
+    this.ignitionOn = true;
     this.fuelStarvedCoasting = false;
     this.isRunning = this.startup === undefined;
     this.ignitionPhase = this.startup === undefined ? 'RUNNING' : 'CRANKING';
@@ -139,6 +160,7 @@ export class Engine {
   }
 
   public stop(): void {
+    this.ignitionOn = false;
     this.fuelStarvedCoasting = false;
     this.isRunning = false;
     this.ignitionPhase = this.startup !== undefined && this.currentRPM > 0 ? 'STOPPING' : 'OFF';
@@ -330,7 +352,11 @@ export class Engine {
       return;
     }
     if (sequence !== undefined && this.ignitionPhase === 'CRANKING') {
-      if (!this.fuelAvailable) { this.stop(); return; }
+      if (!this.fuelAvailable) {
+        const ignitionOn = this.ignitionOn;
+        this.stop(); this.ignitionOn = ignitionOn;
+        return;
+      }
       this.ignitionElapsed += dt;
       // Starter torque approaches cranking speed against inertia, with no combustion.
       const starterTorque = Math.min(this.config.starterTorque,
@@ -377,7 +403,11 @@ export class Engine {
         this.isRunning = false;
         this.currentRPM = nextRPM;
         if (nextRPM <= 0) this.fuelStarvedCoasting = false;
-      } else this.stop();
+      } else {
+        const ignitionOn = this.ignitionOn;
+        this.stop();
+        this.ignitionOn = ignitionOn;
+      }
       return sample;
     }
     this.currentRPM = nextRPM;

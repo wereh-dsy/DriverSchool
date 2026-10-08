@@ -1,4 +1,4 @@
-import type { VehiclePhysicsConfig } from '../config';
+import type { VehicleChassisConfig } from '../config';
 import { WHEEL_IDS } from './WheelContact';
 import type { WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, damp } from './math';
@@ -11,7 +11,7 @@ export class ESCController {
   private selectedWheel = -1;
   private confirmation = 0;
   private candidateWheel = -1;
-  public constructor(private readonly config: VehiclePhysicsConfig) {}
+  public constructor(private readonly config: VehicleChassisConfig) {}
   public get active(): boolean {
     return this.brakeTorques[0]! > 5 || this.brakeTorques[1]! > 5 ||
       this.brakeTorques[2]! > 5 || this.brakeTorques[3]! > 5;

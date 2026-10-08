@@ -1,4 +1,6 @@
+import { validateVehiclePlatformConfig } from './config/validateVehiclePlatformConfig';
 import { EXECUTIVE_AUDIO_PROFILE, type VehicleAudioProfile } from '../audio/VehicleAudioProfile';
+import { resolveVehicleCapabilities, type VehicleCapabilities, type VehicleFeatureDeclarations } from './VehicleCapabilities';
 import {
   cloneVehiclePhysicsConfig,
   DEFAULT_VEHICLE_PHYSICS_CONFIG,
@@ -27,9 +29,7 @@ export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'te
   'test-awd-full-time', 'test-awd-on-demand', 'executive-lwb-2t', 'road-suv-v6-8at'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
 
-export interface VehicleCapabilities {
-  readonly cruiseControl: boolean;
-}
+export type { VehicleCapabilities } from './VehicleCapabilities';
 
 export interface VehicleDescriptor {
   /** Stable save/replay identifier. Never derive this from the display name. */
@@ -44,9 +44,12 @@ export interface VehicleDescriptor {
   readonly audioProfile?: VehicleAudioProfile;
 }
 
+export type VehicleDefinition = VehicleDescriptor;
+type AuthoredVehicleDescriptor = Omit<VehicleDescriptor, 'capabilities'> & { readonly capabilities: VehicleFeatureDeclarations };
+
 export const DEFAULT_VEHICLE_ID: VehicleId = 'family-sedan';
 
-const FAMILY_SEDAN_DESCRIPTOR: VehicleDescriptor = Object.freeze({
+const FAMILY_SEDAN_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
   id: 'family-sedan',
   version: 2,
   name: '家用轿车',
@@ -56,7 +59,7 @@ const FAMILY_SEDAN_DESCRIPTOR: VehicleDescriptor = Object.freeze({
   visualConfig: DEFAULT_SEDAN_VISUAL_CONFIG,
 });
 
-const SPORTS_COUPE_DESCRIPTOR: VehicleDescriptor = Object.freeze({
+const SPORTS_COUPE_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
   id: 'sport-coupe',
   version: 2,
   name: 'GT 跑车',
@@ -66,7 +69,7 @@ const SPORTS_COUPE_DESCRIPTOR: VehicleDescriptor = Object.freeze({
   visualConfig: SPORTS_COUPE_VISUAL_CONFIG,
 });
 
-const TEST_6AT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
+const TEST_6AT_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
   id: 'test-6at-sedan', version: 2, name: '6AT 测试轿车',
   description: '2.0 自然吸气前驱 · 流线低鼻车身、灵活转向、偏运动底盘与平顺六挡自动变速。',
   capabilities: Object.freeze({ cruiseControl: true }),
@@ -75,7 +78,7 @@ const TEST_6AT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
   visualConfig: TEST_6AT_VISUAL_CONFIG,
 });
 
-const TEST_7DCT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
+const TEST_7DCT_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
   id: 'test-7dct-sedan', version: 2, name: '7DCT 测试轿车',
   description: '1.4T 涡轮前驱 · 方正三厢、稳定底盘、低中转速扭矩与快速七挡双离合。',
   capabilities: Object.freeze({ cruiseControl: true }),
@@ -84,7 +87,7 @@ const TEST_7DCT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
   visualConfig: TEST_7DCT_VISUAL_CONFIG,
 });
 
-const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = Object.freeze({
+const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescriptor>> = Object.freeze({
   'road-suv-v6-8at': Object.freeze({ id: 'road-suv-v6-8at', version: 1, name: 'Touareg-like V6 SUV',
     description: '3.0T V6 · 8AT · AWD · 中大型公路 SUV，450 Nm，稳重底盘与临时手动选挡。',
     capabilities: Object.freeze({ cruiseControl: true }),
@@ -113,8 +116,16 @@ const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = O
 
 const VEHICLE_BY_ID = Object.freeze(Object.fromEntries(VEHICLE_IDS.map(id => {
   const descriptor = AUTHORED_VEHICLE_BY_ID[id];
-  return [id, Object.freeze({ ...descriptor,
-    visualConfig: withSuspensionStance(descriptor.visualConfig, descriptor.physicsConfig.suspension) })];
+  const physicsConfig = { ...descriptor.physicsConfig,
+    capabilities: { ...descriptor.physicsConfig.capabilities, ...descriptor.capabilities } };
+  validateVehiclePlatformConfig(physicsConfig, descriptor.visualConfig);
+  const capabilities = resolveVehicleCapabilities(physicsConfig, descriptor.visualConfig);
+  const visualConfig = { ...descriptor.visualConfig,
+    automaticMirrorFold: capabilities.foldingMirrors ? descriptor.visualConfig.automaticMirrorFold : undefined,
+    interiorAmbientLighting: capabilities.ambientLighting ? descriptor.visualConfig.interiorAmbientLighting : undefined,
+    parkingCamera: capabilities.parkingCamera ? descriptor.visualConfig.parkingCamera : undefined };
+  return [id, Object.freeze({ ...descriptor, physicsConfig, capabilities,
+    visualConfig: withSuspensionStance(visualConfig, descriptor.physicsConfig.suspension) })];
 }))) as Readonly<Record<VehicleId, VehicleDescriptor>>;
 
 /** Ordered list used by a keyboard cycle command or a future garage UI. */
@@ -140,5 +151,6 @@ export function getNextVehicleId(currentId: VehicleId): VehicleId {
  * declarative and readonly, so renderers can safely share their descriptor.
  */
 export function createVehiclePhysicsConfig(id: VehicleId): VehiclePhysicsConfig {
-  return cloneVehiclePhysicsConfig(getVehicleDescriptor(id).physicsConfig);
+  const descriptor = getVehicleDescriptor(id);
+  return { ...cloneVehiclePhysicsConfig(descriptor.physicsConfig), capabilities: { ...descriptor.physicsConfig.capabilities } };
 }

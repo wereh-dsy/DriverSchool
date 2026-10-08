@@ -58,7 +58,9 @@ export function runFourWheelPhysicsSelfTest() {
     const undriven = config.drivetrainType === 'FWD' ? rear : front;
     assert(driven.every(id => drive.wheels[id].driveForce > 100 && drive.wheels[id].driveTorque > 0), `${label}: torque reaches correct axle`);
     assert(undriven.every(id => drive.wheels[id].driveForce === 0 && drive.wheels[id].driveTorque === 0), `${label}: undriven axle has no propulsion`);
-    assert(Math.abs(drive.wheels[driven[0]].driveTorque - drive.wheels[driven[1]].driveTorque) < 1e-9, `${label}: axle torque split is 50/50`);
+    assert(drive.differential.type === 'lsd'
+      ? Math.abs(drive.wheels[driven[0]].driveTorque + drive.wheels[driven[1]].driveTorque - drive.differential.inputTorque) < 1e-9
+      : Math.abs(drive.wheels[driven[0]].driveTorque - drive.wheels[driven[1]].driveTorque) < 1e-9, `${label}: configured axle differential conserves torque`);
     validate(drive);
     const decelerating = new VehicleDynamics(config, { speed: 18, gear: 'N' });
     let brake = decelerating.getSnapshot();

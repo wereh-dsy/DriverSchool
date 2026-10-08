@@ -15,6 +15,7 @@ export class CVTTransmissionSystem implements TransmissionSystem {
   private targetRPM = 1100;
   private inputRPM = 0;
   private outputRPM = 0;
+  private outputTorque = 0;
   private load = 0;
   private torque = 0;
   public constructor(private readonly gearbox: Gearbox, private readonly config: CVTConfig, private readonly wheelRadius: number) {
@@ -77,11 +78,13 @@ export class CVTTransmissionSystem implements TransmissionSystem {
     const converter = this.converter.update(context, turbine, this.selector.driving ? 1 : 0);
     this.load = converter.load; this.torque = converter.turbineTorque;
     const outputTorque = this.torque * this.signedRatio * this.gearbox.config.drivetrainEfficiency;
+    this.outputTorque = outputTorque;
     return { engineLoadTorque: this.load, transmittedTorque: this.torque, outputTorque,
       drivenWheelTorque: outputTorque * this.gearbox.config.finalDriveRatio, parkingLocked: this.selector.parkingLocked };
   }
   public getSnapshot(): TransmissionSnapshot {
     return { type: this.type, selectedMode: this.selector.mode, currentPhysicalGear: null,
+      currentRatio: this.signedRatio, outputTorque: this.outputTorque,
       inputRPM: this.inputRPM, outputRPM: this.outputRPM, engineLoadTorque: this.load, transmittedTorque: this.torque,
       shiftInProgress: false, shiftState: this.selector.driving ? 'CONTINUOUS' : 'IDLE', shiftProgress: 0,
       kickdown: false, selectorRejectedReason: this.selector.rejectedReason, parkingLocked: this.selector.parkingLocked,

@@ -1,4 +1,4 @@
-import type { VehiclePhysicsConfig } from '../config';
+import type { VehicleChassisConfig } from '../config';
 import type { WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, damp } from './math';
 
@@ -14,7 +14,7 @@ export class AWDTorqueDistribution {
   public rearTorqueSplit = 0;
   public carrierAngularVelocity = 0;
   private readonly nominalRear: number;
-  public constructor(private readonly config: VehiclePhysicsConfig) {
+  public constructor(private readonly config: VehicleChassisConfig) {
     const front = Math.max(0, config.frontTorqueSplit);
     const rear = Math.max(0, config.rearTorqueSplit);
     this.nominalRear = front + rear > 0 ? rear / (front + rear) : .5;

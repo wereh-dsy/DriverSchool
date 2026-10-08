@@ -1,4 +1,4 @@
-import type { VehiclePhysicsConfig } from '../config';
+import type { VehicleChassisConfig } from '../config';
 import { wheelLocalPosition } from '../VehicleDimensions';
 import { WHEEL_IDS, type GroundNormal, type WheelContactSet, type WheelId } from './WheelContact';
 import type { ChassisPhysicsState } from './WheelPhysicsState';
@@ -50,7 +50,7 @@ export class SuspensionSystem {
   private previousRideOffset = 0;
   private chassis: ChassisPhysicsState = { groundHeight: 0, terrainPitch: 0, terrainRoll: 0, rideOffset: 0, pitch: 0, roll: 0, verticalVelocity: 0 };
 
-  public constructor(private readonly config: VehiclePhysicsConfig) {
+  public constructor(private readonly config: VehicleChassisConfig) {
     this.reset();
   }
 
