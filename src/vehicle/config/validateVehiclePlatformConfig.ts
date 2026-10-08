@@ -56,6 +56,37 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
     nonnegative(d.maximumBrakeTorque, 'eDiff brake torque'); positive(d.response, 'eDiff response');
   }
   const transmission = config.transmission;
+  const tcs = config.driverAids.tcs;
+  if (tcs) { positive(tcs.slipThresholdMultiplier, 'TCS slip threshold'); fraction(tcs.maximumTorqueReduction, 'TCS torque reduction');
+    positive(tcs.response, 'TCS response'); positive(tcs.recoveryResponse, 'TCS recovery'); }
+  for (const key of ['dragCoefficient', 'frontalArea', 'airDensity'] as const) nonnegative(config.aero[key], `aero.${key}`);
+  for (const key of ['liftCoefficientFront', 'liftCoefficientRear'] as const) require(Number.isFinite(config.aero[key]), `aero.${key}`);
+  for (const key of ['wetLongitudinalGripRetention', 'wetLateralGripRetention'] as const)
+    if (config.tires[key] !== undefined) fraction(config.tires[key], `tires.${key}`);
+  const adaptive = config.suspension.adaptiveDamping;
+  if (adaptive) { positive(adaptive.responseRate, 'adaptive damping response');
+    for (const value of Object.values(adaptive.modeMultipliers)) positive(value, 'adaptive damping multiplier'); }
+  const air = config.suspension.airSuspension;
+  if (air) {
+    positive(air.nominalRideHeight, 'air nominal height');
+    require(Math.abs(air.nominalRideHeight - config.suspension.rideHeight) < 1e-6, 'air nominal height must match loaded geometry');
+    require(Number.isFinite(air.minimumOffset) && Number.isFinite(air.maximumOffset) && air.minimumOffset <= 0 && air.maximumOffset >= 0, 'air bounds');
+    positive(air.adjustmentRate, 'air adjustment rate');
+    for (const offset of Object.values(air.modeOffsets)) require(Number.isFinite(offset) && offset >= air.minimumOffset && offset <= air.maximumOffset, 'air mode offset');
+    if (air.highSpeedLowering) {
+      const high = air.highSpeedLowering;
+      positive(high.activateSpeed, 'air lowering speed'); nonnegative(high.restoreSpeed, 'air restore speed');
+      require(high.restoreSpeed < high.activateSpeed, 'air speed hysteresis'); positive(high.delay, 'air delay');
+      require(high.offset >= air.minimumOffset && high.offset <= 0, 'air lowering offset');
+    }
+  }
+  if ('startStop' in config && config.startStop !== undefined) {
+    const startStop = config.startStop as import('./VehiclePhysicsConfig').StartStopConfig;
+    require(transmission !== undefined && (transmission.type ?? 'MANUAL') !== 'MANUAL', 'Start/Stop requires an automatic ICE');
+    positive(startStop.minimumStopDelay, 'Start/Stop delay'); nonnegative(startStop.stopSpeedThreshold, 'Start/Stop speed');
+    fraction(startStop.brakeThreshold, 'Start/Stop brake'); fraction(startStop.restartThrottleThreshold, 'Start/Stop throttle');
+    fraction(startStop.restartBrakeReleaseThreshold, 'Start/Stop brake release'); nonnegative(startStop.restartDelay, 'Start/Stop restart delay');
+  }
   const type = transmission?.type ?? 'MANUAL';
   if (transmission) {
     require(['MANUAL', 'TORQUE_CONVERTER_AT', 'DCT', 'CVT'].includes(type), 'transmission type');

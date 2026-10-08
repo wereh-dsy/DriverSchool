@@ -4,6 +4,7 @@ import {
 } from './defaultVehiclePhysicsConfig';
 import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 import { SPORT_COUPE_DIMENSIONS } from '../VehicleDimensions';
+import { calibrateTyres } from './TyreCalibration';
 
 const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
 
@@ -165,7 +166,7 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     liftCoefficientFront: -0.02,
     liftCoefficientRear: -0.05,
   },
-  tires: {
+  tires: calibrateTyres({
     loadSensitivity: 0.06,
     wheelInertia: 1.45,
     rollingResistance: 0.013,
@@ -182,7 +183,7 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     peakSlipRatio: 0.1,
     peakSlipAngle: degreesToRadians(7.5),
     gripFalloff: 0.31,
-  },
+  }, 'PERFORMANCE'),
   suspension: {
     rideHeight: 0.115,
     restLength: 0.3,
@@ -205,6 +206,9 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     absEnabled: false,
     tractionControlEnabled: false,
     stabilityControlEnabled: true,
+    tcs: { slipThresholdMultiplier: 1.65, maximumTorqueReduction: .85, response: 6, recoveryResponse: 1.8 },
+    esc: { minimumSpeed: 6, yawErrorThreshold: .22, sideslipThreshold: .16,
+      maximumBrakeGripFraction: .36, response: 6 },
   },
   safety: {
     ...DEFAULT_VEHICLE_PHYSICS_CONFIG.safety,

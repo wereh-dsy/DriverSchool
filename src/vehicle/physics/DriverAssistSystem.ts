@@ -13,6 +13,10 @@ export interface DriverAssistOptions {
   stabilityControlEnabled?: boolean;
 }
 export interface DriverAssistSnapshot extends DriverAssistOptions {
+  absLamp: boolean;
+  absSupported: boolean;
+  tcsSupported: boolean;
+  escSupported: boolean;
   absActive: boolean;
   tcsActive: boolean;
   engineTorqueFactor: number;
@@ -41,8 +45,10 @@ export class DriverAssistSystem {
   private selfCheck = 0;
   private time = 0;
   private vehicleOperational = false;
+  private readonly capabilities: ReturnType<typeof resolveVehicleCapabilities>;
 
   public constructor(private readonly config: VehicleChassisConfig) {
+    this.capabilities = resolveVehicleCapabilities(config);
     this.options = { absEnabled: config.driverAids.absEnabled,
       ebdEnabled: config.driverAids.ebdEnabled ?? false, tractionControlEnabled: config.driverAids.tractionControlEnabled,
       stabilityControlEnabled: config.driverAids.stabilityControlEnabled };
@@ -51,12 +57,14 @@ export class DriverAssistSystem {
     this.frontBrakeBias = config.brakes.frontBrakeBias;
   }
   public setOptions(options: DriverAssistOptions): void {
-    const capabilities = resolveVehicleCapabilities(this.config);
+    const capabilities = this.capabilities;
     this.options = { absEnabled: options.absEnabled && capabilities.abs,
       ebdEnabled: options.ebdEnabled && capabilities.ebd,
       tractionControlEnabled: options.tractionControlEnabled && capabilities.tcs,
       stabilityControlEnabled: (options.stabilityControlEnabled ?? this.config.driverAids.stabilityControlEnabled) && capabilities.esc };
     if (!this.options.stabilityControlEnabled) this.esc.reset();
+    if (!this.options.absEnabled) { this.pressures.fill(1); this.absActive = false; }
+    if (!this.options.tractionControlEnabled) this.engineTorqueFactor = 1;
   }
   public updateStability(dt: number, speed: number, steering: number, yawRate: number,
     lateralVelocity: number, wheels: WheelPhysicsStateSet, limits: readonly number[], lateralLimits: readonly number[]): void {
@@ -80,12 +88,14 @@ export class DriverAssistSystem {
       for (const id of ids) {
         const w = wheels[id];
         const direction = Math.sign(w.longitudinalSpeed || w.angularVelocity);
-        excess = Math.max(excess, w.slipRatio * direction - this.config.tires.peakSlipRatio * 1.25);
+        excess = Math.max(excess, w.slipRatio * direction - this.config.tires.peakSlipRatio *
+          (this.config.driverAids.tcs?.slipThresholdMultiplier ?? 1.25));
       }
     }
-    const target = 1 - clamp(excess / .5, 0, .95);
+    const tune = this.config.driverAids.tcs;
+    const target = 1 - clamp(excess / .5, 0, tune?.maximumTorqueReduction ?? .95);
     this.engineTorqueFactor = damp(this.engineTorqueFactor, target,
-      target < this.engineTorqueFactor ? 7 : 1.8, dt);
+      target < this.engineTorqueFactor ? tune?.response ?? 7 : tune?.recoveryResponse ?? 1.8, dt);
     if (!this.options.tractionControlEnabled) this.engineTorqueFactor = 1;
     const differential = this.config.electronicDifferential;
     if (!differential) { this.differentialBrakeTorques.fill(0); return; }
@@ -127,8 +137,11 @@ export class DriverAssistSystem {
     }
   }
   public getSnapshot(): DriverAssistSnapshot {
+    const capabilities = this.capabilities;
     const tcsActive = this.options.tractionControlEnabled && this.engineTorqueFactor < .98;
-    return { ...this.options, absActive: this.absActive, tcsActive,
+    return { ...this.options, absSupported: capabilities.abs, tcsSupported: capabilities.tcs, escSupported: capabilities.esc,
+      absLamp: this.vehicleOperational && this.absActive && Math.floor(this.time * 8) % 2 === 0,
+      absActive: this.absActive, tcsActive,
       stabilityControlEnabled: this.options.stabilityControlEnabled === true,
       escActive: this.esc.active,
       escOff: this.vehicleOperational && !this.options.stabilityControlEnabled,

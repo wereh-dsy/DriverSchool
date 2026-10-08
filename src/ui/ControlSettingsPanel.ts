@@ -14,6 +14,8 @@ import type { EnvironmentTime, Weather } from '../world/environment/EnvironmentS
 import type { WiperMode } from '../vehicle/control/WiperController';
 import type { MinimapPosition } from './Minimap';
 import type { FuelSnapshot } from '../vehicle/physics/FuelSystem';
+import type { VehicleCapabilities } from '../vehicle/VehicleCapabilities';
+import type { TripComputerSnapshot } from '../vehicle/control/TripComputer';
 
 export interface DrivingMapOption {
   readonly id: string;
@@ -39,6 +41,10 @@ export class ControlSettingsPanel {
   public onVibrationChange?: (enabled: boolean) => void;
   public onDriverAssistsChange?: (options: DriverAssistOptions) => void;
   public onAutoHoldChange?: (enabled: boolean) => void;
+  public onStartStopChange?: (enabled: boolean) => void;
+  public onTripReset?: (trip: 'A' | 'B') => void;
+  public autoHoldPreference: boolean | undefined = this.readAssistancePreference('autoHoldEnabled');
+  public startStopPreference = this.readAssistancePreference('startStopEnabled') ?? false;
   public readonly driverAssistOptions: DriverAssistOptions = this.readDriverAssistPreferences();
   public onDriveSelectorChange?: (selector: DriveSelector) => void;
   public onMirrorSideChange?: (side: AdjustableMirrorSide) => void;
@@ -153,11 +159,17 @@ export class ControlSettingsPanel {
             <div class="settings-group-title"><span>驾驶辅助</span><small>独立开关 · 机械手刹不受 ABS 控制</small></div>
             <div class="settings-segments">
               <button type="button" data-aid="absEnabled">ABS: ON</button>
-              <button type="button" data-aid="ebdEnabled">EBD: ON</button>
               <button type="button" data-aid="tractionControlEnabled">TCS: ON</button>
               <button type="button" data-aid="stabilityControlEnabled">ESC: ON</button>
               <button type="button" data-auto-hold hidden aria-pressed="false">AUTO HOLD: OFF</button>
+              <button type="button" data-start-stop aria-pressed="false">START/STOP: OFF</button>
             </div>
+            <small data-start-stop-state></small>
+          </section>
+          <section class="settings-group">
+            <div class="settings-group-title"><span>里程 / 行程电脑</span><small data-odometer></small></div>
+            <p class="settings-note" data-trip-summary></p>
+            <div class="settings-segments"><button type="button" data-trip-reset="A">重置 Trip A</button><button type="button" data-trip-reset="B">重置 Trip B</button></div>
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>后视镜</span><small data-mirror-value>水平 0.0° · 垂直 0.0°</small></div>
@@ -224,8 +236,15 @@ export class ControlSettingsPanel {
     this.require<HTMLInputElement>(shell, '[data-vibration]').checked = this.vibrationOn;
     this.require<HTMLButtonElement>(shell, '[data-auto-hold]').addEventListener('click', event => {
       const button = event.currentTarget as HTMLButtonElement;
-      this.onAutoHoldChange?.(button.getAttribute('aria-pressed') !== 'true');
+      this.autoHoldPreference = button.getAttribute('aria-pressed') !== 'true';
+      this.saveAssistancePreferences(); this.onAutoHoldChange?.(this.autoHoldPreference);
     });
+    this.require<HTMLButtonElement>(shell, '[data-start-stop]').addEventListener('click', () => {
+      this.startStopPreference = !this.startStopPreference; this.saveAssistancePreferences();
+      this.onStartStopChange?.(this.startStopPreference);
+    });
+    shell.querySelectorAll<HTMLButtonElement>('[data-trip-reset]').forEach(button =>
+      button.addEventListener('click', () => this.onTripReset?.(button.dataset.tripReset as 'A' | 'B')));
     shell.querySelectorAll<HTMLButtonElement>('[data-aid]').forEach(button => {
       const key = button.dataset.aid as keyof DriverAssistOptions;
       const label = key === 'absEnabled' ? 'ABS' : key === 'ebdEnabled' ? 'EBD' : key === 'stabilityControlEnabled' ? 'ESC' : 'TCS';
@@ -237,7 +256,7 @@ export class ControlSettingsPanel {
       refresh();
       button.addEventListener('click', () => {
         this.driverAssistOptions[key] = !this.driverAssistOptions[key]; refresh();
-        try { localStorage.setItem('drivergame.driver-assists.v1', JSON.stringify(this.driverAssistOptions)); } catch { /* Optional preference. */ }
+        this.saveAssistancePreferences();
         this.onDriverAssistsChange?.({ ...this.driverAssistOptions });
       });
     });
@@ -418,10 +437,46 @@ export class ControlSettingsPanel {
 
   public setAutoHold(available: boolean, enabled: boolean): void {
     const button = this.require<HTMLButtonElement>(this.panel, '[data-auto-hold]');
-    button.hidden = !available;
+    button.hidden = false; button.disabled = !available;
     button.textContent = `AUTO HOLD: ${enabled ? 'ON' : 'OFF'}`;
     button.classList.toggle('active', enabled);
     button.setAttribute('aria-pressed', String(enabled));
+  }
+
+  public setAssistanceSupport(capabilities: VehicleCapabilities): void {
+    const support: Record<string, boolean> = { absEnabled: capabilities.abs,
+      tractionControlEnabled: capabilities.tcs, stabilityControlEnabled: capabilities.esc };
+    this.panel.querySelectorAll<HTMLButtonElement>('[data-aid]').forEach(button => {
+      const key = button.dataset.aid as keyof DriverAssistOptions;
+      const enabled = support[key] && this.driverAssistOptions[key];
+      button.disabled = !support[key]; button.classList.toggle('active', enabled);
+      button.setAttribute('aria-pressed', String(enabled));
+      const label = key === 'absEnabled' ? 'ABS' : key === 'stabilityControlEnabled' ? 'ESC' : 'TCS';
+      button.textContent = `${label}: ${enabled ? 'ON' : 'OFF'}`;
+    });
+  }
+  public setStartStop(available: boolean, enabled: boolean, state: string): void {
+    const button = this.require<HTMLButtonElement>(this.panel, '[data-start-stop]');
+    button.disabled = !available; button.textContent = `START/STOP: ${enabled ? 'ON' : 'OFF'}`;
+    button.classList.toggle('active', enabled); button.setAttribute('aria-pressed', String(enabled));
+    this.require(this.panel, '[data-start-stop-state]').textContent = available ? state : '';
+  }
+  public setTrip(trip: TripComputerSnapshot): void {
+    this.require(this.panel, '[data-odometer]').textContent = `ODO ${trip.totalDistanceKm.toFixed(2)} km`;
+    this.require(this.panel, '[data-trip-summary]').textContent = (['A', 'B'] as const).map(id => {
+      const data = id === 'A' ? trip.tripA : trip.tripB;
+      return `Trip ${id}: ${data.distanceKm.toFixed(2)} km · ${Math.floor(data.operatingTimeSeconds / 60)} min · ` +
+        `${data.averageSpeedKmh?.toFixed(1) ?? '--'} km/h · ${data.averageFuelConsumptionLPer100km?.toFixed(1) ?? '--'} L/100km`;
+    }).join(' | ');
+  }
+  private readAssistancePreference(key: string): boolean | undefined {
+    try { const saved = JSON.parse(localStorage.getItem('drivergame.driver-assists.v1') ?? '{}');
+      return typeof saved?.[key] === 'boolean' ? saved[key] : undefined;
+    } catch { return undefined; }
+  }
+  private saveAssistancePreferences(): void {
+    try { localStorage.setItem('drivergame.driver-assists.v1', JSON.stringify({ ...this.driverAssistOptions,
+      autoHoldEnabled: this.autoHoldPreference, startStopEnabled: this.startStopPreference })); } catch { /* Optional storage. */ }
   }
 
   public setActiveVehicle(vehicleId: string): void {
@@ -566,6 +621,7 @@ export class ControlSettingsPanel {
     try {
       const saved = JSON.parse(localStorage.getItem('drivergame.driver-assists.v1') ?? '{}');
       for (const key of Object.keys(defaults) as (keyof DriverAssistOptions)[]) {
+        if (key === 'ebdEnabled') continue; // Ordinary UI leaves installed EBD enabled.
         if (typeof saved?.[key] === 'boolean') defaults[key] = saved[key];
       }
     } catch { /* Defaults apply when unavailable/corrupt. */ }

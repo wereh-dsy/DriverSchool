@@ -20,6 +20,10 @@ export interface WheelBrakeTorques {
 export class BrakeSystem {
   public readonly coordinator = new BrakeTorqueCoordinator();
   private holdPressure = 0;
+  private cruisePressure = 0;
+  public setCruiseRequest(dt: number, demand: number): void {
+    this.cruisePressure = damp(this.cruisePressure, clamp01(demand), this.config.applyResponse, dt);
+  }
   private emergencyPressure = 0;
   private electronicParking: ParkingBrakeConfig | undefined;
   public setHoldingRequests(holdPressure: number, emergencyPressure: number,
@@ -44,6 +48,7 @@ export class BrakeSystem {
   public constructor(public readonly config: BrakeConfig, _wheelRadius = 0.315) {}
 
   public reset(): void {
+    this.cruisePressure = 0;
     this.coordinator.reset(); this.holdPressure = 0; this.emergencyPressure = 0; this.electronicParking = undefined;
     this.dynamicFrontBias = undefined; this.absPressures = undefined;
     this.brakeInput = 0;
@@ -82,6 +87,8 @@ export class BrakeSystem {
     const serviceTorque = Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
       maximumTotalTorque * Math.max(this.brakeInput, this.holdPressure, this.emergencyPressure) * (front ? allocation : 1 - allocation)) * 0.5;
     const index = id === 'frontLeft' ? 0 : id === 'frontRight' ? 1 : id === 'rearLeft' ? 2 : 3;
+    this.coordinator.requestWheel(index, 'cruise', Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
+      maximumTotalTorque * this.cruisePressure * (front ? allocation : 1 - allocation)) * .5);
     const parkingAxle = this.electronicParking?.axle ?? this.config.handbrakeAxle;
     const requestedHandbrakeTorque = front !== (parkingAxle === 'front') ? 0 :
       Math.max(0, this.electronicParking?.maximumTorque ?? this.config.handbrakeTorque) * this.handbrakeInput * .5;

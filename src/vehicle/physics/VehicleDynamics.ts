@@ -23,6 +23,7 @@ import { AWDTorqueDistribution, type AWDTorqueDistributionSnapshot } from './AWD
 import type { ChassisPhysicsState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, clamp01, wrapAngle } from './math';
 import { ICEPowertrain } from '../powertrain/ICEPowertrain';
+import { TripComputer, type TripComputerSnapshot } from '../control/TripComputer';
 import type { Powertrain, PowertrainSnapshot, PowertrainInitialState, PowertrainUpdateContext, ICEVehicleTelemetry, PowertrainTransmissionSnapshot, ShiftRejectionReason } from '../powertrain/Powertrain';
 import { validateVehiclePlatformConfig } from '../config/validateVehiclePlatformConfig';
 import type { TransmissionSnapshot } from '../transmission/TransmissionSystem';
@@ -126,6 +127,9 @@ export interface VehicleForceSnapshot {
 }
 
 export interface VehicleSnapshot extends ICEVehicleTelemetry {
+  trip: TripComputerSnapshot;
+  frontAeroVerticalForce: number;
+  rearAeroVerticalForce: number;
   powertrain: PowertrainSnapshot;
   vehicleOperational: boolean;
   driveAvailable: boolean;
@@ -217,6 +221,9 @@ export type VehicleSnapshotFor<P extends Powertrain> = P extends ICEPowertrain ?
 
 export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public readonly powertrain: TPowertrain;
+  public readonly tripComputer = new TripComputer();
+  private frontAeroVerticalForce = 0;
+  private rearAeroVerticalForce = 0;
   private get icePowertrain(): ICEPowertrain | undefined { return this.powertrain instanceof ICEPowertrain ? this.powertrain : undefined; }
 
   public get fuel(): ICEAccess<TPowertrain, 'fuel'> { return this.icePowertrain?.fuel as ICEAccess<TPowertrain, 'fuel'>; }
@@ -243,6 +250,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public readonly parkingBrake: ElectronicParkingBrake | undefined;
   public readonly autoHold: AutoHoldController | undefined;
   public setAutoHoldEnabled(enabled: boolean): void { this.autoHold?.setEnabled(enabled); }
+  public setStartStopEnabled(enabled: boolean): void { this.icePowertrain?.setStartStopEnabled(enabled && this.capabilities.startStop); }
   public readonly brakes: BrakeSystem;
   public readonly driverAssists: DriverAssistSystem;
   public setDriverAssistOptions(options: DriverAssistOptions): void { this.driverAssists.setOptions(options); }
@@ -353,6 +361,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       this.config.safety.maxForwardSpeed,
     );
     this.acceleration = 0;
+    this.frontAeroVerticalForce = this.rearAeroVerticalForce = 0;
     this.yawRate = 0;
     this.bodySlipAngle = 0;
     this.lateralVelocity = 0;
@@ -474,7 +483,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public requestEngineToggle(): EngineToggleResult {
     // Legacy ICE toggle restarts a stall, but still stops a fuel-starved coasting engine.
     const ice = this.icePowertrain;
-    const running = ice ? ice.engine.isRunning || ice.engine.isStarting : this.powertrain.vehicleOperational;
+    const running = ice ? ice.engine.isRunning || ice.engine.isStarting || ice.getSnapshot().ice.startStop?.state === 'AUTO_STOPPED' ||
+      ice.getSnapshot().ice.startStop?.state === 'RESTARTING' : this.powertrain.vehicleOperational;
     if (running) {
       this.requestEngineStop();
       return 'stopped';
@@ -505,6 +515,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const calibration = this.config.driveModes?.[mode];
     if (!this.capabilities.driveModes || calibration === undefined) return;
     this.driveMode = mode;
+    this.suspension.setDriveMode(mode);
     this.driveModeThrottleExponent = calibration.throttleExponent;
     this.powertrain.applyDriveMode?.(calibration);
     this.config.steering.steeringResponse = calibration.steeringResponse;
@@ -565,7 +576,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const powertrain = this.powertrain.getSnapshot();
     const transmission = powertrain.transmission;
     return {
-      ...powertrain.ice, powertrain,
+      ...powertrain.ice, powertrain, trip: this.tripComputer.getSnapshot(),
+      frontAeroVerticalForce: this.frontAeroVerticalForce, rearAeroVerticalForce: this.rearAeroVerticalForce,
       vehicleOperational: powertrain.vehicleOperational, driveAvailable: powertrain.driveAvailable,
       baseVehicleMass: this.config.mass,
       effectiveVehicleMass: this.effectiveVehicleMass,
@@ -635,8 +647,11 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     context.torqueLimitFactor = this.driverAssists.engineTorqueFactor;
     context.clutchPedal = this.safeUnitInput(input.clutchPedal);
     context.selectorRequest = input.driveSelector; context.driveMode = this.driveMode;
+    context.autoHoldHolding = this.autoHold?.state === 'HOLDING';
+    context.parkingBrakeActive = (this.parkingBrake?.fraction ?? handbrakeCommand) > .01;
     this.powertrain.prepare(context);
     this.brakes.update(dt, brakeCommand, this.capabilities.mechanicalHandbrake && !this.parkingBrake ? handbrakeCommand : 0);
+    this.brakes.setCruiseRequest(dt, this.safeUnitInput(input.cruiseBrake ?? 0));
     const mode = this.transmission.getSnapshot().selectedMode;
     const driving = mode === 'D' || mode === 'R';
     this.parkingBrake?.update(dt, handbrakeCommand, Math.hypot(this.speed, this.lateralVelocity),
@@ -649,6 +664,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.brakes.setHoldingRequests(this.autoHold?.pressure ?? 0, this.parkingBrake?.emergencyDemand ?? 0,
       this.parkingBrake?.config, this.parkingBrake?.fraction ?? 0);
     this.brakes.setTractionRequests(this.driverAssists.differentialBrakeTorques);
+    context.autoHoldHolding = this.autoHold?.state === 'HOLDING';
+    context.parkingBrakeActive = (this.parkingBrake?.fraction ?? handbrakeCommand) > .01;
     const frontSurfaceGrip = environment.wheelContacts === undefined ?
       Math.max(0, this.finiteOr(environment.surfaceLateralGripMultiplier,
         this.finiteOr(environment.surfaceGripMultiplier, 1))) :
@@ -746,6 +763,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
     this.applyWorldBounds(environment.bounds);
     this.validateOrRecover();
+    if (!this.recoveredThisUpdate) this.tripComputer.update(dt, averageSpeed, transmissionOutput.consumedFuelL);
     this.updateUpshiftRecommendation();
   }
 
@@ -855,7 +873,11 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     requestedDriveTorque: number,
     otherLongitudinalForce: number,
   ): TyreContactForces {
+    const dynamicPressureArea = .5 * this.config.aero.airDensity * this.config.aero.frontalArea * this.speed * this.speed;
+    this.frontAeroVerticalForce = dynamicPressureArea * this.config.aero.liftCoefficientFront;
+    this.rearAeroVerticalForce = dynamicPressureArea * this.config.aero.liftCoefficientRear;
     const suspension = this.suspension.update(dt, {
+      frontAeroVerticalForce: this.frontAeroVerticalForce, rearAeroVerticalForce: this.rearAeroVerticalForce, speed: this.speed,
       contacts: environment.wheelContacts,
       normal: environment.groundNormal ?? { x: 0, y: Math.cos(grade), z: Math.sin(grade) },
       // Coordinate-speed derivative also contains -v_lateral*yawRate; load
@@ -882,9 +904,11 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const legacyRolling = Math.max(0,
       this.finiteOr(environment.rollingResistanceMultiplier, 1));
     const gripLong = shares.map((_, i) => Math.max(0,
-      this.finiteOr(contacts?.[i]?.longitudinalGrip, legacyLongitudinal))) as FourWheelValues;
+      this.finiteOr(contacts?.[i]?.longitudinalGrip, legacyLongitudinal)) *
+      this.wheelRotation.gripModel.wetRetention(contacts?.[i]?.wetness ?? 0)) as FourWheelValues;
     const gripLat = shares.map((_, i) => Math.max(0,
-      this.finiteOr(contacts?.[i]?.lateralGrip, legacyLateral))) as FourWheelValues;
+      this.finiteOr(contacts?.[i]?.lateralGrip, legacyLateral)) *
+      this.wheelRotation.gripModel.wetRetention(contacts?.[i]?.wetness ?? 0, true)) as FourWheelValues;
     const rolling = shares.map((_, i) => Math.max(0,
       this.finiteOr(contacts?.[i]?.rollingResistance, legacyRolling))) as FourWheelValues;
     const loads = WHEEL_IDS.map((id) => suspension.wheels[id].normalLoad) as FourWheelValues;

@@ -17,6 +17,13 @@ export interface ICEPowertrainSnapshot extends PowertrainSnapshot { ice: ICEVehi
 
 /** Adapter for the existing ICE implementation; integration order is unchanged. */
 export class ICEPowertrain implements Powertrain {
+  private startStopEnabled = false;
+  private startStopState: 'DISABLED' | 'READY' | 'AUTO_STOPPED' | 'RESTARTING' = 'DISABLED';
+  private stoppedTime = 0;
+  private restartTime = 0;
+  public setStartStopEnabled(enabled: boolean): void {
+    this.startStopEnabled = enabled && this.config.startStop !== undefined && this.transmission.type !== 'MANUAL';
+  }
   public readonly engine: Engine;
   public readonly fuel: FuelSystem;
   public readonly clutch: Clutch;
@@ -37,10 +44,11 @@ export class ICEPowertrain implements Powertrain {
     this.transmission = createTransmissionSystem(config.transmission, this.gearbox, this.clutch, this.autoClutch, config.wheelRadius);
     this.drivetrainLash = new DrivetrainLash(this.transmission.type === 'MANUAL' ? config.transmission.drivetrainLash : undefined);
     this.upshiftAdvisor = new UpshiftAdvisor(config.engine.shiftRecommendation, this.gearbox.getMaximumForwardGear());
+    this.setStartStopEnabled(config.startStop?.enabledByDefault ?? false);
   }
   public get torqueSource(): Engine { return this.engine; }
   public get vehicleOperational(): boolean { return this.engine.ignitionOn; }
-  public get driveAvailable(): boolean { return this.torqueSource.canDeliverTorque; }
+  public get driveAvailable(): boolean { return this.startStopState !== 'AUTO_STOPPED' && this.startStopState !== 'RESTARTING' && this.torqueSource.canDeliverTorque; }
   public get supportsManualSelection(): boolean { return this.config.transmission.supportsManualSelection === true; }
   public get gear(): Gear { return this.gearbox.currentGear; }
   public get throttle(): number { return this.engine.throttle; }
@@ -55,6 +63,8 @@ export class ICEPowertrain implements Powertrain {
   private synchronizeFuel(): void { this.engine.setFuelAvailable(this.fuel.hasFuel); }
   public setCurrentFuelL(litres: number): void { this.fuel.setCurrentFuelL(litres); this.synchronizeFuel(); }
   public reset(state: PowertrainInitialState, recovering = false): void {
+    this.startStopState = this.startStopEnabled ? 'READY' : 'DISABLED';
+    this.stoppedTime = this.restartTime = 0;
     if (state.ice?.currentFuelL !== undefined) this.fuel.setCurrentFuelL(state.ice.currentFuelL);
     if (!recovering) this.fuel.resetTrip();
     this.synchronizeFuel();
@@ -101,6 +111,7 @@ export class ICEPowertrain implements Powertrain {
 
   public requestStop(): boolean {
     if (!this.vehicleOperational && !this.engine.isRunning && !this.engine.isStarting) return false;
+    this.startStopState = 'DISABLED'; this.stoppedTime = this.restartTime = 0;
     this.engine.stop(); return true;
   }
   public requestGear(
@@ -211,6 +222,7 @@ export class ICEPowertrain implements Powertrain {
     }
 
     if (isManual) this.clutch.update(dt, clutchTarget);
+    this.updateStartStop(context);
     this.engine.setRevHangContext({
       enabled: isManual,
       gearEngaged: this.gearbox.currentGear !== 'N',
@@ -229,13 +241,46 @@ export class ICEPowertrain implements Powertrain {
     // Fuel observes the unchanged ICE sample; shaft integration uses the common source boundary.
     this.torqueSource.updateState(dt, clutchTorque);
     const engineTorque = this.engine.lastTorqueSample;
+    const previousFuel = this.fuel.currentFuelL;
     this.fuel.update(dt, fuelRPM, fuelThrottle, engineTorque, context.vehicleSpeed, context.vehicleLateralSpeed, context.driveMode);
+    this.output.consumedFuelL = Math.max(0, previousFuel - this.fuel.currentFuelL);
     this.synchronizeFuel();
     this.output.drivenWheelTorque = transmissionOutput.drivenWheelTorque * lashFactor;
     this.output.inputLoadTorque = clutchTorque;
     this.output.couplingSlipAngularVelocity = this.transmission.type === 'MANUAL' ? this.clutch.lastSlipAngularVelocity : (this.engine.currentRPM - this.transmission.getSnapshot().inputRPM) * 2 * Math.PI / 60;
     this.output.parkingLocked = transmissionOutput.parkingLocked;
     return this.output;
+  }
+
+  /** Automatic combustion stop preserves ignition and all chassis accessories. */
+  private updateStartStop(context: PowertrainUpdateContext): void {
+    const config = this.config.startStop;
+    if (!config || this.transmission.type === 'MANUAL') return;
+    if (!this.vehicleOperational || !this.fuel.hasFuel) {
+      this.startStopState = 'DISABLED'; this.stoppedTime = this.restartTime = 0; return;
+    }
+    const mode = this.transmission.getSnapshot().selectedMode;
+    if (this.startStopState === 'AUTO_STOPPED') {
+      const restart = !this.startStopEnabled || mode !== 'D' || context.throttle >= config.restartThrottleThreshold ||
+        (!context.autoHoldHolding && context.brake < config.restartBrakeReleaseThreshold);
+      if (restart) { this.startStopState = 'RESTARTING'; this.restartTime = 0; }
+    } else if (this.startStopState === 'RESTARTING') {
+      this.restartTime += context.dt;
+      if (this.restartTime >= config.restartDelay && !this.engine.isRunning && !this.engine.isStarting) this.engine.start();
+      if (this.engine.isRunning && !this.engine.isStarting) {
+        this.startStopState = this.startStopEnabled ? 'READY' : 'DISABLED'; this.stoppedTime = 0;
+      }
+    } else {
+      this.startStopState = this.startStopEnabled ? 'READY' : 'DISABLED';
+      const canStop = this.startStopEnabled && mode === 'D' && this.engine.isRunning && !this.engine.isStarting &&
+        Math.hypot(context.vehicleSpeed, context.vehicleLateralSpeed) <= config.stopSpeedThreshold &&
+        (context.brake >= config.brakeThreshold || context.autoHoldHolding === true) &&
+        context.throttle < config.restartThrottleThreshold;
+      this.stoppedTime = canStop ? this.stoppedTime + context.dt : 0;
+      if (this.stoppedTime >= config.minimumStopDelay) {
+        this.engine.stop(); this.engine.ignitionOn = true; this.startStopState = 'AUTO_STOPPED'; this.stoppedTime = 0;
+      }
+    }
   }
   public finishStep(speed: number): void {
     this.upshiftAdvisor.update({
@@ -248,12 +293,19 @@ export class ICEPowertrain implements Powertrain {
   }
 
   private getTransmissionContext(context: PowertrainUpdateContext): TransmissionContext {
+    // Prepare launch coupling while hydraulic/parking pressure is still present.
+    // Idle creep stays unloaded; only a deliberate launch with propulsion ready
+    // can build torque before the hold actuator releases.
+    const holdLaunch = context.autoHoldHolding && context.throttle >= (this.config.autoHold?.releaseThrottle ?? 1);
+    const parkingLaunch = context.parkingBrakeActive && context.throttle >= (this.config.parkingBrake?.releaseThrottle ?? 1);
+    const launchRequested = this.driveAvailable && context.brake < .1 && (holdLaunch || parkingLaunch);
     return { dt: context.dt, engineAngularVelocity: this.torqueSource.shaftAngularVelocity,
       engineRPM: this.engine.currentRPM, engineRunning: this.driveAvailable,
       engineInertia: this.torqueSource.rotationalInertia, idleRPM: this.config.engine.idleRPM,
       stallRPM: this.config.engine.stallRPM, redlineRPM: this.config.engine.redlineRPM,
       availableEngineTorque: this.torqueSource.availableDriveTorque, throttle: context.throttle,
       brake: context.brake, vehicleSpeed: context.vehicleSpeed, vehicleLateralSpeed: context.vehicleLateralSpeed,
+      holdingBrake: (context.autoHoldHolding === true || context.parkingBrakeActive === true) && !launchRequested,
       drivenWheelAngularVelocity: context.drivenWheelAngularVelocity };
   }
   public getSnapshot(): ICEPowertrainSnapshot {
@@ -263,6 +315,8 @@ export class ICEPowertrain implements Powertrain {
       inputShaftAngularVelocity: this.torqueSource.shaftAngularVelocity, sourceInertia: this.torqueSource.rotationalInertia,
       availableDriveTorque: this.torqueSource.availableDriveTorque, transmission,
       ice: {
+        startStop: { supported: this.config.startStop !== undefined && this.transmission.type !== 'MANUAL',
+          enabled: this.startStopEnabled, state: this.startStopState },
         fuel: this.fuel.getSnapshot(),
         rpm: this.engine.currentRPM,
         engineRunning: this.engine.isRunning,
@@ -290,7 +344,7 @@ export class ICEPowertrain implements Powertrain {
   public getShiftGear(direction: -1 | 1): Gear { return direction > 0 ? this.gearbox.getShiftUpGear() : this.gearbox.getShiftDownGear(); }
   public applyDriveMode(calibration: DriveModeCalibration): void {
     this.config.engine.throttleResponse = this.config.engine.throttleResponseRate = calibration.throttleResponse;
-    const strategy = this.config.transmission.dct?.shiftStrategy;
+    const strategy = this.config.transmission.dct?.shiftStrategy ?? this.config.transmission.automatic?.shiftStrategy;
     if (strategy) Object.assign(strategy, calibration.shiftStrategy);
   }
   private safeUnitInput(value: number): number { return clamp01(this.finiteOr(value, 0)); }

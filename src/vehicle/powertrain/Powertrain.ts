@@ -21,6 +21,7 @@ export type ShiftRejectionReason = 'clutch-not-disengaged' | 'engine-over-speed'
 
 /** Optional ICE compatibility telemetry, not required source components. */
 export interface ICEVehicleTelemetry {
+  startStop?: { supported: boolean; enabled: boolean; state: 'DISABLED' | 'READY' | 'AUTO_STOPPED' | 'RESTARTING' };
   fuel: FuelSnapshot;
   rpm: number;
   engineRunning: boolean;
@@ -65,12 +66,15 @@ export interface PowertrainInitialState {
 }
 /** Generic chassis/shaft context. Legacy RPM thresholds belong inside ICEPowertrain. */
 export interface PowertrainUpdateContext {
+  autoHoldHolding?: boolean;
+  parkingBrakeActive?: boolean;
   dt: number; throttle: number; brake: number;
   vehicleSpeed: number; vehicleLateralSpeed: number;
   drivenWheelAngularVelocity: number; torqueLimitFactor: number;
   clutchPedal: number; selectorRequest?: DriveSelector; driveMode?: VehicleDriveMode;
 }
 export interface PowertrainOutput {
+  consumedFuelL?: number;
   drivenWheelTorque: number; inputLoadTorque: number;
   couplingSlipAngularVelocity: number; parkingLocked: boolean;
 }

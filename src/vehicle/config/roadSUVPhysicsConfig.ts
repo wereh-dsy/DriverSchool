@@ -1,5 +1,6 @@
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { calibrateTyres } from './TyreCalibration';
 import { FAMILY_CONVERTER_CONFIG } from './transmissionTestVehicleConfigs';
 import { ROAD_SUV_DIMENSIONS } from '../VehicleDimensions';
 import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
@@ -75,9 +76,27 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
     longitudinalGrip: .98, lateralGrip: .99, gripCoefficient: .98, loadSensitivity: .07,
     corneringStiffnessFront: 102000, corneringStiffnessRear: 106000,
     peakSlipRatio: .11, peakSlipAngle: 8 * Math.PI / 180, gripFalloff: .35 };
-  config.aero = { ...config.aero, dragCoefficient: .33, frontalArea: 2.76 };
+  config.tires = calibrateTyres(config.tires, 'SUV_ROAD');
+  config.aero = { ...config.aero, dragCoefficient: .33, frontalArea: 2.76, liftCoefficientFront: .015, liftCoefficientRear: .02 };
+  config.suspension.adaptiveDamping = { responseRate: 2, modeMultipliers: { ECO: .97, NORMAL: 1, SPORT: 1.4 } };
+  config.suspension.airSuspension = { nominalRideHeight: .215, minimumOffset: -.025, maximumOffset: 0,
+    adjustmentRate: .004, modeOffsets: { ECO: -.005, NORMAL: 0, SPORT: -.02 },
+    highSpeedLowering: { activateSpeed: 30, restoreSpeed: 24, delay: 8, offset: -.015 } };
+  config.startStop = { enabledByDefault: false, minimumStopDelay: 2.5, stopSpeedThreshold: .06,
+    brakeThreshold: .25, restartThrottleThreshold: .10, restartBrakeReleaseThreshold: .08, restartDelay: .25 };
   config.driverAids = { ...config.driverAids, absEnabled: true, ebdEnabled: true,
-    tractionControlEnabled: true, stabilityControlEnabled: true };
+    tractionControlEnabled: true, stabilityControlEnabled: true,
+    tcs: { slipThresholdMultiplier: 1.15, maximumTorqueReduction: .95, response: 7, recoveryResponse: 1.8 },
+    esc: { yawErrorThreshold: .14, sideslipThreshold: .085, response: 10, minimumSpeed: 4.5 } };
+  const normalShift = config.transmission.automatic!.shiftStrategy;
+  config.driveModes = Object.fromEntries((['ECO', 'NORMAL', 'SPORT'] as const).map(mode => [mode, {
+    throttleExponent: mode === 'ECO' ? 1.25 : mode === 'SPORT' ? .86 : 1,
+    throttleResponse: mode === 'ECO' ? 2.4 : mode === 'SPORT' ? 3.8 : 2.9,
+    shiftStrategy: { ...normalShift, map: normalShift.map.map(point => ({ ...point,
+      upshiftRPM: point.upshiftRPM * (mode === 'ECO' ? .93 : mode === 'SPORT' ? 1.12 : 1) })) },
+    steeringResponse: mode === 'SPORT' ? 3 : 2.75, steeringDamping: mode === 'SPORT' ? 12 : 10.5,
+    accelerationRearTorqueSplit: mode === 'SPORT' ? .54 : .50,
+  }])) as unknown as VehiclePhysicsConfig['driveModes'];
   config.frontDiff = { type: 'open' };
   config.rearDiff = { type: 'open' };
   config.electronicDifferential = { slipThreshold: .18, speedDifferenceThreshold: .65,

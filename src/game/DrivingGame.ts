@@ -101,6 +101,7 @@ export class DrivingGame {
   private combustionAudioLoad = false;
   private parkingCamera: ParkingCamera | null = null;
   private readonly cruiseControl = new CruiseControlController();
+  private tripCheckpointTime = 0;
   private readonly lightController = new VehicleLightingController();
   private readonly feedback = new VehicleFeedbackSystem();
   private readonly haptics = new GamepadHaptics({ getGamepad: () => this.input.gamepad?.getActiveGamepad() ?? null });
@@ -302,13 +303,18 @@ export class DrivingGame {
       const controls = this.cruiseControl.update(FIXED_STEP, driverControls, {
         available: getVehicleDescriptor(this.activeVehicleId).capabilities.cruiseControl,
         speedMetersPerSecond: this.snapshot.speed,
-        engineRunning: this.snapshot.engineRunning,
+        engineRunning: this.snapshot.driveAvailable,
+        torqueLimitFactor: this.snapshot.driverAssists.engineTorqueFactor,
+        parkingBrakeActive: this.snapshot.parkingBrake.engaged || this.snapshot.parkingBrake.applying,
+        autoHoldHolding: this.snapshot.autoHold.holding,
         gear: this.snapshot.gear,
         driveSelector: this.snapshot.transmission.selectedMode ?? undefined,
       });
       this.reportCruiseControlEvent();
 
       this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
+      this.tripCheckpointTime += FIXED_STEP;
+      if (this.tripCheckpointTime >= 10) { this.tripCheckpointTime = 0; this.storeCurrentFuel(); }
       this.ignitionOn = this.snapshot.vehicleOperational;
       this.lapTimer.update(FIXED_STEP, this.snapshot, this.gameStarted && !this.settingsOpen && !document.hidden);
       if (driverControls.cycleDriveMode && this.snapshot.driveMode !== undefined) {
@@ -480,7 +486,12 @@ export class DrivingGame {
       y: roadHeight, width: this.vehicleVisual.config.dimensions.width, length: this.vehicleVisual.config.dimensions.length,
     }, this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.driveMode ?? 'NORMAL',
     this.cruiseControl.status.active, this.cruiseControl.status.targetSpeedKmh,
-    this.snapshot.fuel, this.ground.roadNetwork, this.ground.colliders, this.ignitionOn);
+    this.snapshot.fuel, this.ground.roadNetwork, this.ground.colliders, this.ignitionOn, this.snapshot.trip);
+    if (this.settingsOpen) {
+      this.hud.settings.setTrip(this.snapshot.trip);
+      this.hud.settings.setStartStop(this.dynamics.capabilities.startStop, this.snapshot.startStop?.enabled ?? false,
+        this.snapshot.startStop?.state ?? 'DISABLED');
+    }
     this.vehicleVisual.updateInstruments({
       speedKmh: Math.abs(this.snapshot.speed) * 3.6,
       rpm: this.snapshot.rpm,
@@ -489,6 +500,7 @@ export class DrivingGame {
         : this.snapshot.gear,
       engineRunning: this.snapshot.engineRunning,
       driveMode: this.snapshot.driveMode,
+      startStopState: this.snapshot.startStop,
       cruiseTargetSpeedKmh: this.cruiseControl.status.targetSpeedKmh ?? undefined,
       fuelLevel: this.executiveDisplay ? this.snapshot.fuel.fuelPercent / 100 : this.fuelLevel,
       ignitionOn: this.ignitionOn,
@@ -505,11 +517,11 @@ export class DrivingGame {
         rightTurn: this.lightController.state.rightBlinkOn,
         parkingBrake: this.snapshot.parkingBrake.engaged || this.snapshot.parkingBrake.applying,
         autoHold: this.snapshot.autoHold.holding,
-        engineWarning: !this.snapshot.engineRunning,
-        batteryWarning: !this.snapshot.engineRunning,
+        engineWarning: !this.snapshot.engineRunning && this.snapshot.startStop?.state !== 'AUTO_STOPPED' && this.snapshot.startStop?.state !== 'RESTARTING',
+        batteryWarning: !this.snapshot.engineRunning && this.snapshot.startStop?.state !== 'AUTO_STOPPED' && this.snapshot.startStop?.state !== 'RESTARTING',
         cruise: this.cruiseControl.status.active,
         upshift: this.snapshot.upshiftRecommended,
-        absWarning: this.snapshot.driverAssists.absWarning,
+        absWarning: this.snapshot.driverAssists.absWarning || this.snapshot.driverAssists.absLamp,
         tcsActive: this.snapshot.driverAssists.skidLamp,
         tcsOff: this.snapshot.driverAssists.tcsOff,
         escOff: this.snapshot.driverAssists.escOff,
@@ -520,6 +532,16 @@ export class DrivingGame {
 
   private configureVehicleDisplays(): void {
     const descriptor = getVehicleDescriptor(this.activeVehicleId);
+    const settings = this.hud.settings;
+    this.dynamics.setDriverAssistOptions(settings.driverAssistOptions);
+    this.dynamics.setAutoHoldEnabled(settings.autoHoldPreference ?? this.dynamics.config.autoHold?.enabledByDefault ?? false);
+    this.dynamics.setStartStopEnabled(settings.startStopPreference);
+    try { this.dynamics.tripComputer.restore(JSON.parse(localStorage.getItem(`drivergame.trip.${this.activeVehicleId}.v1`) ?? 'null')); } catch { /* Optional storage. */ }
+    this.snapshot = this.dynamics.getSnapshot();
+    this.cruiseControl.configure(this.dynamics.config.cruiseControl);
+    settings.setAssistanceSupport(descriptor.capabilities);
+    settings.setStartStop(descriptor.capabilities.startStop, this.snapshot.startStop?.enabled ?? false, this.snapshot.startStop?.state ?? 'DISABLED');
+    settings.setTrip(this.snapshot.trip);
     this.engineAudio.configure(descriptor.audioProfile);
     this.combustionAudioLoad = descriptor.audioProfile?.loadSource === 'combustion-and-transmission';
     this.hud.settings.setAutoHold(descriptor.capabilities.autoHold, this.snapshot.autoHold.enabled);
@@ -558,6 +580,14 @@ export class DrivingGame {
       this.dynamics.setAutoHoldEnabled(enabled);
       this.snapshot = this.dynamics.getSnapshot();
       settings.setAutoHold(this.dynamics.capabilities.autoHold, this.snapshot.autoHold.enabled);
+    };
+    settings.onStartStopChange = enabled => {
+      this.dynamics.setStartStopEnabled(enabled); this.snapshot = this.dynamics.getSnapshot();
+      settings.setStartStop(this.dynamics.capabilities.startStop, this.snapshot.startStop?.enabled ?? false, this.snapshot.startStop?.state ?? 'DISABLED');
+    };
+    settings.onTripReset = trip => {
+      if (trip === 'A') this.dynamics.tripComputer.resetTripA(); else this.dynamics.tripComputer.resetTripB();
+      this.snapshot = this.dynamics.getSnapshot(); settings.setTrip(this.snapshot.trip); this.storeCurrentFuel();
     };
     const storedLightMode = this.readStoredLightMode();
     this.lightController.setMainLightMode(storedLightMode);
@@ -870,6 +900,7 @@ export class DrivingGame {
 
   private readonly storeCurrentFuel = (): void => {
     try {
+      localStorage.setItem(`drivergame.trip.${this.activeVehicleId}.v1`, JSON.stringify(this.dynamics.tripComputer.getSnapshot()));
       localStorage.setItem(`drivergame.fuel.${this.activeVehicleId}.v1`, String(this.dynamics.fuel.currentFuelL));
     } catch { /* The current session still supports fuel edits. */ }
   };
@@ -1104,6 +1135,10 @@ export class DrivingGame {
   private reportEngineState(): void {
     if (this.snapshot.engineRunning === this.lastEngineRunning) return;
     this.lastEngineRunning = this.snapshot.engineRunning;
+    if (this.snapshot.startStop?.state === 'AUTO_STOPPED' || this.snapshot.startStop?.state === 'RESTARTING') {
+      this.hud.showMessage(this.snapshot.startStop.state === 'AUTO_STOPPED' ? 'START/STOP · 自动停机，车辆电源保持' : 'START/STOP · 正在重新启动', 1.8);
+      return;
+    }
     this.hud.showMessage(
       this.snapshot.engineRunning
         ? '发动机已启动'

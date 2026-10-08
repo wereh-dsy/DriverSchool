@@ -12,6 +12,7 @@ export interface GroundNormal {
 }
 
 export interface WheelContact extends SurfaceMaterial {
+  readonly wetness?: number;
   readonly id: WheelId;
   readonly x: number;
   readonly z: number;
@@ -55,7 +56,7 @@ export function sampleWheelContacts(
     const surface = ground.sampleRoadSurface(x, z);
     const weatherGrip = wetGripScale(surface, wetness);
     return {
-      id, x, z, height: surface.height,
+      id, x, z, height: surface.height, wetness,
       normal: { x: surface.normal.x, y: surface.normal.y, z: surface.normal.z },
       surfaceType: surface.surfaceType,
       longitudinalGrip: surface.longitudinalGrip * weatherGrip,

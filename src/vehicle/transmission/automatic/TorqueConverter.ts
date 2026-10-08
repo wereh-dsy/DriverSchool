@@ -15,7 +15,7 @@ export class TorqueConverter {
   public prepare(context: TransmissionContext, turbineOmega: number, shifting: boolean, driving: boolean): void {
     const ratio = Math.max(0, turbineOmega) / Math.max(1, context.engineAngularVelocity);
     const slip = Math.abs(angularVelocityToRPM(context.engineAngularVelocity - turbineOmega));
-    const canLock = driving && context.engineRunning && !shifting &&
+    const canLock = driving && context.engineRunning && !context.holdingBrake && !shifting &&
       Math.abs(context.vehicleSpeed) >= this.config.lockupMinimumSpeed &&
       ratio >= this.config.lockupMinimumSpeedRatio && ratio <= 1.12 &&
       context.throttle < this.config.lockupMaximumThrottle && slip < 950;
@@ -29,7 +29,7 @@ export class TorqueConverter {
     this.slipRPM = angularVelocityToRPM(pump - turbineOmega);
     this.speedRatio = clamp(Math.max(0, turbineOmega) / Math.max(1, pump), 0, 1.5);
     this.torqueRatio = this.sampleRatio(this.speedRatio);
-    if (!context.engineRunning || torqueCapacityScale <= 0) return { load: 0, turbineTorque: 0 };
+    if (!context.engineRunning || context.holdingBrake || torqueCapacityScale <= 0) return { load: 0, turbineTorque: 0 };
     const slip = pump - turbineOmega;
     const slipFraction = clamp(slip / Math.max(1, pump), -0.5, 1.5);
     const hydraulicDemand = slip >= 0
@@ -38,7 +38,11 @@ export class TorqueConverter {
     const hydraulicLoad = clamp(hydraulicDemand, -this.config.maximumPumpTorque * 0.35, this.config.maximumPumpTorque);
     const lockupDemand = context.availableEngineTorque + slip * this.config.lockupStiffness;
     const lockupTorque = clamp(lockupDemand, -this.config.lockupCapacity, this.config.lockupCapacity);
-    const hydraulicShare = (1 - this.lockupEngagement) * torqueCapacityScale;
+    // Idle creep remains hydrodynamic. Brake progressively unloads the unit;
+    // pump/turbine slip naturally decays towards a finite creep speed.
+    const creepScale = context.throttle < .03 && Math.abs(context.vehicleSpeed) < 3
+      ? 1 - clamp01(context.brake * 5) : 1;
+    const hydraulicShare = (1 - this.lockupEngagement) * torqueCapacityScale * creepScale;
     const lockupShare = this.lockupEngagement * torqueCapacityScale;
     const wantedLoad = hydraulicLoad * hydraulicShare + lockupTorque * lockupShare;
     const safeLoad = limitAutomaticEngineLoad(wantedLoad, context);

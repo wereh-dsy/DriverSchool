@@ -1,4 +1,5 @@
 import { runPowertrainBoundarySelfTest } from '../src/vehicle/powertrain/Powertrain.selftest';
+import { runVehicleExperienceSelfTest, runCruiseVehicleExperienceSelfTest } from '../src/vehicle/physics/VehicleExperience.selftest';
 import { runVehiclePlatformSelfTest } from '../src/vehicle/physics/VehiclePlatform.selftest';
 import { runPowertrainLayoutSelfTest } from '../src/vehicle/PowertrainLayout.selftest';
 import { runExecutivePolishSelfTest } from '../src/vehicle/physics/ExecutivePolish.selftest';
@@ -47,6 +48,8 @@ import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToo
 import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftest';
 
 const results = {
+  vehicleExperience: runVehicleExperienceSelfTest(),
+  cruiseVehicleExperience: runCruiseVehicleExperienceSelfTest(),
   powertrainBoundary: runPowertrainBoundarySelfTest(),
   vehiclePlatform: runVehiclePlatformSelfTest(),
   powertrainLayout: runPowertrainLayoutSelfTest(),

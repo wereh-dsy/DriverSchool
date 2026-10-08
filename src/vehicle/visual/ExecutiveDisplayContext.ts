@@ -1,6 +1,7 @@
 import { projectWorldToRoad, type RoadNetworkData } from '../../world/navigation/RoadNetwork';
 import type { StaticCollider } from '../physics/CollisionSystem';
 import type { FuelSnapshot } from '../physics/FuelSystem';
+import type { TripComputerSnapshot } from '../control/TripComputer';
 
 export interface DisplayPoint { x: number; forward: number; distanceAlong?: number }
 export interface DisplayObstacle extends DisplayPoint { distance: number; width: number; length: number }
@@ -15,7 +16,8 @@ export interface ExecutiveDisplayData {
   proximity: number | null;
   localTime?: string;
   localDate?: string;
-  trip: { seconds: number; averageSpeed: number | null; fuel: FuelSnapshot };
+  trip: { seconds: number; averageSpeed: number | null; fuel: FuelSnapshot; distanceKm?: number;
+    odometerKm?: number; averageConsumptionLPer100km?: number | null };
 }
 
 /** Display-only adapter over shared road/collider/fuel data; never controls driving. */
@@ -24,22 +26,18 @@ export class ExecutiveDisplayContext {
   private overlayTime = 0;
   private overlay: { title: string; value: string } | null = null;
   private elapsed = Infinity;
-  private seconds = 0;
-  private previousDistance = 0;
-  private distance = 0;
   private previousMode = '';
   private previousCruise = '';
   private clockElapsed = Infinity;
   public readonly data: ExecutiveDisplayData;
   public constructor(fuel: FuelSnapshot) {
-    this.previousDistance = fuel.tripDistanceKm;
     this.data = { version: 0, page: 'TRIP', overlay: null, lanes: [], roads: [], obstacles: [], proximity: null,
       trip: { seconds: 0, averageSpeed: null, fuel } };
   }
   public cyclePage(): void { this.manualPage = this.manualPage === 'DRIVING' ? 'MAP' : 'DRIVING'; this.elapsed = Infinity; }
   public update(dt: number, pose: { x: number; z: number; yaw: number; y: number; width: number; length: number }, gear: string,
     mode: string, cruise: boolean, target: number | null, fuel: FuelSnapshot,
-    network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], active: boolean): void {
+    network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], _active: boolean, trip?: TripComputerSnapshot): void {
     this.clockElapsed += dt;
     if (this.clockElapsed >= 1) {
       this.clockElapsed = 0;
@@ -47,8 +45,6 @@ export class ExecutiveDisplayContext {
       this.data.localTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
       this.data.localDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
     }
-    if (active) { this.seconds += dt; this.distance += Math.max(0, fuel.tripDistanceKm - this.previousDistance); }
-    this.previousDistance = fuel.tripDistanceKm;
     const cruiseKey = cruise ? String(Math.round(target ?? 0)) : '';
     if (this.previousMode && mode !== this.previousMode) { this.overlay = { title: 'DRIVE SELECT', value: mode }; this.overlayTime = 1.65; }
     else if (cruiseKey && cruiseKey !== this.previousCruise) { this.overlay = { title: 'CRUISE CONTROL', value: `SET ${cruiseKey} km/h` }; this.overlayTime = 1.65; }
@@ -61,7 +57,9 @@ export class ExecutiveDisplayContext {
     this.data.version++; this.data.page = page;
     this.data.overlay = this.overlayTime > 0 && this.overlay !== null
       ? { ...this.overlay, alpha: Math.min(1, this.overlayTime / .25) } : null;
-    this.data.trip = { seconds: this.seconds, averageSpeed: this.seconds > 1 ? this.distance * 3600 / this.seconds : null, fuel };
+    this.data.trip = { seconds: trip?.tripA.operatingTimeSeconds ?? 0, averageSpeed: trip?.tripA.averageSpeedKmh ?? null, fuel,
+      distanceKm: trip?.tripA.distanceKm, odometerKm: trip?.totalDistanceKm,
+      averageConsumptionLPer100km: trip?.tripA.averageFuelConsumptionLPer100km };
     const cos = Math.cos(pose.yaw), sin = Math.sin(pose.yaw);
     const local = (x: number, z: number): DisplayPoint => ({
       x: (x - pose.x) * cos - (z - pose.z) * sin,

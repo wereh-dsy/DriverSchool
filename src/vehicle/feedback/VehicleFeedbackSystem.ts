@@ -41,6 +41,7 @@ type FeedbackSnapshotCore = Pick<VehicleSnapshot, 'speed' | 'rpm' | 'idleRPM' | 
   | 'gear' | 'throttle' | 'clutchEngagement' | 'acceleration' | 'forces'>;
 /** Optional transmission data keeps this observer compatible with all drivetrain variants. */
 export interface VehicleFeedbackSnapshot extends FeedbackSnapshotCore {
+  readonly startStop?: VehicleSnapshot['startStop'];
   readonly controlMode?: VehicleSnapshot['controlMode'];
   readonly clutchPedal?: number;
   readonly transmission?: {
@@ -237,7 +238,8 @@ export class VehicleFeedbackSystem {
     }
     this.previousLashMagnitude = lashMagnitude;
     this.jolt = Math.max(joltDemand, this.jolt * Math.exp(-step * 14));
-    if (previous?.running && !snapshot.engineRunning) {
+    const automaticStop = snapshot.startStop?.state === 'AUTO_STOPPED' || snapshot.startStop?.state === 'RESTARTING';
+    if (previous?.running && !snapshot.engineRunning && !automaticStop) {
       pulses.push({ kind: 'stall', weak: 0.22, strong: 0.4, durationMs: 140 });
       this.joltVelocity -= 0.035;
     }

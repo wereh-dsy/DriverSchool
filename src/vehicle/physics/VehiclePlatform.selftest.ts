@@ -16,7 +16,7 @@ export function runVehiclePlatformSelfTest() {
   };
   const dt = 1 / 120, neutral = createNeutralVehicleInputState();
   for (const descriptor of VEHICLE_CATALOG) {
-    assert(Object.keys(descriptor.capabilities).length === 16, `${descriptor.id}: complete support flags`);
+    assert(Object.keys(descriptor.capabilities).length === 19, `${descriptor.id}: complete support flags`);
     assert(descriptor.capabilities.awd === (descriptor.physicsConfig.drivetrainType === 'AWD'), 'layout and AWD support agree');
     assert(!(descriptor.capabilities.mechanicalHandbrake && descriptor.capabilities.electronicParkingBrake), 'one parking actuator type');
   }

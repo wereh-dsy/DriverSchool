@@ -1,4 +1,5 @@
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { calibrateTyres } from './TyreCalibration';
 import { FLOW_6AT_DIMENSIONS, FORMAL_DCT_DIMENSIONS } from '../VehicleDimensions';
 import type { AutomaticShiftConfig, TorqueConverterConfig, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 
@@ -60,7 +61,8 @@ export function createTest6ATVehiclePhysicsConfig(): VehiclePhysicsConfig {
   config.tires = { ...config.tires, wheelInertia: 1.16, longitudinalGrip: 1, lateralGrip: 1.02,
     gripCoefficient: 1, corneringStiffnessFront: 80000, corneringStiffnessRear: 84000,
     rollingResistance: .0115, peakSlipRatio: .105, peakSlipAngle: radians(7.5), gripFalloff: .33 };
-  config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.13 };
+  config.tires = calibrateTyres(config.tires, 'SPORT_TOURING');
+  config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.13, liftCoefficientFront: .025, liftCoefficientRear: .035 };
   config.transmission = { ...config.transmission, type: 'TORQUE_CONVERTER_AT', supportsManualSelection: true, manualAutoUpshiftAtRedline: true, manualSelectionTimeout: 8,
     gearRatios: { 1: 3.552, 2: 2.022, 3: 1.347, 4: 1, 5: 0.745, 6: 0.599 },
     reverseRatio: -3.052, finalDrive: 3.6, finalDriveRatio: 3.6,
@@ -121,7 +123,10 @@ export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
   config.tires = { ...config.tires, wheelInertia: 1.12, longitudinalGrip: .96, lateralGrip: .98,
     gripCoefficient: .96, corneringStiffnessFront: 78000, corneringStiffnessRear: 80000,
     rollingResistance: .012, peakSlipRatio: .11, peakSlipAngle: radians(7.7), gripFalloff: .34 };
-  config.aero = { ...config.aero, dragCoefficient: .29, frontalArea: 2.18 };
+  config.tires = calibrateTyres(config.tires, 'SPORT_TOURING');
+  config.tires.corneringStiffnessFront = 81000;
+  config.tires.corneringStiffnessRear = 80000;
+  config.aero = { ...config.aero, dragCoefficient: .29, frontalArea: 2.18, liftCoefficientFront: .03, liftCoefficientRear: .04 };
   config.transmission = { ...config.transmission, type: 'DCT', supportsManualSelection: true, manualAutoUpshiftAtRedline: true, manualSelectionTimeout: 8,
     gearRatios: { 1: 3.5, 2: 2.12, 3: 1.52, 4: 1.14, 5: 0.9, 6: 0.73, 7: 0.6 },
     reverseRatio: -3.2, finalDrive: 3.65, finalDriveRatio: 3.65,

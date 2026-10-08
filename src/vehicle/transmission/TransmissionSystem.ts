@@ -33,6 +33,7 @@ export interface TransmissionSnapshot {
 
 /** SI units. Selector is a request, never a physical ratio or a UI string. */
 export interface TransmissionContext {
+  holdingBrake?: boolean;
   dt: number;
   engineAngularVelocity: number;
   engineRPM: number;

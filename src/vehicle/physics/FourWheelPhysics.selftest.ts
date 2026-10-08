@@ -39,7 +39,8 @@ export function runFourWheelPhysicsSelfTest() {
     const validate = (s: VehicleSnapshot) => {
       assert(Object.values(s.wheels).every(w => Object.values(w).every(v => typeof v !== 'number' || Number.isFinite(v))), `${label}: finite corner states`);
       const total = Object.values(s.wheels).reduce((n, w) => n + w.normalLoad, 0);
-      assert(Math.abs(total - s.effectiveVehicleMass * config.gravity) < 1e-6, `${label}: four loads conserve supported weight`);
+      assert(Math.abs(total - (s.effectiveVehicleMass * config.gravity - s.frontAeroVerticalForce - s.rearAeroVerticalForce)) < 1e-6,
+        `${label}: four loads conserve supported weight including aerodynamic lift`);
       for (const id of WHEEL_IDS) {
         const w = s.wheels[id];
         assert(w.normalLoad > 0 && w.suspensionCompression >= 0 && w.suspensionCompression < config.suspension.restLength,

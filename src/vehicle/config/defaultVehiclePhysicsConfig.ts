@@ -1,5 +1,6 @@
 import type { DriveModeCalibration, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 import { FAMILY_SEDAN_DIMENSIONS } from '../VehicleDimensions';
+import { calibrateTyres } from './TyreCalibration';
 
 const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
 
@@ -167,7 +168,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     liftCoefficientFront: 0.04,
     liftCoefficientRear: 0.06,
   },
-  tires: {
+  tires: calibrateTyres({
     loadSensitivity: 0.06,
     wheelInertia: 1.2,
     rollingResistance: 0.012,
@@ -184,7 +185,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     peakSlipRatio: 0.11,
     peakSlipAngle: degreesToRadians(8),
     gripFalloff: 0.35,
-  },
+  }, 'COMFORT_TOURING'),
   suspension: {
     rideHeight: 0.145,
     restLength: 0.36,
@@ -290,8 +291,16 @@ export function cloneVehiclePhysicsConfig(
     steering: { ...config.steering, returnProfile: config.steering.returnProfile === undefined ? undefined : { ...config.steering.returnProfile } },
     aero: { ...config.aero },
     tires: { ...config.tires },
-    suspension: { ...config.suspension },
-    driverAids: { ...config.driverAids, esc: config.driverAids.esc === undefined ? undefined : { ...config.driverAids.esc } },
+    startStop: config.startStop === undefined ? undefined : { ...config.startStop },
+    cruiseControl: config.cruiseControl === undefined ? undefined : { ...config.cruiseControl },
+    suspension: { ...config.suspension,
+      adaptiveDamping: config.suspension.adaptiveDamping === undefined ? undefined : { ...config.suspension.adaptiveDamping,
+        modeMultipliers: { ...config.suspension.adaptiveDamping.modeMultipliers } },
+      airSuspension: config.suspension.airSuspension === undefined ? undefined : { ...config.suspension.airSuspension,
+        modeOffsets: { ...config.suspension.airSuspension.modeOffsets },
+        highSpeedLowering: config.suspension.airSuspension.highSpeedLowering === undefined ? undefined : { ...config.suspension.airSuspension.highSpeedLowering } } },
+    driverAids: { ...config.driverAids, esc: config.driverAids.esc === undefined ? undefined : { ...config.driverAids.esc },
+      tcs: config.driverAids.tcs === undefined ? undefined : { ...config.driverAids.tcs } },
     safety: { ...config.safety },
   };
 }

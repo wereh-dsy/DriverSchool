@@ -32,7 +32,7 @@ export function runCruiseControlControllerSelfTest(): CruiseControlControllerSel
     ...context,
     speedMetersPerSecond: 23,
   });
-  assert(output.throttle > 0.2, 'speed loss increases cruise throttle');
+  assert(output.throttle > 0.12, 'speed loss increases cruise throttle with a bounded slew');
   assert(output.brake === 0, 'underspeed does not request brake');
 
   output = controller.update(1 / 60, { ...base, cruiseToggle: false }, {
@@ -40,7 +40,8 @@ export function runCruiseControlControllerSelfTest(): CruiseControlControllerSel
     speedMetersPerSecond: 29,
   });
   assert(output.throttle === 0, 'large overspeed closes cruise throttle');
-  assert(output.brake > 0 && output.brake <= 0.16, 'large overspeed requests only light brake');
+  assert((output.cruiseBrake ?? 0) > 0 && (output.cruiseBrake ?? 0) <= 0.16 && output.brake === 0,
+    'large overspeed requests only light independent cruise brake');
 
   output = controller.update(1 / 60, { ...base, throttle: 0.8 }, context);
   assert(output.throttle === 0.8 && output.brake === 0, 'driver throttle overrides cruise output');

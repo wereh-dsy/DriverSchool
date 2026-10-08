@@ -1,5 +1,6 @@
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { calibrateTyres } from './TyreCalibration';
 import { EXECUTIVE_LWB_DIMENSIONS } from '../VehicleDimensions';
 import type { AutomaticShiftConfig, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 
@@ -64,9 +65,14 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
   config.tires = { ...config.tires, wheelInertia: 1.65, longitudinalGrip: 1.03, lateralGrip: 1.04,
     gripCoefficient: 1.03, corneringStiffnessFront: 103000, corneringStiffnessRear: 108000,
     rollingResistance: .0115, peakSlipRatio: .105, peakSlipAngle: radians(7.5), gripFalloff: .32 };
-  config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.30 };
+  config.tires = calibrateTyres(config.tires, 'PREMIUM_TOURING');
+  config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.30, liftCoefficientFront: .008, liftCoefficientRear: .012 };
+  config.suspension.adaptiveDamping = { responseRate: 2.5, modeMultipliers: { ECO: .95, NORMAL: 1, SPORT: 1.35 } };
+  config.startStop = { enabledByDefault: false, minimumStopDelay: 2, stopSpeedThreshold: .06,
+    brakeThreshold: .25, restartThrottleThreshold: .10, restartBrakeReleaseThreshold: .08, restartDelay: .20 };
   config.driverAids = { ...config.driverAids, absEnabled: true, ebdEnabled: true,
     tractionControlEnabled: true, stabilityControlEnabled: true,
+    tcs: { slipThresholdMultiplier: 1.15, maximumTorqueReduction: .95, response: 7, recoveryResponse: 1.8 },
     esc: { yawErrorThreshold: .14, sideslipThreshold: .075, response: 10 } };
   config.driveModes = {
     ECO: { throttleExponent: 1.32, throttleResponse: 2.4,

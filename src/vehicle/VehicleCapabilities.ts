@@ -19,6 +19,9 @@ export interface VehicleCapabilities {
   readonly ebd: boolean;
   readonly tcs: boolean;
   readonly esc: boolean;
+  readonly startStop: boolean;
+  readonly adaptiveDamping: boolean;
+  readonly airSuspension: boolean;
 }
 
 /** Only declarations may be authored. Installed systems are always derived. */
@@ -26,7 +29,8 @@ export type VehicleFeatureDeclarations = Partial<Pick<VehicleCapabilities,
   'cruiseControl' | 'advancedInstrument' | 'driveModes' | 'abs' | 'ebd' | 'tcs' | 'esc'>>;
 
 export const STRUCTURAL_CAPABILITIES = ['awd', 'mechanicalHandbrake', 'electronicParkingBrake',
-  'autoHold', 'manualSelection', 'parkingCamera', 'surroundView', 'foldingMirrors', 'ambientLighting'] as const;
+  'autoHold', 'manualSelection', 'parkingCamera', 'surroundView', 'foldingMirrors', 'ambientLighting',
+  'startStop', 'adaptiveDamping', 'airSuspension'] as const;
 
 /** Existing config fields are the compatibility defaults, never vehicle identity. */
 export function resolveVehicleCapabilities(physics: VehicleChassisConfig,
@@ -40,6 +44,9 @@ export function resolveVehicleCapabilities(physics: VehicleChassisConfig,
     mechanicalHandbrake: physics.parkingBrake === undefined,
     electronicParkingBrake: physics.parkingBrake !== undefined,
     autoHold: physics.autoHold !== undefined,
+    startStop: 'startStop' in physics && physics.startStop !== undefined && physics.transmission !== undefined && (physics.transmission.type ?? 'MANUAL') !== 'MANUAL',
+    adaptiveDamping: physics.suspension.adaptiveDamping !== undefined,
+    airSuspension: physics.suspension.airSuspension !== undefined,
     cruiseControl: features?.cruiseControl ?? false,
     parkingCamera: visual?.parkingCamera !== undefined,
     surroundView: visual?.parkingCamera?.surroundView === true,

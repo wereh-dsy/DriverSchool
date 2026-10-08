@@ -111,7 +111,7 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     this.outputRPM = angularVelocityToRPM(outputOmega);
     this.inputRPM = angularVelocityToRPM(outputOmega * this.gearbox.getRatio());
     const clutchTorque = (gear: Gear | null, engagement: number): number => {
-      if (gear === null || !this.selector.driving || !context.engineRunning || engagement <= 0) return 0;
+      if (gear === null || !this.selector.driving || !context.engineRunning || context.holdingBrake || engagement <= 0) return 0;
       const slip = context.engineAngularVelocity - outputOmega * this.gearbox.getRatio(gear);
       const demand = context.availableEngineTorque * engagement + slip * this.config.couplingStiffness * engagement;
       const capacity = Math.max(0.1, this.config.clutchCapacity * engagement);
@@ -130,12 +130,12 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
       drivenWheelTorque: outputTorque * this.gearbox.config.finalDriveRatio, parkingLocked: this.selector.parkingLocked };
   }
   private getLaunchEngagement(context: TransmissionContext): number {
-    if (!this.selector.driving || !context.engineRunning) return 0;
-    if (Math.abs(context.vehicleSpeed) < 1 && context.brake > 0.08) return 0;
+    if (!this.selector.driving || !context.engineRunning || context.holdingBrake) return 0;
     const speedBlend = clamp01(Math.abs(context.vehicleSpeed) / Math.max(0.5, this.config.launchFullyEngagedSpeed));
     const throttleBlend = clamp01(context.throttle * 0.6);
     const creep = this.config.creepEngagement * (1 - clamp01(context.brake * 4));
-    return clamp01(creep + (1 - creep) * Math.max(speedBlend, throttleBlend));
+    const lowSpeedBrake = 1 - clamp01(context.brake / .12) * (1 - speedBlend);
+    return clamp01((creep + (1 - creep) * Math.max(speedBlend, throttleBlend)) * lowSpeedBrake);
   }
   private beginShift(target: ForwardGear, kickdown: boolean): void {
     const source = this.gearbox.currentGear;

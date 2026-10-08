@@ -137,7 +137,8 @@ export function runPowertrainBoundarySelfTest() {
     assert(state.fuel.currentFuelL < fuelBefore && Number.isFinite(state.powertrain.inputShaftAngularVelocity), `${descriptor.id}: fuel/shaft telemetry preserved`);
   }
 
-  const { engine: _engine, fuel: _fuel, clutch: _clutch, autoClutch: _autoClutch, transmission: _transmission, ...chassis } = createVehiclePhysicsConfig('executive-lwb-2t');
+  const { engine: _engine, fuel: _fuel, clutch: _clutch, autoClutch: _autoClutch, transmission: _transmission,
+    startStop: _startStop, ...chassis } = createVehiclePhysicsConfig('executive-lwb-2t');
   const config: VehicleChassisConfig = chassis;
   const fixture = createUnavailablePowertrainFixture();
   const car = new VehicleDynamics<Powertrain>(config, { vehicleOperational: true, driveAvailable: false }, fixture);

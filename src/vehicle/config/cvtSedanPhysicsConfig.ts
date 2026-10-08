@@ -1,4 +1,5 @@
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { calibrateTyres } from './TyreCalibration';
 import { FAMILY_CONVERTER_CONFIG } from './transmissionTestVehicleConfigs';
 import { COMFORT_CVT_DIMENSIONS } from '../VehicleDimensions';
 import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
@@ -40,7 +41,8 @@ export function createCVTSedanPhysicsConfig(): VehiclePhysicsConfig {
   config.tires = { ...config.tires, wheelInertia: 1.18, longitudinalGrip: .92, lateralGrip: .94,
     gripCoefficient: .92, corneringStiffnessFront: 70000, corneringStiffnessRear: 74000,
     rollingResistance: .0125, peakSlipRatio: .115, peakSlipAngle: 8.5 * Math.PI / 180, gripFalloff: .32 };
-  config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.2 };
+  config.tires = calibrateTyres(config.tires, 'ECO_TOURING');
+  config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.2, liftCoefficientFront: .025, liftCoefficientRear: .035 };
   config.transmission = { ...config.transmission, type: 'CVT', supportsManualSelection: false, automatic: undefined, dct: undefined,
     gearRatios: {}, reverseRatio: -2.2, finalDrive: 5.1, finalDriveRatio: 5.1,
     cvt: { minimumRatio: .42, maximumRatio: 2.6, ratioChangeRate: .85, targetRPMResponse: 2.5,

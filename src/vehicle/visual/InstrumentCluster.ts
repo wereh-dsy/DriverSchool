@@ -34,6 +34,7 @@ export interface InstrumentIndicatorState {
  * current longitudinal vehicle model.
  */
 export interface InstrumentTelemetry {
+  readonly startStopState?: import('../powertrain/Powertrain').ICEVehicleTelemetry['startStop'];
   readonly ignitionOn?: boolean;
   /** Optional environment reading; unavailable temperature stays explicitly blank. */
   readonly outsideTemperatureC?: number;
@@ -1524,7 +1525,8 @@ export class InstrumentCluster extends THREE.Group {
     this.applyNeedleRotations();
 
     const displaySpeed = Math.round(speedKmh);
-    const engineStopped = telemetry.engineRunning === false;
+    const automaticStop = telemetry.startStopState?.state === 'AUTO_STOPPED' || telemetry.startStopState?.state === 'RESTARTING';
+    const engineStopped = telemetry.engineRunning === false && !automaticStop;
     const indicators: InstrumentIndicatorState = {
       ...telemetry.indicators,
       parkingBrake:
@@ -1814,18 +1816,19 @@ export class InstrumentCluster extends THREE.Group {
     text(outside !== undefined && Number.isFinite(outside) ? `${Math.round(outside)} °C` : '-- °C', 802, 143, 22, '#a4b3c0');
     if (data?.page === 'TRIP' && data.localDate) text(data.localDate, 720, 165, 16, '#748390');
     const fuel = data?.trip.fuel;
-    text(fuel?.averageConsumptionLPer100km == null ? '-- L/100km' : `${fuel.averageConsumptionLPer100km.toFixed(1)} L/100km`, 644, 440, 18, '#99aab9');
+    const averageConsumption = data?.trip.averageConsumptionLPer100km;
+    text(averageConsumption == null ? '-- L/100km' : `${averageConsumption.toFixed(1)} L/100km`, 644, 440, 18, '#99aab9');
     text(fuel ? `${fuel.estimatedRangeKm.toFixed(0)} km` : '-- km', 798, 440, 20, '#bcc8d3');
     context.strokeStyle = '#273644'; context.lineWidth = 1;
     context.beginPath(); context.moveTo(586, 177); context.lineTo(854, 177); context.moveTo(586, 418); context.lineTo(854, 418); context.stroke();
     context.save(); context.beginPath(); context.rect(576, 180, 288, 234); context.clip();
     if (data?.page === 'TRIP') {
-      const trip = data.trip, fuel = trip.fuel;
+      const trip = data.trip;
       const rows = [
         ['Avg speed', trip.averageSpeed === null ? '--' : `${trip.averageSpeed.toFixed(0)} km/h`],
         ['Drive time', `${Math.floor(trip.seconds / 60)}:${String(Math.floor(trip.seconds % 60)).padStart(2, '0')}`],
-        ['Avg fuel', fuel.averageConsumptionLPer100km === null ? '--' : `${fuel.averageConsumptionLPer100km.toFixed(1)} L/100km`],
-        ['Range', `${fuel.estimatedRangeKm.toFixed(0)} km`],
+        ['Avg fuel', trip.averageConsumptionLPer100km == null ? '--' : `${trip.averageConsumptionLPer100km.toFixed(1)} L/100km`],
+        ['Trip / ODO', `${(trip.distanceKm ?? 0).toFixed(1)} / ${(trip.odometerKm ?? 0).toFixed(1)} km`],
       ];
       rows.forEach(([label, value], i) => {
         text(label!, 720, 199 + i * 52, 18, '#8998a8'); text(value!, 720, 223 + i * 52, 29);

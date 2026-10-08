@@ -325,12 +325,15 @@ export interface AeroConfig {
   dragCoefficient: number;
   frontalArea: number;
   airDensity: number;
-  /** Reserved axle lift coefficients; negative values represent downforce. */
+  /** Positive is lift (upwards); negative is downforce, per axle. */
   liftCoefficientFront: number;
   liftCoefficientRear: number;
 }
 
 export interface TireConfig {
+  /** Additional wet-road retention, multiplied with the surface weather grip. Omission preserves legacy grip. */
+  wetLongitudinalGripRetention?: number;
+  wetLateralGripRetention?: number;
   /** Mild friction-coefficient sensitivity to load relative to static wheel load. */
   loadSensitivity?: number;
   /** Rotational inertia of each wheel/tyre assembly, kg m². */
@@ -361,6 +364,10 @@ export interface TireConfig {
 }
 
 export interface SuspensionConfig {
+  adaptiveDamping?: { responseRate: number; modeMultipliers: Readonly<Record<VehicleDriveMode, number>> };
+  airSuspension?: { nominalRideHeight: number; minimumOffset: number; maximumOffset: number;
+    adjustmentRate: number; modeOffsets: Readonly<Record<VehicleDriveMode, number>>;
+    highSpeedLowering?: { activateSpeed: number; restoreSpeed: number; delay: number; offset: number } };
   /** Loaded, flat-road underfloor clearance, metres; not the unloaded strut length. */
   rideHeight: number;
   /** Unloaded spring strut length; compression is measured from this length. */
@@ -390,6 +397,7 @@ export interface DriverAidConfig {
   absEnabled: boolean;
   ebdEnabled?: boolean;
   tractionControlEnabled: boolean;
+  tcs?: { slipThresholdMultiplier: number; maximumTorqueReduction: number; response: number; recoveryResponse: number };
   stabilityControlEnabled: boolean;
   /** Optional vehicle calibration; omitted fields use conservative road-car values. */
   esc?: {
@@ -429,6 +437,7 @@ export interface DriveModeCalibration {
 }
 
 export interface VehicleChassisConfig {
+  cruiseControl?: Partial<import('../control/CruiseControlController').CruiseControlConfig>;
   /** Optional declarations cannot override installed topology. */
   capabilities?: VehicleFeatureDeclarations;
   /** Existing ICE transmission calibration; an injected powertrain may omit it. */
@@ -489,11 +498,22 @@ export interface VehicleChassisConfig {
 
 /** Compatibility configuration for every currently authored ICE vehicle. */
 export interface VehiclePhysicsConfig extends VehicleChassisConfig {
+  startStop?: StartStopConfig;
   fuel: FuelConfig;
   engine: EngineConfig;
   transmission: TransmissionConfig;
   clutch: ClutchConfig;
   autoClutch: AutoClutchConfig;
+}
+
+export interface StartStopConfig {
+  enabledByDefault: boolean;
+  minimumStopDelay: number;
+  stopSpeedThreshold: number;
+  brakeThreshold: number;
+  restartThrottleThreshold: number;
+  restartBrakeReleaseThreshold: number;
+  restartDelay: number;
 }
 
 export interface FuelConfig {

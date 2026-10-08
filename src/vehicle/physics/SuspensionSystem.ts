@@ -17,11 +17,17 @@ export interface SuspensionWheelState {
 }
 
 export interface SuspensionSnapshot {
+  readonly dampingMultiplier: number;
+  readonly rideHeightOffset: number;
+  readonly restLength: number;
   readonly wheels: Readonly<Record<WheelId, SuspensionWheelState>>;
   readonly chassis: ChassisPhysicsState;
 }
 
 export interface SuspensionStep {
+  readonly frontAeroVerticalForce?: number;
+  readonly rearAeroVerticalForce?: number;
+  readonly speed?: number;
   readonly contacts?: WheelContactSet;
   readonly normal?: GroundNormal;
   readonly longitudinalAcceleration: number;
@@ -44,6 +50,12 @@ interface CornerState {
  * The load normalization conserves the current supported vehicle weight.
  */
 export class SuspensionSystem {
+  private mode: import('../config').VehicleDriveMode = 'NORMAL';
+  private dampingMultiplier = 1;
+  private rideHeightOffset = 0;
+  private highSpeedTimer = 0;
+  private lowered = false;
+  public setDriveMode(mode: import('../config').VehicleDriveMode): void { this.mode = mode; }
   private corners = {} as Record<WheelId, CornerState>;
   private longitudinalAcceleration = 0;
   private lateralAcceleration = 0;
@@ -55,6 +67,8 @@ export class SuspensionSystem {
   }
 
   public reset(): void {
+    this.mode = 'NORMAL'; this.dampingMultiplier = 1; this.rideHeightOffset = 0;
+    this.highSpeedTimer = 0; this.lowered = false;
     this.longitudinalAcceleration = 0;
     this.lateralAcceleration = 0;
     this.previousRideOffset = 0;
@@ -73,21 +87,43 @@ export class SuspensionSystem {
   }
 
   private integrate(safeDt: number, step: SuspensionStep): void {
+    const adaptive = this.config.suspension.adaptiveDamping;
+    if (adaptive) this.dampingMultiplier += (adaptive.modeMultipliers[this.mode] - this.dampingMultiplier) *
+      (1 - Math.exp(-adaptive.responseRate * safeDt));
+    const air = this.config.suspension.airSuspension;
+    if (air) {
+      const high = air.highSpeedLowering, speed = Math.abs(step.speed ?? 0);
+      if (high) {
+        this.highSpeedTimer = speed >= high.activateSpeed ? this.highSpeedTimer + safeDt : 0;
+        if (this.highSpeedTimer >= high.delay) this.lowered = true;
+        if (speed <= high.restoreSpeed) this.lowered = false;
+      }
+      const target = clamp(Math.min(air.modeOffsets[this.mode], this.lowered && high ? high.offset : air.maximumOffset),
+        air.minimumOffset, air.maximumOffset);
+      const previous = this.rideHeightOffset;
+      this.rideHeightOffset += clamp(target - previous, -air.adjustmentRate * safeDt, air.adjustmentRate * safeDt);
+      // A longer rest strut first loads the spring; the supported corner then
+      // extends. This keeps body/wheel geometry continuous during adjustment.
+      for (const id of WHEEL_IDS) this.corners[id].compression += this.rideHeightOffset - previous;
+    }
     const accelerationBlend = 1 - Math.exp(-10 * safeDt);
     this.longitudinalAcceleration += (clamp(this.finite(step.longitudinalAcceleration), -12, 12) - this.longitudinalAcceleration) * accelerationBlend;
     this.lateralAcceleration += (clamp(this.finite(step.lateralAcceleration), -12, 12) - this.lateralAcceleration) * accelerationBlend;
     let normalY = step.normal?.y ?? 1;
     if (step.contacts !== undefined) normalY = WHEEL_IDS.reduce((sum, id) => sum + step.contacts![id].normal.y * 0.25, 0);
-    const supportedWeight = this.config.mass * this.config.gravity * clamp(this.finite(normalY, 1), 0.3, 1);
+    const weight = this.config.mass * this.config.gravity * clamp(this.finite(normalY, 1), 0.3, 1);
     const frontShare = clamp(this.config.frontWeightBias, 0.05, 0.95);
+    const frontLoad = Math.max(weight * frontShare * .08, weight * frontShare - this.finite(step.frontAeroVerticalForce));
+    const rearLoad = Math.max(weight * (1 - frontShare) * .08, weight * (1 - frontShare) - this.finite(step.rearAeroVerticalForce));
+    const supportedWeight = frontLoad + rearLoad;
     const longitudinalTransfer = this.config.mass * this.longitudinalAcceleration * this.config.centerOfMassHeight / Math.max(0.5, this.config.wheelBase);
     const frontLateralTransfer = this.config.mass * frontShare * this.lateralAcceleration * this.config.centerOfMassHeight / Math.max(0.5, this.config.frontTrackWidth);
     const rearLateralTransfer = this.config.mass * (1 - frontShare) * this.lateralAcceleration * this.config.centerOfMassHeight / Math.max(0.5, this.config.rearTrackWidth);
     const targetLoads: Record<WheelId, number> = {
-      frontLeft: supportedWeight * frontShare * 0.5 - longitudinalTransfer * 0.5 + frontLateralTransfer,
-      frontRight: supportedWeight * frontShare * 0.5 - longitudinalTransfer * 0.5 - frontLateralTransfer,
-      rearLeft: supportedWeight * (1 - frontShare) * 0.5 + longitudinalTransfer * 0.5 + rearLateralTransfer,
-      rearRight: supportedWeight * (1 - frontShare) * 0.5 + longitudinalTransfer * 0.5 - rearLateralTransfer,
+      frontLeft: frontLoad * 0.5 - longitudinalTransfer * 0.5 + frontLateralTransfer,
+      frontRight: frontLoad * 0.5 - longitudinalTransfer * 0.5 - frontLateralTransfer,
+      rearLeft: rearLoad * 0.5 + longitudinalTransfer * 0.5 + rearLateralTransfer,
+      rearRight: rearLoad * 0.5 + longitudinalTransfer * 0.5 - rearLateralTransfer,
     };
     for (const id of WHEEL_IDS) targetLoads[id] = Math.max(this.staticLoad(id) * 0.08, targetLoads[id]);
     const targetTotal = WHEEL_IDS.reduce((sum, id) => sum + targetLoads[id], 0);
@@ -100,9 +136,10 @@ export class SuspensionSystem {
       const wheel = wheelLocalPosition(this.config, id);
       const groundResidual = clamp(heights[id] - groundHeight + wheel.z * forwardSlope - wheel.x * rightSlope, -0.05, 0.05);
       const targetLoad = targetLoads[id] * supportedWeight / Math.max(1, targetTotal);
-      const damping = corner.velocity >= 0
+      const baselineDamping = corner.velocity >= 0
         ? (front ? this.config.suspension.damperCompressionFront : this.config.suspension.damperCompressionRear)
         : (front ? this.config.suspension.damperReboundFront : this.config.suspension.damperReboundRear);
+      const damping = baselineDamping * this.dampingMultiplier;
       const cornerMass = this.staticLoad(id) / this.config.gravity;
       const bumpStop = this.bumpStopForce(id, corner.compression);
       const acceleration = (targetLoad + springRate * groundResidual - springRate * corner.compression -
@@ -127,13 +164,23 @@ export class SuspensionSystem {
         corner.spring + corner.damper + corner.bumpStop + corner.antiRoll);
     }
     const actualTotal = WHEEL_IDS.reduce((sum, id) => sum + this.corners[id].load, 0);
-    for (const id of WHEEL_IDS) this.corners[id].load *= supportedWeight / Math.max(1, actualTotal);
+    const hasAero = this.finite(step.frontAeroVerticalForce) !== 0 || this.finite(step.rearAeroVerticalForce) !== 0;
+    if (hasAero) {
+      // Preserve the separate axle aerodynamic loads instead of distributing
+      // total downforce according to the static weight bias.
+      const frontTarget = (targetLoads.frontLeft + targetLoads.frontRight) * supportedWeight / Math.max(1, targetTotal);
+      const rearTarget = (targetLoads.rearLeft + targetLoads.rearRight) * supportedWeight / Math.max(1, targetTotal);
+      const frontActual = this.corners.frontLeft.load + this.corners.frontRight.load;
+      const rearActual = this.corners.rearLeft.load + this.corners.rearRight.load;
+      for (const id of WHEEL_IDS) this.corners[id].load *= id.startsWith('front')
+        ? frontTarget / Math.max(1, frontActual) : rearTarget / Math.max(1, rearActual);
+    } else for (const id of WHEEL_IDS) this.corners[id].load *= supportedWeight / Math.max(1, actualTotal);
     const displacement = (id: WheelId): number => this.corners[id].compression - this.staticLoad(id) / this.springRate(id);
     const frontDisplacement = (displacement('frontLeft') + displacement('frontRight')) * 0.5;
     const rearDisplacement = (displacement('rearLeft') + displacement('rearRight')) * 0.5;
     const leftDisplacement = (displacement('frontLeft') + displacement('rearLeft')) * 0.5;
     const rightDisplacement = (displacement('frontRight') + displacement('rearRight')) * 0.5;
-    const rideOffset = -(frontDisplacement + rearDisplacement) * 0.5;
+    const rideOffset = this.rideHeightOffset - (frontDisplacement + rearDisplacement) * 0.5;
     this.chassis = {
       groundHeight,
       terrainPitch: Math.atan(forwardSlope),
@@ -176,7 +223,8 @@ export class SuspensionSystem {
       bumpStopForce: this.corners[id].bumpStop,
       antiRollForce: this.corners[id].antiRoll,
     }])) as Record<WheelId, SuspensionWheelState>;
-    return { wheels, chassis: { ...this.chassis } };
+    return { wheels, chassis: { ...this.chassis }, dampingMultiplier: this.dampingMultiplier,
+      rideHeightOffset: this.rideHeightOffset, restLength: this.config.suspension.restLength + this.rideHeightOffset };
   }
 
   private staticLoad(id: WheelId): number {
@@ -189,7 +237,7 @@ export class SuspensionSystem {
     const halfTravel = Math.max(0.001, this.config.suspension.suspensionTravel) * 0.5;
     return {
       minimumCompression: Math.max(0, restCompression - halfTravel),
-      maximumCompression: Math.min(this.config.suspension.restLength * 0.94, restCompression + halfTravel),
+      maximumCompression: Math.min((this.config.suspension.restLength + this.rideHeightOffset) * 0.94, restCompression + halfTravel),
     };
   }
 
