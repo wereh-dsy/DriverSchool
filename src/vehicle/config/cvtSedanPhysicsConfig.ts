@@ -6,12 +6,14 @@ import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 /** Independent ordinary 2.0 NA family calibration, not a production-car replica. */
 export function createCVTSedanPhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
+  config.fuel = { tankCapacityL: 53, defaultFuelL: 37, fuelDensity: 0.745,
+    peakThermalEfficiency: 0.34, referenceConsumptionLPer100km: 6.8 };
   const converter = FAMILY_CONVERTER_CONFIG;
   Object.assign(config, COMFORT_CVT_DIMENSIONS, {
     mass: 1415, trackWidth: 1.585, frontWeightBias: .595, drivenWheelWeightFraction: .595,
     centerOfMassHeight: .54, centerOfMassLongitudinalOffset: 0, yawInertia: 2680,
   });
-  config.engine = { ...config.engine, idleRPM: 800, engineInertia: .46, partThrottleExponent: .78,
+  config.engine = { ...config.engine, displacementL: 2.0, idleRPM: 800, engineInertia: .46, partThrottleExponent: .78,
     throttleResponse: 2.65, throttleResponseRate: 2.65, throttleReleaseResponse: 6.8,
     engineFrictionTorque: 13, engineBrakingStrength: 46, engineBraking: 59,
     idleControlStrength: 70, idleControlMaxTorque: 70, idleControlBandRPM: 290,

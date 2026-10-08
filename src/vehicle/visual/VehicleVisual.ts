@@ -320,7 +320,7 @@ export class VehicleVisual {
   private buildWheels(): readonly [THREE.Group, THREE.Group] {
     const sport = this.config.body.profile === 'sport-coupe';
     const design = this.config.body.design;
-    const rimFraction = design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
+    const rimFraction = design === 'executive' ? .66 : design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
     const tyreMaterial = new THREE.MeshStandardMaterial({
       color: 0x111214,
       roughness: 0.88,
@@ -411,11 +411,11 @@ export class VehicleVisual {
         wheel.add(lip);
       }
 
-      const spokeCount = design === 'flow' ? 10 : design === 'formal' ? 5 : design === 'comfort' ? 7 : sport ? 5 : 6;
+      const spokeCount = design === 'executive' ? 10 : design === 'flow' ? 10 : design === 'formal' ? 5 : design === 'comfort' ? 7 : sport ? 5 : 6;
       for (let spokeIndex = 0; spokeIndex < spokeCount; spokeIndex += 1) {
         const spoke = new THREE.Mesh(spokeGeometry, rimMaterial);
         spoke.name = sport ? 'Sports wheel spoke' : 'Sedan wheel spoke';
-        spoke.rotation.x = design === 'flow'
+        spoke.rotation.x = design === 'flow' || design === 'executive'
           ? Math.floor(spokeIndex / 2) / 5 * Math.PI * 2 + (spokeIndex % 2 === 0 ? -.08 : .08)
           : spokeIndex / spokeCount * Math.PI * 2;
         wheel.add(spoke);

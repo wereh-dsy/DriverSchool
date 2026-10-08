@@ -4,6 +4,7 @@ import type { TrackSpawnPose } from './DrivingTestTrack';
 import type { RoadSurfaceSample } from './SurfaceMaterial';
 import type { StaticCollider } from '../vehicle/physics/CollisionSystem';
 import type { RoadNetworkData } from './navigation/RoadNetwork';
+import type { LapCourseDefinition } from '../game/lap/LapCourseDefinition';
 
 export interface DrivingGroundBounds {
   readonly minX: number;
@@ -33,6 +34,8 @@ export interface DrivingGround {
   readonly metadata: DrivingGroundMetadata;
   /** Shared by HUD, future routes and instrument navigation. */
   readonly roadNetwork?: RoadNetworkData;
+  /** Optional authored timing gates; timing state belongs to the game. */
+  readonly lapCourse?: LapCourseDefinition;
   /** Authored solids, deliberately separate from the road surface query. */
   readonly colliders: readonly StaticCollider[];
   sampleRoadSurface(

@@ -17,6 +17,8 @@ import {
   measureCircuitRibbonJoinGap,
 } from './geometry';
 import { createCircuitMaterials } from './materials';
+import { createCircuitLapCourse } from './LapCourse';
+import { circuitRunoffWidth } from './TrackFeatures';
 import { StartFinishArea, CIRCUIT_SPAWN_DISTANCE } from './StartFinishArea';
 import { TrackEnvironment } from './TrackEnvironment';
 import { TrackGeometry } from './TrackGeometry';
@@ -40,16 +42,22 @@ export class CircuitGround implements DrivingGround {
   public readonly worldBounds: DrivingGround['worldBounds'];
   public readonly spawnPose: TrackSpawnPose;
   public readonly colliders: readonly StaticCollider[];
+  public readonly lapCourse: NonNullable<DrivingGround['lapCourse']>;
 
   private readonly routeSamples: readonly CircuitMapMetadata['routeCenterline'][number][];
+  private readonly sections: CircuitMapMetadata['sections'];
+  private nearestDistance = 0;
+  private nearestLateralOffset = 0;
   private readonly materials;
 
   public constructor(options: CircuitGroundOptions = {}) {
     this.config = options.config ?? DEFAULT_CIRCUIT_TRACK_CONFIG;
     const layout = createCircuitTrackLayout(this.config);
+    this.lapCourse = createCircuitLapCourse(this.config, layout);
     this.routeCurve = layout.curve;
     this.metadata = createCircuitMapMetadata(this.config, layout);
     this.routeSamples = this.metadata.routeCenterline;
+    this.sections = layout.sections;
     this.worldBounds = Object.freeze({
       minX: Math.min(layout.bounds.minimumX, -236),
       maxX: layout.bounds.maximumX,
@@ -189,6 +197,12 @@ export class CircuitGround implements DrivingGround {
   ): SurfaceMaterial {
     const distanceToCentre = this.distanceToRoute(x, z);
     let distanceFromAsphalt = Math.max(0, distanceToCentre - this.config.trackWidth * 0.5);
+    for (const section of this.sections) {
+      if (section.kind !== 'braking' ||
+        Math.sign(this.nearestLateralOffset) !== -Math.sign(section.turnAngleRadians ?? 0)) continue;
+      distanceFromAsphalt = Math.max(0, distanceFromAsphalt -
+        circuitRunoffWidth(this.config, section, this.nearestDistance, this.metadata.lapLength));
+    }
     distanceFromAsphalt = Math.min(
       distanceFromAsphalt,
       this.distanceOutsideRectangle(x, z, -205.5, -183.5, -71, 55),
@@ -213,6 +227,8 @@ export class CircuitGround implements DrivingGround {
 
   private distanceToRoute(x: number, z: number): number {
     let minimumSquared = Number.POSITIVE_INFINITY;
+    let lateralNumerator = 0;
+    let nearestSegmentLengthSquared = 1;
     for (let index = 1; index < this.routeSamples.length; index += 1) {
       const a = this.routeSamples[index - 1]!;
       const b = this.routeSamples[index]!;
@@ -224,11 +240,15 @@ export class CircuitGround implements DrivingGround {
         : 0;
       const nearestX = a.x + dx * projection;
       const nearestZ = a.z + dz * projection;
-      minimumSquared = Math.min(
-        minimumSquared,
-        (x - nearestX) ** 2 + (z - nearestZ) ** 2,
-      );
+      const squared = (x - nearestX) ** 2 + (z - nearestZ) ** 2;
+      if (squared < minimumSquared) {
+        minimumSquared = squared;
+        this.nearestDistance = a.distance + (b.distance - a.distance) * projection;
+        lateralNumerator = -(x - nearestX) * dz + (z - nearestZ) * dx;
+        nearestSegmentLengthSquared = lengthSquared;
+      }
     }
+    this.nearestLateralOffset = lateralNumerator / Math.sqrt(Math.max(nearestSegmentLengthSquared, 1e-9));
     return Math.sqrt(minimumSquared);
   }
 

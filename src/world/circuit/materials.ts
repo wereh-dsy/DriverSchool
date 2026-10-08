@@ -6,6 +6,9 @@ export interface CircuitMaterials {
   readonly shoulder: THREE.MeshStandardMaterial;
   readonly asphalt: THREE.MeshStandardMaterial;
   readonly marking: THREE.MeshStandardMaterial;
+  readonly kerb: THREE.MeshStandardMaterial;
+  readonly runoff: THREE.MeshStandardMaterial;
+  readonly startDark: THREE.MeshStandardMaterial;
   readonly guardrail: THREE.MeshStandardMaterial;
   readonly guardrailPost: THREE.MeshStandardMaterial;
   readonly structure: THREE.MeshStandardMaterial;
@@ -19,6 +22,9 @@ export const createCircuitMaterials = (): CircuitMaterials => ({
   grass: new THREE.MeshStandardMaterial({ color: 0x68804d, roughness: 1 }),
   shoulder: new THREE.MeshStandardMaterial({ color: 0x777467, roughness: 0.98 }),
   asphalt: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x292d30, roughness: 0.93 })),
+  kerb: new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9 }),
+  runoff: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x505351, roughness: 0.98 })),
+  startDark: new THREE.MeshStandardMaterial({ color: 0x14181a, roughness: 0.8 }),
   marking: new THREE.MeshStandardMaterial({
     color: 0xf4f3e9,
     roughness: 0.8,

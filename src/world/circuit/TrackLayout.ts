@@ -198,7 +198,7 @@ export function createCircuitMapMetadata(
 ): CircuitMapMetadata {
   return Object.freeze({
     id: 'simple-circuit',
-    version: 1,
+    version: 2,
     mapId: config.mapId,
     schemaVersion: config.schemaVersion,
     displayName: '基础闭环试车赛道',

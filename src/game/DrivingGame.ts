@@ -1,3 +1,5 @@
+import { ParkingCamera } from '../camera/ParkingCamera';
+import { ExecutiveDisplayContext } from '../vehicle/visual/ExecutiveDisplayContext';
 import {
   ACESFilmicToneMapping,
   BackSide,
@@ -31,6 +33,7 @@ import {
   type VehicleInputState,
 } from '../input';
 import { Hud } from '../ui/Hud';
+import { LapTimer } from './lap/LapTimer';
 import { MirrorOverlayRenderer } from '../ui/MirrorOverlayRenderer';
 import { EnvironmentState } from '../world/environment/EnvironmentState';
 import { EnvironmentVisual } from '../world/environment/EnvironmentVisual';
@@ -92,7 +95,10 @@ export class DrivingGame {
   private readonly mirrorOverlay: MirrorOverlayRenderer;
   private readonly input = new VehicleInputSystem();
   private readonly hud: Hud;
+  private readonly lapTimer = new LapTimer();
   private readonly engineAudio = new EngineAudio();
+  private executiveDisplay: ExecutiveDisplayContext | null = null;
+  private parkingCamera: ParkingCamera | null = null;
   private readonly cruiseControl = new CruiseControlController();
   private readonly lightController = new VehicleLightingController();
   private readonly feedback = new VehicleFeedbackSystem();
@@ -166,12 +172,16 @@ export class DrivingGame {
 
     const spawn = this.ground.spawnPose;
     this.dynamics = new VehicleDynamics(createVehiclePhysicsConfig(this.activeVehicleId), {
+      currentFuelL: this.readStoredFuelL(this.activeVehicleId),
       x: spawn.position.x,
       z: spawn.position.z,
       yaw: spawn.yawRadians,
       gear: 'N',
+      engineRunning: initialVehicle.physicsConfig.engine.ignitionSequence === undefined,
     });
     this.snapshot = this.dynamics.getSnapshot();
+    this.configureVehicleDisplays();
+    this.lapTimer.configure(this.ground.lapCourse, this.activeVehicleId, this.snapshot);
     this.ignitionOn = this.snapshot.engineRunning;
     this.feedback.setVehicleConfig(this.dynamics.config);
     this.feedback.reset(this.snapshot);
@@ -223,6 +233,7 @@ export class DrivingGame {
   }
 
   dispose(): void {
+    this.storeCurrentFuel();
     this.running = false;
     cancelAnimationFrame(this.animationFrame);
     this.unbindEvents();
@@ -236,6 +247,7 @@ export class DrivingGame {
     this.environmentVisual.dispose();
     this.vehicleLighting.dispose();
     this.mirrors.dispose();
+    this.parkingCamera?.dispose();
     this.vehicleVisual.dispose();
     this.mirrorOverlay.dispose();
     this.ground.dispose();
@@ -294,6 +306,7 @@ export class DrivingGame {
       this.reportCruiseControlEvent();
 
       this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
+      this.lapTimer.update(FIXED_STEP, this.snapshot, this.gameStarted && !this.settingsOpen && !document.hidden);
       if (driverControls.cycleDriveMode && this.snapshot.driveMode !== undefined) {
         this.hud.showMessage(`驾驶模式 · ${this.snapshot.driveMode}`, 1.6);
       }
@@ -336,6 +349,7 @@ export class DrivingGame {
     this.haptics.setEnabled(this.gameStarted && !this.settingsOpen && !document.hidden && this.hud.settings.vibrationEnabled);
     this.haptics.update(frameDt, this.feedback.state.continuousRumble);
     this.hud.settings.setDriveSelector(this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.transmission.type);
+    if (this.settingsOpen) this.hud.settings.setFuel(this.snapshot.fuel);
 
     this.updateVehicleVisual(frameDt);
     this.contactDebug.update(this.contacts, this.ground, frameDt, this.snapshot);
@@ -355,12 +369,21 @@ export class DrivingGame {
       this.snapshot.engineRunning,
       {
         vehicleSpeed: Math.abs(this.snapshot.speed),
-        engineLoad: MathUtils.clamp(Math.abs(this.snapshot.transmission.engineLoadTorque) / Math.max(1, this.dynamics.engine.getTorqueAtRPM(this.snapshot.rpm)), 0, 1),
+        engineLoad: MathUtils.clamp((this.executiveDisplay
+          ? Math.max(this.dynamics.engine.getTorqueSample().combustionTorque, Math.abs(this.snapshot.transmission.engineLoadTorque))
+          : Math.abs(this.snapshot.transmission.engineLoadTorque)) / Math.max(1, this.dynamics.engine.getTorqueAtRPM(this.snapshot.rpm)), 0, 1),
         clutchEngagement: this.snapshot.clutchEngagement,
         roadRoughness: this.latestRoadRoughness,
+        cockpit: this.visualDebug.renderCamera === null,
+        driveMode: this.snapshot.driveMode,
+        ignitionPhase: this.dynamics.engine.ignitionPhase,
+        cruiseActive: this.cruiseControl.status.active,
+        lowFuel: this.snapshot.fuel.lowFuel,
+        parkingDistance: this.snapshot.transmission.selectedMode === 'R' ? this.executiveDisplay?.data.proximity : null,
       },
     );
     const cruiseStatus = this.cruiseControl.status;
+    this.hud.updateLap(this.ground.lapCourse ? this.lapTimer.state : null);
     this.hud.update({
       ...this.snapshot,
       turbo: this.hud.isDebugOpen ? this.dynamics.engine.getTurboSnapshot() : undefined,
@@ -374,6 +397,7 @@ export class DrivingGame {
       feedback: this.feedback.state,
     }, frameDt);
 
+    this.parkingCamera?.update(frameDt, this.snapshot.transmission.selectedMode === 'R');
     this.mirrors.render();
     this.visualDebug.update(this.vehicleVisual, this.contacts, this.driverCamera, this.mirrors);
     this.windshieldRain.root.visible = this.visualDebug.renderCamera === null;
@@ -444,6 +468,12 @@ export class DrivingGame {
       rearLeft: this.snapshot.wheels.rearLeft.rotationAngle,
       rearRight: this.snapshot.wheels.rearRight.rotationAngle,
     });
+    this.executiveDisplay?.update(dt, {
+      x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw,
+      y: roadHeight, width: this.vehicleVisual.config.dimensions.width, length: this.vehicleVisual.config.dimensions.length,
+    }, this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.driveMode ?? 'NORMAL',
+    this.cruiseControl.status.active, this.cruiseControl.status.targetSpeedKmh,
+    this.snapshot.fuel, this.ground.roadNetwork, this.ground.colliders, this.ignitionOn);
     this.vehicleVisual.updateInstruments({
       speedKmh: Math.abs(this.snapshot.speed) * 3.6,
       rpm: this.snapshot.rpm,
@@ -453,7 +483,9 @@ export class DrivingGame {
       engineRunning: this.snapshot.engineRunning,
       driveMode: this.snapshot.driveMode,
       cruiseTargetSpeedKmh: this.cruiseControl.status.targetSpeedKmh ?? undefined,
-      fuelLevel: this.fuelLevel,
+      fuelLevel: this.executiveDisplay ? this.snapshot.fuel.fuelPercent / 100 : this.fuelLevel,
+      ignitionOn: this.ignitionOn,
+      executive: this.executiveDisplay?.data,
       coolantTemperatureC: this.coolantTemperatureC,
       handbrake: this.snapshot.handbrake,
       upshiftRecommended: this.snapshot.upshiftRecommended,
@@ -478,8 +510,23 @@ export class DrivingGame {
     this.vehicleVisual.root.updateMatrixWorld(true);
   }
 
+  private configureVehicleDisplays(): void {
+    const descriptor = getVehicleDescriptor(this.activeVehicleId);
+    this.engineAudio.configure(descriptor.audioProfile);
+    const executive = descriptor.visualConfig.instrumentCluster.displayStyle === 'executive-virtual';
+    this.executiveDisplay = executive ? new ExecutiveDisplayContext(this.snapshot.fuel) : null;
+    this.parkingCamera = executive ? new ParkingCamera(this.renderer, this.scene, this.vehicleVisual) : null;
+  }
+
   private configureVehicleSettings(): void {
     const settings = this.hud.settings;
+    settings.setFuel(this.snapshot.fuel);
+    settings.onFuelChange = litres => {
+      this.dynamics.setCurrentFuelL(litres);
+      this.snapshot = this.dynamics.getSnapshot();
+      settings.setFuel(this.snapshot.fuel);
+      this.storeCurrentFuel();
+    };
     try {
       const stored = JSON.parse(localStorage.getItem('drivergame.environment.v1') ?? '{}');
       if (['CLEAR', 'LIGHT_RAIN', 'HEAVY_RAIN'].includes(stored.weather)) this.environment.weather = stored.weather;
@@ -508,9 +555,11 @@ export class DrivingGame {
 
     settings.onVisibilityChange = (visible) => {
       this.settingsOpen = visible;
+      if (visible) this.lapTimer.suspend(this.snapshot);
       this.input.setEnabled(this.gameStarted && (!visible || this.snapshot.transmission.type !== 'MANUAL'));
       if (visible) this.haptics.setEnabled(false);
       if (visible) {
+        settings.setFuel(this.snapshot.fuel);
         this.cruiseControl.reset();
         this.showMirrorPreview(this.selectedMirror);
         settings.setMirrorAdjustment(this.mirrorAdjustment.get(this.selectedMirror));
@@ -598,6 +647,7 @@ export class DrivingGame {
     previousGround.dispose();
 
     this.resetVehicleToGroundStart();
+    this.lapTimer.configure(nextGround.lapCourse, this.activeVehicleId, this.snapshot);
     this.hud.setActiveMap(groundId);
     this.storeGroundId(groundId);
     this.hud.showMessage(`${nextGround.metadata.displayName}已载入 · 车辆回到起点`, 2.5);
@@ -625,6 +675,7 @@ export class DrivingGame {
     });
     this.feedback.reset(this.snapshot);
     this.haptics.stop();
+    this.lapTimer.reset(this.snapshot);
     this.lightController.update(0, createNeutralVehicleInputState(), {
       ignitionOn: this.ignitionOn, actualGear: this.snapshot.gear,
       steeringWheelAngle: this.snapshot.steeringWheelAngle,
@@ -657,6 +708,7 @@ export class DrivingGame {
 
   private switchVehicle(vehicleId: VehicleId): void {
     if (vehicleId === this.activeVehicleId) return;
+    this.storeCurrentFuel();
     this.cruiseControl.reset();
     const descriptor = getVehicleDescriptor(vehicleId);
     const spawn = this.ground.spawnPose;
@@ -666,8 +718,9 @@ export class DrivingGame {
       : 0;
     const nextVisual = new VehicleVisual(descriptor.visualConfig);
     const nextPhysicsConfig = createVehiclePhysicsConfig(vehicleId);
-    const engineRunning = this.snapshot.engineRunning;
+    const engineRunning = nextPhysicsConfig.engine.ignitionSequence === undefined && this.snapshot.engineRunning;
     const nextDynamics = new VehicleDynamics(nextPhysicsConfig, {
+      currentFuelL: this.readStoredFuelL(vehicleId),
       x: spawn.position.x,
       z: spawn.position.z,
       yaw: spawn.yawRadians,
@@ -679,6 +732,7 @@ export class DrivingGame {
     });
 
     const retainedLightMode = this.lightController.state.mainLightMode;
+    this.parkingCamera?.dispose();
     this.mirrors.dispose();
     this.windshieldRain.dispose();
     this.vehicleLighting.dispose();
@@ -706,8 +760,12 @@ export class DrivingGame {
     this.mirrorOverlay.setView(this.mirrors.getView(this.settingsOpen ? this.selectedMirror : 'right'));
 
     this.activeVehicleId = vehicleId;
+    this.ignitionOn = this.snapshot.engineRunning;
+    this.configureVehicleDisplays();
+    this.lapTimer.configure(this.ground.lapCourse, vehicleId, this.snapshot);
     this.hud.setActiveVehicle(vehicleId);
     this.hud.settings.setLightMode(retainedLightMode);
+    this.hud.settings.setFuel(this.snapshot.fuel);
     this.hud.settings.setMirrorAdjustment(this.mirrorAdjustment.get(this.selectedMirror));
     this.lastShiftEventSequence = this.snapshot.shiftEventSequence;
     this.lastEngineRunning = this.snapshot.engineRunning;
@@ -770,6 +828,7 @@ export class DrivingGame {
   }
 
   private readStoredGroundId(): DrivingGroundId {
+    if (new URLSearchParams(location.search).get('city') === 'preset-showcase') return 'preset-showcase';
     if (new URLSearchParams(location.search).get('city') === 'editor') return 'city-editor-map';
     try {
       const stored = localStorage.getItem('drivergame.ground-id.v1');
@@ -779,6 +838,20 @@ export class DrivingGame {
     }
     return DEFAULT_DRIVING_GROUND_ID;
   }
+
+  private readStoredFuelL(vehicleId: VehicleId): number | undefined {
+    try {
+      const stored = localStorage.getItem(`drivergame.fuel.${vehicleId}.v1`);
+      if (stored !== null && stored.trim() !== '' && Number.isFinite(Number(stored))) return Number(stored);
+    } catch { /* Optional preferences must not prevent driving. */ }
+    return undefined;
+  }
+
+  private readonly storeCurrentFuel = (): void => {
+    try {
+      localStorage.setItem(`drivergame.fuel.${this.activeVehicleId}.v1`, String(this.dynamics.fuel.currentFuelL));
+    } catch { /* The current session still supports fuel edits. */ }
+  };
 
   private storeVehicleId(vehicleId: VehicleId): void {
     try {
@@ -824,16 +897,18 @@ export class DrivingGame {
 
   private processAccessoryCommands(input: VehicleInputState): void {
     if (input.engineStart) {
-      if (!this.snapshot.engineRunning) this.engineAudio.onIgnitionStart();
+      const sequenced = this.dynamics.config.engine.ignitionSequence !== undefined;
+      if (!sequenced && !this.snapshot.engineRunning) this.engineAudio.onIgnitionStart();
       const result = this.dynamics.requestEngineToggle();
       if (result === 'started') {
         this.ignitionOn = true;
-        this.engineAudio.onEngineStart();
+        if (!sequenced) this.engineAudio.onEngineStart();
       } else if (result === 'stopped') {
         this.ignitionOn = false;
-        this.engineAudio.onEngineStop();
+        if (!sequenced) this.engineAudio.onEngineStop();
       } else {
-        this.hud.showMessage(this.snapshot.transmission.type === 'MANUAL' ? '无法启动 · 请挂空挡或把离合完全踩下' : '无法启动 · 请先选择 P 或 N 挡', 2.4);
+        this.hud.showMessage(this.snapshot.fuel.emptyFuel ? '无法启动 · 油箱已空' :
+          this.snapshot.transmission.type === 'MANUAL' ? '无法启动 · 请挂空挡或把离合完全踩下' : '无法启动 · 请先选择 P 或 N 挡', 2.4);
       }
       // Deliberate ignition changes must not synthesize the genuine stall edge.
       if (result !== 'start-rejected') {
@@ -998,6 +1073,7 @@ export class DrivingGame {
     this.hud.showMessage(
       this.snapshot.engineRunning
         ? '发动机已启动'
+        : this.snapshot.fuel.emptyFuel ? '燃油耗尽 · 发动机已熄火'
         : this.snapshot.transmission.type === 'MANUAL'
           ? '发动机已熄火 · 挂空挡或踩下离合后按 I / Start'
           : '发动机已关闭 · 选择 P / N 后按 I / Start 启动',
@@ -1048,6 +1124,7 @@ export class DrivingGame {
 
   private bindEvents(): void {
     window.addEventListener('resize', this.onResize);
+    window.addEventListener('pagehide', this.storeCurrentFuel);
     window.addEventListener('keydown', this.onGlobalKeyDown);
     this.renderer.domElement.addEventListener('pointerdown', this.onPointerDown);
     window.addEventListener('pointermove', this.onPointerMove);
@@ -1057,6 +1134,7 @@ export class DrivingGame {
 
   private unbindEvents(): void {
     window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('pagehide', this.storeCurrentFuel);
     window.removeEventListener('keydown', this.onGlobalKeyDown);
     this.renderer.domElement.removeEventListener('pointerdown', this.onPointerDown);
     window.removeEventListener('pointermove', this.onPointerMove);
@@ -1073,6 +1151,9 @@ export class DrivingGame {
   };
 
   private readonly onGlobalKeyDown = (event: KeyboardEvent): void => {
+    if (event.code === 'KeyU' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && this.gameStarted && !this.settingsOpen && this.executiveDisplay) {
+      event.preventDefault(); this.executiveDisplay.cyclePage();
+    }
     if (event.code === 'KeyC') this.driverCamera.resetHeadLook();
     if (event.code === 'F7' && !event.repeat) {
       event.preventDefault();
@@ -1129,6 +1210,7 @@ export class DrivingGame {
 
   private readonly onVisibilityChange = (): void => {
     if (document.hidden) {
+      this.lapTimer.suspend(this.snapshot);
       this.accumulator = 0;
       this.cruiseControl.reset();
       this.haptics.setEnabled(false);

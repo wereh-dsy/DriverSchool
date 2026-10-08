@@ -1,5 +1,5 @@
 import { ROAD_LANES, newCityMap, type CityIntersection, type CityMapData, type CityObject, type CityPoint, type CityRoad, type RoadEndpoint } from './CityMapData';
-import { connectionPoint, portsFor, roadPoints, syncConnections } from './geometry';
+import { connectionPoint, portsFor, refreshPortPoses, roadPoints, syncConnections } from './geometry';
 import { loadCityMap } from './CityMapLoader';
 import { validateMap } from './CityMapValidation';
 import { applyRoadStyle } from './RoadStyles';
@@ -11,6 +11,7 @@ export { point3 } from './coordinates';
 export const newMapId = (prefix: string): string => prefix + '-' + crypto.randomUUID();
 
 function assertValid(map: CityMapData): void {
+  refreshPortPoses(map);
   const report = validateMap(map);
   if (!report.valid) throw new Error(report.errors.map(e => e.code + ' ' + e.path + ': ' + e.message).join('\n'));
 }

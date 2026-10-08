@@ -6,6 +6,7 @@ import { Subject3Ground } from './subject3';
 import { CityGround } from './city/CityGround';
 import { CITY_EDITOR_STORAGE_KEY } from './city/CityMapLoader';
 import cityAlpha from './city/maps/city-alpha.json';
+import presetShowcase from './city/maps/preset-showcase.json';
 
 export const DRIVING_GROUND_IDS = [
   'road-course',
@@ -13,6 +14,7 @@ export const DRIVING_GROUND_IDS = [
   'subject-3-shared-city-map',
   'simple-circuit',
   'city-alpha',
+  'preset-showcase',
   'city-editor-map',
 ] as const;
 export type DrivingGroundId = (typeof DRIVING_GROUND_IDS)[number];
@@ -26,6 +28,9 @@ export interface RegisteredDrivingGroundDescriptor extends DrivingGroundDescript
 
 const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDescriptor>> =
   Object.freeze({
+    'preset-showcase': Object.freeze({ id:'preset-showcase',version:presetShowcase.version,label:'Preset Showcase',
+      description:'开发检查：独立道路、匝道、路口和立交；高架端口配有地面接入坡道。',
+      create:():DrivingGround=>new CityGround(presetShowcase,{spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('preset')??undefined}) }),
     'city-alpha': Object.freeze({ id: 'city-alpha', version: cityAlpha.version, label: 'City Alpha',
       description: '全新数据城市：主干道、住宅街区、老城弯路、商业区和外围预留。', create: (): DrivingGround => new CityGround(cityAlpha) }),
     'city-editor-map': Object.freeze({ id: 'city-editor-map', version: 1, label: 'City Editor 保存地图',
@@ -57,7 +62,7 @@ const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDesc
     }),
     'simple-circuit': Object.freeze({
       id: 'simple-circuit',
-      version: 1,
+      version: 2,
       label: '基础闭环试车赛道',
       description: '宽阔主直道、少量流畅弯和一个明显制动弯，适合连续跑圈试车。',
       create: (): DrivingGround => new CircuitGround({ shadows: true }),

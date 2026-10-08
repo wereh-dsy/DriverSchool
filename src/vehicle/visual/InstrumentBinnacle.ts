@@ -28,7 +28,7 @@ export const instrumentBinnacleShape = (config: VehicleVisualConfig): BinnacleSh
 export function fitInstrumentBinnacle(cluster: InstrumentCluster, config: VehicleVisualConfig): void {
   const shape = instrumentBinnacleShape(config);
   const { halfWidth: w, halfHeight: h, crown, border, lipZ, rearDepth } = shape;
-  const opening = [
+  const opening = config.body.design === 'executive' ? EXECUTIVE_INSTRUMENT_OUTLINE : [
     [-w, -h + .015], [-w, h - .023], [-w + .016, h],
     [-w * .70, h + crown * .45], [-w * .25, h + crown],
     [w * .25, h + crown], [w * .70, h + crown * .45],
@@ -90,3 +90,11 @@ export function fitInstrumentBinnacle(cluster: InstrumentCluster, config: Vehicl
   visor.userData.apertureBorder = border;
   cluster.add(visor);
 }
+
+/** Lobed aperture hugs the two dials; centre is recessed between their shoulders. */
+export const EXECUTIVE_INSTRUMENT_OUTLINE: readonly (readonly [number, number])[] = [
+  [-.253,-.047],[-.255,.020],[-.241,.069],[-.213,.098],[-.159,.113],[-.104,.108],
+  [-.054,.100],[.054,.100],[.104,.108],[.159,.113],[.213,.098],[.241,.069],
+  [.255,.020],[.253,-.047],[.224,-.080],[.169,-.106],[.103,-.094],[.054,-.081],
+  [-.054,-.081],[-.103,-.094],[-.169,-.106],[-.224,-.080],
+];

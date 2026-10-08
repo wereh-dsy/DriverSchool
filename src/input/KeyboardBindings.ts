@@ -119,7 +119,7 @@ export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.free
 /** Keys owned by the game shell rather than the keyboard driving adapter. */
 export const RESERVED_GAME_KEYS = new Set([
   'Escape', 'Enter', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F12',
-  'Backspace', 'KeyC',
+  'Backspace', 'KeyC', 'KeyU',
 ]);
 
 export function createKeyboardBindings(

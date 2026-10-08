@@ -2,6 +2,43 @@ import * as THREE from 'three';
 
 export const CIRCUIT_ROAD_SURFACE_OFFSET = 0.024;
 
+/** Partial route strip with variable edges, shared by kerbs and tapered runoff. */
+export function createCircuitBandGeometry(
+  curve: THREE.Curve<THREE.Vector3>, startDistance: number, endDistance: number, y: number,
+  edges: (distance: number) => readonly [number, number], kerbColours = false,
+): THREE.BufferGeometry {
+  const length = curve.getLength();
+  const count = Math.max(1, Math.ceil((endDistance - startDistance) / 1.5));
+  const positions: number[] = [];
+  const colours: number[] = [];
+  const indices: number[] = [];
+  const red = new THREE.Color(0xa64136);
+  const white = new THREE.Color(0xe8e5d9);
+  for (let index = 0; index < count; index += 1) {
+    const colour = index % 2 === 0 ? red : white;
+    for (let ring = 0; ring < 2; ring += 1) {
+      const distance = THREE.MathUtils.lerp(startDistance, endDistance, (index + ring) / count);
+      const t = THREE.MathUtils.euclideanModulo(distance, length) / length;
+      const point = curve.getPointAt(t);
+      const tangent = curve.getTangentAt(t).normalize();
+      const offsets = edges(distance);
+      for (const offset of offsets) {
+        positions.push(point.x - tangent.z * offset, y, point.z + tangent.x * offset);
+        if (kerbColours) colours.push(colour.r, colour.g, colour.b);
+      }
+    }
+    const base = index * 4;
+    indices.push(base, base + 1, base + 2, base + 1, base + 3, base + 2);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  if (kerbColours) geometry.setAttribute('color', new THREE.Float32BufferAttribute(colours, 3));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  geometry.computeBoundingSphere();
+  return geometry;
+}
+
 export const measureCircuitRibbonJoinGap = (
   geometry: THREE.BufferGeometry,
 ): number => {

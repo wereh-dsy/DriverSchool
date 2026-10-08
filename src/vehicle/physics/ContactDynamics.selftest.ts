@@ -111,7 +111,7 @@ export function runContactDynamicsSelfTest(): Record<string, number | boolean> {
       { x: 0, y: Math.cos(slope), z: Math.sin(slope) }),
   });
   const normalGradeForce = uphillSnapshot.forces.gradeForce;
-  assert(Math.abs(normalGradeForce + uphill.config.mass * uphill.config.gravity * Math.sin(slope)) < 1e-8,
+  assert(Math.abs(normalGradeForce + uphillSnapshot.effectiveVehicleMass * uphill.config.gravity * Math.sin(slope)) < 1e-8,
     'the sampled ground normal must determine heading-dependent grade rather than a stale grade scalar');
 
   const corrected = new VehicleDynamics(undefined, { speed: 16, gear: 'N', yaw: 0.35 });

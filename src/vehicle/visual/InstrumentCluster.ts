@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { EXECUTIVE_INSTRUMENT_OUTLINE } from './InstrumentBinnacle';
+import type { ExecutiveDisplayData } from './ExecutiveDisplayContext';
 
 export type InstrumentGear = number | 'R' | 'N' | string;
 
@@ -30,6 +32,8 @@ export interface InstrumentIndicatorState {
  * current longitudinal vehicle model.
  */
 export interface InstrumentTelemetry {
+  readonly ignitionOn?: boolean;
+  readonly executive?: ExecutiveDisplayData;
   readonly speedKmh: number;
   readonly rpm: number;
   readonly gear: InstrumentGear;
@@ -1095,6 +1099,13 @@ export class InstrumentCluster extends THREE.Group {
   private executiveTachArtwork: HTMLCanvasElement | null = null;
   private executiveSpeedArtwork: HTMLCanvasElement | null = null;
   private executiveKey = '';
+  private executiveBacklight = 0;
+  private executiveWakeTime = 0;
+  private executiveWasOn = false;
+  private executiveOffTime = 1;
+  private executiveOffBrightness = 0;
+  private executivePageKey = '';
+  private executivePageTime = 0;
   private lastInformationKey = '';
   private lastIndicatorKey = '';
 
@@ -1520,10 +1531,32 @@ export class InstrumentCluster extends THREE.Group {
       indicators.absWarning, indicators.tcsActive, indicators.tcsOff, indicators.escOff,
     ].map((value) => (value === true ? '1' : '0')).join('');
     if (this.config.displayStyle === 'executive-virtual') {
-      const key = [displaySpeed, Math.round(rpm / 25), telemetry.gear, telemetry.driveMode,
-        Math.round(fuelLevel * 100), Math.round(temperatureC), telemetry.cruiseTargetSpeedKmh, indicatorKey].join('|');
+      const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
+      if (on && !this.executiveWasOn) this.executiveWakeTime = 0;
+      if (!on && this.executiveWasOn) { this.executiveOffTime = 0; this.executiveOffBrightness = this.executiveBacklight; }
+      this.executiveWasOn = on;
+      if (on) {
+        this.executiveWakeTime += dt;
+        this.executiveBacklight = THREE.MathUtils.damp(this.executiveBacklight, 1, 10, dt);
+      } else {
+        this.executiveOffTime += dt;
+        // Visual shutdown overlaps the unchanged crank coast-down. The real RPM
+        // still drives both needles; no fabricated sweep or engine timing changes.
+        this.executiveBacklight = this.executiveOffBrightness * (1 - THREE.MathUtils.smoothstep(this.executiveOffTime, .08, .90));
+      }
+      const page = telemetry.executive?.page ?? 'DRIVING';
+      const overlay = page === 'PARKING' || page === 'TRIP' ? null : telemetry.executive?.overlay;
+      const pageKey = `${page}|${overlay?.title ?? ''}|${overlay?.value ?? ''}`;
+      if (pageKey !== this.executivePageKey) { this.executivePageKey = pageKey; this.executivePageTime = 0; }
+      this.executivePageTime += dt;
+      const smoothRPM = clamp01((-this.currentTachometerRotation - ARC_START) / (ARC_END - ARC_START)) * this.config.maximumRPM;
+      const smoothSpeed = clamp01((-this.currentSpeedometerRotation - ARC_START) / (ARC_END - ARC_START)) * this.config.maximumSpeedKmh;
+      const key = [displaySpeed, Math.round(smoothRPM / 5), Math.round(smoothSpeed), telemetry.gear, telemetry.driveMode,
+        Math.round(fuelLevel * 100), Math.round(temperatureC), telemetry.cruiseTargetSpeedKmh, indicatorKey,
+        telemetry.executive?.version, Math.round(this.executiveBacklight * 100),
+        Math.min(66, Math.floor(this.executiveWakeTime * 60)), Math.min(12, Math.floor(this.executivePageTime * 60))].join('|');
       if (key !== this.executiveKey) {
-        this.redrawExecutiveFace(telemetry, indicators, speedKmh, rpm, fuelLevel, temperatureC);
+        this.redrawExecutiveFace(telemetry, indicators, smoothSpeed, smoothRPM, fuelLevel, temperatureC);
         this.executiveKey = key;
       }
       return;
@@ -1599,7 +1632,10 @@ export class InstrumentCluster extends THREE.Group {
       majorDivisions: 7, labelDivisor: 1000, redlineFraction: this.config.redlineRPM / this.config.maximumRPM });
     this.executiveSpeedArtwork = drawStyledDialArtwork({ ...common, maximum: this.config.maximumSpeedKmh,
       majorDivisions: 7, minorTicksPerMajor: 4 });
-    const display = new THREE.Mesh(new THREE.PlaneGeometry(.49, .2042),
+    const geometry = new THREE.ShapeGeometry(new THREE.Shape(EXECUTIVE_INSTRUMENT_OUTLINE.map(([x, y]) => new THREE.Vector2(x * .982, y * .982))));
+    const position = geometry.getAttribute('position'), uv = geometry.getAttribute('uv');
+    for (let i = 0; i < position.count; i++) uv.setXY(i, .5 + position.getX(i) / .524, .5 + position.getY(i) / .224);
+    const display = new THREE.Mesh(geometry,
       new THREE.MeshBasicMaterial({ map: this.executiveTexture, toneMapped: false }));
     display.name = 'Executive Virtual Cockpit twin dials and central road display';
     display.position.z = .070;
@@ -1613,62 +1649,190 @@ export class InstrumentCluster extends THREE.Group {
     if (context == null || this.executiveTachArtwork === null || this.executiveSpeedArtwork === null) return;
     const mode = telemetry.driveMode ?? 'NORMAL';
     const accent = mode === 'ECO' ? '#81bd9d' : mode === 'SPORT' ? '#e46666' : '#e0e4e9';
-    context.fillStyle = '#070a0e'; context.fillRect(0, 0, 1440, 600);
-    context.drawImage(this.executiveTachArtwork, 145, 95, 400, 400);
-    context.drawImage(this.executiveSpeedArtwork, 895, 95, 400, 400);
-    // Existing lamp artwork and states, in a fixed top warning band.
-    drawStatusLampRows(context, indicators, [
-      { x: 230, y: 12, width: 980, height: 32, labels: ['◀', 'POS', 'LO', 'HI', 'FRFOG', 'RRFOG', '▶'] },
-      { x: 400, y: 49, width: 640, height: 30, labels: ['P', 'ENG', 'BAT', 'ABS', 'SKID', 'TCS OFF', 'CRUISE'] },
-    ]);
+    context.clearRect(0, 0, 1440, 600);
+    context.fillStyle = '#030507'; context.fillRect(0, 0, 1440, 600);
+    context.save(); context.globalAlpha = this.executiveBacklight;
+    const backlight = context.createLinearGradient(0, 35, 0, 540);
+    backlight.addColorStop(0, '#101720'); backlight.addColorStop(.5, '#080d13'); backlight.addColorStop(1, '#05080c');
+    context.fillStyle = backlight; context.fillRect(0, 0, 1440, 600);
     const text = (value: string, x: number, y: number, size: number, color = '#e3e7ec'): void => {
-      context.fillStyle = color; context.font = `500 ${size}px "Segoe UI", sans-serif`;
+      context.fillStyle = color;
+      context.font = `${size >= 50 ? 600 : 500} ${size}px "Segoe UI", sans-serif`;
       context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText(value, x, y);
     };
-    // Short digital needles avoid the centres containing primary readouts.
+    context.save();
+    context.globalAlpha *= THREE.MathUtils.smoothstep(this.executiveWakeTime, .12, .42);
+    context.drawImage(this.executiveTachArtwork, 145, 95, 400, 400);
+    context.drawImage(this.executiveSpeedArtwork, 895, 95, 400, 400);
+    for (const x of [345, 1095]) {
+      const halo = context.createRadialGradient(x, 295, 188, x, 295, 212);
+      halo.addColorStop(0, 'rgba(150,175,200,0)'); halo.addColorStop(.38, 'rgba(150,175,200,.075)'); halo.addColorStop(1, 'rgba(150,175,200,0)');
+      context.fillStyle = halo; context.beginPath(); context.arc(x, 295, 212, 0, Math.PI * 2); context.fill();
+    }
+    // Existing damped RPM/speed values remain live throughout the brief welcome.
     const needle = (x: number, fraction: number): void => {
       const angle = THREE.MathUtils.lerp(ARC_START, ARC_END, clamp01(fraction));
-      context.strokeStyle = '#ec6a64'; context.lineWidth = 5;
+      context.save(); context.strokeStyle = '#e96c65'; context.lineWidth = 4.5;
+      context.shadowColor = '#b45c57'; context.shadowBlur = 3;
       context.beginPath(); context.moveTo(x + Math.sin(angle) * 115, 295 - Math.cos(angle) * 115);
-      context.lineTo(x + Math.sin(angle) * 162, 295 - Math.cos(angle) * 162); context.stroke();
+      context.lineTo(x + Math.sin(angle) * 162, 295 - Math.cos(angle) * 162); context.stroke(); context.restore();
     };
     needle(345, rpm / this.config.maximumRPM); needle(1095, speed / this.config.maximumSpeedKmh);
     text(formatInstrumentGear(telemetry.gear), 345, 270, 62);
-    text(mode, 345, 336, 28, accent);
-    context.fillStyle = accent; context.fillRect(305, 358, 80, 3);
-    text('1/min x 1000', 345, 425, 19, '#8e98a5');
+    text(mode, 345, 336, 27, accent);
+    context.fillStyle = accent; context.fillRect(313, 358, 64, 2);
+    text('×1000 rpm', 345, 423, 19, '#8e98a5');
     text(String(Math.round(speed)), 1095, 270, 74);
-    text('km/h', 1095, 337, 24, '#9ca5b0');
-    // Wide central area is independent of dial artwork and can host future navigation.
-    context.fillStyle = '#10161e'; drawBeveledPanel(context, 565, 110, 310, 366, 8); context.fill();
-    text(indicators.cruise ? 'CRUISE ACTIVE' : 'DRIVING INFORMATION', 720, 144, 20);
-    text(indicators.cruise && telemetry.cruiseTargetSpeedKmh !== undefined
-      ? `SET ${Math.round(telemetry.cruiseTargetSpeedKmh)} km/h` : 'CRUISE STANDBY', 720, 178, 21, '#9faab6');
-    // Static road illustration only: no implied lane sensing or new driver assistance.
-    context.strokeStyle = '#75808d'; context.lineWidth = 3;
-    for (const sign of [-1, 1]) {
-      context.beginPath(); context.moveTo(720 + sign * 95, 446); context.lineTo(720 + sign * 28, 230); context.stroke();
-    }
-    context.setLineDash([16, 18]); context.strokeStyle = '#3c4654';
-    for (const sign of [-1, 1]) {
-      context.beginPath(); context.moveTo(720 + sign * 48, 440); context.lineTo(720 + sign * 14, 232); context.stroke();
-    }
-    context.setLineDash([]);
-    context.fillStyle = '#bdc5cf'; drawBeveledPanel(context, 699, 343, 42, 77, 10); context.fill();
-    context.fillStyle = '#26323f'; drawBeveledPanel(context, 705, 358, 30, 22, 4); context.fill();
-    const bar = (x: number, fraction: number, label: string, bottom: string, top: string): void => {
-      context.fillStyle = '#26313d'; context.fillRect(x - 5, 157, 10, 254);
-      context.fillStyle = '#c3cbd4'; context.fillRect(x - 5, 411 - 254 * fraction, 10, 254 * fraction);
-      text(top, x, 134, 18, '#9ba5af'); text(bottom, x, 438, 18, '#9ba5af'); text(label, x, 478, 18);
+    text('km/h', 1095, 337, 23, '#9ca5b0');
+    const arcGauge = (x: number, left: boolean, fraction: number, label: string, low: string, high: string): void => {
+      const start = (left ? 145 : -35) * Math.PI / 180, end = (left ? 215 : 35) * Math.PI / 180;
+      const radius = 229;
+      context.lineWidth = 3; context.strokeStyle = '#303a45'; context.beginPath(); context.arc(x, 295, radius, start, end); context.stroke();
+      context.save(); context.strokeStyle = left && fuel < .1 ? '#d6aa66' : '#a4b0bb';
+      context.shadowColor = context.strokeStyle; context.shadowBlur = 3;
+      context.beginPath(); context.arc(x, 295, radius, start, start + (end - start) * clamp01(fraction)); context.stroke(); context.restore();
+      context.strokeStyle = '#798593'; context.lineWidth = 1.5;
+      for (let i = 0; i <= 8; i++) {
+        const angle = start + (end - start) * i / 8;
+        context.beginPath(); context.moveTo(x + Math.cos(angle) * (radius + 8), 295 + Math.sin(angle) * (radius + 8));
+        context.lineTo(x + Math.cos(angle) * (radius + (i % 4 === 0 ? 20 : 14)), 295 + Math.sin(angle) * (radius + (i % 4 === 0 ? 20 : 14))); context.stroke();
+      }
+      for (const [value, angle] of [[low, start], [high, end]] as const) text(value,
+        x + Math.cos(angle) * (radius + 42), 295 + Math.sin(angle) * (radius + 42), 17, '#a0a9b2');
+      text(label, x + (left ? -170 : 170), 112, 17, '#87929e');
     };
-    bar(100, clamp01((temperature - 50) / 80), 'TEMP', '50', '130');
-    bar(1340, fuel, 'FUEL', 'E', 'F');
-    context.strokeStyle = '#323b46'; context.lineWidth = 1;
-    context.beginPath(); context.moveTo(72, 520); context.lineTo(1368, 520); context.stroke();
-    text('AWD', 180, 555, 21, '#a3acb6');
-    text(telemetry.engineRunning === false ? 'IGNITION ON / ENGINE OFF' : 'EXECUTIVE  |  2.0 TURBO', 720, 555, 22, '#a3acb6');
-    text(`${Math.round(temperature)} C`, 1260, 555, 21, '#a3acb6');
+    arcGauge(345, true, fuel, 'Fuel', 'E', 'F');
+    arcGauge(1095, false, clamp01((temperature - 50) / 80), 'Temp', '50', '130');
+    this.drawExecutiveLamps(context, indicators, telemetry.executive?.trip.fuel.lowFuel ?? fuel < .1);
+    context.strokeStyle = '#26313d'; context.lineWidth = 1;
+    context.beginPath(); context.moveTo(180, 503); context.lineTo(540, 503); context.moveTo(900, 503); context.lineTo(1260, 503); context.stroke();
+    text('AWD', 345, 523, 19, '#8f9aa7');
+    text(`${Math.round(temperature)} °C`, 1095, 523, 19, '#8f9aa7');
+    context.restore();
+    this.drawExecutiveCentre(context, telemetry, indicators, accent, text);
+    // A narrow, low-contrast wake reflection; no bloom or saturated light band.
+    const sweep = (this.executiveWakeTime - .15) / .55;
+    if (sweep > 0 && sweep < 1) {
+      const x = sweep * 1640 - 100;
+      const sheen = context.createLinearGradient(x - 100, 0, x + 100, 0);
+      sheen.addColorStop(0, 'rgba(190,210,225,0)'); sheen.addColorStop(.5, 'rgba(190,210,225,.035)'); sheen.addColorStop(1, 'rgba(190,210,225,0)');
+      context.fillStyle = sheen; context.fillRect(x - 100, 35, 200, 510);
+    }
+    context.restore();
     this.executiveTexture!.needsUpdate = true;
+  }
+
+  /** Fixed, background-free positions; common icon artwork and real conditions. */
+  private drawExecutiveLamps(context: CanvasRenderingContext2D, indicators: InstrumentIndicatorState, lowFuel: boolean): void {
+    const inventory = instrumentStatusLamps(indicators);
+    const slots: readonly (readonly [string, number, number, number])[] = [
+      ['◀', 345, 73, 32], ['▶', 1095, 73, 32],
+      ['POS', 600, 73, 26], ['LO', 660, 73, 26], ['HI', 720, 73, 26],
+      ['FRFOG', 780, 73, 26], ['RRFOG', 840, 73, 26],
+      ['P', 287, 465, 26], ['ENG', 345, 465, 26], ['BAT', 403, 465, 26],
+      ['ABS', 1037, 465, 26], ['SKID', 1095, 465, 26], ['TCS OFF', 1153, 465, 26],
+      ['CRUISE', 720, 490, 24],
+    ];
+    context.save(); context.globalAlpha *= .9;
+    for (const [label, x, y, size] of slots) {
+      const lamp = inventory.find(item => item[0] === label);
+      if (lamp?.[1] === true) drawStatusLamp(context, label === 'TCS OFF' ? assistOffLabel(indicators) : label, lamp[2], x, y, size);
+    }
+    // The existing low-fuel condition already colours the auxiliary arc.
+    // Its small pump marker has a permanent slot beside that same gauge.
+    if (lowFuel) {
+      context.save(); context.translate(182, 457); context.strokeStyle = '#d6aa66'; context.lineWidth = 1.8;
+      context.lineCap = 'round'; context.lineJoin = 'round'; context.shadowColor = '#d6aa66'; context.shadowBlur = 3;
+      context.strokeRect(-8, -10, 13, 20); context.strokeRect(-5, -7, 7, 6);
+      context.beginPath(); context.moveTo(-11, 11); context.lineTo(8, 11); context.moveTo(5, -3);
+      context.lineTo(10, -3); context.lineTo(10, 7); context.quadraticCurveTo(15, 12, 15, 5);
+      context.lineTo(15, -6); context.lineTo(10, -11); context.stroke(); context.restore();
+    }
+    context.restore();
+  }
+
+  private drawExecutiveCentre(context: CanvasRenderingContext2D, telemetry: InstrumentTelemetry,
+    indicators: InstrumentIndicatorState, accent: string,
+    text: (value: string, x: number, y: number, size: number, color?: string) => void): void {
+    const data = telemetry.executive;
+    const panel = context.createLinearGradient(0, 115, 0, 468);
+    panel.addColorStop(0, '#121c27'); panel.addColorStop(1, '#0a1017');
+    context.fillStyle = panel; drawBeveledPanel(context, 565, 115, 310, 353, 14); context.fill();
+    context.strokeStyle = '#263443'; context.lineWidth = 1; context.stroke();
+    context.save(); context.beginPath(); context.rect(576, 124, 288, 337); context.clip();
+    const wake = this.executiveWakeTime;
+    const welcomeAlpha = THREE.MathUtils.smoothstep(wake, .08, .22) * (1 - THREE.MathUtils.smoothstep(wake, .52, .72));
+    if (welcomeAlpha > 0) {
+      context.save(); context.globalAlpha *= welcomeAlpha;
+      const silver = context.createLinearGradient(0, 230, 0, 285);
+      silver.addColorStop(0, '#e2e8ef'); silver.addColorStop(1, '#8995a3');
+      context.strokeStyle = silver; context.lineWidth = 3;
+      context.shadowColor = '#8d9ba8'; context.shadowBlur = 3;
+      for (const x of [666, 702, 738, 774]) {
+        context.beginPath(); context.ellipse(x, 258, 26, 26, 0, 0, Math.PI * 2); context.stroke();
+      }
+      context.shadowBlur = 0; text('Audi', 720, 313, 29, '#bcc6d1'); text('Welcome', 720, 351, 21, '#8795a5');
+      context.restore();
+    }
+    context.globalAlpha *= THREE.MathUtils.smoothstep(wake, .66, 1.06) * THREE.MathUtils.smoothstep(this.executivePageTime, 0, .18);
+    if (data?.page === 'TRIP') {
+      text('Trip', 720, 149, 24, '#adb9c6');
+      const trip = data.trip, fuel = trip.fuel;
+      const rows = [
+        ['Avg speed', trip.averageSpeed === null ? '--' : `${trip.averageSpeed.toFixed(0)} km/h`],
+        ['Drive time', `${Math.floor(trip.seconds / 60)}:${String(Math.floor(trip.seconds % 60)).padStart(2, '0')}`],
+        ['Avg fuel', fuel.averageConsumptionLPer100km === null ? '--' : `${fuel.averageConsumptionLPer100km.toFixed(1)} L/100km`],
+        ['Range', `${fuel.estimatedRangeKm.toFixed(0)} km`],
+      ];
+      rows.forEach(([label, value], i) => {
+        text(label!, 720, 187 + i * 66, 21, '#8998a8'); text(value!, 720, 214 + i * 66, 31);
+      });
+    } else if (data?.page === 'PARKING') {
+      text('Parking', 720, 149, 24, '#adb9c6'); text('Rear · 360°', 720, 195, 25);
+      this.drawExecutiveCar(context, 720, 290);
+      text(data.proximity === null ? 'Check area' : `Near ${data.proximity.toFixed(1)} m`, 720, 389, 23, '#cfb68a');
+    } else if (data?.overlay) {
+      context.globalAlpha *= data.overlay.alpha;
+      const modeOverlay = data.overlay.title === 'DRIVE SELECT';
+      text(modeOverlay ? 'Drive mode' : 'Cruise', 720, 216, 23, '#9eacbb');
+      text(modeOverlay ? data.overlay.value : data.overlay.value.replace(/^SET\s*/, ''), 720, 284, modeOverlay ? 39 : 34, accent);
+      context.fillStyle = accent; context.fillRect(690, 325, 60, 2);
+    } else if (data?.page === 'MAP') {
+      text('Map', 720, 149, 22, '#9eacbb');
+      if (!data.roads.length) text('No road data', 720, 246, 21, '#6e7e90');
+      context.strokeStyle = '#8393a4'; context.lineWidth = 3; context.lineJoin = 'round'; context.lineCap = 'round';
+      for (const line of data.roads) {
+        context.beginPath(); line.forEach((p, i) => { const x = 720 + p.x * 1.9, y = 330 - p.forward * 1.9;
+          if (i === 0) context.moveTo(x, y); else context.lineTo(x, y); }); context.stroke();
+      }
+      this.drawExecutiveCar(context, 720, 330);
+    } else {
+      if (indicators.cruise) text(`Cruise ${Math.round(telemetry.cruiseTargetSpeedKmh ?? 0)}`, 720, 155, 25, '#becbd8');
+      const project = (p: { x: number; forward: number }) => ({ x: 720 + p.x * 25 / (1 + p.forward / 13), y: 431 - p.forward * 9 / (1 + p.forward / 20) });
+      const laneInk = context.createLinearGradient(0, 230, 0, 435);
+      laneInk.addColorStop(0, '#536170'); laneInk.addColorStop(1, '#acb9c7');
+      context.strokeStyle = laneInk; context.lineWidth = 2.5; context.lineJoin = 'round'; context.lineCap = 'round';
+      for (const line of data?.lanes ?? []) {
+        context.beginPath(); line.forEach((p, i) => { const q = project(p); if (i === 0) context.moveTo(q.x, q.y); else context.lineTo(q.x, q.y); }); context.stroke();
+      }
+      if (!data?.lanes.some(line => line.length > 1)) text('No lanes', 720, indicators.cruise ? 194 : 167, 20, '#66788b');
+      for (const obstacle of data?.obstacles ?? []) {
+        const p = project(obstacle), near = obstacle.distance < 3;
+        context.fillStyle = near ? '#bfa274' : '#83909e';
+        const width = Math.max(9, obstacle.width * 18 / (1 + obstacle.forward / 13));
+        drawBeveledPanel(context, p.x - width / 2, p.y - 10, width, 14, 3); context.fill();
+        if (near) { context.strokeStyle = '#cfb68a'; context.lineWidth = 1.5; context.beginPath(); context.moveTo(p.x - 9, p.y + 9); context.lineTo(p.x + 9, p.y + 9); context.stroke(); }
+      }
+      this.drawExecutiveCar(context, 720, 402);
+    }
+    context.restore();
+  }
+
+  private drawExecutiveCar(context: CanvasRenderingContext2D, x: number, y: number): void {
+    context.save(); context.shadowColor = '#738395'; context.shadowBlur = 3;
+    context.fillStyle = '#b4c0cd'; drawBeveledPanel(context, x - 16, y - 28, 32, 56, 8); context.fill();
+    context.shadowBlur = 0;
+    context.fillStyle = '#26323e'; drawBeveledPanel(context, x - 11, y - 16, 22, 16, 3); context.fill(); context.restore();
   }
 
   /** Releases the canvases, materials and small geometries owned by this cluster. */

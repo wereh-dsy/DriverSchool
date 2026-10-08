@@ -1,3 +1,4 @@
+import { EXECUTIVE_AUDIO_PROFILE, type VehicleAudioProfile } from '../audio/VehicleAudioProfile';
 import {
   cloneVehiclePhysicsConfig,
   DEFAULT_VEHICLE_PHYSICS_CONFIG,
@@ -38,6 +39,7 @@ export interface VehicleDescriptor {
   readonly capabilities: VehicleCapabilities;
   readonly physicsConfig: VehiclePhysicsConfig;
   readonly visualConfig: VehicleVisualConfig;
+  readonly audioProfile?: VehicleAudioProfile;
 }
 
 export const DEFAULT_VEHICLE_ID: VehicleId = 'family-sedan';
@@ -81,10 +83,10 @@ const TEST_7DCT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
 });
 
 const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = Object.freeze({
-  'executive-lwb-2t': Object.freeze({ id: 'executive-lwb-2t', version: 1, name: 'A6L-inspired 行政轿车',
+  'executive-lwb-2t': Object.freeze({ id: 'executive-lwb-2t', version: 2, name: 'A6L-inspired 行政轿车',
     description: '2.0T · 7DCT · AWD · 长轴豪华行政轿车，Virtual Cockpit，ECO / NORMAL / SPORT（T / 手柄 B）。',
     capabilities: Object.freeze({ cruiseControl: true }),
-    physicsConfig: createExecutiveSedanPhysicsConfig(), visualConfig: EXECUTIVE_SEDAN_VISUAL_CONFIG }),
+    audioProfile: EXECUTIVE_AUDIO_PROFILE, physicsConfig: createExecutiveSedanPhysicsConfig(), visualConfig: EXECUTIVE_SEDAN_VISUAL_CONFIG }),
   'test-awd-full-time': Object.freeze({ id: 'test-awd-full-time', version: 1, name: '全时 AWD 测试轿车',
     description: '复用 6AT 轿车 · 前 40% / 后 60% 固定四驱，前后轴开放式差速器。',
     capabilities: Object.freeze({ cruiseControl: true }),

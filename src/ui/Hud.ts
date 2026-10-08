@@ -1,5 +1,7 @@
 import type { Texture } from 'three';
 import { Minimap } from './Minimap';
+import { LapHud } from './LapHud';
+import type { LapTimerState } from '../game/lap/LapTimer';
 import type { RoadNetworkData } from '../world/navigation/RoadNetwork';
 import type { GamepadThrottleDiagnostics } from '../input/GamepadInput';
 import type { VehicleFeedbackState } from '../vehicle/feedback/VehicleFeedbackSystem';
@@ -102,6 +104,7 @@ export class Hud {
   private mapOptions: readonly DrivingMapOption[] = [];
   private vehicleOptions: readonly DrivingVehicleOption[] = [];
   private toastTimer = 0;
+  private readonly lapHud: LapHud;
   private debugVisible = false;
   private started = false;
 
@@ -173,6 +176,7 @@ export class Hud {
           <span><kbd data-key-action="handbrake">空格</kbd> 手刹开关</span><span><kbd data-key-action="cycleLights">L</kbd> 灯光</span>
           <span><kbd data-key-action="cycleWipers">B</kbd> 雨刷</span>
           <span><kbd data-key-action="cycleDriveMode">T</kbd> 驾驶模式</span>
+          <span><kbd>U</kbd> 行政轿车仪表 Driving / Map</span>
           <span><kbd>F2</kbd> 数据</span><span><kbd>F3</kbd> 设置</span><span><kbd>F4</kbd> 场地</span><span><kbd>F5</kbd> 车辆</span>
           <span><kbd data-key-action="toggleClutchMode">M</kbd> 离合模式</span><span><kbd>鼠标</kbd> 观察</span>
         </div>
@@ -250,6 +254,7 @@ export class Hud {
 
     this.settings = new ControlSettingsPanel(host);
     this.minimap = new Minimap(this.require('.game-ui'));
+    this.lapHud = new LapHud(this.require('.game-ui'));
     this.minimap.setPosition(this.settings.minimapPosition);
     this.settings.onMinimapPositionChange = position => this.minimap.setPosition(position);
     this.settings.onMapChange = (mapId) => this.onMapChange?.(mapId);
@@ -264,6 +269,8 @@ export class Hud {
   onVehicleChange?: (vehicleId: string) => void;
 
   setRoadNetwork(network: RoadNetworkData | undefined): void { this.minimap.setNetwork(network); }
+
+  updateLap(state: Readonly<LapTimerState> | null): void { this.lapHud.update(state); }
 
   updateMinimap(x: number, z: number, yaw: number, dt: number): void {
     this.minimap.update(x, z, yaw, dt);

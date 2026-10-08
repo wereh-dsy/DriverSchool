@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CityGround } from '../world/city/CityGround';
 import { CITY_EDITOR_STORAGE_KEY, loadCityMap } from '../world/city/CityMapLoader';
 import { INTERSECTION_LANES, PREFAB_IDS, ROAD_LANES, newCityMap, type CityIntersection, type CityMapData, type CityObject, type CityPoint, type CityRoad, type IntersectionPort, type IntersectionType, type PrefabId, type RoadType, type RoadEndpoint } from '../world/city/CityMapData';
-import { connectionPoint, junctionExtent, portsFor, rotatePoint, syncConnections, roadPoints } from '../world/city/geometry';
+import { connectionPoint, junctionExtent, portsFor, rotatePoint, syncConnections, roadEdges, roadPoints } from '../world/city/geometry';
 import { createRoad, moveRoadNode, createIntersection, placePrefab, placePreset, deleteObject, connectRoad, detachRoadEndpoint, roadEndpoint, saveMap, validateMap } from '../world/city/MapAPI';
 import { ROAD_STYLES, applyRoadStyle } from '../world/city/RoadStyles';
 import { PRESET_CATALOG, expandPreset, type PresetParameters, type PresetStamp } from '../world/city/presets/InfrastructurePresets';
@@ -64,10 +64,10 @@ export class CityMapEditor {
       <select data-junction-type>${Object.keys(INTERSECTION_LANES).map(t => `<option>${t}</option>`).join('')}</select>
       <label>Signalized<input type="checkbox" data-new-signal checked></label>
       <button data-tool="prefab">Prefab</button><select data-prefab>${PREFAB_IDS.map(t => `<option>${t}</option>`).join('')}</select>
-      <button data-tool="preset">Preset / Stamp</button><select data-preset>${['ROAD', 'INTERCHANGE', 'DISTRICT'].map(category => `<optgroup label="${category}">${PRESET_CATALOG.filter(p => p.category === category).map(p => `<option value="${p.id}">${p.id}</option>`).join('')}</optgroup>`).join('')}</select>
+      <button data-tool="preset">Preset / Stamp</button><select data-preset>${['ROAD', 'INTERSECTION', 'INTERCHANGE', 'DISTRICT'].map(category => `<optgroup label="${category}">${PRESET_CATALOG.filter(p => p.category === category).map(p => `<option value="${p.id}">${p.id}</option>`).join('')}</optgroup>`).join('')}</select>
       <div class="ce-preset-params"><label>Rotation °<input data-preset-rotation type="number" value="0" step="15"></label><label>Base Y<input data-preset-y type="number" value="0" step="0.5"></label>
       <label>Main lanes<select data-preset-main><option>6</option><option>4</option></select></label><label>Cross lanes<select data-preset-cross><option>4</option><option>6</option></select></label>
-      <label>Elevation m<input data-preset-height type="number" value="6" min="5" max="12" step="0.5"></label><label>Ramp lanes<select data-preset-lanes><option>1</option><option>2</option></select></label><label>Radius m<input data-preset-radius type="number" value="55" min="40" max="100"></label>
+      <label>Elevation m<input data-preset-height type="number" value="8" min="5" max="12" step="0.5"></label><label>Ramp lanes<select data-preset-lanes><option>1</option><option>2</option></select></label><label>Radius m<input data-preset-radius type="number" value="100" min="40" max="100"></label>
       <label>Anchor port<select data-preset-anchor><option value="">Centre</option></select></label><p data-preset-description class="ce-hint"></p></div>
       <hr><label>Grid<input type="checkbox" data-grid checked></label><label>Grid snap<input type="checkbox" data-snap checked></label>
       <label>Grid m<input type="number" data-grid-step value="5" min="1" max="100"></label><label>Endpoint snap<input type="checkbox" data-endpoint-snap checked></label>
@@ -146,8 +146,8 @@ export class CityMapEditor {
       this.require('[data-preset-description]').textContent = `${descriptor.description} R rotates 15°. Cyan = exposed ports; select an anchor to snap a port.`;
       const line = (points: CityPoint[], color: number) => this.ghost.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points.map(p => new THREE.Vector3(p.x, (p.y ?? 0) + 0.5, p.z))), new THREE.LineBasicMaterial({ color, depthTest: false, transparent: true, opacity: 0.75 })));
       for (const road of this.presetStamp.roads) {
-        const points = roadPoints(road), half = road.laneCount * road.laneWidth / 2;
-        for (const side of [-1, 1]) line(points.map((p, i) => { const next = points[Math.min(i + 1, points.length - 1)]!, previous = points[Math.max(0, i - 1)]!, dx = next.x - previous.x, dz = next.z - previous.z, l = Math.hypot(dx, dz) || 1; return { x: p.x - dz / l * half * side, y: p.y, z: p.z + dx / l * half * side }; }), 0x72efbc);
+        const points = roadPoints(road), edges = roadEdges(road);
+        for (const offset of [edges.left, edges.right]) line(points.map((p, i) => { const next = points[Math.min(i + 1, points.length - 1)]!, previous = points[Math.max(0, i - 1)]!, dx = next.x - previous.x, dz = next.z - previous.z, l = Math.hypot(dx, dz) || 1; return { x: p.x - dz / l * offset, y: p.y, z: p.z + dx / l * offset }; }), 0x72efbc);
       }
       for (const object of this.presetStamp.objects) { const p = object.position; line([{ x: p.x - 8, y: p.y, z: p.z - 8 }, { x: p.x + 8, y: p.y, z: p.z - 8 }, { x: p.x + 8, y: p.y, z: p.z + 8 }, { x: p.x - 8, y: p.y, z: p.z + 8 }, { x: p.x - 8, y: p.y, z: p.z - 8 }], 0x72efbc); }
       for (const port of this.presetStamp.connectionPorts) {

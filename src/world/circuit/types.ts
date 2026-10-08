@@ -30,7 +30,7 @@ export interface CircuitSectionMetadata {
 
 export interface CircuitMapMetadata extends DrivingGroundMetadata {
   readonly id: 'simple-circuit';
-  readonly version: 1;
+  readonly version: 2;
   readonly mapId: 'simple-closed-circuit';
   readonly schemaVersion: '1.0.0';
   readonly displayName: '基础闭环试车赛道';

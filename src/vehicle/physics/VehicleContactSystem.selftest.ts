@@ -90,7 +90,7 @@ export function runVehicleContactSystemSelfTest(): VehicleContactSystemSelfTestR
       ground: circuit,
       asphalt: { x: -172.5, z: -150, yaw: 0 },
       grass: { x: -215, z: -150, yaw: 0 },
-      surfaceTransition: { x: -170.5, z: -150, yaw: -Math.PI * 0.5 },
+      surfaceTransition: { x: -172.5 + circuit.config.trackWidth * 0.5 - 2.75, z: -150, yaw: -Math.PI * 0.5 },
       split: { x: -172.5 + circuit.config.trackWidth * 0.5, z: -150, yaw: 0 },
       grassSplit: { x: -172.5 + circuit.config.trackWidth * 0.5 + circuit.config.shoulderWidth + 0.6, z: -150, yaw: 0 },
       railReference: { x: -172.5 - circuit.config.trackWidth * 0.5 - circuit.config.barrierOffset, z: -160 },

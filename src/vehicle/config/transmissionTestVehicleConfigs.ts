@@ -28,11 +28,13 @@ const makeShiftMap = (redline: number): AutomaticShiftConfig => ({
 /** Linear NA / agile supported chassis; inspired by, not a replica of Mazda. */
 export function createTest6ATVehiclePhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
+  config.fuel = { tankCapacityL: 55, defaultFuelL: 38, fuelDensity: 0.745,
+    peakThermalEfficiency: 0.32, referenceConsumptionLPer100km: 7.5 };
   Object.assign(config, FLOW_6AT_DIMENSIONS, {
     mass: 1375, trackWidth: 1.555, frontWeightBias: .60, drivenWheelWeightFraction: .60,
     centerOfMassHeight: .49, centerOfMassLongitudinalOffset: 0, yawInertia: 2490,
   });
-  config.engine = { ...config.engine, idleRPM: 800, engineInertia: .36,
+  config.engine = { ...config.engine, displacementL: 2.0, idleRPM: 800, engineInertia: .36,
     partThrottleExponent: .88, throttleResponse: 4.2, throttleResponseRate: 4.2, throttleReleaseResponse: 9,
     engineFrictionTorque: 13, engineBrakingStrength: 58, engineBraking: 71,
     idleControlBandRPM: 240, redlineRPM: 6500, revLimiterRPM: 6500, maxRPM: 6750, redlineWarningRPM: 6100,
@@ -72,11 +74,13 @@ export function createTest6ATVehiclePhysicsConfig(): VehiclePhysicsConfig {
 /** Midrange turbo / stable saloon chassis; retain the existing turbo and DCT units. */
 export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
+  config.fuel = { tankCapacityL: 50, defaultFuelL: 35, fuelDensity: 0.745,
+    peakThermalEfficiency: 0.33, referenceConsumptionLPer100km: 6.5 };
   Object.assign(config, FORMAL_DCT_DIMENSIONS, {
     mass: 1420, trackWidth: 1.5375, frontWeightBias: .615, drivenWheelWeightFraction: .615,
     centerOfMassHeight: .515, centerOfMassLongitudinalOffset: 0, yawInertia: 2770,
   });
-  config.engine = { ...config.engine, idleRPM: 800, engineInertia: .34,
+  config.engine = { ...config.engine, displacementL: 1.4, idleRPM: 800, engineInertia: .34,
     throttleResponse: 3.6, throttleResponseRate: 3.6, throttleReleaseResponse: 8.2,
     engineFrictionTorque: 12, engineBrakingStrength: 55, engineBraking: 67, idleControlBandRPM: 270,
     revHang: { ...config.engine.revHang!, enabled: false },

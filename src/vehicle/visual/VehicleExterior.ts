@@ -1131,6 +1131,17 @@ export function buildVehicleExterior(
 
   const halfLength = bodyHalfLength(config);
   const halfWidth = bodyHalfWidth(config);
+  if (config.body.design === 'executive') {
+    const panel = (name: string, width: number, length: number, z: number): void => {
+      const mesh = createMesh(name, new THREE.BoxGeometry(width, .018, length), materials.trim, 'underbody');
+      mesh.position.set(0, config.body.groundClearance + .015, z); root.add(mesh);
+    };
+    // Main floor remains between tyre inner faces; end trays stop before tyre swept volumes.
+    panel('Executive sealed chassis underside', config.dimensions.frontTrackWidth - config.dimensions.wheelWidth - .08,
+      config.dimensions.length - .12, 0);
+    panel('Executive front undertray', config.dimensions.width * .82, .50, -halfLength + .32);
+    panel('Executive rear undertray', config.dimensions.width * .82, .50, halfLength - .32);
+  }
   const formal = config.body.design === 'formal' || config.body.design === 'executive', comfort = config.body.design === 'comfort';
   const bumperLowerWidth = formal ? .86 : comfort ? .80 : .77;
   const bumperUpperY = formal ? .57 : comfort ? .55 : sport ? .47 : .52;

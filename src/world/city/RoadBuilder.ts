@@ -1,24 +1,55 @@
 import { BoxGeometry, BufferGeometry, CylinderGeometry, Float32BufferAttribute, Group, InstancedMesh, Matrix4, Mesh } from 'three';
-import { createStripGeometry, makeMarkingRibbon, makeRoadRibbon } from '../subject3/geometry';
+import { createStripGeometry, makeMarkingRibbon } from '../subject3/geometry';
 import type { Subject3Materials } from '../subject3/materials';
 import type { CityMapData, CityPoint, CityRoad } from './CityMapData';
-import { polylineLength, roadPoints, sampleAt } from './geometry';
-import { barrierPoints, roadPiers } from './RoadInfrastructure';
+import { polylineLength, roadEdges, roadPoints, sampleAt } from './geometry';
+import { barrierSections, roadPiers } from './RoadInfrastructure';
+
+import { barrierOffset, RoadClearance } from './RoadClearance';
 
 /** Shared editor/runtime builder. SectorManager batches its output by material. */
 export class RoadBuilder {
-  constructor(private readonly materials: Subject3Materials, private readonly map?: CityMapData) {}
+  private readonly clearance?: RoadClearance;
+  constructor(private readonly materials: Subject3Materials, private readonly map?: CityMapData) { this.clearance = map ? new RoadClearance(map) : undefined; }
   build(road: CityRoad): Group {
     const root = new Group(), points = roadPoints(road), half = road.laneCount * road.laneWidth / 2;
+    const edges = roadEdges(road);
     root.name = road.id;
     const add = (mesh: Mesh | null) => { if (mesh) root.add(mesh); };
-    add(makeRoadRibbon(road.id, points, half * 2, this.materials.asphalt, () => 0, true));
-    const line = (path: CityPoint[], offset: number, yellow = false) => add(makeMarkingRibbon('road paint', path, 0.12,
-      yellow ? this.materials.yellowPaint : this.materials.whitePaint, () => 0, 0.008, offset));
+    const pavement = createStripGeometry(points, () => 0, { innerOffset: edges.left, outerOffset: edges.right, yOffset: 0.024, maximumSpacing: 3 });
+    if (pavement) { const mesh = new Mesh(pavement, this.materials.asphalt); mesh.receiveShadow = true; add(mesh); }
+    const mergePaint = !!road.gore || !!this.map?.roads.some(r=>r.groupId===road.groupId && r.gore);
+    const line = (path: CityPoint[], offset: number, yellow = false) => {
+      const paint = (section: CityPoint[]) => add(makeMarkingRibbon('road paint', section, 0.12,
+        yellow ? this.materials.yellowPaint : this.materials.whitePaint, () => 0, 0.008, offset));
+      if (!mergePaint || !this.clearance) { paint(path); return; }
+      const length=polylineLength(path), count=Math.max(1,Math.ceil(length/3));
+      let section:CityPoint[]=[];
+      for(let i=0;i<count;i++) {
+        const a=sampleAt(path,length*i/count).point,b=sampleAt(path,length*(i+1)/count).point,s=sampleAt(path,length*(i+0.5)/count);
+        const p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset};
+        if(this.clearance.roadAt(p,0.2,p.y-0.15,p.y+0.15,road.id)) { if(section.length>1) paint(section);section=[];continue; }
+        if(!section.length) section.push(a);section.push(b);
+      }
+      if(section.length>1) paint(section);
+    };
     if (road.markings !== false) {
     if (road.travelDirection === 'two-way') { line(points, -0.13, true); line(points, 0.13, true); }
     line(points, -half + 0.15); line(points, half - 0.15);
     const length = polylineLength(points);
+    if (road.gore && road.shoulders) {
+      for (let d = 6; d < Math.min(road.gore.length, length / 2); d += 6) for (const start of [true, false]) {
+        if (!(start ? road.gore.start : road.gore.end)) continue;
+        const at = start ? d : length - d, s = sampleAt(points, at);
+        const width = road.shoulders.left * Math.min(1, d / 30);
+        const offset = -half - width / 2;
+        const p = { x:s.point.x-s.tangent.z*offset,y:s.point.y,z:s.point.z+s.tangent.x*offset };
+        if (this.clearance?.roadAt(p, 0, (p.y??0)-0.1, (p.y??0)+0.1, road.id)) continue;
+        const a = { x:p.x+s.tangent.z*width/2-s.tangent.x*0.5,y:p.y,z:p.z-s.tangent.x*width/2-s.tangent.z*0.5 };
+        const b = { x:p.x-s.tangent.z*width/2+s.tangent.x*0.5,y:p.y,z:p.z+s.tangent.x*width/2+s.tangent.z*0.5 };
+        add(makeMarkingRibbon('gore hatch', [a,b],0.18,this.materials.whitePaint,()=>0,0.012));
+      }
+    }
     for (let lane = 1; lane < road.laneCount; lane++) {
       if (road.travelDirection === 'two-way' && lane === road.laneCount / 2) continue;
       for (let d = 0; d < length; d += 9) {
@@ -40,10 +71,10 @@ export class RoadBuilder {
     }
     const length = polylineLength(points), elevated = points.some(p => (p.y ?? 0) > 2);
     if (elevated) {
-      const bottom = createStripGeometry(points, () => 0, { innerOffset: -half, outerOffset: half, yOffset: -0.65, maximumSpacing: 3 });
+      const bottom = createStripGeometry(points, () => 0, { innerOffset: barrierOffset(road, -1), outerOffset: barrierOffset(road, 1), yOffset: -0.65, maximumSpacing: 3 });
       if (bottom) { const index = bottom.getIndex()!; for (let i = 0; i < index.count; i += 3) { const a = index.getX(i); index.setX(i, index.getX(i + 2)); index.setX(i + 2, a); } bottom.computeVertexNormals(); root.add(new Mesh(bottom, this.materials.curb)); }
-      for (const side of [-1, 1]) this.wall(root, points, side * half, -0.65, 0.02, this.materials.curb);
-      const piers = roadPiers(road, this.map);
+      for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, barrierOffset(road, section.side), -0.65, 0.02, this.materials.curb);
+      const piers = roadPiers(road, this.map, this.clearance);
       if (piers.length) {
         const geometry = road.structure?.pierStyle === 'rectangular' ? new BoxGeometry(1.2, 1, 1.2) : new CylinderGeometry(0.6, 0.6, 1, 8);
         const mesh = new InstancedMesh(geometry, this.materials.curb, piers.length), matrix = new Matrix4(); mesh.name = `${road.id}:piers`;
@@ -51,10 +82,16 @@ export class RoadBuilder {
         mesh.castShadow = true; root.add(mesh);
       }
     }
-    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const side of [-1, 1]) this.wall(root, barrierPoints(road, this.map), side * half, 0.1, 1.1, this.materials.metal);
+    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, barrierOffset(road, section.side), 0.1, 1.1, this.materials.metal);
     if (road.streetlights) {
       const positions: { x: number; y: number; z: number }[] = [];
-      for (let d = 25; d < length - 20; d += 50) { const s = sampleAt(points, d); positions.push({ x: s.point.x - s.tangent.z * (half + 0.6), y: (s.point.y ?? 0) + 3.7, z: s.point.z + s.tangent.x * (half + 0.6) }); }
+      for (let d = 25; d < length - 20; d += 50) {
+        const s = sampleAt(points, d), offset = edges.right + (road.sidewalk?.enabled ? road.sidewalk.width : 0) + 0.8;
+        const p = { x: s.point.x - s.tangent.z * offset, y: s.point.y ?? 0, z: s.point.z + s.tangent.x * offset };
+        if (this.clearance && !this.clearance.permitsProp(p, 0.4, 7.5)) continue;
+        if (this.map?.objects.some(o => Math.hypot(o.position.x - p.x, o.position.z - p.z) < 2)) continue;
+        positions.push({ ...p, y: p.y + 3.7 });
+      }
       if (positions.length) {
         const poles = new InstancedMesh(new CylinderGeometry(0.08, 0.12, 7.4, 8), this.materials.darkMetal, positions.length);
         const heads = new InstancedMesh(new BoxGeometry(0.5, 0.16, 0.85), this.materials.lampHead, positions.length); heads.userData.environmentLamp = true;

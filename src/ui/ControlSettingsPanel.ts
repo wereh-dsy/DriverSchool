@@ -13,6 +13,7 @@ import type { DriverAssistOptions } from '../vehicle/physics/DriverAssistSystem'
 import type { EnvironmentTime, Weather } from '../world/environment/EnvironmentState';
 import type { WiperMode } from '../vehicle/control/WiperController';
 import type { MinimapPosition } from './Minimap';
+import type { FuelSnapshot } from '../vehicle/physics/FuelSystem';
 
 export interface DrivingMapOption {
   readonly id: string;
@@ -50,6 +51,7 @@ export class ControlSettingsPanel {
   public onBindingReset?: () => void;
   public onMapChange?: (mapId: string) => void;
   public onVehicleChange?: (vehicleId: string) => void;
+  public onFuelChange?: (litres: number) => void;
   public onNotice?: (message: string) => void;
 
   private readonly toggleButton: HTMLButtonElement;
@@ -57,6 +59,10 @@ export class ControlSettingsPanel {
   private readonly mirrorValue: HTMLElement;
   private readonly mapButtonsContainer: HTMLElement;
   private readonly vehicleButtonsContainer: HTMLElement;
+  private readonly fuelLitresInput: HTMLInputElement;
+  private readonly fuelPercentInput: HTMLInputElement;
+  private readonly fuelCapacityLabel: HTMLElement;
+  private fuelCapacityL = 0;
   private readonly bindingButtons = new Map<KeyboardDrivingAction, HTMLButtonElement>();
   private readonly mapButtons = new Map<string, HTMLButtonElement>();
   private readonly vehicleButtons = new Map<string, HTMLButtonElement>();
@@ -93,6 +99,13 @@ export class ControlSettingsPanel {
           <section class="settings-group">
             <div class="settings-group-title"><span>训练车辆</span><small>切换后以新车回到当前场地起点</small></div>
             <div class="map-selection-list" data-vehicle-buttons></div>
+          </section>
+          <section class="settings-group">
+            <div class="settings-group-title"><span>燃油 · Current Fuel</span><small data-fuel-capacity>Tank Capacity</small></div>
+            <div class="fuel-settings-inputs">
+              <label>当前油量 (L)<input type="number" min="0" step="0.01" data-fuel-litres aria-label="Current Fuel litres"></label>
+              <label>油量百分比 (%)<input type="number" min="0" max="100" step="0.01" data-fuel-percent aria-label="Current Fuel percent"></label>
+            </div>
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>环境 · Weather / Time</span><small>所有场地通用 · 可自由组合</small></div>
@@ -178,6 +191,19 @@ export class ControlSettingsPanel {
     this.mirrorValue = this.require(shell, '[data-mirror-value]');
     this.mapButtonsContainer = this.require(shell, '[data-map-buttons]');
     this.vehicleButtonsContainer = this.require(shell, '[data-vehicle-buttons]');
+    this.fuelLitresInput = this.require(shell, '[data-fuel-litres]');
+    this.fuelPercentInput = this.require(shell, '[data-fuel-percent]');
+    this.fuelCapacityLabel = this.require(shell, '[data-fuel-capacity]');
+    const applyFuel = (input: HTMLInputElement, percent: boolean) => {
+      if (input.value === '' || !Number.isFinite(input.valueAsNumber)) return;
+      const value = Math.max(0, Math.min(percent ? 100 : this.fuelCapacityL, input.valueAsNumber));
+      this.onFuelChange?.(percent ? value / 100 * this.fuelCapacityL : value);
+    };
+    this.fuelLitresInput.addEventListener('input', () => applyFuel(this.fuelLitresInput, false));
+    this.fuelPercentInput.addEventListener('input', () => applyFuel(this.fuelPercentInput, true));
+    // Commit the clamped value when an editor loses focus.
+    this.fuelLitresInput.addEventListener('change', () => { this.fuelLitresInput.blur(); });
+    this.fuelPercentInput.addEventListener('change', () => { this.fuelPercentInput.blur(); });
     this.buildBindingRows(this.require(shell, '[data-binding-grid]'));
     this.setBindings(this.bindings);
     this.setLightMode('off');
@@ -347,6 +373,22 @@ export class ControlSettingsPanel {
   public setActiveMap(mapId: string): void {
     for (const [id, button] of this.mapButtons) {
       button.classList.toggle('active', id === mapId);
+    }
+  }
+
+  public setFuel(fuel: FuelSnapshot): void {
+    const capacityChanged = this.fuelCapacityL !== fuel.tankCapacityL;
+    this.fuelCapacityL = fuel.tankCapacityL;
+    if (capacityChanged) {
+      this.fuelLitresInput.max = String(fuel.tankCapacityL);
+      this.fuelCapacityLabel.textContent = `Tank Capacity · ${fuel.tankCapacityL} L`;
+    }
+    // Live consumption refreshes the controls without interrupting an edit.
+    if (capacityChanged || document.activeElement !== this.fuelLitresInput) {
+      this.fuelLitresInput.value = fuel.currentFuelL.toFixed(2);
+    }
+    if (capacityChanged || document.activeElement !== this.fuelPercentInput) {
+      this.fuelPercentInput.value = fuel.fuelPercent.toFixed(2);
     }
   }
 

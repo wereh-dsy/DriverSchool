@@ -18,7 +18,7 @@ try {
   else if (command === 'validate-presets') output(validatePresets());
   else {
     if (!mapArg) throw new Error('Usage: pnpm map validate|summary|place-preset|add-road <map.json|city-alpha|city-main> [preset-id] [--flag value]; pnpm map list-presets|validate-presets');
-    const path = resolve(mapArg === 'city-alpha' || mapArg === 'city-main' ? `src/world/city/maps/${mapArg}.json` : mapArg);
+    const path = resolve(mapArg === 'city-alpha' || mapArg === 'city-main' || mapArg === 'preset-showcase' ? `src/world/city/maps/${mapArg}.json` : mapArg);
     const raw = json('@' + path), report = validateMap(raw);
     if (command === 'validate') { output({ file: path, ...report }); if (!report.valid) process.exitCode = 1; }
     else {
@@ -32,7 +32,7 @@ try {
       } else {
         const request = flags.has('request') ? json(flags.get('request')!) : undefined;
         if (command === 'place-preset') placePreset(map, flags.get('preset') ?? positionalPreset ?? request?.presetId ?? '', request?.parameters ?? { position: { x: number('x', 0), y: number('y', 0), z: number('z', 0) }, rotation: number('rotation', 0) * Math.PI / 180,
-          mainRoadLanes: number('main-lanes', 6), crossRoadLanes: number('cross-lanes', 4), mainElevation: number('height', 6), rampLaneCount: number('ramp-lanes', 1), rampRadius: number('radius', 55), groupId: flags.get('group') });
+          mainRoadLanes: number('main-lanes', 6), crossRoadLanes: number('cross-lanes', 4), mainElevation: number('height', 8), rampLaneCount: number('ramp-lanes', 1), rampRadius: number('radius', 100), groupId: flags.get('group') });
         else if (command === 'add-road') createRoad(map, request ?? { styleId: flags.get('style') ?? 'urban_street_4', id: flags.get('id'), centerline: json(flags.get('points') ?? '[]') });
         else if (command === 'move-node') { if (!request) throw new Error('--request required: {roadId,index,point}'); moveRoadNode(map, request.roadId, request.index, request.point); }
         else if (command === 'connect-road') { if (!request) throw new Error('--request required: {from,target}'); connectRoad(map, request.from, request.target); }

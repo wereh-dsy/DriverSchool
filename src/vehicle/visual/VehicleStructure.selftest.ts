@@ -59,8 +59,8 @@ export function runVehicleStructureSelfTest() {
           assert(back.geometry.boundingBox!.getSize(new THREE.Vector3()).z <= .007,
             `${car.id}: instruments sit on a thin recessed backing`);
           // Include the upper warning/status bands as well as the dial centres.
-          for (const x of [-.19, 0, .19]) {
-            const target = new THREE.Vector3(x, .094, config.body.design === 'executive' ? .071 : .080)
+          for (const x of config.body.design === 'executive' ? [-.17, 0, .17] : [-.19, 0, .19]) {
+            const target = new THREE.Vector3(x, config.body.design === 'executive' ? .090 : .094, config.body.design === 'executive' ? .071 : .080)
               .applyMatrix4(cluster.matrixWorld);
             clearanceRay.set(eye, target.clone().sub(eye).normalize());
             clearanceRay.far = eye.distanceTo(target) - .002;

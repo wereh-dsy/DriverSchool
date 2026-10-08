@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { LapTimer } from '../../game/lap/LapTimer';
+import { circuitBarrierDistance, circuitRunoffWidth } from './TrackFeatures';
 import { createNeutralVehicleInputState, type VehicleInputState } from '../../input/VehicleInputState';
 import { VehicleDynamics } from '../../vehicle/physics/VehicleDynamics';
 import { VehicleContactSystem } from '../../vehicle/physics/VehicleContactSystem';
@@ -80,7 +82,7 @@ export function runCircuitGroundSelfTest(): CircuitGroundSelfTestResult {
       Math.abs(metadata.lapLength - ground.config.lapLengthTarget) < 80,
       'lap length should remain close to the 1.56 km target',
     );
-    assert(metadata.trackWidth >= 8 && metadata.trackWidth <= 10, 'asphalt must be 8–10 m wide');
+    assert(metadata.trackWidth >= 10 && metadata.trackWidth <= 12, 'asphalt must be 10–12 m wide');
     assert(
       metadata.barrierOffset > metadata.shoulderWidth + 4,
       'guardrail must leave a meaningful grass runoff beyond the shoulder',
@@ -177,6 +179,61 @@ export function runCircuitGroundSelfTest(): CircuitGroundSelfTestResult {
     });
     assert(closedRibbonCount === 4, 'shoulder, asphalt and both edge lines must be closed ribbons');
     assert(maximumRibbonJoinGap < 1e-8, 'all rendered circuit ribbons must close without a seam gap');
+
+    const nearestRouteDistance = (x: number, z: number): number => {
+      let minimum = Number.POSITIVE_INFINITY;
+      for (let index = 1; index < route.length; index += 1) {
+        const a = route[index - 1]!; const b = route[index]!;
+        const dx = b.x - a.x; const dz = b.z - a.z;
+        const t = clamp(((x - a.x) * dx + (z - a.z) * dz) / (dx * dx + dz * dz), 0, 1);
+        minimum = Math.min(minimum, (x - a.x - dx * t) ** 2 + (z - a.z - dz * t) ** 2);
+      }
+      return Math.sqrt(minimum);
+    };
+    for (const collider of ground.colliders) {
+      for (const point of collider.corners) assert(nearestRouteDistance(point.x, point.z) > metadata.trackWidth * 0.5 + 2,
+        `${collider.id} must leave the road and immediate shoulder unobstructed`);
+    }
+    assert(nearestRouteDistance(ground.spawnPose.position.x, ground.spawnPose.position.z) < 0.01,
+      'spawn remains on the centreline');
+    const gate = ground.lapCourse.startFinish;
+    const spawn = ground.spawnPose;
+    assert((spawn.position.x - gate.center.x) * gate.forward.x +
+      (spawn.position.z - gate.center.z) * gate.forward.z < -20, 'spawn is safely upstream of timing line');
+    assert(-Math.sin(spawn.yawRadians) * gate.forward.x - Math.cos(spawn.yawRadians) * gate.forward.z > 0.999,
+      'spawn faces the race direction');
+    assert(ground.lapCourse.checkpoints.length === 4 && gate.halfWidth === metadata.trackWidth * 0.5,
+      'finite timing gates cover asphalt, excluding pit and runoff');
+    for (const section of metadata.sections) {
+      const before = ground.routeCurve.getTangentAt(Math.max(0, section.startDistance - 0.15) / metadata.lapLength).normalize();
+      const after = ground.routeCurve.getTangentAt((section.startDistance + 0.15) / metadata.lapLength).normalize();
+      assert(before.dot(after) > 0.999, `${section.id} retains a smooth tangent connection`);
+      if (section.kind !== 'braking') continue;
+      const distance = (section.startDistance + section.endDistance) * 0.5;
+      const point = ground.routeCurve.getPointAt(distance / metadata.lapLength);
+      const tangent = ground.routeCurve.getTangentAt(distance / metadata.lapLength).normalize();
+      const side = -Math.sign(section.turnAngleRadians!);
+      const runoffWidth = circuitRunoffWidth(ground.config, section, distance, metadata.lapLength);
+      const offset = side * (metadata.trackWidth * 0.5 + runoffWidth * 0.7);
+      const response = ground.sampleRoadSurface(point.x - tangent.z * offset, point.z + tangent.x * offset);
+      assert(response.surfaceType === 'asphalt' && response.gripMultiplier === 1, 'paved runoff matches its physical asphalt response');
+      assert(circuitBarrierDistance(ground.config, metadata.sections, distance, side, metadata.lapLength) >
+        metadata.trackWidth * 0.5 + runoffWidth + metadata.shoulderWidth + 3,
+      'heavy-braking runoff retains clear space before the barrier');
+    }
+    const kerbs = ground.root.getObjectsByProperty('name', 'Circuit apex kerb');
+    assert(kerbs.length === cornerSections.length, 'each corner has a short apex kerb');
+    assert(ground.root.getObjectsByProperty('name', 'Braking board turn-one 150').length === 1 &&
+      ground.root.getObjectsByProperty('name', 'Braking board braking-corner 50').length === 1,
+    'both major braking approaches have distance boards');
+    // Walk the authored course once; gate ordering and geometry must agree.
+    const timer = new LapTimer();
+    timer.configure(ground.lapCourse, 'geometry-test', spawn.position);
+    for (let distance = 23; distance <= metadata.lapLength + 54; distance += 1) {
+      const point = ground.routeCurve.getPointAt((distance % metadata.lapLength) / metadata.lapLength);
+      timer.update(0.05, point);
+    }
+    assert(timer.state.lap === 2 && timer.state.lastMs !== null, 'authored route crosses all gates in order exactly once per lap');
 
     const follower = runTwoLapFollower(ground);
     assert(follower.laps >= 2, 'shipping sedan must complete at least two continuous laps');

@@ -1,25 +1,1384 @@
 {
-  "schemaVersion": 1,
-  "units": { "position": "metres", "rotation": "radians", "footprint": "width X × depth Z metres" },
+  "schemaVersion": 2,
+  "units": {
+    "position": "metres",
+    "rotation": "radians",
+    "footprint": "width X \u00d7 depth Z metres"
+  },
   "parameters": {
-    "position": { "default": { "x": 0, "y": 0, "z": 0 } },
-    "rotation": { "default": 0 },
-    "mainRoadLanes": { "default": 6, "values": [4, 6] },
-    "crossRoadLanes": { "default": 4, "values": [4, 6] },
-    "mainElevation": { "default": 6, "range": [5, 12] },
-    "rampLaneCount": { "default": 1, "values": [1, 2] },
-    "rampRadius": { "default": 55, "range": [40, 100] }
+    "position": {
+      "default": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "rotation": {
+      "default": 0
+    },
+    "mainRoadLanes": {
+      "default": 6,
+      "values": [
+        4,
+        6
+      ]
+    },
+    "crossRoadLanes": {
+      "default": 4,
+      "values": [
+        4,
+        6
+      ]
+    },
+    "mainElevation": {
+      "default": 8,
+      "range": [
+        5,
+        12
+      ]
+    },
+    "rampLaneCount": {
+      "default": 1,
+      "values": [
+        1,
+        2
+      ]
+    },
+    "rampRadius": {
+      "default": 100,
+      "range": [
+        40,
+        100
+      ]
+    }
   },
   "presets": [
-    { "id": "urban_overpass", "category": "ROAD", "description": "Elevated urban road crosses a ground street without a logical connection.", "footprint": [420, 520], "parameters": ["position", "rotation", "mainRoadLanes", "crossRoadLanes", "mainElevation"], "ports": ["North Mainline", "South Mainline", "East Crossroad", "West Crossroad"], "usage": "Grade-separated urban crossing; end ramps return the main road to ground." },
-    { "id": "diamond_interchange", "category": "INTERCHANGE", "description": "Divided elevated mainline with four directional ramps and two signal junctions.", "footprint": [620, 620], "parameters": ["position", "rotation", "mainRoadLanes", "crossRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["North Mainline In", "North Mainline Out", "South Mainline In", "South Mainline Out", "East Crossroad", "West Crossroad"], "usage": "Compact interchange joining the mainline to a local crossroad." },
-    { "id": "cloverleaf_interchange", "category": "INTERCHANGE", "description": "Two divided roads with four right-turn ramps and four 270-degree left-turn loops.", "footprint": [800, 800], "parameters": ["position", "rotation", "mainRoadLanes", "crossRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["North Mainline In", "North Mainline Out", "South Mainline In", "South Mainline Out", "East Crossroad In", "East Crossroad Out", "West Crossroad In", "West Crossroad Out"], "usage": "Complete low-poly 4×4, 6×4 or 6×6 interchange; explicit endpoint merges." },
-    { "id": "trumpet_interchange", "category": "INTERCHANGE", "description": "Divided mainline and a terminating branch with a loop and directional connectors.", "footprint": [800, 800], "parameters": ["position", "rotation", "mainRoadLanes", "crossRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["North Mainline In", "North Mainline Out", "South Mainline In", "South Mainline Out", "East Branch In", "East Branch Out"], "usage": "Three-arm highway junction with all branch/mainline movements." },
-    { "id": "roundabout", "category": "INTERCHANGE", "description": "One-way counterclockwise ring with four split entry/exit approaches.", "footprint": [320, 320], "parameters": ["position", "rotation", "rampLaneCount", "rampRadius"], "ports": ["North In", "North Out", "East In", "East Out", "South In", "South Out", "West In", "West Out"], "usage": "Low-speed roundabout; explicit links at ring entry/exit nodes." },
-    { "id": "highway_entry", "category": "INTERCHANGE", "description": "One-way ramp ascends from local street height to a continuing mainline.", "footprint": [220, 500], "parameters": ["position", "rotation", "mainRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["Mainline In", "Mainline Out", "Local Entry"], "usage": "Stamp a simple elevated highway merge." },
-    { "id": "highway_exit", "category": "INTERCHANGE", "description": "One-way ramp descends from a continuing mainline to local street height.", "footprint": [220, 500], "parameters": ["position", "rotation", "mainRoadLanes", "mainElevation", "rampLaneCount", "rampRadius"], "ports": ["Mainline In", "Mainline Out", "Local Exit"], "usage": "Stamp a simple elevated highway diverge." },
-    { "id": "residential_block", "category": "DISTRICT", "description": "Low/mid-rise housing, trees, lamps and a parking placeholder.", "footprint": [140, 110], "parameters": ["position", "rotation"], "ports": [], "usage": "Fill an existing residential roadside block." },
-    { "id": "commercial_block", "category": "DISTRICT", "description": "Office, commercial boxes, parking, bus stop and trees.", "footprint": [170, 130], "parameters": ["position", "rotation"], "ports": [], "usage": "Fill an existing commercial block." },
-    { "id": "industrial_block", "category": "DISTRICT", "description": "Factories, garage, parking and guardrails.", "footprint": [180, 130], "parameters": ["position", "rotation"], "ports": [], "usage": "Fill an existing industrial block." }
+    {
+      "id": "urban_overpass",
+      "category": "INTERCHANGE",
+      "description": "Two-way N/S urban deck over an independent E/W ground street",
+      "footprint": [
+        630,
+        1230
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "crossRoadLanes",
+        "mainElevation"
+      ],
+      "ports": [
+        "North Mainline",
+        "South Mainline",
+        "East Crossroad",
+        "West Crossroad"
+      ],
+      "usage": "Grade-separated urban crossing; end ramps return the main road to ground.",
+      "production": true,
+      "layout": "Two-way N/S urban deck over an independent E/W ground street",
+      "specification": {
+        "laneWidths": [
+          3.75,
+          3.6
+        ],
+        "pavedWidths": [
+          25,
+          14.4
+        ],
+        "elevation": [
+          0,
+          8
+        ],
+        "maximumGradePercent": 3.7,
+        "minimumCurveRadius": null,
+        "ports": [
+          {
+            "label": "South Mainline",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 600
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "North Mainline",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -600
+            },
+            "heading": 0
+          },
+          {
+            "label": "West Crossroad",
+            "position": {
+              "x": -300,
+              "y": 0,
+              "z": 0
+            },
+            "heading": -1.5707963267948966
+          },
+          {
+            "label": "East Crossroad",
+            "position": {
+              "x": 300,
+              "y": 0,
+              "z": 0
+            },
+            "heading": 1.5707963267948966
+          }
+        ]
+      }
+    },
+    {
+      "id": "diamond_interchange",
+      "category": "INTERCHANGE",
+      "description": "Two N/S one-way carriageways; E/W ground crossroad; four directional ramps",
+      "footprint": [
+        1230,
+        1230
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "crossRoadLanes",
+        "mainElevation",
+        "rampLaneCount",
+        "rampRadius"
+      ],
+      "ports": [
+        "North Mainline In",
+        "North Mainline Out",
+        "South Mainline In",
+        "South Mainline Out",
+        "East Crossroad",
+        "West Crossroad"
+      ],
+      "usage": "Compact interchange joining the mainline to a local crossroad.",
+      "production": true,
+      "layout": "Two N/S one-way carriageways; E/W ground crossroad; four directional ramps",
+      "specification": {
+        "laneWidths": [
+          3.75,
+          3.6,
+          3.9
+        ],
+        "pavedWidths": [
+          13.75,
+          14.4,
+          6.4
+        ],
+        "elevation": [
+          0,
+          8
+        ],
+        "maximumGradePercent": 4.13,
+        "minimumCurveRadius": 148.2,
+        "ports": [
+          {
+            "label": "South Mainline In",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": 600
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "North Mainline Out",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": -600
+            },
+            "heading": 0
+          },
+          {
+            "label": "North Mainline In",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": -600
+            },
+            "heading": 0
+          },
+          {
+            "label": "South Mainline Out",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": 600
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "West Crossroad",
+            "position": {
+              "x": -600,
+              "y": 0,
+              "z": 0
+            },
+            "heading": -1.5707963267948966
+          },
+          {
+            "label": "East Crossroad",
+            "position": {
+              "x": 600,
+              "y": 0,
+              "z": 0
+            },
+            "heading": 1.5707963267948966
+          }
+        ]
+      }
+    },
+    {
+      "id": "cloverleaf_interchange",
+      "category": "INTERCHANGE",
+      "description": "Two divided highways; N/S upper layer and E/W ground layer; four outer turns and four loops",
+      "footprint": [
+        2070,
+        2070
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "crossRoadLanes",
+        "mainElevation",
+        "rampLaneCount",
+        "rampRadius"
+      ],
+      "ports": [
+        "North Mainline In",
+        "North Mainline Out",
+        "South Mainline In",
+        "South Mainline Out",
+        "East Crossroad In",
+        "East Crossroad Out",
+        "West Crossroad In",
+        "West Crossroad Out"
+      ],
+      "usage": "Broad outer connectors enclosing 80\u2013100m loops; allow a full 2km site.",
+      "production": true,
+      "layout": "Two divided highways; N/S upper layer and E/W ground layer; four outer turns and four loops",
+      "specification": {
+        "laneWidths": [
+          3.75,
+          3.9
+        ],
+        "pavedWidths": [
+          13.75,
+          10,
+          6.4
+        ],
+        "elevation": [
+          0,
+          8
+        ],
+        "maximumGradePercent": 4.24,
+        "minimumCurveRadius": 100,
+        "ports": [
+          {
+            "label": "South Mainline In",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": 1020
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "North Mainline Out",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": -1020
+            },
+            "heading": 0
+          },
+          {
+            "label": "North Mainline In",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": -1020
+            },
+            "heading": 0
+          },
+          {
+            "label": "South Mainline Out",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": 1020
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "West Crossroad In",
+            "position": {
+              "x": -1020,
+              "y": 0,
+              "z": 6.25
+            },
+            "heading": -1.5707963267948966
+          },
+          {
+            "label": "East Crossroad Out",
+            "position": {
+              "x": 1020,
+              "y": 0,
+              "z": 6.25
+            },
+            "heading": 1.5707963267948966
+          },
+          {
+            "label": "East Crossroad In",
+            "position": {
+              "x": 1020,
+              "y": 0,
+              "z": -6.25
+            },
+            "heading": 1.5707963267948966
+          },
+          {
+            "label": "West Crossroad Out",
+            "position": {
+              "x": -1020,
+              "y": 0,
+              "z": -6.25
+            },
+            "heading": -1.5707963267948966
+          }
+        ]
+      }
+    },
+    {
+      "id": "trumpet_interchange",
+      "category": "INTERCHANGE",
+      "description": "Divided N/S mainline and eastern terminating divided branch; two direct turns and two loops",
+      "footprint": [
+        2070,
+        2070
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "crossRoadLanes",
+        "mainElevation",
+        "rampLaneCount",
+        "rampRadius"
+      ],
+      "ports": [
+        "North Mainline In",
+        "North Mainline Out",
+        "South Mainline In",
+        "South Mainline Out",
+        "East Branch In",
+        "East Branch Out"
+      ],
+      "usage": "Broad outer connectors enclosing 80\u2013100m loops; allow a full 2km site.",
+      "production": true,
+      "layout": "Divided N/S mainline and eastern terminating divided branch; two direct turns and two loops",
+      "specification": {
+        "laneWidths": [
+          3.75,
+          3.9
+        ],
+        "pavedWidths": [
+          13.75,
+          10,
+          6.4
+        ],
+        "elevation": [
+          0,
+          8
+        ],
+        "maximumGradePercent": 4.24,
+        "minimumCurveRadius": 100,
+        "ports": [
+          {
+            "label": "South Mainline In",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": 1020
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "North Mainline Out",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": -1020
+            },
+            "heading": 0
+          },
+          {
+            "label": "North Mainline In",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": -1020
+            },
+            "heading": 0
+          },
+          {
+            "label": "South Mainline Out",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": 1020
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "East Branch Out",
+            "position": {
+              "x": 1020,
+              "y": 0,
+              "z": 6.25
+            },
+            "heading": 1.5707963267948966
+          },
+          {
+            "label": "East Branch In",
+            "position": {
+              "x": 1020,
+              "y": 0,
+              "z": -6.25
+            },
+            "heading": 1.5707963267948966
+          }
+        ]
+      }
+    },
+    {
+      "id": "roundabout",
+      "category": "INTERSECTION",
+      "description": "One-way counterclockwise ring, four separated entry/exit pairs",
+      "footprint": [
+        500,
+        500
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "rampLaneCount",
+        "rampRadius"
+      ],
+      "ports": [
+        "North In",
+        "North Out",
+        "East In",
+        "East Out",
+        "South In",
+        "South Out",
+        "West In",
+        "West Out"
+      ],
+      "usage": "Low-speed roundabout; explicit links at ring entry/exit nodes.",
+      "production": true,
+      "layout": "One-way counterclockwise ring, four separated entry/exit pairs",
+      "specification": {
+        "laneWidths": [
+          3.9
+        ],
+        "pavedWidths": [
+          6.4
+        ],
+        "elevation": [
+          0,
+          0
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": 17.1,
+        "ports": [
+          {
+            "label": "North In",
+            "position": {
+              "x": -4.949999999999985,
+              "y": 0,
+              "z": -240
+            },
+            "heading": 0.0026606572553845007
+          },
+          {
+            "label": "North Out",
+            "position": {
+              "x": 4.950000000000015,
+              "y": 0,
+              "z": -240
+            },
+            "heading": -0.0026606572553842683
+          },
+          {
+            "label": "West In",
+            "position": {
+              "x": -240,
+              "y": 0,
+              "z": 4.949999999999971
+            },
+            "heading": -1.568135669539512
+          },
+          {
+            "label": "West Out",
+            "position": {
+              "x": -240,
+              "y": 0,
+              "z": -4.9500000000000295
+            },
+            "heading": -1.573456984050281
+          },
+          {
+            "label": "South In",
+            "position": {
+              "x": 4.949999999999956,
+              "y": 0,
+              "z": 240
+            },
+            "heading": -3.1389319963344087
+          },
+          {
+            "label": "South Out",
+            "position": {
+              "x": -4.950000000000045,
+              "y": 0,
+              "z": 240
+            },
+            "heading": 3.138931996334409
+          },
+          {
+            "label": "East In",
+            "position": {
+              "x": 240,
+              "y": 0,
+              "z": -4.949999999999942
+            },
+            "heading": 1.5734569840502814
+          },
+          {
+            "label": "East Out",
+            "position": {
+              "x": 240,
+              "y": 0,
+              "z": 4.950000000000059
+            },
+            "heading": 1.5681356695395126
+          }
+        ]
+      }
+    },
+    {
+      "id": "highway_entry",
+      "category": "ROAD",
+      "description": "One northbound carriageway and a ground entry with a long tangent merge",
+      "footprint": [
+        125,
+        870
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "mainElevation",
+        "rampLaneCount",
+        "rampRadius"
+      ],
+      "ports": [
+        "South Mainline In",
+        "North Mainline Out",
+        "South Local Entry"
+      ],
+      "usage": "Stamp a simple elevated highway merge.",
+      "production": true,
+      "layout": "One northbound carriageway and a ground entry with a long tangent merge",
+      "specification": {
+        "laneWidths": [
+          3.75,
+          3.9
+        ],
+        "pavedWidths": [
+          13.75,
+          6.4
+        ],
+        "elevation": [
+          0,
+          8
+        ],
+        "maximumGradePercent": 3.66,
+        "minimumCurveRadius": 600.7,
+        "ports": [
+          {
+            "label": "South Mainline In",
+            "position": {
+              "x": 0,
+              "y": 8,
+              "z": 420
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "North Mainline Out",
+            "position": {
+              "x": 0,
+              "y": 8,
+              "z": -420
+            },
+            "heading": 0
+          },
+          {
+            "label": "South Local Entry",
+            "position": {
+              "x": 100,
+              "y": 0,
+              "z": 420
+            },
+            "heading": 3.139072104916664
+          }
+        ]
+      }
+    },
+    {
+      "id": "highway_exit",
+      "category": "ROAD",
+      "description": "One northbound carriageway and a long tangent exit to ground",
+      "footprint": [
+        125,
+        870
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "mainElevation",
+        "rampLaneCount",
+        "rampRadius"
+      ],
+      "ports": [
+        "South Mainline In",
+        "North Mainline Out",
+        "North Local Exit"
+      ],
+      "usage": "Stamp a simple elevated highway diverge.",
+      "production": true,
+      "layout": "One northbound carriageway and a long tangent exit to ground",
+      "specification": {
+        "laneWidths": [
+          3.75,
+          3.9
+        ],
+        "pavedWidths": [
+          13.75,
+          6.4
+        ],
+        "elevation": [
+          0,
+          8
+        ],
+        "maximumGradePercent": 3.66,
+        "minimumCurveRadius": 600.7,
+        "ports": [
+          {
+            "label": "South Mainline In",
+            "position": {
+              "x": 0,
+              "y": 8,
+              "z": 420
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "North Mainline Out",
+            "position": {
+              "x": 0,
+              "y": 8,
+              "z": -420
+            },
+            "heading": 0
+          },
+          {
+            "label": "North Local Exit",
+            "position": {
+              "x": 100,
+              "y": 0,
+              "z": -420
+            },
+            "heading": 0.0025205486731294607
+          }
+        ]
+      }
+    },
+    {
+      "id": "residential_block",
+      "category": "DISTRICT",
+      "description": "Low/mid-rise housing, trees, lamps and a parking placeholder.",
+      "footprint": [
+        140,
+        110
+      ],
+      "parameters": [
+        "position",
+        "rotation"
+      ],
+      "ports": [],
+      "usage": "Fill an existing residential roadside block.",
+      "production": false
+    },
+    {
+      "id": "commercial_block",
+      "category": "DISTRICT",
+      "description": "Office, commercial boxes, parking, bus stop and trees.",
+      "footprint": [
+        170,
+        130
+      ],
+      "parameters": [
+        "position",
+        "rotation"
+      ],
+      "ports": [],
+      "usage": "Fill an existing commercial block.",
+      "production": false
+    },
+    {
+      "id": "industrial_block",
+      "category": "DISTRICT",
+      "description": "Factories, garage, parking and guardrails.",
+      "footprint": [
+        180,
+        130
+      ],
+      "parameters": [
+        "position",
+        "rotation"
+      ],
+      "ports": [],
+      "usage": "Fill an existing industrial block.",
+      "production": false
+    },
+    {
+      "id": "urban_boulevard_straight",
+      "category": "ROAD",
+      "description": "One two-way boulevard, 6 lanes by default",
+      "footprint": [
+        30,
+        600
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "mainElevation"
+      ],
+      "ports": [
+        "South",
+        "North"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "One two-way boulevard, 6 lanes by default",
+      "specification": {
+        "laneWidths": [
+          3.75
+        ],
+        "pavedWidths": [
+          22.5
+        ],
+        "elevation": [
+          0,
+          0
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": null,
+        "ports": [
+          {
+            "label": "South",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 300
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "North",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -300
+            },
+            "heading": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "urban_boulevard_curve",
+      "category": "ROAD",
+      "description": "One two-way boulevard, 300m centerline radius",
+      "footprint": [
+        330,
+        330
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "mainElevation"
+      ],
+      "ports": [
+        "South",
+        "West"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "One two-way boulevard, 300m centerline radius",
+      "specification": {
+        "laneWidths": [
+          3.75
+        ],
+        "pavedWidths": [
+          22.5
+        ],
+        "elevation": [
+          0,
+          0
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": 300,
+        "ports": [
+          {
+            "label": "South",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "heading": 3.1366217791379025
+          },
+          {
+            "label": "West",
+            "position": {
+              "x": -300,
+              "y": 0,
+              "z": -300
+            },
+            "heading": -1.5658254523430057
+          }
+        ]
+      }
+    },
+    {
+      "id": "elevated_expressway_straight",
+      "category": "ROAD",
+      "description": "Separate northbound/southbound carriageways, 3 lanes each by default",
+      "footprint": [
+        38,
+        600
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "mainElevation"
+      ],
+      "ports": [
+        "South In",
+        "North Out",
+        "North In",
+        "South Out"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "Separate northbound/southbound carriageways, 3 lanes each by default",
+      "specification": {
+        "laneWidths": [
+          3.75
+        ],
+        "pavedWidths": [
+          13.75
+        ],
+        "elevation": [
+          8,
+          8
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": null,
+        "ports": [
+          {
+            "label": "South In",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": 300
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "North Out",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": -300
+            },
+            "heading": 0
+          },
+          {
+            "label": "North In",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": -300
+            },
+            "heading": 0
+          },
+          {
+            "label": "South Out",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": 300
+            },
+            "heading": 3.141592653589793
+          }
+        ]
+      }
+    },
+    {
+      "id": "elevated_expressway_curve",
+      "category": "ROAD",
+      "description": "Separate concentric carriageways, approximately 300m radius",
+      "footprint": [
+        340,
+        340
+      ],
+      "parameters": [
+        "position",
+        "rotation",
+        "mainRoadLanes",
+        "mainElevation"
+      ],
+      "ports": [
+        "South In",
+        "West Out",
+        "West In",
+        "South Out"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "Separate concentric carriageways, approximately 300m radius",
+      "specification": {
+        "laneWidths": [
+          3.75
+        ],
+        "pavedWidths": [
+          13.75
+        ],
+        "elevation": [
+          8,
+          8
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": 291.9,
+        "ports": [
+          {
+            "label": "South In",
+            "position": {
+              "x": 8.125,
+              "y": 8,
+              "z": 0
+            },
+            "heading": 3.1367445167786925
+          },
+          {
+            "label": "West Out",
+            "position": {
+              "x": -300,
+              "y": 8,
+              "z": -308.125
+            },
+            "heading": -1.5659481899837957
+          },
+          {
+            "label": "West In",
+            "position": {
+              "x": -300,
+              "y": 8,
+              "z": -291.875
+            },
+            "heading": -1.5656630054654976
+          },
+          {
+            "label": "South Out",
+            "position": {
+              "x": -8.125,
+              "y": 8,
+              "z": 0
+            },
+            "heading": 3.136459332260394
+          }
+        ]
+      }
+    },
+    {
+      "id": "signal_cross_6x6",
+      "category": "INTERSECTION",
+      "description": "N/S 6 lanes, E/W 6 lanes, two-way",
+      "footprint": [
+        470,
+        470
+      ],
+      "parameters": [
+        "position",
+        "rotation"
+      ],
+      "ports": [
+        "North",
+        "East",
+        "South",
+        "West"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "N/S 6 lanes, E/W 6 lanes, two-way",
+      "specification": {
+        "laneWidths": [
+          3.75
+        ],
+        "pavedWidths": [
+          22.5
+        ],
+        "elevation": [
+          0,
+          0
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": null,
+        "ports": [
+          {
+            "label": "North",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -220
+            },
+            "heading": 0
+          },
+          {
+            "label": "East",
+            "position": {
+              "x": 220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": 1.5707963267948966
+          },
+          {
+            "label": "South",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 220
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "West",
+            "position": {
+              "x": -220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": -1.5707963267948966
+          }
+        ]
+      }
+    },
+    {
+      "id": "signal_cross_6x4",
+      "category": "INTERSECTION",
+      "description": "N/S 6 lanes, E/W 4 lanes, two-way",
+      "footprint": [
+        470,
+        470
+      ],
+      "parameters": [
+        "position",
+        "rotation"
+      ],
+      "ports": [
+        "North",
+        "East",
+        "South",
+        "West"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "N/S 6 lanes, E/W 4 lanes, two-way",
+      "specification": {
+        "laneWidths": [
+          3.75,
+          3.6
+        ],
+        "pavedWidths": [
+          22.5,
+          14.4
+        ],
+        "elevation": [
+          0,
+          0
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": null,
+        "ports": [
+          {
+            "label": "North",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -220
+            },
+            "heading": 0
+          },
+          {
+            "label": "East",
+            "position": {
+              "x": 220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": 1.5707963267948966
+          },
+          {
+            "label": "South",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 220
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "West",
+            "position": {
+              "x": -220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": -1.5707963267948966
+          }
+        ]
+      }
+    },
+    {
+      "id": "signal_cross_4x4",
+      "category": "INTERSECTION",
+      "description": "N/S 4 lanes, E/W 4 lanes, two-way",
+      "footprint": [
+        470,
+        470
+      ],
+      "parameters": [
+        "position",
+        "rotation"
+      ],
+      "ports": [
+        "North",
+        "East",
+        "South",
+        "West"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "N/S 4 lanes, E/W 4 lanes, two-way",
+      "specification": {
+        "laneWidths": [
+          3.6
+        ],
+        "pavedWidths": [
+          14.4
+        ],
+        "elevation": [
+          0,
+          0
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": null,
+        "ports": [
+          {
+            "label": "North",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -220
+            },
+            "heading": 0
+          },
+          {
+            "label": "East",
+            "position": {
+              "x": 220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": 1.5707963267948966
+          },
+          {
+            "label": "South",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 220
+            },
+            "heading": 3.141592653589793
+          },
+          {
+            "label": "West",
+            "position": {
+              "x": -220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": -1.5707963267948966
+          }
+        ]
+      }
+    },
+    {
+      "id": "t_4x2",
+      "category": "INTERSECTION",
+      "description": "E/W 4 lanes and north 2-lane stem, two-way",
+      "footprint": [
+        470,
+        250
+      ],
+      "parameters": [
+        "position",
+        "rotation"
+      ],
+      "ports": [
+        "North",
+        "East",
+        "West"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "E/W 4 lanes and north 2-lane stem, two-way",
+      "specification": {
+        "laneWidths": [
+          3.6
+        ],
+        "pavedWidths": [
+          7.2,
+          14.4
+        ],
+        "elevation": [
+          0,
+          0
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": null,
+        "ports": [
+          {
+            "label": "North",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -220
+            },
+            "heading": 0
+          },
+          {
+            "label": "East",
+            "position": {
+              "x": 220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": 1.5707963267948966
+          },
+          {
+            "label": "West",
+            "position": {
+              "x": -220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": -1.5707963267948966
+          }
+        ]
+      }
+    },
+    {
+      "id": "t_4x4",
+      "category": "INTERSECTION",
+      "description": "E/W 4 lanes and north 4-lane stem, two-way",
+      "footprint": [
+        470,
+        250
+      ],
+      "parameters": [
+        "position",
+        "rotation"
+      ],
+      "ports": [
+        "North",
+        "East",
+        "West"
+      ],
+      "usage": "Production V1; use exposed endpoint poses to continue roads.",
+      "production": true,
+      "layout": "E/W 4 lanes and north 4-lane stem, two-way",
+      "specification": {
+        "laneWidths": [
+          3.6
+        ],
+        "pavedWidths": [
+          14.4
+        ],
+        "elevation": [
+          0,
+          0
+        ],
+        "maximumGradePercent": 0,
+        "minimumCurveRadius": null,
+        "ports": [
+          {
+            "label": "North",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -220
+            },
+            "heading": 0
+          },
+          {
+            "label": "East",
+            "position": {
+              "x": 220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": 1.5707963267948966
+          },
+          {
+            "label": "West",
+            "position": {
+              "x": -220,
+              "y": 0,
+              "z": 0
+            },
+            "heading": -1.5707963267948966
+          }
+        ]
+      }
+    }
   ]
 }

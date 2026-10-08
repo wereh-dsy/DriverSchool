@@ -14,6 +14,7 @@ import { BrakeSystem } from './BrakeSystem';
 import { DriverAssistSystem, type DriverAssistOptions, type DriverAssistSnapshot } from './DriverAssistSystem';
 import { Clutch, type ClutchState } from './Clutch';
 import { Engine, type RevHangSnapshot } from './Engine';
+import { FuelSystem, type FuelSnapshot } from './FuelSystem';
 import { DrivetrainLash, type DrivetrainLashSnapshot } from './DrivetrainLash';
 import { Gearbox } from './Gearbox';
 import { SteeringSystem } from './SteeringSystem';
@@ -86,6 +87,7 @@ interface TyreContactForces {
 type FourWheelValues = [number, number, number, number];
 
 export interface VehicleInitialState {
+  currentFuelL?: number;
   x?: number;
   z?: number;
   yaw?: number;
@@ -129,6 +131,9 @@ export interface VehicleForceSnapshot {
 }
 
 export interface VehicleSnapshot {
+  fuel: FuelSnapshot;
+  baseVehicleMass: number;
+  effectiveVehicleMass: number;
   driveMode?: import('../config').VehicleDriveMode;
   x: number;
   z: number;
@@ -233,6 +238,20 @@ const ZERO_FORCES: VehicleForceSnapshot = {
  * of keyboards, gamepads, steering wheels, renderers, or wall-clock time.
  */
 export class VehicleDynamics {
+  public readonly fuel: FuelSystem;
+  /** Shared mass entry for all mass-dependent physics; config.mass stays base mass. */
+  private readonly runtimeConfig: VehiclePhysicsConfig;
+  public get effectiveVehicleMass(): number { return this.runtimeConfig.mass; }
+
+  public setCurrentFuelL(litres: number): void {
+    this.fuel.setCurrentFuelL(litres);
+    this.synchronizeFuel();
+  }
+
+  private synchronizeFuel(): void {
+    this.runtimeConfig.mass = this.config.mass + this.fuel.fuelMassKg;
+    this.engine.setFuelAvailable(this.fuel.hasFuel);
+  }
   public readonly engine: Engine;
   public readonly clutch: Clutch;
   public readonly autoClutch: AutoClutchController;
@@ -285,6 +304,8 @@ export class VehicleDynamics {
     public readonly config: VehiclePhysicsConfig = createDefaultVehiclePhysicsConfig(),
     initialState: VehicleInitialState = {},
   ) {
+    this.fuel = new FuelSystem(config.fuel, config.engine);
+    this.runtimeConfig = { ...config, mass: config.mass + this.fuel.fuelMassKg };
     this.differential = new OpenDifferential(config.drivetrainType === 'RWD' ? 'rear' : 'front');
     this.rearDifferential = config.drivetrainType === 'AWD' ? new OpenDifferential('rear') : undefined;
     this.awd = config.drivetrainType === 'AWD' ? new AWDTorqueDistribution(config) : undefined;
@@ -295,7 +316,7 @@ export class VehicleDynamics {
     this.transmission = createTransmissionSystem(config.transmission, this.gearbox, this.clutch, this.autoClutch, config.wheelRadius);
     this.drivetrainLash = new DrivetrainLash(this.transmission.type === 'MANUAL' ? config.transmission.drivetrainLash : undefined);
     this.brakes = new BrakeSystem(config.brakes, config.wheelRadius);
-    this.driverAssists = new DriverAssistSystem(config);
+    this.driverAssists = new DriverAssistSystem(this.runtimeConfig);
     this.steering = new SteeringSystem(
       config.steering,
       config.wheelBase,
@@ -305,7 +326,7 @@ export class VehicleDynamics {
       config.engine.shiftRecommendation,
       this.gearbox.getMaximumForwardGear(),
     );
-    this.suspension = new SuspensionSystem(config);
+    this.suspension = new SuspensionSystem(this.runtimeConfig);
     this.wheelRotation = new WheelRotationSystem(config.tires, config.wheelRadius);
     this.lastValidState = {
       x: 0,
@@ -327,6 +348,9 @@ export class VehicleDynamics {
   }
 
   public reset(initialState: VehicleInitialState = {}): VehicleSnapshot {
+    if (initialState.currentFuelL !== undefined) this.fuel.setCurrentFuelL(initialState.currentFuelL);
+    this.fuel.resetTrip();
+    this.synchronizeFuel();
     if (this.config.driveModes !== undefined) this.setDriveMode('NORMAL');
     this.x = this.finiteOr(initialState.x, 0);
     this.z = this.finiteOr(initialState.z, 0);
@@ -449,7 +473,7 @@ export class VehicleDynamics {
    * feedback without knowing any drivetrain internals.
    */
   public requestEngineStart(): boolean {
-    if (this.engine.isRunning) return false;
+    if (this.engine.isRunning || this.engine.isStarting || !this.fuel.hasFuel) return false;
     const automaticMode = this.transmission.getSnapshot().selectedMode;
     const drivetrainIsSafe = this.transmission.type !== 'MANUAL'
       ? automaticMode === 'P' || automaticMode === 'N'
@@ -469,7 +493,7 @@ export class VehicleDynamics {
    * the normal clutch model and no pose or velocity state is rewritten.
    */
   public requestEngineStop(): boolean {
-    if (!this.engine.isRunning) return false;
+    if (!this.engine.isRunning && !this.engine.isStarting) return false;
     this.engine.stop();
     this.updateUpshiftRecommendation();
     this.storeLastValidState();
@@ -478,7 +502,7 @@ export class VehicleDynamics {
 
   /** One edge-triggered cockpit command can safely operate both directions. */
   public requestEngineToggle(): EngineToggleResult {
-    if (this.engine.isRunning) {
+    if (this.engine.isRunning || this.engine.isStarting) {
       this.requestEngineStop();
       return 'stopped';
     }
@@ -605,6 +629,9 @@ export class VehicleDynamics {
     const automaticEngagement = transmission.dct === undefined ? 0 :
       transmission.dct.clutchAEngagement + transmission.dct.clutchBEngagement;
     return {
+      fuel: this.fuel.getSnapshot(),
+      baseVehicleMass: this.config.mass,
+      effectiveVehicleMass: this.effectiveVehicleMass,
       x: this.x,
       z: this.z,
       yaw: this.yaw,
@@ -727,7 +754,11 @@ export class VehicleDynamics {
     const clutchTorque = transmissionOutput.engineLoadTorque;
     const lashFactor = this.drivetrainLash.update(dt, transmissionOutput.transmittedTorque,
       this.config.clutch.maxClutchTorque);
-    this.engine.integrate(dt, clutchTorque);
+    const fuelRPM = this.engine.currentRPM;
+    const fuelThrottle = this.engine.throttle;
+    const engineTorque = this.engine.integrate(dt, clutchTorque);
+    this.fuel.update(dt, fuelRPM, fuelThrottle, engineTorque, this.speed, this.lateralVelocity, this.driveMode);
+    this.synchronizeFuel();
 
     const dragForce =
       -0.5 *
@@ -737,7 +768,7 @@ export class VehicleDynamics {
       this.speed *
       Math.abs(this.speed);
     const grade = this.getContactGrade(environment);
-    const gradeForce = -this.config.mass * this.config.gravity * Math.sin(grade);
+    const gradeForce = -this.effectiveVehicleMass * this.config.gravity * Math.sin(grade);
     const externalForce = this.finiteOr(environment.externalLongitudinalForce, 0);
     const tyreForces = this.calculateTyreContactForces(
       dt,
@@ -758,7 +789,7 @@ export class VehicleDynamics {
     const brakeForce = serviceBrakeForce + handbrakeForce;
     const netForce = forceWithoutBrakes + brakeForce;
 
-    this.acceleration = netForce / Math.max(1, this.config.mass) -
+    this.acceleration = netForce / Math.max(1, this.effectiveVehicleMass) -
       this.lateralVelocity * this.yawRate;
     const previousSpeed = this.speed;
     let nextSpeed = previousSpeed + this.acceleration * dt;
@@ -772,7 +803,7 @@ export class VehicleDynamics {
     if (Math.abs(nextSpeed) < 0.002 && Math.abs(netForce) < rollingMagnitude + 1) nextSpeed = 0;
     // Only remove numerical residue at rest; normal braking is tyre slip/force.
     if (this.brakes.brakeInput > 0.1 && Math.abs(nextSpeed) < 0.003 &&
-      Math.abs(netForce) < this.config.mass * 0.1) nextSpeed = 0;
+      Math.abs(netForce) < this.effectiveVehicleMass * 0.1) nextSpeed = 0;
     if (tyreForces.staticSupported) nextSpeed = 0;
     this.speed = clamp(
       nextSpeed,
@@ -843,7 +874,7 @@ export class VehicleDynamics {
       this.yawRate += clamp(yawAcceleration, -5, 5) * dt;
       const maximumYawRate = Math.max(0.1, this.config.steering.maximumYawRate);
       this.yawRate = clamp(this.yawRate, -maximumYawRate, maximumYawRate);
-      const lateralAcceleration = contacts.lateralForce / Math.max(1, this.config.mass) + averageSpeed * this.yawRate;
+      const lateralAcceleration = contacts.lateralForce / Math.max(1, this.effectiveVehicleMass) + averageSpeed * this.yawRate;
       this.lateralVelocity += lateralAcceleration * dt;
       if (absoluteSpeed < 0.4) {
         const restBlend = clamp01(1 - absoluteSpeed / 0.4);
@@ -862,7 +893,7 @@ export class VehicleDynamics {
     this.z += (-Math.cos(middleYaw) * averageSpeed -
       Math.sin(middleYaw) * this.lateralVelocity) * dt;
     this.yaw = wrapAngle(this.yaw + this.yawRate * dt);
-    this.lateralAcceleration = contacts.lateralForce / Math.max(1, this.config.mass);
+    this.lateralAcceleration = contacts.lateralForce / Math.max(1, this.effectiveVehicleMass);
   }
 
   /** Refresh contact metadata after the scene adapter's final pose/collision query. */
@@ -932,7 +963,7 @@ export class VehicleDynamics {
       normal: environment.groundNormal ?? { x: 0, y: Math.cos(grade), z: Math.sin(grade) },
       // Coordinate-speed derivative also contains -v_lateral*yawRate; load
       // transfer must use the actual body-forward force acceleration instead.
-      longitudinalAcceleration: this.forces.netForce / Math.max(1, this.config.mass),
+      longitudinalAcceleration: this.forces.netForce / Math.max(1, this.effectiveVehicleMass),
       lateralAcceleration: this.lateralAcceleration,
     });
     const frontWeight = clamp(this.config.frontWeightBias, 0.05, 0.95);
@@ -1008,7 +1039,7 @@ export class VehicleDynamics {
           this.config.wheelRadius) * cosine;
       }
       const required = -otherLongitudinalForce - sum(rollingForces.map((f, i) => f * Math.cos(angles[i]!))) -
-        this.config.mass * this.speed / Math.max(1e-4, dt);
+        this.effectiveVehicleMass * this.speed / Math.max(1e-4, dt);
       const lower = sum(minimum); const upper = sum(maximum);
       if (minimum.every((v, i) => v <= maximum[i]!) && required >= lower && required <= upper) {
         const blend = upper - lower > 1e-6 ? (required - lower) / (upper - lower) : 0;

@@ -1,3 +1,5 @@
+import type { VehicleAudioProfile } from './VehicleAudioProfile';
+
 /** Additional telemetry used by the synthesized vehicle and road-noise layers. */
 export interface EngineAudioUpdateOptions {
   /** Vehicle speed in metres per second. */
@@ -8,6 +10,13 @@ export interface EngineAudioUpdateOptions {
   clutchEngagement?: number;
   /** Surface roughness from 0 (smooth asphalt) to 1 (very coarse). */
   roadRoughness?: number;
+  profile?: VehicleAudioProfile;
+  cockpit?: boolean;
+  driveMode?: string;
+  ignitionPhase?: 'OFF' | 'CRANKING' | 'CATCH' | 'RUNNING' | 'STOPPING';
+  cruiseActive?: boolean;
+  lowFuel?: boolean;
+  parkingDistance?: number | null;
 }
 
 interface EngineMix {
@@ -52,16 +61,21 @@ export const calculateEngineAudioMix = (
   const roadRoughness = clamp(options.roadRoughness ?? 0.12);
   const speedNormal = smoothStep(speed / 42);
 
+  const profile = options.profile;
+  const sport = options.driveMode === 'SPORT' ? (profile?.sportPresence ?? 1) : 1;
+  const cabin = profile && options.cockpit !== false
+    ? profile.cabinIdle + (profile.cabinLoad - profile.cabinIdle) * smoothStep(load) : 1;
+  const presence = cabin * sport;
   return {
     // A four-cylinder four-stroke engine fires twice per crankshaft revolution.
     firingHz: clamp(safeRpm / 30, 18, 285),
-    exhaust: 0.030 + load * 0.026 + rpmNormal * 0.009,
-    exhaustBody: (1 - rpmNormal * 0.72) * (0.018 + load * 0.009),
-    upperExhaust: 0.006 + rpmNormal * 0.015 + load * 0.006,
-    intake: 0.0015 + Math.pow(load, 1.35) * 0.031 + rpmNormal * safeThrottle * 0.006,
-    mechanical: 0.0025 + rpmNormal * 0.010 + (1 - load) * rpmNormal * 0.002,
-    road: speedNormal * (0.011 + roadRoughness * 0.021),
-    wind: Math.pow(clamp(speed / 50), 1.7) * 0.020,
+    exhaust: profile ? (0.008 + Math.pow(load, 1.3) * 0.065 + rpmNormal * load * 0.008) * presence : 0.030 + load * 0.026 + rpmNormal * 0.009,
+    exhaustBody: profile ? (0.011 + load * 0.048) * (1 - rpmNormal * .35) * presence : (1 - rpmNormal * 0.72) * (0.018 + load * 0.009),
+    upperExhaust: profile ? (.001 + rpmNormal * load * .004) * presence : 0.006 + rpmNormal * 0.015 + load * 0.006,
+    intake: profile ? (.0006 + Math.pow(load, 2) * .016) * presence : 0.0015 + Math.pow(load, 1.35) * 0.031 + rpmNormal * safeThrottle * 0.006,
+    mechanical: profile ? (.0008 + rpmNormal * .003) * presence : 0.0025 + rpmNormal * 0.010 + (1 - load) * rpmNormal * 0.002,
+    road: speedNormal * (0.011 + roadRoughness * 0.021) * (profile && options.cockpit !== false ? profile.cabinRoad : 1),
+    wind: Math.pow(clamp(speed / 50), 1.7) * 0.020 * (profile && options.cockpit !== false ? profile.cabinWind : 1),
     load,
     speed,
   };
@@ -109,6 +123,24 @@ export class EngineAudio {
   private visibilityListenerAttached = false;
   private lastRunning = false;
   private lastFiringHz = 28;
+  private profile: VehicleAudioProfile | undefined;
+  private starter: OscillatorNode | null = null;
+  private starterGain: GainNode | null = null;
+  private lastPhase = 'OFF';
+  private lastMode = '';
+  private lastCruise = false;
+  private lastLowFuel = false;
+  private nextParkingChime = 0;
+
+  public configure(profile?: VehicleAudioProfile): void {
+    this.profile = profile;
+    this.lastPhase = 'OFF'; this.lastRunning = false; this.lastMode = '';
+    this.lastCruise = false; this.lastLowFuel = false;
+    if (this.context) {
+      this.setPulseWave(this.context);
+      this.starterGain?.gain.setTargetAtTime(SILENCE, this.context.currentTime, .04);
+    }
+  }
 
   async start(): Promise<void> {
     if (!this.context) this.createGraph();
@@ -144,28 +176,50 @@ export class EngineAudio {
     if (!context) return;
     if (context.state === 'suspended' && document.visibilityState === 'visible') void this.resume();
 
+    options = { ...options, profile: this.profile };
     const mix = calculateEngineAudioMix(rpm, throttle, options);
     const now = context.currentTime;
     this.updateRoadNoise(mix, now);
 
-    if (!running || rpm < 80) {
+    if (this.profile) {
+      const phase = options.ignitionPhase ?? (running ? 'RUNNING' : 'OFF');
+      if (phase !== this.lastPhase) {
+        if (phase === 'CRANKING') this.playChime('startup');
+        if (phase === 'CATCH') this.playEngineCatchTransient();
+        if (phase === 'STOPPING') this.playShutdownTransient();
+        this.lastPhase = phase;
+      }
+      this.starterGain?.gain.setTargetAtTime(phase === 'CRANKING' ? this.profile.starterLevel : SILENCE, now, .035);
+      this.starter?.frequency.setTargetAtTime(64 + clamp(rpm / 300) * 38, now, .025);
+      if (this.lastMode && options.driveMode !== this.lastMode) this.playChime('mode');
+      if ((options.cruiseActive ?? false) !== this.lastCruise) this.playChime('cruise');
+      if (options.lowFuel && !this.lastLowFuel) this.playChime('fuel');
+      const proximity = options.parkingDistance;
+      if (proximity != null && proximity < 1.8 && now >= this.nextParkingChime) {
+        this.playChime('parking'); this.nextParkingChime = now + .45 + clamp(proximity / 1.8) * 1.25;
+      }
+      this.lastMode = options.driveMode ?? ''; this.lastCruise = options.cruiseActive ?? false;
+      this.lastLowFuel = options.lowFuel ?? false;
+    }
+    if ((!running && !(this.profile && options.ignitionPhase === 'STOPPING' && rpm > 30)) || rpm < (this.profile ? 30 : 80)) {
       this.engineBus?.gain.setTargetAtTime(SILENCE, now, 0.16);
-      if (this.lastRunning) this.playShutdownTransient();
+      if (this.lastRunning && !this.profile) this.playShutdownTransient();
       this.lastRunning = false;
       return;
     }
 
-    if (!this.lastRunning) this.playEngineCatchTransient();
+    if (!this.lastRunning && !this.profile) this.playEngineCatchTransient();
     this.lastRunning = true;
     this.lastFiringHz = mix.firingHz;
 
-    this.engineBus?.gain.setTargetAtTime(0.70, now, 0.14);
+    this.engineBus?.gain.setTargetAtTime(options.ignitionPhase === 'STOPPING' && this.profile
+      ? .42 * clamp(rpm / 750) : .70, now, this.profile ? .055 : .14);
     this.exhaustPulse?.frequency.setTargetAtTime(mix.firingHz, now, 0.040);
     this.exhaustBody?.frequency.setTargetAtTime(mix.firingHz * 0.502, now, 0.052);
     this.upperExhaust?.frequency.setTargetAtTime(mix.firingHz * 2.012, now, 0.038);
     this.mechanical?.frequency.setTargetAtTime(Math.max(105, mix.firingHz * 5.96), now, 0.055);
     this.roughnessLfo?.frequency.setTargetAtTime(5.3 + clamp(rpm / 6_500) * 2.2, now, 0.18);
-    this.roughnessDepth?.gain.setTargetAtTime(4.2 - clamp(rpm / 6_500) * 2.4, now, 0.20);
+    this.roughnessDepth?.gain.setTargetAtTime(this.profile ? .7 : 4.2 - clamp(rpm / 6_500) * 2.4, now, 0.20);
 
     this.exhaustGain?.gain.setTargetAtTime(mix.exhaust, now, 0.075);
     this.exhaustBodyGain?.gain.setTargetAtTime(mix.exhaustBody, now, 0.095);
@@ -174,12 +228,12 @@ export class EngineAudio {
     this.mechanicalGain?.gain.setTargetAtTime(mix.mechanical, now, 0.10);
 
     this.exhaustFilter?.frequency.setTargetAtTime(
-      235 + rpm * 0.145 + mix.load * 390,
+      this.profile ? this.profile.exhaustCutoff + rpm * .055 + mix.load * 185 : 235 + rpm * 0.145 + mix.load * 390,
       now,
       0.075,
     );
     this.intakeFilter?.frequency.setTargetAtTime(
-      430 + rpm * 0.21 + mix.load * 430,
+      this.profile ? 310 + rpm * .085 + mix.load * 240 : 430 + rpm * 0.21 + mix.load * 430,
       now,
       0.085,
     );
@@ -217,6 +271,7 @@ export class EngineAudio {
       this.intakeNoise,
       this.roadNoise,
       this.windNoise,
+      this.starter,
     ];
     for (const source of sources) {
       try {
@@ -272,14 +327,13 @@ export class EngineAudio {
 
   private createEngineLayers(context: AudioContext, now: number): void {
     if (!this.engineBus) return;
-    const pulseWave = context.createPeriodicWave(
-      new Float32Array([0, 0, 0, 0, 0, 0]),
-      new Float32Array([0, 1, 0.24, 0.13, 0.065, 0.035]),
-      { disableNormalization: false },
-    );
-
     this.exhaustPulse = context.createOscillator();
-    this.exhaustPulse.setPeriodicWave(pulseWave);
+    this.setPulseWave(context);
+    this.starter = context.createOscillator(); this.starter.type = 'triangle';
+    this.starterGain = this.createSilentGain(context, now);
+    const starterFilter = context.createBiquadFilter(); starterFilter.type = 'lowpass'; starterFilter.frequency.value = 360;
+    this.starter.connect(starterFilter).connect(this.starterGain).connect(this.transientBus!);
+    this.starter.start();
     this.exhaustBody = context.createOscillator();
     this.exhaustBody.type = 'sine';
     this.upperExhaust = context.createOscillator();
@@ -403,7 +457,7 @@ export class EngineAudio {
     const bus = this.transientBus;
     if (!context || !bus) return;
     const now = context.currentTime;
-    const envelope = this.createOneShotEnvelope(context, now, 0.28, 0.032, 0.012, 0.11);
+    const envelope = this.createOneShotEnvelope(context, now, 0.28, this.profile ? .017 : .032, 0.012, 0.11);
     const catchPulse = context.createOscillator();
     catchPulse.type = 'triangle';
     catchPulse.frequency.setValueAtTime(49, now);
@@ -422,9 +476,11 @@ export class EngineAudio {
     const bus = this.transientBus;
     if (!context || !bus) return;
     const now = context.currentTime;
-    this.engineBus?.gain.cancelScheduledValues(now);
-    this.engineBus?.gain.setTargetAtTime(SILENCE, now, 0.19);
-    const envelope = this.createOneShotEnvelope(context, now, 0.46, 0.026, 0.006, 0.25);
+    if (!this.profile) {
+      this.engineBus?.gain.cancelScheduledValues(now);
+      this.engineBus?.gain.setTargetAtTime(SILENCE, now, 0.19);
+    }
+    const envelope = this.createOneShotEnvelope(context, now, 0.46, this.profile ? .006 : .026, 0.006, 0.25);
     const tail = context.createOscillator();
     tail.type = 'triangle';
     tail.frequency.setValueAtTime(clamp(this.lastFiringHz, 24, 170), now);
@@ -436,6 +492,24 @@ export class EngineAudio {
     tail.connect(filter).connect(envelope).connect(bus);
     tail.start(now);
     tail.stop(now + 0.46);
+  }
+
+  private setPulseWave(context: AudioContext): void {
+    const harmonics = this.profile?.pulseHarmonics ?? [0, 1, .24, .13, .065, .035];
+    this.exhaustPulse?.setPeriodicWave(context.createPeriodicWave(
+      new Float32Array(harmonics.length), new Float32Array(harmonics)));
+  }
+
+  private playChime(kind: 'startup' | 'mode' | 'cruise' | 'fuel' | 'parking'): void {
+    const context = this.context, bus = this.transientBus;
+    if (!context || !bus || !this.profile) return;
+    const notes = kind === 'startup' ? [392, 523] : kind === 'fuel' ? [440, 349] : [440];
+    notes.forEach((frequency, index) => {
+      const now = context.currentTime + index * .13;
+      const tone = context.createOscillator(); tone.type = 'sine'; tone.frequency.value = frequency;
+      const envelope = this.createOneShotEnvelope(context, now, .32, this.profile!.chimeLevel, .025, .24);
+      tone.connect(envelope).connect(bus); tone.start(now); tone.stop(now + .32);
+    });
   }
 
   private createOneShotEnvelope(

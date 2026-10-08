@@ -13,6 +13,8 @@ export type {
 export { Clutch } from './Clutch';
 export type { ClutchState } from './Clutch';
 export { Engine } from './Engine';
+export { FuelSystem } from './FuelSystem';
+export type { FuelSnapshot } from './FuelSystem';
 export type { EngineTorqueSample } from './Engine';
 export { Gearbox } from './Gearbox';
 export { SteeringSystem } from './SteeringSystem';

@@ -125,6 +125,11 @@ export interface CVTConfig {
 }
 
 export interface EngineConfig {
+  /** Optional starter/shutdown rotation; steady-state combustion calibration is unchanged. */
+  ignitionSequence?: { crankingDuration: number; crankingRPM: number; flareRPM: number;
+    settlingDuration: number; shutdownFriction: number };
+  /** Swept volume used by the lightweight fuel-loss approximation, litres. */
+  displacementL: number;
   /** Omitted/disabled: preserve the original naturally aspirated torque path. */
   turbo?: TurbochargerConfig;
   /** Mild throttle-to-combustion curve; 1 keeps the full-load curve linear. */
@@ -408,11 +413,13 @@ export interface DriveModeCalibration {
 }
 
 export interface VehiclePhysicsConfig {
+  fuel: FuelConfig;
   driveModes?: Readonly<Record<VehicleDriveMode, DriveModeCalibration>>;
   /** Exterior envelope and wheel geometry, in metres. */
   length: number;
   width: number;
   height: number;
+  /** Base vehicle mass excluding consumable fuel, kg. */
   mass: number;
   wheelBase: number;
   frontTrackWidth: number;
@@ -458,4 +465,15 @@ export interface VehiclePhysicsConfig {
   suspension: SuspensionConfig;
   driverAids: DriverAidConfig;
   safety: SimulationSafetyConfig;
+}
+
+export interface FuelConfig {
+  tankCapacityL: number;
+  defaultFuelL: number;
+  /** Petrol density, kg/L. */
+  fuelDensity: number;
+  /** Approximate best conversion of fuel energy to crankshaft work. */
+  peakThermalEfficiency: number;
+  /** Range seed until a useful moving consumption history exists. */
+  referenceConsumptionLPer100km: number;
 }

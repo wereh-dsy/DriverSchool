@@ -18,6 +18,8 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   ...DEFAULT_VEHICLE_PHYSICS_CONFIG,
   ...SPORT_COUPE_DIMENSIONS,
   mass: 1_490,
+  fuel: { tankCapacityL: 65, defaultFuelL: 45, fuelDensity: 0.745,
+    peakThermalEfficiency: 0.31, referenceConsumptionLPer100km: 11.5 },
   trackWidth: 1.61,
   frontWeightBias: 0.52,
   centerOfMassHeight: 0.46,
@@ -30,6 +32,7 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   drivenWheelWeightFraction: 0.48,
   engine: {
     ...DEFAULT_VEHICLE_PHYSICS_CONFIG.engine,
+    displacementL: 3.8,
     partThrottleExponent: 1.05,
     revHang: { enabled: true, holdTime: 0.045, decayTime: 0.14, strength: 0.34 },
     idleRPM: 920,

@@ -23,6 +23,10 @@ export interface CircuitTrackConfig {
   readonly shoulderWidth: number;
   /** Clear grass runoff measured from the asphalt edge to the guardrail. */
   readonly barrierOffset: number;
+  readonly kerbWidth: number;
+  readonly flowingOuterSetback: number;
+  readonly brakingOuterSetback: number;
+  readonly brakingRunoffWidth: number;
   readonly mainStraightMinimumLength: number;
   readonly corners: readonly CircuitCornerConfig[];
   readonly markings: {
@@ -53,9 +57,13 @@ export const DEFAULT_CIRCUIT_TRACK_CONFIG: CircuitTrackConfig = Object.freeze({
   schemaVersion: '1.0.0',
   lapLengthTarget: 1_560,
   lapLengthRange: [1_200, 1_800] as const,
-  trackWidth: 9.5,
+  trackWidth: 11.5,
   shoulderWidth: 1.6,
   barrierOffset: 7.2,
+  kerbWidth: 0.85,
+  flowingOuterSetback: 4,
+  brakingOuterSetback: 6,
+  brakingRunoffWidth: 5.2,
   mainStraightMinimumLength: 340,
   corners: Object.freeze([
     Object.freeze({

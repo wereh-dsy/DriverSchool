@@ -55,6 +55,17 @@ export class Engine {
   public currentRPM: number;
   public throttle = 0;
   public isRunning = true;
+  public ignitionPhase: 'OFF' | 'CRANKING' | 'CATCH' | 'RUNNING' | 'STOPPING' = 'RUNNING';
+  private ignitionElapsed = 0;
+  public get isStarting(): boolean { return this.ignitionPhase === 'CRANKING' || this.ignitionPhase === 'CATCH'; }
+  private fuelAvailable = true;
+  private fuelStarvedCoasting = false;
+
+  public setFuelAvailable(available: boolean): void {
+    this.fuelAvailable = available;
+    if (!available && this.currentRPM > 0) this.fuelStarvedCoasting = true;
+    if (available && this.isRunning) this.fuelStarvedCoasting = false;
+  }
 
   private readonly torqueCurve: readonly TorqueCurvePoint[];
   private readonly baseTorqueCurve: readonly TorqueCurvePoint[] | undefined;
@@ -84,8 +95,11 @@ export class Engine {
 
   public reset(rpm = this.config.idleRPM, running = true): void {
     this.torqueLimitFactor = 1;
-    this.isRunning = running;
-    this.currentRPM = running
+    this.fuelStarvedCoasting = false;
+    this.isRunning = running && this.fuelAvailable;
+    this.ignitionPhase = this.isRunning ? 'RUNNING' : 'OFF';
+    this.ignitionElapsed = 0;
+    this.currentRPM = this.isRunning
       ? clamp(rpm, this.config.stallRPM + 1, this.config.maxRPM)
       : 0;
     this.throttle = 0;
@@ -96,16 +110,23 @@ export class Engine {
 
   /** Starter abstraction; ignition timing and battery state can be added later. */
   public start(): void {
-    this.isRunning = true;
-    this.currentRPM = this.config.idleRPM;
+    if (!this.fuelAvailable) return;
+    this.fuelStarvedCoasting = false;
+    this.isRunning = this.config.ignitionSequence === undefined;
+    this.ignitionPhase = this.config.ignitionSequence === undefined ? 'RUNNING' : 'CRANKING';
+    this.ignitionElapsed = 0;
+    if (this.config.ignitionSequence === undefined) this.currentRPM = this.config.idleRPM;
     this.throttle = 0;
     this.fuelCutActive = false;
     this.resetRevHang();
   }
 
   public stop(): void {
+    this.fuelStarvedCoasting = false;
     this.isRunning = false;
-    this.currentRPM = 0;
+    this.ignitionPhase = this.config.ignitionSequence !== undefined && this.currentRPM > 0 ? 'STOPPING' : 'OFF';
+    this.ignitionElapsed = 0;
+    if (this.config.ignitionSequence === undefined) this.currentRPM = 0;
     this.throttle = 0;
     this.fuelCutActive = false;
     this.resetRevHang();
@@ -215,7 +236,7 @@ export class Engine {
 
   /** Current net torque available at the crank before clutch load. */
   public getTorqueSample(): EngineTorqueSample {
-    if (!this.isRunning) {
+    if (!this.isRunning && !this.fuelStarvedCoasting) {
       return {
         combustionTorque: 0,
         mechanicalFrictionTorque: 0,
@@ -229,7 +250,8 @@ export class Engine {
 
     const rpmRange = Math.max(1, this.config.redlineRPM - this.config.idleRPM);
     const normalizedRPM = clamp((this.currentRPM - this.config.idleRPM) / rpmRange, 0, 1);
-    const limiterMultiplier = this.fuelCutActive ? 0 : 1;
+    const canBurn = this.isRunning && this.fuelAvailable;
+    const limiterMultiplier = this.fuelCutActive || !canBurn ? 0 : 1;
     // The command curve shapes combustion only; it must not erase crank drag
     // at wide-open throttle. Legacy configurations retain the linear mapping.
     const combustionThrottle = clamp01(this.throttle) ** Math.max(0.1, this.config.partThrottleExponent ?? 1);
@@ -247,7 +269,10 @@ export class Engine {
     // The governor exactly compensates normal friction at target idle, then
     // adds a finite reserve as RPM sags. Unlike the old minimum-RPM clamp this
     // can be overwhelmed by a locked drivetrain, allowing a genuine stall.
-    const idleTarget = this.config.idleRPM;
+    const startup = this.config.ignitionSequence;
+    const idleTarget = this.ignitionPhase === 'CATCH' && startup !== undefined
+      ? this.config.idleRPM + (startup.flareRPM - this.config.idleRPM) *
+        Math.max(0, 1 - this.ignitionElapsed / startup.settlingDuration) : this.config.idleRPM;
     const idleError = clamp(
       (idleTarget - this.currentRPM) / Math.max(1, this.config.idleControlBandRPM),
       0,
@@ -255,16 +280,16 @@ export class Engine {
     );
     const idleReserve = Math.max(0, this.config.idleControlStrength - engineBrakingTorque);
     const idleActivation = clamp(
-      (this.config.idleRPM * 1.15 - this.currentRPM) /
+      (idleTarget * 1.15 - this.currentRPM) /
         Math.max(1, this.config.idleRPM * 0.15),
       0,
       1,
     );
     const idleControlTorque =
-      (engineBrakingTorque + idleReserve * idleError) * idleActivation;
+      canBurn ? (engineBrakingTorque + idleReserve * idleError) * idleActivation : 0;
     // Residual airflow offsets part of closed-throttle drag, never clamps RPM
     // or adds enough torque to defeat crank load, stall or engine braking.
-    const revHangTorque = Math.max(0, engineBrakingTorque - combustionTorque) *
+    const revHangTorque = (canBurn ? 1 : 0) * Math.max(0, engineBrakingTorque - combustionTorque) *
       clamp01(this.config.revHang?.strength ?? 0) * this.revHangFactor;
     const netCrankTorque = combustionTorque + idleControlTorque + revHangTorque - engineBrakingTorque;
 
@@ -273,27 +298,57 @@ export class Engine {
   }
 
   /** Apply clutch load and integrate crankshaft angular velocity. */
-  public integrate(dt: number, clutchLoadTorque: number): void {
+  public integrate(dt: number, clutchLoadTorque: number): EngineTorqueSample | undefined {
     if (!Number.isFinite(dt) || dt <= 0) return;
-    if (!this.isRunning) {
+    const sequence = this.config.ignitionSequence;
+    if (sequence !== undefined && this.ignitionPhase === 'STOPPING') {
+      const omega = this.angularVelocity;
+      const drag = this.config.engineFrictionTorque + sequence.shutdownFriction * Math.min(1, omega / 50);
+      this.currentRPM = radiansPerSecondToRPM(Math.max(0, omega - drag / this.config.engineInertia * dt));
+      if (this.currentRPM <= 1) { this.currentRPM = 0; this.ignitionPhase = 'OFF'; }
+      this.turbo?.update(dt, this.currentRPM, 0, 0, 0, 0, false);
+      return;
+    }
+    if (sequence !== undefined && this.ignitionPhase === 'CRANKING') {
+      if (!this.fuelAvailable) { this.stop(); return; }
+      this.ignitionElapsed += dt;
+      // Starter torque approaches cranking speed against inertia, with no combustion.
+      const starterTorque = Math.min(this.config.starterTorque,
+        Math.max(0, rpmToRadiansPerSecond(sequence.crankingRPM) - this.angularVelocity) * this.config.engineInertia * 8);
+      this.currentRPM += radiansPerSecondToRPM(starterTorque / this.config.engineInertia * dt);
+      if (this.ignitionElapsed >= sequence.crankingDuration) {
+        this.ignitionPhase = 'CATCH'; this.ignitionElapsed = 0; this.isRunning = true;
+      }
+      return;
+    }
+    if (this.ignitionPhase === 'CATCH' && sequence !== undefined) {
+      this.ignitionElapsed += dt;
+      if (this.ignitionElapsed >= sequence.settlingDuration) this.ignitionPhase = 'RUNNING';
+    }
+    if (!this.isRunning && !this.fuelStarvedCoasting) {
       this.currentRPM = 0;
       this.turbo?.update(dt, 0, 0, 0, 0, 0, false);
       return;
     }
     if (this.turbo) {
-      const demand = this.fuelCutActive ? 0
+      const demand = this.fuelCutActive || !this.fuelAvailable || !this.isRunning ? 0
         : clamp01(this.throttle) ** Math.max(0.1, this.config.partThrottleExponent ?? 1);
       this.turbo.update(dt, this.currentRPM, this.throttle, demand,
-        clutchLoadTorque, this.getTorqueAtRPM(this.currentRPM), true);
+        clutchLoadTorque, this.getTorqueAtRPM(this.currentRPM), this.isRunning && this.fuelAvailable);
     }
-    const torque = this.getTorqueSample().netCrankTorque - clutchLoadTorque;
+    const sample = this.getTorqueSample();
+    const torque = sample.netCrankTorque - clutchLoadTorque;
     const angularAcceleration = torque / Math.max(0.01, this.config.engineInertia);
     const nextAngularVelocity =
       rpmToRadiansPerSecond(this.currentRPM) + angularAcceleration * dt;
     const nextRPM = clamp(radiansPerSecondToRPM(nextAngularVelocity), 0, this.config.maxRPM);
-    if (nextRPM <= this.config.stallRPM) {
-      this.stop();
-      return;
+    if (nextRPM <= this.config.stallRPM && this.ignitionPhase !== 'CATCH') {
+      if (this.fuelStarvedCoasting) {
+        this.isRunning = false;
+        this.currentRPM = nextRPM;
+        if (nextRPM <= 0) this.fuelStarvedCoasting = false;
+      } else this.stop();
+      return sample;
     }
     this.currentRPM = nextRPM;
 
@@ -301,6 +356,7 @@ export class Engine {
     if (this.currentRPM < this.config.revLimiterRPM - 250) this.fuelCutActive = false;
 
     if (!Number.isFinite(this.currentRPM)) this.reset();
+    return sample;
   }
 
   public get angularVelocity(): number {

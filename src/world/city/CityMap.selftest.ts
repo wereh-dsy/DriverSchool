@@ -64,7 +64,7 @@ export function runCityMapSelfTest(): { roads: number; intersections: number; pr
 function runCityElevationSelfTest(): void {
   const map = newCityMap();
   const lower = createRoad(map, { id: 'lower', styleId: 'urban_street_4', centerline: [{ x: -150, z: 0 }, { x: 150, z: 0 }] });
-  const upper = createRoad(map, { id: 'upper', styleId: 'elevated_expressway_6', centerline: [{ x: 0, z: 150 }, { x: 0, z: -150 }] });
+  const upper = createRoad(map, { id: 'upper', styleId: 'elevated_expressway_6', elevation: 6, centerline: [{ x: 0, z: 150 }, { x: 0, z: -150 }] });
   const ramp = createRoad(map, { id: 'ramp', styleId: 'ramp_1', curve: 'smooth', centerline: [{ x: 0, y: 0, z: 300 }, { x: 0, y: 3, z: 225 }, { x: 0, y: 6, z: 150 }] });
   connectRoad(map, { roadId: ramp.id, end: 'end' }, { endpoint: { roadId: upper.id, end: 'start' } });
   const network = buildCityRoadNetwork(map);
@@ -90,10 +90,10 @@ function runCityElevationSelfTest(): void {
     assert(validateMap(candidate).valid && JSON.parse(saveMap(candidate)).schemaVersion === 2, `preset ${descriptor.id} valid/roundtrip`);
     assert([...stamp.roads, ...stamp.objects, ...stamp.intersections].every(e => e.groupId === stamp.groupId && e.presetSource === descriptor.id), 'expanded elements retain authoring metadata');
     const n = buildCityRoadNetwork(candidate);
-    assert(n.endpointNodes.filter(n => n.ends.length > 1).length > 0 || ['urban_overpass', 'residential_block', 'commercial_block', 'industrial_block'].includes(descriptor.id), 'preset has explicit continuation nodes');
+    assert(n.endpointNodes.filter(n => n.ends.length > 1).length > 0 || stamp.connectionPorts.length > 0 || descriptor.category === 'DISTRICT', 'preset exposes usable continuation nodes or ports');
   }
   const presetMap = newCityMap(), stamp = placePreset(presetMap, 'diamond_interchange');
-  const editable = stamp.roads[0]!; moveRoadNode(presetMap, editable.id, 0, { x: 100, y: 6, z: 350 }); deleteObject(presetMap, stamp.objects[0]?.id ?? editable.id);
+  const editable = stamp.roads[0]!; moveRoadNode(presetMap, editable.id, 0, { x: 100, y: 6, z: 350 }); deleteObject(presetMap, editable.id);
   assert(!presetMap.roads.some(r => r.id === editable.id), 'expanded road deletion removes references');
   const invalid = structuredClone(map); invalid.roads[0]!.centerline[1]!.y = 30; invalid.roads[0]!.elevationMode = 'custom'; invalid.roads[0]!.centerline[1]!.x = -149;
   assert(validateMap(invalid).errors.some(e => e.code === 'slope.extreme'), 'extreme grade is actionable error');

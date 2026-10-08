@@ -19,6 +19,12 @@ export function junctionExtent(j: CityIntersection, map: CityMapData): number {
   }
   return width / 2 + 7;
 }
+/** Signed paved edges; lanes keep their original centerline and direction. */
+export function roadEdges(road: CityRoad): { left: number; right: number; width: number } {
+  const half = road.laneCount * road.laneWidth / 2;
+  const left = -half - (road.shoulders?.left ?? 0), right = half + (road.shoulders?.right ?? 0);
+  return { left, right, width: right - left };
+}
 export function connectionPoint(j: CityIntersection, port: IntersectionPort, map: CityMapData): CityPoint {
   const d = rotatePoint(portDirections[port], j.rotation), extent = junctionExtent(j, map);
   return { x: j.position.x + d.x * extent, y: j.position.y ?? 0, z: j.position.z + d.z * extent };
@@ -36,6 +42,23 @@ export function syncConnections(map: CityMapData): void {
       r.centerline[c.end === 'start' ? 0 : r.centerline.length - 1] = target;
     }
   }
+  refreshPortPoses(map);
+}
+/** Optional stamped pose metadata follows ordinary road edits and splits. */
+export function refreshPortPoses(map: CityMapData): void {
+  for (const port of map.connectionPorts ?? []) {
+    if (!port.position && port.heading === undefined) continue;
+    const road = map.roads.find(r=>r.id===port.endpoint.roadId);
+    if (!road || road.centerline.length<2) continue;
+    const pts=roadPoints(road),start=port.endpoint.end==='start',a=start?pts[0]!:pts.at(-1)!,b=start?pts[1]!:pts.at(-2)!;
+    port.position={...a};port.heading=Math.atan2(a.x-b.x,-(a.z-b.z));
+    port.label=directionalPortLabel(port.label,port.heading);
+  }
+}
+export function directionalPortLabel(label: string, heading: number): string {
+  const directions=['North','Northeast','East','Southeast','South','Southwest','West','Northwest'];
+  return label.replace(/^(North|Northeast|East|Southeast|South|Southwest|West|Northwest)\b/,
+    directions[(Math.round(heading/(Math.PI/4))+8)%8]!);
 }
 export function roadPoints(road: CityRoad): CityPoint[] {
   const points = road.centerline.map(p => ({ ...p, y: road.elevationMode === 'ground' ? 0 : road.elevationMode === 'elevated' ? road.elevation ?? 6 : p.y ?? 0 }));

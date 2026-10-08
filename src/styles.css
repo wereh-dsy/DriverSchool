@@ -95,6 +95,32 @@ canvas.webgl {
 .map-chip strong { color: #dfbd6f; font-size: 9px; font-weight: 650; letter-spacing: .06em; }
 .map-chip i { color: rgba(232, 237, 233, .28); font-size: 9px; font-style: normal; }
 
+.lap-hud {
+  position: absolute;
+  top: 66px;
+  left: 220px;
+  width: 224px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  background: rgba(8,12,14,.68);
+  backdrop-filter: blur(8px);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.lap-hud[hidden] { display: none; }
+.lap-hud header { display: flex; justify-content: space-between; align-items: center; color: #dfbd6f; }
+.lap-hud header small { font-size: 7px; color: #aab7b6; }
+.lap-hud dl { margin: 8px 0 0; }
+.lap-hud dl div { display: flex; justify-content: space-between; margin: 5px 0; }
+.lap-hud dt { color: #aab7b6; font-size: 9px; }
+.lap-hud dd { margin: 0; font-family: Consolas, monospace; font-size: 12px; }
+.lap-feedback { min-height: 12px; margin-top: 8px; font-size: 9px; }
+.lap-feedback.new-best { color: #9dd7a9; }
+@media (max-width: 700px) {
+  .lap-hud { top: 170px; left: 24px; width: 196px; }
+}
+
 .mirror-pod {
   position: absolute;
   top: 24px;
@@ -991,3 +1017,7 @@ kbd {
 .debug-panel dl .transmission-debug { display: block; }
 .debug-panel .transmission-debug dd { margin-top: 4px; white-space: pre-line; font-size: 10px; line-height: 1.5; text-align: left; }
 .clutch-meter[hidden] { display: none; }
+
+.fuel-settings-inputs { display: flex; gap: 12px; }
+.fuel-settings-inputs label { display: grid; gap: 6px; flex: 1; min-width: 0; }
+.fuel-settings-inputs input { width: 100%; min-width: 0; box-sizing: border-box; padding: 8px; border-radius: 6px; border: 1px solid #526070; background: #17202c; color: inherit; }

@@ -5,10 +5,12 @@ import { createSubject3Materials } from '../subject3/materials';
 import type { CityMapData, CityPoint } from './CityMapData';
 import { loadCityMap } from './CityMapLoader';
 import { buildCityRoadNetwork } from './CityRoadNetwork';
-import { junctionExtent, rotatePoint } from './geometry';
+import { junctionExtent, roadEdges, rotatePoint } from './geometry';
 import { PrefabRegistry } from './PrefabRegistry';
 import { SectorManager, type SectorOptions } from './SectorManager';
 import { roadStructureColliders } from './RoadInfrastructure';
+
+import { RoadClearance } from './RoadClearance';
 
 interface SurfaceArea { contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number }
 export class CityGround implements DrivingGround {
@@ -25,7 +27,7 @@ export class CityGround implements DrivingGround {
   private readonly surfaces = new Map<string, SurfaceArea[]>();
   private readonly editor: boolean;
   private referenceHeight = 0;
-  constructor(data: unknown, options: SectorOptions = {}) {
+  constructor(data: unknown, options: SectorOptions & { spawnId?: string } = {}) {
     this.data = loadCityMap(data); this.editor = options.editor ?? false;
     this.worldBounds = this.data.bounds;
     this.metadata = { id: this.data.id, version: this.data.version, displayName: this.data.name, description: 'Data-driven City Map' };
@@ -35,23 +37,27 @@ export class CityGround implements DrivingGround {
     const base = new Mesh(new PlaneGeometry(b.maxX - b.minX, b.maxZ - b.minZ), this.materials.grass);
     base.rotation.x = -Math.PI / 2; base.position.set((b.minX + b.maxX) / 2, -0.04, (b.minZ + b.maxZ) / 2); base.receiveShadow = true; this.root.add(base);
     this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options); this.root.add(this.sectors.root);
-    this.colliders = [...this.data.objects.flatMap(o => { const c = this.prefabs.collider(o); return c ? [c] : []; }), ...this.data.roads.flatMap(r => roadStructureColliders(r, this.data))];
+    const clearance = new RoadClearance(this.data);
+    this.colliders = [...this.data.objects.flatMap(o => { const c = this.prefabs.collider(o); return c ? [c] : []; }), ...this.data.roads.flatMap(r => roadStructureColliders(r, this.data, clearance))];
     for (const road of this.roadNetwork.segments) {
       const source = this.data.roads.find(r => r.id === road.id)!;
+      const edges = roadEdges(source);
       const sidewalk = source.sidewalk?.enabled ? source.sidewalk.width : 0;
       for (let i = 1; i < road.centerline.length; i++) {
         const a = road.centerline[i - 1]!, c = road.centerline[i]!, dx = c.x - a.x, dz = c.z - a.z, squared = dx * dx + dz * dz;
         const dy = (c.y ?? 0) - (a.y ?? 0);
         const extensionAt = (x: number, z: number) => { const t = ((x - a.x) * dx + (z - a.z) * dz) / squared; return Math.max(0, -t, t - 1) * Math.sqrt(squared); };
         const heightAt = (x: number, z: number) => (a.y ?? 0) + dy * Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / squared));
-        const contains = (radius: number) => (x: number, z: number) => {
+        const contains = (extra: number) => (x: number, z: number) => {
           const t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / squared));
+          const offset = (-(x - a.x) * dz + (z - a.z) * dx) / Math.sqrt(squared);
+          const radius = (offset < 0 ? -edges.left : edges.right) + extra;
           return (x - a.x - dx * t) ** 2 + (z - a.z - dz * t) ** 2 <= radius * radius;
         };
-        const margin = road.width / 2 + sidewalk;
+        const margin = Math.max(-edges.left, edges.right) + sidewalk;
         const bounds = { minX: Math.min(a.x, c.x) - margin, maxX: Math.max(a.x, c.x) + margin, minZ: Math.min(a.z, c.z) - margin, maxZ: Math.max(a.z, c.z) + margin };
-        this.addArea(bounds, { contains: contains(road.width / 2), pavement: false, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
-        if (sidewalk) this.addArea(bounds, { contains: contains(margin), pavement: true, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
+        this.addArea(bounds, { contains: contains(0), pavement: false, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
+        if (sidewalk) this.addArea(bounds, { contains: contains(sidewalk), pavement: true, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
       }
     }
     for (const j of this.data.intersections) {
@@ -65,7 +71,7 @@ export class CityGround implements DrivingGround {
       this.addArea({ minX: o.position.x - e, maxX: o.position.x + e, minZ: o.position.z - e, maxZ: o.position.z + e }, { pavement: false, heightAt: () => o.position.y ?? 0, gx: 0, gz: 0,
         contains: (x, z) => { const p = rotatePoint({ x: x - o.position.x, z: z - o.position.z }, -o.rotation); return Math.abs(p.x) <= w && Math.abs(p.z) <= d; } });
     }
-    const authored = this.data.environment.spawnPoints[0]!;
+    const authored = this.data.environment.spawnPoints.find(s=>s.id===options.spawnId) ?? this.data.environment.spawnPoints[0]!;
     this.referenceHeight = authored.position.y ?? 0;
     let spawn: CityPoint = authored.position;
     // Empty maps can be previewed; playable maps get a safe on-road fallback.

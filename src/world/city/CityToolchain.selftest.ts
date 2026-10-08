@@ -1,7 +1,10 @@
 import { newCityMap, type CityPoint } from './CityMapData';
 import { connectRoad, connectRoads, createIntersection, createRoad, placePrefab, placePreset, roadEndpoint, saveMap, splitRoadAtPoint, validateMap } from './MapAPI';
 import { expandPreset, PRESET_CATALOG } from './presets/InfrastructurePresets';
-import { connectionPoint } from './geometry';
+import { connectionPoint, polylineLength, portDirections, roadPoints, rotatePoint, sampleAt } from './geometry';
+import { validatePresetGeometry } from './presets/PresetGeometryValidation';
+import { CityGround } from './CityGround';
+import { VehicleCollisionSystem } from '../../vehicle/physics/CollisionSystem';
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error('City toolchain: ' + message);
@@ -16,17 +19,21 @@ function rejects(operation: () => unknown, map: ReturnType<typeof newCityMap>, c
 
 /** Explicit cardinal transform, geometry and reference checks, without rendering/physics. */
 export function validatePresets() {
-  let cases = 0;
+  let cases = 0, drivingCases = 0, drivingSamples = 0;
   const presets: { id: string; cases: number }[] = [];
   for (const preset of PRESET_CATALOG) {
     let count = 0;
-    for (const variant of [{}, { mainRoadLanes: 4, crossRoadLanes: 6, mainElevation: 8, rampLaneCount: 2, rampRadius: 70 }]) {
+    for (const variant of [{}, { mainRoadLanes: 4, crossRoadLanes: 6, mainElevation: 12, rampLaneCount: 2, rampRadius: 40 }]) {
       const local = expandPreset(preset.id, { ...variant, groupId: 'fixture' });
+      if (preset.production) {
+        drivingSamples += validateDrivingCorridor({ ...newCityMap(), ...local }); drivingCases++;
+      }
       for (const degrees of [0, 90, 180, 270]) {
         const rotation = degrees * Math.PI / 180, position = { x: 123, y: 7, z: -456 };
         const stamp = expandPreset(preset.id, { ...variant, groupId: 'fixture', position, rotation });
         const map = { ...newCityMap(), ...stamp }, report = validateMap(map);
         assert(report.valid, preset.id + ' / ' + degrees + ': ' + JSON.stringify(report.errors));
+        if (preset.production) assert(validatePresetGeometry(map).length === 0, preset.id + ': ' + JSON.stringify(validatePresetGeometry(map)));
         const elements = [...stamp.roads, ...stamp.intersections, ...stamp.objects, ...stamp.roadLinks, ...stamp.connectionPorts];
         assert(new Set(elements.map(e => e.id)).size === elements.length, preset.id + ' unique IDs');
         const expected = (p: CityPoint): CityPoint => ({ x: p.x * Math.cos(rotation) + p.z * Math.sin(rotation) + position.x,
@@ -44,7 +51,65 @@ export function validatePresets() {
     }
     presets.push({ id: preset.id, cases: count });
   }
-  return { valid: true, errorCount: 0, cases, presets };
+  validateGeometryRejections();
+  return { valid: true, errorCount: 0, cases, drivingCases, drivingSamples, geometryRejections: 8, presets };
+}
+
+function validateGeometryRejections(): void {
+  const base={...newCityMap(),...expandPreset('highway_entry')};
+  const check=(mutate:(m:typeof base)=>void,code:string,pose=false)=>{
+    const map=structuredClone(base);mutate(map);
+    const issues=pose?validateMap(map).errors:validatePresetGeometry(map);
+    assert(issues.some(e=>e.code===code),'geometry must reject '+code);
+  };
+  const ramp=(m:typeof base)=>m.roads.find(r=>r.gore)!;
+  check(m=>{ramp(m).laneWidth=3;},'geometry.width');
+  check(m=>{ramp(m).shoulders={left:0,right:0};},'geometry.rampWidth');
+  check(m=>{ramp(m).centerline[30]!.y=30;},'geometry.grade');
+  check(m=>{ramp(m).centerline=[{x:0,y:0,z:0},{x:1,y:0,z:0},{x:1,y:0,z:1}];},'geometry.curve');
+  check(m=>{m.objects.push({id:'bad-tree',prefabId:'tree',position:{...m.roads[0]!.centerline[0]!},rotation:0});},'geometry.prop');
+  check(m=>{m.connectionPorts![0]!.position!.x+=1;},'port.endpointMismatch',true);
+  check(m=>{m.connectionPorts![0]!.heading!+=Math.PI/2;},'port.headingMismatch',true);
+  check(m=>{m.roads.push({...structuredClone(ramp(m)),id:'overlapping-ramp'});},'geometry.overlap');
+}
+
+/** Sedan envelope and four wheel contacts through the actual runtime support/collider plans. */
+function validateDrivingCorridor(map: ReturnType<typeof newCityMap>): number {
+  const ground=new CityGround(map,{loadRadius:0}), collisions=new VehicleCollisionSystem(ground.colliders);
+  let samples=0;
+  try {
+    for(const j of map.intersections.filter(j=>j.signalized)) {
+      ground.sectors.updatePosition(j.position.x,j.position.z);
+      const heads=ground.sectors.signals.root.children.filter(h=>h.userData.subject3JunctionIndex===map.intersections.indexOf(j));
+      const incoming=j.connections.filter(c=>{
+        const r=map.roads.find(r=>r.id===c.roadId)!;
+        return r.travelDirection==='two-way'||(r.travelDirection==='forward')===(c.end==='end');
+      });
+      assert(heads.length===incoming.length,'each incoming approach has a far-side signal');
+      for(const c of incoming) {
+        const h=heads.find(h=>h.name===`Traffic signal ${c.roadId}`)!;
+        const d=rotatePoint(portDirections[c.port],j.rotation);
+        assert(-(Math.sin(h.rotation.y)*d.x+Math.cos(h.rotation.y)*d.z)>0.999,'signal front faces served approach');
+        assert((h.position.x-j.position.x)*d.x+(h.position.z-j.position.z)*d.z<0,'signal stands beyond the junction');
+      }
+    }
+    for(const r of map.roads) {
+      const points=roadPoints(r),length=polylineLength(points);
+      for(let lane=0;lane<r.laneCount;lane++) for(let d=3;d<length-3;d+=3) {
+        const s=sampleAt(points,d),offset=-r.laneCount*r.laneWidth/2+(lane+0.5)*r.laneWidth;
+        const p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset,yaw:Math.atan2(-s.tangent.x,-s.tangent.z)};
+        for(const lateral of [-0.85,0.85]) for(const along of [-1.35,1.35]) {
+          const x=p.x-s.tangent.z*lateral+s.tangent.x*along,z=p.z+s.tangent.x*lateral+s.tangent.z*along;
+          const contact=ground.sampleRoadSurface(x,z,undefined,p.y);
+          assert(contact.surfaceType==='asphalt'&&Math.abs(contact.height-p.y)<0.2,`wheel support ${r.id} / ${d.toFixed(1)}m`);
+        }
+        const result=collisions.resolve({previousPose:p,pose:p,velocity:{x:0,z:0},dimensions:{width:1.85,length:4.6,height:1.55},dt:1/120});
+        assert(!result.collided,`sedan corridor ${r.id} / ${d.toFixed(1)}m: ${result.contacts.map(c=>c.colliderId).join(', ')}`);
+        samples++;
+      }
+    }
+  } finally { ground.dispose(); }
+  return samples;
 }
 
 export function validateAuthoringAPI() {

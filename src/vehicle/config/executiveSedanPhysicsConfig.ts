@@ -14,12 +14,14 @@ const shiftMap = (up: readonly number[], down: readonly number[], kickdown: numb
 /** A6L-inspired 2.0T executive calibration; no vehicle-name branches in physics. */
 export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
+  config.fuel = { tankCapacityL: 73, defaultFuelL: 51, fuelDensity: 0.745,
+    peakThermalEfficiency: 0.34, referenceConsumptionLPer100km: 8.2 };
   Object.assign(config, EXECUTIVE_LWB_DIMENSIONS, { mass: 1840, trackWidth: 1.625,
     frontWeightBias: .56, drivenWheelWeightFraction: 1, centerOfMassHeight: .50,
     centerOfMassLongitudinalOffset: 0, yawInertia: 3950,
     drivetrainType: 'AWD', drivetrainLayout: 'AWD', frontTorqueSplit: .75, rearTorqueSplit: .25 });
   config.awd = { mode: 'on-demand', accelerationRearTorqueSplit: .40, maximumRearTorqueSplit: .50, response: 2.4 };
-  config.engine = { ...config.engine, idleRPM: 780, engineInertia: .43,
+  config.engine = { ...config.engine, displacementL: 2.0, idleRPM: 780, engineInertia: .43,
     partThrottleExponent: .85, throttleResponse: 3.2, throttleResponseRate: 3.2, throttleReleaseResponse: 7.5,
     engineFrictionTorque: 16, engineBrakingStrength: 67, engineBraking: 83,
     idleControlBandRPM: 280, idleControlStrength: 85, idleControlMaxTorque: 85,
@@ -33,6 +35,8 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
       baseTorqueCurve: [{ rpm: 780, torque: 100 }, { rpm: 1200, torque: 135 }, { rpm: 1600, torque: 160 },
         { rpm: 2000, torque: 178 }, { rpm: 4200, torque: 180 }, { rpm: 5000, torque: 164 },
         { rpm: 5800, torque: 144 }, { rpm: 6400, torque: 119 }, { rpm: 6600, torque: 90 }] } };
+  config.engine.ignitionSequence = { crankingDuration: .55, crankingRPM: 270,
+    flareRPM: 1120, settlingDuration: .85, shutdownFriction: 30 };
   const normalShift = shiftMap([1550, 1900, 3450, 5950], [900, 1100, 1650, 2600], .84, 4000, 1.5);
   config.transmission = { ...config.transmission, type: 'DCT',
     gearRatios: { 1: 3.45, 2: 2.18, 3: 1.52, 4: 1.12, 5: .87, 6: .69, 7: .56 },

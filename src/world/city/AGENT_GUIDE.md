@@ -22,7 +22,7 @@ For map expansion, prefer CityMap JSON, Map API/CLI, Road Styles and Presets. Do
 1. Read this guide and root AGENTS.md.
 2. `pnpm map summary city-alpha` (or a JSON path).
 3. Read only the relevant authored JSON / catalog entries.
-4. Prefer a Road Style or Infrastructure Preset.
+4. Prefer Production Presets (`production:true` in the catalog), then Road Styles for simple continuations. Do not hand-build complex road topology; report a missing preset capability when production recipes cannot satisfy the map need.
 5. Edit data or run the CLI; keep stable existing IDs and unrelated layout.
 6. `pnpm map validate <map>`; fix all errors and review warnings.
 7. `pnpm run build`; it must succeed and publish the updated playable dist.
@@ -36,7 +36,7 @@ For map expansion, prefer CityMap JSON, Map API/CLI, Road Styles and Presets. Do
 - Structures: `{pierSpacing:30,pierStyle:'round'|'rectangular',barrierEnabled,piersEnabled}`. Recommended grade ≤12%, hard maximum 25%; Y range −50..100m. Preset parameters use narrower ranges from catalog.
 - Junction: `{id,type,position,rotation,signalized,connections:[{roadId,end,port}],signals?}`. Types `t_2lane,t_4lane,cross_4lane,cross_6lane`; T ports north/east/west in local space. One junction per endpoint; one endpoint per junction port. Junction ports own attached node positions.
 - `roadLinks:[{id,from:{roadId,end:'start'|'end'},to:{roadId,end}}]` defines merges/continuations. Linked XYZ must coincide within 0.2m. Link clusters may branch. Projection/interior crossings do not connect; split roads explicitly if needed. Never connect an upper road to a lower road solely because their X/Z matches.
-- `connectionPorts:[{id,label,endpoint:{roadId,end},groupId?}]` exposes preset endpoints for continued authoring.
+- `connectionPorts:[{id,label,endpoint:{roadId,end},groupId?,position?,heading?}]` exposes preset endpoints for continued authoring.
 - Objects `{id,prefabId,position,rotation,scale?,color?,district?,groupId?,presetSource?}`. IDs are unique across element/link/port collections. Valid prefab IDs are in CityMapData.ts.
 - Stamps produce ordinary editable elements with optional `groupId,presetSource`. Preserve these when locally editing. No runtime recipe object.
 - Environment includes district array and at least one `{id,position:{x,y,z},rotation}` spawn. Set spawn Y to the desired layer. Expand ordered bounds to include new data. Increase map version for a material authored change.
@@ -76,6 +76,7 @@ No additional dependencies. Uses installed esbuild (already provided by the proj
 
 ```text
 pnpm map list-presets
+pnpm map validate preset-showcase
 pnpm map validate-presets
 pnpm map summary city-alpha
 pnpm map validate src/world/city/maps/city-alpha.json
@@ -89,7 +90,7 @@ pnpm map delete-object .tmp-demo.json --id unwanted-id
 
 `--out` writes a separate file; otherwise mutation commands overwrite the input through a temporary file and rename after validation. `city-alpha` and `city-main` resolve to their authored source JSON. `--request` accepts inline JSON or `@file` (prefer @file on Windows). `--points` for add-road accepts a JSON array or @file containing the array. A place-preset request is `{presetId,parameters}` and uses radians. CLI `--preset <id>` is an alternative to the positional preset ID.
 
-Completion requires **0 errors** from `pnpm map validate <map>`, reviewed warnings, and a successful build. Errors return nonzero CLI status; warnings alone return zero and include their count. `pnpm map validate-presets` checks all catalog recipes at 0/90/180/270° with two parameter sets. `node scripts/validate-city-toolchain.mjs` checks API/CLI behavior and failed-write protection. `node scripts/build-city-main.mjs` regenerates only the existing City Main recipe and refuses invalid output; it performs no repair/deletion pass.
+Completion requires **0 errors** from `pnpm map validate <map>`, reviewed warnings, and a successful build. Errors return nonzero CLI status; warnings alone return zero and include their count. `pnpm map validate-presets` checks all catalog recipes at 0/90/180/270° with two parameter sets, including the maximum elevation / minimum legacy radius, plus production geometry and runtime sedan corridor checks. `node scripts/validate-city-toolchain.mjs` checks API/CLI behavior and failed-write protection. `node scripts/build-city-main.mjs` regenerates only the existing City Main recipe and refuses invalid output; it performs no repair/deletion pass.
 
 If a preset itself fails validation, stop and report the preset ID, parameters and errors. Do not rebuild it by hand or rewrite underlying tools. Ordinary map-content agents must leave **RoadBuilder, SectorManager and preset implementation** unchanged; toolchain changes require a separate explicit task.
 
@@ -120,3 +121,11 @@ Node request: `{roadId,index,point:{x,y,z}}`. Prefab request: `{id?,prefabId,pos
 Launch start-editor.cmd / pnpm run editor. Browser drafts restore by default; click **Reload City Alpha** to see current source JSON, or **Open / Import Updated Map** for a CLI output. **Play in Game** previews the imported/current map on the same origin. After build, start-game.cmd plays the newly bundled City Alpha.
 
 Do not add AI, pathfinding, terrain/tunnel excavation, arbitrary engineering CAD, GIS, asset import, multiplayer, whole-city generation or lane-level merge simulation. Presets are fixed low-poly topology recipes. Read PRESET_CATALOG.md for dimensions and applicable variants.
+
+## Production V1 authoring
+
+Read PRESET_CATALOG.md for dimensions and measured default grades. Urban lanes are 3.6/3.75m; expressway lanes 3.75m; ramps 3.9m plus 0.75m left and 1.75m right shoulders. Optional `shoulders`, `structure.barrierOffset` and `gore` persist with ordinary roads. Runtime surface contact includes paved shoulders, while lane topology still counts traffic lanes only.
+
+Preset elevation defaults to 8m; loop radius defaults to 100m. Legacy parameter ranges remain accepted, with safe minimum loop/ring radii. Ports store actual XYZ and outward heading, and world-direction labels rotate with placement. Resolve returned endpoints/poses rather than assuming local cardinal labels after rotation. Map edits/splits refresh pose metadata.
+
+Prefer the sixteen Production V1 recipes. Never temporarily hand-assemble a complex diamond/cloverleaf/trumpet when a preset lacks a required capability: report that missing capability. Existing district IDs are compatibility recipes; do not expand blocks before road geometry is mature. Use Preset Showcase for driving review and the URL preset selector to inspect each specimen. `metadata.productionGeometry="true"` opts a development map into the stronger footprint/curvature/grade checks.

@@ -1,7 +1,8 @@
 import { INTERSECTION_LANES, PREFAB_IDS, ROAD_LANES, type CityMapData, type CityPoint, type RoadEndpoint } from './CityMapData';
-import { portsFor, roadPoints } from './geometry';
+import { directionalPortLabel, portsFor, roadPoints } from './geometry';
 import { ROAD_STYLES } from './RoadStyles';
 import catalog from './presets/catalog.json';
+import { validatePresetGeometry } from './presets/PresetGeometryValidation';
 export interface MapIssue { severity: 'error' | 'warning'; code: string; path: string; message: string }
 export interface MapValidation { valid: boolean; errors: MapIssue[]; warnings: MapIssue[]; errorCount: number; warningCount: number }
 export const RECOMMENDED_GRADE = 0.12;
@@ -43,6 +44,9 @@ export function validateMap(value: unknown): MapValidation {
     if (r.elevationMode && !['ground', 'elevated', 'custom'].includes(r.elevationMode)) issue('elevation.mode', path, 'Expected ground/elevated/custom.');
     if (r.elevationMode === 'elevated' && (!finite(r.elevation ?? 6) || (r.elevation ?? 6) < 2.5 || (r.elevation ?? 6) > 100)) issue('elevation.invalid', path, 'Elevated height must be 2.5–100m.');
     if (r.sidewalk && (typeof r.sidewalk.enabled !== 'boolean' || !finite(r.sidewalk.width) || r.sidewalk.width < 0.5 || r.sidewalk.width > 10)) issue('sidewalk.invalid', path, 'Sidewalk width must be 0.5–10m.');
+    if (r.shoulders && ![r.shoulders.left, r.shoulders.right].every(v=>finite(v)&&v>=0&&v<=5)) issue('shoulders.invalid',path,'Paved shoulder widths must be 0–5m.');
+    if (r.structure?.barrierOffset !== undefined && (!finite(r.structure.barrierOffset)||r.structure.barrierOffset<0||r.structure.barrierOffset>2)) issue('barrier.offset',path,'Barrier offset must be 0–2m outside pavement.');
+    if (r.gore && (typeof r.gore.start!=='boolean'||typeof r.gore.end!=='boolean'||!finite(r.gore.length)||r.gore.length<10||r.gore.length>300)) issue('gore.invalid',path,'Gore needs boolean endpoints and 10–300m length.');
     const s = r.structure;
     if (s && (s.pierSpacing !== undefined && (!finite(s.pierSpacing) || s.pierSpacing < 10 || s.pierSpacing > 100) || s.pierStyle !== undefined && !['round', 'rectangular'].includes(s.pierStyle) || s.barrierEnabled !== undefined && typeof s.barrierEnabled !== 'boolean' || s.piersEnabled !== undefined && typeof s.piersEnabled !== 'boolean')) issue('structure.invalid', path, 'Pier spacing 10–100m, style round/rectangular, flags boolean.');
     if (!Array.isArray(r.centerline) || r.centerline.length < 2 || !r.centerline.every(point)) { issue('elevation.node', path, 'Two finite {x,y?,z} nodes required; Y range -50–100m.'); continue; }
@@ -100,6 +104,17 @@ export function validateMap(value: unknown): MapValidation {
     if (!port || typeof port.label !== 'string' || !port.label) issue('port.invalid', `connectionPorts.${port?.id}`, 'Nonempty port label required.');
     if (port?.endpoint && Object.keys(port.endpoint).some(k => k !== 'roadId' && k !== 'end')) issue('connection.shape', `connectionPorts.${port.id}`, 'Port endpoint must be exactly {roadId,end}.');
     const e = port?.endpoint;
+    if(port?.position && (!point(port.position)||p&&Math.hypot(port.position.x-p.x,port.position.z-p.z,(port.position.y??0)-(p.y??0))>0.2)) issue('port.endpointMismatch',`connectionPorts.${port.id}`,'Port pose differs from its actual endpoint.');
+    if(port?.heading!==undefined) {
+      const r=m.roads.find(r=>r.id===e?.roadId);
+      if(!finite(port.heading)) issue('port.headingMismatch',`connectionPorts.${port.id}`,'Finite port heading required.');
+      else if(r&&e&&r.centerline.length>=2&&r.centerline.every(point)) {
+        if(directionalPortLabel(port.label,port.heading)!==port.label) issue('port.directionMismatch',`connectionPorts.${port.id}`,'Directional label does not match world heading.');
+        const pts=roadPoints(r),a=e.end==='start'?pts[0]!:pts.at(-1)!,b=e.end==='start'?pts[1]!:pts.at(-2)!;
+        const expected=Math.atan2(a.x-b.x,-(a.z-b.z));
+        if(Math.abs(Math.atan2(Math.sin(port.heading-expected),Math.cos(port.heading-expected)))>0.05) issue('port.headingMismatch',`connectionPorts.${port.id}`,'Port heading differs from outward endpoint tangent.');
+      }
+    }
     if (p && e && !used.has(`${e.roadId}:${e.end}`) && !(Array.isArray(m.roadLinks) && m.roadLinks.some(l => [l?.from, l?.to].some(q => q?.roadId === e.roadId && q.end === e.end)))) {
       issue('port.unused', `connectionPorts.${port.id}`, `${port.label}: external endpoint reserved for future continuation.`, 'warning');
     }
@@ -128,5 +143,6 @@ export function validateMap(value: unknown): MapValidation {
     const components = new Set(m.roads.map(r => root(r.id))).size;
     if (components > 1) issue('network.sparse', 'roads', `${components} separate road components; projected crossings do not imply connectivity.`, 'warning');
   }
+  if (!errors.length && m.environment.metadata?.productionGeometry === 'true') errors.push(...validatePresetGeometry(m));
   return result();
 }

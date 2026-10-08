@@ -14,7 +14,7 @@ The Editor restores the last valid browser map on the same origin; otherwise it 
 - **Top:** select/place with left click; middle/right drag pans; wheel zooms. Drag road nodes to edit X/Z, or drag an object/road to move it.
 - **Road:** choose a style and lane type, click nodes, Enter/Finish. Grid, endpoint and junction-port snapping are optional. Snapping an endpoint creates an explicit connection.
 - **Inspector:** move/rotate/delete, width/speed/direction/sidewalk, Ground/Elevated/Custom, uniform road height, selected node X/Y/Z, maximum grade, barrier and pier settings. Changing node Y switches to Custom. Whole-road transforms detach endpoint connections. Junction transforms keep their connected endpoints attached.
-- **Preset / Stamp:** categorized ROAD/INTERCHANGE/DISTRICT catalog; parameters, wireframe ghost, R rotates 15°, click places. Anchor port defaults to Centre; choose a port to snap that port to an existing road endpoint or free junction port. Cyan markers expose generated continuation ports. New roads can snap to them.
+- **Preset / Stamp:** categorized ROAD/INTERSECTION/INTERCHANGE/DISTRICT catalog; parameters, wireframe ghost, R rotates 15°, click places. Anchor port defaults to Centre; choose a port to snap that port to an existing road endpoint or free junction port. Cyan markers expose generated continuation ports. New roads can snap to them.
 - **Prefab:** existing low-poly buildings and roadside assets, editable rotation/scale/tint.
 - **Top / 3D:** 3D orbit uses left drag, right drag pans. Editing remains in Top.
 - **Undo / Redo:** 64 snapshots covering creation, properties, connections, movement, rotation, deletion, stamp, New and Import.
@@ -56,10 +56,16 @@ Original 23 roads, 10 junctions, 288 props and districts remain. V2 adds 20 ordi
 
 V2 toolchain hardening uses one `{x,y,z}` contract (Y is height), shared `point3` / `transformPoint3`, a shared ID allocator and strict endpoint links. API road creation rejects degenerate nodes immediately; `splitRoadAtPoint` preserves outer connections and remaps links, junctions and exposed ports. Preset placement validates both a temporary fragment and the candidate map before merging. Ordinary map authoring does not modify builders or sectors.
 
-`pnpm map validate-presets` checks 10 recipes in 80 cardinal-rotation/parameter cases. `node scripts/validate-city-toolchain.mjs` exercises API and CLI success/rejection, safe writes and roundtrips. Validation reports errorCount/warningCount: errors block saves and return nonzero CLI status; missing junction arms, reserved ports, steep recommended grades and separate network components remain visible warnings.
+`pnpm map validate-presets` checks 19 recipes in 152 cardinal-rotation/parameter cases, including production geometry and 32 runtime sedan corridor cases. `node scripts/validate-city-toolchain.mjs` exercises API and CLI success/rejection, safe writes and roundtrips. Validation reports errorCount/warningCount: errors block saves and return nonzero CLI status; missing junction arms, reserved ports, steep recommended grades and separate network components remain visible warnings.
 
 `node scripts/build-city-main.mjs` repairs/rebuilds the existing City Main layout through the API, without extending its streets or silently removing failed elements. Output is `maps/city-main.json`; use `pnpm map validate city-main`, then import it in Editor and **Play in Game**. City Alpha remains the built-in default. City Main retains its authored boulevards, diagonals, local streets, diamond, roundabout, elevated expressway, ramps, district filling and spawns.
 
 See [AGENT_GUIDE.md](AGENT_GUIDE.md) for stable API/CLI and the recommended authoring workflow, and [PRESET_CATALOG.md](PRESET_CATALOG.md) for recipe specifications.
 
 V2 has fixed topology low-poly recipes, basic junction curbs and broad topological lane connections. It does not simulate lane-level merges. Road splitting is explicit through the API; the GUI does not automatically insert junctions at crossings. There are no CAD constraints, multi-select/group transforms, direct file overwrite from GUI, terrain excavation, tunnel interiors, arbitrary bridge engineering or asset pipeline. Ghosts show road outlines/prop footprints rather than full meshes. Drag handles update immediately; final meshes rebuild on release. No AI traffic, pedestrians, pathfinding, exam routes, whole-city generation or multiplayer. The user evaluates visual quality and driving feel.
+
+## Production Road Presets V1
+
+Sixteen production recipes cover boulevards, divided elevated expressways, entry/exit ramps, signal crosses/T junctions, roundabout, overpass, diamond, cloverleaf and trumpet. Ramp lanes are 3.9m with 2.5m combined shoulders; default elevated surface height is 8m. Catalog footprints are larger to protect curve radius and grade. Existing authored City Alpha/Main layouts are retained.
+
+**Preset Showcase** is available in the normal map menu and at `?city=preset-showcase`. Use `&preset=<production-id>` to select a specimen spawn. Generate it with `node scripts/build-preset-showcase.mjs` and validate with `pnpm map validate preset-showcase`; its metadata enables production geometry checks. See PRESET_CATALOG.md for dimensions, measured grades, port poses, placement rules and station coordinates.

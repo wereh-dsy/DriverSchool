@@ -1,3 +1,4 @@
+import { runExecutivePolishSelfTest } from '../src/vehicle/physics/ExecutivePolish.selftest';
 import { runExecutiveSedanSelfTest } from '../src/vehicle/physics/ExecutiveSedan.selftest';
 import { runMirrorGeometrySelfTest } from '../src/camera/MirrorSystem.selftest';
 import { runVehicleInputSystemSelfTest } from '../src/input/VehicleInputSystem.selftest';
@@ -26,6 +27,7 @@ import { runVehicleExteriorSelfTest } from '../src/vehicle/visual/VehicleExterio
 import { runVehicleVisualDimensionsSelfTest } from '../src/vehicle/visual/VehicleVisualDimensions.selftest';
 import { runDrivingTestTrackSelfTest } from '../src/world/DrivingTestTrack.selftest';
 import { runCircuitGroundSelfTest } from '../src/world/circuit/CircuitGround.selftest';
+import { runLapTimerSelfTest } from '../src/game/lap/LapTimer.selftest';
 import { runSubject2GroundSelfTest } from '../src/world/subject2/Subject2Ground.selftest';
 import { runSubject3GroundSelfTest } from '../src/world/subject3/Subject3Ground.selftest';
 import { runVehicleFeedbackSelfTest } from '../src/vehicle/feedback/VehicleFeedbackSystem.selftest';
@@ -39,11 +41,15 @@ import { runEnvironmentSelfTest } from '../src/world/environment/Environment.sel
 import { runCityMapSelfTest } from '../src/world/city/CityMap.selftest';
 import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToolchain.selftest';
 
+import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftest';
+
 const results = {
+  fuel: runFuelSystemSelfTest(),
   cityToolchain: validateAuthoringAPI(),
   cityPresets: validatePresets(),
   cityMap: runCityMapSelfTest(),
   executiveSedan: runExecutiveSedanSelfTest(),
+  executivePolish: runExecutivePolishSelfTest(),
   suspensionStance: runSuspensionStanceSelfTest(),
   environment: runEnvironmentSelfTest(),
   input: runVehicleInputSystemSelfTest(),
@@ -81,6 +87,7 @@ const results = {
   visualDimensions: runVehicleVisualDimensionsSelfTest(),
   roadCourse: runDrivingTestTrackSelfTest(),
   circuit: runCircuitGroundSelfTest(),
+  lapTimer: runLapTimerSelfTest(),
   subject2: runSubject2GroundSelfTest(),
   subject3: runSubject3GroundSelfTest(),
 };

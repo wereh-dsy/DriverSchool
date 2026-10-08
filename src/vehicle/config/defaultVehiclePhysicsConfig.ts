@@ -10,6 +10,8 @@ const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
 export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   ...FAMILY_SEDAN_DIMENSIONS,
   mass: 1_380,
+  fuel: { tankCapacityL: 50, defaultFuelL: 35, fuelDensity: 0.745,
+    peakThermalEfficiency: 0.30, referenceConsumptionLPer100km: 7.2 },
   trackWidth: 1.55,
   frontWeightBias: 0.62,
   centerOfMassHeight: 0.54,
@@ -23,6 +25,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   drivenWheelWeightFraction: 0.62,
   gravity: 9.81,
   engine: {
+    displacementL: 1.6,
     partThrottleExponent: 1.08,
     revHang: { enabled: true, holdTime: 0.12, decayTime: 0.28, strength: 0.88 },
     // Slightly brisk warm idle keeps low-speed clutch work calm without
@@ -224,6 +227,7 @@ export function cloneVehiclePhysicsConfig(
 ): VehiclePhysicsConfig {
   return {
     ...config,
+    fuel: { ...config.fuel },
     driveModes: config.driveModes === undefined ? undefined : {
       ECO: cloneDriveMode(config.driveModes.ECO), NORMAL: cloneDriveMode(config.driveModes.NORMAL),
       SPORT: cloneDriveMode(config.driveModes.SPORT),
@@ -231,6 +235,7 @@ export function cloneVehiclePhysicsConfig(
     awd: config.awd === undefined ? undefined : { ...config.awd },
     engine: {
       ...config.engine,
+      ignitionSequence: config.engine.ignitionSequence === undefined ? undefined : { ...config.engine.ignitionSequence },
       turbo: config.engine.turbo === undefined ? undefined : {
         ...config.engine.turbo,
         baseTorqueCurve: config.engine.turbo.baseTorqueCurve.map((point) => ({ ...point })),

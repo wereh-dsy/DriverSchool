@@ -4,6 +4,7 @@ export type {
   BrakeConfig,
   ClutchConfig,
   EngineConfig,
+  FuelConfig,
   TurbochargerConfig,
   ForwardGear,
   ForwardGearRatios,
