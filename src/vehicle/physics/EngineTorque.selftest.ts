@@ -18,7 +18,7 @@ export function runEngineTorqueSelfTest(): { assertions: number } {
     engine.reset(3_000);
     engine.throttle = 1;
     const full = engine.getTorqueSample();
-    assert(near(full.combustionTorque, engine.getTorqueAtRPM(3_000)), 'full throttle retains full-load curve torque');
+    assert(near(full.combustionTorque, engine.availableTorque), 'full throttle retains full-load curve torque');
     assert(near(full.mechanicalFrictionTorque, config.engineFrictionTorque), 'mechanical friction persists at full throttle');
     assert(full.pumpingLossTorque === 0, 'full throttle removes pumping drag, not mechanical drag');
     assert(near(full.netCrankTorque, full.combustionTorque - full.mechanicalFrictionTorque), 'loaded throttle torque subtracts friction');
@@ -26,8 +26,8 @@ export function runEngineTorqueSelfTest(): { assertions: number } {
     engine.throttle = 0.25;
     const part = engine.getTorqueSample();
     const exponent = config.partThrottleExponent ?? 1;
-    assert(near(part.combustionTorque, engine.getTorqueAtRPM(3_000) * 0.25 ** exponent), 'part throttle exponent drives combustion only');
-    assert(part.combustionTorque > engine.getTorqueAtRPM(3_000) * 0.18, 'preset curve preserves useful early-pedal response');
+    assert(near(part.combustionTorque, engine.availableTorque * 0.25 ** exponent), 'part throttle exponent drives combustion only');
+    assert(part.combustionTorque > engine.availableTorque * 0.18, 'preset curve preserves useful early-pedal response');
     assert(near(part.mechanicalFrictionTorque, full.mechanicalFrictionTorque), 'friction is unchanged by throttle');
     assert(part.pumpingLossTorque > full.pumpingLossTorque, 'pumping drag increases as throttle closes');
 
@@ -44,17 +44,17 @@ export function runEngineTorqueSelfTest(): { assertions: number } {
     const load = 30;
     const dt = 1 / 120;
     const before = engine.currentRPM;
-    const torque = engine.getTorqueSample().netCrankTorque;
+    const integratedSample = engine.integrate(dt, load)!;
+    const torque = integratedSample.netCrankTorque;
     const expected = radiansPerSecondToRPM(rpmToRadiansPerSecond(before) +
-      (torque - load) / config.engineInertia * dt);
-    engine.integrate(dt, load);
+      (torque - load) / engine.rotationalInertia * dt);
     assert(near(engine.currentRPM, expected), 'inertia integration subtracts external clutch load exactly once');
 
     engine.reset();
     const idle = engine.getTorqueSample();
     assert(near(idle.idleControlTorque, idle.engineBrakingTorque), 'torque governor balances loss at target idle');
     engine.integrate(dt, 0);
-    assert(near(engine.currentRPM, config.idleRPM), 'idle holds with torque, not an RPM clamp');
+    assert(near(engine.currentRPM, config.idleRPM, .1), 'idle holds with torque, not an RPM clamp');
     engine.integrate(0.1, 500);
     assert(!engine.isRunning, 'finite idle torque remains stallable under crank load');
     assert(Object.values(engine.getTorqueSample()).every(value => value === 0), 'stopped engine reports no generated or loss torque');

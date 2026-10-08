@@ -32,7 +32,17 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   drivenWheelWeightFraction: 0.48,
   engine: {
     ...DEFAULT_VEHICLE_PHYSICS_CONFIG.engine,
-    displacementL: 3.8,
+    layout: 'INLINE', cylinderCount: 6, displacementL: 3.0,
+    torqueRipple: .009, soundProfile: 'smooth-six',
+    firingCharacter: { smoothness: .94, inertiaScale: 1.04, brakingScale: 1 },
+    // Mild boost model retains the exact existing full-load ceiling and GT response.
+    turbo: { enabled: true, inertia: .18, pressureGain: .5, maxPressureRatio: 1.4,
+      turbineDriveStrength: 3.8, compressorLoadStrength: .12, friction: .09, wastegateGain: 6,
+      baseTorqueCurve: [
+        { rpm: 920, torque: 178 }, { rpm: 1500, torque: 270 }, { rpm: 2500, torque: 310 },
+        { rpm: 3500, torque: 330 }, { rpm: 4500, torque: 340 }, { rpm: 5500, torque: 335 },
+        { rpm: 6500, torque: 325 }, { rpm: 7050, torque: 300 }, { rpm: 7350, torque: 270 }, { rpm: 7600, torque: 220 },
+      ] },
     partThrottleExponent: 1.05,
     revHang: { enabled: true, holdTime: 0.045, decayTime: 0.14, strength: 0.34 },
     idleRPM: 920,

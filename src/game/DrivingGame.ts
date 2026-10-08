@@ -320,6 +320,7 @@ export class DrivingGame {
       this.updateVehicleFeedback(FIXED_STEP);
       const previousLightMode = this.lightController.state.mainLightMode;
       this.lightController.update(FIXED_STEP, driverControls, {
+        autoOffWithIgnition: this.vehicleVisual.config.exteriorLighting?.autoOffWithIgnition,
         ignitionOn: this.ignitionOn,
         actualGear: this.snapshot.gear,
         steeringWheelAngle: this.snapshot.steeringWheelAngle,
@@ -345,7 +346,7 @@ export class DrivingGame {
     this.reportShiftResult();
     this.reportEngineState();
     this.updateAuxiliaryGauges(frameDt);
-    this.vehicleLighting.applyState(this.lightController.state);
+    this.vehicleLighting.applyState(this.lightController.state, this.ignitionOn, frameDt);
     this.haptics.setEnabled(this.gameStarted && !this.settingsOpen && !document.hidden && this.hud.settings.vibrationEnabled);
     this.haptics.update(frameDt, this.feedback.state.continuousRumble);
     this.hud.settings.setDriveSelector(this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.transmission.type);
@@ -368,6 +369,7 @@ export class DrivingGame {
       this.snapshot.throttle,
       this.snapshot.engineRunning,
       {
+        engineCharacter: this.dynamics.engine.config,
         vehicleSpeed: Math.abs(this.snapshot.speed),
         engineLoad: MathUtils.clamp((this.executiveDisplay
           ? Math.max(this.dynamics.engine.getTorqueSample().combustionTorque, Math.abs(this.snapshot.transmission.engineLoadTorque))
@@ -677,6 +679,7 @@ export class DrivingGame {
     this.haptics.stop();
     this.lapTimer.reset(this.snapshot);
     this.lightController.update(0, createNeutralVehicleInputState(), {
+      autoOffWithIgnition: this.vehicleVisual.config.exteriorLighting?.autoOffWithIgnition,
       ignitionOn: this.ignitionOn, actualGear: this.snapshot.gear,
       steeringWheelAngle: this.snapshot.steeringWheelAngle,
     });

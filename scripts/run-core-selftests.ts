@@ -1,3 +1,4 @@
+import { runPowertrainLayoutSelfTest } from '../src/vehicle/PowertrainLayout.selftest';
 import { runExecutivePolishSelfTest } from '../src/vehicle/physics/ExecutivePolish.selftest';
 import { runExecutiveSedanSelfTest } from '../src/vehicle/physics/ExecutiveSedan.selftest';
 import { runMirrorGeometrySelfTest } from '../src/camera/MirrorSystem.selftest';
@@ -44,6 +45,7 @@ import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToo
 import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftest';
 
 const results = {
+  powertrainLayout: runPowertrainLayoutSelfTest(),
   fuel: runFuelSystemSelfTest(),
   cityToolchain: validateAuthoringAPI(),
   cityPresets: validatePresets(),

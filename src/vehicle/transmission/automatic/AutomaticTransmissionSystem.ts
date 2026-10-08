@@ -23,7 +23,7 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
   public constructor(private readonly gearbox: Gearbox, private readonly config: AutomaticTransmissionConfig, wheelRadius: number) {
     this.selector = new SelectorSafety(gearbox, config.parkMaximumSpeed, wheelRadius,
       config.shiftStrategy.kickdownMaximumRPM, config.shiftStrategy.map[0]?.upshiftRPM ?? 1700);
-    this.controller = new AutomaticShiftController(config.shiftStrategy, gearbox);
+    this.controller = new AutomaticShiftController(config.shiftStrategy, gearbox, wheelRadius);
     this.converter = new TorqueConverter(config.converter);
   }
   public reset(gear: Gear = 'N', selector?: DriveSelector): void {
@@ -40,6 +40,10 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     }
     return accepted;
   }
+  public requestManualSelection(direction: -1 | 1): void {
+    if (this.selector.mode === 'D') this.controller.requestManualSelection(direction);
+  }
+  public returnToAuto(): void { this.controller.returnToAuto(); }
   public prepare(context: TransmissionContext): { throttleScale: number } {
     if (context.selectorRequest !== undefined) this.requestSelector(context.selectorRequest, context.vehicleSpeed, context.vehicleLateralSpeed, context.brake);
     if (this.shiftTarget !== null) {
@@ -79,7 +83,9 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     const progress = this.shiftTarget === null ? 0 : this.shiftProgress;
     const state = this.shiftTarget === null ? 'IDLE' : progress < 0.2 ? 'PREPARE' :
       progress < 0.5 ? 'TORQUE_REDUCTION' : progress < 0.7 ? 'GEAR_CHANGE' : 'TORQUE_RESTORE';
-    return { type: this.type, selectedMode: this.selector.mode, currentPhysicalGear: this.gearbox.currentGear,
+    return { manualSelectionActive: this.controller.manualSelectionActive,
+      manualSelectionRejectedReason: this.controller.manualSelectionRejectedReason,
+      type: this.type, selectedMode: this.selector.mode, currentPhysicalGear: this.gearbox.currentGear,
       inputRPM: this.inputRPM, outputRPM: this.outputRPM, engineLoadTorque: this.load, transmittedTorque: this.torque,
       shiftInProgress: this.shiftTarget !== null, shiftState: state, shiftProgress: progress,
       kickdown: this.shiftTarget !== null && this.kickdown, selectorRejectedReason: this.selector.rejectedReason,

@@ -1,6 +1,6 @@
 import {
   cloneVehiclePhysicsConfig, createDefaultVehiclePhysicsConfig,
-  createSportsCoupePhysicsConfig, createTest6ATVehiclePhysicsConfig, createTest7DCTVehiclePhysicsConfig,
+  createTest6ATVehiclePhysicsConfig, createTest7DCTVehiclePhysicsConfig,
 } from '../config';
 import { Engine } from './Engine';
 import { Turbocharger } from './Turbocharger';
@@ -90,9 +90,9 @@ export function runEngineTurboSelfTest(): {
   const cloned = cloneVehiclePhysicsConfig(config);
   cloned.engine.turbo!.baseTorqueCurve[0]!.torque += 5;
   assert(config.engine.turbo!.baseTorqueCurve[0]!.torque === 75, 'turbo configuration and base curve clone independently');
-  // Existing NA MT, GT and 6AT remain on the exact same path, including an
+  // Existing NA MT and 6AT remain on the exact same path, including an
   // explicitly disabled turbo preset. Compare deterministic engine trajectories.
-  for (const vehicle of [createDefaultVehiclePhysicsConfig(), createSportsCoupePhysicsConfig(), createTest6ATVehiclePhysicsConfig()]) {
+  for (const vehicle of [createDefaultVehiclePhysicsConfig(), createTest6ATVehiclePhysicsConfig()]) {
     const ordinary = new Engine(vehicle.engine);
     const disabled = new Engine({ ...vehicle.engine, turbo: { ...turboConfig, enabled: false } });
     assert(!ordinary.getTurboSnapshot().enabled && !disabled.getTurboSnapshot().enabled, 'NA remains disabled');

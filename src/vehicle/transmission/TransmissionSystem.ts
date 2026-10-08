@@ -4,6 +4,8 @@ export interface TransmissionSnapshot {
   type: TransmissionType;
   selectedMode: DriveSelector | null;
   currentPhysicalGear: Gear | null;
+  manualSelectionActive?: boolean;
+  manualSelectionRejectedReason?: string | null;
   cvt?: { ratio: number; targetRatio: number; targetRPM: number };
   inputRPM: number;
   outputRPM: number;
@@ -60,6 +62,8 @@ export interface TransmissionOutput {
 export interface TransmissionSystem {
   readonly type: TransmissionType;
   reset(gear?: Gear, selector?: DriveSelector): void;
+  requestManualSelection?(direction: -1 | 1): void;
+  returnToAuto?(): void;
   prepare(context: TransmissionContext): { throttleScale: number };
   update(context: TransmissionContext): TransmissionOutput;
   requestSelector(selector: DriveSelector, speed: number, lateralSpeed?: number, brake?: number): boolean;

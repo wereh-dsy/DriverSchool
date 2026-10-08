@@ -1238,16 +1238,22 @@ export class VehicleDynamics {
     const shiftUp = input.shiftUp === true;
     const shiftDown = input.shiftDown === true;
     if (this.transmission.type !== 'MANUAL') {
-      // The same device-independent shift edges select PRND on automatics.
+      // Near-rest brake gating separates PRND requests from optional D ratio requests.
       // Stop at the ends: D must never wrap straight into P. Explicit selector
       // requests take priority and use the existing prepare/safety path.
       const direction = shiftUp && !this.previousShiftUp && !shiftDown ? 1
         : shiftDown && !this.previousShiftDown && !shiftUp ? -1 : 0;
+      if (input.returnToAuto === true) this.transmission.returnToAuto?.();
       if (input.driveSelector === undefined && direction !== 0) {
-        const selectors: readonly DriveSelector[] = ['P', 'R', 'N', 'D'];
         const current = this.transmission.getSnapshot().selectedMode ?? 'P';
-        const next = selectors[selectors.indexOf(current) + direction];
-        if (next !== undefined) this.requestDriveSelector(next, input.brake);
+        const selectorAllowed = Math.hypot(this.speed, this.lateralVelocity) < 2 / 3.6 && input.brake >= .1;
+        if (selectorAllowed) {
+          const selectors: readonly DriveSelector[] = ['P', 'R', 'N', 'D'];
+          const next = selectors[selectors.indexOf(current) + direction];
+          if (next !== undefined) this.requestDriveSelector(next, input.brake);
+        } else if (current === 'D' && this.config.transmission.supportsManualSelection === true && input.returnToAuto !== true) {
+          this.transmission.requestManualSelection?.(direction);
+        }
       }
     } else if (input.directGear !== undefined) {
       this.requestGear(input.directGear, this.controlMode);
@@ -1408,7 +1414,7 @@ export class VehicleDynamics {
 
   private getTransmissionContext(dt: number, throttle: number, brake: number): TransmissionContext {
     return { dt, engineAngularVelocity: this.engine.angularVelocity, engineRPM: this.engine.currentRPM,
-      engineRunning: this.engine.isRunning, engineInertia: this.config.engine.engineInertia,
+      engineRunning: this.engine.isRunning, engineInertia: this.engine.rotationalInertia,
       idleRPM: this.config.engine.idleRPM, stallRPM: this.config.engine.stallRPM,
       redlineRPM: this.config.engine.redlineRPM, availableEngineTorque: this.engine.getTorqueSample().netCrankTorque,
       throttle, brake, vehicleSpeed: this.speed,

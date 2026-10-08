@@ -52,6 +52,21 @@ export function runExecutivePolishSelfTest() {
   const update = (gear: string, mode = 'NORMAL', cruise = false) => display.update(.2, pose, gear, mode, cruise, cruise ? 80 : null, fuel, network, [], true);
   update('N'); assert(display.data.page === 'DRIVING' && display.data.lanes.every(line => line.length > 5), 'authored curved lane boundaries populate Driving');
   assert(display.data.lanes[0]!.some(p => p.x > 2), 'lane path bends with actual road');
+  assert(display.data.laneMarkings?.every(style => style === 'solid') === true, 'two-lane road retains its solid centre and edge');
+  const multiLane: RoadNetworkData = { ...network, segments: [{ ...network.segments[0]!, width: 12, laneCountPerDirection: 2 }] };
+  display.update(.2,pose,'N','NORMAL',false,null,fuel,multiLane,[],true);
+  assert(display.data.laneMarkings?.[0] === 'solid' && display.data.laneMarkings?.[1] === 'dashed',
+    'inner lane separates a solid opposing carriageway boundary from a dashed same-direction divider');
+  assert(display.data.lanes.every(line => line.every(point => Number.isFinite(point.distanceAlong))),
+    'dash phase follows authored road distance on bends');
+  display.update(.2,{ ...pose, x: 4.5 },'N','NORMAL',false,null,fuel,multiLane,[],true);
+  assert(display.data.laneMarkings?.[0] === 'dashed' && display.data.laneMarkings?.[1] === 'solid',
+    'outer lane keeps a dashed inner divider and solid road edge');
+  display.update(.2,{ ...pose, x: -1.5, yaw: Math.PI },'N','NORMAL',false,null,fuel,multiLane,[],true);
+  const solidBoundary = display.data.lanes[display.data.laneMarkings!.indexOf('solid')]!;
+  assert(solidBoundary.some(point => point.x < 0), 'reversed travel retains the real solid boundary on the driver left');
+  display.update(.2,pose,'N','NORMAL',false,null,fuel,undefined,[],true);
+  assert(display.data.lanes.length === 0 && display.data.laneMarkings?.length === 0, 'missing roads clear geometry and marking types together');
   display.cyclePage(); update('N'); assert(display.data.page === 'MAP' && display.data.roads.length === 1, 'map consumes same road network');
   const longRoad: RoadNetworkData = { ...network, segments: [{ ...network.segments[0]!, centerline: [{x:0,z:1000},{x:0,z:-1000}], length:2000 }] };
   display.update(.2,pose,'N','NORMAL',false,null,fuel,longRoad,[],true);

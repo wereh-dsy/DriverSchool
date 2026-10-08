@@ -25,6 +25,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   drivenWheelWeightFraction: 0.62,
   gravity: 9.81,
   engine: {
+    layout: 'INLINE', cylinderCount: 4, torqueRipple: .018, soundProfile: 'balanced',
     displacementL: 1.6,
     partThrottleExponent: 1.08,
     revHang: { enabled: true, holdTime: 0.12, decayTime: 0.28, strength: 0.88 },
@@ -235,6 +236,8 @@ export function cloneVehiclePhysicsConfig(
     awd: config.awd === undefined ? undefined : { ...config.awd },
     engine: {
       ...config.engine,
+      firingCharacter: config.engine.firingCharacter === undefined ? undefined : { ...config.engine.firingCharacter },
+      startupCharacter: config.engine.startupCharacter === undefined ? undefined : { ...config.engine.startupCharacter },
       ignitionSequence: config.engine.ignitionSequence === undefined ? undefined : { ...config.engine.ignitionSequence },
       turbo: config.engine.turbo === undefined ? undefined : {
         ...config.engine.turbo,

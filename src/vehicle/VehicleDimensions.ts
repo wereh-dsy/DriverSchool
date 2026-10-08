@@ -71,3 +71,9 @@ export const EXECUTIVE_LWB_DIMENSIONS: VehicleDimensions = Object.freeze({
   length: 5.05, width: 1.89, height: 1.50, wheelBase: 3.025,
   frontTrackWidth: 1.63, rearTrackWidth: 1.62, wheelRadius: .345, wheelWidth: .245,
 });
+
+/** Road SUV envelope shared by body, contact, camera and wheel anchors. */
+export const ROAD_SUV_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.88, width: 1.985, height: 1.74, wheelBase: 2.895,
+  frontTrackWidth: 1.67, rearTrackWidth: 1.67, wheelRadius: .376, wheelWidth: .255,
+});

@@ -8,6 +8,7 @@ import {
   createCVTSedanPhysicsConfig,
   createAWDTestVehiclePhysicsConfig,
   createExecutiveSedanPhysicsConfig,
+  createRoadSUVPhysicsConfig,
   type VehiclePhysicsConfig,
 } from './config';
 import {
@@ -17,12 +18,13 @@ import {
   TEST_7DCT_VISUAL_CONFIG,
   CVT_SEDAN_VISUAL_CONFIG,
   EXECUTIVE_SEDAN_VISUAL_CONFIG,
+  ROAD_SUV_VISUAL_CONFIG,
   type VehicleVisualConfig,
 } from './visual';
 import { withSuspensionStance } from './visual/VehicleVisualConfig';
 
 export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
-  'test-awd-full-time', 'test-awd-on-demand', 'executive-lwb-2t'] as const;
+  'test-awd-full-time', 'test-awd-on-demand', 'executive-lwb-2t', 'road-suv-v6-8at'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
 
 export interface VehicleCapabilities {
@@ -58,7 +60,7 @@ const SPORTS_COUPE_DESCRIPTOR: VehicleDescriptor = Object.freeze({
   id: 'sport-coupe',
   version: 2,
   name: 'GT 跑车',
-  description: '约 270 kW 的后驱跑车，宽扭矩输出、运动底盘，但仍保留可控的油门响应。',
+  description: '3.0T L6 · 7MT · 约 269 kW 的后驱跑车，宽扭矩输出、运动底盘，但仍保留可控的油门响应。',
   capabilities: Object.freeze({ cruiseControl: true }),
   physicsConfig: SPORTS_COUPE_PHYSICS_CONFIG,
   visualConfig: SPORTS_COUPE_VISUAL_CONFIG,
@@ -83,6 +85,10 @@ const TEST_7DCT_DESCRIPTOR: VehicleDescriptor = Object.freeze({
 });
 
 const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, VehicleDescriptor>> = Object.freeze({
+  'road-suv-v6-8at': Object.freeze({ id: 'road-suv-v6-8at', version: 1, name: 'Touareg-like V6 SUV',
+    description: '3.0T V6 · 8AT · AWD · 中大型公路 SUV，450 Nm，稳重底盘与临时手动选挡。',
+    capabilities: Object.freeze({ cruiseControl: true }),
+    physicsConfig: createRoadSUVPhysicsConfig(), visualConfig: ROAD_SUV_VISUAL_CONFIG }),
   'executive-lwb-2t': Object.freeze({ id: 'executive-lwb-2t', version: 2, name: 'A6L-inspired 行政轿车',
     description: '2.0T · 7DCT · AWD · 长轴豪华行政轿车，Virtual Cockpit，ECO / NORMAL / SPORT（T / 手柄 B）。',
     capabilities: Object.freeze({ cruiseControl: true }),

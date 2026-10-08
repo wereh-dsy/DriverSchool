@@ -48,3 +48,5 @@ export type {
   MirrorWorldTransform,
   VehicleVisualPose,
 } from './VehicleVisual';
+
+export { ROAD_SUV_VISUAL_CONFIG } from './VehicleVisualConfig';

@@ -32,7 +32,7 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
   public constructor(private readonly gearbox: Gearbox, private readonly config: DualClutchTransmissionConfig, wheelRadius: number) {
     this.selector = new SelectorSafety(gearbox, config.parkMaximumSpeed, wheelRadius,
       config.shiftStrategy.kickdownMaximumRPM, config.shiftStrategy.map[0]?.upshiftRPM ?? 1700);
-    this.controller = new AutomaticShiftController(config.shiftStrategy, gearbox);
+    this.controller = new AutomaticShiftController(config.shiftStrategy, gearbox, wheelRadius);
   }
   public reset(gear: Gear = 'N', selector?: DriveSelector): void {
     this.selector.reset(gear, selector); this.controller.reset(); this.handover = null; this.kickdown = false;
@@ -56,6 +56,10 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     }
     return accepted;
   }
+  public requestManualSelection(direction: -1 | 1): void {
+    if (this.selector.mode === 'D') this.controller.requestManualSelection(direction);
+  }
+  public returnToAuto(): void { this.controller.returnToAuto(); }
   public prepare(context: TransmissionContext): { throttleScale: number } {
     if (context.selectorRequest !== undefined) this.requestSelector(context.selectorRequest, context.vehicleSpeed, context.vehicleLateralSpeed, context.brake);
     const launchTarget = this.getLaunchEngagement(context);
@@ -157,7 +161,9 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
   private getEngagement(shaft: Shaft): number { return shaft === 'A' ? this.clutchAEngagement : this.clutchBEngagement; }
   private setEngagement(shaft: Shaft, engagement: number): void { if (shaft === 'A') this.clutchAEngagement = clamp01(engagement); else this.clutchBEngagement = clamp01(engagement); }
   public getSnapshot(): TransmissionSnapshot {
-    return { type: this.type, selectedMode: this.selector.mode, currentPhysicalGear: this.gearbox.currentGear,
+    return { manualSelectionActive: this.controller.manualSelectionActive,
+      manualSelectionRejectedReason: this.controller.manualSelectionRejectedReason,
+      type: this.type, selectedMode: this.selector.mode, currentPhysicalGear: this.gearbox.currentGear,
       inputRPM: this.inputRPM, outputRPM: this.outputRPM, engineLoadTorque: this.load, transmittedTorque: this.torque,
       shiftInProgress: this.handover !== null, shiftState: this.handover === null ? 'IDLE' : this.handover.unexpected ? 'PRESELECT_HANDOVER' : 'CLUTCH_HANDOVER',
       shiftProgress: this.handover === null ? 0 : clamp01(this.handover.elapsed / this.handover.duration),

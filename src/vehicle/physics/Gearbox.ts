@@ -1,7 +1,7 @@
 import type { ForwardGear, Gear, TransmissionConfig } from '../config';
 import { radiansPerSecondToRPM, rpmToRadiansPerSecond } from './math';
 
-const ALL_FORWARD_GEARS: readonly ForwardGear[] = [1, 2, 3, 4, 5, 6, 7];
+const ALL_FORWARD_GEARS: readonly ForwardGear[] = [1, 2, 3, 4, 5, 6, 7, 8];
 
 /** Gear selection and deterministic ratio/final-drive conversions. */
 export class Gearbox {

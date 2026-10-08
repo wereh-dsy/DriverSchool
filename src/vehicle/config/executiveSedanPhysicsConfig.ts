@@ -21,7 +21,7 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     centerOfMassLongitudinalOffset: 0, yawInertia: 3950,
     drivetrainType: 'AWD', drivetrainLayout: 'AWD', frontTorqueSplit: .75, rearTorqueSplit: .25 });
   config.awd = { mode: 'on-demand', accelerationRearTorqueSplit: .40, maximumRearTorqueSplit: .50, response: 2.4 };
-  config.engine = { ...config.engine, displacementL: 2.0, idleRPM: 780, engineInertia: .43,
+  config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 780, engineInertia: .43,
     partThrottleExponent: .85, throttleResponse: 3.2, throttleResponseRate: 3.2, throttleReleaseResponse: 7.5,
     engineFrictionTorque: 16, engineBrakingStrength: 67, engineBraking: 83,
     idleControlBandRPM: 280, idleControlStrength: 85, idleControlMaxTorque: 85,
@@ -38,7 +38,7 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
   config.engine.ignitionSequence = { crankingDuration: .55, crankingRPM: 270,
     flareRPM: 1120, settlingDuration: .85, shutdownFriction: 30 };
   const normalShift = shiftMap([1550, 1900, 3450, 5950], [900, 1100, 1650, 2600], .84, 4000, 1.5);
-  config.transmission = { ...config.transmission, type: 'DCT',
+  config.transmission = { ...config.transmission, type: 'DCT', supportsManualSelection: true, manualAutoUpshiftAtRedline: true, manualSelectionTimeout: 8,
     gearRatios: { 1: 3.45, 2: 2.18, 3: 1.52, 4: 1.12, 5: .87, 6: .69, 7: .56 },
     reverseRatio: -3.1, finalDrive: 3.85, finalDriveRatio: 3.85, shiftTime: .30, reverseLockoutSpeed: 1,
     dct: { shiftStrategy: { ...normalShift }, clutchCapacity: 440, couplingStiffness: 11,

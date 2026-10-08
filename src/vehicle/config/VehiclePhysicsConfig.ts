@@ -1,9 +1,9 @@
 /** Forward gears supported by the shared transmission model. */
-export type ForwardGear = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type ForwardGear = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 /**
  * Every vehicle keeps the original five ratios, while performance presets may
- * opt into sixth and seventh.  Keeping the upper ratios optional lets the
+ * opt into sixth, seventh and eighth.  Keeping the upper ratios optional lets the
  * family sedan remain a genuine five-speed instead of carrying dummy gears.
  */
 export type ForwardGearRatios = Readonly<Partial<Record<ForwardGear, number>>>;
@@ -125,6 +125,15 @@ export interface CVTConfig {
 }
 
 export interface EngineConfig {
+  layout: 'INLINE' | 'V' | 'W';
+  cylinderCount: number;
+  /** Radians; bank separation for V/W engines. */
+  bankAngle?: number;
+  /** Fractional, zero-mean combustion pulsation; never changes the torque curve. */
+  torqueRipple?: number;
+  firingCharacter?: { smoothness: number; inertiaScale: number; brakingScale: number };
+  soundProfile?: 'balanced' | 'smooth-six' | 'full-bodied';
+  startupCharacter?: EngineConfig['ignitionSequence'];
   /** Optional starter/shutdown rotation; steady-state combustion calibration is unchanged. */
   ignitionSequence?: { crankingDuration: number; crankingRPM: number; flareRPM: number;
     settlingDuration: number; shutdownFriction: number };
@@ -176,6 +185,10 @@ export interface EngineConfig {
 }
 
 export interface TransmissionConfig {
+  /** Opt-in for stepped AT/DCT only. CVT and MT ignore these fields. */
+  supportsManualSelection?: boolean;
+  manualAutoUpshiftAtRedline?: boolean;
+  manualSelectionTimeout?: number;
   /** Lightweight torque-reversal take-up, measured at the clutch in Nm. */
   drivetrainLash?: { reversalTime: number; torqueDeadzone: number };
   /** Omitted by legacy presets: manual remains the exact original default. */

@@ -49,6 +49,15 @@ export interface RevHangContext {
  * wheels: the clutch supplies the load torque applied to the crankshaft.
  */
 export class Engine {
+  private firingPhase = 0;
+  private rippleWave = 0;
+  /** Existing engineInertia remains the configured kg m² reference. */
+  public get rotationalInertia(): number {
+    return this.config.engineInertia * (this.config.firingCharacter?.inertiaScale ??
+      (this.config.layout === 'INLINE' ? this.config.cylinderCount > 4 ? 1.04 : 1 : this.config.layout === 'V' ? 1.10 : 1.18));
+  }
+  public get firingFrequencyHz(): number { return this.currentRPM * this.config.cylinderCount / 120; }
+  private get startup(): EngineConfig['ignitionSequence'] { return this.config.ignitionSequence ?? this.config.startupCharacter; }
   private torqueLimitFactor = 1;
   /** Combustion-only intervention; does not change pedal, throttle actuator, drag or idle governor. */
   public setTorqueLimitFactor(factor: number): void { this.torqueLimitFactor = clamp01(Number.isFinite(factor) ? factor : 1); }
@@ -77,6 +86,13 @@ export class Engine {
   private revHangFactor = 0;
 
   public constructor(public readonly config: EngineConfig) {
+    if (!['INLINE', 'V', 'W'].includes(config.layout) || !Number.isInteger(config.cylinderCount) ||
+        config.cylinderCount < 1 || config.cylinderCount > 16 ||
+        (config.layout === 'V' && (config.cylinderCount < 4 || config.cylinderCount % 2 !== 0)) ||
+        (config.layout === 'W' && (config.cylinderCount < 8 || config.cylinderCount % 4 !== 0)) ||
+        (config.bankAngle !== undefined && (!Number.isFinite(config.bankAngle) || config.bankAngle <= 0 || config.bankAngle >= Math.PI))) {
+      throw new Error('Invalid engine layout, cylinder count or bank angle.');
+    }
     if (config.torqueCurve.length === 0) {
       throw new Error('Engine torqueCurve must contain at least one sample.');
     }
@@ -94,6 +110,7 @@ export class Engine {
   }
 
   public reset(rpm = this.config.idleRPM, running = true): void {
+    this.firingPhase = 0; this.rippleWave = 0;
     this.torqueLimitFactor = 1;
     this.fuelStarvedCoasting = false;
     this.isRunning = running && this.fuelAvailable;
@@ -112,10 +129,10 @@ export class Engine {
   public start(): void {
     if (!this.fuelAvailable) return;
     this.fuelStarvedCoasting = false;
-    this.isRunning = this.config.ignitionSequence === undefined;
-    this.ignitionPhase = this.config.ignitionSequence === undefined ? 'RUNNING' : 'CRANKING';
+    this.isRunning = this.startup === undefined;
+    this.ignitionPhase = this.startup === undefined ? 'RUNNING' : 'CRANKING';
     this.ignitionElapsed = 0;
-    if (this.config.ignitionSequence === undefined) this.currentRPM = this.config.idleRPM;
+    if (this.startup === undefined) this.currentRPM = this.config.idleRPM;
     this.throttle = 0;
     this.fuelCutActive = false;
     this.resetRevHang();
@@ -124,9 +141,9 @@ export class Engine {
   public stop(): void {
     this.fuelStarvedCoasting = false;
     this.isRunning = false;
-    this.ignitionPhase = this.config.ignitionSequence !== undefined && this.currentRPM > 0 ? 'STOPPING' : 'OFF';
+    this.ignitionPhase = this.startup !== undefined && this.currentRPM > 0 ? 'STOPPING' : 'OFF';
     this.ignitionElapsed = 0;
-    if (this.config.ignitionSequence === undefined) this.currentRPM = 0;
+    if (this.startup === undefined) this.currentRPM = 0;
     this.throttle = 0;
     this.fuelCutActive = false;
     this.resetRevHang();
@@ -256,20 +273,22 @@ export class Engine {
     // at wide-open throttle. Legacy configurations retain the linear mapping.
     const combustionThrottle = clamp01(this.throttle) ** Math.max(0.1, this.config.partThrottleExponent ?? 1);
     const combustionTorque =
-      this.availableTorque * combustionThrottle * limiterMultiplier * this.torqueLimitFactor;
+      this.availableTorque * combustionThrottle * limiterMultiplier * this.torqueLimitFactor *
+      (1 + this.rippleWave * (this.config.torqueRipple ?? .018) * 4 / this.config.cylinderCount);
 
     // Mechanical drag is independent of pedal position. The existing
     // engineBrakingStrength remains the speed-dependent pumping-loss strength;
     // their sum preserves the former closed-throttle curve at every RPM.
     const mechanicalFrictionTorque = Math.max(0, this.config.engineFrictionTorque);
     const pumpingLossTorque = Math.max(0, this.config.engineBrakingStrength) *
-      normalizedRPM * (1 - clamp01(this.throttle)) ** 1.6;
+      normalizedRPM * (1 - clamp01(this.throttle)) ** 1.6 *
+      (this.config.firingCharacter?.brakingScale ?? (this.config.layout === 'INLINE' ? 1 : 1.04));
     const engineBrakingTorque = mechanicalFrictionTorque + pumpingLossTorque;
 
     // The governor exactly compensates normal friction at target idle, then
     // adds a finite reserve as RPM sags. Unlike the old minimum-RPM clamp this
     // can be overwhelmed by a locked drivetrain, allowing a genuine stall.
-    const startup = this.config.ignitionSequence;
+    const startup = this.startup;
     const idleTarget = this.ignitionPhase === 'CATCH' && startup !== undefined
       ? this.config.idleRPM + (startup.flareRPM - this.config.idleRPM) *
         Math.max(0, 1 - this.ignitionElapsed / startup.settlingDuration) : this.config.idleRPM;
@@ -286,7 +305,8 @@ export class Engine {
       1,
     );
     const idleControlTorque =
-      canBurn ? (engineBrakingTorque + idleReserve * idleError) * idleActivation : 0;
+      canBurn ? (engineBrakingTorque + idleReserve * idleError) * idleActivation *
+        (1 + this.rippleWave * (this.config.torqueRipple ?? .018) * 4 / this.config.cylinderCount) : 0;
     // Residual airflow offsets part of closed-throttle drag, never clamps RPM
     // or adds enough torque to defeat crank load, stall or engine braking.
     const revHangTorque = (canBurn ? 1 : 0) * Math.max(0, engineBrakingTorque - combustionTorque) *
@@ -300,11 +320,11 @@ export class Engine {
   /** Apply clutch load and integrate crankshaft angular velocity. */
   public integrate(dt: number, clutchLoadTorque: number): EngineTorqueSample | undefined {
     if (!Number.isFinite(dt) || dt <= 0) return;
-    const sequence = this.config.ignitionSequence;
+    const sequence = this.startup;
     if (sequence !== undefined && this.ignitionPhase === 'STOPPING') {
       const omega = this.angularVelocity;
       const drag = this.config.engineFrictionTorque + sequence.shutdownFriction * Math.min(1, omega / 50);
-      this.currentRPM = radiansPerSecondToRPM(Math.max(0, omega - drag / this.config.engineInertia * dt));
+      this.currentRPM = radiansPerSecondToRPM(Math.max(0, omega - drag / this.rotationalInertia * dt));
       if (this.currentRPM <= 1) { this.currentRPM = 0; this.ignitionPhase = 'OFF'; }
       this.turbo?.update(dt, this.currentRPM, 0, 0, 0, 0, false);
       return;
@@ -314,8 +334,8 @@ export class Engine {
       this.ignitionElapsed += dt;
       // Starter torque approaches cranking speed against inertia, with no combustion.
       const starterTorque = Math.min(this.config.starterTorque,
-        Math.max(0, rpmToRadiansPerSecond(sequence.crankingRPM) - this.angularVelocity) * this.config.engineInertia * 8);
-      this.currentRPM += radiansPerSecondToRPM(starterTorque / this.config.engineInertia * dt);
+        Math.max(0, rpmToRadiansPerSecond(sequence.crankingRPM) - this.angularVelocity) * this.rotationalInertia * 8);
+      this.currentRPM += radiansPerSecondToRPM(starterTorque / this.rotationalInertia * dt);
       if (this.ignitionElapsed >= sequence.crankingDuration) {
         this.ignitionPhase = 'CATCH'; this.ignitionElapsed = 0; this.isRunning = true;
       }
@@ -336,9 +356,19 @@ export class Engine {
       this.turbo.update(dt, this.currentRPM, this.throttle, demand,
         clutchLoadTorque, this.getTorqueAtRPM(this.currentRPM), this.isRunning && this.fuelAvailable);
     }
+    // Integrate an average firing pulse, attenuating above the 120 Hz solver's
+    // resolvable band. This prevents high-RPM aliases from changing mean output.
+    const phaseStep = this.firingFrequencyHz * 2 * Math.PI * dt;
+    const halfStep = phaseStep * .5;
+    const smoothness = this.config.firingCharacter?.smoothness ??
+      Math.min(.95, .55 + this.config.cylinderCount * .045 + (this.config.layout === 'INLINE' ? .04 : 0));
+    const band = Math.max(0, 1 - this.firingFrequencyHz * dt * 2);
+    this.rippleWave = Math.sin(this.firingPhase + halfStep) *
+      (halfStep > 1e-6 ? Math.sin(halfStep) / halfStep : 1) * band * (1 - smoothness);
+    this.firingPhase = (this.firingPhase + phaseStep) % (Math.PI * 2);
     const sample = this.getTorqueSample();
     const torque = sample.netCrankTorque - clutchLoadTorque;
-    const angularAcceleration = torque / Math.max(0.01, this.config.engineInertia);
+    const angularAcceleration = torque / Math.max(0.01, this.rotationalInertia);
     const nextAngularVelocity =
       rpmToRadiansPerSecond(this.currentRPM) + angularAcceleration * dt;
     const nextRPM = clamp(radiansPerSecondToRPM(nextAngularVelocity), 0, this.config.maxRPM);

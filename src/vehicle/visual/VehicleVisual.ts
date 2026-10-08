@@ -55,8 +55,8 @@ const buildSimplifiedSeats = (config: VehicleVisualConfig): THREE.Group => {
     mesh.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR);
     seats.add(mesh);
   };
-  const cushionY = sport ? 0.43 : 0.48;
-  const backY = sport ? 0.79 : 0.84;
+  const cushionY = config.body.profile === 'suv' ? .73 : sport ? 0.43 : 0.48;
+  const backY = config.body.profile === 'suv' ? 1.09 : sport ? 0.79 : 0.84;
   for (const [label, x] of [
     ['Driver', config.driverEyePosition[0]],
     ['Passenger', Math.max(0.49, config.cabin.width * 0.5 - 0.28)],
@@ -66,9 +66,9 @@ const buildSimplifiedSeats = (config: VehicleVisualConfig): THREE.Group => {
       [x, backY, 0.65], THREE.MathUtils.degToRad(10));
     seatBox(`${label} headrest`, [0.23, 0.15, 0.1], [x, backY + 0.38, 0.73]);
   }
-  seatBox('Rear bench cushion', [config.cabin.width * 0.8, 0.1, 0.27], [0, cushionY, 0.88]);
+  seatBox('Rear bench cushion', [config.cabin.width * 0.8, 0.1, 0.27], [0, cushionY, config.body.profile === 'suv' ? 1.35 : .88]);
   seatBox('Rear bench back', [config.cabin.width * 0.8, 0.43, 0.08],
-    [0, cushionY + 0.33, 0.95], THREE.MathUtils.degToRad(-8));
+    [0, cushionY + 0.33, config.body.profile === 'suv' ? 1.55 : .95], THREE.MathUtils.degToRad(-8));
   return seats;
 };
 
@@ -87,6 +87,8 @@ export class VehicleVisual {
   public readonly cockpitRoot: Cockpit;
   public readonly mirrorSurfaces: Readonly<Record<MirrorSide, MirrorSurfaceMesh>>;
   public readonly frontWheelPivots: readonly [THREE.Group, THREE.Group];
+  private mirrorFold = 0;
+  private readonly foldingMirrorPivots: { side: number; body: THREE.Group; glass: THREE.Group }[] = [];
 
   private readonly wheelMeshes: THREE.Mesh[] = [];
   public readonly wheelPivots = {} as Record<VehicleWheelId, THREE.Group>;
@@ -160,6 +162,15 @@ export class VehicleVisual {
   /** Feeds the physical cockpit cluster without exposing its mesh internals. */
   public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
     this.cockpitRoot.updateInstruments(telemetry, deltaTime);
+    const fold = this.config.automaticMirrorFold;
+    if (fold) {
+      const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
+      this.mirrorFold = THREE.MathUtils.damp(this.mirrorFold, on ? 0 : 1, fold.response, deltaTime);
+      for (const pivot of this.foldingMirrorPivots) {
+        const angle = -pivot.side * fold.angleRadians * this.mirrorFold;
+        pivot.body.rotation.y = angle; pivot.glass.rotation.y = angle;
+      }
+    }
   }
 
   public setFrontWheelSteeringAngle(angleRadians: number): void {
@@ -320,7 +331,7 @@ export class VehicleVisual {
   private buildWheels(): readonly [THREE.Group, THREE.Group] {
     const sport = this.config.body.profile === 'sport-coupe';
     const design = this.config.body.design;
-    const rimFraction = design === 'executive' ? .66 : design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
+    const rimFraction = design === 'road-suv' ? .64 : design === 'executive' ? .66 : design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
     const tyreMaterial = new THREE.MeshStandardMaterial({
       color: 0x111214,
       roughness: 0.88,
@@ -556,6 +567,17 @@ export class VehicleVisual {
     this.exteriorRoot.add(stalk);
 
     this.exteriorRoot.add(assembly);
+    if (this.config.automaticMirrorFold) {
+      // The sail stays bolted to the door. Housing, hinge arm and optical plane
+      // share one physical hinge, across their existing separate render layers.
+      const bodyPivot = new THREE.Group(), glassPivot = new THREE.Group();
+      bodyPivot.name = `${side} mirror folding hinge`; glassPivot.name = `${side} mirror optical folding hinge`;
+      bodyPivot.position.copy(start); glassPivot.position.copy(start);
+      for (const part of [assembly, stalk]) { part.position.sub(start); bodyPivot.add(part); }
+      surface.position.sub(start); glassPivot.add(surface);
+      this.exteriorRoot.add(bodyPivot); this.mirrorSurfaceRoot.add(glassPivot);
+      this.foldingMirrorPivots.push({ side: sign, body: bodyPivot, glass: glassPivot });
+    }
     return surface;
   }
 }

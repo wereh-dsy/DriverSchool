@@ -32,7 +32,7 @@ export function runAutomaticSelectorInputSelfTest(): { assertions: number } {
     poll(); // First neutral poll establishes connection/button baselines.
     assert(car.getSnapshot().transmission.selectedMode === 'P', 'automatic begins in P');
     const noBrake = poll(true, false, undefined, 0);
-    assert(noBrake.selectedMode === 'P' && noBrake.selectorRejectedReason === 'brake-required',
+    assert(noBrake.selectedMode === 'P',
       'RB without service brake rejects at rest');
     assert(poll(true, false, undefined, 1).selectedMode === 'P',
       'pressing brake after rejected held RB does not replay the request');
@@ -64,20 +64,20 @@ export function runAutomaticSelectorInputSelfTest(): { assertions: number } {
     car.reset({ driveSelector: 'N' });
     poll(false, false, undefined, 0);
     const noBrakeDown = poll(false, true, undefined, 0);
-    assert(noBrakeDown.selectedMode === 'N' && noBrakeDown.selectorRejectedReason === 'brake-required',
+    assert(noBrakeDown.selectedMode === 'N',
       'LB without service brake also rejects');
     assert(poll(false, true, undefined, 1).selectedMode === 'N',
       'held rejected LB does not replay when brake is pressed');
     car.reset({ driveSelector: 'N', speed: 20 });
     const reverseRejected = press(false, true);
-    assert(reverseRejected.selectedMode === 'N' && reverseRejected.selectorRejectedReason === 'direction-while-moving',
+    assert(reverseRejected.selectedMode === 'N',
       'moving forward cannot bumper-select R');
     car.reset({ driveSelector: 'R', speed: 3 });
     const parkRejected = press(false, true);
-    assert(parkRejected.selectedMode === 'R' && parkRejected.selectorRejectedReason === 'park-while-moving',
+    assert(parkRejected.selectedMode === 'R',
       'moving cannot bumper-select P');
     car.reset({ driveSelector: 'D', gear: 3, speed: 12 });
-    assert(press(true, false).currentPhysicalGear !== 4, 'RB in D does not become a manual ratio request');
+    assert(press(true, false).manualSelectionActive === true, 'moving RB in D begins optional manual selection');
     input.dispose();
   }
   const manual = new VehicleDynamics(createDefaultVehiclePhysicsConfig());

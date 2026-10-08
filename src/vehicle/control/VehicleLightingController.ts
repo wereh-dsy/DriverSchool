@@ -20,6 +20,7 @@ export interface VehicleLightingState {
 }
 
 export interface VehicleLightingTelemetry {
+  readonly autoOffWithIgnition?: boolean;
   readonly ignitionOn: boolean;
   /** The transmission's engaged output, never its last requested selector. */
   readonly actualGear: number | string;
@@ -77,6 +78,7 @@ export class VehicleLightingController {
   private brake = false;
   private reverse = false;
   private flash = false;
+  private lightPowerAvailable = true;
 
   public constructor(cancelConfig: Partial<TurnSignalAutoCancelConfig> = {}) {
     this.autoCancel = new TurnSignalAutoCancel(cancelConfig);
@@ -84,13 +86,14 @@ export class VehicleLightingController {
 
   public get state(): VehicleLightingState {
     const blinkOn = Math.floor(this.blinkTime * 2.1) % 2 === 0;
-    const effectiveHighBeam = this.mode === 'high' || this.flash;
+    const mode = this.lightPowerAvailable ? this.mode : 'off';
+    const effectiveHighBeam = this.lightPowerAvailable && (mode === 'high' || this.flash);
     return {
-      mainLightMode: this.mode, fogLightsEnabled: this.fog,
+      mainLightMode: mode, fogLightsEnabled: this.lightPowerAvailable && this.fog,
       leftTurnSignal: this.signal === 'left', rightTurnSignal: this.signal === 'right',
       hazard: this.hazard, brakeLight: this.brake, reverseLight: this.reverse,
       highBeamFlash: this.flash, effectiveHighBeam,
-      positionLight: this.mode !== 'off', lowBeam: this.mode === 'low' || this.mode === 'high',
+      positionLight: mode !== 'off', lowBeam: mode === 'low' || mode === 'high',
       leftBlinkOn: blinkOn && (this.hazard || this.signal === 'left'),
       rightBlinkOn: blinkOn && (this.hazard || this.signal === 'right'),
     };
@@ -116,10 +119,12 @@ export class VehicleLightingController {
   public reset(): void {
     this.mode = 'off'; this.fog = false; this.signal = null; this.hazard = false;
     this.blinkTime = 0; this.brake = false; this.reverse = false; this.flash = false;
+    this.lightPowerAvailable = true;
     this.autoCancel.reset();
   }
 
   public update(deltaTime: number, input: Readonly<VehicleInputState>, telemetry: VehicleLightingTelemetry): VehicleLightingState {
+    this.lightPowerAvailable = telemetry.autoOffWithIgnition !== true || telemetry.ignitionOn;
     if (input.cycleLights) this.cycleMainLightMode();
     if (input.fogToggle) this.toggleFog();
     if (input.hazard) {

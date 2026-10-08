@@ -1,4 +1,6 @@
 import type { InstrumentClusterConfig } from './InstrumentCluster';
+import { EXECUTIVE_AMBIENT_PROFILE, EXECUTIVE_INSTRUMENT_PROFILE, EXECUTIVE_LIGHTING_PROFILE,
+  type ExteriorLightingVisualProfile, type InteriorAmbientLightingProfile } from './LuxuryVisualProfile';
 import type { SuspensionConfig } from '../config/VehiclePhysicsConfig';
 import {
   FAMILY_SEDAN_DIMENSIONS,
@@ -7,6 +9,7 @@ import {
   FORMAL_DCT_DIMENSIONS,
   COMFORT_CVT_DIMENSIONS,
   EXECUTIVE_LWB_DIMENSIONS,
+  ROAD_SUV_DIMENSIONS,
   type VehicleDimensions,
 } from '../VehicleDimensions';
 
@@ -39,6 +42,10 @@ export interface MirrorVisualConfig extends VisualTransformConfig {
 }
 
 export interface VehicleVisualConfig {
+  readonly windowGlass?: { readonly color: number; readonly windshieldOpacity: number; readonly windowOpacity: number };
+  readonly automaticMirrorFold?: { readonly angleRadians: number; readonly response: number };
+  readonly exteriorLighting?: ExteriorLightingVisualProfile;
+  readonly interiorAmbientLighting?: InteriorAmbientLightingProfile;
   readonly name: string;
   readonly dimensions: VehicleDimensions;
   readonly vehicleWidth: number;
@@ -94,9 +101,9 @@ export interface VehicleVisualConfig {
     readonly wheelArchClearance: number;
     /** Derived wheel centre in the authored body frame. */
     readonly wheelArchCenterY?: number;
-    readonly profile: 'sedan' | 'sport-coupe';
+    readonly profile: 'sedan' | 'sport-coupe' | 'suv';
     /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
-    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive';
+    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;
@@ -391,11 +398,15 @@ export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG,
   ...automaticEnvelope(EXECUTIVE_LWB_DIMENSIONS), ...automaticMirrors(EXECUTIVE_LWB_DIMENSIONS, .955, -.81),
   name: 'A6L-inspired long-wheelbase executive sedan',
+  windowGlass: { color: 0x737d85, windshieldOpacity: .18, windowOpacity: .32 },
+  automaticMirrorFold: { angleRadians: degrees(60), response: 4.8 },
+  exteriorLighting: EXECUTIVE_LIGHTING_PROFILE,
+  interiorAmbientLighting: EXECUTIVE_AMBIENT_PROFILE,
   driverEyePosition: [-.40, 1.235, .30],
   // Keep the broad display behind the visor lip and naturally ahead of the wheel.
   instrumentClusterTransform: { position: [-.40, .96, -.485], rotation: [degrees(-7), 0, 0], scale: 1.22 },
   instrumentCluster: { maximumSpeedKmh: 280, maximumRPM: 7000, redlineRPM: 6400,
-    needleResponse: 12, displayStyle: 'executive-virtual' },
+    needleResponse: 12, displayStyle: 'executive-virtual', visualProfile: EXECUTIVE_INSTRUMENT_PROFILE },
   steeringWheelPosition: [-.40, .755, -.245], steeringColumnMountPosition: [-.40, .668, -.57],
   steeringWheelRadius: .17, steeringWheelRimTubeRadius: .019,
   steeringWheelLockDegrees: 32 * 17.5 * 2,
@@ -407,4 +418,27 @@ export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
     wheelArchClearance: .095, sillY: .34, hoodTopY: .80, hoodLength: 1.60,
     trunkDeckY: .81, trunkLength: 1.12, roofWidth: 1.46,
     roofLength: 1.72, roofCenterZ: .29, color: 0x27313f, trimColor: 0x12171f, interiorColor: 0x242326 },
+};
+
+/** Upright SUV cabin with basic analog instruments and existing cockpit fixtures. */
+export const ROAD_SUV_VISUAL_CONFIG: VehicleVisualConfig = {
+  ...DEFAULT_SEDAN_VISUAL_CONFIG,
+  ...automaticEnvelope(ROAD_SUV_DIMENSIONS), ...automaticMirrors(ROAD_SUV_DIMENSIONS, 1.18, -.89),
+  name: 'Touareg-like 3.0T V6 / 8AT road SUV',
+  driverEyePosition: [-.42, 1.49, .36],
+  instrumentCluster: { maximumSpeedKmh: 260, maximumRPM: 7000, redlineRPM: 6400,
+    needleResponse: 11, displayStyle: 'dual-analog' },
+  instrumentClusterTransform: { position: [-.42, 1.20, -.46], rotation: [degrees(-7), 0, 0] },
+  steeringWheelPosition: [-.42, 1.02, -.255], steeringColumnMountPosition: [-.42, .935, -.57],
+  steeringWheelRadius: .173, steeringWheelRimTubeRadius: .018,
+  steeringWheelLockDegrees: 33 * 17.8 * 2,
+  gearLeverPosition: [.14, .70, .32],
+  dashboard: { position: [0, .99, -.67], dimensions: [1.73, .09, .39], tiltRadians: degrees(-4) },
+  cabin: { width: 1.73, dashboardTopY: 1.06, windshieldBottomY: 1.10, windshieldTopY: 1.66,
+    windshieldBottomZ: -.96, windshieldTopZ: -.60, roofY: 1.705 },
+  body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, profile: 'suv', design: 'road-suv',
+    groundClearance: .215, wheelArchClearance: .115, sillY: .47,
+    hoodTopY: 1.06, hoodLength: 1.34, trunkDeckY: 1.10, trunkLength: .18,
+    roofWidth: 1.58, roofLength: 2.66, roofCenterZ: .71,
+    color: 0x566575, trimColor: 0x161c23, interiorColor: 0x2d3033 },
 };

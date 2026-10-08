@@ -2,16 +2,19 @@ import { projectWorldToRoad, type RoadNetworkData } from '../../world/navigation
 import type { StaticCollider } from '../physics/CollisionSystem';
 import type { FuelSnapshot } from '../physics/FuelSystem';
 
-export interface DisplayPoint { x: number; forward: number }
+export interface DisplayPoint { x: number; forward: number; distanceAlong?: number }
 export interface DisplayObstacle extends DisplayPoint { distance: number; width: number; length: number }
 export interface ExecutiveDisplayData {
   version: number;
   page: 'DRIVING' | 'MAP' | 'PARKING' | 'TRIP';
   overlay: { title: string; value: string; alpha: number } | null;
   lanes: DisplayPoint[][];
+  laneMarkings?: ('solid' | 'dashed')[];
   roads: DisplayPoint[][];
   obstacles: DisplayObstacle[];
   proximity: number | null;
+  localTime?: string;
+  localDate?: string;
   trip: { seconds: number; averageSpeed: number | null; fuel: FuelSnapshot };
 }
 
@@ -26,6 +29,7 @@ export class ExecutiveDisplayContext {
   private distance = 0;
   private previousMode = '';
   private previousCruise = '';
+  private clockElapsed = Infinity;
   public readonly data: ExecutiveDisplayData;
   public constructor(fuel: FuelSnapshot) {
     this.previousDistance = fuel.tripDistanceKm;
@@ -36,6 +40,13 @@ export class ExecutiveDisplayContext {
   public update(dt: number, pose: { x: number; z: number; yaw: number; y: number; width: number; length: number }, gear: string,
     mode: string, cruise: boolean, target: number | null, fuel: FuelSnapshot,
     network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], active: boolean): void {
+    this.clockElapsed += dt;
+    if (this.clockElapsed >= 1) {
+      this.clockElapsed = 0;
+      const now = new Date(), pad = (n: number): string => String(n).padStart(2, '0');
+      this.data.localTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      this.data.localDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    }
     if (active) { this.seconds += dt; this.distance += Math.max(0, fuel.tripDistanceKm - this.previousDistance); }
     this.previousDistance = fuel.tripDistanceKm;
     const cruiseKey = cruise ? String(Math.round(target ?? 0)) : '';
@@ -55,7 +66,7 @@ export class ExecutiveDisplayContext {
     const local = (x: number, z: number): DisplayPoint => ({
       x: (x - pose.x) * cos - (z - pose.z) * sin,
       forward: -(x - pose.x) * sin - (z - pose.z) * cos });
-    this.data.lanes = []; this.data.roads = []; this.data.obstacles = []; this.data.proximity = null;
+    this.data.lanes = []; this.data.laneMarkings = []; this.data.roads = []; this.data.obstacles = []; this.data.proximity = null;
     if (network && page === 'MAP') {
       for (const road of network.segments) {
         const line = road.centerline.map(p => local(p.x, p.z));
@@ -76,7 +87,13 @@ export class ExecutiveDisplayContext {
         // Actual lane containing the projected vehicle, bounded by the authored road edge.
         const lane = Math.max(-road.width / 2, Math.min(road.width / 2 - n, Math.floor((projected.lateralOffset + road.width / 2) / n) * n - road.width / 2));
         const boundaries: DisplayPoint[][] = [[], []];
+        // Same-direction dividers are dashed. Road edges and the opposing
+        // carriageway separator are solid, matching the existing road builders.
+        this.data.laneMarkings = [lane, lane + n].map(offset =>
+          Math.abs(Math.abs(offset) - road.width / 2) < .01 ||
+          (road.travelDirection === 'two-way' && Math.abs(offset) < .01) ? 'solid' : 'dashed');
         const line = road.centerline;
+        let distanceAlong = 0;
         for (let i = 1; i < line.length; i++) {
           const a = line[i - 1]!, b = line[i]!, dx = b.x - a.x, dz = b.z - a.z, length = Math.hypot(dx, dz);
           if (!length) continue;
@@ -85,9 +102,11 @@ export class ExecutiveDisplayContext {
             const x = a.x + dx * j / count, z = a.z + dz * j / count;
             for (let k = 0; k < 2; k++) {
               const offset = lane + k * n, p = local(x - dz / length * offset, z + dx / length * offset);
+              p.distanceAlong = distanceAlong + length * j / count;
               if (p.forward >= -2 && p.forward <= 42 && Math.abs(p.x) < 22) boundaries[k]!.push(p);
             }
           }
+          distanceAlong += length;
         }
         // Reverse polyline order when travelling towards its start.
         boundaries.forEach(points => points.sort((a, b) => a.forward - b.forward));

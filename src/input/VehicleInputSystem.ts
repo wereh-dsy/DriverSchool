@@ -31,6 +31,7 @@ export interface VehicleInputSystemOptions {
 }
 
 interface DiscreteInputFrame {
+  returnToAuto: boolean;
   shiftUp: boolean;
   shiftDown: boolean;
   leftIndicator: boolean;
@@ -300,6 +301,7 @@ export class VehicleInputSystem {
   }
 
   private enqueueDiscreteFrame(samples: readonly VehicleInputDeviceState[]): void {
+    let returnToAuto = false;
     let shiftUp = false;
     let shiftDown = false;
     let leftIndicator = false;
@@ -314,6 +316,7 @@ export class VehicleInputSystem {
     let directGear: RequestedGear | undefined;
     let driveSelector: DriveSelector | undefined;
     for (const sample of samples) {
+      returnToAuto ||= sample.returnToAuto === true;
       shiftUp ||= sample.shiftUp;
       shiftDown ||= sample.shiftDown;
       leftIndicator ||= sample.leftIndicator;
@@ -332,10 +335,11 @@ export class VehicleInputSystem {
       if (driveSelector === undefined && sample.driveSelector !== undefined) driveSelector = sample.driveSelector;
     }
     if (
-      !shiftUp && !shiftDown && !leftIndicator && !rightIndicator && !hazard &&
+      !returnToAuto && !shiftUp && !shiftDown && !leftIndicator && !rightIndicator && !hazard &&
       !cycleLights && !engineStart && !cruiseToggle && !fogToggle && !cycleWipers && !cycleDriveMode && directGear === undefined && driveSelector === undefined
     ) return;
     const frame: DiscreteInputFrame = {
+      returnToAuto,
       shiftUp,
       shiftDown,
       leftIndicator,
@@ -399,6 +403,7 @@ export class VehicleInputSystem {
         active: [...this.latestState.sourceMetadata.active],
         connected: [...this.latestState.sourceMetadata.connected],
       },
+      returnToAuto: discrete?.returnToAuto ?? false,
       shiftUp: discrete?.shiftUp ?? false,
       shiftDown: discrete?.shiftDown ?? false,
       leftIndicator: discrete?.leftIndicator ?? false,

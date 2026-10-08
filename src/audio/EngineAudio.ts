@@ -1,3 +1,4 @@
+import type { EngineConfig } from '../vehicle/config';
 import type { VehicleAudioProfile } from './VehicleAudioProfile';
 
 /** Additional telemetry used by the synthesized vehicle and road-noise layers. */
@@ -10,6 +11,7 @@ export interface EngineAudioUpdateOptions {
   clutchEngagement?: number;
   /** Surface roughness from 0 (smooth asphalt) to 1 (very coarse). */
   roadRoughness?: number;
+  engineCharacter?: EngineConfig;
   profile?: VehicleAudioProfile;
   cockpit?: boolean;
   driveMode?: string;
@@ -43,7 +45,7 @@ const smoothStep = (value: number): number => {
 };
 
 /**
- * Produces a conservative four-cylinder mix. Keeping this calculation separate
+ * Produces a conservative mix from the configured four-stroke firing density. Keeping this calculation separate
  * from the Web Audio graph makes future sample-based or electric powertrains easy
  * to add without changing the game's vehicle interface.
  */
@@ -66,12 +68,15 @@ export const calculateEngineAudioMix = (
   const cabin = profile && options.cockpit !== false
     ? profile.cabinIdle + (profile.cabinLoad - profile.cabinIdle) * smoothStep(load) : 1;
   const presence = cabin * sport;
+  const character = options.engineCharacter;
+  const bodyPresence = character?.soundProfile === 'full-bodied' ? 1.45 : character?.cylinderCount === 6 ? 1.15 : 1;
+  const upperPresence = character?.soundProfile === 'full-bodied' ? .55 : character?.cylinderCount === 6 ? .8 : 1;
   return {
-    // A four-cylinder four-stroke engine fires twice per crankshaft revolution.
-    firingHz: clamp(safeRpm / 30, 18, 285),
+    // Four-stroke firing rate: cylinder count / two crank revolutions.
+    firingHz: clamp(safeRpm * (options.engineCharacter?.cylinderCount ?? 4) / 120, 18, 850),
     exhaust: profile ? (0.008 + Math.pow(load, 1.3) * 0.065 + rpmNormal * load * 0.008) * presence : 0.030 + load * 0.026 + rpmNormal * 0.009,
-    exhaustBody: profile ? (0.011 + load * 0.048) * (1 - rpmNormal * .35) * presence : (1 - rpmNormal * 0.72) * (0.018 + load * 0.009),
-    upperExhaust: profile ? (.001 + rpmNormal * load * .004) * presence : 0.006 + rpmNormal * 0.015 + load * 0.006,
+    exhaustBody: bodyPresence * (profile ? (0.011 + load * 0.048) * (1 - rpmNormal * .35) * presence : (1 - rpmNormal * 0.72) * (0.018 + load * 0.009)),
+    upperExhaust: upperPresence * (profile ? (.001 + rpmNormal * load * .004) * presence : 0.006 + rpmNormal * 0.015 + load * 0.006),
     intake: profile ? (.0006 + Math.pow(load, 2) * .016) * presence : 0.0015 + Math.pow(load, 1.35) * 0.031 + rpmNormal * safeThrottle * 0.006,
     mechanical: profile ? (.0008 + rpmNormal * .003) * presence : 0.0025 + rpmNormal * 0.010 + (1 - load) * rpmNormal * 0.002,
     road: speedNormal * (0.011 + roadRoughness * 0.021) * (profile && options.cockpit !== false ? profile.cabinRoad : 1),
@@ -219,7 +224,7 @@ export class EngineAudio {
     this.upperExhaust?.frequency.setTargetAtTime(mix.firingHz * 2.012, now, 0.038);
     this.mechanical?.frequency.setTargetAtTime(Math.max(105, mix.firingHz * 5.96), now, 0.055);
     this.roughnessLfo?.frequency.setTargetAtTime(5.3 + clamp(rpm / 6_500) * 2.2, now, 0.18);
-    this.roughnessDepth?.gain.setTargetAtTime(this.profile ? .7 : 4.2 - clamp(rpm / 6_500) * 2.4, now, 0.20);
+    this.roughnessDepth?.gain.setTargetAtTime(this.profile ? .7 : (4.2 - clamp(rpm / 6_500) * 2.4) * 4 / (options.engineCharacter?.cylinderCount ?? 4), now, 0.20);
 
     this.exhaustGain?.gain.setTargetAtTime(mix.exhaust, now, 0.075);
     this.exhaustBodyGain?.gain.setTargetAtTime(mix.exhaustBody, now, 0.095);
@@ -228,7 +233,7 @@ export class EngineAudio {
     this.mechanicalGain?.gain.setTargetAtTime(mix.mechanical, now, 0.10);
 
     this.exhaustFilter?.frequency.setTargetAtTime(
-      this.profile ? this.profile.exhaustCutoff + rpm * .055 + mix.load * 185 : 235 + rpm * 0.145 + mix.load * 390,
+      this.profile ? this.profile.exhaustCutoff + rpm * .055 + mix.load * 185 : (235 + rpm * 0.145 + mix.load * 390) * (options.engineCharacter?.soundProfile === 'full-bodied' ? .72 : 1),
       now,
       0.075,
     );

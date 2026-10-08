@@ -113,6 +113,9 @@ export class GamepadInput implements VehicleInputDevice {
     manualClutchPedal: 1,
     actualClutchEngagement: 0,
   };
+  private pendingReturnToAuto = false;
+  private upHoldTime = -1;
+  private upHoldSent = false;
   private pendingShiftUp = false;
   private pendingShiftDown = false;
   private pendingHandbrakeToggle = false;
@@ -175,10 +178,18 @@ export class GamepadInput implements VehicleInputDevice {
     const firstSampleAfterConnection = nextConnectionKey !== this.connectionKey;
     if (firstSampleAfterConnection) {
       // A held button during connection must not synthesize a new edge.
+      this.upHoldTime = -1; this.upHoldSent = false;
       this.connectionKey = nextConnectionKey;
       this.previousButtons = pressed;
       this.clearPendingEdges();
     } else if (this.enabled) {
+      if (this.isRisingEdge(pressed, 5)) { this.upHoldTime = 0; this.upHoldSent = false; }
+      if (pressed[5] && !pressed[4] && this.upHoldTime >= 0) {
+        this.upHoldTime += Math.max(0, context.deltaTime);
+        if (this.upHoldTime >= 1 && !this.upHoldSent) {
+          this.pendingReturnToAuto = true; this.upHoldSent = true;
+        }
+      } else { this.upHoldTime = -1; this.upHoldSent = false; }
       this.pendingShiftUp ||= this.isRisingEdge(pressed, 5); // RB
       this.pendingShiftDown ||= this.isRisingEdge(pressed, 4); // LB
       this.pendingFogToggle ||= this.isRisingEdge(pressed, 3); // Y
@@ -273,6 +284,7 @@ export class GamepadInput implements VehicleInputDevice {
       clutchPedal: this.context.manualClutchPedal,
       lookX: this.continuous.lookX,
       lookY: this.continuous.lookY,
+      returnToAuto: this.pendingReturnToAuto,
       shiftUp: this.pendingShiftUp,
       shiftDown: this.pendingShiftDown,
       leftIndicator: this.pendingLeftIndicator,
@@ -311,6 +323,7 @@ export class GamepadInput implements VehicleInputDevice {
     this.throttleDiagnostics = { ...ZERO_THROTTLE_DIAGNOSTICS };
     this.clearPendingEdges();
     // Resynchronise held buttons before accepting new edges after re-enable.
+    this.upHoldTime = -1; this.upHoldSent = false;
     this.connectionKey = null;
   }
 
@@ -388,6 +401,7 @@ export class GamepadInput implements VehicleInputDevice {
     this.selectedIndex = event.gamepad.index;
     this.lastDeviceLabel = event.gamepad.id || 'Standard Gamepad';
     this.lastMapping = event.gamepad.mapping;
+    this.upHoldTime = -1; this.upHoldSent = false;
     this.connectionKey = null;
   };
 
@@ -399,6 +413,7 @@ export class GamepadInput implements VehicleInputDevice {
   private clearConnection(): void {
     this.selectedIndex = null;
     this.activeGamepad = null;
+    this.upHoldTime = -1; this.upHoldSent = false;
     this.connectionKey = null;
     this.previousButtons = [];
     this.lastGamepadTimestamp = -1;
@@ -408,6 +423,7 @@ export class GamepadInput implements VehicleInputDevice {
   }
 
   private clearPendingEdges(): void {
+    this.pendingReturnToAuto = false;
     this.pendingShiftUp = false;
     this.pendingShiftDown = false;
     this.pendingHandbrakeToggle = false;
@@ -422,7 +438,7 @@ export class GamepadInput implements VehicleInputDevice {
   }
 
   private hasPendingEdge(): boolean {
-    return this.pendingShiftUp || this.pendingShiftDown ||
+    return this.pendingReturnToAuto || this.pendingShiftUp || this.pendingShiftDown ||
       this.pendingHandbrakeToggle || this.pendingLeftIndicator ||
       this.pendingRightIndicator || this.pendingHazard ||
       this.pendingCycleLights || this.pendingEngineStart ||

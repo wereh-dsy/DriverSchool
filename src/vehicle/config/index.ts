@@ -42,3 +42,5 @@ export { createTest6ATVehiclePhysicsConfig, createTest7DCTVehiclePhysicsConfig }
 export { createCVTSedanPhysicsConfig } from './cvtSedanPhysicsConfig';
 export { createAWDTestVehiclePhysicsConfig } from './awdTestVehicleConfigs';
 export { createExecutiveSedanPhysicsConfig } from './executiveSedanPhysicsConfig';
+
+export { createRoadSUVPhysicsConfig } from './roadSUVPhysicsConfig';

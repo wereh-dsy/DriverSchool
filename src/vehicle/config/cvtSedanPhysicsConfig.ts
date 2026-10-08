@@ -13,7 +13,7 @@ export function createCVTSedanPhysicsConfig(): VehiclePhysicsConfig {
     mass: 1415, trackWidth: 1.585, frontWeightBias: .595, drivenWheelWeightFraction: .595,
     centerOfMassHeight: .54, centerOfMassLongitudinalOffset: 0, yawInertia: 2680,
   });
-  config.engine = { ...config.engine, displacementL: 2.0, idleRPM: 800, engineInertia: .46, partThrottleExponent: .78,
+  config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 800, engineInertia: .46, partThrottleExponent: .78,
     throttleResponse: 2.65, throttleResponseRate: 2.65, throttleReleaseResponse: 6.8,
     engineFrictionTorque: 13, engineBrakingStrength: 46, engineBraking: 59,
     idleControlStrength: 70, idleControlMaxTorque: 70, idleControlBandRPM: 290,
@@ -41,7 +41,7 @@ export function createCVTSedanPhysicsConfig(): VehiclePhysicsConfig {
     gripCoefficient: .92, corneringStiffnessFront: 70000, corneringStiffnessRear: 74000,
     rollingResistance: .0125, peakSlipRatio: .115, peakSlipAngle: 8.5 * Math.PI / 180, gripFalloff: .32 };
   config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.2 };
-  config.transmission = { ...config.transmission, type: 'CVT', automatic: undefined, dct: undefined,
+  config.transmission = { ...config.transmission, type: 'CVT', supportsManualSelection: false, automatic: undefined, dct: undefined,
     gearRatios: {}, reverseRatio: -2.2, finalDrive: 5.1, finalDriveRatio: 5.1,
     cvt: { minimumRatio: .42, maximumRatio: 2.6, ratioChangeRate: .85, targetRPMResponse: 2.5,
       parkMaximumSpeed: .35,

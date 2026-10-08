@@ -13,6 +13,9 @@ const setPosition = (object: THREE.Object3D, value: Vector3Tuple): void => {
   object.position.set(value[0], value[1], value[2]);
 };
 
+const rearZFromDashboard = (config: VehicleVisualConfig): number =>
+  config.dashboard.position[2] + config.dashboard.dimensions[2] * .5;
+
 const makeBox = (
   name: string,
   size: Vector3Tuple,
@@ -77,6 +80,9 @@ export class Cockpit extends THREE.Group {
   private readonly steeringWheelLockRadians: number;
   private readonly consoleWidth: number;
   private readonly floorY: number;
+  private ambientMaterial: THREE.MeshStandardMaterial | null = null;
+  private ambientLevel = 0;
+  private readonly ambientSpills: THREE.PointLight[] = [];
 
   public constructor(public readonly config: VehicleVisualConfig) {
     super();
@@ -124,6 +130,8 @@ export class Cockpit extends THREE.Group {
     this.addFootwells(config, dark);
     this.addDoors(config, interior, softTrim, satin);
     this.addWindshieldFrame(config, dark, headliner);
+    if (config.body.design === 'executive') this.addExecutiveCabinCompletion(config, interior, softTrim, satin, dark);
+    if (config.interiorAmbientLighting) this.addAmbientLighting(config);
   }
 
   /** Positive input means steer right; the wheel turns clockwise for the driver. */
@@ -147,6 +155,135 @@ export class Cockpit extends THREE.Group {
   /** Updates every cockpit instrument from one render-facing state object. */
   public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
     this.instrumentCluster.update(telemetry, deltaTime);
+    const profile = this.config.interiorAmbientLighting;
+    if (profile && this.ambientMaterial) {
+      const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
+      const night = telemetry.indicators?.positionLights || telemetry.indicators?.headlights || telemetry.indicators?.highBeam;
+      const target = on ? (night ? profile.nightIntensity : profile.dayIntensity) : 0;
+      this.ambientLevel = THREE.MathUtils.damp(this.ambientLevel, target, profile.fadeResponse, deltaTime);
+      this.ambientMaterial.emissiveIntensity = this.ambientLevel;
+      const fraction = this.ambientLevel / profile.nightIntensity;
+      for (const spill of this.ambientSpills) spill.intensity = (spill.userData.nightIntensity as number) * fraction;
+    }
+  }
+
+  private addAmbientLighting(config: VehicleVisualConfig): void {
+    const profile = config.interiorAmbientLighting!;
+    const material = this.ambientMaterial = new THREE.MeshStandardMaterial({
+      color: 0x18242a, emissive: profile.color, emissiveIntensity: 0,
+      roughness: .48, metalness: .1, toneMapped: false,
+    });
+    const width = config.dashboard.dimensions[0], top = config.cabin.dashboardTopY;
+    const rearZ = config.dashboard.position[2] + config.dashboard.dimensions[2] * .5;
+    const transform = config.instrumentClusterTransform, pod = instrumentBinnacleShape(config);
+    const half = (pod.halfWidth + pod.border) * (transform.scale ?? 1) + .014;
+    for (const [a, b] of [[-width * .5, transform.position[0] - half], [transform.position[0] + half, width * .5]] as const) {
+      this.add(makeBox('Ambient dashboard indirect ribbon', [b - a, .0025, .004], [(a + b) * .5, top - .079, rearZ + .033], material));
+    }
+    // Subtle return under the pod; no exposed luminous ring around the wheel.
+    this.add(makeBox('Ambient instrument lower indirect edge', [half * 1.6, .002, .003],
+      [transform.position[0], transform.position[1] - (pod.halfHeight + pod.border) * (transform.scale ?? 1) - .006, rearZ + .007], material));
+    const stackX = config.gearLeverPosition[0], consoleY = config.gearLeverPosition[1] - .025;
+    const face = this.getObjectByName('Centre stack controls');
+    for (const sign of [-1, 1]) {
+      this.add(makeBox('Ambient console edge', [.0025, .003, .86],
+        [stackX + sign * (this.consoleWidth * .5 - .023), consoleY + .017, .36], material));
+      if (face) {
+        face.add(makeBox('Ambient centre stack perimeter', [.002, .25, .002], [sign * (this.consoleWidth * .5 - .013), -.03, .009], material));
+        face.add(makeBox('Climate key backlight', [.020, .0015, .001], [sign * .075, -.12, .015], material));
+      }
+      const keys = this.steeringWheelRotationGroup.getObjectByName(sign < 0 ? 'Left wheel key panel' : 'Right wheel key panel');
+      if (keys) for (const y of [-.006, .006]) keys.add(makeBox('Wheel key backlight', [.008, .0014, .001], [0, y, .006], material));
+      const light = new THREE.PointLight(profile.color, 0, .65, 2);
+      light.name = 'Ambient footwell indirect fill'; light.position.set(sign * .43, this.floorY + .22, -.30);
+      light.userData.nightIntensity = profile.footwellIntensity;
+      light.castShadow = false; this.ambientSpills.push(light); this.add(light);
+    }
+    if (config.body.design === 'executive') {
+      const opening = frontWindowAnchors(config);
+      const rearZ = config.vehicleLength * .5 - config.body.trunkLength - .06;
+      for (const sign of [-1, 1]) {
+        for (const [a, b, y] of [[opening.frontBottomZ, opening.rearZ, opening.frontBottomY - .050],
+          [opening.rearZ + .025, rearZ, config.body.trunkDeckY + .018]] as const) {
+          this.add(makeBox('Ambient door upper trim', [.003, .0025, b - a],
+            [sign * (opening.bottomHalfWidth - .058), y, (a + b) * .5], material));
+        }
+      }
+      this.getObjectByName('Executive upper centre display assembly')?.add(makeBox('Ambient upper centre display lower edge', [.323, .002, .003],
+        [0, -.068, .020], material));
+      const fill = new THREE.PointLight(profile.color, 0, 1.15, 2);
+      fill.name = 'Ambient front fascia indirect fill'; fill.position.set(.25, .80, -.12);
+      fill.userData.nightIntensity = profile.dashboardFillIntensity ?? .055;
+      fill.castShadow = false; this.ambientSpills.push(fill); this.add(fill);
+    }
+  }
+
+  /** Thin, connected trim and bulkhead panels preserve the real footwell volume. */
+  private addExecutiveCabinCompletion(config: VehicleVisualConfig, interior: THREE.Material,
+    softTrim: THREE.Material, satin: THREE.Material, dark: THREE.Material): void {
+    const width = config.cabin.width, top = config.cabin.dashboardTopY;
+    const frontZ = config.cabin.windshieldBottomZ, rearZ = rearZFromDashboard(config);
+    const stackX = config.gearLeverPosition[0];
+    const fascia = new THREE.MeshStandardMaterial({ color: 0x41474d, roughness: .68, metalness: .08,
+      side: THREE.DoubleSide });
+    const cowl = [[config.cabin.windshieldBottomY - .013, frontZ - .014], [top, frontZ + .14],
+      [top - .018, frontZ + .14], [config.cabin.windshieldBottomY - .031, frontZ - .014]] as const;
+    this.add(makeSectionShell('Executive bonded windshield cowl',
+      [{ x: -width * .5, profile: cowl }, { x: width * .5, profile: cowl }], softTrim));
+    const bulkhead = [[top - .07, frontZ + .075], [this.floorY + .14, frontZ],
+      [this.floorY + .14, frontZ - .018], [top - .07, frontZ + .057]] as const;
+    this.add(makeSectionShell('Executive front cabin bulkhead',
+      [{ x: -width * .5, profile: bulkhead }, { x: width * .5, profile: bulkhead }], interior));
+    const passengerLeft = stackX + this.consoleWidth * .5;
+    const passengerRight = width * .5;
+    const passengerX = (passengerLeft + passengerRight) * .5;
+    const glovebox = [[top - .091, rearZ + .024], [top - .155, rearZ + .024],
+      [this.floorY + .275, rearZ - .012], [this.floorY + .275, rearZ - .030],
+      [top - .155, rearZ + .006], [top - .091, rearZ + .006]] as const;
+    this.add(makeSectionShell('Executive passenger sculpted glovebox fascia',
+      [{ x: passengerLeft, profile: glovebox }, { x: passengerRight, profile: glovebox }], fascia));
+    this.add(makeBox('Executive glovebox seam', [passengerRight - passengerLeft - .035, .002, .003],
+      [passengerX, top - .154, rearZ + .027], dark));
+    this.add(makeBox('Executive glovebox satin pull', [.085, .005, .006],
+      [passengerX, top - .170, rearZ + .021], satin));
+    // The upper screen continues the transverse dashboard; the existing lower
+    // inclined control panel remains below it.
+    const upperDisplay = new THREE.Group();
+    upperDisplay.name = 'Executive upper centre display assembly';
+    upperDisplay.position.set(stackX, top - .079, rearZ + .105);
+    upperDisplay.rotation.x = -.18;
+    upperDisplay.add(makeBox('Executive upper display surround', [.349, .145, .023], [0, 0, 0], fascia));
+    const screen = new THREE.MeshStandardMaterial({ color: 0x12191e, roughness: .26, metalness: .18 });
+    upperDisplay.add(makeBox('Executive upper centre display glass', [.321, .116, .006], [0, .001, .015], screen));
+    upperDisplay.add(makeBox('Executive display satin lower edge', [.349, .004, .006], [0, -.072, .012], satin));
+    this.add(upperDisplay);
+    this.add(makeBox('Executive front console storage lid', [this.consoleWidth - .065, .006, .19],
+      [stackX, config.gearLeverPosition[1] - .010, .060], fascia));
+    this.add(makeBox('Executive console padded armrest', [this.consoleWidth - .07, .066, .245],
+      [stackX, config.gearLeverPosition[1] + .043, .66], softTrim));
+    const opening = frontWindowAnchors(config);
+    const rearCabinZ = config.vehicleLength * .5 - config.body.trunkLength - .06;
+    this.add(makeBox('Executive rear cabin floor closure', [width - .08, .022, rearCabinZ - .70],
+      [0, this.floorY - .011, (rearCabinZ + .70) * .5], dark));
+    for (const sign of [-1, 1]) {
+      const label = sign < 0 ? 'Left' : 'Right';
+      const rearCard = [[config.body.trunkDeckY + .035, sign * (opening.bottomHalfWidth - .012)],
+        [config.body.trunkDeckY + .012, sign * (opening.bottomHalfWidth - .055)],
+        [config.body.sillY + .06, sign * (opening.bottomHalfWidth - .09)],
+        [config.body.sillY + .06, sign * (opening.bottomHalfWidth - .025)]] as const;
+      this.add(makeSectionShell(label + ' executive rear door interior closure',
+        [{ x: opening.rearZ, profile: rearCard }, { x: rearCabinZ, profile: rearCard }], interior, 'z'));
+      this.add(makeBox(label + ' executive rear door armrest', [.085, .043, .42],
+        [sign * (opening.bottomHalfWidth - .063), config.body.sillY + .28, (opening.rearZ + rearCabinZ) * .5], softTrim));
+      const from = new THREE.Vector3(sign * (opening.bottomHalfWidth - .020), opening.rearBottomY, opening.rearZ);
+      const to = new THREE.Vector3(sign * (opening.topHalfWidth - .020), opening.rearTopY, opening.rearTopZ);
+      const direction = to.clone().sub(from);
+      const pillar = new THREE.Mesh(new THREE.CylinderGeometry(.018, .022, direction.length(), 6), softTrim);
+      pillar.name = label + ' executive B-pillar interior trim';
+      pillar.position.copy(from).add(to).multiplyScalar(.5);
+      pillar.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+      this.add(pillar);
+    }
   }
 
   private addDashboard(
@@ -368,6 +505,19 @@ export class Cockpit extends THREE.Group {
     if (config.body.design === 'comfort') hub.scale.set(1.15,1,1);
     hub.position.z = 0.015;
     this.steeringWheelRotationGroup.add(hub);
+    if (config.interiorAmbientLighting?.steeringBadge === 'four-rings') {
+      const silver = new THREE.MeshStandardMaterial({ color: 0xbac1c6, metalness: .8, roughness: .3 });
+      for (const x of [-.0264, -.0088, .0088, .0264]) {
+        const logo = new THREE.Mesh(new THREE.TorusGeometry(.0123, .0011, 5, 28), silver);
+        logo.name = 'Steering hub satin four-ring badge'; logo.position.set(x, .005, .037);
+        this.steeringWheelRotationGroup.add(logo);
+      }
+      this.steeringWheelRotationGroup.add(makeBox('Hub lower satin detail', [.055, .0025, .002], [0, -.028, .034], silver));
+      for (const sign of [-1, 1]) {
+        const keys = makeBox(sign < 0 ? 'Left wheel key panel' : 'Right wheel key panel', [.031, .025, .009], [sign * .105, -.006, .018], dark);
+        this.steeringWheelRotationGroup.add(keys);
+      }
+    }
 
     const design = config.body.design;
     const spoke = (name: string, angle: number, width: number): void => {
@@ -460,7 +610,7 @@ export class Cockpit extends THREE.Group {
       panel.name = 'Executive centre control surround';
       face.add(panel);
     }
-    face.add(makeBox('Infotainment display', [stackWidth - .055, design === 'formal' ? .10 : .085, .008],
+    if (design !== 'executive') face.add(makeBox('Infotainment display', [stackWidth - .055, design === 'formal' ? .10 : .085, .008],
       [0, -.018, .005], dark));
     for (const sign of [-1, 1]) {
       face.add(makeBox('Centre air vent', [(stackWidth - .065) * .5, .033, .008],
@@ -469,7 +619,7 @@ export class Cockpit extends THREE.Group {
     if (design === 'executive') {
       face.add(makeBox('Executive lower climate glass', [stackWidth - .055, .075, .008],
         [0, -.12, .006], dark));
-      for (const y of [-.12, -.018]) {
+      for (const y of [-.12]) {
         face.add(makeBox('Executive glass satin lower border', [stackWidth - .055, .004, .008],
           [0, y - .041, .008], satin));
       }

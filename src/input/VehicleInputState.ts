@@ -2,7 +2,7 @@
 export type VehicleControlMode = 'normal' | 'manual-clutch';
 
 /** Gear requests supported by the current sequential/direct-selection UI. */
-export type RequestedGear = 'R' | 'N' | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type RequestedGear = 'R' | 'N' | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 /** Selector requests are separate from mechanical/manual gear requests. */
 export type DriveSelector = 'P' | 'R' | 'N' | 'D';
 
@@ -57,6 +57,7 @@ export interface VehicleInputState {
   lookY: number;
   shiftUp: boolean;
   shiftDown: boolean;
+  returnToAuto?: boolean;
   /** Toggle-request edges; these are commands, not persistent lamp states. */
   leftIndicator: boolean;
   rightIndicator: boolean;

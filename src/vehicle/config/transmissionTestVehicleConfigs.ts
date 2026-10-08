@@ -34,7 +34,7 @@ export function createTest6ATVehiclePhysicsConfig(): VehiclePhysicsConfig {
     mass: 1375, trackWidth: 1.555, frontWeightBias: .60, drivenWheelWeightFraction: .60,
     centerOfMassHeight: .49, centerOfMassLongitudinalOffset: 0, yawInertia: 2490,
   });
-  config.engine = { ...config.engine, displacementL: 2.0, idleRPM: 800, engineInertia: .36,
+  config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 800, engineInertia: .36,
     partThrottleExponent: .88, throttleResponse: 4.2, throttleResponseRate: 4.2, throttleReleaseResponse: 9,
     engineFrictionTorque: 13, engineBrakingStrength: 58, engineBraking: 71,
     idleControlBandRPM: 240, redlineRPM: 6500, revLimiterRPM: 6500, maxRPM: 6750, redlineWarningRPM: 6100,
@@ -61,7 +61,7 @@ export function createTest6ATVehiclePhysicsConfig(): VehiclePhysicsConfig {
     gripCoefficient: 1, corneringStiffnessFront: 80000, corneringStiffnessRear: 84000,
     rollingResistance: .0115, peakSlipRatio: .105, peakSlipAngle: radians(7.5), gripFalloff: .33 };
   config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.13 };
-  config.transmission = { ...config.transmission, type: 'TORQUE_CONVERTER_AT',
+  config.transmission = { ...config.transmission, type: 'TORQUE_CONVERTER_AT', supportsManualSelection: true, manualAutoUpshiftAtRedline: true, manualSelectionTimeout: 8,
     gearRatios: { 1: 3.552, 2: 2.022, 3: 1.347, 4: 1, 5: 0.745, 6: 0.599 },
     reverseRatio: -3.052, finalDrive: 3.6, finalDriveRatio: 3.6,
     shiftTime: 0.52, reverseLockoutSpeed: 1.0,
@@ -80,7 +80,7 @@ export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
     mass: 1420, trackWidth: 1.5375, frontWeightBias: .615, drivenWheelWeightFraction: .615,
     centerOfMassHeight: .515, centerOfMassLongitudinalOffset: 0, yawInertia: 2770,
   });
-  config.engine = { ...config.engine, displacementL: 1.4, idleRPM: 800, engineInertia: .34,
+  config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 1.4, idleRPM: 800, engineInertia: .34,
     throttleResponse: 3.6, throttleResponseRate: 3.6, throttleReleaseResponse: 8.2,
     engineFrictionTorque: 12, engineBrakingStrength: 55, engineBraking: 67, idleControlBandRPM: 270,
     revHang: { ...config.engine.revHang!, enabled: false },
@@ -122,7 +122,7 @@ export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
     gripCoefficient: .96, corneringStiffnessFront: 78000, corneringStiffnessRear: 80000,
     rollingResistance: .012, peakSlipRatio: .11, peakSlipAngle: radians(7.7), gripFalloff: .34 };
   config.aero = { ...config.aero, dragCoefficient: .29, frontalArea: 2.18 };
-  config.transmission = { ...config.transmission, type: 'DCT',
+  config.transmission = { ...config.transmission, type: 'DCT', supportsManualSelection: true, manualAutoUpshiftAtRedline: true, manualSelectionTimeout: 8,
     gearRatios: { 1: 3.5, 2: 2.12, 3: 1.52, 4: 1.14, 5: 0.9, 6: 0.73, 7: 0.6 },
     reverseRatio: -3.2, finalDrive: 3.65, finalDriveRatio: 3.65,
     shiftTime: 0.2, reverseLockoutSpeed: 1.0,
