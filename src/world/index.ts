@@ -26,6 +26,7 @@ export {
   DRIVING_GROUND_IDS,
   createDrivingGround,
   getDrivingGroundDescriptor,
+  getInitialDrivingGroundId,
   getNextDrivingGroundId,
   isDrivingGroundId,
 } from './DrivingGroundCatalog';

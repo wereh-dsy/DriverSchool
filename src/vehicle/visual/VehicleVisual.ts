@@ -55,17 +55,19 @@ const buildSimplifiedSeats = (config: VehicleVisualConfig): THREE.Group => {
     mesh.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR);
     seats.add(mesh);
   };
-  const cushionY = config.body.profile === 'suv' ? .73 : sport ? 0.43 : 0.48;
-  const backY = config.body.profile === 'suv' ? 1.09 : sport ? 0.79 : 0.84;
+  const supercar = config.body.design === 'mid-supercar';
+  const cushionY = supercar ? .32 : config.body.profile === 'suv' ? .73 : sport ? 0.43 : 0.48;
+  const backY = supercar ? .61 : config.body.profile === 'suv' ? 1.09 : sport ? 0.79 : 0.84;
   for (const [label, x] of [
     ['Driver', config.driverEyePosition[0]],
     ['Passenger', Math.max(0.49, config.cabin.width * 0.5 - 0.28)],
   ] as const) {
-    seatBox(`${label} seat cushion`, [0.4, 0.11, 0.47], [x, cushionY, 0.4]);
+    seatBox(`${label} seat cushion`, [0.4, 0.11, 0.47], [x, cushionY, supercar ? .24 : .4]);
     seatBox(`${label} seat back`, [0.39, sport ? 0.5 : 0.55, 0.095],
-      [x, backY, 0.65], THREE.MathUtils.degToRad(10));
-    seatBox(`${label} headrest`, [0.23, 0.15, 0.1], [x, backY + 0.38, 0.73]);
+      [x, backY, supercar ? .45 : .65], THREE.MathUtils.degToRad(10));
+    seatBox(`${label} headrest`, [0.23, 0.15, 0.1], [x, backY + (supercar ? .30 : .38), supercar ? .51 : .73]);
   }
+  if (supercar) return seats;
   seatBox('Rear bench cushion', [config.cabin.width * 0.8, 0.1, 0.27], [0, cushionY, config.body.profile === 'suv' ? 1.35 : .88]);
   seatBox('Rear bench back', [config.cabin.width * 0.8, 0.43, 0.08],
     [0, cushionY + 0.33, config.body.profile === 'suv' ? 1.55 : .95], THREE.MathUtils.degToRad(-8));
@@ -404,6 +406,8 @@ export class VehicleVisual {
 
       const wheel = new THREE.Mesh(tyreGeometry, tyreMaterial);
       wheel.name = 'Tyre';
+      const width = index < 2 ? this.config.dimensions.frontWheelWidth : this.config.dimensions.rearWheelWidth;
+      wheel.scale.x = (width ?? this.config.dimensions.wheelWidth) / this.config.dimensions.wheelWidth;
       wheel.castShadow = true;
       wheel.receiveShadow = true;
       const rim = new THREE.Mesh(rimGeometry, rimMaterial);

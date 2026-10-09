@@ -3,8 +3,10 @@ import { Object3D, PerspectiveCamera, Vector3 } from 'three';
 import { DEFAULT_DRIVER_FOV_DEGREES } from '../../camera/DriverCamera';
 import { INSTRUMENT_CLUSTER_LAYOUT } from './InstrumentCluster';
 import { DEFAULT_SEDAN_VISUAL_CONFIG } from './VehicleVisualConfig';
+import { runSuvInstrumentClusterSelfTest } from './SuvInstrumentCluster.selftest';
 
 export interface InstrumentClusterLayoutSelfTestResult {
+  readonly suv: ReturnType<typeof runSuvInstrumentClusterSelfTest>;
   readonly minimumNdcX: number;
   readonly maximumNdcX: number;
   readonly minimumNdcY: number;
@@ -254,6 +256,7 @@ export function runInstrumentClusterLayoutSelfTest(): InstrumentClusterLayoutSel
   );
 
   return {
+    suv: runSuvInstrumentClusterSelfTest(),
     minimumNdcX,
     maximumNdcX,
     minimumNdcY,

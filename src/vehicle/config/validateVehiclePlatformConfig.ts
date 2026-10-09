@@ -11,6 +11,24 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
   const nonnegative = (value: number, field: string): void => require(Number.isFinite(value) && value >= 0, field);
   const positive = (value: number, field: string): void => require(Number.isFinite(value) && value > 0, field);
   const fraction = (value: number, field: string): void => require(Number.isFinite(value) && value >= 0 && value <= 1, field);
+  positive(config.mass, 'mass'); positive(config.wheelBase, 'wheelBase');
+  positive(config.yawInertia, 'yawInertia'); positive(config.centerOfMassHeight, 'CG height');
+  require(config.frontWeightBias >= .15 && config.frontWeightBias <= .85, 'CG must lie between axles');
+  require(['FRONT', 'FRONT_MID', 'MID', 'REAR'].includes(config.enginePlacement), 'engine placement');
+  const plausible = config.enginePlacement === 'MID' ? config.frontWeightBias >= .30 && config.frontWeightBias <= .55
+    : config.enginePlacement === 'REAR' ? config.frontWeightBias >= .25 && config.frontWeightBias <= .50
+    : config.frontWeightBias >= .40 && config.frontWeightBias <= .75;
+  require(plausible || !!config.layoutCalibrationNote?.trim(), 'unusual layout requires layoutCalibrationNote');
+  if (config.driveModes) {
+    const order = config.driveModeOrder ?? ['ECO', 'NORMAL', 'SPORT'];
+    require(order.length > 0 && new Set(order).size === order.length, 'drive mode order');
+    require(config.driveModes[config.defaultDriveMode ?? 'NORMAL'] !== undefined, 'default drive mode');
+    for (const mode of order) require(config.driveModes[mode] !== undefined, 'drive mode calibration missing');
+    for (const calibration of Object.values(config.driveModes)) {
+      positive(calibration.throttleExponent, 'mode throttle exponent'); positive(calibration.throttleResponse, 'mode throttle response');
+      if (calibration.dctShiftTime !== undefined) positive(calibration.dctShiftTime, 'mode DCT shift time');
+    }
+  }
   const features = config.capabilities;
   if (features) {
     for (const key of STRUCTURAL_CAPABILITIES) require(!(key in features), `capabilities.${key} is derived; configure its system instead`);

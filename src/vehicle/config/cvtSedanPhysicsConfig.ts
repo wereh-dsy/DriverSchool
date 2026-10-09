@@ -12,7 +12,7 @@ export function createCVTSedanPhysicsConfig(): VehiclePhysicsConfig {
   const converter = FAMILY_CONVERTER_CONFIG;
   Object.assign(config, COMFORT_CVT_DIMENSIONS, {
     mass: 1415, trackWidth: 1.585, frontWeightBias: .595, drivenWheelWeightFraction: .595,
-    centerOfMassHeight: .54, centerOfMassLongitudinalOffset: 0, yawInertia: 2680,
+    centerOfMassHeight: .54, enginePlacement: 'FRONT', yawInertia: 2680,
   });
   config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 800, engineInertia: .46, partThrottleExponent: .78,
     throttleResponse: 2.65, throttleResponseRate: 2.65, throttleReleaseResponse: 6.8,

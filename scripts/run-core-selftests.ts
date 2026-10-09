@@ -1,3 +1,6 @@
+import { runFerrari458SelfTest } from '../src/vehicle/physics/Ferrari458.selftest';
+import { runFerrari458VisualSelfTest } from '../src/vehicle/visual/Ferrari458Visual.selftest';
+import { runVehicleLayoutSelfTest } from '../src/vehicle/physics/VehicleLayout.selftest';
 import { runPowertrainBoundarySelfTest } from '../src/vehicle/powertrain/Powertrain.selftest';
 import { runVehicleExperienceSelfTest, runCruiseVehicleExperienceSelfTest } from '../src/vehicle/physics/VehicleExperience.selftest';
 import { runVehiclePlatformSelfTest } from '../src/vehicle/physics/VehiclePlatform.selftest';
@@ -8,6 +11,7 @@ import { runMirrorGeometrySelfTest } from '../src/camera/MirrorSystem.selftest';
 import { runVehicleInputSystemSelfTest } from '../src/input/VehicleInputSystem.selftest';
 import { runVehicleCatalogSelfTest } from '../src/vehicle/VehicleCatalog.selftest';
 import { runCruiseControlControllerSelfTest } from '../src/vehicle/control/CruiseControlController.selftest';
+import { runRearParkingProximitySelfTest } from '../src/vehicle/control/RearParkingProximity.selftest';
 import { runVehicleDynamicsSelfTest } from '../src/vehicle/physics/VehicleDynamics.selftest';
 import { runMechanicalDetailsSelfTest } from '../src/vehicle/physics/MechanicalDetails.selftest';
 import { runEngineTorqueSelfTest } from '../src/vehicle/physics/EngineTorque.selftest';
@@ -30,6 +34,8 @@ import { runDriverViewSelfTest } from '../src/vehicle/visual/DriverView.selftest
 import { runVehicleExteriorSelfTest } from '../src/vehicle/visual/VehicleExterior.selftest';
 import { runVehicleVisualDimensionsSelfTest } from '../src/vehicle/visual/VehicleVisualDimensions.selftest';
 import { runDrivingTestTrackSelfTest } from '../src/world/DrivingTestTrack.selftest';
+import { runDrivingGroundCatalogSelfTest } from '../src/world/DrivingGroundCatalog.selftest';
+import { runMountainProvingGroundSelfTest } from '../src/world/mountain/MountainProvingGround.selftest';
 import { runCircuitGroundSelfTest } from '../src/world/circuit/CircuitGround.selftest';
 import { runLapTimerSelfTest } from '../src/game/lap/LapTimer.selftest';
 import { runSubject2GroundSelfTest } from '../src/world/subject2/Subject2Ground.selftest';
@@ -48,6 +54,9 @@ import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToo
 import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftest';
 
 const results = {
+  ferrari458: runFerrari458SelfTest(),
+  ferrari458Visual: runFerrari458VisualSelfTest(),
+  vehicleLayout: runVehicleLayoutSelfTest(),
   vehicleExperience: runVehicleExperienceSelfTest(),
   cruiseVehicleExperience: runCruiseVehicleExperienceSelfTest(),
   powertrainBoundary: runPowertrainBoundarySelfTest(),
@@ -89,13 +98,16 @@ const results = {
   mapContactAcceptance: runVehicleContactSystemSelfTest(),
   vehicleCatalog: runVehicleCatalogSelfTest(),
   cruiseControl: runCruiseControlControllerSelfTest(),
+  rearParkingProximity: runRearParkingProximitySelfTest(),
   mirrors: runMirrorGeometrySelfTest(),
   instruments: runInstrumentClusterLayoutSelfTest(),
   driverView: runDriverViewSelfTest(),
   vehicleExteriors: runVehicleExteriorSelfTest(),
   visualDimensions: runVehicleVisualDimensionsSelfTest(),
   roadCourse: runDrivingTestTrackSelfTest(),
+  groundCatalog: runDrivingGroundCatalogSelfTest(),
   circuit: runCircuitGroundSelfTest(),
+  mountain: runMountainProvingGroundSelfTest(),
   lapTimer: runLapTimerSelfTest(),
   subject2: runSubject2GroundSelfTest(),
   subject3: runSubject3GroundSelfTest(),

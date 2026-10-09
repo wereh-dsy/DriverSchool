@@ -8,9 +8,9 @@ import {
   createTest6ATVehiclePhysicsConfig,
   createTest7DCTVehiclePhysicsConfig,
   createCVTSedanPhysicsConfig,
-  createAWDTestVehiclePhysicsConfig,
   createExecutiveSedanPhysicsConfig,
   createRoadSUVPhysicsConfig,
+  createFerrari458PhysicsConfig,
   type VehiclePhysicsConfig,
 } from './config';
 import {
@@ -21,12 +21,13 @@ import {
   CVT_SEDAN_VISUAL_CONFIG,
   EXECUTIVE_SEDAN_VISUAL_CONFIG,
   ROAD_SUV_VISUAL_CONFIG,
+  FERRARI_458_VISUAL_CONFIG,
   type VehicleVisualConfig,
 } from './visual';
 import { withSuspensionStance } from './visual/VehicleVisualConfig';
 
 export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
-  'test-awd-full-time', 'test-awd-on-demand', 'executive-lwb-2t', 'road-suv-v6-8at'] as const;
+  'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
 
 export type { VehicleCapabilities } from './VehicleCapabilities';
@@ -36,7 +37,7 @@ export interface VehicleDescriptor {
   readonly id: VehicleId;
   /** Schema/calibration revision for future replay compatibility checks. */
   readonly version: number;
-  readonly name: string;
+  readonly displayName: string;
   readonly description: string;
   readonly capabilities: VehicleCapabilities;
   readonly physicsConfig: VehiclePhysicsConfig;
@@ -52,8 +53,8 @@ export const DEFAULT_VEHICLE_ID: VehicleId = 'family-sedan';
 const FAMILY_SEDAN_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
   id: 'family-sedan',
   version: 2,
-  name: '家用轿车',
-  description: '自然吸气前驱五挡轿车，动力温和，适合基础驾驶与科目二练习。',
+  displayName: 'Haiteng S1 Driving School',
+  description: '1.6 NA INLINE4 / 5MT / FWD。海腾 S1 驾校版：虚构家用轿车，动力温和、离合接合宽容、转向可预期，适合基础驾驶与驾校训练。',
   capabilities: Object.freeze({ cruiseControl: false }),
   physicsConfig: DEFAULT_VEHICLE_PHYSICS_CONFIG,
   visualConfig: DEFAULT_SEDAN_VISUAL_CONFIG,
@@ -62,16 +63,16 @@ const FAMILY_SEDAN_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
 const SPORTS_COUPE_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
   id: 'sport-coupe',
   version: 2,
-  name: 'GT 跑车',
-  description: '3.0T L6 · 7MT · 约 269 kW 的后驱跑车，宽扭矩输出、运动底盘，但仍保留可控的油门响应。',
+  displayName: 'GT 3.0 Turbo',
+  description: '3.0T INLINE6 / 7MT / RWD，约 269 kW。低矮宽体 GT，宽扭矩输出、后轴 LSD、performance 轮胎和更硬的运动底盘，油门仍易于控制；现实原型未唯一确认。',
   capabilities: Object.freeze({ cruiseControl: true }),
   physicsConfig: SPORTS_COUPE_PHYSICS_CONFIG,
   visualConfig: SPORTS_COUPE_VISUAL_CONFIG,
 });
 
 const TEST_6AT_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
-  id: 'test-6at-sedan', version: 2, name: '6AT 测试轿车',
-  description: '2.0 自然吸气前驱 · 流线低鼻车身、灵活转向、偏运动底盘与平顺六挡自动变速。',
+  id: 'test-6at-sedan', version: 2, displayName: 'Mazda CX-4 2.0L 6AT',
+  description: '2.0 NA INLINE4 / 6AT / FWD。线性自然吸气响应、平顺液力自动变速、低车身姿态、灵活转向与适度运动悬挂。以 CX-4 仪表为原型，保留游戏当前简化轿车车身和标定。',
   capabilities: Object.freeze({ cruiseControl: true }),
   physicsConfig: createTest6ATVehiclePhysicsConfig(),
   // Central-tachometer face with information wings; see VehicleVisualConfig.
@@ -79,8 +80,8 @@ const TEST_6AT_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
 });
 
 const TEST_7DCT_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
-  id: 'test-7dct-sedan', version: 2, name: '7DCT 测试轿车',
-  description: '1.4T 涡轮前驱 · 方正三厢、稳定底盘、低中转速扭矩与快速七挡双离合。',
+  id: 'test-7dct-sedan', version: 2, displayName: 'Volkswagen Sagitar 280TSI DSG',
+  description: '1.4T INLINE4 / 7DCT / FWD，250 Nm 游戏标定。紧凑三厢轿车，低中转速涡轮响应有力、双离合换挡快、阻尼较紧致、制动响应直接；车身与参数沿用当前游戏实现。',
   capabilities: Object.freeze({ cruiseControl: true }),
   physicsConfig: createTest7DCTVehiclePhysicsConfig(),
   // Traditional twin-dial face with a monochrome centre display.
@@ -88,24 +89,20 @@ const TEST_7DCT_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
 });
 
 const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescriptor>> = Object.freeze({
-  'road-suv-v6-8at': Object.freeze({ id: 'road-suv-v6-8at', version: 1, name: 'Touareg-like V6 SUV',
-    description: '3.0T V6 · 8AT · AWD · 中大型公路 SUV，450 Nm，稳重底盘与临时手动选挡。',
+  'ferrari-458-italia': Object.freeze({ id: 'ferrari-458-italia', version: 1, displayName: 'Ferrari 458 Italia',
+    description: '4.5 NA V8 · 7DCT · mid-engine RWD. High-revving road supercar with rear-biased weight distribution, rapid yaw response, strong rear traction and aggressive dual-clutch shifting.',
+    capabilities: Object.freeze({ cruiseControl: true }),
+    physicsConfig: createFerrari458PhysicsConfig(), visualConfig: FERRARI_458_VISUAL_CONFIG }),
+  'road-suv-v6-8at': Object.freeze({ id: 'road-suv-v6-8at', version: 1, displayName: 'Volkswagen Touareg 3.0 TSI 4MOTION',
+    description: '3.0T V6 / 8AT / AWD，450 Nm、2100 kg 游戏标定。厚重公路 SUV，低中转速扭矩强、液力变速平顺；较长悬架行程、自适应阻尼、空气悬架和适时四驱带来稳重车身控制与松散路面牵引力。',
     capabilities: Object.freeze({ cruiseControl: true }),
     physicsConfig: createRoadSUVPhysicsConfig(), visualConfig: ROAD_SUV_VISUAL_CONFIG }),
-  'executive-lwb-2t': Object.freeze({ id: 'executive-lwb-2t', version: 2, name: 'A6L-inspired 行政轿车',
-    description: '2.0T · 7DCT · AWD · 长轴豪华行政轿车，Virtual Cockpit，ECO / NORMAL / SPORT（T / 手柄 B）。',
+  'executive-lwb-2t': Object.freeze({ id: 'executive-lwb-2t', version: 2, displayName: 'Audi A6L 45 TFSI quattro',
+    description: '2.0T INLINE4 / 7DCT / AWD，370 Nm、3.025 m 轴距游戏标定。长轴行政轿车，低中转速扭矩平顺、高速转向稳定、车身动作克制，自适应阻尼偏舒适；当前实现为适时四驱。',
     capabilities: Object.freeze({ cruiseControl: true }),
     audioProfile: EXECUTIVE_AUDIO_PROFILE, physicsConfig: createExecutiveSedanPhysicsConfig(), visualConfig: EXECUTIVE_SEDAN_VISUAL_CONFIG }),
-  'test-awd-full-time': Object.freeze({ id: 'test-awd-full-time', version: 1, name: '全时 AWD 测试轿车',
-    description: '复用 6AT 轿车 · 前 40% / 后 60% 固定四驱，前后轴开放式差速器。',
-    capabilities: Object.freeze({ cruiseControl: true }),
-    physicsConfig: createAWDTestVehiclePhysicsConfig('full-time'), visualConfig: TEST_6AT_VISUAL_CONFIG }),
-  'test-awd-on-demand': Object.freeze({ id: 'test-awd-on-demand', version: 1, name: '适时 AWD 测试轿车',
-    description: '复用 6AT 轿车 · 巡航 90:10，加速 70:30，前轮滑转时逐渐接近 50:50。',
-    capabilities: Object.freeze({ cruiseControl: true }),
-    physicsConfig: createAWDTestVehiclePhysicsConfig('on-demand'), visualConfig: TEST_6AT_VISUAL_CONFIG }),
-  'cvt-family-sedan': Object.freeze({ id: 'cvt-family-sedan', version: 2, name: '2.0 CVT 家用轿车',
-    description: '2.0L 自然吸气前驱 · 圆润三厢、舒适悬挂、柔和踏板与钢带无级变速，无模拟挡位。',
+  'cvt-family-sedan': Object.freeze({ id: 'cvt-family-sedan', version: 2, displayName: 'Nissan Sylphy 2.0L CVT',
+    description: '2.0 NA INLINE4 / CVT / FWD。舒适家用轿车，钢带无级变速平顺且无模拟挡位，转向轻柔、悬挂偏软、制动渐进；车身与参数沿用当前游戏实现。',
     capabilities: Object.freeze({ cruiseControl: true }),
     physicsConfig: createCVTSedanPhysicsConfig(), visualConfig: CVT_SEDAN_VISUAL_CONFIG }),
   'family-sedan': FAMILY_SEDAN_DESCRIPTOR,

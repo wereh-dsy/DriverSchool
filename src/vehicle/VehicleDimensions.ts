@@ -8,6 +8,8 @@ export interface VehicleDimensions {
   readonly rearTrackWidth: number;
   readonly wheelRadius: number;
   readonly wheelWidth: number;
+  readonly frontWheelWidth?: number;
+  readonly rearWheelWidth?: number;
 }
 
 export const VEHICLE_WHEEL_IDS = ['frontLeft', 'frontRight', 'rearLeft', 'rearRight'] as const;
@@ -76,4 +78,10 @@ export const EXECUTIVE_LWB_DIMENSIONS: VehicleDimensions = Object.freeze({
 export const ROAD_SUV_DIMENSIONS: VehicleDimensions = Object.freeze({
   length: 4.88, width: 1.985, height: 1.74, wheelBase: 2.895,
   frontTrackWidth: 1.67, rearTrackWidth: 1.67, wheelRadius: .376, wheelWidth: .255,
+});
+
+export const FERRARI_458_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.527, width: 1.937, height: 1.213, wheelBase: 2.65,
+  frontTrackWidth: 1.672, rearTrackWidth: 1.606, wheelRadius: .337,
+  wheelWidth: .235, frontWheelWidth: .235, rearWheelWidth: .295,
 });

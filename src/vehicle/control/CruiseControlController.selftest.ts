@@ -26,20 +26,20 @@ export function runCruiseControlControllerSelfTest(): CruiseControlControllerSel
   let output = controller.update(1 / 60, { ...base, cruiseToggle: true }, context);
   assert(controller.status.active, 'a valid toggle arms cruise');
   assert(controller.status.targetSpeedKmh === 90, 'activation captures current speed');
-  assert(output.throttle > 0, 'active cruise requests holding throttle');
+  assert((output.cruiseThrottle ?? 0) > 0 && output.throttle === 0, 'cruise actuator request is separate from the released pedal');
 
   output = controller.update(1 / 60, { ...base, cruiseToggle: false }, {
     ...context,
     speedMetersPerSecond: 23,
   });
-  assert(output.throttle > 0.12, 'speed loss increases cruise throttle with a bounded slew');
+  assert((output.cruiseThrottle ?? 0) > 0.12, 'speed loss increases cruise throttle with a bounded slew');
   assert(output.brake === 0, 'underspeed does not request brake');
 
   output = controller.update(1 / 60, { ...base, cruiseToggle: false }, {
     ...context,
     speedMetersPerSecond: 29,
   });
-  assert(output.throttle === 0, 'large overspeed closes cruise throttle');
+  assert(output.cruiseThrottle === 0, 'large overspeed closes cruise throttle');
   assert((output.cruiseBrake ?? 0) > 0 && (output.cruiseBrake ?? 0) <= 0.16 && output.brake === 0,
     'large overspeed requests only light independent cruise brake');
 
@@ -76,6 +76,19 @@ export function runCruiseControlControllerSelfTest(): CruiseControlControllerSel
   controller.update(1 / 60, { ...base, cruiseToggle: true }, context);
   controller.update(1 / 60, { ...base, cruiseToggle: false, controlMode: 'manual-clutch' }, context);
   assert(!controller.status.active, 'manual clutch mode cancels cruise');
+
+  controller.reset();
+  output = controller.update(1 / 120, { ...base, cruiseToggle: true }, { ...context, currentThrottle: .48 });
+  assert(output.cruiseThrottle === .48 && Math.abs(controller.status.integralThrottle - .36) < 1e-10,
+    'SET retains current actuator demand instead of cutting to fixed feed-forward');
+  const integral = controller.status.integralThrottle;
+  output = controller.update(1 / 120, { ...base, throttle: .7 }, { ...context, driverThrottleCommand: .8, torqueLimitFactor: .3 });
+  assert(output.throttle === .7 && controller.status.integralThrottle === integral, 'driver pedal and safety limiting retain priority without integral windup');
+  output = controller.update(1 / 120, base, context);
+  assert((output.cruiseThrottle ?? 0) >= .8 - controller.config.throttleSlewRate / 120 - 1e-10, 'override release recovers through bounded actuator slew');
+  output = controller.update(1 / 120, { ...output, brake: .3 }, context);
+  assert(controller.status.integralThrottle === 0, 'cancel resets integral');
+  assert(output.cruiseThrottle === 0 && output.cruiseBrake === 0, 'cancel clears actuator requests even when input is reused');
 
   return { passed: true, assertions };
 }

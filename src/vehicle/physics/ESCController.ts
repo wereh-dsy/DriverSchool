@@ -50,8 +50,7 @@ export class ESCController {
         const first = over ? 0 : 2;
         // Evaluate the actual brake lever including front steering. Choose the
         // outside front for excess yaw, inside rear for insufficient yaw.
-        const distanceFront = clamp(this.config.wheelBase * (1 - this.config.frontWeightBias) -
-          this.config.centerOfMassLongitudinalOffset, this.config.wheelBase * .1, this.config.wheelBase * .9);
+        const distanceFront = clamp(this.config.wheelBase * (1 - this.config.frontWeightBias), this.config.wheelBase * .1, this.config.wheelBase * .9);
         const position = over ? distanceFront : distanceFront - this.config.wheelBase;
         const track = over ? this.config.frontTrackWidth : this.config.rearTrackWidth;
         for (let i = first; i < first + 2; i++) {

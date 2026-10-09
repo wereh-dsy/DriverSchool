@@ -13,7 +13,10 @@ import {
 } from './visual';
 import {
   createVehiclePhysicsConfig,
+  DEFAULT_VEHICLE_ID,
   getVehicleDescriptor,
+  getNextVehicleId,
+  isVehicleId,
   VEHICLE_CATALOG,
   VEHICLE_IDS,
   type VehicleId,
@@ -295,18 +298,43 @@ const accelerationSample = (id: VehicleId): AccelerationSample => {
 };
 
 export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
+  assert(VEHICLE_CATALOG.length === 8, 'eight official player vehicles');
+  assert(!isVehicleId('test-awd-full-time') && !isVehicleId('test-awd-on-demand'), 'AWD fixtures must not be selectable');
+  assert(isVehicleId(DEFAULT_VEHICLE_ID), 'default vehicle must resolve by stable ID');
   assert(VEHICLE_CATALOG.length === VEHICLE_IDS.length, 'catalog/order length mismatch');
   assert(new Set(VEHICLE_CATALOG.map((vehicle) => vehicle.id)).size === VEHICLE_CATALOG.length, 'vehicle IDs must be unique');
   assert(VEHICLE_CATALOG.every((vehicle) => vehicle.version >= 1), 'every vehicle needs a data version');
 
   for (const id of VEHICLE_IDS) {
     const descriptor = getVehicleDescriptor(id);
+    assert(isVehicleId(id) && descriptor.id === id, `${id}: stable ID lookup`);
+    assert(descriptor.displayName.length > 0 && !/test|inspired|like/i.test(descriptor.displayName), `${id}: player-facing name`);
+    const config = createVehiclePhysicsConfig(id);
+    const engine = config.engine;
+    const engineLabel = `${engine.displacementL!.toFixed(1)}${engine.turbo?.enabled ? 'T' : ' NA'} ${engine.layout === 'V' ? 'V' : 'INLINE'}${engine.cylinderCount}`;
+    const gearCount = Object.keys(config.transmission.gearRatios).length;
+    const transmissionLabel = config.transmission.type === 'CVT' ? 'CVT'
+      : `${gearCount}${config.transmission.type === 'DCT' ? 'DCT' : config.transmission.type === 'TORQUE_CONVERTER_AT' ? 'AT' : 'MT'}`;
+    assert(descriptor.description.includes(engineLabel) && descriptor.description.includes(transmissionLabel)
+      && descriptor.description.includes(config.drivetrainType), `${id}: metadata matches actual powertrain`);
+    const car = new VehicleDynamics(config);
+    const snapshot = car.stepFixed(1 / 120, createNeutralVehicleInputState());
+    assert(Number.isFinite(snapshot.rpm) && Number.isFinite(snapshot.speedKmh)
+      && !snapshot.recoveredFromInvalidState, `${id}: official vehicle instantiates and steps`);
     validatePhysics(id, descriptor.physicsConfig);
     assertFiniteTree(descriptor.visualConfig, `${id}.visual`);
     assert(descriptor.visualConfig.vehicleWidth > 1, `${id} visual width is invalid`);
     const wheelRadius = descriptor.visualConfig.steeringWheelRadius + descriptor.visualConfig.steeringWheelRimTubeRadius;
     assert(wheelRadius >= .175 && wheelRadius <= .195, `${id} wheel outside diameter must be 350–390 mm`);
   }
+
+  const cycledIds = new Set<VehicleId>();
+  let selectedId = DEFAULT_VEHICLE_ID;
+  for (let n = 0; n < VEHICLE_CATALOG.length; n++) {
+    cycledIds.add(selectedId);
+    selectedId = getNextVehicleId(selectedId);
+  }
+  assert(cycledIds.size === VEHICLE_CATALOG.length && selectedId === DEFAULT_VEHICLE_ID, 'ID-based selection visits every official vehicle once');
 
   const sedanDescriptor = getVehicleDescriptor('family-sedan');
   const sedan = sedanDescriptor.physicsConfig;

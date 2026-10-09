@@ -46,6 +46,8 @@ export interface VehicleInputSourceMetadata {
  * edge once, regardless of render rate or the number of fixed physics steps.
  */
 export interface VehicleInputState {
+  /** Cruise actuator demand, independent of the driver's pedal/drive-mode curve. */
+  cruiseThrottle?: number;
   /** Runtime cruise service request, kept separate from the driver's brake pedal. */
   cruiseBrake?: number;
   throttle: number;

@@ -1,6 +1,26 @@
 import * as THREE from 'three';
+import { drawPrancingHorse } from './PrancingHorseBadge';
 import { EXECUTIVE_INSTRUMENT_OUTLINE } from './InstrumentBinnacle';
 import type { ExecutiveDisplayData } from './ExecutiveDisplayContext';
+import { PROXIMITY_COLORS, type RearParkingState } from '../control/RearParkingProximity';
+
+const rearParkingText = (state: RearParkingState | undefined): string => {
+  const labels = { LEFT_CORNER: 'L corner', LEFT: 'Rear left', CENTER: 'Rear center', RIGHT: 'Rear right', RIGHT_CORNER: 'R corner' };
+  return state?.nearestZone == null ? 'Rear area clear' : `${labels[state.nearestZone]} ${state.nearestDistanceM!.toFixed(1)} m`;
+};
+const drawRearParkingZones = (context: CanvasRenderingContext2D, state: RearParkingState | undefined, x: number, y: number, width: number): void => {
+  const labels = ['LC', 'L', 'C', 'R', 'RC'], step = width / 5;
+  context.save(); context.font = 'bold 16px sans-serif'; context.textAlign = 'center';
+  for (let i = 0; i < 5; i++) {
+    const severity = state?.zones[i]?.severity ?? 'NONE';
+    context.fillStyle = PROXIMITY_COLORS[severity]; context.globalAlpha *= severity === 'NONE' ? .35 : 1;
+    context.fillRect(x - width / 2 + i * step + 2, y, step - 4, 25);
+    context.globalAlpha /= severity === 'NONE' ? .35 : 1;
+    context.fillStyle = severity === 'NONE' ? '#8998a8' : '#10151b';
+    context.fillText(labels[i]!, x - width / 2 + (i + .5) * step, y + 18);
+  }
+  context.restore();
+};
 import type { InstrumentVisualProfile } from './LuxuryVisualProfile';
 
 export type InstrumentGear = number | 'R' | 'N' | string;
@@ -58,8 +78,10 @@ export type InstrumentDisplayStyle =
   | 'dual-analog'
   | 'sport-tft'
   | 'cx4-tach-wing'
+  | 'supercar-tach'
   | 'jetta-twin-dial'
-  | 'executive-virtual';
+  | 'executive-virtual'
+  | 'suv-virtual';
 
 export interface InstrumentClusterConfig {
   readonly featureClass?: 'standard' | 'advanced';
@@ -165,6 +187,11 @@ export const CX4_INSTRUMENT_CLUSTER_LAYOUT = Object.freeze({
   wingZ: 0.072,
 });
 
+export const SUPERCAR_INSTRUMENT_CLUSTER_LAYOUT = Object.freeze({
+  ...CX4_INSTRUMENT_CLUSTER_LAYOUT, tachRadius: .104, tachNeedleLength: .083,
+  wingCenterX: .178, wingHalfWidth: .065, wingHalfHeight: .067,
+});
+
 /**
  * 7DCT face: traditional Jetta-style twin mechanical dials with a monochrome
  * centre display between them. Dial and display rectangles are disjoint.
@@ -200,6 +227,34 @@ export const SPORT_INSTRUMENT_INDICATOR_IDS = Object.freeze([
   'battery-warning',
   'cruise',
 ] as const);
+
+/**
+ * SUV virtual cockpit face: two large round dials around a central information
+ * column, sharing the ordinary binnacle aperture. Every coordinate below is
+ * expressed in face canvas pixels. The central lower band is raised into the
+ * visible field above the existing steering wheel without changing the cabin.
+ */
+export const SUV_INSTRUMENT_CLUSTER_LAYOUT = Object.freeze({
+  canvasWidth: 1290,
+  canvasHeight: 600,
+  /** Uniform pixels per metre, so both dials stay perfectly circular. */
+  pixelsPerMetre: 2609,
+  apertureHalfWidth: .247,
+  apertureHalfHeight: .115,
+  tachCenterX: 284,
+  speedoCenterX: 1006,
+  dialCenterY: 295,
+  dialRadius: 218,
+  dialRingRadius: 224,
+  needleLength: 214,
+  leftDialRegion: Object.freeze({ x: 54, y: 65, width: 460, height: 460 }),
+  centerRegion: Object.freeze({ x: 520, y: 65, width: 250, height: 320 }),
+  centerPageRegion: Object.freeze({ x: 528, y: 144, width: 234, height: 200 }),
+  rightDialRegion: Object.freeze({ x: 776, y: 65, width: 460, height: 460 }),
+  assistRegion: Object.freeze({ x: 528, y: 348, width: 234, height: 36 }),
+  coolantRegion: Object.freeze({ x: 174, y: 433, width: 240, height: 48 }),
+  fuelRegion: Object.freeze({ x: 886, y: 433, width: 240, height: 48 }),
+});
 
 const clamp01 = (value: number): number => THREE.MathUtils.clamp(value, 0, 1);
 
@@ -418,8 +473,28 @@ const makeSmallGauge = (
   return { root, needle };
 };
 
+/**
+ * Colour substitution for one dial face, used by a face that owns its own
+ * palette instead of an executive visual profile. Drawing geometry, radii and
+ * the needle sweep stay identical, so every existing face is unaffected.
+ */
+interface DialColorTheme {
+  readonly bezelOuter: string;
+  readonly bezelInner: string;
+  readonly bezelEdge: string;
+  readonly faceCenter: string;
+  readonly faceMiddle: string;
+  readonly faceEdge: string;
+  readonly ringColor: string;
+  readonly redline: string;
+}
+
 interface StyledDialOptions {
+  readonly arcStart?: number;
+  readonly arcEnd?: number;
   readonly visualProfile?: InstrumentVisualProfile;
+  /** Optional colour substitution for a face built without a visual profile. */
+  readonly colors?: DialColorTheme;
   readonly label: string;
   readonly unit: string;
   readonly maximum: number;
@@ -468,19 +543,21 @@ const drawStyledDialArtwork = (options: StyledDialOptions): HTMLCanvasElement =>
   const center = FACE_SIZE / 2;
   const tickRadius = FACE_SIZE * 0.405;
   const radiusFactor = 0.947;
+  const theme = options.colors;
+  const arcStart = options.arcStart ?? ARC_START, arcEnd = options.arcEnd ?? ARC_END;
   context.clearRect(0, 0, FACE_SIZE, FACE_SIZE);
 
   // Machined bezel: dark outer shell, thin silver ring. Deliberately quiet so
   // the face reads as a traditional mechanical instrument.
-  context.fillStyle = '#2a3035';
+  context.fillStyle = theme?.bezelOuter ?? '#2a3035';
   context.beginPath();
   context.arc(center, center, center * radiusFactor + 26, 0, Math.PI * 2);
   context.fill();
-  context.fillStyle = '#0a0d0f';
+  context.fillStyle = theme?.bezelInner ?? '#0a0d0f';
   context.beginPath();
   context.arc(center, center, center * radiusFactor + 22, 0, Math.PI * 2);
   context.fill();
-  context.strokeStyle = '#9aa4a9';
+  context.strokeStyle = theme?.bezelEdge ?? '#9aa4a9';
   context.lineWidth = 3;
   context.beginPath();
   context.arc(center, center, center * radiusFactor + 14, 0, Math.PI * 2);
@@ -494,9 +571,9 @@ const drawStyledDialArtwork = (options: StyledDialOptions): HTMLCanvasElement =>
     center,
     center * 0.95,
   );
-  background.addColorStop(0, '#101315');
-  background.addColorStop(0.72, '#08090b');
-  background.addColorStop(1, '#030404');
+  background.addColorStop(0, theme?.faceCenter ?? '#101315');
+  background.addColorStop(0.72, theme?.faceMiddle ?? '#08090b');
+  background.addColorStop(1, theme?.faceEdge ?? '#030404');
   if (options.visualProfile) {
     background.addColorStop(.25, '#17202a');
     background.addColorStop(.85, '#080e15');
@@ -512,11 +589,11 @@ const drawStyledDialArtwork = (options: StyledDialOptions): HTMLCanvasElement =>
   // A solid band reads as a redline zone; tinting single ticks alone does not.
   if (options.redlineFraction !== undefined) {
     const redStart = THREE.MathUtils.lerp(
-      ARC_START,
-      ARC_END,
+      arcStart,
+      arcEnd,
       clamp01(options.redlineFraction),
     );
-    context.strokeStyle = '#d2453c';
+    context.strokeStyle = theme?.redline ?? '#d2453c';
     context.lineWidth = options.visualProfile?.redlineWidth ?? 11;
     context.beginPath();
     context.arc(
@@ -524,7 +601,7 @@ const drawStyledDialArtwork = (options: StyledDialOptions): HTMLCanvasElement =>
       center,
       tickRadius + 21,
       redStart - Math.PI / 2,
-      ARC_END - Math.PI / 2,
+      arcEnd - Math.PI / 2,
     );
     context.stroke();
   }
@@ -532,7 +609,7 @@ const drawStyledDialArtwork = (options: StyledDialOptions): HTMLCanvasElement =>
   const totalMinorTicks = options.majorDivisions * options.minorTicksPerMajor;
   for (let index = 0; index <= totalMinorTicks; index += 1) {
     const fraction = index / totalMinorTicks;
-    const angle = THREE.MathUtils.lerp(ARC_START, ARC_END, fraction);
+    const angle = THREE.MathUtils.lerp(arcStart, arcEnd, fraction);
     const isMajor = index % options.minorTicksPerMajor === 0;
     const innerRadius = tickRadius - (isMajor ? 34 : 20);
     const outerRadius = tickRadius + 3;
@@ -564,11 +641,12 @@ const drawStyledDialArtwork = (options: StyledDialOptions): HTMLCanvasElement =>
     );
   }
 
-  if (options.visualProfile) {
+  if (options.visualProfile || theme) {
+    const ringColor = theme?.ringColor ?? options.visualProfile!.ringColor;
     context.save();
     for (const [radius, width, alpha] of [[247, 1, .35], [240, 2, .78], [234, 1, .18]] as const) {
-      context.globalAlpha = alpha; context.strokeStyle = options.visualProfile.ringColor;
-      context.lineWidth = width; context.shadowColor = options.visualProfile.ringColor; context.shadowBlur = radius === 240 ? 5 : 0;
+      context.globalAlpha = alpha; context.strokeStyle = ringColor;
+      context.lineWidth = width; context.shadowColor = ringColor; context.shadowBlur = radius === 240 ? 5 : 0;
       context.beginPath(); context.arc(center, center, radius, 0, Math.PI * 2); context.stroke();
     }
     context.restore();
@@ -1059,6 +1137,391 @@ const drawJettaCentreDisplay = (
   return canvas;
 };
 
+/** Backlit blue-violet accents on a nearly black production-car face. */
+const SUV_ACCENT = '#394395';
+const SUV_ACCENT_BRIGHT = '#939bed';
+const SUV_TEXT = '#e4e7ee';
+const SUV_TEXT_DIM = '#818792';
+const SUV_TEXT_SOFT = '#b9bec9';
+const SUV_GAUGE_COLORS = { hot: '#d84a43', normal: '#bdc3ce', low: '#d5a453' } as const;
+const SUV_MODE_LABELS: Readonly<Record<string, string>> = { ECO: 'Eco', NORMAL: 'Normal', SPORT: 'Sport' };
+const SUV_DIAL_ARC = { start: -Math.PI * .75, end: Math.PI * .75 } as const;
+const SUV_SPEED_MARKS = Object.freeze([0, 20, 40, 60, 100, 140, 180, 220, 280]);
+
+/** Display scales only: leave vehicle and powertrain calibration untouched. */
+export const getSuvInstrumentScales = (config: Pick<InstrumentClusterConfig, 'maximumRPM' | 'maximumSpeedKmh'>) => ({
+  rpm: Math.max(8000, Math.ceil(finiteOr(config.maximumRPM, 8000) / 1000) * 1000),
+  speed: Math.max(280, Math.ceil(finiteOr(config.maximumSpeedKmh, 280) / 20) * 20),
+});
+
+/** The reference's expanded low-speed scale; ticks and pointer share this mapping. */
+export const suvSpeedFraction = (speedKmh: number, maximum: number): number => {
+  const value = clamp01(finiteOr(speedKmh, 0) / maximum) * 280;
+  for (let i = 1; i < SUV_SPEED_MARKS.length; i++) {
+    const low = SUV_SPEED_MARKS[i - 1]!, high = SUV_SPEED_MARKS[i]!;
+    if (value <= high) return (i - 1 + (value - low) / (high - low)) / 8;
+  }
+  return 1;
+};
+const suvAngle = (fraction: number): number =>
+  THREE.MathUtils.lerp(SUV_DIAL_ARC.start, SUV_DIAL_ARC.end, clamp01(fraction));
+
+/** Cached scale artwork: open arcs, dense short ticks, and no filled bezel or side gauge. */
+const drawSuvDial = (maximum: number, tach: boolean, redlineRPM = maximum): HTMLCanvasElement => {
+  const layout = SUV_INSTRUMENT_CLUSTER_LAYOUT;
+  const canvas = createCanvas(460, 460), context = canvas.getContext('2d');
+  if (context === null) return canvas;
+  const center = 230, ring = layout.dialRingRadius, tickRadius = layout.dialRadius - 4;
+  const paint = context.createLinearGradient(0, 0, 460, 460);
+  paint.addColorStop(0, '#283876'); paint.addColorStop(.55, '#424599'); paint.addColorStop(1, '#353c82');
+  context.strokeStyle = paint; context.lineWidth = 4;
+  context.shadowColor = SUV_ACCENT; context.shadowBlur = 3;
+  context.beginPath(); context.arc(center, center, ring, suvAngle(0) - Math.PI / 2, suvAngle(1) - Math.PI / 2);
+  context.stroke(); context.shadowBlur = 0;
+  const divisions = tach ? maximum / 1000 : 8, density = 10;
+  for (let i = 0; i <= divisions * density; i++) {
+    const fraction = i / (divisions * density), angle = suvAngle(fraction);
+    const major = i % density === 0, half = i % density === 5;
+    const inner = tickRadius - (major ? 13 : half ? 7 : 3);
+    const red = tach && fraction * maximum >= redlineRPM;
+    context.strokeStyle = red && (major || half) ? '#a33337' : major ? '#c6cad3' : '#747982';
+    context.lineWidth = major ? 2.3 : 1.3;
+    context.beginPath();
+    context.moveTo(center + Math.sin(angle) * inner, center - Math.cos(angle) * inner);
+    context.lineTo(center + Math.sin(angle) * tickRadius, center - Math.cos(angle) * tickRadius);
+    context.stroke();
+    if (!major) continue;
+    const value = tach ? i / density : Math.round(SUV_SPEED_MARKS[i / density]! * maximum / 280);
+    context.fillStyle = SUV_TEXT;
+    context.font = `italic 500 ${tach ? 34 : 31}px "Segoe UI", Arial, sans-serif`;
+    context.textAlign = 'center'; context.textBaseline = 'middle';
+    context.fillText(String(value), center + Math.sin(angle) * 177, center - Math.cos(angle) * 177);
+  }
+  if (tach) {
+    suvText(context, 'rpm', center - 100, center + 84, 15, SUV_TEXT_SOFT);
+    suvText(context, '× 1000', center - 100, center + 102, 14, SUV_TEXT_SOFT);
+  }
+  return canvas;
+};
+/** Slim outlined pictograms for the SUV status row, drawn at a stable size. */
+const suvPictogram = (
+  context: CanvasRenderingContext2D,
+  kind: 'temp' | 'fuel' | 'clock' | 'compass' | 'media' | 'lanes' | 'cruise' | 'range',
+  x: number,
+  y: number,
+  size: number,
+  color: string,
+): void => {
+  context.save();
+  context.translate(x, y); context.scale(size / 24, size / 24);
+  context.strokeStyle = color; context.fillStyle = color;
+  context.lineWidth = 1.9; context.lineJoin = 'round'; context.lineCap = 'round';
+  const path = (points: readonly (readonly [number, number])[], close = false): void => {
+    context.beginPath(); context.moveTo(points[0]![0], points[0]![1]);
+    points.slice(1).forEach(p => context.lineTo(p[0], p[1]));
+    if (close) context.closePath();
+    context.stroke();
+  };
+  if (kind === 'temp') {
+    path([[-2, 1], [-2, -9], [2, -9], [2, 1]]);
+    context.beginPath(); context.arc(0, 3, 3, -Math.PI / 4, Math.PI * 1.25); context.stroke();
+    path([[0, -6], [0, 3]]); path([[3, -5], [6, -5]]); path([[3, -1], [6, -1]]);
+    for (const yWave of [8, 12]) path([[-10, yWave], [-6, yWave - 2], [-2, yWave], [2, yWave - 2], [6, yWave], [10, yWave - 2]]);
+  } else if (kind === 'fuel') {
+    path([[-4, -9], [4, -9], [4, 7], [-4, 7]], true);
+    path([[-4, -5], [-1.6, -5], [-1.6, -1], [-4, -1]]);
+    context.beginPath(); context.moveTo(5, -3); context.lineTo(8, -3); context.lineTo(8, 5);
+    context.quadraticCurveTo(10, 9, 11, 5); context.lineTo(11, -6); context.lineTo(8, -10); context.stroke();
+  } else if (kind === 'range') {
+    path([[-9, -4], [7, -4], [7, 4], [-9, 4]], true);
+    path([[7, -2], [10, -2], [10, 2], [7, 2]]);
+    context.fillRect(-7, -2.4, 4, 4.8); context.fillRect(-2, -2.4, 4, 4.8);
+  } else if (kind === 'clock') {
+    context.beginPath(); context.arc(0, 0, 8.6, 0, Math.PI * 2); context.stroke();
+    path([[0, 0], [0, -5]]); path([[0, 0], [4, 1.4]]);
+  } else if (kind === 'compass') {
+    path([[0, -9], [5.4, 7], [0, 3.4], [-5.4, 7]], true);
+  } else if (kind === 'media') {
+    path([[-9, -4], [-9, 5], [9, 5], [9, -4], [-9, -4]]);
+    path([[-4, 5], [-4, -1.6], [5, -3.4], [5, 5]]);
+    context.beginPath(); context.arc(-6, 5.6, 2.2, 0, Math.PI * 2); context.fill();
+    context.beginPath(); context.arc(3, 5.6, 2.2, 0, Math.PI * 2); context.fill();
+  } else if (kind === 'lanes') {
+    path([[-8, 8], [-2.4, -8]]); path([[8, 8], [2.4, -8]]);
+    for (let i = -1; i <= 1; i++) path([[i * 3.4, 6], [i * 1.4, 2]]);
+  } else {
+    context.beginPath(); context.arc(0, 1, 8, Math.PI * .92, Math.PI * 2.08); context.stroke();
+    path([[0, 1], [4.4, -3.4]]);
+    for (const a of [Math.PI, Math.PI * 1.25, Math.PI * 1.5, Math.PI * 1.75, Math.PI * 2]) {
+      path([[Math.cos(a) * 6.6, 1 + Math.sin(a) * 6.6], [Math.cos(a) * 4.8, 1 + Math.sin(a) * 4.8]]);
+    }
+  }
+  context.restore();
+};
+
+const suvText = (
+  context: CanvasRenderingContext2D,
+  value: string,
+  x: number,
+  y: number,
+  size: number,
+  color: string = SUV_TEXT,
+  weight: 400 | 500 | 600 | 700 = 500,
+  align: CanvasTextAlign = 'center',
+): void => {
+  context.fillStyle = color;
+  context.font = `${weight} ${size}px "Segoe UI", "Microsoft YaHei", Arial, sans-serif`;
+  context.textAlign = align; context.textBaseline = 'middle';
+  context.fillText(value, x, y);
+};
+
+const suvDriveTime = (seconds: number): string => {
+  const total = Math.max(0, Math.floor(seconds));
+  const hours = Math.floor(total / 3600);
+  const minutes = Math.floor(total % 3600 / 60);
+  return hours > 0
+    ? `${hours}:${String(minutes).padStart(2, '0')}`
+    : `${minutes}:${String(total % 60).padStart(2, '0')}`;
+};
+
+interface SuvFaceOptions {
+  readonly canvas: HTMLCanvasElement;
+  readonly tachArtwork: HTMLCanvasElement;
+  readonly speedArtwork: HTMLCanvasElement;
+  readonly maximumRPM: number;
+  readonly maximumSpeedKmh: number;
+  readonly speedKmh: number;
+  readonly rpm: number;
+  readonly gear: InstrumentGear;
+  readonly driveMode: string;
+  readonly cruiseActive: boolean;
+  readonly cruiseTargetKmh: number | null;
+  readonly fuelLevel: number;
+  readonly fuelRangeKm: number | null;
+  readonly temperatureC: number;
+  readonly indicators: InstrumentIndicatorState;
+  readonly data: ExecutiveDisplayData | undefined;
+  readonly lanePoints: ExecutiveDisplayData['lanes'];
+  readonly laneMarkings: readonly ('solid' | 'dashed')[];
+  readonly laneOpacity: number;
+  readonly backlight: number;
+  readonly wake: number;
+  readonly pageTime: number;
+}
+
+/** Paint directly into the installed texture canvas; no per-refresh canvas allocation. */
+const drawSuvVirtualFace = (options: SuvFaceOptions): void => {
+  const layout = SUV_INSTRUMENT_CLUSTER_LAYOUT, context = options.canvas.getContext('2d');
+  if (context === null) return;
+  context.fillStyle = '#030405'; context.fillRect(0, 0, options.canvas.width, options.canvas.height);
+  context.save();
+  context.globalAlpha = options.backlight * THREE.MathUtils.smoothstep(options.wake, .10, .40);
+  context.drawImage(options.tachArtwork, layout.tachCenterX - 230, layout.dialCenterY - 230);
+  context.drawImage(options.speedArtwork, layout.speedoCenterX - 230, layout.dialCenterY - 230);
+  const needle = (x: number, fraction: number): void => {
+    context.save(); context.translate(x, layout.dialCenterY); context.rotate(suvAngle(fraction));
+    const paint = context.createLinearGradient(0, 0, 0, -layout.needleLength);
+    paint.addColorStop(0, 'rgba(80,91,171,0)'); paint.addColorStop(.35, '#626fbb');
+    paint.addColorStop(1, SUV_ACCENT_BRIGHT);
+    context.strokeStyle = paint; context.lineWidth = 3; context.lineCap = 'round';
+    context.shadowColor = SUV_ACCENT; context.shadowBlur = 3;
+    context.beginPath(); context.moveTo(0, -12); context.lineTo(0, -layout.needleLength); context.stroke();
+    context.restore();
+  };
+  needle(layout.tachCenterX, options.rpm / options.maximumRPM);
+  needle(layout.speedoCenterX, suvSpeedFraction(options.speedKmh, options.maximumSpeedKmh));
+  const gearLabel = formatInstrumentGear(options.gear);
+  suvText(context, gearLabel, layout.tachCenterX, 405, gearLabel.length > 1 ? 30 : 35);
+  suvText(context, 'km/h', layout.speedoCenterX, 376, 16, SUV_TEXT_SOFT);
+  suvText(context, String(Math.round(options.speedKmh)), layout.speedoCenterX, 405, 36);
+  drawSuvBottomGauges(context, options);
+  drawSuvCentre(context, options);
+  // Lamps own fixed slots, above page content and within the same ignition fade.
+  drawSuvLamps(context, options);
+  context.restore();
+};
+
+const drawSuvBottomGauges = (context: CanvasRenderingContext2D, options: SuvFaceOptions): void => {
+  const layout = SUV_INSTRUMENT_CLUSTER_LAYOUT;
+  const scale = (x: number, y: number, width: number, fraction: number, color: string): void => {
+    context.strokeStyle = '#343841'; context.lineWidth = 2;
+    context.beginPath(); context.moveTo(x, y); context.lineTo(x + width, y); context.stroke();
+    context.strokeStyle = color; context.lineWidth = 3;
+    const marker = x + clamp01(fraction) * width;
+    context.beginPath(); context.moveTo(marker - 4, y); context.lineTo(marker + 4, y); context.stroke();
+  };
+  const coolant = layout.coolantRegion, fuel = layout.fuelRegion;
+  const hot = options.temperatureC >= 115, low = options.data?.trip.fuel.lowFuel ?? options.fuelLevel < .14;
+  scale(coolant.x, coolant.y + 5, coolant.width, (options.temperatureC - 50) / 80, hot ? SUV_GAUGE_COLORS.hot : SUV_TEXT_SOFT);
+  context.fillStyle = '#943139'; context.fillRect(coolant.x + coolant.width - 26, coolant.y + 3, 26, 3);
+  suvPictogram(context, 'temp', coolant.x + 12, coolant.y + 30, 25, hot ? SUV_GAUGE_COLORS.hot : SUV_TEXT_SOFT);
+  suvText(context, String(Math.round(options.temperatureC)), coolant.x + 76, coolant.y + 30, 21);
+  suvText(context, '°C', coolant.x + 103, coolant.y + 30, 17, SUV_TEXT_DIM, 500, 'left');
+  scale(fuel.x, fuel.y + 5, fuel.width, options.fuelLevel, low ? SUV_GAUGE_COLORS.low : SUV_TEXT_SOFT);
+  context.fillStyle = '#943139'; context.fillRect(fuel.x, fuel.y + 3, 18, 3);
+  suvPictogram(context, 'fuel', fuel.x + 220, fuel.y + 30, 25, low ? SUV_GAUGE_COLORS.low : SUV_TEXT_SOFT);
+  const range = options.fuelRangeKm !== null && Number.isFinite(options.fuelRangeKm)
+    ? `${Math.max(0, Math.round(options.fuelRangeKm))} km` : '-- km';
+  suvText(context, range, fuel.x + 140, fuel.y + 30, 21);
+};
+
+/** Each lamp retains its position when other lamps switch on or off. */
+export const SUV_INSTRUMENT_LAMP_SLOTS = Object.freeze([
+  ['◀', 464, 50, 24], ['▶', 826, 50, 24],
+  ['POS', 556, 124, 20], ['LO', 600, 124, 20], ['HI', 644, 124, 20],
+  ['FRFOG', 688, 124, 20], ['RRFOG', 732, 124, 20],
+  ['P', 32, 472, 28], ['ENG', 1258, 472, 27], ['BAT', 32, 520, 23],
+  ['ABS', 1258, 520, 23], ['SKID', 1258, 566, 23], ['TCS OFF', 32, 566, 22],
+] as const);
+
+const drawSuvLamps = (context: CanvasRenderingContext2D, options: SuvFaceOptions): void => {
+  const inventory = instrumentStatusLamps(options.indicators);
+  for (const [label, x, y, size] of SUV_INSTRUMENT_LAMP_SLOTS) {
+    const lamp = inventory.find(item => item[0] === label);
+    if (lamp?.[1]) drawStatusLamp(context, label === 'TCS OFF' ? assistOffLabel(options.indicators) : label, lamp[2], x, y, size);
+  }
+  if (options.temperatureC >= 115) suvPictogram(context, 'temp', 32, 370, 24, SUV_GAUGE_COLORS.hot);
+};
+
+/** Every dynamic central element is clipped to a disjoint, narrow authored region. */
+const drawSuvCentre = (context: CanvasRenderingContext2D, options: SuvFaceOptions): void => {
+  const layout = SUV_INSTRUMENT_CLUSTER_LAYOUT, region = layout.centerRegion;
+  const centerX = region.x + region.width / 2;
+  context.save(); context.beginPath(); context.rect(region.x, region.y, region.width, region.height); context.clip();
+  // No heading is supplied by telemetry: show an unavailable compass, not a fictional bearing.
+  suvPictogram(context, 'compass', 542, 86, 17, SUV_TEXT_SOFT);
+  suvText(context, '--', 566, 86, 16, SUV_TEXT_DIM);
+  suvText(context, options.data?.localTime ?? '--:--', 642, 86, 23);
+  suvPictogram(context, 'lanes', 716, 86, 22, SUV_TEXT_SOFT);
+  const ratio = parsePhysicalGear(options.gear);
+  if (ratio !== null && ratio > 0) suvText(context, String(ratio), 753, 86, 19, SUV_ACCENT_BRIGHT);
+
+  const page = layout.centerPageRegion, low = options.data?.trip.fuel.lowFuel ?? options.fuelLevel < .14;
+  context.save(); context.beginPath(); context.rect(page.x, page.y, page.width, page.height); context.clip();
+  context.globalAlpha *= THREE.MathUtils.smoothstep(options.pageTime, 0, .18);
+  const overlay = options.data?.overlay;
+  if (low) {
+    drawSuvCar(context, centerX, 190);
+    suvPictogram(context, 'fuel', centerX, 240, 31, SUV_GAUGE_COLORS.low);
+    suvText(context, 'Please refuel.', centerX, 282, 24);
+    suvText(context, options.fuelRangeKm === null ? 'Range -- km' : `Range ${Math.max(0, Math.round(options.fuelRangeKm))} km`,
+      centerX, 319, 23);
+  } else if (overlay !== null && overlay !== undefined && overlay.alpha > 0 && overlay.title !== 'CRUISE CONTROL') {
+    // Mode notifications replace the page, never overlay either gauge.
+    suvText(context, 'Drive mode', centerX, 212, 21, SUV_TEXT_DIM);
+    suvText(context, SUV_MODE_LABELS[overlay.value] ?? overlay.value, centerX, 270, 32);
+  } else if (options.data?.page === 'TRIP') {
+    drawSuvTripPage(context, centerX, options);
+  } else if (options.data?.page === 'MAP') {
+    // The existing page-cycle slot becomes a compact information menu on this face only.
+    suvText(context, 'Driving data', centerX, 170, 23);
+    const rows = ['Avg. consumption', 'Driving time', 'Trip distance', 'Range'];
+    rows.forEach((label, i) => suvText(context, label, centerX, 210 + i * 35, 20, i === 0 ? SUV_TEXT : SUV_TEXT_DIM));
+    suvText(context, '›', page.x + 22, 210, 27, SUV_ACCENT_BRIGHT);
+  } else if (options.data?.page === 'PARKING') {
+    suvText(context, 'Parking assist', centerX, 170, 22, SUV_TEXT_SOFT);
+    drawSuvCar(context, centerX, 234);
+    drawRearParkingZones(context, options.data.rearParking, centerX, 283, page.width - 16);
+    const nearest = options.data.rearParking?.zones.find(zone => zone.zone === options.data?.rearParking?.nearestZone);
+    suvText(context, rearParkingText(options.data.rearParking), centerX, 337, 18, PROXIMITY_COLORS[nearest?.severity ?? 'NONE']);
+  } else {
+    suvText(context, SUV_MODE_LABELS[options.driveMode] ?? options.driveMode, centerX, 159, 17, SUV_TEXT_DIM);
+    if (parseGearSelector(options.gear) === 'D') {
+      drawSuvDrivingRoad(context, options);
+    } else {
+      suvText(context, 'Ready', centerX, 250, 24, SUV_TEXT_SOFT);
+    }
+  }
+  context.restore();
+  drawSuvAssist(context, options);
+  context.restore();
+};
+
+const drawSuvTripPage = (context: CanvasRenderingContext2D, x: number, options: SuvFaceOptions): void => {
+  const trip = options.data?.trip;
+  suvText(context, 'Driving data', x, 163, 22, SUV_TEXT_SOFT);
+  const rows: readonly (readonly [string, string])[] = [
+    ['Trip distance', trip?.distanceKm === undefined ? '-- km' : `${Math.max(0, trip.distanceKm).toFixed(1)} km`],
+    ['Avg. consumption', trip?.averageConsumptionLPer100km == null ? '-- L/100km' : `${trip.averageConsumptionLPer100km.toFixed(1)} L/100km`],
+    ['Driving time', suvDriveTime(trip?.seconds ?? 0)],
+  ];
+  rows.forEach(([label, value], i) => {
+    suvText(context, label, x, 199 + i * 57, 17, SUV_TEXT_DIM);
+    suvText(context, value, x, 224 + i * 57, 23);
+  });
+};
+
+/** Driving lanes occupy the main center page; no standalone car or trip block. */
+const drawSuvDrivingRoad = (context: CanvasRenderingContext2D, options: SuvFaceOptions): void => {
+  const r = SUV_INSTRUMENT_CLUSTER_LAYOUT.centerPageRegion, x = r.x + r.width / 2;
+  const project = (p: { x: number; forward: number }) => {
+    const f = Math.max(0, p.forward);
+    return { x: x + p.x * 46 / (1 + f / 10), y: 334 - 180 * f / (f + 12) };
+  };
+  const live = options.lanePoints.length >= 2 && options.laneOpacity > .005;
+  const surface = context.createLinearGradient(0, 182, 0, 334);
+  surface.addColorStop(0, 'rgba(98,110,143,0)');
+  surface.addColorStop(1, 'rgba(98,110,143,.22)');
+  context.fillStyle = surface;
+  context.beginPath(); context.moveTo(x - 18, 182); context.lineTo(x + 18, 182);
+  context.lineTo(x + 86, 334); context.lineTo(x - 86, 334); context.closePath(); context.fill();
+  // Neutral road context remains dim while live boundaries fade away off-road.
+  context.strokeStyle = '#3e4656'; context.lineWidth = 1.6;
+  for (const side of [-1, 1]) {
+    context.beginPath(); context.moveTo(x + side * 18, 182); context.lineTo(x + side * 86, 334); context.stroke();
+  }
+  if (live) {
+    context.save(); context.globalAlpha *= options.laneOpacity;
+    context.strokeStyle = '#bdc6d8'; context.lineWidth = 2.4; context.lineJoin = 'round';
+    options.lanePoints.forEach((line, i) => {
+      context.setLineDash(options.laneMarkings[i] === 'dashed' ? [9, 12] : []);
+      context.beginPath();
+      line.forEach((p, j) => {
+        const point = project(p);
+        if (j === 0) context.moveTo(point.x, point.y); else context.lineTo(point.x, point.y);
+      });
+      context.stroke();
+    });
+    context.restore();
+  }
+};
+
+/** The bottom center is reserved for the small cruise status readout. */
+const drawSuvAssist = (context: CanvasRenderingContext2D, options: SuvFaceOptions): void => {
+  const r = SUV_INSTRUMENT_CLUSTER_LAYOUT.assistRegion, x = r.x + r.width / 2;
+  context.save(); context.beginPath(); context.rect(r.x, r.y, r.width, r.height); context.clip();
+  if (options.cruiseActive && options.cruiseTargetKmh !== null) {
+    suvPictogram(context, 'cruise', x - 52, 376, 18, '#9da8cc');
+    suvText(context, `${Math.round(options.cruiseTargetKmh)} km/h`, x + 12, 376, 18, SUV_TEXT_SOFT);
+  }
+  context.restore();
+};
+/** One compact top-down car pictogram, shared by the parking and driving pages. */
+const drawSuvCar = (context: CanvasRenderingContext2D, x: number, y: number): void => {
+  context.save(); context.translate(x, y);
+  context.shadowColor = '#05070c'; context.shadowBlur = 6;
+  const paint = context.createLinearGradient(-16, 0, 16, 0);
+  paint.addColorStop(0, '#7b8aa0'); paint.addColorStop(.45, '#ccd5e0'); paint.addColorStop(1, '#8b9aae');
+  context.fillStyle = paint; context.strokeStyle = '#dde4ec'; context.lineWidth = .8;
+  context.beginPath();
+  context.moveTo(-10, -27); context.quadraticCurveTo(0, -31, 10, -27);
+  context.lineTo(14, -16); context.lineTo(15, 19); context.quadraticCurveTo(14, 28, 7, 28);
+  context.lineTo(-7, 28); context.quadraticCurveTo(-14, 28, -15, 19); context.lineTo(-14, -16);
+  context.closePath(); context.fill(); context.stroke();
+  context.shadowBlur = 0;
+  context.fillStyle = '#232c3c';
+  context.beginPath(); context.moveTo(-10, -15); context.lineTo(10, -15);
+  context.lineTo(8, -5); context.lineTo(-8, -5); context.closePath(); context.fill();
+  drawBeveledPanel(context, -8, 9, 16, 9, 2); context.fill();
+  context.strokeStyle = '#6b7c90'; context.lineWidth = .7;
+  for (const side of [-1, 1]) {
+    context.beginPath(); context.moveTo(side * 11, -2); context.lineTo(side * 11, 17); context.stroke();
+  }
+  context.fillStyle = '#e6edf2';
+  context.fillRect(-11, -23, 6, 2); context.fillRect(5, -23, 6, 2);
+  context.restore();
+};
+
 /** Reads the numeric ratio from labels such as "6" or "D3". */
 const parsePhysicalGear = (gear: InstrumentGear): number | null => {
   if (typeof gear === 'number') {
@@ -1130,6 +1593,23 @@ export class InstrumentCluster extends THREE.Group {
   private executiveLaneOpacity = 0;
   private executiveLanePoints: ExecutiveDisplayData['lanes'] = [];
   private executiveLaneMarkings: NonNullable<ExecutiveDisplayData['laneMarkings']> = [];
+  // SUV cockpit face: two large dials and one information column.
+  private readonly suvScales: ReturnType<typeof getSuvInstrumentScales>;
+  private suvCanvas: HTMLCanvasElement | null = null;
+  private suvTexture: THREE.CanvasTexture | null = null;
+  private suvTachArtwork: HTMLCanvasElement | null = null;
+  private suvSpeedArtwork: HTMLCanvasElement | null = null;
+  private suvKey = '';
+  private suvPageKey = '';
+  private suvBacklight = 1;
+  private suvWakeTime = 0;
+  private suvWasOn = true;
+  private suvOffTime = 1;
+  private suvOffBrightness = 0;
+  private suvPageTime = 0;
+  private suvLaneOpacity = 0;
+  private suvLanePoints: ExecutiveDisplayData['lanes'] = [];
+  private suvLaneMarkings: readonly ('solid' | 'dashed')[] = [];
   private lastInformationKey = '';
   private lastIndicatorKey = '';
 
@@ -1137,6 +1617,7 @@ export class InstrumentCluster extends THREE.Group {
     super();
     this.name = 'Functional instrument cluster';
     this.config = { ...DEFAULT_CONFIG, ...config };
+    this.suvScales = getSuvInstrumentScales(this.config);
 
     const housingMaterial = new THREE.MeshStandardMaterial({
       color: 0x06090c,
@@ -1248,6 +1729,15 @@ export class InstrumentCluster extends THREE.Group {
       this.sportDisplayCanvas = null;
       this.sportDisplayTexture = null;
       this.buildExecutiveFace();
+    } else if (this.config.displayStyle === 'suv-virtual') {
+      // SUV face: the shared analogue hardware stays instantiated but hidden,
+      // so this is a different layout rather than a recoloured twin-dial pod.
+      this.children.slice(2).forEach((child) => {
+        child.visible = false;
+      });
+      this.sportDisplayCanvas = null;
+      this.sportDisplayTexture = null;
+      this.buildSuvFace();
     } else if (this.config.displayStyle === 'sport-tft') {
       // The coupe owns a genuinely different display rather than a recoloured
       // sedan cluster.  Keep the shared analogue hardware instantiated for a
@@ -1271,7 +1761,7 @@ export class InstrumentCluster extends THREE.Group {
       sportDisplay.position.z = SPORT_INSTRUMENT_CLUSTER_LAYOUT.displayZ;
       this.add(sportDisplay);
       this.redrawSportDisplay(0, 0, 'N', 0.72, 90, {});
-    } else if (this.config.displayStyle === 'cx4-tach-wing') {
+    } else if ((this.config.displayStyle === 'cx4-tach-wing' || this.config.displayStyle === 'supercar-tach')) {
       // 6AT: one dominant central tachometer with two information wings. The
       // shared analogue hardware stays instantiated but hidden, so this face
       // is a different layout rather than a recoloured twin-dial cluster.
@@ -1304,7 +1794,8 @@ export class InstrumentCluster extends THREE.Group {
    * gear/trip wing and a fuel/temperature wing.
    */
   private buildCx4Face(): void {
-    const layout = CX4_INSTRUMENT_CLUSTER_LAYOUT;
+    const supercar = this.config.displayStyle === 'supercar-tach';
+    const layout = supercar ? SUPERCAR_INSTRUMENT_CLUSTER_LAYOUT : CX4_INSTRUMENT_CLUSTER_LAYOUT;
     this.cx4TachTexture = configureTexture(this.cx4TachCanvas);
     const tachFace = new THREE.Mesh(
       new THREE.CircleGeometry(layout.tachRadius, 64),
@@ -1315,7 +1806,7 @@ export class InstrumentCluster extends THREE.Group {
         toneMapped: false,
       }),
     );
-    tachFace.name = '6AT central tachometer face';
+    tachFace.name = supercar ? 'Supercar central tachometer face' : '6AT central tachometer face';
     tachFace.position.set(layout.tachCenterX, 0, layout.tachFaceZ);
     this.add(tachFace);
 
@@ -1334,7 +1825,7 @@ export class InstrumentCluster extends THREE.Group {
     this.cx4TachNeedle = makeNeedle(
       '6AT tachometer needle',
       layout.tachNeedleLength,
-      0xe9edec,
+      supercar ? 0xef3029 : 0xe9edec,
     );
     this.cx4TachNeedle.position.set(
       layout.tachCenterX,
@@ -1354,8 +1845,8 @@ export class InstrumentCluster extends THREE.Group {
         toneMapped: false,
       }),
     );
-    leftWing.name = '6AT gear wing';
-    leftWing.position.set(-layout.wingCenterX, 0, layout.wingZ);
+    leftWing.name = supercar ? 'Supercar left information screen' : '6AT gear wing';
+    leftWing.position.set(-layout.wingCenterX, supercar ? -.023 : 0, layout.wingZ);
     this.add(leftWing);
 
     this.cx4RightCanvas = drawCx4RightWing(0.72, 90);
@@ -1369,8 +1860,8 @@ export class InstrumentCluster extends THREE.Group {
         toneMapped: false,
       }),
     );
-    rightWing.name = '6AT fuel and temperature wing';
-    rightWing.position.set(layout.wingCenterX, 0, layout.wingZ);
+    rightWing.name = supercar ? 'Supercar right information screen' : '6AT fuel and temperature wing';
+    rightWing.position.set(layout.wingCenterX, supercar ? -.023 : 0, layout.wingZ);
     this.add(rightWing);
 
     this.currentTachometerRotation = fractionToNeedleRotation(0);
@@ -1501,15 +1992,17 @@ export class InstrumentCluster extends THREE.Group {
     const temperatureFraction = clamp01((temperatureC - 50) / 80);
     const dt = THREE.MathUtils.clamp(finiteOr(deltaTime, 1 / 60), 0, 0.1);
     const blend = 1 - Math.exp(-this.config.needleResponse * dt);
+    const rpmMaximum = this.config.displayStyle === 'suv-virtual' ? this.suvScales.rpm : this.config.maximumRPM;
+    const speedMaximum = this.config.displayStyle === 'suv-virtual' ? this.suvScales.speed : this.config.maximumSpeedKmh;
 
     this.currentTachometerRotation = THREE.MathUtils.lerp(
       this.currentTachometerRotation,
-      fractionToNeedleRotation(rpm / this.config.maximumRPM),
+      fractionToNeedleRotation(rpm / rpmMaximum),
       blend,
     );
     this.currentSpeedometerRotation = THREE.MathUtils.lerp(
       this.currentSpeedometerRotation,
-      fractionToNeedleRotation(speedKmh / this.config.maximumSpeedKmh),
+      fractionToNeedleRotation(speedKmh / speedMaximum),
       blend,
     );
     this.currentFuelRotation = THREE.MathUtils.lerp(
@@ -1597,13 +2090,50 @@ export class InstrumentCluster extends THREE.Group {
       }
       return;
     }
-    if (this.config.displayStyle === 'cx4-tach-wing') {
+    if (this.config.displayStyle === 'suv-virtual') {
+      const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
+      if (on && !this.suvWasOn) { this.suvWakeTime = 0; this.suvPageTime = 0; }
+      if (!on && this.suvWasOn) { this.suvOffTime = 0; this.suvOffBrightness = this.suvBacklight; }
+      this.suvWasOn = on;
+      if (on) {
+        this.suvWakeTime += dt;
+        this.suvBacklight = THREE.MathUtils.damp(this.suvBacklight, 1, 10, dt);
+      } else {
+        this.suvOffTime += dt;
+        // Visual shutdown only; the real RPM still drives both needles.
+        this.suvBacklight = this.suvOffBrightness * (1 - THREE.MathUtils.smoothstep(this.suvOffTime, .08, .90));
+      }
+      const page = telemetry.executive?.page ?? 'DRIVING';
+      if (`${page}` !== this.suvPageKey) { this.suvPageKey = page; this.suvPageTime = 0; }
+      this.suvPageTime += dt;
+      const lanes = telemetry.executive?.lanes;
+      const hasLanes = (page === 'DRIVING' || page === 'CRUISE') && (lanes?.length ?? 0) >= 2 && lanes!.every(line => line.length > 1);
+      if (hasLanes) {
+        this.suvLanePoints = lanes!;
+        this.suvLaneMarkings = telemetry.executive?.laneMarkings ?? [];
+      }
+      this.suvLaneOpacity = THREE.MathUtils.damp(this.suvLaneOpacity, hasLanes ? 1 : 0, 5, dt);
+      const smoothRPM = clamp01((-this.currentTachometerRotation - ARC_START) / (ARC_END - ARC_START)) * this.suvScales.rpm;
+      const smoothSpeed = clamp01((-this.currentSpeedometerRotation - ARC_START) / (ARC_END - ARC_START)) * this.suvScales.speed;
+      const key = [on, !on && this.suvOffTime >= .90, displaySpeed, Math.round(smoothRPM / 5), Math.round(smoothSpeed), telemetry.gear, telemetry.driveMode,
+        Math.round(fuelLevel * 100), Math.round(temperatureC), telemetry.cruiseTargetSpeedKmh, indicatorKey,
+        telemetry.executive?.version, Math.round(this.suvBacklight * 100), Math.round(this.suvLaneOpacity * 100),
+        // Force the final shutdown frame even after brightness quantization.
+        Math.min(66, Math.floor(this.suvWakeTime * 60)), Math.min(12, Math.floor(this.suvPageTime * 60))].join('|');
+      if (key !== this.suvKey) {
+        this.redrawSuvFace(telemetry, indicators, smoothSpeed, smoothRPM, fuelLevel, temperatureC);
+        this.suvKey = key;
+      }
+      return;
+    }
+    if ((this.config.displayStyle === 'cx4-tach-wing' || this.config.displayStyle === 'supercar-tach')) {
       const gearSelector = parseGearSelector(telemetry.gear);
       const cx4Key = [
         displaySpeed,
         telemetry.gear,
         Math.round(fuelLevel * 100),
         Math.round(temperatureC),
+        telemetry.driveMode ?? '',
       ].join('|');
       if (cx4Key !== this.cx4Key || indicatorKey !== this.lastIndicatorKey) {
         this.redrawCx4Face(
@@ -1613,6 +2143,7 @@ export class InstrumentCluster extends THREE.Group {
           fuelLevel,
           temperatureC,
           indicators,
+          telemetry.driveMode,
         );
       }
       return;
@@ -1638,6 +2169,7 @@ export class InstrumentCluster extends THREE.Group {
         Math.round(rpm / 25),
         Math.round(fuelLevel * 100),
         Math.round(temperatureC),
+        telemetry.driveMode ?? '',
       ].join('|')
       : `${displaySpeed}|${telemetry.gear}`;
     if (
@@ -1677,6 +2209,57 @@ export class InstrumentCluster extends THREE.Group {
     display.position.z = .070;
     this.add(display);
     this.redrawExecutiveFace({ speedKmh: 0, rpm: 0, gear: 'P', driveMode: 'NORMAL' }, {}, 0, 0, .72, 90);
+  }
+
+  /**
+   * Touareg-like face: one full-aperture canvas carrying two large round dials
+   * and the central information column, laid out at a uniform pixels-per-metre
+   * scale so the dials stay circular behind the ordinary SUV binnacle.
+   */
+  private buildSuvFace(): void {
+    const layout = SUV_INSTRUMENT_CLUSTER_LAYOUT;
+    this.suvCanvas = createCanvas(layout.canvasWidth, layout.canvasHeight);
+    this.suvTexture = configureTexture(this.suvCanvas);
+    const scales = this.suvScales;
+    this.suvTachArtwork = drawSuvDial(scales.rpm, true, this.config.redlineRPM);
+    this.suvSpeedArtwork = drawSuvDial(scales.speed, false);
+    const display = new THREE.Mesh(
+      // The plane slightly overfills the binnacle aperture, so the face is
+      // continuous behind the visor lip at every seating position.
+      new THREE.PlaneGeometry(layout.apertureHalfWidth * 2.02, layout.apertureHalfHeight * 2.04),
+      new THREE.MeshBasicMaterial({ map: this.suvTexture, toneMapped: false }),
+    );
+    display.name = 'SUV virtual cockpit twin dials and central information column';
+    display.position.z = .070;
+    this.add(display);
+    this.suvKey = '';
+    this.suvPageTime = 1;
+    this.redrawSuvFace({ speedKmh: 0, rpm: 0, gear: 'P', driveMode: 'NORMAL' }, {}, 0, 0, .72, 90);
+  }
+
+  /** Repaints the SUV face; called only when a visible value or lamp changed. */
+  private redrawSuvFace(telemetry: InstrumentTelemetry, indicators: InstrumentIndicatorState,
+    speed: number, rpm: number, fuel: number, temperature: number): void {
+    const canvas = this.suvCanvas;
+    if (canvas === null || this.suvTexture === null || this.suvTachArtwork === null || this.suvSpeedArtwork === null) return;
+    // A document stub without a 2D context (headless layout tests) draws nothing.
+    if (canvas.getContext('2d') === null) return;
+    const data = telemetry.executive;
+    const cruiseTarget = telemetry.cruiseTargetSpeedKmh;
+    const cruiseActive = indicators.cruise === true && cruiseTarget !== undefined && Number.isFinite(cruiseTarget);
+    const scales = this.suvScales;
+    drawSuvVirtualFace({
+      canvas, maximumRPM: scales.rpm, maximumSpeedKmh: scales.speed,
+      tachArtwork: this.suvTachArtwork, speedArtwork: this.suvSpeedArtwork,
+      speedKmh: speed, rpm, gear: telemetry.gear, driveMode: telemetry.driveMode ?? 'NORMAL',
+      cruiseActive, cruiseTargetKmh: cruiseActive ? cruiseTarget! : null,
+      fuelLevel: fuel, fuelRangeKm: data?.trip.fuel.estimatedRangeKm ?? null,
+      temperatureC: temperature, indicators, data,
+      lanePoints: this.suvLanePoints, laneMarkings: this.suvLaneMarkings,
+      laneOpacity: this.suvLaneOpacity, backlight: this.suvBacklight,
+      wake: this.suvWakeTime, pageTime: this.suvPageTime,
+    });
+    this.suvTexture.needsUpdate = true;
   }
 
   private redrawExecutiveFace(telemetry: InstrumentTelemetry, indicators: InstrumentIndicatorState,
@@ -1834,9 +2417,11 @@ export class InstrumentCluster extends THREE.Group {
         text(label!, 720, 199 + i * 52, 18, '#8998a8'); text(value!, 720, 223 + i * 52, 29);
       });
     } else if (data?.page === 'PARKING') {
-      text('Rear · 360°', 720, 212, 23);
+      text('Rear parking', 720, 212, 23);
       this.drawExecutiveCar(context, 720, 302);
-      text(data.proximity === null ? 'Check area' : `Near ${data.proximity.toFixed(1)} m`, 720, 387, 21, '#cfb68a');
+      drawRearParkingZones(context, data.rearParking, 720, 342, 240);
+      const nearest = data.rearParking?.zones.find(zone => zone.zone === data.rearParking?.nearestZone);
+      text(rearParkingText(data.rearParking), 720, 387, 21, PROXIMITY_COLORS[nearest?.severity ?? 'NONE']);
     } else if (data?.overlay) {
       context.globalAlpha *= data.overlay.alpha;
       const modeOverlay = data.overlay.title === 'DRIVE SELECT';
@@ -2011,7 +2596,9 @@ export class InstrumentCluster extends THREE.Group {
     // The two new faces drive their own pivots from the same two tracked
     // angles, so the needle animation and response rate stay shared.
     if (this.cx4TachNeedle !== null) {
-      this.cx4TachNeedle.rotation.z = this.currentTachometerRotation;
+      const fraction = clamp01((-this.currentTachometerRotation - ARC_START) / (ARC_END - ARC_START));
+      this.cx4TachNeedle.rotation.z = this.config.displayStyle === 'supercar-tach'
+        ? -Math.PI - fraction * Math.PI * 1.5 : this.currentTachometerRotation;
     }
     if (this.jettaTachNeedle !== null) {
       this.jettaTachNeedle.rotation.z = this.currentTachometerRotation;
@@ -2029,6 +2616,7 @@ export class InstrumentCluster extends THREE.Group {
     fuelLevel: number,
     temperatureC: number,
     indicators: InstrumentIndicatorState,
+    driveMode?: import('../config').VehicleDriveMode,
   ): void {
     const physicalGear = parsePhysicalGear(gear);
     const gearLabel = typeof gear === 'number' ? gear.toString() : gear;
@@ -2043,6 +2631,7 @@ export class InstrumentCluster extends THREE.Group {
       gearLabel,
       Math.round(fuelLevel * 100),
       Math.round(temperatureC),
+      driveMode ?? '',
     ].join('|');
     this.lastIndicatorKey = this.getIndicatorKey(indicators);
 
@@ -2052,17 +2641,34 @@ export class InstrumentCluster extends THREE.Group {
         label: 'RPM',
         unit: 'x1000 r/min',
         maximum: this.config.maximumRPM,
-        majorDivisions: 8,
+        arcStart: this.config.displayStyle === 'supercar-tach' ? Math.PI : undefined,
+        arcEnd: this.config.displayStyle === 'supercar-tach' ? Math.PI * 2.5 : undefined,
+        majorDivisions: this.config.displayStyle === 'supercar-tach' ? 10 : 8,
         minorTicksPerMajor: 4,
+        colors: this.config.displayStyle === 'supercar-tach' ? { bezelOuter: '#22252b', bezelInner: '#111317',
+          bezelEdge: '#87888a', faceCenter: '#f3d445', faceMiddle: '#dfb527', faceEdge: '#b49220',
+          ringColor: '#292924', redline: '#c82e27' } : undefined,
         labelDivisor: 1_000,
         redlineFraction: this.config.redlineRPM / this.config.maximumRPM,
-        majorTickColor: '#eef2f0',
-        minorTickColor: '#a3abae',
-        labelColor: '#e6ebe8',
-        embeddedSpeedKmh: speedKmh,
+        majorTickColor: this.config.displayStyle === 'supercar-tach' ? '#161a1d' : '#eef2f0',
+        minorTickColor: this.config.displayStyle === 'supercar-tach' ? '#403c25' : '#a3abae',
+        labelColor: this.config.displayStyle === 'supercar-tach' ? '#111518' : '#e6ebe8',
+        embeddedSpeedKmh: this.config.displayStyle === 'supercar-tach' ? undefined : speedKmh,
       });
       tachContext.clearRect(0, 0, this.cx4TachCanvas.width, this.cx4TachCanvas.height);
       tachContext.drawImage(artwork, 0, 0);
+      if (this.config.displayStyle === 'supercar-tach') {
+        // Yellow reference face: dominant tach with a lower-right gear window.
+        tachContext.fillStyle = '#dbb82a'; tachContext.fillRect(205, 315, 160, 94);
+        drawPrancingHorse(tachContext, 211, 261, 60);
+        tachContext.fillStyle = '#171a1d'; tachContext.font = '700 23px Arial, sans-serif';
+        tachContext.fillText('RPM', 335, 270); tachContext.font = '600 18px Arial, sans-serif';
+        tachContext.fillText('x 1000', 335, 293);
+        tachContext.fillStyle = '#212630'; drawBeveledPanel(tachContext, 317, 318, 109, 109, 14); tachContext.fill();
+        tachContext.strokeStyle = '#b7b9bc'; tachContext.lineWidth = 3; tachContext.stroke();
+        tachContext.fillStyle = '#f16b45'; tachContext.font = '700 72px Arial, sans-serif';
+        tachContext.fillText(physicalGear?.toString() ?? gearSelector, 371, 374);
+      }
       if (this.cx4TachTexture !== null) this.cx4TachTexture.needsUpdate = true;
     }
 
@@ -2076,12 +2682,47 @@ export class InstrumentCluster extends THREE.Group {
     if (leftContext !== null && this.cx4LeftCanvas !== null) {
       leftContext.clearRect(0, 0, this.cx4LeftCanvas.width, this.cx4LeftCanvas.height);
       leftContext.drawImage(leftArtwork, 0, 0);
+      if (this.config.displayStyle === 'supercar-tach') {
+        leftContext.clearRect(0, 0, 240, 400); leftContext.fillStyle = '#111c2d'; leftContext.fillRect(0, 0, 240, 400);
+        leftContext.fillStyle = '#d13f28'; leftContext.fillRect(0, 0, 240, 48);
+        leftContext.fillStyle = '#fff3c2'; leftContext.font = '700 25px Arial, sans-serif'; leftContext.textAlign = 'center';
+        leftContext.fillText(driveMode ?? 'SPORT', 120, 33);
+        leftContext.strokeStyle = '#819bac'; leftContext.lineWidth = 3;
+        drawBeveledPanel(leftContext, 93, 92, 54, 114, 15); leftContext.stroke();
+        for (const x of [82, 157]) { leftContext.strokeRect(x, 110, 7, 24); leftContext.strokeRect(x, 177, 7, 24); }
+        leftContext.fillStyle = '#9cbbce'; leftContext.font = '700 22px Arial, sans-serif';
+        leftContext.fillText(`COOLANT ${Math.round(temperatureC)} C`, 120, 249);
+        drawRoundedBar(leftContext, 18, 274, 112, 18, fuelLevel, '#eaa440');
+        leftContext.fillStyle = '#eef2f2'; leftContext.font = '700 28px Arial, sans-serif';
+        leftContext.fillText(`${speedKmh} km/h`, 167, 290);
+        drawCompactStatusLamps(leftContext, indicators, 6, 322, 228, 68);
+      }
     }
     const rightContext = this.cx4RightCanvas?.getContext('2d') ?? null;
     const rightArtwork = drawCx4RightWing(fuelLevel, temperatureC, indicators);
     if (rightContext !== null && this.cx4RightCanvas !== null) {
       rightContext.clearRect(0, 0, this.cx4RightCanvas.width, this.cx4RightCanvas.height);
       rightContext.drawImage(rightArtwork, 0, 0);
+      if (this.config.displayStyle === 'supercar-tach') {
+        rightContext.clearRect(0, 0, 240, 400); rightContext.fillStyle = '#111c2d'; rightContext.fillRect(0, 0, 240, 400);
+        rightContext.save(); rightContext.translate(120, 188); rightContext.scale(1, 400 / 240 * SUPERCAR_INSTRUMENT_CLUSTER_LAYOUT.wingHalfWidth / SUPERCAR_INSTRUMENT_CLUSTER_LAYOUT.wingHalfHeight);
+        rightContext.strokeStyle = '#d8e7f5'; rightContext.fillStyle = '#d8e7f5'; rightContext.lineWidth = 2;
+        for (let i = 0; i <= 12; i++) {
+          const angle = (-225 + i * 22.5) * Math.PI / 180;
+          rightContext.beginPath(); rightContext.moveTo(Math.cos(angle) * 87, Math.sin(angle) * 87);
+          rightContext.lineTo(Math.cos(angle) * 99, Math.sin(angle) * 99); rightContext.stroke();
+          rightContext.font = '700 15px Arial, sans-serif'; rightContext.textAlign = 'center';
+          rightContext.fillText(String(i * 30), Math.cos(angle) * 72, Math.sin(angle) * 72 + 5);
+        }
+        const angle = (-225 + clamp01(speedKmh / 360) * 270) * Math.PI / 180;
+        rightContext.strokeStyle = '#f87d56'; rightContext.lineWidth = 4; rightContext.beginPath();
+        rightContext.moveTo(0, 0); rightContext.lineTo(Math.cos(angle) * 86, Math.sin(angle) * 86); rightContext.stroke();
+        rightContext.restore(); rightContext.textAlign = 'center'; rightContext.fillStyle = '#e1ecf6';
+        rightContext.font = '700 23px Arial, sans-serif'; rightContext.fillText('km/h', 120, 161);
+        rightContext.fillStyle = '#253c58'; rightContext.fillRect(0, 342, 240, 58);
+        rightContext.fillStyle = '#f1d44c'; rightContext.font = '700 24px Arial, sans-serif';
+        rightContext.fillText(`${Math.round(fuelLevel * 100)}% FUEL`, 120, 378);
+      }
     }
     if (this.cx4LeftTexture !== null) this.cx4LeftTexture.needsUpdate = true;
     if (this.cx4RightTexture !== null) this.cx4RightTexture.needsUpdate = true;

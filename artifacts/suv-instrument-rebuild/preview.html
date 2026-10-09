@@ -1,0 +1,43 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>SUV instrument validation</title><style>body{margin:0;background:#030405;color:#ddd;font:16px sans-serif}#face{width:1290px;height:600px}#driver{width:1280px;height:720px}</style><div id="face"></div><div id="driver"></div><script type="module">
+import * as THREE from '/node_modules/three/build/three.module.js';
+import { VehicleVisual } from '/src/vehicle/visual/VehicleVisual.ts';
+import { ROAD_SUV_VISUAL_CONFIG } from '/src/vehicle/visual/VehicleVisualConfig.ts';
+import { DEFAULT_DRIVER_FOV_DEGREES } from '/src/camera/DriverCamera.ts';
+const visual = new VehicleVisual(ROAD_SUV_VISUAL_CONFIG), cluster = visual.cockpitRoot.instrumentCluster;
+const display = cluster.getObjectByName('SUV virtual cockpit twin dials and central information column');
+document.querySelector('#face').append(display.material.map.image);
+const renderer = new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(1280,720);renderer.setPixelRatio(1);
+document.querySelector('#driver').append(renderer.domElement);
+const scene = new THREE.Scene();scene.background = new THREE.Color('#777d80');scene.add(visual.root);
+scene.add(new THREE.HemisphereLight(0xffffff,0x686878,3));
+const sun = new THREE.DirectionalLight(0xffffff,2);sun.position.set(-3,8,4);scene.add(sun);
+const camera = new THREE.PerspectiveCamera(DEFAULT_DRIVER_FOV_DEGREES,1280/720,.025,100);camera.position.set(...ROAD_SUV_VISUAL_CONFIG.driverEyePosition);camera.layers.enableAll();
+const fuel = {tankCapacityL:75,currentFuelL:45,fuelUsedL:1,fuelPercent:60,fuelMassKg:33.7,lowFuel:false,emptyFuel:false,currentFuelFlowLPerHour:1.2,instantConsumption:8.7,instantConsumptionUnit:'L/100km',averageConsumptionLPer100km:9.2,tripFuelUsedL:1.1,tripDistanceKm:12.4,estimatedRangeKm:583};
+window.showState = (name) => {
+ const data = {version:Date.now(),page:'DRIVING',overlay:null,lanes:[[{x:-1.8,forward:0},{x:-1.8,forward:15},{x:-1.8,forward:40}],[{x:1.8,forward:0},{x:1.8,forward:15},{x:1.8,forward:40}]],laneMarkings:['solid','dashed'],roads:[],obstacles:[],proximity:null,localTime:'15:02',trip:{seconds:1234,averageSpeed:48,fuel:{...fuel},distanceKm:12.4,averageConsumptionLPer100km:9.2}};
+ const t={speedKmh:80,rpm:1900,gear:'D5',driveMode:'NORMAL',fuelLevel:.6,coolantTemperatureC:90,ignitionOn:true,engineRunning:true,executive:data,indicators:{}};
+ if(name==='idle'){t.speedKmh=0;t.rpm=720;t.gear='P';data.page='TRIP'}
+ if(name==='cruise'){t.indicators.cruise=true;t.cruiseTargetSpeedKmh=80;data.page='CRUISE'}
+ if(name==='low-fuel'){t.fuelLevel=.06;data.trip.fuel.lowFuel=true;data.trip.fuel.estimatedRangeKm=60}
+ if(name==='parking-brake')t.indicators.parkingBrake=true;
+ if(name==='lights'){t.indicators.positionLights=true;t.indicators.headlights=true;t.indicators.highBeam=true;t.indicators.frontFogLights=true;t.indicators.rearFogLights=true}
+ if(name==='trip')data.page='TRIP';
+ if(name==='menu')data.page='MAP';
+ if(name==='parking'){data.page='PARKING';data.proximity=.8;t.gear='R';t.speedKmh=0;t.rpm=720}
+ if(name==='mode'){data.overlay={title:'DRIVE SELECT',value:'SPORT',alpha:1};t.driveMode='SPORT'}
+ if(name==='warnings'){t.coolantTemperatureC=122;t.engineRunning=false;t.indicators.absWarning=true;t.indicators.tcsOff=true;t.indicators.tcsActive=true}
+ if(name==='off'){t.ignitionOn=false;t.engineRunning=false}
+ for(let i=0;i<150;i++)cluster.update(t,1/60);
+ renderer.render(scene,camera);
+ return {texts:name,width:display.material.map.image.width,height:display.material.map.image.height};
+};
+window.checkReadouts = () => {
+ visual.root.updateMatrixWorld(true);const ray=new THREE.Raycaster();ray.layers.enableAll();
+ const bounds=[['gear',264,389,304,422],['speed',976,387,1036,423],['coolant',237,454,263,473],['unit',277,454,298,472],['fuel',1095,452,1118,474],['range',992,453,1060,473],['cruise',605,368,712,383],['lanes',559,182,731,334]];
+ const failures=[];for(const [label,x0,y0,x1,y1] of bounds)for(const x of [x0,(x0+x1)/2,x1])for(const y of [y0,(y0+y1)/2,y1]){
+ const p=display.localToWorld(new THREE.Vector3((x/1290-.5)*display.geometry.parameters.width,(.5-y/600)*display.geometry.parameters.height,0));
+ ray.set(camera.position,p.clone().sub(camera.position).normalize());ray.far=camera.position.distanceTo(p)-.004;
+ const hit=ray.intersectObject(visual.root,true)[0];if(hit)failures.push({label,x,y,hit:hit.object.name});
+ }return failures;
+};window.showState('idle');window.ready=true;
+</script></html>

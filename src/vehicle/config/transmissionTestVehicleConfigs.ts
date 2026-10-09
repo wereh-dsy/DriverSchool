@@ -33,7 +33,7 @@ export function createTest6ATVehiclePhysicsConfig(): VehiclePhysicsConfig {
     peakThermalEfficiency: 0.32, referenceConsumptionLPer100km: 7.5 };
   Object.assign(config, FLOW_6AT_DIMENSIONS, {
     mass: 1375, trackWidth: 1.555, frontWeightBias: .60, drivenWheelWeightFraction: .60,
-    centerOfMassHeight: .49, centerOfMassLongitudinalOffset: 0, yawInertia: 2490,
+    centerOfMassHeight: .49, enginePlacement: 'FRONT', yawInertia: 2490,
   });
   config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 800, engineInertia: .36,
     partThrottleExponent: .88, throttleResponse: 4.2, throttleResponseRate: 4.2, throttleReleaseResponse: 9,
@@ -80,7 +80,7 @@ export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
     peakThermalEfficiency: 0.33, referenceConsumptionLPer100km: 6.5 };
   Object.assign(config, FORMAL_DCT_DIMENSIONS, {
     mass: 1420, trackWidth: 1.5375, frontWeightBias: .615, drivenWheelWeightFraction: .615,
-    centerOfMassHeight: .515, centerOfMassLongitudinalOffset: 0, yawInertia: 2770,
+    centerOfMassHeight: .515, enginePlacement: 'FRONT', yawInertia: 2770,
   });
   config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 1.4, idleRPM: 800, engineInertia: .34,
     throttleResponse: 3.6, throttleResponseRate: 3.6, throttleReleaseResponse: 8.2,

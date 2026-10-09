@@ -50,3 +50,4 @@ export type {
 } from './VehicleVisual';
 
 export { ROAD_SUV_VISUAL_CONFIG } from './VehicleVisualConfig';
+export { FERRARI_458_VISUAL_CONFIG } from './Ferrari458VisualConfig';

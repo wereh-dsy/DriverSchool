@@ -2,18 +2,19 @@ import { projectWorldToRoad, type RoadNetworkData } from '../../world/navigation
 import type { StaticCollider } from '../physics/CollisionSystem';
 import type { FuelSnapshot } from '../physics/FuelSystem';
 import type { TripComputerSnapshot } from '../control/TripComputer';
+import { RearParkingProximity, type RearParkingState } from '../control/RearParkingProximity';
 
 export interface DisplayPoint { x: number; forward: number; distanceAlong?: number }
 export interface DisplayObstacle extends DisplayPoint { distance: number; width: number; length: number }
 export interface ExecutiveDisplayData {
   version: number;
-  page: 'DRIVING' | 'MAP' | 'PARKING' | 'TRIP';
+  page: 'DRIVING' | 'MAP' | 'PARKING' | 'TRIP' | 'CRUISE';
   overlay: { title: string; value: string; alpha: number } | null;
   lanes: DisplayPoint[][];
   laneMarkings?: ('solid' | 'dashed')[];
   roads: DisplayPoint[][];
   obstacles: DisplayObstacle[];
-  proximity: number | null;
+  rearParking?: RearParkingState;
   localTime?: string;
   localDate?: string;
   trip: { seconds: number; averageSpeed: number | null; fuel: FuelSnapshot; distanceKm?: number;
@@ -22,22 +23,32 @@ export interface ExecutiveDisplayData {
 
 /** Display-only adapter over shared road/collider/fuel data; never controls driving. */
 export class ExecutiveDisplayContext {
-  private manualPage: 'DRIVING' | 'MAP' = 'DRIVING';
+  private readonly rearDetector = new RearParkingProximity();
+  private manualPage: 'DRIVING' | 'MAP' | 'CRUISE' = 'DRIVING';
   private overlayTime = 0;
   private overlay: { title: string; value: string } | null = null;
   private elapsed = Infinity;
   private previousMode = '';
   private previousCruise = '';
   private clockElapsed = Infinity;
+  private cruiseWasActive = false;
   public readonly data: ExecutiveDisplayData;
   public constructor(fuel: FuelSnapshot) {
-    this.data = { version: 0, page: 'TRIP', overlay: null, lanes: [], roads: [], obstacles: [], proximity: null,
+    this.data = { version: 0, page: 'TRIP', overlay: null, lanes: [], roads: [], obstacles: [],
       trip: { seconds: 0, averageSpeed: null, fuel } };
   }
-  public cyclePage(): void { this.manualPage = this.manualPage === 'DRIVING' ? 'MAP' : 'DRIVING'; this.elapsed = Infinity; }
+  public cyclePage(): void {
+    // One command walks every information page the face supports; the map page
+    // remains part of the cycle for faces that draw roads.
+    this.manualPage = this.manualPage === 'DRIVING' ? 'MAP'
+      : this.manualPage === 'MAP' ? 'CRUISE' : 'DRIVING';
+    this.elapsed = Infinity;
+  }
   public update(dt: number, pose: { x: number; z: number; yaw: number; y: number; width: number; length: number }, gear: string,
     mode: string, cruise: boolean, target: number | null, fuel: FuelSnapshot,
-    network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], _active: boolean, trip?: TripComputerSnapshot): void {
+    network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], _active: boolean, trip?: TripComputerSnapshot,
+    rearParking?: RearParkingState): void {
+    this.data.rearParking = rearParking ?? this.rearDetector.update(pose, gear === 'R', colliders);
     this.clockElapsed += dt;
     if (this.clockElapsed >= 1) {
       this.clockElapsed = 0;
@@ -50,6 +61,11 @@ export class ExecutiveDisplayContext {
     else if (cruiseKey && cruiseKey !== this.previousCruise) { this.overlay = { title: 'CRUISE CONTROL', value: `SET ${cruiseKey} km/h` }; this.overlayTime = 1.65; }
     this.previousMode = mode; this.previousCruise = cruiseKey;
     this.overlayTime = Math.max(0, this.overlayTime - dt);
+    // Cruise information owns the centre column while cruise is engaged, but
+    // never replaces the trip or parking pages a driver may have selected.
+    if (cruise && !this.cruiseWasActive && this.manualPage === 'DRIVING') this.manualPage = 'CRUISE';
+    else if (!cruise && this.cruiseWasActive && this.manualPage === 'CRUISE') this.manualPage = 'DRIVING';
+    this.cruiseWasActive = cruise;
     this.elapsed += dt;
     const page = gear === 'R' ? 'PARKING' : gear === 'P' ? 'TRIP' : this.manualPage;
     if (this.elapsed < .1 && page === this.data.page) return;
@@ -64,7 +80,7 @@ export class ExecutiveDisplayContext {
     const local = (x: number, z: number): DisplayPoint => ({
       x: (x - pose.x) * cos - (z - pose.z) * sin,
       forward: -(x - pose.x) * sin - (z - pose.z) * cos });
-    this.data.lanes = []; this.data.laneMarkings = []; this.data.roads = []; this.data.obstacles = []; this.data.proximity = null;
+    this.data.lanes = []; this.data.laneMarkings = []; this.data.roads = []; this.data.obstacles = [];
     if (network && page === 'MAP') {
       for (const road of network.segments) {
         const line = road.centerline.map(p => local(p.x, p.z));
@@ -77,7 +93,7 @@ export class ExecutiveDisplayContext {
         if (nearby) this.data.roads.push(line);
       }
     }
-    if (network && page === 'DRIVING') {
+    if (network && (page === 'DRIVING' || page === 'CRUISE')) {
       const projected = projectWorldToRoad(network, pose.x, pose.z);
       const road = network.segments.find(r => r.id === projected?.segmentId);
       if (road && projected && projected.distanceFromCenterline <= road.width / 2 + 1) {
@@ -111,7 +127,7 @@ export class ExecutiveDisplayContext {
         this.data.lanes = boundaries;
       }
     }
-    if (page === 'DRIVING' || page === 'PARKING') {
+    if (page === 'DRIVING') {
       for (const collider of colliders) {
         if (collider.maxHeight < pose.y || collider.minHeight > pose.y + 1.5) continue;
         const p = local(collider.center.x, collider.center.z), radius = Math.hypot(collider.halfWidth, collider.halfLength);
@@ -123,7 +139,6 @@ export class ExecutiveDisplayContext {
         const bz = Math.max(-collider.halfLength, Math.min(collider.halfLength, dx * s + dz * c));
         const nearest = local(collider.center.x + bx * c + bz * s, collider.center.z - bx * s + bz * c);
         const distance = Math.max(0, Math.hypot(Math.max(0, Math.abs(nearest.x) - pose.width / 2), Math.max(0, Math.abs(nearest.forward) - pose.length / 2)));
-        if (distance < 6) this.data.proximity = Math.min(this.data.proximity ?? Infinity, distance);
         if (nearest.forward > 0 && nearest.forward < 32 && Math.abs(nearest.x) < 7) this.data.obstacles.push({
           ...nearest, distance, width: Math.min(3, collider.halfWidth * 2), length: Math.min(3, collider.halfLength * 2) });
       }

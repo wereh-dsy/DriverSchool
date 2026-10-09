@@ -41,6 +41,10 @@ export const DEFAULT_CRUISE_CONTROL_CONFIG: Readonly<CruiseControlConfig> = {
 };
 
 export interface CruiseControlContext {
+  /** Current actuator demand seeds a bumpless SET, in normalized throttle units. */
+  currentThrottle?: number;
+  /** Driver pedal after drive-mode shaping, for temporary override arbitration. */
+  driverThrottleCommand?: number;
   torqueLimitFactor?: number;
   parkingBrakeActive?: boolean;
   autoHoldHolding?: boolean;
@@ -138,8 +142,10 @@ export class CruiseControlController {
         );
         this.active = true;
         this.targetSpeedMetersPerSecond = speed;
-        this.speedErrorIntegral = 0;
-        this.previousThrottle = Math.min(this.config.maximumCruiseThrottle, Math.max(input.throttle, this.config.throttleFeedForward));
+        this.previousThrottle = clamp(context.currentThrottle ?? this.config.throttleFeedForward,
+          0, this.config.maximumCruiseThrottle);
+        this.speedErrorIntegral = clamp(this.previousThrottle - this.config.throttleFeedForward,
+          -this.config.integralLimit, this.config.integralLimit);
         this.emit('activated', 'activated');
       } else {
         this.emit('rejected', unsafeReason);
@@ -148,13 +154,18 @@ export class CruiseControlController {
       this.cancel(unsafeReason);
     }
 
-    if (!this.active || this.targetSpeedMetersPerSecond === null) return input;
+    if (!this.active || this.targetSpeedMetersPerSecond === null) {
+      // A reused input object must not retain an assistance request after cancel.
+      return input.cruiseThrottle === undefined && input.cruiseBrake === undefined ? input
+        : { ...input, cruiseThrottle: 0, cruiseBrake: 0 };
+    }
 
     const dt = Number.isFinite(deltaTime) ? clamp(deltaTime, 0, 0.1) : 0;
     const speedError = this.targetSpeedMetersPerSecond - context.speedMetersPerSecond;
     const proportional = this.config.throttleFeedForward + speedError * this.config.throttleGain;
     const raw = proportional + this.speedErrorIntegral;
-    const driverOverride = input.throttle > clamp(raw, 0, this.config.maximumCruiseThrottle) + .01;
+    const driverThrottle = context.driverThrottleCommand ?? input.throttle;
+    const driverOverride = driverThrottle > clamp(raw, 0, this.config.maximumCruiseThrottle) + .01;
     // Conditional integration: do not wind up at output limits, during driver
     // override, or against traction-control torque reduction.
     if (!driverOverride && (context.torqueLimitFactor ?? 1) >= .98 &&
@@ -167,7 +178,7 @@ export class CruiseControlController {
       -this.config.throttleSlewRate * dt, this.config.throttleSlewRate * dt);
     const overspeed = -speedError;
     const brakeStart = this.config.brakeStartOverspeedKmh / 3.6;
-    const driverIsAccelerating = input.throttle > limitedCruiseThrottle + 0.01;
+    const driverIsAccelerating = driverThrottle > limitedCruiseThrottle + 0.01;
     const cruiseBrake = this.config.allowBrakeControl && !driverIsAccelerating && overspeed > brakeStart
       ? Math.min(
         this.config.maximumCruiseBrake,
@@ -175,12 +186,10 @@ export class CruiseControlController {
       )
       : 0;
 
-    this.previousThrottle = driverOverride ? input.throttle : limitedCruiseThrottle;
+    this.previousThrottle = driverOverride ? driverThrottle : limitedCruiseThrottle;
     return {
       ...input,
-      throttle: cruiseBrake > 0
-        ? input.throttle
-        : Math.max(input.throttle, limitedCruiseThrottle),
+      cruiseThrottle: cruiseBrake > 0 ? 0 : limitedCruiseThrottle,
       brake: input.brake,
       cruiseBrake,
     };

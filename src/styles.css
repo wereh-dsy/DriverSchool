@@ -298,6 +298,11 @@ canvas.webgl {
 .rpm-meta em { margin-left: auto; color: rgba(121,190,218,.62); font-size: 7px; font-style: normal; letter-spacing: .09em; }
 .rpm-meta em[hidden] { display: none; }
 .rpm-meta em.active { color: #71d5e6; text-shadow: 0 0 6px rgba(113,213,230,.42); }
+.rear-parking { grid-column: 1 / -1; text-align: center; padding-top: 7px; font-size: 11px; }
+.rear-parking[hidden] { display: none; }
+.rear-parking small { color: #aab5bc; }
+.rear-parking div { display: flex; gap: 4px; justify-content: center; margin: 5px 0; }
+.rear-parking b { border: 1px solid currentColor; border-radius: 3px; width: 26px; padding: 3px 0; }
 .debug-panel {
   position: absolute;
   top: 76px;

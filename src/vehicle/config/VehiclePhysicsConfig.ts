@@ -24,6 +24,8 @@ export interface AutomaticShiftMapPoint {
 }
 
 export interface AutomaticShiftConfig {
+  /** Optional engine-braking downshift target; protected by road-speed overrev checks. */
+  brakingDownshiftRPM?: number;
   map: readonly AutomaticShiftMapPoint[];
   /** One lower road-speed bound for each upshift, in m/s. */
   minimumUpshiftSpeeds: readonly number[];
@@ -60,6 +62,8 @@ export interface AutomaticTransmissionConfig {
 }
 
 export interface DualClutchTransmissionConfig {
+  /** Optional throttle blip while approaching the incoming shaft RPM. */
+  revMatching?: { response: number; maximumThrottle: number };
   shiftStrategy: AutomaticShiftConfig;
   clutchCapacity: number;
   couplingStiffness: number;
@@ -364,9 +368,9 @@ export interface TireConfig {
 }
 
 export interface SuspensionConfig {
-  adaptiveDamping?: { responseRate: number; modeMultipliers: Readonly<Record<VehicleDriveMode, number>> };
+  adaptiveDamping?: { responseRate: number; modeMultipliers: Readonly<Partial<Record<VehicleDriveMode, number>>> };
   airSuspension?: { nominalRideHeight: number; minimumOffset: number; maximumOffset: number;
-    adjustmentRate: number; modeOffsets: Readonly<Record<VehicleDriveMode, number>>;
+    adjustmentRate: number; modeOffsets: Readonly<Partial<Record<VehicleDriveMode, number>>>;
     highSpeedLowering?: { activateSpeed: number; restoreSpeed: number; delay: number; offset: number } };
   /** Loaded, flat-road underfloor clearance, metres; not the unloaded strut length. */
   rideHeight: number;
@@ -425,7 +429,7 @@ export interface SimulationSafetyConfig {
  * All handling-affecting data for a vehicle. Values use SI units unless noted.
  * Visual/cockpit measurements intentionally live in a separate visual config.
  */
-export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'SPORT';
+export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'SPORT' | 'WET' | 'RACE';
 /** Optional calibration only; existing engine, rack, shift controller and AWD own behavior. */
 export interface DriveModeCalibration {
   throttleExponent: number;
@@ -434,6 +438,9 @@ export interface DriveModeCalibration {
   steeringResponse: number;
   steeringDamping: number;
   accelerationRearTorqueSplit: number;
+  dctShiftTime?: number;
+  tcs?: DriverAidConfig['tcs'];
+  esc?: DriverAidConfig['esc'];
 }
 
 export interface VehicleChassisConfig {
@@ -447,7 +454,9 @@ export interface VehicleChassisConfig {
   electronicDifferential?: ElectronicDifferentialConfig;
   parkingBrake?: ParkingBrakeConfig;
   autoHold?: AutoHoldConfig;
-  driveModes?: Readonly<Record<VehicleDriveMode, DriveModeCalibration>>;
+  driveModes?: Readonly<Partial<Record<VehicleDriveMode, DriveModeCalibration>>>;
+  defaultDriveMode?: VehicleDriveMode;
+  driveModeOrder?: readonly VehicleDriveMode[];
   /** Exterior envelope and wheel geometry, in metres. */
   length: number;
   width: number;
@@ -461,11 +470,13 @@ export interface VehicleChassisConfig {
   trackWidth: number;
   wheelRadius: number;
   wheelWidth: number;
-  /** Static front-axle load share. */
+  /** Sole longitudinal mass-distribution truth; CG is derived from axle geometry. */
   frontWeightBias: number;
   centerOfMassHeight: number;
-  /** Positive moves the configured centre of mass toward the front axle. */
-  centerOfMassLongitudinalOffset: number;
+  /** Placement describes packaging; mass distribution and inertia remain explicit. */
+  enginePlacement: 'FRONT' | 'FRONT_MID' | 'MID' | 'REAR';
+  /** Document unusual placement/distribution combinations for validation. */
+  layoutCalibrationNote?: string;
   /** Body yaw moment of inertia, in kg m². */
   yawInertia: number;
   /** Layout is independent of axle differential calibration. */

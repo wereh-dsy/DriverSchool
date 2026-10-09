@@ -20,7 +20,7 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     peakThermalEfficiency: 0.34, referenceConsumptionLPer100km: 8.2 };
   Object.assign(config, EXECUTIVE_LWB_DIMENSIONS, { mass: 1840, trackWidth: 1.625,
     frontWeightBias: .56, drivenWheelWeightFraction: 1, centerOfMassHeight: .50,
-    centerOfMassLongitudinalOffset: 0, yawInertia: 3950,
+    enginePlacement: 'FRONT', yawInertia: 3950,
     drivetrainType: 'AWD', drivetrainLayout: 'AWD', frontTorqueSplit: .75, rearTorqueSplit: .25 });
   config.awd = { mode: 'on-demand', accelerationRearTorqueSplit: .40, maximumRearTorqueSplit: .50, response: 2.4 };
   config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 780, engineInertia: .43,

@@ -1,6 +1,7 @@
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
 import { createDefaultVehiclePhysicsConfig, createTest6ATVehiclePhysicsConfig, createTest7DCTVehiclePhysicsConfig,
-  createCVTSedanPhysicsConfig, createAWDTestVehiclePhysicsConfig } from '../config';
+  createCVTSedanPhysicsConfig } from '../config';
+import { createAWDVehicleFixture } from '../fixtures/awdVehicleFixture';
 import { ESCController } from './ESCController';
 import { AWDTorqueDistribution } from './AWDTorqueDistribution';
 import { DriverAssistSystem } from './DriverAssistSystem';
@@ -74,11 +75,11 @@ export function runESCAWDSelfTest() {
   assert(aids.getSnapshot().escOff && !aids.getSnapshot().tcsOff && aids.getSnapshot().absEnabled && aids.getSnapshot().ebdEnabled,
     'ESC switch and warning are independent');
 
-  const full = new AWDTorqueDistribution(createAWDTestVehiclePhysicsConfig('full-time'));
+  const full = new AWDTorqueDistribution(createAWDVehicleFixture('full-time'));
   full.update(dt, 1, wheels, true);
   assert(Math.abs(full.rearTorqueSplit - .6) < 1e-9 && full.updateSpeeds(40, 80) === 64,
     'fixed AWD split and both-axle speed feedback');
-  const demand = new AWDTorqueDistribution(createAWDTestVehiclePhysicsConfig('on-demand'));
+  const demand = new AWDTorqueDistribution(createAWDVehicleFixture('on-demand'));
   demand.update(dt, .15, wheels, true);
   assert(Math.abs(demand.rearTorqueSplit - .1) < 1e-9, 'on-demand nominal cruise split');
   demand.update(dt, 1, wheels, true);
@@ -122,10 +123,10 @@ export function runESCAWDSelfTest() {
     car.reset();
     assert(car.getSnapshot().rearDifferential!.inputTorque === 0, 'reset clears both carriers');
   }
-  const onDemandCar = new VehicleDynamics(createAWDTestVehiclePhysicsConfig('on-demand'), { speed: 10, driveSelector: 'D' });
+  const onDemandCar = new VehicleDynamics(createAWDVehicleFixture('on-demand'), { speed: 10, driveSelector: 'D' });
   onDemandCar.setDriverAssistOptions({ absEnabled: true, ebdEnabled: true, tractionControlEnabled: false, stabilityControlEnabled: false });
   const rearOnlySpin = { ...wheels, rearLeft: { ...wheels.rearLeft, longitudinalSpeed: 10, slipRatio: .8 } };
-  const awdAids = new DriverAssistSystem(createAWDTestVehiclePhysicsConfig('full-time'));
+  const awdAids = new DriverAssistSystem(createAWDVehicleFixture('full-time'));
   awdAids.setOptions({ absEnabled: true, ebdEnabled: true, tractionControlEnabled: true });
   awdAids.reset(true);
   for (let i = 0; i < 30; i++) awdAids.updateTraction(dt, rearOnlySpin, 1, true, true);

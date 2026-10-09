@@ -21,8 +21,8 @@ export function runPowertrainLayoutSelfTest() {
   for (const car of VEHICLE_CATALOG) {
     const engine = new Engine(car.physicsConfig.engine);
     assert(engine.isRunning && Number.isFinite(engine.getTorqueSample().netCrankTorque), `${car.id}: valid engine`);
-    assert(car.physicsConfig.engine.layout === (car.id === 'road-suv-v6-8at' ? 'V' : 'INLINE'), `${car.id}: explicit layout`);
-    assert(car.physicsConfig.engine.cylinderCount === (car.id === 'sport-coupe' || car.id === 'road-suv-v6-8at' ? 6 : 4), `${car.id}: cylinders`);
+    assert(car.physicsConfig.engine.layout === (car.id === 'road-suv-v6-8at' || car.id === 'ferrari-458-italia' ? 'V' : 'INLINE'), `${car.id}: explicit layout`);
+    assert(car.physicsConfig.engine.cylinderCount === (car.id === 'ferrari-458-italia' ? 8 : car.id === 'sport-coupe' || car.id === 'road-suv-v6-8at' ? 6 : 4), `${car.id}: cylinders`);
   }
   const reference = createDefaultVehiclePhysicsConfig().engine;
   for (const structure of [{ layout: 'INLINE' as const, cylinderCount: 4 },

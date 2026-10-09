@@ -70,6 +70,9 @@ export class AutomaticShiftController {
     }
     if (Math.abs(context.vehicleSpeed) < 0.65 && gear !== 1) return { gear: 1, kickdown: false };
     if (this.timeInGear < this.config.minimumTimeInGear) return null;
+    if (this.config.brakingDownshiftRPM !== undefined && context.brake > .2 && gear > 1 &&
+      currentRPM < this.config.brakingDownshiftRPM && safeRPM((gear - 1) as ForwardGear) < context.redlineRPM * .95)
+      return { gear: (gear - 1) as ForwardGear, kickdown: false };
     const heavy = throttle >= this.config.kickdownThrottle;
     if (heavy && gear > 1 && (risingThrottle > 0.08 || currentRPM < this.config.kickdownTargetRPM * 0.8)) {
       let target = gear;

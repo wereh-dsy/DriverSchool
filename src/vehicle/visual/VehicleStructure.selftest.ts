@@ -58,8 +58,11 @@ export function runVehicleStructureSelfTest() {
           back.geometry.computeBoundingBox();
           assert(back.geometry.boundingBox!.getSize(new THREE.Vector3()).z <= .007,
             `${car.id}: instruments sit on a thin recessed backing`);
-          // Include the upper warning/status bands as well as the dial centres.
-          for (const x of config.body.design === 'executive' ? [-.17, 0, .17] : [-.19, 0, .19]) {
+          // Legacy cabins keep their existing full-band check. The reference
+          // cabins permit peripheral bands to sit under the hood; requiring
+          // the whole canvas to be exposed forces an unrealistically tall pod.
+          for (const x of visual.cockpitRoot.layout.driverView ? [] :
+            config.body.design === 'executive' ? [-.17, 0, .17] : [-.19, 0, .19]) {
             const target = new THREE.Vector3(x, config.body.design === 'executive' ? .090 : .094, config.body.design === 'executive' ? .071 : .080)
               .applyMatrix4(cluster.matrixWorld);
             clearanceRay.set(eye, target.clone().sub(eye).normalize());
@@ -121,19 +124,103 @@ export function runVehicleStructureSelfTest() {
         clearanceRay.far = eye.distanceTo(footwellTarget) - .002;
         assert(clearanceRay.intersectObjects(cabinObstructions, false).length === 0,
           `${car.id}: DriverEye can see the open footwell below the wheel`);
+        // Envelope acceptance uses both seat positions and actual surfaces,
+        // not mesh-count snapshots or the colour of a cover plane.
+        const a = visual.cockpitRoot.layout;
+        if (a.driverView) {
+          const cluster = visual.cockpitRoot.instrumentCluster;
+          const hood = new THREE.Box3().setFromObject(cluster.getObjectByName('Instrument binnacle contoured visor')!);
+          const backing = new THREE.Box3().setFromObject(cluster.getObjectByName('Instrument binnacle back')!);
+          const executive = config.body.design === 'executive';
+          const rise = hood.max.y - a.dashboardUpperRear[1];
+          assert(rise >= .025 && rise <= (executive ? .065 : .085),
+            `${car.id}: instrument hood is only a local rise above the main dashboard`);
+          assert((hood.max.y - backing.min.y) / diameter <= .65,
+            `${car.id}: instrument physical height stays proportionate to the wheel`);
+          assert(a.windshieldLowerBoundary[1] > a.windshieldBase[1] &&
+            a.windshieldLowerBoundary[1] < eye.y - .20,
+            `${car.id}: cowl raises the lower sightline without closing the road aperture`);
+          // The wheel may cover artwork at the bottom; the new pedestal may
+          // not fill the lower opening. Check the dash without the wheel so
+          // this cannot force the cluster upward for full-canvas visibility.
+          for (const x of [-.10, 0, .10]) {
+            const target = new THREE.Vector3(x, -.060, a.instrumentPlane).applyMatrix4(cluster.matrixWorld);
+            clearanceRay.set(eye, target.clone().sub(eye).normalize());
+            clearanceRay.far = eye.distanceTo(target) - .004;
+            assert(clearanceRay.intersectObjects(solids, false).length === 0,
+              `${car.id}: local dashboard pedestal stays below the display opening`);
+          }
+        }
+        const upper = visual.root.getObjectByName('Dashboard upper surface') as THREE.Mesh;
+        const shallowExecutive = config.body.design === 'executive';
+        assert(a.instrumentRecessDepth >= (shallowExecutive ? .015 : .035) && a.passengerDashDepth > .12,
+          `${car.id}: instrument recess and passenger upper have real depth`);
+        if (shallowExecutive) assert(a.instrumentRecessDepth <= .028,
+          `${car.id}: executive instruments use a shallow wrap rather than a deep well`);
+        if (shallowExecutive) {
+          const cluster = visual.cockpitRoot.instrumentCluster;
+          const display = cluster.getObjectByName('Executive Virtual Cockpit twin dials and central road display')!;
+          const backing = cluster.getObjectByName('Instrument binnacle back') as THREE.Mesh;
+          backing.geometry.computeBoundingBox();
+          assert(a.instrumentPlane === display.position.z &&
+            backing.geometry.boundingBox!.max.z + backing.position.z < display.position.z - .001,
+            `${car.id}: shallow backing stays behind the actual display plane`);
+        }
+        for (const x of [-config.cabin.width * .40, 0, config.cabin.width * .40]) {
+          clearanceRay.set(new THREE.Vector3(x, config.cabin.roofY, a.dashboardUpperRear[2] - .11),
+            new THREE.Vector3(0, -1, 0));
+          clearanceRay.far = config.cabin.roofY - floorY;
+          assert(clearanceRay.intersectObject(upper, false).length > 0,
+            `${car.id}: transverse dashboard covers driver, centre and passenger`);
+        }
+        const envelope = cabinObstructions.filter(mesh => visual.cockpitRoot.getObjectById(mesh.id));
+        for (const x of [config.driverEyePosition[0], -config.driverEyePosition[0]]) {
+          const seatEye = new THREE.Vector3(x, eye.y, eye.z);
+          for (const target of [new THREE.Vector3(x, floorY - .10, config.cabin.windshieldBottomZ - .20),
+            new THREE.Vector3(x, config.body.hoodTopY, config.cabin.windshieldBottomZ - .08)]) {
+            clearanceRay.set(seatEye, target.clone().sub(seatEye).normalize());
+            clearanceRay.far = seatEye.distanceTo(target);
+            assert(clearanceRay.intersectObjects(envelope, false).length > 0,
+              `${car.id}: cabin closes ground/engine-bay and near-hood sightlines from both seats`);
+          }
+          clearanceRay.set(new THREE.Vector3(x, floorY + .10, .12), new THREE.Vector3(0, -1, 0));
+          clearanceRay.far = .15;
+          assert(clearanceRay.intersectObject(floor, false).length > 0,
+            `${car.id}: each footwell has a real floor`);
+        }
+        for (const sign of [-1, 1]) {
+          const junction = visual.root.getObjectByName(sign < 0 ? 'Left dashboard door junction' : 'Right dashboard door junction')!;
+          const bounds = new THREE.Box3().setFromObject(junction);
+          const rail = visual.root.getObjectByName(sign < 0 ? 'Left door upper rail' : 'Right door upper rail')!;
+          assert(bounds.intersectsBox(new THREE.Box3().setFromObject(rail)),
+            `${car.id}: dashboard end joins the door upper, with no air gap`);
+        }
+        const fascia = visual.root.getObjectByName('Centre stack fascia') as THREE.Mesh;
+        const fasciaVertices = fascia.geometry.getAttribute('position');
+        assert(Array.from({ length: fasciaVertices.count }, (_, i) =>
+          Math.abs(fasciaVertices.getY(i) - a.centerConsoleHeight) < .001 &&
+          Math.abs(fasciaVertices.getZ(i) - a.centerConsoleFront[2]) < .001).some(Boolean),
+        `${car.id}: stack surface lands on the console front`);
+        assert(visual.root.getObjectByName('Passenger glovebox undertray') !== undefined &&
+          visual.root.getObjectByName('Windshield cowl shelf') !== undefined &&
+          visual.root.getObjectByName('Transmission tunnel rear return') !== undefined,
+        `${car.id}: passenger lower, cowl and floor-supported console are complete`);
         assert(eye.z > config.steeringWheelPosition[2] && config.steeringWheelPosition[2] >
           config.instrumentClusterTransform.position[2] && config.instrumentClusterTransform.position[2] >
           config.cabin.windshieldBottomZ, `${car.id}: eye / wheel / cluster / windshield order`);
         const ray = new THREE.Raycaster();
         ray.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR);
         const obstructions: THREE.Object3D[] = [...solids, visual.cockpitRoot.steeringWheelBase, column];
-        // Dial centres, central readout and upper information bands must be
-        // visible through the real cockpit meshes from the configured eye.
+        // Main speed/RPM and central/gear readouts must remain visible. Lower
+        // artwork and peripheral status bands may be partly behind wheel/hood
+        // in the two corrected cabins. This is clearance, not visual acceptance.
         const readouts = config.instrumentCluster.displayStyle === 'executive-virtual'
-          ? [[0, .025], [-.128, .025], [-.128, -.025], [.128, .025], [.128, -.02], [-.211, 0], [.211, 0]]
-          : [[0, .025], [-.13, 0], [.13, 0], [-.19, .07], [.19, .07]];
+          ? [[0, .025], [-.128, .025], [-.128, -.025], [.128, .025], [.128, -.02]]
+          : config.instrumentCluster.displayStyle === 'suv-virtual'
+            ? [[0, .04], [-.14, 0], [.14, 0], [-.10, -.01]]
+            : [[0, .025], [-.13, 0], [.13, 0], [-.19, .07], [.19, .07]];
         for (const [x, y] of readouts) {
-          const target = new THREE.Vector3(x, y, .08).applyMatrix4(visual.cockpitRoot.instrumentCluster.matrixWorld);
+          const target = new THREE.Vector3(x, y, a.instrumentPlane).applyMatrix4(visual.cockpitRoot.instrumentCluster.matrixWorld);
           ray.set(eye, target.clone().sub(eye).normalize());
           ray.far = eye.distanceTo(target) - .004;
           assert(ray.intersectObjects(obstructions, true).length === 0, `${car.id}: cockpit blocks instrument readout ${x}/${y}`);

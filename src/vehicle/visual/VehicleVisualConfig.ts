@@ -104,7 +104,7 @@ export interface VehicleVisualConfig {
     readonly wheelArchCenterY?: number;
     readonly profile: 'sedan' | 'sport-coupe' | 'suv';
     /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
-    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv';
+    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;
@@ -148,7 +148,7 @@ export const DEFAULT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   instrumentClusterTransform: {
     // Keep the important readouts above the wheel while the binnacle itself
     // stays below the windscreen sight line.
-    position: [-0.37, 0.97, -0.405],
+    position: [-0.37, 0.97, -0.505],
     rotation: [degrees(-7), 0, 0],
   },
   // A 370 mm wheel remains full-sized; visibility comes from a plausible
@@ -234,7 +234,7 @@ export const SPORTS_COUPE_VISUAL_CONFIG: VehicleVisualConfig = {
   },
   instrumentClusterTransform: {
     // The compact TFT is low-set but its primary band still clears the rim.
-    position: [-0.39, 0.91, -0.43],
+    position: [-0.39, 0.91, -0.525],
     rotation: [degrees(-7), 0, 0],
     scale: 0.88,
   },
@@ -319,7 +319,7 @@ export const TEST_6AT_VISUAL_CONFIG: VehicleVisualConfig = {
   ...automaticEnvelope(FLOW_6AT_DIMENSIONS), ...automaticMirrors(FLOW_6AT_DIMENSIONS, .905, -.68),
   name: 'Flow 2.0 / 6AT sedan',
   driverEyePosition: [-.37, 1.205, .31],
-  instrumentClusterTransform: { position: [-.37, .93, -.415], rotation: [degrees(-7), 0, 0] },
+  instrumentClusterTransform: { position: [-.37, .93, -.515], rotation: [degrees(-7), 0, 0] },
   steeringWheelPosition: [-.37, .775, -.245], steeringColumnMountPosition: [-.37, .70, -.52],
   steeringWheelRadius: .166, steeringWheelLockDegrees: 33 * 15.2 * 2,
   gearLeverPosition: [.13, .455, .30],
@@ -344,7 +344,7 @@ export const TEST_7DCT_VISUAL_CONFIG: VehicleVisualConfig = {
   ...automaticEnvelope(FORMAL_DCT_DIMENSIONS), ...automaticMirrors(FORMAL_DCT_DIMENSIONS, .925, -.64),
   name: 'Formal 1.4T / 7DCT sedan',
   driverEyePosition: [-.37, 1.215, .31],
-  instrumentClusterTransform: { position: [-.37, .94, -.405], rotation: [degrees(-7), 0, 0] },
+  instrumentClusterTransform: { position: [-.37, .94, -.505], rotation: [degrees(-7), 0, 0] },
   steeringWheelPosition: [-.37, .78, -.245], steeringColumnMountPosition: [-.37, .71, -.52],
   steeringWheelRadius: .174,
   steeringWheelLockDegrees: 32 * 16.6 * 2, gearLeverPosition: [.12, .465, .32],
@@ -367,7 +367,7 @@ export const CVT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG, name: '2.0 belt CVT family sedan',
   ...automaticEnvelope(COMFORT_CVT_DIMENSIONS), ...automaticMirrors(COMFORT_CVT_DIMENSIONS, .94, -.67),
   driverEyePosition: [-.37, 1.225, .31],
-  instrumentClusterTransform: { position: [-.37, .95, -.415], rotation: [degrees(-7), 0, 0] },
+  instrumentClusterTransform: { position: [-.37, .95, -.525], rotation: [degrees(-7), 0, 0] },
   steeringWheelPosition: [-.37, .79, -.245], steeringColumnMountPosition: [-.37, .72, -.53],
   steeringWheelRadius: .176, steeringWheelLockDegrees: 33 * 17.1 * 2,
   gearLeverPosition: [.12, .46, .30],
@@ -405,15 +405,15 @@ export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   exteriorLighting: EXECUTIVE_LIGHTING_PROFILE,
   interiorAmbientLighting: EXECUTIVE_AMBIENT_PROFILE,
   driverEyePosition: [-.40, 1.235, .30],
-  // Keep the broad display behind the visor lip and naturally ahead of the wheel.
-  instrumentClusterTransform: { position: [-.40, .96, -.485], rotation: [degrees(-7), 0, 0], scale: 1.22 },
+  // The physical face fits below the transverse pad, with only a low visor rise.
+  instrumentClusterTransform: { position: [-.40, .864, -.620], rotation: [degrees(-4), 0, 0], scale: .86 },
   instrumentCluster: { maximumSpeedKmh: 280, maximumRPM: 7000, redlineRPM: 6400,
     needleResponse: 12, displayStyle: 'executive-virtual', featureClass: 'advanced', visualProfile: EXECUTIVE_INSTRUMENT_PROFILE },
   steeringWheelPosition: [-.40, .755, -.245], steeringColumnMountPosition: [-.40, .668, -.57],
   steeringWheelRadius: .17, steeringWheelRimTubeRadius: .019,
   steeringWheelLockDegrees: 32 * 17.5 * 2,
   gearLeverPosition: [.13, .47, .34],
-  dashboard: { position: [0, .75, -.64], dimensions: [1.67, .075, .39], tiltRadians: degrees(-3) },
+  dashboard: { position: [0, .75, -.70], dimensions: [1.67, .075, .44], tiltRadians: degrees(-3) },
   cabin: { width: 1.67, dashboardTopY: .81, windshieldBottomY: .85, windshieldTopY: 1.44,
     windshieldBottomZ: -.91, windshieldTopZ: -.57, roofY: EXECUTIVE_LWB_DIMENSIONS.height - .035 },
   body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'executive', groundClearance: .20,
@@ -422,15 +422,15 @@ export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
     roofLength: 1.72, roofCenterZ: .29, color: 0x27313f, trimColor: 0x12171f, interiorColor: 0x242326 },
 };
 
-/** Upright SUV cabin with basic analog instruments and existing cockpit fixtures. */
+/** Upright SUV cabin with the SUV virtual cockpit and existing cockpit fixtures. */
 export const ROAD_SUV_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG,
   ...automaticEnvelope(ROAD_SUV_DIMENSIONS), ...automaticMirrors(ROAD_SUV_DIMENSIONS, 1.18, -.89),
   name: 'Touareg-like 3.0T V6 / 8AT road SUV',
   driverEyePosition: [-.42, 1.49, .36],
-  instrumentCluster: { maximumSpeedKmh: 260, maximumRPM: 7000, redlineRPM: 6400,
-    needleResponse: 11, displayStyle: 'dual-analog' },
-  instrumentClusterTransform: { position: [-.42, 1.20, -.46], rotation: [degrees(-7), 0, 0] },
+  instrumentCluster: { maximumSpeedKmh: 200, maximumRPM: 7000, redlineRPM: 6400,
+    needleResponse: 11, displayStyle: 'suv-virtual', featureClass: 'advanced' },
+  instrumentClusterTransform: { position: [-.42, 1.105, -.655], rotation: [degrees(-7), 0, 0], scale: .84 },
   steeringWheelPosition: [-.42, 1.02, -.255], steeringColumnMountPosition: [-.42, .935, -.57],
   steeringWheelRadius: .173, steeringWheelRimTubeRadius: .018,
   steeringWheelLockDegrees: 33 * 17.8 * 2,

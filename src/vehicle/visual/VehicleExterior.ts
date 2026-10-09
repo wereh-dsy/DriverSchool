@@ -18,6 +18,7 @@ const rearGlassBottomZ = (config: VehicleVisualConfig): number => config.body.de
   ? config.body.profile === 'sport-coupe' ? 1.17 : 1.04
   : bodyHalfLength(config) - config.body.trunkLength - .06;
 const pillarBZ = (config: VehicleVisualConfig): number => config.body.design === 'flow' ? .20
+  : config.body.design === 'mid-supercar' ? .39
   : config.body.design === 'executive' ? .22 : config.body.design === 'formal' ? .34 : config.body.design === 'comfort' ? .25
   : config.body.profile === 'sport-coupe' ? .27 : .31;
 
@@ -1152,6 +1153,7 @@ const createSedanStations = (config: VehicleVisualConfig): readonly BodyStation[
 };
 
 const createSportsStations = (config: VehicleVisualConfig): readonly BodyStation[] => {
+  if (config.body.design === 'mid-supercar') return createMidSupercarStations(config);
   const halfLength = bodyHalfLength(config);
   const halfWidth = bodyHalfWidth(config);
   return [
@@ -1164,6 +1166,49 @@ const createSportsStations = (config: VehicleVisualConfig): readonly BodyStation
     { z: halfLength - 0.2, bottomY: 0.2, lowerHalfWidth: halfWidth * 0.76, shoulderY: 0.48, shoulderHalfWidth: halfWidth * 0.97, topY: 0.62, topHalfWidth: halfWidth * 0.84 },
     { z: halfLength, bottomY: 0.23, lowerHalfWidth: halfWidth * 0.7, shoulderY: 0.42, shoulderHalfWidth: halfWidth * 0.89, topY: 0.57, topHalfWidth: halfWidth * 0.75 },
   ];
+};
+
+/** Independent cab-forward mid-engine loft; shared mesh utilities only. */
+const createMidSupercarStations = (config: VehicleVisualConfig): readonly BodyStation[] => {
+  const w = bodyHalfWidth(config), end = bodyHalfLength(config);
+  return [
+    [-end, .36, .46, .72], [-end + .24, .44, .55, .91],
+    [-config.wheelBase / 2, .54, .72, 1], [config.cabin.windshieldBottomZ, .55, .66, .94],
+    [-.15, .57, .71, .94], [.55, .61, .78, 1],
+    [config.wheelBase / 2, .61, .82, 1], [end - .25, .57, .75, .97], [end, .49, .68, .88],
+  ].map(([z, shoulder, top, breadth]) => ({ z: z!, bottomY: config.body.groundClearance,
+    lowerHalfWidth: w * .75, shoulderY: shoulder!, shoulderHalfWidth: w * breadth!,
+    topY: top!, topHalfWidth: w * breadth! * .9 }));
+};
+
+const addMidSupercarDetails = (root: THREE.Group, config: VehicleVisualConfig, m: ExteriorMaterials): void => {
+  const end = bodyHalfLength(config), w = bodyHalfWidth(config);
+  root.add(createMesh('Supercar short low nose bonnet', createTaperedPanelGeometry(-end + .19,
+    config.cabin.windshieldBottomZ - .04, .54, .60, .51, .665, .025), m.paint, 'hood'));
+  root.add(createMesh('Mid-engine glazed engine cover', createTaperedPanelGeometry(.55, 1.69,
+    .49, .54, .78, .76, .014), m.glass, 'engine-cover'));
+  for (const side of [-1, 1]) {
+    const intake = createMesh('Mid-engine side intake', createQuadGeometry([
+      { x: side * w * .96, y: .43, z: .42 }, { x: side * w * .98, y: .48, z: .94 },
+      { x: side * w * .97, y: .72, z: .85 }, { x: side * w * .94, y: .65, z: .46 },
+    ], side < 0), m.trim, 'intake'); root.add(intake);
+    const head = createMesh('Supercar swept vertical headlamp', createQuadGeometry([
+      { x: side * .68, y: .51, z: -end + .08 }, { x: side * .82, y: .54, z: -end + .16 },
+      { x: side * .79, y: .72, z: -1.53 }, { x: side * .69, y: .69, z: -1.61 },
+    ], side < 0), m.lamp, 'headlamp'); root.add(head);
+    const tail = createMesh('Supercar circular rear lamp', new THREE.CylinderGeometry(.065, .065, .018, 20), m.rearLamp, 'tail-lamp');
+    tail.rotation.x = Math.PI / 2; tail.position.set(side * .72, .64, end - .006); root.add(tail);
+    const noseIntake = createMesh('Supercar front intake', new THREE.BoxGeometry(.44, .10, .012), m.trim, 'grille');
+    noseIntake.position.set(side * .38, .34, -end + .004); root.add(noseIntake);
+  }
+  const tray = createMesh('Supercar sealed underside', new THREE.BoxGeometry(1.20, .015, config.dimensions.length - .14), m.trim, 'underbody');
+  tray.position.set(0, config.body.groundClearance + .008, 0); root.add(tray);
+  const diffuser = createMesh('Supercar rear diffuser', new THREE.BoxGeometry(1.40, .12, .19), m.trim, 'diffuser');
+  diffuser.position.set(0, .20, end - .10); root.add(diffuser);
+  for (const x of [-.09, 0, .09]) {
+    const pipe = createMesh('Supercar triple exhaust outlet', new THREE.CylinderGeometry(.033, .033, .08, 12), m.chrome, 'exhaust');
+    pipe.rotation.x = Math.PI / 2; pipe.position.set(x, .35, end + .017); root.add(pipe);
+  }
 };
 
 const addSUVDetails = (root: THREE.Group, config: VehicleVisualConfig, materials: ExteriorMaterials): void => {
@@ -1255,7 +1300,8 @@ export function buildVehicleExterior(
   addWheelArchFlares(root, config, materials.paintDark);
   addFlankPanels(root, config, materials);
 
-  if (sport) addSportsDetails(root, config, materials);
+  if (config.body.design === 'mid-supercar') addMidSupercarDetails(root, config, materials);
+  else if (sport) addSportsDetails(root, config, materials);
   else if (config.body.profile === 'suv') addSUVDetails(root, config, materials);
   else addSedanDetails(root, config, materials);
 

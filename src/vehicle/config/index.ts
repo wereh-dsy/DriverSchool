@@ -41,8 +41,8 @@ export {
 } from './sportsCoupePhysicsConfig';
 export { createTest6ATVehiclePhysicsConfig, createTest7DCTVehiclePhysicsConfig } from './transmissionTestVehicleConfigs';
 export { createCVTSedanPhysicsConfig } from './cvtSedanPhysicsConfig';
-export { createAWDTestVehiclePhysicsConfig } from './awdTestVehicleConfigs';
 export { createExecutiveSedanPhysicsConfig } from './executiveSedanPhysicsConfig';
 
 export { createRoadSUVPhysicsConfig } from './roadSUVPhysicsConfig';
+export { createFerrari458PhysicsConfig } from './ferrari458PhysicsConfig';
 export type { DifferentialConfig, ElectronicDifferentialConfig, ParkingBrakeConfig, AutoHoldConfig } from './VehiclePlatformConfig';

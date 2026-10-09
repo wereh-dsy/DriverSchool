@@ -195,11 +195,13 @@ export class ICEPowertrain implements Powertrain {
     };
     const isManual = this.transmission.type === 'MANUAL';
     this.engine.setTorqueLimitFactor(context.torqueLimitFactor);
-    let automaticThrottleScale = 1;
+    let automaticThrottleScale = 1, automaticMinimumThrottle = 0;
     if (!isManual) {
-      automaticThrottleScale = this.transmission.prepare({
+      const preparation = this.transmission.prepare({
         ...this.getTransmissionContext(context), selectorRequest: context.selectorRequest,
-      }).throttleScale;
+      });
+      automaticThrottleScale = preparation.throttleScale;
+      automaticMinimumThrottle = preparation.minimumThrottle ?? 0;
     } else if (this.controlMode === 'normal') {
       autoUpdate = this.autoClutch.update(dt, {
         currentEngagement: this.clutch.engagement,
@@ -228,7 +230,7 @@ export class ICEPowertrain implements Powertrain {
       gearEngaged: this.gearbox.currentGear !== 'N',
       clutchEngagement: this.clutch.engagement,
     });
-    this.torqueSource.requestDrive(autoUpdate.cutThrottle ? 0 : throttleCommand * automaticThrottleScale, dt);
+    this.torqueSource.requestDrive(autoUpdate.cutThrottle ? 0 : Math.max(throttleCommand * automaticThrottleScale, automaticMinimumThrottle), dt);
   }
   public update(context: PowertrainUpdateContext): PowertrainOutput {
     const { dt } = context;
@@ -346,6 +348,8 @@ export class ICEPowertrain implements Powertrain {
     this.config.engine.throttleResponse = this.config.engine.throttleResponseRate = calibration.throttleResponse;
     const strategy = this.config.transmission.dct?.shiftStrategy ?? this.config.transmission.automatic?.shiftStrategy;
     if (strategy) Object.assign(strategy, calibration.shiftStrategy);
+    if (this.config.transmission.dct && calibration.dctShiftTime !== undefined)
+      this.config.transmission.shiftTime = calibration.dctShiftTime;
   }
   private safeUnitInput(value: number): number { return clamp01(this.finiteOr(value, 0)); }
   private finiteOr(value: number | undefined, fallback: number): number { return value !== undefined && Number.isFinite(value) ? value : fallback; }

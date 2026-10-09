@@ -351,7 +351,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         engineRunning: initialState.engineRunning, clutchEngagement: initialState.clutchEngagement,
       } : undefined });
     this.synchronizePowertrainMass();
-    if (this.config.driveModes !== undefined) this.setDriveMode('NORMAL');
+    if (this.config.driveModes !== undefined) this.setDriveMode(this.config.defaultDriveMode ?? 'NORMAL');
     this.x = this.finiteOr(initialState.x, 0);
     this.z = this.finiteOr(initialState.z, 0);
     this.yaw = wrapAngle(this.finiteOr(initialState.yaw, 0));
@@ -517,6 +517,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.driveMode = mode;
     this.suspension.setDriveMode(mode);
     this.driveModeThrottleExponent = calibration.throttleExponent;
+    if (calibration.tcs) Object.assign(this.config.driverAids.tcs ??= { ...calibration.tcs }, calibration.tcs);
+    if (calibration.esc) Object.assign(this.config.driverAids.esc ??= { ...calibration.esc }, calibration.esc);
     this.powertrain.applyDriveMode?.(calibration);
     this.config.steering.steeringResponse = calibration.steeringResponse;
     this.config.steering.steeringDamping = calibration.steeringDamping;
@@ -525,7 +527,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
   public cycleDriveMode(): void {
     if (this.config.driveModes === undefined) return;
-    this.setDriveMode(this.driveMode === 'ECO' ? 'NORMAL' : this.driveMode === 'NORMAL' ? 'SPORT' : 'ECO');
+    const order = this.config.driveModeOrder ?? ['ECO', 'NORMAL', 'SPORT'];
+    const index = this.driveMode === undefined ? -1 : order.indexOf(this.driveMode);
+    const next = order[(index + 1) % order.length];
+    if (next) this.setDriveMode(next);
   }
 
   /** Variable-frame entry point with bounded internal substeps. */
@@ -627,12 +632,18 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     } as VehicleSnapshotFor<TPowertrain>;
   }
 
+  /** Drive modes shape the pedal, before arbitration with assistance demand. */
+  public driverThrottleCommand(throttle: number): number {
+    return Math.pow(this.safeUnitInput(throttle), this.driveModeThrottleExponent);
+  }
+
   private integrateStep(
     dt: number,
     input: VehicleInputState,
     environment: VehicleEnvironment,
   ): void {
-    const throttleCommand = Math.pow(this.safeUnitInput(input.throttle), this.driveModeThrottleExponent);
+    const throttleCommand = Math.max(this.driverThrottleCommand(input.throttle),
+      this.safeUnitInput(input.cruiseThrottle ?? 0));
     const brakeCommand = this.safeUnitInput(input.brake);
     const handbrakeCommand = this.safeUnitInput(input.handbrake);
     const steerCommand = clamp(this.finiteOr(input.steering, 0), -1, 1);
@@ -912,10 +923,13 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const rolling = shares.map((_, i) => Math.max(0,
       this.finiteOr(contacts?.[i]?.rollingResistance, legacyRolling))) as FourWheelValues;
     const loads = WHEEL_IDS.map((id) => suspension.wheels[id].normalLoad) as FourWheelValues;
+    // A common nominal tyre load preserves sublinear grip across static axle
+    // distributions as well as dynamic transfer. Width never scales friction.
+    const tyreReferenceLoad = this.config.mass * this.config.gravity * .25;
     const limits = loads.map((load, i) => this.config.tires.longitudinalGrip * load *
-      this.wheelRotation.gripModel.loadFactor(load, suspension.wheels[WHEEL_IDS[i]!].staticLoad) * gripLong[i]!) as FourWheelValues;
+      this.wheelRotation.gripModel.loadFactor(load, tyreReferenceLoad) * gripLong[i]!) as FourWheelValues;
     for (let i = 0; i < 4; i++) this.escLateralLimits[i] = this.config.tires.lateralGrip * loads[i]! *
-      this.wheelRotation.gripModel.loadFactor(loads[i]!, suspension.wheels[WHEEL_IDS[i]!].staticLoad) * gripLat[i]!;
+      this.wheelRotation.gripModel.loadFactor(loads[i]!, tyreReferenceLoad) * gripLat[i]!;
     this.driverAssists.updateStability(dt, this.speed, this.steering.steeringAngle,
       this.yawRate, this.lateralVelocity, this.wheels, limits, this.escLateralLimits);
     this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
@@ -979,8 +993,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const rearAvailability: number[] = [];
     let asymmetricLongitudinalMoment = 0;
     let totalYawMoment = 0;
-    const distanceToFront = clamp(this.config.wheelBase * (1 - frontWeight) -
-      this.config.centerOfMassLongitudinalOffset, this.config.wheelBase * 0.1, this.config.wheelBase * 0.9);
+    const distanceToFront = clamp(this.config.wheelBase * (1 - frontWeight), this.config.wheelBase * 0.1, this.config.wheelBase * 0.9);
     const distanceToRear = this.config.wheelBase - distanceToFront;
     const longitudinalPositions: FourWheelValues = [distanceToFront, distanceToFront, -distanceToRear, -distanceToRear];
     let staticSupported = staticForces !== undefined;
@@ -1004,7 +1017,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         driveTorque: requestedDrive[i], brakeTorque: brake.appliedBrakeTorque,
         handbrakeTorque: brake.appliedHandbrakeTorque, normalLoad: loads[i],
         surfaceLongitudinalGrip: gripLong[i],
-        staticNormalLoad: staticLoad, surfaceLateralGrip: gripLat[i],
+        staticNormalLoad: tyreReferenceLoad, surfaceLateralGrip: gripLat[i],
         corneringStiffness, lateralGripAvailability: lockedRearAvailability,
         staticLongitudinalForce: staticForces?.[i],
       });
@@ -1105,7 +1118,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       const local = wheelLocalPosition(this.config, id);
       const angle = this.wheels[id].steeringAngle;
       const forward = speed + this.yawRate * local.x;
-      const side = this.lateralVelocity + this.yawRate * local.z;
+      const cgZ = this.config.wheelBase * (.5 - this.config.frontWeightBias);
+      const side = this.lateralVelocity + this.yawRate * (local.z - cgZ);
       const longitudinalSpeed = forward * Math.cos(angle) + side * Math.sin(angle);
       const lateralSpeed = side * Math.cos(angle) - forward * Math.sin(angle);
       this.wheelRotation.constrainAngularVelocity(id, longitudinalSpeed / Math.max(0.01, this.config.wheelRadius),

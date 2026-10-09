@@ -16,7 +16,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   trackWidth: 1.55,
   frontWeightBias: 0.62,
   centerOfMassHeight: 0.54,
-  centerOfMassLongitudinalOffset: 0,
+  enginePlacement: 'FRONT',
   yawInertia: 2_500,
   drivetrainType: 'FWD',
   differentialType: 'open',
@@ -238,10 +238,9 @@ export function cloneVehiclePhysicsConfig(
     parkingBrake: config.parkingBrake === undefined ? undefined : { ...config.parkingBrake },
     autoHold: config.autoHold === undefined ? undefined : { ...config.autoHold },
     fuel: { ...config.fuel },
-    driveModes: config.driveModes === undefined ? undefined : {
-      ECO: cloneDriveMode(config.driveModes.ECO), NORMAL: cloneDriveMode(config.driveModes.NORMAL),
-      SPORT: cloneDriveMode(config.driveModes.SPORT),
-    },
+    driveModeOrder: config.driveModeOrder?.slice(),
+    driveModes: config.driveModes === undefined ? undefined : Object.fromEntries(
+      Object.entries(config.driveModes).map(([mode, calibration]) => [mode, cloneDriveMode(calibration)])),
     awd: config.awd === undefined ? undefined : { ...config.awd },
     engine: {
       ...config.engine,
@@ -273,6 +272,7 @@ export function cloneVehiclePhysicsConfig(
       },
       dct: config.transmission.dct === undefined ? undefined : {
         ...config.transmission.dct,
+        revMatching: config.transmission.dct.revMatching ? { ...config.transmission.dct.revMatching } : undefined,
         shiftStrategy: { ...config.transmission.dct.shiftStrategy,
           map: config.transmission.dct.shiftStrategy.map.map((point) => ({ ...point })),
           minimumUpshiftSpeeds: [...config.transmission.dct.shiftStrategy.minimumUpshiftSpeeds],
@@ -310,7 +310,8 @@ export function createDefaultVehiclePhysicsConfig(): VehiclePhysicsConfig {
 }
 
 function cloneDriveMode(calibration: DriveModeCalibration): DriveModeCalibration {
-  return { ...calibration, shiftStrategy: { ...calibration.shiftStrategy,
+  return { ...calibration, tcs: calibration.tcs ? { ...calibration.tcs } : undefined,
+    esc: calibration.esc ? { ...calibration.esc } : undefined, shiftStrategy: { ...calibration.shiftStrategy,
     map: calibration.shiftStrategy.map.map(point => ({ ...point })),
     minimumUpshiftSpeeds: [...calibration.shiftStrategy.minimumUpshiftSpeeds],
     gearRPMCorrections: calibration.shiftStrategy.gearRPMCorrections?.slice() } };

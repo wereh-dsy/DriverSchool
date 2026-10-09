@@ -1,12 +1,12 @@
 import { Color, DirectionalLight, Fog, Group, HemisphereLight, Mesh, MeshStandardMaterial, PointLight, Scene, ShaderMaterial } from 'three';
-import { DRIVING_GROUND_CATALOG } from '../DrivingGroundCatalog';
+import { createDrivingGround, DRIVING_GROUND_CATALOG } from '../DrivingGroundCatalog';
 import { SURFACE_MATERIALS } from '../SurfaceMaterial';
 import { sampleWheelContacts } from '../../vehicle/physics/WheelContact';
 import { VehicleContactSystem } from '../../vehicle/physics/VehicleContactSystem';
 import { VehicleDynamics } from '../../vehicle/physics/VehicleDynamics';
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
 import { DEFAULT_VEHICLE_PHYSICS_CONFIG } from '../../vehicle/config/defaultVehiclePhysicsConfig';
-import { VEHICLE_CATALOG } from '../../vehicle/VehicleCatalog';
+import { DEFAULT_VEHICLE_ID, getVehicleDescriptor, VEHICLE_CATALOG } from '../../vehicle/VehicleCatalog';
 import { WiperController, WIPER_PARK_ANGLE } from '../../vehicle/control/WiperController';
 import { WindshieldRain } from '../../camera/WindshieldRain';
 import { EnvironmentState, WEATHER_WETNESS, wetGripScale, type EnvironmentTime, type Weather } from './EnvironmentState';
@@ -49,7 +49,7 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
     const state = new EnvironmentState();
     const visual = new EnvironmentVisual(scene, state, sun, hemisphere, sky);
     for (const descriptor of DRIVING_GROUND_CATALOG) {
-      const ground = descriptor.create();
+      const ground = createDrivingGround(descriptor.id);
       visual.setGround(ground);
       const roads: MeshStandardMaterial[] = [];
       let markingCount = 0;
@@ -77,7 +77,7 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
       assert(wet.frontLeft.lateralGrip < dry.frontLeft.lateralGrip && wet.frontLeft.longitudinalGrip < dry.frontLeft.longitudinalGrip, `${descriptor.id}: both tyre axes use wet grip`);
       assert(wet.frontLeft.height === dry.frontLeft.height && wet.frontLeft.rollingResistance === dry.frontLeft.rollingResistance, 'weather leaves contact geometry and rolling resistance intact');
       const vehicle = new VehicleDynamics(DEFAULT_VEHICLE_PHYSICS_CONFIG, { ...pose, gear: 'N' });
-      const contacts = new VehicleContactSystem(ground, VEHICLE_CATALOG[0]!.visualConfig.collisionDimensions);
+      const contacts = new VehicleContactSystem(ground, getVehicleDescriptor(DEFAULT_VEHICLE_ID).visualConfig.collisionDimensions);
       const controls = createNeutralVehicleInputState();
       contacts.step(1 / 120, controls, vehicle);
       contacts.setWetness(1);
@@ -124,7 +124,7 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
       const obscured = drawnWater;
       controller.setMode('HIGH');
       for (let i = 0; i < 120; i++) { controller.update(1 / 30); glass.update(1 / 30, 'HEAVY_RAIN', controller); }
-      assert(drawnWater < obscured * 0.85, `${descriptor.name}: real sweep improves wet visibility`);
+      assert(drawnWater < obscured * 0.85, `${descriptor.displayName}: real sweep improves wet visibility`);
       controller.setMode('OFF');
       for (let i = 0; i < 600; i++) { controller.update(1 / 30); glass.update(1 / 30, 'CLEAR', controller); }
       assert(drawnWater === 0 && controller.angle === WIPER_PARK_ANGLE, 'clear weather dries glass and OFF parks blades');

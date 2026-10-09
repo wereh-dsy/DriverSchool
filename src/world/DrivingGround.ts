@@ -56,7 +56,7 @@ export interface DrivingGround {
 
 export interface DrivingGroundDescriptor {
   readonly id: string;
-  readonly label: string;
+  readonly displayName: string;
   readonly description: string;
   readonly create: () => DrivingGround;
 }

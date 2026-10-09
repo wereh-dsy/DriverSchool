@@ -9,7 +9,7 @@ import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
   Object.assign(config, ROAD_SUV_DIMENSIONS, { mass: 2100, trackWidth: 1.67,
-    frontWeightBias: .54, centerOfMassHeight: .70, centerOfMassLongitudinalOffset: 0,
+    frontWeightBias: .54, centerOfMassHeight: .70, enginePlacement: 'FRONT',
     yawInertia: 4400, drivetrainType: 'AWD', drivetrainLayout: 'AWD',
     frontTorqueSplit: .55, rearTorqueSplit: .45, drivenWheelWeightFraction: 1 });
   config.fuel = { tankCapacityL: 90, defaultFuelL: 63, fuelDensity: .745,

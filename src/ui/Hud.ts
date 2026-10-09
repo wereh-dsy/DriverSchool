@@ -1,5 +1,6 @@
 import type { Texture } from 'three';
 import { Minimap } from './Minimap';
+import { PROXIMITY_COLORS, REAR_ZONE_LABELS, type RearParkingState } from '../vehicle/control/RearParkingProximity';
 import { LapHud } from './LapHud';
 import type { LapTimerState } from '../game/lap/LapTimer';
 import type { RoadNetworkData } from '../world/navigation/RoadNetwork';
@@ -15,6 +16,7 @@ import {
 } from './ControlSettingsPanel';
 
 export interface HudTelemetry {
+  rearParking?: RearParkingState;
   speed: number;
   rpm: number;
   gear: string | number;
@@ -66,6 +68,9 @@ export class Hud {
   private readonly rpmStrip: HTMLElement;
   private readonly cruiseStatus: HTMLElement;
   private readonly driveReadout: HTMLElement;
+  private readonly parkingReadout: HTMLElement;
+  private readonly parkingZones: HTMLElement[];
+  private readonly parkingDistance: HTMLElement;
   private readonly inputStatus: HTMLElement;
   private readonly clutchMeter: HTMLElement;
   private readonly clutchValue: HTMLElement;
@@ -123,6 +128,10 @@ export class Hud {
           <div class="speed-readout"><strong data-speed>0</strong><span>km/h</span></div>
           <div class="rpm-meta"><span data-rpm-value>0.8</span><small>×1000 RPM</small><em data-cruise-status hidden>CRUISE</em></div>
           <div class="rpm-strip" data-rpm-strip><i data-rpm-needle></i></div>
+          <div class="rear-parking" data-rear-parking hidden aria-label="Rear parking proximity">
+            <small>车尾</small><div data-parking-zones><b>↙</b><b>L</b><b>C</b><b>R</b><b>↘</b></div>
+            <span data-parking-distance></span>
+          </div>
         </section>
         <section
           class="clutch-meter"
@@ -217,6 +226,9 @@ export class Hud {
     this.rpmStrip = this.require('[data-rpm-strip]');
     this.cruiseStatus = this.require('[data-cruise-status]');
     this.driveReadout = this.require('[data-drive-readout]');
+    this.parkingReadout = this.require('[data-rear-parking]');
+    this.parkingZones = Array.from(this.require('[data-parking-zones]').children) as HTMLElement[];
+    this.parkingDistance = this.require('[data-parking-distance]');
     this.inputStatus = this.require('[data-input-status]');
     this.clutchMeter = this.require('[data-clutch-meter]');
     this.clutchValue = this.require('[data-clutch-value]');
@@ -361,6 +373,21 @@ export class Hud {
     this.rpmValue.textContent = (data.rpm / 1_000).toFixed(1);
     this.rpmStrip.classList.toggle('critical', critical);
     const cruiseAvailable = data.cruiseAvailable === true;
+    const parking = data.rearParking;
+    this.parkingReadout.hidden = !parking?.active;
+    if (parking?.active) {
+      parking.zones.forEach((zone, i) => {
+        const element = this.parkingZones[i]!;
+        element.style.color = PROXIMITY_COLORS[zone.severity];
+        element.style.background = zone.detected && zone.severity !== 'NONE' ? `${PROXIMITY_COLORS[zone.severity]}33` : 'transparent';
+        element.title = `${REAR_ZONE_LABELS[zone.zone]} ${zone.distanceM?.toFixed(2) ?? '--'} m`;
+      });
+      const nearest = parking.zones.find(zone => zone.zone === parking.nearestZone);
+      const labels = { LEFT_CORNER: '左后角', LEFT: '左后', CENTER: '正后', RIGHT: '右后', RIGHT_CORNER: '右后角' };
+      this.parkingDistance.textContent = parking.nearestZone === null ? '后方无近距障碍'
+        : `${labels[parking.nearestZone]} ${parking.nearestDistanceM!.toFixed(2)} m`;
+      this.parkingDistance.style.color = PROXIMITY_COLORS[nearest?.severity ?? 'NONE'];
+    }
     const cruiseActive = data.cruiseActive === true;
     this.cruiseStatus.hidden = !cruiseAvailable;
     this.cruiseStatus.classList.toggle('active', cruiseActive);

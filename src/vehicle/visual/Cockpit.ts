@@ -1,20 +1,18 @@
 import * as THREE from 'three';
+import { createPrancingHorseBadge } from './PrancingHorseBadge';
 
 import {
   InstrumentCluster,
-  INSTRUMENT_CLUSTER_HOUSING_LAYOUT,
   type InstrumentTelemetry,
 } from './InstrumentCluster';
 import type { VehicleVisualConfig, Vector3Tuple } from './VehicleVisualConfig';
 import { frontDoorSkinAnchor, frontWindowAnchors } from './VehicleExterior';
-import { fitInstrumentBinnacle, instrumentBinnacleShape } from './InstrumentBinnacle';
+import { fitInstrumentBinnacle, instrumentBinnacleShape, instrumentBinnacleOpening } from './InstrumentBinnacle';
+import { cockpitStructuralAnchors, type CockpitStructuralAnchors } from './CockpitLayout';
 
 const setPosition = (object: THREE.Object3D, value: Vector3Tuple): void => {
   object.position.set(value[0], value[1], value[2]);
 };
-
-const rearZFromDashboard = (config: VehicleVisualConfig): number =>
-  config.dashboard.position[2] + config.dashboard.dimensions[2] * .5;
 
 const makeBox = (
   name: string,
@@ -77,6 +75,7 @@ export class Cockpit extends THREE.Group {
   public readonly gearLever = new THREE.Group();
   public readonly instrumentCluster: InstrumentCluster;
 
+  public readonly layout: CockpitStructuralAnchors;
   private readonly steeringWheelLockRadians: number;
   private readonly consoleWidth: number;
   private readonly floorY: number;
@@ -88,9 +87,9 @@ export class Cockpit extends THREE.Group {
     super();
     this.name = 'Cockpit';
     this.steeringWheelLockRadians = THREE.MathUtils.degToRad(config.steeringWheelLockDegrees);
-    this.consoleWidth = config.body.design === 'flow' ? .28 : config.body.design === 'executive' ? .34 : config.body.design === 'comfort' ? .38
-      : config.body.profile === 'sport-coupe' ? .30 : .34;
-    this.floorY = config.body.sillY - .10;
+    this.layout = cockpitStructuralAnchors(config);
+    this.consoleWidth = this.layout.consoleWidth;
+    this.floorY = this.layout.floorHeight;
 
     const interior = new THREE.MeshStandardMaterial({
       color: config.body.interiorColor,
@@ -221,42 +220,21 @@ export class Cockpit extends THREE.Group {
   /** Thin, connected trim and bulkhead panels preserve the real footwell volume. */
   private addExecutiveCabinCompletion(config: VehicleVisualConfig, interior: THREE.Material,
     softTrim: THREE.Material, satin: THREE.Material, dark: THREE.Material): void {
-    const width = config.cabin.width, top = config.cabin.dashboardTopY;
-    const frontZ = config.cabin.windshieldBottomZ, rearZ = rearZFromDashboard(config);
+    const width = config.cabin.width;
     const stackX = config.gearLeverPosition[0];
     const fascia = new THREE.MeshStandardMaterial({ color: 0x41474d, roughness: .68, metalness: .08,
       side: THREE.DoubleSide });
-    const cowl = [[config.cabin.windshieldBottomY - .013, frontZ - .014], [top, frontZ + .14],
-      [top - .018, frontZ + .14], [config.cabin.windshieldBottomY - .031, frontZ - .014]] as const;
-    this.add(makeSectionShell('Executive bonded windshield cowl',
-      [{ x: -width * .5, profile: cowl }, { x: width * .5, profile: cowl }], softTrim));
-    const bulkhead = [[top - .07, frontZ + .075], [this.floorY + .14, frontZ],
-      [this.floorY + .14, frontZ - .018], [top - .07, frontZ + .057]] as const;
-    this.add(makeSectionShell('Executive front cabin bulkhead',
-      [{ x: -width * .5, profile: bulkhead }, { x: width * .5, profile: bulkhead }], interior));
-    const passengerLeft = stackX + this.consoleWidth * .5;
-    const passengerRight = width * .5;
-    const passengerX = (passengerLeft + passengerRight) * .5;
-    const glovebox = [[top - .091, rearZ + .024], [top - .155, rearZ + .024],
-      [this.floorY + .275, rearZ - .012], [this.floorY + .275, rearZ - .030],
-      [top - .155, rearZ + .006], [top - .091, rearZ + .006]] as const;
-    this.add(makeSectionShell('Executive passenger sculpted glovebox fascia',
-      [{ x: passengerLeft, profile: glovebox }, { x: passengerRight, profile: glovebox }], fascia));
-    this.add(makeBox('Executive glovebox seam', [passengerRight - passengerLeft - .035, .002, .003],
-      [passengerX, top - .154, rearZ + .027], dark));
-    this.add(makeBox('Executive glovebox satin pull', [.085, .005, .006],
-      [passengerX, top - .170, rearZ + .021], satin));
     // The upper screen continues the transverse dashboard; the existing lower
     // inclined control panel remains below it.
     const upperDisplay = new THREE.Group();
     upperDisplay.name = 'Executive upper centre display assembly';
-    upperDisplay.position.set(stackX, top - .079, rearZ + .105);
-    upperDisplay.rotation.x = -.18;
+    upperDisplay.position.set(0, this.layout.driverView ? .014 : .026, .016);
     upperDisplay.add(makeBox('Executive upper display surround', [.349, .145, .023], [0, 0, 0], fascia));
     const screen = new THREE.MeshStandardMaterial({ color: 0x12191e, roughness: .26, metalness: .18 });
     upperDisplay.add(makeBox('Executive upper centre display glass', [.321, .116, .006], [0, .001, .015], screen));
     upperDisplay.add(makeBox('Executive display satin lower edge', [.349, .004, .006], [0, -.072, .012], satin));
-    this.add(upperDisplay);
+    // The same sloping structural fascia carries both existing screen surfaces.
+    this.getObjectByName('Centre stack controls')!.add(upperDisplay);
     this.add(makeBox('Executive front console storage lid', [this.consoleWidth - .065, .006, .19],
       [stackX, config.gearLeverPosition[1] - .010, .060], fascia));
     this.add(makeBox('Executive console padded armrest', [this.consoleWidth - .07, .066, .245],
@@ -293,144 +271,164 @@ export class Cockpit extends THREE.Group {
     softTrim: THREE.Material,
     satin: THREE.Material,
   ): void {
-    const width = config.dashboard.dimensions[0];
-    const top = config.cabin.dashboardTopY;
-    const rearZ = config.dashboard.position[2] + config.dashboard.dimensions[2] * .5;
-    const cowlZ = config.cabin.windshieldBottomZ + .025;
-    const design = config.body.design;
+    const a = this.layout;
+    const width = config.cabin.width, rearZ = a.dashboardUpperRear[2];
+    const [ , cowlY, cowlZ] = a.dashboardUpperFront;
+    const top = a.dashboardUpperRear[1];
     const transform = config.instrumentClusterTransform;
-    const scale = transform.scale ?? 1;
-    const sport = config.body.profile === 'sport-coupe';
-    const shape = instrumentBinnacleShape(config);
-    const halfPod = (sport ? INSTRUMENT_CLUSTER_HOUSING_LAYOUT.analogueHoodSize[0] * .5
-      : shape.halfWidth + shape.border) * scale + .008;
-    const clusterBottom = new THREE.Vector3(0, -(sport ? INSTRUMENT_CLUSTER_HOUSING_LAYOUT.backSize[1] * .5
-      : shape.halfHeight + shape.border), -.028)
+    const shape = instrumentBinnacleShape(config), scale = transform.scale ?? 1;
+    const halfPod = (shape.halfWidth + shape.border) * scale;
+    const driverX = transform.position[0];
+    const clusterBottom = new THREE.Vector3(0, -(shape.halfHeight + shape.border), a.recessLip)
       .multiplyScalar(scale).applyEuler(new THREE.Euler(...transform.rotation))
       .add(new THREE.Vector3(...transform.position));
-    const profile = (mountY: number): readonly (readonly [number, number])[] => [
-      [top, cowlZ], [mountY, rearZ - .035], [mountY - .015, rearZ],
-      [mountY - .033, rearZ - .012], [mountY - .018, rearZ - .045], [top - .028, cowlZ],
-    ];
-    // The raised driver section physically supports the cluster; the shoulders
-    // descend into the centre/passenger fascia instead of leaving an empty slot.
-    const driverX = transform.position[0];
-    const sections = sport ? [
-      { x: -width * .5, profile: profile(top - .025) },
-      { x: driverX - halfPod - .065, profile: profile(top - .025) },
-      { x: driverX - halfPod, profile: profile(clusterBottom.y) },
-      { x: driverX + halfPod, profile: profile(clusterBottom.y) },
-      { x: driverX + halfPod + .065, profile: profile(top - .025) },
-      { x: width * .5, profile: profile(top - .025) },
-    ] : [
-      { x: -width * .5, profile: profile(top - .025) },
-      { x: driverX - halfPod - .06, profile: profile(top - .025) },
-      { x: driverX - halfPod, profile: profile(THREE.MathUtils.lerp(top - .025, clusterBottom.y, .55)) },
-      { x: driverX - halfPod * .72, profile: profile(clusterBottom.y) },
-      { x: driverX + halfPod * .72, profile: profile(clusterBottom.y) },
-      { x: driverX + halfPod, profile: profile(THREE.MathUtils.lerp(top - .025, clusterBottom.y, .55)) },
-      { x: driverX + halfPod + .06, profile: profile(top - .025) },
-      { x: width * .5, profile: profile(top - .025) },
-    ];
-    const upperMaterial = sport ? interior : new THREE.MeshStandardMaterial({
-      color: design === 'executive' ? 0x343840 : design === 'comfort' ? 0x45423e : 0x30343a,
+    const upperMaterial = new THREE.MeshStandardMaterial({
+      color: config.body.design === 'comfort' ? 0x45423e : config.body.design === 'executive' ? 0x343840 : 0x30343a,
       roughness: .90, metalness: .02, side: THREE.DoubleSide,
+      flatShading: a.driverView !== null,
     });
-    this.add(makeSectionShell('Dashboard upper surface', sections, upperMaterial));
+    // One folded, volumetric cross-car upper. Under the aperture it meets the
+    // lower lip; the visor itself supplies the local roof, never a second box.
+    const integration = a.driverView?.integration;
+    const profile = (y: number, lift = 0, lip?: THREE.Vector3): readonly (readonly [number, number])[] => {
+      if (!a.driverView) return [
+        [cowlY, cowlZ], [y + .015, rearZ - .09], [y, rearZ],
+        [y - a.thickness, rearZ - .008], [y - a.thickness, rearZ - .10], [cowlY - .025, cowlZ],
+      ];
+      const aperture = y < top - .025;
+      // A short upper pad, then a rolled fascia. In the driver zone the
+      // pad descends behind the display before reaching its lower opening.
+      const padZ = aperture || lift ? transform.position[2] - .025 : rearZ - .135;
+      const rollZ = lip?.z ?? (aperture ? transform.position[2] + .025 : rearZ - .045);
+      if (integration) {
+        // Descend behind the display, then bring only the low ledge forward.
+        // A direct roof-to-lip slope would fill the lower display aperture.
+        const dropZ = lip ? transform.position[2] + .015 : rollZ - .025;
+        return [[cowlY, cowlZ], [top + lift, padZ], [y, dropZ], [y, rollZ],
+          [y - .020, rearZ], [y - a.thickness, rearZ - .008],
+          [y - a.thickness, rollZ], [y - a.thickness, dropZ],
+          [top + lift - .028, padZ], [cowlY - .025, cowlZ]];
+      }
+      return [[cowlY, cowlZ], [top + lift, padZ], [y, rollZ], [y - .020, rearZ],
+        [y - a.thickness, rearZ - .008], [y - a.thickness, rollZ],
+        [top + lift - .028, padZ], [cowlY - .025, cowlZ]];
+    };
+    const left = driverX - halfPod, right = driverX + halfPod;
+    const stations = [
+      { x: -width * .5, profile: profile(top - .005) },
+      { x: Math.max(-width * .5 + .005, left - a.shoulder), profile: profile(top) },
+      { x: left, profile: profile(clusterBottom.y) },
+      { x: right, profile: profile(clusterBottom.y) },
+      { x: right + a.shoulder, profile: profile(top) },
+      { x: a.passengerLeft, profile: profile(top) },
+      { x: width * .5, profile: profile(top - .005) },
+    ].sort((first, second) => first.x - second.x);
+    if (integration) {
+      // Follow the real lower aperture instead of one straight ledge. This
+      // gives the driver pad a low pedestal and a pair of rounded shoulders,
+      // all within the same cross-car dashboard mesh.
+      const lower = instrumentBinnacleOpening(config).filter(([, y]) => y < 0)
+        .map(([x, y]) => new THREE.Vector3(x + Math.sign(x) * shape.border,
+          y - shape.border, a.recessLip).multiplyScalar(scale)
+          .applyEuler(new THREE.Euler(...transform.rotation)).add(new THREE.Vector3(...transform.position)))
+        .sort((p, q) => p.x - q.x);
+      const centreIndex = lower.findIndex(p => p.x > driverX);
+      if (centreIndex > 0) {
+        const before = lower[centreIndex - 1]!, after = lower[centreIndex]!;
+        lower.splice(centreIndex, 0, before.clone().lerp(after, (driverX - before.x) / (after.x - before.x)));
+      }
+      stations.splice(2, 2, ...lower.map(p => ({ x: p.x,
+        profile: profile(p.y - integration.pedestalDrop, integration.shoulderRise, p) })));
+      if (config.body.design === 'executive') {
+        // Two gentle shoulder stations replace the abrupt single cheek fold.
+        // The passenger pad and centre stack retain their existing sections.
+        for (const sign of [-1, 1]) {
+          const edge = sign < 0 ? left : right;
+          stations.push({ x: edge + sign * a.shoulder * .30,
+            profile: profile(top - .035, integration.shoulderRise * .80) });
+          stations.push({ x: edge + sign * a.shoulder * .70,
+            profile: profile(top - .008, integration.shoulderRise * .20) });
+        }
+      } else {
+        const shoulder = (x: number) => ({ x, profile: profile(top - .012, integration.shoulderRise * .55) });
+        stations.push(shoulder(left - a.shoulder * .40), shoulder(right + a.shoulder * .40));
+      }
+      stations.sort((p, q) => p.x - q.x);
+    }
+    const upper = makeSectionShell('Dashboard upper surface', stations, upperMaterial);
+    if (config.body.design === 'executive' && integration) {
+      // Smooth the moulded driver-zone transitions only. The passenger pad,
+      // cross-car creases and door returns keep their current flat shading.
+      const shoulderMaterial = upperMaterial.clone();
+      shoulderMaterial.flatShading = false;
+      upper.material = [upperMaterial, shoulderMaterial];
+      const stride = stations[0]!.profile.length * 6;
+      const start = stations.findIndex(section => section.x >= left - a.shoulder) * stride;
+      let last = stations.length - 1;
+      while (stations[last]!.x > right + a.shoulder) last--;
+      const end = last * stride;
+      upper.geometry.clearGroups();
+      if (start > 0) upper.geometry.addGroup(0, start, 0);
+      upper.geometry.addGroup(start, end - start, 1);
+      upper.geometry.addGroup(end, upper.geometry.index!.count - end, 0);
+    }
+    this.add(upper);
 
-    const columnMount = config.steeringColumnMountPosition ??
-      [driverX, top - .08, config.dashboard.position[2] + .04];
-    const kneeZ = columnMount[2];
-    const kneeTopY = THREE.MathUtils.lerp(top, clusterBottom.y,
-      THREE.MathUtils.clamp((kneeZ - cowlZ) / (rearZ - .035 - cowlZ), 0, 1)) - .028;
-    const kneeBottomY = this.floorY + .29;
-    const kneeWidth = halfPod * 2;
-    // A thin, forward-set knee panel receives the column at its rear surface.
-    // The leg/foot volume behind and below it remains open.
-    this.add(makeBox('Dashboard driver knee panel', [kneeWidth, kneeTopY - kneeBottomY, .024],
-      [driverX, (kneeTopY + kneeBottomY) * .5, kneeZ - .012], interior));
-    const returnProfile = [
-      [clusterBottom.y - .033, rearZ - .012], [kneeTopY, kneeZ],
-      [kneeTopY - .018, kneeZ], [clusterBottom.y - .051, rearZ - .012],
-    ] as const;
-    // Leave a real opening around the column/shroud rather than passing a
-    // continuous return panel through the steering assembly.
-    for (const [left, right] of [[driverX - kneeWidth * .5, driverX - .075],
-      [driverX + .075, driverX + kneeWidth * .5]] as const) {
-      this.add(makeSectionShell('Dashboard driver lower return', [
-        { x: left, profile: returnProfile }, { x: right, profile: returnProfile },
-      ], interior));
+    const mount = a.steeringColumnAnchor;
+    const kneeTop = Math.max(mount[1] + .055, config.cabin.dashboardTopY - .08);
+    const kneeBottom = this.floorY + .29;
+    const kneeZ = mount[2];
+    const kneeProfile = [[kneeTop, kneeZ], [kneeBottom, kneeZ - .025],
+      [kneeBottom, kneeZ - .045], [kneeTop, kneeZ - .020]] as const;
+    this.add(makeSectionShell('Dashboard driver knee panel',
+      [{ x: left, profile: kneeProfile }, { x: right, profile: kneeProfile }], interior));
+    const returnProfile = [[clusterBottom.y - a.thickness, rearZ - .008], [kneeTop, kneeZ],
+      [kneeTop - .018, kneeZ], [clusterBottom.y - a.thickness - .018, rearZ - .008]] as const;
+    // Open column notch and the full leg cavity stay behind this forward panel.
+    for (const [from, to] of [[left, driverX - .075], [driverX + .075, right]] as const) {
+      this.add(makeSectionShell('Dashboard driver lower return',
+        [{ x: from, profile: returnProfile }, { x: to, profile: returnProfile }], interior));
     }
 
-    const passengerLeft = config.gearLeverPosition[0] + this.consoleWidth * .5;
-    const passengerRight = width * .5;
-    const passengerWidth = passengerRight - passengerLeft;
-    const passengerX = (passengerLeft + passengerRight) * .5;
-    const passengerTop = top - .053;
-    const passengerBottom = this.floorY + .28;
-    this.add(makeBox('Dashboard passenger lower panel', [passengerWidth, passengerTop - passengerBottom, .024],
-      [passengerX, (passengerTop + passengerBottom) * .5, rearZ - .015], interior));
-    const accent = makeBox('Passenger dashboard accent',
-      [Math.min(design === 'formal' ? .62 : .54, passengerWidth - .04), design === 'formal' ? .024 : .012, .008],
-      [passengerX, top - .10, rearZ - .004], softTrim);
-    this.add(accent);
-    const demister = makeBox('Demister vent', [width * .65, .008, .035],
-      [0, top + .002, cowlZ + .04], dark);
-    this.add(demister);
-    if (design === 'executive') {
-      const fascia = new THREE.MeshStandardMaterial({ color: 0x474c54, roughness: .66, metalness: .12,
-        side: THREE.DoubleSide });
-      // The instrument casing supplies the driver-side border. Two adjoining
-      // ribbons carry its horizontal layering into the centre and door ends.
-      for (const [left, right] of [[-width * .5, driverX - halfPod],
-        [driverX + halfPod, width * .5]] as const) {
-        const profile = [[top - .017, rearZ - .018], [top - .033, rearZ + .004],
-          [top - .083, rearZ + .004], [top - .083, rearZ - .008]] as const;
-        this.add(makeSectionShell('Executive layered dashboard fascia',
-          [{ x: left, profile }, { x: right, profile }], fascia));
-        this.add(makeBox('Executive satin fascia edge', [right - left, .006, .008],
-          [(left + right) * .5, top - .075, rearZ + .008], satin));
-      }
-      this.add(makeBox('Executive passenger horizontal vent', [passengerWidth - .05, .026, .008],
-        [passengerX, top - .049, rearZ + .010], dark));
-      for (const sign of [-1, 1]) {
-        const profile = [[top, cowlZ], [config.cabin.windshieldBottomY - .027, cowlZ + .05],
-          [top - .009, rearZ], [top - .027, rearZ],
-          [config.cabin.windshieldBottomY - .045, cowlZ + .05], [top - .018, cowlZ]] as const;
-        const edge = sign * width * .5;
-        this.add(makeSectionShell('Executive dashboard door return',
-          [{ x: edge - .008, profile }, { x: edge + .008, profile }], upperMaterial));
-      }
+    const passengerBottom = a.gloveboxAnchor[1];
+    const fasciaProfile = a.driverView ? [[top - .020, rearZ], [top - a.driverView.fasciaDrop, rearZ - .035],
+      [passengerBottom, rearZ - .065], [passengerBottom, rearZ - .085],
+      [top - a.driverView.fasciaDrop, rearZ - .055], [top - .020, rearZ - .020]] as const : [[top - a.thickness, rearZ - .008], [top - .13, rearZ + .007],
+      [passengerBottom, rearZ - .05], [passengerBottom, rearZ - .07],
+      [top - .13, rearZ - .013], [top - a.thickness, rearZ - .028]] as const;
+    this.add(makeSectionShell('Dashboard passenger lower panel',
+      [{ x: a.passengerLeft, profile: fasciaProfile }, { x: a.passengerRight, profile: fasciaProfile }],
+      a.driverView ? new THREE.MeshStandardMaterial({ color: config.body.design === 'executive' ? 0x555b62 : 0x62676d,
+        roughness: .90, flatShading: true, side: THREE.DoubleSide }) : interior));
+    const passengerWidth = a.passengerRight - a.passengerLeft;
+    this.add(makeBox('Glovebox seam', [passengerWidth - .04, .002, .003],
+      [a.passengerDashAnchor[0], top - (a.driverView?.fasciaDrop ?? .132), rearZ + (a.driverView ? -.033 : .009)], softTrim));
+    // Undertray closes the top of the footwell, rather than filling its volume.
+    const tray = [[passengerBottom, rearZ - .05], [passengerBottom + .025, cowlZ],
+      [passengerBottom + .007, cowlZ], [passengerBottom - .018, rearZ - .05]] as const;
+    this.add(makeSectionShell('Passenger glovebox undertray',
+      [{ x: a.passengerLeft, profile: tray }, { x: a.passengerRight, profile: tray }], interior));
+    this.add(makeBox('Passenger dashboard accent', [passengerWidth - .04, .012, .008],
+      [a.passengerDashAnchor[0], top - .095, rearZ + (a.driverView ? -.012 : .003)], config.body.design === 'executive' ? satin : softTrim));
+    this.add(makeBox('Demister vent', [width * .65, .005, .028],
+      [0, cowlY + .003, cowlZ - .04], dark));
+
+    // Small real end returns bridge the cross-car assembly to the sloping
+    // window sill. They do not encroach on either mirror's optical plane.
+    const opening = frontWindowAnchors(config);
+    for (const sign of [-1, 1]) {
+      const inner = sign * (width * .5 - .018), outer = sign * (opening.bottomHalfWidth - .012);
+      const endProfile = [[cowlY, cowlZ], [opening.frontBottomY - .032, rearZ],
+        [top - .15, rearZ], [top - .15, cowlZ]] as const;
+      this.add(makeSectionShell(sign < 0 ? 'Left dashboard door junction' : 'Right dashboard door junction',
+        [{ x: Math.min(inner, outer), profile: endProfile }, { x: Math.max(inner, outer), profile: endProfile }], upperMaterial));
     }
   }
 
   private addInstrumentCluster(config: VehicleVisualConfig): InstrumentCluster {
     const cluster = new InstrumentCluster(config.instrumentCluster);
-    if (config.body.profile !== 'sport-coupe') {
-      fitInstrumentBinnacle(cluster, config);
-    } else {
-    const casing = new THREE.MeshStandardMaterial({
-      color: config.body.interiorColor, roughness: .86, side: THREE.DoubleSide,
-    });
-    const halfWidth = INSTRUMENT_CLUSTER_HOUSING_LAYOUT.backSize[0] * .5;
-    const halfHeight = INSTRUMENT_CLUSTER_HOUSING_LAYOUT.backSize[1] * .5;
-    const isSport = config.instrumentCluster.displayStyle === 'sport-tft';
-    const rearDepth = isSport ? .12 : .19;
-    const profile = [
-      [isSport ? .095 : .11, -.03], [.04, -rearDepth],
-      [-halfHeight - .055, -rearDepth], [-halfHeight, -.028],
-    ] as const;
-    cluster.add(makeSectionShell('Instrument binnacle rear enclosure', [
-      { x: -halfWidth, profile }, { x: halfWidth, profile },
-    ], casing));
-    for (const sign of [-1, 1]) {
-      cluster.add(makeBox('Instrument binnacle side wall', [.014, halfHeight * 2, .105],
-        [sign * (halfWidth + .007), 0, -.003], casing));
-    }
-    cluster.add(makeBox('Instrument binnacle lower lip', [halfWidth * 2 + .028, .014, .105],
-      [0, -halfHeight - .007, -.003], casing));
-    }
-    // Artwork, needles and telemetry remain owned by the existing cluster.
+    fitInstrumentBinnacle(cluster, config, this.layout);
+    // The existing artwork/needles retain their local coordinates and updates.
     setPosition(cluster, config.instrumentClusterTransform.position);
     cluster.rotation.set(...config.instrumentClusterTransform.rotation);
     cluster.scale.setScalar(config.instrumentClusterTransform.scale ?? 1);
@@ -556,6 +554,19 @@ export class Cockpit extends THREE.Group {
     }
 
     this.steeringWheelBase.add(this.steeringWheelRotationGroup);
+    if (config.body.design === 'mid-supercar') {
+      const badge = createPrancingHorseBadge(); badge.position.set(0, .005, .038);
+      this.steeringWheelRotationGroup.add(badge);
+      for (const side of [-1, 1]) {
+        // Column-mounted paddles stay fixed while the rim turns.
+        const paddle = makeBox(side < 0 ? 'Fixed downshift paddle' : 'Fixed upshift paddle',
+          [.035, .21, .012], [side * .15, .024, -.05], satin);
+        paddle.rotation.z = side * -.12;
+        this.steeringWheelBase.add(paddle);
+      }
+      this.steeringWheelRotationGroup.add(makeBox('Sport mode switch accent', [.017, .025, .012], [.083, -.054, .025],
+        new THREE.MeshStandardMaterial({ color: 0xbc1820, roughness: .35 })));
+    }
     this.add(this.steeringWheelBase);
   }
 
@@ -568,34 +579,58 @@ export class Cockpit extends THREE.Group {
     const design = config.body.design;
     const stackWidth = this.consoleWidth;
     const stackX = config.gearLeverPosition[0];
-    const topY = config.cabin.dashboardTopY - .04;
+    const topY = this.layout.centerStackAnchor[1];
     const consoleY = config.gearLeverPosition[1] - .025;
     const topZ = config.dashboard.position[2] + config.dashboard.dimensions[2] * .5;
-    const bottomZ = -.10;
+    const bottomZ = this.layout.centerConsoleFront[2];
     const stackProfile = [
       [topY, topZ], [consoleY, bottomZ], [this.floorY, bottomZ],
       [this.floorY, topZ - .095], [topY, topZ - .095],
     ] as const;
-    // Local side cheeks and a thin sloping fascia, not a solid centre block.
-    for (const sign of [-1, 1]) {
-      const edge = stackX + sign * stackWidth * .5;
-      this.add(makeSectionShell('Centre stack side panel', [
-        { x: edge - .008, profile: stackProfile }, { x: edge + .008, profile: stackProfile },
+    const foldY = topY - (design === 'executive' ? .225 : .200);
+    const foldZ = topZ + (design === 'executive' ? .055 : .065);
+    if (this.layout.driverView) {
+      const flare = this.layout.driverView.stackFlare;
+      const stations = [{ z: topZ, y: topY, width: stackWidth + flare },
+        { z: foldZ, y: foldY, width: stackWidth + flare * .45 },
+        { z: bottomZ, y: consoleY, width: stackWidth }];
+      const fascia = new THREE.MeshStandardMaterial({ color: design === 'executive' ? 0x555b62 : 0x62676d,
+        roughness: .90, flatShading: true, side: THREE.DoubleSide });
+      // The upper edge flares directly into the transverse passenger fascia;
+      // a second fold turns into the console. Existing cheeks follow it.
+      this.add(makeSectionShell('Centre stack fascia', stations.map(({ z, y, width }) => ({ x: z,
+        profile: [[y, stackX - width * .5], [y, stackX + width * .5],
+          [y - .018, stackX + width * .5], [y - .018, stackX - width * .5]] as const })), fascia, 'z'));
+      for (const sign of [-1, 1]) this.add(makeSectionShell('Centre stack side panel',
+        stations.map(({ z, y, width }) => {
+          const edge = stackX + sign * width * .5;
+          return { x: z, profile: [[y, edge - .008], [y, edge + .008],
+            [this.floorY, edge + .008], [this.floorY, edge - .008]] as const };
+        }), interior, 'z'));
+    } else {
+      // Local side cheeks and a thin sloping fascia, not a solid centre block.
+      for (const sign of [-1, 1]) {
+        const edge = stackX + sign * stackWidth * .5;
+        this.add(makeSectionShell('Centre stack side panel', [
+          { x: edge - .008, profile: stackProfile }, { x: edge + .008, profile: stackProfile },
+        ], interior));
+      }
+      const fasciaProfile = [[topY, topZ], [consoleY, bottomZ],
+        [consoleY, bottomZ - .018], [topY, topZ - .018]] as const;
+      this.add(makeSectionShell('Centre stack fascia', [
+        { x: stackX - stackWidth * .5, profile: fasciaProfile },
+        { x: stackX + stackWidth * .5, profile: fasciaProfile },
       ], interior));
     }
-    const fasciaProfile = [[topY, topZ], [consoleY, bottomZ],
-      [consoleY, bottomZ - .018], [topY, topZ - .018]] as const;
-    this.add(makeSectionShell('Centre stack fascia', [
-      { x: stackX - stackWidth * .5, profile: fasciaProfile },
-      { x: stackX + stackWidth * .5, profile: fasciaProfile },
-    ], interior));
 
     // Mount all controls on the same sloped fascia, with a small surface offset.
     const face = new THREE.Group();
     face.name = 'Centre stack controls';
-    face.position.set(stackX, (topY + consoleY) * .5, (topZ + bottomZ) * .5);
-    face.rotation.x = Math.atan2(topZ - bottomZ, topY - consoleY);
-    const faceHeight = Math.hypot(topY - consoleY, topZ - bottomZ);
+    const faceBottomY = this.layout.driverView ? foldY : consoleY;
+    const faceBottomZ = this.layout.driverView ? foldZ : bottomZ;
+    face.position.set(stackX, (topY + faceBottomY) * .5, (topZ + faceBottomZ) * .5);
+    face.rotation.x = Math.atan2(topZ - faceBottomZ, topY - faceBottomY);
+    const faceHeight = Math.hypot(topY - faceBottomY, topZ - faceBottomZ);
     if (design === 'executive') {
       const w = stackWidth * .5 - .012, h = faceHeight * .5 - .012, corner = .016;
       const outline = new THREE.Shape([
@@ -617,12 +652,21 @@ export class Cockpit extends THREE.Group {
         [sign * stackWidth * .24, faceHeight * .5 - .037, .005], dark));
     }
     if (design === 'executive') {
-      face.add(makeBox('Executive lower climate glass', [stackWidth - .055, .075, .008],
-        [0, -.12, .006], dark));
-      for (const y of [-.12]) {
-        face.add(makeBox('Executive glass satin lower border', [stackWidth - .055, .004, .008],
-          [0, y - .041, .008], satin));
+      const climate = new THREE.Group();
+      climate.name = 'Executive lower climate mounting';
+      if (this.layout.driverView) {
+        // Mount the existing lower surface on the console-facing fold instead
+        // of allowing the old tall rectangular surround to dictate the stack.
+        climate.position.set(stackX, (foldY + consoleY) * .5, (foldZ + bottomZ) * .5);
+        climate.rotation.x = Math.atan2(foldZ - bottomZ, foldY - consoleY);
+        this.add(climate);
+      } else {
+        climate.position.set(0, -.12, 0); face.add(climate);
       }
+      climate.add(makeBox('Executive lower climate glass', [stackWidth - .055, .075, .008],
+        [0, 0, .006], dark));
+      climate.add(makeBox('Executive glass satin lower border', [stackWidth - .055, .004, .008],
+        [0, -.041, .008], satin));
     }
     this.add(face);
 
@@ -632,6 +676,8 @@ export class Cockpit extends THREE.Group {
       tunnel.add(makeBox('Transmission tunnel side panel', [.016, consoleY - this.floorY, .94],
         [stackX + sign * (stackWidth * .5 - .008), (consoleY + this.floorY) * .5, bottomZ + .47], interior));
     }
+    tunnel.add(makeBox('Transmission tunnel rear return', [stackWidth, consoleY - this.floorY, .018],
+      [stackX, (consoleY + this.floorY) * .5, bottomZ + .94], interior));
     this.add(tunnel);
     const consoleMaterial = design === 'executive' ? new THREE.MeshStandardMaterial({
       color: 0x2c323a, roughness: .54, metalness: .15 }) : dark;
@@ -646,6 +692,14 @@ export class Cockpit extends THREE.Group {
     this.gearLever.name = 'Gear lever';
     setPosition(this.gearLever, config.gearLeverPosition);
     this.gearLever.rotation.set(...config.gearLeverRotation);
+    if (design === 'mid-supercar') {
+      this.gearLever.name = 'DCT compact selector panel';
+      for (const z of [-.065, 0, .065]) this.gearLever.add(makeBox('DCT selector button', [.085, .014, .035], [0, .012, z], satin));
+      this.add(this.gearLever);
+      this.add(makeBox('Mid-engine cabin rear bulkhead', [config.cabin.width, .70, .025],
+        [0, this.floorY + .35, .73], interior));
+      return;
+    }
 
     const boot = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.085, 16), dark);
     boot.name = 'Gear lever gaiter';
@@ -666,9 +720,10 @@ export class Cockpit extends THREE.Group {
   }
 
   private addFootwells(config: VehicleVisualConfig, material: THREE.Material): void {
+    const a = this.layout;
     const frontZ = config.cabin.windshieldBottomZ;
     const rearZ = .72;
-    const halfWidth = config.cabin.width * .5 - .04;
+    const halfWidth = config.cabin.width * .5 + .006;
     this.add(makeBox('Cabin floor', [halfWidth * 2, .022, rearZ - frontZ],
       [0, this.floorY - .011, (frontZ + rearZ) * .5], material));
     const profile = [[this.floorY + .14, frontZ], [this.floorY, frontZ + .19],
@@ -679,6 +734,35 @@ export class Cockpit extends THREE.Group {
       ['Passenger footwell toe board', consoleX + this.consoleWidth * .5, halfWidth],
     ] as const) {
       this.add(makeSectionShell(name, [{ x: left, profile }, { x: right, profile }], material));
+    }
+    const closureMaterial = new THREE.MeshStandardMaterial({ color: 0x30343a, roughness: .94, side: THREE.DoubleSide });
+    const bulkhead = [[a.dashboardUpperFront[1] - .018, frontZ + .015], [this.floorY + .14, frontZ],
+      [this.floorY + .124, frontZ - .018], [a.dashboardUpperFront[1] - .036, frontZ - .003]] as const;
+    this.add(makeSectionShell(config.body.design === 'executive' ? 'Executive front cabin bulkhead' : 'Front cabin visual bulkhead',
+      [{ x: -halfWidth, profile: bulkhead }, { x: halfWidth, profile: bulkhead }], closureMaterial));
+    const cowl = a.driverView ? [[config.cabin.windshieldBottomY - .008, frontZ - .006],
+      [a.windshieldLowerBoundary[1], a.windshieldLowerBoundary[2] + .004],
+      [a.dashboardUpperFront[1], a.dashboardUpperFront[2]],
+      [a.dashboardUpperFront[1] - .025, a.dashboardUpperFront[2]],
+      [a.windshieldLowerBoundary[1] - .025, a.windshieldLowerBoundary[2] + .004],
+      [config.cabin.windshieldBottomY - .033, frontZ - .006]] as const : [[config.cabin.windshieldBottomY - .008, frontZ - .006],
+      [a.dashboardUpperFront[1], a.dashboardUpperFront[2]],
+      [a.dashboardUpperFront[1] - .025, a.dashboardUpperFront[2]],
+      [config.cabin.windshieldBottomY - .033, frontZ - .006]] as const;
+    this.add(makeSectionShell('Windshield cowl shelf',
+      [{ x: -halfWidth, profile: cowl }, { x: halfWidth, profile: cowl }], a.driverView
+        ? new THREE.MeshStandardMaterial({ color: 0x41464c, roughness: .94, flatShading: true, side: THREE.DoubleSide }) : closureMaterial));
+    // Close the floor-to-door gap with shallow sill walls following the cards.
+    const opening = frontWindowAnchors(config);
+    for (const sign of [-1, 1]) {
+      const sill = [frontZ, opening.frontBottomZ, rearZ].map(z => {
+        const edge = frontDoorSkinAnchor(config, z);
+        const x = sign * (edge.x - .027);
+        return { x: z, profile: [[config.body.sillY + .10, x],
+          [this.floorY - .016, sign * halfWidth], [this.floorY - .016, sign * (halfWidth + .012)],
+          [config.body.sillY + .10, x + sign * .018]] as const };
+      });
+      this.add(makeSectionShell(sign < 0 ? 'Left inner sill closure' : 'Right inner sill closure', sill, closureMaterial, 'z'));
     }
   }
 
@@ -758,7 +842,8 @@ export class Cockpit extends THREE.Group {
       const from = new THREE.Vector3(sign * (config.cabin.width / 2 - .038), bottomY, bottomZ + .012);
       const to = new THREE.Vector3(sign * (config.body.roofWidth / 2 - .057), topY, topZ + .012);
       const direction = to.clone().sub(from);
-      const pillar = new THREE.Mesh(new THREE.CylinderGeometry(.022, .028, direction.length(), 6), dark);
+      const pillar = new THREE.Mesh(new THREE.CylinderGeometry(this.layout.pillarRadius * .80, this.layout.pillarRadius, direction.length(), 6),
+        new THREE.MeshStandardMaterial({ color: config.body.interiorColor, roughness: .94 }));
       pillar.name = sign < 0 ? 'Left A-pillar' : 'Right A-pillar';
       pillar.position.copy(from).add(to).multiplyScalar(.5);
       pillar.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
@@ -771,11 +856,21 @@ export class Cockpit extends THREE.Group {
     const lowerRail = makeBox(
       'Windshield lower frame',
       [frameWidth + 0.02, 0.045, 0.05],
-      [0, -glassHeight / 2 - 0.012, 0.005],
+      [0, -glassHeight / 2 - 0.012 + (this.layout.windshieldLowerBoundary[1] - bottomY) / Math.cos(tilt), 0.005],
       dark,
     );
     frame.add(topRail, lowerRail);
     this.add(frame);
+
+    // A narrow bonded-glass frit follows the rake, sealing the cowl/glass
+    // junction without raising the dashboard or masking the windscreen.
+    const borderHeight = this.layout.driverView ? .018 : .032;
+    const borderY = this.layout.windshieldLowerBoundary[1], borderZ = this.layout.windshieldLowerBoundary[2];
+    const borderTopZ = borderZ + deltaZ / deltaY * borderHeight;
+    const borderProfile = [[borderY, borderZ + .002], [borderY + borderHeight, borderTopZ + .002],
+      [borderY + borderHeight, borderTopZ - .001], [borderY, borderZ - .001]] as const;
+    this.add(makeSectionShell('Windshield lower bonded border',
+      [{ x: -frameWidth * .5, profile: borderProfile }, { x: frameWidth * .5, profile: borderProfile }], dark));
 
     const roofFrontZ = topZ + .025;
     const roofRearZ = config.body.design === undefined

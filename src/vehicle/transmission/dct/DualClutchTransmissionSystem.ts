@@ -30,10 +30,10 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
   private torque = 0;
   private inputRPM = 0;
   private outputRPM = 0;
-  public constructor(private readonly gearbox: Gearbox, private readonly config: DualClutchTransmissionConfig, wheelRadius: number) {
-    this.selector = new SelectorSafety(gearbox, config.parkMaximumSpeed, wheelRadius,
+  public constructor(private readonly gearbox: Gearbox, private readonly config: DualClutchTransmissionConfig, private readonly selectorWheelRadius: number) {
+    this.selector = new SelectorSafety(gearbox, config.parkMaximumSpeed, selectorWheelRadius,
       config.shiftStrategy.kickdownMaximumRPM, config.shiftStrategy.map[0]?.upshiftRPM ?? 1700);
-    this.controller = new AutomaticShiftController(config.shiftStrategy, gearbox, wheelRadius);
+    this.controller = new AutomaticShiftController(config.shiftStrategy, gearbox, selectorWheelRadius);
   }
   public reset(gear: Gear = 'N', selector?: DriveSelector): void {
     this.selector.reset(gear, selector); this.controller.reset(); this.handover = null; this.kickdown = false;
@@ -61,7 +61,7 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     if (this.selector.mode === 'D') this.controller.requestManualSelection(direction);
   }
   public returnToAuto(): void { this.controller.returnToAuto(); }
-  public prepare(context: TransmissionContext): { throttleScale: number } {
+  public prepare(context: TransmissionContext): { throttleScale: number; minimumThrottle?: number } {
     if (context.selectorRequest !== undefined) this.requestSelector(context.selectorRequest, context.vehicleSpeed, context.vehicleLateralSpeed, context.brake);
     const launchTarget = this.getLaunchEngagement(context);
     if (this.handover !== null) {
@@ -104,7 +104,13 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     }
     // Mild, brief engine torque management during overlap. Load coupling, not
     // directly assigning RPM, brings the engine to the incoming shaft speed.
-    return { throttleScale: this.handover === null ? 1 : this.kickdown ? 0.85 : 0.75 };
+    const match = this.config.revMatching, shift = this.handover;
+    const targetRPM = shift ? Math.abs(context.vehicleSpeed) / this.selectorWheelRadius *
+      this.gearbox.config.finalDriveRatio * this.gearbox.getRatio(shift.targetGear) * 30 / Math.PI : 0;
+    const minimumThrottle = match && shift && typeof shift.sourceGear === 'number' && shift.targetGear < shift.sourceGear &&
+      context.engineRunning && targetRPM < context.redlineRPM * .97
+      ? Math.min(match.maximumThrottle, Math.max(0, (targetRPM - context.engineRPM) / context.redlineRPM * match.response)) : 0;
+    return { throttleScale: shift === null ? 1 : this.kickdown ? 0.85 : 0.75, minimumThrottle };
   }
   public update(context: TransmissionContext): TransmissionOutput {
     const outputOmega = context.drivenWheelAngularVelocity * this.gearbox.config.finalDriveRatio;

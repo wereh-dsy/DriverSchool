@@ -53,6 +53,7 @@ import {
   type VehicleSnapshot,
 } from '../vehicle/physics';
 import { CruiseControlController } from '../vehicle/control';
+import { RearParkingProximity } from '../vehicle/control/RearParkingProximity';
 import { VehicleLightingController } from '../vehicle/control/VehicleLightingController';
 import { VehicleFeedbackSystem } from '../vehicle/feedback/VehicleFeedbackSystem';
 import { GamepadHaptics } from '../input/GamepadHaptics';
@@ -67,9 +68,9 @@ import {
   type VehicleLightMode,
 } from '../vehicle/visual';
 import {
-  DEFAULT_DRIVING_GROUND_ID,
   DRIVING_GROUND_CATALOG,
   createDrivingGround,
+  getInitialDrivingGroundId,
   getNextDrivingGroundId,
   isDrivingGroundId,
   type DrivingGround,
@@ -101,6 +102,7 @@ export class DrivingGame {
   private combustionAudioLoad = false;
   private parkingCamera: ParkingCamera | null = null;
   private readonly cruiseControl = new CruiseControlController();
+  private readonly rearParking = new RearParkingProximity();
   private tripCheckpointTime = 0;
   private readonly lightController = new VehicleLightingController();
   private readonly feedback = new VehicleFeedbackSystem();
@@ -304,6 +306,8 @@ export class DrivingGame {
         available: getVehicleDescriptor(this.activeVehicleId).capabilities.cruiseControl,
         speedMetersPerSecond: this.snapshot.speed,
         engineRunning: this.snapshot.driveAvailable,
+        currentThrottle: this.snapshot.throttle,
+        driverThrottleCommand: this.dynamics.driverThrottleCommand(driverControls.throttle),
         torqueLimitFactor: this.snapshot.driverAssists.engineTorqueFactor,
         parkingBrakeActive: this.snapshot.parkingBrake.engaged || this.snapshot.parkingBrake.applying,
         autoHoldHolding: this.snapshot.autoHold.holding,
@@ -392,7 +396,7 @@ export class DrivingGame {
         ignitionPhase: this.dynamics.engine.ignitionPhase,
         cruiseActive: this.cruiseControl.status.active,
         lowFuel: this.snapshot.fuel.lowFuel,
-        parkingDistance: this.snapshot.transmission.selectedMode === 'R' ? this.executiveDisplay?.data.proximity : null,
+        parkingDistance: this.rearParking.state.nearestDistanceM,
       },
     );
     const cruiseStatus = this.cruiseControl.status;
@@ -404,6 +408,7 @@ export class DrivingGame {
       cruiseAvailable: cruiseStatus.available,
       cruiseActive: cruiseStatus.active,
       cruiseTargetSpeedKmh: cruiseStatus.targetSpeedKmh,
+      rearParking: this.rearParking.state,
       drivetrainVibrationIntensity: this.feedback.state.drivetrainVibrationIntensity,
       triggerDiagnostics: this.input.gamepad?.getThrottleDiagnostics(),
       throttleCommand: this.latestInput.throttle,
@@ -481,12 +486,14 @@ export class DrivingGame {
       rearLeft: this.snapshot.wheels.rearLeft.rotationAngle,
       rearRight: this.snapshot.wheels.rearRight.rotationAngle,
     });
-    this.executiveDisplay?.update(dt, {
+    const parkingPose = {
       x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw,
       y: roadHeight, width: this.vehicleVisual.config.dimensions.width, length: this.vehicleVisual.config.dimensions.length,
-    }, this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.driveMode ?? 'NORMAL',
+    };
+    this.rearParking.update(parkingPose, this.snapshot.gear === 'R' || this.snapshot.transmission.selectedMode === 'R', this.ground.colliders);
+    this.executiveDisplay?.update(dt, parkingPose, this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.driveMode ?? 'NORMAL',
     this.cruiseControl.status.active, this.cruiseControl.status.targetSpeedKmh,
-    this.snapshot.fuel, this.ground.roadNetwork, this.ground.colliders, this.ignitionOn, this.snapshot.trip);
+    this.snapshot.fuel, this.ground.roadNetwork, this.ground.colliders, this.ignitionOn, this.snapshot.trip, this.rearParking.state);
     if (this.settingsOpen) {
       this.hud.settings.setTrip(this.snapshot.trip);
       this.hud.settings.setStartStop(this.dynamics.capabilities.startStop, this.snapshot.startStop?.enabled ?? false,
@@ -667,7 +674,7 @@ export class DrivingGame {
     this.hud.setMapOptions(
       DRIVING_GROUND_CATALOG.map((ground) => ({
         id: ground.id,
-        label: ground.label,
+        label: ground.displayName,
         description: ground.description,
       })),
       this.activeGroundId,
@@ -744,7 +751,7 @@ export class DrivingGame {
     this.hud.setVehicleOptions(
       VEHICLE_CATALOG.map((vehicle) => ({
         id: vehicle.id,
-        label: vehicle.name,
+        label: vehicle.displayName,
         description: vehicle.description,
       })),
       this.activeVehicleId,
@@ -825,7 +832,7 @@ export class DrivingGame {
     this.updateVehicleVisual(0);
     this.storeVehicleId(vehicleId);
     if (this.visualDebug.enabled) this.mirrorGeometryDebug.anchorVehicle(this.vehicleVisual.root);
-    this.hud.showMessage(`已切换为${descriptor.name} · 车辆回到当前场地起点`, 2.4);
+    this.hud.showMessage(`已切换为${descriptor.displayName} · 车辆回到当前场地起点`, 2.4);
     this.renderer.domElement.focus();
   }
 
@@ -879,15 +886,13 @@ export class DrivingGame {
   }
 
   private readStoredGroundId(): DrivingGroundId {
-    if (new URLSearchParams(location.search).get('city') === 'preset-showcase') return 'preset-showcase';
-    if (new URLSearchParams(location.search).get('city') === 'editor') return 'city-editor-map';
+    let stored: string | null = null;
     try {
-      const stored = localStorage.getItem('drivergame.ground-id.v1');
-      if (stored !== null && isDrivingGroundId(stored)) return stored;
+      stored = localStorage.getItem('drivergame.ground-id.v1');
     } catch {
       // Fall back to the default when storage is disabled.
     }
-    return DEFAULT_DRIVING_GROUND_ID;
+    return getInitialDrivingGroundId(stored, location.search);
   }
 
   private readStoredFuelL(vehicleId: VehicleId): number | undefined {

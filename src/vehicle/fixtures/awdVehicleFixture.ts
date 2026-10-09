@@ -1,8 +1,8 @@
-import { createTest6ATVehiclePhysicsConfig } from './transmissionTestVehicleConfigs';
-import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
+import { createTest6ATVehiclePhysicsConfig } from '../config/transmissionTestVehicleConfigs';
+import type { VehiclePhysicsConfig } from '../config/VehiclePhysicsConfig';
 
-/** Reuse the 6AT sedan's complete chassis, transmission and visual dimensions. */
-export function createAWDTestVehiclePhysicsConfig(mode: 'full-time' | 'on-demand'): VehiclePhysicsConfig {
+/** Selftest-only AWD topology on the unchanged 6AT chassis; never registered for players. */
+export function createAWDVehicleFixture(mode: 'full-time' | 'on-demand'): VehiclePhysicsConfig {
   const config = createTest6ATVehiclePhysicsConfig();
   config.transmission.supportsManualSelection = false;
   config.drivetrainType = config.drivetrainLayout = 'AWD';

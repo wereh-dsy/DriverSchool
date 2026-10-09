@@ -64,8 +64,8 @@ export function runExecutiveSedanSelfTest() {
   const clean = createVehiclePhysicsConfig('executive-lwb-2t');
   assert(clean.transmission.dct!.shiftStrategy.map[1]!.upshiftRPM === 1900 &&
     getVehicleDescriptor('executive-lwb-2t').physicsConfig.engine.throttleResponse === 3.2, 'switching modes never mutates catalog or fresh vehicles');
-  config.driveModes!.ECO.shiftStrategy.map[0]!.upshiftRPM = 1;
-  assert(clean.driveModes!.ECO.shiftStrategy.map[0]!.upshiftRPM === 1400, 'mode tables are detached per vehicle');
+  config.driveModes!.ECO!.shiftStrategy.map[0]!.upshiftRPM = 1;
+  assert(clean.driveModes!.ECO!.shiftStrategy.map[0]!.upshiftRPM === 1400, 'mode tables are detached per vehicle');
   const existing = new VehicleDynamics(createVehiclePhysicsConfig('test-7dct-sedan'));
   const before = JSON.stringify(existing.config);
   existing.cycleDriveMode();

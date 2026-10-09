@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 
 /** Surface identity is metadata; forces always use the continuous response values. */
-export type SurfaceType = 'asphalt' | 'concrete' | 'compact-shoulder' | 'grass' | 'curb';
+export type SurfaceType = 'asphalt' | 'concrete' | 'compact-shoulder' | 'grass' | 'curb'
+  | 'compact-gravel' | 'loose-gravel' | 'dirt' | 'damp-dirt';
 
 export interface SurfaceMaterial {
   readonly surfaceType: SurfaceType;
@@ -48,6 +49,22 @@ export const SURFACE_MATERIALS: Readonly<Record<SurfaceType, SurfaceMaterial>> =
   curb: Object.freeze({
     surfaceType: 'curb', longitudinalGrip: 0.91, lateralGrip: 0.9,
     rollingResistance: 1.22, roughness: 0.2,
+  }),
+  'compact-gravel': Object.freeze({
+    surfaceType: 'compact-gravel', longitudinalGrip: 0.83, lateralGrip: 0.79,
+    rollingResistance: 1.35, roughness: 0.13,
+  }),
+  'loose-gravel': Object.freeze({
+    surfaceType: 'loose-gravel', longitudinalGrip: 0.71, lateralGrip: 0.66,
+    rollingResistance: 1.8, roughness: 0.22,
+  }),
+  dirt: Object.freeze({
+    surfaceType: 'dirt', longitudinalGrip: 0.75, lateralGrip: 0.70,
+    rollingResistance: 1.65, roughness: 0.19,
+  }),
+  'damp-dirt': Object.freeze({
+    surfaceType: 'damp-dirt', longitudinalGrip: 0.64, lateralGrip: 0.60,
+    rollingResistance: 2.15, roughness: 0.24,
   }),
 });
 

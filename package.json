@@ -17,6 +17,7 @@
     "typecheck": "tsc -b",
     "selftest": "esbuild scripts/run-core-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-core-selftests.mjs && node .tmp-core-selftests.mjs",
     "selftest:vehicles": "esbuild scripts/run-vehicle-catalog-selftest.ts --bundle --platform=node --format=esm --outfile=.tmp-vehicle-catalog-selftest.mjs && node .tmp-vehicle-catalog-selftest.mjs",
+    "selftest:grounds": "esbuild scripts/run-ground-catalog-selftest.ts --bundle --platform=node --format=esm --outfile=.tmp-ground-catalog-selftest.mjs && node .tmp-ground-catalog-selftest.mjs",
     "selftest:experience": "esbuild scripts/run-vehicle-experience-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-vehicle-experience-selftests.mjs && node .tmp-vehicle-experience-selftests.mjs"
   },
   "dependencies": {

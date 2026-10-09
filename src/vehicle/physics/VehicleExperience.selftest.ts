@@ -1,5 +1,5 @@
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
-import { Vector2, Vector3 } from 'three';
+import { Group, Vector2, Vector3 } from 'three';
 import { createVehiclePhysicsConfig, VEHICLE_CATALOG } from '../VehicleCatalog';
 import { cloneVehiclePhysicsConfig, createDefaultVehiclePhysicsConfig } from '../config';
 import { calibrateTyres } from '../config/TyreCalibration';
@@ -13,6 +13,8 @@ import { sampleWheelContacts, WHEEL_IDS } from './WheelContact';
 import { SURFACE_MATERIALS } from '../../world/SurfaceMaterial';
 import { BrakeTorqueCoordinator } from './BrakeTorqueCoordinator';
 import { VehicleFeedbackSystem } from '../feedback/VehicleFeedbackSystem';
+import { VehicleContactSystem } from './VehicleContactSystem';
+import type { DrivingGround } from '../../world/DrivingGround';
 
 /** V1 integration checks, using the actual fixed-step torque/contact paths. */
 export function runVehicleExperienceSelfTest() {
@@ -181,30 +183,59 @@ export function runCruiseVehicleExperienceSelfTest() {
   let assertions = 0;
   const assert = (ok: boolean, message: string): void => { assertions++; if (!ok) throw new Error(`Cruise vehicle experience: ${message}`); };
   const dt = 1 / 120, baseInput = createNeutralVehicleInputState();
-  const metrics: { vehicle: string; target: number; mode: string; actual: number; spread: number }[] = [];
-  for (const id of ['executive-lwb-2t', 'road-suv-v6-8at', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan', 'sport-coupe'] as const) {
-    for (const target of [60, 80, 100]) {
+  const metrics: { vehicle: string; target: number; setSpeed: number; mode: string; actual: number; minimum: number; maximum: number; spread: number; mean: number; drift: number }[] = [];
+  const surface = { ...SURFACE_MATERIALS.asphalt, height: 0, normal: new Vector3(0, 1, 0), gradient: new Vector2(), grade: 0,
+    gripMultiplier: 1, rollingResistanceMultiplier: 1 };
+  const ground = { root: new Group(), colliders: [], spawnPose: { position: new Vector3() },
+    worldBounds: { minX: -1e6, maxX: 1e6, minZ: -1e6, maxZ: 1e6 },
+    sampleRoadSurface: () => surface,
+  } as unknown as DrivingGround;
+  for (const descriptor of VEHICLE_CATALOG.filter(vehicle => vehicle.physicsConfig.driveModes)) {
+    const car = new VehicleDynamics(createVehiclePhysicsConfig(descriptor.id), { speed: 20, gear: 4, driveSelector: 'D' });
+    let requestedThrottle = NaN;
+    const prepare = car.powertrain.prepare.bind(car.powertrain);
+    car.powertrain.prepare = context => { requestedThrottle = context.throttle; prepare(context); };
+    for (let i = 0; i < 3; i++) {
+      car.cycleDriveMode();
+      for (const driver of [0, .9]) {
+        const expected = Math.max(car.driverThrottleCommand(driver), .55);
+        car.stepFixed(dt, { ...baseInput, throttle: driver, cruiseThrottle: .55 });
+        assert(requestedThrottle === expected, `${descriptor.id}/${car.driveMode}: pedal shaping precedes max arbitration; cruise reaches Powertrain unchanged`);
+      }
+    }
+  }
+  for (const descriptor of VEHICLE_CATALOG.filter(vehicle => vehicle.capabilities.cruiseControl)) {
+    const id = descriptor.id;
+    for (const target of [60, 80, 100, 120]) {
       const config = createVehiclePhysicsConfig(id), speed = target / 3.6;
       const gear = 5;
       const rpm = speed / config.wheelRadius * (config.transmission.gearRatios[gear] ?? 1) * config.transmission.finalDriveRatio * 60 / (2 * Math.PI);
       const car = new VehicleDynamics(config, { speed, gear, driveSelector: 'D', engineRPM: rpm, clutchEngagement: 1 });
+      const contacts = new VehicleContactSystem(ground, descriptor.visualConfig.dimensions);
       const cruise = new CruiseControlController(config.cruiseControl);
       const tick = (i: number, grade = 0, throttle = 0, brake = 0) => {
         const state = car.getSnapshot();
         const controls = cruise.update(dt, { ...baseInput, cruiseToggle: i === 0, throttle, brake }, {
           available: true, speedMetersPerSecond: state.speed, engineRunning: state.driveAvailable, gear: state.gear,
           driveSelector: state.transmission.selectedMode ?? undefined, torqueLimitFactor: state.driverAssists.engineTorqueFactor,
+          currentThrottle: state.throttle, driverThrottleCommand: car.driverThrottleCommand(throttle),
         });
-        return car.stepFixed(dt, controls, { gradeRadians: grade });
+        return grade === 0 ? contacts.step(dt, controls, car) : car.stepFixed(dt, controls, { gradeRadians: grade });
       };
       let minimum = Infinity, maximum = -Infinity;
-      for (let i = 0; i < 7200; i++) {
+      let sum = 0, firstSum = 0, lastSum = 0;
+      for (let i = 0; i < 21600; i++) {
         const state = tick(i);
-        if (i >= 6000) { minimum = Math.min(minimum, state.speed * 3.6); maximum = Math.max(maximum, state.speed * 3.6); }
+        if (i >= 18000) { minimum = Math.min(minimum, state.speed * 3.6); maximum = Math.max(maximum, state.speed * 3.6); sum += state.speed * 3.6; }
+        if (i >= 18000 && i < 19200) firstSum += state.speed * 3.6;
+        if (i >= 20400) lastSum += state.speed * 3.6;
       }
       assert(cruise.status.active && minimum >= target - 1 && maximum <= target + 1,
         `${id} ${target}: flat speed ${car.speed * 3.6}, spread ${maximum - minimum}`);
-      metrics.push({ vehicle: id, target, mode: 'NORMAL', actual: car.speed * 3.6, spread: maximum - minimum });
+      const drift = (lastSum - firstSum) / 1200;
+      assert(Math.abs(drift) < .2, `${id} ${target}: steady state cannot keep losing speed (${drift})`);
+      metrics.push({ vehicle: id, target, setSpeed: target, mode: 'NORMAL', actual: car.speed * 3.6, minimum, maximum,
+        spread: maximum - minimum, mean: sum / 3600, drift });
       if (target === 80) {
         for (let i = 1; i < 6000; i++) tick(i, .025);
         assert(Math.abs(car.speed * 3.6 - target) <= 1, `${id}: mild uphill restores target (${car.speed * 3.6})`);
@@ -219,23 +250,40 @@ export function runCruiseVehicleExperienceSelfTest() {
     }
   }
   const cruise = new CruiseControlController();
-  for (const id of ['executive-lwb-2t', 'road-suv-v6-8at'] as const) {
-    const config = createVehiclePhysicsConfig(id), speed = 80 / 3.6;
-    const car = new VehicleDynamics(config, { speed, gear: 5, driveSelector: 'D', engineRPM: 2000 });
-    car.cycleDriveMode();
-    const controller = new CruiseControlController();
+  for (const descriptor of VEHICLE_CATALOG.filter(vehicle => vehicle.capabilities.cruiseControl && vehicle.physicsConfig.driveModes)) {
+    const id = descriptor.id;
+    const order = descriptor.physicsConfig.driveModeOrder ?? ['ECO', 'NORMAL', 'SPORT'] as const;
+    for (const mode of [order[0]!, order[order.length - 1]!]) for (const target of [60, 80, 100, 120]) {
+    const config = createVehiclePhysicsConfig(id);
+    const car = new VehicleDynamics(config, { gear: 1, driveSelector: 'D' });
+    for (let n = 0; n < order.length && car.driveMode !== mode; n++) car.cycleDriveMode();
+    const contacts = new VehicleContactSystem(ground, descriptor.visualConfig.dimensions);
+    let launchSteps = 0;
+    while (car.speed * 3.6 < target && launchSteps++ < 18000) contacts.step(dt, { ...baseInput, throttle: .6 }, car);
+    assert(car.speed * 3.6 >= target, `${id}/${mode}: driver reaches SET speed through real torque path`);
+    const controller = new CruiseControlController(config.cruiseControl);
     let minimum = Infinity, maximum = -Infinity;
-    for (let i = 0; i < 7200; i++) {
+    let sum = 0, firstSum = 0, lastSum = 0;
+    for (let i = 0; i < 21600; i++) {
       const state = car.getSnapshot();
       const request = controller.update(dt, { ...baseInput, cruiseToggle: i === 0 }, {
         available: true, speedMetersPerSecond: state.speed, engineRunning: state.driveAvailable, gear: state.gear,
         driveSelector: 'D', torqueLimitFactor: state.driverAssists.engineTorqueFactor,
+        currentThrottle: state.throttle, driverThrottleCommand: car.driverThrottleCommand(0),
       });
-      car.stepFixed(dt, request);
-      if (i >= 6000) { minimum = Math.min(minimum, car.speed * 3.6); maximum = Math.max(maximum, car.speed * 3.6); }
+      contacts.step(dt, request, car);
+      if (i === 0) assert(Math.abs(request.cruiseThrottle! - state.throttle) < 1e-10 && request.throttle === 0,
+        `${id}/${mode}: SET retains actuator output with released pedal`);
+      if (i >= 18000) { minimum = Math.min(minimum, car.speed * 3.6); maximum = Math.max(maximum, car.speed * 3.6); sum += car.speed * 3.6; }
+      if (i >= 18000 && i < 19200) firstSum += car.speed * 3.6;
+      if (i >= 20400) lastSum += car.speed * 3.6;
     }
-    assert(minimum >= 79 && maximum <= 81, `${id}: SPORT throttle shaping preserves closed-loop target`);
-    metrics.push({ vehicle: id, target: 80, mode: 'SPORT', actual: car.speed * 3.6, spread: maximum - minimum });
+    const setSpeed = controller.status.targetSpeedKmh!;
+    const drift = (lastSum - firstSum) / 1200;
+    assert(minimum >= setSpeed - 1 && maximum <= setSpeed + 1 && Math.abs(drift) < .2, `${id}/${mode}/${target}: steady target (${minimum}..${maximum}, drift ${drift})`);
+    metrics.push({ vehicle: id, target, setSpeed, mode, actual: car.speed * 3.6, minimum, maximum,
+      spread: maximum - minimum, mean: sum / 3600, drift });
+    }
   }
   const context = { available: true, engineRunning: true, speedMetersPerSecond: 80 / 3.6, gear: 5, driveSelector: 'D' as const };
   cruise.update(dt, { ...baseInput, cruiseToggle: true }, context);

@@ -88,7 +88,7 @@ export class SuspensionSystem {
 
   private integrate(safeDt: number, step: SuspensionStep): void {
     const adaptive = this.config.suspension.adaptiveDamping;
-    if (adaptive) this.dampingMultiplier += (adaptive.modeMultipliers[this.mode] - this.dampingMultiplier) *
+    if (adaptive) this.dampingMultiplier += ((adaptive.modeMultipliers[this.mode] ?? 1) - this.dampingMultiplier) *
       (1 - Math.exp(-adaptive.responseRate * safeDt));
     const air = this.config.suspension.airSuspension;
     if (air) {
@@ -98,7 +98,7 @@ export class SuspensionSystem {
         if (this.highSpeedTimer >= high.delay) this.lowered = true;
         if (speed <= high.restoreSpeed) this.lowered = false;
       }
-      const target = clamp(Math.min(air.modeOffsets[this.mode], this.lowered && high ? high.offset : air.maximumOffset),
+      const target = clamp(Math.min(air.modeOffsets[this.mode] ?? 0, this.lowered && high ? high.offset : air.maximumOffset),
         air.minimumOffset, air.maximumOffset);
       const previous = this.rideHeightOffset;
       this.rideHeightOffset += clamp(target - previous, -air.adjustmentRate * safeDt, air.adjustmentRate * safeDt);

@@ -11,6 +11,8 @@ import type { VehicleSnapshot } from '../vehicle/physics/VehicleDynamics';
 const SURFACE_COLORS: Record<SurfaceType, readonly [number, number, number]> = {
   asphalt: [0.25, 0.9, 1], concrete: [0.8, 0.85, 0.9],
   'compact-shoulder': [1, 0.75, 0.2], grass: [0.35, 1, 0.25], curb: [1, 0.4, 0.65],
+  'compact-gravel': [0.9, 0.8, 0.5], 'loose-gravel': [1, 0.6, 0.2],
+  dirt: [0.75, 0.5, 0.25], 'damp-dirt': [0.5, 0.35, 0.2],
 };
 
 /** Optional contact diagnostics; no physics or camera authority. */

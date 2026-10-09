@@ -68,7 +68,7 @@ export interface TransmissionSystem {
   reset(gear?: Gear, selector?: DriveSelector): void;
   requestManualSelection?(direction: -1 | 1): void;
   returnToAuto?(): void;
-  prepare(context: TransmissionContext): { throttleScale: number };
+  prepare(context: TransmissionContext): { throttleScale: number; minimumThrottle?: number };
   update(context: TransmissionContext): TransmissionOutput;
   requestSelector(selector: DriveSelector, speed: number, lateralSpeed?: number, brake?: number): boolean;
   getSnapshot(): TransmissionSnapshot;
