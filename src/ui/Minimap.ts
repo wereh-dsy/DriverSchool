@@ -1,4 +1,5 @@
 import { worldToRoadMap, type RoadNetworkData } from '../world/navigation/RoadNetwork';
+import { drawLogicalRoadLayer } from './LogicalRoadMapGeometry';
 
 export type MinimapPosition = 'off' | 'top-left' | 'top-right';
 
@@ -43,24 +44,7 @@ export class Minimap {
     ctx.clearRect(0, 0, this.size, this.size);
     if (!network) return;
     const scale = this.mapScale();
-    ctx.strokeStyle = '#a8b8c2';
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    for (const road of network.segments) {
-      ctx.lineWidth = Math.max(2.5, road.width * scale);
-      ctx.beginPath();
-      road.centerline.forEach((point, i) => {
-        const mapped = this.mapPoint(point.x, point.z);
-        if (i === 0) ctx.moveTo(mapped.x, mapped.y); else ctx.lineTo(mapped.x, mapped.y);
-      });
-      ctx.stroke();
-    }
-    ctx.fillStyle = '#dbe6eb';
-    for (const junction of network.intersections) {
-      const mapped = this.mapPoint(junction.center.x, junction.center.z);
-      ctx.fillRect(mapped.x - junction.halfExtentX * scale, mapped.y - junction.halfExtentZ * scale,
-        junction.halfExtentX * scale * 2, junction.halfExtentZ * scale * 2);
-    }
+    drawLogicalRoadLayer(ctx,network.segments,network.intersections,(x,z)=>this.mapPoint(x,z),scale,2.5,()=> '#a8b8c2','#dbe6eb');
   }
 
   public update(x: number, z: number, yaw: number, dt: number): void {

@@ -1,5 +1,6 @@
 import type { CityIntersection, CityMapData, CityPoint, CityRoad, LaneMovement } from './CityMapData';
 import { junctionExtent, polylineLength, portsFor, roadEdges, roadPoints, rotatePoint, sampleAt } from './geometry';
+import { junctionSurfaceContains, junctionSurfaceHeight } from './JunctionSurface';
 
 /** Data migration/authoring only. Renderers consume approach data, never infer arrows. */
 export function populateIntersectionMarkingMetadata(map:CityMapData):void {
@@ -17,6 +18,7 @@ export function populateIntersectionMarkingMetadata(map:CityMapData):void {
   }
 }
 export function insideIntersectionMarkingFootprint(j:CityIntersection,map:CityMapData,p:CityPoint,margin=0,compiledExtent?:number):boolean {
+  if(j.pavementFootprint)return Math.abs(junctionSurfaceHeight(j,p)-(p.y??0))<=0.2&&junctionSurfaceContains(j,map,p,margin);
   if(Math.abs((j.position.y??0)-(p.y??0))>0.2)return false;
   const q=rotatePoint({x:p.x-j.position.x,z:p.z-j.position.z},-j.rotation),f=j.markingFootprint;
   if(f?.kind==='polygon') {

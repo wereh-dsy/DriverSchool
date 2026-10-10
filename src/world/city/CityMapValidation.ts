@@ -79,6 +79,8 @@ export function validateMap(value: unknown): MapValidation {
     const j = m.intersections[index], path = `intersections[${index}]`; if (!j) continue;
     if (!Object.hasOwn(INTERSECTION_LANES, j.type) || !point(j.position) || !finite(j.rotation) || typeof j.signalized !== 'boolean' || !Array.isArray(j.connections)) { issue('junction.invalid', path, 'Invalid type, position, rotation, signalized or connections.'); continue; }
     const ports = new Set<string>();
+    if(j.pavementFootprint&&(!Array.isArray(j.pavementFootprint)||j.pavementFootprint.length<3||!j.pavementFootprint.every(point)))issue('junction.pavement',path,'Pavement outline needs at least three finite local points.');
+    if(j.pavementHeights&&Object.values(j.pavementHeights).some(y=>!finite(y)||y<-50||y>100))issue('junction.pavementHeight',path,'Approach heights must be finite metres.');
     const expected = j.type==='irregular'?5:j.type.startsWith('t_') ? 3 : 4;
     if(j.portAngles!==undefined && (!j.portAngles||typeof j.portAngles!=='object'||Object.entries(j.portAngles).some(([port,angle])=>!portsFor(j).includes(port as typeof j.connections[number]['port'])||!finite(angle))))issue('junction.angles',path,'Finite local bearings on valid ports required.');
     if(j.channelized!==undefined&&typeof j.channelized!=='boolean')issue('junction.channelized',path,'Channelized flag must be boolean.');
@@ -87,7 +89,8 @@ export function validateMap(value: unknown): MapValidation {
       const p = endpoint(c, path), key = `${c?.roadId}:${c?.end}`;
       if (!c || !portsFor(j).includes(c.port) || ports.has(c.port) || used.has(key)) issue('port.conflict', path, 'A port and road endpoint each allow one junction connection.');
       if (c) { ports.add(c.port); used.add(key); }
-      if (p && Math.abs(pointHeight(p) - pointHeight(j.position)) > 0.2) issue('height.mismatch', path, `Road ${c.roadId}:${c.end} Y=${p.y} differs from junction Y=${pointHeight(j.position)}.`);
+      const expectedHeight=j.pavementHeights?.[c.port]??pointHeight(j.position);
+      if (p && Math.abs(pointHeight(p) - expectedHeight) > 0.2) issue('height.mismatch', path, `Road ${c.roadId}:${c.end} Y=${p.y} differs from junction mouth Y=${expectedHeight}.`);
     }
     if (j.signals && (j.signals.offsetSeconds !== undefined && !finite(j.signals.offsetSeconds) || j.signals.headHeight !== undefined && (!finite(j.signals.headHeight) || j.signals.headHeight < 3 || j.signals.headHeight > 12))) issue('signals.invalid', path, 'Invalid signal offset/head height.');
     const f=j.markingFootprint;

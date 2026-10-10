@@ -31,7 +31,7 @@ export function roadEdges(road: CityRoad): { left: number; right: number; width:
 }
 export function connectionPoint(j: CityIntersection, port: IntersectionPort, map: CityMapData): CityPoint {
   const d = rotatePoint(portDirection(j,port), j.rotation), extent = junctionExtent(j, map);
-  return { x: j.position.x + d.x * extent, y: j.position.y ?? 0, z: j.position.z + d.z * extent };
+  return { x: j.position.x + d.x * extent, y: j.pavementHeights?.[port]??j.position.y??0, z: j.position.z + d.z * extent };
 }
 /** A connection owns its endpoint, including after moving/rotating a junction. */
 export function syncConnections(map: CityMapData): void {

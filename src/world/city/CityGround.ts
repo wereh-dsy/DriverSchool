@@ -13,6 +13,7 @@ import { roadSignColliders } from './RoadSignTemplates';
 
 import { RoadClearance } from './RoadClearance';
 import { cityGroundGeometry } from './CityGroundGeometry';
+import {junctionSurfaceContains,junctionSurfaceHeight,compileJunctionSurface} from './JunctionSurface';
 import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
 
 interface SurfaceArea { contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number }
@@ -45,17 +46,22 @@ export class CityGround implements DrivingGround {
       const h=junctionExtent(j,this.data),q=rotatePoint({x:sign*(h-2.5),z:sign*(h-2.5)},j.rotation);
       this.colliders.push(createStaticOBBCollider({id:j.id+':island:'+sign,x:j.position.x+q.x,z:j.position.z+q.z,width:2,length:2,yaw:j.rotation,minHeight:j.position.y??0,maxHeight:(j.position.y??0)+0.18,type:'obstacle'}));
     }
+    const junctionMasks=new Map(this.data.intersections.filter(j=>j.pavementFootprint).map(j=>[j.id,compileJunctionSurface(j)]));
     for (const road of this.roadNetwork.segments) {
       const source = this.data.roads.find(r => r.id === road.id)!;
       const edges = roadEdges(source);
       const sidewalk = source.sidewalk?.enabled ? source.sidewalk.width : 0;
+      const masks=[road.startIntersectionId,road.endIntersectionId].flatMap(id=>id&&junctionMasks.has(id)?[junctionMasks.get(id)!]:[]);
       for (let i = 1; i < road.centerline.length; i++) {
         const a = road.centerline[i - 1]!, c = road.centerline[i]!, dx = c.x - a.x, dz = c.z - a.z, squared = dx * dx + dz * dz;
         const dy = (c.y ?? 0) - (a.y ?? 0);
         const extensionAt = (x: number, z: number) => { const t = ((x - a.x) * dx + (z - a.z) * dz) / squared; return Math.max(0, -t, t - 1) * Math.sqrt(squared); };
         const heightAt = (x: number, z: number) => (a.y ?? 0) + dy * Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / squared));
         const contains = (extra: number) => (x: number, z: number) => {
-          const t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / squared));
+          const along=((x-a.x)*dx+(z-a.z)*dz)/squared;
+          if(i===1&&road.startIntersectionId&&along<0||i===road.centerline.length-1&&road.endIntersectionId&&along>1)return false;
+          for(const mask of masks)if(mask.contains(x,z)&&Math.abs(mask.heightAt(x,z)-heightAt(x,z))<=.5)return false;
+          const t = Math.max(0, Math.min(1, along));
           const offset = (-(x - a.x) * dz + (z - a.z) * dx) / Math.sqrt(squared);
           const radius = (offset < 0 ? -edges.left : edges.right) + extra;
           return (x - a.x - dx * t) ** 2 + (z - a.z - dz * t) ** 2 <= radius * radius;
@@ -67,9 +73,18 @@ export class CityGround implements DrivingGround {
       }
     }
     for (const j of this.data.intersections) {
+      if(j.pavementFootprint){
+        const outline=j.pavementFootprint.map(p=>rotatePoint(p,j.rotation)),base=j.position.y??0;
+        for(let i=0;i<outline.length;i++){
+          const a=outline[i]!,b=outline[(i+1)%outline.length]!,den=a.x*b.z-a.z*b.x;if(Math.abs(den)<1e-8)continue;
+          const gx=((a.y??0)*b.z-(b.y??0)*a.z)/den,gz=(a.x*(b.y??0)-b.x*(a.y??0))/den;
+          this.addArea({minX:j.position.x+Math.min(0,a.x,b.x),maxX:j.position.x+Math.max(0,a.x,b.x),minZ:j.position.z+Math.min(0,a.z,b.z),maxZ:j.position.z+Math.max(0,a.z,b.z)},{pavement:false,gx,gz,heightAt:(x,z)=>base+gx*(x-j.position.x)+gz*(z-j.position.z),contains:(x,z)=>{const qx=x-j.position.x,qz=z-j.position.z,u=(qx*b.z-qz*b.x)/den,v=(a.x*qz-a.z*qx)/den;return u>=-1e-6&&v>=-1e-6&&u+v<=1+1e-6;}});
+        }
+        continue;
+      }
       const h = junctionExtent(j, this.data), extent = h * (Math.abs(Math.cos(j.rotation)) + Math.abs(Math.sin(j.rotation)));
       this.addArea({ minX: j.position.x - extent, maxX: j.position.x + extent, minZ: j.position.z - extent, maxZ: j.position.z + extent }, {
-        pavement: false, heightAt: () => j.position.y ?? 0, gx: 0, gz: 0, contains: (x, z) => { const p = rotatePoint({ x: x - j.position.x, z: z - j.position.z }, -j.rotation); return Math.abs(p.x) <= h && Math.abs(p.z) <= h; },
+        pavement: false, heightAt: (x,z) => junctionSurfaceHeight(j,{x,z}), gx: 0, gz: 0, contains: (x, z) => junctionSurfaceContains(j,this.data,{x,z}),
       });
     }
     for (const o of this.data.objects) if (o.prefabId === 'parking') {

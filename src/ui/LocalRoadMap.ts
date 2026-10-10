@@ -1,8 +1,8 @@
 import { worldToRoadMap, type RoadNetworkData, type RoadSegmentData, type RoadIntersectionData } from '../world/navigation/RoadNetwork';
+import { drawLogicalRoadLayer } from './LogicalRoadMapGeometry';
 
 const TILE = 256, PIXELS = 512;
-type MapEdge = { ax: number; az: number; bx: number; bz: number; width: number; major: boolean };
-type Cell = { edges: MapEdge[]; roads: Set<RoadSegmentData>; junctions: Set<RoadIntersectionData> };
+type Cell = { roads: Set<RoadSegmentData>; junctions: Set<RoadIntersectionData> };
 
 /** Shared north-up minimap coordinates. Index once, rasterize only visible cached tiles. */
 export class LocalRoadMap {
@@ -23,16 +23,15 @@ export class LocalRoadMap {
     const cell = (x: number, z: number): Cell => {
       const key = `${x},${z}`;
       let value = this.cells.get(key);
-      if (!value) { value = { edges: [], roads: new Set(), junctions: new Set() }; this.cells.set(key, value); }
+      if (!value) { value = { roads: new Set(), junctions: new Set() }; this.cells.set(key, value); }
       return value;
     };
     for (const road of network.segments) for (let i = 1; i < road.centerline.length; i++) {
       const a = this.point(road.centerline[i - 1]!.x, road.centerline[i - 1]!.z), b = this.point(road.centerline[i]!.x, road.centerline[i]!.z);
-      const edge = { ax: a.x, az: a.y, bx: b.x, bz: b.y, width: road.width, major: (road.speedLimit ?? 0) >= 70 || road.width >= 18 };
       const pad = road.width / 2 + 1;
       for (let x = Math.floor((Math.min(a.x, b.x) - pad) / TILE); x <= Math.floor((Math.max(a.x, b.x) + pad) / TILE); x++)
         for (let z = Math.floor((Math.min(a.y, b.y) - pad) / TILE); z <= Math.floor((Math.max(a.y, b.y) + pad) / TILE); z++) {
-          const entry = cell(x, z); entry.edges.push(edge); entry.roads.add(road);
+          const entry = cell(x, z); entry.roads.add(road);
         }
     }
     for (const junction of network.intersections) {
@@ -73,13 +72,8 @@ export class LocalRoadMap {
     canvas = document.createElement('canvas'); canvas.width = canvas.height = PIXELS;
     const ctx = canvas.getContext('2d'); if (!ctx) return null;
     ctx.setTransform(PIXELS / TILE, 0, 0, PIXELS / TILE, -x * PIXELS, -z * PIXELS);
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    for (const edge of entry.edges) {
-      ctx.strokeStyle = edge.major ? '#b4b6b7' : '#d0d2d2'; ctx.lineWidth = Math.max(2, edge.width);
-      ctx.beginPath(); ctx.moveTo(edge.ax, edge.az); ctx.lineTo(edge.bx, edge.bz); ctx.stroke();
-    }
-    ctx.fillStyle = '#c2c5c5';
-    for (const j of entry.junctions) { const p = this.point(j.center.x, j.center.z); ctx.fillRect(p.x - j.halfExtentX, p.y - j.halfExtentZ, j.halfExtentX * 2, j.halfExtentZ * 2); }
+    drawLogicalRoadLayer(ctx,entry.roads,entry.junctions,(x,z)=>this.point(x,z),1,2,
+      road=>(road.speedLimit??0)>=70||road.width>=18?'#b4b6b7':'#d0d2d2','#c2c5c5');
     this.tiles.set(key, canvas); this.rasterizations++;
     if (this.tiles.size > 24) this.tiles.delete(this.tiles.keys().next().value!);
     return canvas;

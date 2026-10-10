@@ -31,6 +31,9 @@ export interface CityIntersection extends CityElementMetadata {
   /** Optional local bearings for skewed and five-leg junctions. Existing cardinal ports are unchanged. */
   portAngles?: Partial<Record<IntersectionPort, number>>;
   channelized?: boolean;
+  /** Authoritative local pavement outline, derived from actual approaches on load/edit. */
+  pavementFootprint?: CityPoint[];
+  pavementHeights?: Partial<Record<IntersectionPort,number>>;
   markingFootprint?: { kind:'junction'; margin?:number } | { kind:'rectangle'; halfWidth:number; halfDepth:number } | { kind:'polygon'; points:CityPoint[] };
   approaches?: Partial<Record<IntersectionPort,{lanes:LaneMovement[];arrowDistance?:number}>>;
 }

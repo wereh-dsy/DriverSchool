@@ -2,6 +2,7 @@ import type { CityMapData, RoadEndpoint } from './CityMapData';
 import { syncConnections } from './geometry';
 import { validateMap } from './CityMapValidation';
 import { populateIntersectionMarkingMetadata } from './MarkingOwnership';
+import { setJunctionPavementFootprint } from './JunctionSurface';
 /** Backward-compatible normalization; validation provides actionable issue codes. */
 export function loadCityMap(value: unknown): CityMapData {
   const report = validateMap(value);
@@ -24,6 +25,8 @@ export function loadCityMap(value: unknown): CityMapData {
   }
   map.schemaVersion = 2; map.roadLinks ??= []; map.connectionPorts ??= [];
   syncConnections(map);
+  // Presets author approaches; the normalized logical junction owns the pavement.
+  for (const junction of map.intersections) setJunctionPavementFootprint(junction, map);
   populateIntersectionMarkingMetadata(map);
   const normalized = validateMap(map);
   if (!normalized.valid) throw new Error(normalized.errors.map(e => `${e.code} ${e.path}: ${e.message}`).join('\n'));

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>City Main V4 · 实际路网预览</title>
+<style>html,body{margin:0;overflow:hidden;background:#96ad99;font:13px system-ui;color:white}canvas{display:block}header{position:absolute;top:12px;left:12px;right:12px;background:#142e37e8;border-radius:7px;padding:10px 12px}h1{font-size:18px;margin:0 0 5px}p{margin:0;font-size:11px;color:#c8dad7}nav{position:absolute;bottom:12px;left:12px;right:12px;display:flex;flex-wrap:wrap;gap:5px}button{background:#173840ed;border:1px solid #87aaa2;border-radius:5px;color:white;padding:7px 10px;cursor:pointer;font-size:12px}button[aria-pressed=true]{background:#3c716b}footer{position:absolute;left:12px;bottom:95px;font-size:11px;padding:5px 8px;border-radius:4px;background:#173840db}</style></head>
+<body><header><h1>City Main V4 · 普通城市路网</h1><p id="description">保留六座既有互通 · 八条城市主轴 · 正俯视实景</p><button id="load">加载实际地图</button></header>
+<nav><button data-view="overview">城市总览</button><button data-view="central">中央城区</button><button data-view="west">西部老城</button><button data-view="east">东部新区</button><button data-view="north">北部城区</button><button data-view="south">南部工业区</button><button id="logical">逻辑地图</button></nav><footer>北向上 · 实际 CityGround 渲染 · 投影相交包含立体跨越</footer>
+<script type="module">
+import * as THREE from '/node_modules/three/build/three.module.js';
+import {CityGround} from '/src/world/city/CityGround.ts';
+import {LocalRoadMap} from '/src/ui/LocalRoadMap.ts';
+const loadButton=document.querySelector('#load');
+await new Promise(resolve=>loadButton.onclick=()=>{loadButton.disabled=true;loadButton.textContent='正在加载…';setTimeout(resolve,0);});
+const data=await(await fetch('/city-main.json')).json();
+if(data.environment.metadata.urbanSkeletonVersion!=='4')throw new Error('尚未发布 V4 地图');
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x96ad99);scene.add(new THREE.HemisphereLight(0xddeeff,0x76705f,2.3));
+const sun=new THREE.DirectionalLight(0xfff3dd,3);sun.position.set(-180,350,100);scene.add(sun);
+const ground=new CityGround(data,{editor:true});scene.add(ground.root);
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;document.body.prepend(renderer.domElement);
+const mapCanvas=document.createElement('canvas');mapCanvas.style.display='none';document.body.prepend(mapCanvas);const localMap=new LocalRoadMap();localMap.setNetwork(ground.roadNetwork);
+const camera=new THREE.OrthographicCamera(-3000,3000,3000,-3000,1,20000);camera.up.set(0,0,-1);
+const views={overview:[550,75,6400,'整个 City Main'],central:[0,160,2350,'中央大道 · 内环大道 · 新城大道'],west:[-1190,140,2000,'西城大道 · 小街区 · 错位与 T 形街道'],east:[1190,80,2000,'东城大道 · 大街区 · 保留主辅路试验段'],north:[0,-920,3100,'北城大道 · 居住区与校园连接 · 既有环岛'],south:[0,1330,3250,'南城大道 · 工业大道 · 长街区与物流连接']};
+let view='overview',logical=false;
+function render(){const [x,z,width,label]=views[view],aspect=innerWidth/innerHeight,span=width/Math.min(aspect,1);camera.left=-span*aspect/2;camera.right=span*aspect/2;camera.top=span/2;camera.bottom=-span/2;camera.position.set(x,7000,z);camera.lookAt(x,0,z);camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.render(scene,camera);mapCanvas.width=innerWidth*devicePixelRatio;mapCanvas.height=innerHeight*devicePixelRatio;mapCanvas.style.width=innerWidth+'px';mapCanvas.style.height=innerHeight+'px';if(logical)localMap.draw(mapCanvas.getContext('2d'),{x:0,y:0,width:mapCanvas.width,height:mapCanvas.height},x,z,0,span*aspect);renderer.domElement.style.display=logical?'none':'block';mapCanvas.style.display=logical?'block':'none';document.querySelector('h1').textContent='City Main V4 · '+(logical?'逻辑路网':label);document.querySelector('#description').textContent=data.roads.length+' 道路段 · '+data.intersections.length+' 路口 · '+data.signs.length+' 导向牌 · '+data.objects.length+' 景观对象';for(const b of document.querySelectorAll('[data-view]'))b.setAttribute('aria-pressed',String(b.dataset.view===view));document.querySelector('#logical').setAttribute('aria-pressed',String(logical));document.body.dataset.ready='true';}
+for(const button of document.querySelectorAll('[data-view]'))button.onclick=()=>{view=button.dataset.view;logical=false;render();};document.querySelector('#logical').onclick=()=>{logical=!logical;render();};addEventListener('resize',render);loadButton.remove();render();
+</script></body></html>

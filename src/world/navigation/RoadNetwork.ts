@@ -33,6 +33,7 @@ export interface RoadIntersectionData {
   readonly center: RoadPoint;
   readonly halfExtentX: number;
   readonly halfExtentZ: number;
+  readonly pavementFootprint?: readonly RoadPoint[];
   readonly arms: readonly RoadIntersectionArmData[];
 }
 export interface RoadNetworkData {

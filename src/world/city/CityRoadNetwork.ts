@@ -73,7 +73,8 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
   return { mapId: map.id, bounds: { minimumX: map.bounds.minX, maximumX: map.bounds.maxX, minimumZ: map.bounds.minZ, maximumZ: map.bounds.maxZ }, segments, connectivity, endpointNodes, laneConnections,
     intersections: map.intersections.map(j => {
       const h = junctionExtent(j, map), box = h * (Math.abs(Math.cos(j.rotation)) + Math.abs(Math.sin(j.rotation)));
-      return { id: j.id, center: j.position, halfExtentX: box, halfExtentZ: box, arms: j.connections.map(c => {
+      const pavementFootprint=j.pavementFootprint?.map(p=>{const q=rotatePoint(p,j.rotation);return {x:j.position.x+q.x,z:j.position.z+q.z};});
+      return { id: j.id, center: j.position, halfExtentX:pavementFootprint?Math.max(...pavementFootprint.map(p=>Math.abs(p.x-j.position.x))):box, halfExtentZ:pavementFootprint?Math.max(...pavementFootprint.map(p=>Math.abs(p.z-j.position.z))):box,pavementFootprint, arms: j.connections.map(c => {
         const r = map.roads.find(r => r.id === c.roadId)!, outward = rotatePoint(portDirection(j,c.port), j.rotation);
         return { segmentId: r.id, outward, approachYawRadians: Math.atan2(outward.x, outward.z), approachLaneCount: r.travelDirection === 'two-way' ? r.laneCount / 2 : r.laneCount,
           trafficSignal: j.signalized ? { junctionId: j.id, controlKind: armControlKind(portDirection(j,c.port)) } : undefined };

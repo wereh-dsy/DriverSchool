@@ -38,6 +38,7 @@ export function cityMainCrossingIssues(map:CityMapData):string[] {
 export function runCityMainSelfTest(source:unknown=cityMain,checkContacts=true) {
   const map=loadCityMap(source),report=validateMap(map),network=buildCityRoadNetwork(map);
   const v3=map.environment.metadata?.backboneVersion==='3';
+  const v4=map.environment.metadata?.urbanSkeletonVersion==='4';
   assert(report.valid,'valid MapAPI data');assert(!report.warnings.some(w=>w.code==='network.sparse'),'all drivable districts join one component');
   assert(!map.intersections.some(j=>j.connections.some(c=>mainline(map.roads.find(r=>r.id===c.roadId)!))),'no mainline at-grade intersections');
   assert(map.roads.filter(r=>/^(ring-(cw|ccw)-|ew-(eb|wb)|ns-(nb|sb))/.test(r.id)||r.groupId==='ns-tunnel'||r.id.includes(':feeder-')).every(r=>r.laneCount===3&&r.travelDirection==='forward'),'three one-way lanes throughout each divided expressway');
@@ -68,7 +69,7 @@ export function runCityMainSelfTest(source:unknown=cityMain,checkContacts=true) 
       if(i+1<pts.length){const c=pts[i+1]!,l2=Math.hypot(c.x-b.x,c.z-b.z),chord=Math.hypot(c.x-a.x,c.z-a.z),cross=Math.abs((b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x));if(cross>1e-6)radius=Math.min(radius,l*l2*chord/(2*cross));}
     }
     if(mainline(r)){assert(grade<=0.0401,'mainline <=4% '+r.id+' '+grade);assert(radius>=300,'highway smooth radius '+r.id+' '+radius);gradeLimits.mainline=Math.max(gradeLimits.mainline,grade);}
-    if(r.gore){const limit=v3&&r.presetSource?.startsWith('system_compact_')?0.0801:0.0601;assert(grade<=limit,'ramp production grade '+r.id+' '+grade);gradeLimits.ramp=Math.max(gradeLimits.ramp,grade);}
+    if(r.gore){const compactAccess=map.environment.metadata?.urbanAccessVersion==='4.1'&&/^(diamond-|direct-)/.test(r.groupId??'');const limit=compactAccess?0.1201:v3&&r.presetSource?.startsWith('system_compact_')?0.0801:0.0601;assert(grade<=limit,'ramp production grade '+r.id+' '+grade);gradeLimits.ramp=Math.max(gradeLimits.ramp,grade);}
     if(r.id.startsWith('urban-underpass-')){assert(grade<=0.0501,'underpass <=5%');gradeLimits.underpass=Math.max(gradeLimits.underpass,grade);}
     if(r.id.endsWith('-loop'))assert(r.designProfile==='urban'?radius>=29.9&&radius<=45.1:radius>=44.9,'loop curve radius '+r.id+' '+radius);
     if(r.id.endsWith('-semi')||r.id.endsWith('-crossover'))assert(radius>=(r.designProfile==='urban'?54.9:79.9),'semi-directional / crossover curve radius '+r.id+' '+radius);
@@ -134,12 +135,12 @@ export function runCityMainSelfTest(source:unknown=cityMain,checkContacts=true) 
   assert(treeBatches.length===2&&treeBatches.every(o=>o.count===map.objects.filter(o=>o.prefabId==='tree').length),'all tree trunks / crowns use two instance batches');
   prefabs.dispose();Object.values(materials).forEach(m=>m.dispose());
   assert(new Set(map.intersections.filter(j=>j.presetSource==='diamond_interchange').map(j=>j.groupId)).size===2,'two meaningful diamonds');
-  assert(map.roads.some(r=>r.id.startsWith('urban-diagonal'))&&map.roads.some(r=>r.id.startsWith('urban-regional-diagonal')),'two diagonals');
+  assert(v4?map.roads.some(r=>r.roadNameId==='new-city-avenue'):map.roads.some(r=>r.id.startsWith('urban-diagonal'))&&map.roads.some(r=>r.id.startsWith('urban-regional-diagonal')),'continuous authored diagonal');
   assert(map.roads.some(r=>r.groupId==='east-main-aux'&&r.id.includes('transition')),'real main/frontage transitions');
-  assert((v3?map.intersections.some(j=>j.type==='irregular'):map.intersections.filter(j=>j.type==='irregular').length===1)&&map.intersections.some(j=>j.type.startsWith('t_')),'five-leg / T junction variation');
+  assert((v4|| (v3?map.intersections.some(j=>j.type==='irregular'):map.intersections.filter(j=>j.type==='irregular').length===1))&&map.intersections.some(j=>j.type.startsWith('t_')),'ordinary junction variation');
   const bores=map.roads.filter(r=>r.groupId==='ns-tunnel');
   assert(bores.length===2&&bores.every(r=>r.structure?.enclosure?.kind==='tunnel'&&r.structure.enclosure.clearance===6&&Math.abs(polylineLength(roadPoints(r))-500)<0.01),'two 500m bores with six metre clear height');
-  assert(Number(map.environment.metadata!.diagonalLengthMetres)>=3500&&Number(map.environment.metadata!.diagonalLengthMetres)<=4500,'diagonal avenue length');
+  assert(Number(map.environment.metadata!.diagonalLengthMetres)>=(v4?3000:3500)&&Number(map.environment.metadata!.diagonalLengthMetres)<=4500,'diagonal avenue length');
   const crossings=cityMainCrossingIssues(map);assert(!crossings.length,'crossing clearances:\n'+crossings.join('\n'));
   let contactSamples=0;
   if(checkContacts) {

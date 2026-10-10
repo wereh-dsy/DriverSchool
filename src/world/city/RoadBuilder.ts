@@ -7,6 +7,7 @@ import { barrierSections, roadPiers, retainingWallHeight } from './RoadInfrastru
 
 import { barrierOffset, RoadClearance } from './RoadClearance';
 import { MarkingOwnership } from './MarkingOwnership';
+import {clipRoadJunctionPavement} from './JunctionSurface';
 
 /** Shared editor/runtime builder. SectorManager batches its output by material. */
 export class RoadBuilder {
@@ -19,7 +20,7 @@ export class RoadBuilder {
     root.name = road.id;
     const add = (mesh: Mesh | null) => { if (mesh) root.add(mesh); };
     const pavement = createStripGeometry(points, () => 0, { innerOffset: edges.left, outerOffset: edges.right, yOffset: 0.024, maximumSpacing: 3 });
-    if (pavement) { const mesh = new Mesh(pavement, this.materials.asphalt); mesh.receiveShadow = true; add(mesh); }
+    if (pavement) { const mesh = new Mesh(this.map?clipRoadJunctionPavement(pavement,road,this.map):pavement, this.materials.asphalt); mesh.name='road pavement';mesh.userData.pavementOwner=road.id;mesh.receiveShadow = true; add(mesh); }
     const mergePaint = !!road.gore || !!this.map?.roads.some(r=>r.groupId===road.groupId && r.gore);
     const line = (path: CityPoint[], offset: number, yellow = false) => {
       const paint = (section: CityPoint[],owner:'road'|'merge'='road') => {
@@ -83,7 +84,7 @@ export class RoadBuilder {
       }flush();
       const strip = (a: number, b: number, y: number, curb: boolean) => {
         for(const section of sections){const geometry = createStripGeometry(section, () => 0, { innerOffset: Math.min(a, b), outerOffset: Math.max(a, b), yOffset: y, maximumSpacing: 3 });
-        if (geometry) { const mesh = new Mesh(geometry, curb ? this.materials.curb : this.materials.sidewalk); mesh.receiveShadow = true; root.add(mesh); }}
+        if (geometry) { const mesh = new Mesh(this.map?clipRoadJunctionPavement(geometry,road,this.map,y,true):geometry, curb ? this.materials.curb : this.materials.sidewalk); mesh.name=curb?'road curb':'road sidewalk';mesh.receiveShadow = true; root.add(mesh); }}
       };
       strip(side * half, side * (half + road.sidewalk.width), 0.15, false);
       if (road.curb !== false) strip(side * half, side * (half + 0.22), 0.17, true);

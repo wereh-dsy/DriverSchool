@@ -1,5 +1,6 @@
 import type { CityMapData, CityPoint, CityRoad } from './CityMapData';
-import { junctionExtent, roadEdges, roadPoints, rotatePoint } from './geometry';
+import { roadEdges, roadPoints } from './geometry';
+import {junctionSurfaceContains,junctionSurfaceHeight} from './JunctionSurface';
 
 interface FootprintSegment { roadId: string; a: CityPoint; b: CityPoint; left: number; right: number }
 /** Authoring/load-time index. No queries or allocations in the 120 Hz vehicle loop. */
@@ -46,11 +47,9 @@ export class RoadClearance {
   }
   junctionAt(p: CityPoint, margin = 0, minY = -Infinity, maxY = Infinity): boolean {
     return this.map.intersections.some(j => {
-      const y = j.position.y ?? 0;
+      const y = junctionSurfaceHeight(j,p);
       if (y < minY || y > maxY) return false;
-      const q = rotatePoint({ x: p.x - j.position.x, z: p.z - j.position.z }, -j.rotation);
-      const extent = junctionExtent(j, this.map) + margin;
-      return Math.abs(q.x) < extent && Math.abs(q.z) < extent;
+      return junctionSurfaceContains(j,this.map,p,margin);
     });
   }
   /** Includes shoulders, junction crossings and signal sight space. */
