@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ElectricCenterDisplay } from './ElectricCenterDisplay';
 import { drawPrancingHorse } from './PrancingHorseBadge';
 import { EXECUTIVE_INSTRUMENT_OUTLINE } from './InstrumentBinnacle';
 import type { ExecutiveDisplayData } from './ExecutiveDisplayContext';
@@ -26,6 +27,7 @@ import type { InstrumentVisualProfile } from './LuxuryVisualProfile';
 export type InstrumentGear = number | 'R' | 'N' | string;
 
 export interface InstrumentIndicatorState {
+  readonly escActive?: boolean;
   readonly positionLights?: boolean;
   readonly headlights?: boolean;
   readonly highBeam?: boolean;
@@ -54,6 +56,9 @@ export interface InstrumentIndicatorState {
  * current longitudinal vehicle model.
  */
 export interface InstrumentTelemetry {
+  readonly electricDisplay?: import('./ElectricDisplayContext').ElectricDisplayData;
+  readonly driveAvailable?: boolean;
+  readonly ev?: import('../powertrain/Powertrain').EVTelemetry;
   readonly startStopState?: import('../powertrain/Powertrain').ICEVehicleTelemetry['startStop'];
   readonly ignitionOn?: boolean;
   /** Optional environment reading; unavailable temperature stays explicitly blank. */
@@ -81,7 +86,8 @@ export type InstrumentDisplayStyle =
   | 'supercar-tach'
   | 'jetta-twin-dial'
   | 'executive-virtual'
-  | 'suv-virtual';
+  | 'suv-virtual'
+  | 'ev-center';
 
 export interface InstrumentClusterConfig {
   readonly featureClass?: 'standard' | 'advanced';
@@ -1543,6 +1549,9 @@ const parseGearSelector = (gear: InstrumentGear): string => {
  * canvas displays only when the visible value or lamp state changes.
  */
 export class InstrumentCluster extends THREE.Group {
+  private evCanvas: HTMLCanvasElement | null = null;
+  private evTexture: THREE.CanvasTexture | null = null;
+  private readonly electricFace = new ElectricCenterDisplay();
   private readonly config: InstrumentClusterConfig;
   private readonly tachometerNeedle: THREE.Group;
   private readonly speedometerNeedle: THREE.Group;
@@ -1618,6 +1627,21 @@ export class InstrumentCluster extends THREE.Group {
     this.name = 'Functional instrument cluster';
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.suvScales = getSuvInstrumentScales(this.config);
+    if (this.config.displayStyle === 'ev-center') {
+      this.name = 'Electric centre touchscreen';
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas);
+      this.informationTexture.dispose(); // ICE information texture is never installed in this face.
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.evCanvas = createCanvas(1024, 640); this.evTexture = new THREE.CanvasTexture(this.evCanvas);
+      this.evTexture.colorSpace = THREE.SRGBColorSpace;
+      const bezel = new THREE.Mesh(new THREE.BoxGeometry(.355, .225, .018), new THREE.MeshStandardMaterial({ color: 0x101318 }));
+      bezel.name = 'Landscape touchscreen bezel'; this.add(bezel);
+      const screen = new THREE.Mesh(new THREE.PlaneGeometry(.342, .213), new THREE.MeshBasicMaterial({ map: this.evTexture, toneMapped: false }));
+      screen.name = 'Electric energy and driving display'; screen.position.z = .010; this.add(screen);
+      return;
+    }
 
     const housingMaterial = new THREE.MeshStandardMaterial({
       color: 0x06090c,
@@ -1985,6 +2009,10 @@ export class InstrumentCluster extends THREE.Group {
   }
 
   public update(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
+    if (this.evCanvas && this.evTexture) {
+      if (this.electricFace.update(this.evCanvas, telemetry, deltaTime)) this.evTexture.needsUpdate = true;
+      return;
+    }
     const speedKmh = Math.abs(finiteOr(telemetry.speedKmh, 0));
     const rpm = Math.max(0, finiteOr(telemetry.rpm, 0));
     const fuelLevel = clamp01(finiteOr(telemetry.fuelLevel, 0.72));

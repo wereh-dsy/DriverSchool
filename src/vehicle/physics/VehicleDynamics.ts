@@ -10,7 +10,7 @@ import { BrakeSystem } from './BrakeSystem';
 import { DriverAssistSystem, type DriverAssistOptions, type DriverAssistSnapshot } from './DriverAssistSystem';
 import { SteeringSystem } from './SteeringSystem';
 import { WHEEL_IDS, type WheelContactSet, type WheelId } from './WheelContact';
-import { wheelLocalPosition } from '../VehicleDimensions';
+import { centerOfMassOffsetZ, wheelLocalPosition } from '../VehicleDimensions';
 import { SuspensionSystem } from './SuspensionSystem';
 import { WheelRotationSystem } from './WheelRotationSystem';
 import type { Differential, DifferentialSnapshot } from './Differential';
@@ -23,6 +23,8 @@ import { AWDTorqueDistribution, type AWDTorqueDistributionSnapshot } from './AWD
 import type { ChassisPhysicsState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, clamp01, wrapAngle } from './math';
 import { ICEPowertrain } from '../powertrain/ICEPowertrain';
+import { ElectricPowertrain } from '../powertrain/ElectricPowertrain';
+import { isElectricConfig } from '../config/ElectricVehiclePhysicsConfig';
 import { TripComputer, type TripComputerSnapshot } from '../control/TripComputer';
 import type { Powertrain, PowertrainSnapshot, PowertrainInitialState, PowertrainUpdateContext, ICEVehicleTelemetry, PowertrainTransmissionSnapshot, ShiftRejectionReason } from '../powertrain/Powertrain';
 import { validateVehiclePlatformConfig } from '../config/validateVehiclePlatformConfig';
@@ -54,7 +56,7 @@ export interface VehicleEnvironment {
   bounds?: VehicleWorldBounds;
 }
 
-/** Pose/velocity returned by the separate, planar static collision resolver. */
+/** Body/axle-midpoint pose and point velocity from the planar static collision resolver. */
 export interface VehicleContactCorrection {
   x: number;
   z: number;
@@ -89,6 +91,8 @@ export interface VehicleInitialState {
   driveAvailable?: boolean;
   shaftAngularVelocity?: number;
   currentFuelL?: number;
+  stateOfCharge?: number;
+  /** World body origin (axle midpoint), matching map spawn poses. */
   x?: number;
   z?: number;
   yaw?: number;
@@ -136,16 +140,18 @@ export interface VehicleSnapshot extends ICEVehicleTelemetry {
   baseVehicleMass: number;
   effectiveVehicleMass: number;
   driveMode?: import('../config').VehicleDriveMode;
+  /** World body/visual origin at the axle midpoint; derived from CG and yaw. */
   x: number;
   z: number;
   yaw: number;
+  /** CG velocity along body forward (-Z), in m/s. */
   speed: number;
   speedKmh: number;
   acceleration: number;
   yawRate: number;
   /** Velocity direction relative to the body; positive points toward vehicle-right. */
   bodySlipAngle: number;
-  /** Signed body-local lateral velocity, in m/s. */
+  /** CG velocity along body right (+X), in m/s. */
   lateralVelocity: number;
   /** Signed body-local lateral acceleration; positive is vehicle-right. */
   lateralAcceleration: number;
@@ -182,8 +188,8 @@ export interface VehicleSnapshot extends ICEVehicleTelemetry {
 
 interface ValidCoreState {
   powertrain: PowertrainInitialState;
-  x: number;
-  z: number;
+  centerOfMassX: number;
+  centerOfMassZ: number;
   yaw: number;
   speed: number;
   controlMode: VehicleControlMode;
@@ -216,8 +222,9 @@ const ZERO_FORCES: VehicleForceSnapshot = {
  */
 type ICEAccess<P extends Powertrain, K extends keyof ICEPowertrain> = P extends ICEPowertrain ? ICEPowertrain[K] : ICEPowertrain[K] | undefined;
 type DynamicsConfig<P extends Powertrain> = P extends ICEPowertrain ? VehiclePhysicsConfig : VehicleChassisConfig;
-export type VehicleSnapshotFor<P extends Powertrain> = P extends ICEPowertrain ? VehicleSnapshot :
-  Omit<VehicleSnapshot, keyof ICEVehicleTelemetry | 'transmission'> & { gear: Gear | null; transmission: PowertrainTransmissionSnapshot };
+export type VehicleRuntimeSnapshot = Omit<VehicleSnapshot, keyof ICEVehicleTelemetry | 'transmission'> &
+  Partial<Omit<ICEVehicleTelemetry, 'gear'>> & { gear: Gear | null; transmission: PowertrainTransmissionSnapshot };
+export type VehicleSnapshotFor<P extends Powertrain> = P extends ICEPowertrain ? VehicleSnapshot : VehicleRuntimeSnapshot;
 
 export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public readonly powertrain: TPowertrain;
@@ -262,15 +269,23 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public readonly awd: AWDTorqueDistribution | undefined;
   public get transmission(): TPowertrain['transmission'] { return this.powertrain.transmission; }
 
-  public x = 0;
-  public z = 0;
+  // Translational state is authoritative at CG. Geometry remains axle-midpoint based.
+  private centerOfMassX = 0;
+  private centerOfMassZ = 0;
+  private readonly centerOfMassLocalZ: number;
+  /** Derived world body origin. Setters retain compatibility with explicit pose edits. */
+  public get x(): number { return this.centerOfMassX - Math.sin(this.yaw) * this.centerOfMassLocalZ; }
+  public set x(bodyOriginX: number) { this.centerOfMassX = bodyOriginX + Math.sin(this.yaw) * this.centerOfMassLocalZ; }
+  public get z(): number { return this.centerOfMassZ - Math.cos(this.yaw) * this.centerOfMassLocalZ; }
+  public set z(bodyOriginZ: number) { this.centerOfMassZ = bodyOriginZ + Math.cos(this.yaw) * this.centerOfMassLocalZ; }
   public yaw = 0;
-  /** Signed longitudinal velocity in m/s; negative means reversing. */
+  /** Signed CG longitudinal velocity in m/s; negative means reversing. */
   public speed = 0;
   public acceleration = 0;
   public yawRate = 0;
   /** Positive means the velocity vector points to the vehicle's right. */
   public bodySlipAngle = 0;
+  /** CG velocity along body right (+X). */
   public lateralVelocity = 0;
   public lateralAcceleration = 0;
   public rearLateralGripFactor = 1;
@@ -302,8 +317,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     injectedPowertrain?: TPowertrain,
   ) {
     validateVehiclePlatformConfig(config);
-    if (injectedPowertrain === undefined && !('engine' in config)) throw new Error('A non-ICE chassis requires a Powertrain');
-    this.powertrain = injectedPowertrain ?? (new ICEPowertrain(config as VehiclePhysicsConfig) as unknown as TPowertrain);
+    this.centerOfMassLocalZ = centerOfMassOffsetZ(config);
+    if (injectedPowertrain === undefined && !('engine' in config) && !isElectricConfig(config)) throw new Error('A non-ICE chassis requires a Powertrain');
+    this.powertrain = injectedPowertrain ?? ((isElectricConfig(config) ? new ElectricPowertrain(config)
+      : new ICEPowertrain(config as VehiclePhysicsConfig)) as unknown as TPowertrain);
     if (config.transmission && (config.transmission.type ?? 'MANUAL') !== this.powertrain.transmission.type) throw new Error('Powertrain transmission disagrees with config');
     if (this.powertrain.supportsManualSelection && this.powertrain.transmission.type !== 'TORQUE_CONVERTER_AT' && this.powertrain.transmission.type !== 'DCT') throw new Error('Manual selection requires stepped AT/DCT');
     if (config.transmission && (config.transmission.supportsManualSelection === true) !== this.powertrain.supportsManualSelection) throw new Error('Powertrain manual selection disagrees with config');
@@ -329,8 +346,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.wheelRotation = new WheelRotationSystem(config.tires, config.wheelRadius);
     this.lastValidState = {
       powertrain: {},
-      x: 0,
-      z: 0,
+      centerOfMassX: 0,
+      centerOfMassZ: 0,
       yaw: 0,
       speed: 0,
       controlMode: 'normal',
@@ -346,15 +363,16 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public reset(initialState: VehicleInitialState = {}): VehicleSnapshotFor<TPowertrain> {
     this.powertrain.reset({ vehicleOperational: initialState.vehicleOperational, driveAvailable: initialState.driveAvailable,
       shaftAngularVelocity: initialState.shaftAngularVelocity, gear: initialState.gear, driveSelector: initialState.driveSelector,
+      ev: initialState.stateOfCharge === undefined ? undefined : { stateOfCharge: initialState.stateOfCharge },
       controlMode: initialState.controlMode, ice: this.icePowertrain ? {
         currentFuelL: initialState.currentFuelL, engineRPM: initialState.engineRPM,
         engineRunning: initialState.engineRunning, clutchEngagement: initialState.clutchEngagement,
       } : undefined });
     this.synchronizePowertrainMass();
     if (this.config.driveModes !== undefined) this.setDriveMode(this.config.defaultDriveMode ?? 'NORMAL');
+    this.yaw = wrapAngle(this.finiteOr(initialState.yaw, 0));
     this.x = this.finiteOr(initialState.x, 0);
     this.z = this.finiteOr(initialState.z, 0);
-    this.yaw = wrapAngle(this.finiteOr(initialState.yaw, 0));
     this.speed = clamp(
       this.finiteOr(initialState.speed, 0),
       -this.config.safety.maxReverseSpeed,
@@ -397,9 +415,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
   public setPose(x: number, z: number, yaw: number, speed = this.speed): void {
     if (![x, z, yaw, speed].every(Number.isFinite)) return;
+    this.yaw = wrapAngle(yaw);
     this.x = x;
     this.z = z;
-    this.yaw = wrapAngle(yaw);
     this.speed = clamp(
       speed,
       -this.config.safety.maxReverseSpeed,
@@ -431,7 +449,11 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       -this.config.safety.maxReverseSpeed,
       this.config.safety.maxForwardSpeed,
     );
-    const lateral = cos * correction.velocityX - sin * correction.velocityZ;
+    this.yawRate = clamp(this.finiteOr(correction.yawRate, 0),
+      -this.config.steering.maximumYawRate, this.config.steering.maximumYawRate);
+    // v_bodyOrigin,right = v_CG,right - yawRate * CG.z_from_body.
+    const lateral = cos * correction.velocityX - sin * correction.velocityZ +
+      this.yawRate * this.centerOfMassLocalZ;
     // At rest, retain a modest tangent drift rather than dividing by near-zero
     // forward speed. The normal driving solver damps it out progressively.
     this.lateralVelocity = lateral;
@@ -442,11 +464,6 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     // or its normal recovery must not turn an already corrected wall-tangent
     // velocity into inward motion again on the next 120 Hz step.
     this.contactSlipHoldTime = this.contactSlipRecovery ? 0.12 : 0;
-    this.yawRate = clamp(
-      this.finiteOr(correction.yawRate, 0),
-      -this.config.steering.maximumYawRate,
-      this.config.steering.maximumYawRate,
-    );
     this.acceleration = 0;
     this.lateralAcceleration = -this.speed * this.yawRate;
     // An impact is an explicit velocity constraint. Remove stored wheel spin
@@ -522,7 +539,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.powertrain.applyDriveMode?.(calibration);
     this.config.steering.steeringResponse = calibration.steeringResponse;
     this.config.steering.steeringDamping = calibration.steeringDamping;
-    if (this.config.awd !== undefined) this.config.awd.accelerationRearTorqueSplit = calibration.accelerationRearTorqueSplit;
+    if (this.config.awd !== undefined && calibration.accelerationRearTorqueSplit !== undefined)
+      this.config.awd.accelerationRearTorqueSplit = calibration.accelerationRearTorqueSplit;
   }
 
   public cycleDriveMode(): void {
@@ -662,13 +680,15 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     context.parkingBrakeActive = (this.parkingBrake?.fraction ?? handbrakeCommand) > .01;
     this.powertrain.prepare(context);
     this.brakes.update(dt, brakeCommand, this.capabilities.mechanicalHandbrake && !this.parkingBrake ? handbrakeCommand : 0);
+    this.brakes.setPowertrainStopRequest(this.powertrain.serviceBrakeDemand ?? 0);
+    this.brakes.setRegenerativeCredit(0, 0);
     this.brakes.setCruiseRequest(dt, this.safeUnitInput(input.cruiseBrake ?? 0));
     const mode = this.transmission.getSnapshot().selectedMode;
     const driving = mode === 'D' || mode === 'R';
     this.parkingBrake?.update(dt, handbrakeCommand, Math.hypot(this.speed, this.lateralVelocity),
       this.powertrain.vehicleOperational, mode === 'P', driving, throttleCommand, brakeCommand, this.powertrain.driveAvailable);
     this.autoHold?.update(dt, this.powertrain.vehicleOperational, driving,
-      Math.hypot(this.speed, this.lateralVelocity), brakeCommand, throttleCommand,
+      Math.hypot(this.speed, this.lateralVelocity), Math.max(brakeCommand, this.powertrain.serviceBrakeDemand ?? 0), throttleCommand,
       this.powertrain.driveAvailable, this.parkingBrake?.state === 'ENGAGED',
       this.parkingBrake !== undefined && ((!this.powertrain.vehicleOperational && this.parkingBrake.config.autoApplyOnIgnitionOff) ||
         (mode === 'P' && this.parkingBrake.config.autoApplyInPark)));
@@ -682,6 +702,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         this.finiteOr(environment.surfaceGripMultiplier, 1))) :
       (environment.wheelContacts.frontLeft.lateralGrip + environment.wheelContacts.frontRight.lateralGrip) * 0.5;
     this.steering.update(dt, steerCommand, this.speed, frontSurfaceGrip);
+    context.drivenAxleBrakeTorque = this.brakes.axleBrakeDemand(this.config.drivetrainType === 'FWD');
+    context.totalServiceBrakeTorque = this.brakes.axleBrakeDemand(true) + this.brakes.axleBrakeDemand(false);
     const transmissionOutput = this.powertrain.update(context);
     const clutchTorque = transmissionOutput.inputLoadTorque;
     this.synchronizePowertrainMass();
@@ -774,8 +796,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
     this.applyWorldBounds(environment.bounds);
     this.validateOrRecover();
+    this.powertrain.finishStep(this.speed, this.getDrivenWheelAngularVelocity());
+    this.lastValidState.powertrain = this.powertrain.captureState(this.lastValidState.powertrain);
     if (!this.recoveredThisUpdate) this.tripComputer.update(dt, averageSpeed, transmissionOutput.consumedFuelL);
-    this.updateUpshiftRecommendation();
   }
 
   /** Sum four independently limited contact forces and moments in body coordinates. */
@@ -814,9 +837,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     }
     this.bodySlipAngle = absoluteSpeed > 0.05 ? Math.atan(this.lateralVelocity / averageSpeed) : 0;
     const middleYaw = this.yaw + this.yawRate * dt * 0.5;
-    this.x += (-Math.sin(middleYaw) * averageSpeed +
+    this.centerOfMassX += (-Math.sin(middleYaw) * averageSpeed +
       Math.cos(middleYaw) * this.lateralVelocity) * dt;
-    this.z += (-Math.cos(middleYaw) * averageSpeed -
+    this.centerOfMassZ += (-Math.cos(middleYaw) * averageSpeed -
       Math.sin(middleYaw) * this.lateralVelocity) * dt;
     this.yaw = wrapAngle(this.yaw + this.yawRate * dt);
     this.lateralAcceleration = contacts.lateralForce / Math.max(1, this.effectiveVehicleMass);
@@ -836,14 +859,16 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   }
 
   private synchronizeWheelPositions(): void {
+    const bodyOriginX = this.x, bodyOriginZ = this.z;
+    const sine = Math.sin(this.yaw), cosine = Math.cos(this.yaw);
     for (const id of WHEEL_IDS) {
       const local = wheelLocalPosition(this.config, id);
       this.wheels[id] = {
         ...this.wheels[id],
         worldPosition: {
-          x: this.x + local.x * Math.cos(this.yaw) + local.z * Math.sin(this.yaw),
+          x: bodyOriginX + local.x * cosine + local.z * sine,
           y: this.wheels[id].worldPosition.y,
-          z: this.z - local.x * Math.sin(this.yaw) + local.z * Math.cos(this.yaw),
+          z: bodyOriginZ - local.x * sine + local.z * cosine,
         },
       };
     }
@@ -934,8 +959,28 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       this.yawRate, this.lateralVelocity, this.wheels, limits, this.escLateralLimits);
     this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
     this.brakes.prepareRequests();
-    this.driverAssists.updateBrakes(dt, this.speed, this.brakes.brakeInput, this.wheels, limits, this.brakes.coordinator);
+    const regenerating = requestedDriveTorque * this.speed < 0 && this.powertrain.limitRegeneration !== undefined;
+    this.driverAssists.updateBrakes(dt, this.speed, this.brakes.brakeInput, this.wheels, limits, this.brakes.coordinator,
+      regenerating ? this.config.drivetrainType === 'FWD' ? 'front' : 'rear' : undefined);
     this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
+    if (regenerating) {
+      const first = this.config.drivetrainType === 'FWD' ? 0 : 2;
+      let maximumRegen = Infinity;
+      for (let i = first; i < first + 2; i++) {
+        const wheel = this.wheels[WHEEL_IDS[i]!];
+        const corneringAvailability = Math.sqrt(Math.max(0, 1 - Math.min(1, wheel.lateralUsage) ** 2));
+        maximumRegen = Math.min(maximumRegen, limits[i]! * corneringAvailability * this.config.wheelRadius * 2 * this.driverAssists.pressures[i]!);
+        // Rigid single-motor axle cannot release just one wheel. Cut the whole
+        // motor immediately while either driven-wheel ABS channel is releasing.
+        if (this.driverAssists.pressures[i]! < .98) maximumRegen = 0;
+      }
+      if ((this.powertrainContext.totalServiceBrakeTorque ?? 0) > 1)
+        maximumRegen = Math.min(maximumRegen, this.brakes.axleBrakeDemand(first === 0) *
+          Math.min(this.driverAssists.pressures[first]!, this.driverAssists.pressures[first + 1]!));
+      requestedDriveTorque = this.powertrain.limitRegeneration!(maximumRegen);
+      const credit = Math.abs(requestedDriveTorque);
+      this.brakes.setRegenerativeCredit(first === 0 ? credit : 0, first === 2 ? credit : 0);
+    }
     // Transmission owns final drive/efficiency; AWD owns axle shares and each
     // configured carrier owns left/right torque distribution.
     this.differential.distributeTorque(requestedDriveTorque * (this.awd ? 1 - this.awd.rearTorqueSplit : 1), dt);
@@ -953,7 +998,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const usage: FourWheelValues = [0, 0, 0, 0];
     const lateral: FourWheelValues = [0, 0, 0, 0];
     const lateralLimits: FourWheelValues = [0, 0, 0, 0];
-    const angles: FourWheelValues = [this.steering.leftRoadWheelAngle, this.steering.rightRoadWheelAngle, 0, 0];
+    const angles: FourWheelValues = [this.steering.leftRoadWheelAngle + suspension.wheels.frontLeft.toeAngle,
+      this.steering.rightRoadWheelAngle - suspension.wheels.frontRight.toeAngle,
+      suspension.wheels.rearLeft.toeAngle, -suspension.wheels.rearRight.toeAngle];
     const brakeTorques = WHEEL_IDS.map(id => this.brakes.getWheelTorques(id));
     // A stopped tyre supports static shear on a hill even with zero slip.
     // Solve that dry-contact constraint only near rest and only within actual
@@ -993,16 +1040,19 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const rearAvailability: number[] = [];
     let asymmetricLongitudinalMoment = 0;
     let totalYawMoment = 0;
-    const distanceToFront = clamp(this.config.wheelBase * (1 - frontWeight), this.config.wheelBase * 0.1, this.config.wheelBase * 0.9);
-    const distanceToRear = this.config.wheelBase - distanceToFront;
-    const longitudinalPositions: FourWheelValues = [distanceToFront, distanceToFront, -distanceToRear, -distanceToRear];
+    // Local +Z lever arms measured from CG, distinct from wheel geometry about body origin.
+    const frontWheelLeverArmZ = -this.config.wheelBase * 0.5 - this.centerOfMassLocalZ;
+    const rearWheelLeverArmZ = this.config.wheelBase * 0.5 - this.centerOfMassLocalZ;
+    const wheelLeverArmsZ: FourWheelValues = [frontWheelLeverArmZ, frontWheelLeverArmZ, rearWheelLeverArmZ, rearWheelLeverArmZ];
+    const bodyOriginX = this.x, bodyOriginZ = this.z;
+    const bodySine = Math.sin(this.yaw), bodyCosine = Math.cos(this.yaw);
     let staticSupported = staticForces !== undefined;
     for (const i of [0, 1, 2, 3] as const) {
       const id = WHEEL_IDS[i];
       const cosine = Math.cos(angles[i]);
       const sine = Math.sin(angles[i]);
       const wheelForwardVelocity = this.speed + this.yawRate * localX[i];
-      const wheelLateralVelocity = this.lateralVelocity - this.yawRate * longitudinalPositions[i];
+      const wheelLateralVelocity = this.lateralVelocity + this.yawRate * wheelLeverArmsZ[i];
       const brake = brakeTorques[i]!;
       const handbrakeUsage = limits[i] > 1 ? clamp01(brake.appliedHandbrakeTorque / this.config.wheelRadius / limits[i]) : 0;
       const lockedRearAvailability = 1 - (1 - clamp01(this.config.tires.handbrakeRearGripFactor)) *
@@ -1012,6 +1062,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       const loadStiffness = Math.max(0.1, loads[i] / Math.max(1, staticLoad));
       const corneringStiffness = (i < 2 ? this.config.tires.corneringStiffnessFront : this.config.tires.corneringStiffnessRear) * 0.5 * loadStiffness;
       const rotation = this.wheelRotation.updateWheel(id, dt, {
+        additionalInertia: requestedDrive[i] !== 0 || (this.config.drivetrainType === 'FWD' ? i < 2 : i >= 2)
+          ? this.powertrain.drivenWheelInertia ?? 0 : 0,
+        camberAngle: suspension.wheels[id].camberAngle * (i % 2 === 0 ? 1 : -1),
         longitudinalSpeed: wheelForwardVelocity * cosine + wheelLateralVelocity * sine,
         lateralSpeed: wheelLateralVelocity * cosine - wheelForwardVelocity * sine,
         driveTorque: requestedDrive[i], brakeTorque: brake.appliedBrakeTorque,
@@ -1041,10 +1094,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       const longitudinal = (tyreForce + rollingForces[i]) * cosine + lateralScrub[i];
       lateral[i] = (tyreForce + rollingForces[i]) * sine + tyreLateral * cosine;
       asymmetricLongitudinalMoment += localX[i] * (tyreForce + rollingForces[i]);
-      totalYawMoment += localX[i] * longitudinal - longitudinalPositions[i] * lateral[i];
+      totalYawMoment += localX[i] * longitudinal + wheelLeverArmsZ[i] * lateral[i];
       const localWheel = wheelLocalPosition(this.config, id);
-      const worldX = this.x + localWheel.x * Math.cos(this.yaw) + localWheel.z * Math.sin(this.yaw);
-      const worldZ = this.z - localWheel.x * Math.sin(this.yaw) + localWheel.z * Math.cos(this.yaw);
+      const worldX = bodyOriginX + localWheel.x * bodyCosine + localWheel.z * bodySine;
+      const worldZ = bodyOriginZ - localWheel.x * bodySine + localWheel.z * bodyCosine;
       const spring = suspension.wheels[id];
       this.wheels[id] = {
         id,
@@ -1052,6 +1105,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         surfaceType: contacts?.[i]?.surfaceType ?? 'asphalt',
         groundNormal: { ...(contacts?.[i]?.normal ?? environment.groundNormal ?? { x: 0, y: Math.cos(grade), z: Math.sin(grade) }) },
         normalLoad: loads[i], steeringAngle: angles[i],
+        camberAngle: spring.camberAngle, toeAngle: spring.toeAngle,
         driveTorque: requestedDrive[i], driveForce,
         brakeTorque: brake.appliedBrakeTorque, requestedBrakeTorque: brake.requestedBrakeTorque,
         appliedBrakeTorque: brake.appliedBrakeTorque, brakeForce: serviceForce,
@@ -1090,15 +1144,19 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
   private initializeWheelStates(): void {
     const springs = this.suspension.getSnapshot();
+    const bodyOriginX = this.x, bodyOriginZ = this.z;
+    const sine = Math.sin(this.yaw), cosine = Math.cos(this.yaw);
     for (const id of WHEEL_IDS) {
       const local = wheelLocalPosition(this.config, id);
       const spring = springs.wheels[id];
       const rotation = this.wheelRotation.getSnapshot(id);
       this.wheels[id] = {
-        id, worldPosition: { x: this.x + local.x * Math.cos(this.yaw) + local.z * Math.sin(this.yaw), y: this.config.wheelRadius,
-          z: this.z - local.x * Math.sin(this.yaw) + local.z * Math.cos(this.yaw) },
+        id, worldPosition: { x: bodyOriginX + local.x * cosine + local.z * sine, y: this.config.wheelRadius,
+          z: bodyOriginZ - local.x * sine + local.z * cosine },
         surfaceType: 'asphalt', groundNormal: { x: 0, y: 1, z: 0 }, normalLoad: spring.normalLoad,
-        steeringAngle: 0, driveTorque: 0, driveForce: 0, brakeTorque: 0, brakeForce: 0,
+        steeringAngle: spring.toeAngle * (id.endsWith('Left') ? 1 : -1),
+        camberAngle: spring.camberAngle, toeAngle: spring.toeAngle,
+        driveTorque: 0, driveForce: 0, brakeTorque: 0, brakeForce: 0,
         requestedBrakeTorque: 0, appliedBrakeTorque: 0,
         handbrakeTorque: 0, handbrakeForce: 0, rollingResistanceForce: 0, longitudinalForce: 0, lateralForce: 0,
         requestedHandbrakeTorque: 0, appliedHandbrakeTorque: 0,
@@ -1118,8 +1176,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       const local = wheelLocalPosition(this.config, id);
       const angle = this.wheels[id].steeringAngle;
       const forward = speed + this.yawRate * local.x;
-      const cgZ = this.config.wheelBase * (.5 - this.config.frontWeightBias);
-      const side = this.lateralVelocity + this.yawRate * (local.z - cgZ);
+      const side = this.lateralVelocity + this.yawRate * (local.z - this.centerOfMassLocalZ);
       const longitudinalSpeed = forward * Math.cos(angle) + side * Math.sin(angle);
       const lateralSpeed = side * Math.cos(angle) - forward * Math.sin(angle);
       this.wheelRotation.constrainAngularVelocity(id, longitudinalSpeed / Math.max(0.01, this.config.wheelRadius),
@@ -1224,6 +1281,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
   private validateOrRecover(): void {
     const values = [
+      this.centerOfMassX,
+      this.centerOfMassZ,
       this.x,
       this.z,
       this.yaw,
@@ -1249,8 +1308,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       return;
     }
 
-    this.x = this.lastValidState.x;
-    this.z = this.lastValidState.z;
+    this.centerOfMassX = this.lastValidState.centerOfMassX;
+    this.centerOfMassZ = this.lastValidState.centerOfMassZ;
     this.yaw = this.lastValidState.yaw;
     this.speed = this.lastValidState.speed;
     this.acceleration = 0;
@@ -1282,7 +1341,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
   private storeLastValidState(): void {
     const state = this.lastValidState;
-    state.x = this.x; state.z = this.z; state.yaw = this.yaw; state.speed = this.speed;
+    state.centerOfMassX = this.centerOfMassX; state.centerOfMassZ = this.centerOfMassZ;
+    state.yaw = this.yaw; state.speed = this.speed;
     state.controlMode = this.controlMode; state.bodySlipAngle = this.bodySlipAngle;
     state.lateralVelocity = this.lateralVelocity; state.contactSlipRecovery = this.contactSlipRecovery;
     state.contactSlipHoldTime = this.contactSlipHoldTime; state.yawRate = this.yawRate;

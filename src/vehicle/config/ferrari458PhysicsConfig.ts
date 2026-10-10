@@ -7,7 +7,7 @@ import type { AutomaticShiftConfig, DriveModeCalibration, VehiclePhysicsConfig }
 export function createFerrari458PhysicsConfig(): VehiclePhysicsConfig {
   const c = createDefaultVehiclePhysicsConfig();
   Object.assign(c, FERRARI_458_DIMENSIONS, { mass: 1435, trackWidth: 1.615,
-    enginePlacement: 'MID', frontWeightBias: .42, drivenWheelWeightFraction: .58,
+    enginePlacement: 'MID', frontWeightBias: .42,
     centerOfMassHeight: .40, yawInertia: 1850, drivetrainType: 'RWD', drivetrainLayout: 'RWD',
     frontTorqueSplit: 0, rearTorqueSplit: 1 });
   // 1435 kg base + 44.7 kg default fuel = 1479.7 kg road-ready.
@@ -47,6 +47,10 @@ export function createFerrari458PhysicsConfig(): VehiclePhysicsConfig {
     corneringStiffnessFront: 90000, corneringStiffnessRear: 116000, lateralSlipRecoveryRate: 8,
     peakSlipRatio: .10, peakSlipAngle: .12, gripFalloff: .30 };
   c.suspension = { ...c.suspension, rideHeight: .115, restLength: .30,
+    kinematics: {
+      front: { topology: 'DOUBLE_WISHBONE', staticCamber: -.018, camberGainPerMeter: -.46, staticToe: 0, bumpToeGainPerMeter: .005, antiDiveRatio: .18, antiSquatRatio: 0 },
+      rear: { topology: 'MULTI_LINK', staticCamber: -.022, camberGainPerMeter: -.36, staticToe: .0006, bumpToeGainPerMeter: .020, antiDiveRatio: 0, antiSquatRatio: .18 },
+    },
     springRateFront: 42000, springRateRear: 56000, damperCompressionFront: 2900, damperCompressionRear: 3400,
     damperReboundFront: 4300, damperReboundRear: 5000, suspensionTravel: .115,
     antiRollStiffnessFront: 14000, antiRollStiffnessRear: 17500, antiRollStiffness: 31500,
@@ -68,7 +72,7 @@ export function createFerrari458PhysicsConfig(): VehiclePhysicsConfig {
   const mode = (throttleExponent: number, throttleResponse: number, shiftStrategy: AutomaticShiftConfig,
     dctShiftTime: number, slip: number, yaw: number, sideslip: number): DriveModeCalibration => ({
     throttleExponent, throttleResponse, shiftStrategy, dctShiftTime, steeringResponse: 4.2, steeringDamping: 13,
-    accelerationRearTorqueSplit: 1, tcs: { ...c.driverAids.tcs!, slipThresholdMultiplier: slip },
+    tcs: { ...c.driverAids.tcs!, slipThresholdMultiplier: slip },
     esc: { ...c.driverAids.esc!, yawErrorThreshold: yaw, sideslipThreshold: sideslip } });
   c.driveModes = { WET: mode(1.45, 5.5, strategy(2400, 8500, 2800), .15, 1.15, .18, .10),
     SPORT: mode(1, 9, strategy(3000, 8750, 3500), .11, 1.55, .28, .16),

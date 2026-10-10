@@ -1,3 +1,5 @@
+import type { VehiclePhysicsConfig } from '../config';
+type VehicleDescriptor = CatalogDescriptor<VehiclePhysicsConfig>;
 import {
   createNeutralVehicleInputState,
   type VehicleInputState,
@@ -6,7 +8,7 @@ import type { DrivingGround } from '../../world/DrivingGround';
 import { DrivingTestTrack } from '../../world/DrivingTestTrack';
 import { CircuitGround } from '../../world/circuit/CircuitGround';
 import { Subject2Ground } from '../../world/subject2/Subject2Ground';
-import { VEHICLE_CATALOG, type VehicleDescriptor } from '../VehicleCatalog';
+import { ICE_VEHICLE_CATALOG, type VehicleDescriptor as CatalogDescriptor } from '../VehicleCatalog';
 import {
   createVehicleOBB,
   type CollisionOBB,
@@ -110,7 +112,7 @@ export function runVehicleContactSystemSelfTest(): VehicleContactSystemSelfTestR
   try {
     for (const scenario of scenarios) {
       assert(scenario.ground.colliders.length > 0, `${scenario.ground.metadata.id} must have authored static obstacles`);
-      for (const vehicle of VEHICLE_CATALOG.filter(v => (v.physicsConfig.transmission.type ?? 'MANUAL') === 'MANUAL')) {
+      for (const vehicle of ICE_VEHICLE_CATALOG.filter(v => (v.physicsConfig.transmission.type ?? 'MANUAL') === 'MANUAL')) {
         const config = vehicle.physicsConfig;
         const label = `${scenario.ground.metadata.id}/${vehicle.id}`;
         const visualDimensions = vehicle.visualConfig.collisionDimensions;

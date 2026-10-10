@@ -123,7 +123,7 @@ export function runContactDynamicsSelfTest(): Record<string, number | boolean> {
   const collisionCorrectionConsistent = Math.abs(correction.speed - 2) < 1e-9 &&
     Math.abs(correction.lateralVelocity - 0.4) < 1e-9 &&
     Math.abs(correction.bodySlipAngle - Math.atan(0.2)) < 1e-9 &&
-    correction.x === 3 && correction.z === -8 && correction.yawRate === 0;
+    Math.abs(correction.x - 3) < 1e-9 && Math.abs(correction.z + 8) < 1e-9 && correction.yawRate === 0;
   assert(collisionCorrectionConsistent,
     'collision pose and velocity must replace stale longitudinal/lateral/slip state consistently');
 

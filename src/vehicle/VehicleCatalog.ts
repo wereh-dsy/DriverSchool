@@ -1,3 +1,6 @@
+import { createTeslaModel3PhysicsConfig } from './config/teslaModel3PhysicsConfig';
+import { isElectricConfig, type ElectricVehiclePhysicsConfig } from './config/ElectricVehiclePhysicsConfig';
+import { TESLA_MODEL_3_VISUAL_CONFIG } from './visual/teslaModel3VisualConfig';
 import { validateVehiclePlatformConfig } from './config/validateVehiclePlatformConfig';
 import { EXECUTIVE_AUDIO_PROFILE, type VehicleAudioProfile } from '../audio/VehicleAudioProfile';
 import { resolveVehicleCapabilities, type VehicleCapabilities, type VehicleFeatureDeclarations } from './VehicleCapabilities';
@@ -27,20 +30,22 @@ import {
 import { withSuspensionStance } from './visual/VehicleVisualConfig';
 
 export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
-  'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia'] as const;
+  'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia', 'tesla-model-3-rwd'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
+export type ICEVehicleId = Exclude<VehicleId, 'tesla-model-3-rwd'>;
+export type PlayerVehiclePhysicsConfig = VehiclePhysicsConfig | ElectricVehiclePhysicsConfig;
 
 export type { VehicleCapabilities } from './VehicleCapabilities';
 
-export interface VehicleDescriptor {
+export interface VehicleDescriptor<C extends PlayerVehiclePhysicsConfig = PlayerVehiclePhysicsConfig> {
   /** Stable save/replay identifier. Never derive this from the display name. */
-  readonly id: VehicleId;
+  readonly id: C extends VehiclePhysicsConfig ? ICEVehicleId : VehicleId;
   /** Schema/calibration revision for future replay compatibility checks. */
   readonly version: number;
   readonly displayName: string;
   readonly description: string;
   readonly capabilities: VehicleCapabilities;
-  readonly physicsConfig: VehiclePhysicsConfig;
+  readonly physicsConfig: C;
   readonly visualConfig: VehicleVisualConfig;
   readonly audioProfile?: VehicleAudioProfile;
 }
@@ -48,7 +53,7 @@ export interface VehicleDescriptor {
 export type VehicleDefinition = VehicleDescriptor;
 type AuthoredVehicleDescriptor = Omit<VehicleDescriptor, 'capabilities'> & { readonly capabilities: VehicleFeatureDeclarations };
 
-export const DEFAULT_VEHICLE_ID: VehicleId = 'family-sedan';
+export const DEFAULT_VEHICLE_ID: ICEVehicleId = 'family-sedan';
 
 const FAMILY_SEDAN_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
   id: 'family-sedan',
@@ -105,6 +110,10 @@ const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescript
     description: '2.0 NA INLINE4 / CVT / FWD。舒适家用轿车，钢带无级变速平顺且无模拟挡位，转向轻柔、悬挂偏软、制动渐进；车身与参数沿用当前游戏实现。',
     capabilities: Object.freeze({ cruiseControl: true }),
     physicsConfig: createCVTSedanPhysicsConfig(), visualConfig: CVT_SEDAN_VISUAL_CONFIG }),
+  'tesla-model-3-rwd': Object.freeze({ id: 'tesla-model-3-rwd', version: 1, displayName: 'Tesla Model 3 RWD',
+    description: '单后轴永磁电机 / 固定减速器 / 60 kWh 可用电池游戏标定。低重心电动轿车，松电门回收、制动融合、无怠速蠕行；电机功率与能耗为模拟参数。',
+    capabilities: Object.freeze({ cruiseControl: true, advancedInstrument: true }),
+    physicsConfig: createTeslaModel3PhysicsConfig(), visualConfig: TESLA_MODEL_3_VISUAL_CONFIG }),
   'family-sedan': FAMILY_SEDAN_DESCRIPTOR,
   'sport-coupe': SPORTS_COUPE_DESCRIPTOR,
   'test-6at-sedan': TEST_6AT_DESCRIPTOR,
@@ -134,6 +143,8 @@ export function isVehicleId(value: string): value is VehicleId {
   return Object.prototype.hasOwnProperty.call(VEHICLE_BY_ID, value);
 }
 
+export function getVehicleDescriptor(id: ICEVehicleId): VehicleDescriptor<VehiclePhysicsConfig>;
+export function getVehicleDescriptor(id: VehicleId): VehicleDescriptor;
 export function getVehicleDescriptor(id: VehicleId): VehicleDescriptor {
   return VEHICLE_BY_ID[id];
 }
@@ -147,7 +158,14 @@ export function getNextVehicleId(currentId: VehicleId): VehicleId {
  * Physics gets a detached copy for each spawned car.  Visual configs are
  * declarative and readonly, so renderers can safely share their descriptor.
  */
-export function createVehiclePhysicsConfig(id: VehicleId): VehiclePhysicsConfig {
+export function createVehiclePhysicsConfig(id: ICEVehicleId): VehiclePhysicsConfig;
+export function createVehiclePhysicsConfig(id: 'tesla-model-3-rwd'): ElectricVehiclePhysicsConfig;
+export function createVehiclePhysicsConfig(id: VehicleId): PlayerVehiclePhysicsConfig;
+export function createVehiclePhysicsConfig(id: VehicleId): PlayerVehiclePhysicsConfig {
   const descriptor = getVehicleDescriptor(id);
+  if (isElectricConfig(descriptor.physicsConfig)) return structuredClone(descriptor.physicsConfig);
   return { ...cloneVehiclePhysicsConfig(descriptor.physicsConfig), capabilities: { ...descriptor.physicsConfig.capabilities } };
 }
+
+/** ICE regression fixtures retain their combustion-specific type. */
+export const ICE_VEHICLE_CATALOG = VEHICLE_CATALOG.filter((v): v is VehicleDescriptor<VehiclePhysicsConfig> => !isElectricConfig(v.physicsConfig));

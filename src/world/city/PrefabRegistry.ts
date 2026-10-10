@@ -1,5 +1,6 @@
-import { Color, CylinderGeometry, Group, InstancedMesh, Matrix4, Mesh, Quaternion, Vector3 } from 'three';
+import { BufferGeometry, CanvasTexture, Color, CylinderGeometry, Float32BufferAttribute, Group, InstancedMesh, Matrix4, Mesh, MeshBasicMaterial, PlaneGeometry, Quaternion, SRGBColorSpace, Vector3 } from 'three';
 import { createStaticOBBCollider, type StaticCollider } from '../../vehicle/physics/CollisionSystem';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { makeBox } from '../subject3/geometry';
 import type { Subject3Materials } from '../subject3/materials';
 import { PREFAB_IDS, type CityObject, type PrefabId } from './CityMapData';
@@ -8,6 +9,7 @@ export interface CityPrefab { id: PrefabId; label: string; size: [number, number
 /** Small procedural kit, using the existing city's materials and primitive geometry. */
 export class PrefabRegistry {
   readonly entries = new Map<PrefabId, CityPrefab>();
+  private readonly signMaterials=new Map<string,MeshBasicMaterial>();
   constructor(m: Subject3Materials) {
     const buildings: [PrefabId, string, number, number, number][] = [
       ['residential_low', '住宅 · 低层', 20, 9, 16], ['residential_mid', '住宅 · 中层', 26, 23, 20],
@@ -23,7 +25,12 @@ export class PrefabRegistry {
       box(root, [w, h, d], [0, h / 2, 0], m.buildingLight, true);
       box(root, [w + 0.5, 0.4, d + 0.5], [0, h + 0.2, 0], m.roof);
       // Window bands are low draw cost and readable in both top and 3D views.
-      for (let y = 2; y < h - 1; y += 3.5) for (const side of [-1, 1]) box(root, [w - 2, 1.25, 0.1], [0, y, side * (d / 2 + 0.06)], m.glass);
+      const windows:BufferGeometry[]=[];
+      for (let y = 2; y < h - 1; y += 3.5) for (const side of [-1, 1]) {
+        const part=box(root,[w-2,1.25,0.1],[0,y,side*(d/2+0.06)],m.glass);
+        part.updateMatrix();windows.push(part.geometry.clone().applyMatrix4(part.matrix));root.remove(part);part.geometry.dispose();
+      }
+      const bands=mergeGeometries(windows);windows.forEach(g=>g.dispose());if(bands)root.add(new Mesh(bands,m.glass));
       register(id, label, [w, h + 0.4, d], true, root);
     }
     {
@@ -62,6 +69,26 @@ export class PrefabRegistry {
       register('guardrail', '护栏', [10, 1.1, 0.2], true, root);
     }
     {
+      const root=new Group();box(root,[20,2.9,0.22],[0,1.9,0],m.buildingCool,true);
+      for(const x of [-9.8,0,9.8])box(root,[0.14,3.5,0.3],[x,1.75,0],m.metal);
+      register('noise_barrier','隔音墙',[20,3.5,0.3],true,root);
+    }
+    for(const [id,label,w,d,material] of [['green_strip','绿带 / 公园',20,8,m.grass],['hardscape','养护硬质场地',40,30,m.wall]] as const) {
+      const root=new Group();box(root,[w,0.04,d],[0,0.02,0],material,true);register(id,label,[w,0.04,d],false,root);
+    }
+    {
+      const root=new Group(),geometry=new BufferGeometry();
+      geometry.setAttribute('position',new Float32BufferAttribute([-10,0,-5,10,0,-5,-10,3,-3,10,3,-3,-10,0,5,10,0,5],3));
+      geometry.setIndex([0,2,1,1,2,3,2,4,3,3,4,5,0,4,2,1,3,5]);geometry.computeVertexNormals();
+      const mesh=new Mesh(geometry,m.grass);mesh.userData.tint=true;root.add(mesh);register('embankment','边坡植被',[20,3,10],false,root);
+    }
+    {
+      const root=new Group();for(const x of [-2.3,2.3])box(root,[0.15,5.3,0.15],[x,2.65,0],m.metal);
+      box(root,[5.8,1.9,0.18],[0,4.4,0],m.signBlue,true);
+      const face=new Mesh(new PlaneGeometry(5.4,1.6),m.signWhite);face.position.set(0,4.4,-0.101);face.rotation.y=Math.PI;face.userData.signLabel=true;root.add(face);
+      register('guide_sign','快速路导向牌',[5.8,5.4,0.2],true,root);
+    }
+    {
       const root = new Group(); box(root, [1.8, 0.85, 4.3], [0, 0.65, 0], m.buildingCool, true);
       box(root, [1.55, 0.65, 2.1], [0, 1.35, -0.15], m.glassDark);
       for (const x of [-0.85, 0.85]) for (const z of [-1.35, 1.35]) box(root, [0.18, 0.55, 0.55], [x, 0.3, z], m.darkMetal);
@@ -76,17 +103,20 @@ export class PrefabRegistry {
       const prefab = this.entries.get(id)!; prefab.template.updateMatrixWorld(true);
       prefab.template.traverse(part => {
         if (!(part instanceof Mesh)) return;
-        const mesh = new InstancedMesh(part.geometry, part.material, instances.length);
+        const batches=part.userData.signLabel?[...new Set(instances.map(o=>o.label??'Ring'))].map(label=>instances.filter(o=>(o.label??'Ring')===label)):[instances];
+        for(const batch of batches) {
+        const mesh = new InstancedMesh(part.geometry,part.userData.signLabel?this.signMaterial(batch[0]!.label??'Ring',part.material as MeshBasicMaterial):part.material,batch.length);
         mesh.name = `${id} instances`; mesh.castShadow = true; mesh.receiveShadow = true;
-        mesh.userData.cityObjectIds = instances.map(o => o.id);
+        mesh.userData.cityObjectIds = batch.map(o => o.id);
         mesh.userData.environmentLamp = part.userData.environmentLamp;
-        instances.forEach((o, i) => {
+        batch.forEach((o, i) => {
           p.set(o.position.x, o.position.y ?? 0, o.position.z); q.setFromAxisAngle(new Vector3(0, 1, 0), o.rotation);
           scale.set(o.scale?.x ?? 1, o.scale?.y ?? 1, o.scale?.z ?? 1);
           placement.compose(p, q, scale); transform.multiplyMatrices(placement, part.matrixWorld); mesh.setMatrixAt(i, transform);
           if (part.userData.tint) mesh.setColorAt(i, new Color(o.color ?? '#ffffff'));
         });
         mesh.computeBoundingSphere(); root.add(mesh);
+        }
       });
     }
     return root;
@@ -98,5 +128,12 @@ export class PrefabRegistry {
       width: prefab.size[0] * (o.scale?.x ?? 1), length: prefab.size[2] * (o.scale?.z ?? 1), minHeight: o.position.y ?? 0, maxHeight: (o.position.y ?? 0) + prefab.size[1] * (o.scale?.y ?? 1),
       yaw: o.rotation, type: ['tree', 'streetlight', 'parked_car', 'bus_stop', 'traffic_sign'].includes(o.prefabId) ? 'obstacle' : o.prefabId === 'guardrail' ? 'guardrail' : 'building' });
   }
-  dispose(): void { for (const prefab of this.entries.values()) prefab.template.traverse(p => { if (p instanceof Mesh) p.geometry.dispose(); }); }
+  private signMaterial(label:string,fallback:MeshBasicMaterial):MeshBasicMaterial {
+    if(typeof document==='undefined')return fallback;
+    let material=this.signMaterials.get(label);if(material)return material;
+    const canvas=document.createElement('canvas');canvas.width=768;canvas.height=224;const context=canvas.getContext('2d')!;
+    context.fillStyle='#ffffff';context.textAlign='center';context.font='bold 64px sans-serif';context.fillText(label,384,135,740);
+    const map=new CanvasTexture(canvas);map.colorSpace=SRGBColorSpace;material=new MeshBasicMaterial({map,transparent:true});this.signMaterials.set(label,material);return material;
+  }
+  dispose(): void { for (const prefab of this.entries.values()) prefab.template.traverse(p => { if (p instanceof Mesh) p.geometry.dispose(); });for(const m of this.signMaterials.values()){m.map?.dispose();m.dispose();}this.signMaterials.clear(); }
 }

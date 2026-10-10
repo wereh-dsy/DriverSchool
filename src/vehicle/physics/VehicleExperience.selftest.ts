@@ -1,6 +1,6 @@
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
 import { Group, Vector2, Vector3 } from 'three';
-import { createVehiclePhysicsConfig, VEHICLE_CATALOG } from '../VehicleCatalog';
+import { createVehiclePhysicsConfig, ICE_VEHICLE_CATALOG } from '../VehicleCatalog';
 import { cloneVehiclePhysicsConfig, createDefaultVehiclePhysicsConfig } from '../config';
 import { calibrateTyres } from '../config/TyreCalibration';
 import { CruiseControlController } from '../control/CruiseControlController';
@@ -152,7 +152,7 @@ export function runVehicleExperienceSelfTest() {
   const fuelBefore = fuelCar.fuel.currentFuelL;
   for (let i = 0; i < 240; i++) fuelCar.stepFixed(dt, { ...input, throttle: .3 });
   assert(close(fuelCar.tripComputer.getSnapshot().tripA.fuelUsedL, fuelBefore - fuelCar.fuel.currentFuelL, 1e-10), 'trip consumes exact FuelSystem delta');
-  for (const descriptor of VEHICLE_CATALOG) {
+  for (const descriptor of ICE_VEHICLE_CATALOG) {
     const car = new VehicleDynamics(createVehiclePhysicsConfig(descriptor.id));
     car.setDriverAssistOptions({ absEnabled: false, ebdEnabled: true, tractionControlEnabled: false, stabilityControlEnabled: false });
     car.reset(); const aids = car.getSnapshot().driverAssists;
@@ -190,7 +190,7 @@ export function runCruiseVehicleExperienceSelfTest() {
     worldBounds: { minX: -1e6, maxX: 1e6, minZ: -1e6, maxZ: 1e6 },
     sampleRoadSurface: () => surface,
   } as unknown as DrivingGround;
-  for (const descriptor of VEHICLE_CATALOG.filter(vehicle => vehicle.physicsConfig.driveModes)) {
+  for (const descriptor of ICE_VEHICLE_CATALOG.filter(vehicle => vehicle.physicsConfig.driveModes)) {
     const car = new VehicleDynamics(createVehiclePhysicsConfig(descriptor.id), { speed: 20, gear: 4, driveSelector: 'D' });
     let requestedThrottle = NaN;
     const prepare = car.powertrain.prepare.bind(car.powertrain);
@@ -204,7 +204,7 @@ export function runCruiseVehicleExperienceSelfTest() {
       }
     }
   }
-  for (const descriptor of VEHICLE_CATALOG.filter(vehicle => vehicle.capabilities.cruiseControl)) {
+  for (const descriptor of ICE_VEHICLE_CATALOG.filter(vehicle => vehicle.capabilities.cruiseControl)) {
     const id = descriptor.id;
     for (const target of [60, 80, 100, 120]) {
       const config = createVehiclePhysicsConfig(id), speed = target / 3.6;
@@ -250,7 +250,7 @@ export function runCruiseVehicleExperienceSelfTest() {
     }
   }
   const cruise = new CruiseControlController();
-  for (const descriptor of VEHICLE_CATALOG.filter(vehicle => vehicle.capabilities.cruiseControl && vehicle.physicsConfig.driveModes)) {
+  for (const descriptor of ICE_VEHICLE_CATALOG.filter(vehicle => vehicle.capabilities.cruiseControl && vehicle.physicsConfig.driveModes)) {
     const id = descriptor.id;
     const order = descriptor.physicsConfig.driveModeOrder ?? ['ECO', 'NORMAL', 'SPORT'] as const;
     for (const mode of [order[0]!, order[order.length - 1]!]) for (const target of [60, 80, 100, 120]) {

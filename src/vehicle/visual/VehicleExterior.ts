@@ -754,6 +754,16 @@ const addAutomaticFascia = (root: THREE.Group, config: VehicleVisualConfig, mate
     geometry.translate(0, 0, z);
     const mesh = createMesh(name, geometry, material, category); root.add(mesh); return mesh;
   };
+  if (theme === 'electric-fastback') {
+    face('Electric closed nose fascia', [[-.61,.60],[.61,.60],[.55,.44],[-.55,.44]], -halfLength-.003, materials.paint, 'body', true);
+    face('Electric low cooling slot', [[-.47,.34],[.47,.34],[.47,.30],[-.47,.30]], -halfLength-.005, materials.trim, 'grille', true);
+    for (const sign of [-1, 1]) {
+      const x = sign * halfWidth * .72;
+      face('Electric slim headlamp', [[x-.17,.66],[x+.17,.66],[x+.13,.70],[x-.13,.70]], -halfLength-.006, materials.chrome, 'headlamp', true);
+      face('Electric slim tail lamp', [[x-.18,.70],[x+.18,.70],[x+.16,.75],[x-.16,.75]], halfLength+.004, materials.rearLamp, 'tail-lamp', false);
+    }
+    return;
+  }
   if (theme === 'executive') {
     face('Executive satin grille surround', [[-.56,.70],[.56,.70],[.61,.59],[.49,.32],[-.49,.32],[-.61,.59]],
       -halfLength-.006, materials.chrome, 'grille', true);
@@ -1091,6 +1101,16 @@ const createMaterials = (config: VehicleVisualConfig): ExteriorMaterials => ({
 const createSedanStations = (config: VehicleVisualConfig): readonly BodyStation[] => {
   const halfLength = bodyHalfLength(config);
   const halfWidth = bodyHalfWidth(config);
+  if (config.body.design === 'electric-fastback') {
+    return [
+      [-halfLength, .43, .63, .82], [-halfLength + .28, .49, .69, .95],
+      [-config.wheelBase / 2, .56, .75, 1], [-.91, .60, .76, .985],
+      [.40, .63, .815, .985], [config.wheelBase / 2, .61, .83, 1],
+      [halfLength - .23, .56, .80, .94], [halfLength, .50, .73, .85],
+    ].map(([z, shoulder, top, breadth]) => ({ z: z!, bottomY: config.body.groundClearance,
+      lowerHalfWidth: halfWidth * .74, shoulderY: shoulder!, shoulderHalfWidth: halfWidth * breadth!,
+      topY: top!, topHalfWidth: halfWidth * breadth! * .92 }));
+  }
   if (config.body.profile === 'suv') {
     const floor = config.body.groundClearance;
     const hood = config.body.hoodTopY;

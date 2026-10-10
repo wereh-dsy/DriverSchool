@@ -1,6 +1,6 @@
 import { newCityMap, type CityPoint } from './CityMapData';
 import { connectRoad, connectRoads, createIntersection, createRoad, placePrefab, placePreset, roadEndpoint, saveMap, splitRoadAtPoint, validateMap } from './MapAPI';
-import { expandPreset, PRESET_CATALOG } from './presets/InfrastructurePresets';
+import { expandPreset, PRESET_CATALOG, type PresetParameters } from './presets/InfrastructurePresets';
 import { connectionPoint, polylineLength, portDirections, roadPoints, rotatePoint, sampleAt } from './geometry';
 import { validatePresetGeometry } from './presets/PresetGeometryValidation';
 import { CityGround } from './CityGround';
@@ -23,7 +23,10 @@ export function validatePresets() {
   const presets: { id: string; cases: number }[] = [];
   for (const preset of PRESET_CATALOG) {
     let count = 0;
-    for (const variant of [{}, { mainRoadLanes: 4, crossRoadLanes: 6, mainElevation: 12, rampLaneCount: 2, rampRadius: 40 }]) {
+    const variants:PresetParameters[]=[{}, { mainRoadLanes: 4, crossRoadLanes: 6, mainElevation: 12, rampLaneCount: 2, rampRadius: 40 }];
+    if(preset.id.startsWith('system_'))variants.push({designProfile:'urban',rampRadius:35,mainElevation:preset.id==='system_parclo_cd'?-8:0,crossElevation:preset.id==='system_parclo_cd'?0:8});
+    if(preset.id==='peripheral_motorway_junction')variants.push({designProfile:'motorway',mainApproach:350,crossApproach:900,crossCarriagewayOffset:14,rampRadius:60,mainElevation:8,crossElevation:-8});
+    for (const variant of variants) {
       const local = expandPreset(preset.id, { ...variant, groupId: 'fixture' });
       if (preset.production) {
         drivingSamples += validateDrivingCorridor({ ...newCityMap(), ...local }); drivingCases++;

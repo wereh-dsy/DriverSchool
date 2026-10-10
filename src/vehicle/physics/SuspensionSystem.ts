@@ -5,6 +5,8 @@ import type { ChassisPhysicsState } from './WheelPhysicsState';
 import { clamp } from './math';
 
 export interface SuspensionWheelState {
+  readonly camberAngle: number;
+  readonly toeAngle: number;
   readonly normalLoad: number;
   readonly staticLoad: number;
   readonly compression: number;
@@ -35,6 +37,7 @@ export interface SuspensionStep {
 }
 
 interface CornerState {
+  geometryForce: number;
   compression: number;
   velocity: number;
   load: number;
@@ -75,7 +78,7 @@ export class SuspensionSystem {
     this.chassis = { groundHeight: 0, terrainPitch: 0, terrainRoll: 0, rideOffset: 0, pitch: 0, roll: 0, verticalVelocity: 0 };
     for (const id of WHEEL_IDS) {
       const load = this.staticLoad(id);
-      this.corners[id] = { compression: load / this.springRate(id), velocity: 0, load, spring: load, damper: 0, bumpStop: 0, antiRoll: 0 };
+      this.corners[id] = { geometryForce: 0, compression: load / this.springRate(id), velocity: 0, load, spring: load, damper: 0, bumpStop: 0, antiRoll: 0 };
     }
   }
 
@@ -136,13 +139,19 @@ export class SuspensionSystem {
       const wheel = wheelLocalPosition(this.config, id);
       const groundResidual = clamp(heights[id] - groundHeight + wheel.z * forwardSlope - wheel.x * rightSlope, -0.05, 0.05);
       const targetLoad = targetLoads[id] * supportedWeight / Math.max(1, targetTotal);
+      const kinematics = front ? this.config.suspension.kinematics?.front : this.config.suspension.kinematics?.rear;
+      const driven = this.config.drivetrainType === 'AWD' || (front ? this.config.drivetrainType === 'FWD' : this.config.drivetrainType === 'RWD');
+      // Geometry routes longitudinal support around the spring, not around the tyre.
+      const antiRatio = this.longitudinalAcceleration < 0 && front ? kinematics?.antiDiveRatio ?? 0
+        : this.longitudinalAcceleration > 0 && driven ? kinematics?.antiSquatRatio ?? 0 : 0;
+      corner.geometryForce = (front ? -1 : 1) * longitudinalTransfer * .5 * clamp(antiRatio, 0, 1);
       const baselineDamping = corner.velocity >= 0
         ? (front ? this.config.suspension.damperCompressionFront : this.config.suspension.damperCompressionRear)
         : (front ? this.config.suspension.damperReboundFront : this.config.suspension.damperReboundRear);
       const damping = baselineDamping * this.dampingMultiplier;
       const cornerMass = this.staticLoad(id) / this.config.gravity;
       const bumpStop = this.bumpStopForce(id, corner.compression);
-      const acceleration = (targetLoad + springRate * groundResidual - springRate * corner.compression -
+      const acceleration = (targetLoad - corner.geometryForce + springRate * groundResidual - springRate * corner.compression -
         damping * corner.velocity - bumpStop - antiRoll[id]) / Math.max(20, cornerMass);
       corner.velocity += acceleration * safeDt;
       corner.compression += corner.velocity * safeDt;
@@ -161,7 +170,7 @@ export class SuspensionSystem {
       const corner = this.corners[id];
       corner.antiRoll = updatedAntiRoll[id];
       corner.load = Math.max(this.staticLoad(id) * 0.08,
-        corner.spring + corner.damper + corner.bumpStop + corner.antiRoll);
+        corner.spring + corner.damper + corner.bumpStop + corner.antiRoll + corner.geometryForce);
     }
     const actualTotal = WHEEL_IDS.reduce((sum, id) => sum + this.corners[id].load, 0);
     const hasAero = this.finite(step.frontAeroVerticalForce) !== 0 || this.finite(step.rearAeroVerticalForce) !== 0;
@@ -213,6 +222,8 @@ export class SuspensionSystem {
 
   public getSnapshot(): SuspensionSnapshot {
     const wheels = Object.fromEntries(WHEEL_IDS.map((id) => [id, {
+      camberAngle: this.kinematicAngle(id, false),
+      toeAngle: this.kinematicAngle(id, true),
       normalLoad: this.corners[id].load,
       staticLoad: this.staticLoad(id),
       compression: this.corners[id].compression,
@@ -230,6 +241,14 @@ export class SuspensionSystem {
   private staticLoad(id: WheelId): number {
     const frontShare = clamp(this.config.frontWeightBias, 0.05, 0.95);
     return this.config.mass * this.config.gravity * (id.startsWith('front') ? frontShare : 1 - frontShare) * 0.5;
+  }
+
+  /** Zero travel relative to loaded rest geometry gives the authored static alignment. */
+  private kinematicAngle(id: WheelId, toe: boolean): number {
+    const axle = id.startsWith('front') ? this.config.suspension.kinematics?.front : this.config.suspension.kinematics?.rear;
+    if (!axle) return 0;
+    const delta = this.corners[id].compression - this.staticLoad(id) / this.springRate(id);
+    return toe ? axle.staticToe + delta * axle.bumpToeGainPerMeter : axle.staticCamber + delta * axle.camberGainPerMeter;
   }
 
   private travelLimits(id: WheelId) {

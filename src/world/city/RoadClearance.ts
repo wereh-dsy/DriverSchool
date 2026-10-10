@@ -19,7 +19,7 @@ export class RoadClearance {
     }
   }
   roadAt(p: CityPoint, margin = 0, minY = -Infinity, maxY = Infinity, exclude?: string, match?: (roadId: string) => boolean): boolean {
-    for (const s of this.buckets.get(`${Math.floor(p.x / 50)},${Math.floor(p.z / 50)}`) ?? []) {
+    for(let bx=Math.floor((p.x-margin)/50);bx<=Math.floor((p.x+margin)/50);bx++)for(let bz=Math.floor((p.z-margin)/50);bz<=Math.floor((p.z+margin)/50);bz++)for (const s of this.buckets.get(`${bx},${bz}`) ?? []) {
       if (s.roadId === exclude || match && !match(s.roadId)) continue;
       const dx = s.b.x - s.a.x, dz = s.b.z - s.a.z, length = Math.hypot(dx, dz);
       if (length < 0.01) continue;
@@ -31,6 +31,18 @@ export class RoadClearance {
       if (y >= minY && y <= maxY && offset >= s.left - margin && offset <= s.right + margin) return true;
     }
     return false;
+  }
+  /** Lowest overlying support plane, used to terminate retaining walls below decks. */
+  lowestDeckHeight(p:CityPoint,minY:number,maxY:number,exclude:string,margin=3):number|undefined {
+    let result=Infinity;
+    for(const s of this.buckets.get(`${Math.floor(p.x/50)},${Math.floor(p.z/50)}`)??[]) {
+      if(s.roadId===exclude)continue;
+      const dx=s.b.x-s.a.x,dz=s.b.z-s.a.z,l=Math.hypot(dx,dz);if(l<0.01)continue;
+      const along=((p.x-s.a.x)*dx+(p.z-s.a.z)*dz)/l;if(along<-margin||along>l+margin)continue;
+      const t=Math.max(0,Math.min(1,along/l)),y=(s.a.y??0)+((s.b.y??0)-(s.a.y??0))*t,offset=(-(p.x-s.a.x)*dz+(p.z-s.a.z)*dx)/l;
+      if(y>=minY&&y<=maxY&&offset>=s.left-margin&&offset<=s.right+margin)result=Math.min(result,y);
+    }
+    return Number.isFinite(result)?result:undefined;
   }
   junctionAt(p: CityPoint, margin = 0, minY = -Infinity, maxY = Infinity): boolean {
     return this.map.intersections.some(j => {

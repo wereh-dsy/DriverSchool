@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param()
+param([switch]$BasicValidation)
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -31,7 +31,11 @@ try {
   $sourceFingerprint = Get-SourceFingerprint
   $packageRunner = (Get-Command pnpm -ErrorAction Stop).Source
   Invoke-Checked -Program $packageRunner -Arguments @('run', 'typecheck')
-  Invoke-Checked -Program $packageRunner -Arguments @('run', 'selftest')
+  if ($BasicValidation) {
+    Write-Host 'Basic validation: typecheck and production build; core selftests skipped by request.'
+  } else {
+    Invoke-Checked -Program $packageRunner -Arguments @('run', 'selftest')
+  }
 
   # A new staging folder avoids cleaning or overwriting the playable game.
   $checkpointRoot = Join-Path $projectRoot '.checkpoint-builds'

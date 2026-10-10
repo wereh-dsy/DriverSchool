@@ -4,7 +4,7 @@ import { MountainProvingGround } from './MountainProvingGround';
 import { SERVICE } from './MountainSurface';
 import { SURFACE_MATERIALS } from '../SurfaceMaterial';
 import { sampleWheelContacts, wheelContactsAsArray } from '../../vehicle/physics/WheelContact';
-import { VEHICLE_CATALOG } from '../../vehicle/VehicleCatalog';
+import { ICE_VEHICLE_CATALOG } from '../../vehicle/VehicleCatalog';
 import { VehicleDynamics } from '../../vehicle/physics/VehicleDynamics';
 import { VehicleContactSystem } from '../../vehicle/physics/VehicleContactSystem';
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
@@ -127,7 +127,7 @@ export function runMountainProvingGroundSelfTest() {
     assert(instanceBatches === 6, 'trees/shrubs/rocks/posts/rails batched');
     // All shipping vehicles use four separate support samples through the normal adapter.
     const controls = { ...createNeutralVehicleInputState(), brake: 1 };
-    for (const vehicle of VEHICLE_CATALOG) {
+    for (const vehicle of ICE_VEHICLE_CATALOG) {
       for (const s of [800, main.section('mountain-side').start + 150, erosion.start + 22, valley.start + 80]) {
         const p = main.point(s), yaw = Math.atan2(-p.tx, -p.tz);
         const contacts = wheelContactsAsArray(sampleWheelContacts(g, { x: p.x, z: p.z, yaw }, vehicle.physicsConfig));
@@ -146,6 +146,6 @@ export function runMountainProvingGroundSelfTest() {
     }
     return { assertions, routeLength: main.length, minimumHeight: g.metadata.minimumHeight,
       maximumHeight: g.metadata.maximumHeight, routes: metrics, mainRutDepth, technicalRutDepth,
-      terrainVertices: positions.count, instanceBatches, vehicles: VEHICLE_CATALOG.length };
+      terrainVertices: positions.count, instanceBatches, vehicles: ICE_VEHICLE_CATALOG.length };
   } finally { g.dispose(); }
 }

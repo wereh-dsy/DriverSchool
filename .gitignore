@@ -6,6 +6,18 @@ dist/
 
 *.log
 *.tsbuildinfo
-.tmp-*.mjs
+# Root-level throwaway validation bundles, captures and inspection outputs.
+/.tmp-*
+/tmp-subject3-arm*.ts
+/tmp-subject3-arm*.mjs
+/tmp-subject3-signal.ts
+/tmp-subject3-signal.mjs
+/tmp-subject3-topology.ts
+/tmp-subject3-topology.mjs
+# Generated visual review evidence; reusable harnesses/reports remain tracked.
+/artifacts/a6l-binnacle-refinement/
+/artifacts/cockpit-integration/
+/artifacts/cockpit-proportions/
+/artifacts/suv-instrument-rebuild/*.png
 
 .DS_Store

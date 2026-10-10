@@ -20,6 +20,11 @@ export function runVehicleStructureSelfTest() {
       try {
         visual.root.updateMatrixWorld(true);
         const config = car.visualConfig;
+        if (config.instrumentCluster.displayStyle === 'ev-center') {
+          assert(visual.root.getObjectByName('Electric centre touchscreen') !== undefined &&
+            visual.root.getObjectByName('Instrument binnacle back') === undefined, `${car.id}: EV cabin has centre screen without binnacle`);
+          continue; // The dedicated Tesla structure test covers its independent layout.
+        }
         const column = visual.root.getObjectByName('Steering column') as THREE.Mesh<THREE.CylinderGeometry>;
         assert(column !== undefined, `${car.id}: column exists`);
         const ends = [-1, 1].map(sign => new THREE.Vector3(0, sign * column.geometry.parameters.height / 2, 0).applyMatrix4(column.matrixWorld));

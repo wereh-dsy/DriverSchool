@@ -3,9 +3,13 @@ import type { CityIntersection, CityMapData, CityPoint, CityRoad, IntersectionPo
 import { INTERSECTION_LANES } from './CityMapData';
 export const portDirections: Record<IntersectionPort, CityPoint> = {
   north: { x: 0, z: -1 }, east: { x: 1, z: 0 }, south: { x: 0, z: 1 }, west: { x: -1, z: 0 },
+  extra: { x: Math.SQRT1_2, z: -Math.SQRT1_2 },
 };
+export function portDirection(j: CityIntersection, port: IntersectionPort): CityPoint {
+  const angle=j.portAngles?.[port];return angle===undefined?portDirections[port]:{x:Math.sin(angle),z:-Math.cos(angle)};
+}
 export function portsFor(j: CityIntersection): IntersectionPort[] {
-  return j.type.startsWith('t_') ? ['north', 'east', 'west'] : ['north', 'east', 'south', 'west'];
+  return j.type==='irregular'?['north','east','south','west','extra']:j.type.startsWith('t_') ? ['north', 'east', 'west'] : ['north', 'east', 'south', 'west'];
 }
 export function rotatePoint(p: CityPoint, radians: number): CityPoint {
   const c = Math.cos(radians), s = Math.sin(radians);
@@ -26,7 +30,7 @@ export function roadEdges(road: CityRoad): { left: number; right: number; width:
   return { left, right, width: right - left };
 }
 export function connectionPoint(j: CityIntersection, port: IntersectionPort, map: CityMapData): CityPoint {
-  const d = rotatePoint(portDirections[port], j.rotation), extent = junctionExtent(j, map);
+  const d = rotatePoint(portDirection(j,port), j.rotation), extent = junctionExtent(j, map);
   return { x: j.position.x + d.x * extent, y: j.position.y ?? 0, z: j.position.z + d.z * extent };
 }
 /** A connection owns its endpoint, including after moving/rotating a junction. */

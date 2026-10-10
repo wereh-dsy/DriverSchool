@@ -2,6 +2,7 @@ import { STRUCTURAL_CAPABILITIES } from '../VehicleCapabilities';
 import type { VehicleChassisConfig } from './VehiclePhysicsConfig';
 import type { DifferentialConfig } from './VehiclePlatformConfig';
 import type { VehicleVisualConfig } from '../visual/VehicleVisualConfig';
+import { isElectricConfig } from './ElectricVehiclePhysicsConfig';
 
 /** Startup/test validation only; no schema framework or work in the fixed loop. */
 export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visual?: VehicleVisualConfig): void {
@@ -27,6 +28,12 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
     for (const calibration of Object.values(config.driveModes)) {
       positive(calibration.throttleExponent, 'mode throttle exponent'); positive(calibration.throttleResponse, 'mode throttle response');
       if (calibration.dctShiftTime !== undefined) positive(calibration.dctShiftTime, 'mode DCT shift time');
+      if (calibration.accelerationRearTorqueSplit !== undefined) {
+        require(config.awd !== undefined, 'mode rear torque split requires AWD');
+        fraction(calibration.accelerationRearTorqueSplit, 'mode accelerationRearTorqueSplit');
+        require(config.awd?.mode === 'full-time' || config.awd?.maximumRearTorqueSplit === undefined ||
+          calibration.accelerationRearTorqueSplit <= config.awd.maximumRearTorqueSplit, 'mode rear torque share exceeds AWD maximum');
+      }
     }
   }
   const features = config.capabilities;
@@ -39,6 +46,23 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
   require(config.drivetrainLayout === config.drivetrainType, 'drivetrain layout aliases disagree');
   require((config.awd !== undefined) === (config.drivetrainType === 'AWD'), 'AWD controller and drivetrainType disagree');
   fraction(config.frontTorqueSplit, 'frontTorqueSplit'); fraction(config.rearTorqueSplit, 'rearTorqueSplit');
+  if (isElectricConfig(config)) {
+    require(config.drivetrainType === 'RWD' || config.drivetrainType === 'FWD', 'single motor needs one driven axle');
+    require(!('engine' in config) && !('fuel' in config) && !('clutch' in config) && !config.transmission, 'EV must not install ICE components');
+    const { motor, battery, fixedReduction, regen } = config;
+    for (const key of ['maxDriveTorque', 'maxDrivePower', 'maxRPM', 'rotationalInertia', 'driveResponseRate', 'maxRegenTorque', 'maxRegenPower'] as const) positive(motor[key], `motor.${key}`);
+    for (const key of ['motoringEfficiency', 'regenEfficiency'] as const) { positive(motor[key], `motor.${key}`); fraction(motor[key], `motor.${key}`); }
+    for (const key of ['usableCapacityKWh', 'nominalVoltage', 'maxDischargePower', 'maxChargePower', 'dischargeEfficiency', 'chargeEfficiency'] as const) positive(battery[key], `battery.${key}`);
+    for (const key of ['defaultStateOfCharge', 'dischargeEfficiency', 'chargeEfficiency', 'lowSOCStart', 'lowSOCEnd', 'highSOCRegenStart', 'highSOCRegenEnd'] as const) fraction(battery[key], `battery.${key}`);
+    require(battery.lowSOCEnd === 0 && battery.lowSOCStart > battery.lowSOCEnd && battery.highSOCRegenEnd === 1 && battery.highSOCRegenStart < battery.highSOCRegenEnd, 'battery taper ordering');
+    positive(fixedReduction.ratio, 'reduction ratio'); positive(fixedReduction.efficiency, 'reduction efficiency'); fraction(fixedReduction.efficiency, 'reduction efficiency');
+    for (const key of ['reverseSpeedLimit', 'parkMaximumSpeed', 'directionLockoutSpeed', 'creepSpeed'] as const) positive(fixedReduction[key], `reduction.${key}`);
+    nonnegative(fixedReduction.creepTorque, 'creep torque'); require(typeof fixedReduction.creepEnabled === 'boolean', 'creep enabled');
+    fraction(regen.strength, 'regen strength'); positive(regen.maximumLiftOffDeceleration, 'lift off deceleration');
+    positive(regen.brakeLightDeceleration, 'regen brake light threshold');
+    nonnegative(regen.minimumSpeed, 'regen minimum speed'); require(regen.fadeSpeed > regen.minimumSpeed, 'regen fade ordering');
+    nonnegative(regen.stopBrakeSpeed, 'stop brake speed'); fraction(regen.stopBrakeDemand, 'stop brake demand'); positive(regen.referenceConsumptionKWhPer100km, 'EV reference consumption');
+  }
   require(Math.abs(config.frontTorqueSplit + config.rearTorqueSplit - 1) < 1e-6, 'axle torque shares must sum to one');
   require(config.drivetrainType !== 'FWD' || config.frontTorqueSplit === 1, 'FWD axle shares');
   require(config.drivetrainType !== 'RWD' || config.rearTorqueSplit === 1, 'RWD axle shares');
@@ -82,6 +106,15 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
   for (const key of ['wetLongitudinalGripRetention', 'wetLateralGripRetention'] as const)
     if (config.tires[key] !== undefined) fraction(config.tires[key], `tires.${key}`);
   const adaptive = config.suspension.adaptiveDamping;
+  if (config.suspension.kinematics) for (const axle of Object.values(config.suspension.kinematics)) {
+    require(['MACPHERSON', 'DOUBLE_WISHBONE', 'MULTI_LINK', 'TORSION_BEAM'].includes(axle.topology), 'suspension topology');
+    for (const key of ['staticCamber', 'camberGainPerMeter', 'staticToe', 'bumpToeGainPerMeter'] as const)
+      require(Number.isFinite(axle[key]), `kinematics.${key}`);
+    require(Math.abs(axle.staticCamber) <= .15 && Math.abs(axle.staticToe) <= .05 &&
+      Math.abs(axle.camberGainPerMeter) <= 1 && Math.abs(axle.bumpToeGainPerMeter) <= .5, 'kinematics alignment bounds');
+    fraction(axle.antiDiveRatio, 'anti dive'); fraction(axle.antiSquatRatio, 'anti squat');
+  }
+  if (config.tires.camberStiffness !== undefined) nonnegative(config.tires.camberStiffness, 'camber stiffness');
   if (adaptive) { positive(adaptive.responseRate, 'adaptive damping response');
     for (const value of Object.values(adaptive.modeMultipliers)) positive(value, 'adaptive damping multiplier'); }
   const air = config.suspension.airSuspension;

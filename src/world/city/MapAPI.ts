@@ -55,7 +55,7 @@ export function moveRoadNode(map: CityMapData, roadId: string, index: number, po
 }
 export function createIntersection(map: CityMapData, input: Omit<CityIntersection, 'id' | 'connections'> & { id?: string; baseName?: string; connections?: CityIntersection['connections'] }): CityIntersection {
   const { baseName, ...properties } = input;
-  const j: CityIntersection = { ...properties, id: idFor(map, input.id, baseName ?? 'junction'), position: { ...input.position, y: input.position.y ?? 0 }, connections: structuredClone(input.connections ?? []) };
+  const j: CityIntersection = { ...properties, markingFootprint:properties.markingFootprint??{kind:'junction',margin:0.4}, id: idFor(map, input.id, baseName ?? 'junction'), position: { ...input.position, y: input.position.y ?? 0 }, connections: structuredClone(input.connections ?? []) };
   const next = structuredClone(map); next.intersections.push(j); syncConnections(next); assertValid(next);
   commit(map, next); return map.intersections.find(item => item.id === j.id)!;
 }
@@ -127,6 +127,7 @@ export function deleteObject(map: CityMapData, id: string): void {
   for (const j of map.intersections) j.connections = j.connections.filter(c => c.roadId !== id);
   map.roadLinks = (map.roadLinks ?? []).filter(l => l.from.roadId !== id && l.to.roadId !== id);
   map.connectionPorts = (map.connectionPorts ?? []).filter(p => p.endpoint.roadId !== id);
+  if(map.signs)map.signs=map.signs.filter(sign=>sign.roadId!==id);
 }
 export function placePreset(map: CityMapData, id: string, parameters: PresetParameters = {}): PresetStamp {
   const ids = new CityMapIds(map);

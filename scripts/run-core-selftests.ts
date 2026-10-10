@@ -1,3 +1,7 @@
+import { runSuspensionKinematicsSelfTest } from '../src/vehicle/physics/SuspensionKinematics.selftest';
+import { runTeslaExperienceSelfTest } from '../src/vehicle/visual/TeslaExperience.selftest';
+import { runElectricPowertrainSelfTest } from '../src/vehicle/powertrain/ElectricPowertrain.selftest';
+import { runTeslaModel3VisualSelfTest } from '../src/vehicle/visual/TeslaModel3Visual.selftest';
 import { runFerrari458SelfTest } from '../src/vehicle/physics/Ferrari458.selftest';
 import { runFerrari458VisualSelfTest } from '../src/vehicle/visual/Ferrari458Visual.selftest';
 import { runVehicleLayoutSelfTest } from '../src/vehicle/physics/VehicleLayout.selftest';
@@ -49,11 +53,17 @@ import { runAutomaticSelectorInputSelfTest } from '../src/vehicle/transmission/A
 import { runVehicleLightingSelfTest } from '../src/vehicle/visual/VehicleLighting.selftest';
 import { runEnvironmentSelfTest } from '../src/world/environment/Environment.selftest';
 import { runCityMapSelfTest } from '../src/world/city/CityMap.selftest';
+import { runMarkingOwnershipSelfTest } from '../src/world/city/MarkingOwnership.selftest';
+import { runCityMainV3SelfTest,runRoadSignSelfTest } from '../src/world/city/CityMainV3.selftest';
 import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToolchain.selftest';
 
 import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftest';
 
 const results = {
+  teslaExperience: runTeslaExperienceSelfTest(),
+  suspensionKinematics: runSuspensionKinematicsSelfTest(),
+  electricPowertrain: runElectricPowertrainSelfTest(),
+  teslaModel3Visual: runTeslaModel3VisualSelfTest(),
   ferrari458: runFerrari458SelfTest(),
   ferrari458Visual: runFerrari458VisualSelfTest(),
   vehicleLayout: runVehicleLayoutSelfTest(),
@@ -66,6 +76,9 @@ const results = {
   cityToolchain: validateAuthoringAPI(),
   cityPresets: validatePresets(),
   cityMap: runCityMapSelfTest(),
+  cityMarkings:runMarkingOwnershipSelfTest(),
+  cityV3:runCityMainV3SelfTest(),
+  citySigns:runRoadSignSelfTest(),
   executiveSedan: runExecutiveSedanSelfTest(),
   executivePolish: runExecutivePolishSelfTest(),
   suspensionStance: runSuspensionStanceSelfTest(),

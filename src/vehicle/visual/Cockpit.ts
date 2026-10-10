@@ -272,6 +272,12 @@ export class Cockpit extends THREE.Group {
     satin: THREE.Material,
   ): void {
     const a = this.layout;
+    if (config.instrumentCluster.displayStyle === 'ev-center') {
+      this.add(makeBox('Minimal horizontal electric dashboard', config.dashboard.dimensions, config.dashboard.position, interior));
+      this.add(makeBox('Continuous dash trim', [config.cabin.width, .018, .055], [0, .837, -.54], satin));
+      this.add(makeBox('Continuous concealed ventilation slot', [config.cabin.width - .10, .012, .02], [0, .814, -.468], dark));
+      return;
+    }
     const width = config.cabin.width, rearZ = a.dashboardUpperRear[2];
     const [ , cowlY, cowlZ] = a.dashboardUpperFront;
     const top = a.dashboardUpperRear[1];
@@ -427,7 +433,7 @@ export class Cockpit extends THREE.Group {
 
   private addInstrumentCluster(config: VehicleVisualConfig): InstrumentCluster {
     const cluster = new InstrumentCluster(config.instrumentCluster);
-    fitInstrumentBinnacle(cluster, config, this.layout);
+    if (config.instrumentCluster.displayStyle !== 'ev-center') fitInstrumentBinnacle(cluster, config, this.layout);
     // The existing artwork/needles retain their local coordinates and updates.
     setPosition(cluster, config.instrumentClusterTransform.position);
     cluster.rotation.set(...config.instrumentClusterTransform.rotation);
@@ -577,6 +583,10 @@ export class Cockpit extends THREE.Group {
     satin: THREE.Material,
   ): void {
     const design = config.body.design;
+    if (config.instrumentCluster.displayStyle === 'ev-center') {
+      this.add(makeBox('Electric open centre console', [.28, .15, .80], [.10, .42, .28], dark));
+      return;
+    }
     const stackWidth = this.consoleWidth;
     const stackX = config.gearLeverPosition[0];
     const topY = this.layout.centerStackAnchor[1];

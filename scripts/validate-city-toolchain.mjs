@@ -21,7 +21,8 @@ try {
   writeFileSync(path, JSON.stringify({ schemaVersion: 2, id: 'cli-fixture', name: 'CLI fixture', version: 1, sectorSize: 500,
     bounds: { minX: -1000, maxX: 1000, minZ: -1000, maxZ: 1000 }, roads: [], intersections: [], objects: [], roadLinks: [], connectionPorts: [],
     environment: { districts: [], spawnPoints: [{ id: 'start', position: { x: 0, y: 0, z: 0 }, rotation: 0 }] } }), 'utf8');
-  assert(cli(['list-presets']).presets.length === 10, 'catalog');
+  const catalog = cli(['list-presets']).presets;
+  assert(catalog.length === JSON.parse(readFileSync('src/world/city/presets/catalog.json','utf8')).presets.length && ['system_cloverleaf','system_cloverleaf_cd','system_cloverstack_lite','system_parclo_cd','divided_tunnel','urban_underpass','urban_main_aux','signal_cross_channelized_6x6'].every(id=>catalog.some(p=>p.id===id)), 'expanded catalog');
   cli(['add-road', path, '--request', JSON.stringify({ baseName: 'cli-road', centerline: [{ x: 0, y: 0, z: 0 }, { x: 100, y: 0, z: 0 }] })]);
   cli(['add-road', path, '--request', JSON.stringify({ baseName: 'cli-road', centerline: [{ x: 100, y: 0, z: 0 }, { x: 200, y: 0, z: 0 }] })]);
   cli(['connect-road', path, '--request', JSON.stringify({ from: { roadId: 'cli-road', end: 'end' }, target: { endpoint: { roadId: 'cli-road-2', end: 'start' } } })]);

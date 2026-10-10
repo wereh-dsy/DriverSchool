@@ -2,7 +2,7 @@ import { Box3, Group, Mesh, Raycaster, Vector3 } from 'three';
 import { calculateEngineAudioMix } from '../audio/EngineAudio';
 import { VehicleInputSystem } from '../input/VehicleInputSystem';
 import { createNeutralVehicleInputState } from '../input/VehicleInputState';
-import { createVehiclePhysicsConfig, getVehicleDescriptor, VEHICLE_CATALOG } from './VehicleCatalog';
+import { createVehiclePhysicsConfig, getVehicleDescriptor, ICE_VEHICLE_CATALOG } from './VehicleCatalog';
 import { createDefaultVehiclePhysicsConfig, createRoadSUVPhysicsConfig, createTest6ATVehiclePhysicsConfig,
   type ForwardGear, type VehiclePhysicsConfig } from './config';
 import { Engine } from './physics/Engine';
@@ -18,7 +18,7 @@ export function runPowertrainLayoutSelfTest() {
   let assertions = 0;
   const assert = (ok: boolean, message: string) => { assertions++; if (!ok) throw new Error(`Powertrain layout: ${message}`); };
   const dt = 1 / 120;
-  for (const car of VEHICLE_CATALOG) {
+  for (const car of ICE_VEHICLE_CATALOG) {
     const engine = new Engine(car.physicsConfig.engine);
     assert(engine.isRunning && Number.isFinite(engine.getTorqueSample().netCrankTorque), `${car.id}: valid engine`);
     assert(car.physicsConfig.engine.layout === (car.id === 'road-suv-v6-8at' || car.id === 'ferrari-458-italia' ? 'V' : 'INLINE'), `${car.id}: explicit layout`);

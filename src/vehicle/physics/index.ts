@@ -49,5 +49,6 @@ export type {
   VehicleForceSnapshot,
   VehicleInitialState,
   VehicleSnapshot,
+  VehicleRuntimeSnapshot,
   VehicleWorldBounds,
 } from './VehicleDynamics';

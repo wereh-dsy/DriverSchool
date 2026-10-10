@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>City Main — 实景预览</title>
+<style>html,body{margin:0;overflow:hidden;background:#98b3c4;font:14px system-ui;color:#fff}canvas{display:block}header{position:absolute;top:16px;left:18px;padding:12px 16px;background:#162b35dd;border-radius:8px}h1{font-size:19px;margin:0 0 5px}p{font-size:12px;margin:0;color:#c9dde5}nav{position:absolute;right:18px;bottom:16px;display:flex;gap:6px}button{border:1px solid #6c909b;background:#17313ddd;color:white;border-radius:5px;padding:8px 12px;cursor:pointer}footer{position:absolute;bottom:16px;left:18px;font-size:11px;background:#162b35bb;padding:6px 10px;border-radius:4px}</style></head>
+<body><header><h1>City Main V3 · 紧凑立交 + 城市路网 + 中文路牌</h1><p>5 座城市互通 · 内环大道 · 180 块路牌 · 城际高速 1.98 km</p></header><nav><button data-view="overview">俯瞰总览</button><button data-view="top">路网俯视</button><button data-view="central">中央 X 形</button><button data-view="east">东环涡轮</button><button data-view="north">北环四星</button><button data-view="west">西环苜蓿叶</button><button data-view="south">南环改良</button><button data-view="signs">驾驶路牌</button><button data-view="motorway">外围高速</button></nav><footer>实际 City 地图与道路渲染 · 建筑为占位体块</footer>
+<style>nav{max-width:calc(100vw - 36px);flex-wrap:wrap;justify-content:flex-end}button{white-space:nowrap;padding:6px 8px;font-size:12px}header{max-width:calc(100vw - 68px)}footer{bottom:112px}</style>
+<script type="module">
+import * as THREE from '/node_modules/three/build/three.module.js';
+import { CityGround } from '/src/world/city/CityGround.ts';
+const loadButton=document.createElement('button');loadButton.textContent='加载实际地图';document.querySelector('header').append(loadButton);
+await new Promise(resolve=>loadButton.onclick=()=>{loadButton.disabled=true;loadButton.textContent='正在加载…';setTimeout(resolve,0);});
+const data=await (await fetch('/city-main.json')).json();
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x98b3c4);
+scene.add(new THREE.HemisphereLight(0xddeeff,0x76705f,2.3));
+const sun=new THREE.DirectionalLight(0xfff3dd,3);sun.position.set(180,350,100);scene.add(sun);
+const ground=new CityGround(data,{editor:true});scene.add(ground.root);
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;document.body.prepend(renderer.domElement);
+const camera=new THREE.OrthographicCamera(-3000,3000,3000,-3000,1,20000);
+const driverCamera=new THREE.PerspectiveCamera(55,1,0.1,12000);
+const centers={central:[0,-150],east:[1750,-150],north:[0,-1400],west:[-1750,-150],south:[0,1550]};
+let view='overview';
+function render(){const aspect=innerWidth/innerHeight;const baseSpan=centers[view]?900:view==='motorway'?2050:view==='top'?4750:5500;const span=baseSpan/Math.min(aspect,1);camera.left=-span*aspect/2;camera.right=span*aspect/2;camera.top=span/2;camera.bottom=-span/2;
+camera.up.set(0,1,0);let activeCamera=camera;if(view==='top'){camera.position.set(550,7000,75);camera.up.set(0,0,-1);camera.lookAt(550,0,75);}else if(centers[view]){const [x,z]=centers[view];camera.position.set(x+600,1100,z+700);camera.lookAt(x,0,z);}else if(view==='signs'){const sign=data.signs.find(s=>s.type==='EXPRESSWAY_ADVANCE'&&s.interchangeId==='central-hub'&&Math.abs(s.heading+Math.PI/2)<.2);const y=sign.position.y??0;driverCamera.position.set(sign.position.x+Math.sin(sign.heading)*40,y+2,sign.position.z+Math.cos(sign.heading)*40);driverCamera.lookAt(sign.position.x,y+8.4,sign.position.z);driverCamera.aspect=aspect;activeCamera=driverCamera;}else if(view==='motorway'){camera.position.set(3600,2600,3300);camera.lookAt(2350,0,650);}else{camera.position.set(4300,6000,5500);camera.lookAt(550,0,75);}activeCamera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.render(scene,activeCamera);document.body.dataset.ready='true';}
+for(const button of document.querySelectorAll('button'))button.onclick=()=>{view=button.dataset.view;render();};
+addEventListener('resize',render);render();loadButton.remove();
+</script></body></html>

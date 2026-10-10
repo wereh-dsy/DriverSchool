@@ -1,6 +1,6 @@
 import { createNeutralVehicleInputState, type VehicleInputState } from '../../input/VehicleInputState';
 import { SURFACE_MATERIALS } from '../../world/SurfaceMaterial';
-import { VEHICLE_CATALOG } from '../VehicleCatalog';
+import { ICE_VEHICLE_CATALOG } from '../VehicleCatalog';
 import { cloneVehiclePhysicsConfig } from '../config';
 import { wheelLocalPosition } from '../VehicleDimensions';
 import { SuspensionSystem } from './SuspensionSystem';
@@ -24,7 +24,7 @@ export function runFourWheelPhysicsSelfTest() {
   const cornerRoll: number[] = [];
   // These are the established MT pedal/axle baselines, not selector tests.
   // Automatic powertrains have their own creep/shift/stop acceptance suite.
-  for (const vehicle of VEHICLE_CATALOG.filter(v => (v.physicsConfig.transmission.type ?? 'MANUAL') === 'MANUAL')) {
+  for (const vehicle of ICE_VEHICLE_CATALOG.filter(v => (v.physicsConfig.transmission.type ?? 'MANUAL') === 'MANUAL')) {
     const config = vehicle.physicsConfig;
     const label = vehicle.id;
     const weight = config.mass * config.gravity;

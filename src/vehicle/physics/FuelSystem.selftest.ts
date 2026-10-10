@@ -1,5 +1,5 @@
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
-import { createVehiclePhysicsConfig, VEHICLE_CATALOG } from '../VehicleCatalog';
+import { createVehiclePhysicsConfig, ICE_VEHICLE_CATALOG } from '../VehicleCatalog';
 import type { VehicleDriveMode } from '../config';
 import { Engine } from './Engine';
 import { FuelSystem } from './FuelSystem';
@@ -15,7 +15,7 @@ export function runFuelSystemSelfTest() {
   const dt = 1 / 120;
   const input = createNeutralVehicleInputState();
   const idleFlows: Record<string, number> = {};
-  for (const descriptor of VEHICLE_CATALOG) {
+  for (const descriptor of ICE_VEHICLE_CATALOG) {
     const config = createVehiclePhysicsConfig(descriptor.id);
     const baseMass = config.mass;
     const vehicle = new VehicleDynamics(config);

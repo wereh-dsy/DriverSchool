@@ -20,6 +20,7 @@ export interface VehicleLightingState {
 }
 
 export interface VehicleLightingTelemetry {
+  readonly assistedBrakeActive?: boolean;
   readonly autoOffWithIgnition?: boolean;
   readonly ignitionOn: boolean;
   /** The transmission's engaged output, never its last requested selector. */
@@ -135,7 +136,7 @@ export class VehicleLightingController {
     if (input.rightIndicator) this.toggleSignal('right');
     if (this.autoCancel.update(this.signal, telemetry.steeringWheelAngle, this.hazard)) this.signal = null;
     this.flash = input.highBeamFlash === true;
-    this.brake = Number.isFinite(input.brake) && input.brake > 0.04;
+    this.brake = (Number.isFinite(input.brake) && input.brake > 0.04) || telemetry.assistedBrakeActive === true;
     this.reverse = telemetry.ignitionOn && telemetry.actualGear === 'R';
     this.blinkTime += Number.isFinite(deltaTime) ? Math.max(0, deltaTime) : 0;
     return this.state;

@@ -20,7 +20,7 @@ export const proximitySeverity = (distance: number): ProximitySeverity => distan
   : distance > 1.5 ? 'FAR' : distance > .8 ? 'CAUTION' : distance >= .4 ? 'NEAR' : 'CRITICAL';
 
 /** Clip the existing world collider footprint to a convex sensor region. */
-function clipRegion(points: CollisionPoint2[], region: CollisionPoint2[]): CollisionPoint2[] {
+export function clipRegion(points: CollisionPoint2[], region: CollisionPoint2[]): CollisionPoint2[] {
   for (let i = 0; i < region.length && points.length; i++) {
     const a = region[i]!, b = region[(i + 1) % region.length]!;
     const side = (p: CollisionPoint2): number => (b.x - a.x) * (p.z - a.z) - (b.z - a.z) * (p.x - a.x);
@@ -40,7 +40,7 @@ function clipRegion(points: CollisionPoint2[], region: CollisionPoint2[]): Colli
   return points;
 }
 
-function distanceToSurface(origin: CollisionPoint2, polygon: CollisionPoint2[]): number {
+export function distanceToSurface(origin: CollisionPoint2, polygon: CollisionPoint2[]): number {
   let minimum = Infinity, inside = true;
   for (let i = 0; i < polygon.length; i++) {
     const a = polygon[i]!, b = polygon[(i + 1) % polygon.length]!;

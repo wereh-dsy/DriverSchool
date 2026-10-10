@@ -3,6 +3,7 @@ import { directionalPortLabel, portsFor, roadPoints } from './geometry';
 import { ROAD_STYLES } from './RoadStyles';
 import catalog from './presets/catalog.json';
 import { validatePresetGeometry } from './presets/PresetGeometryValidation';
+import { validateRoadSignData } from './RoadSignValidation';
 export interface MapIssue { severity: 'error' | 'warning'; code: string; path: string; message: string }
 export interface MapValidation { valid: boolean; errors: MapIssue[]; warnings: MapIssue[]; errorCount: number; warningCount: number }
 export const RECOMMENDED_GRADE = 0.12;
@@ -24,6 +25,7 @@ export function validateMap(value: unknown): MapValidation {
   if (!b || ![b.minX, b.maxX, b.minZ, b.maxZ].every(finite) || b.minX >= b.maxX || b.minZ >= b.maxZ || b.maxX - b.minX > 200000 || b.maxZ - b.minZ > 200000) issue('bounds.invalid', 'bounds', 'Finite ordered bounds, at most 200km per axis, required.');
   for (const key of ['roads', 'intersections', 'objects'] as const) if (!Array.isArray(m[key])) issue('array.required', key, 'Expected array.');
   if (errors.some(e => e.code === 'array.required')) return result();
+  errors.push(...validateRoadSignData(m));
   const ids = new Set<string>();
   for (const key of ['roads', 'intersections', 'objects', 'roadLinks', 'connectionPorts'] as const) {
     const list = m[key]; if (list === undefined) continue;
@@ -40,6 +42,7 @@ export function validateMap(value: unknown): MapValidation {
     if (!finite(r.laneWidth) || r.laneWidth < 2 || r.laneWidth > 6 || !finite(r.speedLimit) || r.speedLimit <= 0 || r.speedLimit > 200) issue('road.properties', path, 'Lane width 2–6m, speed 1–200km/h required.');
     if (!['two-way', 'forward', 'reverse'].includes(r.travelDirection) || r.travelDirection === 'two-way' && r.laneCount % 2 !== 0) issue('direction.invalid', path, 'Two-way roads require an even lane count.');
     if (r.styleId && !ROAD_STYLES.some(s => s.id === r.styleId)) issue('style.invalid', path, `Unknown road style: ${r.styleId}`);
+    if (r.designProfile !== undefined && !['urban','motorway'].includes(r.designProfile)) issue('design.profile',path,'Expected urban or motorway design profile.');
     if (r.curve && !['polyline', 'smooth'].includes(r.curve)) issue('curve.invalid', path, 'Expected polyline or smooth.');
     if (r.elevationMode && !['ground', 'elevated', 'custom'].includes(r.elevationMode)) issue('elevation.mode', path, 'Expected ground/elevated/custom.');
     if (r.elevationMode === 'elevated' && (!finite(r.elevation ?? 6) || (r.elevation ?? 6) < 2.5 || (r.elevation ?? 6) > 100)) issue('elevation.invalid', path, 'Elevated height must be 2.5–100m.');
@@ -48,6 +51,7 @@ export function validateMap(value: unknown): MapValidation {
     if (r.structure?.barrierOffset !== undefined && (!finite(r.structure.barrierOffset)||r.structure.barrierOffset<0||r.structure.barrierOffset>2)) issue('barrier.offset',path,'Barrier offset must be 0–2m outside pavement.');
     if (r.gore && (typeof r.gore.start!=='boolean'||typeof r.gore.end!=='boolean'||!finite(r.gore.length)||r.gore.length<10||r.gore.length>300)) issue('gore.invalid',path,'Gore needs boolean endpoints and 10–300m length.');
     const s = r.structure;
+    if (s?.enclosure && (!['tunnel','underpass','cutting'].includes(s.enclosure.kind) || !finite(s.enclosure.clearance) || s.enclosure.clearance < 5 || s.enclosure.clearance > 10)) issue('enclosure.invalid',path,'Enclosed roads require a known kind and 5–10m clear height.');
     if (s && (s.pierSpacing !== undefined && (!finite(s.pierSpacing) || s.pierSpacing < 10 || s.pierSpacing > 100) || s.pierStyle !== undefined && !['round', 'rectangular'].includes(s.pierStyle) || s.barrierEnabled !== undefined && typeof s.barrierEnabled !== 'boolean' || s.piersEnabled !== undefined && typeof s.piersEnabled !== 'boolean')) issue('structure.invalid', path, 'Pier spacing 10–100m, style round/rectangular, flags boolean.');
     if (!Array.isArray(r.centerline) || r.centerline.length < 2 || !r.centerline.every(point)) { issue('elevation.node', path, 'Two finite {x,y?,z} nodes required; Y range -50–100m.'); continue; }
     const separation = (a: CityPoint, b: CityPoint) => Math.hypot(a.x - b.x, a.z - b.z);
@@ -75,7 +79,9 @@ export function validateMap(value: unknown): MapValidation {
     const j = m.intersections[index], path = `intersections[${index}]`; if (!j) continue;
     if (!Object.hasOwn(INTERSECTION_LANES, j.type) || !point(j.position) || !finite(j.rotation) || typeof j.signalized !== 'boolean' || !Array.isArray(j.connections)) { issue('junction.invalid', path, 'Invalid type, position, rotation, signalized or connections.'); continue; }
     const ports = new Set<string>();
-    const expected = j.type.startsWith('t_') ? 3 : 4;
+    const expected = j.type==='irregular'?5:j.type.startsWith('t_') ? 3 : 4;
+    if(j.portAngles!==undefined && (!j.portAngles||typeof j.portAngles!=='object'||Object.entries(j.portAngles).some(([port,angle])=>!portsFor(j).includes(port as typeof j.connections[number]['port'])||!finite(angle))))issue('junction.angles',path,'Finite local bearings on valid ports required.');
+    if(j.channelized!==undefined&&typeof j.channelized!=='boolean')issue('junction.channelized',path,'Channelized flag must be boolean.');
     if (j.connections.length < expected) issue('junction.weak', path, `${j.id}: ${j.connections.length}/${expected} arms. Preserve the authored junction; inspect missing approaches.`, 'warning');
     for (const c of j.connections) {
       const p = endpoint(c, path), key = `${c?.roadId}:${c?.end}`;
@@ -84,6 +90,9 @@ export function validateMap(value: unknown): MapValidation {
       if (p && Math.abs(pointHeight(p) - pointHeight(j.position)) > 0.2) issue('height.mismatch', path, `Road ${c.roadId}:${c.end} Y=${p.y} differs from junction Y=${pointHeight(j.position)}.`);
     }
     if (j.signals && (j.signals.offsetSeconds !== undefined && !finite(j.signals.offsetSeconds) || j.signals.headHeight !== undefined && (!finite(j.signals.headHeight) || j.signals.headHeight < 3 || j.signals.headHeight > 12))) issue('signals.invalid', path, 'Invalid signal offset/head height.');
+    const f=j.markingFootprint;
+    if(f&&(f.kind==='junction'?(f.margin!==undefined&&(!finite(f.margin)||f.margin<0||f.margin>5)):f.kind==='rectangle'?![f.halfWidth,f.halfDepth].every(v=>finite(v)&&v>=2&&v<=100):f.kind==='polygon'?(!Array.isArray(f.points)||f.points.length<3||!f.points.every(point)):true))issue('marking.footprint',path,'Invalid marking suppression footprint.');
+    if(j.approaches)for(const [port,a] of Object.entries(j.approaches))if(!portsFor(j).includes(port as never)||!a||!Array.isArray(a.lanes)||a.lanes.some(l=>!['straight','left','right','straight-left','straight-right','left-right'].includes(l))||a.arrowDistance!==undefined&&(!finite(a.arrowDistance)||a.arrowDistance<25||a.arrowDistance>50))issue('marking.approach',path,'Lane arrow metadata requires valid movements and a 25–50m approach distance.');
   }
   const linkedPairs = new Set<string>();
   if (Array.isArray(m.roadLinks)) for (const link of m.roadLinks) {
@@ -123,6 +132,7 @@ export function validateMap(value: unknown): MapValidation {
     if (!o || !PREFAB_IDS.includes(o.prefabId) || !point(o.position) || !finite(o.rotation)) issue('prefab.invalid', `objects[${i}]`, 'Unknown prefab or invalid transform.');
     if (o?.scale && ![o.scale.x, o.scale.y, o.scale.z].every(v => finite(v) && v > 0 && v <= 20)) issue('scale.invalid', `objects[${i}]`, 'Scale axes must be positive and ≤20.');
     if (o?.color && !/^#[0-9a-f]{6}$/i.test(o.color)) issue('color.invalid', `objects[${i}]`, 'Color must be #RRGGBB.');
+    if(o?.label!==undefined&&(typeof o.label!=='string'||o.label.length>64))issue('label.invalid',`objects[${i}]`,'Sign label must be at most 64 characters.');
   });
   if (!m.environment || !Array.isArray(m.environment.districts) || !Array.isArray(m.environment.spawnPoints) || !m.environment.spawnPoints.length) issue('spawn.missing', 'environment', 'District array and at least one spawn required.');
   else for (const s of m.environment.spawnPoints) if (!s || typeof s.id !== 'string' || !point(s.position) || !finite(s.rotation)) issue('spawn.invalid', 'environment.spawnPoints', 'Invalid spawn.');

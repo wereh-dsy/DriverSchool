@@ -30,6 +30,7 @@ export interface WheelContactDimensions {
 }
 
 export interface WheelContactPose {
+  /** World body origin at the axle midpoint, matching wheelLocalPosition geometry. */
   readonly x: number;
   readonly z: number;
   /** Rotation around +Y: zero faces world -Z. */

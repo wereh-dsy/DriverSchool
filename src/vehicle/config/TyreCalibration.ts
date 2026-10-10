@@ -23,7 +23,7 @@ const profiles: Record<TyreProfile, Partial<TireConfig>> = {
     wetLongitudinalGripRetention: .90, wetLateralGripRetention: .88 },
 };
 export function calibrateTyres(base: TireConfig, profile: TyreProfile): TireConfig {
-  const tyre = { ...base, ...profiles[profile] };
+  const tyre = { ...base, camberStiffness: base.camberStiffness ?? 800, ...profiles[profile] };
   tyre.gripCoefficient = tyre.longitudinalGrip;
   return tyre;
 }

@@ -42,6 +42,12 @@ export interface MirrorVisualConfig extends VisualTransformConfig {
 }
 
 export interface VehicleVisualConfig {
+  /** Optical geometry calibration, independent of lighting logic. */
+  readonly lampLayout?: {
+    readonly frontHeight: number; readonly frontIndicatorHeight: number; readonly frontLateral: number;
+    readonly rearTailHeight: number; readonly rearBrakeHeight: number; readonly rearIndicatorHeight: number; readonly rearReverseHeight: number;
+    readonly mirrorRepeater?: boolean;
+  };
   readonly parkingCamera?: { readonly surroundView: boolean };
   readonly windowGlass?: { readonly color: number; readonly windshieldOpacity: number; readonly windowOpacity: number };
   readonly automaticMirrorFold?: { readonly angleRadians: number; readonly response: number };
@@ -104,7 +110,7 @@ export interface VehicleVisualConfig {
     readonly wheelArchCenterY?: number;
     readonly profile: 'sedan' | 'sport-coupe' | 'suv';
     /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
-    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar';
+    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;

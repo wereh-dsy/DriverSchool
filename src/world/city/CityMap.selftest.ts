@@ -9,9 +9,10 @@ import { connectRoad, createRoad, deleteObject, moveRoadNode, newCityMap, placeP
 import { expandPreset, PRESET_CATALOG } from './presets/InfrastructurePresets';
 import { roadPoints, sampleAt, polylineLength } from './geometry';
 import { roadPiers } from './RoadInfrastructure';
+import { runCityMainSelfTest } from './CityMain.selftest';
 
 const assert = (condition: unknown, message: string): void => { if (!condition) throw new Error(`CityMap selftest: ${message}`); };
-export function runCityMapSelfTest(): { roads: number; intersections: number; prefabs: number; instancedBatches: number; streaming: string } {
+export function runCityMapSelfTest(): { roads: number; intersections: number; prefabs: number; instancedBatches: number; streaming: string; backbone: ReturnType<typeof runCityMainSelfTest> } {
   const data = loadCityMap(cityAlpha);
   assert(JSON.stringify(loadCityMap(JSON.parse(JSON.stringify(data)))) === JSON.stringify(data), 'JSON roundtrip');
   for (const j of data.intersections) for (const c of j.connections) {
@@ -59,7 +60,8 @@ export function runCityMapSelfTest(): { roads: number; intersections: number; pr
   assert(ground.sectors.signals.getHeadCount() === initialCount && [...ground.sectors.active.keys()].sort().join('|') === initialKeys, 'reload without duplicate objects/signals');
   ground.dispose();
   runCityElevationSelfTest();
-  return { roads: data.roads.length, intersections: data.intersections.length, prefabs: data.objects.length, instancedBatches, streaming: 'load/unload/reload passed' };
+  const backbone=runCityMainSelfTest();
+  return { roads: data.roads.length, intersections: data.intersections.length, prefabs: data.objects.length, instancedBatches, streaming: 'load/unload/reload passed', backbone };
 }
 function runCityElevationSelfTest(): void {
   const map = newCityMap();

@@ -4,6 +4,9 @@ import { clamp, wrapAngle } from './math';
 import { TyreGripModel } from './TyreGripModel';
 
 export interface WheelRotationInput {
+  readonly additionalInertia?: number;
+  /** Signed physical wheel inclination; left normalized camber, right its negative. */
+  readonly camberAngle?: number;
   /** Velocity of this wheel contact in the steered wheel's frame, m/s. */
   readonly longitudinalSpeed: number;
   readonly lateralSpeed: number;
@@ -107,6 +110,7 @@ export class WheelRotationSystem {
     const brakeTorque = Math.max(0, this.finite(input.brakeTorque));
     const handbrakeTorque = Math.max(0, this.finite(input.handbrakeTorque));
     const totalBrake = brakeTorque + handbrakeTorque;
+    const inertia = this.inertia + Math.max(0, this.finite(input.additionalInertia ?? 0));
     const load = Math.max(0, this.finite(input.normalLoad));
     const effectiveLoad = load * this.gripModel.loadFactor(load, this.finite(input.staticNormalLoad ?? load));
     const limit = Math.max(0, this.finite(this.config.longitudinalGrip)) *
@@ -114,13 +118,15 @@ export class WheelRotationSystem {
     const lateralLimit = Math.max(0, this.finite(this.config.lateralGrip)) * effectiveLoad *
       Math.max(0, this.finite(input.surfaceLateralGrip ?? 1)) * clamp(this.finite(input.lateralGripAvailability ?? 1), 0, 1);
     const slipAngle = Math.atan(lateralSpeed / Math.max(3, Math.abs(speed)));
-    const lateralDemand = this.gripModel.lateralForce(slipAngle,
-      Math.max(0, this.finite(input.corneringStiffness ?? 0)), lateralLimit);
+    const lateralDemand = clamp(this.gripModel.lateralForce(slipAngle,
+      Math.max(0, this.finite(input.corneringStiffness ?? 0)), lateralLimit) -
+      this.finite(input.camberAngle ?? 0) * Math.max(0, this.config.camberStiffness ?? 0) *
+      load / Math.max(1, input.staticNormalLoad ?? load), -lateralLimit, lateralLimit);
     const staticForce = input.staticLongitudinalForce;
     if (duration > 0 && staticForce !== undefined && Number.isFinite(staticForce) &&
       Math.abs(speed) <= 0.12 && Math.abs(lateralSpeed) <= 0.12 &&
       Math.abs(previous.angularVelocity * this.radius) <= 0.12 && Math.abs(staticForce) <= limit + 1e-8) {
-      const reaction = driveTorque - staticForce * this.radius + this.inertia * previous.angularVelocity / duration;
+      const reaction = driveTorque - staticForce * this.radius + inertia * previous.angularVelocity / duration;
       if (Math.abs(reaction) <= totalBrake + 1e-8) {
         // Static contact is a constraint, not the dynamic zero-slip curve.
         // Pressure remains exactly requested: the brake merely reacts within
@@ -134,7 +140,7 @@ export class WheelRotationSystem {
           gripUsage: limit > 1e-6 ? Math.abs(staticForce) / limit : 0,
           brakeReactionTorque: totalBrake > 0 ? reaction * brakeTorque / totalBrake : 0,
           handbrakeReactionTorque: totalBrake > 0 ? reaction * handbrakeTorque / totalBrake : 0,
-          rotationalInertiaForce: this.inertia * previous.angularVelocity / duration / this.radius,
+          rotationalInertiaForce: inertia * previous.angularVelocity / duration / this.radius,
           staticContact: true,
         };
         this.states[id] = state;
@@ -151,7 +157,7 @@ export class WheelRotationSystem {
     if (h > 0) {
       for (let step = 0; step < steps; step++) {
         const oldOmega = omega;
-        const inertiaRate = this.inertia / h;
+        const inertiaRate = inertia / h;
         const forceAtRest = this.tyreForce(0, speed, limit, lateralDemand, lateralLimit);
         // The brake is a dry-friction constraint: at zero omega it may react
         // up to demand, but cannot integrate a stopped wheel backwards.
@@ -165,7 +171,7 @@ export class WheelRotationSystem {
           reaction = direction * totalBrake;
           const residual = (candidate: number): number => inertiaRate * (candidate - oldOmega) -
             driveTorque + reaction + this.tyreForce(candidate, speed, limit, lateralDemand, lateralLimit) * this.radius;
-          const extent = Math.abs(oldOmega) + h / this.inertia *
+          const extent = Math.abs(oldOmega) + h / inertia *
             (Math.abs(driveTorque) + totalBrake + limit * this.radius) + 1;
           let low = direction > 0 ? 0 : -extent;
           let high = direction > 0 ? extent : 0;
@@ -203,7 +209,7 @@ export class WheelRotationSystem {
       gripUsage: this.gripModel.usage(longitudinalForce, lateralForce, limit, lateralLimit),
       brakeReactionTorque: totalBrake > 0 ? brakeReaction * brakeTorque / totalBrake : 0,
       handbrakeReactionTorque: totalBrake > 0 ? brakeReaction * handbrakeTorque / totalBrake : 0,
-      rotationalInertiaForce: duration > 0 ? -this.inertia * (omega - previous.angularVelocity) / duration / this.radius : 0,
+      rotationalInertiaForce: duration > 0 ? -inertia * (omega - previous.angularVelocity) / duration / this.radius : 0,
       staticContact: false,
     };
     this.states[id] = state;

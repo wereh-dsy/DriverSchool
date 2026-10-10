@@ -1,4 +1,4 @@
-import type { VehicleSnapshot } from '../physics/VehicleDynamics';
+import type { VehicleRuntimeSnapshot } from '../physics/VehicleDynamics';
 import { DEFAULT_VEHICLE_PHYSICS_CONFIG, type ClutchConfig, type EngineConfig } from '../config';
 import { clamp, damp } from '../physics/math';
 
@@ -37,12 +37,12 @@ export interface FeedbackCollisionSample {
   readonly collided: boolean;
   readonly contacts: readonly { readonly inwardSpeed: number }[];
 }
-type FeedbackSnapshotCore = Pick<VehicleSnapshot, 'speed' | 'rpm' | 'idleRPM' | 'engineRunning'
+type FeedbackSnapshotCore = Pick<VehicleRuntimeSnapshot, 'speed' | 'rpm' | 'idleRPM' | 'engineRunning'
   | 'gear' | 'throttle' | 'clutchEngagement' | 'acceleration' | 'forces'>;
 /** Optional transmission data keeps this observer compatible with all drivetrain variants. */
 export interface VehicleFeedbackSnapshot extends FeedbackSnapshotCore {
-  readonly startStop?: VehicleSnapshot['startStop'];
-  readonly controlMode?: VehicleSnapshot['controlMode'];
+  readonly startStop?: VehicleRuntimeSnapshot['startStop'];
+  readonly controlMode?: VehicleRuntimeSnapshot['controlMode'];
   readonly clutchPedal?: number;
   readonly transmission?: {
     readonly type?: string;
@@ -118,7 +118,8 @@ export class VehicleFeedbackSystem {
   get state(): Readonly<VehicleFeedbackState> { return this.outputState; }
 
   /** Copy only calibration numbers; this observer never writes into vehicle config. */
-  setVehicleConfig(config: VehicleFeedbackCalibration): void {
+  setVehicleConfig(config: VehicleFeedbackCalibration | import('../config').VehicleChassisConfig): void {
+    if (!('engine' in config) || !('clutch' in config)) return;
     const idleRPM = Math.max(1, finite(config.engine.idleRPM, 850));
     const bitePointStart = clamp(finite(config.clutch.bitePointStart, 0.98), 0.0001, 1);
     this.calibration = {
@@ -134,7 +135,7 @@ export class VehicleFeedbackSystem {
   /** Rebase after spawn, vehicle/map switch, or an explicit ignition toggle. */
   reset(snapshot?: VehicleFeedbackSnapshot): void {
     this.previous = snapshot === undefined ? null : {
-      running: snapshot.engineRunning, acceleration: finite(snapshot.acceleration),
+      running: snapshot.engineRunning === true, acceleration: finite(snapshot.acceleration),
       torque: this.loadTorque(snapshot), engagement: this.engagement(snapshot),
     };
     this.idlePhase = 0; this.judderPhase = 0; this.idle = 0; this.judder = 0; this.nearStall = 0; this.jolt = 0;
@@ -282,7 +283,7 @@ export class VehicleFeedbackSystem {
         nearStallFactor, speedAttenuation, autoClutchFeedbackScale, judderTarget, nearStallTarget },
       hapticPulses: pulses,
     };
-    this.previous = { running: snapshot.engineRunning, acceleration, torque, engagement };
+    this.previous = { running: snapshot.engineRunning === true, acceleration, torque, engagement };
     return this.outputState;
   }
 

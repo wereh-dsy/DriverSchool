@@ -8,9 +8,15 @@ import { validateMap } from '../CityMapValidation';
 import { applyRoadStyle } from '../RoadStyles';
 import catalog from './catalog.json';
 import { validatePresetGeometry } from './PresetGeometryValidation';
+import { expandBackbonePreset, isBackbonePreset } from './BackbonePresets';
+import { COMPACT_INTERCHANGE_IDS, expandCompactInterchange } from './CompactInterchangePresets';
 export const PRESET_CATALOG = catalog.presets;
 export type PresetId = typeof catalog.presets[number]['id'];
 export interface PresetParameters {
+    designProfile?: 'urban' | 'motorway';
+    mainApproach?: number;
+    crossApproach?: number;
+    crossCarriagewayOffset?: number;
     position?: CityPoint;
     rotation?: number;
     mainRoadLanes?: number;
@@ -19,6 +25,12 @@ export interface PresetParameters {
     rampLaneCount?: number;
     rampRadius?: number;
     groupId?: string;
+    length?: number;
+    mainProfile?: { offset: number; height: number }[];
+    crossProfile?: { offset: number; height: number }[];
+    crossElevation?: number;
+    collectorAxis?: 'main' | 'cross';
+    profileInterpolation?: 'smooth' | 'linear';
 }
 export interface PresetStamp {
     roads: CityRoad[];
@@ -33,6 +45,11 @@ export function expandPreset(id: string, parameters: PresetParameters = {}): Pre
     const descriptor = catalog.presets.find(p => p.id === id);
     if (!descriptor)
         throw new Error(`preset.unknown: ${id}`);
+    if(COMPACT_INTERCHANGE_IDS.includes(id as never)) {
+      const stamp=expandCompactInterchange(id,parameters),map={...newCityMap(),...stamp},issues=validatePresetGeometry(map);
+      if(issues.length)throw new Error(`preset.geometry ${id}: ${JSON.stringify(issues)}`);return stamp;
+    }
+    if (isBackbonePreset(id)) return expandBackbonePreset(id, parameters);
     const lanes = parameters.mainRoadLanes ?? 6, cross = parameters.crossRoadLanes ?? 4, height = parameters.mainElevation ?? 8, rampLanes = parameters.rampLaneCount ?? 1, radius = parameters.rampRadius ?? 100;
     if (![4, 6].includes(lanes) || ![4, 6].includes(cross) || ![1, 2].includes(rampLanes) || !Number.isFinite(height) || height < 5 || height > 12 || !Number.isFinite(radius) || radius < 40 || radius > 100)
         throw new Error('preset.parameters: lanes 4/6, ramp lanes 1/2, elevation 5–12m, radius 40–100m required.');
@@ -123,7 +140,7 @@ export function expandPreset(id: string, parameters: PresetParameters = {}): Pre
     if (id.startsWith('signal_cross_') || id.startsWith('t_')) {
         const t = id.startsWith('t_'), mainCount = id.includes('6x') ? 6 : 4, sideCount = id.endsWith('x2') ? 2 : id.endsWith('x6') ? 6 : 4;
         const j: CityIntersection = { id: name('junction'), ...meta, type: t ? 't_4lane' : mainCount === 6 ? 'cross_6lane' : 'cross_4lane',
-            position: point3(0,0,0), rotation: 0, connections: [], signalized: true, signals: {headHeight: 6} };
+            position: point3(0,0,0), rotation: 0, connections: [], signalized: true, signals: {headHeight: 6}, channelized: id.includes('channelized') };
         m.intersections.push(j);
         for (const [label, x, z, p] of [['North',0,-220,'north'],['East',220,0,'east'],['South',0,220,'south'],['West',-220,0,'west']] as const) {
             if(t && p === 'south') continue;
@@ -163,7 +180,7 @@ export function expandPreset(id: string, parameters: PresetParameters = {}): Pre
         port(entry?'South Local Entry':'North Local Exit',end(r,entry?'start':'end'));
     }
     else if (id === 'diamond_interchange') {
-        const merge = Math.max(420, height / 0.035 + 180), span = merge + 180, x = 160 + loopRadius;
+        const merge = parameters.length ? Math.max(250,parameters.length/2-100) : Math.max(420, height / 0.035 + 180), span = merge + (parameters.length?100:180), x = 160 + loopRadius;
         chain('northbound', [point3(bm, height, span), point3(bm, height, merge), point3(bm, height, -merge), point3(bm, height, -span)], lanes / 2, 'South Mainline In', 'North Mainline Out');
         chain('southbound', [point3(-bm, height, -span), point3(-bm, height, -merge), point3(-bm, height, merge), point3(-bm, height, span)], lanes / 2, 'North Mainline In', 'South Mainline Out');
         const junction = (label: string, x: number): CityIntersection => { const j: CityIntersection = { id: name(label), ...meta, type: cross === 6 ? 'cross_6lane' : 'cross_4lane', position: point3(x, 0, 0), rotation: 0, connections: [], signalized: true }; m.intersections.push(j); return j; };
@@ -181,13 +198,14 @@ export function expandPreset(id: string, parameters: PresetParameters = {}): Pre
         }
         port('West Crossroad', end(w, 'start'));
         port('East Crossroad', end(e, 'end'));
-        const ne = ramp('northbound-exit', bezier(point3(bm,height,merge),point3(bm,height,merge-230),point3(x,0,190),cp(east,'south')));
+        const tangent=parameters.length?merge*0.4:230, terminal=parameters.length?merge*0.5:190;
+        const ne = ramp('northbound-exit', bezier(point3(bm,height,merge),point3(bm,height,merge-tangent),point3(x,0,terminal),cp(east,'south')));
         connect(east,'south',ne,'end');
-        const ni = ramp('northbound-entry', bezier(cp(east,'north'),point3(x,0,-190),point3(bm,height,-merge+230),point3(bm,height,-merge)));
+        const ni = ramp('northbound-entry', bezier(cp(east,'north'),point3(x,0,-terminal),point3(bm,height,-merge+tangent),point3(bm,height,-merge)));
         connect(east,'north',ni,'start');
-        const se = ramp('southbound-exit',bezier(point3(-bm,height,-merge),point3(-bm,height,-merge+230),point3(-x,0,-190),cp(west,'north')));
+        const se = ramp('southbound-exit',bezier(point3(-bm,height,-merge),point3(-bm,height,-merge+tangent),point3(-x,0,-terminal),cp(west,'north')));
         connect(west,'north',se,'end');
-        const si = ramp('southbound-entry',bezier(cp(west,'south'),point3(-x,0,190),point3(-bm,height,merge-230),point3(-bm,height,merge)));
+        const si = ramp('southbound-entry',bezier(cp(west,'south'),point3(-x,0,terminal),point3(-bm,height,merge-tangent),point3(-bm,height,merge)));
         connect(west,'south',si,'start');
     }
     else if (id === 'cloverleaf_interchange' || id === 'trumpet_interchange') {

@@ -18,6 +18,23 @@ export interface WheelBrakeTorques {
  * forces; this class neither reduces chassis speed nor performs ABS modulation.
  */
 export class BrakeSystem {
+  private regenerativeFrontCredit = 0;
+  private regenerativeRearCredit = 0;
+  private powertrainStopPressure = 0;
+  public setPowertrainStopRequest(demand: number): void { this.powertrainStopPressure = clamp01(demand); }
+  /** Credit only actual motor braking against pedal/cruise demand; hold/ESC remain independent. */
+  public setRegenerativeCredit(front: number, rear: number): void {
+    this.regenerativeFrontCredit = Math.max(0, front); this.regenerativeRearCredit = Math.max(0, rear);
+  }
+  public get maximumServiceTorque(): number {
+    const bias = Math.min(.98, Math.max(.02, this.config.frontBrakeBias));
+    return Math.max(0, Math.min(this.config.maxBrakeTorqueFront / bias, this.config.maxBrakeTorqueRear / (1 - bias)));
+  }
+  public axleBrakeDemand(front: boolean): number {
+    const allocation = this.dynamicFrontBias ?? this.config.frontBrakeBias;
+    return Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
+      this.maximumServiceTorque * Math.max(this.brakeInput, this.cruisePressure) * (front ? allocation : 1 - allocation));
+  }
   public readonly coordinator = new BrakeTorqueCoordinator();
   private holdPressure = 0;
   private cruisePressure = 0;
@@ -48,6 +65,7 @@ export class BrakeSystem {
   public constructor(public readonly config: BrakeConfig, _wheelRadius = 0.315) {}
 
   public reset(): void {
+    this.regenerativeFrontCredit = this.regenerativeRearCredit = this.powertrainStopPressure = 0;
     this.cruisePressure = 0;
     this.coordinator.reset(); this.holdPressure = 0; this.emergencyPressure = 0; this.electronicParking = undefined;
     this.dynamicFrontBias = undefined; this.absPressures = undefined;
@@ -84,11 +102,14 @@ export class BrakeSystem {
     ));
     const front = id === 'frontLeft' || id === 'frontRight';
     const allocation = this.dynamicFrontBias ?? frontBias;
-    const serviceTorque = Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
-      maximumTotalTorque * Math.max(this.brakeInput, this.holdPressure, this.emergencyPressure) * (front ? allocation : 1 - allocation)) * 0.5;
     const index = id === 'frontLeft' ? 0 : id === 'frontRight' ? 1 : id === 'rearLeft' ? 2 : 3;
-    this.coordinator.requestWheel(index, 'cruise', Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
-      maximumTotalTorque * this.cruisePressure * (front ? allocation : 1 - allocation)) * .5);
+    const credit = (front ? this.regenerativeFrontCredit : this.regenerativeRearCredit) / Math.max(.001, this.absPressures?.[index] ?? 1);
+    const driverRemainder = Math.max(0, this.axleBrakeDemand(front) - credit);
+    const holdTorque = Math.min(front ? this.config.maxBrakeTorqueFront : this.config.maxBrakeTorqueRear,
+      maximumTotalTorque * Math.max(this.holdPressure, this.emergencyPressure, this.powertrainStopPressure) * (front ? allocation : 1 - allocation));
+    const serviceTorque = Math.max(driverRemainder, holdTorque) * .5;
+    // Cruise is included in the blended driver remainder above, avoiding duplicate caliper demand.
+    this.coordinator.requestWheel(index, 'cruise', 0);
     const parkingAxle = this.electronicParking?.axle ?? this.config.handbrakeAxle;
     const requestedHandbrakeTorque = front !== (parkingAxle === 'front') ? 0 :
       Math.max(0, this.electronicParking?.maximumTorque ?? this.config.handbrakeTorque) * this.handbrakeInput * .5;

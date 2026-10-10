@@ -1,9 +1,11 @@
 import type { VehicleInputState } from '../../input/VehicleInputState';
 import type { DrivingGround } from '../../world/DrivingGround';
 import { VehicleCollisionSystem, type CollisionDimensions, type CollisionResolution } from './CollisionSystem';
-import { VehicleDynamics, type VehicleSnapshot } from './VehicleDynamics';
+import { VehicleDynamics, type VehicleSnapshotFor } from './VehicleDynamics';
+import type { Powertrain } from '../powertrain/Powertrain';
 import { sampleWheelContacts, averageWheelGroundGeometry, type WheelContactSet } from './WheelContact';
 import { chassisBodyPose } from './WheelPhysicsState';
+import { centerOfMassOffsetZ } from '../VehicleDimensions';
 
 /** Scene contact adapter. Drivetrain and input remain independent of map geometry. */
 export class VehicleContactSystem {
@@ -47,7 +49,7 @@ export class VehicleContactSystem {
     this.secondsSinceCollision = Number.POSITIVE_INFINITY;
   }
 
-  public step(dt: number, controls: VehicleInputState, dynamics: VehicleDynamics): VehicleSnapshot {
+  public step<P extends Powertrain>(dt: number, controls: VehicleInputState, dynamics: VehicleDynamics<P>): VehicleSnapshotFor<P> {
     let before = dynamics.getSnapshot();
     this.ground.setSurfaceReferenceHeight?.(this.sampledPose === null ? this.ground.spawnPose.position.y - 0.04 : before.chassis.groundHeight);
     // The last final-pose samples become the next step's input. Re-query when
@@ -73,13 +75,15 @@ export class VehicleContactSystem {
     after = dynamics.getSnapshot();
     const sin = Math.sin(after.yaw);
     const cos = Math.cos(after.yaw);
+    // Collision geometry and sweep use the body origin, so supply its point velocity.
+    const bodyOriginLateralVelocity = after.lateralVelocity - after.yawRate * centerOfMassOffsetZ(dynamics.config);
     const body = chassisBodyPose(after.chassis, this.collisionDimensions.bodyOffsetY);
     this.collision = this.collisionSystem.resolve({
       previousPose: { ...before, ...previousBody },
       pose: { ...after, ...body },
       velocity: {
-        x: -sin * after.speed + cos * after.lateralVelocity,
-        z: -cos * after.speed - sin * after.lateralVelocity,
+        x: -sin * after.speed + cos * bodyOriginLateralVelocity,
+        z: -cos * after.speed - sin * bodyOriginLateralVelocity,
       },
       dimensions: this.collisionDimensions,
       dt,

@@ -1,0 +1,230 @@
+{
+  "roads": 530,
+  "intersections": 99,
+  "objects": 2659,
+  "signs": 180,
+  "names": 30,
+  "hubs": [
+    {
+      "id": "central",
+      "before": {
+        "width": 840,
+        "depth": 840,
+        "minY": -4.745015,
+        "maxY": 8
+      },
+      "after": {
+        "width": 660,
+        "depth": 660,
+        "minY": -1.5814967187500004,
+        "maxY": 20
+      },
+      "areaReduction": 0.38265306122448983,
+      "radii": [
+        {
+          "id": "system-central:S-to-W-semi",
+          "radius": 70.98315579933046
+        },
+        {
+          "id": "system-central:E-to-S-semi",
+          "radius": 70.98315579935498
+        },
+        {
+          "id": "system-central:N-to-E-semi",
+          "radius": 70.98315579935357
+        },
+        {
+          "id": "system-central:W-to-N-semi",
+          "radius": 70.98315579934666
+        }
+      ]
+    },
+    {
+      "id": "east",
+      "before": {
+        "width": 840,
+        "depth": 840,
+        "minY": 0,
+        "maxY": 8
+      },
+      "after": {
+        "width": 660,
+        "depth": 660,
+        "minY": 0,
+        "maxY": 20
+      },
+      "areaReduction": 0.38265306122448983,
+      "radii": [
+        {
+          "id": "system-east:S-to-W-turbine",
+          "radius": 79.99999999954439
+        },
+        {
+          "id": "system-east:E-to-S-turbine",
+          "radius": 79.9999999996445
+        },
+        {
+          "id": "system-east:N-to-E-turbine",
+          "radius": 79.99999999954439
+        },
+        {
+          "id": "system-east:W-to-N-turbine",
+          "radius": 79.9999999996211
+        }
+      ]
+    },
+    {
+      "id": "north",
+      "before": {
+        "width": 840,
+        "depth": 1100,
+        "minY": 0,
+        "maxY": 14
+      },
+      "after": {
+        "width": 740,
+        "depth": 740,
+        "minY": 0,
+        "maxY": 20
+      },
+      "areaReduction": 0.40735930735930737,
+      "radii": [
+        {
+          "id": "system-north:S-to-W-star",
+          "radius": 77.6941020969796
+        },
+        {
+          "id": "system-north:E-to-S-star",
+          "radius": 77.69410209697486
+        },
+        {
+          "id": "system-north:N-to-E-star",
+          "radius": 77.6941020969796
+        },
+        {
+          "id": "system-north:W-to-N-star",
+          "radius": 77.69410209697486
+        }
+      ]
+    },
+    {
+      "id": "west",
+      "before": {
+        "width": 840,
+        "depth": 840,
+        "minY": 0,
+        "maxY": 8
+      },
+      "after": {
+        "width": 540,
+        "depth": 540,
+        "minY": 0,
+        "maxY": 8
+      },
+      "areaReduction": 0.5867346938775511,
+      "radii": [
+        {
+          "id": "system-west:S-to-W-loop",
+          "radius": 37.9999999999257
+        },
+        {
+          "id": "system-west:E-to-S-loop",
+          "radius": 37.99999999992352
+        },
+        {
+          "id": "system-west:N-to-E-loop",
+          "radius": 37.99999999992352
+        },
+        {
+          "id": "system-west:W-to-N-loop",
+          "radius": 37.999999999924604
+        }
+      ]
+    },
+    {
+      "id": "south",
+      "before": {
+        "width": 840,
+        "depth": 1100,
+        "minY": -8,
+        "maxY": 6
+      },
+      "after": {
+        "width": 660,
+        "depth": 660,
+        "minY": -8,
+        "maxY": 6
+      },
+      "areaReduction": 0.5285714285714286,
+      "radii": [
+        {
+          "id": "system-south:S-to-W-semi",
+          "radius": 70.98315579932986
+        },
+        {
+          "id": "system-south:E-to-S-loop",
+          "radius": 37.999999999924604
+        },
+        {
+          "id": "system-south:N-to-E-semi",
+          "radius": 70.98315579932986
+        },
+        {
+          "id": "system-south:W-to-N-loop",
+          "radius": 37.999999999924604
+        }
+      ]
+    }
+  ],
+  "signTypes": {
+    "RAMP_CONFIRMATION": 44,
+    "EXPRESSWAY_ADVANCE": 23,
+    "EXPRESSWAY_DIVERGE": 23,
+    "INTERCHANGE_NAME": 6,
+    "URBAN_DIRECTION": 42,
+    "ROAD_NAME": 42
+  },
+  "signTemplates": {
+    "ramp-confirmation": 44,
+    "gantry": 46,
+    "single-post": 6,
+    "dual-post": 42,
+    "urban-name": 42
+  },
+  "props": {
+    "traffic_sign": 4,
+    "guardrail": 16,
+    "residential_low": 21,
+    "office": 16,
+    "commercial": 1,
+    "school": 1,
+    "industrial": 28,
+    "tree": 1377,
+    "green_strip": 1002,
+    "noise_barrier": 118,
+    "embankment": 31,
+    "streetlight": 6,
+    "residential_mid": 22,
+    "hardscape": 16
+  },
+  "metadata": {
+    "author": "scripts/build-city-main.ts",
+    "backboneVersion": "3",
+    "ringLengthMetres": "12093.1",
+    "eastWestLengthMetres": "4800",
+    "northSouthLengthMetres": "4350",
+    "diagonalLengthMetres": "4356.1",
+    "systemInterchanges": "5",
+    "diamondInterchanges": "2",
+    "tunnelLengthMetres": "500",
+    "underpassLengthMetres": "110",
+    "intercityLengthMetres": "1982.0",
+    "directAccessRamps": "12",
+    "landscapeObjects": "2659",
+    "urbanForms": "central=system_compact_x;east=system_compact_turbine;north=system_compact_star;west=system_compact_cloverleaf;south=system_compact_hybrid",
+    "innerBoulevardLengthMetres": "7491.8",
+    "innerBoulevardExtent": "2630 x 1350 m; rounded and skewed; ordinary 2+2 with southern 3+3",
+    "navigationSignCount": "180",
+    "landscapePass": "Retained V2 district massing; removed 102 obsolete/conflicting props; added 112 tree/maintenance elements"
+  }
+}

@@ -115,7 +115,7 @@ export class DriverAssistSystem {
   }
   /** Capacities already contain actual loads, surface and tyre load sensitivity. */
   public updateBrakes(dt: number, speed: number, brake: number, wheels: WheelPhysicsStateSet,
-    capacities: readonly number[], coordinator?: BrakeTorqueCoordinator): void {
+    capacities: readonly number[], coordinator?: BrakeTorqueCoordinator, regenerativeAxle?: 'front' | 'rear'): void {
     const front = capacities[0]! + capacities[1]!;
     const rear = capacities[2]! + capacities[3]!;
     const targetBias = this.options.ebdEnabled && front + rear > 1
@@ -128,7 +128,8 @@ export class DriverAssistSystem {
       const w = wheels[WHEEL_IDS[i]!];
       const slip = -w.slipRatio * Math.sign(w.longitudinalSpeed || speed);
       const excessive = slip - this.config.tires.peakSlipRatio * 1.05;
-      const requested = brake > .01 || this.esc.brakeTorques[i]! > 1 || coordinator?.hasServiceRequest(i) === true;
+      const requested = brake > .01 || this.esc.brakeTorques[i]! > 1 || coordinator?.hasServiceRequest(i) === true ||
+        (regenerativeAxle !== undefined && (i < 2) === (regenerativeAxle === 'front'));
       const target = this.options.absEnabled && requested
         ? 1 - authority * clamp(excessive / .2, 0, .96) : 1;
       this.pressures[i] = this.options.absEnabled && authority > 0 && requested

@@ -335,6 +335,8 @@ export interface AeroConfig {
 }
 
 export interface TireConfig {
+  /** Per-wheel camber-thrust stiffness, N/rad; omitted preserves legacy tyres. */
+  camberStiffness?: number;
   /** Additional wet-road retention, multiplied with the surface weather grip. Omission preserves legacy grip. */
   wetLongitudinalGripRetention?: number;
   wetLateralGripRetention?: number;
@@ -367,7 +369,19 @@ export interface TireConfig {
   gripFalloff: number;
 }
 
+export type SuspensionTopology = 'MACPHERSON' | 'DOUBLE_WISHBONE' | 'MULTI_LINK' | 'TORSION_BEAM';
+export interface SuspensionAxleKinematicsConfig {
+  topology: SuspensionTopology;
+  /** Negative camber means top inward on BOTH sides. Positive toe means toe-in. */
+  staticCamber: number;
+  camberGainPerMeter: number;
+  staticToe: number;
+  bumpToeGainPerMeter: number;
+  antiDiveRatio: number;
+  antiSquatRatio: number;
+}
 export interface SuspensionConfig {
+  kinematics?: { front: SuspensionAxleKinematicsConfig; rear: SuspensionAxleKinematicsConfig };
   adaptiveDamping?: { responseRate: number; modeMultipliers: Readonly<Partial<Record<VehicleDriveMode, number>>> };
   airSuspension?: { nominalRideHeight: number; minimumOffset: number; maximumOffset: number;
     adjustmentRate: number; modeOffsets: Readonly<Partial<Record<VehicleDriveMode, number>>>;
@@ -437,7 +451,8 @@ export interface DriveModeCalibration {
   shiftStrategy: AutomaticShiftConfig;
   steeringResponse: number;
   steeringDamping: number;
-  accelerationRearTorqueSplit: number;
+  /** AWD-only override; non-AWD modes omit this field. */
+  accelerationRearTorqueSplit?: number;
   dctShiftTime?: number;
   tcs?: DriverAidConfig['tcs'];
   esc?: DriverAidConfig['esc'];
@@ -495,8 +510,6 @@ export interface VehicleChassisConfig {
   };
   /** @deprecated Compatibility alias for drivetrainType. */
   drivetrainLayout: 'FWD' | 'RWD' | 'AWD';
-  /** Static vehicle weight carried by driven wheels; used for launch grip. */
-  drivenWheelWeightFraction: number;
   gravity: number;
   brakes: BrakeConfig;
   steering: SteeringConfig;

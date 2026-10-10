@@ -3,6 +3,9 @@ import type { GroundNormal, WheelId } from './WheelContact';
 
 /** Observable SI-unit state of one tyre and its simple spring/damper. */
 export interface WheelPhysicsState {
+  /** Normalized alignment: negative camber top inward; positive toe-in on either side. */
+  readonly camberAngle?: number;
+  readonly toeAngle?: number;
   readonly id: WheelId;
   readonly worldPosition: { readonly x: number; readonly y: number; readonly z: number };
   readonly surfaceType: SurfaceType;

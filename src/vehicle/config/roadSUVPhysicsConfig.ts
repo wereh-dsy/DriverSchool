@@ -11,7 +11,7 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
   Object.assign(config, ROAD_SUV_DIMENSIONS, { mass: 2100, trackWidth: 1.67,
     frontWeightBias: .54, centerOfMassHeight: .70, enginePlacement: 'FRONT',
     yawInertia: 4400, drivetrainType: 'AWD', drivetrainLayout: 'AWD',
-    frontTorqueSplit: .55, rearTorqueSplit: .45, drivenWheelWeightFraction: 1 });
+    frontTorqueSplit: .55, rearTorqueSplit: .45 });
   config.fuel = { tankCapacityL: 90, defaultFuelL: 63, fuelDensity: .745,
     peakThermalEfficiency: .33, referenceConsumptionLPer100km: 10.5 };
   config.awd = { mode: 'on-demand', accelerationRearTorqueSplit: .50,
@@ -67,6 +67,10 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
     returnProfile: { lowSpeedRate: .50, highSpeedRate: 4.8, speedReference: 12 },
     highSpeedReferenceSpeed: 19, highSpeedMinimumAuthority: .22, ackermannFactor: .87 };
   config.suspension = { ...config.suspension, rideHeight: .215, restLength: .43,
+    kinematics: {
+      front: { topology: 'MULTI_LINK', staticCamber: -.006, camberGainPerMeter: -.24, staticToe: 0, bumpToeGainPerMeter: .006, antiDiveRatio: .18, antiSquatRatio: .10 },
+      rear: { topology: 'MULTI_LINK', staticCamber: -.008, camberGainPerMeter: -.22, staticToe: .0005, bumpToeGainPerMeter: .015, antiDiveRatio: 0, antiSquatRatio: .18 },
+    },
     springRateFront: 47000, springRateRear: 44000,
     damperCompressionFront: 3400, damperCompressionRear: 3150,
     damperReboundFront: 5050, damperReboundRear: 4700,

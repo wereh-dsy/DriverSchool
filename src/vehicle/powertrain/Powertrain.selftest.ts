@@ -1,5 +1,5 @@
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
-import { createVehiclePhysicsConfig, VEHICLE_CATALOG } from '../VehicleCatalog';
+import { createVehiclePhysicsConfig, ICE_VEHICLE_CATALOG } from '../VehicleCatalog';
 import { resolveVehicleCapabilities, type VehicleFeatureDeclarations } from '../VehicleCapabilities';
 import type { VehicleChassisConfig, VehiclePhysicsConfig } from '../config';
 import { validateVehiclePlatformConfig } from '../config/validateVehiclePlatformConfig';
@@ -80,7 +80,7 @@ export function runPowertrainBoundarySelfTest() {
   assert(resolved.awd && resolved.electronicParkingBrake && !resolved.mechanicalHandbrake, 'override cannot change actual topology even before validation');
   topology.parkingBrake = undefined;
   assert(resolveVehicleCapabilities(topology).mechanicalHandbrake, 'cable parking is derived from absence of EPB');
-  const visual = VEHICLE_CATALOG.find(d => d.id === 'executive-lwb-2t')!.visualConfig;
+  const visual = ICE_VEHICLE_CATALOG.find(d => d.id === 'executive-lwb-2t')!.visualConfig;
   const styleOnly = { ...visual, instrumentCluster: { ...visual.instrumentCluster, featureClass: undefined } };
   topology.capabilities = {};
   assert(!resolveVehicleCapabilities(topology, styleOnly).advancedInstrument, 'executive style alone does not declare instrument support');
@@ -119,7 +119,7 @@ export function runPowertrainBoundarySelfTest() {
   assert(starvedToggle.engine.isRunning && !starvedToggle.powertrain.driveAvailable, 'fuel-starved coast is distinct from drive availability');
   assert(starvedToggle.requestEngineToggle() === 'stopped' && !starvedToggle.getSnapshot().vehicleOperational,
     'legacy ignition toggle still stops an engine with no available drive');
-  for (const descriptor of VEHICLE_CATALOG) {
+  for (const descriptor of ICE_VEHICLE_CATALOG) {
     validateVehiclePlatformConfig(descriptor.physicsConfig, descriptor.visualConfig);
     const car = new VehicleDynamics(createVehiclePhysicsConfig(descriptor.id), { gear: 'N', driveSelector: 'P' });
     assert(car.powertrain.getSnapshot().kind === 'ICE', 'existing car uses ICE wrapper');
@@ -152,5 +152,5 @@ export function runPowertrainBoundarySelfTest() {
   assert(state.gear === null && state.transmission.currentPhysicalGear === null && !car.capabilities.manualSelection, 'generic provider requires no fake gears');
   car.x = NaN;
   assert(car.stepFixed(dt, neutral).recoveredFromInvalidState, 'generic provider also handles lifecycle recovery');
-  return { assertions, iceVehicles: VEHICLE_CATALOG.length, nonICEFixture: true };
+  return { assertions, iceVehicles: ICE_VEHICLE_CATALOG.length, nonICEFixture: true };
 }

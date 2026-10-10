@@ -4,6 +4,7 @@ export interface CollisionPoint2 {
   readonly z: number;
 }
 
+/** Vehicle x/z is the body/axle-midpoint origin used by the authored collision envelope. */
 export interface CollisionPose extends CollisionPoint2 {
   /** Three.js Y rotation: local -Z is forward. */
   readonly yaw: number;
@@ -77,6 +78,7 @@ export interface CollisionContact {
 export interface CollisionStep {
   readonly previousPose: CollisionPose;
   readonly pose: CollisionPose;
+  /** World velocity of the body origin (CG velocity plus its rotational point velocity). */
   readonly velocity: CollisionPoint2;
   readonly dimensions: CollisionDimensions;
   readonly dt: number;

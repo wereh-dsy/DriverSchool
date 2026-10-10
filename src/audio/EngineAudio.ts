@@ -1,5 +1,7 @@
 import type { EngineConfig } from '../vehicle/config';
 import type { VehicleAudioProfile } from './VehicleAudioProfile';
+import { calculateElectricAudioMix, TurnSignalClickTracker, type ElectricAudioOptions } from './ElectricAudioMix';
+import type { VehicleLightingState } from '../vehicle/control/VehicleLightingController';
 
 /** Additional telemetry used by the synthesized vehicle and road-noise layers. */
 export interface EngineAudioUpdateOptions {
@@ -136,11 +138,19 @@ export class EngineAudio {
   private lastCruise = false;
   private lastLowFuel = false;
   private nextParkingChime = 0;
+  private electricMotor: OscillatorNode | null = null;
+  private electricHarmonic: OscillatorNode | null = null;
+  private pedestrianHum: OscillatorNode | null = null;
+  private electricGain: GainNode | null = null;
+  private harmonicGain: GainNode | null = null;
+  private pedestrianGain: GainNode | null = null;
+  private readonly signalClicks = new TurnSignalClickTracker();
 
   public configure(profile?: VehicleAudioProfile): void {
     this.profile = profile;
     this.lastPhase = 'OFF'; this.lastRunning = false; this.lastMode = '';
     this.lastCruise = false; this.lastLowFuel = false;
+    this.signalClicks.reset();
     if (this.context) {
       this.setPulseWave(this.context);
       this.starterGain?.gain.setTargetAtTime(SILENCE, this.context.currentTime, .04);
@@ -184,6 +194,9 @@ export class EngineAudio {
     options = { ...options, profile: this.profile };
     const mix = calculateEngineAudioMix(rpm, throttle, options);
     const now = context.currentTime;
+    this.electricGain?.gain.setTargetAtTime(SILENCE, now, .06);
+    this.harmonicGain?.gain.setTargetAtTime(SILENCE, now, .06);
+    this.pedestrianGain?.gain.setTargetAtTime(SILENCE, now, .06);
     this.updateRoadNoise(mix, now);
 
     if (this.profile) {
@@ -244,6 +257,32 @@ export class EngineAudio {
     );
   }
 
+  /** Electrical and road layers share the original context, compressor and lifecycle. */
+  public updateElectric(rpm: number, torque: number, options: ElectricAudioOptions): void {
+    const context = this.context; if (!context) return;
+    if (context.state === 'suspended' && document.visibilityState === 'visible') void this.resume();
+    const now = context.currentTime, mix = calculateElectricAudioMix(rpm, torque, options);
+    this.engineBus?.gain.setTargetAtTime(SILENCE, now, .035);
+    this.starterGain?.gain.setTargetAtTime(SILENCE, now, .035);
+    this.lastRunning = false;
+    this.electricMotor?.frequency.setTargetAtTime(mix.frequency, now, .10);
+    this.electricHarmonic?.frequency.setTargetAtTime(mix.frequency * 1.51, now, .13);
+    this.electricGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.motor), now, .09);
+    this.harmonicGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.motor * mix.harmonic), now, .12);
+    this.pedestrianGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.pedestrian), now, .18);
+    this.updateRoadNoise(mix, now);
+  }
+
+  public updateTurnSignal(state: Readonly<VehicleLightingState>): void {
+    const edge = this.signalClicks.update(state), context = this.context;
+    if (!edge || !context || context.state !== 'running' || !this.transientBus) return;
+    const now = context.currentTime, tone = context.createOscillator(); tone.type = 'triangle';
+    tone.frequency.setValueAtTime(edge === 'on' ? 1250 : 920, now);
+    const envelope = this.createOneShotEnvelope(context, now, .035, .024, .002, .025);
+    tone.connect(envelope).connect(this.transientBus); tone.start(now); tone.stop(now + .04);
+    tone.onended = () => { tone.disconnect(); envelope.disconnect(); };
+  }
+
   /** Play the starter motor when the driver presses the ignition control. */
   onIgnitionStart(): void {
     this.withAudioGraph(() => this.playStarterTransient());
@@ -277,6 +316,7 @@ export class EngineAudio {
       this.roadNoise,
       this.windNoise,
       this.starter,
+      this.electricMotor, this.electricHarmonic, this.pedestrianHum,
     ];
     for (const source of sources) {
       try {
@@ -323,6 +363,14 @@ export class EngineAudio {
 
     this.createEngineLayers(context, now);
     this.createNoiseLayers(context, now);
+    this.electricMotor = context.createOscillator(); this.electricMotor.type = 'sine';
+    this.electricHarmonic = context.createOscillator(); this.electricHarmonic.type = 'sine';
+    this.pedestrianHum = context.createOscillator(); this.pedestrianHum.type = 'sine'; this.pedestrianHum.frequency.value = 135;
+    this.electricGain = this.createSilentGain(context, now); this.harmonicGain = this.createSilentGain(context, now); this.pedestrianGain = this.createSilentGain(context, now);
+    this.electricMotor.connect(this.electricGain).connect(this.master);
+    this.electricHarmonic.connect(this.harmonicGain).connect(this.master);
+    this.pedestrianHum.connect(this.pedestrianGain).connect(this.master);
+    this.electricMotor.start(); this.electricHarmonic.start(); this.pedestrianHum.start();
 
     if (!this.visibilityListenerAttached) {
       document.addEventListener('visibilitychange', this.handleVisibilityChange);
@@ -423,7 +471,7 @@ export class EngineAudio {
     this.windNoise.start();
   }
 
-  private updateRoadNoise(mix: EngineMix, now: number): void {
+  private updateRoadNoise(mix: Pick<EngineMix, 'road' | 'wind' | 'speed'>, now: number): void {
     this.roadGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.road), now, 0.20);
     this.windGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.wind), now, 0.28);
     this.roadFilter?.frequency.setTargetAtTime(245 + mix.speed * 12, now, 0.22);

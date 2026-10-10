@@ -38,8 +38,8 @@ export class VehicleLighting {
     const halfWidth = vehicle.config.dimensions.width * 0.5 - 0.005;
     const executive = vehicle.config.body.design === 'executive';
     const profile = vehicle.config.exteriorLighting;
-    const frontZ = -halfLength - 0.01;
-    const rearZ = halfLength + 0.009;
+    const frontZ = vehicle.config.lampLayout ? -vehicle.config.dimensions.length / 2 - .012 : -halfLength - 0.01;
+    const rearZ = vehicle.config.lampLayout ? vehicle.config.dimensions.length / 2 + .012 : halfLength + 0.009;
     // Authored lenses remain housings, not permanently glowing outputs.
     vehicle.exteriorRoot.traverse((object) => {
       if (!(object instanceof Mesh) || !['headlamp', 'tail-lamp'].includes(object.userData.vehicleBodyPart)) return;
@@ -91,6 +91,12 @@ export class VehicleLighting {
     for (const side of [-1, 1] as const) {
       const label = side < 0 ? 'Left' : 'Right';
       const signalKey = side < 0 ? 'left' : 'right';
+      if (vehicle.config.lampLayout?.mirrorRepeater) {
+        const transform = side < 0 ? vehicle.config.leftMirrorTransform : vehicle.config.rightMirrorTransform;
+        const lens = new Mesh(new BoxGeometry(.005, .014, .08), this.materials.get(signalKey)!);
+        lens.position.set(transform.position[0] + side * .015, transform.position[1] - .026, transform.position[2] - .035);
+        this.addLens(lens, signalKey, label + ' mirror amber repeater');
+      }
       if (profile?.signature === 'segmented-led') {
         const centre = side * halfWidth * .66;
         const turnHeight = profile.turnLensHeight ?? .016, turnY = .736 - turnHeight * .5;
@@ -246,6 +252,7 @@ export class VehicleLighting {
     if (profile) { light.color.set(profile.color); light.penumbra = profile.penumbra; light.decay = profile.decay; }
     light.name = x < 0 ? 'Left low/high beam' : 'Right low/high beam';
     light.position.set(x, profile ? .747 : this.vehicle.config.body.design === 'executive' ? .735 : .66, z);
+    if (this.vehicle.config.lampLayout) { light.position.y = this.vehicle.config.lampLayout.frontHeight; light.position.x = Math.sign(x) * this.vehicle.config.lampLayout.frontLateral; }
     if (this.vehicle.config.body.profile === 'suv') {
       light.position.y = this.vehicle.config.body.hoodTopY - .16;
       light.position.x = Math.sign(x) * .745;
@@ -275,6 +282,19 @@ export class VehicleLighting {
     const lens = new Mesh(new BoxGeometry(...size), this.materials.get(key)!);
     lens.name = name;
     lens.position.set(...position);
+    const layout = this.vehicle.config.lampLayout;
+    if (layout && name !== 'High-mounted centre brake lamp') {
+      if (position[2] < 0) {
+        if (key === 'head') { lens.position.y = layout.frontHeight; lens.position.x = Math.sign(position[0]) * layout.frontLateral; }
+        if (key === 'position') lens.position.y = layout.frontHeight - .025;
+        if (key === 'left' || key === 'right') lens.position.y = layout.frontIndicatorHeight;
+      } else {
+        if (key === 'tail') lens.position.y = layout.rearTailHeight;
+        if (key === 'brake') lens.position.y = layout.rearBrakeHeight;
+        if (key === 'left' || key === 'right') lens.position.y = layout.rearIndicatorHeight;
+        if (key === 'reverse') lens.position.y = layout.rearReverseHeight;
+      }
+    }
     if (this.vehicle.config.body.profile === 'suv') {
       const body = this.vehicle.config.body;
       if (name === 'High-mounted centre brake lamp') {
@@ -292,6 +312,9 @@ export class VehicleLighting {
   }
 
   private addCornerLens(name: string, key: string, side: -1 | 1, halfWidth: number, halfLength: number, y: number, height: number): void {
+    const layout = this.vehicle.config.lampLayout;
+    if (layout) y = key === 'tail' ? layout.rearTailHeight : key === 'brake' ? layout.rearBrakeHeight
+      : key === 'left' || key === 'right' ? layout.rearIndicatorHeight : key === 'reverse' ? layout.rearReverseHeight : y;
     if (this.vehicle.config.body.profile === 'suv') y += this.vehicle.config.body.trunkDeckY - .12 - .731;
     if (this.vehicle.config.body.design === 'executive') {
       y = key === 'tail' ? .778 : key === 'brake' ? .750 : key === 'reverse' ? .715 : key === 'fogRear' ? .56 : .763;

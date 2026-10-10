@@ -6,7 +6,7 @@ import type { CollisionOBB } from '../vehicle/physics/CollisionSystem';
 import type { VehicleContactSystem } from '../vehicle/physics/VehicleContactSystem';
 import type { SurfaceType } from '../world/SurfaceMaterial';
 import { wheelContactsAsArray } from '../vehicle/physics/WheelContact';
-import type { VehicleSnapshot } from '../vehicle/physics/VehicleDynamics';
+import type { VehicleRuntimeSnapshot } from '../vehicle/physics/VehicleDynamics';
 
 const SURFACE_COLORS: Record<SurfaceType, readonly [number, number, number]> = {
   asphalt: [0.25, 0.9, 1], concrete: [0.8, 0.85, 0.9],
@@ -53,7 +53,7 @@ export class ContactDebugView {
     return this.shown;
   }
 
-  public update(contacts: VehicleContactSystem, ground: DrivingGround, dt: number, physics?: VehicleSnapshot): void {
+  public update(contacts: VehicleContactSystem, ground: DrivingGround, dt: number, physics?: VehicleRuntimeSnapshot): void {
     if (!this.shown || contacts.wheelContacts === null || contacts.collision === null) return;
     if (contacts.lastCollision === null) {
       this.lastContactText = '';

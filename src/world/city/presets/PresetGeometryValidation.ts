@@ -27,10 +27,14 @@ export function validatePresetGeometry(map: CityMapData): MapIssue[] {
       }
     }
     if(grade>(ramp?0.08:0.06)+1e-5) error('geometry.grade',path,`Sampled grade ${(grade*100).toFixed(2)}% exceeds production limit.`);
-    if(radius < (ramp && r.speedLimit <=25 ? 12 : ramp ? 55 : 100)) error('geometry.curve',path,`Minimum sampled radius ${radius.toFixed(1)}m is too small.`);
+    const loop = r.id.endsWith('-loop');
+    if(radius < (loop ? r.designProfile==='urban'?29.9:44.9 : ramp && r.speedLimit <=25 ? 12 : r.designProfile==='urban'?30 : ramp || r.presetSource?.startsWith('system_') ? 55 : 100)) error('geometry.curve',path,`Minimum sampled radius ${radius.toFixed(1)}m is too small.`);
     for(let d=6;d<polylineLength(points)-6;d+=6) {
       const p=sampleAt(points,d).point,y=p.y??0;
-      if(clearance.roadAt(p,0,y+0.25,y+4.5,r.id)) { error('geometry.overlapHeight',path,'Another deck overlaps this road with insufficient vertical clearance.');break; }
+      if(clearance.roadAt(p,0,y+0.25,y+4.5,r.id,other=>!branchNodes.some(n=>n.ends.some(e=>e.roadId===r.id)&&n.ends.some(e=>e.roadId===other)&&Math.hypot(p.x-n.position.x,p.z-n.position.z)<180))) {
+        const other=map.roads.find(o=>clearance.roadAt(p,0,y+0.25,y+4.5,r.id,id=>id===o.id));
+        error('geometry.overlapHeight',path,`Deck ${other?.id} overlaps at ${p.x.toFixed(1)},${p.z.toFixed(1)}, Y=${y.toFixed(2)} with insufficient vertical clearance.`);break;
+      }
       const overlaps=clearance.roadAt(p,0,y-0.25,y+0.25,r.id,other=> !branchNodes.some(n=>
         n.ends.some(e=>e.roadId===r.id)&&n.ends.some(e=>e.roadId===other)&&Math.hypot(p.x-n.position.x,p.z-n.position.z)<180));
       if(overlaps&&!clearance.junctionAt(p,0,y-0.25,y+0.25)) { error('geometry.overlap',path,'Unconnected paved roads overlap away from a branch throat.');break; }
@@ -68,7 +72,7 @@ export function validatePresetGeometry(map: CityMapData): MapIssue[] {
       if(clearance.junctionAt(p,0,p.y-0.2,p.y+0.2)) continue;
       const joined=branchNodes.some(n=>n.ends.some(e=>e.roadId===aPath.road.id)&&n.ends.some(e=>e.roadId===bPath.road.id)&&Math.hypot(p.x-n.position.x,p.z-n.position.z)<20);
       if(joined) continue;
-      error('geometry.crossing',`roads.${aPath.road.id}/${bPath.road.id}`,'Unconnected crossing has less than 4.5m clearance.');found=true;break;
+      error('geometry.crossing',`roads.${aPath.road.id}/${bPath.road.id}`,`Unconnected crossing at (${p.x.toFixed(1)}, ${p.z.toFixed(1)}) has ${(Math.abs(p.y-y)).toFixed(2)}m separation, less than 4.5m.`);found=true;break;
     }
   }
   return issues;

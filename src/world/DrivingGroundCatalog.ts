@@ -7,6 +7,7 @@ import { Subject3Ground } from './subject3';
 import { CityGround } from './city/CityGround';
 import { CITY_EDITOR_STORAGE_KEY } from './city/CityMapLoader';
 import cityAlpha from './city/maps/city-alpha.json';
+import cityMain from './city/maps/city-main.json';
 import presetShowcase from './city/maps/preset-showcase.json';
 
 export const DRIVING_GROUND_IDS = [
@@ -16,6 +17,7 @@ export const DRIVING_GROUND_IDS = [
   'simple-circuit',
   'mountain-proving-ground',
   'city-alpha',
+  'city-main',
   'preset-showcase',
   'city-editor-map',
 ] as const;
@@ -30,6 +32,8 @@ export interface RegisteredDrivingGroundDescriptor extends DrivingGroundDescript
 
 const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDescriptor>> =
   Object.freeze({
+    'city-main': Object.freeze({ id: 'city-main', version: cityMain.version, displayName: 'City Main · 城市快速路',
+      description: '完整城市环线、东西与南北快速路，包含五座系统互通、隧道、下穿和分级城市道路骨架。', create: (): DrivingGround => new CityGround(cityMain) }),
     'preset-showcase': Object.freeze({ id:'preset-showcase',version:presetShowcase.version,displayName:'道路设施体验场',
       description:'独立道路、匝道、路口和立交的道路设施体验场；高架端口配有地面接入坡道。',
       create:():DrivingGround=>new CityGround(presetShowcase,{spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('preset')??undefined}) }),
@@ -105,6 +109,7 @@ export function createDrivingGround(id: DrivingGroundId): DrivingGround {
 export function getInitialDrivingGroundId(storedId: string | null, search: string): DrivingGroundId {
   const city = new URLSearchParams(search).get('city');
   if (city === 'editor') return 'city-editor-map';
+  if (city === 'main' || city === 'city-main') return 'city-main';
   if (city === 'preset-showcase') return 'preset-showcase';
   return storedId !== null && isDrivingGroundId(storedId) ? storedId : DEFAULT_DRIVING_GROUND_ID;
 }

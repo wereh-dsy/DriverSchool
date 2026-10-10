@@ -17,9 +17,9 @@ import {
   getVehicleDescriptor,
   getNextVehicleId,
   isVehicleId,
-  VEHICLE_CATALOG,
+  VEHICLE_CATALOG, ICE_VEHICLE_CATALOG,
   VEHICLE_IDS,
-  type VehicleId,
+  type VehicleId, type ICEVehicleId,
 } from './VehicleCatalog';
 
 export interface VehicleCatalogSelfTestResult {
@@ -53,7 +53,7 @@ const assertFiniteTree = (value: unknown, path: string): void => {
   }
 };
 
-const validatePhysics = (id: VehicleId, config: VehiclePhysicsConfig): void => {
+const validatePhysics = (id: ICEVehicleId, config: VehiclePhysicsConfig): void => {
   assertFiniteTree(config, id);
   assert(config.mass > 500 && config.mass < 4_000, `${id} mass is implausible`);
   assert(config.wheelBase > 1.8 && config.wheelBase < config.length, `${id} wheelbase is invalid`);
@@ -261,7 +261,7 @@ interface AccelerationSample {
   readonly engineRunning: boolean;
 }
 
-const accelerationSample = (id: VehicleId): AccelerationSample => {
+const accelerationSample = (id: ICEVehicleId): AccelerationSample => {
   const vehicle = new VehicleDynamics(createVehiclePhysicsConfig(id));
   const input = createNeutralVehicleInputState('normal', 1);
   input.throttle = 0.85;
@@ -298,14 +298,14 @@ const accelerationSample = (id: VehicleId): AccelerationSample => {
 };
 
 export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
-  assert(VEHICLE_CATALOG.length === 8, 'eight official player vehicles');
+  assert(VEHICLE_CATALOG.length === 9, 'nine official player vehicles');
   assert(!isVehicleId('test-awd-full-time') && !isVehicleId('test-awd-on-demand'), 'AWD fixtures must not be selectable');
   assert(isVehicleId(DEFAULT_VEHICLE_ID), 'default vehicle must resolve by stable ID');
   assert(VEHICLE_CATALOG.length === VEHICLE_IDS.length, 'catalog/order length mismatch');
   assert(new Set(VEHICLE_CATALOG.map((vehicle) => vehicle.id)).size === VEHICLE_CATALOG.length, 'vehicle IDs must be unique');
   assert(VEHICLE_CATALOG.every((vehicle) => vehicle.version >= 1), 'every vehicle needs a data version');
 
-  for (const id of VEHICLE_IDS) {
+  for (const { id } of ICE_VEHICLE_CATALOG) {
     const descriptor = getVehicleDescriptor(id);
     assert(isVehicleId(id) && descriptor.id === id, `${id}: stable ID lookup`);
     assert(descriptor.displayName.length > 0 && !/test|inspired|like/i.test(descriptor.displayName), `${id}: player-facing name`);
@@ -329,7 +329,7 @@ export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
   }
 
   const cycledIds = new Set<VehicleId>();
-  let selectedId = DEFAULT_VEHICLE_ID;
+  let selectedId: VehicleId = DEFAULT_VEHICLE_ID;
   for (let n = 0; n < VEHICLE_CATALOG.length; n++) {
     cycledIds.add(selectedId);
     selectedId = getNextVehicleId(selectedId);

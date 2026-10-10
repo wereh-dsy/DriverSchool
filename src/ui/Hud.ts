@@ -6,9 +6,9 @@ import type { LapTimerState } from '../game/lap/LapTimer';
 import type { RoadNetworkData } from '../world/navigation/RoadNetwork';
 import type { GamepadThrottleDiagnostics } from '../input/GamepadInput';
 import type { VehicleFeedbackState } from '../vehicle/feedback/VehicleFeedbackSystem';
-import type { VehicleSnapshot } from '../vehicle/physics/VehicleDynamics';
+import type { VehicleRuntimeSnapshot } from '../vehicle/physics/VehicleDynamics';
 import type { EngineTurboSnapshot } from '../vehicle/physics/Engine';
-import type { TransmissionSnapshot } from '../vehicle/transmission/TransmissionSystem';
+import type { PowertrainTransmissionSnapshot, PowertrainSnapshot } from '../vehicle/powertrain/Powertrain';
 import {
   ControlSettingsPanel,
   type DrivingMapOption,
@@ -18,11 +18,11 @@ import {
 export interface HudTelemetry {
   rearParking?: RearParkingState;
   speed: number;
-  rpm: number;
-  gear: string | number;
+  rpm?: number;
+  gear: string | number | null;
   throttle: number;
   brake: number;
-  clutchEngagement: number;
+  clutchEngagement?: number;
   steeringAngle: number;
   bodySlipAngle?: number;
   lateralAcceleration?: number;
@@ -43,17 +43,17 @@ export interface HudTelemetry {
   cruiseAvailable?: boolean;
   cruiseActive?: boolean;
   cruiseTargetSpeedKmh?: number | null;
-  transmission?: TransmissionSnapshot;
+  transmission?: PowertrainTransmissionSnapshot; powertrain?: PowertrainSnapshot;
   drivetrainVibrationIntensity?: number;
   triggerDiagnostics?: Readonly<GamepadThrottleDiagnostics>;
   throttleCommand?: number;
   feedback?: Readonly<VehicleFeedbackState>;
-  forces?: VehicleSnapshot['forces'];
-  wheels?: VehicleSnapshot['wheels'];
-  differential?: VehicleSnapshot['differential'];
-  driverAssists?: VehicleSnapshot['driverAssists'];
-  drivetrainLash?: VehicleSnapshot['drivetrainLash'];
-  revHang?: VehicleSnapshot['revHang'];
+  forces?: VehicleRuntimeSnapshot['forces'];
+  wheels?: VehicleRuntimeSnapshot['wheels'];
+  differential?: VehicleRuntimeSnapshot['differential'];
+  driverAssists?: VehicleRuntimeSnapshot['driverAssists'];
+  drivetrainLash?: VehicleRuntimeSnapshot['drivetrainLash'];
+  revHang?: VehicleRuntimeSnapshot['revHang'];
   turbo?: EngineTurboSnapshot;
 }
 
@@ -126,7 +126,7 @@ export class Hud {
         <section class="drive-readout" data-drive-readout aria-label="行驶信息">
           <div class="gear-readout" data-gear>N</div>
           <div class="speed-readout"><strong data-speed>0</strong><span>km/h</span></div>
-          <div class="rpm-meta"><span data-rpm-value>0.8</span><small>×1000 RPM</small><em data-cruise-status hidden>CRUISE</em></div>
+          <div class="rpm-meta"><span data-rpm-value>0.8</span><small data-energy-unit>×1000 RPM</small><em data-cruise-status hidden>CRUISE</em></div>
           <div class="rpm-strip" data-rpm-strip><i data-rpm-needle></i></div>
           <div class="rear-parking" data-rear-parking hidden aria-label="Rear parking proximity">
             <small>车尾</small><div data-parking-zones><b>↙</b><b>L</b><b>C</b><b>R</b><b>↘</b></div>
@@ -350,27 +350,28 @@ export class Hud {
   }
 
   update(data: HudTelemetry, dt: number): void {
+    const rpm = data.rpm ?? 0, clutchEngagement = data.clutchEngagement ?? 0;
     const speedKmh = Math.abs(data.speed) * 3.6;
     const transmission = data.transmission;
     this.automaticTransmission = transmission !== undefined && transmission.type !== 'MANUAL';
     const gearLabel = this.automaticTransmission && transmission
-      ? transmission.selectedMode === 'D' && transmission.type !== 'CVT' ? `D${transmission.currentPhysicalGear}` : String(transmission.selectedMode)
+      ? transmission.selectedMode === 'D' && transmission.currentPhysicalGear !== null ? `D${transmission.currentPhysicalGear}` : String(transmission.selectedMode)
       : String(data.gear);
     this.speedValue.textContent = Math.round(speedKmh).toString().padStart(2, '0');
     this.gearValue.textContent = gearLabel;
     const redlineRPM = data.redlineRPM ?? 6_100;
     const recommendedUpshiftRPM = data.recommendedUpshiftRPM ?? data.shiftWarningRPM ?? 2_200;
     const redlineWarningRPM = data.redlineWarningRPM ?? redlineRPM - 450;
-    const rpmFraction = Math.min(1, Math.max(0, data.rpm / Math.max(1, redlineRPM)));
+    const rpmFraction = Math.min(1, Math.max(0, rpm / Math.max(1, redlineRPM)));
     const recommendationAvailable = data.upshiftRecommendationAvailable ??
       (typeof data.gear === 'number' && data.gear >= 1 && data.gear < 5);
-    const critical = data.nearRedline ?? data.rpm >= redlineWarningRPM;
+    const critical = data.nearRedline ?? rpm >= redlineWarningRPM;
     this.rpmNeedle.style.setProperty('--rpm', rpmFraction.toFixed(3));
     this.rpmStrip.style.setProperty(
       '--redline-warning',
       `${(Math.min(1, Math.max(0, redlineWarningRPM / Math.max(1, redlineRPM))) * 100).toFixed(1)}%`,
     );
-    this.rpmValue.textContent = (data.rpm / 1_000).toFixed(1);
+    this.rpmValue.textContent = (rpm / 1_000).toFixed(1);
     this.rpmStrip.classList.toggle('critical', critical);
     const cruiseAvailable = data.cruiseAvailable === true;
     const parking = data.rearParking;
@@ -395,7 +396,7 @@ export class Hud {
       ? `巡航 ${Math.round(data.cruiseTargetSpeedKmh ?? speedKmh)}`
       : 'X · CRUISE';
     this.debugValues.speed.textContent = `${speedKmh.toFixed(1)} km/h`;
-    this.debugValues.rpm.textContent = `${Math.round(data.rpm)} rpm`;
+    this.debugValues.rpm.textContent = `${Math.round(rpm)} rpm`;
     this.debugValues.shiftTarget.textContent = recommendationAvailable
       ? `${Math.round(recommendedUpshiftRPM)} rpm`
       : '—';
@@ -410,12 +411,12 @@ export class Hud {
         `RT NORMALIZED ${trigger ? percent(trigger.rtNormalized) : '—'}`,
         `RT COMMAND ${trigger ? percent(trigger.throttleCommand) : '—'}`,
         `THROTTLE COMMAND ${percent(data.throttleCommand ?? data.throttle)}`,
-        `ACTUAL ENGINE THROTTLE ${percent(data.throttle)}`,
+        `ACTUAL PROPULSION DEMAND ${percent(data.throttle)}`,
       ].join('\n');
       const feedback = data.feedback;
       const factors = feedback?.factors;
       this.feedbackDebug.textContent = [
-        `CLUTCH ENGAGEMENT ${percent(data.clutchEngagement)}`,
+        `CLUTCH ENGAGEMENT ${percent(clutchEngagement)}`,
         `CLUTCH SLIP ${((data.forces?.clutchSlipAngularVelocity ?? 0) * 60 / (2 * Math.PI)).toFixed(0)} rpm`,
         `CLUTCH LOAD ${(data.forces?.clutchTorque ?? transmission?.engineLoadTorque ?? 0).toFixed(1)} Nm`,
         ...(factors ? [
@@ -447,6 +448,7 @@ export class Hud {
           ...(['frontLeft', 'frontRight', 'rearLeft', 'rearRight'] as const).map((id, index) => {
             const w = wheels[id];
             return `${['FL', 'FR', 'RL', 'RR'][index]} SLIP ${w.slipRatio.toFixed(3)} · α ${(w.slipAngle * 180 / Math.PI).toFixed(1)}° · ω ${w.angularVelocity.toFixed(1)} rad/s\n` +
+              `   CAMBER ${((w.camberAngle ?? 0) * 180 / Math.PI).toFixed(2)}° · TOE ${((w.toeAngle ?? 0) * 180 / Math.PI).toFixed(2)}°\n` +
               `   Fx ${w.longitudinalForce.toFixed(0)} · Fy ${w.lateralForce.toFixed(0)} · Fz ${w.normalLoad.toFixed(0)} N · GRIP ${percent(w.gripUsage)}`;
           }),
         ] : []),
@@ -463,7 +465,7 @@ export class Hud {
         transmission.type,
         `SELECTOR ${transmission.selectedMode ?? '—'} · GEAR ${transmission.currentPhysicalGear ?? 'CONTINUOUS'}`,
         ...(transmission.cvt ? [`RATIO ${transmission.cvt.ratio.toFixed(3)} → ${transmission.cvt.targetRatio.toFixed(3)} · TARGET ${Math.round(transmission.cvt.targetRPM)} rpm`] : []),
-        `${transmission.shiftState} · LOAD ${transmission.engineLoadTorque.toFixed(1)} Nm`,
+        `${transmission.shiftState} · LOAD ${(transmission.engineLoadTorque ?? 0).toFixed(1)} Nm`,
         ...(tc ? [`SLIP ${Math.round(tc.slipRPM)} rpm · RATIO ${tc.torqueRatio.toFixed(2)} · LOCK ${Math.round(tc.lockupEngagement * 100)}%`] : []),
         ...(dct ? [`A ${Math.round(dct.clutchAEngagement * 100)}% · B ${Math.round(dct.clutchBEngagement * 100)}%`, `SHAFT ${dct.activeShaft ?? '—'} · PRESELECT ${dct.preselectedGear ?? '—'}`] : []),
         ...(transmission.selectorRejectedReason ? [`BLOCKED · ${transmission.selectorRejectedReason}`] : []),
@@ -471,8 +473,8 @@ export class Hud {
     } else this.transmissionDebug.textContent = 'MANUAL';
     this.debugValues.throttle.textContent = `${Math.round(data.throttle * 100)}%`;
     this.debugValues.brake.textContent = `${Math.round(data.brake * 100)}%`;
-    this.debugValues.clutch.textContent = `${Math.round(data.clutchEngagement * 100)}%`;
-    this.debugValues.pedal.textContent = `${Math.round((data.clutchPedal ?? 1 - data.clutchEngagement) * 100)}%`;
+    this.debugValues.clutch.textContent = `${Math.round(clutchEngagement * 100)}%`;
+    this.debugValues.pedal.textContent = `${Math.round((data.clutchPedal ?? 1 - clutchEngagement) * 100)}%`;
     this.debugValues.handbrake.textContent = `${Math.round((data.handbrake ?? 0) * 100)}%`;
     this.debugValues.steering.textContent = `${(data.steeringAngle * 180 / Math.PI).toFixed(1)}°`;
     this.debugValues.slip.textContent = `${((data.bodySlipAngle ?? 0) * 180 / Math.PI).toFixed(1)}°`;
@@ -481,7 +483,7 @@ export class Hud {
     this.debugValues.mode.textContent = this.automaticTransmission ? 'AUTOMATIC' : data.controlMode === 'manual-clutch' ? 'MANUAL CLUTCH' : 'AUTO CLUTCH';
     this.debugValues.input.textContent = (data.inputSource ?? 'keyboard').toUpperCase();
 
-    const clutchPedal = Math.min(1, Math.max(0, data.clutchPedal ?? 1 - data.clutchEngagement));
+    const clutchPedal = Math.min(1, Math.max(0, data.clutchPedal ?? 1 - clutchEngagement));
     const manualClutch = data.controlMode === 'manual-clutch';
     const clutchPercent = Math.round(clutchPedal * 100);
     this.clutchMeter.style.setProperty('--clutch-pedal', `${(clutchPedal * 100).toFixed(1)}%`);
@@ -498,6 +500,30 @@ export class Hud {
     const modeLabel = this.automaticTransmission ? (transmission?.type === 'DCT' ? '双离合自动挡' : transmission?.type === 'CVT' ? '无级变速 CVT' : '液力自动挡') : data.controlMode === 'manual-clutch' ? '手动离合' : '自动离合';
     this.inputStatus.querySelector('span')!.textContent = `${sourceLabel} · ${modeLabel}`;
     this.inputStatus.classList.toggle('manual', data.controlMode === 'manual-clutch');
+
+    const ev = data.powertrain?.ev;
+    this.rpmStrip.hidden = !!ev;
+    const energyUnit = this.driveReadout.querySelector<HTMLElement>('[data-energy-unit]')!;
+    energyUnit.textContent = ev ? `% · ${Math.round(ev.estimatedRangeKm)} km · ${ev.batteryPowerKw.toFixed(0)} kW` : '×1000 RPM';
+    if (ev) this.rpmValue.textContent = (ev.stateOfCharge * 100).toFixed(0);
+    this.debugValues.rpm.previousElementSibling!.textContent = ev ? 'MOTOR' : 'ENGINE';
+    this.mechanicalDebug.previousElementSibling!.textContent = ev ? 'ENERGY / CHASSIS' : 'MECHANICS / TURBO';
+    for (const field of [this.debugValues.clutch, this.debugValues.pedal, this.debugValues.shiftTarget]) field.parentElement!.hidden = !!ev;
+    if (ev) {
+      this.debugValues.rpm.textContent = `${ev.motorRPM.toFixed(0)} rpm · ${ev.motorTorque.toFixed(1)} Nm`;
+      this.debugValues.mode.textContent = 'ELECTRIC';
+      this.inputStatus.querySelector('span')!.textContent = `${sourceLabel} · 电动单速`;
+      this.transmissionDebug.textContent = `FIXED REDUCTION · ${transmission?.selectedMode}\nRATIO ${transmission?.currentRatio.toFixed(3)}${transmission?.selectorRejectedReason ? `\nBLOCKED · ${transmission.selectorRejectedReason}` : ''}`;
+      this.feedbackDebug.textContent = `CHASSIS / COLLISION · HAPTIC ${Math.round((data.feedback?.continuousRumble.strong ?? 0) * 100)}%`;
+      if (this.debugVisible) this.mechanicalDebug.textContent = [
+        `SOC ${(ev.stateOfCharge * 100).toFixed(2)}% · ${ev.remainingEnergyKWh.toFixed(3)} kWh`,
+        `BATTERY ${ev.batteryPowerKw.toFixed(1)} kW · DRIVE ${ev.drivePowerKw.toFixed(1)} · REGEN ${ev.regenPowerKw.toFixed(1)} kW`,
+        `REGEN LIMIT ${ev.regenLimitReason ?? 'NONE'} · TOTAL BRAKE ${ev.requestedBrakeTorque.toFixed(1)} · MOTOR BRAKE ${ev.regenerativeBrakeTorque.toFixed(1)} Nm`,
+        `TRIP USED ${ev.tripEnergyConsumedKWh.toFixed(3)} · RECOVERED ${ev.tripEnergyRecoveredKWh.toFixed(3)} kWh`,
+        `CONSUMPTION ${ev.averageConsumptionKWhPer100km?.toFixed(1) ?? 'REFERENCE'} kWh/100 km · RANGE ${ev.estimatedRangeKm.toFixed(0)} km`,
+        this.mechanicalDebug.textContent,
+      ].join('\n');
+    }
 
     if (this.toastTimer > 0) {
       this.toastTimer -= dt;

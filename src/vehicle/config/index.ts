@@ -1,3 +1,6 @@
+export type { ElectricVehiclePhysicsConfig, ElectricMotorConfig, BatteryPackConfig, FixedReductionConfig, RegenConfig } from './ElectricVehiclePhysicsConfig';
+export { isElectricConfig } from './ElectricVehiclePhysicsConfig';
+export { createTeslaModel3PhysicsConfig } from './teslaModel3PhysicsConfig';
 export type {
   AeroConfig,
   AutoClutchConfig,
@@ -13,6 +16,8 @@ export type {
   ShiftRecommendationConfig,
   SteeringConfig,
   SuspensionConfig,
+  SuspensionTopology,
+  SuspensionAxleKinematicsConfig,
   TireConfig,
   TorqueCurvePoint,
   TransmissionConfig,

@@ -32,7 +32,6 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   rearDiff: { type: 'lsd', preload: 35, lockStrength: .12, torqueBiasRatio: 2.5,
     speedDifferenceSensitivity: .16, response: 8 },
   drivetrainLayout: 'RWD',
-  drivenWheelWeightFraction: 0.49,
   engine: {
     ...DEFAULT_VEHICLE_PHYSICS_CONFIG.engine,
     layout: 'INLINE', cylinderCount: 6, displacementL: 3.0,
@@ -185,6 +184,10 @@ export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     gripFalloff: 0.31,
   }, 'PERFORMANCE'),
   suspension: {
+    kinematics: {
+      front: { topology: 'DOUBLE_WISHBONE', staticCamber: -.012, camberGainPerMeter: -.40, staticToe: 0, bumpToeGainPerMeter: .006, antiDiveRatio: .15, antiSquatRatio: 0 },
+      rear: { topology: 'MULTI_LINK', staticCamber: -.014, camberGainPerMeter: -.32, staticToe: .0005, bumpToeGainPerMeter: .020, antiDiveRatio: 0, antiSquatRatio: .15 },
+    },
     rideHeight: 0.115,
     restLength: 0.3,
     springRateFront: 39_000,

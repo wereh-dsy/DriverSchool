@@ -1,6 +1,6 @@
 import type { RoadNetworkData, RoadSegmentData } from '../navigation/RoadNetwork';
 import type { CityMapData, CityPoint, TravelDirection } from './CityMapData';
-import { junctionExtent, polylineLength, portDirections, roadPoints, rotatePoint } from './geometry';
+import { junctionExtent, polylineLength, portDirection, roadPoints, rotatePoint } from './geometry';
 import { armControlKind } from '../subject3/trafficSignals';
 export interface CityLaneData { id: string; roadId: string; index: number; direction: 'forward' | 'reverse'; width: number }
 export interface CityNetworkSegment extends RoadSegmentData {
@@ -74,9 +74,9 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
     intersections: map.intersections.map(j => {
       const h = junctionExtent(j, map), box = h * (Math.abs(Math.cos(j.rotation)) + Math.abs(Math.sin(j.rotation)));
       return { id: j.id, center: j.position, halfExtentX: box, halfExtentZ: box, arms: j.connections.map(c => {
-        const r = map.roads.find(r => r.id === c.roadId)!, outward = rotatePoint(portDirections[c.port], j.rotation);
+        const r = map.roads.find(r => r.id === c.roadId)!, outward = rotatePoint(portDirection(j,c.port), j.rotation);
         return { segmentId: r.id, outward, approachYawRadians: Math.atan2(outward.x, outward.z), approachLaneCount: r.travelDirection === 'two-way' ? r.laneCount / 2 : r.laneCount,
-          trafficSignal: j.signalized ? { junctionId: j.id, controlKind: armControlKind(portDirections[c.port]) } : undefined };
+          trafficSignal: j.signalized ? { junctionId: j.id, controlKind: armControlKind(portDirection(j,c.port)) } : undefined };
       }) };
     }) };
 }

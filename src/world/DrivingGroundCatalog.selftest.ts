@@ -22,13 +22,15 @@ export function runDrivingGroundCatalogSelfTest(): { assertions: number; maps: n
     assertions++;
     if (!ok) throw new Error(`Driving ground catalog: ${message}`);
   };
-  assert(DRIVING_GROUND_CATALOG.length === 8, 'all eight existing grounds retained');
+  assert(DRIVING_GROUND_CATALOG.length === 9, 'City Main added to the eight existing grounds');
+  assert(['road-course','subject-2-training-ground','subject-3-shared-city-map','simple-circuit','mountain-proving-ground','city-alpha','preset-showcase','city-editor-map'].every(isDrivingGroundId), 'all existing grounds retained');
   assert(new Set(DRIVING_GROUND_CATALOG.map(d => d.id)).size === DRIVING_GROUND_CATALOG.length, 'unique ground IDs');
   assert(isDrivingGroundId(DEFAULT_DRIVING_GROUND_ID), 'registered default');
   assert(getInitialDrivingGroundId(null, '') === DEFAULT_DRIVING_GROUND_ID, 'initial default');
   assert(getInitialDrivingGroundId('missing-map', '?city=missing-map') === DEFAULT_DRIVING_GROUND_ID, 'unknown selection fallback');
   assert(getInitialDrivingGroundId('road-course', '?city=editor') === 'city-editor-map', 'existing editor URL shortcut');
   assert(getInitialDrivingGroundId('road-course', '?city=preset-showcase') === 'preset-showcase', 'existing preset URL shortcut');
+  assert(getInitialDrivingGroundId(null, '?city=main') === 'city-main' && getInitialDrivingGroundId(null, '?city=city-main') === 'city-main', 'City Main URL shortcuts');
   assert(!isDrivingGroundId('missing-map'), 'unknown map is not selectable');
 
   const previousStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
@@ -40,7 +42,7 @@ export function runDrivingGroundCatalogSelfTest(): { assertions: number; maps: n
     'road-course': DrivingTestTrack, 'simple-circuit': CircuitGround,
     'subject-2-training-ground': Subject2Ground, 'subject-3-shared-city-map': Subject3Ground,
     'mountain-proving-ground': MountainProvingGround,
-    'city-alpha': CityGround, 'preset-showcase': CityGround, 'city-editor-map': CityGround,
+    'city-alpha': CityGround, 'city-main': CityGround, 'preset-showcase': CityGround, 'city-editor-map': CityGround,
   };
   const scene = new Scene();
   try {

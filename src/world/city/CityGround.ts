@@ -1,4 +1,4 @@
-import { Group, Mesh, PlaneGeometry, Vector2, Vector3 } from 'three';
+import { Group, Mesh, MeshBasicMaterial, Vector2, Vector3 } from 'three';
 import type { DrivingGround } from '../DrivingGround';
 import { SURFACE_MATERIALS, surfaceResponseAliases, type RoadSurfaceSample } from '../SurfaceMaterial';
 import { createSubject3Materials } from '../subject3/materials';
@@ -9,8 +9,11 @@ import { junctionExtent, roadEdges, rotatePoint } from './geometry';
 import { PrefabRegistry } from './PrefabRegistry';
 import { SectorManager, type SectorOptions } from './SectorManager';
 import { roadStructureColliders } from './RoadInfrastructure';
+import { roadSignColliders } from './RoadSignTemplates';
 
 import { RoadClearance } from './RoadClearance';
+import { cityGroundGeometry } from './CityGroundGeometry';
+import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
 
 interface SurfaceArea { contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number }
 export class CityGround implements DrivingGround {
@@ -22,7 +25,7 @@ export class CityGround implements DrivingGround {
   readonly roadNetwork;
   readonly colliders;
   readonly sectors: SectorManager;
-  private readonly materials = createSubject3Materials();
+  private readonly materials = { ...createSubject3Materials(), tunnelLight: new MeshBasicMaterial({color:0xffefd0}) };
   private readonly prefabs = new PrefabRegistry(this.materials);
   private readonly surfaces = new Map<string, SurfaceArea[]>();
   private readonly editor: boolean;
@@ -33,12 +36,15 @@ export class CityGround implements DrivingGround {
     this.metadata = { id: this.data.id, version: this.data.version, displayName: this.data.name, description: 'Data-driven City Map' };
     this.roadNetwork = buildCityRoadNetwork(this.data);
     this.root.name = this.data.name; this.root.userData.renderCategory = 'WORLD';
-    const b = this.worldBounds;
-    const base = new Mesh(new PlaneGeometry(b.maxX - b.minX, b.maxZ - b.minZ), this.materials.grass);
-    base.rotation.x = -Math.PI / 2; base.position.set((b.minX + b.maxX) / 2, -0.04, (b.minZ + b.maxZ) / 2); base.receiveShadow = true; this.root.add(base);
+    const base = new Mesh(cityGroundGeometry(this.data), this.materials.grass);
+    base.receiveShadow = true; this.root.add(base);
     this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options); this.root.add(this.sectors.root);
     const clearance = new RoadClearance(this.data);
-    this.colliders = [...this.data.objects.flatMap(o => { const c = this.prefabs.collider(o); return c ? [c] : []; }), ...this.data.roads.flatMap(r => roadStructureColliders(r, this.data, clearance))];
+    this.colliders = [...this.data.objects.flatMap(o => { const c = this.prefabs.collider(o); return c ? [c] : []; }), ...this.data.roads.flatMap(r => roadStructureColliders(r, this.data, clearance)),...(this.data.signs??[]).flatMap(roadSignColliders)];
+    for(const j of this.data.intersections.filter(j=>j.channelized))for(const sign of [-1,1]) {
+      const h=junctionExtent(j,this.data),q=rotatePoint({x:sign*(h-2.5),z:sign*(h-2.5)},j.rotation);
+      this.colliders.push(createStaticOBBCollider({id:j.id+':island:'+sign,x:j.position.x+q.x,z:j.position.z+q.z,width:2,length:2,yaw:j.rotation,minHeight:j.position.y??0,maxHeight:(j.position.y??0)+0.18,type:'obstacle'}));
+    }
     for (const road of this.roadNetwork.segments) {
       const source = this.data.roads.find(r => r.id === road.id)!;
       const edges = roadEdges(source);

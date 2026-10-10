@@ -30,6 +30,9 @@ export interface DrivingVehicleOption {
 }
 
 export class ControlSettingsPanel {
+  public onStateOfChargeChange?: (soc: number) => void;
+  private readonly batterySOCInput: HTMLInputElement;
+  private readonly batteryReadout: HTMLElement;
   public onMinimapPositionChange?: (position: MinimapPosition) => void;
   public minimapPosition: MinimapPosition = this.readMinimapPosition();
   public onVisibilityChange?: (visible: boolean) => void;
@@ -70,6 +73,7 @@ export class ControlSettingsPanel {
   private readonly fuelPercentInput: HTMLInputElement;
   private readonly fuelCapacityLabel: HTMLElement;
   private fuelCapacityL = 0;
+  private batteryTelemetry: import('../vehicle/powertrain/Powertrain').EVTelemetry | undefined;
   private readonly bindingButtons = new Map<KeyboardDrivingAction, HTMLButtonElement>();
   private readonly mapButtons = new Map<string, HTMLButtonElement>();
   private readonly vehicleButtons = new Map<string, HTMLButtonElement>();
@@ -107,12 +111,16 @@ export class ControlSettingsPanel {
             <div class="settings-group-title"><span>训练车辆</span><small>切换后以新车回到当前场地起点</small></div>
             <div class="map-selection-list" data-vehicle-buttons></div>
           </section>
-          <section class="settings-group">
+          <section class="settings-group" data-fuel-group>
             <div class="settings-group-title"><span>燃油 · Current Fuel</span><small data-fuel-capacity>Tank Capacity</small></div>
             <div class="fuel-settings-inputs">
               <label>当前油量 (L)<input type="number" min="0" step="0.01" data-fuel-litres aria-label="Current Fuel litres"></label>
               <label>油量百分比 (%)<input type="number" min="0" max="100" step="0.01" data-fuel-percent aria-label="Current Fuel percent"></label>
             </div>
+          </section>
+          <section class="settings-group" data-battery-group hidden>
+            <div class="settings-group-title"><span>电池 · Battery</span><small data-battery-readout></small></div>
+            <label>训练电量 (%)<input type="number" min="0" max="100" step="1" data-battery-soc aria-label="Battery state of charge percent"></label>
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>环境 · Weather / Time</span><small>所有场地通用 · 可自由组合</small></div>
@@ -208,6 +216,11 @@ export class ControlSettingsPanel {
     this.fuelLitresInput = this.require(shell, '[data-fuel-litres]');
     this.fuelPercentInput = this.require(shell, '[data-fuel-percent]');
     this.fuelCapacityLabel = this.require(shell, '[data-fuel-capacity]');
+    this.batterySOCInput = this.require(shell, '[data-battery-soc]');
+    this.batteryReadout = this.require(shell, '[data-battery-readout]');
+    this.batterySOCInput.addEventListener('input', () => {
+      if (Number.isFinite(this.batterySOCInput.valueAsNumber)) this.onStateOfChargeChange?.(Math.max(0, Math.min(100, this.batterySOCInput.valueAsNumber)) / 100);
+    });
     const applyFuel = (input: HTMLInputElement, percent: boolean) => {
       if (input.value === '' || !Number.isFinite(input.valueAsNumber)) return;
       const value = Math.max(0, Math.min(percent ? 100 : this.fuelCapacityL, input.valueAsNumber));
@@ -401,7 +414,16 @@ export class ControlSettingsPanel {
     }
   }
 
-  public setFuel(fuel: FuelSnapshot): void {
+  public setBattery(ev: import('../vehicle/powertrain/Powertrain').EVTelemetry | undefined): void {
+    this.batteryTelemetry = ev;
+    this.batterySOCInput.closest<HTMLElement>('[data-battery-group]')!.hidden = !ev;
+    if (!ev) return;
+    if (document.activeElement !== this.batterySOCInput) this.batterySOCInput.value = (ev.stateOfCharge * 100).toFixed(1);
+    this.batteryReadout.textContent = `${ev.remainingEnergyKWh.toFixed(1)} kWh · ${ev.estimatedRangeKm.toFixed(0)} km`;
+  }
+  public setFuel(fuel: FuelSnapshot | undefined): void {
+    this.fuelLitresInput.closest<HTMLElement>('[data-fuel-group]')!.hidden = !fuel;
+    if (!fuel) return;
     const capacityChanged = this.fuelCapacityL !== fuel.tankCapacityL;
     this.fuelCapacityL = fuel.tankCapacityL;
     if (capacityChanged) {
@@ -466,8 +488,9 @@ export class ControlSettingsPanel {
     this.require(this.panel, '[data-trip-summary]').textContent = (['A', 'B'] as const).map(id => {
       const data = id === 'A' ? trip.tripA : trip.tripB;
       return `Trip ${id}: ${data.distanceKm.toFixed(2)} km · ${Math.floor(data.operatingTimeSeconds / 60)} min · ` +
-        `${data.averageSpeedKmh?.toFixed(1) ?? '--'} km/h · ${data.averageFuelConsumptionLPer100km?.toFixed(1) ?? '--'} L/100km`;
-    }).join(' | ');
+        `${data.averageSpeedKmh?.toFixed(1) ?? '--'} km/h` +
+        (this.batteryTelemetry ? '' : ` · ${data.averageFuelConsumptionLPer100km?.toFixed(1) ?? '--'} L/100km`);
+    }).join(' | ') + (this.batteryTelemetry ? ` | EV session: ${this.batteryTelemetry.tripEnergyConsumedKWh.toFixed(2)} kWh used · ${this.batteryTelemetry.tripEnergyRecoveredKWh.toFixed(2)} recovered · ${this.batteryTelemetry.averageConsumptionKWhPer100km?.toFixed(1) ?? '--'} kWh/100km` : '');
   }
   private readAssistancePreference(key: string): boolean | undefined {
     try { const saved = JSON.parse(localStorage.getItem('drivergame.driver-assists.v1') ?? '{}');

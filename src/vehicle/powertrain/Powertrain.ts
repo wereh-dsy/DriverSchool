@@ -54,6 +54,16 @@ export interface PowertrainSnapshot {
   availableDriveTorque: number;
   transmission: PowertrainTransmissionSnapshot;
   ice?: ICEVehicleTelemetry;
+  ev?: EVTelemetry;
+}
+export interface EVTelemetry {
+  regenBrakeLight: boolean;
+  stateOfCharge: number; remainingEnergyKWh: number; batteryPowerKw: number;
+  motorRPM: number; motorTorque: number; drivePowerKw: number; regenPowerKw: number;
+  regenLimited: boolean; regenLimitReason: string | null;
+  tripEnergyConsumedKWh: number; tripEnergyRecoveredKWh: number;
+  averageConsumptionKWhPer100km: number | null; estimatedRangeKm: number;
+  requestedBrakeTorque: number; regenerativeBrakeTorque: number;
 }
 export interface PowertrainInitialState {
   vehicleOperational?: boolean;
@@ -63,9 +73,13 @@ export interface PowertrainInitialState {
   driveSelector?: DriveSelector;
   controlMode?: VehicleControlMode;
   ice?: { engineRPM?: number; engineRunning?: boolean; clutchEngagement?: number; currentFuelL?: number };
+  ev?: { stateOfCharge?: number };
 }
 /** Generic chassis/shaft context. Legacy RPM thresholds belong inside ICEPowertrain. */
 export interface PowertrainUpdateContext {
+  /** Unmodulated driven-axle share of the common service-brake demand, Nm. */
+  drivenAxleBrakeTorque?: number;
+  totalServiceBrakeTorque?: number;
   autoHoldHolding?: boolean;
   parkingBrakeActive?: boolean;
   dt: number; throttle: number; brake: number;
@@ -74,12 +88,21 @@ export interface PowertrainUpdateContext {
   clutchPedal: number; selectorRequest?: DriveSelector; driveMode?: VehicleDriveMode;
 }
 export interface PowertrainOutput {
+  /** Physical motor braking magnitude at the driven axle, NOT a hydraulic request. */
+  regenerativeWheelTorque?: number;
+  /** Low-speed lift-off stop requests the ordinary service brake/hold path. */
+  stopBrakeDemand?: number;
   consumedFuelL?: number;
   drivenWheelTorque: number; inputLoadTorque: number;
   couplingSlipAngularVelocity: number; parkingLocked: boolean;
 }
 /** Owns source, coupling and transmission lifecycle without requiring ICE components. */
 export interface Powertrain {
+  readonly serviceBrakeDemand?: number;
+  /** Rotor inertia reflected to EACH driven wheel, kg m². */
+  readonly drivenWheelInertia?: number;
+  /** Final same-step ABS/traction authority; provider updates its persistent output. */
+  limitRegeneration?(maximumWheelTorque: number): number;
   readonly torqueSource: DriveTorqueSource;
   readonly transmission: PowertrainTransmission;
   readonly supportsManualSelection: boolean;
@@ -100,6 +123,6 @@ export interface Powertrain {
   applyDriveMode?(calibration: DriveModeCalibration): void;
   prepare(context: PowertrainUpdateContext): void;
   update(context: PowertrainUpdateContext): PowertrainOutput;
-  finishStep(speed: number): void;
+  finishStep(speed: number, drivenWheelAngularVelocity?: number): void;
   getSnapshot(): PowertrainSnapshot;
 }

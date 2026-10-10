@@ -5,10 +5,12 @@ import { Subject3TrafficSignals } from '../subject3/trafficSignals';
 import { RoadBuilder } from './RoadBuilder';
 import { IntersectionBuilder } from './IntersectionBuilder';
 import { PrefabRegistry } from './PrefabRegistry';
+import { RoadSignRenderer } from './RoadSignRenderer';
+import type { RoadSignDefinition } from './RoadSignData';
 
 interface GeometryPlan { positions: number[]; normals: number[]; uvs: number[]; material: Material }
 interface InstancePlan { geometry: BufferGeometry; material: Material; matrices: Matrix4[]; lamp: boolean }
-interface SectorPlan { surfaces: Map<Material, GeometryPlan>; instances: Map<BufferGeometry, InstancePlan>; intersections: CityIntersection[]; objects: CityObject[] }
+interface SectorPlan { surfaces: Map<Material, GeometryPlan>; instances: Map<BufferGeometry, InstancePlan>; intersections: CityIntersection[]; objects: CityObject[];signs:RoadSignDefinition[] }
 export interface SectorOptions { loadRadius?: number; editor?: boolean }
 export class SectorManager {
   readonly root = new Group();
@@ -16,6 +18,7 @@ export class SectorManager {
   private readonly plans = new Map<string, SectorPlan>();
   private readonly infrastructureGeometry = new Set<BufferGeometry>();
   private readonly intersectionBuilder: IntersectionBuilder;
+  readonly signRenderer:RoadSignRenderer;
   readonly signals: Subject3TrafficSignals;
   private currentX = Infinity;
   private currentZ = Infinity;
@@ -23,6 +26,7 @@ export class SectorManager {
   constructor(readonly map: CityMapData, materials: Subject3Materials, readonly prefabs: PrefabRegistry, options: SectorOptions = {}) {
     this.loadRadius = Math.max(0, Math.floor(options.loadRadius ?? 1));
     this.intersectionBuilder = new IntersectionBuilder(map, materials);
+    this.signRenderer=new RoadSignRenderer(map.roadNames??{});
     this.signals = new Subject3TrafficSignals(map.intersections.length, map.intersections.map(j => j.signals?.offsetSeconds ?? 0), { greenSeconds: 25, amberSeconds: 3, allRedSeconds: 2 });
     this.root.add(this.signals.root);
     const roads = new RoadBuilder(materials, map);
@@ -64,12 +68,13 @@ export class SectorManager {
     }
     for (const j of map.intersections) this.plan(this.key(j.position.x, j.position.z)).intersections.push(j);
     for (const o of map.objects) this.plan(this.key(o.position.x, o.position.z)).objects.push(o);
+    for(const sign of map.signs??[])this.plan(this.key(sign.position.x,sign.position.z)).signs.push(sign);
     if (options.editor) for (const key of this.plans.keys()) this.load(key);
   }
   private key(x: number, z: number): string { return `${Math.floor(x / this.map.sectorSize)},${Math.floor(z / this.map.sectorSize)}`; }
   private plan(key: string): SectorPlan {
     let plan = this.plans.get(key);
-    if (!plan) { plan = { surfaces: new Map(), instances: new Map(), intersections: [], objects: [] }; this.plans.set(key, plan); }
+    if (!plan) { plan = { surfaces: new Map(), instances: new Map(), intersections: [], objects: [],signs:[] }; this.plans.set(key, plan); }
     return plan;
   }
   updatePosition(x: number, z: number): boolean {
@@ -100,6 +105,7 @@ export class SectorManager {
     }
     for (const j of plan.intersections) root.add(this.intersectionBuilder.build(j, this.signals, this.map.intersections.indexOf(j)));
     root.add(this.prefabs.buildInstances(plan.objects));
+    root.add(this.signRenderer.buildInstances(plan.signs));
     this.active.set(key, root); this.root.add(root);
   }
   private unload(key: string): void {
@@ -112,5 +118,5 @@ export class SectorManager {
     root.removeFromParent(); this.active.delete(key);
   }
   update(dt: number): void { this.signals.update(dt); }
-  dispose(): void { for (const key of this.active.keys()) this.unload(key); for (const geometry of this.infrastructureGeometry) geometry.dispose(); this.infrastructureGeometry.clear(); this.root.clear(); this.plans.clear(); }
+  dispose(): void { for (const key of this.active.keys()) this.unload(key); for (const geometry of this.infrastructureGeometry) geometry.dispose(); this.infrastructureGeometry.clear();this.signRenderer.dispose(); this.root.clear(); this.plans.clear(); }
 }

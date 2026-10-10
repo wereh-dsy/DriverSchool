@@ -19,7 +19,7 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
   config.fuel = { tankCapacityL: 73, defaultFuelL: 51, fuelDensity: 0.745,
     peakThermalEfficiency: 0.34, referenceConsumptionLPer100km: 8.2 };
   Object.assign(config, EXECUTIVE_LWB_DIMENSIONS, { mass: 1840, trackWidth: 1.625,
-    frontWeightBias: .56, drivenWheelWeightFraction: 1, centerOfMassHeight: .50,
+    frontWeightBias: .56, centerOfMassHeight: .50,
     enginePlacement: 'FRONT', yawInertia: 3950,
     drivetrainType: 'AWD', drivetrainLayout: 'AWD', frontTorqueSplit: .75, rearTorqueSplit: .25 });
   config.awd = { mode: 'on-demand', accelerationRearTorqueSplit: .40, maximumRearTorqueSplit: .50, response: 2.4 };
@@ -58,6 +58,10 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     returnProfile: { lowSpeedRate: .50, highSpeedRate: 4.8, speedReference: 14 },
     highSpeedReferenceSpeed: 17, highSpeedMinimumAuthority: .20, ackermannFactor: .88 };
   config.suspension = { ...config.suspension, rideHeight: .145, restLength: .37,
+    kinematics: {
+      front: { topology: 'MULTI_LINK', staticCamber: -.008, camberGainPerMeter: -.28, staticToe: 0, bumpToeGainPerMeter: .008, antiDiveRatio: .15, antiSquatRatio: .08 },
+      rear: { topology: 'MULTI_LINK', staticCamber: -.012, camberGainPerMeter: -.26, staticToe: .0005, bumpToeGainPerMeter: .018, antiDiveRatio: 0, antiSquatRatio: .15 },
+    },
     springRateFront: 39000, springRateRear: 35500,
     damperCompressionFront: 3050, damperCompressionRear: 2800,
     damperReboundFront: 4600, damperReboundRear: 4250, suspensionTravel: .17,

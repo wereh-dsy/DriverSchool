@@ -25,7 +25,6 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   frontTorqueSplit: 1,
   rearTorqueSplit: 0,
   drivetrainLayout: 'FWD',
-  drivenWheelWeightFraction: 0.62,
   gravity: 9.81,
   engine: {
     layout: 'INLINE', cylinderCount: 4, torqueRipple: .018, soundProfile: 'balanced',
@@ -187,6 +186,10 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     gripFalloff: 0.35,
   }, 'COMFORT_TOURING'),
   suspension: {
+    kinematics: {
+      front: { topology: 'MACPHERSON', staticCamber: -.005, camberGainPerMeter: -.20, staticToe: 0, bumpToeGainPerMeter: .010, antiDiveRatio: .10, antiSquatRatio: .05 },
+      rear: { topology: 'TORSION_BEAM', staticCamber: -.008, camberGainPerMeter: -.08, staticToe: .0004, bumpToeGainPerMeter: .015, antiDiveRatio: 0, antiSquatRatio: 0 },
+    },
     rideHeight: 0.145,
     restLength: 0.36,
     springRateFront: 31_000,
@@ -294,6 +297,7 @@ export function cloneVehiclePhysicsConfig(
     startStop: config.startStop === undefined ? undefined : { ...config.startStop },
     cruiseControl: config.cruiseControl === undefined ? undefined : { ...config.cruiseControl },
     suspension: { ...config.suspension,
+      kinematics: config.suspension.kinematics ? { front: { ...config.suspension.kinematics.front }, rear: { ...config.suspension.kinematics.rear } } : undefined,
       adaptiveDamping: config.suspension.adaptiveDamping === undefined ? undefined : { ...config.suspension.adaptiveDamping,
         modeMultipliers: { ...config.suspension.adaptiveDamping.modeMultipliers } },
       airSuspension: config.suspension.airSuspension === undefined ? undefined : { ...config.suspension.airSuspension,

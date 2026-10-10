@@ -12,6 +12,12 @@ export interface VehicleDimensions {
   readonly rearWheelWidth?: number;
 }
 
+/** Model 3 RWD (2024+), body width excludes mirrors. Tyre radius is a simulation datum. */
+export const TESLA_MODEL_3_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.720, width: 1.850, height: 1.440, wheelBase: 2.875,
+  frontTrackWidth: 1.584, rearTrackWidth: 1.584, wheelRadius: .335, wheelWidth: .235,
+});
+
 export const VEHICLE_WHEEL_IDS = ['frontLeft', 'frontRight', 'rearLeft', 'rearRight'] as const;
 export type VehicleWheelId = typeof VEHICLE_WHEEL_IDS[number];
 export interface LocalWheelPosition { readonly x: number; readonly y: number; readonly z: number }
@@ -42,7 +48,12 @@ export const COMFORT_CVT_DIMENSIONS: VehicleDimensions = Object.freeze({
   frontTrackWidth: 1.585, rearTrackWidth: 1.585, wheelRadius: .316, wheelWidth: .215,
 });
 
-/** A wheel centre, not its ground sample. The latter shares x/z and supplies ground height. */
+/** CG local +Z offset from the axle midpoint; frontWeightBias is the sole static mass truth. */
+export function centerOfMassOffsetZ(dimensions: { wheelBase: number; frontWeightBias: number }): number {
+  return dimensions.wheelBase * (0.5 - dimensions.frontWeightBias);
+}
+
+/** A wheel centre relative to the axle midpoint, not CG. Ground samples share its x/z. */
 export function wheelLocalPosition(
   dimensions: Pick<VehicleDimensions, 'wheelBase' | 'frontTrackWidth' | 'rearTrackWidth'>
     & Partial<Pick<VehicleDimensions, 'wheelRadius'>>,

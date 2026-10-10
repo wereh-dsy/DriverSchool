@@ -3,6 +3,7 @@ import type { VehicleVisualConfig, Vector3Tuple } from './VehicleVisualConfig';
 // Geometry calibration only. Each family keeps its own cross-section, stack
 // angle and passenger volume; these are not uniformly scaled cabin meshes.
 const STRUCTURES = {
+  'electric-fastback': { upperRise: 0, thickness: .04, cowlDepth: .12, consoleWidth: .28, consoleFrontZ: -.12, shoulder: .06, recessLip: .08, pillarRadius: .021 },
   'mid-supercar': { upperRise: .012, thickness: .038, cowlDepth: .13, consoleWidth: .25, consoleFrontZ: -.20, shoulder: .055, recessLip: .118, pillarRadius: .019 },
   executive: { upperRise: .105, thickness: .048, cowlDepth: .23, consoleWidth: .36, consoleFrontZ: -.12, shoulder: .110, recessLip: .094, pillarRadius: .023 },
   'road-suv': { upperRise: .095, thickness: .075, cowlDepth: .26, consoleWidth: .40, consoleFrontZ: -.22, shoulder: .12, recessLip: .130, pillarRadius: .028 },

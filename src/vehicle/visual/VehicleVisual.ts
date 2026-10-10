@@ -196,6 +196,14 @@ export class VehicleVisual {
   }
 
   /** Wheel spin is local X rotation, positive when the car rolls forward. */
+  public setWheelAlignment(wheels: Readonly<Record<VehicleWheelId, { steeringAngle: number; camberAngle?: number }>>): void {
+    for (const id of VEHICLE_WHEEL_IDS) {
+      const left = id === 'frontLeft' || id === 'rearLeft';
+      this.wheelPivots[id].rotation.y = -wheels[id].steeringAngle;
+      this.wheelPivots[id].rotation.z = (left ? 1 : -1) * (wheels[id].camberAngle ?? 0);
+    }
+  }
+
   public setWheelRotation(angleRadians: number): void {
     const safeAngle = Number.isFinite(angleRadians) ? angleRadians : 0;
     for (const wheel of this.wheelMeshes) {

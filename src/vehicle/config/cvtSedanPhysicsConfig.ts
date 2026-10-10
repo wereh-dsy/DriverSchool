@@ -11,7 +11,7 @@ export function createCVTSedanPhysicsConfig(): VehiclePhysicsConfig {
     peakThermalEfficiency: 0.34, referenceConsumptionLPer100km: 6.8 };
   const converter = FAMILY_CONVERTER_CONFIG;
   Object.assign(config, COMFORT_CVT_DIMENSIONS, {
-    mass: 1415, trackWidth: 1.585, frontWeightBias: .595, drivenWheelWeightFraction: .595,
+    mass: 1415, trackWidth: 1.585, frontWeightBias: .595,
     centerOfMassHeight: .54, enginePlacement: 'FRONT', yawInertia: 2680,
   });
   config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 800, engineInertia: .46, partThrottleExponent: .78,
@@ -34,6 +34,10 @@ export function createCVTSedanPhysicsConfig(): VehiclePhysicsConfig {
     returnProfile: { lowSpeedRate: .42, highSpeedRate: 4.8, speedReference: 12.5 },
     highSpeedReferenceSpeed: 18, highSpeedMinimumAuthority: .23, ackermannFactor: .88 };
   config.suspension = { ...config.suspension, rideHeight: .155, restLength: .37,
+    kinematics: {
+      front: { topology: 'MACPHERSON', staticCamber: -.004, camberGainPerMeter: -.16, staticToe: 0, bumpToeGainPerMeter: .008, antiDiveRatio: .08, antiSquatRatio: .04 },
+      rear: { topology: 'TORSION_BEAM', staticCamber: -.006, camberGainPerMeter: -.06, staticToe: .0004, bumpToeGainPerMeter: .012, antiDiveRatio: 0, antiSquatRatio: 0 },
+    },
     springRateFront: 27500, springRateRear: 25500,
     damperCompressionFront: 2100, damperCompressionRear: 1900,
     damperReboundFront: 3250, damperReboundRear: 2900, suspensionTravel: .18,

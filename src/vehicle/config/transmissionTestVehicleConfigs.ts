@@ -32,7 +32,7 @@ export function createTest6ATVehiclePhysicsConfig(): VehiclePhysicsConfig {
   config.fuel = { tankCapacityL: 55, defaultFuelL: 38, fuelDensity: 0.745,
     peakThermalEfficiency: 0.32, referenceConsumptionLPer100km: 7.5 };
   Object.assign(config, FLOW_6AT_DIMENSIONS, {
-    mass: 1375, trackWidth: 1.555, frontWeightBias: .60, drivenWheelWeightFraction: .60,
+    mass: 1375, trackWidth: 1.555, frontWeightBias: .60,
     centerOfMassHeight: .49, enginePlacement: 'FRONT', yawInertia: 2490,
   });
   config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 800, engineInertia: .36,
@@ -54,6 +54,10 @@ export function createTest6ATVehiclePhysicsConfig(): VehiclePhysicsConfig {
     returnProfile: { lowSpeedRate: .65, highSpeedRate: 5.8, speedReference: 11 },
     highSpeedReferenceSpeed: 19.5, highSpeedMinimumAuthority: .24, ackermannFactor: .88 };
   config.suspension = { ...config.suspension, rideHeight: .14, restLength: .34,
+    kinematics: {
+      front: { topology: 'MACPHERSON', staticCamber: -.008, camberGainPerMeter: -.24, staticToe: 0, bumpToeGainPerMeter: .008, antiDiveRatio: .10, antiSquatRatio: .05 },
+      rear: { topology: 'MULTI_LINK', staticCamber: -.010, camberGainPerMeter: -.28, staticToe: .0004, bumpToeGainPerMeter: .018, antiDiveRatio: 0, antiSquatRatio: 0 },
+    },
     springRateFront: 36000, springRateRear: 32000,
     damperCompressionFront: 2450, damperCompressionRear: 2200,
     damperReboundFront: 3700, damperReboundRear: 3300, suspensionTravel: .145,
@@ -79,7 +83,7 @@ export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
   config.fuel = { tankCapacityL: 50, defaultFuelL: 35, fuelDensity: 0.745,
     peakThermalEfficiency: 0.33, referenceConsumptionLPer100km: 6.5 };
   Object.assign(config, FORMAL_DCT_DIMENSIONS, {
-    mass: 1420, trackWidth: 1.5375, frontWeightBias: .615, drivenWheelWeightFraction: .615,
+    mass: 1420, trackWidth: 1.5375, frontWeightBias: .615,
     centerOfMassHeight: .515, enginePlacement: 'FRONT', yawInertia: 2770,
   });
   config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 1.4, idleRPM: 800, engineInertia: .34,
@@ -116,6 +120,10 @@ export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
     returnProfile: { lowSpeedRate: .5, highSpeedRate: 5.4, speedReference: 12 },
     highSpeedReferenceSpeed: 18.5, highSpeedMinimumAuthority: .23, ackermannFactor: .87 };
   config.suspension = { ...config.suspension, rideHeight: .145, restLength: .35,
+    kinematics: {
+      front: { topology: 'MACPHERSON', staticCamber: -.006, camberGainPerMeter: -.20, staticToe: 0, bumpToeGainPerMeter: .010, antiDiveRatio: .10, antiSquatRatio: .05 },
+      rear: { topology: 'MULTI_LINK', staticCamber: -.010, camberGainPerMeter: -.24, staticToe: .0004, bumpToeGainPerMeter: .020, antiDiveRatio: 0, antiSquatRatio: 0 },
+    },
     springRateFront: 34000, springRateRear: 29000,
     damperCompressionFront: 2500, damperCompressionRear: 2200,
     damperReboundFront: 3800, damperReboundRear: 3450, suspensionTravel: .15,

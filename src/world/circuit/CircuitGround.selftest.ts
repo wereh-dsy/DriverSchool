@@ -1,10 +1,12 @@
+import type { VehiclePhysicsConfig } from '../../vehicle/config';
+type VehicleDescriptor = CatalogDescriptor<VehiclePhysicsConfig>;
 import * as THREE from 'three';
 import { LapTimer } from '../../game/lap/LapTimer';
 import { circuitBarrierDistance, circuitRunoffWidth } from './TrackFeatures';
 import { createNeutralVehicleInputState, type VehicleInputState } from '../../input/VehicleInputState';
 import { VehicleDynamics } from '../../vehicle/physics/VehicleDynamics';
 import { VehicleContactSystem } from '../../vehicle/physics/VehicleContactSystem';
-import { getVehicleDescriptor, type VehicleDescriptor } from '../../vehicle/VehicleCatalog';
+import { getVehicleDescriptor, type VehicleDescriptor as CatalogDescriptor } from '../../vehicle/VehicleCatalog';
 import { CircuitGround } from './CircuitGround';
 
 export interface CircuitGroundSelfTestResult {
