@@ -1,8 +1,10 @@
 import { ElectricPowertrain } from '../vehicle/powertrain/ElectricPowertrain';
 import type { Powertrain } from '../vehicle/powertrain/Powertrain';
 import { ParkingCamera } from '../camera/ParkingCamera';
+import { InteriorMirror } from '../camera/InteriorMirror';
 import { ExecutiveDisplayContext } from '../vehicle/visual/ExecutiveDisplayContext';
 import { ElectricDisplayContext } from '../vehicle/visual/ElectricDisplayContext';
+import { DrivingSceneDisplayContext } from '../vehicle/visual/DrivingSceneDisplayContext';
 import {
   ACESFilmicToneMapping,
   BackSide,
@@ -13,11 +15,13 @@ import {
   MathUtils,
   Mesh,
   PCFSoftShadowMap,
+  Raycaster,
   Scene,
   ShaderMaterial,
   SphereGeometry,
   SRGBColorSpace,
   WebGLRenderer,
+  Vector2,
 } from 'three';
 import { EngineAudio } from '../audio/EngineAudio';
 import {
@@ -96,6 +100,7 @@ export class DrivingGame {
   private dynamics: VehicleDynamics<Powertrain>;
   private readonly driverCamera: DriverCamera;
   private mirrors: MirrorSystem;
+  private interiorMirror: InteriorMirror | null = null;
   private readonly mirrorOverlay: MirrorOverlayRenderer;
   private readonly input = new VehicleInputSystem();
   private readonly hud: Hud;
@@ -103,6 +108,7 @@ export class DrivingGame {
   private readonly engineAudio = new EngineAudio();
   private executiveDisplay: ExecutiveDisplayContext | null = null;
   private electricDisplay: ElectricDisplayContext | null = null;
+  private drivingSceneDisplay: DrivingSceneDisplayContext | null = null;
   private combustionAudioLoad = false;
   private parkingCamera: ParkingCamera | null = null;
   private readonly cruiseControl = new CruiseControlController();
@@ -218,6 +224,7 @@ export class DrivingGame {
     this.driverCamera.camera.layers.enableAll();
 
     this.mirrors = this.createMirrorSystem(this.vehicleVisual);
+    this.interiorMirror = this.createInteriorMirror(this.vehicleVisual);
     this.mirrorOverlay = new MirrorOverlayRenderer(this.mirrors.getHudTexture('right'));
     this.mirrorOverlay.setView(this.mirrors.getView('right'));
     this.configureVehicleSettings();
@@ -258,6 +265,7 @@ export class DrivingGame {
     this.environmentVisual.dispose();
     this.vehicleLighting.dispose();
     this.mirrors.dispose();
+    this.interiorMirror?.dispose();
     this.parkingCamera?.dispose();
     this.vehicleVisual.dispose();
     this.mirrorOverlay.dispose();
@@ -269,6 +277,7 @@ export class DrivingGame {
     this.renderer.dispose();
     this.engineAudio.dispose();
     this.electricDisplay?.dispose();
+    this.drivingSceneDisplay?.dispose();
     this.renderer.domElement.remove();
   }
 
@@ -383,7 +392,7 @@ export class DrivingGame {
     // Maps with authored ambient animation (for example Subject 3 traffic
     // signals) opt in through an optional update hook.
     this.ground.update?.(frameDt);
-    if (this.ground.updatePlayerPosition?.(this.snapshot.x, this.snapshot.z)) this.environmentVisual.setGround(this.ground);
+    if (this.ground.updatePlayerPosition?.(this.snapshot.x, this.snapshot.z,this.snapshot.yaw,this.snapshot.speed)) this.environmentVisual.setGround(this.ground);
     this.hud.updateMinimap(this.snapshot.x, this.snapshot.z, this.snapshot.yaw, frameDt);
     this.updateSun();
     this.driverCamera.update(this.vehicleVisual.root, frameDt);
@@ -442,6 +451,7 @@ export class DrivingGame {
 
     this.parkingCamera?.update(frameDt, this.snapshot.transmission.selectedMode === 'R');
     this.mirrors.render();
+    this.interiorMirror?.render();
     this.visualDebug.update(this.vehicleVisual, this.contacts, this.driverCamera, this.mirrors);
     this.windshieldRain.root.visible = this.visualDebug.renderCamera === null;
     this.renderer.setRenderTarget(null);
@@ -518,6 +528,8 @@ export class DrivingGame {
     this.rearParking.update(parkingPose, !this.electricDisplay && (this.snapshot.gear === 'R' || this.snapshot.transmission.selectedMode === 'R'), this.ground.colliders);
     this.electricDisplay?.update(dt, parkingPose, this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.speed,
       this.ground.roadNetwork, this.queryDisplayColliders);
+    this.drivingSceneDisplay?.update(dt, parkingPose, this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.speed,
+      this.ignitionOn, this.ground.roadNetwork, this.queryDisplayColliders);
     this.executiveDisplay?.update(dt, parkingPose, this.snapshot.transmission.selectedMode ?? 'N', this.snapshot.driveMode ?? 'NORMAL',
     this.cruiseControl.status.active, this.cruiseControl.status.targetSpeedKmh,
     this.snapshot.fuel!, this.ground.roadNetwork, this.ground.colliders, this.ignitionOn, this.snapshot.trip, this.rearParking.state);
@@ -538,10 +550,13 @@ export class DrivingGame {
       driveMode: this.snapshot.driveMode,
       startStopState: this.snapshot.startStop,
       cruiseTargetSpeedKmh: this.cruiseControl.status.targetSpeedKmh ?? undefined,
-      fuelLevel: this.executiveDisplay ? (this.snapshot.fuel?.fuelPercent ?? 0) / 100 : this.fuelLevel,
+      fuelLevel: this.drivingSceneDisplay ? (this.snapshot.fuel?.fuelPercent ?? this.fuelLevel * 100) / 100
+        : this.executiveDisplay ? (this.snapshot.fuel?.fuelPercent ?? 0) / 100 : this.fuelLevel,
       ignitionOn: this.ignitionOn,
       executive: this.executiveDisplay?.data,
       electricDisplay: this.electricDisplay?.data,
+      drivingScene: this.drivingSceneDisplay?.data,
+      ambientDaylight: (this.environment.time === 'DAY' ? 1 : this.environment.time === 'DUSK' ? .32 : .025) * (1 - this.environment.wetness * .48),
       coolantTemperatureC: this.coolantTemperatureC,
       handbrake: this.snapshot.handbrake,
       upshiftRecommended: this.snapshot.upshiftRecommended,
@@ -591,6 +606,8 @@ export class DrivingGame {
     this.executiveDisplay = executive ? new ExecutiveDisplayContext(this.snapshot.fuel!) : null;
     this.electricDisplay?.dispose();
     this.electricDisplay = descriptor.visualConfig.instrumentCluster.displayStyle === 'ev-center' ? new ElectricDisplayContext() : null;
+    this.drivingSceneDisplay?.dispose();
+    this.drivingSceneDisplay = descriptor.visualConfig.drivingSceneDisplay ? new DrivingSceneDisplayContext(descriptor.visualConfig.drivingSceneDisplay) : null;
     this.parkingCamera = descriptor.capabilities.parkingCamera ? new ParkingCamera(this.renderer, this.scene, this.vehicleVisual, descriptor.capabilities.surroundView) : null;
   }
 
@@ -835,6 +852,7 @@ export class DrivingGame {
     const retainedLightMode = this.lightController.state.mainLightMode;
     this.parkingCamera?.dispose();
     this.mirrors.dispose();
+    this.interiorMirror?.dispose();
     this.windshieldRain.dispose();
     this.vehicleLighting.dispose();
     this.scene.remove(this.vehicleVisual.root);
@@ -858,6 +876,7 @@ export class DrivingGame {
       .resetHeadLook(true)
       .update(nextVisual.root, 0);
     this.mirrors = this.createMirrorSystem(nextVisual);
+    this.interiorMirror = this.createInteriorMirror(nextVisual);
     this.mirrorOverlay.setView(this.mirrors.getView(this.settingsOpen ? this.selectedMirror : 'right'));
 
     this.activeVehicleId = vehicleId;
@@ -919,6 +938,12 @@ export class DrivingGame {
         },
       },
     });
+  }
+
+  private createInteriorMirror(vehicle: VehicleVisual): InteriorMirror | null {
+    const surface = vehicle.centerMirrorSurface, config = vehicle.config.centerMirrorTransform;
+    return surface && config ? new InteriorMirror(this.renderer, this.scene, this.driverCamera.camera,
+      surface, config.size, vehicle.mirrorSurfaceRoot) : null;
   }
 
   private readStoredVehicleId(): VehicleId {
@@ -1282,8 +1307,9 @@ export class DrivingGame {
   };
 
   private readonly onGlobalKeyDown = (event: KeyboardEvent): void => {
-    if (event.code === 'KeyU' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && this.gameStarted && !this.settingsOpen && this.executiveDisplay) {
-      event.preventDefault(); this.executiveDisplay.cyclePage();
+    if (event.code === 'KeyU' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && this.gameStarted && !this.settingsOpen) {
+      if (this.executiveDisplay) { event.preventDefault(); this.executiveDisplay.cyclePage(); }
+      else if (this.vehicleVisual.cockpitRoot.cycleCenterDisplayPage()) event.preventDefault();
     }
     if (event.code === 'KeyC') this.driverCamera.resetHeadLook();
     if (event.code === 'F7' && !event.repeat) {
@@ -1320,6 +1346,12 @@ export class DrivingGame {
 
   private readonly onPointerDown = (event: PointerEvent): void => {
     if (event.button !== 0) return;
+    if (this.gameStarted && !this.settingsOpen && !this.visualDebug.enabled && this.drivingSceneDisplay) {
+      const bounds = this.renderer.domElement.getBoundingClientRect(), ray = new Raycaster();
+      ray.layers.enableAll(); ray.setFromCamera(new Vector2(
+        (event.clientX-bounds.left)/bounds.width*2-1, 1-(event.clientY-bounds.top)/bounds.height*2), this.driverCamera.camera);
+      if (this.vehicleVisual.cockpitRoot.handleDisplayClick(ray)) { event.preventDefault(); return; }
+    }
     this.draggingLook = true;
     this.pointerX = event.clientX;
     this.pointerY = event.clientY;

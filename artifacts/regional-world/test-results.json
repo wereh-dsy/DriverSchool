@@ -1,0 +1,104 @@
+{
+  "passed": true,
+  "checks": [
+    "map loading and existing city preservation",
+    "G17 continuity, divided lanes, mainline grades",
+    "G38 continuity, divided lanes, mainline grades",
+    "G4516 continuity, divided lanes, mainline grades",
+    "S26 continuity, divided lanes, mainline grades",
+    "S37 continuity, divided lanes, mainline grades",
+    "S68 continuity, divided lanes, mainline grades",
+    "S89 continuity, divided lanes, mainline grades",
+    "CBD, city ring and regional graph connectivity",
+    "青岭枢纽 directed movements and advance signs",
+    "东原枢纽 directed movements and advance signs",
+    "临港枢纽 directed movements and advance signs",
+    "西川枢纽 directed movements and advance signs",
+    "物流枢纽 directed movements and advance signs",
+    "东南枢纽 directed movements and advance signs",
+    "seven ordinary exits and two service areas",
+    "mountain interchange ramps remain above earthworks",
+    "东临大河桥 support and continuity",
+    "青岭隧道 support and continuity",
+    "北岭谷桥 support and continuity",
+    "河湾一桥 support and continuity",
+    "河湾二桥 support and continuity",
+    "route shields, registry and complete sign content",
+    "speed and heading lookahead, sector boundary movement and reverse",
+    "whole interchange and bridge preload, city detail unload",
+    "runtime streamed resources, surface contacts and reload"
+  ],
+  "routes": [
+    {
+      "id": "G17",
+      "lengthKm": 7.320401133984837,
+      "lanes": "3+3",
+      "terrain": "东郊—平原—大河—农田",
+      "connected": [
+        "S68"
+      ]
+    },
+    {
+      "id": "G38",
+      "lengthKm": 5.702262380825233,
+      "lanes": "2+2",
+      "terrain": "缓丘—林区—山谷—隧道—山岭",
+      "connected": [
+        "S68"
+      ]
+    },
+    {
+      "id": "G4516",
+      "lengthKm": 5.96319024346928,
+      "lanes": "3+3",
+      "terrain": "河谷和平原交界的东南放射通道",
+      "connected": [
+        "S89"
+      ]
+    },
+    {
+      "id": "S26",
+      "lengthKm": 5.5445775856355395,
+      "lanes": "3+3",
+      "terrain": "工业物流平原；2.0 km连续直线",
+      "connected": [
+        "S68",
+        "S89"
+      ]
+    },
+    {
+      "id": "S37",
+      "lengthKm": 4.3864027566431325,
+      "lanes": "2+2",
+      "terrain": "河湾—低丘—老工业河谷",
+      "connected": [
+        "S89"
+      ]
+    },
+    {
+      "id": "S68",
+      "lengthKm": 8.957797187066232,
+      "lanes": "3+3",
+      "terrain": "青岭—东原—临港，曲线外围联络",
+      "connected": [
+        "G38",
+        "G17",
+        "S26"
+      ]
+    },
+    {
+      "id": "S89",
+      "lengthKm": 13.859438268779083,
+      "lanes": "3+3",
+      "terrain": "西南—南部—东南，非闭合绕行线",
+      "connected": [
+        "S37",
+        "S26",
+        "G4516"
+      ]
+    }
+  ],
+  "roads": 981,
+  "signs": 676,
+  "sectors": 825
+}

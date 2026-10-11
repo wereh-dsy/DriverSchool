@@ -3,7 +3,7 @@
 export interface CityPoint { x: number; y?: number; z: number }
 export type RoadType = 'urban_2lane' | 'urban_4lane' | 'urban_6lane' | 'highway' | 'ramp_1';
 import type { RoadNameRegistry,RoadSignDefinition } from './RoadSignData';
-export interface CityElementMetadata { groupId?: string; presetSource?: string; designProfile?: 'urban' | 'motorway';roadNameId?:string }
+export interface CityElementMetadata { groupId?: string; presetSource?: string; designProfile?: 'urban' | 'motorway';roadNameId?:string;corridorSection?:string;roadLevel?:1|2|3|4 }
 export type TravelDirection = 'two-way' | 'forward' | 'reverse';
 export interface CityRoad extends CityElementMetadata {
   id: string; type: RoadType; centerline: CityPoint[]; curve?: 'polyline' | 'smooth';
@@ -15,8 +15,11 @@ export interface CityRoad extends CityElementMetadata {
   /** Hatched triangular inner-shoulder refuge at merge/diverge mouths. */
   gore?: { start: boolean; end: boolean; length: number };
   elevationMode?: 'ground' | 'elevated' | 'custom';
+  /** Ground: optional flat terrain-relative base (legacy default 0). Elevated:
+   * designed absolute deck level. Custom: authored bridge/ramp/depressed profile. */
   elevation?: number;
   structure?: { pierSpacing?: number; pierStyle?: 'round' | 'rectangular'; barrierEnabled?: boolean; piersEnabled?: boolean; barrierOffset?: number;
+    barrierStyle?: 'metal' | 'concrete'; medianBarrierStyle?: 'metal' | 'concrete';
     /** Floor-relative clear height. Cutting has retaining walls but no roof. */
     enclosure?: { kind: 'tunnel' | 'underpass' | 'cutting'; clearance: number } };
   markings?: boolean; curb?: boolean; streetlights?: boolean;
@@ -46,6 +49,8 @@ export interface CityObject extends CityElementMetadata {
   label?: string;
 }
 export interface CityMapData {
+  /** Region metadata never replaces the shared logical road graph. */
+  regional?: import('../regional/RegionalData').RegionalData;
   schemaVersion?: 1 | 2;
   id: string; name: string; version: number; sectorSize: number;
   bounds: { minX: number; maxX: number; minZ: number; maxZ: number };

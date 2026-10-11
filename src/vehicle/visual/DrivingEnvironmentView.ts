@@ -1,7 +1,8 @@
 import { projectWorldToRoad, type RoadNetworkData } from '../../world/navigation/RoadNetwork';
 import type { StaticCollider } from '../physics/CollisionSystem';
 import type { RearParkingPose } from '../control/RearParkingProximity';
-import type { DisplayPoint, DisplayObstacle } from './ExecutiveDisplayContext';
+export interface DisplayPoint { x: number; forward: number; distanceAlong?: number }
+export interface DisplayObstacle extends DisplayPoint { distance: number; width: number; length: number }
 export interface DrivingEnvironmentData { lanes: DisplayPoint[][]; laneMarkings?: ('solid' | 'dashed')[]; obstacles: DisplayObstacle[] }
 /** Shared A6L/EV display geometry only; no perception, lane control or traffic synthesis. */
 export function updateDrivingEnvironment(data: DrivingEnvironmentData, pose: RearParkingPose, network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], includeObstacles = true): void {

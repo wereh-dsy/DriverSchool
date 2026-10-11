@@ -42,6 +42,8 @@ export interface MirrorVisualConfig extends VisualTransformConfig {
 }
 
 export interface VehicleVisualConfig {
+  /** Optional render-data services; independent of physical driving assistance. */
+  readonly drivingSceneDisplay?: import('./DrivingSceneDisplayContext').DrivingSceneDisplayFeatures;
   /** Optical geometry calibration, independent of lighting logic. */
   readonly lampLayout?: {
     readonly frontHeight: number; readonly frontIndicatorHeight: number; readonly frontLateral: number;
@@ -87,6 +89,8 @@ export interface VehicleVisualConfig {
   readonly gearLeverRotation: EulerTuple;
   readonly leftMirrorTransform: MirrorVisualConfig;
   readonly rightMirrorTransform: MirrorVisualConfig;
+  /** Cabin mirror presentation; dark glass avoids allocating a reflection camera. */
+  readonly centerMirrorTransform?: MirrorVisualConfig & { readonly reflection?: 'planar' | 'dark' };
   readonly dashboard: {
     readonly position: Vector3Tuple;
     readonly dimensions: Vector3Tuple;
@@ -110,7 +114,7 @@ export interface VehicleVisualConfig {
     readonly wheelArchCenterY?: number;
     readonly profile: 'sedan' | 'sport-coupe' | 'suv';
     /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
-    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback';
+    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback' | 'bmw-g38';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;

@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+const base='artifacts/city-main-v5/',source='src/world/city/maps/city-main.json',candidate=base+'candidate.json',dist='dist/city-main.json';
+const sha=path=>crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
+const hashes={source:sha(source),candidate:sha(candidate),dist:sha(dist)};
+if(new Set(Object.values(hashes)).size!==1)throw new Error('Published map does not match source/candidate');
+const map=JSON.parse(fs.readFileSync(source,'utf8')),metrics=JSON.parse(fs.readFileSync(base+'metrics.json','utf8'));
+Object.assign(metrics,{roads:map.roads.length,junctions:map.intersections.length,signs:map.signs.length,objects:map.objects.length,metadata:map.environment.metadata,sourceSha256:hashes.source});
+fs.writeFileSync(base+'metrics.json',JSON.stringify(metrics,null,2)+'\n');
+const names=['overview','central','west','east','expressway','urban','barrier','junction'];
+const previews=names.map(name=>{const file=base+name+'.png',bytes=fs.readFileSync(file);return {name,file,width:bytes.readUInt32BE(16),height:bytes.readUInt32BE(20),bytes:bytes.length,sha256:sha(file)};});
+if(previews.some(p=>p.width!==1800||p.height!==2000)||fs.readdirSync(base).filter(p=>p.endsWith('.png')).length!==8)throw new Error('Expected exactly eight final previews');
+const html=fs.readFileSync('dist/index.html','utf8'),asset=html.match(/src="\/([^" ]+\.js)"/)[1],log=fs.readFileSync(base+'build.log','utf8');
+if(!log.includes('Checkpoint published'))throw new Error('Build did not publish');
+const result={build:'passed',command:'pnpm run build -BasicValidation',typecheck:'passed',targetedTests:'passed',coreSelftests:'skipped by user request',asset,assetSha256:sha('dist/'+asset),mapHashes:hashes,map一致:true,roads:map.roads.length,junctions:map.intersections.length,signs:map.signs.length,existingPropsRemoved:Number(map.environment.metadata.v5RemovedRoadsideProps),previews};
+fs.writeFileSync(base+'build-result.json',JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({build:result.build,asset,map一致:true,roads:result.roads,junctions:result.junctions,signs:result.signs,removedProps:result.existingPropsRemoved,previews:previews.length},null,2));

@@ -88,6 +88,18 @@ export class VehicleLighting {
       this.createFoglamp('Rear fog light spill', -0.29, rearZ + 0.012, true, this.fogTargets[2]),
     ];
     vehicle.root.add(...this.foglamps, ...this.fogTargets);
+    if (vehicle.config.exteriorLighting?.signature === 'double-l') {
+      // BMW optics are modelled in their housings. Only the existing controller
+      // owns output; no additional blink phase or brand-specific light state.
+      vehicle.exteriorRoot.traverse(object => {
+        if (!(object instanceof Mesh) || typeof object.userData.lightingKey !== 'string') return;
+        const key = object.userData.lightingKey as string;
+        const material = this.materials.get(key);
+        if (material) { object.material = material; this.addLens(object, key, object.name); }
+      });
+      this.applyState(this.state);
+      return;
+    }
     for (const side of [-1, 1] as const) {
       const label = side < 0 ? 'Left' : 'Right';
       const signalKey = side < 0 ? 'left' : 'right';
@@ -334,11 +346,11 @@ export class VehicleLighting {
   private addLens(lens: Mesh, key: string, name?: string): void {
     if (name !== undefined) lens.name = name;
     lens.layers.set(VEHICLE_RENDER_LAYERS.EXTERIOR);
-    lens.userData.vehicleBodyPart = 'active-lamp';
+    if (lens.userData.vehicleBodyPart !== 'mirror-housing') lens.userData.vehicleBodyPart = 'active-lamp';
     lens.userData.lightingOutput = key;
     lens.castShadow = false;
     this.lampMeshes.push(lens);
-    this.vehicle.exteriorRoot.add(lens);
+    if (lens.parent === null) this.vehicle.exteriorRoot.add(lens);
   }
 
   private addSignatureSegment(name: string, key: string, side: number, index: number, turn: boolean,

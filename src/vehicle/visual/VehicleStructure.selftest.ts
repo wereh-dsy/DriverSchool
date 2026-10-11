@@ -5,6 +5,7 @@ import { frontDoorSkinAnchor, frontWindowAnchors } from './VehicleExterior';
 import { MirrorAdjustmentController } from '../../camera/MirrorAdjustmentController';
 import { MirrorSystem } from '../../camera/MirrorSystem';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
+import { runBMW530LiSelfTest } from './BMW530Li.selftest';
 
 /** Small solid-clearance check, not appearance/handling optimisation. */
 export function runVehicleStructureSelfTest() {
@@ -16,6 +17,11 @@ export function runVehicleStructureSelfTest() {
   });
   try {
     for (const car of VEHICLE_CATALOG) {
+      if (car.visualConfig.body.design === 'bmw-g38') {
+        const result = runBMW530LiSelfTest();
+        assert(result.closureRays === 10 && result.meshes > 0, `${car.id}: independent cabin, optics and physical anchors`);
+        continue;
+      }
       const visual = new VehicleVisual(car.visualConfig);
       try {
         visual.root.updateMatrixWorld(true);

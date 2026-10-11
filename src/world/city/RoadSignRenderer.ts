@@ -1,6 +1,6 @@
 import { BoxGeometry,CanvasTexture,Group,InstancedMesh,Matrix4,MeshBasicMaterial,PlaneGeometry,Quaternion,SRGBColorSpace,Vector3,type BufferGeometry } from 'three';
 import { resolveSignContent,type RoadNameRegistry,type RoadSignDefinition } from './RoadSignData';
-import { signDimensions } from './RoadSignTemplates';
+import { ROAD_SIGN_POST_Z,signDimensions } from './RoadSignTemplates';
 type Content=ReturnType<typeof resolveSignContent>;
 export type SignCanvasFactory=()=>HTMLCanvasElement|null;
 interface Part { geometry:BufferGeometry;matrix:Matrix4;face:boolean }
@@ -14,12 +14,14 @@ export class RoadSignRenderer {
   constructor(readonly names:RoadNameRegistry,private readonly canvasFactory:SignCanvasFactory=()=>typeof document==='undefined'?null:document.createElement('canvas')){}
   get cacheStats(){return {templates:this.templates.size,materials:this.materials.size,textures:this.texturesCreated};}
   contentKey(sign:RoadSignDefinition){return JSON.stringify(resolveSignContent(sign,this.names));}
+  private templateKey(sign:RoadSignDefinition){return sign.template+':'+sign.size+':'+(sign.postOffset??'')+':'+((sign.postBaseY??sign.position.y??0)-(sign.position.y??0));}
   private parts(sign:RoadSignDefinition):Part[] {
-    const key=sign.template+':'+sign.size,existing=this.templates.get(key);if(existing)return existing;
-    const t=signDimensions(sign.template,sign.size),parts:Part[]=[];
+    const key=this.templateKey(sign),existing=this.templates.get(key);if(existing)return existing;
+    const t=signDimensions(sign.template,sign.size,sign.postOffset),parts:Part[]=[];
     const box=(w:number,h:number,d:number,x:number,y:number,z:number)=>parts.push({geometry:new BoxGeometry(w,h,d),matrix:new Matrix4().makeTranslation(x,y,z),face:false});
-    for(const x of t.posts)box(0.24,t.poleTop,0.24,x,t.poleTop/2,0);
-    if(sign.template==='gantry')box(24,0.35,0.35,0,10.15,0);
+    const postBottom=(sign.postBaseY??sign.position.y??0)-(sign.position.y??0);
+    for(const x of t.posts)box(0.24,t.poleTop-postBottom,0.24,x,(t.poleTop+postBottom)/2,ROAD_SIGN_POST_Z);
+    if(sign.template==='gantry'){const post=t.posts[0]!;box(post+t.width/2+.4,0.35,0.35,(post-t.width/2)/2,10.15,0);box(.5,.12,.6,post,.06,ROAD_SIGN_POST_Z);}
     box(t.width,t.height,0.18,0,t.bottom+t.height/2,0);
     parts.push({geometry:new PlaneGeometry(t.width-0.08,t.height-0.08),matrix:new Matrix4().makeTranslation(0,t.bottom+t.height/2,0.101),face:true});
     this.templates.set(key,parts);return parts;
@@ -43,8 +45,10 @@ export class RoadSignRenderer {
       let dx=0,dy=-1;if(d.arrow==='left'){dx=-1;dy=0;}if(d.arrow==='right'){dx=1;dy=0;}if(d.arrow==='exit-right'){dx=0.7;dy=-0.7;}
       ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(x-dx*arrowSize,y-dy*arrowSize);ctx.lineTo(x+dx*arrowSize,y+dy*arrowSize);ctx.moveTo(x+dx*arrowSize-dx*24-dy*20,y+dy*arrowSize-dy*24+dx*20);ctx.lineTo(x+dx*arrowSize,y+dy*arrowSize);ctx.lineTo(x+dx*arrowSize-dx*24+dy*20,y+dy*arrowSize-dy*24-dx*20);ctx.stroke();
       ctx.font=`bold ${Math.min(68,row*(d.direction?0.35:0.5))}px "Microsoft YaHei",sans-serif`;
-      ctx.fillText(d.name,140,y+(d.direction?-8:20),w-180);
-      if(d.direction){ctx.font=`${Math.min(48,row*0.27)}px "Microsoft YaHei",sans-serif`;ctx.fillText(d.direction+(d.distanceMetres===undefined?'':'  '+d.distanceMetres+' m'),140,y+48,w-180);}
+      let textX=140;
+      if(d.routeNumber){const badgeWidth=d.routeNumber.length>3?190:135;ctx.fillStyle=d.routeNumber.startsWith('G')?'#a52b30':'#e6ce48';ctx.fillRect(135,y-43,badgeWidth,24);ctx.fillStyle='#ffffff';ctx.strokeRect(135,y-43,badgeWidth,75);ctx.font='bold 43px sans-serif';ctx.fillText(d.routeNumber,145,y+24,badgeWidth-20);textX+=badgeWidth+20;ctx.font=`bold ${Math.min(68,row*(d.direction?0.35:0.5))}px "Microsoft YaHei",sans-serif`;}
+      ctx.fillText(d.name,textX,y+(d.direction?-8:20),w-textX-40);
+      if(d.direction){ctx.font=`${Math.min(48,row*0.27)}px "Microsoft YaHei",sans-serif`;ctx.fillText(d.direction+(d.distanceMetres===undefined?'':'  '+d.distanceMetres+' m'),140,y+Math.min(48,row*.3),w-180);}
       else if(d.distanceMetres!==undefined){ctx.font='32px sans-serif';ctx.fillText(d.distanceMetres+' m',w-200,y+50,160);}
     }
   }
@@ -52,9 +56,14 @@ export class RoadSignRenderer {
     const root=new Group(),batches=new Map<string,{part:Part;material:MeshBasicMaterial;matrices:Matrix4[];ids:string[]}>();
     for(const sign of signs) {
       const pose=new Matrix4().compose(new Vector3(sign.position.x,sign.position.y??0,sign.position.z),new Quaternion().setFromAxisAngle(new Vector3(0,1,0),sign.heading),new Vector3(1,1,1));
-      this.parts(sign).forEach((part,i)=>{const key=sign.template+':'+sign.size+':'+i+(part.face?':'+this.contentKey(sign):''),material=part.face?this.materialFor(sign):i===this.parts(sign).length-2?this.backs:this.metal;let batch=batches.get(key);if(!batch){batch={part,material,matrices:[],ids:[]};batches.set(key,batch);}batch.matrices.push(new Matrix4().multiplyMatrices(pose,part.matrix));batch.ids.push(sign.id);});
+      this.parts(sign).forEach((part,i)=>{const key=this.templateKey(sign)+':'+i+(part.face?':'+this.contentKey(sign):''),material=part.face?this.materialFor(sign):i===this.parts(sign).length-2?this.backs:this.metal;let batch=batches.get(key);if(!batch){batch={part,material,matrices:[],ids:[]};batches.set(key,batch);}batch.matrices.push(new Matrix4().multiplyMatrices(pose,part.matrix));batch.ids.push(sign.id);});
     }
     for(const batch of batches.values()){const mesh=new InstancedMesh(batch.part.geometry,batch.material,batch.matrices.length);batch.matrices.forEach((m,i)=>mesh.setMatrixAt(i,m));mesh.name='Road sign instances';mesh.userData.signIds=batch.ids;mesh.castShadow=!batch.part.face;mesh.computeBoundingSphere();root.add(mesh);}return root;
+  }
+  /** Regional sectors release inactive board textures; template geometry remains reusable. */
+  retainContents(signs:RoadSignDefinition[]):void {
+    const wanted=new Set(signs.map(sign=>this.contentKey(sign)));
+    for(const [key,material]of this.materials)if(!wanted.has(key)){material.map?.dispose();material.dispose();this.materials.delete(key);}
   }
   dispose(){for(const parts of this.templates.values())for(const p of parts)p.geometry.dispose();for(const material of this.materials.values()){material.map?.dispose();material.dispose();}this.metal.dispose();this.backs.dispose();this.templates.clear();this.materials.clear();}
 }

@@ -1,0 +1,113 @@
+{
+  "bmw": {
+    "assertions": 161255,
+    "meshes": 448,
+    "vertices": 157582,
+    "materials": 77,
+    "zeroTo100Seconds": 8.166666666666666,
+    "speedAfter20SecondsKmh": 167.0428353157365,
+    "bodySize": [
+      1.8792756473082284,
+      1.5019000039100647,
+      5.130503177642822
+    ],
+    "closureRays": 10
+  },
+  "mirrors": {
+    "reflection": {
+      "assertions": 516,
+      "bodyCoverage": {
+        "sedan/left": 0.14285714285714285,
+        "sedan/right": 0.18699186991869918,
+        "sport-coupe/left": 0.16260162601626016,
+        "sport-coupe/right": 0.17073170731707318
+      },
+      "rearBodyMaximumZ": {
+        "sedan/left": 2.010520138505374,
+        "sedan/right": 1.9817301945679873,
+        "sport-coupe/left": 1.6698748606651972,
+        "sport-coupe/right": 1.6842357036681659
+      },
+      "visibleBodyParts": {
+        "sedan/left": {
+          "wheel-arch": 15,
+          "rear-quarter": 12,
+          "door": 39,
+          "door-handle": 5,
+          "panel-gap": 2,
+          "main-shell": 10,
+          "window-trim": 7,
+          "trunk": 2,
+          "pillar": 31
+        },
+        "sedan/right": {
+          "door": 68,
+          "main-shell": 13,
+          "pillar": 4,
+          "window-trim": 10,
+          "trunk": 3,
+          "door-handle": 6,
+          "rear-quarter": 25,
+          "wheel-arch": 32
+        },
+        "sport-coupe/left": {
+          "rear-quarter": 39,
+          "main-shell": 1,
+          "wheel-arch": 24,
+          "door": 76
+        },
+        "sport-coupe/right": {
+          "door": 37,
+          "rear-quarter": 45,
+          "wheel-arch": 65
+        }
+      },
+      "hudMatchesPhysicalAperture": true,
+      "clippedBehindPlane": true,
+      "worldExteriorOnly": true
+    },
+    "fixedEyeHeadYawCameraDelta": 0,
+    "fixedEyeHeadYawProjectionDelta": 0,
+    "fixedEyeHeadYawTextureDelta": 0,
+    "movedEyeCameraDelta": 0.12284359047070126,
+    "movedEyeProjectionDelta": 1.6409906696470848,
+    "movedEyeTextureDelta": 0.8281979373915238,
+    "cameraBasisDeterminant": 1,
+    "rawTargetIsHorizontallyMirrored": true,
+    "rawTargetIsVerticallyUpright": true,
+    "defaultRearwardPitchDegrees": -6.164028169272465,
+    "defaultRearwardYawDegrees": -0.3087135644555543,
+    "defaultRearwardHorizonNdcY": 3.2382565491103814,
+    "rearRoadTwentyMetresNdcY": 1.7942447506933459,
+    "mirrorAspectRatio": 1.919642857142857,
+    "actualMirrorHorizonNdcY": {
+      "sedan": 3.0840538562956,
+      "sport": 4.656845299860377
+    },
+    "actualRearRoadTwentyMetresNdcY": {
+      "sedan": 1.7088045244698526,
+      "sport": 3.258015910640326
+    },
+    "actualRearRoadTwentyMetresNdcX": {
+      "sedan": 0.6424801646102312,
+      "sport": 1.0273456546349042
+    },
+    "actualRearRoadTwentyMetresNdcZ": {
+      "sedan": 0.8572344733437249,
+      "sport": 0.859022706452616
+    },
+    "mirrorAdjustmentIsIndependent": true,
+    "mirrorAdjustmentClamped": true,
+    "legacyAdjustmentWasDiscarded": true
+  },
+  "lighting": {
+    "assertions": 350,
+    "testedVehicles": 3,
+    "realLampMeshes": 110,
+    "maximumBodyLengthIncreaseMetres": 0.006000115680322438
+  },
+  "drivingScene": {
+    "assertions": 10,
+    "queries": 2
+  }
+}

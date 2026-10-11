@@ -12,6 +12,12 @@ export interface VehicleDimensions {
   readonly rearWheelWidth?: number;
 }
 
+/** China G38 LCI long-wheelbase saloon, 245/45 R18 road tyres. */
+export const BMW_530LI_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 5.106, width: 1.868, height: 1.500, wheelBase: 3.105,
+  frontTrackWidth: 1.605, rearTrackWidth: 1.630, wheelRadius: .339, wheelWidth: .245,
+});
+
 /** Model 3 RWD (2024+), body width excludes mirrors. Tyre radius is a simulation datum. */
 export const TESLA_MODEL_3_DIMENSIONS: VehicleDimensions = Object.freeze({
   length: 4.720, width: 1.850, height: 1.440, wheelBase: 2.875,

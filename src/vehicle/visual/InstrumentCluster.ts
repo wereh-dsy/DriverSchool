@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { BMW530Instruments } from './BMW530Instruments';
 import { ElectricCenterDisplay } from './ElectricCenterDisplay';
 import { drawPrancingHorse } from './PrancingHorseBadge';
 import { EXECUTIVE_INSTRUMENT_OUTLINE } from './InstrumentBinnacle';
@@ -56,6 +57,9 @@ export interface InstrumentIndicatorState {
  * current longitudinal vehicle model.
  */
 export interface InstrumentTelemetry {
+  readonly drivingScene?: import('./DrivingSceneDisplayContext').DrivingSceneDisplayData;
+  /** Normalized environment daylight, independent of the driver's lamp command. */
+  readonly ambientDaylight?: number;
   readonly electricDisplay?: import('./ElectricDisplayContext').ElectricDisplayData;
   readonly driveAvailable?: boolean;
   readonly ev?: import('../powertrain/Powertrain').EVTelemetry;
@@ -63,6 +67,8 @@ export interface InstrumentTelemetry {
   readonly ignitionOn?: boolean;
   /** Optional environment reading; unavailable temperature stays explicitly blank. */
   readonly outsideTemperatureC?: number;
+  /** Optional measured status readings; BMW defaults remain explicitly marked when absent. */
+  readonly vehicleStatus?: import('./LuxuryVehicleStatusPage').LuxuryVehicleStatusData;
   readonly executive?: ExecutiveDisplayData;
   readonly speedKmh: number;
   readonly rpm: number;
@@ -87,7 +93,8 @@ export type InstrumentDisplayStyle =
   | 'jetta-twin-dial'
   | 'executive-virtual'
   | 'suv-virtual'
-  | 'ev-center';
+  | 'ev-center'
+  | 'bmw-live';
 
 export interface InstrumentClusterConfig {
   readonly featureClass?: 'standard' | 'advanced';
@@ -1549,6 +1556,7 @@ const parseGearSelector = (gear: InstrumentGear): string => {
  * canvas displays only when the visible value or lamp state changes.
  */
 export class InstrumentCluster extends THREE.Group {
+  private bmwFace: BMW530Instruments | null = null;
   private evCanvas: HTMLCanvasElement | null = null;
   private evTexture: THREE.CanvasTexture | null = null;
   private readonly electricFace = new ElectricCenterDisplay();
@@ -1627,6 +1635,15 @@ export class InstrumentCluster extends THREE.Group {
     this.name = 'Functional instrument cluster';
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.suvScales = getSuvInstrumentScales(this.config);
+    if (this.config.displayStyle === 'bmw-live') {
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas);
+      this.informationTexture.dispose();
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.bmwFace = new BMW530Instruments(this.config); this.add(this.bmwFace);
+      return;
+    }
     if (this.config.displayStyle === 'ev-center') {
       this.name = 'Electric centre touchscreen';
       this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
@@ -2009,6 +2026,7 @@ export class InstrumentCluster extends THREE.Group {
   }
 
   public update(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
+    if (this.bmwFace) { this.bmwFace.update(telemetry, deltaTime); return; }
     if (this.evCanvas && this.evTexture) {
       if (this.electricFace.update(this.evCanvas, telemetry, deltaTime)) this.evTexture.needsUpdate = true;
       return;

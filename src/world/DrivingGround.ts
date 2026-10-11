@@ -48,7 +48,7 @@ export interface DrivingGround {
   /** Optional per-frame hook for maps with authored ambient animation. */
   update?(deltaSeconds: number): void;
   /** Optional streaming hook; true asks the environment to discover new visuals. */
-  updatePlayerPosition?(x: number, z: number): boolean;
+  updatePlayerPosition?(x: number, z: number,yawRadians?:number,speedMetersPerSecond?:number): boolean;
   /** Multi-level worlds select support near this height. Existing height-field maps ignore it. */
   setSurfaceReferenceHeight?(height: number): void;
   dispose(): void;

@@ -2,7 +2,7 @@ import type { CityMapData, CityPoint, CityRoad } from './CityMapData';
 import { roadEdges, roadPoints } from './geometry';
 import {junctionSurfaceContains,junctionSurfaceHeight} from './JunctionSurface';
 
-interface FootprintSegment { roadId: string; a: CityPoint; b: CityPoint; left: number; right: number }
+interface FootprintSegment { roadId: string; a: CityPoint; b: CityPoint; left: number; right: number;laneHalf:number }
 /** Authoring/load-time index. No queries or allocations in the 120 Hz vehicle loop. */
 export class RoadClearance {
   private readonly buckets = new Map<string, FootprintSegment[]>();
@@ -10,7 +10,7 @@ export class RoadClearance {
     for (const road of map.roads) {
       const points = roadPoints(road), edges = roadEdges(road), margin = Math.max(-edges.left, edges.right) + 6;
       for (let i = 1; i < points.length; i++) {
-        const a = points[i - 1]!, b = points[i]!, segment = { roadId: road.id, a, b, ...edges };
+        const a = points[i - 1]!, b = points[i]!, segment = { roadId: road.id, a, b, ...edges,laneHalf:road.laneCount*road.laneWidth/2 };
         for (let x = Math.floor((Math.min(a.x, b.x) - margin) / 50); x <= Math.floor((Math.max(a.x, b.x) + margin) / 50); x++)
           for (let z = Math.floor((Math.min(a.z, b.z) - margin) / 50); z <= Math.floor((Math.max(a.z, b.z) + margin) / 50); z++) {
             const key = `${x},${z}`, bucket = this.buckets.get(key) ?? [];
@@ -19,7 +19,7 @@ export class RoadClearance {
       }
     }
   }
-  roadAt(p: CityPoint, margin = 0, minY = -Infinity, maxY = Infinity, exclude?: string, match?: (roadId: string) => boolean): boolean {
+  roadAt(p: CityPoint, margin = 0, minY = -Infinity, maxY = Infinity, exclude?: string, match?: (roadId: string) => boolean,carriagewayOnly=false): boolean {
     for(let bx=Math.floor((p.x-margin)/50);bx<=Math.floor((p.x+margin)/50);bx++)for(let bz=Math.floor((p.z-margin)/50);bz<=Math.floor((p.z+margin)/50);bz++)for (const s of this.buckets.get(`${bx},${bz}`) ?? []) {
       if (s.roadId === exclude || match && !match(s.roadId)) continue;
       const dx = s.b.x - s.a.x, dz = s.b.z - s.a.z, length = Math.hypot(dx, dz);
@@ -29,7 +29,7 @@ export class RoadClearance {
       const t = Math.max(0, Math.min(1, along / length));
       const y = (s.a.y ?? 0) + ((s.b.y ?? 0) - (s.a.y ?? 0)) * t;
       const offset = (-(p.x - s.a.x) * dz + (p.z - s.a.z) * dx) / length;
-      if (y >= minY && y <= maxY && offset >= s.left - margin && offset <= s.right + margin) return true;
+      if (y >= minY && y <= maxY && offset >= (carriagewayOnly?-s.laneHalf:s.left) - margin && offset <= (carriagewayOnly?s.laneHalf:s.right) + margin) return true;
     }
     return false;
   }

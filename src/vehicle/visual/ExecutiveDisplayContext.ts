@@ -1,12 +1,11 @@
-import { updateDrivingEnvironment } from './DrivingEnvironmentView';
+import { updateDrivingEnvironment, type DisplayPoint, type DisplayObstacle } from './DrivingEnvironmentView';
+export type { DisplayPoint, DisplayObstacle } from './DrivingEnvironmentView';
 import { type RoadNetworkData } from '../../world/navigation/RoadNetwork';
 import type { StaticCollider } from '../physics/CollisionSystem';
 import type { FuelSnapshot } from '../physics/FuelSystem';
 import type { TripComputerSnapshot } from '../control/TripComputer';
 import { RearParkingProximity, type RearParkingState } from '../control/RearParkingProximity';
 
-export interface DisplayPoint { x: number; forward: number; distanceAlong?: number }
-export interface DisplayObstacle extends DisplayPoint { distance: number; width: number; length: number }
 export interface ExecutiveDisplayData {
   version: number;
   page: 'DRIVING' | 'MAP' | 'PARKING' | 'TRIP' | 'CRUISE';

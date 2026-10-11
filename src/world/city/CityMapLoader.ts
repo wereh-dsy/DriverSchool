@@ -8,7 +8,7 @@ export function loadCityMap(value: unknown): CityMapData {
   const report = validateMap(value);
   if (!report.valid) throw new Error(report.errors.map(e => `${e.code} ${e.path}: ${e.message}`).join('\n'));
   const map = structuredClone(value) as CityMapData;
-  for (const r of map.roads) r.centerline.forEach(p => { p.y = r.elevationMode === 'ground' ? 0 : r.elevationMode === 'elevated' ? r.elevation ?? 6 : p.y ?? 0; });
+  for (const r of map.roads) r.centerline.forEach(p => { p.y = r.elevationMode === 'ground' ? r.elevation ?? 0 : r.elevationMode === 'elevated' ? r.elevation ?? 6 : p.y ?? 0; });
   for (const e of [...map.intersections, ...map.objects, ...map.environment.spawnPoints]) e.position.y ??= 0;
   // V1 coincident endpoints migrate once to explicit links; no projected crossings connect.
   if (map.schemaVersion !== 2 && map.roadLinks === undefined) {

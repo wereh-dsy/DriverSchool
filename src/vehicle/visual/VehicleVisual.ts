@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
 
 import { Cockpit } from './Cockpit';
+import { buildBMW530Exterior, buildBMW530SideMirror } from './BMW530Exterior';
+import { buildBMW530Wheels } from './BMW530Wheels';
 import { buildVehicleExterior, frontDoorSkinAnchor } from './VehicleExterior';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
@@ -88,6 +90,7 @@ export class VehicleVisual {
   public readonly mirrorSurfaceRoot = new THREE.Group();
   public readonly cockpitRoot: Cockpit;
   public readonly mirrorSurfaces: Readonly<Record<MirrorSide, MirrorSurfaceMesh>>;
+  public readonly centerMirrorSurface: MirrorSurfaceMesh | null;
   public readonly frontWheelPivots: readonly [THREE.Group, THREE.Group];
   private mirrorFold = 0;
   private readonly foldingMirrorPivots: { side: number; body: THREE.Group; glass: THREE.Group }[] = [];
@@ -105,7 +108,7 @@ export class VehicleVisual {
     this.exteriorRoot.userData.renderCategory = 'CAR_EXTERIOR';
     this.cockpitRoot = new Cockpit(config);
     this.cockpitRoot.userData.renderCategory = 'COCKPIT';
-    this.cockpitRoot.add(buildSimplifiedSeats(config));
+    if (config.body.design !== 'bmw-g38') this.cockpitRoot.add(buildSimplifiedSeats(config));
     this.mirrorSurfaceRoot.name = 'Mirror surfaces';
     this.mirrorSurfaceRoot.userData.renderCategory = 'MIRROR_SURFACE';
     this.root.add(this.exteriorRoot, this.cockpitRoot, this.mirrorSurfaceRoot);
@@ -116,6 +119,16 @@ export class VehicleVisual {
     const leftMirror = this.buildMirror('left', config.leftMirrorTransform);
     const rightMirror = this.buildMirror('right', config.rightMirrorTransform);
     this.mirrorSurfaces = { left: leftMirror, right: rightMirror };
+    this.centerMirrorSurface = null;
+    if (config.centerMirrorTransform && config.centerMirrorTransform.reflection !== 'dark') {
+      const m = config.centerMirrorTransform;
+      const surface: MirrorSurfaceMesh = new THREE.Mesh(new THREE.PlaneGeometry(...m.size),
+        new THREE.MeshStandardMaterial({ color: 0xafbcc8, roughness: .04, metalness: .95 }));
+      surface.name = 'Centre rear-view mirror surface'; surface.userData.mirrorSide = 'center';
+      surface.position.set(...m.position); surface.rotation.set(...m.rotation);
+      surface.position.add(new THREE.Vector3(0, 0, m.housingDepth / 2 + .002).applyEuler(surface.rotation));
+      surface.renderOrder = 3; this.mirrorSurfaceRoot.add(surface); this.centerMirrorSurface = surface;
+    }
     this.exteriorRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.EXTERIOR));
     this.cockpitRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR));
     this.mirrorSurfaceRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.MIRROR));
@@ -335,10 +348,16 @@ export class VehicleVisual {
   }
 
   private buildExterior(): void {
+    if (this.config.body.design === 'bmw-g38') { buildBMW530Exterior(this.exteriorRoot, this.config); return; }
     buildVehicleExterior(this.exteriorRoot, this.config);
   }
 
   private buildWheels(): readonly [THREE.Group, THREE.Group] {
+    if (this.config.body.design === 'bmw-g38') {
+      const { pivots, wheels } = buildBMW530Wheels(this.exteriorRoot, this.config);
+      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
+      return [pivots.frontLeft, pivots.frontRight];
+    }
     const sport = this.config.body.profile === 'sport-coupe';
     const design = this.config.body.design;
     const rimFraction = design === 'road-suv' ? .64 : design === 'executive' ? .66 : design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
@@ -454,6 +473,8 @@ export class VehicleVisual {
   }
 
   private buildMirror(side: MirrorSide, mirrorConfig: MirrorVisualConfig): MirrorSurfaceMesh {
+    if (this.config.body.design === 'bmw-g38') return buildBMW530SideMirror(this.exteriorRoot,
+      this.mirrorSurfaceRoot, side, mirrorConfig, this.config.body.color);
     const assembly = new THREE.Group();
     assembly.name = `${side} mirror assembly`;
     setPosition(assembly, mirrorConfig.position);

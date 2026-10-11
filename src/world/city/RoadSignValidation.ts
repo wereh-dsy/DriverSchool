@@ -1,6 +1,7 @@
 import type { CityMapData } from './CityMapData';
 import type { MapIssue } from './CityMapValidation';
 import { ROAD_SIGN_SIZES,ROAD_SIGN_TEMPLATES } from './RoadSignTemplates';
+import {polylineLength,roadPoints} from './geometry';
 export function validateRoadSignData(map:CityMapData):MapIssue[] {
   const issues:MapIssue[]=[],error=(path:string,message:string)=>issues.push({severity:'error',code:'sign.invalid',path,message});
   if(map.roadNames!==undefined) {
@@ -17,9 +18,13 @@ export function validateRoadSignData(map:CityMapData):MapIssue[] {
     if(!Object.hasOwn(ROAD_SIGN_TEMPLATES,s.template)||!Object.hasOwn(ROAD_SIGN_SIZES,s.size)||!['EXPRESSWAY_ADVANCE','EXPRESSWAY_DIVERGE','RAMP_CONFIRMATION','URBAN_DIRECTION','ROAD_NAME','INTERCHANGE_NAME'].includes(s.type))error(path,'Unknown sign type/template/size.');
     if(!map.roads.some(r=>r.id===s.roadId)||!s.position||![s.position.x,s.position.y??0,s.position.z,s.heading].every(Number.isFinite)||!['forward','reverse'].includes(s.laneDirection)||s.language!=='zh-CN')error(path,'Sign needs a road reference, finite pose and valid approach direction/language.');
     if(s.interchangeId&&!map.roadNames?.[s.interchangeId])error(path,'Unknown interchange ID.');
-    if(!Array.isArray(s.destinations)||!s.destinations.length||s.destinations.length>3)error(path,'Expected one to three destinations.');
+    if(!Array.isArray(s.destinations)||!s.destinations.length||s.destinations.length>4)error(path,'Expected one to four destinations (including five-leg junctions).');
     else for(const d of s.destinations)if(!d||!map.roadNames?.[d.roadNameId]||d.directionId&&!map.roadNames?.[d.directionId]||!['straight','left','right','exit-right'].includes(d.arrow)||d.distanceMetres!==undefined&&(!Number.isFinite(d.distanceMetres)||d.distanceMetres<0))error(path,'Invalid destination reference/arrow/distance.');
     if(s.exitNumber!==undefined&&typeof s.exitNumber!=='string')error(path,'exitNumber must be optional text.');
+    if(s.postOffset!==undefined&&(!Number.isFinite(s.postOffset)||s.postOffset<=0||s.postOffset>30||s.template!=='gantry'))error(path,'Deck post offset requires a gantry and a finite 0–30 m offset.');
+    if(s.postBaseY!==undefined&&(!Number.isFinite(s.postBaseY)||s.postBaseY>(s.position.y??0)||s.template==='gantry'))error(path,'Ground-founded support must end at or below its road anchor; gantries remain deck-mounted.');
+    if(s.stationMetres!==undefined){const road=map.roads.find(r=>r.id===s.roadId);if(!Number.isFinite(s.stationMetres)||s.stationMetres<0||road&&s.stationMetres>polylineLength(roadPoints(road))+.01)error(path,'Sign station must lie on its logical road.');}
+    if(s.incomingRoadId&&!map.roads.some(r=>r.id===s.incomingRoadId)||s.outgoingRoadIds?.some(id=>!map.roads.some(r=>r.id===id)))error(path,'Unknown topology provenance road.');
   }
   return issues;
 }

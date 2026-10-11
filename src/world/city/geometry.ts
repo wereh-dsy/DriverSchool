@@ -39,7 +39,7 @@ export function syncConnections(map: CityMapData): void {
     const r = map.roads.find(r => r.id === c.roadId);
     if (r) {
       const target = connectionPoint(j, c.port, map);
-      const currentY = r.elevationMode === 'ground' ? 0 : r.elevationMode === 'elevated' ? r.elevation ?? 6 : r.centerline[c.end === 'start' ? 0 : r.centerline.length - 1]!.y ?? 0;
+      const currentY = r.elevationMode === 'ground' ? r.elevation ?? 0 : r.elevationMode === 'elevated' ? r.elevation ?? 6 : r.centerline[c.end === 'start' ? 0 : r.centerline.length - 1]!.y ?? 0;
       if (Math.abs(currentY - (target.y ?? 0)) > 0.01 && r.elevationMode !== 'custom') {
         r.centerline = roadPoints({ ...r, curve: 'polyline' }); r.elevationMode = 'custom';
       }
@@ -65,7 +65,7 @@ export function directionalPortLabel(label: string, heading: number): string {
     directions[(Math.round(heading/(Math.PI/4))+8)%8]!);
 }
 export function roadPoints(road: CityRoad): CityPoint[] {
-  const points = road.centerline.map(p => ({ ...p, y: road.elevationMode === 'ground' ? 0 : road.elevationMode === 'elevated' ? road.elevation ?? 6 : p.y ?? 0 }));
+  const points = road.centerline.map(p => ({ ...p, y: road.elevationMode === 'ground' ? road.elevation ?? 0 : road.elevationMode === 'elevated' ? road.elevation ?? 6 : p.y ?? 0 }));
   if (road.curve !== 'smooth' || points.length < 3) return points;
   // Smooth the horizontal layout; interpolate elevation monotonically along control intervals.
   // This avoids Catmull-Rom Y overshoot near ground/ramp/deck transitions.

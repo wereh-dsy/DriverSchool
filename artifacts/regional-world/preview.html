@@ -1,0 +1,44 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Regional World V1 · Preview</title>
+<style>body{margin:0;background:#101b21;color:#ecf1ef;font:14px system-ui;height:100vh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}header{padding:14px 24px;border-bottom:1px solid #40545a}h1{font-size:20px;margin:0 0 8px}button{background:#213b45;color:inherit;border:1px solid #56717b;padding:7px 12px;margin:3px;cursor:pointer}button.active{background:#397c62}#view{width:100%;height:100%;display:block;min-height:0}#status{padding:6px 24px;color:#c4d5ce}#map{display:none;width:100%;height:100%;min-height:0}</style>
+<header><h1>Regional World V1 · 共享道路构建器实际预览</h1><nav id="views"></nav><button id="save">保存当前预览</button></header><canvas id="view"></canvas><canvas id="map"></canvas><div id="status">加载区域…</div>
+<script type="module">
+import * as THREE from 'three';
+import {CityGround} from '/src/world/city/CityGround.ts';
+import data from '/src/world/regional/regional-main.json';
+const renderer=new THREE.WebGLRenderer({canvas:document.querySelector('#view'),antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene();scene.background=new THREE.Color('#adcbd6');scene.add(new THREE.HemisphereLight(0xc7e4ee,0x53503c,2));
+const sun=new THREE.DirectionalLight(0xfff5d8,2.5);sun.position.set(2000,5000,2000);scene.add(sun);
+const camera=new THREE.PerspectiveCamera(45,1,1,40000),ground=new CityGround(data,{spawnId:'regional-G17'});scene.add(ground.root);
+const region=data.regional,structure=id=>region.structures.find(s=>s.id===id);
+const views=[
+ {id:'overview',title:'区域总览',center:{x:1600,y:0,z:-100},height:12500,range:1000},
+ {id:'logical',title:'高速逻辑图',logical:true},
+ {id:'east',title:'东部平原 / G17',center:{x:7400,y:0,z:80},height:650,range:750},
+ {id:'north',title:'北部山地 / G38',center:{x:2300,y:35,z:-4550},height:650,range:750},
+ {id:'dongyuan',title:'东原枢纽',center:structure('regional:dongyuan').center,height:1050,range:500},
+ {id:'qingling',title:'青岭枢纽',center:structure('regional:qingling').center,height:850,range:450},
+ {id:'lingang',title:'临港枢纽',center:structure('regional:lingang').center,height:1050,range:500},
+ {id:'bridge',title:'东临大河桥',center:structure('regional:river-bridge').center,height:550,range:650},
+ {id:'service',title:'东临服务区',center:structure('regional:donglin-service').center,height:300,range:350},
+ {id:'streaming',title:'Streaming 调试',center:{x:6200,y:18,z:-350},height:700,range:600,debug:true}
+];
+let selected=views[0],warm=0;
+document.querySelector('#save').onclick=()=>{const source=document.querySelector(selected.logical?'#map':'#view'),canvas=document.createElement('canvas');canvas.width=source.width;canvas.height=source.height+45;const ctx=canvas.getContext('2d');ctx.fillStyle='#11232a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#ffffff';ctx.font='20px sans-serif';ctx.fillText(selected.title+' · Regional World V1',12,29);ctx.drawImage(source,0,45);if(selected.debug){const debug=document.querySelector('#debug');if(debug)ctx.drawImage(debug,canvas.width-debug.width-10,canvas.height-debug.height-10);}canvas.toBlob(blob=>{const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=selected.id+'.png';link.click();setTimeout(()=>URL.revokeObjectURL(link.href),1000);},'image/png');};
+const buttons=document.querySelector('#views');for(const v of views){const b=document.createElement('button');b.textContent=v.title;b.dataset.view=v.id;b.onclick=()=>select(v);buttons.append(b);}
+function select(v){selected=v;warm=0;for(const b of buttons.children)b.classList.toggle('active',b.dataset.view===v.id);document.querySelector('#view').style.display=v.logical?'none':'block';document.querySelector('#map').style.display=v.logical?'block':'none';
+ if(v.logical){drawLogical();document.querySelector('#status').textContent='高速逻辑图 · 就绪 · 七条虚构高速 / 共享世界坐标';}else{camera.near=Math.max(2,v.height/50);camera.updateProjectionMatrix();camera.position.set(v.center.x+v.range*.35,(v.center.y??0)+v.height,v.center.z+v.range);camera.lookAt(v.center.x,v.center.y??0,v.center.z);ground.updatePlayerPosition(v.center.x,v.center.z,-Math.PI/2,33);}
+ history.replaceState(null,'','#'+v.id);
+}
+function drawLogical(){const canvas=document.querySelector('#map'),ctx=canvas.getContext('2d');canvas.width=innerWidth;canvas.height=innerHeight-135;const b=data.bounds,s=Math.min((canvas.width-100)/(b.maxX-b.minX),(canvas.height-70)/(b.maxZ-b.minZ)),x=v=>50+(v-b.minX)*s,z=v=>30+(v-b.minZ)*s;ctx.fillStyle='#11232a';ctx.fillRect(0,0,canvas.width,canvas.height);
+ ctx.fillStyle='#263b43';ctx.fillRect(x(region.cityBounds.minX),z(region.cityBounds.minZ),(region.cityBounds.maxX-region.cityBounds.minX)*s,(region.cityBounds.maxZ-region.cityBounds.minZ)*s);
+ const colors=['#f3c869','#86c7ab','#efa587','#83bce0','#c5b3ec','#f0df9d','#98adbe'];region.routes.forEach((r,i)=>{ctx.strokeStyle=colors[i];ctx.lineWidth=4;ctx.beginPath();r.centerline.forEach((p,j)=>j?ctx.lineTo(x(p.x),z(p.z)):ctx.moveTo(x(p.x),z(p.z)));ctx.stroke();const p=r.centerline[Math.floor(r.centerline.length*.7)];ctx.fillStyle=colors[i];ctx.font='bold 16px sans-serif';ctx.fillText(r.id+' '+r.name,x(p.x)+8,z(p.z)-8);});
+ for(const h of region.structures.filter(h=>h.kind==='interchange')){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x(h.center.x),z(h.center.z),5,0,Math.PI*2);ctx.fill();ctx.font='14px sans-serif';ctx.fillText(h.name,x(h.center.x)+8,z(h.center.z)+16);}}
+function drawDebug(){const old=document.querySelector('#debug');if(old)old.remove();if(!selected.debug)return;const canvas=document.createElement('canvas');canvas.id='debug';canvas.width=400;canvas.height=310;canvas.style.cssText='position:fixed;right:20px;bottom:40px;background:#132028dd';document.body.append(canvas);const ctx=canvas.getContext('2d'),b=region.terrainBounds,size=data.sectorSize,s=.021,state=ground.sectors.debugState;ctx.font='12px sans-serif';ctx.fillStyle='#fff';ctx.fillText('当前 '+state.currentSector+' · 前视 '+state.lookaheadMetres+' m',12,18);for(const [k,t]of state.tiers){const [x,z]=k.split(',').map(Number);ctx.fillStyle=ground.sectors.active.has(k)?t==='near'?'#49bb83':'#438caf':'#283843';ctx.fillRect(12+(x*size-b.minX)*s,30+(z*size-b.minZ)*s,9,9);}for(const [keys,color]of [[state.lookahead,'#f4d75a'],[state.preloaded,'#bd8ae5']])for(const k of keys){const [x,z]=k.split(',').map(Number);ctx.strokeStyle=color;ctx.strokeRect(12+(x*size-b.minX)*s,30+(z*size-b.minZ)*s,9,9);}}
+function frame(){requestAnimationFrame(frame);if(selected.logical)return;
+ const width=renderer.domElement.clientWidth,height=renderer.domElement.clientHeight;if(renderer.domElement.width!==Math.floor(width*renderer.getPixelRatio())||renderer.domElement.height!==Math.floor(height*renderer.getPixelRatio())){renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}
+ if(!ground.sectors.ready||warm===0){ground.updatePlayerPosition(selected.center.x,selected.center.z,-Math.PI/2,33);warm++;if(warm%10===0||ground.sectors.ready)drawDebug();}
+ renderer.render(scene,camera);document.querySelector('#status').textContent=`${selected.title} · ${ground.sectors.ready?'就绪':'分阶段构建'} · active sectors ${ground.sectors.active.size} · draw calls ${renderer.info.render.calls} · logical roads ${data.roads.length}`;
+}
+select(views.find(v=>v.id===location.hash.slice(1))??views[0]);frame();
+</script></html>

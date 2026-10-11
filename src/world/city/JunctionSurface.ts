@@ -120,6 +120,11 @@ export function setJunctionPavementFootprint(j: CityIntersection, map: CityMapDa
     } return out; };
     const a = hull(points), b = hull([...points].reverse());
     j.pavementFootprint = [...a.slice(0, -1), ...b.slice(0, -1)];
+    // An elevation-only repair authors one shared landing for every approach.
+    // Rebuilding the XZ outline must not import a neighbouring bridge transition
+    // into that landing and turn a ground junction into a raised/sloped fan.
+    if(map.environment.metadata?.groundElevationVersion==='1'&&j.connections.every(c=>Math.abs((j.pavementHeights?.[c.port]??Infinity)-(j.position.y??0))<1e-7))
+        for(const p of j.pavementFootprint)p.y=0;
     j.markingFootprint = { kind: 'polygon', points: structuredClone(j.pavementFootprint) };
 }
 export function junctionSurfaceHeight(j: CityIntersection, p: CityPoint): number {

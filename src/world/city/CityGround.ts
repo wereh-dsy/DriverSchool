@@ -15,6 +15,7 @@ import { RoadClearance } from './RoadClearance';
 import { cityGroundGeometry } from './CityGroundGeometry';
 import {junctionSurfaceContains,junctionSurfaceHeight,compileJunctionSurface} from './JunctionSurface';
 import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
+import { RegionalDebug } from '../regional/RegionalDebug';
 
 interface SurfaceArea { contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number }
 export class CityGround implements DrivingGround {
@@ -31,13 +32,15 @@ export class CityGround implements DrivingGround {
   private readonly surfaces = new Map<string, SurfaceArea[]>();
   private readonly editor: boolean;
   private referenceHeight = 0;
+  private readonly regionalDebug?:RegionalDebug;
   constructor(data: unknown, options: SectorOptions & { spawnId?: string } = {}) {
     this.data = loadCityMap(data); this.editor = options.editor ?? false;
+    if(this.data.regional){this.materials.asphalt.polygonOffset=true;this.materials.asphalt.polygonOffsetFactor=-1;this.materials.asphalt.polygonOffsetUnits=-1;}
     this.worldBounds = this.data.bounds;
     this.metadata = { id: this.data.id, version: this.data.version, displayName: this.data.name, description: 'Data-driven City Map' };
     this.roadNetwork = buildCityRoadNetwork(this.data);
     this.root.name = this.data.name; this.root.userData.renderCategory = 'WORLD';
-    const base = new Mesh(cityGroundGeometry(this.data), this.materials.grass);
+    const base = new Mesh(cityGroundGeometry(this.data.regional?{...this.data,bounds:this.data.regional.cityBounds}:this.data), this.materials.grass);
     base.receiveShadow = true; this.root.add(base);
     this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options); this.root.add(this.sectors.root);
     const clearance = new RoadClearance(this.data);
@@ -104,6 +107,7 @@ export class CityGround implements DrivingGround {
     }
     this.spawnPose = { position: new Vector3(spawn.x, this.getRoadHeightAt(spawn.x, spawn.z) + 0.04, spawn.z), yawRadians: authored.rotation };
     if (!this.editor) this.sectors.updatePosition(spawn.x, spawn.z);
+    if(this.data.regional&&typeof location!=='undefined'&&new URLSearchParams(location.search).get('regionalDebug')==='1')this.regionalDebug=new RegionalDebug(this.sectors);
   }
   private addArea(b: DrivingGround['worldBounds'], area: SurfaceArea): void {
     const size = this.data.sectorSize;
@@ -122,7 +126,9 @@ export class CityGround implements DrivingGround {
       const score = delta + (area.extensionAt?.(x, z) ?? 0) * 10 + (area.pavement ? 0.2 : 0);
       if (score < best) { best = score; selected = area; height = y; }
     }
-    const gx = selected?.gx ?? 0, gz = selected?.gz ?? 0, length = Math.hypot(direction.x, direction.y) || 1;
+    const terrain=this.sectors.terrain?.sampler;
+    if(!selected&&terrain)height=terrain.heightAt(x,z);
+    const gx = selected?.gx ?? (terrain?(terrain.heightAt(x+.5,z)-terrain.heightAt(x-.5,z)):0), gz = selected?.gz ?? (terrain?(terrain.heightAt(x,z+.5)-terrain.heightAt(x,z-.5)):0), length = Math.hypot(direction.x, direction.y) || 1;
     return { height, gradient: new Vector2(gx, gz), normal: new Vector3(-gx, 1, -gz).normalize(), grade: (gx * direction.x + gz * direction.y) / length,
       ...surfaceResponseAliases(SURFACE_MATERIALS[selected ? selected.pavement ? 'concrete' : 'asphalt' : 'grass']) };
   }
@@ -130,12 +136,11 @@ export class CityGround implements DrivingGround {
   getRoadPitchAt(x: number, z: number, yaw: number): number { return Math.atan(this.sampleRoadSurface(x, z, { x: -Math.sin(yaw), y: -Math.cos(yaw) }).grade); }
   setSurfaceReferenceHeight(height: number): void { this.referenceHeight = height; }
   update(dt: number): void { this.sectors.update(dt); }
-  updatePlayerPosition(x: number, z: number): boolean {
-    if (!this.editor && this.sectors.updatePosition(x, z)) return true;
-    return false;
+  updatePlayerPosition(x: number, z: number,yaw=0,speed=0): boolean {
+    const changed=!this.editor&&this.sectors.updatePosition(x,z,yaw,speed);this.regionalDebug?.update();return changed;
   }
   dispose(): void {
-    this.sectors.dispose(); this.prefabs.dispose();
+    this.regionalDebug?.dispose();this.sectors.dispose(); this.prefabs.dispose();
     this.root.traverse(o => { if (o instanceof Mesh) o.geometry.dispose(); });
     for (const material of Object.values(this.materials)) material.dispose();
     this.root.clear();

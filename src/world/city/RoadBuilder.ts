@@ -1,5 +1,5 @@
 import { BoxGeometry, BufferGeometry, CylinderGeometry, Float32BufferAttribute, Group, InstancedMesh, Matrix4, Mesh, type MeshBasicMaterial } from 'three';
-import { createStripGeometry, makeMarkingRibbon } from '../subject3/geometry';
+import { createStripGeometry, makeMarkingRibbon, sampleRibbonPolyline } from '../subject3/geometry';
 import type { Subject3Materials } from '../subject3/materials';
 import type { CityMapData, CityPoint, CityRoad } from './CityMapData';
 import { polylineLength, roadEdges, roadPoints, sampleAt } from './geometry';
@@ -8,18 +8,21 @@ import { barrierSections, roadPiers, retainingWallHeight } from './RoadInfrastru
 import { barrierOffset, RoadClearance } from './RoadClearance';
 import { MarkingOwnership } from './MarkingOwnership';
 import {clipRoadJunctionPavement} from './JunctionSurface';
+import {roadEdgeChains,roadEdgeStrip} from './RoadEdgeChain';
+import {RoadsidePlacement} from './RoadsidePlacement';
 
 /** Shared editor/runtime builder. SectorManager batches its output by material. */
 export class RoadBuilder {
   private readonly clearance?: RoadClearance;
   private readonly ownership?: MarkingOwnership;
-  constructor(private readonly materials: Subject3Materials & {tunnelLight?:MeshBasicMaterial}, private readonly map?: CityMapData) { this.clearance = map ? new RoadClearance(map) : undefined;this.ownership=map?new MarkingOwnership(map):undefined; }
+  private readonly placement?:RoadsidePlacement;
+  constructor(private readonly materials: Subject3Materials & {tunnelLight?:MeshBasicMaterial}, private readonly map?: CityMapData) { this.clearance = map ? new RoadClearance(map) : undefined;this.ownership=map?new MarkingOwnership(map):undefined;this.placement=map?new RoadsidePlacement(map,this.clearance):undefined; }
   build(road: CityRoad): Group {
     const root = new Group(), points = roadPoints(road), half = road.laneCount * road.laneWidth / 2;
     const edges = roadEdges(road);
     root.name = road.id;
     const add = (mesh: Mesh | null) => { if (mesh) root.add(mesh); };
-    const pavement = createStripGeometry(points, () => 0, { innerOffset: edges.left, outerOffset: edges.right, yOffset: 0.024, maximumSpacing: 3 });
+    const pavement = this.map?roadEdgeStrip(road,this.map,edges.left,edges.right,.024):createStripGeometry(points, () => 0, { innerOffset: edges.left, outerOffset: edges.right, yOffset: 0.024, maximumSpacing: 3 });
     if (pavement) { const mesh = new Mesh(this.map?clipRoadJunctionPavement(pavement,road,this.map):pavement, this.materials.asphalt); mesh.name='road pavement';mesh.userData.pavementOwner=road.id;mesh.receiveShadow = true; add(mesh); }
     const mergePaint = !!road.gore || !!this.map?.roads.some(r=>r.groupId===road.groupId && r.gore);
     const line = (path: CityPoint[], offset: number, yellow = false) => {
@@ -83,7 +86,7 @@ export class RoadBuilder {
         if(mergePaint&&this.clearance?.roadAt(p,0.3,p.y-0.2,p.y+0.2,road.id)){flush();continue;}current.push(a);
       }flush();
       const strip = (a: number, b: number, y: number, curb: boolean) => {
-        for(const section of sections){const geometry = createStripGeometry(section, () => 0, { innerOffset: Math.min(a, b), outerOffset: Math.max(a, b), yOffset: y, maximumSpacing: 3 });
+        for(const section of this.map?[points]:sections){const geometry = this.map?roadEdgeStrip(road,this.map,Math.min(a,b),Math.max(a,b),y):createStripGeometry(section, () => 0, { innerOffset: Math.min(a, b), outerOffset: Math.max(a, b), yOffset: y, maximumSpacing: 3 });
         if (geometry) { const mesh = new Mesh(this.map?clipRoadJunctionPavement(geometry,road,this.map,y,true):geometry, curb ? this.materials.curb : this.materials.sidewalk); mesh.name=curb?'road curb':'road sidewalk';mesh.receiveShadow = true; root.add(mesh); }}
       };
       strip(side * half, side * (half + road.sidewalk.width), 0.15, false);
@@ -91,22 +94,22 @@ export class RoadBuilder {
     }
     const length = polylineLength(points), elevated = points.some(p => (p.y ?? 0) > 2);
     if (elevated) {
-      const bottom = createStripGeometry(points, () => 0, { innerOffset: barrierOffset(road, -1), outerOffset: barrierOffset(road, 1), yOffset: -0.65, maximumSpacing: 3 });
+      const bottom = this.map?roadEdgeStrip(road,this.map,barrierOffset(road,-1),barrierOffset(road,1),-.65):createStripGeometry(points, () => 0, { innerOffset: barrierOffset(road, -1), outerOffset: barrierOffset(road, 1), yOffset: -0.65, maximumSpacing: 3 });
       if (bottom) { const index = bottom.getIndex()!; for (let i = 0; i < index.count; i += 3) { const a = index.getX(i); index.setX(i, index.getX(i + 2)); index.setX(i + 2, a); } bottom.computeVertexNormals(); root.add(new Mesh(bottom, this.materials.curb)); }
-      for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, barrierOffset(road, section.side), -0.65, 0.02, this.materials.curb);
+      for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, -0.65, 0.02, this.materials.curb);
       const piers = roadPiers(road, this.map, this.clearance);
       if (piers.length) {
         const geometry = road.structure?.pierStyle === 'rectangular' ? new BoxGeometry(1.2, 1, 1.2) : new CylinderGeometry(0.6, 0.6, 1, 8);
         const mesh = new InstancedMesh(geometry, this.materials.curb, piers.length), matrix = new Matrix4(); mesh.name = `${road.id}:piers`;
-        piers.forEach((pier, i) => { matrix.makeScale(1, pier.height, 1); matrix.setPosition(pier.position.x, pier.height / 2, pier.position.z); mesh.setMatrixAt(i, matrix); });
+        piers.forEach((pier, i) => { matrix.makeScale(1, pier.height, 1); matrix.setPosition(pier.position.x, pier.baseY+ pier.height / 2, pier.position.z); mesh.setMatrixAt(i, matrix); });
         mesh.castShadow = true; root.add(mesh);
       }
     }
-    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, barrierOffset(road, section.side), 0.1, 1.1, this.materials.metal);
+    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, 0.05, 1.1, road.structure?.barrierStyle==='concrete'||section.side<0&&road.structure?.medianBarrierStyle==='concrete'?this.materials.curb:this.materials.metal,'road barrier');
     const enclosure=road.structure?.enclosure;
     if(enclosure) {
-      const walls=enclosure.kind==='cutting'?barrierSections(road,this.map,this.clearance,true):[-1,1].map(side=>({side,points}));
-      for(const {side,points:wallPoints} of walls)this.wall(root,wallPoints,barrierOffset(road,side),0,enclosure.kind==='cutting'?p=>retainingWallHeight(road,p,this.clearance):enclosure.clearance,this.materials.wall);
+      const walls=enclosure.kind==='cutting'?barrierSections(road,this.map,this.clearance,true):[-1,1].map(side=>({side,points:this.map?roadEdgeChains(this.map).barrierEdge(road,side):points}));
+      for(const {side,points:wallPoints} of walls)this.wall(root,wallPoints,enclosure.kind==='cutting'||this.map?0:barrierOffset(road,side),0,enclosure.kind==='cutting'?p=>retainingWallHeight(road,p,this.clearance):enclosure.clearance,this.materials.wall);
       if(enclosure.kind!=='cutting') {
         for(const underside of [true,false]) {
           const roof=createStripGeometry(points,()=>0,{innerOffset:edges.left-0.3,outerOffset:edges.right+0.3,yOffset:enclosure.clearance+(underside?0:0.65),maximumSpacing:3});
@@ -122,10 +125,11 @@ export class RoadBuilder {
     }
     if (road.streetlights) {
       const positions: { x: number; y: number; z: number }[] = [];
-      for (let d = 25; d < length - 20; d += 50) {
+      for (let d = this.map?roadEdgeChains(this.map).firstStation(road,50):25; d < length - 20; d += 50) {
         const s = sampleAt(points, d), offset = edges.right + (road.sidewalk?.enabled ? road.sidewalk.width : 0) + 0.8;
         const p = { x: s.point.x - s.tangent.z * offset, y: s.point.y ?? 0, z: s.point.z + s.tangent.x * offset };
         if (this.clearance && !this.clearance.permitsProp(p, 0.4, 7.5)) continue;
+        if(this.placement&&!this.placement.permits(p,.4,7.5))continue;
         if (this.map?.objects.some(o => Math.hypot(o.position.x - p.x, o.position.z - p.z) < 2)) continue;
         positions.push({ ...p, y: p.y + 3.7 });
       }
@@ -137,17 +141,17 @@ export class RoadBuilder {
     }
     return root;
   }
-  private wall(root: Group, points: CityPoint[], offset: number, bottom: number, top: number | ((p:CityPoint)=>number), material: Subject3Materials['curb']): void {
+  private wall(root: Group, points: CityPoint[], offset: number, bottom: number, top: number | ((p:CityPoint)=>number), material: Subject3Materials['curb'],name?:string): void {
     const positions: number[] = [], indices: number[] = [];
     // Dense longitudinal samples keep curved side walls and barriers attached to the ribbon.
-    const length = polylineLength(points), count = Math.max(1, Math.ceil(length / 3));
-    for (let i = 0; i <= count; i++) {
-      const s = sampleAt(points, length * i / count), x = s.point.x - s.tangent.z * offset, z = s.point.z + s.tangent.x * offset;
+    const fine=sampleRibbonPolyline(points,3);
+    for (let i = 0; i < fine.length; i++) {
+      const s = fine[i]!, x = s.point.x - s.tangent.z * offset, z = s.point.z + s.tangent.x * offset;
       positions.push(x, (s.point.y ?? 0) + bottom, z, x, (s.point.y ?? 0) + (typeof top==='number'?top:top({x,y:s.point.y,z})), z);
-      if (i < count) { const b = i * 2; indices.push(b, b + 1, b + 2, b + 1, b + 3, b + 2, b + 2, b + 1, b, b + 2, b + 3, b + 1); }
+      if (i < fine.length-1) { const b = i * 2; indices.push(b, b + 1, b + 2, b + 1, b + 3, b + 2, b + 2, b + 1, b, b + 2, b + 3, b + 1); }
     }
     const geometry = new BufferGeometry(); geometry.setAttribute('position', new Float32BufferAttribute(positions, 3)); geometry.setIndex(indices);
     // Separate vertices keep the two face normals from cancelling each other.
-    const faces = geometry.toNonIndexed(); geometry.dispose(); faces.computeVertexNormals(); root.add(new Mesh(faces, material));
+    const faces = geometry.toNonIndexed(); geometry.dispose(); faces.computeVertexNormals();const mesh=new Mesh(faces,material);mesh.name=name??(material===this.materials.metal?'road barrier':material===this.materials.wall?'retaining wall':'bridge skirt');root.add(mesh);
   }
 }

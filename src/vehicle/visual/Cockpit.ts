@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { createPrancingHorseBadge } from './PrancingHorseBadge';
+import { buildBMW530Cabin, type BMW530CabinState } from './BMW530Cabin';
 
 import {
   InstrumentCluster,
@@ -82,6 +83,7 @@ export class Cockpit extends THREE.Group {
   private ambientMaterial: THREE.MeshStandardMaterial | null = null;
   private ambientLevel = 0;
   private readonly ambientSpills: THREE.PointLight[] = [];
+  private bmwCabin: BMW530CabinState | null = null;
 
   public constructor(public readonly config: VehicleVisualConfig) {
     super();
@@ -90,6 +92,12 @@ export class Cockpit extends THREE.Group {
     this.layout = cockpitStructuralAnchors(config);
     this.consoleWidth = this.layout.consoleWidth;
     this.floorY = this.layout.floorHeight;
+
+    if (config.body.design === 'bmw-g38') {
+      this.bmwCabin = buildBMW530Cabin(this, config, this);
+      this.instrumentCluster = this.bmwCabin.instrument;
+      return;
+    }
 
     const interior = new THREE.MeshStandardMaterial({
       color: config.body.interiorColor,
@@ -152,8 +160,19 @@ export class Cockpit extends THREE.Group {
   }
 
   /** Updates every cockpit instrument from one render-facing state object. */
+  public handleDisplayClick(raycaster: THREE.Raycaster): boolean {
+    return this.bmwCabin?.click(raycaster) ?? false;
+  }
+
+  public cycleCenterDisplayPage(): boolean {
+    if (!this.bmwCabin) return false;
+    this.bmwCabin.cyclePage(); return true;
+  }
+
+  /** Updates every cockpit instrument from one render-facing state object. */
   public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
     this.instrumentCluster.update(telemetry, deltaTime);
+    this.bmwCabin?.update(telemetry, deltaTime);
     const profile = this.config.interiorAmbientLighting;
     if (profile && this.ambientMaterial) {
       const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
