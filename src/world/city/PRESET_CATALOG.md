@@ -1,5 +1,16 @@
 # Production Road Preset Library — V1
 
+This document's dimension table and specimen coordinates describe the **original 16 Production V1 recipes**, not the full current library. As of 2026-10-12, [catalog.json](presets/catalog.json) has **34 entries: 31 production and 3 compatibility district recipes**. New production entries are listed below; parameters/ports and implementations are authoritative. [Current review](../../../docs/CODE_REVIEW_2026-10-12.md) records a roundabout RoadEdgeChains crash in preset-showcase, so the historical validation totals below are not current success claims.
+
+| Additional production group | IDs | Implementation |
+| --- | --- | --- |
+| Compact system interchanges | `system_compact_x`, `system_compact_turbine`, `system_compact_star`, `system_compact_cloverleaf`, `system_compact_hybrid` | `CompactInterchangePresets.ts` |
+| Backbone systems | `system_cloverleaf`, `system_cloverleaf_cd`, `system_cloverstack_lite`, `system_parclo_cd`, `peripheral_motorway_junction` | `BackbonePresets.ts` |
+| Urban/structure extensions | `urban_side_access`, `divided_tunnel`, `urban_underpass`, `urban_main_aux` | `BackbonePresets.ts` |
+| Channelized signal junction | `signal_cross_channelized_6x6` | `InfrastructurePresets.ts` |
+
+The existing showcase map has only the original 16 specimens. Current validate-presets iterates the live catalog and its variants; case/sample counts must come from the actual run, not the V1 figures. Do not apply the original defaults/footprints to every newer recipe.
+
 Authoring recipes expand to ordinary editable roads, intersections, explicit links, ports and props. Runtime uses the existing builders, sector plans, surface queries and vehicle colliders. No district presets or macro presets were added. Legacy district IDs remain available for compatibility and are not production road recipes.
 
 ## Defaults and safety envelope
