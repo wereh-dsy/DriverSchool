@@ -19,6 +19,8 @@ export interface SuspensionWheelState {
 }
 
 export interface SuspensionSnapshot {
+  readonly rideHeightTarget: number;
+  readonly adaptiveDampingMode: import('../config').VehicleDriveMode;
   readonly dampingMultiplier: number;
   readonly rideHeightOffset: number;
   readonly restLength: number;
@@ -58,6 +60,12 @@ export class SuspensionSystem {
   private rideHeightOffset = 0;
   private highSpeedTimer = 0;
   private lowered = false;
+  public get rideHeightTarget(): number {
+    const air = this.config.suspension.airSuspension;
+    if (!air) return this.config.suspension.rideHeight;
+    return air.nominalRideHeight + clamp(Math.min(air.modeOffsets[this.mode] ?? 0,
+      this.lowered && air.highSpeedLowering ? air.highSpeedLowering.offset : air.maximumOffset), air.minimumOffset, air.maximumOffset);
+  }
   public setDriveMode(mode: import('../config').VehicleDriveMode): void { this.mode = mode; }
   private corners = {} as Record<WheelId, CornerState>;
   private longitudinalAcceleration = 0;
@@ -235,6 +243,7 @@ export class SuspensionSystem {
       antiRollForce: this.corners[id].antiRoll,
     }])) as Record<WheelId, SuspensionWheelState>;
     return { wheels, chassis: { ...this.chassis }, dampingMultiplier: this.dampingMultiplier,
+      rideHeightTarget: this.rideHeightTarget, adaptiveDampingMode: this.mode,
       rideHeightOffset: this.rideHeightOffset, restLength: this.config.suspension.restLength + this.rideHeightOffset };
   }
 

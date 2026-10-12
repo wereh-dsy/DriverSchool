@@ -10,7 +10,7 @@ import type { TransmissionSnapshot, TransmissionSystem } from '../transmission/T
 
 /** Common shaft telemetry; ICE-specific transmission detail remains optional. */
 export type PowertrainTransmissionSnapshot = Omit<TransmissionSnapshot, 'type' | 'engineLoadTorque'> & {
-  type: TransmissionType | 'FIXED_REDUCTION'; engineLoadTorque?: number;
+  type: TransmissionType | 'FIXED_REDUCTION' | 'EV_TWO_SPEED'; engineLoadTorque?: number;
 };
 export interface PowertrainTransmission extends Pick<TransmissionSystem, 'requestSelector' | 'requestManualSelection' | 'returnToAuto'> {
   readonly type: PowertrainTransmissionSnapshot['type'];
@@ -57,6 +57,16 @@ export interface PowertrainSnapshot {
   ev?: EVTelemetry;
 }
 export interface EVTelemetry {
+  instantPowerKW?: number; instantConsumption?: number | null; tripKWhPer100Km?: number | null;
+  energyUsedKWh?: number; energyRecoveredKWh?: number;
+  batteryTemperature?: number; frontMotorTemperature?: number; rearMotorTemperature?: number;
+  frontInverterTemperature?: number; rearInverterTemperature?: number;
+  availableDischargePower?: number; availableRegenPower?: number; thermalDerateFraction?: number;
+  frontMotorRPM?: number; rearMotorRPM?: number; frontMotorTorque?: number; rearMotorTorque?: number;
+  launchState?: import('./EVLaunchControl').EVLaunchState;
+  systemPowerLimitKW?: number;
+  frontDriveUnit?: import('./ElectricDriveUnit').ElectricDriveUnitState;
+  rearDriveUnit?: import('./ElectricDriveUnit').ElectricDriveUnitState;
   regenBrakeLight: boolean;
   stateOfCharge: number; remainingEnergyKWh: number; batteryPowerKw: number;
   motorRPM: number; motorTorque: number; drivePowerKw: number; regenPowerKw: number;
@@ -73,12 +83,17 @@ export interface PowertrainInitialState {
   driveSelector?: DriveSelector;
   controlMode?: VehicleControlMode;
   ice?: { engineRPM?: number; engineRunning?: boolean; clutchEngagement?: number; currentFuelL?: number };
-  ev?: { stateOfCharge?: number };
+  ev?: { stateOfCharge?: number; batteryTemperature?: number; frontMotorTemperature?: number; rearMotorTemperature?: number;
+    frontInverterTemperature?: number; rearInverterTemperature?: number };
 }
 /** Generic chassis/shaft context. Legacy RPM thresholds belong inside ICEPowertrain. */
 export interface PowertrainUpdateContext {
   /** Unmodulated driven-axle share of the common service-brake demand, Nm. */
   drivenAxleBrakeTorque?: number;
+  frontAxleBrakeTorque?: number; rearAxleBrakeTorque?: number;
+  frontWheelAngularVelocity?: number; rearWheelAngularVelocity?: number;
+  frontTorqueLimitFactor?: number; rearTorqueLimitFactor?: number;
+  yawRate?: number; expectedYawRate?: number; escActive?: boolean; escMode?: 'inactive' | 'oversteer' | 'understeer';
   totalServiceBrakeTorque?: number;
   autoHoldHolding?: boolean;
   parkingBrakeActive?: boolean;
@@ -90,6 +105,7 @@ export interface PowertrainUpdateContext {
 export interface PowertrainOutput {
   /** Physical motor braking magnitude at the driven axle, NOT a hydraulic request. */
   regenerativeWheelTorque?: number;
+  frontWheelTorque?: number; rearWheelTorque?: number;
   /** Low-speed lift-off stop requests the ordinary service brake/hold path. */
   stopBrakeDemand?: number;
   consumedFuelL?: number;
@@ -103,6 +119,9 @@ export interface Powertrain {
   readonly drivenWheelInertia?: number;
   /** Final same-step ABS/traction authority; provider updates its persistent output. */
   limitRegeneration?(maximumWheelTorque: number): number;
+  limitAxleRegeneration?(front: number, rear: number): void;
+  readonly axleOutput?: PowertrainOutput;
+  wheelInertiaForAxle?(front: boolean): number;
   readonly torqueSource: DriveTorqueSource;
   readonly transmission: PowertrainTransmission;
   readonly supportsManualSelection: boolean;
@@ -123,6 +142,6 @@ export interface Powertrain {
   applyDriveMode?(calibration: DriveModeCalibration): void;
   prepare(context: PowertrainUpdateContext): void;
   update(context: PowertrainUpdateContext): PowertrainOutput;
-  finishStep(speed: number, drivenWheelAngularVelocity?: number): void;
+  finishStep(speed: number, drivenWheelAngularVelocity?: number, frontWheelAngularVelocity?: number, rearWheelAngularVelocity?: number): void;
   getSnapshot(): PowertrainSnapshot;
 }

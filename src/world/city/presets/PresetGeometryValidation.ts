@@ -7,17 +7,41 @@ import { roadPiers } from '../RoadInfrastructure';
 import { roadEdgeChains } from '../RoadEdgeChain';
 
 /** Production recipe checks against sampled geometry, rather than just its graph. */
-export function validatePresetGeometry(map: CityMapData): MapIssue[] {
+export function validatePresetGeometry(map: CityMapData, targets?: ReadonlySet<string>): MapIssue[] {
   const issues: MapIssue[] = [], clearance = new RoadClearance(map);
   const error = (code: string, path: string, message: string) => issues.push({severity:'error',code,path,message});
   const branchNodes = buildCityRoadNetwork(map).endpointNodes.filter(n=>n.ends.length>1);
   const chains=roadEdgeChains(map);
-  const sharedBranch=(a:string,b:string,p:CityPoint,radius:number)=>branchNodes.some(n=>n.ends.some(e=>chains.continuations(a).has(e.roadId))&&n.ends.some(e=>chains.continuations(b).has(e.roadId))&&Math.hypot(p.x-n.position.x,p.z-n.position.z)<radius);
-  const paths = map.roads.map(r => ({road:r, points:roadPoints(r)}));
+  const auxiliary=map.roads.filter(r=>r.highwayTransition).map(r=>({road:r,members:new Set([r.id,r.highwayTransition!.decisionId,...chains.continuations(r.highwayTransition!.mainRoadId)])}));
+  const corridorForRoad=new Map(chains.corridors.flatMap(c=>c.roadIds.map(id=>[id,c.id] as const)));
+  const auxiliaryByRoad=new Map<string,typeof auxiliary>();
+  for(const lane of auxiliary)for(const id of lane.members){const list=auxiliaryByRoad.get(id)??[];list.push(lane);auxiliaryByRoad.set(id,list);}
+  const branchCells=new Map<string,{node:typeof branchNodes[number];corridors:Set<string|undefined>}[]>();
+  for(const node of branchNodes){const key=Math.floor(node.position.x/256)+','+Math.floor(node.position.z/256),list=branchCells.get(key)??[];list.push({node,corridors:new Set(node.ends.map(e=>corridorForRoad.get(e.roadId)))});branchCells.set(key,list);}
+  const sharedBranch=(a:string,b:string,p:CityPoint,radius:number)=>{
+    if((auxiliaryByRoad.get(a)??[]).some(l=>l.members.has(b)&&l.road.centerline.some(q=>Math.hypot(p.x-q.x,p.z-q.z)<radius+12)))return true;
+    const ac=corridorForRoad.get(a),bc=corridorForRoad.get(b);
+    for(let x=Math.floor((p.x-radius)/256);x<=Math.floor((p.x+radius)/256);x++)for(let z=Math.floor((p.z-radius)/256);z<=Math.floor((p.z+radius)/256);z++)
+      if((branchCells.get(x+','+z)??[]).some(({node,corridors})=>corridors.has(ac)&&corridors.has(bc)&&Math.hypot(p.x-node.position.x,p.z-node.position.z)<radius))return true;
+    return false;
+  };
+  // Authoring cuts insert collinear vertices. Measure curvature on the whole
+  // continued ribbon after removing those cuts, so a short split does not
+  // invent a tighter curve at an unchanged original corner.
+  const radii=new Map<string,number>();
+  const corridorRadius=(id:string)=>{
+    const corridor=chains.corridors.find(c=>c.roadIds.includes(id))!,cached=radii.get(corridor.id);if(cached!==undefined)return cached;
+    const points=corridor.points.filter((b,i,p)=>{if(!i||i===p.length-1)return true;const a=p[i-1]!,c=p[i+1]!;return Math.abs((b.x-a.x)*(c.z-b.z)-(b.z-a.z)*(c.x-b.x))>1e-6;});let radius=Infinity;
+    for(let i=1;i<points.length-1;i++){const a=points[i-1]!,b=points[i]!,c=points[i+1]!,cross=Math.abs((b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x));if(cross>1e-6)radius=Math.min(radius,Math.hypot(b.x-a.x,b.z-a.z)*Math.hypot(c.x-b.x,c.z-b.z)*Math.hypot(c.x-a.x,c.z-a.z)/(2*cross));}
+    radii.set(corridor.id,radius);return radius;
+  };
+  const paths = map.roads.map(r => {const points=roadPoints(r);return {road:r,points,bounds:{minX:Math.min(...points.map(p=>p.x)),maxX:Math.max(...points.map(p=>p.x)),minZ:Math.min(...points.map(p=>p.z)),maxZ:Math.max(...points.map(p=>p.z))}};});
   for (const {road:r,points} of paths) {
-    const ramp = r.styleId === 'ramp_1', path = `roads.${r.id}`, edges=roadEdges(r);
+    if(targets&&!targets.has(r.id))continue;
+    const regionalRamp=r.id.startsWith('regional:')&&r.type==='ramp_1';
+    const ramp = r.styleId === 'ramp_1' || regionalRamp, path = `roads.${r.id}`, edges=roadEdges(r);
     if(r.laneWidth < 3.5) error('geometry.width',path,'Production lanes must be at least 3.5m.');
-    if(ramp && (r.laneWidth < 3.8 || edges.width < r.laneCount*r.laneWidth+2.2)) error('geometry.rampWidth',path,'Ramp needs traffic lanes and at least 2.2m of paved shoulders.');
+    if(ramp && !r.highwayTransition && (r.laneWidth < (regionalRamp?3.5:3.8) || edges.width < r.laneCount*r.laneWidth+2.2)) error('geometry.rampWidth',path,'Ramp needs traffic lanes and at least 2.2m of paved shoulders.');
     let grade=0, radius=Infinity;
     for(let i=1;i<points.length;i++) {
       const a=points[i-1]!,b=points[i]!,length=Math.hypot(b.x-a.x,b.z-a.z);
@@ -31,6 +55,7 @@ export function validatePresetGeometry(map: CityMapData): MapIssue[] {
     }
     if(grade>(ramp?0.08:0.06)+1e-5) error('geometry.grade',path,`Sampled grade ${(grade*100).toFixed(2)}% exceeds production limit.`);
     const loop = r.id.endsWith('-loop');
+    if(r.id.startsWith('regional:')&&!r.gore)radius=corridorRadius(r.id);
     if(radius < (loop ? r.designProfile==='urban'?29.9:44.9 : ramp && r.speedLimit <=25 ? 12 : r.designProfile==='urban'?30 : ramp || r.presetSource?.startsWith('system_') ? 55 : 100)) error('geometry.curve',path,`Minimum sampled radius ${radius.toFixed(1)}m is too small.`);
     for(let d=6;d<polylineLength(points)-6;d+=6) {
       const p=sampleAt(points,d).point,y=p.y??0;
@@ -39,7 +64,7 @@ export function validatePresetGeometry(map: CityMapData): MapIssue[] {
         error('geometry.overlapHeight',path,`Deck ${other?.id} overlaps at ${p.x.toFixed(1)},${p.z.toFixed(1)}, Y=${y.toFixed(2)} with insufficient vertical clearance.`);break;
       }
       const overlaps=clearance.roadAt(p,0,y-0.25,y+0.25,r.id,other=> !sharedBranch(r.id,other,p,180));
-      if(overlaps&&!clearance.junctionAt(p,0,y-0.25,y+0.25)) { error('geometry.overlap',path,`Unconnected paved roads overlap away from a branch throat at ${p.x.toFixed(1)}, ${p.z.toFixed(1)}, Y=${y.toFixed(2)}.`);break; }
+      if(overlaps&&!clearance.junctionAt(p,0,y-0.25,y+0.25)) { const other=map.roads.find(o=>clearance.roadAt(p,0,y-0.25,y+0.25,r.id,id=>id===o.id&&!sharedBranch(r.id,id,p,180)));error('geometry.overlap',path,`Unconnected paved road ${other?.id} overlaps away from a branch throat at ${p.x.toFixed(1)}, ${p.z.toFixed(1)}, Y=${y.toFixed(2)}.`);break; }
     }
     for(const pier of roadPiers(r,map,clearance)) if(clearance.roadAt(pier.position,0.65,pier.baseY,pier.baseY+pier.height,r.id) || clearance.junctionAt(pier.position,0.65,pier.baseY,pier.baseY+pier.height)) error('geometry.pier',path,'Pier intrudes into a lower paved footprint.');
   }
@@ -49,6 +74,7 @@ export function validatePresetGeometry(map: CityMapData): MapIssue[] {
     return sampleAt(pts,end==='start'?0:length).tangent;
   };
   for(const l of map.roadLinks??[]) {
+    if(targets&&!targets.has(l.from.roadId)&&!targets.has(l.to.roadId))continue;
     const a=paths.find(p=>p.road.id===l.from.roadId)!.road,b=paths.find(p=>p.road.id===l.to.roadId)!.road;
     const incoming=(r:typeof a,e:'start'|'end')=>r.travelDirection==='two-way'||(r.travelDirection==='forward')===(e==='end');
     const outgoing=(r:typeof a,e:'start'|'end')=>r.travelDirection==='two-way'||(r.travelDirection==='forward')===(e==='start');
@@ -60,6 +86,12 @@ export function validatePresetGeometry(map: CityMapData): MapIssue[] {
   // Crossing/self-crossing tests deliberately exempt only explicit branch mouths and junctions.
   for(let ri=0;ri<paths.length;ri++) for(let rj=ri;rj<paths.length;rj++) {
     const aPath=paths[ri]!,bPath=paths[rj]!;
+    if(targets&&!targets.has(aPath.road.id)&&!targets.has(bPath.road.id))continue;
+    // Exact broad phase: disjoint road bounds cannot contain segment crossings.
+    // Regional authoring now has thousands of sections; avoid comparing every
+    // vertex pair of distant roads without changing any clearance rule.
+    const ab=aPath.bounds,bb=bPath.bounds;
+    if(ab.maxX<bb.minX||bb.maxX<ab.minX||ab.maxZ<bb.minZ||bb.maxZ<ab.minZ)continue;
     let found=false;
     for(let i=1;i<aPath.points.length&&!found;i++) for(let j=ri===rj?i+2:1;j<bPath.points.length;j++) {
       const a=aPath.points[i-1]!,b=aPath.points[i]!,c=bPath.points[j-1]!,d=bPath.points[j]!;

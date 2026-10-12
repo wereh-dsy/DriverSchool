@@ -23,6 +23,7 @@ export interface CityRoad extends CityElementMetadata {
     /** Floor-relative clear height. Cutting has retaining walls but no roof. */
     enclosure?: { kind: 'tunnel' | 'underpass' | 'cutting'; clearance: number } };
   markings?: boolean; curb?: boolean; streetlights?: boolean;
+  highwayTransition?: { kind: 'deceleration' | 'acceleration'; taperMetres: number; mainRoadId: string; decisionId: string };
 }
 export type IntersectionType = 't_2lane' | 't_4lane' | 'cross_4lane' | 'cross_6lane' | 'irregular';
 export type IntersectionPort = 'north' | 'east' | 'south' | 'west' | 'extra';

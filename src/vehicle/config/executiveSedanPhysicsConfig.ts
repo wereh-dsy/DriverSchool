@@ -1,21 +1,25 @@
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { calibrateTyres } from './TyreCalibration';
+import { createTyreThermalPressureConfig } from './TyreThermalPressureConfig';
 import { EXECUTIVE_LWB_DIMENSIONS } from '../VehicleDimensions';
 import type { AutomaticShiftConfig, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 
 const radians = (degrees: number): number => degrees * Math.PI / 180;
 const shiftMap = (up: readonly number[], down: readonly number[], kickdown: number,
   target: number, dwell: number): AutomaticShiftConfig => ({
-  map: [0, .25, .6, 1].map((throttle, i) => ({ throttle, upshiftRPM: up[i]!, downshiftRPM: down[i]! })),
+  map: [0, .2, .45, .7, .9, 1].map((throttle, i) => ({ throttle, upshiftRPM: up[i]!, downshiftRPM: down[i]! })),
   minimumUpshiftSpeeds: [2.8, 4.8, 7, 9, 11.5, 14], hysteresisRPM: 160,
   minimumTimeInGear: dwell, kickdownThrottle: kickdown, kickdownTargetRPM: target,
   kickdownMaximumRPM: 5700, gearRPMCorrections: [100, 0, 0, 0, 0, 0, 0],
+  maximumAutomaticRPM: 6150, minimumPostShiftRPM: 1000, liftHoldTime: 0, economicalShiftFactor: .94,
 });
 
 /** A6L-inspired 2.0T executive calibration; no vehicle-name branches in physics. */
 export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
+  config.lateralAssist = createLateralAssistConfig();
   config.fuel = { tankCapacityL: 73, defaultFuelL: 51, fuelDensity: 0.745,
     peakThermalEfficiency: 0.34, referenceConsumptionLPer100km: 8.2 };
   Object.assign(config, EXECUTIVE_LWB_DIMENSIONS, { mass: 1840, trackWidth: 1.625,
@@ -39,7 +43,7 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
         { rpm: 5800, torque: 144 }, { rpm: 6400, torque: 119 }, { rpm: 6600, torque: 90 }] } };
   config.engine.ignitionSequence = { crankingDuration: .55, crankingRPM: 270,
     flareRPM: 1120, settlingDuration: .85, shutdownFriction: 30 };
-  const normalShift = shiftMap([1550, 1900, 3450, 5950], [900, 1100, 1650, 2600], .84, 4000, 1.5);
+  const normalShift = shiftMap([1500, 1800, 2500, 3700, 5000, 5900], [850, 950, 1150, 1550, 2100, 2600], .92, 4000, 1.2);
   config.transmission = { ...config.transmission, type: 'DCT', supportsManualSelection: true, manualAutoUpshiftAtRedline: true, manualSelectionTimeout: 8,
     gearRatios: { 1: 3.45, 2: 2.18, 3: 1.52, 4: 1.12, 5: .87, 6: .69, 7: .56 },
     reverseRatio: -3.1, finalDrive: 3.85, finalDriveRatio: 3.85, shiftTime: .30, reverseLockoutSpeed: 1,
@@ -70,6 +74,9 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     gripCoefficient: 1.03, corneringStiffnessFront: 103000, corneringStiffnessRear: 108000,
     rollingResistance: .0115, peakSlipRatio: .105, peakSlipAngle: radians(7.5), gripFalloff: .32 };
   config.tires = calibrateTyres(config.tires, 'PREMIUM_TOURING');
+  config.capabilities = { ...config.capabilities, tpms: true };
+  config.tires.thermalPressureFront = createTyreThermalPressureConfig(250, { thermalCapacity: 32000 });
+  config.tires.thermalPressureRear = createTyreThermalPressureConfig(260, { thermalCapacity: 32000 });
   config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.30, liftCoefficientFront: .008, liftCoefficientRear: .012 };
   config.suspension.adaptiveDamping = { responseRate: 2.5, modeMultipliers: { ECO: .95, NORMAL: 1, SPORT: 1.35 } };
   config.startStop = { enabledByDefault: false, minimumStopDelay: 2, stopSpeedThreshold: .06,
@@ -80,12 +87,13 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     esc: { yawErrorThreshold: .14, sideslipThreshold: .075, response: 10 } };
   config.driveModes = {
     ECO: { throttleExponent: 1.32, throttleResponse: 2.4,
-      shiftStrategy: shiftMap([1400, 1650, 2900, 5650], [850, 950, 1400, 2200], .95, 3300, 1.8),
+      shiftStrategy: shiftMap([1350, 1550, 2150, 3100, 4300, 5700], [850, 900, 1050, 1300, 1800, 2200], .95, 3800, 1.4),
       steeringResponse: 2.65, steeringDamping: 9, accelerationRearTorqueSplit: .35 },
     NORMAL: { throttleExponent: 1, throttleResponse: 3.2, shiftStrategy: normalShift,
       steeringResponse: 2.85, steeringDamping: 10, accelerationRearTorqueSplit: .40 },
     SPORT: { throttleExponent: .82, throttleResponse: 4.6,
-      shiftStrategy: shiftMap([2400, 3000, 4600, 6100], [1400, 1800, 2400, 3200], .68, 4800, 1.1),
+      shiftStrategy: { ...shiftMap([2250, 2800, 3700, 4800, 5600, 6000], [1200, 1450, 1850, 2250, 2800, 3100], .88, 4800, 1.0),
+        liftHoldTime: 1.4, economicalShiftFactor: 1 },
       steeringResponse: 3.25, steeringDamping: 12, accelerationRearTorqueSplit: .46 },
   };
   config.frontDiff = { type: 'open' };

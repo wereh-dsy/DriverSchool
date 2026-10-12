@@ -1,21 +1,22 @@
-import { projectWorldToRoad, type RoadNetworkData } from '../../world/navigation/RoadNetwork';
+import { projectWorldToRoad, type LogicalLaneData, type RoadNetworkData, type RoadProjection, type RoadSegmentData } from '../../world/navigation/RoadNetwork';
 import type { StaticCollider } from '../physics/CollisionSystem';
 import type { RearParkingPose } from '../control/RearParkingProximity';
 export interface DisplayPoint { x: number; forward: number; distanceAlong?: number }
 export interface DisplayObstacle extends DisplayPoint { distance: number; width: number; length: number }
-export interface DrivingEnvironmentData { lanes: DisplayPoint[][]; laneMarkings?: ('solid' | 'dashed')[]; obstacles: DisplayObstacle[] }
+export interface DrivingEnvironmentData { lanes: DisplayPoint[][]; laneMarkings?: ('solid' | 'dashed')[]; obstacles: DisplayObstacle[];
+  lateralAssist?: import('../control/LateralAssistController').LateralAssistDisplayState }
 /** Shared A6L/EV display geometry only; no perception, lane control or traffic synthesis. */
-export function updateDrivingEnvironment(data: DrivingEnvironmentData, pose: RearParkingPose, network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], includeObstacles = true): void {
+export function updateDrivingEnvironment(data: DrivingEnvironmentData, pose: RearParkingPose, network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], includeObstacles = true, projection?: RoadProjection | null, tracked?: { road: RoadSegmentData; lane: LogicalLaneData }): void {
   data.lanes = []; data.laneMarkings = []; data.obstacles = [];
   const cos = Math.cos(pose.yaw), sin = Math.sin(pose.yaw);
   const local = (x: number, z: number): DisplayPoint => ({ x: (x-pose.x)*cos-(z-pose.z)*sin, forward: -(x-pose.x)*sin-(z-pose.z)*cos });
     if (network) {
-      const projected = projectWorldToRoad(network, pose.x, pose.z);
-      const road = network.segments.find(r => r.id === projected?.segmentId);
-      if (road && projected && projected.distanceFromCenterline <= road.width / 2 + 1) {
+      const projected = projection === undefined ? projectWorldToRoad(network, pose.x, pose.z) : projection;
+      const road = tracked?.road ?? network.segments.find(r => r.id === projected?.segmentId);
+      if (road && (tracked || projected && projected.distanceFromCenterline <= road.width / 2 + 1)) {
         const n = road.laneWidth;
         // Actual lane containing the projected vehicle, bounded by the authored road edge.
-        const lane = Math.max(-road.width / 2, Math.min(road.width / 2 - n, Math.floor((projected.lateralOffset + road.width / 2) / n) * n - road.width / 2));
+        const lane = tracked ? tracked.lane.index * n - road.width / 2 : Math.max(-road.width / 2, Math.min(road.width / 2 - n, Math.floor((projected!.lateralOffset + road.width / 2) / n) * n - road.width / 2));
         const boundaries: DisplayPoint[][] = [[], []];
         // Same-direction dividers are dashed. Road edges and the opposing
         // carriageway separator are solid, matching the existing road builders.
@@ -40,6 +41,7 @@ export function updateDrivingEnvironment(data: DrivingEnvironmentData, pose: Rea
         }
         // Reverse polyline order when travelling towards its start.
         boundaries.forEach(points => points.sort((a, b) => a.forward - b.forward));
+        if (tracked?.lane.direction === 'reverse') { boundaries.reverse(); data.laneMarkings.reverse(); }
         data.lanes = boundaries;
       }
     }

@@ -24,6 +24,13 @@ export const TESLA_MODEL_3_DIMENSIONS: VehicleDimensions = Object.freeze({
   frontTrackWidth: 1.584, rearTrackWidth: 1.584, wheelRadius: .335, wheelWidth: .235,
 });
 
+/** 2024 facelift Taycan saloon, 20-inch road tyre simulation datum. */
+export const TAYCAN_4S_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.963, width: 1.966, height: 1.379, wheelBase: 2.900,
+  frontTrackWidth: 1.710, rearTrackWidth: 1.694, wheelRadius: .350,
+  wheelWidth: .285, frontWheelWidth: .245, rearWheelWidth: .285,
+});
+
 export const VEHICLE_WHEEL_IDS = ['frontLeft', 'frontRight', 'rearLeft', 'rearRight'] as const;
 export type VehicleWheelId = typeof VEHICLE_WHEEL_IDS[number];
 export interface LocalWheelPosition { readonly x: number; readonly y: number; readonly z: number }

@@ -2,7 +2,7 @@ import * as T from 'three';
 import { AdaptiveMapZoom } from '../../ui/LocalRoadMap';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import type { LuxuryVehicleStatusData } from './LuxuryVehicleStatusPage';
-import { luxuryVehicleStatusKey } from './LuxuryVehicleStatusPage';
+import { luxuryVehicleStatusKey, tyrePressureReading, tyrePressureWarning, pressureText } from './LuxuryVehicleStatusPage';
 import { drawBMWVehicleSilhouette } from './BMW530Instruments';
 
 const FONT = '"Segoe UI", "Microsoft YaHei", Arial, sans-serif';
@@ -40,7 +40,8 @@ export class BMW530CenterDisplay {
   public update(t: InstrumentTelemetry, dt: number, readings?: LuxuryVehicleStatusData): void {
     this.elapsed += Math.max(0,dt);
     const on = t.ignitionOn ?? t.engineRunning ?? true, scene = t.drivingScene;
-    const status = {vehicleName:this.vehicleName,fuelLevel:t.fuelLevel,engineTemperatureC:t.coolantTemperatureC,...readings};
+    const status = {vehicleName:this.vehicleName,fuelLevel:t.fuelLevel,engineTemperatureC:t.coolantTemperatureC,tyres:t.tyres,
+      ...readings, tpmsState:t.tpmsState ?? readings?.tpmsState ?? t.sharedVehicle?.tpmsState};
     const clock = new Date(), time = clock.getHours().toString().padStart(2,'0') + ':' + clock.getMinutes().toString().padStart(2,'0');
     const mode = !t.driveMode || t.driveMode === 'NORMAL' ? 'COMFORT' : t.driveMode;
     const temperature = t.outsideTemperatureC === undefined ? '— °C' : t.outsideTemperatureC.toFixed(1) + ' °C';
@@ -56,7 +57,7 @@ export class BMW530CenterDisplay {
     };
     if (this.page === 'map') {
       if (scene?.map.available) {
-        const pose = scene.mapPose, complexity = scene.map.nearby(pose.x,pose.z).complexity;
+        const pose = scene.mapPose, complexity = scene.mapComplexity;
         // The wide centre screen needs more context than the small HUD minimap.
         const metres = Math.max(240,this.zoom.update(Number.isFinite(elapsed)?elapsed:.1,Math.abs(t.speedKmh)/3.6,complexity,String(t.gear).charAt(0))*2);
         const m = this.mapCanvas.getContext('2d')!;
@@ -94,10 +95,10 @@ export class BMW530CenterDisplay {
       wheels.forEach((wheel,index)=>{
         const x = index%2===0?516:897, y = index<2?214:303;
         text(wheel+':',x,y-23,17,'#8da5b6','center');
-        text(value(status.tyrePressureKPa?.[wheel],index<2?250:260),x,y+2,30,'#e0eaf3','center');
+        text(pressureText(tyrePressureReading(status,index)),x,y+2,30,tyrePressureWarning(status,index)?'#d1ad68':'#e0eaf3','center');
         text('kPa',x,y+28,16,'#819bad','center');
       });
-      const reference = status.transmissionTemperatureC===undefined || wheels.some(w=>status.tyrePressureKPa?.[w]===undefined);
+      const reference = status.transmissionTemperatureC===undefined || wheels.some((_,index)=>tyrePressureReading(status,index)===undefined);
       text(reference?'~ Reference values':'Vehicle readings',36,353,16,'#728d9f');
     }
     // Persistent chrome, with two real touch targets rather than a menu tree.

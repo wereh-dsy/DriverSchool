@@ -1,5 +1,9 @@
 /** Metre-based planar road data, independent of Three.js and HUD rendering. */
-export interface RoadPoint { readonly x: number; readonly z: number }
+export interface RoadPoint { readonly x: number; readonly z: number; readonly y?: number }
+export interface LogicalLaneData {
+  readonly id: string; readonly roadId: string; readonly index: number;
+  readonly direction: 'forward' | 'reverse'; readonly width: number;
+}
 export interface RoadMapBounds {
   readonly minimumX: number;
   readonly maximumX: number;
@@ -16,6 +20,10 @@ export interface RoadSegmentData {
   /** Travel follows the polyline in either order. */
   readonly travelDirection: 'two-way' | 'forward' | 'reverse';
   readonly speedLimit?: number;
+  /** Authored logical lanes only. Absence means lateral assistance unavailable. */
+  readonly lanes?: readonly LogicalLaneData[];
+  readonly markingsAvailable?: boolean;
+  readonly highwayTransition?: { readonly kind: 'deceleration' | 'acceleration'; readonly taperMetres: number; readonly mainRoadId: string; readonly decisionId: string };
 }
 export interface RoadIntersectionArmData {
   readonly segmentId: string;
@@ -41,6 +49,7 @@ export interface RoadNetworkData {
   readonly bounds: RoadMapBounds;
   readonly segments: readonly RoadSegmentData[];
   readonly intersections: readonly RoadIntersectionData[];
+  readonly laneConnections?: readonly { readonly intersectionId: string; readonly fromLaneId: string; readonly toLaneId: string }[];
 }
 
 /** North-up normalized map coordinates: +X right, +Z down. No clamping. */

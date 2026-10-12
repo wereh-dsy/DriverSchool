@@ -1,11 +1,15 @@
 import type { VehicleInputState } from '../../input/VehicleInputState';
 
 export type VehicleLightMode = 'off' | 'position' | 'low' | 'high';
+export type VehicleFogMode = 'off' | 'front' | 'front-rear';
 export type ActiveTurnSignal = 'left' | 'right' | null;
 
 export interface VehicleLightingState {
   readonly mainLightMode: VehicleLightMode;
   readonly fogLightsEnabled: boolean;
+  readonly fogMode: VehicleFogMode;
+  readonly frontFogLightsEnabled: boolean;
+  readonly rearFogLightsEnabled: boolean;
   readonly leftTurnSignal: boolean;
   readonly rightTurnSignal: boolean;
   readonly hazard: boolean;
@@ -72,7 +76,7 @@ export class TurnSignalAutoCancel {
 export class VehicleLightingController {
   public readonly autoCancel: TurnSignalAutoCancel;
   private mode: VehicleLightMode = 'off';
-  private fog = false;
+  private fog: VehicleFogMode = 'off';
   private signal: ActiveTurnSignal = null;
   private hazard = false;
   private blinkTime = 0;
@@ -90,7 +94,10 @@ export class VehicleLightingController {
     const mode = this.lightPowerAvailable ? this.mode : 'off';
     const effectiveHighBeam = this.lightPowerAvailable && (mode === 'high' || this.flash);
     return {
-      mainLightMode: mode, fogLightsEnabled: this.lightPowerAvailable && this.fog,
+      mainLightMode: mode, fogMode: this.lightPowerAvailable ? this.fog : 'off',
+      fogLightsEnabled: this.lightPowerAvailable && this.fog !== 'off',
+      frontFogLightsEnabled: this.lightPowerAvailable && this.fog !== 'off',
+      rearFogLightsEnabled: this.lightPowerAvailable && this.fog === 'front-rear',
       leftTurnSignal: this.signal === 'left', rightTurnSignal: this.signal === 'right',
       hazard: this.hazard, brakeLight: this.brake, reverseLight: this.reverse,
       highBeamFlash: this.flash, effectiveHighBeam,
@@ -99,10 +106,13 @@ export class VehicleLightingController {
       rightBlinkOn: blinkOn && (this.hazard || this.signal === 'right'),
     };
   }
+  /** Allocation-free intent reads for fixed-step lateral arbitration (not blink phase). */
+  public get leftSignalSelected(): boolean { return this.hazard || this.signal === 'left'; }
+  public get rightSignalSelected(): boolean { return this.hazard || this.signal === 'right'; }
 
   public setMainLightMode(mode: VehicleLightMode): VehicleLightingState {
     this.mode = mode;
-    if (mode === 'off') this.fog = false;
+    if (mode === 'off') this.fog = 'off';
     return this.state;
   }
 
@@ -112,13 +122,13 @@ export class VehicleLightingController {
   }
 
   public toggleFog(): VehicleLightingState {
-    this.fog = !this.fog;
-    if (this.fog && this.mode === 'off') this.mode = 'position';
+    this.fog = this.fog === 'off' ? 'front' : this.fog === 'front' ? 'front-rear' : 'off';
+    if (this.fog !== 'off' && this.mode === 'off') this.mode = 'position';
     return this.state;
   }
 
   public reset(): void {
-    this.mode = 'off'; this.fog = false; this.signal = null; this.hazard = false;
+    this.mode = 'off'; this.fog = 'off'; this.signal = null; this.hazard = false;
     this.blinkTime = 0; this.brake = false; this.reverse = false; this.flash = false;
     this.lightPowerAvailable = true;
     this.autoCancel.reset();

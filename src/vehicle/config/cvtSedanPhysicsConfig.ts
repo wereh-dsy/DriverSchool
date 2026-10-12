@@ -51,8 +51,9 @@ export function createCVTSedanPhysicsConfig(): VehiclePhysicsConfig {
     gearRatios: {}, reverseRatio: -2.2, finalDrive: 5.1, finalDriveRatio: 5.1,
     cvt: { minimumRatio: .42, maximumRatio: 2.6, ratioChangeRate: .85, targetRPMResponse: 2.5,
       parkMaximumSpeed: .35,
-      targetRPMCurve: [{ throttle: 0, rpm: 1100 }, { throttle: .15, rpm: 1450 },
-        { throttle: .4, rpm: 2400 }, { throttle: .7, rpm: 4100 }, { throttle: 1, rpm: 5700 }],
+      targetRPMCurve: [{ throttle: 0, rpm: 1100 }, { throttle: .2, rpm: 1450 },
+        { throttle: .45, rpm: 2300 }, { throttle: .7, rpm: 3350 },
+        { throttle: .9, rpm: 4500 }, { throttle: 1, rpm: 5700 }],
       converter: { ...converter, torqueRatioCurve: converter.torqueRatioCurve.map(p => ({ ...p })),
         // CVT can lock while still using a large launch ratio. Use gentler
         // coupling than AT's high-gear-only lockup to avoid torque sign chatter.

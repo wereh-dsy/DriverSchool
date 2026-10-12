@@ -4,6 +4,7 @@ export interface ElectricAudioOptions {
   vehicleSpeed?: number; roadRoughness?: number; cockpit?: boolean;
   maximumTorque?: number; maximumRPM?: number; regenerativePowerKw?: number;
   operational?: boolean; driving?: boolean;
+  presence?: number;
 }
 const unit = (n: number): number => Number.isFinite(n) ? Math.min(1, Math.max(0, n)) : 0;
 export function calculateElectricAudioMix(rpm: number, torque: number, options: ElectricAudioOptions = {}) {
@@ -12,7 +13,7 @@ export function calculateElectricAudioMix(rpm: number, torque: number, options: 
   const moving = unit(speed / 1.2), cabin = options.cockpit !== false ? .65 : 1;
   const regen = (options.regenerativePowerKw ?? 0) > .05;
   return { frequency: 180 + rotation * (regen ? 1250 : 1450),
-    motor: options.operational !== false ? moving * (.002 + load * .030) * cabin * (1 - unit(speed / 60) * .55) : 0,
+    motor: options.operational !== false ? moving * (.002 + load * .030) * cabin * (1 - unit(speed / 60) * .55) * (options.presence ?? 1) : 0,
     harmonic: regen ? .28 : .12,
     pedestrian: options.operational !== false && options.driving && speed > .15 ? unit(speed / .8) * (1 - unit(speed / 8)) * .008 : 0,
     road: unit(speed / 42) ** 2 * (.011 + unit(options.roadRoughness ?? .12) * .021) * cabin,

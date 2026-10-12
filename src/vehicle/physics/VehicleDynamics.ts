@@ -28,6 +28,7 @@ import { isElectricConfig } from '../config/ElectricVehiclePhysicsConfig';
 import { TripComputer, type TripComputerSnapshot } from '../control/TripComputer';
 import type { Powertrain, PowertrainSnapshot, PowertrainInitialState, PowertrainUpdateContext, ICEVehicleTelemetry, PowertrainTransmissionSnapshot, ShiftRejectionReason } from '../powertrain/Powertrain';
 import { validateVehiclePlatformConfig } from '../config/validateVehiclePlatformConfig';
+import { TPMSSensor, type TPMSState } from '../TPMSState';
 import type { TransmissionSnapshot } from '../transmission/TransmissionSystem';
 
 export interface VehicleWorldBounds {
@@ -39,6 +40,7 @@ export interface VehicleWorldBounds {
 
 /** Per-step road information supplied by the world/track system. */
 export interface VehicleEnvironment {
+  ambientTemperatureC?: number;
   /** Four independently queried tyre contacts; material coefficients are relative to asphalt. */
   wheelContacts?: WheelContactSet;
   /** Upward unit surface normal. Wheel-contact normals take priority when present. */
@@ -87,6 +89,7 @@ interface TyreContactForces {
 type FourWheelValues = [number, number, number, number];
 
 export interface VehicleInitialState {
+  ambientTemperatureC?: number;
   vehicleOperational?: boolean;
   driveAvailable?: boolean;
   shaftAngularVelocity?: number;
@@ -131,6 +134,7 @@ export interface VehicleForceSnapshot {
 }
 
 export interface VehicleSnapshot extends ICEVehicleTelemetry {
+  tpmsState: TPMSState;
   trip: TripComputerSnapshot;
   frontAeroVerticalForce: number;
   rearAeroVerticalForce: number;
@@ -264,6 +268,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public readonly steering: SteeringSystem;
   public readonly suspension: SuspensionSystem;
   public readonly wheelRotation: WheelRotationSystem;
+  public readonly tpms: TPMSSensor;
+  private tyreAmbientTemperatureC: number;
   public readonly differential: Differential;
   public readonly rearDifferential: Differential | undefined;
   public readonly awd: AWDTorqueDistribution | undefined;
@@ -334,7 +340,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const axle = config.drivetrainType === 'RWD' ? 'rear' : 'front';
     this.differential = createDifferential(axle, axle === 'rear' ? config.rearDiff : config.frontDiff);
     this.rearDifferential = this.capabilities.awd ? createDifferential('rear', config.rearDiff) : undefined;
-    this.awd = this.capabilities.awd ? new AWDTorqueDistribution(config) : undefined;
+    this.awd = this.capabilities.awd && !this.powertrain.axleOutput ? new AWDTorqueDistribution(config) : undefined;
     this.brakes = new BrakeSystem(config.brakes, config.wheelRadius);
     this.driverAssists = new DriverAssistSystem(this.runtimeConfig);
     this.steering = new SteeringSystem(
@@ -343,7 +349,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       config.frontTrackWidth,
     );
     this.suspension = new SuspensionSystem(this.runtimeConfig);
-    this.wheelRotation = new WheelRotationSystem(config.tires, config.wheelRadius);
+    this.tyreAmbientTemperatureC = this.finiteOr(initialState.ambientTemperatureC, this.finiteOr(config.ambientTemperature, 20));
+    this.wheelRotation = new WheelRotationSystem(config.tires, config.wheelRadius, config.tires.wheelInertia, this.tyreAmbientTemperatureC);
+    this.tpms = new TPMSSensor(this.wheelRotation.tyres, this.capabilities.tpms);
     this.lastValidState = {
       powertrain: {},
       centerOfMassX: 0,
@@ -361,6 +369,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   }
 
   public reset(initialState: VehicleInitialState = {}): VehicleSnapshotFor<TPowertrain> {
+    // Full reset returns subsystems to cold state; setPose/respawn preserves heat.
+    this.tyreAmbientTemperatureC = this.finiteOr(initialState.ambientTemperatureC, this.tyreAmbientTemperatureC);
+    this.wheelRotation.tyres.reset(this.tyreAmbientTemperatureC);
+    this.tpms.reset();
     this.powertrain.reset({ vehicleOperational: initialState.vehicleOperational, driveAvailable: initialState.driveAvailable,
       shaftAngularVelocity: initialState.shaftAngularVelocity, gear: initialState.gear, driveSelector: initialState.driveSelector,
       ev: initialState.stateOfCharge === undefined ? undefined : { stateOfCharge: initialState.stateOfCharge },
@@ -600,6 +612,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const transmission = powertrain.transmission;
     return {
       ...powertrain.ice, powertrain, trip: this.tripComputer.getSnapshot(),
+      tpmsState: this.tpms.state,
       frontAeroVerticalForce: this.frontAeroVerticalForce, rearAeroVerticalForce: this.rearAeroVerticalForce,
       vehicleOperational: powertrain.vehicleOperational, driveAvailable: powertrain.driveAvailable,
       baseVehicleMass: this.config.mass,
@@ -673,6 +686,12 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     context.dt = dt; context.throttle = throttleCommand; context.brake = brakeCommand;
     context.vehicleSpeed = this.speed; context.vehicleLateralSpeed = this.lateralVelocity;
     context.drivenWheelAngularVelocity = this.getDrivenWheelAngularVelocity();
+    context.frontWheelAngularVelocity = (this.wheelRotation.getAngularVelocity('frontLeft') + this.wheelRotation.getAngularVelocity('frontRight')) * .5;
+    context.rearWheelAngularVelocity = (this.wheelRotation.getAngularVelocity('rearLeft') + this.wheelRotation.getAngularVelocity('rearRight')) * .5;
+    context.frontTorqueLimitFactor = this.driverAssists.frontTorqueFactor;
+    context.rearTorqueLimitFactor = this.driverAssists.rearTorqueFactor;
+    context.yawRate = this.yawRate; context.expectedYawRate = this.driverAssists.esc.expectedYawRate;
+    context.escActive = this.driverAssists.esc.active; context.escMode = this.driverAssists.esc.mode;
     context.torqueLimitFactor = this.driverAssists.engineTorqueFactor;
     context.clutchPedal = this.safeUnitInput(input.clutchPedal);
     context.selectorRequest = input.driveSelector; context.driveMode = this.driveMode;
@@ -703,6 +722,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       (environment.wheelContacts.frontLeft.lateralGrip + environment.wheelContacts.frontRight.lateralGrip) * 0.5;
     this.steering.update(dt, steerCommand, this.speed, frontSurfaceGrip);
     context.drivenAxleBrakeTorque = this.brakes.axleBrakeDemand(this.config.drivetrainType === 'FWD');
+    context.frontAxleBrakeTorque = this.brakes.axleBrakeDemand(true);
+    context.rearAxleBrakeTorque = this.brakes.axleBrakeDemand(false);
     context.totalServiceBrakeTorque = this.brakes.axleBrakeDemand(true) + this.brakes.axleBrakeDemand(false);
     const transmissionOutput = this.powertrain.update(context);
     const clutchTorque = transmissionOutput.inputLoadTorque;
@@ -796,7 +817,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
     this.applyWorldBounds(environment.bounds);
     this.validateOrRecover();
-    this.powertrain.finishStep(this.speed, this.getDrivenWheelAngularVelocity());
+    this.powertrain.finishStep(this.speed, this.getDrivenWheelAngularVelocity(),
+      (this.wheelRotation.getAngularVelocity('frontLeft') + this.wheelRotation.getAngularVelocity('frontRight')) * .5,
+      (this.wheelRotation.getAngularVelocity('rearLeft') + this.wheelRotation.getAngularVelocity('rearRight')) * .5);
     this.lastValidState.powertrain = this.powertrain.captureState(this.lastValidState.powertrain);
     if (!this.recoveredThisUpdate) this.tripComputer.update(dt, averageSpeed, transmissionOutput.consumedFuelL);
   }
@@ -959,11 +982,32 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       this.yawRate, this.lateralVelocity, this.wheels, limits, this.escLateralLimits);
     this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
     this.brakes.prepareRequests();
-    const regenerating = requestedDriveTorque * this.speed < 0 && this.powertrain.limitRegeneration !== undefined;
+    const evAxles = this.powertrain.axleOutput;
+    const regenerating = this.powertrain.limitRegeneration !== undefined && (requestedDriveTorque * this.speed < 0 ||
+      evAxles !== undefined && ((evAxles.frontWheelTorque ?? 0) * this.speed < 0 || (evAxles.rearWheelTorque ?? 0) * this.speed < 0));
     this.driverAssists.updateBrakes(dt, this.speed, this.brakes.brakeInput, this.wheels, limits, this.brakes.coordinator,
-      regenerating ? this.config.drivetrainType === 'FWD' ? 'front' : 'rear' : undefined);
+      regenerating ? this.config.drivetrainType === 'AWD' ? 'both' : this.config.drivetrainType === 'FWD' ? 'front' : 'rear' : undefined);
     this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
-    if (regenerating) {
+    if (regenerating && this.powertrain.limitAxleRegeneration) {
+      let frontLimit = Infinity, rearLimit = Infinity;
+      for (let i = 0; i < 4; i++) {
+        const wheel = this.wheels[WHEEL_IDS[i]!];
+        const cornering = Math.sqrt(Math.max(0, 1 - Math.min(1, wheel.lateralUsage) ** 2));
+        let limit = limits[i]! * cornering * this.config.wheelRadius * 2 * this.driverAssists.pressures[i]!;
+        if (this.driverAssists.pressures[i]! < .98) limit = 0;
+        if (i < 2) frontLimit = Math.min(frontLimit, limit);
+        else rearLimit = Math.min(rearLimit, limit);
+      }
+      if ((this.powertrainContext.totalServiceBrakeTorque ?? 0) > 1) {
+        frontLimit = Math.min(frontLimit, this.brakes.axleBrakeDemand(true) * Math.min(this.driverAssists.pressures[0]!, this.driverAssists.pressures[1]!));
+        rearLimit = Math.min(rearLimit, this.brakes.axleBrakeDemand(false) * Math.min(this.driverAssists.pressures[2]!, this.driverAssists.pressures[3]!));
+      }
+      this.powertrain.limitAxleRegeneration(frontLimit, rearLimit);
+      const output = this.powertrain.axleOutput!;
+      requestedDriveTorque = output.drivenWheelTorque;
+      this.brakes.setRegenerativeCredit(Math.max(0, -(output.frontWheelTorque ?? 0) * Math.sign(this.speed)),
+        Math.max(0, -(output.rearWheelTorque ?? 0) * Math.sign(this.speed)));
+    } else if (regenerating) {
       const first = this.config.drivetrainType === 'FWD' ? 0 : 2;
       let maximumRegen = Infinity;
       for (let i = first; i < first + 2; i++) {
@@ -983,15 +1027,18 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     }
     // Transmission owns final drive/efficiency; AWD owns axle shares and each
     // configured carrier owns left/right torque distribution.
-    this.differential.distributeTorque(requestedDriveTorque * (this.awd ? 1 - this.awd.rearTorqueSplit : 1), dt);
-    this.rearDifferential?.distributeTorque(requestedDriveTorque * (this.awd?.rearTorqueSplit ?? 0), dt);
+    const axleOutput = this.powertrain.axleOutput;
+    this.differential.distributeTorque(axleOutput ? (this.differential.axle === 'front' ? axleOutput.frontWheelTorque : axleOutput.rearWheelTorque) ?? 0
+      : requestedDriveTorque * (this.awd ? 1 - this.awd.rearTorqueSplit : 1), dt);
+    this.rearDifferential?.distributeTorque(axleOutput ? axleOutput.rearWheelTorque ?? 0 : requestedDriveTorque * (this.awd?.rearTorqueSplit ?? 0), dt);
     const requestedDrive: FourWheelValues = this.rearDifferential
       ? [this.differential.leftTorque, this.differential.rightTorque, this.rearDifferential.leftTorque, this.rearDifferential.rightTorque]
       : this.differential.axle === 'front'
       ? [this.differential.leftTorque, this.differential.rightTorque, 0, 0]
       : [0, 0, this.differential.leftTorque, this.differential.rightTorque];
     const rollingMagnitudes = loads.map((load, i) =>
-      this.config.tires.rollingResistance * load * rolling[i]!) as FourWheelValues;
+      this.config.tires.rollingResistance * load * rolling[i]! *
+      this.wheelRotation.tyres.states[WHEEL_IDS[i]!].rollingResistanceFactor) as FourWheelValues;
     const rollingForces = rollingMagnitudes.map((magnitude, i) =>
       -magnitude * Math.tanh((this.speed + this.yawRate * localX[i]!) / 0.2)) as FourWheelValues;
     const sum = (values: number[]): number => values.reduce((total, value) => total + value, 0);
@@ -1062,7 +1109,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       const loadStiffness = Math.max(0.1, loads[i] / Math.max(1, staticLoad));
       const corneringStiffness = (i < 2 ? this.config.tires.corneringStiffnessFront : this.config.tires.corneringStiffnessRear) * 0.5 * loadStiffness;
       const rotation = this.wheelRotation.updateWheel(id, dt, {
-        additionalInertia: requestedDrive[i] !== 0 || (this.config.drivetrainType === 'FWD' ? i < 2 : i >= 2)
+        additionalInertia: this.powertrain.wheelInertiaForAxle ? this.powertrain.wheelInertiaForAxle(i < 2) : requestedDrive[i] !== 0 || (this.config.drivetrainType === 'FWD' ? i < 2 : i >= 2)
           ? this.powertrain.drivenWheelInertia ?? 0 : 0,
         camberAngle: suspension.wheels[id].camberAngle * (i % 2 === 0 ? 1 : -1),
         longitudinalSpeed: wheelForwardVelocity * cosine + wheelLateralVelocity * sine,
@@ -1080,6 +1127,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       lateralLimits[i] = rotation.lateralForceLimit;
       const slipAngle = rotation.slipAngle;
       const tyreLateral = rotation.lateralForce;
+      this.tyreAmbientTemperatureC = this.finiteOr(environment.ambientTemperatureC, this.tyreAmbientTemperatureC);
+      this.wheelRotation.tyres.accumulate(id, dt, this.tyreAmbientTemperatureC, rollingForces[i],
+        rotation.longitudinalSpeed, tyreForce, rotation.angularVelocity * this.config.wheelRadius - rotation.longitudinalSpeed,
+        tyreLateral, rotation.lateralSpeed);
       // Torque-derived diagnostics close exactly with wheel inertia. Only the
       // actual slip-derived Fx enters the chassis: never sum the demands twice.
       const driveForce = requestedDrive[i] / this.config.wheelRadius;
@@ -1101,6 +1152,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       const spring = suspension.wheels[id];
       this.wheels[id] = {
         id,
+        tyre: this.wheelRotation.tyres.states[id],
         worldPosition: { x: contacts?.[i]?.x ?? worldX, y: (contacts?.[i]?.height ?? 0) + this.config.wheelRadius, z: contacts?.[i]?.z ?? worldZ },
         surfaceType: contacts?.[i]?.surfaceType ?? 'asphalt',
         groundNormal: { ...(contacts?.[i]?.normal ?? environment.groundNormal ?? { x: 0, y: Math.cos(grade), z: Math.sin(grade) }) },
@@ -1120,6 +1172,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         longitudinalUsage: rotation.longitudinalUsage, lateralUsage: rotation.lateralUsage, gripUsage: rotation.gripUsage,
       };
     }
+    this.tpms.update(dt);
     this.rearLateralGripFactor = rearAvailability.reduce((total, value) => total + value, 0) * 0.5;
     return {
       staticSupported,
@@ -1153,6 +1206,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       this.wheels[id] = {
         id, worldPosition: { x: bodyOriginX + local.x * cosine + local.z * sine, y: this.config.wheelRadius,
           z: bodyOriginZ - local.x * sine + local.z * cosine },
+        tyre: this.wheelRotation.tyres.states[id],
         surfaceType: 'asphalt', groundNormal: { x: 0, y: 1, z: 0 }, normalLoad: spring.normalLoad,
         steeringAngle: spring.toeAngle * (id.endsWith('Left') ? 1 : -1),
         camberAngle: spring.camberAngle, toeAngle: spring.toeAngle,
@@ -1191,12 +1245,12 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   }
 
   private getDrivenWheelAngularVelocity(): number {
-    if (this.awd && this.rearDifferential) {
+    if (this.rearDifferential) {
       const front = this.differential.updateSpeeds(this.wheelRotation.getAngularVelocity('frontLeft'),
         this.wheelRotation.getAngularVelocity('frontRight'));
       const rear = this.rearDifferential.updateSpeeds(this.wheelRotation.getAngularVelocity('rearLeft'),
         this.wheelRotation.getAngularVelocity('rearRight'));
-      return this.awd.updateSpeeds(front, rear);
+      return this.awd ? this.awd.updateSpeeds(front, rear) : rear;
     }
     const front = this.differential.axle === 'front';
     return this.differential.updateSpeeds(

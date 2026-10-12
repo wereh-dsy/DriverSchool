@@ -49,6 +49,12 @@ export function runVehicleLightingSelfTest(): VehicleLightingSelfTestResult {
   let state = step();
   input.fogToggle = false;
   assert(state.fogLightsEnabled && state.mainLightMode === 'position', 'fog from OFF enables at least position');
+  assert(state.fogMode === 'front' && state.frontFogLightsEnabled && !state.rearFogLightsEnabled, 'first fog request enables front only');
+  input.fogToggle = true; state = step(); input.fogToggle = false;
+  assert(state.fogMode === 'front-rear' && state.frontFogLightsEnabled && state.rearFogLightsEnabled, 'second fog request enables front and rear');
+  input.fogToggle = true; state = step(); input.fogToggle = false;
+  assert(state.fogMode === 'off' && !state.frontFogLightsEnabled && !state.rearFogLightsEnabled, 'third fog request clears both');
+  input.fogToggle = true; state = step(); input.fogToggle = false;
   for (const expected of ['low', 'high', 'off'] as const) {
     input.cycleLights = true; state = step(); input.cycleLights = false;
     assert(state.mainLightMode === expected && state.fogLightsEnabled === (expected !== 'off'),
@@ -131,7 +137,8 @@ export function runVehicleLightingSelfTest(): VehicleLightingSelfTestResult {
           `${config.name}: missing real ${key} lamp geometry`);
         assert(all.every((mesh) => mesh.material.emissiveIntensity === 0), 'OFF has no emissive lamp output');
         const shown = { ...controller.state, mainLightMode: 'high' as const, positionLight: true, lowBeam: true,
-          effectiveHighBeam: true, fogLightsEnabled: true, brakeLight: true, reverseLight: true,
+          effectiveHighBeam: true, fogLightsEnabled: true, fogMode: 'front-rear' as const,
+          frontFogLightsEnabled: true, rearFogLightsEnabled: true, brakeLight: true, reverseLight: true,
           leftBlinkOn: true, rightBlinkOn: true };
         lamps.applyState(shown);
         assert(all.every((mesh) => mesh.material.emissiveIntensity > 0), 'each resolved lamp channel emits when enabled');
@@ -187,7 +194,12 @@ export function runVehicleLightingSelfTest(): VehicleLightingSelfTestResult {
           assert(ribbon.material.emissiveIntensity < .003, 'ambient trim settles to darkness');
         } else assert(!visual.cockpitRoot.getObjectByName('Ambient dashboard indirect ribbon'), 'legacy cabins do not inherit luxury lighting');
         const fogBeams = spotlights.filter(light => light.name.includes('fog'));
-        lamps.applyState({ ...controller.state, mainLightMode: 'position', positionLight: true, fogLightsEnabled: true });
+        lamps.applyState({ ...controller.state, mainLightMode: 'position', positionLight: true, fogLightsEnabled: true,
+          fogMode: 'front', frontFogLightsEnabled: true, rearFogLightsEnabled: false });
+        assert(all.filter(mesh => mesh.userData.lightingOutput === 'fogRear').every(mesh => mesh.material.emissiveIntensity === 0),
+          'front-only fog keeps physical rear fog lamps dark');
+        lamps.applyState({ ...controller.state, mainLightMode: 'position', positionLight: true, fogLightsEnabled: true,
+          fogMode: 'front-rear', frontFogLightsEnabled: true, rearFogLightsEnabled: true });
         assert(fogBeams.length === 3 && fogBeams.every(light => light.intensity > 0 && !light.castShadow),
           'fog-only mode supplies actual lightweight front and rear illumination');
         assert(spotlights.filter(light => !light.name.includes('fog')).every(light => light.intensity === 0),

@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "checks": [
+    "retained highway skeleton and existing city data",
+    "twelve routes and stable internal IDs with approved display numbers",
+    "airport, service, exit and continuation node metadata",
+    "continuous G17/G38 ownership, west trunks and explicit network roles",
+    "every exit has 2km / 1km / 500m and destination diverge boards",
+    "green freeway content, direction shields and two shoulder supports",
+    "right-exit semantics, lane assignments, entries and measured mileage",
+    "regular larger highway fonts and all board layouts paint within bounds",
+    "physical auxiliary lanes joined at both ends",
+    "junction spatial index preserves existing clearance predicates",
+    "triangular hatching, acceleration dashes and lane arrows",
+    "shared streetlight geometry across roads and sign support templates",
+    "startup defers remote signs, roads and background geometry",
+    "auxiliary lanes use existing asphalt contact queries",
+    "bounded streaming and first-load statistics",
+    "western sectors stream, unload old sectors and retain road contact"
+  ],
+  "routes": 12,
+  "exits": 12,
+  "junctions": 14,
+  "services": 4,
+  "auxiliaryLanes": 158,
+  "initial": {
+    "sectorCount": 1,
+    "totalSectors": 2752,
+    "roadCount": 4,
+    "compiledRoadCount": 4,
+    "signCount": 2,
+    "barrierCount": 920,
+    "backgroundSectors": 8,
+    "constructorMs": 734.8754000000001,
+    "firstVisibleMs": 3078.3989
+  },
+  "loaded": {
+    "sectorCount": 56,
+    "totalSectors": 2752,
+    "roadCount": 6,
+    "compiledRoadCount": 25,
+    "signCount": 5,
+    "barrierCount": 4369,
+    "backgroundSectors": 1520,
+    "constructorMs": 734.8754000000001,
+    "firstVisibleMs": 3078.3989,
+    "firstLoadMs": 3358.8500000000004
+  }
+}

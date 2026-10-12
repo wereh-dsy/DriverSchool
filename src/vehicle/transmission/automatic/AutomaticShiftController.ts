@@ -24,16 +24,27 @@ export class AutomaticShiftController {
   }
   private timeInGear = 0;
   private previousThrottle = 0;
+  private transientDemand = 0;
+  private liftHoldRemaining = 0;
   public constructor(private readonly config: AutomaticShiftConfig, private readonly gearbox: Gearbox, private readonly wheelRadius: number) {
     this.mapSource = config.map;
     this.map = [...config.map].sort((a, b) => a.throttle - b.throttle);
   }
-  public reset(): void { this.timeInGear = 0; this.previousThrottle = 0; this.returnToAuto(); }
+  public reset(): void {
+    this.timeInGear = 0; this.previousThrottle = 0; this.transientDemand = 0;
+    this.liftHoldRemaining = 0; this.returnToAuto();
+  }
   public gearChanged(): void { this.timeInGear = 0; }
   public decide(context: TransmissionContext, shifting: boolean): ShiftDecision | null {
     this.timeInGear += context.dt;
     const throttle = clamp01(context.throttle);
     const risingThrottle = throttle - this.previousThrottle;
+    const throttleRate = risingThrottle / Math.max(1e-4, context.dt);
+    this.transientDemand = Math.max(this.transientDemand * Math.exp(-context.dt * 4),
+      Math.min(.06, Math.max(0, throttleRate) * .02));
+    if (throttleRate < -.3 && this.previousThrottle > .35)
+      this.liftHoldRemaining = this.config.liftHoldTime ?? 0;
+    this.liftHoldRemaining = Math.max(0, this.liftHoldRemaining - context.dt);
     this.previousThrottle = throttle;
     if (this.manualSelectionActive) this.manualElapsed += context.dt;
     if (shifting && this.pendingManual !== null) {
@@ -43,9 +54,9 @@ export class AutomaticShiftController {
     const gear = this.gearbox.currentGear;
     const maxGear = this.gearbox.getMaximumForwardGear();
     const outputOmega = Math.abs(context.drivenWheelAngularVelocity) * this.gearbox.config.finalDriveRatio;
-    const predictedRPM = (target: ForwardGear): number => outputOmega * this.gearbox.getRatio(target) * 60 / (2 * Math.PI);
-    const currentRPM = predictedRPM(gear);
+    const currentRPM = outputOmega * this.gearbox.getRatio(gear) * 60 / (2 * Math.PI);
     const roadOmega = Math.abs(context.vehicleSpeed) / Math.max(.01, this.wheelRadius) * this.gearbox.config.finalDriveRatio;
+    const coupledRPM = Math.min(outputOmega, roadOmega) * this.gearbox.getRatio(gear) * 60 / (2 * Math.PI);
     const safeRPM = (target: ForwardGear): number => Math.max(outputOmega, roadOmega) * this.gearbox.getRatio(target) * 60 / (2 * Math.PI);
     if (this.manualSelectionActive) {
       const request = this.pendingManual; this.pendingManual = null;
@@ -69,20 +80,6 @@ export class AutomaticShiftController {
       else return null;
     }
     if (Math.abs(context.vehicleSpeed) < 0.65 && gear !== 1) return { gear: 1, kickdown: false };
-    if (this.timeInGear < this.config.minimumTimeInGear) return null;
-    if (this.config.brakingDownshiftRPM !== undefined && context.brake > .2 && gear > 1 &&
-      currentRPM < this.config.brakingDownshiftRPM && safeRPM((gear - 1) as ForwardGear) < context.redlineRPM * .95)
-      return { gear: (gear - 1) as ForwardGear, kickdown: false };
-    const heavy = throttle >= this.config.kickdownThrottle;
-    if (heavy && gear > 1 && (risingThrottle > 0.08 || currentRPM < this.config.kickdownTargetRPM * 0.8)) {
-      let target = gear;
-      for (let candidate = 1; candidate < gear; candidate += 1) {
-        const rpm = predictedRPM(candidate as ForwardGear);
-        if (rpm <= Math.min(this.config.kickdownMaximumRPM, context.redlineRPM * 0.95) &&
-            rpm >= context.idleRPM * 1.3) { target = candidate as ForwardGear; break; }
-      }
-      if (target < gear && predictedRPM(target) > currentRPM + this.config.hysteresisRPM) return { gear: target, kickdown: true };
-    }
     if (this.mapSource !== this.config.map) {
       this.mapSource = this.config.map;
       this.map = [...this.config.map].sort((a, b) => a.throttle - b.throttle);
@@ -90,28 +87,85 @@ export class AutomaticShiftController {
     const map = this.map;
     const first = map[0]; const last = map[map.length - 1];
     if (first === undefined || last === undefined) return null;
+    const demand = clamp01(throttle + this.transientDemand);
     let up = first.upshiftRPM; let down = first.downshiftRPM;
-    if (throttle >= last.throttle) { up = last.upshiftRPM; down = last.downshiftRPM; }
+    if (demand >= last.throttle) { up = last.upshiftRPM; down = last.downshiftRPM; }
     else for (let index = 1; index < map.length; index += 1) {
       const lower = map[index - 1]!; const upper = map[index]!;
-      if (throttle <= upper.throttle) {
-        const fraction = clamp01((throttle - lower.throttle) / Math.max(0.001, upper.throttle - lower.throttle));
+      if (demand <= upper.throttle) {
+        const fraction = clamp01((demand - lower.throttle) / Math.max(0.001, upper.throttle - lower.throttle));
         up = lower.upshiftRPM + (upper.upshiftRPM - lower.upshiftRPM) * fraction;
         down = lower.downshiftRPM + (upper.downshiftRPM - lower.downshiftRPM) * fraction;
         break;
       }
     }
+    const baseUp = up;
     up += this.config.gearRPMCorrections?.[gear - 1] ?? 0;
     const next = Math.min(maxGear, gear + 1) as ForwardGear;
-    // A slipping converter can reach the engine limiter before its turbine
-    // reaches the nominal upshift RPM. The actual crank RPM is therefore an
-    // upshift input too; speed/post-shift-RPM gates still prevent launch skips.
-    const upshiftRPM = Math.max(currentRPM, context.engineRPM);
-    if (gear < maxGear && upshiftRPM > up + this.config.hysteresisRPM &&
-      Math.abs(context.vehicleSpeed) > (this.config.minimumUpshiftSpeeds[gear - 1] ?? 0) &&
-      predictedRPM(next) > down + this.config.hysteresisRPM * 0.6) return { gear: next, kickdown: false };
-    if (gear > 1 && currentRPM < down - this.config.hysteresisRPM &&
-      predictedRPM((gear - 1) as ForwardGear) < up - this.config.hysteresisRPM) return { gear: (gear - 1) as ForwardGear, kickdown: false };
+    const ratio = this.gearbox.getRatio(gear);
+    const downshiftRPM = (target: ForwardGear): number => Math.max(safeRPM(target),
+      context.engineRPM * this.gearbox.getRatio(target) / ratio);
+    const nextRPM = Math.min(outputOmega, roadOmega) * this.gearbox.getRatio(next) * 60 / (2 * Math.PI);
+    // Crank prediction matters with converter/clutch slip. Coupled prediction
+    // independently protects launch and a locked-wheel road-speed mismatch.
+    const nextCrankRPM = context.engineRPM * this.gearbox.getRatio(next) / ratio;
+    const minimumRPM = Math.max(context.idleRPM * 1.1, this.config.minimumPostShiftRPM ?? 0);
+    // Wheelspin may put the computed input shaft above redline while the crank
+    // is still accelerating normally. It must not trigger an early upshift.
+    const upshiftRPM = context.engineRPM;
+    const safeUpshift = gear < maxGear && nextRPM > minimumRPM && nextCrankRPM > minimumRPM &&
+      safeRPM(next) < context.redlineRPM * .97 &&
+      Math.abs(context.vehicleSpeed) > (this.config.minimumUpshiftSpeeds[gear - 1] ?? 0);
+    const automaticCeiling = Math.min(this.config.maximumAutomaticRPM ?? context.redlineRPM * .97,
+      context.redlineRPM * .985);
+    // AUTO cannot be held at the limiter by dwell, a sport hold, or kickdown.
+    if (safeUpshift && upshiftRPM >= automaticCeiling) return { gear: next, kickdown: false };
+    const heavy = throttle >= this.config.kickdownThrottle;
+    const urgentKickdown = heavy && throttleRate > .7 && this.timeInGear >= .2;
+    if (this.timeInGear < this.config.minimumTimeInGear && !urgentKickdown) return null;
+
+    const fullTorque = context.engineTorqueAtRPM?.(Math.max(context.idleRPM, context.engineRPM));
+    const nextTorque = context.engineTorqueAtRPM?.(Math.max(context.idleRPM, Math.min(nextRPM, nextCrankRPM)));
+    // Compare available next-gear wheel torque/power at the same road speed
+    // against current delivered torque and the requested acceleration reserve.
+    // This is decision data only; it never changes the engine torque source.
+    const requestedTorque = Math.max(0, context.availableEngineTorque, (fullTorque ?? 0) * demand) * ratio;
+    const nextCapacity = (nextTorque ?? 0) * this.gearbox.getRatio(next);
+    const ampleReserve = fullTorque !== undefined && nextCapacity > requestedTorque * 1.2;
+    const economyFactor = demand <= .65 && this.transientDemand < .01 && ampleReserve
+      ? this.config.economicalShiftFactor ?? .94 : 1;
+    const holding = this.liftHoldRemaining > 0 || ((this.config.liftHoldTime ?? 0) > 0 &&
+      (context.brake > .2 || Math.abs(context.vehicleLateralSpeed ?? 0) > 1));
+    if (safeUpshift && !holding && upshiftRPM >= Math.min(up * economyFactor + this.config.hysteresisRPM, automaticCeiling))
+      return { gear: next, kickdown: false };
+
+    if (heavy && gear > 1 && (urgentKickdown || Math.max(coupledRPM, context.engineRPM) < this.config.kickdownTargetRPM * .8)) {
+      let target = gear;
+      let bestDistance = Math.abs(coupledRPM - this.config.kickdownTargetRPM);
+      for (let candidate = 1; candidate < gear; candidate += 1) {
+        const rpm = downshiftRPM(candidate as ForwardGear);
+        const distance = Math.abs(rpm - this.config.kickdownTargetRPM);
+        if (rpm <= Math.min(this.config.kickdownMaximumRPM, automaticCeiling - this.config.hysteresisRPM) &&
+            rpm >= context.idleRPM * 1.3 && distance < bestDistance) {
+          target = candidate as ForwardGear; bestDistance = distance;
+        }
+      }
+      if (target < gear && safeRPM(target) > coupledRPM + this.config.hysteresisRPM)
+        return { gear: target, kickdown: true };
+    }
+    if (gear > 1) {
+      const lower = (gear - 1) as ForwardGear;
+      // A steady pedal must not undo the previous upshift. Keep the downshift
+      // boundary below the road RPM that the previous gear's schedule produces.
+      const previousUp = baseUp + (this.config.gearRPMCorrections?.[gear - 2] ?? 0);
+      down = Math.min(down, previousUp * (this.config.economicalShiftFactor ?? .94) *
+        ratio / this.gearbox.getRatio(lower) - this.config.hysteresisRPM);
+      const braking = this.config.brakingDownshiftRPM !== undefined && context.brake > .2 &&
+        coupledRPM < this.config.brakingDownshiftRPM;
+      if ((braking || coupledRPM < down - this.config.hysteresisRPM) &&
+          downshiftRPM(lower) < Math.min(up - this.config.hysteresisRPM, automaticCeiling))
+        return { gear: lower, kickdown: false };
+    }
     return null;
   }
 }

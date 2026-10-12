@@ -1,4 +1,5 @@
 import { updateDrivingEnvironment, type DisplayPoint, type DisplayObstacle } from './DrivingEnvironmentView';
+import type { SharedVehicleData } from '../SharedVehicleData';
 export type { DisplayPoint, DisplayObstacle } from './DrivingEnvironmentView';
 import { type RoadNetworkData } from '../../world/navigation/RoadNetwork';
 import type { StaticCollider } from '../physics/CollisionSystem';
@@ -7,6 +8,7 @@ import type { TripComputerSnapshot } from '../control/TripComputer';
 import { RearParkingProximity, type RearParkingState } from '../control/RearParkingProximity';
 
 export interface ExecutiveDisplayData {
+  lateralAssist?: import('../control/LateralAssistController').LateralAssistDisplayState;
   version: number;
   page: 'DRIVING' | 'MAP' | 'PARKING' | 'TRIP' | 'CRUISE';
   overlay: { title: string; value: string; alpha: number } | null;
@@ -33,7 +35,7 @@ export class ExecutiveDisplayContext {
   private clockElapsed = Infinity;
   private cruiseWasActive = false;
   public readonly data: ExecutiveDisplayData;
-  public constructor(fuel: FuelSnapshot) {
+  public constructor(fuel: FuelSnapshot, private readonly shared?: SharedVehicleData) {
     this.data = { version: 0, page: 'TRIP', overlay: null, lanes: [], roads: [], obstacles: [],
       trip: { seconds: 0, averageSpeed: null, fuel } };
   }
@@ -48,7 +50,7 @@ export class ExecutiveDisplayContext {
     mode: string, cruise: boolean, target: number | null, fuel: FuelSnapshot,
     network: RoadNetworkData | undefined, colliders: readonly StaticCollider[], _active: boolean, trip?: TripComputerSnapshot,
     rearParking?: RearParkingState): void {
-    this.data.rearParking = rearParking ?? this.rearDetector.update(pose, gear === 'R', colliders);
+    this.data.rearParking = this.shared?.rearParking ?? rearParking ?? this.rearDetector.update(pose, gear === 'R', colliders);
     this.clockElapsed += dt;
     if (this.clockElapsed >= 1) {
       this.clockElapsed = 0;
@@ -71,6 +73,7 @@ export class ExecutiveDisplayContext {
     if (this.elapsed < .1 && page === this.data.page) return;
     this.elapsed = 0;
     this.data.version++; this.data.page = page;
+    this.data.lateralAssist = this.shared?.lateralAssist;
     this.data.overlay = this.overlayTime > 0 && this.overlay !== null
       ? { ...this.overlay, alpha: Math.min(1, this.overlayTime / .25) } : null;
     this.data.trip = { seconds: trip?.tripA.operatingTimeSeconds ?? 0, averageSpeed: trip?.tripA.averageSpeedKmh ?? null, fuel,
@@ -81,8 +84,9 @@ export class ExecutiveDisplayContext {
       x: (x - pose.x) * cos - (z - pose.z) * sin,
       forward: -(x - pose.x) * sin - (z - pose.z) * cos });
     this.data.lanes = []; this.data.laneMarkings = []; this.data.roads = []; this.data.obstacles = [];
-    if (network && page === 'MAP') {
-      for (const road of network.segments) {
+    const mapNetwork = this.shared ? this.shared.navigation.nearbyNetwork : network;
+    if (mapNetwork && page === 'MAP') {
+      for (const road of mapNetwork.segments) {
         const line = road.centerline.map(p => local(p.x, p.z));
         const nearby = line.some(p => Math.abs(p.x) < 110 && Math.abs(p.forward) < 110) || line.some((p, i) => {
           const a = line[i - 1]; if (!a) return false;
@@ -93,6 +97,11 @@ export class ExecutiveDisplayContext {
         if (nearby) this.data.roads.push(line);
       }
     }
-    if (page === 'DRIVING' || page === 'CRUISE') updateDrivingEnvironment(this.data, pose, network, colliders, page === 'DRIVING');
+    if (page === 'DRIVING' || page === 'CRUISE') {
+      if (this.shared) {
+        this.data.lanes = this.shared.lane.lanes; this.data.laneMarkings = this.shared.lane.laneMarkings;
+        this.data.obstacles = page === 'DRIVING' ? this.shared.lane.obstacles : [];
+      } else updateDrivingEnvironment(this.data, pose, network, colliders, page === 'DRIVING');
+    }
   }
 }

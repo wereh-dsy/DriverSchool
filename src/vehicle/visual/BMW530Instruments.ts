@@ -1,7 +1,10 @@
+import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
 import * as T from 'three';
+import { lateralBoundaryColor } from './LateralAssistDisplay';
 import type { InstrumentClusterConfig, InstrumentTelemetry } from './InstrumentCluster';
 import { mesh, rounded } from './BMW530Geometry';
 import { PROXIMITY_COLORS } from '../control/RearParkingProximity';
+import { VehicleAssetRegistry } from './VehicleAssetRegistry';
 
 export const BMW_INSTRUMENT_LAYOUT = { width:1440,height:540,speed:[400,278],gear:[1040,257],mode:[720,54] } as const;
 export const BMW_INSTRUMENT_MODE_STYLES = {
@@ -22,7 +25,7 @@ export class BMW530Instruments extends T.Group {
   private immediateKey = '';
   private elapsed = Infinity;
   private readonly faceMaterial: T.MeshPhysicalMaterial;
-  public constructor(private readonly config: InstrumentClusterConfig) {
+  public constructor(private readonly config: InstrumentClusterConfig, private readonly assets = new VehicleAssetRegistry()) {
     super(); this.name = 'BMW Live Cockpit digital face';
     this.canvas.width = BMW_INSTRUMENT_LAYOUT.width; this.canvas.height = BMW_INSTRUMENT_LAYOUT.height;
     this.texture = new T.CanvasTexture(this.canvas); this.texture.colorSpace = T.SRGBColorSpace; this.texture.anisotropy = 4;
@@ -40,13 +43,13 @@ export class BMW530Instruments extends T.Group {
     this.faceMaterial.envMapIntensity = t.ignitionOn===false ? 0 : .08;
     this.elapsed += Math.max(0,dt);
     const i = t.indicators ?? {};
-    const immediate = [t.ignitionOn,t.gear,t.driveMode,i.positionLights,i.headlights,i.highBeam,i.frontFogLights,i.rearFogLights,i.fogLights,
+    const immediate = [t.laneAssist?.version,t.ignitionOn,t.gear,t.driveMode,i.positionLights,i.headlights,i.highBeam,i.frontFogLights,i.rearFogLights,i.fogLights,
       i.leftTurn,i.rightTurn,i.parkingBrake,i.autoHold,i.absWarning,i.tcsActive,i.escActive,i.tcsOff,i.escOff,i.engineWarning,i.cruise].join('|');
     const key = [Math.round(t.speedKmh),Math.round(t.rpm/25),t.driveMode,Math.round((t.fuelLevel??.7)*100),
       Math.round(t.coolantTemperatureC??90),t.engineRunning,t.startStopState?.state,t.cruiseTargetSpeedKmh,t.drivingScene?.version,immediate].join('|');
     if (key === this.lastKey || this.elapsed < .05 && immediate === this.immediateKey) return;
     this.elapsed = 0; this.lastKey = key; this.immediateKey = immediate;
-    const c = this.canvas.getContext('2d')!;
+    let c = this.canvas.getContext('2d')!;
     c.imageSmoothingEnabled = true; c.fillStyle = '#030609'; c.fillRect(0,0,1440,540);
     if (t.ignitionOn === false) { this.texture.needsUpdate = true; return; }
     const text = (value:string,x:number,y:number,size:number,color='#dfe7ed',weight=500,align:CanvasTextAlign='center',font=FONT) => {
@@ -55,12 +58,21 @@ export class BMW530Instruments extends T.Group {
     const mode = t.driveMode === 'NORMAL' || !t.driveMode ? 'COMFORT' : t.driveMode;
     const sport = mode==='SPORT', style = BMW_INSTRUMENT_MODE_STYLES[sport?'SPORT':'COMFORT'];
     const accent = mode==='ECO'?'#94baca':style.accent;
+    const staticLayer = (key: string, draw: () => void) => {
+      const live = c;
+      const artwork = this.assets.canvas(`bmw-instrument/${this.config.maximumSpeedKmh}/${this.config.maximumRPM}/${this.config.redlineRPM}/${sport}/${key}`,1440,540,context => {
+        c = context; draw(); c = live;
+      });
+      c = live; c.drawImage(artwork,0,0);
+    };
+    staticLayer('background', () => {
     const background = c.createLinearGradient(0,0,0,540);
     background.addColorStop(0,sport?'#130e14':'#08111e'); background.addColorStop(.48,sport?'#10121b':'#0a1827'); background.addColorStop(1,'#02050b');
     c.fillStyle = background; c.fillRect(0,0,1440,540);
     const glow = c.createRadialGradient(720,303,12,720,303,280);
     glow.addColorStop(0,sport?'#334051':'#164569'); glow.addColorStop(.42,sport?'#202c3e':'#103651');
     glow.addColorStop(1,'rgba(4,9,16,0)'); c.fillStyle = glow; c.fillRect(475,97,490,353);
+    });
     const point = (fraction:number,right:boolean):[number,number] => {
       let distance = T.MathUtils.clamp(fraction,0,1)*CONTOUR_LENGTH, index = 0;
       while(index<3&&distance>SEGMENT_LENGTHS[index]!) { distance-=SEGMENT_LENGTHS[index]!; index++; }
@@ -73,6 +85,7 @@ export class BMW530Instruments extends T.Group {
     };
     const dial = (right:boolean,maximum:number,value:number) => {
       const mirror = (x:number) => right?1440-x:x;
+      staticLayer(`dial/${right}`, () => {
       const polygon = (points:readonly (readonly [number,number])[]) => {
         c.beginPath(); points.forEach(([x,y],index)=>index?c.lineTo(mirror(x),y):c.moveTo(mirror(x),y)); c.closePath();
       };
@@ -100,7 +113,9 @@ export class BMW530Instruments extends T.Group {
       }
       c.save(); c.shadowColor= sport&&right?'#9e6157':'#86b1d2'; c.shadowBlur=6;
       strokeContour(right,0,1,'#bbcfde',2.3); c.restore();
+      });
       strokeContour(right,0,T.MathUtils.clamp(value/maximum,0,1),accent,sport&&right?5:3.5);
+      staticLayer(`ticks/${right}`, () => {
       if (right) strokeContour(true,this.config.redlineRPM/this.config.maximumRPM,1,sport?'#d6775c':'#926979',2.5);
       const step = right?1:40, labels:number[] = [];
       for (let number=0;number<=maximum;number+=step) labels.push(number);
@@ -110,6 +125,7 @@ export class BMW530Instruments extends T.Group {
         c.strokeStyle = '#bacad7'; c.lineWidth = 1.6; c.beginPath(); c.moveTo(x,y); c.lineTo(x+sign*14,y); c.stroke();
         text(String(number),x+sign*37,y<110?y+24:y>414?y-20:y+2,22,'#a5b8c9',400,right?'right':'left');
       }
+      });
       const [x,y] = point(T.MathUtils.clamp(value/maximum,0,1),right), sign = right?-1:1;
       c.strokeStyle = '#e9eff3'; c.lineWidth = 3; c.beginPath(); c.moveTo(x+sign*3,y); c.lineTo(x+sign*22,y); c.stroke();
     };
@@ -138,8 +154,10 @@ export class BMW530Instruments extends T.Group {
     }
     c.strokeStyle = '#24323e'; c.lineWidth = 1; c.beginPath(); c.moveTo(170,462); c.lineTo(493,462); c.moveTo(947,462); c.lineTo(1270,462); c.stroke();
     const fuel = T.MathUtils.clamp(t.fuelLevel??.7,0,1);
-    text('FUEL '+Math.round(fuel*100)+'%',170,498,23,'#94a7b4',400,'left');
+    drawBMWStatusSymbol(c,'fuel',183,498,fuel<.1?'#d1ad68':'#94a7b4');
+    text(Math.round(fuel*100)+' %',209,498,23,'#94a7b4',400,'left');
     c.fillStyle = '#243441'; c.fillRect(326,494,153,4); c.fillStyle = fuel<.1?'#d1ad68':accent; c.fillRect(326,494,153*fuel,4);
+    drawBMWStatusSymbol(c,'temperature',1168,498,'#94a7b4');
     text(Math.round(t.coolantTemperatureC??90)+' °C',1269,498,23,'#94a7b4',400,'right');
     const arrow = (active:boolean|undefined,x:number,direction:number) => {
       if(!active) return; c.save(); c.translate(x,55); c.scale(direction,1); c.fillStyle = '#70d69f';
@@ -149,8 +167,13 @@ export class BMW530Instruments extends T.Group {
     arrow(i.leftTurn,528,1); arrow(i.rightTurn,912,-1); drawBMWLightingSymbols(c,i);
     drawBMWWarningSymbols(c,i,t.engineRunning===false&&t.startStopState?.state!=='AUTO_STOPPED');
     if(i.autoHold) text('HOLD',720,498,22,'#70d69f');
-    if(i.cruise) text('CRUISE '+Math.round(t.cruiseTargetSpeedKmh??0),720,104,22,'#70d69f');
+    if(i.cruise) {
+      drawBMWStatusSymbol(c,'cruise',685,104,'#70d69f');
+      text(String(Math.round(t.cruiseTargetSpeedKmh??0)),713,104,24,'#70d69f',400,'left',NUMERAL_FONT);
+      text('km/h',763,104,17,'#94a7b4',400,'left');
+    }
     if(t.startStopState?.state==='AUTO_STOPPED') text('AUTO STOP',1040,432,21,'#9cbfac');
+    drawLaneAssistSelection(c,t.laneAssist,'bmw',720,441);
     this.texture.needsUpdate = true;
   }
 }
@@ -186,7 +209,7 @@ function drawBMWDrivingScene(c: CanvasRenderingContext2D, scene: InstrumentTelem
           const d=T.MathUtils.lerp(a.distanceAlong??a.forward,b.distanceAlong??b.forward,(t0+t1)/2);
           if(f<0 || dashed&&((d%9+9)%9)>=3.5) continue;
           const near=1/(1+Math.max(0,f)/13);
-          c.strokeStyle=`rgba(159,185,206,${.18+near*.5})`; c.lineWidth=.7+near*1.7;
+          c.strokeStyle=lateralBoundaryColor(scene.lateralAssist,index,`rgba(159,185,206,${.18+near*.5})`); c.lineWidth=.7+near*1.7;
           c.beginPath(); c.moveTo(...projectBMWDrivingPoint(T.MathUtils.lerp(a.x,b.x,t0),T.MathUtils.lerp(a.forward,b.forward,t0)));
           c.lineTo(...projectBMWDrivingPoint(T.MathUtils.lerp(a.x,b.x,t1),T.MathUtils.lerp(a.forward,b.forward,t1))); c.stroke();
         }
@@ -259,11 +282,14 @@ export function drawBMWLightingSymbols(c: CanvasRenderingContext2D, i: NonNullab
     c.restore();
   };
   if (i.positionLights) {
-    c.save(); c.translate(88, 185); c.scale(.75,.75); c.strokeStyle = '#70d69f'; c.lineWidth = 3;
+    c.save(); c.translate(88, 185); c.scale(.75,.75); c.strokeStyle = '#70d69f';
+    c.lineWidth = 2.7; c.lineCap = 'round'; c.lineJoin = 'round';
     for (const sign of [-1, 1]) {
-      c.beginPath(); c.moveTo(sign * 9, -11); c.quadraticCurveTo(sign * 26, 0, sign * 9, 11); c.closePath(); c.stroke();
+      // Two opposed lenses with clear gaps before the short outward light rays.
+      c.beginPath(); c.moveTo(sign * 7, -11); c.lineTo(sign * 7, 11);
+      c.bezierCurveTo(sign * 22, 11, sign * 22, -11, sign * 7, -11); c.stroke();
       for (let ray = 0; ray < 3; ray++) {
-        const py = (ray - 1) * 10; c.beginPath(); c.moveTo(sign * 24, py); c.lineTo(sign * 37, py * 1.4); c.stroke();
+        const py = (ray - 1) * 9; c.beginPath(); c.moveTo(sign * 24, py); c.lineTo(sign * 34, py); c.stroke();
       }
     }
     c.restore();
@@ -272,6 +298,42 @@ export function drawBMWLightingSymbols(c: CanvasRenderingContext2D, i: NonNullab
   if (i.highBeam) headlamp(281, '#58aaff', false);
   if (i.frontFogLights ?? i.fogLights) headlamp(328, '#70d69f', true, true);
   if (i.rearFogLights ?? i.fogLights) headlamp(375, '#e1b05f', false, true, true);
+}
+
+/** Small instrument pictograms; numeric readings remain live telemetry. */
+function drawBMWStatusSymbol(c: CanvasRenderingContext2D, kind:'fuel'|'temperature'|'cruise', x:number, y:number, color:string): void {
+  c.save(); c.translate(x,y); c.strokeStyle=color; c.fillStyle=color;
+  c.lineWidth=2; c.lineCap='round'; c.lineJoin='round';
+  if(kind==='fuel') {
+    c.beginPath(); c.roundRect(-10,-14,17,27,2); c.stroke();
+    c.beginPath(); c.rect(-7,-10,11,8); c.stroke();
+    c.beginPath(); c.moveTo(-13,14); c.lineTo(10,14); c.moveTo(7,-3); c.lineTo(10,-3);
+    c.quadraticCurveTo(13,-3,13,1); c.lineTo(13,7); c.quadraticCurveTo(13,12,17,12);
+    c.quadraticCurveTo(21,12,21,7); c.lineTo(21,-7); c.lineTo(15,-13);
+    c.moveTo(17,-11); c.lineTo(17,-6); c.lineTo(21,-4); c.stroke();
+  } else if(kind==='temperature') {
+    c.beginPath(); c.moveTo(-4,2); c.lineTo(-4,-12); c.quadraticCurveTo(0,-18,4,-12);
+    c.lineTo(4,2); c.arc(0,6,5.7,-Math.PI/4,Math.PI*1.25); c.closePath(); c.stroke();
+    c.beginPath(); c.moveTo(0,-8); c.lineTo(0,6); c.moveTo(5,-9); c.lineTo(10,-9);
+    c.moveTo(5,-4); c.lineTo(9,-4); c.stroke();
+    c.beginPath(); c.arc(0,6,2.5,0,Math.PI*2); c.fill();
+    for(const row of [15,21]) {
+      c.beginPath(); c.moveTo(-16,row);
+      for(let n=0;n<4;n++) c.quadraticCurveTo(-12+n*8,row+(n%2===0?-3:3),-8+n*8,row);
+      c.stroke();
+    }
+  } else {
+    c.beginPath(); c.arc(0,3,15,Math.PI*.82,Math.PI*2.18); c.stroke();
+    for(const angle of [Math.PI*1.05,Math.PI*1.35,Math.PI*1.65,Math.PI*1.95]) {
+      c.beginPath(); c.moveTo(Math.cos(angle)*11,3+Math.sin(angle)*11);
+      c.lineTo(Math.cos(angle)*14,3+Math.sin(angle)*14); c.stroke();
+    }
+    c.beginPath(); c.moveTo(-2,6); c.lineTo(8,-5); c.stroke();
+    c.beginPath(); c.arc(-2,6,2,0,Math.PI*2); c.fill();
+    // Cruise's speed-hold arrow distinguishes this from a generic speedometer.
+    c.beginPath(); c.moveTo(-9,17); c.lineTo(9,17); c.moveTo(5,13); c.lineTo(9,17); c.lineTo(5,21); c.stroke();
+  }
+  c.restore();
 }
 
 /** Small conventional warning lamps. Never display a fault that telemetry does not report. */

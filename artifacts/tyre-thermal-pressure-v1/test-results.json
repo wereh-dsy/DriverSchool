@@ -1,0 +1,76 @@
+{
+  "thermalPressure": {
+    "assertions": 61,
+    "cruiseTemperatureC": 26.929860695565466,
+    "regression": {
+      "BMW": {
+        "maxSpeedDifferenceMps": 0.00008085268046720273,
+        "maxYawDifferenceRad": 0.000003003714560190218,
+        "maximumTemperatureC": 20.387314057156217
+      },
+      "Tesla": {
+        "maxSpeedDifferenceMps": 0.00009054380504203152,
+        "maxYawDifferenceRad": 0.00000687377323860261,
+        "maximumTemperatureC": 20.41270652134838
+      },
+      "Taycan": {
+        "maxSpeedDifferenceMps": 0.00022046243127249454,
+        "maxYawDifferenceRad": 0.000008583728035027605,
+        "maximumTemperatureC": 20.86074693608557
+      },
+      "Audi": {
+        "maxSpeedDifferenceMps": 0.00010012293915018233,
+        "maxYawDifferenceRad": 0.000007630193983754197,
+        "maximumTemperatureC": 20.490317051725384
+      }
+    },
+    "hardAccelerationHeatC": {
+      "Tesla": 1.9189438379511472,
+      "Taycan": 3.8242345187033777
+    }
+  },
+  "tpmsDisplays": {
+    "assertions": 12
+  },
+  "wheelRotation": {
+    "assertions": 28,
+    "lockedWheelSlip": -1,
+    "reverseWheelForce": 2651.8800000006054
+  },
+  "tyreDifferential": {
+    "assertions": 66,
+    "splitTraction": 3680.756259522442,
+    "asphaltTraction": 4444.444461615524,
+    "splitWheelSpeedRatio": 4.440231548080794
+  },
+  "fourWheel": {
+    "assertions": 20888,
+    "scenarios": [
+      {
+        "vehicle": "family-sedan",
+        "drivenAxle": "FWD",
+        "brakeBias": 0.68,
+        "brakingPitchDegrees": -0.48867828885310194,
+        "cornerRollDegrees": 1.6812172160906595,
+        "splitYawDegrees": -0.17003495209527475,
+        "cornerSpeedKmh": 48.396237917509985,
+        "hillLaunchSpeedKmh": 28.627945370437846,
+        "hillMaximumRPM": 4030.5504048079324
+      },
+      {
+        "vehicle": "sport-coupe",
+        "drivenAxle": "RWD",
+        "brakeBias": 0.67,
+        "brakingPitchDegrees": -0.3608370538986028,
+        "cornerRollDegrees": 1.2547919889647599,
+        "splitYawDegrees": -0.2069679973185207,
+        "cornerSpeedKmh": 48.305265939746256,
+        "hillLaunchSpeedKmh": 61.533089064849285,
+        "hillMaximumRPM": 7405.751767064891
+      }
+    ],
+    "restStable": true,
+    "rearOnlyHandbrake": true,
+    "preservedPowertrain": true
+  }
+}

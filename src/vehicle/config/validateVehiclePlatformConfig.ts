@@ -3,6 +3,7 @@ import type { VehicleChassisConfig } from './VehiclePhysicsConfig';
 import type { DifferentialConfig } from './VehiclePlatformConfig';
 import type { VehicleVisualConfig } from '../visual/VehicleVisualConfig';
 import { isElectricConfig } from './ElectricVehiclePhysicsConfig';
+import { validateEVPlatformConfig } from './validateEVPlatformConfig';
 
 /** Startup/test validation only; no schema framework or work in the fixed loop. */
 export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visual?: VehicleVisualConfig): void {
@@ -13,6 +14,22 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
   const positive = (value: number, field: string): void => require(Number.isFinite(value) && value > 0, field);
   const fraction = (value: number, field: string): void => require(Number.isFinite(value) && value >= 0 && value <= 1, field);
   positive(config.mass, 'mass'); positive(config.wheelBase, 'wheelBase');
+  for (const tyre of [config.tires.thermalPressureFront, config.tires.thermalPressureRear]) {
+    if (!tyre) continue;
+    positive(tyre.referenceColdPressureKPa, 'tyre cold pressure');
+    require(Number.isFinite(tyre.referenceTemperatureC) && tyre.referenceTemperatureC > -80 && tyre.referenceTemperatureC < 100, 'tyre reference temperature');
+    positive(tyre.thermalCapacity, 'tyre thermal capacity'); fraction(tyre.heatingEfficiency, 'tyre heating efficiency');
+    nonnegative(tyre.baseCoolingRate, 'tyre cooling'); nonnegative(tyre.speedCoolingGain, 'tyre airflow cooling');
+    positive(tyre.minimumPhysicalPressureKPa, 'tyre minimum pressure');
+    require(tyre.minimumPhysicalPressureKPa < tyre.referenceColdPressureKPa && tyre.referenceColdPressureKPa < tyre.maximumPhysicalPressureKPa && Number.isFinite(tyre.maximumPhysicalPressureKPa), 'tyre physical pressure range');
+    nonnegative(tyre.rollingResistancePressureSensitivity, 'tyre rolling pressure sensitivity');
+    nonnegative(tyre.longitudinalStiffnessPressureSensitivity, 'tyre longitudinal pressure sensitivity');
+    nonnegative(tyre.lateralStiffnessPressureSensitivity, 'tyre lateral pressure sensitivity');
+    require(tyre.criticalLowPressureRatio > 0 && tyre.criticalLowPressureRatio < tyre.lowPressureWarningRatio &&
+      tyre.lowPressureWarningRatio < 1 && tyre.highPressureWarningRatio >= 1.3 && Number.isFinite(tyre.highPressureWarningRatio), 'tyre warning ratios');
+    nonnegative(tyre.displayPressureSmoothing, 'tyre sensor smoothing');
+    if (tyre.initialTemperatureOffsetC !== undefined) require(Number.isFinite(tyre.initialTemperatureOffsetC), 'tyre precondition offset');
+  }
   positive(config.yawInertia, 'yawInertia'); positive(config.centerOfMassHeight, 'CG height');
   require(config.frontWeightBias >= .15 && config.frontWeightBias <= .85, 'CG must lie between axles');
   require(['FRONT', 'FRONT_MID', 'MID', 'REAR'].includes(config.enginePlacement), 'engine placement');
@@ -47,7 +64,7 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
   require((config.awd !== undefined) === (config.drivetrainType === 'AWD'), 'AWD controller and drivetrainType disagree');
   fraction(config.frontTorqueSplit, 'frontTorqueSplit'); fraction(config.rearTorqueSplit, 'rearTorqueSplit');
   if (isElectricConfig(config)) {
-    require(config.drivetrainType === 'RWD' || config.drivetrainType === 'FWD', 'single motor needs one driven axle');
+    validateEVPlatformConfig(config);
     require(!('engine' in config) && !('fuel' in config) && !('clutch' in config) && !config.transmission, 'EV must not install ICE components');
     const { motor, battery, fixedReduction, regen } = config;
     for (const key of ['maxDriveTorque', 'maxDrivePower', 'maxRPM', 'rotationalInertia', 'driveResponseRate', 'maxRegenTorque', 'maxRegenPower'] as const) positive(motor[key], `motor.${key}`);

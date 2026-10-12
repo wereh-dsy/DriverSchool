@@ -21,8 +21,8 @@ export class TyreGripModel {
     return 1 - clamp(Number.isFinite(wetness) ? wetness : 0, 0, 1) * (1 - clamp(retention ?? 1, 0, 1));
   }
 
-  public longitudinalForce(slipRatio: number, limit: number): number {
-    const ratio = Math.abs(slipRatio) / Math.max(0.015, this.config.peakSlipRatio);
+  public longitudinalForce(slipRatio: number, limit: number, stiffnessFactor = 1): number {
+    const ratio = Math.abs(slipRatio) * stiffnessFactor / Math.max(0.015, this.config.peakSlipRatio);
     const curve = ratio <= 1 ? Math.sin(ratio * Math.PI * 0.5) : this.postPeak(ratio);
     return Math.sign(slipRatio) * limit * curve;
   }

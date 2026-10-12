@@ -1,0 +1,96 @@
+import type { ElectricVehiclePhysicsConfig, ElectricMotorConfig, EVTwoSpeedConfig, EVModeCalibration } from './ElectricVehiclePhysicsConfig';
+import type { DriveModeCalibration } from './VehiclePhysicsConfig';
+import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { createExecutiveSedanPhysicsConfig } from './executiveSedanPhysicsConfig';
+import { TAYCAN_4S_DIMENSIONS as dimensions } from '../VehicleDimensions';
+import { createLateralAssistConfig } from '../control/LateralAssistController';
+import { createTyreThermalPressureConfig } from './TyreThermalPressureConfig';
+
+/** 2024 saloon / Performance Battery Plus. Motor maps are simulation calibration. */
+export function createTaycan4SPhysicsConfig(): ElectricVehiclePhysicsConfig {
+  const { engine: _engine, fuel: _fuel, clutch: _clutch, autoClutch: _autoClutch, transmission: _transmission, ...chassis } = createDefaultVehiclePhysicsConfig();
+  const controls = createExecutiveSedanPhysicsConfig();
+  const rearMotor: ElectricMotorConfig = { maxDriveTorque: 400, maxDrivePower: 280000, continuousPower: 200000,
+    maxRPM: 15700, baseSpeedRPM: 6685, highSpeedRollOffRPM: 14900, rotationalInertia: .032,
+    driveResponseRate: 18, motoringEfficiency: .952, maxRegenTorque: 290, maxRegenPower: 190000, regenEfficiency: .91,
+    efficiencyMap: { lightLoadPenalty: .030, highLoadPenalty: .036, highSpeedPenalty: .012 },
+    thermal: { thermalCapacity: 75000, coolingRate: 105, airflowCooling: 2.4,
+      derateStartTemperature: 82, criticalTemperature: 115, minimumCapability: 0, initialTemperatureOffset: 5 } };
+  const frontMotor: ElectricMotorConfig = { maxDriveTorque: 310, maxDrivePower: 160000, continuousPower: 110000,
+    maxRPM: 15700, baseSpeedRPM: 4930, highSpeedRollOffRPM: 14750, rotationalInertia: .022,
+    driveResponseRate: 20, motoringEfficiency: .949, maxRegenTorque: 210, maxRegenPower: 120000, regenEfficiency: .90,
+    efficiencyMap: { lightLoadPenalty: .035, highLoadPenalty: .032, highSpeedPenalty: .010 },
+    thermal: { thermalCapacity: 48000, coolingRate: 80, airflowCooling: 1.8,
+      derateStartTemperature: 80, criticalTemperature: 112, minimumCapability: 0, initialTemperatureOffset: 5 } };
+  const rearTransmission: EVTwoSpeedConfig = { type: 'TWO_SPEED', ratio: 15.5, secondRatio: 8.05, efficiency: .966,
+    shiftDuration: .20, minimumShiftInterval: 1.2,
+    normalUpshiftSpeed: 14, normalDownshiftSpeed: 5,
+    sportUpshiftSpeed: 22, sportDownshiftSpeed: 9,
+    sportPlusUpshiftSpeed: 24, sportPlusDownshiftSpeed: 12,
+    reverseSpeedLimit: 8, parkMaximumSpeed: .6, directionLockoutSpeed: 1.5,
+    creepEnabled: false, creepTorque: 0, creepSpeed: 1.5 };
+  const mode = (throttleExponent: number, response: number, cooling: number, power: number, front: number,
+    shift: EVModeCalibration['shiftStrategy'], lift: number): DriveModeCalibration => ({ throttleExponent,
+    throttleResponse: response, steeringResponse: 3.1, steeringDamping: 13,
+    ev: { coolingMultiplier: cooling, powerFraction: power, frontParticipation: front, shiftStrategy: shift, liftOffMultiplier: lift } });
+  return { ...chassis, ...dimensions, mass: 2250, trackWidth: dimensions.frontTrackWidth,
+    lateralAssist: createLateralAssistConfig(),
+    frontWeightBias: .49, centerOfMassHeight: .41, yawInertia: 3850,
+    enginePlacement: 'REAR', layoutCalibrationNote: 'Underfloor battery and independent front/rear PSM drive units.',
+    drivetrainType: 'AWD', drivetrainLayout: 'AWD', frontTorqueSplit: .35, rearTorqueSplit: .65,
+    // Structural AWD declaration; EV unit coordinator supplies the actual variable axle torque.
+    awd: { mode: 'full-time' }, frontDiff: { type: 'open' }, rearDiff: { type: 'open' },
+    capabilities: { cruiseControl: true, advancedInstrument: true, tpms: true },
+    parkingBrake: { ...controls.parkingBrake! }, autoHold: { ...controls.autoHold! }, cruiseControl: { ...controls.cruiseControl! },
+    battery: { grossEnergyKWh: 105, usableCapacityKWh: 97, defaultStateOfCharge: .8, nominalVoltage: 800,
+      maxDischargePower: 510000, maxChargePower: 320000, dischargeEfficiency: .98, chargeEfficiency: .97,
+      lowSOCStart: .12, lowSOCEnd: 0, highSOCRegenStart: .88, highSOCRegenEnd: 1,
+      coldDischargeFullTemperature: 18, coldDischargeZeroTemperature: -30,
+      coldChargeFullTemperature: 22, coldChargeZeroTemperature: -12,
+      thermal: { thermalCapacity: 850000, coolingRate: 140, airflowCooling: 3,
+        derateStartTemperature: 52, criticalTemperature: 70, minimumCapability: .3, initialTemperatureOffset: 7 } },
+    motor: rearMotor, fixedReduction: rearTransmission,
+    driveUnits: [{ axle: 'front', motor: frontMotor, transmission: { ratio: 8.05, efficiency: .972,
+      reverseSpeedLimit: 8, parkMaximumSpeed: .6, directionLockoutSpeed: 1.5,
+      creepEnabled: false, creepTorque: 0, creepSpeed: 1.5 },
+      inverter: { maxPower: 195000, efficiency: .976,
+        thermal: { thermalCapacity: 28000, coolingRate: 72, airflowCooling: 1.2,
+          derateStartTemperature: 98, criticalTemperature: 140, minimumCapability: .45, initialTemperatureOffset: 5 } } },
+      { axle: 'rear', motor: rearMotor, transmission: rearTransmission,
+        inverter: { maxPower: 325000, efficiency: .977,
+          thermal: { thermalCapacity: 42000, coolingRate: 100, airflowCooling: 1.7,
+            derateStartTemperature: 100, criticalTemperature: 145, minimumCapability: .45, initialTemperatureOffset: 5 } } }],
+    normalSystemPower: 380000, auxiliaryPower: 700, ambientTemperature: 20, audioPresence: 1.7,
+    launchControl: { normalPower: 380000, overboostPower: 440000, duration: 8, energyBudgetKJ: 430,
+      cooldown: 30, armTime: .7, minimumSOC: .2, minimumBatteryTemperature: 10, maximumBatteryTemperature: 50,
+      maximumMotorTemperature: 105, maximumInverterTemperature: 98 },
+    regen: { strength: .1, maximumLiftOffDeceleration: 1, brakeRegenFraction: 1, brakeLightDeceleration: 1.3,
+      fadeSpeed: 2.5, minimumSpeed: .25, stopBrakeSpeed: 0, stopBrakeDemand: 0, referenceConsumptionKWhPer100km: 19.5 },
+    driveModes: { RANGE: mode(1.35, 9, .85, .82, .05, 'range', .3), NORMAL: mode(1, 16, 1, 1, .25, 'normal', 1),
+      SPORT: mode(.85, 20, 1.5, 1, .7, 'sport', 1.3), SPORT_PLUS: mode(.72, 24, 1.85, 1, 1, 'sport-plus', 1.5) },
+    driveModeOrder: ['RANGE', 'NORMAL', 'SPORT', 'SPORT_PLUS'], defaultDriveMode: 'NORMAL',
+    brakes: { ...chassis.brakes, maxBrakeTorqueFront: 5100, maxBrakeTorqueRear: 3100, frontBrakeBias: .63,
+      maxBrakeForce: 8100 / dimensions.wheelRadius, pedalCurveExponent: 1.05, applyResponse: 14, releaseResponse: 20 },
+    steering: { ...chassis.steering, maxRoadWheelAngle: 31 * Math.PI / 180, maxSteeringAngle: 31 * Math.PI / 180,
+      steeringRatio: 15, steeringWheelLock: 930 * Math.PI / 180, steeringResponse: 3.1, steeringDamping: 13 },
+    aero: { dragCoefficient: .23, frontalArea: 2.33, airDensity: 1.225, liftCoefficientFront: -.012, liftCoefficientRear: -.025 },
+    tires: { ...chassis.tires, rollingResistance: .0115, longitudinalGrip: 1.10, lateralGrip: 1.08, gripCoefficient: 1.08,
+      thermalPressureFront: createTyreThermalPressureConfig(260, { thermalCapacity: 33000, heatingEfficiency: .80 }),
+      thermalPressureRear: createTyreThermalPressureConfig(280, { thermalCapacity: 35000, heatingEfficiency: .80 }),
+      wheelInertia: 1.95, corneringStiffnessFront: 102000, corneringStiffnessRear: 115000, camberStiffness: 1000 },
+    suspension: { ...chassis.suspension, rideHeight: .128, springRateFront: 52000, springRateRear: 56000,
+      damperCompressionFront: 3300, damperCompressionRear: 3500, damperReboundFront: 5000, damperReboundRear: 5300,
+      antiRollStiffnessFront: 31000, antiRollStiffnessRear: 27000,
+      adaptiveDamping: { responseRate: 2.5, modeMultipliers: { RANGE: .95, NORMAL: 1, SPORT: 1.3, SPORT_PLUS: 1.5 } },
+      airSuspension: { nominalRideHeight: .128, minimumOffset: -.025, maximumOffset: 0, adjustmentRate: .004,
+        modeOffsets: { RANGE: -.005, NORMAL: 0, SPORT: -.015, SPORT_PLUS: -.022 },
+        highSpeedLowering: { activateSpeed: 33, restoreSpeed: 27, delay: 4, offset: -.020 } },
+      kinematics: { front: { topology: 'DOUBLE_WISHBONE', staticCamber: -.015, camberGainPerMeter: -.42, staticToe: 0,
+        bumpToeGainPerMeter: .006, antiDiveRatio: .2, antiSquatRatio: 0 },
+        rear: { topology: 'MULTI_LINK', staticCamber: -.023, camberGainPerMeter: -.36, staticToe: .001,
+          bumpToeGainPerMeter: .014, antiDiveRatio: 0, antiSquatRatio: .2 } } },
+    driverAids: { ...chassis.driverAids, absEnabled: true, ebdEnabled: true, tractionControlEnabled: true, stabilityControlEnabled: true,
+      tcs: { slipThresholdMultiplier: 1.15, maximumTorqueReduction: .95, response: 16, recoveryResponse: 4 },
+      esc: { yawErrorThreshold: .14, sideslipThreshold: .09, response: 10, minimumSpeed: 4.5 } },
+  };
+}

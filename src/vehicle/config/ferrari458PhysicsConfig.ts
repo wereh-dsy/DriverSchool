@@ -25,19 +25,19 @@ export function createFerrari458PhysicsConfig(): VehiclePhysicsConfig {
     torqueCurve: [{ rpm: 1000, torque: 180 }, { rpm: 2000, torque: 300 }, { rpm: 3250, torque: 432 },
       { rpm: 4500, torque: 490 }, { rpm: 6000, torque: 540 }, { rpm: 7000, torque: 526 },
       { rpm: 8000, torque: 495 }, { rpm: 9000, torque: 445 }, { rpm: 9350, torque: 370 }] };
-  const strategy = (light: number, full: number, brakeRPM: number): AutomaticShiftConfig => ({
-    map: [{ throttle: 0, upshiftRPM: light, downshiftRPM: 1400 },
-      { throttle: .3, upshiftRPM: light + 900, downshiftRPM: 2000 },
-      { throttle: .65, upshiftRPM: 6500, downshiftRPM: 3200 },
-      { throttle: 1, upshiftRPM: full, downshiftRPM: 5000 }],
-    minimumUpshiftSpeeds: [5, 9, 13, 17, 22, 28], hysteresisRPM: 120, minimumTimeInGear: .45,
-    kickdownThrottle: .75, kickdownTargetRPM: 6500, kickdownMaximumRPM: 8500, brakingDownshiftRPM: brakeRPM });
+  const strategy = (up: number[], brakeRPM: number, liftHoldTime: number): AutomaticShiftConfig => ({
+    map: [0, .2, .45, .7, .9, 1].map((throttle, i) => ({ throttle,
+      upshiftRPM: up[i]!, downshiftRPM: [1200, 1400, 1800, 2600, 3600, 4500][i]! })),
+    minimumUpshiftSpeeds: [3, 5, 7, 9, 12, 15], hysteresisRPM: 120, minimumTimeInGear: .45,
+    maximumAutomaticRPM: 8860, minimumPostShiftRPM: 1400, economicalShiftFactor: 1, liftHoldTime,
+    kickdownThrottle: .9, kickdownTargetRPM: 6800, kickdownMaximumRPM: 8500, brakingDownshiftRPM: brakeRPM });
+  const sportShift = strategy([2200, 2900, 4400, 6500, 8100, 8750], 3500, 1.2);
   c.transmission = { ...c.transmission, type: 'DCT', supportsManualSelection: true,
     manualAutoUpshiftAtRedline: true, manualSelectionTimeout: 12, shiftTime: .11,
     gearRatios: { 1: 3.077, 2: 2.185, 3: 1.626, 4: 1.286, 5: 1.028, 6: .839, 7: .693 },
     reverseRatio: -2.79, finalDrive: 5.143, finalDriveRatio: 5.143, efficiency: .94, drivetrainEfficiency: .94,
     drivetrainLash: { reversalTime: .035, torqueDeadzone: 8 },
-    dct: { shiftStrategy: strategy(3000, 8750, 3500), clutchCapacity: 700, couplingStiffness: 14,
+    dct: { shiftStrategy: sportShift, clutchCapacity: 700, couplingStiffness: 14,
       clutchApplyRate: 3.5, clutchReleaseRate: 12, creepEngagement: .10, launchFullyEngagedSpeed: 5,
       unexpectedShiftDelay: .04, parkMaximumSpeed: .35, revMatching: { response: 4, maximumThrottle: .65 } } };
   c.rearDiff = { type: 'lsd', preload: 45, lockStrength: .16, torqueBiasRatio: 3,
@@ -74,9 +74,9 @@ export function createFerrari458PhysicsConfig(): VehiclePhysicsConfig {
     throttleExponent, throttleResponse, shiftStrategy, dctShiftTime, steeringResponse: 4.2, steeringDamping: 13,
     tcs: { ...c.driverAids.tcs!, slipThresholdMultiplier: slip },
     esc: { ...c.driverAids.esc!, yawErrorThreshold: yaw, sideslipThreshold: sideslip } });
-  c.driveModes = { WET: mode(1.45, 5.5, strategy(2400, 8500, 2800), .15, 1.15, .18, .10),
-    SPORT: mode(1, 9, strategy(3000, 8750, 3500), .11, 1.55, .28, .16),
-    RACE: mode(.9, 11, strategy(3800, 8800, 4300), .08, 1.9, .38, .21) };
+  c.driveModes = { WET: mode(1.45, 5.5, strategy([2000, 2600, 3700, 5500, 7300, 8500], 2800, .5), .15, 1.15, .18, .10),
+    SPORT: mode(1, 9, sportShift, .11, 1.55, .28, .16),
+    RACE: mode(.9, 11, strategy([2800, 3400, 4800, 7400, 8500, 8820], 4300, 1.6), .08, 1.9, .38, .21) };
   c.defaultDriveMode = 'SPORT'; c.driveModeOrder = ['WET', 'SPORT', 'RACE'];
   c.capabilities = { cruiseControl: true, advancedInstrument: true };
   return c;

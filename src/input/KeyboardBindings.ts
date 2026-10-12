@@ -67,7 +67,7 @@ export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] 
   { action: 'hazard', label: '双闪', group: '车辆附件' },
   { action: 'cycleLights', label: '切换灯光', group: '车辆附件' },
   { action: 'cycleWipers', label: '雨刷（关→间歇→低速→高速）', group: '车辆附件' },
-  { action: 'fogToggle', label: '前后雾灯', group: '车辆附件' },
+  { action: 'fogToggle', label: '雾灯循环', group: '车辆附件' },
   { action: 'highBeamFlash', label: '闪远光（按住）', group: '车辆附件' },
   { action: 'horn', label: '喇叭（按住）', group: '车辆附件' },
   { action: 'selectorPark', label: '自动挡 P 驻车', group: '车辆附件' },
@@ -118,6 +118,7 @@ export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.free
 
 /** Keys owned by the game shell rather than the keyboard driving adapter. */
 export const RESERVED_GAME_KEYS = new Set([
+  'KeyI',
   'Escape', 'Enter', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F12',
   'Backspace', 'KeyC', 'KeyU',
 ]);

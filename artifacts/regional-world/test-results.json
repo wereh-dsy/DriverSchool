@@ -9,6 +9,12 @@
     "S37 continuity, divided lanes, mainline grades",
     "S68 continuity, divided lanes, mainline grades",
     "S89 continuity, divided lanes, mainline grades",
+    "S18 continuity, divided lanes, mainline grades",
+    "S36 continuity, divided lanes, mainline grades",
+    "S31 continuity, divided lanes, mainline grades",
+    "G42 continuity, divided lanes, mainline grades",
+    "G65 continuity, divided lanes, mainline grades",
+    "S29 continuity, divided lanes, mainline grades",
     "CBD, city ring and regional graph connectivity",
     "青岭枢纽 directed movements and advance signs",
     "东原枢纽 directed movements and advance signs",
@@ -16,6 +22,21 @@
     "西川枢纽 directed movements and advance signs",
     "物流枢纽 directed movements and advance signs",
     "东南枢纽 directed movements and advance signs",
+    "西岭枢纽 directed movements and advance signs",
+    "机场北枢纽 directed movements and advance signs",
+    "北岭西枢纽 directed movements and advance signs",
+    "西川西枢纽 directed movements and advance signs",
+    "机场南枢纽 directed movements and advance signs",
+    "机场南城际疏解枢纽 directed movements and advance signs",
+    "北岭沿江枢纽 directed movements and advance signs",
+    "晨江东枢纽 directed movements and advance signs",
+    "东北绕城西枢纽 directed movements and advance signs",
+    "沿江北枢纽 directed movements and advance signs",
+    "北岭北枢纽 directed movements and advance signs",
+    "晨江东北枢纽 directed movements and advance signs",
+    "东临东枢纽 directed movements and advance signs",
+    "新城东枢纽 directed movements and advance signs",
+    "沿江南枢纽 directed movements and advance signs",
     "seven ordinary exits and two service areas",
     "mountain interchange ramps remain above earthworks",
     "东临大河桥 support and continuity",
@@ -23,6 +44,35 @@
     "北岭谷桥 support and continuity",
     "河湾一桥 support and continuity",
     "河湾二桥 support and continuity",
+    "云岭隧道 support and continuity",
+    "云岭谷桥 support and continuity",
+    "枢纽主线跨线桥 support and continuity",
+    "枢纽主线跨线桥 support and continuity",
+    "枢纽主线跨线桥 support and continuity",
+    "枢纽主线跨线桥 support and continuity",
+    "晨江沿江跨线桥 support and continuity",
+    "S12 跨线桥 support and continuity",
+    "S31 跨线桥 support and continuity",
+    "S29 跨线桥 support and continuity",
+    "G38 跨线桥 support and continuity",
+    "S29 跨线桥 support and continuity",
+    "S36 跨线桥 support and continuity",
+    "S36 跨线桥 support and continuity",
+    "S36 跨线桥 support and continuity",
+    "S36 跨线桥 support and continuity",
+    "S12 跨线桥 support and continuity",
+    "S12 跨线桥 support and continuity",
+    "S36 跨线桥 support and continuity",
+    "S12 跨线桥 support and continuity",
+    "S12 跨线桥 support and continuity",
+    "S29 跨线桥 support and continuity",
+    "S31 跨线桥 support and continuity",
+    "S36 跨线桥 support and continuity",
+    "S29 跨线桥 support and continuity",
+    "G42 跨线桥 support and continuity",
+    "S29 跨线桥 support and continuity",
+    "S29 跨线桥 support and continuity",
+    "S29 跨线桥 support and continuity",
     "route shields, registry and complete sign content",
     "speed and heading lookahead, sector boundary movement and reverse",
     "whole interchange and bridge preload, city detail unload",
@@ -31,25 +81,30 @@
   "routes": [
     {
       "id": "G17",
-      "lengthKm": 7.320401133984837,
+      "lengthKm": 19.189209179342125,
       "lanes": "3+3",
       "terrain": "东郊—平原—大河—农田",
       "connected": [
-        "S68"
+        "S68",
+        "S31",
+        "S29"
       ]
     },
     {
       "id": "G38",
-      "lengthKm": 5.702262380825233,
+      "lengthKm": 19.39603061814997,
       "lanes": "2+2",
       "terrain": "缓丘—林区—山谷—隧道—山岭",
       "connected": [
-        "S68"
+        "S68",
+        "G42",
+        "S31",
+        "S29"
       ]
     },
     {
       "id": "G4516",
-      "lengthKm": 5.96319024346928,
+      "lengthKm": 7.06319024346928,
       "lanes": "3+3",
       "terrain": "河谷和平原交界的东南放射通道",
       "connected": [
@@ -58,7 +113,7 @@
     },
     {
       "id": "S26",
-      "lengthKm": 5.5445775856355395,
+      "lengthKm": 8.334412477483104,
       "lanes": "3+3",
       "terrain": "工业物流平原；2.0 km连续直线",
       "connected": [
@@ -68,11 +123,12 @@
     },
     {
       "id": "S37",
-      "lengthKm": 4.3864027566431325,
+      "lengthKm": 17.916822377689364,
       "lanes": "2+2",
       "terrain": "河湾—低丘—老工业河谷",
       "connected": [
-        "S89"
+        "S89",
+        "G65"
       ]
     },
     {
@@ -88,17 +144,89 @@
     },
     {
       "id": "S89",
-      "lengthKm": 13.859438268779083,
+      "lengthKm": 40.00231777467103,
       "lanes": "3+3",
-      "terrain": "西南—南部—东南，非闭合绕行线",
+      "terrain": "西南外圈开放 C 形走廊；两端接区域外，机场与城际方向在主线上错开疏解",
       "connected": [
         "S37",
         "S26",
-        "G4516"
+        "G4516",
+        "S18",
+        "S36"
+      ]
+    },
+    {
+      "id": "S18",
+      "lengthKm": 7.8687101768224625,
+      "lanes": "3+3",
+      "terrain": "西川绕城接机场、航站楼和机场服务设施",
+      "connected": [
+        "G42",
+        "S89"
+      ]
+    },
+    {
+      "id": "S36",
+      "lengthKm": 44.06372892689299,
+      "lanes": "3+3",
+      "terrain": "西部外联—机场南组合枢纽—南部外圈—城际新区通道",
+      "connected": [
+        "S89",
+        "S29",
+        "S31"
+      ]
+    },
+    {
+      "id": "S31",
+      "lengthKm": 31.815240013540276,
+      "lanes": "2+2",
+      "terrain": "北部区域外贯通沿江走廊；南端外放，原折返保留为晨江东枢纽回转联络匝道",
+      "connected": [
+        "G38",
+        "G17",
+        "S29",
+        "S36"
+      ]
+    },
+    {
+      "id": "G42",
+      "lengthKm": 43.72447312708635,
+      "lanes": "2+2",
+      "terrain": "区域过境通道；边界接续区外高速",
+      "connected": [
+        "G65",
+        "S18",
+        "G38",
+        "S29"
+      ]
+    },
+    {
+      "id": "G65",
+      "lengthKm": 26.773761602292677,
+      "lanes": "2+2",
+      "terrain": "区域过境通道；边界接续区外高速",
+      "connected": [
+        "G42",
+        "S37",
+        "S29"
+      ]
+    },
+    {
+      "id": "S29",
+      "lengthKm": 56.76559209526945,
+      "lanes": "2+2",
+      "terrain": "北—东北—东侧开放 C 形绕行；与西南绕城错开，不首尾闭环",
+      "connected": [
+        "G65",
+        "S31",
+        "G38",
+        "G42",
+        "G17",
+        "S36"
       ]
     }
   ],
-  "roads": 981,
-  "signs": 676,
-  "sectors": 825
+  "roads": 2555,
+  "signs": 1845,
+  "sectors": 4988
 }

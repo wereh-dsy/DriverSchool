@@ -1,44 +1,36 @@
-import { LocalRoadMap } from '../../ui/LocalRoadMap';
-import { LocalVehicleProximity, type LocalProximityState } from '../control/LocalVehicleProximity';
+import type { LocalProximityState } from '../control/LocalVehicleProximity';
 import type { RearParkingPose } from '../control/RearParkingProximity';
 import type { StaticCollider } from '../physics/CollisionSystem';
 import type { RoadNetworkData } from '../../world/navigation/RoadNetwork';
-import { updateDrivingEnvironment, type DrivingEnvironmentData } from './DrivingEnvironmentView';
+import type { DrivingEnvironmentData } from './DrivingEnvironmentView';
+import type { LocalRoadMap } from '../../ui/LocalRoadMap';
+import { SharedVehicleData } from '../SharedVehicleData';
 
 export interface DrivingSceneDisplayFeatures { readonly lanes: boolean; readonly proximity: boolean }
 export interface DrivingSceneDisplayData extends DrivingEnvironmentData {
-  version: number;
-  proximity: LocalProximityState;
-  /** Render-facing pose sampled with the existing 10 Hz scene data. */
-  mapPose: { x: number; z: number; yaw: number };
-  /** Existing indexed map service, shared by cockpit presentations. */
-  map: LocalRoadMap;
+  version: number; proximity: LocalProximityState;
+  mapPose: { x: number; z: number; yaw: number }; map: LocalRoadMap;
+  mapComplexity: number;
 }
 
-/** Small display-rate adapter over the existing lane, map and collision services.
- * These are presentation features, never assistance or vehicle physics capabilities. */
+/** Presentation adapter. A supplied platform source is borrowed, never disposed here. */
 export class DrivingSceneDisplayContext {
-  private readonly detector = new LocalVehicleProximity();
-  private elapsed = Infinity;
-  private selector = '';
-  private operational = false;
-  public readonly data: DrivingSceneDisplayData = {
-    version: 0, lanes: [], obstacles: [], proximity: this.detector.state, map: new LocalRoadMap(), mapPose: { x: 0, z: 0, yaw: 0 },
-  };
-  public constructor(private readonly features: DrivingSceneDisplayFeatures) {}
+  private readonly shared: SharedVehicleData;
+  private readonly ownsData: boolean;
+  public readonly data: DrivingSceneDisplayData;
+  public constructor(features: DrivingSceneDisplayFeatures, shared?: SharedVehicleData) {
+    this.ownsData = !shared;
+    this.shared = shared ?? new SharedVehicleData({ ...features, navigation: true, tpms: false });
+    this.data = { version: 0, lanes: [], obstacles: [], proximity: this.shared.parking,
+      map: this.shared.navigation.map, mapPose: this.shared.navigation.pose, mapComplexity: 0 };
+  }
   public update(dt: number, pose: RearParkingPose, selector: string, speed: number, operational: boolean,
     network: RoadNetworkData | undefined, query: (pose: RearParkingPose, radius: number) => readonly StaticCollider[]): void {
-    this.data.map.setNetwork(network);
-    this.elapsed += dt;
-    if (this.elapsed < .1 && selector === this.selector && operational === this.operational) return;
-    this.elapsed = 0; this.selector = selector; this.operational = operational; this.data.version++;
-    this.data.mapPose.x = pose.x; this.data.mapPose.z = pose.z; this.data.mapPose.yaw = pose.yaw;
-    const driving = operational && this.features.lanes && selector !== 'P' && selector !== 'R';
-    const parking = operational && this.features.proximity && (selector === 'R' || Math.abs(speed) < 2);
-    const colliders = driving || parking ? query(pose, driving ? 38 : 7) : [];
-    this.detector.update(pose, parking, colliders);
-    if (driving) updateDrivingEnvironment(this.data, pose, this.data.map.nearby(pose.x, pose.z).network, colliders);
-    else { this.data.lanes = []; this.data.laneMarkings = []; this.data.obstacles = []; }
+    if (this.ownsData) this.shared.update(dt, pose, selector, speed, operational, network, query);
+    this.data.version = this.shared.version;
+    this.data.lateralAssist = this.shared.lateralAssist;
+    this.data.lanes = this.shared.lane.lanes; this.data.laneMarkings = this.shared.lane.laneMarkings;
+    this.data.obstacles = this.shared.lane.obstacles; this.data.mapComplexity = this.shared.navigation.complexity;
   }
-  public dispose(): void { this.data.map.dispose(); }
+  public dispose(): void { if (this.ownsData) this.shared.dispose(); }
 }

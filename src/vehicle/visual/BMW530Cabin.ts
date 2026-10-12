@@ -1,6 +1,8 @@
 import * as T from 'three';
 import { InstrumentCluster, type InstrumentTelemetry } from './InstrumentCluster';
-import { beam, grid, label, loft, mesh, path, polygon, rounded, roofHeight, sideGlassX, upholstered, sweep, steeringBadge } from './BMW530Geometry';
+import { loft, mesh, roofHeight, sideGlassX } from './BMW530Geometry';
+import * as geometry from './BMW530Geometry';
+import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { bmwWindshieldPoint, bmwAPillarRing, bmwFrontWindowCorners } from './BMW530FrontFrame';
 import { cabinAmbientTarget } from './CabinLightResponse';
 import { BMW530CenterDisplay } from './BMW530CenterDisplay';
@@ -14,7 +16,18 @@ export interface BMW530CabinState {
   cyclePage(): void;
 }
 
-export function buildBMW530Cabin(root: T.Group, c: VehicleVisualConfig, steering: SteeringGroups): BMW530CabinState {
+export function buildBMW530Cabin(root: T.Group, c: VehicleVisualConfig, steering: SteeringGroups, assets?: VehicleAssetRegistry): BMW530CabinState {
+  let resourceIndex = 0;
+  const cached = <A extends unknown[]>(build: (...args: A) => T.Mesh, materialIndex?: number) => (...args: A): T.Mesh => {
+    const key = `cabin/${resourceIndex++}`;
+    return assets && c.assetCache ? assets.mesh(c, key, () => build(...args),
+      materialIndex === undefined ? undefined : args[materialIndex] as T.Material) : build(...args);
+  };
+  // Immutable completed geometries and text textures are reusable. Loft/steering
+  // rim geometry is authored with later vertex edits and keeps instance ownership.
+  const beam = cached(geometry.beam, 4), grid = cached(geometry.grid, 4), label = cached(geometry.label);
+  const path = cached(geometry.path, 3), polygon = cached(geometry.polygon, 2), rounded = cached(geometry.rounded, 3);
+  const upholstered = cached(geometry.upholstered, 3), sweep = cached(geometry.sweep, 2), steeringBadge = cached(geometry.steeringBadge);
   const soft = new T.MeshStandardMaterial({ color: 0x25282c, roughness: .93, side: T.DoubleSide });
   const leather = new T.MeshStandardMaterial({ color: c.body.interiorColor, roughness: .8, side: T.DoubleSide });
   const inset = new T.MeshStandardMaterial({ color: 0x3c322c, roughness: .89, side: T.DoubleSide });
@@ -87,7 +100,7 @@ export function buildBMW530Cabin(root: T.Group, c: VehicleVisualConfig, steering
     {z:-.673,points:[[-.691,.817],[-.691,.842],[.365,.842],[.365,.817]]},
     {z:-.578,points:[[-.685,.817],[-.685,.835],[.357,.835],[.357,.817]]},
   ],dashSoft));
-  const instrument = new InstrumentCluster(c.instrumentCluster);
+  const instrument = new InstrumentCluster(c.instrumentCluster, assets);
   instrument.position.set(...c.instrumentClusterTransform.position); instrument.rotation.set(...c.instrumentClusterTransform.rotation); root.add(instrument);
   // Same top datum, bezel finish and recessed backing as the driver display.
   const screenGroup = new T.Group(); screenGroup.name = 'BMW integrated centre display';

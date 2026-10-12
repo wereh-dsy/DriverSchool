@@ -24,6 +24,7 @@ import {
   WebGLRenderer,
 } from 'three';
 import { DriverCamera } from './DriverCamera';
+import { InteriorMirror } from './InteriorMirror';
 import { VEHICLE_RENDER_LAYERS } from '../vehicle/visual/VehicleRenderLayers';
 import {
   computePlanarMirrorView,
@@ -83,6 +84,7 @@ export interface MirrorPlaneConfig {
 }
 
 export interface MirrorSystemOptions {
+  interior?: { surface: Mesh; size: readonly [number, number]; reflectiveRoot: Object3D; enabled?: boolean };
   driverCamera: DriverCamera | PerspectiveCamera;
   vehicleRoot: Object3D;
   mirrors: Record<MirrorSide, MirrorPlaneConfig>;
@@ -171,12 +173,14 @@ const MIRROR_FRAGMENT_SHADER = /* glsl */ `
  */
 export class MirrorSystem {
   readonly views: Readonly<Record<MirrorSide, MirrorView>>;
+  readonly interiorMirror: InteriorMirror | null;
 
   private readonly internalViews: Record<MirrorSide, InternalMirrorView>;
   private readonly driverCamera: DriverCamera | PerspectiveCamera;
   private readonly vehicleRoot: Object3D;
   private readonly hiddenDuringReflection: readonly Object3D[];
   private readonly clearBeforeRender: boolean;
+  private readonly autoBindSurfaces: boolean;
   private readonly boundMaterials = new Map<MirrorSide, ShaderMaterial>();
   private readonly originalMaterials = new Map<
     MirrorSide,
@@ -200,6 +204,11 @@ export class MirrorSystem {
     this.vehicleRoot = options.vehicleRoot;
     this.hiddenDuringReflection = options.hiddenDuringReflection ?? [];
     this.clearBeforeRender = options.clearBeforeRender ?? true;
+    this.autoBindSurfaces = options.autoBindSurfaces ?? true;
+    const interior = options.interior;
+    this.interiorMirror = interior && interior.enabled !== false ? new InteriorMirror(renderer,scene,
+      options.driverCamera instanceof DriverCamera ? options.driverCamera.camera : options.driverCamera,
+      interior.surface,interior.size,interior.reflectiveRoot) : null;
 
     this.internalViews = {
       left: this.createView(
@@ -215,9 +224,9 @@ export class MirrorSystem {
     };
     this.views = this.internalViews;
 
-    if (options.autoBindSurfaces ?? true) {
-      this.bindSurfaceMaterial('left');
-      this.bindSurfaceMaterial('right');
+    if (this.autoBindSurfaces) {
+      if (this.internalViews.left.enabled) this.bindSurfaceMaterial('left');
+      if (this.internalViews.right.enabled) this.bindSurfaceMaterial('right');
     }
   }
 
@@ -239,6 +248,7 @@ export class MirrorSystem {
   }
 
   setEnabled(side: MirrorSide, enabled: boolean): void {
+    if (enabled && this.autoBindSurfaces && !this.boundMaterials.has(side)) this.bindSurfaceMaterial(side);
     this.internalViews[side].enabled = enabled;
   }
 
@@ -321,7 +331,7 @@ export class MirrorSystem {
   }
 
   /** Renders both mirrors while suppressing all reflective surfaces. */
-  render(): void {
+  render(side?: MirrorSide): void {
     if (this.rendering) return;
     this.rendering = true;
 
@@ -346,8 +356,8 @@ export class MirrorSystem {
       // clear colour and erased the sky portion of both side mirrors.
       this.renderer.autoClear = this.clearBeforeRender;
 
-      this.renderView(this.internalViews.left);
-      this.renderView(this.internalViews.right);
+      if (!side || side === 'left') this.renderView(this.internalViews.left);
+      if (!side || side === 'right') this.renderView(this.internalViews.right);
     } finally {
       for (const [object, wasVisible] of visibility) {
         object.visible = wasVisible;
@@ -365,9 +375,11 @@ export class MirrorSystem {
       this.renderer.setScissorTest(previousScissorTest);
       this.rendering = false;
     }
+    if (!side) this.interiorMirror?.render();
   }
 
   dispose(): void {
+    this.interiorMirror?.dispose();
     for (const side of ['left', 'right'] as const) {
       const view = this.internalViews[side];
       const surface = view.surface;

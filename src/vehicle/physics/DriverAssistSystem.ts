@@ -39,6 +39,9 @@ export class DriverAssistSystem {
   public readonly esc: ESCController;
   public readonly pressures = [1, 1, 1, 1];
   public engineTorqueFactor = 1;
+  /** Independent motor authority; ICE still consumes engineTorqueFactor. */
+  public frontTorqueFactor = 1;
+  public rearTorqueFactor = 1;
   public frontBrakeBias: number;
   private options: DriverAssistOptions;
   private absActive = false;
@@ -74,7 +77,7 @@ export class DriverAssistSystem {
   public reset(running: boolean): void {
     this.differentialBrakeTorques.fill(0);
     this.esc.reset();
-    this.pressures.fill(1); this.engineTorqueFactor = 1; this.absActive = false;
+    this.pressures.fill(1); this.engineTorqueFactor = this.frontTorqueFactor = this.rearTorqueFactor = 1; this.absActive = false;
     this.frontBrakeBias = this.config.brakes.frontBrakeBias;
     this.vehicleOperational = running; this.selfCheck = running ? 1.2 : 0; this.time = 0;
   }
@@ -82,14 +85,18 @@ export class DriverAssistSystem {
     if (running && !this.vehicleOperational) this.selfCheck = 1.2;
     this.vehicleOperational = running; this.selfCheck = Math.max(0, this.selfCheck - dt); this.time += dt;
     let excess = 0;
+    let frontExcess = 0, rearExcess = 0;
     if (this.options.tractionControlEnabled && running && driveAvailable && driving && throttle > .05) {
       const ids: readonly WheelId[] = this.config.drivetrainType === 'AWD' ? WHEEL_IDS
         : this.config.drivetrainType === 'RWD' ? ['rearLeft', 'rearRight'] : ['frontLeft', 'frontRight'];
       for (const id of ids) {
         const w = wheels[id];
         const direction = Math.sign(w.longitudinalSpeed || w.angularVelocity);
-        excess = Math.max(excess, w.slipRatio * direction - this.config.tires.peakSlipRatio *
-          (this.config.driverAids.tcs?.slipThresholdMultiplier ?? 1.25));
+        const wheelExcess = w.slipRatio * direction - this.config.tires.peakSlipRatio *
+          (this.config.driverAids.tcs?.slipThresholdMultiplier ?? 1.25);
+        excess = Math.max(excess, wheelExcess);
+        if (id === 'frontLeft' || id === 'frontRight') frontExcess = Math.max(frontExcess, wheelExcess);
+        else rearExcess = Math.max(rearExcess, wheelExcess);
       }
     }
     const tune = this.config.driverAids.tcs;
@@ -97,6 +104,12 @@ export class DriverAssistSystem {
     this.engineTorqueFactor = damp(this.engineTorqueFactor, target,
       target < this.engineTorqueFactor ? tune?.response ?? 7 : tune?.recoveryResponse ?? 1.8, dt);
     if (!this.options.tractionControlEnabled) this.engineTorqueFactor = 1;
+    const frontTarget = 1 - clamp(frontExcess / .5, 0, tune?.maximumTorqueReduction ?? .95);
+    const rearTarget = 1 - clamp(rearExcess / .5, 0, tune?.maximumTorqueReduction ?? .95);
+    this.frontTorqueFactor = this.options.tractionControlEnabled ? damp(this.frontTorqueFactor, frontTarget,
+      frontTarget < this.frontTorqueFactor ? tune?.response ?? 7 : tune?.recoveryResponse ?? 1.8, dt) : 1;
+    this.rearTorqueFactor = this.options.tractionControlEnabled ? damp(this.rearTorqueFactor, rearTarget,
+      rearTarget < this.rearTorqueFactor ? tune?.response ?? 7 : tune?.recoveryResponse ?? 1.8, dt) : 1;
     const differential = this.config.electronicDifferential;
     if (!differential) { this.differentialBrakeTorques.fill(0); return; }
     for (let i = 0; i < 4; i++) {
@@ -115,7 +128,7 @@ export class DriverAssistSystem {
   }
   /** Capacities already contain actual loads, surface and tyre load sensitivity. */
   public updateBrakes(dt: number, speed: number, brake: number, wheels: WheelPhysicsStateSet,
-    capacities: readonly number[], coordinator?: BrakeTorqueCoordinator, regenerativeAxle?: 'front' | 'rear'): void {
+    capacities: readonly number[], coordinator?: BrakeTorqueCoordinator, regenerativeAxle?: 'front' | 'rear' | 'both'): void {
     const front = capacities[0]! + capacities[1]!;
     const rear = capacities[2]! + capacities[3]!;
     const targetBias = this.options.ebdEnabled && front + rear > 1
@@ -129,7 +142,7 @@ export class DriverAssistSystem {
       const slip = -w.slipRatio * Math.sign(w.longitudinalSpeed || speed);
       const excessive = slip - this.config.tires.peakSlipRatio * 1.05;
       const requested = brake > .01 || this.esc.brakeTorques[i]! > 1 || coordinator?.hasServiceRequest(i) === true ||
-        (regenerativeAxle !== undefined && (i < 2) === (regenerativeAxle === 'front'));
+        (regenerativeAxle === 'both' || regenerativeAxle !== undefined && (i < 2) === (regenerativeAxle === 'front'));
       const target = this.options.absEnabled && requested
         ? 1 - authority * clamp(excessive / .2, 0, .96) : 1;
       this.pressures[i] = this.options.absEnabled && authority > 0 && requested

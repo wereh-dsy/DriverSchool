@@ -85,11 +85,20 @@ export function runTeslaExperienceSelfTest() {
     const texts: { text:string;x:number;y:number }[] = [], arcs: number[] = [], rectangles: number[][] = [];
     const ctx = new Proxy({} as CanvasRenderingContext2D, { get: (_target,key) => {
       if(key==='fillText') return (text:string,x:number,y:number) => texts.push({text,x,y});
+      if(key==='drawImage') return (image: { drawnTexts?: typeof texts }) => {
+        // Cached static layers contribute their text when composited, as a real canvas does.
+        if (image.drawnTexts) texts.push(...image.drawnTexts);
+      };
       if(key==='ellipse') return (...a:number[]) => arcs.push(a[5]!);
       if(key==='fillRect') return (...a:number[]) => rectangles.push(a);
       return () => {};
     }, set: () => true });
-    Object.defineProperty(globalThis,'document',{configurable:true,value:{createElement:()=>stub(ctx)}});
+    Object.defineProperty(globalThis,'document',{configurable:true,value:{createElement:()=>{
+      const drawnTexts: typeof texts = [];
+      const context = new Proxy(ctx,{get:(target,key)=>key==='fillText'
+        ? (text:string,x:number,y:number)=>drawnTexts.push({text,x,y}) : Reflect.get(target,key)});
+      return {...stub(context),drawnTexts};
+    }}});
     map.setNetwork(simple); const rect={x:338,y:0,width:686,height:640};
     map.draw(ctx,rect,0,0,0,90); const count=map.rasterizations;
     map.draw(ctx,rect,1,1,.2,92); assert(count > 0 && map.rasterizations === count, 'moving marker/zoom reuses static road raster tiles');

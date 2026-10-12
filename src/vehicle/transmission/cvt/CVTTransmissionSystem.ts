@@ -13,6 +13,8 @@ export class CVTTransmissionSystem implements TransmissionSystem {
   private ratio: number;
   private targetRatio: number;
   private targetRPM = 1100;
+  private previousThrottle = 0;
+  private transientDemand = 0;
   private inputRPM = 0;
   private outputRPM = 0;
   private outputTorque = 0;
@@ -30,6 +32,7 @@ export class CVTTransmissionSystem implements TransmissionSystem {
     this.selector.reset(gear, selector); this.converter.reset();
     this.ratio = this.targetRatio = this.config.maximumRatio;
     this.targetRPM = this.config.targetRPMCurve[0]?.rpm ?? 1100;
+    this.previousThrottle = this.transientDemand = 0;
     this.inputRPM = this.outputRPM = this.load = this.torque = 0;
   }
   public requestSelector(mode: DriveSelector, speed: number, lateralSpeed = 0, brake = 0): boolean {
@@ -49,12 +52,17 @@ export class CVTTransmissionSystem implements TransmissionSystem {
       context.vehicleSpeed, context.vehicleLateralSpeed, context.brake);
     let rpm = this.config.targetRPMCurve.at(-1)?.rpm ?? context.idleRPM;
     const curve = this.config.targetRPMCurve;
-    if (context.throttle <= (curve[0]?.throttle ?? 0)) rpm = curve[0]?.rpm ?? context.idleRPM;
+    const rate = (context.throttle - this.previousThrottle) / Math.max(.0001, context.dt);
+    this.previousThrottle = context.throttle;
+    this.transientDemand = Math.max(this.transientDemand * Math.exp(-context.dt * 4),
+      Math.min(.05, Math.max(0, rate) * .02));
+    const demand = clamp(context.throttle + this.transientDemand, 0, 1);
+    if (demand <= (curve[0]?.throttle ?? 0)) rpm = curve[0]?.rpm ?? context.idleRPM;
     else for (let i = 1; i < curve.length; i++) {
       const lower = curve[i - 1]!; const upper = curve[i]!;
-      if (context.throttle <= upper.throttle) {
+      if (demand <= upper.throttle) {
         rpm = lower.rpm + (upper.rpm - lower.rpm) *
-          (context.throttle - lower.throttle) / Math.max(.001, upper.throttle - lower.throttle); break;
+          (demand - lower.throttle) / Math.max(.001, upper.throttle - lower.throttle); break;
       }
     }
     this.targetRPM = damp(this.targetRPM, clamp(rpm, context.idleRPM, context.redlineRPM - 250),

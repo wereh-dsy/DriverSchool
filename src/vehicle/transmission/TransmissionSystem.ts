@@ -43,6 +43,8 @@ export interface TransmissionContext {
   stallRPM: number;
   redlineRPM: number;
   availableEngineTorque: number;
+  /** Full-load envelope for shift prediction, supplied by the powertrain only. */
+  engineTorqueAtRPM?: (rpm: number) => number;
   throttle: number;
   brake: number;
   vehicleSpeed: number;

@@ -1,6 +1,8 @@
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { calibrateTyres } from './TyreCalibration';
+import { createTyreThermalPressureConfig } from './TyreThermalPressureConfig';
 import { FAMILY_CONVERTER_CONFIG } from './transmissionTestVehicleConfigs';
 import { ROAD_SUV_DIMENSIONS } from '../VehicleDimensions';
 import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
@@ -8,6 +10,7 @@ import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 /** Touareg-like road SUV: V6, hydrodynamic eight-speed and existing dynamic AWD. */
 export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
+  config.lateralAssist = createLateralAssistConfig();
   Object.assign(config, ROAD_SUV_DIMENSIONS, { mass: 2100, trackWidth: 1.67,
     frontWeightBias: .54, centerOfMassHeight: .70, enginePlacement: 'FRONT',
     yawInertia: 4400, drivetrainType: 'AWD', drivetrainLayout: 'AWD',
@@ -41,13 +44,13 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
     reverseRatio: -3.317, finalDrive: 3.27, finalDriveRatio: 3.27,
     efficiency: .90, drivetrainEfficiency: .90, shiftTime: .42, reverseLockoutSpeed: 1,
     automatic: { parkMaximumSpeed: .35, shiftTorqueFactor: .67,
-      shiftStrategy: { map: [{ throttle: 0, upshiftRPM: 1550, downshiftRPM: 850 },
-        { throttle: .25, upshiftRPM: 1850, downshiftRPM: 1050 },
-        { throttle: .6, upshiftRPM: 3400, downshiftRPM: 1550 },
-        { throttle: 1, upshiftRPM: 6000, downshiftRPM: 2500 }],
+      shiftStrategy: { map: [0, .2, .45, .7, .9, 1].map((throttle, i) => ({ throttle,
+        upshiftRPM: [1400, 1700, 2350, 3400, 4700, 5950][i]!,
+        downshiftRPM: [850, 950, 1150, 1450, 1900, 2500][i]! })),
         minimumUpshiftSpeeds: [2.8, 4.8, 7, 9, 11.5, 14, 17],
-        hysteresisRPM: 150, minimumTimeInGear: 1.25, kickdownThrottle: .83,
+        hysteresisRPM: 150, minimumTimeInGear: 1.25, kickdownThrottle: .92,
         kickdownTargetRPM: 3900, kickdownMaximumRPM: 5900,
+        maximumAutomaticRPM: 6200, minimumPostShiftRPM: 950, economicalShiftFactor: .94, liftHoldTime: 0,
         gearRPMCorrections: [120, 50, 0, 0, 0, 0, 0, 0] },
       converter: { ...FAMILY_CONVERTER_CONFIG,
         torqueRatioCurve: FAMILY_CONVERTER_CONFIG.torqueRatioCurve.map(point => ({ ...point })),
@@ -81,6 +84,9 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
     corneringStiffnessFront: 102000, corneringStiffnessRear: 106000,
     peakSlipRatio: .11, peakSlipAngle: 8 * Math.PI / 180, gripFalloff: .35 };
   config.tires = calibrateTyres(config.tires, 'SUV_ROAD');
+  config.capabilities = { ...config.capabilities, tpms: true };
+  config.tires.thermalPressureFront = createTyreThermalPressureConfig(260, { thermalCapacity: 40000, heatingEfficiency: .70 });
+  config.tires.thermalPressureRear = createTyreThermalPressureConfig(280, { thermalCapacity: 42000, heatingEfficiency: .70 });
   config.aero = { ...config.aero, dragCoefficient: .33, frontalArea: 2.76, liftCoefficientFront: .015, liftCoefficientRear: .02 };
   config.suspension.adaptiveDamping = { responseRate: 2, modeMultipliers: { ECO: .97, NORMAL: 1, SPORT: 1.4 } };
   config.suspension.airSuspension = { nominalRideHeight: .215, minimumOffset: -.025, maximumOffset: 0,
@@ -97,7 +103,8 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
     throttleExponent: mode === 'ECO' ? 1.25 : mode === 'SPORT' ? .86 : 1,
     throttleResponse: mode === 'ECO' ? 2.4 : mode === 'SPORT' ? 3.8 : 2.9,
     shiftStrategy: { ...normalShift, map: normalShift.map.map(point => ({ ...point,
-      upshiftRPM: point.upshiftRPM * (mode === 'ECO' ? .93 : mode === 'SPORT' ? 1.12 : 1) })) },
+      upshiftRPM: point.upshiftRPM * (mode === 'ECO' ? .93 : mode === 'SPORT' ? 1.12 : 1) })),
+      liftHoldTime: mode === 'SPORT' ? 1.4 : 0, economicalShiftFactor: mode === 'SPORT' ? 1 : .94 },
     steeringResponse: mode === 'SPORT' ? 3 : 2.75, steeringDamping: mode === 'SPORT' ? 12 : 10.5,
     accelerationRearTorqueSplit: mode === 'SPORT' ? .54 : .50,
   }])) as unknown as VehiclePhysicsConfig['driveModes'];

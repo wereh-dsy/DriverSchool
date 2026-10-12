@@ -9,7 +9,8 @@ import type { VehicleLightingState, VehicleLightMode } from '../control/VehicleL
 export type { VehicleLightingState, VehicleLightMode } from '../control/VehicleLightingController';
 
 const lightsOff = (): VehicleLightingState => ({
-  mainLightMode: 'off', fogLightsEnabled: false, leftTurnSignal: false, rightTurnSignal: false,
+  mainLightMode: 'off', fogLightsEnabled: false, fogMode: 'off', frontFogLightsEnabled: false, rearFogLightsEnabled: false,
+  leftTurnSignal: false, rightTurnSignal: false,
   hazard: false, brakeLight: false, reverseLight: false, highBeamFlash: false,
   effectiveHighBeam: false, positionLight: false, lowBeam: false, leftBlinkOn: false, rightBlinkOn: false,
 });
@@ -187,8 +188,8 @@ export class VehicleLighting {
     output('tail', powered && state.positionLight ? 0.8 : 0);
     output('brake', state.brakeLight ? 2.1 : 0);
     output('reverse', state.reverseLight ? 1.4 : 0);
-    output('fogFront', powered && state.fogLightsEnabled ? 2.6 : 0);
-    output('fogRear', powered && state.fogLightsEnabled ? 3 : 0);
+    output('fogFront', powered && state.frontFogLightsEnabled ? 2.6 : 0);
+    output('fogRear', powered && state.rearFogLightsEnabled ? 3 : 0);
     output('left', state.leftBlinkOn ? profile?.turnLensIntensity ?? 1.8 : 0);
     output('right', state.rightBlinkOn ? profile?.turnLensIntensity ?? 1.8 : 0);
     for (const spill of this.turnSpills) spill.light.intensity = (spill.left ? state.leftBlinkOn : state.rightBlinkOn) ? profile?.turnSpillIntensity ?? 0 : 0;
@@ -225,16 +226,19 @@ export class VehicleLighting {
       target.position.z = beam?.targetZ ?? (state.effectiveHighBeam ? -90 : -38);
     }
     for (const light of this.nearFill) light.intensity = powered && state.effectiveHighBeam ? profile!.low.intensity : 0;
-    this.foglamps[0].intensity = powered && state.fogLightsEnabled ? 150 : 0;
-    this.foglamps[1].intensity = powered && state.fogLightsEnabled ? 150 : 0;
-    this.foglamps[2].intensity = powered && state.fogLightsEnabled ? 28 : 0;
+    this.foglamps[0].intensity = powered && state.frontFogLightsEnabled ? 150 : 0;
+    this.foglamps[1].intensity = powered && state.frontFogLightsEnabled ? 150 : 0;
+    this.foglamps[2].intensity = powered && state.rearFogLightsEnabled ? 28 : 0;
   }
 
   /** Compatibility during migration; the game's controller remains authoritative. */
   public setMode(mode: VehicleLightMode): void {
     this.applyState({ ...this.state, mainLightMode: mode, positionLight: mode !== 'off',
       lowBeam: mode === 'low' || mode === 'high', effectiveHighBeam: mode === 'high' || this.state.highBeamFlash,
-      fogLightsEnabled: mode !== 'off' && this.state.fogLightsEnabled });
+      fogLightsEnabled: mode !== 'off' && this.state.fogLightsEnabled,
+      fogMode: mode !== 'off' ? this.state.fogMode : 'off',
+      frontFogLightsEnabled: mode !== 'off' && this.state.frontFogLightsEnabled,
+      rearFogLightsEnabled: mode !== 'off' && this.state.rearFogLightsEnabled });
   }
   public cycle(): VehicleLightMode {
     const modes: readonly VehicleLightMode[] = ['off', 'position', 'low', 'high'];

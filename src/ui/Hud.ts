@@ -16,6 +16,7 @@ import {
 } from './ControlSettingsPanel';
 
 export interface HudTelemetry {
+  driveMode?: import('../vehicle/config').VehicleDriveMode;
   rearParking?: RearParkingState;
   speed: number;
   rpm?: number;
@@ -99,6 +100,7 @@ export class Hud {
     shiftTarget: HTMLElement;
   };
   private readonly startOverlay: HTMLElement;
+  private readonly startButton: HTMLButtonElement;
   private readonly toast: HTMLElement;
   private readonly mirrorSideBadge: HTMLElement;
   private readonly mirrorSideLabel: HTMLElement;
@@ -208,8 +210,8 @@ export class Hud {
               <div><small>换挡</small><strong><kbd data-key-action="shiftUp">E</kbd> 升挡 · <kbd data-key-action="shiftDown">Q</kbd> 降挡</strong></div>
               <div><small>观察 / 调试</small><strong>拖动鼠标转头 · <kbd>C</kbd> 回正 · <kbd>F6</kbd> 接触调试</strong></div>
               <div><small>标准手柄</small><strong>LS 转向 · LT/RT 踏板 · LB/RB：MT 换挡、自动挡 PRND 选挡 · A 手刹 · GT/自动挡 X 巡航（键盘 V） · B 驾驶模式（支持车型）</strong></div>
-              <div><small>灯光与点火</small><strong>十字键 ←/→ 转向灯 · ↑ 大灯 · ↓ 双闪 · Start 点火/熄火</strong></div>
-              <div><small>手动离合 / 附件</small><strong>键盘 M 切换离合模式 · Y 雾灯 · 按住 L3 闪灯 · R3 喇叭</strong></div>
+              <div><small>灯光与点火</small><strong>十字键 ←/→ 转向灯 · ↑ 短按大灯 / 长按雾灯 · ↓ 双闪 · Start 点火/熄火</strong></div>
+              <div><small>手动离合 / 附件</small><strong>键盘 M 切换离合模式 · Y 车道辅助 OFF→LDW→LKA→LCC · 按住 L3 闪灯 · R3 喇叭</strong></div>
             </div>
             <button type="button" data-start>进入练习场 <span>→</span></button>
             <small class="start-note">右上角画面来自右侧实体镜的同一反射纹理</small>
@@ -272,11 +274,26 @@ export class Hud {
     this.settings.onMapChange = (mapId) => this.onMapChange?.(mapId);
     this.settings.onVehicleChange = (vehicleId) => this.onVehicleChange?.(vehicleId);
 
-    this.require<HTMLButtonElement>('[data-start]').addEventListener('click', () => this.start());
+    this.startButton = this.require<HTMLButtonElement>('[data-start]');
+    this.startButton.addEventListener('click', () => this.start());
     window.addEventListener('keydown', this.onKeyDown);
   }
 
   onStart?: () => void;
+  private vehicleLoading = false;
+  private readonly loadingStatus = document.createElement('div');
+  public setVehicleLoading(phase: import('../vehicle/VehicleLoadingLifecycle').VehicleLoadingPhase): void {
+    this.vehicleLoading = phase !== 'Ready';
+    const labels = { 'Static asset prepare': '正在准备车辆资源', 'Instance creation': '正在创建车辆',
+      'Dynamic state init': '正在初始化车辆状态', 'Visual warmup': '正在准备车辆显示', Ready: '', Failed: '车辆加载失败，请刷新重试' };
+    this.loadingStatus.textContent = labels[phase];
+    this.loadingStatus.style.cssText = 'position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:1000;padding:10px 18px;background:#101820;color:#eef2ed;border-radius:8px;pointer-events:none';
+    this.loadingStatus.hidden = !this.vehicleLoading;
+    if (!this.loadingStatus.isConnected) this.host.append(this.loadingStatus);
+    // The start menu is detached after entering driving. Loading later vehicles
+    // must not require that temporary DOM to still be present in the host.
+    this.startButton.disabled = this.vehicleLoading;
+  }
   onMapChange?: (mapId: string) => void;
   onVehicleChange?: (vehicleId: string) => void;
 
@@ -511,9 +528,9 @@ export class Hud {
     for (const field of [this.debugValues.clutch, this.debugValues.pedal, this.debugValues.shiftTarget]) field.parentElement!.hidden = !!ev;
     if (ev) {
       this.debugValues.rpm.textContent = `${ev.motorRPM.toFixed(0)} rpm · ${ev.motorTorque.toFixed(1)} Nm`;
-      this.debugValues.mode.textContent = 'ELECTRIC';
-      this.inputStatus.querySelector('span')!.textContent = `${sourceLabel} · 电动单速`;
-      this.transmissionDebug.textContent = `FIXED REDUCTION · ${transmission?.selectedMode}\nRATIO ${transmission?.currentRatio.toFixed(3)}${transmission?.selectorRejectedReason ? `\nBLOCKED · ${transmission.selectorRejectedReason}` : ''}`;
+      this.debugValues.mode.textContent = data.driveMode ?? 'ELECTRIC';
+      this.inputStatus.querySelector('span')!.textContent = `${sourceLabel} · ${transmission?.type === 'EV_TWO_SPEED' ? '电动两速 / AWD' : '电动单速'}`;
+      this.transmissionDebug.textContent = `${transmission?.type} · ${transmission?.selectedMode}${transmission?.currentPhysicalGear ?? ''}\nRATIO ${transmission?.currentRatio.toFixed(3)}${transmission?.selectorRejectedReason ? `\nBLOCKED · ${transmission.selectorRejectedReason}` : ''}`;
       this.feedbackDebug.textContent = `CHASSIS / COLLISION · HAPTIC ${Math.round((data.feedback?.continuousRumble.strong ?? 0) * 100)}%`;
       if (this.debugVisible) this.mechanicalDebug.textContent = [
         `SOC ${(ev.stateOfCharge * 100).toFixed(2)}% · ${ev.remainingEnergyKWh.toFixed(3)} kWh`,
@@ -521,6 +538,9 @@ export class Hud {
         `REGEN LIMIT ${ev.regenLimitReason ?? 'NONE'} · TOTAL BRAKE ${ev.requestedBrakeTorque.toFixed(1)} · MOTOR BRAKE ${ev.regenerativeBrakeTorque.toFixed(1)} Nm`,
         `TRIP USED ${ev.tripEnergyConsumedKWh.toFixed(3)} · RECOVERED ${ev.tripEnergyRecoveredKWh.toFixed(3)} kWh`,
         `CONSUMPTION ${ev.averageConsumptionKWhPer100km?.toFixed(1) ?? 'REFERENCE'} kWh/100 km · RANGE ${ev.estimatedRangeKm.toFixed(0)} km`,
+        `TEMP BAT ${ev.batteryTemperature?.toFixed(1)}°C · REAR MOTOR ${ev.rearMotorTemperature?.toFixed(1)}°C · INVERTER ${ev.rearInverterTemperature?.toFixed(1)}°C`,
+        ...(ev.frontMotorTemperature === undefined ? [] : [`FRONT MOTOR ${ev.frontMotorTemperature.toFixed(1)}°C · INVERTER ${ev.frontInverterTemperature?.toFixed(1)}°C`]),
+        `POWER LIMIT ${((ev.availableDischargePower ?? 0) / 1000).toFixed(0)} kW · DERATE ${((ev.thermalDerateFraction ?? 0) * 100).toFixed(0)}%${ev.launchState ? ` · LAUNCH ${ev.launchState}` : ''}`,
         this.mechanicalDebug.textContent,
       ].join('\n');
     }
@@ -548,13 +568,14 @@ export class Hud {
   }
 
   dispose(): void {
+    this.loadingStatus.remove();
     this.minimap.dispose();
     window.removeEventListener('keydown', this.onKeyDown);
     this.settings.dispose();
   }
 
   private start(): void {
-    if (this.started) return;
+    if (this.started || this.vehicleLoading) return;
     this.started = true;
     this.startOverlay.classList.add('leaving');
     window.setTimeout(() => this.startOverlay.remove(), 550);

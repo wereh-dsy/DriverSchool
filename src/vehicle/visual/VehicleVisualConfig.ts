@@ -42,6 +42,10 @@ export interface MirrorVisualConfig extends VisualTransformConfig {
 }
 
 export interface VehicleVisualConfig {
+  /** Reflection policy only; optical geometry and static housings remain intact. */
+  readonly mirrorSystem?: { readonly left?: boolean; readonly right?: boolean; readonly interior?: 'planar' | 'static' };
+  /** Opt-in platform resource lifetime; other vehicles retain their existing builders. */
+  readonly assetCache?: boolean;
   /** Optional render-data services; independent of physical driving assistance. */
   readonly drivingSceneDisplay?: import('./DrivingSceneDisplayContext').DrivingSceneDisplayFeatures;
   /** Optical geometry calibration, independent of lighting logic. */

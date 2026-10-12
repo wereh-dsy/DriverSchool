@@ -5,28 +5,41 @@ import type { CityMapData, CityPoint, CityRoad } from './CityMapData';
 import { polylineLength, roadEdges, roadPoints, sampleAt } from './geometry';
 import { barrierSections, roadPiers, retainingWallHeight } from './RoadInfrastructure';
 
-import { barrierOffset, RoadClearance } from './RoadClearance';
+import { barrierOffset, RoadClearance, runtimeRoadClearance } from './RoadClearance';
 import { MarkingOwnership } from './MarkingOwnership';
 import {clipRoadJunctionPavement} from './JunctionSurface';
 import {roadEdgeChains,roadEdgeStrip} from './RoadEdgeChain';
 import {RoadsidePlacement} from './RoadsidePlacement';
+import {buildHighwayLaneMarkings,buildHighwayGoreMarkings} from '../regional/HighwayLaneRenderer';
 
 /** Shared editor/runtime builder. SectorManager batches its output by material. */
 export class RoadBuilder {
   private readonly clearance?: RoadClearance;
   private readonly ownership?: MarkingOwnership;
   private readonly placement?:RoadsidePlacement;
-  constructor(private readonly materials: Subject3Materials & {tunnelLight?:MeshBasicMaterial}, private readonly map?: CityMapData) { this.clearance = map ? new RoadClearance(map) : undefined;this.ownership=map?new MarkingOwnership(map):undefined;this.placement=map?new RoadsidePlacement(map,this.clearance):undefined; }
+  private readonly sharedGeometry=new Map<string,BufferGeometry>();
+  private readonly auxiliaryByRoad=new Map<string,Set<string>>();
+  private geometry(key:string,create:()=>BufferGeometry):BufferGeometry {let geometry=this.sharedGeometry.get(key);if(!geometry){geometry=create();this.sharedGeometry.set(key,geometry);}return geometry;}
+  constructor(private readonly materials: Subject3Materials & {tunnelLight?:MeshBasicMaterial}, private readonly map?: CityMapData) { this.clearance = map ? runtimeRoadClearance(map) : undefined;this.ownership=map?new MarkingOwnership(map):undefined;this.placement=map?new RoadsidePlacement(map,this.clearance):undefined;
+    if(map?.regional)for(const lane of map.roads.filter(r=>r.highwayTransition))for(const id of roadEdgeChains(map).continuations(lane.highwayTransition!.mainRoadId)){const list=this.auxiliaryByRoad.get(id)??new Set<string>();list.add(lane.id);this.auxiliaryByRoad.set(id,list);}
+  }
   build(road: CityRoad): Group {
     const root = new Group(), points = roadPoints(road), half = road.laneCount * road.laneWidth / 2;
     const edges = roadEdges(road);
     root.name = road.id;
+    if(road.highwayTransition&&this.map)root.add(buildHighwayLaneMarkings(road,this.map,this.materials));
+    if(road.gore&&this.map?.regional&&road.id.startsWith('regional:'))root.add(buildHighwayGoreMarkings(road,this.map,this.materials));
     const add = (mesh: Mesh | null) => { if (mesh) root.add(mesh); };
     const pavement = this.map?roadEdgeStrip(road,this.map,edges.left,edges.right,.024):createStripGeometry(points, () => 0, { innerOffset: edges.left, outerOffset: edges.right, yOffset: 0.024, maximumSpacing: 3 });
     if (pavement) { const mesh = new Mesh(this.map?clipRoadJunctionPavement(pavement,road,this.map):pavement, this.materials.asphalt); mesh.name='road pavement';mesh.userData.pavementOwner=road.id;mesh.receiveShadow = true; add(mesh); }
     const mergePaint = !!road.gore || !!this.map?.roads.some(r=>r.groupId===road.groupId && r.gore);
     const line = (path: CityPoint[], offset: number, yellow = false) => {
       const paint = (section: CityPoint[],owner:'road'|'merge'='road') => {
+        const auxiliary=this.auxiliaryByRoad.get(road.id);
+        if(auxiliary&&road.laneCount>1&&owner==='road'&&Math.abs(offset-(half-.15))<1e-6){
+          let run:CityPoint[]=[];const flush=()=>{if(run.length>1){const mesh=makeMarkingRibbon('highway edge',run,.12,this.materials.whitePaint,()=>0,.008,offset);if(mesh){mesh.userData.markingOwner='road';mesh.userData.markingSource=road.id;add(mesh);}}run=[];};
+          for(const s of sampleRibbonPolyline(section,3)){const p={x:s.point.x-s.tangent.z*offset,y:s.point.y,z:s.point.z+s.tangent.x*offset};if(this.clearance?.roadAt(p,.1,(p.y??0)-.2,(p.y??0)+.2,road.id,id=>auxiliary.has(id)))flush();else run.push(s.point);}flush();return;
+        }
         const mesh=makeMarkingRibbon(owner==='road'?'road paint':'merge divider',section,0.12,yellow?this.materials.yellowPaint:this.materials.whitePaint,()=>0,0.008,offset);
         if(mesh){mesh.userData.markingOwner=owner;mesh.userData.markingSource=road.id;add(mesh);}
       };
@@ -50,7 +63,7 @@ export class RoadBuilder {
     if (road.travelDirection === 'two-way') { line(points, -0.13, true); line(points, 0.13, true); }
     line(points, -half + 0.15); line(points, half - 0.15);
     const length = polylineLength(points);
-    if (road.gore && road.shoulders) {
+    if (road.gore && road.shoulders && !(this.map?.regional&&road.id.startsWith('regional:'))) {
       for (let d = 6; d < Math.min(road.gore.length, length / 2); d += 6) for (const start of [true, false]) {
         if (!(start ? road.gore.start : road.gore.end)) continue;
         const at = start ? d : length - d, s = sampleAt(points, at);
@@ -99,7 +112,7 @@ export class RoadBuilder {
       for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, -0.65, 0.02, this.materials.curb);
       const piers = roadPiers(road, this.map, this.clearance);
       if (piers.length) {
-        const geometry = road.structure?.pierStyle === 'rectangular' ? new BoxGeometry(1.2, 1, 1.2) : new CylinderGeometry(0.6, 0.6, 1, 8);
+        const geometry = road.structure?.pierStyle === 'rectangular' ? this.geometry('pier-rectangular',()=>new BoxGeometry(1.2, 1, 1.2)) : this.geometry('pier-round',()=>new CylinderGeometry(0.6, 0.6, 1, 8));
         const mesh = new InstancedMesh(geometry, this.materials.curb, piers.length), matrix = new Matrix4(); mesh.name = `${road.id}:piers`;
         piers.forEach((pier, i) => { matrix.makeScale(1, pier.height, 1); matrix.setPosition(pier.position.x, pier.baseY+ pier.height / 2, pier.position.z); mesh.setMatrixAt(i, matrix); });
         mesh.castShadow = true; root.add(mesh);
@@ -115,7 +128,7 @@ export class RoadBuilder {
           const roof=createStripGeometry(points,()=>0,{innerOffset:edges.left-0.3,outerOffset:edges.right+0.3,yOffset:enclosure.clearance+(underside?0:0.65),maximumSpacing:3});
           if(roof) {if(underside) {const index=roof.getIndex()!;for(let i=0;i<index.count;i+=3){const a=index.getX(i);index.setX(i,index.getX(i+2));index.setX(i+2,a);}roof.computeVertexNormals();}root.add(new Mesh(roof,this.materials.wall));}
         }
-        const count=Math.floor(length/30), lights=new InstancedMesh(new BoxGeometry(0.3,0.08,1.8),this.materials.tunnelLight??this.materials.signalAmber,count*2),matrix=new Matrix4();
+        const count=Math.floor(length/30), lights=new InstancedMesh(this.geometry('tunnel-light',()=>new BoxGeometry(0.3,0.08,1.8)),this.materials.tunnelLight??this.materials.signalAmber,count*2),matrix=new Matrix4();
         for(let i=0;i<count;i++)for(let side=0;side<2;side++) {
           const s=sampleAt(points,15+i*30),offset=(side?1:-1)*half*0.6;
           matrix.makeRotationY(Math.atan2(s.tangent.x,s.tangent.z));matrix.setPosition(s.point.x-s.tangent.z*offset,(s.point.y??0)+enclosure.clearance-0.06,s.point.z+s.tangent.x*offset);lights.setMatrixAt(i*2+side,matrix);
@@ -134,9 +147,21 @@ export class RoadBuilder {
         positions.push({ ...p, y: p.y + 3.7 });
       }
       if (positions.length) {
-        const poles = new InstancedMesh(new CylinderGeometry(0.08, 0.12, 7.4, 8), this.materials.darkMetal, positions.length);
-        const heads = new InstancedMesh(new BoxGeometry(0.5, 0.16, 0.85), this.materials.lampHead, positions.length); heads.userData.environmentLamp = true;
+        const poles = new InstancedMesh(this.geometry('lamp-pole',()=>new CylinderGeometry(0.08, 0.12, 7.4, 8)), this.materials.darkMetal, positions.length);
+        const heads = new InstancedMesh(this.geometry('lamp-head',()=>new BoxGeometry(0.5, 0.16, 0.85)), this.materials.lampHead, positions.length); heads.userData.environmentLamp = true;
         positions.forEach((p, i) => { const matrix = new Matrix4().makeTranslation(p.x, p.y, p.z); poles.setMatrixAt(i, matrix); matrix.setPosition(p.x, p.y + 3.5, p.z); heads.setMatrixAt(i, matrix); }); root.add(poles, heads);
+      }
+    }
+    if(road.id.startsWith('regional:')&&road.laneCount>1&&!road.structure?.enclosure){
+      const positions:CityPoint[]=[];
+      for(const section of barrierSections(road,this.map,this.clearance)){
+        const length=polylineLength(section.points);
+        for(let d=8;d<length;d+=50)positions.push(sampleAt(section.points,d).point);
+      }
+      if(positions.length){
+        const bodies=new InstancedMesh(this.geometry('reflector-body',()=>new BoxGeometry(.12,.85,.12)),this.materials.curb,positions.length);
+        const caps=new InstancedMesh(this.geometry('reflector-cap',()=>new BoxGeometry(.14,.16,.14)),this.materials.whitePaint,positions.length);
+        positions.forEach((p,i)=>{const m=new Matrix4().makeTranslation(p.x,(p.y??0)+.55,p.z);bodies.setMatrixAt(i,m);m.setPosition(p.x,(p.y??0)+1,p.z);caps.setMatrixAt(i,m);});bodies.name='highway reflector posts';caps.name='highway reflector caps';root.add(bodies,caps);
       }
     }
     return root;

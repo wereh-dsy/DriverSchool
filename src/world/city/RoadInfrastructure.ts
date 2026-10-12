@@ -59,7 +59,13 @@ export function barrierSections(road: CityRoad, map?: CityMapData, clearance = m
 export function roadStructureColliders(road: CityRoad, map: CityMapData, clearance = new RoadClearance(map)): StaticCollider[] {
   const colliders: StaticCollider[] = [];
   roadPiers(road, map, clearance).forEach((p, i) => colliders.push(createStaticOBBCollider({ id: `${road.id}:pier:${i}`, x: p.position.x, z: p.position.z, width: 1.2, length: 1.2, minHeight: p.baseY, maxHeight: p.baseY+p.height, type: 'obstacle' })));
-  for (const { side, points } of barrierSections(road, map, clearance)) {
+  for (const { side, points: originalPoints } of barrierSections(road, map, clearance)) {
+    // Flat collinear rural guardrail boxes have exactly the same union when
+    // joined. Curves, height changes and every opening retain their samples.
+    const points=road.id.startsWith('regional:')?originalPoints.filter((b,i,p)=>{
+      if(!i||i===p.length-1)return true;const a=p[i-1]!,c=p[i+1]!,dx=b.x-a.x,dz=b.z-a.z,ex=c.x-b.x,ez=c.z-b.z;
+      return Math.abs(dx*ez-dz*ex)>1e-7||dx*ex+dz*ez<=0||Math.abs((a.y??0)-(b.y??0))>1e-7||Math.abs((b.y??0)-(c.y??0))>1e-7;
+    }):originalPoints;
   const offset = 0;
   for (let i = 1; i < points.length; i++) {
     const a = points[i - 1]!, b = points[i]!, length = Math.hypot(b.x - a.x, b.z - a.z);

@@ -1,10 +1,10 @@
 import type { CityPoint } from './CityMapData';
 export interface RoadNameEntry { primaryText:string;secondaryText?:string;kind:'expressway'|'urban'|'interchange'|'destination';routeNumber?:string }
 export type RoadNameRegistry=Record<string,RoadNameEntry>;
-export type RoadSignType='EXPRESSWAY_ADVANCE'|'EXPRESSWAY_DIVERGE'|'RAMP_CONFIRMATION'|'URBAN_DIRECTION'|'ROAD_NAME'|'INTERCHANGE_NAME';
-export type RoadSignTemplate='single-post'|'dual-post'|'gantry'|'ramp-confirmation'|'urban-name';
+export type RoadSignType='EXPRESSWAY_ADVANCE'|'EXPRESSWAY_DIVERGE'|'EXPRESSWAY_ENTRY'|'EXPRESSWAY_DISTANCE'|'EXPRESSWAY_SERVICE'|'RAMP_CONFIRMATION'|'URBAN_DIRECTION'|'ROAD_NAME'|'INTERCHANGE_NAME';
+export type RoadSignTemplate='single-post'|'dual-post'|'gantry'|'highway-gantry'|'ramp-confirmation'|'urban-name';
 export type RoadSignSize='small'|'medium'|'large';
-export type RoadSignArrow='straight'|'left'|'right'|'exit-right';
+export type RoadSignArrow='straight'|'left'|'right'|'exit-right'|'exit-left';
 export interface RoadSignDestination { roadNameId:string;directionId?:string;arrow:RoadSignArrow;distanceMetres?:number }
 export interface RoadSignDefinition {
   id:string;type:RoadSignType;template:RoadSignTemplate;size:RoadSignSize;roadId:string;
@@ -20,12 +20,19 @@ export interface RoadSignDefinition {
    * anchor; cantilever supports stay attached to the paved deck. */
   postBaseY?:number;
   stationMetres?:number;
+  /** Two deck-mounted supports at signed shoulder offsets; independent of board text. */
+  gantryPosts?: [number, number];
+  highwayLayout?: boolean;
+  facilities?: string[];
+  actualAdvanceMetres?: number;
+  /** Driver-relative lanes, left to right; independent of geographic destinations. */
+  laneArrows?: RoadSignArrow[];
 }
 export function resolveSignContent(sign:RoadSignDefinition,names:RoadNameRegistry) {
   const name=(id:string)=>{const entry=names[id];if(!entry)throw new Error('Unknown road/sign name '+id);return entry;};
   return {type:sign.type,template:sign.template,size:sign.size,language:sign.language,
     color:['URBAN_DIRECTION','ROAD_NAME'].includes(sign.type)?'#155aa0':'#087747',
-    interchange:sign.interchangeId?name(sign.interchangeId).primaryText:undefined,exitNumber:sign.exitNumber,
+    interchange:sign.interchangeId?name(sign.interchangeId).primaryText:undefined,exitNumber:sign.exitNumber,highwayLayout:sign.highwayLayout,facilities:sign.facilities,laneArrows:sign.laneArrows,
     destinations:sign.destinations.map(d=>({name:name(d.roadNameId).primaryText,secondaryText:name(d.roadNameId).secondaryText,routeNumber:name(d.roadNameId).routeNumber,
       direction:d.directionId?name(d.directionId).primaryText:undefined,arrow:d.arrow,distanceMetres:d.distanceMetres}))};
 }

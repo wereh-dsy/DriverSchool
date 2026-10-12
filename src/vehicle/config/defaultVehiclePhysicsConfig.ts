@@ -235,6 +235,7 @@ export function cloneVehiclePhysicsConfig(
   return {
     ...config,
     capabilities: config.capabilities === undefined ? undefined : { ...config.capabilities },
+    lateralAssist: config.lateralAssist === undefined ? undefined : structuredClone(config.lateralAssist),
     frontDiff: config.frontDiff === undefined ? undefined : { ...config.frontDiff },
     rearDiff: config.rearDiff === undefined ? undefined : { ...config.rearDiff },
     electronicDifferential: config.electronicDifferential === undefined ? undefined : { ...config.electronicDifferential },
@@ -293,7 +294,9 @@ export function cloneVehiclePhysicsConfig(
     brakes: { ...config.brakes },
     steering: { ...config.steering, returnProfile: config.steering.returnProfile === undefined ? undefined : { ...config.steering.returnProfile } },
     aero: { ...config.aero },
-    tires: { ...config.tires },
+    tires: { ...config.tires,
+      thermalPressureFront: config.tires.thermalPressureFront && { ...config.tires.thermalPressureFront },
+      thermalPressureRear: config.tires.thermalPressureRear && { ...config.tires.thermalPressureRear } },
     startStop: config.startStop === undefined ? undefined : { ...config.startStop },
     cruiseControl: config.cruiseControl === undefined ? undefined : { ...config.cruiseControl },
     suspension: { ...config.suspension,
@@ -315,8 +318,8 @@ export function createDefaultVehiclePhysicsConfig(): VehiclePhysicsConfig {
 
 function cloneDriveMode(calibration: DriveModeCalibration): DriveModeCalibration {
   return { ...calibration, tcs: calibration.tcs ? { ...calibration.tcs } : undefined,
-    esc: calibration.esc ? { ...calibration.esc } : undefined, shiftStrategy: { ...calibration.shiftStrategy,
+    esc: calibration.esc ? { ...calibration.esc } : undefined, shiftStrategy: calibration.shiftStrategy ? { ...calibration.shiftStrategy,
     map: calibration.shiftStrategy.map.map(point => ({ ...point })),
     minimumUpshiftSpeeds: [...calibration.shiftStrategy.minimumUpshiftSpeeds],
-    gearRPMCorrections: calibration.shiftStrategy.gearRPMCorrections?.slice() } };
+      gearRPMCorrections: calibration.shiftStrategy.gearRPMCorrections?.slice() } : undefined };
 }

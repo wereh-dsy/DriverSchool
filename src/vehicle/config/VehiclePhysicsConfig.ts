@@ -24,6 +24,13 @@ export interface AutomaticShiftMapPoint {
 }
 
 export interface AutomaticShiftConfig {
+  /** Automatic protection only; manual redline policy remains on TransmissionConfig. */
+  maximumAutomaticRPM?: number;
+  minimumPostShiftRPM?: number;
+  /** Sport lift/corner hold; economical modes leave this at zero. */
+  liftHoldTime?: number;
+  /** Fraction of the schedule allowed when the next gear has ample torque reserve. */
+  economicalShiftFactor?: number;
   /** Optional engine-braking downshift target; protected by road-speed overrev checks. */
   brakingDownshiftRPM?: number;
   map: readonly AutomaticShiftMapPoint[];
@@ -335,6 +342,8 @@ export interface AeroConfig {
 }
 
 export interface TireConfig {
+  thermalPressureFront?: import('./TyreThermalPressureConfig').TyreThermalPressureConfig;
+  thermalPressureRear?: import('./TyreThermalPressureConfig').TyreThermalPressureConfig;
   /** Per-wheel camber-thrust stiffness, N/rad; omitted preserves legacy tyres. */
   camberStiffness?: number;
   /** Additional wet-road retention, multiplied with the surface weather grip. Omission preserves legacy grip. */
@@ -443,12 +452,13 @@ export interface SimulationSafetyConfig {
  * All handling-affecting data for a vehicle. Values use SI units unless noted.
  * Visual/cockpit measurements intentionally live in a separate visual config.
  */
-export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'SPORT' | 'WET' | 'RACE';
+export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'SPORT' | 'WET' | 'RACE' | 'RANGE' | 'SPORT_PLUS';
 /** Optional calibration only; existing engine, rack, shift controller and AWD own behavior. */
 export interface DriveModeCalibration {
   throttleExponent: number;
   throttleResponse: number;
-  shiftStrategy: AutomaticShiftConfig;
+  shiftStrategy?: AutomaticShiftConfig;
+  ev?: import('./ElectricVehiclePhysicsConfig').EVModeCalibration;
   steeringResponse: number;
   steeringDamping: number;
   /** AWD-only override; non-AWD modes omit this field. */
@@ -459,9 +469,12 @@ export interface DriveModeCalibration {
 }
 
 export interface VehicleChassisConfig {
+  lateralAssist?: import('../control/LateralAssistController').LateralAssistConfig;
   cruiseControl?: Partial<import('../control/CruiseControlController').CruiseControlConfig>;
   /** Optional declarations cannot override installed topology. */
   capabilities?: VehicleFeatureDeclarations;
+  /** Shared ambient initialization/cooling temperature, Celsius; defaults to 20. */
+  ambientTemperature?: number;
   /** Existing ICE transmission calibration; an injected powertrain may omit it. */
   transmission?: TransmissionConfig;
   frontDiff?: DifferentialConfig;

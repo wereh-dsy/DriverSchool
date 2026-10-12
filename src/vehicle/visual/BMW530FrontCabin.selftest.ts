@@ -94,7 +94,8 @@ export function runBMW530FrontCabinSelfTest() {
     const telemetry:InstrumentTelemetry = {ignitionOn:true,engineRunning:true,speedKmh:87,rpm:2350,gear:'D6',driveMode:'SPORT',fuelLevel:.42,
       coolantTemperatureC:93,indicators:{headlights:true}};
     instrument.update(telemetry,.1);
-    for(const text of ['87','D6','2350','SPORT','FUEL 42%','93 °C']) assert(canvas.texts.includes(text),'live UI: '+text);
+    for(const text of ['87','D6','2350','SPORT','42 %','93 °C']) assert(canvas.texts.includes(text),'live UI: '+text);
+    assert(!canvas.texts.some(t=>t.includes('FUEL')),'fuel uses a pump symbol with its live percentage');
     const sportRpm=canvas.draws.find(d=>d.text==='2350')!;
     const sportMode=canvas.draws.find(d=>d.text==='SPORT')!;
     const version = instrument.texture.version; instrument.update(telemetry,.1);
@@ -116,6 +117,16 @@ export function runBMW530FrontCabinSelfTest() {
     const symbolContext = new Proxy({}, {get:(_,key)=>key==='fillText'?()=>assert(false,'lamp glyph cannot use text'):()=>undefined,
       set:()=>true}) as CanvasRenderingContext2D;
     drawBMWLightingSymbols(symbolContext,{positionLights:true,headlights:true,highBeam:true,frontFogLights:true,rearFogLights:true});
+    canvas.texts.length=0; const beforeCruise=instrument.texture.version;
+    instrument.update({...telemetry,cruiseTargetSpeedKmh:100,indicators:{cruise:true,positionLights:true}},0);
+    assert(instrument.texture.version>beforeCruise&&canvas.texts.includes('100'),'cruise engagement shows its live target immediately');
+    assert(!canvas.texts.some(t=>t.includes('CRUISE')||t.includes('FUEL')),'cruise and fuel labels are replaced by symbols');
+    canvas.texts.length=0;
+    instrument.update({...telemetry,cruiseTargetSpeedKmh:110,indicators:{cruise:true}},.1);
+    assert(canvas.texts.includes('110'),'cruise target-only changes reach the symbol readout');
+    canvas.texts.length=0;
+    instrument.update({...telemetry,cruiseTargetSpeedKmh:110,indicators:{cruise:false}},0);
+    assert(!canvas.texts.includes('110'),'cruise disengagement clears the target immediately');
     const clips=canvas.clips;
     instrument.update({...telemetry,drivingScene:sceneData.data},.1);
     assert(canvas.clips===clips,'absent lane data does not draw a road');
@@ -160,7 +171,7 @@ export function runBMW530FrontCabinSelfTest() {
     visual.updateInstruments(telemetry,.1);
     const statusCanvas=canvases.find(c=>c.width===1024&&c.height===416)!;
     for(const text of ['VEHICLE STATUS','BMW 530Li','Fuel','42 %','Engine Temperature','93 °C',
-      'Tyre Pressure','kPa','FL:','FR:','RL:','RR:','~ 250','~ 260','Transmission Temperature','~ 80 °C','~ Reference values'])
+      'Tyre Pressure','kPa','FL:','FR:','RL:','RR:','--','Transmission Temperature','~ 80 °C','~ Reference values'])
       assert(statusCanvas.texts.includes(text),'vehicle status live/default content: '+text);
     const statusMaterial=statusFace.material as T.MeshPhysicalMaterial, statusVersion=statusMaterial.map!.version;
     visual.updateInstruments({...telemetry,coolantTemperatureC:101},.1);

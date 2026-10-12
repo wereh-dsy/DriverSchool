@@ -4,6 +4,7 @@ import { ROAD_STYLES } from './RoadStyles';
 import catalog from './presets/catalog.json';
 import { validatePresetGeometry } from './presets/PresetGeometryValidation';
 import { validateRoadSignData } from './RoadSignValidation';
+import { validateHighwayData } from '../regional/HighwayValidation';
 export interface MapIssue { severity: 'error' | 'warning'; code: string; path: string; message: string }
 export interface MapValidation { valid: boolean; errors: MapIssue[]; warnings: MapIssue[]; errorCount: number; warningCount: number }
 export const RECOMMENDED_GRADE = 0.12;
@@ -158,5 +159,6 @@ export function validateMap(value: unknown): MapValidation {
     if (components > 1) issue('network.sparse', 'roads', `${components} separate road components; projected crossings do not imply connectivity.`, 'warning');
   }
   if (!errors.length && m.environment.metadata?.productionGeometry === 'true') errors.push(...validatePresetGeometry(m));
+  if(!errors.length)errors.push(...validateHighwayData(m));
   return result();
 }

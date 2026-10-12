@@ -1,21 +1,25 @@
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { FAMILY_CONVERTER_CONFIG } from './transmissionTestVehicleConfigs';
 import { calibrateTyres } from './TyreCalibration';
+import { createTyreThermalPressureConfig } from './TyreThermalPressureConfig';
 import { BMW_530LI_DIMENSIONS } from '../VehicleDimensions';
 import type { AutomaticShiftConfig, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 
 const rad = (v: number) => v * Math.PI / 180;
 const shift = (up: number[], down: number[], kickdown: number, target: number): AutomaticShiftConfig => ({
-  map: [0, .25, .6, 1].map((throttle, i) => ({ throttle, upshiftRPM: up[i]!, downshiftRPM: down[i]! })),
+  map: [0, .2, .45, .7, .9, 1].map((throttle, i) => ({ throttle, upshiftRPM: up[i]!, downshiftRPM: down[i]! })),
   minimumUpshiftSpeeds: [2.6, 4.5, 6.8, 9, 12, 15, 18], hysteresisRPM: 170,
   minimumTimeInGear: 1.2, kickdownThrottle: kickdown, kickdownTargetRPM: target,
   kickdownMaximumRPM: 6100, gearRPMCorrections: [100, 40, 0, 0, 0, 0, 0, 0],
+  maximumAutomaticRPM: 6400, minimumPostShiftRPM: 850, liftHoldTime: 0, economicalShiftFactor: .94,
 });
 
 /** G38 LCI, 2.0T / longitudinal 8AT / RWD. Simulation calibration, not an M car. */
 export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
   const c = createDefaultVehiclePhysicsConfig();
+  c.lateralAssist = createLateralAssistConfig();
   Object.assign(c, BMW_530LI_DIMENSIONS, { mass: 1745, trackWidth: 1.6175,
     frontWeightBias: .51, centerOfMassHeight: .50, enginePlacement: 'FRONT_MID',
     // Body-sized polar inertia, with allowance for the centralised powertrain.
@@ -38,7 +42,7 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
       baseTorqueCurve: [{ rpm: 750, torque: 95 }, { rpm: 1200, torque: 125 }, { rpm: 1600, torque: 155 },
         { rpm: 2000, torque: 170 }, { rpm: 4500, torque: 172 }, { rpm: 5200, torque: 162 },
         { rpm: 6000, torque: 140 }, { rpm: 6500, torque: 120 }, { rpm: 6700, torque: 96 }] } };
-  const normal = shift([1500, 1850, 3400, 6100], [850, 1050, 1600, 2600], .84, 4100);
+  const normal = shift([1550, 1850, 2600, 3900, 5300, 6250], [850, 950, 1200, 1650, 2200, 2600], .92, 4400);
   c.transmission = { ...c.transmission, type: 'TORQUE_CONVERTER_AT', supportsManualSelection: true,
     manualAutoUpshiftAtRedline: true, manualSelectionTimeout: 8,
     gearRatios: { 1: 5, 2: 3.2, 3: 2.143, 4: 1.72, 5: 1.314, 6: 1, 7: .822, 8: .64 },
@@ -82,15 +86,19 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
       response: 8, recoveryResponse: 2 }, esc: { yawErrorThreshold: .15, sideslipThreshold: .08, response: 10 } };
   c.driveModes = {
     ECO: { throttleExponent: 1.3, throttleResponse: 2.5,
-      shiftStrategy: shift([1350, 1600, 2800, 5850], [800, 900, 1350, 2200], .95, 3400), steeringResponse: 3, steeringDamping: 9.5 },
+      shiftStrategy: shift([1300, 1500, 2150, 3200, 4500, 6050], [800, 850, 1000, 1300, 1800, 2200], .95, 4200), steeringResponse: 3, steeringDamping: 9.5 },
     NORMAL: { throttleExponent: 1, throttleResponse: 3.4, shiftStrategy: normal, steeringResponse: 3.3, steeringDamping: 10 },
     SPORT: { throttleExponent: .88, throttleResponse: 4.5,
-      shiftStrategy: shift([2300, 2900, 4400, 6300], [1350, 1700, 2350, 3200], .7, 4800), steeringResponse: 3.7, steeringDamping: 11.5 },
+      shiftStrategy: { ...shift([2200, 2700, 3800, 5200, 6000, 6350], [1200, 1400, 1850, 2300, 2800, 3100], .88, 4800),
+        liftHoldTime: 1.4, economicalShiftFactor: 1 }, steeringResponse: 3.7, steeringDamping: 11.5 },
   };
   c.frontDiff = { type: 'open' }; c.rearDiff = { type: 'open' };
   c.parkingBrake = createRoadParkingBrakeConfig(c.brakes.handbrakeTorque);
   c.autoHold = createRoadAutoHoldConfig();
   c.startStop = { enabledByDefault: false, minimumStopDelay: 2, stopSpeedThreshold: .06, brakeThreshold: .25,
     restartThrottleThreshold: .1, restartBrakeReleaseThreshold: .08, restartDelay: .2 };
+  c.capabilities = { ...c.capabilities, tpms: true };
+  c.tires.thermalPressureFront = createTyreThermalPressureConfig(250, { thermalCapacity: 32000 });
+  c.tires.thermalPressureRear = createTyreThermalPressureConfig(270, { thermalCapacity: 33000 });
   return c;
 }

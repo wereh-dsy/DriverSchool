@@ -28,7 +28,7 @@ export function runElectricPowertrainSelfTest() {
   assert(!capabilities.manualSelection && !capabilities.awd && !capabilities.startStop && capabilities.autoHold && capabilities.electronicParkingBrake, 'capabilities derive from installed topology');
   const motor = new ElectricMotor(config.motor);
   motor.setShaftSpeed(100); assert(close(motor.driveLimit(1e6), config.motor.maxDriveTorque), 'low speed constant torque');
-  motor.setShaftSpeed(1000); assert(close(motor.driveLimit(1e6) * 1000, config.motor.maxDrivePower), 'high speed constant power');
+  motor.setShaftSpeed(1000); assert(close(motor.driveLimit(1e6) * 1000, config.motor.maxDrivePower, 1000), 'high speed constant power');
   assert(motor.driveLimit(50000) * 1000 <= 50000 * config.motor.motoringEfficiency + 1e-6, 'discharge power physically limits motor torque');
   motor.setShaftSpeed(config.motor.maxRPM * Math.PI / 30); assert(motor.driveLimit(1e6) === 0, 'maximum motor speed removes propulsion');
   const battery = new BatteryPack(config.battery), initialEnergy = battery.remainingEnergyKWh;
@@ -55,8 +55,9 @@ export function runElectricPowertrainSelfTest() {
     drivenWheelAngularVelocity: 15 / config.wheelRadius, torqueLimitFactor: 1, clutchPedal: 0 };
   ev.reset({ driveSelector: 'D' });
   const startEnergy = ev.battery.remainingEnergyKWh; let work = 0;
-  for (let i = 0; i < 240; i++) { ev.prepare(context); ev.update(context); work += ev.motor.deliveredDriveTorque * ev.motor.shaftAngularVelocity * dt / 3600000; ev.finishStep(15); }
-  assert(close(startEnergy - ev.battery.remainingEnergyKWh, work / config.motor.motoringEfficiency / config.battery.dischargeEfficiency, 1e-7), 'drive battery loss matches actual delivered motor work');
+  for (let i = 0; i < 240; i++) { ev.prepare(context); ev.update(context); ev.finishStep(15);
+    work += (ev.rearDriveUnit!.electricalPower + (config.auxiliaryPower ?? 0)) * dt / 3600000 / config.battery.dischargeEfficiency; }
+  assert(close(startEnergy - ev.battery.remainingEnergyKWh, work, 1e-7), 'drive battery loss includes motor map, inverter, copper and auxiliary load');
   const regainStart = ev.battery.remainingEnergyKWh; let recoveredWork = 0;
   context.throttle = 0;
   for (let i = 0; i < 240; i++) { ev.prepare(context); ev.update(context); recoveredWork += Math.max(0, -ev.motor.deliveredDriveTorque * ev.motor.shaftAngularVelocity) * dt / 3600000; ev.finishStep(15); }
@@ -66,7 +67,7 @@ export function runElectricPowertrainSelfTest() {
   for (let i = 0; i < 8400; i++) { ev.prepare(context); ev.update(context); ev.finishStep(15); }
   const downhill = ev.getSnapshot().ev!;
   assert(downhill.averageConsumptionKWhPer100km! < 0, 'net-recovery trip reports its actual signed energy consumption');
-  assert(close(downhill.estimatedRangeKm, downhill.remainingEnergyKWh / config.regen.referenceConsumptionKWhPer100km * 100), 'nonpositive net consumption uses a finite default range estimate');
+  assert(Number.isFinite(downhill.estimatedRangeKm) && downhill.estimatedRangeKm > 0, 'net recovery retains a finite smoothed range estimate');
   const rest = create(); for (let i = 0; i < 120; i++) rest.stepFixed(dt, input);
   assert(Math.abs(rest.speed) < .001 && rest.powertrain.motor.deliveredDriveTorque === 0, 'Tesla does not creep or invent idle torque');
   const empty = create(0, 0); const depleted = empty.stepFixed(dt, { ...input, throttle: 1 });

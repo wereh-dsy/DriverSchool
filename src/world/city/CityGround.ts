@@ -11,7 +11,7 @@ import { SectorManager, type SectorOptions } from './SectorManager';
 import { roadStructureColliders } from './RoadInfrastructure';
 import { roadSignColliders } from './RoadSignTemplates';
 
-import { RoadClearance } from './RoadClearance';
+import { runtimeRoadClearance } from './RoadClearance';
 import { cityGroundGeometry } from './CityGroundGeometry';
 import {junctionSurfaceContains,junctionSurfaceHeight,compileJunctionSurface} from './JunctionSurface';
 import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
@@ -33,6 +33,9 @@ export class CityGround implements DrivingGround {
   private readonly editor: boolean;
   private referenceHeight = 0;
   private readonly regionalDebug?:RegionalDebug;
+  private readonly loadStarted=performance.now();
+  private sectorStartOffset=0;
+  get loadStatistics(){const stats=this.sectors.loadStatistics;return {...stats,firstVisibleMs:stats.firstVisibleMs===undefined?undefined:this.sectorStartOffset+stats.firstVisibleMs,firstLoadMs:stats.firstLoadMs===undefined?undefined:this.sectorStartOffset+stats.firstLoadMs};}
   constructor(data: unknown, options: SectorOptions & { spawnId?: string } = {}) {
     this.data = loadCityMap(data); this.editor = options.editor ?? false;
     if(this.data.regional){this.materials.asphalt.polygonOffset=true;this.materials.asphalt.polygonOffsetFactor=-1;this.materials.asphalt.polygonOffsetUnits=-1;}
@@ -42,8 +45,9 @@ export class CityGround implements DrivingGround {
     this.root.name = this.data.name; this.root.userData.renderCategory = 'WORLD';
     const base = new Mesh(cityGroundGeometry(this.data.regional?{...this.data,bounds:this.data.regional.cityBounds}:this.data), this.materials.grass);
     base.receiveShadow = true; this.root.add(base);
+    this.sectorStartOffset=performance.now()-this.loadStarted;
     this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options); this.root.add(this.sectors.root);
-    const clearance = new RoadClearance(this.data);
+    const clearance = runtimeRoadClearance(this.data);
     this.colliders = [...this.data.objects.flatMap(o => { const c = this.prefabs.collider(o); return c ? [c] : []; }), ...this.data.roads.flatMap(r => roadStructureColliders(r, this.data, clearance)),...(this.data.signs??[]).flatMap(roadSignColliders)];
     for(const j of this.data.intersections.filter(j=>j.channelized))for(const sign of [-1,1]) {
       const h=junctionExtent(j,this.data),q=rotatePoint({x:sign*(h-2.5),z:sign*(h-2.5)},j.rotation);

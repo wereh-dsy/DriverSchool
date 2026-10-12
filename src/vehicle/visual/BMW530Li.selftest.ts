@@ -139,8 +139,8 @@ export function runBMW530LiSelfTest() {
     visual.updateInstruments({ ignitionOn: true, engineRunning: true, speedKmh: 87, rpm: 2350, gear: 'D6', driveMode: 'SPORT', fuelLevel: .42,
       coolantTemperatureC: 93, cruiseTargetSpeedKmh: 90, ambientDaylight: .025, indicators: { headlights: true, cruise: true, autoHold: true } }, 1);
     const face = canvases.find(cv => cv.width === 1440 && cv.height === 540)!;
-    assert(face.texts.includes('87') && face.texts.includes('D6') && face.texts.includes('SPORT') && face.texts.includes('FUEL 42%') &&
-      face.texts.includes('93 °C') && face.texts.includes('CRUISE 90') && face.texts.includes('HOLD'), 'live digital telemetry');
+    assert(face.texts.includes('87') && face.texts.includes('D6') && face.texts.includes('SPORT') && face.texts.includes('42 %') &&
+      face.texts.includes('93 °C') && face.texts.includes('90') && face.texts.includes('HOLD'), 'live digital telemetry with existing fuel/cruise symbols');
     assert(!face.texts.includes('LIGHT') && !face.texts.includes('HIGH') && !face.texts.includes('FOG'), 'lamp indicators use pictograms, not text');
     const liveFace = visual.root.getObjectByName('BMW Live Cockpit digital face') as BMW530Instruments;
     liveFace.update({ speedKmh: 0, rpm: 750, gear: 'P', indicators: { headlights: true } });

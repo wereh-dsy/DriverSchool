@@ -1,21 +1,43 @@
+import { WHEEL_IDS } from '../physics/WheelContact';
+import type { TPMSState } from '../TPMSState';
 /** A reusable canvas page, independent of vehicle simulation and UI navigation. */
 export interface LuxuryVehicleStatusData {
   readonly vehicleName: string;
+  readonly tpmsState?: TPMSState;
   readonly fuelLevel?: number;
   readonly engineTemperatureC?: number;
   readonly transmissionTemperatureC?: number;
   readonly tyrePressureKPa?: Readonly<Partial<Record<'FL' | 'FR' | 'RL' | 'RR', number>>>;
+  readonly tyres?: readonly import('../SharedVehicleData').LegacyTyreReading[];
 }
 const FONT = '"Segoe UI", "Microsoft YaHei", Arial, sans-serif';
 const WHEELS = ['FL','FR','RL','RR'] as const;
 const valid = (value: number | undefined): value is number => value !== undefined && Number.isFinite(value);
+export const tyrePressureReading = (data: LuxuryVehicleStatusData, index: number): number | undefined => {
+  const id = WHEEL_IDS[index];
+  if (!id) return undefined;
+  const sensor = data.tpmsState?.[id];
+  const pressure = data.tpmsState ? (data.tpmsState.available && sensor?.valid ? sensor.pressureKPa ?? undefined : undefined) :
+    data.tyres ? (data.tyres[index]?.valid ? data.tyres[index]?.pressure ?? undefined : undefined) : data.tyrePressureKPa?.[WHEELS[index]!];
+  return pressure !== undefined && Number.isFinite(pressure) && pressure > 0 ? pressure : undefined;
+};
+export const tyrePressureWarning = (data: LuxuryVehicleStatusData, index: number): boolean => {
+  const id = WHEEL_IDS[index], status = id && data.tpmsState?.[id];
+  return data.tpmsState ? !!(data.tpmsState.available && status && status.valid && status.pressureState !== 'NORMAL') :
+    data.tyres?.[index]?.warning === true;
+};
+export const pressureText = (value: number | undefined): string => value === undefined ? '--' : String(Math.round(value));
+export const tpmsDisplayKey = (state: TPMSState | undefined, legacy?: LuxuryVehicleStatusData['tyres']): string => state ?
+  `${state.available}|${state.warning}|${WHEEL_IDS.map(id => `${state[id].valid}:${state[id].pressureKPa}:${state[id].pressureState}`).join('|')}` :
+  legacy?.map(tyre => `${tyre.valid}:${tyre.pressure === null ? '--' : Math.round(tyre.pressure)}:${tyre.warning}`).join('|') ?? '';
 const reading = (value: number | undefined, fallback: number) => (valid(value) ? '' : '~ ') + Math.round(valid(value) ? value : fallback);
 
 /** The key includes every displayed input and ignores sub-unit fluctuations. */
 export function luxuryVehicleStatusKey(data: LuxuryVehicleStatusData, on: boolean): string {
   return [on,data.vehicleName,reading(valid(data.fuelLevel)?Math.max(0,Math.min(1,data.fuelLevel))*100:undefined,70),
     reading(data.engineTemperatureC,90),reading(data.transmissionTemperatureC,80),
-    ...WHEELS.map(wheel=>reading(data.tyrePressureKPa?.[wheel],wheel==='FL'||wheel==='FR'?250:260))].join('|');
+    ...WHEELS.map((_,index)=>pressureText(tyrePressureReading(data,index))),
+    ...WHEELS.map((_,index)=>tyrePressureWarning(data,index))].join('|');
 }
 
 export function drawLuxuryVehicleStatusPage(c: CanvasRenderingContext2D, data: LuxuryVehicleStatusData, on: boolean): void {
@@ -41,10 +63,10 @@ export function drawLuxuryVehicleStatusPage(c: CanvasRenderingContext2D, data: L
   WHEELS.forEach((wheel,index)=>{
     const x=506+(index%2)*252,y=200+Math.floor(index/2)*55;
     text(wheel+':',x,y,21,'#879dab');
-    text(reading(data.tyrePressureKPa?.[wheel],index<2?250:260),x+63,y,30,'#dce7ef',500);
+    text(pressureText(tyrePressureReading(data,index)),x+63,y,30,tyrePressureWarning(data,index)?'#d8b077':'#dce7ef',500);
   });
   text('Transmission Temperature',506,314,21,'#a1b4c2');
   text(reading(data.transmissionTemperatureC,80)+' °C',980,314,30,'#dbe5ec',500,'right');
-  const hasReference = !valid(data.fuelLevel)||!valid(data.engineTemperatureC)||!valid(data.transmissionTemperatureC)||WHEELS.some(w=>!valid(data.tyrePressureKPa?.[w]));
+  const hasReference = !valid(data.fuelLevel)||!valid(data.engineTemperatureC)||!valid(data.transmissionTemperatureC)||WHEELS.some((_,i)=>!valid(tyrePressureReading(data,i)));
   text(hasReference?'~ Reference values':'Vehicle readings',42,389,18,'#7d929f');
 }

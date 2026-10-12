@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 
 import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
 
@@ -85,6 +86,14 @@ const buildSimplifiedSeats = (config: VehicleVisualConfig): THREE.Group => {
  * exterior while avoiding recursive interior/mirror rendering.
  */
 export class VehicleVisual {
+  public static prepareAssets(config: VehicleVisualConfig, assets: VehicleAssetRegistry): void {
+    if (!config.assetCache) return;
+    // Registry templates never enter the live scene or carry dynamic state.
+    assets.prepareSection(config, 'exterior', root => {
+      if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
+      else buildVehicleExterior(root, config);
+    });
+  }
   public readonly root = new THREE.Group();
   public readonly exteriorRoot = new THREE.Group();
   public readonly mirrorSurfaceRoot = new THREE.Group();
@@ -96,25 +105,50 @@ export class VehicleVisual {
   private readonly foldingMirrorPivots: { side: number; body: THREE.Group; glass: THREE.Group }[] = [];
 
   private readonly wheelMeshes: THREE.Mesh[] = [];
+  private disposed = false;
   public readonly wheelPivots = {} as Record<VehicleWheelId, THREE.Group>;
 
   public constructor(
     public readonly config: VehicleVisualConfig = DEFAULT_SEDAN_VISUAL_CONFIG,
+    private readonly assets?: VehicleAssetRegistry,
   ) {
     this.root.name = `Vehicle visual: ${config.name}`;
     this.root.userData.coordinateConvention = '+X right, +Y up, -Z forward';
     this.root.rotation.order = 'YXZ';
     this.exteriorRoot.name = 'Car exterior';
     this.exteriorRoot.userData.renderCategory = 'CAR_EXTERIOR';
-    this.cockpitRoot = new Cockpit(config);
+    this.assets?.retain();
+    this.cockpitRoot = new Cockpit(config, assets);
     this.cockpitRoot.userData.renderCategory = 'COCKPIT';
     if (config.body.design !== 'bmw-g38') this.cockpitRoot.add(buildSimplifiedSeats(config));
     this.mirrorSurfaceRoot.name = 'Mirror surfaces';
     this.mirrorSurfaceRoot.userData.renderCategory = 'MIRROR_SURFACE';
     this.root.add(this.exteriorRoot, this.cockpitRoot, this.mirrorSurfaceRoot);
 
-    this.buildExterior();
-    this.frontWheelPivots = this.buildWheels();
+    if (assets && config.assetCache) {
+      this.exteriorRoot.add(assets.section(config, 'exterior', root => {
+        if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
+        else buildVehicleExterior(root, config);
+      }));
+      this.exteriorRoot.add(assets.section(config, 'wheels', root => {
+        this.buildWheels();
+        for (const id of VEHICLE_WHEEL_IDS) root.add(this.wheelPivots[id]);
+        this.wheelMeshes.length = 0;
+      }));
+      this.exteriorRoot.traverse(object => {
+        const id = object.userData.wheelId as VehicleWheelId | undefined;
+        if (id && object instanceof THREE.Group) {
+          this.wheelPivots[id] = object;
+          this.wheelMeshes.push(object.children[0] as THREE.Mesh);
+        }
+      });
+      // Wheel spin order must follow the physics wheel order, not traversal order.
+      this.wheelMeshes.length = 0;
+      for (const id of VEHICLE_WHEEL_IDS) this.wheelMeshes.push(this.wheelPivots[id].children[0] as THREE.Mesh);
+      this.frontWheelPivots = [this.wheelPivots.frontLeft, this.wheelPivots.frontRight];
+    } else {
+      this.buildExterior(); this.frontWheelPivots = this.buildWheels();
+    }
 
     const leftMirror = this.buildMirror('left', config.leftMirrorTransform);
     const rightMirror = this.buildMirror('right', config.rightMirrorTransform);
@@ -322,6 +356,8 @@ export class VehicleVisual {
    * excluded; every other texture here was created by this visual hierarchy.
    */
   public dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
     const geometries = new Set<THREE.BufferGeometry>();
     const materials = new Set<THREE.Material>();
     const textures = new Set<THREE.Texture>();
@@ -342,9 +378,10 @@ export class VehicleVisual {
     });
 
     this.root.removeFromParent();
-    textures.forEach((texture) => texture.dispose());
-    materials.forEach((material) => material.dispose());
-    geometries.forEach((geometry) => geometry.dispose());
+    textures.forEach((texture) => { if (!this.assets?.owns(texture)) texture.dispose(); });
+    materials.forEach((material) => { if (!this.assets?.owns(material)) material.dispose(); });
+    geometries.forEach((geometry) => { if (!this.assets?.owns(geometry)) geometry.dispose(); });
+    this.assets?.release();
   }
 
   private buildExterior(): void {

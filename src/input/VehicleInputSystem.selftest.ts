@@ -4,6 +4,7 @@ import {
 } from './GamepadInput';
 import { VehicleInputSystem } from './VehicleInputSystem';
 import { applyTriggerCurve } from './inputMath';
+import { LaneAssistMode, LaneAssistStateController } from '../vehicle/control/LaneAssistState';
 
 export interface VehicleInputSystemSelfTestResult {
   passed: true;
@@ -100,17 +101,18 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     let previousThrottle = 0;
     for (const [raw, minimum, maximum] of [
       [0, 0, 0], [0.02, 0, 0], [0.03, 0, 0],
-      [0.1, 0.05, 0.08], [0.2, 0.14, 0.19], [0.3, 0.23, 0.29],
-      [0.4, 0.34, 0.39], [0.5, 0.44, 0.49], [0.6, 0.54, 0.59],
-      [0.7, 0.64, 0.70], [0.8, 0.76, 0.81], [0.9, 0.87, 0.91], [1, 1, 1],
+      [0.1, 0.018, 0.025], [0.2, 0.07, 0.09], [0.3, 0.14, 0.16],
+      [0.4, 0.23, 0.25], [0.5, 0.33, 0.36], [0.6, 0.44, 0.46],
+      [0.7, 0.57, 0.60], [0.8, 0.70, 0.72], [0.9, 0.84, 0.86],
+      [0.99, 0.98, 1], [1, 1, 1],
     ] as const) {
       setButton(connectedPad, 7, raw);
       advance(connectedPad);
       input.update(1 / 60, actualEngagement);
       state = input.consumeState();
       assert(state.throttle >= minimum && state.throttle <= maximum,
-        `RT ${raw} reaches a usable near-linear throttle range`);
-      assert(state.throttle >= previousThrottle && state.throttle - previousThrottle < 0.13,
+        `RT ${raw} gives fine low-pedal control and full travel`);
+      assert(state.throttle >= previousThrottle && state.throttle - previousThrottle < 0.15,
         'RT increases continuously without a late-travel surge');
       assertNear(state.brake,
         applyTriggerCurve(0.31, config.triggerDeadzone, config.triggerResponseExponent), 1e-10,
@@ -147,7 +149,7 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
     assert(state.leftIndicator, 'D-pad Left emits a left-indicator toggle request');
-    assert(state.cycleLights, 'D-pad Up emits a light-cycle request');
+    assert(!state.cycleLights && !state.fogToggle, 'D-pad Up waits to distinguish short and long press');
     assert(state.engineStart, 'Start emits an engine-start request');
     assert(state.cruiseToggle, 'X emits a cruise-control toggle request');
 
@@ -171,6 +173,20 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     state = input.consumeState();
     assert(state.rightIndicator, 'D-pad Right emits a right-indicator toggle request');
     assert(state.hazard, 'D-pad Down emits a hazard-light toggle request');
+    assert(state.cycleLights && !state.fogToggle, 'short D-pad Up cycles main lights once on release');
+
+    // Long Up must not also cycle main lights; Down remains an ordinary edge.
+    setButton(connectedPad, 12, 1);
+    input.update(1 / 60, actualEngagement); input.consumeState();
+    input.update(.64, actualEngagement); state = input.consumeState();
+    assert(!state.fogToggle && !state.cycleLights && !state.hazard, 'before hold threshold there is no lamp command');
+    input.update(.02, actualEngagement); state = input.consumeState();
+    assert(state.fogToggle === true && !state.cycleLights && !state.hazard, 'long Up emits fog only, held Down does not repeat');
+    input.update(2, actualEngagement); state = input.consumeState();
+    assert(!state.fogToggle && !state.cycleLights && !state.hazard, 'holding Up/Down never repeats either action');
+    setButton(connectedPad, 12, 0);
+    input.update(1 / 60, actualEngagement); state = input.consumeState();
+    assert(!state.fogToggle && !state.cycleLights, 'long Up release does not synthesize short action');
 
     setButton(connectedPad, 15, 0);
     setButton(connectedPad, 13, 0);
@@ -182,7 +198,8 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     advance(connectedPad);
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
-    assert(state.fogToggle === true, 'Y requests one front/rear-fog toggle');
+    assert(state.cycleLaneAssist === true && !state.fogToggle, 'Y selects Lane Assist without a fog request');
+    assert(!state.cruiseToggle && !state.cycleLights, 'Y does not trigger cruise or main lights');
     assert(state.cycleDriveMode === true, 'B emits one independent drive-mode edge');
     assert(state.directGear === undefined, 'Y/B do not request Neutral or Reverse');
     assert(state.highBeamFlash === true && state.hornPressed === true, 'L3/R3 provide independent held flash/horn');
@@ -190,8 +207,8 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
     assert(state.cycleDriveMode === false, 'held B does not repeat its drive-mode command');
-    assert(state.fogToggle === false && state.highBeamFlash === true && state.hornPressed === true,
-      'fog consumes its edge while flash/horn remain held');
+    assert(state.cycleLaneAssist === false && !state.fogToggle && state.highBeamFlash === true && state.hornPressed === true,
+      'Lane Assist consumes its edge while flash/horn remain held');
     setButton(connectedPad, 3, 0);
     setButton(connectedPad, 1, 0);
     setButton(connectedPad, 10, 0);
@@ -199,6 +216,16 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
     assert(state.highBeamFlash === false && state.hornPressed === false, 'flash/horn immediately release');
+
+    const selection = new LaneAssistStateController();
+    for (const expected of [LaneAssistMode.WARNING_ONLY, LaneAssistMode.KEEP_ASSIST, LaneAssistMode.CENTERING_ASSIST, LaneAssistMode.OFF]) {
+      setButton(connectedPad, 3, 1); input.update(1 / 240, actualEngagement);
+      input.update(1 / 240, actualEngagement); state = input.consumeState();
+      if (state.cycleLaneAssist) selection.cycleMode();
+      assert(selection.state.mode === expected, `queued Y edge selects ${expected} once`);
+      assert(!input.consumeState().cycleLaneAssist && !state.fogToggle, 'additional physics steps cannot repeat Y or request fog');
+      setButton(connectedPad, 3, 0); input.update(1 / 60, actualEngagement); input.consumeState();
+    }
 
     const pedalBeforeToggle = state.clutchPedal;
     input.setControlMode('manual-clutch', actualEngagement);
@@ -260,6 +287,8 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     setButton(reconnectedPad, 11, 1);
     setButton(reconnectedPad, 0, 1);
     setButton(reconnectedPad, 2, 1);
+    setButton(reconnectedPad, 3, 1);
+    setButton(reconnectedPad, 12, 1);
     gamepad = reconnectedPad;
     input.update(1 / 60, actualEngagement);
     state = input.consumeState();
@@ -270,6 +299,13 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     );
     assert(state.handbrake === 1, 'held A during reconnect does not change the latch');
     assert(!state.cruiseToggle, 'held X during reconnect does not synthesize cruise toggle');
+    assert(!state.cycleLaneAssist && !state.fogToggle && !state.cycleLights, 'held Y/Up during reconnect do not synthesize accessory commands');
+    input.update(1, actualEngagement); state = input.consumeState();
+    assert(!state.cycleLaneAssist && !state.fogToggle && !state.cycleLights, 'reconnected held Up cannot start a long press');
+    setButton(reconnectedPad, 12, 0);
+    setButton(reconnectedPad, 3, 0);
+    input.update(1 / 60, actualEngagement); state = input.consumeState();
+    assert(!state.cycleLights, 'release of Up held before reconnect cannot start a short action');
 
     advance(reconnectedPad);
     input.update(1 / 60, actualEngagement);

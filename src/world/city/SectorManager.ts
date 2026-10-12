@@ -15,7 +15,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 interface GeometryPlan { positions: number[]; normals: number[]; uvs: number[]; material: Material }
 interface InstancePlan { geometry: BufferGeometry; material: Material; matrices: Matrix4[]; lamp: boolean }
-interface SectorPlan { surfaces: Map<Material, GeometryPlan>; instances: Map<BufferGeometry, InstancePlan>; intersections: CityIntersection[]; objects: CityObject[];signs:RoadSignDefinition[];roads:Set<CityRoad> }
+interface SectorPlan { surfaces: Map<Material, GeometryPlan>; instances: Map<BufferGeometry, InstancePlan>; intersections: CityIntersection[]; objects: CityObject[];signs:RoadSignDefinition[];roads:Set<CityRoad>;barrierTriangles:number }
 export interface SectorOptions { loadRadius?: number; editor?: boolean }
 export class SectorManager {
   readonly root = new Group();
@@ -38,6 +38,18 @@ export class SectorManager {
   private selectionSignature='';
   private pending:string[]=[];
   private preloadRoads:CityRoad[]=[];
+  private backgroundPending:string[]=[];
+  private backgroundBuilt=0;
+  private readonly loadStarted=performance.now();
+  private firstReadyMs:number|undefined;
+  private firstVisibleMs:number|undefined;
+  private constructorMs=0;
+  /** Compact pull-based statistics: no per-frame console output. */
+  get loadStatistics(){
+    const roads=new Set<CityRoad>();let signs=0,barrierTriangles=0;
+    for(const key of this.active.keys())if(this.activeTiers.get(key)==='near'){const plan=this.plans.get(key);plan?.roads.forEach(r=>roads.add(r));signs+=plan?.signs.length??0;barrierTriangles+=plan?.barrierTriangles??0;}
+    return {sectorCount:this.active.size,totalSectors:this.streaming?.sectors.size??this.plans.size,roadCount:roads.size,compiledRoadCount:this.compiled.size,signCount:signs,barrierCount:Math.ceil(barrierTriangles/4),backgroundSectors:this.backgroundBuilt,constructorMs:this.constructorMs,firstVisibleMs:this.firstVisibleMs,firstLoadMs:this.firstReadyMs};
+  }
   readonly loadRadius: number;
   get ready():boolean {return this.pending.every(key=>this.active.has(key));}
   constructor(readonly map: CityMapData, private readonly materials: Subject3Materials, readonly prefabs: PrefabRegistry, options: SectorOptions = {}) {
@@ -58,9 +70,9 @@ export class SectorManager {
     for(const sign of map.signs??[])this.plan(this.key(sign.position.x,sign.position.z)).signs.push(sign);
     if(this.terrain&&this.streaming){
       // The entire far envelope is coarse and batched into two meshes, never a dense giant terrain.
-      const batches=new Map<Material,BufferGeometry[]>();
-      for(const key of this.streaming.sectors){const chunk=this.terrain.build(key,'far');chunk.traverse(o=>{if(o instanceof Mesh){const material=o.material as Material,list=batches.get(material)??[];list.push(o.geometry);batches.set(material,list);}});}
-      for(const [material,geometries]of batches){const geometry=mergeGeometries(geometries);geometries.forEach(g=>g.dispose());if(geometry)this.background.add(new Mesh(geometry,material));}
+      // Far land is scheduled after nearby roads, rather than constructing every
+      // sector before the first playable frame. Each batch owns its geometry.
+      this.backgroundPending=[...this.streaming.sectors];
       const silhouettes:BufferGeometry[]=[];
       for(const route of map.regional!.routes){const geometry=createStripGeometry(route.centerline,()=>0,{innerOffset:-route.lanes*3.75-5,outerOffset:route.lanes*3.75+5,yOffset:.024,maximumSpacing:80});if(geometry){const colors=new Float32Array(geometry.getAttribute('position').count*3);colors.fill(.16);geometry.setAttribute('color',new Float32BufferAttribute(colors,3));this.terrain!.drapeSilhouette(geometry,'far');silhouettes.push(geometry);}}
       for(const road of map.roads.filter(r=>!r.id.startsWith('regional:')&&r.type==='highway'&&r.laneCount>=3&&!r.gore)){const edges=roadEdges(road),geometry=createStripGeometry(roadPoints(road),()=>0,{innerOffset:edges.left,outerOffset:edges.right,yOffset:.024,maximumSpacing:80});if(geometry){const colors=new Float32Array(geometry.getAttribute('position').count*3);colors.fill(.16);geometry.setAttribute('color',new Float32BufferAttribute(colors,3));this.terrain!.drapeSilhouette(geometry,'far');silhouettes.push(geometry);}}
@@ -72,6 +84,7 @@ export class SectorManager {
       this.root.add(this.background,this.skyline);
     }
     if (options.editor) {for(const road of map.roads)this.compileRoad(road);for (const key of this.plans.keys()) this.load(key);}
+    this.constructorMs=performance.now()-this.loadStarted;
   }
   private compileRoad(road:CityRoad):void {
       if(this.compiled.has(road.id))return;this.compiled.add(road.id);
@@ -98,6 +111,7 @@ export class SectorManager {
           const x = (positions.getX(i) + positions.getX(i + 1) + positions.getX(i + 2)) / 3;
           const z = (positions.getZ(i) + positions.getZ(i + 1) + positions.getZ(i + 2)) / 3;
           const sector = this.plan(this.key(x, z));
+          if(object.name==='road barrier')sector.barrierTriangles++;
           let plan = sector.surfaces.get(material);
           if (!plan) { plan = { positions: [], normals: [], uvs: [], material }; sector.surfaces.set(material, plan); }
           for (let v = i; v < i + 3; v++) {
@@ -112,11 +126,11 @@ export class SectorManager {
   private key(x: number, z: number): string { return `${Math.floor(x / this.map.sectorSize)},${Math.floor(z / this.map.sectorSize)}`; }
   private plan(key: string): SectorPlan {
     let plan = this.plans.get(key);
-    if (!plan) { plan = { surfaces: new Map(), instances: new Map(), intersections: [], objects: [],signs:[],roads:new Set() }; this.plans.set(key, plan); }
+    if (!plan) { plan = { surfaces: new Map(), instances: new Map(), intersections: [], objects: [],signs:[],roads:new Set(),barrierTriangles:0 }; this.plans.set(key, plan); }
     return plan;
   }
   updatePosition(x: number, z: number,yaw=0,speed=0): boolean {
-    if(this.streaming)return this.updateRegional(x,z,yaw,speed);
+    if(this.streaming){const changed=this.updateRegional(x,z,yaw,speed);this.advanceBackground(x,z);if(this.firstVisibleMs===undefined&&this.active.has(this.streaming.key(x,z)))this.firstVisibleMs=performance.now()-this.loadStarted;if(this.firstReadyMs===undefined&&this.ready)this.firstReadyMs=performance.now()-this.loadStarted;return changed;}
     const sx = Math.floor(x / this.map.sectorSize), sz = Math.floor(z / this.map.sectorSize);
     if (sx === this.currentX && sz === this.currentZ) return false;
     this.currentX = sx; this.currentZ = sz;
@@ -128,6 +142,7 @@ export class SectorManager {
     return true;
   }
   private updateRegional(x:number,z:number,yaw:number,speed:number):boolean {
+    const frameStarted=performance.now();let published=0;
     const signature=`${Math.floor(x/100)},${Math.floor(z/100)},${Math.round(yaw*12/Math.PI)},${Math.round(speed/5)}`;
     let changed=false;
     if(signature!==this.selectionSignature){
@@ -142,15 +157,34 @@ export class SectorManager {
     let budget=4;
     // Compile complete structural packs before publishing any of their new
     // sectors. A preload is not merely a set of partially visible ramp pieces.
-    for(const road of this.preloadRoads){if(this.compiled.has(road.id))continue;if(budget<=0){if(changed)this.trimSignCache();return changed;}this.compileRoad(road);budget--;}
+    // Publish the player's own sector first; remote structural packs then fill
+    // in before their other near sectors become visible.
+    const currentKey=this.debugState!.currentSector;
+    if(!this.active.has(currentKey)){
+      for(const road of this.plans.get(currentKey)?.roads??[]){if(this.compiled.has(road.id))continue;if(budget<=0)return changed;this.compileRoad(road);budget--;}
+      this.load(currentKey,'near');changed=true;published++;
+    }
+    for(const road of this.preloadRoads){if(this.compiled.has(road.id))continue;if(budget<=0||performance.now()-frameStarted>8){if(changed)this.trimSignCache();return changed;}this.compileRoad(road);budget--;}
     for(const key of this.pending){
       const plan=this.plans.get(key),tier=this.debugState!.tiers.get(key)!;
       if(this.active.has(key))continue;
+      if(published>=2||performance.now()-frameStarted>8){if(changed)this.trimSignCache();return changed;}
       // Mid carries a simplified pavement, building and forest massing; no detailed compile.
       if(tier==='near')for(const road of plan?.roads??[]){if(this.compiled.has(road.id))continue;if(budget<=0){if(changed)this.trimSignCache();return changed;}this.compileRoad(road);budget--;}
-      this.load(key,tier);changed=true;
+      this.load(key,tier);changed=true;published++;
     }
     if(changed)this.trimSignCache();return changed;
+  }
+  private advanceBackground(x:number,z:number):void {
+    if(!this.terrain||!this.backgroundPending.length)return;
+    if(this.backgroundBuilt===0)this.backgroundPending.sort((a,b)=>{const distance=(key:string)=>{const [sx,sz]=key.split(',').map(Number);return Math.hypot((sx!+.5)*this.map.sectorSize-x,(sz!+.5)*this.map.sectorSize-z);};return distance(a)-distance(b);});
+    const batches=new Map<Material,BufferGeometry[]>(),started=performance.now();
+    for(let i=0;i<8&&this.backgroundPending.length;i++){
+      const key=this.backgroundPending.shift()!,chunk=this.terrain.build(key,'far');this.backgroundBuilt++;
+      chunk.traverse(o=>{if(o instanceof Mesh){const material=o.material as Material,list=batches.get(material)??[];list.push(o.geometry);batches.set(material,list);}});
+      if(performance.now()-started>3)break;
+    }
+    for(const [material,geometries]of batches){const geometry=mergeGeometries(geometries);geometries.forEach(g=>g.dispose());if(geometry)this.background.add(new Mesh(geometry,material));}
   }
   private trimSignCache():void {const signs:RoadSignDefinition[]=[];for(const key of this.active.keys())if(this.activeTiers.get(key)==='near')signs.push(...this.plans.get(key)?.signs??[]);this.signRenderer.retainContents(signs);}
   private load(key: string,tier:StreamingTier='near'): void {

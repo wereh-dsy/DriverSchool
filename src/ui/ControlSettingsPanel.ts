@@ -1,3 +1,4 @@
+import type { VehicleFogMode } from '../vehicle/control/VehicleLightingController';
 import {
   DEFAULT_KEYBOARD_BINDINGS,
   formatKeyboardCode,
@@ -45,6 +46,10 @@ export class ControlSettingsPanel {
   public onDriverAssistsChange?: (options: DriverAssistOptions) => void;
   public onAutoHoldChange?: (enabled: boolean) => void;
   public onStartStopChange?: (enabled: boolean) => void;
+  public onLateralPreferencesChange?: () => void;
+  public onLCCToggle?: () => void;
+  public lkaPreference = this.readAssistancePreference('lkaEnabled') ?? true;
+  public lccPreference = this.readAssistancePreference('lccEnabled') ?? true;
   public onTripReset?: (trip: 'A' | 'B') => void;
   public autoHoldPreference: boolean | undefined = this.readAssistancePreference('autoHoldEnabled');
   public startStopPreference = this.readAssistancePreference('startStopEnabled') ?? false;
@@ -152,7 +157,7 @@ export class ControlSettingsPanel {
               <button type="button" data-light="low">近光</button>
               <button type="button" data-light="high">远光</button>
             </div>
-            <button type="button" data-fog-toggle aria-pressed="false">前后雾灯 · <kbd data-key-action="fogToggle">F</kbd></button>
+            <button type="button" data-fog-toggle aria-pressed="false">雾灯循环 · <span data-fog-state>OFF</span> · <kbd data-key-action="fogToggle">F</kbd></button>
           </section>
           <section class="settings-group" data-selector-group hidden>
             <div class="settings-group-title"><span>自动挡选择器</span><small>选挡需踩住 S / LT；进入 R / P 前先停车</small></div>
@@ -171,8 +176,12 @@ export class ControlSettingsPanel {
               <button type="button" data-aid="stabilityControlEnabled">ESC: ON</button>
               <button type="button" data-auto-hold hidden aria-pressed="false">AUTO HOLD: OFF</button>
               <button type="button" data-start-stop aria-pressed="false">START/STOP: OFF</button>
+              <button type="button" data-lka> LKA: ON</button>
+              <button type="button" data-lcc-enabled>LCC: ON</button>
+              <button type="button" data-lcc-toggle>LCC SET / CANCEL · I</button>
             </div>
             <small data-start-stop-state></small>
+            <small data-lateral-state></small>
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>里程 / 行程电脑</span><small data-odometer></small></div>
@@ -196,7 +205,7 @@ export class ControlSettingsPanel {
           </section>
           <section class="settings-group">
             <div class="settings-group-title"><span>标准手柄</span><small>统一车辆输入</small></div>
-            <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑：关→示宽→近光→远光 · ↓：双闪<br>A：驻车制动 · X：GT/自动挡定速巡航（键盘 V） · Y：前后雾灯 · B：驾驶模式 ECO→NORMAL→SPORT（键盘 T，支持车型）<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
+            <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑ 短按：关→示宽→近光→远光 · ↑ 长按：雾灯 OFF→前→前后 · ↓：双闪<br>A：驻车制动 · X：GT/自动挡定速巡航（键盘 V） · Y：Lane Assist OFF→LDW→LKA→LCC · B：驾驶模式 ECO→NORMAL→SPORT（键盘 T，支持车型）<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
             <label><input type="checkbox" data-vibration aria-label="Controller Vibration"> Controller Vibration · 手柄震动</label>
           </section>
           <section class="settings-group keyboard-settings">
@@ -258,6 +267,13 @@ export class ControlSettingsPanel {
     });
     shell.querySelectorAll<HTMLButtonElement>('[data-trip-reset]').forEach(button =>
       button.addEventListener('click', () => this.onTripReset?.(button.dataset.tripReset as 'A' | 'B')));
+    this.require<HTMLButtonElement>(shell, '[data-lka]').addEventListener('click', () => {
+      this.lkaPreference = !this.lkaPreference; this.saveAssistancePreferences(); this.onLateralPreferencesChange?.();
+    });
+    this.require<HTMLButtonElement>(shell, '[data-lcc-enabled]').addEventListener('click', () => {
+      this.lccPreference = !this.lccPreference; this.saveAssistancePreferences(); this.onLateralPreferencesChange?.();
+    });
+    this.require<HTMLButtonElement>(shell, '[data-lcc-toggle]').addEventListener('click', () => this.onLCCToggle?.());
     shell.querySelectorAll<HTMLButtonElement>('[data-aid]').forEach(button => {
       const key = button.dataset.aid as keyof DriverAssistOptions;
       const label = key === 'absEnabled' ? 'ABS' : key === 'ebdEnabled' ? 'EBD' : key === 'stabilityControlEnabled' ? 'ESC' : 'TCS';
@@ -339,7 +355,9 @@ export class ControlSettingsPanel {
     this.onVibrationChange?.(enabled);
   }
 
-  public setFogLights(enabled: boolean): void {
+  public setFogLights(mode: VehicleFogMode): void {
+    const enabled = mode !== 'off';
+    this.require<HTMLElement>(this.panel, '[data-fog-state]').textContent = mode === 'off' ? 'OFF' : mode === 'front' ? '前' : '前后';
     const button = this.require<HTMLButtonElement>(this.panel, '[data-fog-toggle]');
     button.classList.toggle('active', enabled);
     button.setAttribute('aria-pressed', String(enabled));
@@ -466,6 +484,7 @@ export class ControlSettingsPanel {
   }
 
   public setAssistanceSupport(capabilities: VehicleCapabilities): void {
+    this.setLateralAssistance(capabilities.lka, capabilities.lcc, 'OFF', 'OFF', false);
     const support: Record<string, boolean> = { absEnabled: capabilities.abs,
       tractionControlEnabled: capabilities.tcs, stabilityControlEnabled: capabilities.esc };
     this.panel.querySelectorAll<HTMLButtonElement>('[data-aid]').forEach(button => {
@@ -476,6 +495,19 @@ export class ControlSettingsPanel {
       const label = key === 'absEnabled' ? 'ABS' : key === 'stabilityControlEnabled' ? 'ESC' : 'TCS';
       button.textContent = `${label}: ${enabled ? 'ON' : 'OFF'}`;
     });
+  }
+  public setLateralAssistance(lka: boolean, lcc: boolean, lkaState: string, lccState: string, requested: boolean): void {
+    const ka = this.require<HTMLButtonElement>(this.panel, '[data-lka]');
+    const cc = this.require<HTMLButtonElement>(this.panel, '[data-lcc-enabled]');
+    const toggle = this.require<HTMLButtonElement>(this.panel, '[data-lcc-toggle]');
+    ka.disabled = !lka; cc.disabled = !lcc; toggle.disabled = !lcc || !this.lccPreference;
+    ka.textContent = `LKA: ${lka && this.lkaPreference ? 'ON' : 'OFF'}`;
+    cc.textContent = `LCC: ${lcc && this.lccPreference ? 'ON' : 'OFF'}`;
+    ka.setAttribute('aria-pressed', String(lka && this.lkaPreference));
+    cc.setAttribute('aria-pressed', String(lcc && this.lccPreference));
+    toggle.setAttribute('aria-pressed', String(requested));
+    toggle.textContent = `LCC ${requested ? 'CANCEL' : 'SET'} · I`;
+    this.require(this.panel, '[data-lateral-state]').textContent = `LKA ${lkaState} · LCC ${lccState}`;
   }
   public setStartStop(available: boolean, enabled: boolean, state: string): void {
     const button = this.require<HTMLButtonElement>(this.panel, '[data-start-stop]');
@@ -499,7 +531,8 @@ export class ControlSettingsPanel {
   }
   private saveAssistancePreferences(): void {
     try { localStorage.setItem('drivergame.driver-assists.v1', JSON.stringify({ ...this.driverAssistOptions,
-      autoHoldEnabled: this.autoHoldPreference, startStopEnabled: this.startStopPreference })); } catch { /* Optional storage. */ }
+      autoHoldEnabled: this.autoHoldPreference, startStopEnabled: this.startStopPreference,
+      lkaEnabled: this.lkaPreference, lccEnabled: this.lccPreference })); } catch { /* Optional storage. */ }
   }
 
   public setActiveVehicle(vehicleId: string): void {

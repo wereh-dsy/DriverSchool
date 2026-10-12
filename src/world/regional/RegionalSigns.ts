@@ -1,6 +1,7 @@
 import type { CityMapData, CityPoint, CityRoad } from '../city/CityMapData';
 import type { RoadSignDefinition } from '../city/RoadSignData';
 import { polylineLength, sampleAt } from '../city/geometry';
+import { generateHighwaySigns } from './HighwaySigns';
 
 const destinations:Record<string,[string,string]>={G17:['东临 / 滨河','市中心'],G38:['北岭 / 青岭','市中心'],G4516:['山海 / 东南新区','市中心'],S26:['南港 / 临港','市中心'],S37:['西川 / 河湾','市中心'],S68:['东原 / 南港','青岭 / 北岭'],S89:['东南新区 / 山海','西川 / 河湾']};
 function closest(roads:CityRoad[],q:CityPoint):{road:CityRoad;station:number} {
@@ -18,6 +19,7 @@ export function upstreamStation(map:CityMapData,road:CityRoad,station:number):{r
   return {road,station:Math.max(0,station)};
 }
 export function generateRegionalSigns(map:CityMapData):void {
+  if(map.regional?.highways){generateHighwaySigns(map);return;}
   const region=map.regional!,names=map.roadNames!;
   for(const [id,[outgoing,incoming]] of Object.entries(destinations)){names[`${id}:forward`]={primaryText:outgoing,kind:'destination'};names[`${id}:reverse`]={primaryText:incoming,kind:'destination'};}
   const board=(road:CityRoad,station:number,id:string,type:RoadSignDefinition['type'],interchangeId?:string,target?:string,advanceMetres?:number)=>{

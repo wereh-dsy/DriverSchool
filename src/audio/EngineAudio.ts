@@ -2,6 +2,7 @@ import type { EngineConfig } from '../vehicle/config';
 import type { VehicleAudioProfile } from './VehicleAudioProfile';
 import { calculateElectricAudioMix, TurnSignalClickTracker, type ElectricAudioOptions } from './ElectricAudioMix';
 import type { VehicleLightingState } from '../vehicle/control/VehicleLightingController';
+import { playLaneDepartureWarningSound } from './LaneDepartureWarningSound';
 
 /** Additional telemetry used by the synthesized vehicle and road-noise layers. */
 export interface EngineAudioUpdateOptions {
@@ -281,6 +282,12 @@ export class EngineAudio {
     const envelope = this.createOneShotEnvelope(context, now, .035, .024, .002, .025);
     tone.connect(envelope).connect(this.transientBus); tone.start(now); tone.stop(now + .04);
     tone.onended = () => { tone.disconnect(); envelope.disconnect(); };
+  }
+
+  /** Shares only the audio graph; LDW has its own timbre, pattern and louder gain. */
+  public playLaneDepartureWarning(): void {
+    if (!this.context || this.context.state !== 'running' || !this.transientBus || document.hidden) return;
+    playLaneDepartureWarningSound(this.context, this.transientBus);
   }
 
   /** Play the starter motor when the driver presses the ignition control. */

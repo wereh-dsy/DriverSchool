@@ -61,6 +61,7 @@ const views: Record<string, { position: P; target: P; fov?: number }> = {
   'v6-instruments-n': { position: v.driverEyePosition, target: v.instrumentClusterTransform.position, fov:30 },
 };
 let selected = new URLSearchParams(location.search).get('view') ?? 'v6-driver-day', night = selected.includes('night'), hazard = false;
+const previewCruise = new URLSearchParams(location.search).get('cruise') === '1';
 const select = document.querySelector<HTMLSelectElement>('#view')!;
 for (const key of Object.keys(views)) { const option = document.createElement('option'); option.textContent = key; option.value = key; select.add(option); }
 const gearSelect = document.querySelector<HTMLSelectElement>('#gear')!;
@@ -121,7 +122,8 @@ function updateCabin(dt: number) {
   drivingScene.update(dt,mapPose,selector,selector==='D'?87/3.6:0,true,network,()=>[]);
   lights.applyState(state, true, dt); visual.updateInstruments({ ignitionOn: true, engineRunning: true,
     speedKmh: selector==='D'?87:0, rpm: selector==='D'?(sport?3500:2350):750, gear: selector==='D'?(sport?'D4':'D6'):selector, driveMode: sport ? 'SPORT' : 'NORMAL',
-    fuelLevel: .7, coolantTemperatureC: 90, outsideTemperatureC: 19, drivingScene: drivingScene.data, ambientDaylight: night ? .025 : 1, indicators: { headlights: state.lowBeam, highBeam: state.effectiveHighBeam, positionLights: state.positionLight,
+    fuelLevel: .7, coolantTemperatureC: 90, outsideTemperatureC: 19, cruiseTargetSpeedKmh: previewCruise ? 100 : undefined,
+    drivingScene: drivingScene.data, ambientDaylight: night ? .025 : 1, indicators: { cruise: previewCruise && selector==='D', headlights: state.lowBeam, highBeam: state.effectiveHighBeam, positionLights: state.positionLight,
       leftTurn: state.leftBlinkOn, rightTurn: state.rightBlinkOn, parkingBrake: selector==='P' } }, dt);
 }
 function frame() {

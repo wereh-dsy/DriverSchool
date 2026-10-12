@@ -33,7 +33,7 @@ export interface RegisteredDrivingGroundDescriptor extends DrivingGroundDescript
 const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDescriptor>> =
   Object.freeze({
     'city-main': Object.freeze({ id: 'city-main', version: cityMain.version, displayName: 'City Main · 区域高速网',
-      description: '无缝城市与七条外围高速，包含平原、山谷、桥隧、服务区和移动区域加载。', create: (): DrivingGround => new CityGround(cityMain,{spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('regionalSpawn')??undefined}) }),
+      description: '无缝城市与区域高速网，包含机场、山谷桥隧、服务区和移动区域加载。', create: (): DrivingGround => new CityGround(cityMain,{spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('regionalSpawn')??undefined}) }),
     'preset-showcase': Object.freeze({ id:'preset-showcase',version:presetShowcase.version,displayName:'道路设施体验场',
       description:'独立道路、匝道、路口和立交的道路设施体验场；高架端口配有地面接入坡道。',
       create:():DrivingGround=>new CityGround(presetShowcase,{spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('preset')??undefined}) }),

@@ -34,6 +34,7 @@ export class ICEPowertrain implements Powertrain {
   public readonly upshiftAdvisor: UpshiftAdvisor;
   private controlMode: VehicleControlMode = 'normal';
   private clutchPedal = 1;
+  private readonly engineTorqueAtRPM = (rpm: number): number => this.engine.getTorqueAtRPM(rpm);
   private readonly output: PowertrainOutput = { drivenWheelTorque: 0, inputLoadTorque: 0, couplingSlipAngularVelocity: 0, parkingLocked: false };
   public constructor(public readonly config: VehiclePhysicsConfig) {
     this.engine = new Engine(config.engine);
@@ -306,6 +307,7 @@ export class ICEPowertrain implements Powertrain {
       engineInertia: this.torqueSource.rotationalInertia, idleRPM: this.config.engine.idleRPM,
       stallRPM: this.config.engine.stallRPM, redlineRPM: this.config.engine.redlineRPM,
       availableEngineTorque: this.torqueSource.availableDriveTorque, throttle: context.throttle,
+      engineTorqueAtRPM: this.engineTorqueAtRPM,
       brake: context.brake, vehicleSpeed: context.vehicleSpeed, vehicleLateralSpeed: context.vehicleLateralSpeed,
       holdingBrake: (context.autoHoldHolding === true || context.parkingBrakeActive === true) && !launchRequested,
       drivenWheelAngularVelocity: context.drivenWheelAngularVelocity };

@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { VehicleAssetRegistry } from './VehicleAssetRegistry';
+import { TaycanCabinDisplays } from './TaycanCabinDisplays';
 import { createPrancingHorseBadge } from './PrancingHorseBadge';
 import { buildBMW530Cabin, type BMW530CabinState } from './BMW530Cabin';
 
@@ -84,17 +86,20 @@ export class Cockpit extends THREE.Group {
   private ambientLevel = 0;
   private readonly ambientSpills: THREE.PointLight[] = [];
   private bmwCabin: BMW530CabinState | null = null;
+  public readonly taycanDisplays?: TaycanCabinDisplays;
+  private readonly displayAssets?: VehicleAssetRegistry;
 
-  public constructor(public readonly config: VehicleVisualConfig) {
+  public constructor(public readonly config: VehicleVisualConfig, assets?: VehicleAssetRegistry) {
     super();
     this.name = 'Cockpit';
+    this.displayAssets = config.instrumentCluster.displayStyle === 'ev-premium' ? assets ?? new VehicleAssetRegistry() : assets;
     this.steeringWheelLockRadians = THREE.MathUtils.degToRad(config.steeringWheelLockDegrees);
     this.layout = cockpitStructuralAnchors(config);
     this.consoleWidth = this.layout.consoleWidth;
     this.floorY = this.layout.floorHeight;
 
     if (config.body.design === 'bmw-g38') {
-      this.bmwCabin = buildBMW530Cabin(this, config, this);
+      this.bmwCabin = buildBMW530Cabin(this, config, this, assets);
       this.instrumentCluster = this.bmwCabin.instrument;
       return;
     }
@@ -134,6 +139,7 @@ export class Cockpit extends THREE.Group {
     this.instrumentCluster = this.addInstrumentCluster(config);
     this.addSteeringAssembly(config, dark, satin);
     this.addCentreConsole(config, interior, dark, satin);
+    if (this.instrumentCluster.premiumEVFace) this.taycanDisplays = new TaycanCabinDisplays(this, this.displayAssets!, this.instrumentCluster.premiumEVFace);
     this.addFootwells(config, dark);
     this.addDoors(config, interior, softTrim, satin);
     this.addWindshieldFrame(config, dark, headliner);
@@ -161,10 +167,11 @@ export class Cockpit extends THREE.Group {
 
   /** Updates every cockpit instrument from one render-facing state object. */
   public handleDisplayClick(raycaster: THREE.Raycaster): boolean {
-    return this.bmwCabin?.click(raycaster) ?? false;
+    return this.taycanDisplays?.click(raycaster) ?? this.bmwCabin?.click(raycaster) ?? false;
   }
 
   public cycleCenterDisplayPage(): boolean {
+    if (this.taycanDisplays) { this.taycanDisplays.center.cyclePage(); return true; }
     if (!this.bmwCabin) return false;
     this.bmwCabin.cyclePage(); return true;
   }
@@ -173,6 +180,7 @@ export class Cockpit extends THREE.Group {
   public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
     this.instrumentCluster.update(telemetry, deltaTime);
     this.bmwCabin?.update(telemetry, deltaTime);
+    this.taycanDisplays?.update(telemetry, deltaTime);
     const profile = this.config.interiorAmbientLighting;
     if (profile && this.ambientMaterial) {
       const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
@@ -291,6 +299,15 @@ export class Cockpit extends THREE.Group {
     satin: THREE.Material,
   ): void {
     const a = this.layout;
+    if (config.instrumentCluster.displayStyle === 'ev-premium') {
+      this.add(makeBox('Premium EV upper dashboard', config.dashboard.dimensions, config.dashboard.position, dark));
+      const left = -.091, right = .351, edge = config.cabin.width / 2;
+      this.add(makeBox('Premium EV red lower fascia left', [left + edge, .10, .10], [(left - edge) / 2, .745, -.47], interior));
+      this.add(makeBox('Premium EV red lower fascia right', [edge - right, .10, .10], [(right + edge) / 2, .745, -.47], interior));
+      this.add(makeBox('Premium EV red lower fascia', [right - left, .016, .10], [(right + left) / 2, .702, -.47], interior));
+      this.add(makeBox('Premium EV dash satin line', [config.cabin.width, .008, .025], [0, .815, -.475], satin));
+      return;
+    }
     if (config.instrumentCluster.displayStyle === 'ev-center') {
       this.add(makeBox('Minimal horizontal electric dashboard', config.dashboard.dimensions, config.dashboard.position, interior));
       this.add(makeBox('Continuous dash trim', [config.cabin.width, .018, .055], [0, .837, -.54], satin));
@@ -451,8 +468,8 @@ export class Cockpit extends THREE.Group {
   }
 
   private addInstrumentCluster(config: VehicleVisualConfig): InstrumentCluster {
-    const cluster = new InstrumentCluster(config.instrumentCluster);
-    if (config.instrumentCluster.displayStyle !== 'ev-center') fitInstrumentBinnacle(cluster, config, this.layout);
+    const cluster = new InstrumentCluster(config.instrumentCluster, this.displayAssets);
+    if (config.instrumentCluster.displayStyle !== 'ev-center' && config.instrumentCluster.displayStyle !== 'ev-premium') fitInstrumentBinnacle(cluster, config, this.layout);
     // The existing artwork/needles retain their local coordinates and updates.
     setPosition(cluster, config.instrumentClusterTransform.position);
     cluster.rotation.set(...config.instrumentClusterTransform.rotation);
@@ -602,6 +619,14 @@ export class Cockpit extends THREE.Group {
     satin: THREE.Material,
   ): void {
     const design = config.body.design;
+    if (config.instrumentCluster.displayStyle === 'ev-premium') {
+      this.add(makeBox('Premium EV rising centre console', [.31, .18, .83], [.10, .40, .19], interior));
+      this.gearLever.name = 'Premium EV compact selector';
+      this.gearLever.position.set(-.12, .76, -.45);
+      this.gearLever.add(makeBox('P R N D selector', [.055, .07, .025], [0, 0, 0], satin));
+      this.add(this.gearLever);
+      return;
+    }
     if (config.instrumentCluster.displayStyle === 'ev-center') {
       this.add(makeBox('Electric open centre console', [.28, .15, .80], [.10, .42, .28], dark));
       return;

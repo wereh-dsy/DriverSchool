@@ -1,0 +1,84 @@
+{
+  "evPlatformV2": {
+    "assertions": 1467,
+    "taycanPerformance": {
+      "zeroTo100Seconds": 3.5083333333333333,
+      "topSpeedKmh": 250.6646558597931,
+      "hardAccelerationEnergyKWh": 0.33137426148267995
+    },
+    "model3Performance": {
+      "zeroTo100Seconds": 6.108333333333333,
+      "topSpeedKmh": 197.8205754299834,
+      "hardAccelerationEnergyKWh": 0.2562666249678135
+    },
+    "teslaThermal": {
+      "startTemp": 24,
+      "peak": 210000,
+      "hotTemp": 113.70726620142275,
+      "hotPower": 155979.6412335465,
+      "cooledTemperature": 74.37177665712544,
+      "recoveredPower": 210000,
+      "sustainedMechanicalKW": 155.97964123354652
+    },
+    "taycanThermal": {
+      "startTemp": 25,
+      "peak": 280000,
+      "hotTemp": 97.42431947695752,
+      "hotPower": 243906.0240288851,
+      "cooledTemperature": 65.30490873496245,
+      "recoveredPower": 280000,
+      "sustainedMechanicalKW": 380
+    },
+    "awdFrontShares": {
+      "lightFront": 0,
+      "mediumFront": 0.3235216874427342,
+      "hardFront": 0.43814343122405414
+    },
+    "overboostMechanicalKW": 439.9999995588916,
+    "brakeBlending": {
+      "normalRegenNm": 1844.1160600142648,
+      "fullRegenNm": 6.153161722767471e-12,
+      "normalFrictionNm": 34.25620471114826,
+      "fullFrictionNm": 1878.372264725407
+    },
+    "energyComparison": {
+      "model3Urban": {
+        "kWhPer100Km": 14.272154215349497,
+        "finalRangeKm": 340.4140968966555
+      },
+      "taycanUrban": {
+        "kWhPer100Km": 15.395517050561565,
+        "finalRangeKm": 433.23838205557223
+      },
+      "model3At100": {
+        "kWhPer100Km": 13.274668950102377,
+        "finalRangeKm": 352.1729342690584
+      },
+      "taycanAt100": {
+        "kWhPer100Km": 17.613119856391567,
+        "finalRangeKm": 435.0229542820712
+      },
+      "model3At120": {
+        "kWhPer100Km": 16.252789705461872,
+        "finalRangeKm": 290.91448445614554
+      },
+      "taycanAt120": {
+        "kWhPer100Km": 21.16848547137399,
+        "finalRangeKm": 366.5987297839691
+      }
+    }
+  },
+  "model3Regression": {
+    "assertions": 294,
+    "zeroTo100Seconds": 6.108333333333333,
+    "topSpeedKmh": 197.82057542915732,
+    "remainingEnergyKWh": 45.9845003884018
+  },
+  "brakeAbsTcs": {
+    "assertions": 133,
+    "absSeen": true
+  },
+  "brakeEscAwdCompatibility": {
+    "assertions": 48
+  }
+}

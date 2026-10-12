@@ -34,6 +34,7 @@ export class RegionalTerrainSampler {
     const ridge=55*Math.exp(-(((z+3250)/380)**2))+65*Math.exp(-(((z+5050)/540)**2));
     const valley=12+10*Math.sin(x/1600)**2;
     let height=north*(ridge+valley)+blend((-x-2500)/1600)*10*(.6+.4*Math.sin(z/780));
+    if(this.map.regional?.highways&&x>4500&&z<-5300)height+=55*Math.exp(-(((x-5350)/1500)**2)-(((z+6500)/650)**2));
     if(this.waterAt(x,z))height=-7;
     return height-.04;
   }
@@ -100,11 +101,12 @@ export class RegionalTerrain {
   /** Coarse road ribbons follow their tier's rendered ground, retaining higher bridge decks. */
   drapeSilhouette(geometry:BufferGeometry,tier:'mid'|'far'):void {
     const positions=geometry.getAttribute('position'),size=this.map.sectorSize,step=size/(tier==='mid'?8:3),bounds=this.map.regional!.terrainBounds;
+    const heights=new Map<string,number>(),height=(x:number,z:number)=>{const key=x+','+z;let h=heights.get(key);if(h===undefined){h=this.sampler.heightAt(x,z);heights.set(key,h);}return h;};
     for(let i=0;i<positions.count;i++){
       const x=positions.getX(i),z=positions.getZ(i),sx=Math.floor(x/size)*size,sz=Math.floor(z/size)*size;
       const gx=sx+Math.floor((x-sx)/step)*step,gz=sz+Math.floor((z-sz)/step)*step;
       const a=Math.max(bounds.minX,gx),b=Math.max(bounds.minZ,gz),c=Math.min(bounds.maxX,gx+step),d=Math.min(bounds.maxZ,gz+step);
-      const u=(x-a)/(c-a),v=(z-b)/(d-b),h00=this.sampler.heightAt(a,b),h01=this.sampler.heightAt(a,d),h11=this.sampler.heightAt(c,d),h10=this.sampler.heightAt(c,b);
+      const u=(x-a)/(c-a),v=(z-b)/(d-b),h00=height(a,b),h01=height(a,d),h11=height(c,d),h10=height(c,b);
       const h=u<=v?h00*(1-v)+h01*(v-u)+h11*u:h00*(1-u)+h11*v+h10*(u-v);
       positions.setY(i,Math.max(positions.getY(i),h+.04));
     }
@@ -113,8 +115,12 @@ export class RegionalTerrain {
   build(key:string,tier:'near'|'mid'|'far'):Group {
     const [sx,sz]=key.split(',').map(Number),size=this.map.sectorSize,x=sx!*size,z=sz!*size;
     const steps=tier==='near'?40:tier==='mid'?8:3,step=size/steps,positions:number[]=[],colors:number[]=[],water:number[]=[];
+    // Adjacent triangles share grid corners. Evaluate earthworks once per
+    // corner instead of six times per cell; keep the existing triangulation.
+    const heights=new Float64Array((steps+1)**2);heights.fill(NaN);
     const vertex=(px:number,pz:number)=>{
-      const h=this.sampler.heightAt(px,pz);positions.push(px,h,pz);
+      const index=Math.round((px-x)/step)*(steps+1)+Math.round((pz-z)/step);
+      let h=heights[index]!;if(Number.isNaN(h)){h=this.sampler.heightAt(px,pz);heights[index]=h;}positions.push(px,h,pz);
       const field=(Math.floor(px/210)+Math.floor(pz/170))%3;
       const color=pz<-2400?[.29,.39,.24]:pz>2500?[.43,.44,.33]:px>3900?field===0?[.58,.59,.34]:field===1?[.46,.55,.29]:[.62,.56,.35]:[.37,.46,.29];colors.push(...color);
     };

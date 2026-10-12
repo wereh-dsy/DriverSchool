@@ -18,7 +18,7 @@ export class RoadsidePlacement {
   if(!this.clearance.permitsProp(p,radius,height))return false;
   if(this.piers.some(q=>(q.y??0)>.5&&Math.hypot(p.x-q.x,p.z-q.z)<radius+.9&&y<(q.y??0)))return false;
   return !(this.map.signs??[]).some(s=>{
-   const dims=signDimensions(s.template,s.size,s.postOffset),base=s.position.y??0;if((s.postBaseY??base)>y+height||base+dims.poleTop<y)return false;
+   const dims=signDimensions(s.template,s.size,s.postOffset,s.gantryPosts),base=s.position.y??0;if((s.postBaseY??base)>y+height||base+dims.poleTop<y)return false;
    return dims.posts.some(x=>{const q=rotatePoint({x,z:ROAD_SIGN_POST_Z},s.heading);return Math.hypot(p.x-s.position.x-q.x,p.z-s.position.z-q.z)<radius+1;})||Math.hypot(p.x-s.position.x,p.z-s.position.z)<radius+dims.width/2+1&&y+height>base+dims.bottom;
   });
  }

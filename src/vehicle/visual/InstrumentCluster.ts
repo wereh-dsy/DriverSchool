@@ -1,6 +1,10 @@
 import * as THREE from 'three';
+import { lateralBoundaryColor } from './LateralAssistDisplay';
+import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
 import { BMW530Instruments } from './BMW530Instruments';
 import { ElectricCenterDisplay } from './ElectricCenterDisplay';
+import { PremiumEVInstruments } from './PremiumEVInstruments';
+import { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { drawPrancingHorse } from './PrancingHorseBadge';
 import { EXECUTIVE_INSTRUMENT_OUTLINE } from './InstrumentBinnacle';
 import type { ExecutiveDisplayData } from './ExecutiveDisplayContext';
@@ -57,7 +61,16 @@ export interface InstrumentIndicatorState {
  * current longitudinal vehicle model.
  */
 export interface InstrumentTelemetry {
+  readonly tpmsState?: import('../TPMSState').TPMSState;
+  readonly laneAssist?: import('../control/LaneAssistState').LaneAssistState;
+  readonly tyres?: readonly import('../SharedVehicleData').LegacyTyreReading[];
   readonly drivingScene?: import('./DrivingSceneDisplayContext').DrivingSceneDisplayData;
+  /** Borrowed platform observations; skin never owns/query-recomputes them. */
+  readonly sharedVehicle?: import('../SharedVehicleData').SharedVehicleData;
+  readonly trip?: import('../control/TripComputer').TripComputerSnapshot;
+  readonly assistCapabilities?: { readonly lka: boolean; readonly lcc: boolean };
+  readonly chassisStatus?: { readonly rideHeight: number; readonly targetHeight: number; readonly nominalHeight: number;
+    readonly dampingMode: import('../config').VehicleDriveMode; readonly electricSoundPresence: number };
   /** Normalized environment daylight, independent of the driver's lamp command. */
   readonly ambientDaylight?: number;
   readonly electricDisplay?: import('./ElectricDisplayContext').ElectricDisplayData;
@@ -94,6 +107,7 @@ export type InstrumentDisplayStyle =
   | 'executive-virtual'
   | 'suv-virtual'
   | 'ev-center'
+  | 'ev-premium'
   | 'bmw-live';
 
 export interface InstrumentClusterConfig {
@@ -776,7 +790,7 @@ const STATUS_LAMP_STROKE = '#0a1715';
 const assistOffLabel = (state: InstrumentIndicatorState): string =>
   state.escOff ? (state.tcsOff ? 'TCS/ESC OFF' : 'ESC OFF') : 'TCS OFF';
 
-const drawStatusLamp = (
+export const drawStatusLamp = (
   context: CanvasRenderingContext2D,
   label: string,
   color: string,
@@ -1559,7 +1573,8 @@ export class InstrumentCluster extends THREE.Group {
   private bmwFace: BMW530Instruments | null = null;
   private evCanvas: HTMLCanvasElement | null = null;
   private evTexture: THREE.CanvasTexture | null = null;
-  private readonly electricFace = new ElectricCenterDisplay();
+  private readonly electricFace: ElectricCenterDisplay | null;
+  public readonly premiumEVFace: PremiumEVInstruments | null = null;
   private readonly config: InstrumentClusterConfig;
   private readonly tachometerNeedle: THREE.Group;
   private readonly speedometerNeedle: THREE.Group;
@@ -1630,8 +1645,9 @@ export class InstrumentCluster extends THREE.Group {
   private lastInformationKey = '';
   private lastIndicatorKey = '';
 
-  public constructor(config: Partial<InstrumentClusterConfig> = {}) {
+  public constructor(config: Partial<InstrumentClusterConfig> = {}, private readonly assets?: import('./VehicleAssetRegistry').VehicleAssetRegistry) {
     super();
+    this.electricFace = config.displayStyle === 'ev-premium' ? null : new ElectricCenterDisplay(assets);
     this.name = 'Functional instrument cluster';
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.suvScales = getSuvInstrumentScales(this.config);
@@ -1641,8 +1657,16 @@ export class InstrumentCluster extends THREE.Group {
       this.informationTexture = new THREE.CanvasTexture(this.informationCanvas);
       this.informationTexture.dispose();
       this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
-      this.bmwFace = new BMW530Instruments(this.config); this.add(this.bmwFace);
+      this.bmwFace = new BMW530Instruments(this.config, assets); this.add(this.bmwFace);
       return;
+    }
+    if (this.config.displayStyle === 'ev-premium') {
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas); this.informationTexture.dispose();
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.premiumEVFace = new PremiumEVInstruments(assets ?? new VehicleAssetRegistry());
+      this.add(this.premiumEVFace); return;
     }
     if (this.config.displayStyle === 'ev-center') {
       this.name = 'Electric centre touchscreen';
@@ -1651,11 +1675,12 @@ export class InstrumentCluster extends THREE.Group {
       this.informationTexture = new THREE.CanvasTexture(this.informationCanvas);
       this.informationTexture.dispose(); // ICE information texture is never installed in this face.
       this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
-      this.evCanvas = createCanvas(1024, 640); this.evTexture = new THREE.CanvasTexture(this.evCanvas);
+      const premium = false;
+      this.evCanvas = createCanvas(1024, premium ? 360 : 640); this.evTexture = new THREE.CanvasTexture(this.evCanvas);
       this.evTexture.colorSpace = THREE.SRGBColorSpace;
-      const bezel = new THREE.Mesh(new THREE.BoxGeometry(.355, .225, .018), new THREE.MeshStandardMaterial({ color: 0x101318 }));
+      const bezel = new THREE.Mesh(new THREE.BoxGeometry(premium ? .49 : .355, premium ? .18 : .225, .018), new THREE.MeshStandardMaterial({ color: 0x101318 }));
       bezel.name = 'Landscape touchscreen bezel'; this.add(bezel);
-      const screen = new THREE.Mesh(new THREE.PlaneGeometry(.342, .213), new THREE.MeshBasicMaterial({ map: this.evTexture, toneMapped: false }));
+      const screen = new THREE.Mesh(new THREE.PlaneGeometry(premium ? .475 : .342, premium ? .167 : .213), new THREE.MeshBasicMaterial({ map: this.evTexture, toneMapped: false }));
       screen.name = 'Electric energy and driving display'; screen.position.z = .010; this.add(screen);
       return;
     }
@@ -2026,9 +2051,10 @@ export class InstrumentCluster extends THREE.Group {
   }
 
   public update(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
+    if (this.premiumEVFace) { this.premiumEVFace.update(telemetry, deltaTime); return; }
     if (this.bmwFace) { this.bmwFace.update(telemetry, deltaTime); return; }
     if (this.evCanvas && this.evTexture) {
-      if (this.electricFace.update(this.evCanvas, telemetry, deltaTime)) this.evTexture.needsUpdate = true;
+      if (this.electricFace?.update(this.evCanvas, telemetry, deltaTime)) this.evTexture.needsUpdate = true;
       return;
     }
     const speedKmh = Math.abs(finiteOr(telemetry.speedKmh, 0));
@@ -2127,7 +2153,7 @@ export class InstrumentCluster extends THREE.Group {
       const smoothSpeed = clamp01((-this.currentSpeedometerRotation - ARC_START) / (ARC_END - ARC_START)) * this.config.maximumSpeedKmh;
       const key = [displaySpeed, Math.round(smoothRPM / 5), Math.round(smoothSpeed), telemetry.gear, telemetry.driveMode,
         Math.round(fuelLevel * 100), Math.round(temperatureC), telemetry.cruiseTargetSpeedKmh, indicatorKey,
-        telemetry.executive?.version, Math.round(this.executiveBacklight * 100), Math.round(this.executiveLaneOpacity * 100),
+        telemetry.executive?.version, telemetry.laneAssist?.version, Math.round(this.executiveBacklight * 100), Math.round(this.executiveLaneOpacity * 100),
         telemetry.outsideTemperatureC,
         Math.min(66, Math.floor(this.executiveWakeTime * 60)), Math.min(12, Math.floor(this.executivePageTime * 60))].join('|');
       if (key !== this.executiveKey) {
@@ -2242,9 +2268,15 @@ export class InstrumentCluster extends THREE.Group {
     this.executiveTexture = configureTexture(this.executiveCanvas);
     const common = { label: '', unit: '', minorTicksPerMajor: 5, visualProfile: this.config.visualProfile,
       majorTickColor: '#e4e8ed', minorTickColor: '#727c87', labelColor: '#cfd5dc' };
-    this.executiveTachArtwork = drawStyledDialArtwork({ ...common, maximum: this.config.maximumRPM,
+    const artwork = (options: Parameters<typeof drawStyledDialArtwork>[0]) => {
+      if (!this.assets) return drawStyledDialArtwork(options);
+      const drawn = () => drawStyledDialArtwork(options);
+      return this.assets.canvas(`executive-dial/${JSON.stringify(options)}`,FACE_SIZE,FACE_SIZE,
+        c => c.drawImage(drawn(),0,0));
+    };
+    this.executiveTachArtwork = artwork({ ...common, maximum: this.config.maximumRPM,
       majorDivisions: 7, labelDivisor: 1000, redlineFraction: this.config.redlineRPM / this.config.maximumRPM });
-    this.executiveSpeedArtwork = drawStyledDialArtwork({ ...common, maximum: this.config.maximumSpeedKmh,
+    this.executiveSpeedArtwork = artwork({ ...common, maximum: this.config.maximumSpeedKmh,
       majorDivisions: 7, minorTicksPerMajor: 4 });
     const geometry = new THREE.ShapeGeometry(new THREE.Shape(EXECUTIVE_INSTRUMENT_OUTLINE.map(([x, y]) => new THREE.Vector2(x * .982, y * .982))));
     const position = geometry.getAttribute('position'), uv = geometry.getAttribute('uv');
@@ -2375,6 +2407,9 @@ export class InstrumentCluster extends THREE.Group {
     text(`${Math.round(temperature)} °C`, 1095, 523, 19, '#8f9aa7');
     context.restore();
     this.drawExecutiveCentre(context, telemetry, indicators, accent, text);
+    if (telemetry.ignitionOn !== false) drawLaneAssistSelection(context,telemetry.laneAssist,'audi',
+      telemetry.laneAssist?.notificationVisible ? 720 : 815,
+      telemetry.laneAssist?.notificationVisible ? 274 : 490,.8);
     // A narrow, low-contrast wake reflection; no bloom or saturated light band.
     const sweep = (this.executiveWakeTime - .15) / .55;
     if (sweep > 0 && sweep < 1) {
@@ -2538,7 +2573,7 @@ export class InstrumentCluster extends THREE.Group {
             const p1 = { x: a.x + (b.x - a.x) * t1, forward: a.forward + (b.forward - a.forward) * t1 };
             const pa = project(p0), pb = project(p1);
             const near = 1 / (1 + Math.max(0, (p0.forward + p1.forward) * .5) / 13);
-            context.strokeStyle = `rgba(190,205,217,${.14 + near * .7})`; context.lineWidth = .65 + near * 2.1;
+            context.strokeStyle = lateralBoundaryColor(data?.lateralAssist,boundary,`rgba(190,205,217,${.14 + near * .7})`); context.lineWidth = .65 + near * 2.1;
             context.beginPath(); context.moveTo(pa.x, pa.y); context.lineTo(pb.x, pb.y); context.stroke();
           }
         }

@@ -15,14 +15,16 @@ export const FAMILY_CONVERTER_CONFIG: TorqueConverterConfig = {
   lockupMinimumSpeed: 14, lockupMinimumSpeedRatio: .8, lockupMaximumThrottle: .5,
 };
 
-const makeShiftMap = (redline: number): AutomaticShiftConfig => ({
-  map: [ { throttle: 0, upshiftRPM: 1650, downshiftRPM: 900 },
-    { throttle: 0.25, upshiftRPM: 1900, downshiftRPM: 1050 },
-    { throttle: 0.6, upshiftRPM: 3900, downshiftRPM: 1650 },
-    { throttle: 1, upshiftRPM: redline - 350, downshiftRPM: 2600 } ],
+const makeShiftMap = (redline: number, turbo = false): AutomaticShiftConfig => ({
+  map: [0, .2, .45, .7, .9, 1].map((throttle, i) => ({ throttle,
+    upshiftRPM: (turbo ? [1400, 1750, 2400, 3400, 4700, redline - 300]
+      : [1550, 2000, 2900, 4000, 5300, redline - 250])[i]!,
+    downshiftRPM: [850, 950, 1200, 1550, 2100, 2500][i]! })),
   minimumUpshiftSpeeds: [3, 5, 7.5, 10, 12.5, 15],
   hysteresisRPM: 130, minimumTimeInGear: 1.15,
-  kickdownThrottle: 0.8, kickdownTargetRPM: 4200, kickdownMaximumRPM: redline - 450,
+  kickdownThrottle: .92, kickdownTargetRPM: turbo ? 3800 : 4400, kickdownMaximumRPM: redline - 450,
+  maximumAutomaticRPM: redline - 100, minimumPostShiftRPM: turbo ? 1000 : 1050,
+  economicalShiftFactor: .94, liftHoldTime: 0,
   gearRPMCorrections: [100, 0, 0, 0, 0, 0, 0],
 });
 
@@ -139,7 +141,7 @@ export function createTest7DCTVehiclePhysicsConfig(): VehiclePhysicsConfig {
     gearRatios: { 1: 3.5, 2: 2.12, 3: 1.52, 4: 1.14, 5: 0.9, 6: 0.73, 7: 0.6 },
     reverseRatio: -3.2, finalDrive: 3.65, finalDriveRatio: 3.65,
     shiftTime: 0.2, reverseLockoutSpeed: 1.0,
-    dct: { shiftStrategy: makeShiftMap(config.engine.redlineRPM),
+    dct: { shiftStrategy: makeShiftMap(config.engine.redlineRPM, true),
       clutchCapacity: 310, couplingStiffness: 10, clutchApplyRate: 1.8, clutchReleaseRate: 8,
       creepEngagement: 0.13, launchFullyEngagedSpeed: 4.3,
       unexpectedShiftDelay: 0.11, parkMaximumSpeed: 0.35 } };
