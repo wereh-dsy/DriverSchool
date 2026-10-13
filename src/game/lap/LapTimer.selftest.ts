@@ -54,6 +54,18 @@ export function runLapTimerSelfTest(): { assertions: number } {
   const restarted = new LapTimer(new LapRecordStore(storage));
   restarted.configure(course, 'gt', { x: -2, z: 0 });
   assert(restarted.state.bestMs === 4_800, 'fresh timer restores persisted BEST');
+  restarted.configure({ ...course, revision: 3 }, 'gt', { x: -2, z: 0 });
+  assert(restarted.state.bestMs === null, 'changed layout never loads a legacy lap record');
+  records.save(course.trackId, 'gt', 5_000, 3);
+  restarted.configure({ ...course, revision: 3 }, 'gt', { x: -2, z: 0 });
+  assert(restarted.state.bestMs === 5_000 && records.load(course.trackId, 'gt') === 4_800,
+    'revision saves restore independently and retain the legacy record');
+  restarted.configure({ ...course, revision: 4 }, 'gt', { x: -2, z: 0 });
+  assert(restarted.state.bestMs === null, 'future layout revisions remain isolated');
+  timer.configure({ ...course, revision: 3 }, 'gt', { x: -2, z: 0 }); x = -2; z = 0;
+  move(0, 0); complete(.03);
+  assert(records.load(course.trackId, 'gt', 3) === 3_600 && records.load(course.trackId, 'gt') === 4_800,
+    'completed laps save through the timer into their layout revision only');
   configure('sedan');
   assert(timer.state.bestMs === null && timer.state.lastMs === null, 'vehicle switch invalidates session and loads separate record');
   move(0, 0); complete(0.08);

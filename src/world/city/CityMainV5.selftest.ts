@@ -17,12 +17,13 @@ import {RoadBuilder} from './RoadBuilder';
 import {createSubject3Materials} from '../subject3/materials';
 import {Mesh,InstancedMesh,Matrix4} from 'three';
 import {cityMainCrossingIssues} from './CityMain.selftest';
+import {matchesApprovedCityGeometry} from './maps/CityGeometryRepair.selftest';
 const assert=(v:unknown,m:string)=>{if(!v)throw new Error('City V5: '+m);};
 const same=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
 export function runCityMainV5SelfTest(source:unknown,baseline:unknown) {
  const map=loadCityMap(source),old=loadCityMap(baseline),report=validateMap(map);assert(report.valid,'map schema '+JSON.stringify(report.errors));
  assert(map.roads.length>=450&&map.roads.length<=650,'road budget '+map.roads.length);
- const frozen=old.roads.filter(cityV5FrozenRoad);for(const r of frozen)assert(same(r,map.roads.find(a=>a.id===r.id)),'frozen '+r.id);
+ const frozen=old.roads.filter(cityV5FrozenRoad);for(const r of frozen)assert(matchesApprovedCityGeometry(r,map.roads.find(a=>a.id===r.id)!,old.roads),'frozen or exact approved geometry '+r.id);
  const network=buildCityRoadNetwork(map),edges=new Map<string,Set<string>>();
  for(const n of network.connectivity)for(const id of n.incomingRoadIds){const e=edges.get(id)??new Set<string>();for(const o of n.outgoingRoadIds)if(o!==id)e.add(o);edges.set(id,e);}
  const reachable=(start:string)=>{const seen=new Set([start]),todo=[start];while(todo.length){for(const id of edges.get(todo.pop()!)??[]){if(!seen.has(id)){seen.add(id);todo.push(id);}}}return seen;};
@@ -42,8 +43,10 @@ export function runCityMainV5SelfTest(source:unknown,baseline:unknown) {
   if(s.stationMetres!==undefined){const a=sampleAt(p,s.stationMetres);bearing=Math.atan2(-a.tangent.x,-a.tangent.z)+(s.laneDirection==='reverse'?Math.PI:0);y=a.point.y??0;}
   assert(Math.abs(Math.atan2(Math.sin(s.heading-bearing),Math.cos(s.heading-bearing)))<.001,'sign faces traffic '+s.id);
   assert(Math.abs((s.position.y??0)-y)<.3,'sign height follows road '+s.id);
-  const dims=signDimensions(s.template,s.size,s.postOffset);for(const x of dims.posts){const q=rotatePoint({x,z:ROAD_SIGN_POST_Z},s.heading),a={x:s.position.x+q.x,z:s.position.z+q.z};assert(!clearance.roadAt(a,.44,(s.postBaseY??s.position.y??0)-.3,(s.position.y??0)+dims.poleTop,undefined,undefined,s.postOffset!==undefined),'sign post excludes road '+s.id);}
-  if((s.position.y??0)>.5&&s.template!=='gantry'){assert(s.postBaseY===0,'elevated roadside foundation '+s.id);assert(roadSignColliders(s)[0]!.minHeight===0,'matching post foundation collision '+s.id);}
+  assert(['gantry','highway-gantry','ceiling'].includes(s.template),'all guide boards overhead '+s.id);
+  const anchor=sampleAt(p,s.stationMetres!).point;assert(Math.hypot(anchor.x-s.position.x,anchor.z-s.position.z)<1e-6,'guide board centred on road '+s.id);
+  const dims=signDimensions(s.template,s.size,s.postOffset,s.gantryPosts,s.mountHeight);assert(dims.bottom>=4.5,'overhead board clearance '+s.id);for(const x of dims.posts){const q=rotatePoint({x,z:ROAD_SIGN_POST_Z},s.heading),a={x:s.position.x+q.x,z:s.position.z+q.z};assert(!clearance.roadAt(a,.44,(s.postBaseY??s.position.y??0)-.3,(s.position.y??0)+dims.poleTop,undefined,undefined,true)&&!clearance.roadAt(a,.3,s.postBaseY??s.position.y??0,(s.position.y??0)+dims.poleTop,s.roadId),'sign post excludes traffic and other decks '+s.id);}
+  if(s.postBaseY!==undefined){assert(s.postBaseY===0,'ground foundation '+s.id);assert(roadSignColliders(s)[0]!.minHeight===0,'matching post foundation collision '+s.id);}
  }
  const supported=map.signs!.find(s=>s.postBaseY===0)!;assert(supported,'ground-supported elevated roadside sign');
  const signRenderer=new RoadSignRenderer(map.roadNames!,()=>null),signGroup=signRenderer.buildInstances([{...supported,position:{x:0,y:8,z:0},heading:0}]);

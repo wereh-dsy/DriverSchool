@@ -15,6 +15,8 @@ export function runExecutiveSedanSelfTest() {
   const input = createNeutralVehicleInputState();
   const originalSuspension = JSON.stringify(config.suspension);
   const originalEngineEnvelope = JSON.stringify(config.engine.torqueCurve);
+  const originalCatalog = JSON.stringify(getVehicleDescriptor('executive-lwb-2t').physicsConfig);
+  const originalFresh = JSON.stringify(createVehiclePhysicsConfig('executive-lwb-2t'));
   assert(vehicle.driveMode === 'NORMAL', 'spawn defaults to NORMAL');
   for (const expected of ['SPORT', 'ECO', 'NORMAL'] as const) {
     input.cycleDriveMode = true;
@@ -62,10 +64,11 @@ export function runExecutiveSedanSelfTest() {
   assert(steeringSamples[0]! < steeringSamples[1]! && steeringSamples[1]! < steeringSamples[2]!, 'rack response actually changes across modes');
   assert(rearSplits[0]! < rearSplits[1]! && rearSplits[1]! < rearSplits[2]!, 'AWD adds rear participation progressively in sport');
   const clean = createVehiclePhysicsConfig('executive-lwb-2t');
-  assert(clean.transmission.dct!.shiftStrategy.map[1]!.upshiftRPM === 1900 &&
-    getVehicleDescriptor('executive-lwb-2t').physicsConfig.engine.throttleResponse === 3.2, 'switching modes never mutates catalog or fresh vehicles');
+  const cleanEcoRPM = clean.driveModes!.ECO!.shiftStrategy!.map[0]!.upshiftRPM;
+  assert(JSON.stringify(clean) === originalFresh &&
+    JSON.stringify(getVehicleDescriptor('executive-lwb-2t').physicsConfig) === originalCatalog, 'switching modes never mutates catalog or fresh vehicles');
   config.driveModes!.ECO!.shiftStrategy!.map[0]!.upshiftRPM = 1;
-  assert(clean.driveModes!.ECO!.shiftStrategy!.map[0]!.upshiftRPM === 1400, 'mode tables are detached per vehicle');
+  assert(clean.driveModes!.ECO!.shiftStrategy!.map[0]!.upshiftRPM === cleanEcoRPM, 'mode tables are detached per vehicle');
   const existing = new VehicleDynamics(createVehiclePhysicsConfig('test-7dct-sedan'));
   const before = JSON.stringify(existing.config);
   existing.cycleDriveMode();

@@ -1,4 +1,6 @@
-import cityMain from './maps/city-main.json';
+// These authored corridor/diagonal contracts belong to the V3 layout. Current
+// city data is checked separately by CityMainV5 and regional integration tests.
+import cityMain from '../../../artifacts/city-main-v4/v3-base.json';
 import { loadCityMap } from './CityMapLoader';
 import { buildCityRoadNetwork } from './CityRoadNetwork';
 import { validateMap } from './CityMapValidation';

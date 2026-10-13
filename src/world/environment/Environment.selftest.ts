@@ -1,5 +1,6 @@
 import { Color, DirectionalLight, Fog, Group, HemisphereLight, Mesh, MeshStandardMaterial, PointLight, Scene, ShaderMaterial } from 'three';
 import { createDrivingGround, DRIVING_GROUND_CATALOG } from '../DrivingGroundCatalog';
+import { CityGround } from '../city/CityGround';
 import { SURFACE_MATERIALS } from '../SurfaceMaterial';
 import { sampleWheelContacts } from '../../vehicle/physics/WheelContact';
 import { VehicleContactSystem } from '../../vehicle/physics/VehicleContactSystem';
@@ -34,8 +35,11 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
     fill() { drawnWater += this.globalAlpha; }, stroke: () => {}, moveTo: () => {}, lineTo: () => {},
   };
   const previousDocument = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  const canvasContext = new Proxy({} as CanvasRenderingContext2D, { get: (_target, key: string) =>
+    key === 'measureText' ? (value: string) => ({ width: value.length * 12 }) :
+    key.startsWith('create') ? () => ({ addColorStop: () => {} }) : () => {}, set: () => true });
   Object.defineProperty(globalThis, 'document', { configurable: true,
-    value: { createElement: () => ({ width: 1, height: 1, getContext: () => null }) },
+    value: { createElement: () => ({ width: 1, height: 1, getContext: () => canvasContext }) },
   });
   try {
     const scene = new Scene();
@@ -50,6 +54,11 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
     const visual = new EnvironmentVisual(scene, state, sun, hemisphere, sky);
     for (const descriptor of DRIVING_GROUND_CATALOG) {
       const ground = createDrivingGround(descriptor.id);
+      if (ground instanceof CityGround) {
+        const spawn = ground.spawnPose;
+        for (let i = 0; i < 220 && !ground.sectors.ready; i++) ground.updatePlayerPosition(spawn.position.x, spawn.position.z, spawn.yawRadians, 0);
+        assert(ground.sectors.ready, `${descriptor.id}: initial visual sectors finish loading before material inspection`);
+      }
       visual.setGround(ground);
       const roads: MeshStandardMaterial[] = [];
       let markingCount = 0;
@@ -60,7 +69,7 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
         if (!(object instanceof Mesh)) return;
         const materials = Array.isArray(object.material) ? object.material : [object.material];
         for (const material of materials) {
-          if (!material.polygonOffset) continue;
+          if (!material.polygonOffset || material.userData.wetRoad || material.userData.regionalTerrain) continue;
           markingCount++;
           markingsLit &&= material instanceof MeshStandardMaterial && material.emissive.getHex() === 0 && material.toneMapped;
           markingNormals &&= object.geometry.getAttribute('normal') !== undefined;
@@ -99,7 +108,7 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
       state.weather = 'CLEAR'; state.time = 'DAY'; visual.applyState();
       assert(roads[0]!.color.equals(dryColor), 'clear restores original road color without cumulative darkening');
       // Next bind restores lamp material ownership before disposing this ground.
-      visual.setGround({ ...ground, root: new Group() });
+      visual.setGround({ root: new Group() });
       ground.dispose();
     }
     const streetLights = scene.children.filter(object => object instanceof PointLight);

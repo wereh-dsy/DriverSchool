@@ -7,6 +7,7 @@ import { RoadBuilder } from './RoadBuilder';
 import { IntersectionBuilder } from './IntersectionBuilder';
 import { insideIntersectionMarkingFootprint, MarkingOwnership } from './MarkingOwnership';
 import { expandPreset } from './presets/InfrastructurePresets';
+import { buildHighwayLaneMarkings } from '../regional/HighwayLaneRenderer';
 
 export function runMarkingOwnershipSelfTest() {
   const assert=(ok:unknown,message:string)=>{if(!ok)throw new Error('City paint ownership: '+message);};
@@ -40,8 +41,29 @@ export function runMarkingOwnershipSelfTest() {
   normalized.intersections[0]!.approaches={};
   const empty=junctionBuilder.build(normalized.intersections[0]!);assert(!empty.children.some(o=>o.userData.markingRole==='arrow'),'no metadata means no inferred arrows');
   const mergeMap={...newCityMap(),...expandPreset('urban_side_access')};for(const r of mergeMap.roads)checkRoadPaint(r,mergeMap);
+  const freeway=newCityMap();
+  const main:CityRoad={id:'main',type:'highway',laneCount:3,laneWidth:3.75,travelDirection:'forward',speedLimit:100,elevationMode:'custom',centerline:[{x:0,y:0,z:300},{x:0,y:0,z:0}],shoulders:{left:1,right:3},structure:{barrierEnabled:false,piersEnabled:false}};
+  const ramp:CityRoad={...main,id:'ramp',type:'ramp_1',laneCount:1,centerline:[{x:7.5,y:0,z:0},{x:70,y:0,z:-150}],shoulders:{left:1,right:2},gore:{start:true,end:false,length:120}};
+  const auxiliary:CityRoad={...ramp,id:'auxiliary',gore:undefined,markings:true,centerline:Array.from({length:31},(_,i)=>{const t=Math.min(1,i*10/150),u=t*t*(3-2*t);return{x:u*7.5,y:0,z:300-i*10};}),highwayTransition:{kind:'deceleration',taperMetres:150,mainRoadId:main.id,decisionId:ramp.id}};
+  freeway.roads=[main,ramp,auxiliary];freeway.roadLinks=[{id:'exit',from:{roadId:auxiliary.id,end:'end'},to:{roadId:ramp.id,end:'start'}}];
+  const auxiliaryPaint=buildHighwayLaneMarkings(auxiliary,freeway,materials);let separatorVertices=0,outerVertices=0;
+  auxiliaryPaint.traverse(o=>{
+    if(!(o instanceof Mesh))return;const positions=o.geometry.getAttribute('position');
+    if(o.name==='deceleration dashed entry'||o.name==='deceleration solid taper')for(let i=0;i<positions.count;i++){
+      assert(positions.getX(i)>=3*3.75/2-.4,'taper separator cannot cut across mainline lanes');separatorVertices++;
+      assert(Math.abs(positions.getY(i)-.032)<1e-6,'auxiliary paint shares ordinary road paint height');
+    }
+    if(o.name==='auxiliary edge')for(let i=0;i<positions.count;i++){assert(positions.getX(i)>3*3.75/2,'auxiliary outer edge only appears outside through lanes');outerVertices++;}
+  });
+  assert(separatorVertices>0&&outerVertices>0,'exit has both access separator and outer edge');
+  const auxiliaryRoad=new RoadBuilder(materials,freeway).build(auxiliary);
+  assert(!auxiliaryRoad.children.some(o=>o.name==='road paint'||o.name==='merge divider'),'auxiliary lane never receives a second generic marking pass');
+  const duplicateMap=newCityMap();duplicateMap.roads=[{...main,id:'a'},{...main,id:'b'}];
+  const duplicateRoad=new RoadBuilder(materials,duplicateMap).build(duplicateMap.roads[1]!);
+  assert(!duplicateRoad.children.some(o=>o.userData.markingOwner),'coincident parallel paint belongs to one road');
+  for(const group of [auxiliaryPaint,auxiliaryRoad,duplicateRoad])group.traverse(o=>{if(o instanceof Mesh)o.geometry.dispose();});
   for(const group of [root,empty])group.traverse(o=>{if(o instanceof Mesh)o.geometry.dispose();});Object.values(materials).forEach(m=>m.dispose());
   // Keep the shared builder exercised as well as the clipping plan.
   assert(roadBuilder.build(normalized.roads[0]!).children.length>0,'pavement remains after suppression');
-  return {paintVertices,stopLines:stops.length,metadataArrows:arrows.length,intersectionAndMergeOwnership:'passed'};
+  return {paintVertices,stopLines:stops.length,metadataArrows:arrows.length,separatorVertices,outerVertices,intersectionAndMergeOwnership:'passed',exitTaperAndDuplicatePaint:'passed'};
 }

@@ -130,6 +130,7 @@ export class CruiseControlController {
   ): VehicleInputState {
     this.available = context.available;
     const unsafeReason = this.getUnsafeReason(input, context);
+    let activatedThisStep = false;
 
     if (input.cruiseToggle) {
       if (this.active) {
@@ -146,6 +147,7 @@ export class CruiseControlController {
           0, this.config.maximumCruiseThrottle);
         this.speedErrorIntegral = clamp(this.previousThrottle - this.config.throttleFeedForward,
           -this.config.integralLimit, this.config.integralLimit);
+        activatedThisStep = true;
         this.emit('activated', 'activated');
       } else {
         this.emit('rejected', unsafeReason);
@@ -174,8 +176,11 @@ export class CruiseControlController {
         -this.config.integralLimit, this.config.integralLimit);
     }
     const targetThrottle = clamp(proportional + this.speedErrorIntegral, 0, this.config.maximumCruiseThrottle);
-    const limitedCruiseThrottle = this.previousThrottle + clamp(targetThrottle - this.previousThrottle,
-      -this.config.throttleSlewRate * dt, this.config.throttleSlewRate * dt);
+    // SET keeps the captured actuator demand even when the integral cannot
+    // represent it exactly. Subsequent steps converge with the normal slew cap.
+    const limitedCruiseThrottle = activatedThisStep ? this.previousThrottle
+      : this.previousThrottle + clamp(targetThrottle - this.previousThrottle,
+        -this.config.throttleSlewRate * dt, this.config.throttleSlewRate * dt);
     const overspeed = -speedError;
     const brakeStart = this.config.brakeStartOverspeedKmh / 3.6;
     const driverIsAccelerating = driverThrottle > limitedCruiseThrottle + 0.01;

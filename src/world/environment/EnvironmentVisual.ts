@@ -53,7 +53,7 @@ export class EnvironmentVisual {
     scene.add(this.rain, ...this.lamps);
   }
 
-  public setGround(ground: DrivingGround): void {
+  public setGround(ground: Pick<DrivingGround, 'root'>): void {
     // Streaming may rediscover the same shared materials; restore their baseline.
     for (const road of this.roads) {
       road.material.color.copy(road.color);

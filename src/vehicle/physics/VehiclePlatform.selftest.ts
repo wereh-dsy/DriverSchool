@@ -16,7 +16,8 @@ export function runVehiclePlatformSelfTest() {
   };
   const dt = 1 / 120, neutral = createNeutralVehicleInputState();
   for (const descriptor of VEHICLE_CATALOG) {
-    assert(Object.keys(descriptor.capabilities).length === 29 && Object.values(descriptor.capabilities).every(flag=>typeof flag === 'boolean'), `${descriptor.id}: complete support flags`);
+    assert(Object.keys(descriptor.capabilities).length === 32 && Object.values(descriptor.capabilities).every(flag=>typeof flag === 'boolean'), `${descriptor.id}: complete support flags including EV topology`);
+    assert(descriptor.capabilities.multiMotor === ('driveUnits' in descriptor.physicsConfig && (descriptor.physicsConfig.driveUnits?.length ?? 0) > 1), `${descriptor.id}: multi-motor support follows installed drive units`);
     assert(descriptor.capabilities.awd === (descriptor.physicsConfig.drivetrainType === 'AWD'), 'layout and AWD support agree');
     assert(!(descriptor.capabilities.mechanicalHandbrake && descriptor.capabilities.electronicParkingBrake), 'one parking actuator type');
   }

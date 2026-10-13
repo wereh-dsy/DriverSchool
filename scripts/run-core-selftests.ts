@@ -1,4 +1,8 @@
 import { runSuspensionKinematicsSelfTest } from '../src/vehicle/physics/SuspensionKinematics.selftest';
+import { runRoadEdgeChainSelfTest } from '../src/world/city/RoadEdgeChain.selftest';
+import { runCityMainV5SelfTest } from '../src/world/city/CityMainV5.selftest';
+import cityMain from '../src/world/city/maps/city-main.json';
+import cityV41 from '../artifacts/city-main-v5/v41-base.json';
 import { runTeslaExperienceSelfTest } from '../src/vehicle/visual/TeslaExperience.selftest';
 import { runElectricPowertrainSelfTest } from '../src/vehicle/powertrain/ElectricPowertrain.selftest';
 import { runTeslaModel3VisualSelfTest } from '../src/vehicle/visual/TeslaModel3Visual.selftest';
@@ -60,6 +64,8 @@ import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToo
 import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftest';
 
 const results = {
+  roadEdgeChains: runRoadEdgeChainSelfTest(),
+  cityV5: runCityMainV5SelfTest(cityMain, cityV41),
   teslaExperience: runTeslaExperienceSelfTest(),
   suspensionKinematics: runSuspensionKinematicsSelfTest(),
   electricPowertrain: runElectricPowertrainSelfTest(),

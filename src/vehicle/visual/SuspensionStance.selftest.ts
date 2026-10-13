@@ -18,8 +18,11 @@ export function runSuspensionStanceSelfTest() {
     if (!ok) throw new Error(`Suspension stance: ${message}`);
   };
   const needsDocument = typeof document === 'undefined';
+  const canvasContext = new Proxy({} as CanvasRenderingContext2D, { get: (_target, key: string) =>
+    key === 'measureText' ? (value: string) => ({ width: value.length * 12 }) :
+    key.startsWith('create') ? () => ({ addColorStop: () => {} }) : () => {}, set: () => true });
   if (needsDocument) Object.defineProperty(globalThis, 'document', {
-    configurable: true, value: { createElement: () => ({ width: 1, height: 1, getContext: () => null }) },
+    configurable: true, value: { createElement: () => ({ width: 1, height: 1, getContext: () => canvasContext }) },
   });
   try {
     for (const car of VEHICLE_CATALOG) {
@@ -39,8 +42,10 @@ export function runSuspensionStanceSelfTest() {
       const lights = new VehicleLighting(visual);
       try {
         const camera = new DriverCamera({ driverEyePosition: new THREE.Vector3(...config.driverEyePosition) });
+        const headlamp = visual.root.getObjectByName('Left low/high beam');
+        assert(headlamp !== undefined, `${car.id}: left headlamp has a physical body anchor`);
         const fixtures = [visual.cockpitRoot.steeringWheelBase, visual.getMirrorSurface('left'),
-          visual.getMirrorSurface('right'), visual.root.getObjectByName('Left low/high headlamp')!];
+          visual.getMirrorSurface('right'), headlamp!];
         const fixtureAnchors = fixtures.map(object => object.getWorldPosition(new THREE.Vector3()));
         const anchors = localWheelPositions(physics);
         const points = Object.fromEntries(VEHICLE_WHEEL_IDS.map(id => [id, anchors[id]])) as typeof anchors;
@@ -51,7 +56,7 @@ export function runSuspensionStanceSelfTest() {
         let floorY = Number.POSITIVE_INFINITY;
         visual.exteriorRoot.traverse(object => {
           if (object instanceof THREE.Mesh && object.userData.vehicleBodyPart === 'main-shell') {
-            floorY = new THREE.Box3().setFromObject(object).min.y;
+            floorY = Math.min(floorY, new THREE.Box3().setFromObject(object).min.y);
           }
         });
         assert(Math.abs(floorY - physics.suspension.rideHeight) < 1e-6,
@@ -68,7 +73,8 @@ export function runSuspensionStanceSelfTest() {
           ray.set(new THREE.Vector3(side * 2, wheel.y + physics.wheelRadius + .001, wheel.z),
             new THREE.Vector3(-side, 0, 0));
           const innerSide = Math.abs(wheel.x) - physics.wheelWidth * .5;
-          const intrusion = ray.intersectObject(visual.exteriorRoot, true).filter(hit => hit.distance <= 2 - innerSide);
+          const intrusion = ray.intersectObject(visual.exteriorRoot, true).filter(hit => hit.distance <= 2 - innerSide &&
+            !VEHICLE_WHEEL_IDS.some(wheelId => visual.wheelPivots[wheelId].getObjectById(hit.object.id) !== undefined));
           assert(intrusion.length === 0,
             `${car.id}: ${id} body/trim clear tyre crown at full bump (${intrusion.map(hit => hit.object.name).join(', ')})`);
           const error = visual.wheelPivots[id].getWorldPosition(new THREE.Vector3()).distanceTo(new THREE.Vector3(wheel.x, wheel.y, wheel.z));

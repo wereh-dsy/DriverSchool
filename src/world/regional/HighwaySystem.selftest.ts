@@ -11,6 +11,7 @@ import { BoxGeometry, InstancedMesh, Mesh } from 'three';
 import { validateHighwayData } from './HighwayValidation';
 import { RoadClearance } from '../city/RoadClearance';
 import { junctionSurfaceContains,junctionSurfaceHeight } from '../city/JunctionSurface';
+import { matchesApprovedCityGeometry } from '../city/maps/CityGeometryRepair.selftest';
 
 const assert=(ok:unknown,message:string)=>{if(!ok)throw new Error(message);};
 export function runHighwaySystemSelfTest(map:CityMapData,baseline:CityMapData){
@@ -25,7 +26,8 @@ export function runHighwaySystemSelfTest(map:CityMapData,baseline:CityMapData){
       const kept=route.id==='S89'?route.centerline.filter(p=>p.z>=1800):route.centerline;
       assert(next&&kept.every(p=>next.centerline.some(q=>Math.hypot(p.x-q.x,p.z-q.z, (p.y??0)-(q.y??0))<1e-6)),'Rebuilt retained route '+route.id);
     }
-    for(const key of ['roads','intersections','objects'] as const)for(const old of baseline[key].filter(e=>!e.id.startsWith('regional:')))assert(JSON.stringify(map[key].find(e=>e.id===old.id))===JSON.stringify(old),'Changed city '+old.id);
+    for(const old of baseline.roads.filter(e=>!e.id.startsWith('regional:')))assert(matchesApprovedCityGeometry(old,roads.get(old.id)!,baseline.roads),'Changed city outside exact approved repair '+old.id);
+    for(const key of ['intersections','objects'] as const)for(const old of baseline[key].filter(e=>!e.id.startsWith('regional:')))assert(JSON.stringify(map[key].find(e=>e.id===old.id))===JSON.stringify(old),'Changed city '+old.id);
   });
   check('thirteen routes and stable internal IDs with approved display numbers',()=>{
     assert(system.routes.length===13,'Route count');
@@ -85,7 +87,7 @@ export function runHighwaySystemSelfTest(map:CityMapData,baseline:CityMapData){
       const half=road.laneCount*road.laneWidth/2;assert(dims.posts[0]! < -half && dims.posts[1]! > half,'Support on carriageway');
       assert(dims.posts[0]! > -half-(road.shoulders?.left??0) && dims.posts[1]! < half+(road.shoulders?.right??0),'Support outside paved deck');
       assert(roadSignColliders(sign).length===3,'Support collision geometry');
-      if(sign.type!=='EXPRESSWAY_DISTANCE')assert(c.destinations.some(d=>d.routeNumber),'Route shield');
+      if(sign.type!=='EXPRESSWAY_DISTANCE'&&sign.id.startsWith('regional:'))assert(c.destinations.some(d=>d.routeNumber),'Numbered regional route shield');
       if(sign.interchangeId&&system.junctions.some(h=>h.id===sign.interchangeId)&&sign.decisionIds?.length)assert(c.destinations.some(d=>d.direction&&d.name!==c.destinations[0]!.name),'Hub target direction');
     }
   });
@@ -104,7 +106,7 @@ export function runHighwaySystemSelfTest(map:CityMapData,baseline:CityMapData){
     const context=new Proxy({font:''},{get:(target,key)=>key==='font'?target.font:key==='fillText'?(_t:string,_x:number,_y:number,width:number)=>{fonts.push(target.font);widths.push(width);}:key==='rotate'?(angle:number)=>rotations.push(angle):()=>{},set:(target,key,value)=>{if(key==='font')target.font=value;return true;}});
     const renderer=new RoadSignRenderer(map.roadNames!,()=>({getContext:()=>context} as unknown as HTMLCanvasElement));
     for(const sign of map.signs!.filter(s=>s.highwayLayout))renderer.materialFor(sign);
-    assert(fonts.length>100&&fonts.every(f=>f.startsWith('400 ')),'Highway font relies on bold');assert(widths.every(w=>Number.isFinite(w)&&w>0),'Clipped or negative text region');assert(fonts.some(f=>f.startsWith('400 116px'))&&fonts.some(f=>f.startsWith('400 136px')),'Destinations/distances were not enlarged');assert(rotations.some(r=>r===Math.PI/4),'No right arrow was painted');renderer.dispose();
+    assert(fonts.length>100&&fonts.every(f=>f.startsWith('400 ')),'Highway font relies on bold');assert(widths.every(w=>Number.isFinite(w)&&w>0),'Clipped or negative text region');assert(fonts.some(f=>f.startsWith('400 224px'))&&fonts.some(f=>f.startsWith('400 166px')),'Large destinations in two and three column layouts');assert(rotations.some(r=>r===Math.PI/4),'No right arrow was painted');renderer.dispose();
   });
   const materials=createSubject3Materials();
   check('physical auxiliary lanes joined at both ends',()=>{

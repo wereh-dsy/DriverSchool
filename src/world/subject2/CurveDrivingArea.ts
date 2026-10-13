@@ -1,25 +1,12 @@
 import type { Subject2AreaModule, Subject2BuildContext } from './BuildContext';
-import { addDirectionArrow, addRoadEdgeMarkings, createModuleRoot } from './areaHelpers';
-import { makeRoadRibbon, sampleCurvePoints } from './geometry';
+import { addDirectionArrow, addProjectGates, addRoadEdgeMarkings, createModuleRoot } from './areaHelpers';
+import { createPathCurve } from './geometry';
 
 export class CurveDrivingArea implements Subject2AreaModule {
   public readonly root = createModuleRoot('Subject 2 curve driving area');
 
   public constructor(context: Subject2BuildContext) {
-    const { mesh, curve } = makeRoadRibbon(
-      'S-curve asphalt',
-      context.layout.curveRoute,
-      context.config.curveDriving.laneWidth,
-      context.materials.asphaltPractice,
-      context.heightAt,
-      context.shadows,
-      true,
-    );
-    this.root.add(mesh);
-    context.surfaces.addCorridor(
-      sampleCurvePoints(curve, 0.3),
-      context.config.curveDriving.laneWidth,
-    );
+    const curve = createPathCurve(context.layout.curveRoute);
     addRoadEdgeMarkings(
       this.root,
       context,
@@ -27,11 +14,13 @@ export class CurveDrivingArea implements Subject2AreaModule {
       curve,
       context.config.curveDriving.laneWidth,
     );
+    addProjectGates(this.root, context, 'S-curve',
+      context.layout.curveRoute, context.config.curveDriving.laneWidth);
     addDirectionArrow(
       this.root,
       context,
       'S-curve entry arrow',
-      context.layout.curveRoute[0] ?? context.config.layout.curveStart,
+      { x: context.config.layout.curveStart.x - 3, z: context.config.layout.curveStart.z },
       Math.PI * 0.5,
     );
     this.root.userData.projectId = 'curve-driving';

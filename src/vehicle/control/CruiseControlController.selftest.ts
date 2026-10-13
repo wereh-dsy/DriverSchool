@@ -90,5 +90,16 @@ export function runCruiseControlControllerSelfTest(): CruiseControlControllerSel
   assert(controller.status.integralThrottle === 0, 'cancel resets integral');
   assert(output.cruiseThrottle === 0 && output.cruiseBrake === 0, 'cancel clears actuator requests even when input is reused');
 
+  controller.reset();
+  output = controller.update(1 / 120, { ...base, cruiseToggle: true }, { ...context, currentThrottle: 1 });
+  assert(output.cruiseThrottle === 1 && output.throttle === 0, 'full-pedal SET preserves captured actuator demand');
+  assert(controller.status.integralThrottle === controller.config.integralLimit, 'bumpless SET never expands the integral limit');
+  const afterSet = controller.update(1 / 120, base, context);
+  assert(afterSet.cruiseThrottle! < 1 && afterSet.cruiseThrottle! >= 1 - controller.config.throttleSlewRate / 120 - 1e-10,
+    'post-SET integral saturation settles through the normal slew limit');
+  const capped = new CruiseControlController({ maximumCruiseThrottle: .6 });
+  assert(capped.update(1 / 120, { ...base, cruiseToggle: true }, { ...context, currentThrottle: 1 }).cruiseThrottle === .6,
+    'SET still respects a configured cruise output cap');
+
   return { passed: true, assertions };
 }

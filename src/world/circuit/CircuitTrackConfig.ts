@@ -91,13 +91,14 @@ export const DEFAULT_CIRCUIT_TRACK_CONFIG: CircuitTrackConfig = Object.freeze({
       id: 'braking-corner',
       label: '中速回头弯',
       vertex: Object.freeze({ x: 195, z: -330 }),
-      radius: 45,
+      radius: 90,
       kind: 'braking',
     }),
     Object.freeze({
       id: 'gentle-left',
       label: '缓和左弯',
-      vertex: Object.freeze({ x: 60, z: -160 }),
+      // Leave room for the wider hairpin's tangent exit and a usable straight.
+      vertex: Object.freeze({ x: 60, z: -90 }),
       radius: 110,
       kind: 'gentle-left',
     }),

@@ -1,4 +1,5 @@
 import cityMain from './maps/city-main.json';
+import cityV3 from '../../../artifacts/city-main-v4/v3-base.json';
 import v2Baseline from '../../../artifacts/city-main-v3/v2-base.json';
 import type { CityRoad } from './CityMapData';
 import { loadCityMap } from './CityMapLoader';
@@ -6,10 +7,10 @@ import { buildCityRoadNetwork } from './CityRoadNetwork';
 import { roadPoints,sampleAt,rotatePoint } from './geometry';
 import { RoadSignRenderer } from './RoadSignRenderer';
 import { resolveSignContent } from './RoadSignData';
-import { signDimensions } from './RoadSignTemplates';
+import { ROAD_SIGN_POST_Z, signDimensions } from './RoadSignTemplates';
 import { RoadClearance } from './RoadClearance';
 const assert=(ok:unknown,message:string)=>{if(!ok)throw new Error('City Main V3: '+message);};
-export function runCityMainV3SelfTest(source:unknown=cityMain) {
+export function runCityMainV3SelfTest(source:unknown=cityV3) {
   const map=loadCityMap(source);assert(map.environment.metadata?.backboneVersion==='3','V3 playable data');
   const network=buildCityRoadNetwork(map),roadById=new Map(map.roads.map(r=>[r.id,r]));
   const baseline=loadCityMap(v2Baseline),pointKey=(p:{x:number;y?:number;z:number})=>[p.x,p.y??0,p.z].map(n=>n.toFixed(5)).join(','),through=(r:CityRoad)=>r.laneCount===3&&r.speedLimit>=80;
@@ -56,9 +57,10 @@ export function runCityMainV3SelfTest(source:unknown=cityMain) {
     for(let i=1;i<pts.length;i++){const a=pts[i-1]!,b=pts[i]!,dx=b.x-a.x,dz=b.z-a.z,l=Math.hypot(dx,dz),u=Math.max(0,Math.min(1,((sign.position.x-a.x)*dx+(sign.position.z-a.z)*dz)/(l*l))),d=Math.hypot(sign.position.x-a.x-u*dx,sign.position.z-a.z-u*dz);if(d<best){best=d;t={x:dx/l,z:dz/l};}}
     const direction=sign.laneDirection==='forward'?1:-1,front=rotatePoint({x:0,z:1},sign.heading);
     assert(front.x*t.x*direction+front.z*t.z*direction<-.96,'sign readable face opposes actual incoming direction '+sign.id);
-    const dims=signDimensions(sign.template,sign.size),y=sign.position.y??0;
+    const dims=signDimensions(sign.template,sign.size,sign.postOffset,sign.gantryPosts),y=sign.position.y??0,postY=sign.postBaseY??y;
     if(sign.template==='gantry'){assert(dims.bottom>=6.5,'overhead board clearance');gantries++;}
-    for(const x of dims.posts){const q=rotatePoint({x,z:0},sign.heading),p={x:sign.position.x+q.x,z:sign.position.z+q.z};assert(!clearance.roadAt(p,0.65,y-1,y+dims.poleTop),'sign support avoids every paved carriageway '+sign.id);}
+    for(const x of dims.posts){const q=rotatePoint({x,z:ROAD_SIGN_POST_Z},sign.heading),p={x:sign.position.x+q.x,z:sign.position.z+q.z};assert(!clearance.roadAt(p,0.45,postY-.3,y+dims.poleTop,undefined,undefined,sign.postOffset!==undefined)&&
+      !(sign.postOffset!==undefined&&clearance.roadAt(p,.45,postY-.3,y+dims.poleTop,sign.roadId)), 'actual sign support clears traffic lanes and other paved roads '+sign.id);}
     for(const x of [-dims.width/2,0,dims.width/2]){const q=rotatePoint({x,z:0},sign.heading),p={x:sign.position.x+q.x,z:sign.position.z+q.z};assert(!clearance.roadAt(p,0.1,y+dims.bottom-.3,y+dims.bottom+dims.height+.3),'sign board avoids bridge decks '+sign.id);}
   }
   for(const hub of ['central','east','north','west','south','intercity']) {

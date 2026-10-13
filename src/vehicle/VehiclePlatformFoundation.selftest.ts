@@ -7,7 +7,8 @@ import { VehicleVisual } from './visual/VehicleVisual';
 import { DrivingSceneDisplayContext } from './visual/DrivingSceneDisplayContext';
 import { ElectricDisplayContext } from './visual/ElectricDisplayContext';
 import { createStaticOBBCollider } from './physics/CollisionSystem';
-import type { RoadNetworkData } from '../world/navigation/RoadNetwork';
+import { buildCityRoadNetwork } from '../world/city/CityRoadNetwork';
+import { newCityMap } from '../world/city/CityMapData';
 
 export async function runVehiclePlatformFoundationSelfTest() {
   let assertions = 0;
@@ -21,7 +22,9 @@ export async function runVehiclePlatformFoundationSelfTest() {
     for (const id of ['bmw-530li-g38','executive-lwb-2t','tesla-model-3-rwd'] as const) {
       const descriptor = getVehicleDescriptor(id), config = descriptor.visualConfig;
       assert(descriptor.capabilities.navigation && descriptor.capabilities.laneDisplay && descriptor.capabilities.parking360 && descriptor.capabilities.tpms,'migrated features');
-      assert(!descriptor.capabilities.acc && !descriptor.capabilities.lka && !descriptor.capabilities.lcc && !descriptor.capabilities.bsd,'uninstalled controllers stay unavailable');
+      assert(!descriptor.capabilities.acc && !descriptor.capabilities.bsd,'uninstalled controllers stay unavailable');
+      assert(descriptor.capabilities.lka === (descriptor.physicsConfig.lateralAssist?.lka.enabled === true) &&
+        descriptor.capabilities.lcc === (descriptor.physicsConfig.lateralAssist?.lcc.enabled === true), 'lateral support follows installed calibration');
       const before = JSON.stringify(descriptor.physicsConfig);
       const raw = new VehicleVisual(config), a = new VehicleVisual(config,assets), b = new VehicleVisual(config,assets);
       try {
@@ -46,11 +49,14 @@ export async function runVehiclePlatformFoundationSelfTest() {
     }
     const shared = new SharedVehicleData({lanes:true,navigation:true,proximity:true,tpms:true});
     const bmw = new DrivingSceneDisplayContext({lanes:true,proximity:true},shared), ev = new ElectricDisplayContext(shared);
-    const network: RoadNetworkData = {mapId:'platform-fixture',bounds:{minimumX:-50,maximumX:50,minimumZ:-100,maximumZ:100},intersections:[],
-      segments:[{id:'road',centerline:[{x:0,z:90},{x:0,z:-90}],width:7,length:180,laneWidth:3.5,laneCountPerDirection:1,travelDirection:'two-way',speedLimit:60}]};
+    const map = newCityMap(); map.id = 'platform-fixture';
+    map.bounds = { minX:-50, maxX:50, minZ:-100, maxZ:100 };
+    map.roads = [{id:'road',type:'urban_2lane',centerline:[{x:0,y:0,z:90},{x:0,y:0,z:-90}],laneWidth:3.5,laneCount:2,travelDirection:'two-way',speedLimit:60}];
+    const network = buildCityRoadNetwork(map);
     const pose = {x:1.75,z:0,yaw:0,y:0,width:1.85,length:4.8};
     const obstacle = createStaticOBBCollider({id:'front',x:pose.x,z:-3.5,width:.5,length:.5});
     let queries = 0; const query = () => { queries++;return [obstacle]; };
+    shared.updateLaneObservation(0,pose,20,network,false);
     shared.update(0,pose,'D',1,true,network,query);
     bmw.update(0,pose,'D',1,true,network,query); ev.update(0,pose,'D',1,network,query);
     assert(queries === 1 && bmw.data.lanes === ev.data.lanes && bmw.data.map === ev.data.map,'all skins borrow one observation/map');
@@ -63,6 +69,7 @@ export async function runVehiclePlatformFoundationSelfTest() {
     shared.setTyreStatus(1,{pressure:NaN,valid:true,warning:true});
     assert(shared.tyres[0].pressure === 245 && shared.tyres[0].warning && !shared.tyres[1].valid,'TPMS validity and warnings');
     bmw.dispose(); ev.dispose(); assert(shared.navigation.map.available,'borrowers do not dispose platform data');
+    shared.updateLaneObservation(0,pose,20,undefined,false);
     shared.update(0,pose,'D',3,true,undefined,query);
     assert(!shared.navigation.currentRoad && !shared.lane.lanes.length,'map changes invalidate environment data immediately');
     shared.dispose();

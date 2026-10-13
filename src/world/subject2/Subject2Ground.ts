@@ -3,7 +3,6 @@ import type { StaticCollider } from '../../vehicle/physics/CollisionSystem';
 import type { DrivingGround } from '../DrivingGround';
 import type { RoadSurfaceSample, TrackSpawnPose } from '../DrivingTestTrack';
 import {
-  blendSurfaceMaterials,
   calibratedSurfaceMaterial,
   sampleGroundGeometry,
   surfaceResponseAliases,
@@ -14,7 +13,7 @@ import { ConnectionRoads } from './ConnectionRoads';
 import { CurveDrivingArea } from './CurveDrivingArea';
 import { Environment } from './Environment';
 import { FinishArea } from './FinishArea';
-import { SUBJECT2_ROAD_SURFACE_OFFSET } from './geometry';
+import { createSurfacePatchGeometry, SUBJECT2_ROAD_SURFACE_OFFSET } from './geometry';
 import { HillStartArea } from './HillStartArea';
 import { createSubject2Layout, createSubject2MapMetadata } from './layout';
 import { createSubject2Materials } from './materials';
@@ -25,7 +24,6 @@ import {
   DEFAULT_SUBJECT2_GROUND_CONFIG,
   type Subject2GroundConfig,
 } from './Subject2GroundConfig';
-import { Subject2SurfaceRegistry } from './SurfaceRegistry';
 import type {
   Subject2GroundOptions,
   Subject2MapMetadata,
@@ -68,10 +66,12 @@ export class Subject2Ground implements DrivingGround {
   public readonly spawnPose: TrackSpawnPose;
 
   private readonly materials;
-  private readonly surfaces = new Subject2SurfaceRegistry();
+  private readonly asphaltSurface: SurfaceMaterial;
 
   public constructor(options: Subject2GroundOptions = {}) {
     this.config = options.config ?? DEFAULT_SUBJECT2_GROUND_CONFIG;
+    this.asphaltSurface = calibratedSurfaceMaterial('asphalt',
+      this.config.surface.asphaltGrip, this.config.surface.asphaltRollingResistance);
     const layout = createSubject2Layout(this.config);
     this.metadata = createSubject2MapMetadata(this.config, layout);
     this.worldBounds = Object.freeze({
@@ -96,13 +96,12 @@ export class Subject2Ground implements DrivingGround {
       config: this.config,
       layout,
       materials: this.materials,
-      surfaces: this.surfaces,
       heightAt: (x, z) => this.getRoadHeightAt(x, z),
       shadows: options.shadows ?? true,
     };
 
-    // Connections go down first so project aprons hide their joins; every
-    // section still uses the same height sampler and has no physical seam.
+    // Projects author markings on the shared pavement, using the same height
+    // sampler as the tyre contact surface (including the hill).
     const environment = new Environment(context);
     this.colliders = environment.colliders;
     const modules = [
@@ -174,7 +173,7 @@ export class Subject2Ground implements DrivingGround {
   ): RoadSurfaceSample {
     return {
       ...sampleGroundGeometry((sampleX, sampleZ) => this.getRoadHeightAt(sampleX, sampleZ), x, z, direction),
-      ...surfaceResponseAliases(this.sampleSurfaceResponse(x, z)),
+      ...surfaceResponseAliases(this.asphaltSurface),
     };
   }
 
@@ -252,37 +251,14 @@ export class Subject2Ground implements DrivingGround {
 
   private buildBaseGround(shadows: boolean): void {
     const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(this.config.site.length + 32, this.config.site.width + 32),
-      this.materials.grass,
+      createSurfacePatchGeometry(0, 0, this.config.site.length + 32,
+        this.config.site.width + 32, (x, z) => this.getRoadHeightAt(x, z),
+        SUBJECT2_ROAD_SURFACE_OFFSET),
+      this.materials.asphalt,
     );
-    ground.name = 'Subject 2 grass base';
-    ground.rotation.x = -Math.PI * 0.5;
-    ground.position.y = -0.055;
+    ground.name = 'Subject 2 continuous asphalt pavement';
     ground.receiveShadow = shadows;
     this.root.add(ground);
   }
 
-  private sampleSurfaceResponse(
-    x: number,
-    z: number,
-  ): SurfaceMaterial {
-    const surface = this.config.surface;
-    const asphalt = calibratedSurfaceMaterial('asphalt', surface.asphaltGrip, surface.asphaltRollingResistance);
-    const shoulder = calibratedSurfaceMaterial('compact-shoulder', surface.shoulderGrip, surface.shoulderRollingResistance);
-    const grass = calibratedSurfaceMaterial('grass', surface.grassGrip, surface.grassRollingResistance);
-    const distance = this.surfaces.distanceFromAsphalt(x, z);
-    if (distance <= 0) {
-      return asphalt;
-    }
-    const blend = Math.max(surface.shoulderBlendDepth, 0.05);
-    if (distance <= blend) {
-      const t = smoothstep01(distance / blend);
-      return blendSurfaceMaterials(asphalt, shoulder, t);
-    }
-    if (distance <= blend * 2) {
-      const t = smoothstep01((distance - blend) / blend);
-      return blendSurfaceMaterials(shoulder, grass, t);
-    }
-    return grass;
-  }
 }

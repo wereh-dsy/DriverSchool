@@ -70,6 +70,8 @@ export interface VehicleInputState {
   engineStart: boolean;
   /** Request edge for an optional vehicle-level cruise controller. */
   cruiseToggle: boolean;
+  /** Runtime request/cancel edge, independent of ignition. */
+  lccToggle?: boolean;
   /** Selection request only; does not engage a lateral steering controller. */
   cycleLaneAssist?: boolean;
   /** Discrete toggle; held buttons never repeat this command. */
@@ -108,6 +110,7 @@ export function createNeutralVehicleInputState(
     cycleLights: false,
     engineStart: false,
     cruiseToggle: false,
+    lccToggle: false,
     cycleLaneAssist: false,
     fogToggle: false,
     cycleWipers: false,

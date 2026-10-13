@@ -18,34 +18,27 @@ export class RoadBuilder {
   private readonly ownership?: MarkingOwnership;
   private readonly placement?:RoadsidePlacement;
   private readonly sharedGeometry=new Map<string,BufferGeometry>();
-  private readonly auxiliaryByRoad=new Map<string,Set<string>>();
   private geometry(key:string,create:()=>BufferGeometry):BufferGeometry {let geometry=this.sharedGeometry.get(key);if(!geometry){geometry=create();this.sharedGeometry.set(key,geometry);}return geometry;}
-  constructor(private readonly materials: Subject3Materials & {tunnelLight?:MeshBasicMaterial}, private readonly map?: CityMapData) { this.clearance = map ? runtimeRoadClearance(map) : undefined;this.ownership=map?new MarkingOwnership(map):undefined;this.placement=map?new RoadsidePlacement(map,this.clearance):undefined;
-    if(map?.regional)for(const lane of map.roads.filter(r=>r.highwayTransition))for(const id of roadEdgeChains(map).continuations(lane.highwayTransition!.mainRoadId)){const list=this.auxiliaryByRoad.get(id)??new Set<string>();list.add(lane.id);this.auxiliaryByRoad.set(id,list);}
-  }
+  constructor(private readonly materials: Subject3Materials & {tunnelLight?:MeshBasicMaterial}, private readonly map?: CityMapData) { this.clearance = map ? runtimeRoadClearance(map) : undefined;this.ownership=map?new MarkingOwnership(map):undefined;this.placement=map?new RoadsidePlacement(map,this.clearance):undefined; }
   build(road: CityRoad): Group {
     const root = new Group(), points = roadPoints(road), half = road.laneCount * road.laneWidth / 2;
     const edges = roadEdges(road);
     root.name = road.id;
     if(road.highwayTransition&&this.map)root.add(buildHighwayLaneMarkings(road,this.map,this.materials));
-    if(road.gore&&this.map?.regional&&road.id.startsWith('regional:'))root.add(buildHighwayGoreMarkings(road,this.map,this.materials));
+    if(road.gore&&this.map)root.add(buildHighwayGoreMarkings(road,this.map,this.materials));
     const add = (mesh: Mesh | null) => { if (mesh) root.add(mesh); };
     const pavement = this.map?roadEdgeStrip(road,this.map,edges.left,edges.right,.024):createStripGeometry(points, () => 0, { innerOffset: edges.left, outerOffset: edges.right, yOffset: 0.024, maximumSpacing: 3 });
     if (pavement) { const mesh = new Mesh(this.map?clipRoadJunctionPavement(pavement,road,this.map):pavement, this.materials.asphalt); mesh.name='road pavement';mesh.userData.pavementOwner=road.id;mesh.receiveShadow = true; add(mesh); }
     const mergePaint = !!road.gore || !!this.map?.roads.some(r=>r.groupId===road.groupId && r.gore);
     const line = (path: CityPoint[], offset: number, yellow = false) => {
       const paint = (section: CityPoint[],owner:'road'|'merge'='road') => {
-        const auxiliary=this.auxiliaryByRoad.get(road.id);
-        if(auxiliary&&road.laneCount>1&&owner==='road'&&Math.abs(offset-(half-.15))<1e-6){
-          let run:CityPoint[]=[];const flush=()=>{if(run.length>1){const mesh=makeMarkingRibbon('highway edge',run,.12,this.materials.whitePaint,()=>0,.008,offset);if(mesh){mesh.userData.markingOwner='road';mesh.userData.markingSource=road.id;add(mesh);}}run=[];};
-          for(const s of sampleRibbonPolyline(section,3)){const p={x:s.point.x-s.tangent.z*offset,y:s.point.y,z:s.point.z+s.tangent.x*offset};if(this.clearance?.roadAt(p,.1,(p.y??0)-.2,(p.y??0)+.2,road.id,id=>auxiliary.has(id)))flush();else run.push(s.point);}flush();return;
-        }
         const mesh=makeMarkingRibbon(owner==='road'?'road paint':'merge divider',section,0.12,yellow?this.materials.yellowPaint:this.materials.whitePaint,()=>0,0.008,offset);
         if(mesh){mesh.userData.markingOwner=owner;mesh.userData.markingSource=road.id;add(mesh);}
       };
       if(this.ownership) {
-        for(const section of this.ownership.sections(path,offset,road,'road'))paint(section);
-        if(road.gore)for(const section of this.ownership.sections(path,offset,road,'merge'))paint(section,'merge');
+        const boundary=Math.abs(Math.abs(offset)-(half-.15))<1e-6;
+        for(const section of this.ownership.sections(path,offset,road,'road',boundary))paint(section);
+        if(road.gore)for(const section of this.ownership.sections(path,offset,road,'merge',boundary))paint(section,'merge');
         return;
       }
       if (!mergePaint || !this.clearance) { paint(path); return; }
@@ -59,11 +52,11 @@ export class RoadBuilder {
       }
       if(section.length>1) paint(section);
     };
-    if (road.markings !== false) {
+    if (road.markings !== false&&!road.highwayTransition) {
     if (road.travelDirection === 'two-way') { line(points, -0.13, true); line(points, 0.13, true); }
     line(points, -half + 0.15); line(points, half - 0.15);
     const length = polylineLength(points);
-    if (road.gore && road.shoulders && !(this.map?.regional&&road.id.startsWith('regional:'))) {
+    if (road.gore && road.shoulders && !this.map) {
       for (let d = 6; d < Math.min(road.gore.length, length / 2); d += 6) for (const start of [true, false]) {
         if (!(start ? road.gore.start : road.gore.end)) continue;
         const at = start ? d : length - d, s = sampleAt(points, at);

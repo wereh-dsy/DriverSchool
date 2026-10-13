@@ -1,6 +1,6 @@
 # Production Road Preset Library — V1
 
-This document's dimension table and specimen coordinates describe the **original 16 Production V1 recipes**, not the full current library. As of 2026-10-12, [catalog.json](presets/catalog.json) has **34 entries: 31 production and 3 compatibility district recipes**. New production entries are listed below; parameters/ports and implementations are authoritative. [Current review](../../../docs/CODE_REVIEW_2026-10-12.md) records a roundabout RoadEdgeChains crash in preset-showcase, so the historical validation totals below are not current success claims.
+This document's dimension table and specimen coordinates describe the **original 16 Production V1 recipes**, not the full current library. As of 2026-10-13, [catalog.json](presets/catalog.json) has **34 entries: 31 production and 3 compatibility district recipes**. New production entries are listed below; parameters/ports and implementations are authoritative. The previously reviewed RoadEdgeChains crash and ramp guardrail openings are repaired; see [current repair validation](../../../docs/FIXES_2026-10-13.md). Historical V1 validation totals below describe their original revision.
 
 | Additional production group | IDs | Implementation |
 | --- | --- | --- |

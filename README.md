@@ -4,7 +4,7 @@
 
 物理以固定 **120 Hz** 更新，内部使用 SI 单位：距离为米、速度为 m/s、角度为弧度；坐标系为 `+X` 向右、`+Y` 向上、`-Z` 向前。仪表车速显示为 km/h。具体参数和行为以当前源码为准，测试车型与品牌风格车型不代表原厂精确数据。
 
-文档依据 **2026-10-12** 的源码核对。开发或向 Chat 请求下一步指导时，请阅读 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md)、[可直接复制给 Chat 的指示文本](docs/CHAT_HANDOFF.md) 和 [本次审阅与验证结果](docs/CODE_REVIEW_2026-10-12.md)。本次发现现存测试失败及道路设施体验场加载错误，不能把目录中已注册等同于全部入口验证通过。
+文档更新至 **2026-10-13**。开发或向 Chat 请求下一步指导时，请阅读 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md)、[可直接复制给 Chat 的指示文本](docs/CHAT_HANDOFF.md) 和 [修复与验证记录](docs/FIXES_2026-10-13.md)。[原始审阅报告](docs/CODE_REVIEW_2026-10-12.md) 保留修复前的证据。
 
 ## 内容导航
 
@@ -57,7 +57,7 @@ pnpm start
 4. **AT / DCT / CVT：**停车踩住脚刹，在 F3 选择 D，或用 `Q` / `E`、手柄 `LB` / `RB` 依次选到 D，再松刹车并给油。
 5. 若驻车制动处于拉起状态，按 `Space` 或手柄 A 切换；支持 EPB 的车型也可在满足条件后给油自动释放。Auto Hold 保持时需要有意给油起步。按 `Backspace` 可回到当前场地起点，MT 回空挡，自动挡回 P。
 
-纯电车型使用 PRND，不需要燃油发动机起动。**已知输入冲突：默认 `I` 同时触发点火/车辆电源切换与 LCC 请求。** 在修复前，可用手柄 Start 操作点火/电源、F3 中的 LCC 按钮请求居中辅助，或为点火动作另行改键；详见审阅报告。
+纯电车型使用 PRND，不需要燃油发动机起动。默认 `I` 只切换点火/车辆电源，`G` 独立请求/取消 LCC；两者都走统一输入并可改键。手柄 Start 操作点火，F3 也提供 LCC 按钮。
 
 所有自动挡的玩家 P / R / N / D 切换均要求脚刹输入至少 **10%**，手刹不能代替。行驶方向切换与 P 挡另有速度保护；正常自动升降挡和 CVT 变比不受选挡脚刹联锁限制。
 
@@ -102,7 +102,7 @@ Taycan 通过 `T` / 手柄 B 循环 RANGE / NORMAL / SPORT / SPORT_PLUS。Launch
 | 综合道路测试场 | `road-course` | 长直道、连续弯道、坡道与停车区，适合一般操控与车辆测试 |
 | 科目二训练场 | `subject-2-training-ground` | 候考、倒库、侧方停车、直角转弯、S 弯、坡起和结束区的连续路线 |
 | 科目三道路训练 | `subject-3-shared-city-map` | 面向道路驾驶流程的路网，含十字与丁字路口、信号灯、学校、公交站与商业区 |
-| 基础环形测试场 | `simple-circuit` | 约 1.6 km 闭环、11.5 m 宽赛道，主直道、流畅弯与明显制动弯，支持圈速计时 |
+| 基础环形测试场 | `simple-circuit` | 约 1.54 km 闭环、11.5 m 宽赛道，远端回头弯半径 90 m，支持圈速计时 |
 | 山地综合试验场 | `mountain-proving-ground` | 铺装、碎石、土路、坡道、山脊起伏、冲沟、长下坡与低附着湿土谷地 |
 | 城市道路 | `city-alpha` | City 系统的 JSON 城市，主干道、住宅与商业街区、老城、高架与互通连接 |
 | City Main · 区域高速网 | `city-main` | 城市与区域高速、机场、山谷桥隧、互通和服务区；按位置、方向和速度分层加载视觉 |
@@ -117,7 +117,7 @@ Taycan 通过 `T` / 手柄 B 循环 RANGE / NORMAL / SPORT / SPORT_PLUS。Launch
 
 山地综合试验场使用独立的手工山路与连续地形，主环线之外还有技术支路。铺装、碎石、干土、湿土与冲沟通过地面高度、轮胎抓地、滚阻和粗糙度影响车辆，可用于对比 SUV 与公路车型；它不自动开启专用越野模式，也没有单独的任务或评分。
 
-基础环形测试场的圈时 HUD 显示当前圈、上一圈和最佳圈。正向越过起终点后开始计时，按顺序通过检查点再回起终点才记录有效圈；逆向越线、漏检或异常瞬移会使当前圈无效。最佳圈按赛道与车辆 ID 保存在浏览器中，换车后读取各自记录。
+基础环形测试场的圈时 HUD 显示当前圈、上一圈和最佳圈。正向越过起终点后开始计时，按顺序通过检查点再回起终点才记录有效圈；判定线宽约 25.9 m，覆盖赛道、路肩及近侧缓冲区，偏出沥青仍可触发。逆向越线、漏检或异常瞬移会使当前圈无效，远离赛道的穿线不计。最佳圈按赛道、布局版本与车辆 ID 保存在浏览器中，换车后读取各自记录；新版布局不混用旧版最佳圈。
 
 计时使用仿真时间；打开设置或切后台时暂停，设置期间若车辆继续滑行超过允许距离，当前圈会作废。`Backspace`、切车或切图会重置当前计时，已保存最佳圈保留。
 
@@ -137,7 +137,8 @@ Taycan 通过 `T` / 手柄 B 循环 RANGE / NORMAL / SPORT / SPORT_PLUS。Launch
 | `Space` | 机械手刹 / EPB 开关；EPB 支持受控制的动态紧急制动 |
 | `M` | 普通 / 手动离合控制模式切换，手动离合用于 MT |
 | `X` / `Z` | 手动离合模式下逐渐踩下 / 松开离合 |
-| `I` | 当前同时触发点火/电源和 LCC 请求，存在冲突；MT 启动需空挡或充分踩离合，燃油自动挡需 P / N |
+| `I` | 点火 / 电源；MT 启动需空挡或充分踩离合，燃油自动挡需 P / N |
+| `G` | 支持车型的 LCC SET / CANCEL，可在 F3 改键 |
 | `V` | 支持车型的定速巡航开关 |
 | `T` | 支持车型的驾驶模式循环切换 |
 | `U` | 支持的高级仪表 Driving→Map→Cruise 信息页（固定键盘键；P 自动 Trip，R 自动 Parking） |
@@ -190,7 +191,7 @@ RT 使用 3% 死区、归一化与 1.1 次方映射，LT 使用独立制动曲�
 
 A6L、Touareg、BMW 530Li、Tesla Model 3、Taycan 配置了 LKA / LCC。控制器使用地图的逻辑车道数据；约 50 km/h 起具备介入条件，LCC 配置上限为 180 km/h，缺少可靠车道、路口/歧义区域、驾驶员接管或设置界面会抑制介入。辅助输出受权限和变化速率限制，走正常转向路径。
 
-F3 的 LKA / LCC ON/OFF 是持久偏好；LCC 另需实时请求/取消。默认 `I` 入口存在上述点火冲突，F3 也提供 LCC 按钮。手柄 Y 循环的是独立的模式提示：LDW 模式接入车道偏离声音警告，但 OFF / LKA / LCC 提示没有连接实际转向控制开关。判断是否介入应看控制器状态与 F3 偏好，不能只看 Y 的模式名称。当前没有 ACC 跟车、BSD 盲区监测或自动导航。
+F3 的 LKA / LCC ON/OFF 是持久偏好；LCC 另需 `G` 或 F3 按钮实时请求/取消。按当前项目契约，手柄 Y 仍循环独立的模式提示：LDW 模式接入车道偏离声音警告，OFF / LKA / LCC 提示不改变实际转向控制。判断是否介入应看控制器状态与 F3 偏好，不能只看 Y 的模式名称。当前没有 ACC 跟车、BSD 盲区监测或自动导航。
 
 ### EPB、Auto Hold 与自动启停
 
@@ -327,15 +328,15 @@ pnpm map list-presets
 pnpm map validate-presets
 ```
 
-`pnpm map` 支持 `city-alpha`、`city-main` 和 `preset-showcase` 文件别名，还支持 `place-preset`、`add-road`、`move-node`、`connect-road`、`place-prefab` 和 `delete-object`。修改命令默认覆盖输入文件，`--out` 可写到其他文件；`--request '@request.json'` 适合 Windows 下传入结构化参数。验证错误退出码为 1。
+`pnpm map` 支持 `city-alpha`、`city-main`、`city-main-city`、`regional-main` 和 `preset-showcase` 文件别名，还支持 `place-preset`、`add-road`、`move-node`、`connect-road`、`place-prefab` 和 `delete-object`。修改命令默认覆盖输入文件，`--out` 可写到其他文件；`--request '@request.json'` 适合 Windows 下传入结构化参数。验证错误退出码为 1。
 
 CityMap V2 的 JSON 保存道路、路口、物件、显式 `roadLinks`、连接端口和出生点。道路可为地面、统一高架或逐节点自定义高度；预设展开成普通可编辑元素。仅在平面投影交叉的道路不会自动连通，尤其高架上下层需要保留独立拓扑。
 
 MapAPI 的 `splitRoadAtPoint` 可显式拆路并保留或重映射外部连接、路口和暴露端口；GUI 不在交叉处自动插入路口。预设放置验证临时片段与合并后的地图，错误阻止保存，警告保留供检查。
 
-当前 catalog 共 34 项（31 生产预设、3 兼容街区预设），已包含 Backbone/Compact 互通、隧道/下穿、主辅路、侧接入和渠化路口。设施体验场只有原始 V1 的 16 个样本，不能代表全目录。`scripts/build-city-main.mjs` 是会覆盖旧城市文件的 V3 生成入口，不是当前菜单区域图的重建或只读验证命令。
+当前 catalog 共 34 项（31 生产预设、3 兼容街区预设），已包含 Backbone/Compact 互通、隧道/下穿、主辅路、侧接入和渠化路口。设施体验场只有原始 V1 的 16 个样本，不能代表全目录。`scripts/build-city-main.mjs` 是历史 V3 生成入口；默认拒绝覆盖当前城市，需 `--out <单独文件>`，或明确传 `--revision-v3` 才可覆盖 city-only 源码。它不是当前区域图的重建或只读验证命令。
 
-道路设施体验场注册了场地菜单和 `?city=preset-showcase&preset=<production-id>` 入口，但本次验证在 RoadEdgeChains 构造中抛错，需要修复后再使用。City Main · 区域高速网已直接进入场地菜单。**CLI 的 `city-main` 别名仍指向旧的 `src/world/city/maps/city-main.json`；修改/验证菜单地图应显式使用 `src/world/regional/regional-main.json`。** 两份 JSON 的 id 同为 `city-main`，内容和版本不同，不能互换。
+道路设施体验场可由菜单或 `?city=preset-showcase&preset=<production-id>` 进入；环岛边链加载和出口护栏开口已修复。City Main · 区域高速网直接进入场地菜单。**CLI 新增 `regional-main` 指向菜单区域图，`city-main-city` 明确指向城市基础图；兼容的 `city-main` 仍指向城市基础图并打印提示。** 两份 JSON 的 id 同为 `city-main`，内容和版本不同，不能互换。
 
 地图位置使用米、JSON 旋转使用弧度、限速使用 km/h；CLI 的 `--rotation` 参数单独使用角度。城市按扇区加载视觉资源并使用实例化物件；道路网络、路面采样和碰撞数据保持可查询，不随远处视觉卸载失效。
 
@@ -356,6 +357,7 @@ MapAPI 的 `splitRoadAtPoint` 可显式拆路并保留或重映射外部连接�
 | `pnpm run selftest:vehicles` | 单独检查车辆目录、配置与平台能力 |
 | `pnpm run selftest:grounds` | 单独检查场地目录、统一入口与出生点 |
 | `pnpm run selftest:experience` | 空气载荷、轮胎、可变悬架、启停 / 蠕行、Trip 和真实车辆巡航回归 |
+| `pnpm run selftest:systems` | 平台、EV V2、TPMS、专用 HMI、加载、车道/真实转向场景与区域高速整合检查；不覆盖历史 artifacts |
 | `pnpm run build` | 类型检查、自测、暂存构建并发布可玩版本 |
 | `pnpm preview` | 预览已经构建的 `dist/` |
 | `pnpm map ...` | 城市地图查询、验证与修改 |
@@ -366,7 +368,7 @@ MapAPI 的 `splitRoadAtPoint` 可显式拆路并保留或重映射外部连接�
 
 核心自测覆盖输入与选挡联锁、MT / AT / DCT / CVT、Powertrain 边界与车型平台、发动机 / 涡轮 / 燃油、四轮轮速 / 轮胎 / 差速器、ABS / EBD / TCS / ESC / AWD、悬挂与静态碰撞、巡航、倒车接近提示、灯光、反馈、后视镜和仪表几何，以及场地目录、山地接触、圈速、城市数据 / 预设和环境。`selftest:experience` 提供车辆体验相关的针对性回归，已包含在核心自测的相应检查中。
 
-核心 runner 并不自动执行全部独立专项。EV V2、胎温胎压/TPMS、Taycan HMI、BMW 座舱、加载、横向辅助和区域高速检查的入口见 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md#验证入口)。本次实际通过/失败及发布结果记录在审阅报告；历史报告里的“通过”不能代替当前运行结果。
+核心 runner 包含当前 City V5 与历史 V3 各自的基线检查，不把 V3 专用断言套到 V5；并不自动执行全部独立专项。重大车辆/平台修改还应运行 `pnpm run selftest:systems`。完整入口见 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md#验证入口)，实际结果见修复记录；历史报告里的“通过”不能代替当前运行结果。
 
 开发服务的 `/validation.html` 提供驾驶视角的验证操作，构建入口不包含该页面。驾驶手感、手柄强弱和最终视觉质量由玩家实际体验评估。
 

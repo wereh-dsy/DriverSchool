@@ -28,8 +28,9 @@ interface TestPose { readonly x: number; readonly z: number; readonly yaw: numbe
 
 interface MapScenario {
   readonly ground: DrivingGround;
+  readonly comparisonSurface: 'grass' | 'asphalt';
   readonly asphalt: TestPose;
-  readonly grass: TestPose;
+  readonly comparison: TestPose;
   readonly surfaceTransition: TestPose;
   readonly split: TestPose;
   readonly grassSplit: TestPose;
@@ -44,9 +45,10 @@ export interface VehicleContactMapTelemetry {
   readonly asphaltTurnDegrees: number;
   readonly brakeSteeringRatio: number;
   readonly asphaltCoastDeceleration: number;
-  readonly grassCoastDeceleration: number;
-  readonly grassBrakingDeceleration: number;
-  readonly maximumGrassSpeedStep: number;
+  readonly comparisonSurface: 'grass' | 'asphalt';
+  readonly comparisonCoastDeceleration: number;
+  readonly comparisonBrakingDeceleration: number;
+  readonly maximumComparisonSpeedStep: number;
   readonly maximumSurfaceTransitionSpeedStep: number;
   readonly splitYawDegrees: number;
   readonly splitGripDifference: number;
@@ -81,8 +83,9 @@ export function runVehicleContactSystemSelfTest(): VehicleContactSystemSelfTestR
   const scenarios: readonly MapScenario[] = [
     {
       ground: road,
+      comparisonSurface: 'grass',
       asphalt: { x: 0, z: 95, yaw: 0 },
-      grass: { x: -100, z: -100, yaw: 0 },
+      comparison: { x: -100, z: -100, yaw: 0 },
       surfaceTransition: { x: 3, z: 95, yaw: -Math.PI * 0.5 },
       split: { x: road.roadWidth * 0.5, z: 95, yaw: 0 },
       grassSplit: { x: road.shoulderWidth * 0.5 + 0.6, z: 95, yaw: 0 },
@@ -90,8 +93,9 @@ export function runVehicleContactSystemSelfTest(): VehicleContactSystemSelfTestR
     },
     {
       ground: circuit,
+      comparisonSurface: 'grass',
       asphalt: { x: -172.5, z: -150, yaw: 0 },
-      grass: { x: -215, z: -150, yaw: 0 },
+      comparison: { x: -215, z: -150, yaw: 0 },
       surfaceTransition: { x: -172.5 + circuit.config.trackWidth * 0.5 - 2.75, z: -150, yaw: -Math.PI * 0.5 },
       split: { x: -172.5 + circuit.config.trackWidth * 0.5, z: -150, yaw: 0 },
       grassSplit: { x: -172.5 + circuit.config.trackWidth * 0.5 + circuit.config.shoulderWidth + 0.6, z: -150, yaw: 0 },
@@ -100,8 +104,9 @@ export function runVehicleContactSystemSelfTest(): VehicleContactSystemSelfTestR
     },
     {
       ground: subject2,
+      comparisonSurface: 'asphalt',
       asphalt: { x: -79, z: 41, yaw: -Math.PI * 0.5 },
-      grass: { x: 75, z: 45, yaw: 0 },
+      comparison: { x: 75, z: 45, yaw: 0 },
       surfaceTransition: { x: -83, z: 33, yaw: 0 },
       split: { x: -79, z: 41 + subject2.config.waitingArea.width * 0.5, yaw: -Math.PI * 0.5 },
       grassSplit: { x: -79, z: 41 + subject2.config.waitingArea.width * 0.5 + 1.8, yaw: -Math.PI * 0.5 },
@@ -114,6 +119,7 @@ export function runVehicleContactSystemSelfTest(): VehicleContactSystemSelfTestR
       assert(scenario.ground.colliders.length > 0, `${scenario.ground.metadata.id} must have authored static obstacles`);
       for (const vehicle of ICE_VEHICLE_CATALOG.filter(v => (v.physicsConfig.transmission.type ?? 'MANUAL') === 'MANUAL')) {
         const config = vehicle.physicsConfig;
+        const hasGrass = scenario.comparisonSurface === 'grass';
         const label = `${scenario.ground.metadata.id}/${vehicle.id}`;
         const visualDimensions = vehicle.visualConfig.collisionDimensions;
         const expectedBodyHalfLength = (visualDimensions.length - 0.12) * 0.5;
@@ -139,34 +145,56 @@ export function runVehicleContactSystemSelfTest(): VehicleContactSystemSelfTestR
         assert(normalTurn.contacts === 0 && brakeTurn.contacts === 0, `${label}: steering check must not be influenced by a barrier`);
 
         const asphaltCoast = runDrive(scenario, vehicle, scenario.asphalt, 10, 1.5, input());
-        const grassCoast = runDrive(scenario, vehicle, scenario.grass, 10, 1.5, input());
+        const comparisonCoast = runDrive(scenario, vehicle, scenario.comparison, 10, 1.5, input());
         const asphaltCoastDeceleration = (10 - asphaltCoast.final.speed) / 1.5;
-        const grassCoastDeceleration = (10 - grassCoast.final.speed) / 1.5;
-        assert(grassCoast.grassSteps === grassCoast.steps, `${label}: coast comparison must remain fully on grass`);
-        assert(grassCoastDeceleration > asphaltCoastDeceleration + 0.1, `${label}: grass must slow naturally through stronger rolling drag`);
-        assert(grassCoast.maximumSpeedStep < 0.025 && grassCoast.final.speed > 8, `${label}: grass coast must contain no abrupt speed correction`);
-        assert(grassCoast.contacts === 0, `${label}: grass must not act as a collider`);
-        assert(grassCoast.minimumRollingDrag > asphaltCoast.maximumRollingDrag * 1.7, `${label}: off-road coast must use the tyre rolling-resistance force`);
+        const comparisonCoastDeceleration = (10 - comparisonCoast.final.speed) / 1.5;
+        if (hasGrass) {
+          assert(comparisonCoast.grassSteps === comparisonCoast.steps, `${label}: coast comparison must remain fully on grass`);
+          assert(comparisonCoastDeceleration > asphaltCoastDeceleration + 0.1, `${label}: grass must slow naturally through stronger rolling drag`);
+          assert(comparisonCoast.minimumRollingDrag > asphaltCoast.maximumRollingDrag * 1.7, `${label}: off-road coast must use the tyre rolling-resistance force`);
+        } else {
+          assert(comparisonCoast.asphaltSteps === comparisonCoast.steps, `${label}: open apron comparison must remain fully paved`);
+          assert(Math.abs(comparisonCoastDeceleration - asphaltCoastDeceleration) < 1e-6, `${label}: open apron and marked lane must have identical coast drag`);
+          assert(Math.abs(comparisonCoast.minimumRollingDrag - asphaltCoast.minimumRollingDrag) < 1e-6, `${label}: open apron and marked lane use identical tyre rolling resistance`);
+        }
+        assert(comparisonCoast.maximumSpeedStep < 0.025 && comparisonCoast.final.speed > 8, `${label}: comparison coast must contain no abrupt speed correction`);
+        assert(comparisonCoast.contacts === 0, `${label}: comparison surface must not act as a collider`);
         const pavedBrake = runDrive(scenario, vehicle, scenario.asphalt, 12, 0.8, input({ brake: 1 }));
-        const grassBrake = runDrive(scenario, vehicle, scenario.grass, 12, 0.8, input({ brake: 1 }));
-        const grassBrakingDeceleration = (12 - grassBrake.final.speed) / 0.8;
-        assert(grassBrake.final.speed > pavedBrake.final.speed + 0.5, `${label}: loose grass must reduce maximum braking grip`);
-        assert(grassBrake.contacts === 0 && grassBrake.final.speed > 4, `${label}: grass braking must decelerate through tyres without acting as a stop zone`);
+        const comparisonBrake = runDrive(scenario, vehicle, scenario.comparison, 12, 0.8, input({ brake: 1 }));
+        const comparisonBrakingDeceleration = (12 - comparisonBrake.final.speed) / 0.8;
+        if (hasGrass) {
+          assert(comparisonBrake.final.speed > pavedBrake.final.speed + 0.5, `${label}: loose grass must reduce maximum braking grip`);
+        } else {
+          assert(Math.abs(comparisonBrake.final.speed - pavedBrake.final.speed) < 1e-6, `${label}: braking on open apron must match marked lane grip`);
+        }
+        assert(comparisonBrake.contacts === 0 && comparisonBrake.final.speed > 4, `${label}: comparison braking must decelerate through tyres without acting as a stop zone`);
         assert(wheelContactsAsArray(sampleWheelContacts(scenario.ground, scenario.surfaceTransition, config)).every((wheel) => wheel.surfaceType === 'asphalt'), `${label}: boundary traversal must start on paved road`);
         const transition = runDrive(scenario, vehicle, scenario.surfaceTransition, 6, 1.1, input());
-        assert(wheelContactsAsArray(sampleWheelContacts(scenario.ground, transition.final, config)).every((wheel) => wheel.surfaceType === 'grass'), `${label}: boundary traversal must reach grass with all four wheels`);
-        assert(transition.contacts === 0 && transition.maximumSpeedStep < 0.025, `${label}: actual asphalt-to-grass crossing must not force a speed jump`);
+        assert(wheelContactsAsArray(sampleWheelContacts(scenario.ground, transition.final, config)).every((wheel) => wheel.surfaceType === scenario.comparisonSurface), `${label}: boundary traversal must reach the authored comparison surface with all four wheels`);
+        assert(transition.contacts === 0 && transition.maximumSpeedStep < 0.025, `${label}: crossing the authored project edge must not force a speed jump`);
 
         const splitContacts = sampleWheelContacts(scenario.ground, scenario.split, config);
         const leftGrip = (splitContacts.frontLeft.lateralGrip + splitContacts.rearLeft.lateralGrip) * 0.5;
         const rightGrip = (splitContacts.frontRight.lateralGrip + splitContacts.rearRight.lateralGrip) * 0.5;
         const splitGripDifference = Math.abs(leftGrip - rightGrip);
-        assert(splitGripDifference > 0.11, `${label}: a real road edge must give the two sides different grip`);
+        if (hasGrass) {
+          assert(splitGripDifference > 0.11, `${label}: a real road edge must give the two sides different grip`);
+        } else {
+          assert(splitGripDifference < 1e-9, `${label}: crossing a painted edge must retain identical grip on both sides`);
+        }
         const grassSplitContacts = wheelContactsAsArray(sampleWheelContacts(scenario.ground, scenario.grassSplit, config));
-        assert(grassSplitContacts.some((wheel) => wheel.surfaceType === 'grass') && grassSplitContacts.some((wheel) => wheel.surfaceType !== 'grass'), `${label}: grass transition must leave independent mixed wheel contacts`);
+        if (hasGrass) {
+          assert(grassSplitContacts.some((wheel) => wheel.surfaceType === 'grass') && grassSplitContacts.some((wheel) => wheel.surfaceType !== 'grass'), `${label}: grass transition must leave independent mixed wheel contacts`);
+        } else {
+          assert(grassSplitContacts.every((wheel) => wheel.surfaceType === 'asphalt'), `${label}: all four wheels remain paved outside painted project borders`);
+        }
         const splitDrive = runDrive(scenario, vehicle, scenario.split, 10, 1.4, input());
         const splitYawDegrees = angleDelta(splitDrive.final.yaw, scenario.split.yaw) * 180 / Math.PI;
-        assert(Math.abs(splitYawDegrees) > 0.001 && Math.abs(splitYawDegrees) < 4, `${label}: split rolling drag must cause mild, stable yaw (${splitYawDegrees})`);
+        if (hasGrass) {
+          assert(Math.abs(splitYawDegrees) > 0.001 && Math.abs(splitYawDegrees) < 4, `${label}: split rolling drag must cause mild, stable yaw (${splitYawDegrees})`);
+        } else {
+          assert(Math.abs(splitYawDegrees) < 1e-6, `${label}: painted edge must not create asymmetric drag or yaw (${splitYawDegrees})`);
+        }
         assert(splitDrive.contacts === 0 && splitDrive.maximumSpeedStep < 0.04, `${label}: road-edge transition must not jerk or collide`);
 
         const rail = nearestRail(scenario.ground.colliders, scenario.railReference);
@@ -181,9 +209,10 @@ export function runVehicleContactSystemSelfTest(): VehicleContactSystemSelfTestR
         telemetry.push({
           mapId: scenario.ground.metadata.id, vehicleId: vehicle.id,
           asphaltTurnDegrees: asphaltTurn * 180 / Math.PI, brakeSteeringRatio,
-          asphaltCoastDeceleration, grassCoastDeceleration,
-          grassBrakingDeceleration,
-          maximumGrassSpeedStep: grassCoast.maximumSpeedStep,
+          asphaltCoastDeceleration, comparisonSurface: scenario.comparisonSurface,
+          comparisonCoastDeceleration,
+          comparisonBrakingDeceleration,
+          maximumComparisonSpeedStep: comparisonCoast.maximumSpeedStep,
           maximumSurfaceTransitionSpeedStep: transition.maximumSpeedStep,
           splitYawDegrees, splitGripDifference,
           frontalStopSpeed: frontal.impactSpeed, frontalContacts: frontal.contactCount,
@@ -205,6 +234,7 @@ interface DriveTelemetry {
   readonly steps: number;
   readonly contacts: number;
   readonly grassSteps: number;
+  readonly asphaltSteps: number;
   readonly maximumSpeedStep: number;
   readonly minimumRollingDrag: number;
   readonly maximumRollingDrag: number;
@@ -224,6 +254,7 @@ function runDrive(
   const steps = Math.round(seconds / DT);
   let contacts = 0;
   let grassSteps = 0;
+  let asphaltSteps = 0;
   let maximumSpeedStep = 0;
   let minimumRollingDrag = Number.POSITIVE_INFINITY;
   let maximumRollingDrag = 0;
@@ -233,12 +264,13 @@ function runDrive(
     if (!finiteSnapshot(snapshot)) throw new Error('Contact integration produced invalid pose or velocity');
     if (adapter.collision?.collided === true) contacts += 1;
     if (adapter.wheelContacts !== null && wheelContactsAsArray(adapter.wheelContacts).every((wheel) => wheel.surfaceType === 'grass')) grassSteps += 1;
+    if (adapter.wheelContacts !== null && wheelContactsAsArray(adapter.wheelContacts).every((wheel) => wheel.surfaceType === 'asphalt')) asphaltSteps += 1;
     maximumSpeedStep = Math.max(maximumSpeedStep, Math.abs(snapshot.speed - previousSpeed));
     const rollingDrag = Math.abs(snapshot.forces.rollingResistanceForce);
     minimumRollingDrag = Math.min(minimumRollingDrag, rollingDrag);
     maximumRollingDrag = Math.max(maximumRollingDrag, rollingDrag);
   }
-  return { final: dynamics.getSnapshot(), steps, contacts, grassSteps, maximumSpeedStep, minimumRollingDrag, maximumRollingDrag };
+  return { final: dynamics.getSnapshot(), steps, contacts, grassSteps, asphaltSteps, maximumSpeedStep, minimumRollingDrag, maximumRollingDrag };
 }
 
 interface ImpactTelemetry {

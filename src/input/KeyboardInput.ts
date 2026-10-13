@@ -66,6 +66,7 @@ export class KeyboardInput implements VehicleInputDevice {
   private pendingCycleLights = false;
   private pendingEngineStart = false;
   private pendingCruiseToggle = false;
+  private pendingLCCToggle = false;
   private pendingFogToggle = false;
   private pendingCycleWipers = false;
   private pendingCycleDriveMode = false;
@@ -153,6 +154,7 @@ export class KeyboardInput implements VehicleInputDevice {
     const cycleLights = this.enabled && this.pendingCycleLights;
     const engineStart = this.enabled && this.pendingEngineStart;
     const cruiseToggle = this.enabled && this.pendingCruiseToggle;
+    const lccToggle = this.enabled && this.pendingLCCToggle;
     const fogToggle = this.enabled && this.pendingFogToggle;
     const cycleWipers = this.enabled && this.pendingCycleWipers;
     const cycleDriveMode = this.enabled && this.pendingCycleDriveMode;
@@ -164,7 +166,7 @@ export class KeyboardInput implements VehicleInputDevice {
       Math.abs(this.steeringValue) > 1e-4 ||
       clutchPedalRate !== 0 || shiftUp || shiftDown || directGear !== undefined ||
       toggleControlMode || toggleHandbrake || leftIndicator || rightIndicator ||
-      hazard || cycleLights || engineStart || cruiseToggle || fogToggle || cycleWipers || cycleDriveMode || highBeamFlash || hornPressed || driveSelector !== undefined;
+      hazard || cycleLights || engineStart || cruiseToggle || lccToggle || fogToggle || cycleWipers || cycleDriveMode || highBeamFlash || hornPressed || driveSelector !== undefined;
 
     const state: VehicleInputDeviceState = {
       throttle,
@@ -182,6 +184,7 @@ export class KeyboardInput implements VehicleInputDevice {
       cycleLights,
       engineStart,
       cruiseToggle,
+      lccToggle,
       fogToggle,
       cycleWipers,
       cycleDriveMode,
@@ -215,6 +218,7 @@ export class KeyboardInput implements VehicleInputDevice {
     this.pendingCycleLights = false;
     this.pendingEngineStart = false;
     this.pendingCruiseToggle = false;
+    this.pendingLCCToggle = false;
     this.pendingFogToggle = false;
     this.pendingCycleWipers = false;
     this.pendingCycleDriveMode = false;
@@ -292,6 +296,7 @@ export class KeyboardInput implements VehicleInputDevice {
     if (action === 'cycleLights') this.pendingCycleLights = true;
     if (action === 'engineStart') this.pendingEngineStart = true;
     if (action === 'cruiseToggle') this.pendingCruiseToggle = true;
+    if (action === 'lccToggle') this.pendingLCCToggle = true;
     if (action === 'fogToggle') this.pendingFogToggle = true;
     if (action === 'cycleWipers') this.pendingCycleWipers = true;
     if (action === 'cycleDriveMode') this.pendingCycleDriveMode = true;
@@ -337,6 +342,7 @@ export class KeyboardInput implements VehicleInputDevice {
     this.pendingCycleLights = false;
     this.pendingEngineStart = false;
     this.pendingCruiseToggle = false;
+    this.pendingLCCToggle = false;
     this.pendingFogToggle = false;
     this.pendingCycleWipers = false;
     this.pendingCycleDriveMode = false;

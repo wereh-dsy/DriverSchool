@@ -18,7 +18,15 @@ try {
   else if (command === 'validate-presets') output(validatePresets());
   else {
     if (!mapArg) throw new Error('Usage: pnpm map validate|summary|place-preset|add-road <map.json|city-alpha|city-main> [preset-id] [--flag value]; pnpm map list-presets|validate-presets');
-    const path = resolve(mapArg === 'city-alpha' || mapArg === 'city-main' || mapArg === 'preset-showcase' ? `src/world/city/maps/${mapArg}.json` : mapArg);
+    const aliases: Record<string, string> = {
+      'city-alpha': 'src/world/city/maps/city-alpha.json',
+      'city-main': 'src/world/city/maps/city-main.json', // Legacy authoring compatibility.
+      'city-main-city': 'src/world/city/maps/city-main.json',
+      'regional-main': 'src/world/regional/regional-main.json',
+      'preset-showcase': 'src/world/city/maps/preset-showcase.json',
+    };
+    if (mapArg === 'city-main') console.error('city-main is the legacy city-only alias; use regional-main for the playable City Main map.');
+    const path = resolve(aliases[mapArg] ?? mapArg);
     const raw = json('@' + path), report = validateMap(raw);
     if (command === 'validate') { output({ file: path, ...report }); if (!report.valid) process.exitCode = 1; }
     else {

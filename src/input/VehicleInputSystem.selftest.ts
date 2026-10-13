@@ -371,6 +371,23 @@ export function runVehicleInputSystemSelfTest(): VehicleInputSystemSelfTestResul
     const keyboard = keyboardInput.keyboard;
     if (keyboard === null) throw new Error('Keyboard adapter was not created');
     try {
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyI');
+      keyboardInput.update(1 / 240, 0);
+      const ignition = keyboardInput.consumeState();
+      assert(ignition.engineStart && !ignition.lccToggle, 'I only requests ignition');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyI');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyG');
+      keyboardInput.update(1 / 240, 0);
+      const centering = keyboardInput.consumeState();
+      assert(centering.lccToggle === true && !centering.engineStart, 'G only requests LCC through unified input');
+      assert(!keyboardInput.consumeState().lccToggle, 'extra fixed steps never repeat LCC');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyG');
+      dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyG');
+      keyboardInput.update(1 / 240, 0);
+      assert(keyboardInput.peekState().lccToggle === true, 'LCC command is pending before opening a menu');
+      keyboardInput.setEnabled(false); keyboardInput.setEnabled(true);
+      assert(!keyboardInput.consumeState().lccToggle, 'menus flush a pending LCC command');
+      dispatchKeyboardKey(keyboardTarget, 'keyup', 'KeyG');
       dispatchKeyboardKey(keyboardTarget, 'keydown', 'KeyT');
       keyboardInput.update(1 / 240, 0);
       assert(keyboardInput.peekState().cycleDriveMode === true, 'T drive mode edge survives between render and physics');

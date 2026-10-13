@@ -70,20 +70,31 @@ export const createSubject2Layout = (config: Subject2GroundConfig): Subject2Layo
   const hillTotalLength = config.hillStart.uphillLength
     + config.hillStart.crestLength
     + config.hillStart.downhillLength;
-  const curveLength = config.curveDriving.totalLength;
-  const firstCurveExcursion = config.curveDriving.firstCurveRadius * 0.435;
-  const secondCurveExcursion = config.curveDriving.secondCurveRadius * 0.455;
-  const curveRoute: Subject2Point2[] = [
-    { ...curve },
-    { x: curve.x - curveLength * 0.15, z: curve.z },
-    { x: curve.x - curveLength * 0.30, z: curve.z - firstCurveExcursion * 0.9 },
-    { x: curve.x - curveLength * 0.45, z: curve.z - firstCurveExcursion },
-    { x: curve.x - curveLength * 0.60, z: curve.z - firstCurveExcursion * 0.2 },
-    { x: curve.x - curveLength * 0.75, z: curve.z + secondCurveExcursion * 0.8 },
-    { x: curve.x - curveLength * 0.90, z: curve.z + secondCurveExcursion },
-    { x: curve.x - curveLength, z: curve.z + secondCurveExcursion },
-  ];
+  // Two opposite circular arcs with a shared tangent form an S, rather than
+  // an arbitrary slalom spline. Short straight approaches keep the gates level.
+  const firstRadius = config.curveDriving.firstCurveRadius;
+  const secondRadius = config.curveDriving.secondCurveRadius;
+  const angle = Math.min(Math.PI / 3,
+    config.curveDriving.totalLength * 0.8 / (firstRadius + secondRadius));
+  const straight = (config.curveDriving.totalLength - angle * (firstRadius + secondRadius)) * 0.5;
+  const curveRoute: Subject2Point2[] = [{ ...curve }, { x: curve.x - straight, z: curve.z }];
+  const arcStart = curveRoute[1]!;
+  const steps = Math.max(24, Math.ceil(angle * Math.max(firstRadius, secondRadius) / 0.3));
+  for (let i = 1; i <= steps; i += 1) {
+    const a = angle * i / steps;
+    curveRoute.push({ x: arcStart.x - firstRadius * Math.sin(a),
+      z: arcStart.z + firstRadius * (1 - Math.cos(a)) });
+  }
+  const transition = curveRoute[curveRoute.length - 1]!;
+  for (let i = 1; i <= steps; i += 1) {
+    const a = angle * (1 - i / steps);
+    curveRoute.push({ x: transition.x - secondRadius * (Math.sin(angle) - Math.sin(a)),
+      z: transition.z + secondRadius * (Math.cos(a) - Math.cos(angle)) });
+  }
+  const arcEnd = curveRoute[curveRoute.length - 1]!;
+  curveRoute.push({ x: arcEnd.x - straight, z: arcEnd.z });
   const curveExit = curveRoute[curveRoute.length - 1] ?? curve;
+  const rightAngleRoute = createRightAngleRoute(config);
 
   return {
     waitingRoute: [
@@ -92,8 +103,8 @@ export const createSubject2Layout = (config: Subject2GroundConfig): Subject2Layo
     ],
     waitingToReverse: [
       { x: waiting.x + config.waitingArea.length * 0.5, z: waiting.z },
-      { x: -50, z: 31 },
-      { x: -42, z: 25 },
+      { x: waiting.x + config.waitingArea.length * 0.5 + 4, z: waiting.z },
+      { x: reverse.x - reverseHalfLength - 6, z: reverse.z },
       { x: reverse.x - reverseHalfLength, z: reverse.z },
     ],
     reverseRoute: [
@@ -102,8 +113,8 @@ export const createSubject2Layout = (config: Subject2GroundConfig): Subject2Layo
     ],
     reverseToSide: [
       { x: reverse.x + reverseHalfLength, z: reverse.z },
-      { x: 0, z: 25 },
-      { x: 8, z: 32 },
+      { x: reverse.x + reverseHalfLength + 6, z: reverse.z },
+      { x: side.x - sideHalfLength - 7, z: side.z },
       { x: side.x - sideHalfLength, z: side.z },
     ],
     sideRoute: [
@@ -112,20 +123,20 @@ export const createSubject2Layout = (config: Subject2GroundConfig): Subject2Layo
     ],
     sideToRightAngle: [
       { x: side.x + sideHalfLength, z: side.z },
-      { x: 58, z: 32 },
-      { x: 67, z: 24 },
+      { x: side.x + sideHalfLength + 6, z: side.z },
+      { x: config.layout.rightAngleEntry.x, z: config.layout.rightAngleEntry.z + 9 },
       { ...config.layout.rightAngleEntry },
     ],
-    rightAngleRoute: createRightAngleRoute(config),
+    rightAngleRoute,
     rightAngleToCurve: [
-      { x: 48, z: -3 },
+      { ...rightAngleRoute[rightAngleRoute.length - 1]! },
       { ...curve },
     ],
     curveRoute,
     curveToHill: [
       { ...curveExit },
-      { x: -32, z: 2 },
-      { x: -39, z: -4 },
+      { x: curveExit.x - 7, z: curveExit.z },
+      { x: hill.x, z: hill.z + 12 },
       { ...hill },
     ],
     hillRoute: [
@@ -207,8 +218,8 @@ export const createSubject2MapMetadata = (
   const reverseBayReference = {
     x: config.layout.reverseCenter.x + 2,
     z: config.layout.reverseCenter.z
-      + config.reverseParking.areaWidth * 0.5
-      - config.reverseParking.bayLength * 0.5,
+      + config.reverseParking.approachWidth * 0.5
+      + config.reverseParking.bayLength * 0.5,
   };
   const sideBayReference = {
     x: config.layout.sideCenter.x + 0.5,
@@ -226,13 +237,16 @@ export const createSubject2MapMetadata = (
     { id: 'side-bay-reference', projectId: 'side-parking', kind: 'reference', position: sideBayReference, yawRadians: -Math.PI / 2 },
     { id: 'side-exit', projectId: 'side-parking', kind: 'exit', position: layout.sideRoute[1] ?? { x: 49, z: 35 }, yawRadians: -Math.PI / 2 },
     { id: 'right-angle-entry', projectId: 'right-angle-turn', kind: 'entry', position: rightPoints[0] ?? { x: 67, z: 16 }, yawRadians: 0 },
-    { id: 'right-angle-apex', projectId: 'right-angle-turn', kind: 'reference', position: { x: 61, z: -3 }, yawRadians: Math.PI / 2 },
+    { id: 'right-angle-apex', projectId: 'right-angle-turn', kind: 'reference', position: { x: config.layout.rightAngleEntry.x - config.rightAngleTurn.cornerRadius, z: config.layout.rightAngleEntry.z - config.rightAngleTurn.entryLength }, yawRadians: Math.PI / 2 },
     { id: 'right-angle-exit', projectId: 'right-angle-turn', kind: 'exit', position: rightExit, yawRadians: Math.PI / 2 },
     { id: 'curve-entry', projectId: 'curve-driving', kind: 'entry', position: layout.curveRoute[0] ?? { x: 18, z: -3 }, yawRadians: Math.PI / 2 },
     { id: 'curve-transition', projectId: 'curve-driving', kind: 'reference', position: curveTransition, yawRadians: Math.PI / 2 },
     { id: 'curve-exit', projectId: 'curve-driving', kind: 'exit', position: curveExit, yawRadians: Math.PI / 2 },
     { id: 'hill-entry', projectId: 'hill-start', kind: 'entry', position: hillPoints[0] ?? { x: -43, z: -10 }, yawRadians: 0 },
-    { id: 'hill-stop-reference', projectId: 'hill-start', kind: 'reference', position: { x: -43, z: -20.5 }, yawRadians: 0 },
+    { id: 'hill-stop-reference', projectId: 'hill-start', kind: 'reference', position: {
+      x: config.layout.hillEntry.x,
+      z: config.layout.hillEntry.z - Math.min(config.hillStart.uphillLength - config.hillStart.stopZoneLength * 0.55, config.hillStart.uphillLength * 0.72),
+    }, yawRadians: 0 },
     { id: 'hill-exit', projectId: 'hill-start', kind: 'exit', position: hillExit, yawRadians: 0 },
     { id: 'finish-entry', projectId: 'finish-area', kind: 'entry', position: layout.finishRoute[0] ?? hillExit, yawRadians: 0 },
     { id: 'finish-exit', projectId: 'finish-area', kind: 'exit', position: layout.finishRoute[layout.finishRoute.length - 1] ?? { x: -25, z: -47 }, yawRadians: -Math.PI / 2 },
@@ -259,8 +273,12 @@ export const createSubject2MapMetadata = (
   };
   const projectZones: Subject2ProjectZoneMetadata[] = [
     zone('waiting-area', 0, '候考区', boundsAround(config.layout.waitingCenter, config.waitingArea.length, config.waitingArea.width)),
-    zone('reverse-parking', 1, '倒车入库', boundsAround(config.layout.reverseCenter, config.reverseParking.areaLength, config.reverseParking.areaWidth)),
-    zone('side-parking', 2, '侧方停车', boundsAround(config.layout.sideCenter, config.sideParking.areaLength, config.sideParking.areaWidth)),
+    zone('reverse-parking', 1, '倒车入库', boundsAround(
+      { x: config.layout.reverseCenter.x, z: config.layout.reverseCenter.z + config.reverseParking.bayLength * 0.5 },
+      config.reverseParking.areaLength, config.reverseParking.approachWidth + config.reverseParking.bayLength)),
+    zone('side-parking', 2, '侧方停车', boundsAround(
+      { x: config.layout.sideCenter.x, z: config.layout.sideCenter.z + config.sideParking.bayWidth * 0.5 },
+      config.sideParking.areaLength, config.sideParking.approachWidth + config.sideParking.bayWidth)),
     zone('right-angle-turn', 3, '直角转弯', boundsAroundRoute(
       layout.rightAngleRoute,
       config.rightAngleTurn.laneWidth * 0.5 + 1,

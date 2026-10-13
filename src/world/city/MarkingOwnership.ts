@@ -1,6 +1,7 @@
 import type { CityIntersection, CityMapData, CityPoint, CityRoad, LaneMovement } from './CityMapData';
 import { junctionExtent, polylineLength, portsFor, roadEdges, roadPoints, rotatePoint, sampleAt } from './geometry';
 import { junctionSurfaceContains, junctionSurfaceHeight } from './JunctionSurface';
+import { roadEdgeChains } from './RoadEdgeChain';
 
 /** Data migration/authoring only. Renderers consume approach data, never infer arrows. */
 export function populateIntersectionMarkingMetadata(map:CityMapData):void {
@@ -39,7 +40,19 @@ interface MergeSegment {roadId:string;a:CityPoint;b:CityPoint;left:number;right:
 export class MarkingOwnership {
   private readonly mergeBuckets=new Map<string,MergeSegment[]>();
   private readonly intersectionBuckets=new Map<string,{junction:CityIntersection;extent:number}[]>();
+  private readonly pavementBuckets=new Map<string,MergeSegment[]>();
+  private readonly roads:Map<string,CityRoad>;
   constructor(private readonly map:CityMapData) {
+    this.roads=new Map(map.roads.map(r=>[r.id,r]));
+    for(const road of map.roads) {
+      const points=roadPoints(road),edges=roadEdges(road),margin=Math.max(-edges.left,edges.right)+1;
+      for(let i=1;i<points.length;i++) {
+        const a=points[i-1]!,b=points[i]!,entry={roadId:road.id,a,b,...edges};
+        for(let x=Math.floor((Math.min(a.x,b.x)-margin)/50);x<=Math.floor((Math.max(a.x,b.x)+margin)/50);x++)for(let z=Math.floor((Math.min(a.z,b.z)-margin)/50);z<=Math.floor((Math.max(a.z,b.z)+margin)/50);z++) {
+          const key=`${x},${z}`,bucket=this.pavementBuckets.get(key)??[];bucket.push(entry);this.pavementBuckets.set(key,bucket);
+        }
+      }
+    }
     for(const junction of map.intersections) {
       const extent=junctionExtent(junction,map),f=junction.markingFootprint;
       const radius=f?.kind==='polygon'?Math.max(...f.points.map(p=>Math.hypot(p.x,p.z))):f?.kind==='rectangle'?Math.hypot(f.halfWidth,f.halfDepth):Math.SQRT2*(extent+(f?.margin??0.4));
@@ -72,12 +85,36 @@ export class MarkingOwnership {
     }
     return undefined;
   }
-  sections(path:CityPoint[],offset:number,road:CityRoad,owner:'road'|'merge'):CityPoint[][] {
+  /** A joined paved area has no internal road edge; coincident paint has one owner. */
+  private permitsLongitudinal(p:CityPoint,tangent:CityPoint,road:CityRoad,boundary:boolean):boolean {
+    const continuations=roadEdgeChains(this.map).continuations(road.id);
+    for(const s of this.pavementBuckets.get(`${Math.floor(p.x/50)},${Math.floor(p.z/50)}`)??[]) {
+      if(continuations.has(s.roadId))continue;
+      const other=this.roads.get(s.roadId)!,dx=s.b.x-s.a.x,dz=s.b.z-s.a.z,l=Math.hypot(dx,dz);
+      if(l<1e-6)continue;
+      const t=((p.x-s.a.x)*dx+(p.z-s.a.z)*dz)/(l*l);if(t<0||t>1)continue;
+      if(Math.abs((p.y??0)-(s.a.y??0)-t*((s.b.y??0)-(s.a.y??0)))>.2)continue;
+      const offset=(-(p.x-s.a.x)*dz+(p.z-s.a.z)*dx)/l;
+      // Auxiliary shoulders overlap the mainline before a new lane opens.
+      const left=other.highwayTransition?-other.laneWidth/2:s.left,right=other.highwayTransition?other.laneWidth/2:s.right;
+      if(boundary&&offset>left+.25&&offset<right-.25)return false;
+      if(other.markings===false||other.highwayTransition||Math.abs((dx*tangent.x+dz*tangent.z)/l)<.98)continue;
+      const priority=other.laneCount-road.laneCount||road.id.localeCompare(other.id);
+      if(priority<=0)continue;
+      const half=other.laneCount*other.laneWidth/2;
+      if(Math.abs(Math.abs(offset)-(half-.15))<.16)return false;
+      if(other.travelDirection==='two-way'&&Math.abs(Math.abs(offset)-.13)<.16)return false;
+      for(let lane=1;lane<other.laneCount;lane++)if(!(other.travelDirection==='two-way'&&lane===other.laneCount/2)&&Math.abs(offset-(-half+lane*other.laneWidth))<.16)return false;
+    }
+    return true;
+  }
+  sections(path:CityPoint[],offset:number,road:CityRoad,owner:'road'|'merge',boundary=false):CityPoint[][] {
     const len=polylineLength(path),count=Math.max(1,Math.ceil(len/0.75)),sections:CityPoint[][]=[];let section:CityPoint[]=[];
     const flush=()=>{if(section.length>1)sections.push(section);section=[];};
     const permitted=(d:number)=>{
       const s=sampleAt(path,d),p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset},mask=this.ownerAt(p,0.4);
-      return owner==='road'?!mask:mask?.kind==='merge'&&mask.id===road.id;
+      const owned=owner==='road'?!mask:mask?.kind==='merge'&&mask.id===road.id;
+      return owned&&this.permitsLongitudinal(p,s.tangent,road,boundary);
     };
     for(let i=0;i<count;i++) {
       const a=len*i/count,b=len*(i+1)/count;

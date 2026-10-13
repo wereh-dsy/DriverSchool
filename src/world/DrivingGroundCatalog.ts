@@ -73,7 +73,7 @@ const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDesc
     }),
     'simple-circuit': Object.freeze({
       id: 'simple-circuit',
-      version: 2,
+      version: 3,
       displayName: '基础环形测试场',
       description: '宽阔主直道、少量流畅弯和一个明显制动弯，适合连续跑圈试车。',
       create: (): DrivingGround => new CircuitGround({ shadows: true }),

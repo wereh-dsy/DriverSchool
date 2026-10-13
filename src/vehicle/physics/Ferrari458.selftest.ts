@@ -49,6 +49,9 @@ export function runFerrari458SelfTest() {
   let decision = null;
   for (let i = 0; i < 60 && decision === null; i++) decision = controller.decide(context(4, 3000, .6), false);
   assert(decision?.gear === 3, 'automatic braking downshift');
+  gearbox.setGear(3); controller.gearChanged();
+  for (let i = 0; i < 120; i++) assert(controller.decide(context(3, 3793, .6), false) === null,
+    'braking downshift does not hunt back into the light-pedal upshift map');
   const dct = new DualClutchTransmissionSystem(new Gearbox(c.transmission, 4), c.transmission.dct!, c.wheelRadius);
   dct.reset(4, 'D'); dct.requestManualSelection(-1);
   const matching = dct.prepare(context(4, 3500));

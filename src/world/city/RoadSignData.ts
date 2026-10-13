@@ -2,7 +2,7 @@ import type { CityPoint } from './CityMapData';
 export interface RoadNameEntry { primaryText:string;secondaryText?:string;kind:'expressway'|'urban'|'interchange'|'destination';routeNumber?:string }
 export type RoadNameRegistry=Record<string,RoadNameEntry>;
 export type RoadSignType='EXPRESSWAY_ADVANCE'|'EXPRESSWAY_DIVERGE'|'EXPRESSWAY_ENTRY'|'EXPRESSWAY_DISTANCE'|'EXPRESSWAY_SERVICE'|'RAMP_CONFIRMATION'|'URBAN_DIRECTION'|'ROAD_NAME'|'INTERCHANGE_NAME';
-export type RoadSignTemplate='single-post'|'dual-post'|'gantry'|'highway-gantry'|'ramp-confirmation'|'urban-name';
+export type RoadSignTemplate='single-post'|'dual-post'|'gantry'|'highway-gantry'|'ramp-confirmation'|'urban-name'|'ceiling';
 export type RoadSignSize='small'|'medium'|'large';
 export type RoadSignArrow='straight'|'left'|'right'|'exit-right'|'exit-left';
 export interface RoadSignDestination { roadNameId:string;directionId?:string;arrow:RoadSignArrow;distanceMetres?:number }
@@ -27,12 +27,15 @@ export interface RoadSignDefinition {
   actualAdvanceMetres?: number;
   /** Driver-relative lanes, left to right; independent of geographic destinations. */
   laneArrows?: RoadSignArrow[];
+  approachRoadNameId?:string;
+  /** Relative underside height for a board hung from a tunnel/upper deck. */
+  mountHeight?:number;
 }
 export function resolveSignContent(sign:RoadSignDefinition,names:RoadNameRegistry) {
   const name=(id:string)=>{const entry=names[id];if(!entry)throw new Error('Unknown road/sign name '+id);return entry;};
   return {type:sign.type,template:sign.template,size:sign.size,language:sign.language,
     color:['URBAN_DIRECTION','ROAD_NAME'].includes(sign.type)?'#155aa0':'#087747',
-    interchange:sign.interchangeId?name(sign.interchangeId).primaryText:undefined,exitNumber:sign.exitNumber,highwayLayout:sign.highwayLayout,facilities:sign.facilities,laneArrows:sign.laneArrows,
+    interchange:sign.interchangeId?name(sign.interchangeId).primaryText:undefined,exitNumber:sign.exitNumber,highwayLayout:sign.highwayLayout,facilities:sign.facilities,laneArrows:sign.laneArrows,advanceMetres:sign.actualAdvanceMetres??sign.advanceMetres,approachRoadName:sign.approachRoadNameId?name(sign.approachRoadNameId).primaryText:undefined,
     destinations:sign.destinations.map(d=>({name:name(d.roadNameId).primaryText,secondaryText:name(d.roadNameId).secondaryText,routeNumber:name(d.roadNameId).routeNumber,
       direction:d.directionId?name(d.directionId).primaryText:undefined,arrow:d.arrow,distanceMetres:d.distanceMetres}))};
 }

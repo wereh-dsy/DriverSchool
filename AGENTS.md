@@ -13,6 +13,7 @@ TypeScript, Three.js, Vite and pnpm.
 - Current architecture snapshot: `docs/CURRENT_CODE_CONTEXT.md`.
 - Copyable Chat guidance: `docs/CHAT_HANDOFF.md`.
 - Review findings and validation baseline: `docs/CODE_REVIEW_2026-10-12.md`.
+- Fixes and current validation: `docs/FIXES_2026-10-13.md`.
 - Historical reports in the root and `artifacts/` describe their own revision,
   not necessarily the current implementation.
 
@@ -45,7 +46,9 @@ TypeScript, Three.js, Vite and pnpm.
 - `src/world/city/`: City data/runtime/API/presets; read its `AGENT_GUIDE.md`
   for map authoring. Menu `city-main` loads `regional/regional-main.json`;
   CLI alias `city-main` resolves to `city/maps/city-main.json`. For the menu
-  map, pass the explicit regional JSON path to map commands.
+  map, use the `regional-main` alias or the explicit regional JSON path.
+  `city-main-city` explicitly names the city-only source; old V3 generation
+  refuses default overwrite unless `--revision-v3` is explicitly supplied.
 - `src/editor/`: City map editor, history, import/export and browser drafts.
 - `src/audio/`: Synthesized ICE/EV audio and lane departure warning sound.
 - `src/ui/`: HUD, settings and menus.
@@ -160,6 +163,8 @@ TypeScript, Three.js, Vite and pnpm.
   it does not run every standalone test runner. EV V2, tyre/TPMS, newer cockpit,
   lane assistance, loading and regional changes need their relevant standalone
   checks too. See the context document for entry points.
+- `pnpm run selftest:systems` runs the newer platform/EV/TPMS/HMI/loading/
+  lateral-driving/regional integration checks without rewriting artifact baselines.
 - Do not weaken assertions, skip failed checks, use `-BasicValidation`, or replace
   the normal build with `vite build` just to report success. A reduced validation
   run requires explicit user instruction. Report pre-existing failures separately

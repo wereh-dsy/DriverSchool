@@ -178,7 +178,7 @@ export class ControlSettingsPanel {
               <button type="button" data-start-stop aria-pressed="false">START/STOP: OFF</button>
               <button type="button" data-lka> LKA: ON</button>
               <button type="button" data-lcc-enabled>LCC: ON</button>
-              <button type="button" data-lcc-toggle>LCC SET / CANCEL · I</button>
+              <button type="button" data-lcc-toggle>LCC SET / CANCEL · G</button>
             </div>
             <small data-start-stop-state></small>
             <small data-lateral-state></small>
@@ -506,7 +506,7 @@ export class ControlSettingsPanel {
     ka.setAttribute('aria-pressed', String(lka && this.lkaPreference));
     cc.setAttribute('aria-pressed', String(lcc && this.lccPreference));
     toggle.setAttribute('aria-pressed', String(requested));
-    toggle.textContent = `LCC ${requested ? 'CANCEL' : 'SET'} · I`;
+    toggle.textContent = `LCC ${requested ? 'CANCEL' : 'SET'} · ${formatKeyboardCode(this.bindings.lccToggle)}`;
     this.require(this.panel, '[data-lateral-state]').textContent = `LKA ${lkaState} · LCC ${lccState}`;
   }
   public setStartStop(available: boolean, enabled: boolean, state: string): void {

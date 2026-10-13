@@ -1,5 +1,6 @@
 import { BufferGeometry, DataTexture, Float32BufferAttribute, Group, Mesh, MeshLambertMaterial, NearestFilter, Vector2 } from 'three';
 import type { CityMapData, CityPoint } from '../city/CityMapData';
+import { RegionalTerrainClearance } from './RegionalTerrainClearance';
 
 interface EarthworkSegment { a: CityPoint; b: CityPoint; halfWidth: number; tunnel: boolean; bridge:boolean; ramp:boolean }
 const samplerCache=new WeakMap<CityMapData,RegionalTerrainSampler>();
@@ -80,8 +81,10 @@ export class RegionalTerrain {
   private readonly origin:Vector2;
   private readonly maskSize:Vector2;
   readonly sampler:RegionalTerrainSampler;
+  private readonly clearance:RegionalTerrainClearance;
   constructor(readonly map:CityMapData){
     this.sampler=regionalTerrainSampler(map);
+    this.clearance=new RegionalTerrainClearance(map);
     const b=map.regional!.terrainBounds,size=map.sectorSize;
     this.origin=new Vector2(Math.floor(b.minX/size),Math.floor(b.minZ/size));
     this.maskSize=new Vector2(Math.ceil(b.maxX/size)-this.origin.x,Math.ceil(b.maxZ/size)-this.origin.y);
@@ -96,6 +99,7 @@ export class RegionalTerrain {
       };
     }
     this.farRoad=this.farLand.clone();this.farRoad.onBeforeCompile=this.farLand.onBeforeCompile;this.farRoad.customProgramCacheKey=this.farLand.customProgramCacheKey;this.farRoad.polygonOffset=true;this.farRoad.polygonOffsetFactor=-1;this.farRoad.polygonOffsetUnits=-1;
+    this.farRoad.userData.regionalTerrain=true;
   }
   setActive(key:string,active:boolean):void {const [x,z]=key.split(',').map(Number),index=((z!-this.origin.y)*this.maskSize.x+x!-this.origin.x)*4;if(index<0||index>=this.maskData.length)return;this.maskData[index]=active?255:0;this.mask.needsUpdate=true;}
   /** Coarse road ribbons follow their tier's rendered ground, retaining higher bridge decks. */
@@ -118,9 +122,12 @@ export class RegionalTerrain {
     // Adjacent triangles share grid corners. Evaluate earthworks once per
     // corner instead of six times per cell; keep the existing triangulation.
     const heights=new Float64Array((steps+1)**2);heights.fill(NaN);
-    const vertex=(px:number,pz:number)=>{
+    const gridHeight=(px:number,pz:number)=>{
       const index=Math.round((px-x)/step)*(steps+1)+Math.round((pz-z)/step);
-      let h=heights[index]!;if(Number.isNaN(h)){h=this.sampler.heightAt(px,pz);heights[index]=h;}positions.push(px,h,pz);
+      let h=heights[index]!;if(Number.isNaN(h)){h=this.sampler.heightAt(px,pz);heights[index]=h;}return h;
+    };
+    const vertex=(px:number,pz:number,h:number)=>{
+      positions.push(px,h,pz);
       const field=(Math.floor(px/210)+Math.floor(pz/170))%3;
       const color=pz<-2400?[.29,.39,.24]:pz>2500?[.43,.44,.33]:px>3900?field===0?[.58,.59,.34]:field===1?[.46,.55,.29]:[.62,.56,.35]:[.37,.46,.29];colors.push(...color);
     };
@@ -130,7 +137,10 @@ export class RegionalTerrain {
       // Existing city's flat mesh owns city terrain and authored open cuts.
       const city=this.map.regional!.cityBounds;
       if(a>=city.minX&&a1<=city.maxX&&b>=city.minZ&&b1<=city.maxZ)continue;
-      const triangle=(ax:number,az:number,bx:number,bz:number,cx:number,cz:number)=>{vertex(ax,az);vertex(bx,bz);vertex(cx,cz);};
+      const triangle=(ax:number,az:number,bx:number,bz:number,cx:number,cz:number)=>{
+        const original=[{x:ax,y:gridHeight(ax,az),z:az},{x:bx,y:gridHeight(bx,bz),z:bz},{x:cx,y:gridHeight(cx,cz),z:cz}];
+        for(const polygon of this.clearance.clip(original))for(let k=1;k+1<polygon.length;k++)for(const p of [polygon[0]!,polygon[k]!,polygon[k+1]!])vertex(p.x,p.z,p.y??0);
+      };
       triangle(a,b,a,b1,a1,b1);triangle(a,b,a1,b1,a1,b);
       if(this.sampler.waterAt((a+a1)/2,(b+b1)/2))water.push(a,-1,b,a,-1,b1,a1,-1,b1,a,-1,b,a1,-1,b1,a1,-1,b);
     }

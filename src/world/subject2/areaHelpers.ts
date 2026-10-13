@@ -8,6 +8,30 @@ import {
 } from './geometry';
 import type { Subject2Point2 } from './Subject2GroundConfig';
 
+/** Yellow entry and red exit bars, matching the reference site's visual key. */
+export const addProjectGates = (
+  parent: THREE.Group,
+  context: Subject2BuildContext,
+  name: string,
+  route: readonly Subject2Point2[],
+  width: number,
+): void => {
+  for (const exit of [false, true]) {
+    const point = route[exit ? route.length - 1 : 0];
+    const neighbour = route[exit ? route.length - 2 : 1];
+    if (!point || !neighbour) continue;
+    const length = Math.hypot(neighbour.x - point.x, neighbour.z - point.z);
+    if (length < 1e-6) continue;
+    const dx = -(neighbour.z - point.z) / length * width * 0.5;
+    const dz = (neighbour.x - point.x) / length * width * 0.5;
+    addLineMarking(parent, context, `${name} ${exit ? 'exit' : 'entry'} gate`, [
+      { x: point.x - dx, z: point.z - dz },
+      { x: point.x + dx, z: point.z + dz },
+    ], context.config.markings.referenceLineWidth,
+    exit ? context.materials.redMarking : context.materials.yellowMarking);
+  }
+};
+
 export const addLineMarking = (
   parent: THREE.Group,
   context: Subject2BuildContext,

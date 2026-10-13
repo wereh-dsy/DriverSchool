@@ -40,6 +40,7 @@ interface DiscreteInputFrame {
   cycleLights: boolean;
   engineStart: boolean;
   cruiseToggle: boolean;
+  lccToggle: boolean;
   cycleLaneAssist: boolean;
   fogToggle: boolean;
   cycleWipers: boolean;
@@ -241,6 +242,7 @@ export class VehicleInputSystem {
       cycleLights: false,
       engineStart: false,
       cruiseToggle: false,
+      lccToggle: false,
       cycleLaneAssist: false,
       fogToggle: false,
       cycleWipers: false,
@@ -312,6 +314,7 @@ export class VehicleInputSystem {
     let cycleLights = false;
     let engineStart = false;
     let cruiseToggle = false;
+    let lccToggle = false;
     let cycleLaneAssist = false;
     let fogToggle = false;
     let cycleWipers = false;
@@ -328,6 +331,7 @@ export class VehicleInputSystem {
       cycleLights ||= sample.cycleLights;
       engineStart ||= sample.engineStart;
       cruiseToggle ||= sample.cruiseToggle;
+      lccToggle ||= sample.lccToggle === true;
       cycleLaneAssist ||= sample.cycleLaneAssist === true;
       fogToggle ||= sample.fogToggle === true;
       cycleWipers ||= sample.cycleWipers === true;
@@ -340,7 +344,7 @@ export class VehicleInputSystem {
     }
     if (
       !returnToAuto && !shiftUp && !shiftDown && !leftIndicator && !rightIndicator && !hazard &&
-      !cycleLights && !engineStart && !cruiseToggle && !cycleLaneAssist && !fogToggle && !cycleWipers && !cycleDriveMode && directGear === undefined && driveSelector === undefined
+      !cycleLights && !engineStart && !cruiseToggle && !lccToggle && !cycleLaneAssist && !fogToggle && !cycleWipers && !cycleDriveMode && directGear === undefined && driveSelector === undefined
     ) return;
     const frame: DiscreteInputFrame = {
       returnToAuto,
@@ -352,6 +356,7 @@ export class VehicleInputSystem {
       cycleLights,
       engineStart,
       cruiseToggle,
+      lccToggle,
       cycleLaneAssist,
       fogToggle,
       cycleWipers,
@@ -417,6 +422,7 @@ export class VehicleInputSystem {
       cycleLights: discrete?.cycleLights ?? false,
       engineStart: discrete?.engineStart ?? false,
       cruiseToggle: discrete?.cruiseToggle ?? false,
+      lccToggle: discrete?.lccToggle ?? false,
       cycleLaneAssist: discrete?.cycleLaneAssist ?? false,
       fogToggle: discrete?.fogToggle ?? false,
       cycleWipers: discrete?.cycleWipers ?? false,

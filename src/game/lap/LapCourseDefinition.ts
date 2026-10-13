@@ -14,6 +14,8 @@ export interface LapGate {
 
 export interface LapCourseDefinition {
   readonly trackId: string;
+  /** Layout revisions keep incomparable lap records separate without changing map IDs. */
+  readonly revision?: number;
   readonly startFinish: LapGate;
   readonly checkpoints: readonly LapGate[];
 }

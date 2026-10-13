@@ -1,4 +1,6 @@
+import * as THREE from 'three';
 import { Subject2Ground } from './Subject2Ground';
+import { SUBJECT2_ROAD_SURFACE_OFFSET } from './geometry';
 
 export interface Subject2GroundSelfTestResult {
   readonly assertions: number;
@@ -8,8 +10,8 @@ export interface Subject2GroundSelfTestResult {
   readonly maximumHillGrade: number;
   readonly hillHeight: number;
   readonly asphaltGrip: number;
-  readonly shoulderGrip: number;
-  readonly grassGrip: number;
+  readonly openApronGrip: number;
+  readonly maximumPavementHeightError: number;
   readonly maximumGripStep: number;
   readonly maximumRollingResistanceStep: number;
   readonly markingVertices: number;
@@ -96,6 +98,96 @@ export function runSubject2GroundSelfTest(): Subject2GroundSelfTestResult {
       );
     }
 
+    // Projects are now markings on one shared surface, including the open
+    // spaces between lanes. Check the visible pavement and tyre contact agree.
+    ground.root.updateWorldMatrix(true, true);
+    const ray = new THREE.Raycaster();
+    const hitsAt = (x: number, z: number) => {
+      ray.set(new THREE.Vector3(x, 10, z), new THREE.Vector3(0, -1, 0));
+      return ray.intersectObject(ground.root, true);
+    };
+    const asphaltAt = (x: number, z: number): boolean => hitsAt(x, z)
+      .some((hit) => hit.object.name.toLowerCase().includes('asphalt'));
+    const markingAt = (x: number, z: number): boolean => hitsAt(x, z)
+      .some((hit) => hit.object.userData.subject2RoadMarking === true);
+    const pavements: THREE.Mesh[] = [];
+    ground.root.traverse((object) => {
+      if (object instanceof THREE.Mesh && object.name.toLowerCase().includes('asphalt')) pavements.push(object);
+    });
+    assert(pavements.length === 1, 'one continuous pavement without overlapping project pads');
+    const pavement = pavements[0]!;
+    assert(pavement.material instanceof THREE.MeshStandardMaterial, 'pavement uses one shared material');
+    assert(!ground.root.getObjectByName('Subject 2 grass base'), 'grass base is removed');
+    assert(!ground.root.getObjectByName('Hill earth embankment'), 'hill has the shared paved surface');
+    assert(!ground.root.getObjectByName('Side parking low kerb'), 'side parking is divided by markings only');
+    const reverse = config.layout.reverseCenter;
+    const reverseMouth = reverse.z + config.reverseParking.approachWidth * 0.5;
+    assert(asphaltAt(reverse.x + 2, reverseMouth + 0.1), 'reverse bay joins the approach without a grass gap');
+    assert(!hitsAt(reverse.x + 2, reverseMouth)
+      .some((hit) => hit.object.userData.subject2RoadMarking === true), 'no solid line crosses reverse bay mouth');
+    assert(markingAt(reverse.x + 2 - config.reverseParking.bayWidth * 0.5,
+      reverseMouth + config.reverseParking.bayLength * 0.5), 'T-shaped bay side boundary remains visible');
+    assert(asphaltAt(reverse.x - 10, reverseMouth + 3), 'reverse recess shares the continuous pavement');
+    assertNear(ground.sampleRoadSurface(reverse.x - 10, reverseMouth + 3).gripMultiplier,
+      config.surface.asphaltGrip, 1e-9, 'reverse recess has asphalt physics');
+    const side = config.layout.sideCenter;
+    const sideBayZ = side.z + config.sideParking.approachWidth * 0.5 + config.sideParking.bayWidth * 0.5;
+    assert(asphaltAt(side.x + 0.5, sideBayZ), 'side bay has a paved surface');
+    assert(asphaltAt(side.x - 10, sideBayZ), 'space beside the side bay is paved');
+    assert(markingAt(side.x + 0.5, sideBayZ + config.sideParking.bayWidth * 0.5),
+      'side bay back boundary remains visible');
+    const turn = config.layout.rightAngleEntry;
+    const cornerZ = turn.z - config.rightAngleTurn.entryLength;
+    const halfLane = config.rightAngleTurn.laneWidth * 0.5;
+    assert(asphaltAt(turn.x + halfLane - 0.2, cornerZ - halfLane + 0.2), 'L-shaped outer corner stays square');
+    assert(asphaltAt(turn.x - halfLane - 0.2, cornerZ + halfLane + 0.2), 'space inside the L is paved');
+    assert(markingAt(turn.x - halfLane, cornerZ + halfLane), 'L-shaped inner marking corner stays square');
+    assertNear(ground.sampleRoadSurface(turn.x + halfLane - 0.2, cornerZ - halfLane + 0.2).gripMultiplier,
+      config.surface.asphaltGrip, 1e-9, 'L-shaped corner physics matches paving');
+    const curveSegment = metadata.routeSegments.find((segment) => segment.id === 'route-curve')!;
+    assertNear(curveSegment.length, config.curveDriving.totalLength, 0.02, 'S-curve uses the configured arc length');
+    let positiveBends = 0;
+    let negativeBends = 0;
+    let bendReversals = 0;
+    let previousBend = 0;
+    for (let i = 1; i < curveSegment.centerline.length - 1; i += 1) {
+      const a = curveSegment.centerline[i - 1]!;
+      const b = curveSegment.centerline[i]!;
+      const c = curveSegment.centerline[i + 1]!;
+      const cross = (b.x - a.x) * (c.z - b.z) - (b.z - a.z) * (c.x - b.x);
+      if (Math.abs(cross) > 1e-6) {
+        const sign = Math.sign(cross);
+        if (sign > 0) positiveBends += 1; else negativeBends += 1;
+        if (previousBend !== 0 && previousBend !== sign) bendReversals += 1;
+        previousBend = sign;
+      }
+      const length = distance(a, c);
+      for (const offset of [-config.curveDriving.laneWidth * 0.4, 0, config.curveDriving.laneWidth * 0.4]) {
+        const x = b.x - (c.z - a.z) / length * offset;
+        const z = b.z + (c.x - a.x) / length * offset;
+        assert(asphaltAt(x, z), 'S-curve paving remains continuous across its width');
+        assertNear(ground.sampleRoadSurface(x, z).gripMultiplier,
+          config.surface.asphaltGrip, 1e-9, 'S-curve tyre surface agrees with paving');
+      }
+    }
+    assert(positiveBends > 10 && negativeBends > 10 && bendReversals === 1,
+      'S-curve has two opposing bends and one steering transition');
+    const gates: THREE.Object3D[] = [];
+    ground.root.traverse((object) => { if (object.name.endsWith(' gate')) gates.push(object); });
+    assert(gates.length === 10, 'all five projects have entry and exit bars');
+    for (const checkpoint of metadata.checkpoints.filter((item) => item.kind === 'reference')) {
+      assert(asphaltAt(checkpoint.position.x, checkpoint.position.z), `${checkpoint.id} lies on its project surface`);
+    }
+    ground.root.traverse((object) => {
+      if (object.name === 'Training-ground lamp') {
+        const position = object.getWorldPosition(new THREE.Vector3());
+        assert(metadata.projectZones.every((zone) => position.x < zone.bounds.minimumX
+          || position.x > zone.bounds.maximumX || position.z < zone.bounds.minimumZ
+          || position.z > zone.bounds.maximumZ),
+        `lamp at ${position.x},${position.z} stays outside marked project areas`);
+      }
+    });
+
     let maximumRouteHeightStep = 0;
     let routeLength = 0;
     let previousHeight: number | undefined;
@@ -140,17 +232,33 @@ export function runSubject2GroundSelfTest(): Subject2GroundSelfTestResult {
 
     const waiting = config.layout.waitingCenter;
     const asphalt = ground.sampleRoadSurface(waiting.x, waiting.z);
-    const shoulder = ground.sampleRoadSurface(
-      waiting.x,
-      waiting.z - config.waitingArea.width * 0.5 - config.surface.shoulderBlendDepth,
-    );
-    const grass = ground.sampleRoadSurface(0, 16);
+    const openApron = ground.sampleRoadSurface(0, 16);
     assertNear(asphalt.gripMultiplier, config.surface.asphaltGrip, 1e-9, 'asphalt grip');
     assertNear(asphalt.rollingResistanceMultiplier, config.surface.asphaltRollingResistance, 1e-9, 'asphalt rolling resistance');
-    assertNear(shoulder.gripMultiplier, config.surface.shoulderGrip, 0.015, 'shoulder grip');
-    assertNear(shoulder.rollingResistanceMultiplier, config.surface.shoulderRollingResistance, 0.04, 'shoulder rolling resistance');
-    assertNear(grass.gripMultiplier, config.surface.grassGrip, 0.01, 'grass grip');
-    assertNear(grass.rollingResistanceMultiplier, config.surface.grassRollingResistance, 0.02, 'grass rolling resistance');
+    assertNear(openApron.gripMultiplier, config.surface.asphaltGrip, 1e-9, 'open apron asphalt grip');
+    assertNear(openApron.rollingResistanceMultiplier, config.surface.asphaltRollingResistance, 1e-9, 'open apron asphalt rolling resistance');
+    // Sample the whole enclosure, not just project routes, so the former grass
+    // gaps and corners cannot keep hidden low-grip patches.
+    for (let x = metadata.bounds.minimumX + 1; x < metadata.bounds.maximumX; x += 8) {
+      for (let z = metadata.bounds.minimumZ + 1; z < metadata.bounds.maximumZ; z += 8) {
+        const sample = ground.sampleRoadSurface(x, z);
+        assertNear(sample.gripMultiplier, config.surface.asphaltGrip, 1e-9, 'uniform site grip');
+        assertNear(sample.rollingResistanceMultiplier, config.surface.asphaltRollingResistance, 1e-9, 'uniform site rolling resistance');
+      }
+    }
+    let maximumPavementHeightError = 0;
+    for (let d = 0; d <= hill.uphillLength + hill.crestLength + hill.downhillLength; d += 0.25) {
+      const z = hillEntry.z - d;
+      const hit = hitsAt(hillEntry.x, z).find((item) => item.object === pavement);
+      assert(hit !== undefined, 'continuous pavement covers the entire hill');
+      if (!hit) continue;
+      maximumPavementHeightError = Math.max(maximumPavementHeightError,
+        Math.abs(hit.point.y - ground.getRoadHeightAt(hillEntry.x, z) - SUBJECT2_ROAD_SURFACE_OFFSET));
+      assert(hit.point.y < ground.getRoadHeightAt(hillEntry.x, z)
+        + SUBJECT2_ROAD_SURFACE_OFFSET + config.markings.surfaceClearance,
+      'hill markings stay above the rendered pavement');
+    }
+    assert(maximumPavementHeightError < 0.007, 'rendered hill agrees with physical height within 7 mm');
 
     let maximumGripStep = 0;
     let maximumRollingResistanceStep = 0;
@@ -170,8 +278,8 @@ export function runSubject2GroundSelfTest(): Subject2GroundSelfTestResult {
       );
       previousSample = sample;
     }
-    assert(maximumGripStep < 0.025, 'asphalt-to-grass grip transition is smooth');
-    assert(maximumRollingResistanceStep < 0.08, 'rolling-resistance transition is smooth');
+    assertNear(maximumGripStep, 0, 1e-9, 'crossing project markings does not change grip');
+    assertNear(maximumRollingResistanceStep, 0, 1e-9, 'crossing project markings does not change rolling resistance');
 
     const markings = ground.getRoadMarkingDiagnostics();
     assert(markings.vertexCount > 2_000, 'road markings are densely road-conforming');
@@ -203,8 +311,8 @@ export function runSubject2GroundSelfTest(): Subject2GroundSelfTestResult {
       maximumHillGrade,
       hillHeight,
       asphaltGrip: asphalt.gripMultiplier,
-      shoulderGrip: shoulder.gripMultiplier,
-      grassGrip: grass.gripMultiplier,
+      openApronGrip: openApron.gripMultiplier,
+      maximumPavementHeightError,
       maximumGripStep,
       maximumRollingResistanceStep,
       markingVertices: markings.vertexCount,

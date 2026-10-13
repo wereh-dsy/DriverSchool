@@ -255,12 +255,15 @@ export function runCruiseVehicleExperienceSelfTest() {
     const order = descriptor.physicsConfig.driveModeOrder ?? ['ECO', 'NORMAL', 'SPORT'] as const;
     for (const mode of [order[0]!, order[order.length - 1]!]) for (const target of [60, 80, 100, 120]) {
     const config = createVehiclePhysicsConfig(id);
-    const car = new VehicleDynamics(config, { gear: 1, driveSelector: 'D' });
+    // This fixture exercises launch and cruise, not the ignition-off spawn.
+    const car = new VehicleDynamics(config, { gear: 1, driveSelector: 'D', engineRunning: true, engineRPM: config.engine.idleRPM });
     for (let n = 0; n < order.length && car.driveMode !== mode; n++) car.cycleDriveMode();
     const contacts = new VehicleContactSystem(ground, descriptor.visualConfig.dimensions);
     let launchSteps = 0;
-    while (car.speed * 3.6 < target && launchSteps++ < 18000) contacts.step(dt, { ...baseInput, throttle: .6 }, car);
-    assert(car.speed * 3.6 >= target, `${id}/${mode}: driver reaches SET speed through real torque path`);
+    // A fixed partial pedal can balance drag below 120 km/h in ECO. Request
+    // full driver power until SET; do not change pose, speed or mode calibration.
+    while (car.speed * 3.6 < target && launchSteps++ < 18000) contacts.step(dt, { ...baseInput, throttle: 1 }, car);
+    assert(car.speed * 3.6 >= target, `${id}/${mode}/${target}: driver reaches SET speed through real torque path (${car.speed * 3.6})`);
     const controller = new CruiseControlController(config.cruiseControl);
     let minimum = Infinity, maximum = -Infinity;
     let sum = 0, firstSum = 0, lastSum = 0;

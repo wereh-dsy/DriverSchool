@@ -31,6 +31,13 @@ export class RoadEdgeChains {
     return r.laneCount===s.laneCount&&r.laneWidth===s.laneWidth&&JSON.stringify(r.shoulders)===JSON.stringify(s.shoulders)&&r.structure?.barrierEnabled===s.structure?.barrierEnabled&&Math.hypot(p.x-q.x,p.z-q.z)<.06&&Math.abs((p.y??0)-(q.y??0))<.02&&u.x*v.x+u.z*v.z<-.95;});
    if(matches.length===1)neighbour.set(key(a),matches[0]!);
   }
+  // A branch may see one continuation while that endpoint sees several branches.
+  // Only reciprocal choices form a corridor; otherwise walks can enter a chain
+  // already owned by another seed and leave an unprocessed road without frames.
+  for(const [id,end] of neighbour) {
+   const back=neighbour.get(key(end));
+   if(!back||key(back)!==id)neighbour.delete(id);
+  }
   for(const [id,end] of neighbour)this.neighbours.set(id,end);
   const seen=new Set<string>();
   for(const seed of map.roads) {
@@ -55,6 +62,17 @@ export class RoadEdgeChains {
    }
    this.corridors.push({id:'edge:'+parts[0]!.r.id,roadIds:parts.map(p=>p.r.id),points,length:distance});
    const ids=new Set(parts.map(p=>p.r.id));for(const id of ids)this.continuationIds.set(id,ids);
+  }
+  // At an explicitly linked width change, the narrow mouth uses the wider
+  // road's cross-section frame. Otherwise different end tangents leave a wedge
+  // between the auxiliary lane and the ramp despite identical XYZ anchors.
+  for(const group of groups)for(const end of group){
+   const road=roads.get(end.roadId)!;if(!road.gore&&!road.highwayTransition)continue;
+   const own=this.frames.get(road.id)!,frame=own[end.end==='start'?0:own.length-1]!;
+   const hosts=group.filter(e=>e.roadId!==road.id).map(e=>({end:e,road:roads.get(e.roadId)!})).filter(q=>q.road.laneCount>road.laneCount||q.road.laneCount===road.laneCount&&q.road.laneWidth>road.laneWidth+.01).sort((a,b)=>b.road.laneCount*b.road.laneWidth-a.road.laneCount*a.road.laneWidth||a.road.id.localeCompare(b.road.id));
+   const host=hosts[0];if(!host)continue;const frames=this.frames.get(host.road.id)!,other=frames[host.end.end==='start'?0:frames.length-1]!,sign=frame.tangent.x*other.tangent.x+frame.tangent.z*other.tangent.z>=0?1:-1;
+   if(Math.hypot(frame.point.x-other.point.x,frame.point.z-other.point.z)> .06||Math.abs((frame.point.y??0)-(other.point.y??0))>.02||(frame.tangent.x*other.tangent.x+frame.tangent.z*other.tangent.z)*sign<.7)continue;
+   frame.tangent={x:other.tangent.x*sign,z:other.tangent.z*sign};
   }
  }
  continuations(roadId:string):ReadonlySet<string>{return this.continuationIds.get(roadId)??new Set([roadId]);}

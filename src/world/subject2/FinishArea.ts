@@ -5,7 +5,6 @@ import {
   addRectangleOutline,
   createModuleRoot,
 } from './areaHelpers';
-import { makeSurfacePatch } from './geometry';
 
 export class FinishArea implements Subject2AreaModule {
   public readonly root = createModuleRoot('Subject 2 finish area');
@@ -13,17 +12,6 @@ export class FinishArea implements Subject2AreaModule {
   public constructor(context: Subject2BuildContext) {
     const center = context.config.layout.endCenter;
     const config = context.config.endArea;
-    this.root.add(makeSurfacePatch(
-      'Finish area asphalt',
-      center.x,
-      center.z,
-      config.length,
-      config.width,
-      context.materials.asphaltPractice,
-      context.heightAt,
-      context.shadows,
-    ));
-    context.surfaces.addRectangle(center.x, center.z, config.length, config.width);
     addRectangleOutline(this.root, context, 'Finish area boundary', center, config.length, config.width);
 
     const parkingWidth = 2.7;

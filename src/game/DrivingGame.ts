@@ -372,6 +372,7 @@ export class DrivingGame {
 
       this.laneAssistSelection.update(FIXED_STEP);
       if (driverControls.cycleLaneAssist) this.laneAssistSelection.cycleMode();
+      if (driverControls.lccToggle) this.toggleLaneCentering();
 
       const lateral = this.lateralContext;
       lateral.speed = this.snapshot.speed; lateral.lateralVelocity = this.snapshot.lateralVelocity;
@@ -706,7 +707,7 @@ export class DrivingGame {
   private configureVehicleSettings(): void {
     const settings = this.hud.settings;
     settings.onLateralPreferencesChange = () => this.lateralAssist.setPreferences(settings.lkaPreference, settings.lccPreference);
-    settings.onLCCToggle = () => this.lateralAssist.toggleLCC();
+    settings.onLCCToggle = () => this.toggleLaneCentering();
     settings.setFuel(this.snapshot.fuel);
     settings.setBattery(this.snapshot.powertrain.ev);
     settings.onStateOfChargeChange = soc => {
@@ -1177,6 +1178,8 @@ export class DrivingGame {
         if (!sequenced) this.engineAudio.onEngineStart();
       } else if (result === 'stopped') {
         this.ignitionOn = false;
+        this.lateralAssist.reset(); this.sharedVehicleData?.resetLanes();
+        this.laneAssistSelection.reset();
         if (!sequenced) this.engineAudio.onEngineStop();
       } else {
         this.hud.showMessage(this.snapshot.fuel?.emptyFuel ? '无法启动 · 油箱已空' :
@@ -1440,11 +1443,12 @@ export class DrivingGame {
     this.driverCamera.setAspect(width, height);
   };
 
+  private toggleLaneCentering(): void {
+    this.lateralAssist.toggleLCC();
+    this.hud.showMessage(this.lateralAssist.lccRequested ? 'LCC 已请求 · 等待有效车道 / 速度' : 'LCC 未启用', 1.8);
+  }
+
   private readonly onGlobalKeyDown = (event: KeyboardEvent): void => {
-    if (event.code === 'KeyI' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && this.gameStarted && !this.settingsOpen) {
-      event.preventDefault(); this.lateralAssist.toggleLCC();
-      this.hud.showMessage(this.lateralAssist.lccRequested ? 'LCC 已请求 · 等待有效车道 / 速度' : 'LCC 未启用 · I 开启 / 取消', 1.8);
-    }
     if (event.code === 'F9' && !event.repeat && this.lateralDebug) { event.preventDefault(); this.lateralDebug.toggle(); }
     if (event.code === 'KeyU' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && this.gameStarted && !this.settingsOpen) {
       if (this.executiveDisplay) { event.preventDefault(); this.executiveDisplay.cyclePage(); }

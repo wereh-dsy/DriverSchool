@@ -19,7 +19,7 @@ export const BMW_530LI_VISUAL_CONFIG: VehicleVisualConfig = {
   dashboard: { position: [0, .79, -.66], dimensions: [1.65, .12, .42], tiltRadians: rad(-5) },
   cabin: { width: 1.65, dashboardTopY: .89, windshieldBottomY: .94, windshieldTopY: 1.435,
     windshieldBottomZ: -.94, windshieldTopZ: -.31, roofY: 1.475 },
-  body: { groundClearance: .145, wheelArchClearance: .09, profile: 'sedan', design: 'bmw-g38',
+  body: { groundClearance: .145, wheelArchClearance: .13, profile: 'sedan', design: 'bmw-g38',
     sillY: .32, hoodTopY: .94, hoodLength: 1.62, trunkDeckY: .94, trunkLength: .64,
     roofWidth: 1.40, roofLength: 1.34, roofCenterZ: .36,
     color: 0x454e58, trimColor: 0x161a20, interiorColor: 0x382e29 },

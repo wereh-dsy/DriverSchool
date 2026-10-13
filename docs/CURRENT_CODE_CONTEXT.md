@@ -1,6 +1,6 @@
 # DriverGame 当前代码说明
 
-源码核对日期：2026-10-12。面向接手代码的开发者与 Chat；功能、标定和测试结果均以当前源码及实际运行结果为准。本文不是原厂车辆规格或完整仿真认证。历史 `*_REPORT.md` 和 `artifacts/` 报告保留为各轮实现记录。
+更新日期：2026-10-13。面向接手代码的开发者与 Chat；功能、标定和测试结果均以当前源码及实际运行结果为准。本文不是原厂车辆规格或完整仿真认证。历史 `*_REPORT.md` 和 `artifacts/` 报告保留为各轮实现记录；本次修复见 [修复与验证记录](FIXES_2026-10-13.md)。
 
 相关文档：[操作与启动](../README.md)、[代理约束](../AGENTS.md)、[审阅报告](CODE_REVIEW_2026-10-12.md)、[可复制的 Chat 指示文本](CHAT_HANDOFF.md)、[地图作者指南](../src/world/city/AGENT_GUIDE.md)。
 
@@ -83,18 +83,20 @@ Capabilities 从已安装配置/拓扑推导支持；用户偏好另存；运行
 
 DrivingGroundCatalog 有 9 个入口，默认 `road-course`：`road-course`、`subject-2-training-ground`、`subject-3-shared-city-map`、`simple-circuit`、`mountain-proving-ground`、`city-alpha`、`city-main`、`preset-showcase`、`city-editor-map`。科目二/三、赛道、山地与公路测试场保留各自手工实现；City 入口使用数据地图。自定义编辑器入口读取同源 localStorage，没有有效保存时回退 City Alpha。
 
+环形赛道当前布局 version 3：约 1,536 m、11.5 m 宽，远端回头弯半径 90 m（旧版 45 m），相邻左弯顶点移到 z=-90 以留出连接直道。铺装摩擦保持标准沥青 1.0。计时门总宽约 25.9 m，包含路肩/近侧缓冲区；圈时存储增加可选布局 revision，保留旧键但新版不混用旧成绩。详见 [赛道修复](CIRCUIT_FIXES_2026-10-13.md)。
+
 ### 必须区分的两份 City Main
 
 | 使用者 | 文件 | 当前 version | 道路/路口/物件/路牌数 |
 | --- | --- | --- | --- |
-| 游戏菜单 `city-main`；`?city=main` / `?city=city-main` | `src/world/regional/regional-main.json` | 11 | 2555 / 155 / 5358 / 1845 |
-| CLI `city-main` 别名、旧城市构建脚本 | `src/world/city/maps/city-main.json` | 7 | 623 / 155 / 2436 / 408 |
+| 游戏菜单 `city-main`；CLI `regional-main` | `src/world/regional/regional-main.json` | 12 | 2555 / 155 / 5358 / 1845 |
+| CLI `city-main-city` 或兼容的 `city-main` | `src/world/city/maps/city-main.json` | 8 | 623 / 155 / 2436 / 408 |
 
 两文件 id 都是 `city-main`，不是相互替换的同一数据。数量是本次盘点快照。`city-alpha.json` 为 43 道路/12 路口/288 物件；`preset-showcase.json` 为 133 道路/7 路口/15 物件。菜单区域地图包含保留城市、高速网络、机场、服务区、桥隧、近/中/远视觉调度和行进方向预加载。
 
-区域地图验证/修改应传完整路径：`pnpm map validate src/world/regional/regional-main.json`。区域出生点通过 `regionalSpawn` 选择，调试通过 `regionalDebug=1`。`?city=preset-showcase&preset=<id>` 指向设施样本入口，但当前该地图加载失败，见审阅报告。
+区域地图验证/修改可用 `pnpm map validate regional-main` 或完整路径；旧 `city-main` 别名会打印 city-only 提示，保持旧工具兼容。区域出生点通过 `regionalSpawn` 选择，调试通过 `regionalDebug=1`。`?city=preset-showcase&preset=<id>` 指向设施样本入口；边链和出口护栏已修复，具体验证结果见修复记录。
 
-预设目录当前为 34 项：31 生产项和 3 兼容街区项。原 V1 的 16 项以外，已有 BackbonePresets、CompactInterchangePresets、隧道/下穿、侧接入、主辅路和渠化路口。PRESET_CATALOG.md 的原始尺寸表及 showcase 的 16 样本只覆盖 V1 子集。`scripts/build-city-main.mjs` 仍执行旧 V3 recipe 并覆盖 city-only 文件，不是当前 V5/区域图的重建入口。
+预设目录当前为 34 项：31 生产项和 3 兼容街区项。原 V1 的 16 项以外，已有 BackbonePresets、CompactInterchangePresets、隧道/下穿、侧接入、主辅路和渠化路口。PRESET_CATALOG.md 的原始尺寸表及 showcase 的 16 样本只覆盖 V1 子集。旧 V3 generator 默认拒绝覆盖当前城市，需 `--out <独立文件>` 或明确 `--revision-v3`；不是当前 V5/区域图的重建入口。
 
 ## 主要已实现功能与不可混淆的边界
 
@@ -106,7 +108,7 @@ BrakeTorqueCoordinator 对脚刹/hold/巡航/ESC/eDiff/动态 EPB 合并服务�
 
 **Cruise 与车道辅助。** Cruise 是实时 SET/CANCEL，走正常油门和服务制动，不是 ACC。A6L/Touareg/BMW/Tesla/Taycan 安装 lateralAssist。SharedVehicleData 在 5 Hz 做局部查询、30 Hz 更新逻辑车道几何；120 Hz 控制器消费缓存。LKA 在临近边界时纠偏，LCC 有 request、override、lane-change override、reacquire；约 50 km/h 起可用，LCC 配置上限 180 km/h。路口、歧义、低置信度、缺失车道和菜单状态抑制介入。没有相机/视觉神经网络感知。
 
-当前 `LaneAssistState` 与 `LateralAssistController` 并非同一个状态机：手柄 Y 循环 OFF/LDW/LKA/LCC 的选择提示，LDW 模式接入偏离声音；它不控制 LKA 偏好或 LCC request。F3 偏好控制实际 LKA/LCC，LCC 另由 I/F3 按钮请求。默认 I 又绑定点火，是已确认输入冲突。不能把 Y 显示 OFF 当作实际转向辅助已关闭。
+按当前 AGENTS.md 契约，`LaneAssistState` 与 `LateralAssistController` 并非同一个状态机：手柄 Y 循环 OFF/LDW/LKA/LCC 的选择提示，LDW 模式接入偏离声音；它不控制 LKA 偏好或 LCC request。F3 偏好控制实际 LKA/LCC，LCC 另由可改键的 G/F3 按钮请求；I 只点火，不再有全局 LCC 监听器。不能把 Y 显示 OFF 当作实际转向辅助已关闭。
 
 **显示与相机。** 显示皮肤只借用 SharedVehicleData、powertrain snapshot 和 TPMS；BMW/Tesla/Taycan 的专用绘制不拥有物理拓扑。导航能力目前代表逻辑地图/道路信息显示，route 仍为空，不是自动寻路。八区 proximity、HUD 后方五区提示与后方/俯视影像是不同输出；没有自动泊车/避障制动。真实左右镜采用 DriverEye 反射、物理镜面 aperture 和斜裁剪；支持的中央内镜可显示后舱，俯视 360 是简化场景相机，不是四相机拼接。
 
@@ -121,6 +123,7 @@ BrakeTorqueCoordinator 对脚刹/hold/巡航/ESC/eDiff/动态 EPB 合并服务�
 | 修改范围 | 已有检查入口 |
 | --- | --- |
 | 类型/常规核心 | `pnpm run typecheck`、`pnpm run selftest` |
+| 新增整合回归 | `pnpm run selftest:systems`：平台/EV V2/TPMS/HMI/加载/车道与实际转向/区域高速；不改 artifacts 基线 |
 | 目录/场地/车辆体验 | `pnpm run selftest:vehicles`、`selftest:grounds`、`selftest:experience` |
 | 平台资源与共享显示 | `scripts/run-vehicle-platform-foundation-selftests.ts` |
 | EV / EV V2 | `scripts/run-electric-selftests.ts`、`run-ev-platform-v2-selftests.ts` |
@@ -142,7 +145,9 @@ node .tmp-vehicle-loading-selftests.mjs
 
 部分 runner 会改写 `artifacts/` 下的历史 JSON 结果；先读脚本，整体审阅可用忽略目录中的临时 runner 直接调用现有自测函数，把新结果保留在本次审阅记录中。不要误运行生成/升级地图的脚本来“验证”，不要静默覆盖地图或历史基线。旧 City V3/V4/V5 检查面向对应版本，不应盲目要求所有历史版本同时成立。
 
-`build` 会记录源码指纹→typecheck→核心 selftest→暂存 Vite 产物→校验指纹→资源复制→原子替换 `dist/index.html`。它不是所有 standalone runner 的全集；失败时保留上一可玩入口。正常构建失败不能用 BasicValidation/单独 vite build 冒充完整发布成功。当前失败详情见审阅报告。
+`build` 会记录源码指纹→typecheck→核心 selftest→暂存 Vite 产物→校验指纹→资源复制→原子替换 `dist/index.html`。它不是所有 standalone runner 的全集；重大车辆/平台任务还运行 selftest:systems。失败时保留上一可玩入口，不能用 BasicValidation/单独 vite build 冒充完整发布成功。原始审阅记录修复前失败，当前状态见修复记录。
+
+2026-10-13 修复后实测：正常 build（类型检查 + 66 组核心 + 正式发布）通过，18 组 systems 及车辆体验/巡航专项通过。三份地图 CLI validate 均 0 errors；保留端口/独立网络警告与打包体积提示，详见修复记录。这是该次源码快照的结果，后续修改仍需重验。
 
 ## 交付与后续指导约束
 

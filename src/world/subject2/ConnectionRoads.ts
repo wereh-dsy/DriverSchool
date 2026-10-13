@@ -1,6 +1,6 @@
 import type { Subject2AreaModule, Subject2BuildContext } from './BuildContext';
 import { addDirectionArrow, addRoadEdgeMarkings, createModuleRoot } from './areaHelpers';
-import { makeRoadRibbon, sampleCurvePoints } from './geometry';
+import { createPathCurve } from './geometry';
 import type { Subject2Point2 } from './Subject2GroundConfig';
 
 interface ConnectionDefinition {
@@ -25,20 +25,7 @@ export class ConnectionRoads implements Subject2AreaModule {
     ];
 
     for (const connection of connections) {
-      const { mesh, curve } = makeRoadRibbon(
-        `Connection ${connection.id} asphalt`,
-        connection.points,
-        context.config.connectionRoads.defaultWidth,
-        context.materials.asphalt,
-        context.heightAt,
-        context.shadows,
-        true,
-      );
-      this.root.add(mesh);
-      context.surfaces.addCorridor(
-        sampleCurvePoints(curve, 0.35),
-        context.config.connectionRoads.defaultWidth,
-      );
+      const curve = createPathCurve(connection.points, true);
       addRoadEdgeMarkings(
         this.root,
         context,

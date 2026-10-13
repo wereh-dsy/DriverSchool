@@ -134,8 +134,8 @@ export class AutomaticShiftController {
     const ampleReserve = fullTorque !== undefined && nextCapacity > requestedTorque * 1.2;
     const economyFactor = demand <= .65 && this.transientDemand < .01 && ampleReserve
       ? this.config.economicalShiftFactor ?? .94 : 1;
-    const holding = this.liftHoldRemaining > 0 || ((this.config.liftHoldTime ?? 0) > 0 &&
-      (context.brake > .2 || Math.abs(context.vehicleLateralSpeed ?? 0) > 1));
+    const holding = context.brake > .2 || this.liftHoldRemaining > 0 || ((this.config.liftHoldTime ?? 0) > 0 &&
+      Math.abs(context.vehicleLateralSpeed ?? 0) > 1);
     if (safeUpshift && !holding && upshiftRPM >= Math.min(up * economyFactor + this.config.hysteresisRPM, automaticCeiling))
       return { gear: next, kickdown: false };
 
@@ -162,8 +162,11 @@ export class AutomaticShiftController {
         ratio / this.gearbox.getRatio(lower) - this.config.hysteresisRPM);
       const braking = this.config.brakingDownshiftRPM !== undefined && context.brake > .2 &&
         coupledRPM < this.config.brakingDownshiftRPM;
+      // Braking holds the lower gear for engine braking, independently of the
+      // light-pedal upshift map. Both paths retain road/crank overrev protection.
+      const downshiftCeiling = braking ? automaticCeiling : Math.min(up - this.config.hysteresisRPM, automaticCeiling);
       if ((braking || coupledRPM < down - this.config.hysteresisRPM) &&
-          downshiftRPM(lower) < Math.min(up - this.config.hysteresisRPM, automaticCeiling))
+          downshiftRPM(lower) < downshiftCeiling)
         return { gear: lower, kickdown: false };
     }
     return null;

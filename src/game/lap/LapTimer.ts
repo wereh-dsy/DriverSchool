@@ -32,13 +32,13 @@ export class LapRecordStore {
     return this.storage ?? (typeof localStorage === 'undefined' ? undefined : localStorage);
   }
 
-  private key(trackId: string, vehicleId: string): string {
-    return `drivergame.best-lap.v1:${JSON.stringify([trackId, vehicleId])}`;
+  private key(trackId: string, vehicleId: string, revision?: number): string {
+    return `drivergame.best-lap.v1:${JSON.stringify(revision === undefined ? [trackId, vehicleId] : [trackId, vehicleId, revision])}`;
   }
 
-  public load(trackId: string, vehicleId: string): number | null {
+  public load(trackId: string, vehicleId: string, revision?: number): number | null {
     try {
-      const raw = this.getStorage()?.getItem(this.key(trackId, vehicleId));
+      const raw = this.getStorage()?.getItem(this.key(trackId, vehicleId, revision));
       if (!raw) return null;
       const value: unknown = JSON.parse(raw);
       if (typeof value !== 'object' || value === null || !('bestLapMs' in value)) return null;
@@ -47,10 +47,10 @@ export class LapRecordStore {
     } catch { return null; }
   }
 
-  public save(trackId: string, vehicleId: string, bestLapMs: number): void {
+  public save(trackId: string, vehicleId: string, bestLapMs: number, revision?: number): void {
     if (!Number.isFinite(bestLapMs) || bestLapMs <= 0) return;
     try {
-      this.getStorage()?.setItem(this.key(trackId, vehicleId), JSON.stringify({ bestLapMs }));
+      this.getStorage()?.setItem(this.key(trackId, vehicleId, revision), JSON.stringify({ bestLapMs }));
     } catch { /* Keep the session record when browser storage is unavailable. */ }
   }
 }
@@ -76,7 +76,7 @@ export class LapTimer {
   public configure(course: LapCourseDefinition | undefined, vehicleId: string, position: LapPosition): void {
     this.course = course;
     this.vehicleId = vehicleId;
-    this.state.bestMs = course ? this.records.load(course.trackId, vehicleId) : null;
+    this.state.bestMs = course ? this.records.load(course.trackId, vehicleId, course.revision) : null;
     this.reset(position);
   }
 
@@ -131,7 +131,7 @@ export class LapTimer {
           this.state.lastMs = lapMs;
           if (newBest) {
             this.state.bestMs = lapMs;
-            this.records.save(this.course.trackId, this.vehicleId, lapMs);
+            this.records.save(this.course.trackId, this.vehicleId, lapMs, this.course.revision);
           }
           this.state.feedback = { lapMs, newBest, deltaMs: previousBest === null ? null : lapMs - previousBest };
           this.state.feedbackSeconds = 4;

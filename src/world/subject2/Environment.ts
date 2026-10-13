@@ -243,7 +243,7 @@ export class Environment implements Subject2AreaModule {
     for (const [x, z, scale] of treePositions) addTree(this.root, context, x, z, scale);
 
     const lamps = [
-      [-49, 36], [-5, 30], [55, 39], [72, 8], [32, -9], [-29, -5], [-50, -25], [-8, -38],
+      [-54, 34], [-5, 30], [55, 39], [72, 8], [32, -9], [-29, -5], [-50, -25], [-8, -38],
     ] as const;
     for (const [x, z] of lamps) addLamp(this.root, context, x, z);
 

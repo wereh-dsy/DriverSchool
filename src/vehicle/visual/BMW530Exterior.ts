@@ -203,7 +203,12 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
   const rearBadge = roundel('Trunk roundel', .03); rearBadge.position.set(0, .861, 2.556); root.add(rearBadge);
   root.add(label('530Li trunk designation', '530Li', .15, .025, [.55, .947, 2.48]));
   output('High-mounted brake light', 'brake', [[-.105, 1.041, 1.756], [.105, 1.041, 1.756]], .009);
-  root.traverse(o => { if (o instanceof T.Mesh) o.userData.vehicleBodyPart = o.name.includes('glass') || o.name.includes('windshield') ? 'glass' : 'body'; });
+  const floor = config.body.groundClearance;
+  root.add(loft('BMW underbody', [
+    { z: -1.1, points: [[-.70, floor], [.70, floor], [.70, floor + .018], [-.70, floor + .018]] },
+    { z: 1.1, points: [[-.70, floor], [.70, floor], [.70, floor + .018], [-.70, floor + .018]] },
+  ], black));
+  root.traverse(o => { if (o instanceof T.Mesh) o.userData.vehicleBodyPart = o.name === 'BMW underbody' ? 'main-shell' : o.name.includes('glass') || o.name.includes('windshield') ? 'glass' : 'body'; });
 }
 
 /** Rounded open housing around the unchanged physical planar reflection aperture. */

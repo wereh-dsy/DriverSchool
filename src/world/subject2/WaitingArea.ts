@@ -6,7 +6,6 @@ import {
   addRectangleOutline,
   createModuleRoot,
 } from './areaHelpers';
-import { makeSurfacePatch } from './geometry';
 
 export class WaitingArea implements Subject2AreaModule {
   public readonly root = createModuleRoot('Subject 2 waiting area');
@@ -14,18 +13,6 @@ export class WaitingArea implements Subject2AreaModule {
   public constructor(context: Subject2BuildContext) {
     const { waitingCenter: center } = context.config.layout;
     const config = context.config.waitingArea;
-    this.root.add(makeSurfacePatch(
-      'Waiting area asphalt',
-      center.x,
-      center.z,
-      config.length,
-      config.width,
-      context.materials.asphaltPractice,
-      context.heightAt,
-      context.shadows,
-    ));
-    context.surfaces.addRectangle(center.x, center.z, config.length, config.width);
-
     addRectangleOutline(
       this.root,
       context,

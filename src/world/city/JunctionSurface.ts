@@ -4,6 +4,7 @@ import { sampleRibbonPolyline } from '../subject3/geometry';
 import { BufferGeometry, Float32BufferAttribute } from 'three';
 import type { CityRoad } from './CityMapData';
 import type { IntersectionPort } from './CityMapData';
+import { roadEdgeChains } from './RoadEdgeChain';
 /** Paint terminals use the same polygon boundary, including widened acute corners. */
 export function junctionApproachExtent(j:CityIntersection,map:CityMapData,port:IntersectionPort):number {
     if(!j.pavementFootprint)return junctionExtent(j,map);
@@ -145,8 +146,6 @@ export function junctionSurfaceHeight(j: CityIntersection, p: CityPoint): number
 /** Trim connected approach triangles at the authoritative outline, including skewed mouths. */
 export function clipRoadJunctionPavement(geometry: BufferGeometry, road: CityRoad, map: CityMapData, surfaceOffset = 0.024, sidewalk = false): BufferGeometry {
     const junctions = map.intersections.filter(j => j.pavementFootprint && j.connections.some(c => c.roadId === road.id));
-    if (!junctions.length)
-        return geometry;
     type Vertex = {
         x: number;
         y: number;
@@ -159,7 +158,33 @@ export function clipRoadJunctionPavement(geometry: BufferGeometry, road: CityRoa
     for (let i = 0; i < (index?.count ?? attribute.count); i += 3)
         triangles.push(Array.from({ length: 3 }, (_, k) => { const n = index ? index.getX(i + k) : i + k; return { x: attribute.getX(n), y: attribute.getY(n), z: attribute.getZ(n), u: uv?.getX(n) ?? 0, v: uv?.getY(n) ?? 0 }; }));
     let pieces = triangles;
-    const masks=junctions.map(j=>({outline:j.pavementFootprint!.map(p=>{const q=rotatePoint(p,j.rotation);return {x:j.position.x+q.x,z:j.position.z+q.z};}),heightAt:(x:number,z:number)=>junctionSurfaceHeight(j,{x,z})}));
+    const masks=junctions.map(j=>({outline:j.pavementFootprint!.map(p=>{const q=rotatePoint(p,j.rotation);return {x:j.position.x+q.x,z:j.position.z+q.z};}),heightAt:(x:number,z:number)=>junctionSurfaceHeight(j,{x,z}),tolerance:.5}));
+    if(!sidewalk){
+        // Explicit fork topology owns coincident asphalt once. A different level
+        // is never removed; the authored heights, contact and links stay intact.
+        const chains=roadEdgeChains(map),ids=new Set<string>();
+        for(const link of map.roadLinks??[])for(const [a,b]of [[link.from,link.to],[link.to,link.from]])if(a!.roadId===road.id){
+            const other=map.roads.find(r=>r.id===b!.roadId)!;
+            if(road.gore||road.highwayTransition||other.gore||other.highwayTransition){ids.add(other.id);if(other.highwayTransition)ids.add(other.highwayTransition.mainRoadId);}
+        }
+        if(road.highwayTransition)ids.add(road.highwayTransition.mainRoadId);
+        for(const id of [...ids])for(const continuation of chains.continuations(id))ids.add(continuation);
+        const bounds={minX:Math.min(...triangles.flatMap(t=>t.map(p=>p.x))),maxX:Math.max(...triangles.flatMap(t=>t.map(p=>p.x))),minZ:Math.min(...triangles.flatMap(t=>t.map(p=>p.z))),maxZ:Math.max(...triangles.flatMap(t=>t.map(p=>p.z)))};
+        for(const other of map.roads.filter(r=>ids.has(r.id)&&r.id!==road.id&&(r.laneCount>road.laneCount||r.laneCount===road.laneCount&&r.id<road.id))){
+            const e=roadEdges(other),left=chains.edge(other,e.left),right=chains.edge(other,e.right);
+            for(let i=1;i<left.length;i++){
+                const outline=[left[i-1]!,left[i]!,right[i]!,right[i-1]!];
+                if(Math.max(...outline.map(p=>p.x))<bounds.minX||Math.min(...outline.map(p=>p.x))>bounds.maxX||Math.max(...outline.map(p=>p.z))<bounds.minZ||Math.min(...outline.map(p=>p.z))>bounds.maxZ)continue;
+                // Each ribbon quad is two planar triangles, also on graded curves.
+                for(const corners of [[outline[0]!,outline[1]!,outline[2]!],[outline[0]!,outline[2]!,outline[3]!]]){
+                    const [a,b,c]=corners,den=(b!.x-a!.x)*(c!.z-a!.z)-(c!.x-a!.x)*(b!.z-a!.z);if(Math.abs(den)<1e-8)continue;
+                    const gx=(((b!.y??0)-(a!.y??0))*(c!.z-a!.z)-((c!.y??0)-(a!.y??0))*(b!.z-a!.z))/den,gz=((b!.x-a!.x)*((c!.y??0)-(a!.y??0))-(c!.x-a!.x)*((b!.y??0)-(a!.y??0)))/den;
+                    masks.push({outline:den>0?corners:[...corners].reverse(),heightAt:(x,z)=>(a!.y??0)+gx*(x-a!.x)+gz*(z-a!.z),tolerance:.035});
+                }
+            }
+        }
+    }
+    if(!masks.length&&!sidewalk)return geometry;
     if(sidewalk){
         const neighbours=new Set(junctions.flatMap(j=>j.connections.map(c=>c.roadId)));
         for(const link of map.roadLinks??[])if(link.from.roadId===road.id)neighbours.add(link.to.roadId);else if(link.to.roadId===road.id)neighbours.add(link.from.roadId);
@@ -169,7 +194,7 @@ export function clipRoadJunctionPavement(geometry: BufferGeometry, road: CityRoa
             for(let i=1;i<samples.length;i++){
                 const a=samples[i-1]!.point,b=samples[i]!.point,dx=b.x-a.x,dz=b.z-a.z,l2=dx*dx+dz*dz;
                 if(l2<1e-8)continue;
-                masks.push({outline:[vertex(i-1,edges.left),vertex(i,edges.left),vertex(i,edges.right),vertex(i-1,edges.right)],heightAt:(x,z)=>(a.y??0)+((b.y??0)-(a.y??0))*Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/l2))});
+                masks.push({outline:[vertex(i-1,edges.left),vertex(i,edges.left),vertex(i,edges.right),vertex(i-1,edges.right)],heightAt:(x,z)=>(a.y??0)+((b.y??0)-(a.y??0))*Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/l2)),tolerance:.5});
             }
         }
     }
@@ -177,13 +202,13 @@ export function clipRoadJunctionPavement(geometry: BufferGeometry, road: CityRoa
         const outline=mask.outline,next: Vertex[][] = [];
         const minX = Math.min(...outline.map(p => p.x)), maxX = Math.max(...outline.map(p => p.x)), minZ = Math.min(...outline.map(p => p.z)), maxZ = Math.max(...outline.map(p => p.z));
         for (const triangle of pieces) {
-            const center={x:(triangle[0]!.x+triangle[1]!.x+triangle[2]!.x)/3,z:(triangle[0]!.z+triangle[1]!.z+triangle[2]!.z)/3};
-            const height=(triangle[0]!.y+triangle[1]!.y+triangle[2]!.y)/3-surfaceOffset;
-            if(Math.abs(height-mask.heightAt(center.x,center.z))>0.5){next.push(triangle);continue;}
             if (triangle.every(p => p.x < minX) || triangle.every(p => p.x > maxX) || triangle.every(p => p.z < minZ) || triangle.every(p => p.z > maxZ)) {
                 next.push(triangle);
                 continue;
             }
+            const center={x:(triangle[0]!.x+triangle[1]!.x+triangle[2]!.x)/3,z:(triangle[0]!.z+triangle[1]!.z+triangle[2]!.z)/3};
+            const height=(triangle[0]!.y+triangle[1]!.y+triangle[2]!.y)/3-surfaceOffset;
+            if(Math.abs(height-mask.heightAt(center.x,center.z))>mask.tolerance||mask.tolerance<.1&&triangle.some(p=>Math.abs(p.y-surfaceOffset-mask.heightAt(p.x,p.z))>mask.tolerance)){next.push(triangle);continue;}
             let remaining = triangle;
             for (let edge = 0; edge < outline.length && remaining.length >= 3; edge++) {
                 const a = outline[edge]!, b = outline[(edge + 1) % outline.length]!, side = (p: Vertex) => (b.x - a.x) * (p.z - a.z) - (b.z - a.z) * (p.x - a.x);

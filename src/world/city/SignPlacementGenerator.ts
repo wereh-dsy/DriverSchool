@@ -32,6 +32,13 @@ export function signDecisionNodes(map:CityMapData):SignDecision[] {
   const r=roads.get(e.roadId)!,id=r.district==='west'?'west-district':r.district==='east'?'east-district':r.district==='north'?'north-district':r.district==='south'?'south-district':'city-center';
   return id;
  };
+ const destinationRoad=(e:RoadEndpoint):RoadEndpoint=>{
+  const queue=[e],seen=new Set<string>();
+  while(queue.length){const current=queue.shift()!,key=current.roadId+':'+current.end;if(seen.has(key))continue;seen.add(key);const r=roads.get(current.roadId)!;
+   if(r.roadNameId&&map.roadNames?.[r.roadNameId]&&!r.gore&&!r.highwayTransition&&r.type!=='ramp_1')return current;
+   const node=nodeAt.get(r.id+':'+(current.end==='start'?'end':'start'));if(node)queue.push(...node.ends.filter(next=>next.roadId!==r.id&&canLeave(roads.get(next.roadId)!,next.end)));
+  }return e;
+ };
  const result:SignDecision[]=[];
  for(const n of nodes)for(const incoming of n.ends) {
   const r=roads.get(incoming.roadId)!;if(!canEnter(r,incoming.end))continue;
@@ -43,9 +50,10 @@ export function signDecisionNodes(map:CityMapData):SignDecision[] {
   const crossroad=n.ends.length===4&&outgoing.length===3&&outgoing.some(e=>{const o=outward(e);return t.x*o.x+t.z*o.z>.94;});
   const destinations=outgoing.map(e=>{
    const o=outward(e),angle=Math.atan2(t.x*o.z-t.z*o.x,t.x*o.x+t.z*o.z);
-   const roadNameId=nameFor(e),exit=isFast(r)&&r.type==='highway'&&roads.get(e.roadId)!.type==='ramp_1';
-   const directionId=map.roadNames?.[roadNameId]?.kind==='expressway'?(Math.abs(o.x)>Math.abs(o.z)?o.x>0?'east-ring':'west-ring':o.z>0?'south-ring':'north-ring'):undefined;
-   return {roadNameId,directionId,arrow:exit?'exit-right':Math.abs(angle)<.3?'straight':angle>0?'right':'left'} as RoadSignDestination;
+   const receiving=destinationRoad(e),travel=outward(receiving),roadNameId=nameFor(receiving),exit=r.type==='highway'&&r.laneCount>1&&(roads.get(e.roadId)!.type==='ramp_1'||!!roads.get(e.roadId)!.gore);
+   const directionId=map.roadNames?.[roadNameId]?.kind==='expressway'?(Math.abs(travel.x)>Math.abs(travel.z)?travel.x>0?'east-ring':'west-ring':travel.z>0?'south-ring':'north-ring'):undefined;
+   const path=paths.get(e.roadId)!,q=sampleAt(e.end==='start'?path:[...path].reverse(),Math.min(20,polylineLength(path))).point,start=e.end==='start'?path[0]!:path.at(-1)!,side=(q.x-start.x)*-t.z+(q.z-start.z)*t.x;
+   return {roadNameId,directionId,arrow:exit?side<-.1?'exit-left':'exit-right':Math.abs(angle)<.3?'straight':angle>0?'right':'left'} as RoadSignDestination;
   });
   result.push({id:n.id+'|'+r.id+'|'+incoming.end,nodeId:n.id,incoming,outgoing,expressway,crossroad,destinations});
  }
@@ -60,7 +68,7 @@ export function generateTopologySigns(map:CityMapData):RoadSignDefinition[] {
  const network=buildCityRoadNetwork(map),allNodes=[...map.intersections.map(j=>({id:j.id,ends:j.connections})),...network.endpointNodes];
  const piers=map.roads.flatMap(r=>roadPiers(r,map,clearance));
  const nodes=new Map<string,typeof allNodes[number]>();for(const n of allNodes)for(const e of n.ends)nodes.set(e.roadId+':'+e.end,n);
- const decisions=signDecisionNodes(map),signs:RoadSignDefinition[]=[],missing:string[]=[];
+ const decisions=signDecisionNodes(map),signs:RoadSignDefinition[]=[],missing:string[]=[],oldSigns=new Map((map.signs??[]).flatMap(s=>(s.decisionIds??[]).map(id=>[id+':'+s.type,s] as const)));
  const trace=(e:RoadEndpoint,distance:number):{road:CityRoad;point:CityPoint;t:Direction;direction:'forward'|'reverse';distance:number;station:number}|undefined=>{
   let endpoint=e,remaining=distance,traveled=0;const seen=new Set<string>();
   while(!seen.has(endpoint.roadId+':'+endpoint.end)) {
@@ -99,14 +107,14 @@ export function generateTopologySigns(map:CityMapData):RoadSignDefinition[] {
     if(request.type==='EXPRESSWAY_DIVERGE'&&previousDistance-d<28)continue;
     const s=trace(decision.incoming,d);if(!s)continue;
     const heading=Math.atan2(-s.t.x,-s.t.z),edges=roadEdges(s.road),right=s.direction==='forward'?edges.right:-edges.left;
-    for(const template of decision.expressway&&s.road.type==='highway'?['gantry','dual-post'] as const:request.type==='ROAD_NAME'?['urban-name'] as const:['dual-post','single-post','urban-name'] as const) {
-     const size=request.type==='ROAD_NAME'||template==='urban-name'?'small':template==='gantry'?'large':'medium',dims=signDimensions(template,size);
-     for(const extra of template==='gantry'?[0]:[2.5,5,8,12,18,24]) {
-      const offset=template==='gantry'?0:right+dims.width/2+extra,q=rotatePoint({x:offset,z:0},heading);
-      const sign:RoadSignDefinition={id:'v5-sign-'+signs.length,type:request.type,template,size,roadId:s.road.id,position:{x:s.point.x+q.x,y:s.point.y??0,z:s.point.z+q.z},heading,laneDirection:s.direction,destinations:decision.destinations,language:'zh-CN',advanceMetres:s.distance,stationMetres:s.station,decisionIds:[decision.id],incomingRoadId:decision.incoming.roadId,outgoingRoadIds:decision.outgoing.map(e=>e.roadId),postOffset:template==='gantry'?Math.max(s.road.laneCount*s.road.laneWidth/2+.65,right-.6):undefined};
+    for(const template of s.road.structure?.enclosure&&s.road.structure.enclosure.kind!=='cutting'?['ceiling'] as const:['gantry'] as const) {
+     const size=decision.destinations.length>2?'large':'medium';
+     for(const extra of [0]) {
+      const q=rotatePoint({x:extra,z:0},heading);
+      const sign:RoadSignDefinition={id:oldSigns.get(decision.id+':'+request.type)?.id??'topology-sign:'+decision.id+':'+request.type,type:request.type,template,size,roadId:s.road.id,position:{x:s.point.x+q.x,y:s.point.y??0,z:s.point.z+q.z},heading,laneDirection:s.direction,destinations:decision.destinations,language:'zh-CN',advanceMetres:s.distance,stationMetres:s.station,decisionIds:[decision.id],incomingRoadId:decision.incoming.roadId,outgoingRoadIds:decision.outgoing.map(e=>e.roadId),postOffset:template==='gantry'?Math.max(s.road.laneCount*s.road.laneWidth/2+.65,right+(s.road.sidewalk?.enabled?s.road.sidewalk.width:0)+1):undefined,approachRoadNameId:s.road.roadNameId};
       // CityGround's existing terrain is a flat plane at -0.04 m. A roadside
       // fallback outside an elevated deck therefore needs a ground foundation.
-      if(template!=='gantry'&&(s.point.y??0)>.5)sign.postBaseY=0;
+      if(template==='gantry'&&(s.point.y??0)>.5)sign.postBaseY=0;
       if(!safe(sign))continue;
       signs.push(sign);placed=true;previousDistance=d;break;
      }if(placed)break;

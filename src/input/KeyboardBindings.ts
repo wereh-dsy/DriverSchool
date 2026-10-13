@@ -32,6 +32,7 @@ export type KeyboardDrivingAction =
   | 'selectorDrive'
   | 'engineStart'
   | 'cruiseToggle'
+  | 'lccToggle'
   | 'cycleDriveMode';
 
 export type KeyboardBindings = Record<KeyboardDrivingAction, string>;
@@ -77,6 +78,7 @@ export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] 
   { action: 'engineStart', label: '发动机开关（点火/熄火）', group: '车辆附件' },
   { action: 'cycleDriveMode', label: '驾驶模式 ECO→NORMAL→SPORT（支持车型）', group: '车辆附件' },
   { action: 'cruiseToggle', label: '定速巡航开关', group: '车辆附件' },
+  { action: 'lccToggle', label: '车道居中 SET / CANCEL', group: '车辆附件' },
 ] as const;
 
 export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.freeze({
@@ -113,12 +115,12 @@ export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.free
   selectorDrive: 'BracketRight',
   engineStart: 'KeyI',
   cruiseToggle: 'KeyV',
+  lccToggle: 'KeyG',
   cycleDriveMode: 'KeyT',
 });
 
 /** Keys owned by the game shell rather than the keyboard driving adapter. */
 export const RESERVED_GAME_KEYS = new Set([
-  'KeyI',
   'Escape', 'Enter', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F12',
   'Backspace', 'KeyC', 'KeyU',
 ]);

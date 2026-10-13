@@ -35,7 +35,15 @@ export function barrierSections(road: CityRoad, map?: CityMapData, clearance = m
   const blocked=(p:CityPoint)=>{const y=p.y??0,top=retainingWall?y+retainingWallHeight(road,p,clearance)+.3:y+1.3;return !!(clearance?.roadAt(p,retainingWall?.9:.5,y-2.1,top,road.id,id=>!continuation.has(id))||clearance?.junctionAt(p,retainingWall?.9:.5,y-2.1,top));};
   const boundary=(a:CityPoint,b:CityPoint)=>{let lo=0,hi=1;const state=blocked(a);for(let n=0;n<15;n++){const t=(lo+hi)/2,p={x:a.x+(b.x-a.x)*t,y:(a.y??0)+((b.y??0)-(a.y??0))*t,z:a.z+(b.z-a.z)*t};if(blocked(p)===state)lo=t;else hi=t;}const t=state?hi:lo;return{x:a.x+(b.x-a.x)*t,y:(a.y??0)+((b.y??0)-(a.y??0))*t,z:a.z+(b.z-a.z)*t};};
   for (const side of [-1, 1]) {
-    const path=map?roadEdgeChains(map).barrierEdge(road,side):barrierPoints(road).map((p,i,a)=>{const b=a[Math.min(i+1,a.length-1)]!,c=a[Math.max(0,i-1)]!,l=Math.hypot(b.x-c.x,b.z-c.z)||1,offset=barrierOffset(road,side);return{x:p.x-(b.z-c.z)/l*offset,y:p.y,z:p.z+(b.x-c.x)/l*offset};});
+    const edge=map?roadEdgeChains(map).barrierEdge(road,side):barrierPoints(road).map((p,i,a)=>{const b=a[Math.min(i+1,a.length-1)]!,c=a[Math.max(0,i-1)]!,l=Math.hypot(b.x-c.x,b.z-c.z)||1,offset=barrierOffset(road,side);return{x:p.x-(b.z-c.z)/l*offset,y:p.y,z:p.z+(b.x-c.x)/l*offset};});
+    // A long straight edge can cross a short ramp between both endpoints and
+    // its midpoint. Sample the physical edge before clipping its openings.
+    const path:CityPoint[]=[];
+    for(let i=1;i<edge.length;i++) {
+      const a=edge[i-1]!,b=edge[i]!,steps=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.z-a.z)/3));
+      if(!path.length)path.push(a);
+      for(let n=1;n<=steps;n++){const t=n/steps;path.push(n===steps?b:{x:a.x+(b.x-a.x)*t,y:(a.y??0)+((b.y??0)-(a.y??0))*t,z:a.z+(b.z-a.z)*t});}
+    }
     let current: CityPoint[] = [];
     const flush = () => { if (current.length > 1) sections.push({ side, points: current }); current = []; };
     for (let i = 1; i < path.length; i++) {

@@ -6,20 +6,29 @@ import { MirrorAdjustmentController } from '../../camera/MirrorAdjustmentControl
 import { MirrorSystem } from '../../camera/MirrorSystem';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import { runBMW530LiSelfTest } from './BMW530Li.selftest';
+import { runTaycanDisplaysSelfTest } from './TaycanDisplays.selftest';
 
 /** Small solid-clearance check, not appearance/handling optimisation. */
 export function runVehicleStructureSelfTest() {
   let assertions = 0;
   const assert = (ok: boolean, message: string) => { assertions++; if (!ok) throw new Error(`Vehicle structure: ${message}`); };
   const needsDocument = typeof document === 'undefined';
+  const canvasContext = new Proxy({} as CanvasRenderingContext2D, { get: (_target, key: string) =>
+    key === 'measureText' ? (value: string) => ({ width: value.length * 12 }) :
+    key.startsWith('create') ? () => ({ addColorStop: () => {} }) : () => {}, set: () => true });
   if (needsDocument) Object.defineProperty(globalThis, 'document', {
-    configurable: true, value: { createElement: () => ({ width: 1, height: 1, getContext: () => null }) },
+    configurable: true, value: { createElement: () => ({ width: 1, height: 1, getContext: () => canvasContext }) },
   });
   try {
     for (const car of VEHICLE_CATALOG) {
       if (car.visualConfig.body.design === 'bmw-g38') {
         const result = runBMW530LiSelfTest();
         assert(result.closureRays === 10 && result.meshes > 0, `${car.id}: independent cabin, optics and physical anchors`);
+        continue;
+      }
+      if (car.visualConfig.instrumentCluster.displayStyle === 'ev-premium') {
+        const result = runTaycanDisplaysSelfTest();
+        assert(result.assertions > 0, `${car.id}: dedicated curved displays, geometry and live platform sources`);
         continue;
       }
       const visual = new VehicleVisual(car.visualConfig);
