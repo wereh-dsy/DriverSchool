@@ -16,6 +16,8 @@ import { runPowertrainLayoutSelfTest } from '../src/vehicle/PowertrainLayout.sel
 import { runExecutivePolishSelfTest } from '../src/vehicle/physics/ExecutivePolish.selftest';
 import { runExecutiveSedanSelfTest } from '../src/vehicle/physics/ExecutiveSedan.selftest';
 import { runMirrorGeometrySelfTest } from '../src/camera/MirrorSystem.selftest';
+import { runAdaptiveMirrorSelfTest } from '../src/camera/AdaptiveMirrorRendering.selftest';
+import { runVisualStreamingSelfTest } from '../src/world/city/VisualStreaming.selftest';
 import { runVehicleInputSystemSelfTest } from '../src/input/VehicleInputSystem.selftest';
 import { runVehicleCatalogSelfTest } from '../src/vehicle/VehicleCatalog.selftest';
 import { runCruiseControlControllerSelfTest } from '../src/vehicle/control/CruiseControlController.selftest';
@@ -45,6 +47,7 @@ import { runDrivingTestTrackSelfTest } from '../src/world/DrivingTestTrack.selft
 import { runDrivingGroundCatalogSelfTest } from '../src/world/DrivingGroundCatalog.selftest';
 import { runMountainProvingGroundSelfTest } from '../src/world/mountain/MountainProvingGround.selftest';
 import { runCircuitGroundSelfTest } from '../src/world/circuit/CircuitGround.selftest';
+import { runTsukubaGroundSelfTest } from '../src/world/tsukuba/TsukubaGround.selftest';
 import { runLapTimerSelfTest } from '../src/game/lap/LapTimer.selftest';
 import { runSubject2GroundSelfTest } from '../src/world/subject2/Subject2Ground.selftest';
 import { runSubject3GroundSelfTest } from '../src/world/subject3/Subject3Ground.selftest';
@@ -119,6 +122,8 @@ const results = {
   cruiseControl: runCruiseControlControllerSelfTest(),
   rearParkingProximity: runRearParkingProximitySelfTest(),
   mirrors: runMirrorGeometrySelfTest(),
+  adaptiveMirrors: runAdaptiveMirrorSelfTest(),
+  visualStreaming: runVisualStreamingSelfTest(),
   instruments: runInstrumentClusterLayoutSelfTest(),
   driverView: runDriverViewSelfTest(),
   vehicleExteriors: runVehicleExteriorSelfTest(),
@@ -126,6 +131,7 @@ const results = {
   roadCourse: runDrivingTestTrackSelfTest(),
   groundCatalog: runDrivingGroundCatalogSelfTest(),
   circuit: runCircuitGroundSelfTest(),
+  tsukuba: runTsukubaGroundSelfTest(),
   mountain: runMountainProvingGroundSelfTest(),
   lapTimer: runLapTimerSelfTest(),
   subject2: runSubject2GroundSelfTest(),

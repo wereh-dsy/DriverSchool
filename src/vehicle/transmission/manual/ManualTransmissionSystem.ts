@@ -20,7 +20,7 @@ export class ManualTransmissionSystem implements TransmissionSystem {
   public update(context: TransmissionContext): TransmissionOutput {
     const shaft = context.drivenWheelAngularVelocity * this.gearbox.getRatio() * this.gearbox.config.finalDriveRatio;
     this.load = this.gearbox.currentGear === 'N' ? 0 : this.clutch.calculateTransmittedTorque(
-      context.availableEngineTorque, context.engineAngularVelocity, shaft);
+      context.availableEngineTorque, context.engineAngularVelocity, shaft, context, this.gearbox.getRatio() * this.gearbox.config.finalDriveRatio, this.gearbox.config.drivetrainEfficiency);
     if (this.gearbox.currentGear === 'N') {
       this.clutch.lastSlipAngularVelocity = 0;
       this.clutch.lastTransmittedTorque = 0;

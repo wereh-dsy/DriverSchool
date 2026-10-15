@@ -20,6 +20,8 @@ export interface RoadSegmentData {
   /** Travel follows the polyline in either order. */
   readonly travelDirection: 'two-way' | 'forward' | 'reverse';
   readonly speedLimit?: number;
+  /** Presentation classification only; does not alter topology or lane control. */
+  readonly roadType?: 'highway' | 'urban' | 'ramp' | 'circuit';
   /** Authored logical lanes only. Absence means lateral assistance unavailable. */
   readonly lanes?: readonly LogicalLaneData[];
   readonly markingsAvailable?: boolean;
@@ -49,7 +51,18 @@ export interface RoadNetworkData {
   readonly bounds: RoadMapBounds;
   readonly segments: readonly RoadSegmentData[];
   readonly intersections: readonly RoadIntersectionData[];
+  /** Optional authored map landmarks, shared by HUD and vehicle navigation displays. */
+  readonly mapAnnotations?: readonly RoadMapAnnotation[];
   readonly laneConnections?: readonly { readonly intersectionId: string; readonly fromLaneId: string; readonly toLaneId: string }[];
+}
+
+export interface RoadMapAnnotation {
+  readonly id: string;
+  readonly kind: 'start-finish' | 'corner' | 'pit' | 'direction';
+  readonly position: RoadPoint;
+  readonly label: string;
+  readonly yawRadians?: number;
+  readonly roadWidth?: number;
 }
 
 /** North-up normalized map coordinates: +X right, +Z down. No clamping. */

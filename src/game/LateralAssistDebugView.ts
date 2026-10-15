@@ -18,7 +18,8 @@ export class LateralAssistDebugView {
     this.label.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:100;color:#51e8cf;background:#10202cdd;padding:10px;pointer-events:none';
     this.label.hidden = true; document.body.append(this.label);
   }
-  public toggle(): void { this.enabled = !this.enabled; this.label.hidden = !this.enabled; this.lines.visible = false; }
+  public toggle(): void { this.setEnabled(!this.enabled); }
+  public setEnabled(enabled: boolean): void { this.enabled = enabled; this.label.hidden = !enabled; this.lines.visible = false; }
   public update(dt: number, lane: LaneObservation, assist: LateralAssistController, y: number): void {
     if (!this.enabled) return;
     this.lines.visible = lane.valid;

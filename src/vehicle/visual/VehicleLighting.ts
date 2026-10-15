@@ -89,7 +89,7 @@ export class VehicleLighting {
       this.createFoglamp('Rear fog light spill', -0.29, rearZ + 0.012, true, this.fogTargets[2]),
     ];
     vehicle.root.add(...this.foglamps, ...this.fogTargets);
-    if (vehicle.config.exteriorLighting?.signature === 'double-l') {
+    if (profile?.signature === 'double-l' || profile?.signature === 'authored-led') {
       // BMW optics are modelled in their housings. Only the existing controller
       // owns output; no additional blink phase or brand-specific light state.
       vehicle.exteriorRoot.traverse(object => {

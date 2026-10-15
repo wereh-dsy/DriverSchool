@@ -1,0 +1,35 @@
+import { GOLF_GTI_DIMENSIONS as d } from '../VehicleDimensions';
+import { DEFAULT_SEDAN_VISUAL_CONFIG, type VehicleVisualConfig } from './VehicleVisualConfig';
+import { EXECUTIVE_LIGHTING_PROFILE } from './LuxuryVisualProfile';
+
+export const GOLF_GTI_VISUAL_CONFIG: VehicleVisualConfig = {
+  ...DEFAULT_SEDAN_VISUAL_CONFIG, name: 'Volkswagen Golf GTI', dimensions: d, collisionDimensions: d,
+  vehicleLength: d.length, vehicleWidth: d.width, wheelBase: d.wheelBase, trackWidth: d.frontTrackWidth, wheelRadius: d.wheelRadius,
+  assetCache: true, drivingSceneDisplay: { lanes: true, proximity: true }, parkingCamera: { surroundView: false },
+  windowGlass: { color: 0xabb9be, windshieldOpacity: .09, windowOpacity: .19 },
+  exteriorLighting: { ...EXECUTIVE_LIGHTING_PROFILE, signature: 'authored-led', welcomeSeconds: 0, sequentialTurnSeconds: 0 },
+  lampLayout: { frontHeight: .73, frontIndicatorHeight: .695, frontLateral: .61,
+    rearTailHeight: .79, rearBrakeHeight: .76, rearIndicatorHeight: .72, rearReverseHeight: .70 },
+  interiorAmbientLighting: { color: 0xd33839, dayIntensity: .004, nightIntensity: .15,
+    fadeResponse: 5, footwellIntensity: .025, dashboardFillIntensity: .025, steeringBadge: 'vw' },
+  driverEyePosition: [-.37, 1.19, .27],
+  instrumentCluster: { maximumSpeedKmh: 280, maximumRPM: 7000, redlineRPM: 6500, needleResponse: 13,
+    displayStyle: 'gti-digital', featureClass: 'advanced' },
+  instrumentClusterTransform: { position: [-.37, .865, -.625], rotation: [-.12, 0, 0] },
+  steeringWheelPosition: [-.37, .755, -.23], steeringColumnMountPosition: [-.37, .69, -.50],
+  steeringWheelRotation: [-.22, 0, 0], steeringWheelRadius: .165, steeringWheelRimTubeRadius: .017,
+  steeringWheelLockDegrees: 33 * 14.1 * 2,
+  gearLeverPosition: [.025, .498, .13], gearLeverRotation: [-.065, 0, 0],
+  leftMirrorTransform: { ...DEFAULT_SEDAN_VISUAL_CONFIG.leftMirrorTransform,
+    position: [-.98, .94, -.66], mountPosition: [-.84, .86, -.65], size: [.19, .105] },
+  rightMirrorTransform: { ...DEFAULT_SEDAN_VISUAL_CONFIG.rightMirrorTransform,
+    position: [.98, .94, -.66], mountPosition: [.84, .86, -.65], size: [.19, .105] },
+  centerMirrorTransform: { position: [0, 1.255, -.435], rotation: [0, -.05, 0], size: [.20, .065], housingDepth: .023 },
+  dashboard: { position: [0, .74, -.65], dimensions: [1.55, .075, .43], tiltRadians: -.05 },
+  cabin: { width: 1.55, dashboardTopY: .80, windshieldBottomY: .86, windshieldTopY: 1.365,
+    windshieldBottomZ: -.89, windshieldTopZ: -.46, roofY: 1.415 },
+  body: { profile: 'hatchback', design: 'golf-gti', groundClearance: .135, wheelArchClearance: .078,
+    sillY: .32, hoodTopY: .805, hoodLength: 1.244, trunkDeckY: .875, trunkLength: .18,
+    roofWidth: 1.37, roofLength: 1.69, roofCenterZ: .385,
+    color: 0xe1e0da, trimColor: 0x101417, interiorColor: 0x222427 },
+};

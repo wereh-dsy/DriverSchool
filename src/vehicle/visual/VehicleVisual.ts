@@ -6,6 +6,7 @@ import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../
 import { Cockpit } from './Cockpit';
 import { buildBMW530Exterior, buildBMW530SideMirror } from './BMW530Exterior';
 import { buildBMW530Wheels } from './BMW530Wheels';
+import { buildGolfGTIWheels } from './GolfGTIWheels';
 import { buildVehicleExterior, frontDoorSkinAnchor } from './VehicleExterior';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
@@ -91,7 +92,7 @@ export class VehicleVisual {
     // Registry templates never enter the live scene or carry dynamic state.
     assets.prepareSection(config, 'exterior', root => {
       if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
-      else buildVehicleExterior(root, config);
+      else buildVehicleExterior(root, config, assets);
     });
   }
   public readonly root = new THREE.Group();
@@ -120,7 +121,7 @@ export class VehicleVisual {
     this.assets?.retain();
     this.cockpitRoot = new Cockpit(config, assets);
     this.cockpitRoot.userData.renderCategory = 'COCKPIT';
-    if (config.body.design !== 'bmw-g38') this.cockpitRoot.add(buildSimplifiedSeats(config));
+    if (config.body.design !== 'bmw-g38' && config.body.design !== 'golf-gti') this.cockpitRoot.add(buildSimplifiedSeats(config));
     this.mirrorSurfaceRoot.name = 'Mirror surfaces';
     this.mirrorSurfaceRoot.userData.renderCategory = 'MIRROR_SURFACE';
     this.root.add(this.exteriorRoot, this.cockpitRoot, this.mirrorSurfaceRoot);
@@ -128,7 +129,7 @@ export class VehicleVisual {
     if (assets && config.assetCache) {
       this.exteriorRoot.add(assets.section(config, 'exterior', root => {
         if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
-        else buildVehicleExterior(root, config);
+        else buildVehicleExterior(root, config, assets);
       }));
       this.exteriorRoot.add(assets.section(config, 'wheels', root => {
         this.buildWheels();
@@ -386,10 +387,15 @@ export class VehicleVisual {
 
   private buildExterior(): void {
     if (this.config.body.design === 'bmw-g38') { buildBMW530Exterior(this.exteriorRoot, this.config); return; }
-    buildVehicleExterior(this.exteriorRoot, this.config);
+    buildVehicleExterior(this.exteriorRoot, this.config, this.assets);
   }
 
   private buildWheels(): readonly [THREE.Group, THREE.Group] {
+    if (this.config.body.design === 'golf-gti') {
+      const { pivots, wheels } = buildGolfGTIWheels(this.exteriorRoot, this.config);
+      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
+      return [pivots.frontLeft, pivots.frontRight];
+    }
     if (this.config.body.design === 'bmw-g38') {
       const { pivots, wheels } = buildBMW530Wheels(this.exteriorRoot, this.config);
       Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);

@@ -201,10 +201,11 @@ export class Subject3TrafficSignals {
   }
 
   /** Sector unloading: release only this junction's geometry and private lamps. */
-  public removeHeadsForJunction(junctionIndex: number): void {
+  public removeHeadsForJunction(junctionIndex: number, owner?: THREE.Group): void {
     for (let i = this.heads.length - 1; i >= 0; i -= 1) {
       const head = this.heads[i]!;
       if (head.junctionIndex !== junctionIndex) continue;
+      if (owner && head.root.parent !== owner) continue;
       head.root.removeFromParent();
       head.root.traverse(object => { if (object instanceof THREE.Mesh) object.geometry.dispose(); });
       for (const lamp of Object.values(head.lamps)) (lamp.material as THREE.Material).dispose();

@@ -3,7 +3,7 @@ import type { DrivingGround } from '../../world/DrivingGround';
 import { VehicleCollisionSystem, type CollisionDimensions, type CollisionResolution } from './CollisionSystem';
 import { VehicleDynamics, type VehicleSnapshotFor } from './VehicleDynamics';
 import type { Powertrain } from '../powertrain/Powertrain';
-import { sampleWheelContacts, averageWheelGroundGeometry, type WheelContactSet } from './WheelContact';
+import { sampleWheelContacts, createWheelContactBuffer, averageWheelGroundGeometry, type WheelContactSet } from './WheelContact';
 import { chassisBodyPose } from './WheelPhysicsState';
 import { centerOfMassOffsetZ } from '../VehicleDimensions';
 
@@ -16,6 +16,7 @@ export class VehicleContactSystem {
   public secondsSinceCollision = Number.POSITIVE_INFINITY;
   private sampledPose: { x: number; z: number; yaw: number } | null = null;
   private wetness = 0;
+  private readonly contactBuffer = createWheelContactBuffer();
 
   public setWetness(wetness: number): void {
     const value = Number.isFinite(wetness) ? Math.min(1, Math.max(0, wetness)) : 0;
@@ -56,7 +57,7 @@ export class VehicleContactSystem {
     // a spawn/reset/editor correction changed pose outside this adapter.
     if (this.wheelContacts === null || this.sampledPose?.x !== before.x ||
       this.sampledPose.z !== before.z || this.sampledPose.yaw !== before.yaw) {
-      this.wheelContacts = sampleWheelContacts(this.ground, before, dynamics.config, this.wetness);
+      this.wheelContacts = sampleWheelContacts(this.ground, before, dynamics.config, this.wetness, this.contactBuffer);
       dynamics.syncWheelContacts(this.wheelContacts);
       before = dynamics.getSnapshot();
     }
@@ -70,7 +71,7 @@ export class VehicleContactSystem {
     // Reuse this final-pose query next tick, and give rendering/collision the
     // same support plane even when this step crosses a curb or crest.
     this.ground.setSurfaceReferenceHeight?.(after.chassis.groundHeight);
-    this.wheelContacts = sampleWheelContacts(this.ground, after, dynamics.config, this.wetness);
+    this.wheelContacts = sampleWheelContacts(this.ground, after, dynamics.config, this.wetness, this.contactBuffer);
     dynamics.syncWheelContacts(this.wheelContacts);
     after = dynamics.getSnapshot();
     const sin = Math.sin(after.yaw);
@@ -103,7 +104,7 @@ export class VehicleContactSystem {
     if (!this.collision.collided) this.secondsSinceCollision += dt;
     const finalPose = dynamics.getSnapshot();
     if (this.collision.collided) {
-      this.wheelContacts = sampleWheelContacts(this.ground, finalPose, dynamics.config, this.wetness);
+      this.wheelContacts = sampleWheelContacts(this.ground, finalPose, dynamics.config, this.wetness, this.contactBuffer);
       dynamics.syncWheelContacts(this.wheelContacts);
     }
     this.sampledPose = { x: finalPose.x, z: finalPose.z, yaw: finalPose.yaw };

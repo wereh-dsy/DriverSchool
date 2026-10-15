@@ -4,6 +4,7 @@ import {
   type ColorRepresentation,
   DoubleSide,
   Euler,
+  Frustum,
   LinearFilter,
   Matrix4,
   Mesh,
@@ -15,6 +16,7 @@ import {
   RGBAFormat,
   Scene,
   ShaderMaterial,
+  Sphere,
   type Texture,
   UnsignedByteType,
   Vector2,
@@ -25,6 +27,7 @@ import {
 } from 'three';
 import { DriverCamera } from './DriverCamera';
 import { InteriorMirror } from './InteriorMirror';
+import { AdaptiveMirrorRendering, type AdaptiveMirrorContext } from './AdaptiveMirrorRendering';
 import { VEHICLE_RENDER_LAYERS } from '../vehicle/visual/VehicleRenderLayers';
 import {
   computePlanarMirrorView,
@@ -131,6 +134,8 @@ interface InternalMirrorView extends MirrorView {
   readonly localNormal: Vector3;
   readonly localSize: Vector2;
   readonly computation: PlanarMirrorViewComputation;
+  readonly capturedLocalTexture: Matrix4;
+  hasImage: boolean;
 }
 
 const MIRROR_VERTEX_SHADER = /* glsl */ `
@@ -193,7 +198,15 @@ export class MirrorSystem {
   private readonly worldScale = new Vector3();
   private readonly transformMatrix = new Matrix4();
   private readonly localMatrix = new Matrix4();
+  private readonly unitScale = new Vector3(1, 1, 1);
   private rendering = false;
+  public readonly adaptive = new AdaptiveMirrorRendering();
+  private readonly savedViewport = new Vector4();
+  private readonly savedScissor = new Vector4();
+  private readonly reflectionVisibility = new Map<Object3D, boolean>();
+  private readonly driverFrustum = new Frustum();
+  private readonly driverProjection = new Matrix4();
+  private readonly mirrorBounds = new Sphere();
 
   constructor(
     private readonly renderer: WebGLRenderer,
@@ -250,6 +263,7 @@ export class MirrorSystem {
   setEnabled(side: MirrorSide, enabled: boolean): void {
     if (enabled && this.autoBindSurfaces && !this.boundMaterials.has(side)) this.bindSurfaceMaterial(side);
     this.internalViews[side].enabled = enabled;
+    this.adaptive.invalidate();
   }
 
   setResolution(side: MirrorSide, resolution: MirrorResolution): void {
@@ -260,6 +274,7 @@ export class MirrorSystem {
       this.renderer.capabilities.maxTextureSize,
     );
     view.renderTarget.setSize(size.x, size.y);
+    this.adaptive.invalidate();
   }
 
   /**
@@ -320,18 +335,48 @@ export class MirrorSystem {
   }
 
   /** Updates geometry-derived virtual eyes, off-axis projections and matrices. */
-  update(): void {
+  update(mask = 3): void {
     const source = this.getSourceCamera();
     this.vehicleRoot.updateWorldMatrix(true, true);
     source.updateWorldMatrix(true, false);
     source.getWorldPosition(this.sourceEye);
 
-    this.updateView(this.internalViews.left, source);
-    this.updateView(this.internalViews.right, source);
+    if (mask & 1) this.updateView(this.internalViews.left, source);
+    if (mask & 2) this.updateView(this.internalViews.right, source);
+  }
+
+  renderAdaptive(dt: number, context: AdaptiveMirrorContext): void {
+    const source = this.getSourceCamera();
+    source.updateWorldMatrix(true, false); this.vehicleRoot.updateWorldMatrix(true, false);
+    this.driverFrustum.setFromProjectionMatrix(this.driverProjection.multiplyMatrices(source.projectionMatrix, source.matrixWorldInverse));
+    let visible = this.interiorMirror?.isVisible(this.driverFrustum) ? 4 : 0;
+    for (const side of ['left', 'right'] as const) {
+      const view = this.internalViews[side]; this.resolveWorldFrame(view);
+      // Conservative aperture bounds keep edge-of-view mirrors live before they enter the image.
+      this.mirrorBounds.center.copy(view.worldPosition); this.mirrorBounds.radius = Math.hypot(view.worldSize.x, view.worldSize.y) * .6 + .1;
+      if (this.driverFrustum.intersectsSphere(this.mirrorBounds)) visible |= side === 'left' ? 1 : 2;
+    }
+    const mask = this.adaptive.update(dt, context, visible);
+    this.renderSelection(mask);
+    // A cached image belongs to the moving glass aperture, not to its old world pose.
+    this.vehicleRoot.updateWorldMatrix(true, false);
+    for (const side of ['left', 'right'] as const) {
+      const view = this.internalViews[side], bit = side === 'left' ? 1 : 2;
+      if (!(mask & bit) && view.hasImage) {
+        this.resolveWorldFrame(view);
+        view.textureMatrix.copy(view.capturedLocalTexture).multiply(this.transformMatrix.invert());
+      }
+    }
+    if (!(mask & 4)) this.interiorMirror?.attachCachedTexture();
   }
 
   /** Renders both mirrors while suppressing all reflective surfaces. */
   render(side?: MirrorSide): void {
+    this.renderSelection(side === 'left' ? 1 : side === 'right' ? 2 : 7);
+  }
+
+  private renderSelection(mask: number): void {
+    if (!(mask & 3)) { if (mask & 4) this.interiorMirror?.render(); return; }
     if (this.rendering) return;
     this.rendering = true;
 
@@ -341,13 +386,14 @@ export class MirrorSystem {
     const previousXrEnabled = this.renderer.xr.enabled;
     const previousShadowAutoUpdate = this.renderer.shadowMap.autoUpdate;
     const previousAutoClear = this.renderer.autoClear;
-    const previousViewport = this.renderer.getViewport(new Vector4());
-    const previousScissor = this.renderer.getScissor(new Vector4());
+    const previousViewport = this.renderer.getViewport(this.savedViewport);
+    const previousScissor = this.renderer.getScissor(this.savedScissor);
     const previousScissorTest = this.renderer.getScissorTest();
-    const visibility = new Map<Object3D, boolean>();
+    const visibility = this.reflectionVisibility;
 
     try {
-      this.update();
+      // Keep the projection/texture matrix of a skipped mirror paired with its last image.
+      this.update(mask);
       this.hideReflectionObjects(visibility);
       this.renderer.xr.enabled = false;
       this.renderer.shadowMap.autoUpdate = false;
@@ -356,12 +402,13 @@ export class MirrorSystem {
       // clear colour and erased the sky portion of both side mirrors.
       this.renderer.autoClear = this.clearBeforeRender;
 
-      if (!side || side === 'left') this.renderView(this.internalViews.left);
-      if (!side || side === 'right') this.renderView(this.internalViews.right);
+      if (mask & 1) this.renderView(this.internalViews.left);
+      if (mask & 2) this.renderView(this.internalViews.right);
     } finally {
       for (const [object, wasVisible] of visibility) {
         object.visible = wasVisible;
       }
+      visibility.clear();
       this.renderer.xr.enabled = previousXrEnabled;
       this.renderer.shadowMap.autoUpdate = previousShadowAutoUpdate;
       this.renderer.autoClear = previousAutoClear;
@@ -375,7 +422,7 @@ export class MirrorSystem {
       this.renderer.setScissorTest(previousScissorTest);
       this.rendering = false;
     }
-    if (!side) this.interiorMirror?.render();
+    if (mask & 4) this.interiorMirror?.render();
   }
 
   dispose(): void {
@@ -483,6 +530,8 @@ export class MirrorSystem {
       localNormal,
       localSize,
       computation,
+      capturedLocalTexture: new Matrix4(),
+      hasImage: false,
       enabled: config.enabled ?? true,
       valid: false,
     };
@@ -550,13 +599,13 @@ export class MirrorSystem {
       this.transformMatrix.compose(
         view.localPosition,
         view.localQuaternion,
-        new Vector3(1, 1, 1),
+        this.unitScale,
       );
     } else {
       this.localMatrix.compose(
         view.localPosition,
         view.localQuaternion,
-        new Vector3(1, 1, 1),
+        this.unitScale,
       );
       this.transformMatrix
         .copy(this.vehicleRoot.matrixWorld)
@@ -585,6 +634,9 @@ export class MirrorSystem {
     this.renderer.setRenderTarget(view.renderTarget);
     this.renderer.state.buffers.depth.setMask(true);
     this.renderer.render(this.scene, view.camera);
+    this.resolveWorldFrame(view);
+    view.capturedLocalTexture.copy(view.textureMatrix).multiply(this.transformMatrix);
+    view.hasImage = true;
   }
 
   private hideReflectionObjects(visibility: Map<Object3D, boolean>): void {

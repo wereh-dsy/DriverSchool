@@ -1,3 +1,4 @@
+import { implicitClutchDemand } from '../implicitClutchDemand';
 import type { TorqueConverterConfig } from '../../config';
 import { clamp, clamp01, moveTowards } from '../../physics/math';
 import { angularVelocityToRPM, limitAutomaticEngineLoad, type TransmissionContext } from '../TransmissionSystem';
@@ -18,11 +19,11 @@ export class TorqueConverter {
     const canLock = driving && context.engineRunning && !context.holdingBrake && !shifting &&
       Math.abs(context.vehicleSpeed) >= this.config.lockupMinimumSpeed &&
       ratio >= this.config.lockupMinimumSpeedRatio && ratio <= 1.12 &&
-      context.throttle < this.config.lockupMaximumThrottle && slip < 950;
+      context.throttle <= this.config.lockupMaximumThrottle && slip < 950;
     this.lockupEngagement = moveTowards(this.lockupEngagement, canLock ? 1 : 0,
       context.dt * (canLock ? this.config.lockupApplyRate : this.config.lockupReleaseRate));
   }
-  public update(context: TransmissionContext, turbineOmega: number, torqueCapacityScale: number): { load: number; turbineTorque: number } {
+  public update(context: TransmissionContext, turbineOmega: number, torqueCapacityScale: number, ratio = 1, efficiency = 1): { load: number; turbineTorque: number } {
     const pump = Math.max(0, context.engineAngularVelocity);
     this.pumpRPM = context.engineRPM;
     this.turbineRPM = angularVelocityToRPM(turbineOmega);
@@ -36,7 +37,7 @@ export class TorqueConverter {
       ? this.config.pumpTorqueCoefficient * pump * pump * slipFraction
       : slip * this.config.backdriveCoupling;
     const hydraulicLoad = clamp(hydraulicDemand, -this.config.maximumPumpTorque * 0.35, this.config.maximumPumpTorque);
-    const lockupDemand = context.availableEngineTorque + slip * this.config.lockupStiffness;
+    const lockupDemand = implicitClutchDemand(context.availableEngineTorque, slip, this.config.lockupStiffness, context, ratio, efficiency);
     const lockupTorque = clamp(lockupDemand, -this.config.lockupCapacity, this.config.lockupCapacity);
     // Idle creep remains hydrodynamic. Brake progressively unloads the unit;
     // pump/turbine slip naturally decays towards a finite creep speed.

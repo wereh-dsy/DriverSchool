@@ -1,3 +1,5 @@
+import { implicitClutchDemand } from '../transmission/implicitClutchDemand';
+import type { TransmissionContext } from '../transmission/TransmissionSystem';
 import type { ClutchConfig } from '../config';
 import { clamp, clamp01, moveTowards } from './math';
 
@@ -107,6 +109,7 @@ export class Clutch {
     crankTorque: number,
     engineAngularVelocity: number,
     gearboxInputAngularVelocity: number,
+    context?: TransmissionContext, ratio = 1, efficiency = 1,
   ): number {
     const capacity = this.getTorqueCapacity();
     const safeCrankTorque = Number.isFinite(crankTorque) ? crankTorque : 0;
@@ -121,7 +124,7 @@ export class Clutch {
       return 0;
     }
 
-    const requestedTorque = safeCrankTorque + slip * this.config.couplingStiffness;
+    const requestedTorque = context ? implicitClutchDemand(safeCrankTorque, slip, this.config.couplingStiffness, context, ratio, efficiency) : safeCrankTorque + slip * this.config.couplingStiffness;
     const transmittedTorque = clamp(requestedTorque, -capacity, capacity);
     this.lastTransmittedTorque = Number.isFinite(transmittedTorque) ? transmittedTorque : 0;
     return this.lastTransmittedTorque;

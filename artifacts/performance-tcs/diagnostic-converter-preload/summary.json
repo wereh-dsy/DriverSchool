@@ -1,0 +1,221 @@
+{
+  "protocol": {
+    "dt": 0.008333333333333333,
+    "timing": "pedal/brake release, no rollout",
+    "ambientC": 20,
+    "tyreC": 35,
+    "batteryC": 30,
+    "motorC": 40,
+    "inverterC": 35,
+    "soc": 0.8,
+    "surface": "flat Dry Asphalt, no wind",
+    "manual": "bounded feedback pre-rev toward 2400 rpm (actual initial state recorded); 0.65 s progressive clutch launch; 0.40 s shifts at 94% redline",
+    "automatic": "D, default production mode; official LC: SPORT_PLUS, verified READY"
+  },
+  "results": [
+    {
+      "id": "bmw-530li-g38",
+      "vehicle": "BMW 530Li",
+      "tcs": true,
+      "launch": false,
+      "initial": {
+        "rpm": 1151.778789876125,
+        "speed": 0,
+        "driveMode": "NORMAL",
+        "transmission": {
+          "manualSelectionActive": false,
+          "manualSelectionRejectedReason": null,
+          "type": "TORQUE_CONVERTER_AT",
+          "selectedMode": "D",
+          "currentPhysicalGear": 1,
+          "currentRatio": 5,
+          "outputTorque": 790.4206952288151,
+          "inputRPM": 0,
+          "outputRPM": 0,
+          "engineLoadTorque": 83.81979800941836,
+          "transmittedTorque": 171.83058591930762,
+          "shiftInProgress": false,
+          "shiftState": "IDLE",
+          "shiftProgress": 0,
+          "kickdown": false,
+          "selectorRejectedReason": null,
+          "parkingLocked": false,
+          "torqueConverter": {
+            "pumpRPM": 1147.9704003361717,
+            "turbineRPM": 0,
+            "speedRatio": 0,
+            "slipRPM": 1147.9704003361717,
+            "torqueRatio": 2.05,
+            "lockupEngagement": 0
+          }
+        },
+        "tyres": {
+          "frontLeft": {
+            "temperatureC": 34.98313448862892,
+            "gaugePressureKPa": 267.95650596697106,
+            "absolutePressurePa": 369281.50596697105,
+            "targetColdPressureKPa": 250,
+            "pressureRatio": 1.0718260238678843,
+            "rollingResistanceFactor": 0.9928173976132115,
+            "longitudinalStiffnessFactor": 1.0071826023867885,
+            "lateralStiffnessFactor": 1.0086191228641461,
+            "warningState": "NORMAL"
+          },
+          "frontRight": {
+            "temperatureC": 34.98313448862892,
+            "gaugePressureKPa": 267.95650596697106,
+            "absolutePressurePa": 369281.50596697105,
+            "targetColdPressureKPa": 250,
+            "pressureRatio": 1.0718260238678843,
+            "rollingResistanceFactor": 0.9928173976132115,
+            "longitudinalStiffnessFactor": 1.0071826023867885,
+            "lateralStiffnessFactor": 1.0086191228641461,
+            "warningState": "NORMAL"
+          },
+          "rearLeft": {
+            "temperatureC": 34.983645286011395,
+            "gaugePressureKPa": 288.9793692165382,
+            "absolutePressurePa": 390304.3692165382,
+            "targetColdPressureKPa": 270,
+            "pressureRatio": 1.0702939600612527,
+            "rollingResistanceFactor": 0.9929706039938747,
+            "longitudinalStiffnessFactor": 1.0070293960061252,
+            "lateralStiffnessFactor": 1.0084352752073502,
+            "warningState": "NORMAL"
+          },
+          "rearRight": {
+            "temperatureC": 34.983645286011395,
+            "gaugePressureKPa": 288.9793692165382,
+            "absolutePressurePa": 390304.3692165382,
+            "targetColdPressureKPa": 270,
+            "pressureRatio": 1.0702939600612527,
+            "rollingResistanceFactor": 0.9929706039938747,
+            "longitudinalStiffnessFactor": 1.0070293960061252,
+            "lateralStiffnessFactor": 1.0084352752073502,
+            "warningState": "NORMAL"
+          }
+        }
+      },
+      "mode": "NORMAL",
+      "drivetrain": "RWD",
+      "transmission": "TORQUE_CONVERTER_AT",
+      "mass": 1780.3771518286312,
+      "milestones": {
+        "30": 2.0402508485278443,
+        "50": 3.152856409063528,
+        "100": 7.508562857541926
+      },
+      "tcsSeconds": 0.8083333333333329,
+      "strongSeconds": 0,
+      "longest": 0.5750000000000004,
+      "meanReduction": 0.004366409452532711,
+      "peakSlip": 0.20879446025876586,
+      "meanSlip": 0.06169883456152735,
+      "escSeconds": 0,
+      "maxBrakeAfterRelease": 0.2714768451613704,
+      "maxRegen": 0
+    },
+    {
+      "id": "bmw-530li-g38",
+      "vehicle": "BMW 530Li",
+      "tcs": false,
+      "launch": false,
+      "initial": {
+        "rpm": 1151.778789876125,
+        "speed": 0,
+        "driveMode": "NORMAL",
+        "transmission": {
+          "manualSelectionActive": false,
+          "manualSelectionRejectedReason": null,
+          "type": "TORQUE_CONVERTER_AT",
+          "selectedMode": "D",
+          "currentPhysicalGear": 1,
+          "currentRatio": 5,
+          "outputTorque": 790.4206952288151,
+          "inputRPM": 0,
+          "outputRPM": 0,
+          "engineLoadTorque": 83.81979800941836,
+          "transmittedTorque": 171.83058591930762,
+          "shiftInProgress": false,
+          "shiftState": "IDLE",
+          "shiftProgress": 0,
+          "kickdown": false,
+          "selectorRejectedReason": null,
+          "parkingLocked": false,
+          "torqueConverter": {
+            "pumpRPM": 1147.9704003361717,
+            "turbineRPM": 0,
+            "speedRatio": 0,
+            "slipRPM": 1147.9704003361717,
+            "torqueRatio": 2.05,
+            "lockupEngagement": 0
+          }
+        },
+        "tyres": {
+          "frontLeft": {
+            "temperatureC": 34.98313448862892,
+            "gaugePressureKPa": 267.95650596697106,
+            "absolutePressurePa": 369281.50596697105,
+            "targetColdPressureKPa": 250,
+            "pressureRatio": 1.0718260238678843,
+            "rollingResistanceFactor": 0.9928173976132115,
+            "longitudinalStiffnessFactor": 1.0071826023867885,
+            "lateralStiffnessFactor": 1.0086191228641461,
+            "warningState": "NORMAL"
+          },
+          "frontRight": {
+            "temperatureC": 34.98313448862892,
+            "gaugePressureKPa": 267.95650596697106,
+            "absolutePressurePa": 369281.50596697105,
+            "targetColdPressureKPa": 250,
+            "pressureRatio": 1.0718260238678843,
+            "rollingResistanceFactor": 0.9928173976132115,
+            "longitudinalStiffnessFactor": 1.0071826023867885,
+            "lateralStiffnessFactor": 1.0086191228641461,
+            "warningState": "NORMAL"
+          },
+          "rearLeft": {
+            "temperatureC": 34.983645286011395,
+            "gaugePressureKPa": 288.9793692165382,
+            "absolutePressurePa": 390304.3692165382,
+            "targetColdPressureKPa": 270,
+            "pressureRatio": 1.0702939600612527,
+            "rollingResistanceFactor": 0.9929706039938747,
+            "longitudinalStiffnessFactor": 1.0070293960061252,
+            "lateralStiffnessFactor": 1.0084352752073502,
+            "warningState": "NORMAL"
+          },
+          "rearRight": {
+            "temperatureC": 34.983645286011395,
+            "gaugePressureKPa": 288.9793692165382,
+            "absolutePressurePa": 390304.3692165382,
+            "targetColdPressureKPa": 270,
+            "pressureRatio": 1.0702939600612527,
+            "rollingResistanceFactor": 0.9929706039938747,
+            "longitudinalStiffnessFactor": 1.0070293960061252,
+            "lateralStiffnessFactor": 1.0084352752073502,
+            "warningState": "NORMAL"
+          }
+        }
+      },
+      "mode": "NORMAL",
+      "drivetrain": "RWD",
+      "transmission": "TORQUE_CONVERTER_AT",
+      "mass": 1780.3769272405311,
+      "milestones": {
+        "30": 2.04251098513532,
+        "50": 3.1398960406080434,
+        "100": 7.471986119756831
+      },
+      "tcsSeconds": 0,
+      "strongSeconds": 0,
+      "longest": 0,
+      "meanReduction": 0,
+      "peakSlip": 0.21326607027066027,
+      "meanSlip": 0.06438395992381812,
+      "escSeconds": 0,
+      "maxBrakeAfterRelease": 0.2714768451613704,
+      "maxRegen": 0
+    }
+  ]
+}

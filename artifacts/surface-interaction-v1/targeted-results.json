@@ -1,0 +1,185 @@
+{
+  "surface": {
+    "assertions": 4803,
+    "braking20to5": {
+      "asphalt": {
+        "distance": 27.013527508040752,
+        "seconds": 2.1416666666666617,
+        "abs": false
+      },
+      "wet-asphalt": {
+        "distance": 31.809827649327353,
+        "seconds": 2.5249999999999937,
+        "abs": true
+      },
+      "packed-snow": {
+        "distance": 54.4853856204028,
+        "seconds": 4.35833333333334,
+        "abs": true
+      },
+      "ice": {
+        "distance": 225.64126298964868,
+        "seconds": 18.274999999999604,
+        "abs": true
+      }
+    },
+    "splitResults": [
+      {
+        "esc": false,
+        "maximumYaw": 0.34415910381654613,
+        "pressureDifference": 0.9599007686870891,
+        "asymmetricForce": 3549.0800621974367
+      },
+      {
+        "esc": true,
+        "maximumYaw": 0.34415910381654613,
+        "pressureDifference": 0.9599007686870891,
+        "asymmetricForce": 3549.0800621974367
+      }
+    ],
+    "softResistanceN": {
+      "fresh-snow": [
+        106.5995661271418,
+        296.6213249999999,
+        579.7778898185818
+      ],
+      "sand": [
+        254.87921111008066,
+        709.22061,
+        1386.2470228047407
+      ],
+      "mud": [
+        155.88483526174323,
+        433.7613,
+        847.8325393461338
+      ],
+      "gravel": [
+        46.141156163583666,
+        128.39124374999997,
+        250.95432492103595
+      ]
+    },
+    "drivetrain": [
+      {
+        "layout": "FWD",
+        "speed": 8.989821780920048,
+        "front": 887.3633184825168,
+        "rear": 0,
+        "frontSlip": 0.3118614489627313,
+        "rearSlip": -0.0018257512137305248
+      },
+      {
+        "layout": "RWD",
+        "speed": 8.718972615916607,
+        "front": 0,
+        "rear": 678.6757426221247,
+        "frontSlip": -0.0009002603773335478,
+        "rearSlip": 0.3719601804291941
+      },
+      {
+        "layout": "AWD",
+        "speed": 9.31401383400743,
+        "front": 480.8728690723261,
+        "rear": 721.3093036084891,
+        "frontSlip": 0.0764318070957905,
+        "rearSlip": 0.2913948201262929
+      }
+    ],
+    "topologyBraking": [
+      19.15251182974586,
+      19.15251182974586,
+      19.15251182974586
+    ],
+    "depthCoast": {
+      "fresh-snow": [
+        9.43667813492163,
+        8.967708237591799,
+        8.273119257029219
+      ],
+      "sand": [
+        9.040077019309445,
+        7.953048610987373,
+        6.35514304904869
+      ],
+      "mud": [
+        9.30768422625981,
+        8.63077953130237,
+        7.62995189701152
+      ]
+    },
+    "evSplit": [
+      {
+        "topology": "RWD",
+        "speed": 17.793694350396507,
+        "rearPressure": 0.1377870755558268
+      },
+      {
+        "topology": "AWD",
+        "speed": 17.590373688168956,
+        "rearPressure": 0.13921443126866934
+      }
+    ],
+    "mud": {
+      "lowSlip": 0.9005040759068643,
+      "highSlip": 0.9624045292663534,
+      "lowForce": 753.755491179411,
+      "highForce": 742.2961874163537
+    },
+    "query": {
+      "zones": 125,
+      "maximumCellCandidates": 11
+    },
+    "maxAcceleration": 9.089700358980615,
+    "maxYawStep": 0.00515035171194498
+  },
+  "wheelContact": {
+    "assertions": 3426,
+    "roadSplitGripDifference": 0.21999999999999997,
+    "splitRollingResistanceDifference": 2,
+    "maximumBoundaryGripStep": 0.005499197376105158,
+    "maximumBoundaryRollingResistanceStep": 0.02530722656247697,
+    "maximumNormalLengthError": 0
+  },
+  "wheelRotation": {
+    "assertions": 28,
+    "lockedWheelSlip": -1,
+    "reverseWheelForce": 2651.8800000006054
+  },
+  "thermalPressure": {
+    "assertions": 61,
+    "cruiseTemperatureC": 26.929860695565466,
+    "regression": {
+      "BMW": {
+        "maxSpeedDifferenceMps": 0.00008085268046720273,
+        "maxYawDifferenceRad": 0.000003003714560190218,
+        "maximumTemperatureC": 20.387314057156217
+      },
+      "Tesla": {
+        "maxSpeedDifferenceMps": 0.00009054380504203152,
+        "maxYawDifferenceRad": 0.00000687377323860261,
+        "maximumTemperatureC": 20.41270652134838
+      },
+      "Taycan": {
+        "maxSpeedDifferenceMps": 0.00022046243127249454,
+        "maxYawDifferenceRad": 0.000008583728035027605,
+        "maximumTemperatureC": 20.86074693608557
+      },
+      "Audi": {
+        "maxSpeedDifferenceMps": 0.00010012293915018233,
+        "maxYawDifferenceRad": 0.000007630193983754197,
+        "maximumTemperatureC": 20.490317051725384
+      }
+    },
+    "hardAccelerationHeatC": {
+      "Tesla": 1.9189438379511472,
+      "Taycan": 3.8242345187033777
+    }
+  },
+  "driverAssists": {
+    "assertions": 133,
+    "absSeen": true
+  },
+  "escAWD": {
+    "assertions": 48
+  }
+}

@@ -1,0 +1,27 @@
+.acceleration-test {
+  position: fixed; right: 24px; bottom: 76px; z-index: 8;
+  width: 318px; max-width: calc(100vw - 28px); padding: 13px 15px;
+  color: #ecf4f5; background: rgba(8, 17, 23, .9); border: 1px solid #75cde23d;
+  border-radius: 10px; backdrop-filter: blur(8px); font-size: 11px;
+  font-variant-numeric: tabular-nums; pointer-events: none;
+}
+.acceleration-test[hidden] { display: none; }
+.acceleration-test header, .acceleration-test dl > div { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.acceleration-test header strong { color: #8de0ed; letter-spacing: .08em; }
+.acceleration-test header span { font: 600 23px Consolas, monospace; }
+.acceleration-test-context { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 5px 0 0; color: #93a5ae; font-size: 9px; }
+.acceleration-test-controls { display: flex; gap: 5px; margin: 10px 0 7px; pointer-events: auto; }
+.acceleration-test-controls button { flex: 1; padding: 6px 3px; color: #c5d4d8; background: #14232c; border: 1px solid #ffffff24; border-radius: 5px; font: inherit; cursor: pointer; }
+.acceleration-test-controls button[aria-pressed="true"] { color: #a5edff; border-color: #6ce2fd88; background: #17404c; }
+.acceleration-test-controls button:disabled { opacity: .4; cursor: default; }
+.acceleration-test-controls button:focus-visible { outline: 2px solid #8de0ed; outline-offset: 2px; }
+.acceleration-test-status { margin: 6px 0 10px; line-height: 1.5; color: #aabdc5; }
+.acceleration-test[data-phase="RUNNING"] .acceleration-test-status { color: #8de0ed; }
+.acceleration-test[data-phase="COMPLETED"] .acceleration-test-status { color: #b1e6b9; }
+.acceleration-test dl { margin: 0; }
+.acceleration-test dl > div { margin-top: 8px; }
+.acceleration-test dt { color: #a9b8c0; }
+.acceleration-test dd { margin: 0; font-family: Consolas, monospace; }
+.acceleration-test dl > small { display: block; color: #93a5ae; line-height: 1.5; font-size: 9px; }
+.acceleration-test dl > small:empty { display: none; }
+@media (max-width: 700px) { .acceleration-test { right: 14px; bottom: 70px; padding: 10px 12px; } }

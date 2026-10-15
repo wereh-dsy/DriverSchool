@@ -1,3 +1,4 @@
+import type { DriveSelector } from '../config';
 import type { ElectricDriveUnitConfig } from '../config/ElectricVehiclePhysicsConfig';
 import { ElectricMotor } from './ElectricMotor';
 import { Inverter } from './Inverter';
@@ -6,6 +7,7 @@ import { EVTwoSpeedTransmission } from '../transmission/EVTwoSpeedTransmission';
 import type { EVTransmission } from '../transmission/EVTransmission';
 
 export interface ElectricDriveUnitState {
+  selectorMode: DriveSelector; wheelTorque: number;
   motorRpm: number; requestedTorque: number; deliveredTorque: number;
   electricalPower: number; mechanicalPower: number; motorTemperature: number; inverterTemperature: number;
   torqueLimit: number; powerLimit: number; regenTorqueLimit: number; gearRatio: number;
@@ -20,7 +22,7 @@ export class ElectricDriveUnit {
   public electricalPower = 0;
   public mechanicalPower = 0;
   public requestedTorque = 0;
-  private readonly state: ElectricDriveUnitState = { motorRpm: 0, requestedTorque: 0, deliveredTorque: 0,
+  private readonly state: ElectricDriveUnitState = { selectorMode: 'P', wheelTorque: 0, motorRpm: 0, requestedTorque: 0, deliveredTorque: 0,
     electricalPower: 0, mechanicalPower: 0, motorTemperature: 20, inverterTemperature: 20,
     torqueLimit: 0, powerLimit: 0, regenTorqueLimit: 0, gearRatio: 0 };
   private motorHeatJ = 0;
@@ -81,6 +83,7 @@ export class ElectricDriveUnit {
   }
   public getState(): ElectricDriveUnitState {
     const s = this.state;
+    s.selectorMode = this.transmission.mode; s.wheelTorque = this.wheelTorque;
     s.motorRpm = Math.abs(this.motor.shaftAngularVelocity) * 30 / Math.PI; s.requestedTorque = this.requestedTorque;
     s.deliveredTorque = this.motor.deliveredDriveTorque; s.mechanicalPower = this.mechanicalPower; s.electricalPower = this.electricalPower;
     s.motorTemperature = this.motor.temperature; s.inverterTemperature = this.inverter.thermal.temperature;

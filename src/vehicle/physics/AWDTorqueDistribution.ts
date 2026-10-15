@@ -21,7 +21,7 @@ export class AWDTorqueDistribution {
     this.reset();
   }
   public reset(): void { this.rearTorqueSplit = this.nominalRear; this.carrierAngularVelocity = 0; }
-  public update(dt: number, throttle: number, wheels: WheelPhysicsStateSet, driving: boolean): void {
+  public update(dt: number, throttle: number, wheels: WheelPhysicsStateSet, driving: boolean, frontAuthority = 1, rearAuthority = 1): void {
     let target = this.nominalRear;
     if (this.config.awd?.mode === 'on-demand' && driving) {
       const maximum = clamp(this.config.awd.maximumRearTorqueSplit ?? .5, this.nominalRear, 1);
@@ -35,8 +35,13 @@ export class AWDTorqueDistribution {
       target = Math.max(this.nominalRear + (acceleration - this.nominalRear) * demand,
         this.nominalRear + (maximum - this.nominalRear) * slipDemand);
     }
-    this.rearTorqueSplit = this.config.awd?.mode === 'on-demand'
-      ? damp(this.rearTorqueSplit, target, Math.max(.1, this.config.awd.response ?? 3), dt) : target;
+    if (driving && throttle > .05) {
+      const rear = target * rearAuthority, front = (1 - target) * frontAuthority;
+      const maximum = this.config.awd?.mode === 'on-demand' ? this.config.awd.maximumRearTorqueSplit ?? .5 : 1;
+      target = clamp(rear / Math.max(.001, rear + front), 0, maximum);
+    }
+    this.rearTorqueSplit = this.config.awd?.mode === 'on-demand' || frontAuthority < .999 || rearAuthority < .999
+      ? damp(this.rearTorqueSplit, target, Math.max(.1, this.config.awd?.response ?? 3), dt) : target;
   }
   public updateSpeeds(front: number, rear: number): number {
     // Torque-weighted speed also preserves input/output power across both axles.

@@ -28,7 +28,7 @@ function createUnavailablePowertrainFixture(): Powertrain {
     reset(state) { operational = state.vehicleOperational ?? true; },
     captureState(previous: PowertrainInitialState = {}) { previous.vehicleOperational = operational; return previous; },
     requestStart() { operational = true; return true; }, requestStop() { operational = false; return true; },
-    requestGear: () => 'gear-not-available', getShiftGear: () => null, setControlMode: () => 'normal',
+    requestDriveSelector: () => false, requestGear: () => 'gear-not-available', getShiftGear: () => null, setControlMode: () => 'normal',
     prepare() {}, update: () => ({ drivenWheelTorque: 0, inputLoadTorque: 0, couplingSlipAngularVelocity: 0, parkingLocked: false }),
     finishStep() {}, getSnapshot: () => ({ kind: 'fixture', vehicleOperational: operational, driveAvailable: false,
       inputShaftAngularVelocity: 0, sourceInertia: 1, availableDriveTorque: 0, transmission }),

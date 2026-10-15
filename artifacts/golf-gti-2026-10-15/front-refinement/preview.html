@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><title>Golf front cockpit • geometry inspection</title>
+<style>body{margin:0;background:#bbc1c2;font:13px system-ui;color:#e4e5e6}canvas{display:block;width:100vw;height:100vh}nav{position:absolute;top:12px;left:12px;display:flex;gap:6px}button{padding:9px 12px;background:#202326;color:#ddd;border:1px solid #666;border-radius:5px;cursor:pointer}button.active{background:#653039;border-color:#bd7880}pre{position:absolute;bottom:8px;left:12px;background:#15181bdc;padding:8px;margin:0;white-space:pre-wrap;pointer-events:none}small{position:absolute;right:12px;bottom:12px;background:#15181bdc;padding:8px}</style>
+<nav><button data-view="normal">Normal DriverEye</button><button data-view="driver">DriverEye</button><button data-view="overview">Cabin overview</button><button data-view="oblique">Side oblique</button><button data-view="console">Console close</button></nav><pre id="stats">Loading…</pre><small>Golf visual inspection · static telemetry sample · alternate cameras are inspection only</small><img id="render-export" hidden alt="Current unmodified WebGL frame export">
+<script type="module">
+import * as T from 'three';
+import {VehicleVisual} from '/src/vehicle/visual/VehicleVisual.ts';
+import {VehicleAssetRegistry} from '/src/vehicle/visual/VehicleAssetRegistry.ts';
+import {GOLF_GTI_VISUAL_CONFIG as config} from '/src/vehicle/visual/golfGTIVisualConfig.ts';
+const renderer=new T.WebGLRenderer({antialias:true});renderer.setPixelRatio(1);renderer.setSize(innerWidth,innerHeight);
+renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1;document.body.prepend(renderer.domElement);
+const scene=new T.Scene();scene.background=new T.Color('#bfc7cb');
+const hemi=new T.HemisphereLight(0xd9edf2,0x52613e,2.1);hemi.layers.enableAll();scene.add(hemi);
+const sun=new T.DirectionalLight(0xfff1dc,3);sun.position.set(-3,7,-4);sun.layers.enableAll();scene.add(sun);
+const assets=new VehicleAssetRegistry();VehicleVisual.prepareAssets(config,assets);const car=new VehicleVisual(config,assets);scene.add(car.root);
+const telemetry={ignitionOn:true,engineRunning:true,speedKmh:0,rpm:820,gear:'P',driveMode:'NORMAL',fuelLevel:.7,coolantTemperatureC:88,outsideTemperatureC:21,ambientDaylight:1,indicators:{parkingBrake:true}};
+car.updateInstruments(telemetry,1);car.root.updateMatrixWorld(true);
+const camera=new T.PerspectiveCamera(62,innerWidth/innerHeight,.015,100);camera.layers.enableAll();
+const views={normal:{eye:config.driverEyePosition,target:[-.37,1.19,-1],fov:62},driver:{eye:config.driverEyePosition,target:[-.37,1.08,-1],fov:62},overview:{eye:[0,1.31,.80],target:[0,.65,-.29],fov:69},oblique:{eye:[-.71,1.15,.35],target:[.20,.78,-.49],fov:67},console:{eye:[.16,1.07,.44],target:[.08,.49,.015],fov:57}};
+function render(view){const v=views[view];camera.position.set(...v.eye);camera.lookAt(...v.target);camera.fov=v.fov;camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.render(scene,camera);
+document.querySelector('#render-export').src=renderer.domElement.toDataURL('image/png');
+let meshes=0,vertices=0;const mats=new Set(),textures=new Set();car.root.traverse(o=>{if(!o.isMesh)return;meshes++;vertices+=o.geometry.getAttribute('position').count;for(const m of Array.isArray(o.material)?o.material:[o.material]){mats.add(m);Object.values(m).forEach(t=>{if(t?.isTexture)textures.add(t)})}});
+document.querySelector('#stats').textContent=JSON.stringify({view,eye:v.eye,meshes,materials:mats.size,textures:textures.size,vertices,renderCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles},null,1);document.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));}
+document.querySelectorAll('button').forEach(b=>b.onclick=()=>render(b.dataset.view));addEventListener('resize',()=>render(document.querySelector('button.active')?.dataset.view??'driver'));render('driver');
+function frame(){renderer.render(scene,camera);requestAnimationFrame(frame)}requestAnimationFrame(frame);
+</script>

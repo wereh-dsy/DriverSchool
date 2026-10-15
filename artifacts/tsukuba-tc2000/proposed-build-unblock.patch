@@ -1,0 +1,7 @@
+--- a/src/vehicle/visual/GolfGTIExterior.ts
++++ b/src/vehicle/visual/GolfGTIExterior.ts
+@@ -117,1 +117,3 @@
+-  root.add(surfaceQuad('GTI underfloor', [[-.65,.135,-h],[.65,.135,-h],[.65,.135,h],[-.65,.135,h]], trim));
++  const underfloor = surfaceQuad('GTI underfloor', [[-.65,.135,-h],[.65,.135,-h],[.65,.135,h],[-.65,.135,h]], trim);
++  underfloor.userData.vehicleBodyPart = 'main-shell';
++  root.add(underfloor);

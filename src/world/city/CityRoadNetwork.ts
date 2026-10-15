@@ -21,6 +21,7 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
     return { id: r.id, centerline, width: r.laneCount * r.laneWidth, length: polylineLength(centerline),
       laneCountPerDirection: r.travelDirection === 'two-way' ? r.laneCount / 2 : r.laneCount, laneWidth: r.laneWidth,
       laneCount: r.laneCount, travelDirection: r.travelDirection, speedLimit: r.speedLimit,
+      roadType: r.type === 'highway' ? 'highway' as const : r.type === 'ramp_1' ? 'ramp' as const : 'urban' as const,
       markingsAvailable: r.markings !== false, highwayTransition: r.highwayTransition,
       startIntersectionId: endpoint('start'), endIntersectionId: endpoint('end'),
       lanes: Array.from({ length: r.laneCount }, (_, index): CityLaneData => ({ id: `${r.id}:lane:${index}`, roadId: r.id, index,

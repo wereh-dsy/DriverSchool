@@ -130,7 +130,9 @@ export function runESCAWDSelfTest() {
   awdAids.setOptions({ absEnabled: true, ebdEnabled: true, tractionControlEnabled: true });
   awdAids.reset(true);
   for (let i = 0; i < 30; i++) awdAids.updateTraction(dt, rearOnlySpin, 1, true, true);
-  assert(awdAids.engineTorqueFactor < .5, 'AWD TCS also monitors rear driven wheels');
+  assert(awdAids.rearTorqueFactor < .5 && awdAids.frontTorqueFactor === 1 &&
+    awdAids.engineTorqueFactor > awdAids.rearTorqueFactor && awdAids.engineTorqueFactor < 1,
+    'AWD TCS monitors rear spin independently and retains available front authority');
   for (let i = 0; i < 90; i++) onDemandCar.stepFixed(dt, { ...createNeutralVehicleInputState(), throttle: 1 });
   assert(onDemandCar.getSnapshot().awd!.rearTorqueSplit > .25 && !onDemandCar.getSnapshot().driverAssists.tractionControlEnabled,
     'on-demand AWD operates independently of TCS');

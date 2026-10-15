@@ -63,7 +63,7 @@ flowchart TD
 
 ## 当前目录
 
-VehicleCatalog 的 11 辆正式车辆按以下顺序用于 F5；默认 `family-sedan`：
+VehicleCatalog 的 12 辆正式车辆按以下顺序用于 F5；默认 `family-sedan`：
 
 | ID | 显示名 | 已安装动力链 |
 | --- | --- | --- |
@@ -78,6 +78,9 @@ VehicleCatalog 的 11 辆正式车辆按以下顺序用于 F5；默认 `family-s
 | `tesla-model-3-rwd` | Tesla Model 3 RWD | 单后轴 PSM / 固定减速 / 60 kWh 可用电池 |
 | `bmw-530li-g38` | BMW 530Li | 2.0T I4 / RWD / 8AT |
 | `porsche-taycan-4s` | Porsche Taycan 4S | 双 PSM AWD / 前单速后两速 / 105 总量、97 可用 kWh |
+| `volkswagen-golf-gti` | Volkswagen Golf GTI | 2.0T L4 / FWD / 7DCT / 前轴制动式 eDiff |
+
+Golf 是连续大形 + UV 表面细节的车辆制作样板，详见 [Golf 实现与专项验证](GOLF_GTI_2026-10-14.md)。新车的仪表与四页中控借用 SharedVehicleData / TPMS；Volkswagen 徽标使用本地保存的现成 SVG，未迁移旧车皮肤。
 
 Capabilities 从已安装配置/拓扑推导支持；用户偏好另存；运行中的 SET/CANCEL、介入/接管是第三层。现实名称是原型，游戏标定不是原厂数据。测试 AWD fixture 不进菜单。
 
@@ -111,6 +114,10 @@ BrakeTorqueCoordinator 对脚刹/hold/巡航/ESC/eDiff/动态 EPB 合并服务�
 按当前 AGENTS.md 契约，`LaneAssistState` 与 `LateralAssistController` 并非同一个状态机：手柄 Y 循环 OFF/LDW/LKA/LCC 的选择提示，LDW 模式接入偏离声音；它不控制 LKA 偏好或 LCC request。F3 偏好控制实际 LKA/LCC，LCC 另由可改键的 G/F3 按钮请求；I 只点火，不再有全局 LCC 监听器。不能把 Y 显示 OFF 当作实际转向辅助已关闭。
 
 **显示与相机。** 显示皮肤只借用 SharedVehicleData、powertrain snapshot 和 TPMS；BMW/Tesla/Taycan 的专用绘制不拥有物理拓扑。导航能力目前代表逻辑地图/道路信息显示，route 仍为空，不是自动寻路。八区 proximity、HUD 后方五区提示与后方/俯视影像是不同输出；没有自动泊车/避障制动。真实左右镜采用 DriverEye 反射、物理镜面 aperture 和斜裁剪；支持的中央内镜可显示后舱，俯视 360 是简化场景相机，不是四相机拼接。
+
+运行时镜面由 `AdaptiveMirrorRendering` 选择视图：可见实体镜面逐帧渲染，只跳过视野外的非关键视图；转头、转向灯、转向输入、泊车/R/P、匝道/路口和车道辅助状态保留关键渲染。右上角独立视图仅在绝对车速低于 30 km/h 或 R 挡显示，不因高速转头/转向灯恢复。缓存纹理随移动镜面重定位，不修改物理眼位或镜面几何。
+
+区域 City 地图的浏览器视觉 streaming 使用原生模块 Worker 编译既有道路、地形和中景道路条带，通过 typed-array transfer 交付主线程；逻辑路网、物理路面与碰撞体常驻。主线程按约 3 ms/最多两步的软预算分阶段发布，单个纹理上传等原子步骤仍可能超预算。远景地形按空间分组追加缓冲，避免每次推进永久增加 Mesh。首次进入/地图切换等待当前近景完成，之后移动 streaming 不暂停物理；编辑器和 Node 验证保持原同步路径。
 
 **资源、状态与持久化。** VehicleAssetRegistry 共享不可变几何/静态纹理，实例克隆可变材质、保留独立轮子/显示/状态。VehicleLoadingLifecycle 分帧准备→实例→动态状态→纹理/shader/镜面预热→Ready；未 Ready 时抑制输入/物理。Trip 距离按速度绝对值乘 dt，倒车/滑行计入；FuelSystem 提供实际燃油增量。ODO、Trip A/B、燃油/SOC 按车型每约 10 仿真秒及生命周期保存到 localStorage；纯电能量累计在 ElectricPowertrain 中，不能承诺它与 Trip A/B 同步持久化。所有浏览器保存都按 origin 隔离，存储不可用时降级。
 

@@ -31,6 +31,46 @@ export function runEVPlatformV2SelfTest() {
     for (let i = 0; i < steps; i++) { p.prepare(c); p.update(c); p.finishStep(c.vehicleSpeed); }
   };
 
+  // Regression: the in-game F3 and shift-button routes must select BOTH EV
+  // units. Initializing a benchmark directly in D used to conceal a front
+  // unit left in P/N, with motor/battery work but zero front wheel torque.
+  for (const route of ['direct-ui', 'shift-buttons', 'input-selector'] as const) {
+    const car = new VehicleDynamics<ElectricPowertrain>(createVehiclePhysicsConfig('porsche-taycan-4s'), { driveSelector: 'N' });
+    const p = car.powertrain, f = p.frontDriveUnit!, r = p.rearDriveUnit!;
+    const command = createNeutralVehicleInputState(); command.brake = 1;
+    const energy = p.battery.remainingEnergyKWh;
+    if (route === 'direct-ui') {
+      assert(car.requestDriveSelector('D', 1), 'UI D accepted');
+      assert(p.battery.remainingEnergyKWh === energy && car.speed === 0, 'UI request does not integrate energy or motion');
+    } else if (route === 'shift-buttons') command.shiftUp = true;
+    else command.driveSelector = 'D';
+    car.stepFixed(dt, command);
+    assert(f.transmission.mode === 'D' && r.transmission.mode === 'D', `${route}: all installed units enter D`);
+    command.shiftUp = false; command.driveSelector = undefined; command.brake = 0; command.throttle = 1;
+    let drivenFront = false, drivenRear = false;
+    for (let n = 0; n < 120; n++) {
+      const state = car.stepFixed(dt, command);
+      const expectedF = f.motor.deliveredDriveTorque * f.transmission.ratio * f.transmission.efficiency;
+      const expectedR = r.motor.deliveredDriveTorque * r.transmission.ratio * r.transmission.efficiency;
+      assert(close(state.wheels.frontLeft.driveTorque + state.wheels.frontRight.driveTorque, expectedF), `${route}: delivered front motor torque reaches tyres`);
+      assert(close(state.wheels.rearLeft.driveTorque + state.wheels.rearRight.driveTorque, expectedR), `${route}: delivered rear motor torque reaches tyres`);
+      drivenFront ||= expectedF > 100; drivenRear ||= expectedR > 100;
+    }
+    assert(drivenFront && drivenRear, `${route}: both axles propel after calipers release`);
+    assert(!car.requestDriveSelector('P', 1), `${route}: moving park rejected`);
+    assert(!car.requestDriveSelector('R', 1), `${route}: moving reverse rejected`);
+    assert(!car.requestDriveSelector('N', 0), `${route}: brake-required preserved`);
+    assert(f.transmission.mode === 'D' && r.transmission.mode === 'D', `${route}: rejected requests leave both selectors unchanged`);
+  }
+  const selector = new VehicleDynamics<ElectricPowertrain>(createVehiclePhysicsConfig('porsche-taycan-4s'), { driveSelector: 'P' });
+  const units = selector.powertrain;
+  for (const mode of ['R', 'N', 'D', 'P', 'D'] as const) {
+    assert(selector.requestDriveSelector(mode, 1), `stationary ${mode} accepted`);
+    assert(units.frontDriveUnit!.transmission.mode === mode && units.rearDriveUnit!.transmission.mode === mode, `${mode} synchronized at rest`);
+    const c = context(0, 1); units.prepare(c); units.update(c);
+    if (mode === 'N' || mode === 'P') assert(units.axleOutput.drivenWheelTorque === 0, `${mode}: no wheel drive`);
+    if (mode === 'R') assert(units.axleOutput.frontWheelTorque! < 0 && units.axleOutput.rearWheelTorque! < 0, 'reverse torque reaches both axles');
+  }
   // Torque, constant-power and high-speed voltage envelope; component limits at rest stay finite.
   const m = new ElectricMotor(tesla.motor);
   m.setShaftSpeed(0); assert(m.driveLimit(230000) === tesla.motor.maxDriveTorque, 'zero RPM finite torque region');

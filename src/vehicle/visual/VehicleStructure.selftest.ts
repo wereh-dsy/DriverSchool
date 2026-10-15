@@ -7,6 +7,7 @@ import { MirrorSystem } from '../../camera/MirrorSystem';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import { runBMW530LiSelfTest } from './BMW530Li.selftest';
 import { runTaycanDisplaysSelfTest } from './TaycanDisplays.selftest';
+import { runGolfGTIStructureSelfTest } from './GolfGTI.selftest';
 
 /** Small solid-clearance check, not appearance/handling optimisation. */
 export function runVehicleStructureSelfTest() {
@@ -39,6 +40,12 @@ export function runVehicleStructureSelfTest() {
           assert(visual.root.getObjectByName('Electric centre touchscreen') !== undefined &&
             visual.root.getObjectByName('Instrument binnacle back') === undefined, `${car.id}: EV cabin has centre screen without binnacle`);
           continue; // The dedicated Tesla structure test covers its independent layout.
+        }
+        if (config.body.design === 'golf-gti') {
+          const result = runGolfGTIStructureSelfTest(visual);
+          assert(result.closureRays === 6 && result.wheelClearanceRays === 120,
+            `${car.id}: dedicated cabin closure, steering anchors, visibility and optics`);
+          continue;
         }
         const column = visual.root.getObjectByName('Steering column') as THREE.Mesh<THREE.CylinderGeometry>;
         assert(column !== undefined, `${car.id}: column exists`);

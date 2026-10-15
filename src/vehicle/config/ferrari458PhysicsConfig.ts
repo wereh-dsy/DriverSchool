@@ -37,13 +37,16 @@ export function createFerrari458PhysicsConfig(): VehiclePhysicsConfig {
     gearRatios: { 1: 3.077, 2: 2.185, 3: 1.626, 4: 1.286, 5: 1.028, 6: .839, 7: .693 },
     reverseRatio: -2.79, finalDrive: 5.143, finalDriveRatio: 5.143, efficiency: .94, drivetrainEfficiency: .94,
     drivetrainLash: { reversalTime: .035, torqueDeadzone: 8 },
-    dct: { shiftStrategy: sportShift, clutchCapacity: 700, couplingStiffness: 14,
+    dct: { launchTargetRPM: 4000, shiftStrategy: sportShift, clutchCapacity: 700, couplingStiffness: 14,
       clutchApplyRate: 3.5, clutchReleaseRate: 12, creepEngagement: .10, launchFullyEngagedSpeed: 5,
       unexpectedShiftDelay: .04, parkMaximumSpeed: .35, revMatching: { response: 4, maximumThrottle: .65 } } };
   c.rearDiff = { type: 'lsd', preload: 45, lockStrength: .16, torqueBiasRatio: 3,
     speedDifferenceSensitivity: .18, response: 12 };
   c.electronicDifferential = { slipThreshold: .17, speedDifferenceThreshold: .8, maximumBrakeTorque: 350, response: 10 };
-  c.tires = { ...calibrateTyres(c.tires, 'PERFORMANCE'), wheelInertia: 1.65, loadSensitivity: .07,
+  // The generic 1.06 road profile capped this rear-drive supercar near 0.7 g
+  // even with TCS OFF. Installed dry performance tyres use an explicit physical
+  // longitudinal coefficient; no launch-only force/grip multiplier.
+  c.tires = { ...calibrateTyres(c.tires, 'PERFORMANCE'), longitudinalGrip: 1.28, gripCoefficient: 1.28, wheelInertia: 1.65, loadSensitivity: .07,
     corneringStiffnessFront: 90000, corneringStiffnessRear: 116000, lateralSlipRecoveryRate: 8,
     peakSlipRatio: .10, peakSlipAngle: .12, gripFalloff: .30 };
   c.suspension = { ...c.suspension, rideHeight: .115, restLength: .30,

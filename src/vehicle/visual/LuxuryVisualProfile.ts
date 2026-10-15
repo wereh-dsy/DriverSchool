@@ -8,7 +8,7 @@ export interface InstrumentVisualProfile {
   readonly laneFadeResponse: number;
 }
 export interface ExteriorLightingVisualProfile {
-  readonly signature: 'segmented-led' | 'double-l';
+  readonly signature: 'segmented-led' | 'double-l' | 'authored-led';
   readonly color: number;
   readonly low: { intensity: number; distance: number; angle: number; targetY: number; targetZ: number };
   readonly high: { intensity: number; distance: number; angle: number; targetY: number; targetZ: number };
@@ -32,7 +32,7 @@ export interface InteriorAmbientLightingProfile {
   readonly fadeResponse: number;
   readonly footwellIntensity: number;
   readonly dashboardFillIntensity?: number;
-  readonly steeringBadge: 'four-rings' | 'roundel';
+  readonly steeringBadge: 'four-rings' | 'roundel' | 'vw';
 }
 export const EXECUTIVE_INSTRUMENT_PROFILE: InstrumentVisualProfile = {
   ringColor: '#bdc9d5', ringGlow: .13, needleWidth: 3, redlineWidth: 5,

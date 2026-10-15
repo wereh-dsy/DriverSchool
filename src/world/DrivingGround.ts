@@ -49,6 +49,10 @@ export interface DrivingGround {
   update?(deltaSeconds: number): void;
   /** Optional streaming hook; true asks the environment to discover new visuals. */
   updatePlayerPosition?(x: number, z: number,yawRadians?:number,speedMetersPerSecond?:number): boolean;
+  /** Asynchronous visual readiness only. Logical contacts/topology are already available. */
+  readonly visualReady?: boolean;
+  readonly visualLoadingError?: Error;
+  setVisualResourcePreparation?(prepare: (texture: THREE.Texture) => void): void;
   /** Multi-level worlds select support near this height. Existing height-field maps ignore it. */
   setSurfaceReferenceHeight?(height: number): void;
   dispose(): void;

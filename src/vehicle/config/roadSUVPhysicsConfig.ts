@@ -56,7 +56,7 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
         torqueRatioCurve: FAMILY_CONVERTER_CONFIG.torqueRatioCurve.map(point => ({ ...point })),
         pumpTorqueCoefficient: .0065, maximumPumpTorque: 570, lockupCapacity: 620,
         lockupStiffness: 10, lockupApplyRate: .65, lockupMinimumSpeed: 11,
-        lockupMinimumSpeedRatio: .78, lockupMaximumThrottle: .6 } } };
+        lockupMinimumSpeedRatio: .78, lockupMaximumThrottle: 1 } } };
   const brakeForce = 22500;
   config.brakes = { ...config.brakes, pedalCurveExponent: 1.08, applyResponse: 11.5,
     response: 11.5, releaseResponse: 18, frontBrakeBias: .66,

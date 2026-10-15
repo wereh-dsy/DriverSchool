@@ -18,6 +18,10 @@ export class InteriorMirror {
   private readonly material: T.ShaderMaterial;
   private readonly viewport = new T.Vector4();
   private readonly scissor = new T.Vector4();
+  private readonly capturedLocalTexture = new T.Matrix4();
+  private readonly inverseSurface = new T.Matrix4();
+  private hasImage = false;
+  private readonly visibilityBounds = new T.Sphere();
   public constructor(private readonly renderer: T.WebGLRenderer, private readonly scene: T.Scene,
     private readonly source: T.PerspectiveCamera, private readonly surface: T.Mesh,
     size: readonly [number, number], private readonly reflectiveRoot: T.Object3D) {
@@ -62,10 +66,23 @@ export class InteriorMirror {
     try {
       this.reflectiveRoot.visible = false; renderer.xr.enabled = false; renderer.shadowMap.autoUpdate = false; renderer.autoClear = true;
       renderer.setRenderTarget(this.renderTarget); renderer.setScissorTest(false); renderer.render(this.scene, this.camera);
+      this.capturedLocalTexture.copy(this.computation.textureMatrix).multiply(this.surface.matrixWorld); this.hasImage = true;
     } finally {
       this.reflectiveRoot.visible = visible; renderer.xr.enabled = xr; renderer.shadowMap.autoUpdate = shadows; renderer.autoClear = autoClear;
       renderer.setRenderTarget(target, cube, mip); renderer.setViewport(this.viewport); renderer.setScissor(this.scissor); renderer.setScissorTest(scissorTest);
     }
+  }
+  public attachCachedTexture(): void {
+    if (!this.hasImage) return;
+    this.surface.updateWorldMatrix(true, false);
+    this.computation.textureMatrix.copy(this.capturedLocalTexture).multiply(this.inverseSurface.copy(this.surface.matrixWorld).invert());
+  }
+  public isVisible(frustum: T.Frustum): boolean {
+    this.surface.updateWorldMatrix(true, false);
+    if (!this.surface.geometry.boundingSphere) this.surface.geometry.computeBoundingSphere();
+    this.visibilityBounds.copy(this.surface.geometry.boundingSphere!).applyMatrix4(this.surface.matrixWorld);
+    this.visibilityBounds.radius += .1;
+    return frustum.intersectsSphere(this.visibilityBounds);
   }
   public dispose(): void {
     this.surface.material = this.originalMaterial; this.material.dispose(); this.renderTarget.dispose();

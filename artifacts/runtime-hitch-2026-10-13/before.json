@@ -1,0 +1,1231 @@
+{
+  "version": "before",
+  "baseline": "ca67e96381372f9d65b5d3a15c8684cf2b8f5a99",
+  "mirrorPolicy": "original all mirrors every frame; overlay always visible",
+  "rows": [
+    {
+      "name": "straight-cold",
+      "frame": {
+        "n": 160,
+        "mean": 75.659375,
+        "p95": 255.8000000000029,
+        "p99": 582.5,
+        "max": 610.9000000000015,
+        "over33": 154,
+        "over50": 97,
+        "over100": 18
+      },
+      "cpu": {
+        "n": 160,
+        "mean": 60.18624999970198,
+        "p95": 126.69999998807907,
+        "p99": 385.60000002384186,
+        "max": 549.5,
+        "over33": 155,
+        "over50": 64,
+        "over100": 14
+      },
+      "speed": {
+        "n": 160,
+        "mean": 133.76229938313256,
+        "p95": 137.23469872924088,
+        "p99": 138.0349221253265,
+        "max": 138.17277148773738,
+        "over33": 160,
+        "over50": 160,
+        "over100": 160
+      },
+      "metric": {
+        "render": {
+          "calls": 641,
+          "total": 5708.699999690056,
+          "max": 55.30000001192093,
+          "mean": 8.905928236645954
+        },
+        "snapshot": {
+          "calls": 5455,
+          "total": 88.9000004529953,
+          "max": 2.099999964237213,
+          "mean": 0.016296975335104547
+        },
+        "physics": {
+          "calls": 1091,
+          "total": 677.5000001192093,
+          "max": 2.899999976158142,
+          "mean": 0.6209899176161405
+        },
+        "visual": {
+          "calls": 160,
+          "total": 193.40000009536743,
+          "max": 4.5,
+          "mean": 1.2087500005960465
+        },
+        "roadCompile": {
+          "calls": 97,
+          "total": 2108.9999999403954,
+          "max": 239,
+          "mean": 21.742268040622633
+        },
+        "streaming": {
+          "calls": 160,
+          "total": 2500.900000035763,
+          "max": 505.5,
+          "mean": 15.630625000223517
+        },
+        "hud": {
+          "calls": 160,
+          "total": 47.8000003695488,
+          "max": 0.6000000238418579,
+          "mean": 0.29875000230967996
+        },
+        "mirrors": {
+          "calls": 160,
+          "total": 2369.199999630451,
+          "max": 23.099999964237213,
+          "mean": 14.80749999769032
+        },
+        "prefabBuild": {
+          "calls": 36,
+          "total": 3.1999999284744263,
+          "max": 0.6000000238418579,
+          "mean": 0.0888888869020674
+        },
+        "signMaterial": {
+          "calls": 77,
+          "total": 45.29999989271164,
+          "max": 5.199999988079071,
+          "mean": 0.588311686918333
+        },
+        "sectorLoad": {
+          "calls": 39,
+          "total": 158.79999989271164,
+          "max": 32.19999998807907,
+          "mean": 4.071794869043888
+        },
+        "environment": {
+          "calls": 26,
+          "total": 64.19999998807907,
+          "max": 4.5,
+          "mean": 2.469230768772272
+        },
+        "junctionBuild": {
+          "calls": 31,
+          "total": 54.69999998807907,
+          "max": 5.100000023841858,
+          "mean": 1.764516128647712
+        },
+        "storage": {
+          "calls": 1,
+          "total": 0.19999998807907104,
+          "max": 0.19999998807907104,
+          "mean": 0.19999998807907104
+        }
+      },
+      "heap": [
+        827484787,
+        1067862109
+      ],
+      "peaks": [
+        {
+          "t": 8.909100000023843,
+          "frame": 42.69999999999709,
+          "cpu": 549.5,
+          "cost": {
+            "render": 33.09999996423721,
+            "snapshot": 0.30000007152557373,
+            "physics": 3.399999976158142,
+            "visual": 2.100000023841858,
+            "roadCompile": 500.10000002384186,
+            "streaming": 505.5,
+            "hud": 0.2999999523162842,
+            "mirrors": 15.800000011920929,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 2.100000023841858,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 3.6805000000238435,
+          "frame": 255.8000000000029,
+          "cpu": 385.60000002384186,
+          "cost": {
+            "render": 40.10000002384186,
+            "snapshot": 2.800000011920929,
+            "physics": 10.300000071525574,
+            "visual": 1.899999976158142,
+            "roadCompile": 309.7999999523163,
+            "streaming": 327.60000002384186,
+            "hud": 0.2999999523162842,
+            "mirrors": 14.900000035762787,
+            "prefabBuild": 0.19999998807907104,
+            "signMaterial": 4.899999916553497,
+            "sectorLoad": 16.100000023841858,
+            "environment": 2.199999988079071,
+            "junctionBuild": 8.300000011920929
+          }
+        },
+        {
+          "t": 3.4247000000238406,
+          "frame": 127.79999999999563,
+          "cpu": 252.4000000357628,
+          "cost": {
+            "render": 52.90000003576279,
+            "snapshot": 0.8999999761581421,
+            "physics": 7.300000071525574,
+            "visual": 2.600000023841858,
+            "roadCompile": 168.39999997615814,
+            "streaming": 183,
+            "hud": 0.40000003576278687,
+            "mirrors": 17.799999952316284,
+            "prefabBuild": 0.30000001192092896,
+            "signMaterial": 10.600000023841858,
+            "sectorLoad": 13.199999988079071,
+            "environment": 1.899999976158142
+          }
+        },
+        {
+          "t": 4.589900000023845,
+          "frame": 113.80000000000291,
+          "cpu": 186,
+          "cost": {
+            "render": 24.5,
+            "snapshot": 0.6999999284744263,
+            "physics": 5.8999998569488525,
+            "visual": 2,
+            "roadCompile": 149,
+            "streaming": 150.4000000357628,
+            "hud": 0.19999998807907104,
+            "mirrors": 10.800000011920929,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0
+          }
+        },
+        {
+          "t": 13.000900000023845,
+          "frame": 71,
+          "cpu": 164.5,
+          "cost": {
+            "render": 48.39999997615814,
+            "snapshot": 0.7000000476837158,
+            "physics": 5.700000107288361,
+            "visual": 0.6000000238418579,
+            "roadCompile": 91,
+            "streaming": 103.60000002384186,
+            "hud": 0.19999998807907104,
+            "mirrors": 15.199999988079071,
+            "prefabBuild": 0,
+            "signMaterial": 0.5,
+            "sectorLoad": 7.300000011920929,
+            "environment": 2.899999976158142,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 10.798800000023839,
+          "frame": 128,
+          "cpu": 159.89999997615814,
+          "cost": {
+            "render": 77.70000004768372,
+            "snapshot": 0.6999998688697815,
+            "physics": 6.899999976158142,
+            "visual": 2.099999964237213,
+            "roadCompile": 29.80000001192093,
+            "streaming": 63.89999997615814,
+            "hud": 0.40000003576278687,
+            "mirrors": 22.5,
+            "prefabBuild": 0.3999999761581421,
+            "signMaterial": 6.800000011920929,
+            "sectorLoad": 32.19999998807907,
+            "environment": 4.5,
+            "junctionBuild": 22.5,
+            "storage": 0
+          }
+        },
+        {
+          "t": 3.296900000023845,
+          "frame": 127.90000000000146,
+          "cpu": 129.89999997615814,
+          "cost": {
+            "render": 23,
+            "snapshot": 0.3999999761581421,
+            "physics": 6.5,
+            "visual": 1.7999999523162842,
+            "roadCompile": 93.69999998807907,
+            "streaming": 95,
+            "hud": 0.3999999761581421,
+            "mirrors": 11.800000011920929
+          }
+        },
+        {
+          "t": 9.733100000023843,
+          "frame": 85.19999999999709,
+          "cpu": 126.69999998807907,
+          "cost": {
+            "render": 58,
+            "snapshot": 1.2000001072883606,
+            "physics": 6.200000047683716,
+            "visual": 2,
+            "roadCompile": 30.900000035762787,
+            "streaming": 54.30000001192093,
+            "hud": 0.30000001192092896,
+            "mirrors": 17.099999964237213,
+            "prefabBuild": 0.19999998807907104,
+            "signMaterial": 10.999999940395355,
+            "sectorLoad": 22.099999964237213,
+            "environment": 2.899999976158142,
+            "junctionBuild": 7.199999988079071,
+            "storage": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "visibility": "visible",
+      "mirrors": null,
+      "resources": {
+        "sectorCount": 59,
+        "totalSectors": 4988,
+        "roadCount": 180,
+        "compiledRoadCount": 311,
+        "signCount": 114,
+        "barrierCount": 12520,
+        "backgroundSectors": 3788,
+        "constructorMs": 1594.8999999761581,
+        "firstVisibleMs": 9717.699999988079,
+        "firstLoadMs": 17990.30000001192
+      }
+    },
+    {
+      "name": "straight-warm",
+      "frame": {
+        "n": 206,
+        "mean": 58.35000000000003,
+        "p95": 71.09999999999854,
+        "p99": 99.30000000000291,
+        "max": 568.5,
+        "over33": 204,
+        "over50": 139,
+        "over100": 2
+      },
+      "cpu": {
+        "n": 206,
+        "mean": 50.424271842519055,
+        "p95": 62.19999998807907,
+        "p99": 75.80000001192093,
+        "max": 114.89999997615814,
+        "over33": 204,
+        "over50": 101,
+        "over100": 1
+      },
+      "speed": {
+        "n": 206,
+        "mean": 133.77395180919248,
+        "p95": 137.17007522983778,
+        "p99": 137.64016154734455,
+        "max": 137.76305332587805,
+        "over33": 206,
+        "over50": 206,
+        "over100": 206
+      },
+      "metric": {
+        "render": {
+          "calls": 827,
+          "total": 8638.200000286102,
+          "max": 46.69999998807907,
+          "mean": 10.44522370046687
+        },
+        "snapshot": {
+          "calls": 6760,
+          "total": 103.99999904632568,
+          "max": 1.800000011920929,
+          "mean": 0.015384615243539302
+        },
+        "physics": {
+          "calls": 1352,
+          "total": 831.2000001072884,
+          "max": 2.600000023841858,
+          "mean": 0.6147928994876393
+        },
+        "visual": {
+          "calls": 206,
+          "total": 235.80000019073486,
+          "max": 6,
+          "mean": 1.1446601951006548
+        },
+        "streaming": {
+          "calls": 206,
+          "total": 93.20000034570694,
+          "max": 33.10000002384186,
+          "mean": 0.45242718614420846
+        },
+        "hud": {
+          "calls": 206,
+          "total": 65.80000025033951,
+          "max": 0.699999988079071,
+          "mean": 0.3194174769433957
+        },
+        "mirrors": {
+          "calls": 206,
+          "total": 3753.1000002622604,
+          "max": 25,
+          "mean": 18.21893204010806
+        },
+        "prefabBuild": {
+          "calls": 11,
+          "total": 0.800000011920929,
+          "max": 0.2999999523162842,
+          "mean": 0.07272727381099355
+        },
+        "sectorLoad": {
+          "calls": 11,
+          "total": 67.19999992847443,
+          "max": 32.39999997615814,
+          "mean": 6.1090909025885844
+        },
+        "environment": {
+          "calls": 8,
+          "total": 25.199999928474426,
+          "max": 3.899999976158142,
+          "mean": 3.1499999910593033
+        },
+        "junctionBuild": {
+          "calls": 20,
+          "total": 33.200000047683716,
+          "max": 6.199999988079071,
+          "mean": 1.6600000023841859
+        },
+        "signMaterial": {
+          "calls": 36,
+          "total": 7.599999964237213,
+          "max": 0.699999988079071,
+          "mean": 0.21111111011770037
+        },
+        "storage": {
+          "calls": 1,
+          "total": 0.10000002384185791,
+          "max": 0.10000002384185791,
+          "mean": 0.10000002384185791
+        }
+      },
+      "heap": [
+        1017693503,
+        1048881308
+      ],
+      "peaks": [
+        {
+          "t": 7.191300000000003,
+          "frame": 99.30000000000291,
+          "cpu": 114.89999997615814,
+          "cost": {
+            "render": 67.29999995231628,
+            "snapshot": 0.800000011920929,
+            "physics": 7.799999952316284,
+            "visual": 0.5,
+            "roadCompile": 0,
+            "streaming": 33.10000002384186,
+            "hud": 0.30000001192092896,
+            "mirrors": 20.69999998807907,
+            "prefabBuild": 0.20000004768371582,
+            "signMaterial": 3.199999988079071,
+            "sectorLoad": 32.59999996423721,
+            "environment": 2.399999976158142,
+            "junctionBuild": 26.100000023841858,
+            "storage": 0
+          }
+        },
+        {
+          "t": 7.092,
+          "frame": 42.69999999999709,
+          "cpu": 95.39999997615814,
+          "cost": {
+            "render": 67.00000005960464,
+            "snapshot": 0.3999999165534973,
+            "physics": 3.299999952316284,
+            "visual": 1.699999988079071,
+            "roadCompile": 0,
+            "streaming": 17.30000001192093,
+            "hud": 0.30000001192092896,
+            "mirrors": 21.399999976158142,
+            "prefabBuild": 0.2999999523162842,
+            "signMaterial": 3.699999988079071,
+            "sectorLoad": 13.699999988079071,
+            "environment": 3.199999988079071,
+            "junctionBuild": 7.100000023841858,
+            "storage": 0
+          }
+        },
+        {
+          "t": 10.572800000000003,
+          "frame": 70.90000000000873,
+          "cpu": 75.80000001192093,
+          "cost": {
+            "render": 51.80000001192093,
+            "snapshot": 0.800000011920929,
+            "physics": 4.400000095367432,
+            "visual": 0.3999999761581421,
+            "roadCompile": 0,
+            "streaming": 12.899999976158142,
+            "hud": 0.5,
+            "mirrors": 20.599999964237213,
+            "prefabBuild": 0,
+            "signMaterial": 0.699999988079071,
+            "sectorLoad": 9.599999964237213,
+            "environment": 3,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 14.252800000000002,
+          "frame": 71,
+          "cpu": 66.69999998807907,
+          "cost": {
+            "render": 54.10000002384186,
+            "snapshot": 0.4999999403953552,
+            "physics": 5.800000011920929,
+            "visual": 2.399999976158142,
+            "roadCompile": 0,
+            "streaming": 0.09999996423721313,
+            "hud": 0.3999999761581421,
+            "mirrors": 23.69999998807907,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 13.4855,
+          "frame": 71,
+          "cpu": 65.19999998807907,
+          "cost": {
+            "render": 52.8999999165535,
+            "snapshot": 2.099999964237213,
+            "physics": 6.799999952316284,
+            "visual": 2.100000023841858,
+            "roadCompile": 0,
+            "streaming": 0,
+            "hud": 0.2999999523162842,
+            "mirrors": 22.100000023841858,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 11.269300000000003,
+          "frame": 57,
+          "cpu": 64.5,
+          "cost": {
+            "render": 54.300000071525574,
+            "snapshot": 0.7999999523162842,
+            "physics": 4.300000011920929,
+            "visual": 2.300000011920929,
+            "roadCompile": 0,
+            "streaming": 0.10000002384185791,
+            "hud": 0.30000001192092896,
+            "mirrors": 19.799999952316284,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 14.110899999999994,
+          "frame": 57.09999999999127,
+          "cpu": 64.19999998807907,
+          "cost": {
+            "render": 54.500000059604645,
+            "snapshot": 0.20000004768371582,
+            "physics": 4.5000001192092896,
+            "visual": 2.199999988079071,
+            "roadCompile": 0,
+            "streaming": 0,
+            "hud": 0.30000001192092896,
+            "mirrors": 20.5,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 5.529099999999999,
+          "frame": 56.69999999999709,
+          "cpu": 63.19999998807907,
+          "cost": {
+            "render": 50.19999998807907,
+            "snapshot": 0.800000011920929,
+            "physics": 6.600000023841858,
+            "visual": 3.199999988079071,
+            "roadCompile": 0,
+            "streaming": 0.10000002384185791,
+            "hud": 0.5,
+            "mirrors": 25,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "visibility": "visible",
+      "mirrors": null,
+      "resources": {
+        "sectorCount": 58,
+        "totalSectors": 4988,
+        "roadCount": 178,
+        "compiledRoadCount": 311,
+        "signCount": 113,
+        "barrierCount": 11720,
+        "backgroundSectors": 4988,
+        "constructorMs": 1594.8999999761581,
+        "firstVisibleMs": 9717.699999988079,
+        "firstLoadMs": 17990.30000001192
+      }
+    },
+    {
+      "name": "complex-cold",
+      "frame": {
+        "n": 247,
+        "mean": 49.00850202429152,
+        "p95": 113.59999999999127,
+        "p99": 170.5,
+        "max": 312.3999999999942,
+        "over33": 192,
+        "over50": 47,
+        "over100": 13
+      },
+      "cpu": {
+        "n": 247,
+        "mean": 41.257894731002295,
+        "p95": 96.20000004768372,
+        "p99": 126,
+        "max": 199.9000000357628,
+        "over33": 152,
+        "over50": 33,
+        "over100": 9
+      },
+      "speed": {
+        "n": 247,
+        "mean": 133.47036397255096,
+        "p95": 136.60534082345697,
+        "p99": 137.02054389498835,
+        "max": 137.14858322203423,
+        "over33": 247,
+        "over50": 247,
+        "over100": 247
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 6850,
+          "total": 102.39999908208847,
+          "max": 2.300000011920929,
+          "mean": 0.014948904975487369
+        },
+        "physics": {
+          "calls": 1370,
+          "total": 622.1000010371208,
+          "max": 2.799999952316284,
+          "mean": 0.4540875919978984
+        },
+        "visual": {
+          "calls": 247,
+          "total": 198.5999999642372,
+          "max": 2.5,
+          "mean": 0.8040485828511628
+        },
+        "roadCompile": {
+          "calls": 46,
+          "total": 876.0000000596046,
+          "max": 89.5,
+          "mean": 19.04347826216532
+        },
+        "prefabBuild": {
+          "calls": 92,
+          "total": 6.399999976158142,
+          "max": 0.699999988079071,
+          "mean": 0.06956521713215372
+        },
+        "signMaterial": {
+          "calls": 34,
+          "total": 56.3999999165535,
+          "max": 13,
+          "mean": 1.6588235269574558
+        },
+        "sectorLoad": {
+          "calls": 94,
+          "total": 645.3999999761581,
+          "max": 46.89999997615814,
+          "mean": 6.865957446554874
+        },
+        "streaming": {
+          "calls": 247,
+          "total": 1664.6999998092651,
+          "max": 125.40000003576279,
+          "mean": 6.739676112588118
+        },
+        "environment": {
+          "calls": 60,
+          "total": 81.90000015497208,
+          "max": 2.300000011920929,
+          "mean": 1.365000002582868
+        },
+        "hud": {
+          "calls": 247,
+          "total": 76.39999961853027,
+          "max": 1,
+          "mean": 0.3093117393462764
+        },
+        "render": {
+          "calls": 988,
+          "total": 7081.299999654293,
+          "max": 39.69999998807907,
+          "mean": 7.167307691957786
+        },
+        "mirrors": {
+          "calls": 247,
+          "total": 3761.4000002741814,
+          "max": 26.900000035762787,
+          "mean": 15.228340082081706
+        },
+        "storage": {
+          "calls": 2,
+          "total": 0.2999999523162842,
+          "max": 0.19999998807907104,
+          "mean": 0.1499999761581421
+        }
+      },
+      "heap": [
+        1069144862,
+        1275258619
+      ],
+      "peaks": [
+        {
+          "t": 3.5472000000238477,
+          "frame": 85.40000000000873,
+          "cpu": 199.9000000357628,
+          "cost": {
+            "render": 66.19999998807907,
+            "snapshot": 0.49999988079071045,
+            "physics": 3.1999999284744263,
+            "visual": 1.199999988079071,
+            "roadCompile": 78.19999998807907,
+            "streaming": 125.40000003576279,
+            "hud": 0.30000001192092896,
+            "mirrors": 26.900000035762787,
+            "prefabBuild": 0.3999999761581421,
+            "signMaterial": 14.800000011920929,
+            "sectorLoad": 46.89999997615814,
+            "environment": 1.399999976158142,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 7.283900000023845,
+          "frame": 85.19999999999709,
+          "cpu": 140.0999999642372,
+          "cost": {
+            "render": 29.69999998807907,
+            "snapshot": 0.40000003576278687,
+            "physics": 2.9000000953674316,
+            "visual": 1.399999976158142,
+            "roadCompile": 89.5,
+            "streaming": 100.90000003576279,
+            "hud": 0.5,
+            "mirrors": 15.799999952316284,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 11.100000023841858,
+            "environment": 2.300000011920929,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 4.101300000023839,
+          "frame": 57,
+          "cpu": 126,
+          "cost": {
+            "render": 33.800000071525574,
+            "snapshot": 0.8000001311302185,
+            "physics": 3.4000000953674316,
+            "visual": 0.3999999761581421,
+            "roadCompile": 68.30000001192093,
+            "streaming": 83.60000002384186,
+            "hud": 0.6000000238418579,
+            "mirrors": 17.19999998807907,
+            "prefabBuild": 0,
+            "signMaterial": 2.600000023841858,
+            "sectorLoad": 15.100000023841858,
+            "environment": 1.699999988079071,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 6.985600000023842,
+          "frame": 56.89999999999418,
+          "cpu": 118.5,
+          "cost": {
+            "render": 31.399999976158142,
+            "snapshot": 0.699999988079071,
+            "physics": 2.599999964237213,
+            "visual": 0.30000001192092896,
+            "roadCompile": 79.69999992847443,
+            "streaming": 80.5,
+            "hud": 0.30000001192092896,
+            "mirrors": 17.19999998807907,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0.5,
+            "environment": 1.5,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 4.541700000023848,
+          "frame": 42.60000000000582,
+          "cpu": 118.19999998807907,
+          "cost": {
+            "render": 40.39999997615814,
+            "snapshot": 0.20000004768371582,
+            "physics": 1.7999999523162842,
+            "visual": 0.2999999523162842,
+            "roadCompile": 57.000000059604645,
+            "streaming": 71.70000004768372,
+            "hud": 0.40000003576278687,
+            "mirrors": 20.599999964237213,
+            "prefabBuild": 0.09999996423721313,
+            "signMaterial": 2.099999964237213,
+            "sectorLoad": 14.300000011920929,
+            "environment": 1.399999976158142,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 5.550600000023842,
+          "frame": 42.69999999999709,
+          "cpu": 115.89999997615814,
+          "cost": {
+            "render": 42.69999998807907,
+            "snapshot": 0.19999998807907104,
+            "physics": 1.5,
+            "visual": 0.20000004768371582,
+            "roadCompile": 53,
+            "streaming": 67.69999998807907,
+            "hud": 0.3999999761581421,
+            "mirrors": 16.5,
+            "prefabBuild": 0.09999996423721313,
+            "signMaterial": 0.8999999761581421,
+            "sectorLoad": 14.400000035762787,
+            "environment": 1.399999976158142,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 7.425900000023844,
+          "frame": 142,
+          "cpu": 107.59999996423721,
+          "cost": {
+            "render": 32.90000003576279,
+            "snapshot": 0.4999999403953552,
+            "physics": 4.100000023841858,
+            "visual": 1.2000000476837158,
+            "roadCompile": 66.30000001192093,
+            "streaming": 66.39999997615814,
+            "hud": 0.3999999761581421,
+            "mirrors": 15.699999988079071,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 3.234500000023836,
+          "frame": 312.3999999999942,
+          "cpu": 101.80000001192093,
+          "cost": {
+            "render": 30.100000083446503,
+            "snapshot": 1.199999988079071,
+            "physics": 5.099999904632568,
+            "visual": 1.600000023841858,
+            "roadCompile": 29.399999976158142,
+            "streaming": 60.80000001192093,
+            "hud": 0.3999999761581421,
+            "mirrors": 20.30000001192093,
+            "prefabBuild": 0.09999996423721313,
+            "signMaterial": 10.79999989271164,
+            "sectorLoad": 31.19999998807907,
+            "environment": 1.0999999642372131,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "visibility": "visible",
+      "mirrors": null,
+      "resources": {
+        "sectorCount": 97,
+        "totalSectors": 4988,
+        "roadCount": 85,
+        "compiledRoadCount": 396,
+        "signCount": 50,
+        "barrierCount": 19922,
+        "backgroundSectors": 4988,
+        "constructorMs": 1594.8999999761581,
+        "firstVisibleMs": 9717.699999988079,
+        "firstLoadMs": 17990.30000001192
+      }
+    },
+    {
+      "name": "complex-warm",
+      "frame": {
+        "n": 312,
+        "mean": 38.571153846153834,
+        "p95": 56.69999999999709,
+        "p99": 57.09999999999127,
+        "max": 71,
+        "over33": 204,
+        "over50": 18,
+        "over100": 0
+      },
+      "cpu": {
+        "n": 312,
+        "mean": 33.637179487599774,
+        "p95": 41.40000003576279,
+        "p99": 55.30000001192093,
+        "max": 60.80000001192093,
+        "over33": 172,
+        "over50": 5,
+        "over100": 0
+      },
+      "speed": {
+        "n": 312,
+        "mean": 133.96869839404494,
+        "p95": 138.01170565992922,
+        "p99": 138.684543290512,
+        "max": 138.82462315931588,
+        "over33": 312,
+        "over50": 312,
+        "over100": 312
+      },
+      "metric": {
+        "hud": {
+          "calls": 313,
+          "total": 96.69999998807907,
+          "max": 1,
+          "mean": 0.30894568686287244
+        },
+        "render": {
+          "calls": 1252,
+          "total": 8741.600000500679,
+          "max": 17.80000001192093,
+          "mean": 6.982108626597986
+        },
+        "mirrors": {
+          "calls": 313,
+          "total": 4639.499999403954,
+          "max": 20.099999964237213,
+          "mean": 14.822683704165986
+        },
+        "snapshot": {
+          "calls": 7220,
+          "total": 118.6000018119812,
+          "max": 0.30000001192092896,
+          "mean": 0.016426593048750857
+        },
+        "physics": {
+          "calls": 1444,
+          "total": 677.9999998211861,
+          "max": 1.399999976158142,
+          "mean": 0.4695290857487438
+        },
+        "visual": {
+          "calls": 312,
+          "total": 235.50000023841858,
+          "max": 2.300000011920929,
+          "mean": 0.7548076930718545
+        },
+        "streaming": {
+          "calls": 312,
+          "total": 178.09999990463257,
+          "max": 21.80000001192093,
+          "mean": 0.5708333330276685
+        },
+        "environment": {
+          "calls": 9,
+          "total": 12.599999904632568,
+          "max": 1.699999988079071,
+          "mean": 1.3999999894036188
+        },
+        "prefabBuild": {
+          "calls": 6,
+          "total": 0.5999999046325684,
+          "max": 0.19999998807907104,
+          "mean": 0.09999998410542806
+        },
+        "sectorLoad": {
+          "calls": 6,
+          "total": 22.299999952316284,
+          "max": 11.199999988079071,
+          "mean": 3.716666658719381
+        },
+        "storage": {
+          "calls": 1,
+          "total": 0.09999996423721313,
+          "max": 0.09999996423721313,
+          "mean": 0.09999996423721313
+        }
+      },
+      "heap": [
+        1294455434,
+        1345905885
+      ],
+      "peaks": [
+        {
+          "t": 12.295700000011916,
+          "frame": 42.69999999999709,
+          "cpu": 60.80000001192093,
+          "cost": {
+            "render": 35.19999998807907,
+            "snapshot": 0.40000003576278687,
+            "physics": 2.699999988079071,
+            "visual": 0.30000001192092896,
+            "roadCompile": 0,
+            "streaming": 20.69999998807907,
+            "hud": 0.3999999761581421,
+            "mirrors": 19.100000023841858,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 6.868300000011921,
+          "frame": 42.60000000000582,
+          "cpu": 57.19999998807907,
+          "cost": {
+            "render": 25.899999976158142,
+            "snapshot": 0.20000004768371582,
+            "physics": 3.400000035762787,
+            "visual": 1.300000011920929,
+            "roadCompile": 0,
+            "streaming": 21.80000001192093,
+            "hud": 0.30000001192092896,
+            "mirrors": 12.800000011920929,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 1.199999988079071,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 4.168800000011921,
+          "frame": 42.60000000000582,
+          "cpu": 56.30000001192093,
+          "cost": {
+            "render": 27.30000001192093,
+            "snapshot": 0.5999999046325684,
+            "physics": 2.299999952316284,
+            "visual": 1,
+            "roadCompile": 0,
+            "streaming": 21.200000047683716,
+            "hud": 0.3999999761581421,
+            "mirrors": 15.800000011920929,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 1.5999999642372131,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 9.581900000011927,
+          "frame": 42.60000000000582,
+          "cpu": 55.30000001192093,
+          "cost": {
+            "render": 30.30000001192093,
+            "snapshot": 0.40000003576278687,
+            "physics": 2.200000047683716,
+            "visual": 0.7000000476837158,
+            "roadCompile": 0,
+            "streaming": 18,
+            "hud": 0.5,
+            "mirrors": 16.30000001192093,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 1.5999999642372131,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 12.835700000011915,
+          "frame": 28.5,
+          "cpu": 53,
+          "cost": {
+            "render": 32.19999998807907,
+            "snapshot": 0.30000001192092896,
+            "physics": 1.600000023841858,
+            "visual": 0.30000001192092896,
+            "roadCompile": 0,
+            "streaming": 16.399999976158142,
+            "hud": 0.30000001192092896,
+            "mirrors": 16.5,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 4.225700000011915,
+          "frame": 56.89999999999418,
+          "cpu": 49.89999997615814,
+          "cost": {
+            "render": 31,
+            "snapshot": 0.4999999403953552,
+            "physics": 2.899999976158142,
+            "visual": 1.199999988079071,
+            "roadCompile": 0,
+            "streaming": 11.700000047683716,
+            "hud": 0.2999999523162842,
+            "mirrors": 17.600000023841858,
+            "prefabBuild": 0.09999996423721313,
+            "signMaterial": 0,
+            "sectorLoad": 11.199999988079071,
+            "environment": 1.199999988079071,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 4.410300000011921,
+          "frame": 42.60000000000582,
+          "cpu": 48.10000002384186,
+          "cost": {
+            "render": 21.5,
+            "snapshot": 0.5,
+            "physics": 2.5,
+            "visual": 0.40000003576278687,
+            "roadCompile": 0,
+            "streaming": 21.099999964237213,
+            "hud": 0.30000001192092896,
+            "mirrors": 13.399999976158142,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 0,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        },
+        {
+          "t": 14.910000000011918,
+          "frame": 28.39999999999418,
+          "cpu": 45.90000003576279,
+          "cost": {
+            "render": 21.600000023841858,
+            "snapshot": 0.09999996423721313,
+            "physics": 2.0000000596046448,
+            "visual": 1,
+            "roadCompile": 0,
+            "streaming": 18.399999976158142,
+            "hud": 0.30000001192092896,
+            "mirrors": 12.899999976158142,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "sectorLoad": 0,
+            "environment": 1.199999988079071,
+            "junctionBuild": 0,
+            "storage": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "visibility": "visible",
+      "mirrors": null,
+      "resources": {
+        "sectorCount": 96,
+        "totalSectors": 4988,
+        "roadCount": 85,
+        "compiledRoadCount": 396,
+        "signCount": 50,
+        "barrierCount": 19922,
+        "backgroundSectors": 4988,
+        "constructorMs": 1594.8999999761581,
+        "firstVisibleMs": 9717.699999988079,
+        "firstLoadMs": 17990.30000001192
+      }
+    }
+  ]
+}

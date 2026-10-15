@@ -99,6 +99,9 @@ export interface PowertrainUpdateContext {
   parkingBrakeActive?: boolean;
   dt: number; throttle: number; brake: number;
   vehicleSpeed: number; vehicleLateralSpeed: number;
+  /** Effective carrier inertia and signed physical contact/brake reaction, SI. */
+  drivenWheelInertia?: number;
+  drivenWheelReactionTorque?: number;
   drivenWheelAngularVelocity: number; torqueLimitFactor: number;
   clutchPedal: number; selectorRequest?: DriveSelector; driveMode?: VehicleDriveMode;
 }
@@ -136,6 +139,8 @@ export interface Powertrain {
   captureState(previous?: PowertrainInitialState): PowertrainInitialState;
   requestStart(): boolean;
   requestStop(): boolean;
+  /** One safety-gated selector request for every installed axle; does not advance time. */
+  requestDriveSelector(selector: DriveSelector, speed: number, lateralSpeed: number, brake: number): boolean;
   requestGear(gear: Gear, mode: VehicleControlMode, speed: number): ShiftRejectionReason | null;
   getShiftGear(direction: -1 | 1): Gear | null;
   setControlMode(mode: VehicleControlMode): VehicleControlMode;

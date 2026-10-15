@@ -1,0 +1,411 @@
+{
+  "powertrainBoundary": {
+    "assertions": 133,
+    "iceVehicles": 10,
+    "nonICEFixture": true
+  },
+  "tractionPerformance": {
+    "assertions": 2404,
+    "lowSpeedBinsKmh": [
+      0,
+      2,
+      5,
+      10
+    ],
+    "signReversals": 0,
+    "zeroTo100": 3.9916666666666667,
+    "serviceDrag": 0
+  },
+  "driverAssists": {
+    "assertions": 133,
+    "absSeen": true
+  },
+  "escAWD": {
+    "assertions": 48
+  },
+  "wheel": {
+    "assertions": 28,
+    "lockedWheelSlip": -0.9950371902099892,
+    "reverseWheelForce": 2651.880000001957
+  },
+  "surface": {
+    "assertions": 4803,
+    "braking20to5": {
+      "asphalt": {
+        "distance": 27.01424486865443,
+        "seconds": 2.1416666666666617,
+        "abs": false
+      },
+      "wet-asphalt": {
+        "distance": 31.810744861232532,
+        "seconds": 2.5249999999999937,
+        "abs": true
+      },
+      "packed-snow": {
+        "distance": 54.486634754498674,
+        "seconds": 4.35833333333334,
+        "abs": true
+      },
+      "ice": {
+        "distance": 225.6415538255581,
+        "seconds": 18.274999999999604,
+        "abs": true
+      }
+    },
+    "splitResults": [
+      {
+        "esc": false,
+        "maximumYaw": 0.3440984785121517,
+        "pressureDifference": 0.9599004868959539,
+        "asymmetricForce": 3548.980452143238
+      },
+      {
+        "esc": true,
+        "maximumYaw": 0.3440984785121517,
+        "pressureDifference": 0.9599004868959539,
+        "asymmetricForce": 3548.980452143238
+      }
+    ],
+    "softResistanceN": {
+      "fresh-snow": [
+        106.5995661271418,
+        296.6213249999999,
+        579.7778898185818
+      ],
+      "sand": [
+        254.87921111008066,
+        709.22061,
+        1386.2470228047407
+      ],
+      "mud": [
+        155.88483526174323,
+        433.7613,
+        847.8325393461338
+      ],
+      "gravel": [
+        46.141156163583666,
+        128.39124374999997,
+        250.95432492103595
+      ]
+    },
+    "drivetrain": [
+      {
+        "layout": "FWD",
+        "speed": 8.98979787444663,
+        "front": 887.3618034414785,
+        "rear": 0,
+        "frontSlip": 0.31186862711016095,
+        "rearSlip": -0.0018361474876302261
+      },
+      {
+        "layout": "RWD",
+        "speed": 8.718951490116524,
+        "front": 0,
+        "rear": 678.6747097780955,
+        "frontSlip": -0.0009075277953812592,
+        "rearSlip": 0.37196490063292875
+      },
+      {
+        "layout": "AWD",
+        "speed": 9.313983145725501,
+        "front": 480.8719971018569,
+        "rear": 721.3079956527853,
+        "frontSlip": 0.07643168716651615,
+        "rearSlip": 0.2914091158892372
+      }
+    ],
+    "topologyBraking": [
+      19.152524224424358,
+      19.152524224424358,
+      19.152524224424358
+    ],
+    "depthCoast": {
+      "fresh-snow": [
+        9.43667044380527,
+        8.967693095630509,
+        8.273090985658087
+      ],
+      "sand": [
+        9.04006665430036,
+        7.953018834522418,
+        6.355060960384564
+      ],
+      "mud": [
+        9.3076711015997,
+        8.630752322175299,
+        7.629900510991869
+      ]
+    },
+    "evSplit": [
+      {
+        "topology": "RWD",
+        "speed": 17.793822154864177,
+        "rearPressure": 0.13783441482751088
+      },
+      {
+        "topology": "AWD",
+        "speed": 17.590499266532618,
+        "rearPressure": 0.139105341138348
+      }
+    ],
+    "mud": {
+      "lowSlip": 0.9005040759068643,
+      "highSlip": 0.9624045292663534,
+      "lowForce": 753.755491179411,
+      "highForce": 742.2961874163537
+    },
+    "query": {
+      "zones": 125,
+      "maximumCellCandidates": 11
+    },
+    "maxAcceleration": 9.092026338182123,
+    "maxYawStep": 0.005147635775009325
+  },
+  "fourWheel": {
+    "assertions": 20888,
+    "scenarios": [
+      {
+        "vehicle": "family-sedan",
+        "drivenAxle": "FWD",
+        "brakeBias": 0.68,
+        "brakingPitchDegrees": -0.48868130819138184,
+        "cornerRollDegrees": 1.6812171289804785,
+        "splitYawDegrees": -0.17586407260162698,
+        "cornerSpeedKmh": 48.396235679094445,
+        "hillLaunchSpeedKmh": 27.187571563564518,
+        "hillMaximumRPM": 3453.9062887599134
+      },
+      {
+        "vehicle": "sport-coupe",
+        "drivenAxle": "RWD",
+        "brakeBias": 0.67,
+        "brakingPitchDegrees": -0.36083764389070244,
+        "cornerRollDegrees": 1.254791943824979,
+        "splitYawDegrees": -0.21853746250132883,
+        "cornerSpeedKmh": 48.305264634605464,
+        "hillLaunchSpeedKmh": 68.54589436323485,
+        "hillMaximumRPM": 7363.866021012362
+      }
+    ],
+    "restStable": true,
+    "rearOnlyHandbrake": true,
+    "preservedPowertrain": true
+  },
+  "dynamics": {
+    "straightZ": -2.0353188889480465,
+    "rightTurnX": 1.6803665520604312,
+    "rightTurnYaw": -0.4331644877519891,
+    "gearedCoastSpeed": 20.08457997123144,
+    "neutralCoastSpeed": 21.282535406399468,
+    "manualShiftRejected": true,
+    "manualShiftAccepted": true,
+    "autoShiftPassed": true,
+    "modeTakeoverMaxJump": 0.011249999999999982,
+    "handbrakeSlowedVehicle": true,
+    "lightLoadUpshiftRPM": 1854.9167860972564,
+    "highLoadUpshiftRPM": 2500,
+    "everydayUpshiftRangePassed": true,
+    "upshiftHysteresisPassed": true,
+    "invalidUpshiftSuppressed": true,
+    "redlineIsSeparate": true,
+    "throttleProgressionPassed": true,
+    "steeringSensitivityPassed": true,
+    "steeringContinuityMaxYawStep": 0.007718596082476908,
+    "normalSteeringContinuityPassed": true,
+    "highSpeedYawRatio": 0.6747439380960375,
+    "highSpeedYawReductionPassed": true,
+    "handbrakeSlideAngleDegrees": 16.735905098842522,
+    "handbrakeYawGain": 1.6923620182544252,
+    "handbrakeSlidePassed": true,
+    "handbrakeSlideRecoveryPassed": true,
+    "surfaceGripResponsePassed": true,
+    "longitudinalBaselineSpeedKmh": 7.471323096132573,
+    "longitudinalBaselineDistance": 2.0353188889480465,
+    "longitudinalBaselinePassed": true,
+    "manualBrakeStallPassed": true,
+    "idleLoadSagRPM": 106.34651583183859,
+    "idleCreepSpeedKmh": 1.659403295786311,
+    "idleLoadBehaviourPassed": true,
+    "highGearIdleLaunchPrevented": true,
+    "engineRestartInterlockPassed": true,
+    "ignitionTogglePassed": true,
+    "normalFirstGearLaunchPassed": true,
+    "normalAutoClutchAntiStallPassed": true,
+    "nanRecoveryPassed": true
+  },
+  "platform": {
+    "assertions": 2108,
+    "openTraction": 2957.279706957467,
+    "lsdTraction": 3634.8915507704396
+  },
+  "ferrari": {
+    "assertions": 866,
+    "powerKW": 419.4026192542373,
+    "roadReadyMass": 1479.6993434745725,
+    "launchSpeedKmh": 98.59188679578503
+  },
+  "transmissionBackend": {
+    "assertions": 2440,
+    "converterRatios": [
+      2.05,
+      1.5,
+      1.13,
+      1
+    ],
+    "atCreepTorque": 489.95136075861353,
+    "dctCreepTorque": 342.51515008276374
+  },
+  "transmissionVehicle": {
+    "assertions": 55111,
+    "scenarios": [
+      {
+        "type": "TORQUE_CONVERTER_AT",
+        "creepSpeedKmh": 5.394445730418715,
+        "lightGear": 4,
+        "lightRPM": 1710.3226182310902,
+        "cruiseLockup": 1,
+        "beforeKickdownGear": 6,
+        "kickdownMinimumGear": 2,
+        "beforeKickdownRPM": 1377.7589258661533,
+        "kickdownRPM": 5743.621328825346,
+        "handoverSeen": false,
+        "reverseSpeedKmh": 5.107325767408114
+      },
+      {
+        "type": "DCT",
+        "creepSpeedKmh": 7.143957075918835,
+        "lightGear": 5,
+        "lightRPM": 1656.8154212174002,
+        "cruiseLockup": null,
+        "beforeKickdownGear": 7,
+        "kickdownMinimumGear": 3,
+        "beforeKickdownRPM": 1415.369578288379,
+        "kickdownRPM": 4080.577729626178,
+        "handoverSeen": false,
+        "reverseSpeedKmh": 7.220035162495447
+      }
+    ]
+  },
+  "transmissionShift": {
+    "assertions": 37167,
+    "scenarios": [
+      {
+        "type": "TORQUE_CONVERTER_AT",
+        "firstShiftRPM": 2443.050950437149,
+        "firstShiftDuration": 0.5250000000000004,
+        "firstShiftMinWheelTorque": 212.15090319906506,
+        "fullThrottleFirstShiftRPM": 6270.541775932222,
+        "maximumRPMStep": 32.95972478278054,
+        "gearChanges": 3,
+        "overlapSeen": false,
+        "shaftSwitches": 0,
+        "maximumLowSpeedStep": 0.015905350081990934
+      },
+      {
+        "type": "DCT",
+        "firstShiftRPM": 2113.8819193008494,
+        "firstShiftDuration": 0.20833333333333393,
+        "firstShiftMinWheelTorque": 345.2005688613223,
+        "fullThrottleFirstShiftRPM": 5975.323572941357,
+        "maximumRPMStep": 40.26133633359041,
+        "gearChanges": 4,
+        "overlapSeen": true,
+        "shaftSwitches": 3,
+        "maximumLowSpeedStep": 0.02002972067468123
+      }
+    ]
+  },
+  "cvt": {
+    "assertions": 10573,
+    "scenarios": [
+      {
+        "throttle": 0.2,
+        "speedKmh": 18.13132400887507,
+        "rpm": 1784.030359951225,
+        "ratio": 1.8559695798095757
+      },
+      {
+        "throttle": 1,
+        "speedKmh": 96.71626581708034,
+        "rpm": 5703.149440535923,
+        "ratio": 1.333826027951475
+      }
+    ],
+    "reverseSpeedKmh": 4.573382373427017
+  },
+  "ev": {
+    "assertions": 294,
+    "zeroTo100Seconds": 6.108333333333333,
+    "topSpeedKmh": 197.8251496852996,
+    "remainingEnergyKWh": 45.98467999731715
+  },
+  "evV2": {
+    "assertions": 2220,
+    "taycanPerformance": {
+      "zeroTo100Seconds": 3.5083333333333333,
+      "topSpeedKmh": 250.67447760861674,
+      "hardAccelerationEnergyKWh": 0.33169111095957876
+    },
+    "model3Performance": {
+      "zeroTo100Seconds": 6.108333333333333,
+      "topSpeedKmh": 197.8253190846331,
+      "hardAccelerationEnergyKWh": 0.2563301980913918
+    },
+    "teslaThermal": {
+      "startTemp": 24,
+      "peak": 210000,
+      "hotTemp": 113.70726620142275,
+      "hotPower": 155979.6412335465,
+      "cooledTemperature": 74.37177665712544,
+      "recoveredPower": 210000,
+      "sustainedMechanicalKW": 155.97964123354652
+    },
+    "taycanThermal": {
+      "startTemp": 25,
+      "peak": 280000,
+      "hotTemp": 97.42431947695752,
+      "hotPower": 243906.0240288851,
+      "cooledTemperature": 65.30490873496245,
+      "recoveredPower": 280000,
+      "sustainedMechanicalKW": 380
+    },
+    "awdFrontShares": {
+      "lightFront": 0,
+      "mediumFront": 0.3235216874427342,
+      "hardFront": 0.43814343122405414
+    },
+    "overboostMechanicalKW": 439.9999995588916,
+    "brakeBlending": {
+      "normalRegenNm": 1844.1160600142648,
+      "fullRegenNm": 6.153490252783308e-12,
+      "normalFrictionNm": 34.25620471114826,
+      "fullFrictionNm": 1878.372264725407
+    },
+    "energyComparison": {
+      "model3Urban": {
+        "kWhPer100Km": 14.279360671230457,
+        "finalRangeKm": 340.43330429325766
+      },
+      "taycanUrban": {
+        "kWhPer100Km": 15.40358124408366,
+        "finalRangeKm": 433.2550909055395
+      },
+      "model3At100": {
+        "kWhPer100Km": 13.271709518272177,
+        "finalRangeKm": 352.2664384808795
+      },
+      "taycanAt100": {
+        "kWhPer100Km": 17.60403682811131,
+        "finalRangeKm": 435.29393719260236
+      },
+      "model3At120": {
+        "kWhPer100Km": 16.24931686019219,
+        "finalRangeKm": 290.99637648723046
+      },
+      "taycanAt120": {
+        "kWhPer100Km": 21.15768043159772,
+        "finalRangeKm": 366.8485312987293
+      }
+    }
+  }
+}

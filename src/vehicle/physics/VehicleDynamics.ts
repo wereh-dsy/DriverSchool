@@ -12,6 +12,7 @@ import { SteeringSystem } from './SteeringSystem';
 import { WHEEL_IDS, type WheelContactSet, type WheelId } from './WheelContact';
 import { centerOfMassOffsetZ, wheelLocalPosition } from '../VehicleDimensions';
 import { SuspensionSystem } from './SuspensionSystem';
+import { SurfaceInteraction, softSurfaceResistance } from './SurfaceInteraction';
 import { WheelRotationSystem } from './WheelRotationSystem';
 import type { Differential, DifferentialSnapshot } from './Differential';
 import { createDifferential } from './LimitedSlipDifferential';
@@ -268,6 +269,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public readonly steering: SteeringSystem;
   public readonly suspension: SuspensionSystem;
   public readonly wheelRotation: WheelRotationSystem;
+  private readonly surfaceInteraction = new SurfaceInteraction();
+  private readonly softLongitudinalForces: FourWheelValues = [0, 0, 0, 0];
+  private readonly softLateralForces: FourWheelValues = [0, 0, 0, 0];
   public readonly tpms: TPMSSensor;
   private tyreAmbientTemperatureC: number;
   public readonly differential: Differential;
@@ -401,6 +405,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.rearLateralGripFactor = 1;
     this.suspension.reset();
     this.wheelRotation.reset(this.speed);
+    this.surfaceInteraction.reset();
     this.differential.distributeTorque(0);
     this.rearDifferential?.distributeTorque(0);
     this.awd?.reset();
@@ -436,6 +441,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       this.config.safety.maxForwardSpeed,
     );
     this.wheelRotation.reset(this.speed);
+    this.surfaceInteraction.reset();
     this.differential.distributeTorque(0);
     this.rearDifferential?.distributeTorque(0);
     this.awd?.reset();
@@ -536,7 +542,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
   /** PRND uses the safety gate only; it never advances time or reads a device. */
   public requestDriveSelector(selector: DriveSelector, brake = this.brakes.brakeInput): boolean {
-    return this.transmission.requestSelector(selector, this.speed, this.lateralVelocity, this.safeUnitInput(brake));
+    return this.powertrain.requestDriveSelector(selector, this.speed, this.lateralVelocity, this.safeUnitInput(brake));
   }
 
   /** Apply calibration in place: existing subsystems retain their config references. */
@@ -643,11 +649,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       rightRoadWheelAngle: this.steering.rightRoadWheelAngle,
       steeringWheelAngle: this.steering.steeringWheelAngle,
       forces: { ...this.forces },
-      wheels: Object.fromEntries(WHEEL_IDS.map((id) => [id, {
-        ...this.wheels[id], worldPosition: { ...this.wheels[id].worldPosition },
-        groundNormal: { ...this.wheels[id].groundNormal },
-      }])) as Record<WheelId, WheelPhysicsState>,
-      chassis: this.suspension.getSnapshot().chassis,
+      wheels: { frontLeft: this.copyWheelSnapshot('frontLeft'), frontRight: this.copyWheelSnapshot('frontRight'),
+        rearLeft: this.copyWheelSnapshot('rearLeft'), rearRight: this.copyWheelSnapshot('rearRight') },
+      chassis: this.suspension.getChassisSnapshot(),
       transmission,
       differential: this.getDifferentialSnapshot(),
       rearDifferential: this.rearDifferential?.getSnapshot(),
@@ -661,6 +665,11 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       electronicDifferentialActive: this.driverAssists.electronicDifferentialActive,
       recoveredFromInvalidState: this.recoveredThisUpdate,
     } as VehicleSnapshotFor<TPowertrain>;
+  }
+
+  private copyWheelSnapshot(id: WheelId): WheelPhysicsState {
+    const wheel = this.wheels[id];
+    return { ...wheel, worldPosition: { ...wheel.worldPosition }, groundNormal: { ...wheel.groundNormal } };
   }
 
   /** Drive modes shape the pedal, before arbitration with assistance demand. */
@@ -679,15 +688,31 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const handbrakeCommand = this.safeUnitInput(input.handbrake);
     const steerCommand = clamp(this.finiteOr(input.steering, 0), -1, 1);
 
-    this.awd?.update(dt, throttleCommand, this.wheels, this.powertrain.driveAvailable && this.powertrain.driving);
+
     this.driverAssists.updateTraction(dt, this.wheels, throttleCommand, this.powertrain.vehicleOperational,
-      this.powertrain.driving, this.powertrain.driveAvailable);
+      this.powertrain.driving, this.powertrain.driveAvailable, environment.wheelContacts);
+    this.awd?.update(dt, throttleCommand, this.wheels, this.powertrain.driveAvailable && this.powertrain.driving,
+      this.driverAssists.frontTorqueFactor, this.driverAssists.rearTorqueFactor);
     const context = this.powertrainContext;
     context.dt = dt; context.throttle = throttleCommand; context.brake = brakeCommand;
     context.vehicleSpeed = this.speed; context.vehicleLateralSpeed = this.lateralVelocity;
     context.drivenWheelAngularVelocity = this.getDrivenWheelAngularVelocity();
     context.frontWheelAngularVelocity = (this.wheelRotation.getAngularVelocity('frontLeft') + this.wheelRotation.getAngularVelocity('frontRight')) * .5;
     context.rearWheelAngularVelocity = (this.wheelRotation.getAngularVelocity('rearLeft') + this.wheelRotation.getAngularVelocity('rearRight')) * .5;
+    // Carrier inertia follows the same torque-weighted speed as AWD allocation.
+    let inverseInertia = 0, reactionAcceleration = 0;
+    for (const id of WHEEL_IDS) {
+      const front = id === 'frontLeft' || id === 'frontRight';
+      const share = this.awd ? (front ? 1 - this.awd.rearTorqueSplit : this.awd.rearTorqueSplit) * .5
+        : front === (this.config.drivetrainType === 'FWD') ? .5 : 0;
+      const wheel = this.wheels[id], inertia = this.config.tires.wheelInertia;
+      inverseInertia += share * share / inertia;
+      const reaction = wheel.longitudinalForce * this.config.wheelRadius +
+        (wheel.appliedBrakeTorque + wheel.appliedHandbrakeTorque) * Math.sign(wheel.angularVelocity);
+      reactionAcceleration += share * reaction / inertia;
+    }
+    context.drivenWheelInertia = 1 / Math.max(1e-6, inverseInertia);
+    context.drivenWheelReactionTorque = reactionAcceleration * context.drivenWheelInertia;
     context.frontTorqueLimitFactor = this.driverAssists.frontTorqueFactor;
     context.rearTorqueLimitFactor = this.driverAssists.rearTorqueFactor;
     context.yawRate = this.yawRate; context.expectedYawRate = this.driverAssists.esc.expectedYawRate;
@@ -962,14 +987,15 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       this.finiteOr(environment.surfaceLateralGripMultiplier, 1));
     const legacyRolling = Math.max(0,
       this.finiteOr(environment.rollingResistanceMultiplier, 1));
+    for (const id of WHEEL_IDS) this.surfaceInteraction.update(id, dt, wheelContacts?.[id]);
     const gripLong = shares.map((_, i) => Math.max(0,
-      this.finiteOr(contacts?.[i]?.longitudinalGrip, legacyLongitudinal)) *
+      this.finiteOr(wheelContacts ? this.surfaceInteraction.get(WHEEL_IDS[i]!).longitudinalGrip : undefined, legacyLongitudinal)) *
       this.wheelRotation.gripModel.wetRetention(contacts?.[i]?.wetness ?? 0)) as FourWheelValues;
     const gripLat = shares.map((_, i) => Math.max(0,
-      this.finiteOr(contacts?.[i]?.lateralGrip, legacyLateral)) *
+      this.finiteOr(wheelContacts ? this.surfaceInteraction.get(WHEEL_IDS[i]!).lateralGrip : undefined, legacyLateral)) *
       this.wheelRotation.gripModel.wetRetention(contacts?.[i]?.wetness ?? 0, true)) as FourWheelValues;
     const rolling = shares.map((_, i) => Math.max(0,
-      this.finiteOr(contacts?.[i]?.rollingResistance, legacyRolling))) as FourWheelValues;
+      this.finiteOr(wheelContacts ? this.surfaceInteraction.get(WHEEL_IDS[i]!).rollingResistance : undefined, legacyRolling))) as FourWheelValues;
     const loads = WHEEL_IDS.map((id) => suspension.wheels[id].normalLoad) as FourWheelValues;
     // A common nominal tyre load preserves sublinear grip across static axle
     // distributions as well as dynamic transfer. Width never scales friction.
@@ -986,7 +1012,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const regenerating = this.powertrain.limitRegeneration !== undefined && (requestedDriveTorque * this.speed < 0 ||
       evAxles !== undefined && ((evAxles.frontWheelTorque ?? 0) * this.speed < 0 || (evAxles.rearWheelTorque ?? 0) * this.speed < 0));
     this.driverAssists.updateBrakes(dt, this.speed, this.brakes.brakeInput, this.wheels, limits, this.brakes.coordinator,
-      regenerating ? this.config.drivetrainType === 'AWD' ? 'both' : this.config.drivetrainType === 'FWD' ? 'front' : 'rear' : undefined);
+      regenerating ? this.config.drivetrainType === 'AWD' ? 'both' : this.config.drivetrainType === 'FWD' ? 'front' : 'rear' : undefined, wheelContacts);
     this.brakes.setDriverAidState(this.driverAssists.frontBrakeBias, this.driverAssists.pressures, this.driverAssists.esc.brakeTorques);
     if (regenerating && this.powertrain.limitAxleRegeneration) {
       let frontLimit = Infinity, rearLimit = Infinity;
@@ -1041,6 +1067,29 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       this.wheelRotation.tyres.states[WHEEL_IDS[i]!].rollingResistanceFactor) as FourWheelValues;
     const rollingForces = rollingMagnitudes.map((magnitude, i) =>
       -magnitude * Math.tanh((this.speed + this.yawRate * localX[i]!) / 0.2)) as FourWheelValues;
+    // Deformation work is dissipative at each contact, including sideways motion.
+    // Keep it separate from rolling heat: work spent moving soil is not tyre heat.
+    const softLong = this.softLongitudinalForces;
+    const softLat = this.softLateralForces;
+    for (const i of [0, 1, 2, 3] as const) {
+      const id = WHEEL_IDS[i];
+      const response = this.surfaceInteraction.get(id);
+      if (response.depth <= 0 || response.resistanceStrength <= 0) {
+        softLong[i] = softLat[i] = 0;
+        continue;
+      }
+      const vx = this.speed + this.yawRate * localX[i];
+      const vz = this.lateralVelocity + this.yawRate * (i < 2 ? -this.config.wheelBase * .5 - this.centerOfMassLocalZ : this.config.wheelBase * .5 - this.centerOfMassLocalZ);
+      const velocity = Math.hypot(vx, vz);
+      const magnitude = softSurfaceResistance(response, loads[i], velocity,
+        this.wheels[id].slipRatio, this.wheelRotation.tyres.states[id].pressureRatio, tyreReferenceLoad);
+      // Smooth at rest, bounded to dissipate at most the contact's share of kinetic
+      // energy per step. No velocity clamp or pose correction on soft ground.
+      const force = Math.min(magnitude * Math.tanh(velocity / .3), loads[i] / this.config.gravity * velocity / Math.max(dt, 1e-4) * .5);
+      const scale = velocity > 1e-8 ? -force / velocity : 0;
+      softLong[i] = vx * scale;
+      softLat[i] = vz * scale;
+    }
     const sum = (values: number[]): number => values.reduce((total, value) => total + value, 0);
     const usage: FourWheelValues = [0, 0, 0, 0];
     const lateral: FourWheelValues = [0, 0, 0, 0];
@@ -1117,6 +1166,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         driveTorque: requestedDrive[i], brakeTorque: brake.appliedBrakeTorque,
         handbrakeTorque: brake.appliedHandbrakeTorque, normalLoad: loads[i],
         surfaceLongitudinalGrip: gripLong[i],
+        surfaceCurve: this.surfaceInteraction.get(id),
         staticNormalLoad: tyreReferenceLoad, surfaceLateralGrip: gripLat[i],
         corneringStiffness, lateralGripAvailability: lockedRearAvailability,
         staticLongitudinalForce: staticForces?.[i],
@@ -1140,11 +1190,11 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       inertiaBody[i] = rotation.rotationalInertiaForce * cosine;
       serviceBody[i] = serviceForce * cosine;
       handbrakeBody[i] = handbrakeForce * cosine;
-      rollingBody[i] = rollingForces[i] * cosine;
+      rollingBody[i] = rollingForces[i] * cosine + softLong[i];
       lateralScrub[i] = -tyreLateral * sine;
-      const longitudinal = (tyreForce + rollingForces[i]) * cosine + lateralScrub[i];
-      lateral[i] = (tyreForce + rollingForces[i]) * sine + tyreLateral * cosine;
-      asymmetricLongitudinalMoment += localX[i] * (tyreForce + rollingForces[i]);
+      const longitudinal = (tyreForce + rollingForces[i]) * cosine + lateralScrub[i] + softLong[i];
+      lateral[i] = (tyreForce + rollingForces[i]) * sine + tyreLateral * cosine + softLat[i];
+      asymmetricLongitudinalMoment += localX[i] * (tyreForce + rollingForces[i] + softLong[i]);
       totalYawMoment += localX[i] * longitudinal + wheelLeverArmsZ[i] * lateral[i];
       const localWheel = wheelLocalPosition(this.config, id);
       const worldX = bodyOriginX + localWheel.x * bodyCosine + localWheel.z * bodySine;
@@ -1155,6 +1205,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         tyre: this.wheelRotation.tyres.states[id],
         worldPosition: { x: contacts?.[i]?.x ?? worldX, y: (contacts?.[i]?.height ?? 0) + this.config.wheelRadius, z: contacts?.[i]?.z ?? worldZ },
         surfaceType: contacts?.[i]?.surfaceType ?? 'asphalt',
+        surfaceDepth: this.surfaceInteraction.get(id).depth,
+        estimatedFriction: loads[i] > 1 ? limits[i] / loads[i] : 0,
+        softSurfaceResistanceForce: Math.hypot(softLong[i], softLat[i]),
         groundNormal: { ...(contacts?.[i]?.normal ?? environment.groundNormal ?? { x: 0, y: Math.cos(grade), z: Math.sin(grade) }) },
         normalLoad: loads[i], steeringAngle: angles[i],
         camberAngle: spring.camberAngle, toeAngle: spring.toeAngle,
@@ -1181,7 +1234,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       serviceBrakeForce: sum(serviceBody),
       handbrakeForce: sum(handbrakeBody),
       rollingForce: sum(rollingBody),
-      rollingMagnitude: sum(rollingMagnitudes),
+      rollingMagnitude: sum(rollingMagnitudes) + Math.abs(sum(softLong)),
       longitudinalForceLimit: sum(limits),
       frontLateralGrip: (gripLat[0] + gripLat[1]) * 0.5,
       rearLateralGrip: (gripLat[2] + gripLat[3]) * 0.5,
@@ -1384,6 +1437,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.steering.reset();
     this.suspension.reset();
     this.wheelRotation.reset(this.speed);
+    this.surfaceInteraction.reset();
     this.differential.distributeTorque(0);
     this.rearDifferential?.distributeTorque(0);
     this.awd?.reset();

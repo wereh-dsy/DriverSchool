@@ -1,3 +1,5 @@
+import { longitudinalSlip } from './LongitudinalSlip';
+import type { SurfaceCurve } from '../../world/SurfaceProfile';
 import type { TireConfig } from '../config';
 import { WHEEL_IDS, type WheelId } from './WheelContact';
 import { clamp, wrapAngle } from './math';
@@ -5,6 +7,7 @@ import { TyreGripModel } from './TyreGripModel';
 import { TyreThermalPressureSystem } from './TyreThermalPressureSystem';
 
 export interface WheelRotationInput {
+  readonly surfaceCurve?: SurfaceCurve;
   readonly additionalInertia?: number;
   /** Signed physical wheel inclination; left normalized camber, right its negative. */
   readonly camberAngle?: number;
@@ -66,6 +69,7 @@ export class WheelRotationSystem {
     frontLeft: zeroState(), frontRight: zeroState(),
     rearLeft: zeroState(), rearRight: zeroState(),
   };
+  private readonly lateralDemands: Record<WheelId, number> = { frontLeft: 0, frontRight: 0, rearLeft: 0, rearRight: 0 };
   private readonly radius: number;
   private readonly inertia: number;
   public readonly gripModel: TyreGripModel;
@@ -82,6 +86,7 @@ export class WheelRotationSystem {
   public reset(longitudinalSpeed = 0): void {
     const speed = this.finite(longitudinalSpeed);
     for (const id of WHEEL_IDS) {
+      this.lateralDemands[id] = 0;
       this.states[id] = { ...zeroState(), angularVelocity: speed / this.radius, longitudinalSpeed: speed };
     }
   }
@@ -94,6 +99,7 @@ export class WheelRotationSystem {
   public constrainAngularVelocity(id: WheelId, angularVelocity: number,
     longitudinalSpeed?: number, lateralSpeed?: number): void {
     const previous = this.states[id];
+    this.lateralDemands[id] = 0;
     const omega = this.finite(angularVelocity);
     const speed = longitudinalSpeed === undefined ? previous.longitudinalSpeed : this.finite(longitudinalSpeed);
     const sideways = lateralSpeed === undefined ? previous.lateralSpeed : this.finite(lateralSpeed);
@@ -108,6 +114,7 @@ export class WheelRotationSystem {
     const previous = this.states[id];
     const duration = clamp(this.finite(dt), 0, 0.1);
     const pressure = this.tyres.states[id];
+    const surface = input.surfaceCurve;
     const longitudinalStiffness = pressure.longitudinalStiffnessFactor;
     const speed = this.finite(input.longitudinalSpeed);
     const lateralSpeed = this.finite(input.lateralSpeed);
@@ -123,10 +130,15 @@ export class WheelRotationSystem {
     const lateralLimit = Math.max(0, this.finite(this.config.lateralGrip)) * effectiveLoad *
       Math.max(0, this.finite(input.surfaceLateralGrip ?? 1)) * clamp(this.finite(input.lateralGripAvailability ?? 1), 0, 1);
     const slipAngle = Math.atan(lateralSpeed / Math.max(3, Math.abs(speed)));
-    const lateralDemand = clamp(this.gripModel.lateralForce(slipAngle,
-      Math.max(0, this.finite(input.corneringStiffness ?? 0)) * pressure.lateralStiffnessFactor, lateralLimit) -
+    const lateralTarget = clamp(this.gripModel.lateralForce(slipAngle,
+      Math.max(0, this.finite(input.corneringStiffness ?? 0)) * pressure.lateralStiffnessFactor * (surface?.lateralStiffnessScale ?? 1), lateralLimit, surface) -
       this.finite(input.camberAngle ?? 0) * Math.max(0, this.config.camberStiffness ?? 0) *
       load / Math.max(1, input.staticNormalLoad ?? load), -lateralLimit, lateralLimit);
+    const responseTime = surface?.lateralResponseTime ?? 0;
+    const lateralDemand = responseTime > 0
+      ? clamp(this.lateralDemands[id] + (lateralTarget - this.lateralDemands[id]) * -Math.expm1(-duration / responseTime), -lateralLimit, lateralLimit)
+      : lateralTarget;
+    this.lateralDemands[id] = lateralDemand;
     const staticForce = input.staticLongitudinalForce;
     if (duration > 0 && staticForce !== undefined && Number.isFinite(staticForce) &&
       Math.abs(speed) <= 0.12 && Math.abs(lateralSpeed) <= 0.12 &&
@@ -163,7 +175,7 @@ export class WheelRotationSystem {
       for (let step = 0; step < steps; step++) {
         const oldOmega = omega;
         const inertiaRate = inertia / h;
-        const forceAtRest = this.tyreForce(0, speed, limit, lateralDemand, lateralLimit, longitudinalStiffness);
+        const forceAtRest = this.tyreForce(0, speed, limit, lateralDemand, lateralLimit, longitudinalStiffness, surface);
         // The brake is a dry-friction constraint: at zero omega it may react
         // up to demand, but cannot integrate a stopped wheel backwards.
         const brakeToHold = inertiaRate * oldOmega + driveTorque - forceAtRest * this.radius;
@@ -175,7 +187,7 @@ export class WheelRotationSystem {
           const direction = Math.sign(brakeToHold);
           reaction = direction * totalBrake;
           const residual = (candidate: number): number => inertiaRate * (candidate - oldOmega) -
-            driveTorque + reaction + this.tyreForce(candidate, speed, limit, lateralDemand, lateralLimit, longitudinalStiffness) * this.radius;
+            driveTorque + reaction + this.tyreForce(candidate, speed, limit, lateralDemand, lateralLimit, longitudinalStiffness, surface) * this.radius;
           const extent = Math.abs(oldOmega) + h / inertia *
             (Math.abs(driveTorque) + totalBrake + limit * this.radius) + 1;
           let low = direction > 0 ? 0 : -extent;
@@ -189,8 +201,8 @@ export class WheelRotationSystem {
           }
           omega = (low + high) * 0.5;
         }
-        const rawForce = this.gripModel.longitudinalForce(this.calculateSlip(omega, speed), limit, longitudinalStiffness);
-        const scale = this.gripModel.combinedScale(rawForce, lateralDemand, limit, lateralLimit);
+        const rawForce = this.gripModel.longitudinalForce(this.calculateSlip(omega, speed), limit, longitudinalStiffness, surface);
+        const scale = this.gripModel.combinedScale(rawForce, lateralDemand, limit, lateralLimit, surface);
         const force = rawForce * scale;
         integratedForce += force * h;
         integratedLateral += lateralDemand * scale * h;
@@ -199,10 +211,10 @@ export class WheelRotationSystem {
       }
     }
     const longitudinalForce = duration > 0 ? integratedForce / duration
-      : this.tyreForce(omega, speed, limit, lateralDemand, lateralLimit, longitudinalStiffness);
+      : this.tyreForce(omega, speed, limit, lateralDemand, lateralLimit, longitudinalStiffness, surface);
     const lateralForce = duration > 0 ? integratedLateral / duration : lateralDemand *
-      this.gripModel.combinedScale(this.gripModel.longitudinalForce(this.calculateSlip(omega, speed), limit, longitudinalStiffness),
-        lateralDemand, limit, lateralLimit);
+      this.gripModel.combinedScale(this.gripModel.longitudinalForce(this.calculateSlip(omega, speed), limit, longitudinalStiffness, surface),
+        lateralDemand, limit, lateralLimit, surface);
     const brakeReaction = duration > 0 ? integratedBrake / duration : 0;
     const slipRatio = this.calculateSlip(omega, speed);
     const state: WheelRotationState = {
@@ -211,7 +223,7 @@ export class WheelRotationSystem {
       longitudinalForce, longitudinalUsage: limit > 1e-6 ? clamp(Math.abs(longitudinalForce) / limit, 0, 1) : 0,
       lateralForce, lateralForceLimit: lateralLimit,
       lateralUsage: lateralLimit > 1e-6 ? Math.abs(lateralForce) / lateralLimit : 0,
-      gripUsage: this.gripModel.usage(longitudinalForce, lateralForce, limit, lateralLimit),
+      gripUsage: this.gripModel.usage(longitudinalForce, lateralForce, limit, lateralLimit, surface),
       brakeReactionTorque: totalBrake > 0 ? brakeReaction * brakeTorque / totalBrake : 0,
       handbrakeReactionTorque: totalBrake > 0 ? brakeReaction * handbrakeTorque / totalBrake : 0,
       rotationalInertiaForce: duration > 0 ? -inertia * (omega - previous.angularVelocity) / duration / this.radius : 0,
@@ -224,12 +236,12 @@ export class WheelRotationSystem {
   private calculateSlip(omega: number, speed: number): number {
     const treadSpeed = omega * this.radius;
     // A 2 m/s reference continuously regularises parking, reversal and rest.
-    return (treadSpeed - speed) / Math.max(2, Math.abs(speed), Math.abs(treadSpeed));
+    return longitudinalSlip(treadSpeed, speed);
   }
 
-  private tyreForce(omega: number, speed: number, limit: number, lateralDemand: number, lateralLimit: number, stiffnessFactor: number): number {
-    const raw = this.gripModel.longitudinalForce(this.calculateSlip(omega, speed), limit, stiffnessFactor);
-    return raw * this.gripModel.combinedScale(raw, lateralDemand, limit, lateralLimit);
+  private tyreForce(omega: number, speed: number, limit: number, lateralDemand: number, lateralLimit: number, stiffnessFactor: number, surface?: SurfaceCurve): number {
+    const raw = this.gripModel.longitudinalForce(this.calculateSlip(omega, speed), limit, stiffnessFactor, surface);
+    return raw * this.gripModel.combinedScale(raw, lateralDemand, limit, lateralLimit, surface);
   }
 
   private finite(value: number, fallback = 0): number { return Number.isFinite(value) ? value : fallback; }

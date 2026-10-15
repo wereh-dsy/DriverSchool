@@ -35,6 +35,9 @@ export class CityGround implements DrivingGround {
   private readonly regionalDebug?:RegionalDebug;
   private readonly loadStarted=performance.now();
   private sectorStartOffset=0;
+  get visualReady(): boolean { return this.sectors.spawnReady; }
+  get visualLoadingError(): Error | undefined { return this.sectors.loadingError; }
+  setVisualResourcePreparation(prepare: (texture: import('three').Texture) => void): void { this.sectors.setResourcePreparation(prepare); }
   get loadStatistics(){const stats=this.sectors.loadStatistics;return {...stats,firstVisibleMs:stats.firstVisibleMs===undefined?undefined:this.sectorStartOffset+stats.firstVisibleMs,firstLoadMs:stats.firstLoadMs===undefined?undefined:this.sectorStartOffset+stats.firstLoadMs};}
   constructor(data: unknown, options: SectorOptions & { spawnId?: string } = {}) {
     this.data = loadCityMap(data); this.editor = options.editor ?? false;

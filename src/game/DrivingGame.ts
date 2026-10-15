@@ -1,3 +1,4 @@
+import { AccelerationRunDiagnostics } from '../experimental/acceleration/AccelerationRunDiagnostics';
 import { LaneAssistStateController } from '../vehicle/control/LaneAssistState';
 import { LaneDepartureWarningController } from '../vehicle/control/LaneDepartureWarningController';
 import { ElectricPowertrain } from '../vehicle/powertrain/ElectricPowertrain';
@@ -10,8 +11,12 @@ import { SharedVehicleData } from '../vehicle/SharedVehicleData';
 import { LateralAssistController, arbitrateLateralSteering, type LateralAssistContext } from '../vehicle/control/LateralAssistController';
 import { createLaneObservation } from '../world/navigation/LaneObservation';
 import { LateralAssistDebugView } from './LateralAssistDebugView';
+import { TrajectoryPrediction } from '../experimental/trajectory/TrajectoryPrediction';
+import { AccelerationTest } from '../experimental/acceleration/AccelerationTest';
+import { AccelerationTestView } from '../experimental/acceleration/AccelerationTestView';
 import { VehicleAssetRegistry } from '../vehicle/visual/VehicleAssetRegistry';
 import { VehicleLoadingLifecycle } from '../vehicle/VehicleLoadingLifecycle';
+import type { AdaptiveMirrorContext } from '../camera/AdaptiveMirrorRendering';
 import {
   ACESFilmicToneMapping,
   BackSide,
@@ -137,6 +142,10 @@ export class DrivingGame {
   private readonly lateralContext: LateralAssistContext = { speed: 0, lateralVelocity: 0, yawRate: 0, driverSteering: 0,
     operational: false, forwardGear: false, leftSignal: false, rightSignal: false, suspended: true };
   private readonly lateralDebug = import.meta.env.DEV ? new LateralAssistDebugView(this.scene) : null;
+  private trajectoryPrediction: TrajectoryPrediction | null = null;
+  private accelerationTest: AccelerationTest | null = null;
+  private accelerationDiagnostics: AccelerationRunDiagnostics | null = null;
+  private accelerationTestView: AccelerationTestView | null = null;
   private readonly rearParking = new RearParkingProximity();
   private tripCheckpointTime = 0;
   private readonly lightController = new VehicleLightingController();
@@ -156,6 +165,12 @@ export class DrivingGame {
   private readonly mirrorGeometryDebug = new MirrorGeometryDebug();
 
   private snapshot: VehicleRuntimeSnapshot;
+  private groundVisualLoading = true;
+  private groundVisualErrorReported = false;
+  private readonly mirrorHeadLook = { yaw: 0, pitch: 0, targetYaw: 0, targetPitch: 0 };
+  private readonly mirrorContext: AdaptiveMirrorContext = { speed: 0, road: 'unknown', headYaw: 0, headTargetYaw: 0,
+    leftSignal: false, rightSignal: false, selector: 'N', parking: false, steering: 0, lateralActive: false,
+    laneChange: false, junction: false, preview: null };
   private accumulator = 0;
   private lastFrameTime = 0;
   private animationFrame = 0;
@@ -183,7 +198,7 @@ export class DrivingGame {
   private activeVehicleId: VehicleId;
   private activeGroundId: DrivingGroundId;
 
-  constructor(host: HTMLElement) {
+  constructor(private readonly host: HTMLElement) {
     this.hud = new Hud(host);
     this.contactDebug = new ContactDebugView(host);
     this.scene.add(this.contactDebug.root);
@@ -195,6 +210,7 @@ export class DrivingGame {
 
     this.activeGroundId = this.readStoredGroundId();
     this.ground = createDrivingGround(this.activeGroundId);
+    this.ground.setVisualResourcePreparation?.(texture => this.renderer.initTexture(texture));
     this.hud.setRoadNetwork(this.ground.roadNetwork);
     this.activeVehicleId = this.readStoredVehicleId();
     const initialVehicle = getVehicleDescriptor(this.activeVehicleId);
@@ -291,6 +307,8 @@ export class DrivingGame {
     this.hud.dispose();
     this.contactDebug.dispose();
     this.lateralDebug?.dispose();
+    this.trajectoryPrediction?.dispose();
+    this.accelerationTestView?.dispose();
     this.visualDebug.dispose();
     this.mirrorGeometryDebug.dispose();
     this.windshieldRain.dispose();
@@ -332,6 +350,20 @@ export class DrivingGame {
       this.vehicleLoading.advance();
       this.animationFrame = requestAnimationFrame(this.frame);
       return;
+    }
+    if (this.groundVisualLoading && this.ground.visualReady === false) {
+      this.input.setEnabled(false); this.haptics.stop(); this.accumulator = 0;
+      if (this.ground.visualLoadingError) {
+        this.hud.setVehicleLoading('Failed', '地图加载失败，请刷新重试');
+      } else {
+        this.hud.setVehicleLoading('Visual warmup', '正在准备道路与地形');
+        if (this.ground.updatePlayerPosition?.(this.snapshot.x, this.snapshot.z, this.snapshot.yaw, 0)) this.environmentVisual.setGround(this.ground);
+      }
+      this.animationFrame = requestAnimationFrame(this.frame); return;
+    }
+    if (this.groundVisualLoading) { this.groundVisualLoading = false; this.hud.setVehicleLoading('Ready'); }
+    if (this.ground.visualLoadingError && !this.groundVisualErrorReported) {
+      this.groundVisualErrorReported = true; this.hud.showMessage('地图视觉加载失败 · 请刷新重试', 10);
     }
     this.accumulator = Math.min(this.accumulator + frameDt, FIXED_STEP * MAX_STEPS_PER_FRAME);
 
@@ -392,7 +424,13 @@ export class DrivingGame {
         lateral, this.laneAssistSelection.state.mode, this.dynamics.capabilities.lka)) this.engineAudio.playLaneDepartureWarning();
       controls.steering = arbitrateLateralSteering(driverControls.steering, lateralOutput);
 
+      const beforeStep = this.snapshot;
       this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
+      this.accelerationTest?.update(FIXED_STEP, beforeStep, this.snapshot, driverControls.throttle,
+        this.gameStarted && !this.settingsOpen && !document.hidden, this.contacts.collision?.collided ?? false);
+      if (this.accelerationTest && this.accelerationDiagnostics) this.accelerationDiagnostics.update(FIXED_STEP,
+        this.accelerationTest.state, beforeStep, this.snapshot, driverControls, controls, this.contacts.wheelContacts,
+        this.dynamics.driverAssists.frontTorqueFactor, this.dynamics.driverAssists.rearTorqueFactor, this.environment);
       this.tripCheckpointTime += FIXED_STEP;
       if (this.tripCheckpointTime >= 10) { this.tripCheckpointTime = 0; this.storeCurrentFuel(); }
       this.ignitionOn = this.snapshot.vehicleOperational;
@@ -511,8 +549,25 @@ export class DrivingGame {
       feedback: this.feedback.state,
     }, frameDt);
 
+    this.trajectoryPrediction?.update(frameDt, this.snapshot, this.dynamics.config, this.ground, this.gameStarted && !this.hud.immersiveMode);
+    if (this.accelerationTest) this.accelerationTestView?.update(frameDt, this.accelerationTest.state, this.gameStarted && !this.settingsOpen && !this.hud.immersiveMode);
     this.parkingCamera?.update(frameDt, this.snapshot.transmission.selectedMode === 'R');
-    this.mirrors.render();
+    const mirror = this.mirrorContext, head = this.driverCamera.getHeadLook(this.mirrorHeadLook);
+    mirror.speed = this.snapshot.speed;
+    const mirrorRoad = this.sharedVehicleData?.laneTracker.trackedLane?.road.roadType ?? this.sharedVehicleData?.navigation.currentRoad?.roadType ?? 'unknown';
+    mirror.road = mirrorRoad === 'circuit' ? 'unknown' : mirrorRoad;
+    mirror.headYaw = head.yaw; mirror.headTargetYaw = head.targetYaw;
+    mirror.leftSignal = this.lightController.leftSignalSelected; mirror.rightSignal = this.lightController.rightSignalSelected;
+    mirror.selector = this.snapshot.transmission.selectedMode ?? String(this.snapshot.gear);
+    mirror.parking = this.sharedVehicleData?.parking.active ?? this.rearParking.state.active;
+    mirror.steering = this.latestInput.steering;
+    mirror.lateralActive = this.lateralAssist.display.lkaActive || this.lateralAssist.display.lccActive;
+    mirror.laneChange = this.lateralAssist.laneChangeOverride;
+    mirror.junction = this.sharedVehicleData?.laneObservation.isIntersection ?? false;
+    mirror.preview = this.settingsOpen ? this.selectedMirror : null;
+    this.mirrors.renderAdaptive(frameDt, mirror);
+    const showMirrorOverlay = this.mirrors.adaptive.showRightOverlay && !this.hud.immersiveMode;
+    this.hud.setMirrorOverlayVisible(showMirrorOverlay);
     this.visualDebug.update(this.vehicleVisual, this.contacts, this.driverCamera, this.mirrors);
     this.windshieldRain.root.visible = this.visualDebug.renderCamera === null;
     this.renderer.setRenderTarget(null);
@@ -520,7 +575,7 @@ export class DrivingGame {
     this.renderer.setScissorTest(false);
     this.renderer.clear(true, true, true);
     this.renderer.render(this.scene, this.visualDebug.renderCamera ?? this.driverCamera.camera);
-    this.mirrorOverlay.render(this.renderer, this.hud.getMirrorRect());
+    if (showMirrorOverlay) this.mirrorOverlay.render(this.renderer, this.hud.getMirrorRect());
 
     this.animationFrame = requestAnimationFrame(this.frame);
   };
@@ -706,15 +761,56 @@ export class DrivingGame {
 
   private configureVehicleSettings(): void {
     const settings = this.hud.settings;
+    this.hud.onImmersiveModeChange = enabled => {
+      if (!enabled) return;
+      if (this.contactDebug.root.visible) this.contactDebug.toggle();
+      if (this.visualDebug.enabled) this.visualDebug.toggle();
+      this.mirrorGeometryDebug.setVisible(false);
+      this.lateralDebug?.setEnabled(false);
+    };
+    settings.onTrajectoryPredictionChange = enabled => {
+      if (enabled && !this.trajectoryPrediction) this.trajectoryPrediction = new TrajectoryPrediction(this.scene);
+      if (!enabled) { this.trajectoryPrediction?.dispose(); this.trajectoryPrediction = null; }
+    };
+    settings.onAccelerationTestChange = enabled => {
+      if (!enabled) {
+        this.accelerationTestView?.dispose(); this.accelerationTestView = null; this.accelerationTest = null; this.accelerationDiagnostics = null;
+        return;
+      }
+      if (this.accelerationTest) return;
+      const test = this.accelerationTest = new AccelerationTest();
+      let storage: Storage | undefined;
+      try { storage = localStorage; } catch { /* Optional browser storage. */ }
+      const diagnostics = this.accelerationDiagnostics = new AccelerationRunDiagnostics(storage, () => this.input.gamepad?.getThrottleDiagnostics());
+      const view = this.accelerationTestView = new AccelerationTestView(this.host);
+      const arm = (target = test.state.target): void => {
+        if (!test.arm(this.snapshot, this.input.peekState().throttle, target)) return;
+        const descriptor = getVehicleDescriptor(this.activeVehicleId);
+        diagnostics.arm({ vehicleId: this.activeVehicleId, vehicleVersion: descriptor.version,
+          groundId: this.ground.metadata.id, groundVersion: this.ground.metadata.version,
+          weather: this.environment.weather, wetness: this.environment.wetness }, test.state);
+        view.setContext(descriptor.displayName, this.ground.metadata.displayName);
+      };
+      view.onExport = () => diagnostics.serialize();
+      view.setContext(getVehicleDescriptor(this.activeVehicleId).displayName, this.ground.metadata.displayName);
+      arm();
+      view.onArm = () => { arm(); this.renderer.domElement.focus(); };
+      view.onTargetChange = target => {
+        arm(target); this.renderer.domElement.focus();
+      };
+      view.onStop = () => { test.stop(); this.renderer.domElement.focus(); };
+    };
     settings.onLateralPreferencesChange = () => this.lateralAssist.setPreferences(settings.lkaPreference, settings.lccPreference);
     settings.onLCCToggle = () => this.toggleLaneCentering();
     settings.setFuel(this.snapshot.fuel);
     settings.setBattery(this.snapshot.powertrain.ev);
     settings.onStateOfChargeChange = soc => {
+      this.accelerationTest?.interrupt('训练电量已修改');
       if (this.dynamics.powertrain instanceof ElectricPowertrain) this.dynamics.powertrain.setStateOfCharge(soc);
       this.snapshot = this.dynamics.getSnapshot(); settings.setBattery(this.snapshot.powertrain.ev); this.storeCurrentFuel();
     };
     settings.onFuelChange = litres => {
+      this.accelerationTest?.interrupt('训练油量已修改');
       this.dynamics.setCurrentFuelL(litres);
       this.snapshot = this.dynamics.getSnapshot();
       settings.setFuel(this.snapshot.fuel);
@@ -762,6 +858,7 @@ export class DrivingGame {
 
     settings.onVisibilityChange = (visible) => {
       this.settingsOpen = visible;
+      if (visible) this.accelerationTest?.interrupt('打开设置', false);
       if (visible) this.lapTimer.suspend(this.snapshot);
       this.input.setEnabled(this.gameStarted && (!visible || this.snapshot.transmission.type !== 'MANUAL'));
       if (visible) this.haptics.setEnabled(false);
@@ -848,6 +945,8 @@ export class DrivingGame {
     const previousGround = this.ground;
     this.scene.remove(previousGround.root);
     this.ground = nextGround;
+    this.groundVisualLoading = true; this.groundVisualErrorReported = false;
+    nextGround.setVisualResourcePreparation?.(texture => this.renderer.initTexture(texture));
     this.hud.setRoadNetwork(nextGround.roadNetwork);
     this.contacts.setGround(nextGround);
     this.activeGroundId = groundId;
@@ -864,6 +963,7 @@ export class DrivingGame {
   }
 
   private resetVehicleToGroundStart(): void {
+    this.accelerationTest?.interrupt('车辆已重置');
     this.laneAssistSelection.reset();
     this.laneDepartureWarning.reset();
     this.contacts.reset();
@@ -924,6 +1024,7 @@ export class DrivingGame {
 
   private switchVehicle(vehicleId: VehicleId): void {
     if (vehicleId === this.activeVehicleId || !this.vehicleLoading.ready) return;
+    this.accelerationTest?.interrupt('切换车辆');
     const config = getVehicleDescriptor(vehicleId).visualConfig;
     this.vehicleLoading.mark('Static asset prepare');
     this.vehicleLoading.enqueue('Static asset prepare', () => VehicleVisual.prepareAssets(config, this.vehicleAssets));
@@ -1449,6 +1550,10 @@ export class DrivingGame {
   }
 
   private readonly onGlobalKeyDown = (event: KeyboardEvent): void => {
+    if (this.hud.immersiveMode && (event.code === 'F6' || event.code === 'F7' || event.code === 'F8' || event.code === 'F9')) {
+      event.preventDefault();
+      return;
+    }
     if (event.code === 'F9' && !event.repeat && this.lateralDebug) { event.preventDefault(); this.lateralDebug.toggle(); }
     if (event.code === 'KeyU' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && this.gameStarted && !this.settingsOpen) {
       if (this.executiveDisplay) { event.preventDefault(); this.executiveDisplay.cyclePage(); }
@@ -1516,6 +1621,7 @@ export class DrivingGame {
 
   private readonly onVisibilityChange = (): void => {
     if (document.hidden) {
+      this.accelerationTest?.interrupt('离开游戏页面', false);
       this.lapTimer.suspend(this.snapshot);
       this.accumulator = 0;
       this.cruiseControl.reset();

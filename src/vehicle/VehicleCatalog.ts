@@ -1,4 +1,6 @@
 import { createTeslaModel3PhysicsConfig } from './config/teslaModel3PhysicsConfig';
+import { createGolfGTIPhysicsConfig } from './config/golfGTIPhysicsConfig';
+import { GOLF_GTI_VISUAL_CONFIG } from './visual/golfGTIVisualConfig';
 import { createTaycan4SPhysicsConfig } from './config/taycan4SPhysicsConfig';
 import { TAYCAN_4S_VISUAL_CONFIG } from './visual/taycan4SVisualConfig';
 import { createBMW530LiPhysicsConfig } from './config/bmw530LiPhysicsConfig';
@@ -34,7 +36,7 @@ import {
 import { withSuspensionStance } from './visual/VehicleVisualConfig';
 
 export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
-  'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia', 'tesla-model-3-rwd', 'bmw-530li-g38', 'porsche-taycan-4s'] as const;
+  'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia', 'tesla-model-3-rwd', 'bmw-530li-g38', 'porsche-taycan-4s', 'volkswagen-golf-gti'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
 export type ICEVehicleId = Exclude<VehicleId, 'tesla-model-3-rwd' | 'porsche-taycan-4s'>;
 export type PlayerVehiclePhysicsConfig = VehiclePhysicsConfig | ElectricVehiclePhysicsConfig;
@@ -98,6 +100,10 @@ const TEST_7DCT_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
 });
 
 const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescriptor>> = Object.freeze({
+  'volkswagen-golf-gti': Object.freeze({ id: 'volkswagen-golf-gti', version: 1, displayName: 'Volkswagen Golf GTI',
+    description: 'Mk7.5-inspired · 2.0T INLINE4 (L4) / 7DCT / FWD，350 Nm、约 175 kW 游戏标定。紧凑型 hot hatch，运动化底盘与前轴制动式 eDiff，轻快紧致、出弯前轴负担鲜明；Eco / Normal / Sport，非 Golf R。',
+    capabilities: Object.freeze({ cruiseControl: true, navigation: true, laneDisplay: true, parkingRadar: true, tpms: true }),
+    physicsConfig: createGolfGTIPhysicsConfig(), visualConfig: GOLF_GTI_VISUAL_CONFIG }),
   'porsche-taycan-4s': Object.freeze({ id: 'porsche-taycan-4s', version: 1, displayName: 'Porsche Taycan 4S',
     description: '2024 facelift · Performance Battery Plus · 105/97 kWh · dual PSM AWD. 前单速/后两速，380 kW 常规峰值，Launch Control 440 kW，四驾驶模式、空气悬架与自适应阻尼。',
     capabilities: Object.freeze({ cruiseControl: true, advancedInstrument: true, navigation: true, laneDisplay: true, parkingRadar: true, parking360: true, tpms: true }),

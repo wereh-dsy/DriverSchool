@@ -1,4 +1,4 @@
-import type { Gear, DriveModeCalibration } from '../config';
+import type { Gear, DriveSelector, DriveModeCalibration } from '../config';
 import type { ElectricVehiclePhysicsConfig, EVThermalConfig, EVModeCalibration } from '../config/ElectricVehiclePhysicsConfig';
 import { clamp01 } from '../physics/math';
 import { BatteryPack } from './BatteryPack';
@@ -116,6 +116,14 @@ export class ElectricPowertrain implements Powertrain {
   }
   public requestStart(): boolean { if (this.operational) return false; this.operational = true; return true; }
   public requestStop(): boolean { if (!this.operational) return false; this.operational = false; return true; }
+  public requestDriveSelector(selector: DriveSelector, speed: number, lateralSpeed: number, brake: number): boolean {
+    if (!this.transmission.requestSelector(selector, speed, lateralSpeed, brake)) return false;
+    // PRND is a vehicle request, not a rear-unit-only physical gear change.
+    // Apply the primary safety gate once; a rejection changes neither axle.
+    const other = this.primary === this.rearDriveUnit ? this.frontDriveUnit : this.rearDriveUnit;
+    if (other && other.transmission.mode !== this.transmission.mode) other.transmission.reset(this.transmission.mode);
+    return true;
+  }
   public requestGear(_gear: Gear): 'gear-not-available' { return 'gear-not-available'; }
   public getShiftGear(): null { return null; }
   public setControlMode(): 'normal' { return 'normal'; }
@@ -126,12 +134,8 @@ export class ElectricPowertrain implements Powertrain {
   }
   public prepare(context: PowertrainUpdateContext): void {
     this.context = context;
-    if (context.selectorRequest) {
-      if (this.transmission.requestSelector(context.selectorRequest, context.vehicleSpeed, context.vehicleLateralSpeed, context.brake)) {
-        const other = this.primary === this.rearDriveUnit ? this.frontDriveUnit : this.rearDriveUnit;
-        if (other && other.transmission.mode !== this.transmission.mode) other.transmission.reset(this.transmission.mode);
-      }
-    }
+    if (context.selectorRequest) this.requestDriveSelector(context.selectorRequest,
+      context.vehicleSpeed, context.vehicleLateralSpeed, context.brake);
     if (this.operational) this.launchControl?.update(context, this.battery, this.frontDriveUnit, this.rearDriveUnit, this.transmission.mode === 'D');
     else this.launchControl?.reset();
     this.prepareUnit(this.frontDriveUnit, context); this.prepareUnit(this.rearDriveUnit, context);

@@ -1,3 +1,4 @@
+import { implicitClutchDemand } from '../implicitClutchDemand';
 import type { DriveSelector, DualClutchTransmissionConfig, ForwardGear, Gear } from '../../config';
 import type { Gearbox } from '../../physics/Gearbox';
 import { clamp01, moveTowards } from '../../physics/math';
@@ -119,14 +120,25 @@ export class DualClutchTransmissionSystem implements TransmissionSystem {
     const clutchTorque = (gear: Gear | null, engagement: number): number => {
       if (gear === null || !this.selector.driving || !context.engineRunning || context.holdingBrake || engagement <= 0) return 0;
       const slip = context.engineAngularVelocity - outputOmega * this.gearbox.getRatio(gear);
-      const demand = context.availableEngineTorque * engagement + slip * this.config.couplingStiffness * engagement;
+      const demand = implicitClutchDemand(context.availableEngineTorque * engagement, slip,
+        this.config.couplingStiffness * engagement, context, this.gearbox.getRatio(gear) * this.gearbox.config.finalDriveRatio, this.gearbox.config.drivetrainEfficiency);
       const capacity = Math.max(0.1, this.config.clutchCapacity * engagement);
       return demand / Math.pow(1 + (Math.abs(demand) / capacity) ** 6, 1 / 6);
     };
     let torqueA = clutchTorque(this.shaftAGear, this.clutchAEngagement);
     let torqueB = clutchTorque(this.shaftBGear, this.clutchBEngagement);
     const desiredLoad = torqueA + torqueB;
-    this.load = limitAutomaticEngineLoad(desiredLoad, context);
+    // High pedal launches let the engine reach its working band before loading
+    // the clutch fully. Light-pedal creep and the ordinary shift schedule stay
+    // on their own paths; this produces no additional source torque.
+    const pedal = clamp01((context.throttle - .65) / .35);
+    const targetRPM = context.idleRPM + ((this.config.launchTargetRPM ?? context.idleRPM + 1500) - context.idleRPM) * pedal;
+    const inputBelowTarget = this.inputRPM < targetRPM && this.handover === null && context.brake < .1 && !context.holdingBrake;
+    const launchLoad = context.availableEngineTorque + context.engineInertia *
+      (context.engineRPM - targetRPM) * Math.PI / 30 * 8;
+    const managedLoad = inputBelowTarget && pedal > 0 && desiredLoad > 0
+      ? Math.min(desiredLoad, Math.max(0, launchLoad)) : desiredLoad;
+    this.load = limitAutomaticEngineLoad(managedLoad, context);
     const safetyScale = desiredLoad > 1e-6 ? clamp01(this.load / desiredLoad) : 1;
     torqueA *= safetyScale; torqueB *= safetyScale; this.torque = torqueA + torqueB;
     const outputTorque = (torqueA * (this.shaftAGear === null ? 0 : this.gearbox.getRatio(this.shaftAGear)) +

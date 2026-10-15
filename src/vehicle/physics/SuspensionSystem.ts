@@ -228,6 +228,8 @@ export class SuspensionSystem {
     return { heights, groundHeight, forwardSlope, rightSlope };
   }
 
+  public getChassisSnapshot(): ChassisPhysicsState { return { ...this.chassis }; }
+
   public getSnapshot(): SuspensionSnapshot {
     const wheels = Object.fromEntries(WHEEL_IDS.map((id) => [id, {
       camberAngle: this.kinematicAngle(id, false),

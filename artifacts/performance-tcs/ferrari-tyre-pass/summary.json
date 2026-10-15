@@ -1,0 +1,65 @@
+{
+  "protocol": {
+    "dt": 0.008333333333333333,
+    "timing": "pedal/brake release, no rollout",
+    "ambientC": 20,
+    "tyreC": 35,
+    "batteryC": 30,
+    "motorC": 40,
+    "inverterC": 35,
+    "soc": 0.8,
+    "surface": "flat Dry Asphalt, no wind",
+    "manual": "2400 rpm pre-rev; 0.65 s progressive clutch launch; 0.40 s shifts at 94% redline",
+    "automatic": "D, default production mode; official LC: SPORT_PLUS, verified READY"
+  },
+  "results": [
+    {
+      "id": "ferrari-458-italia",
+      "vehicle": "Ferrari 458 Italia",
+      "tcs": true,
+      "launch": false,
+      "mode": "SPORT",
+      "drivetrain": "RWD",
+      "transmission": "DCT",
+      "mass": 1479.6042931408647,
+      "milestones": {
+        "30": 1.4313956966283268,
+        "50": 2.153696588579485,
+        "100": 3.9852831911668787
+      },
+      "tcsSeconds": 2.8999999999999924,
+      "strongSeconds": 1.4249999999999974,
+      "longest": 2.8999999999999924,
+      "meanReduction": 0.18962842875207309,
+      "peakSlip": 0.8308369210691562,
+      "meanSlip": 0.2034293319467491,
+      "escSeconds": 0,
+      "maxBrakeAfterRelease": 0.020489254216660754,
+      "maxRegen": 0
+    },
+    {
+      "id": "ferrari-458-italia",
+      "vehicle": "Ferrari 458 Italia",
+      "tcs": false,
+      "launch": false,
+      "mode": "SPORT",
+      "drivetrain": "RWD",
+      "transmission": "DCT",
+      "mass": 1479.5580730887048,
+      "milestones": {
+        "30": 1.4555159769790715,
+        "50": 2.2169469748393618,
+        "100": 4.085842744970192
+      },
+      "tcsSeconds": 0,
+      "strongSeconds": 0,
+      "longest": 0,
+      "meanReduction": 0,
+      "peakSlip": 0.8899119358906173,
+      "meanSlip": 0.49314645886626324,
+      "escSeconds": 0,
+      "maxBrakeAfterRelease": 0.020489254216660754,
+      "maxRegen": 0
+    }
+  ]
+}

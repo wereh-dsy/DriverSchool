@@ -1,5 +1,7 @@
 import type { VehicleChassisConfig } from '../config';
-import { WHEEL_IDS, type WheelId } from './WheelContact';
+import { contactUsefulSlip } from './SurfaceInteraction';
+import { WHEEL_IDS, type WheelContactSet } from './WheelContact';
+import { TractionController } from './TractionController';
 import type { WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, damp } from './math';
 import { ESCController } from './ESCController';
@@ -43,6 +45,8 @@ export class DriverAssistSystem {
   public frontTorqueFactor = 1;
   public rearTorqueFactor = 1;
   public frontBrakeBias: number;
+  private readonly frontTraction = new TractionController();
+  private readonly rearTraction = new TractionController();
   private options: DriverAssistOptions;
   private absActive = false;
   private selfCheck = 0;
@@ -67,7 +71,7 @@ export class DriverAssistSystem {
       stabilityControlEnabled: (options.stabilityControlEnabled ?? this.config.driverAids.stabilityControlEnabled) && capabilities.esc };
     if (!this.options.stabilityControlEnabled) this.esc.reset();
     if (!this.options.absEnabled) { this.pressures.fill(1); this.absActive = false; }
-    if (!this.options.tractionControlEnabled) this.engineTorqueFactor = 1;
+    if (!this.options.tractionControlEnabled) { this.frontTraction.reset(); this.rearTraction.reset(); this.engineTorqueFactor = this.frontTorqueFactor = this.rearTorqueFactor = 1; }
   }
   public updateStability(dt: number, speed: number, steering: number, yawRate: number,
     lateralVelocity: number, wheels: WheelPhysicsStateSet, limits: readonly number[], lateralLimits: readonly number[]): void {
@@ -75,41 +79,35 @@ export class DriverAssistSystem {
       speed, steering, yawRate, lateralVelocity, wheels, limits, lateralLimits);
   }
   public reset(running: boolean): void {
+    this.frontTraction.reset(); this.rearTraction.reset();
     this.differentialBrakeTorques.fill(0);
     this.esc.reset();
     this.pressures.fill(1); this.engineTorqueFactor = this.frontTorqueFactor = this.rearTorqueFactor = 1; this.absActive = false;
     this.frontBrakeBias = this.config.brakes.frontBrakeBias;
     this.vehicleOperational = running; this.selfCheck = running ? 1.2 : 0; this.time = 0;
   }
-  public updateTraction(dt: number, wheels: WheelPhysicsStateSet, throttle: number, running: boolean, driving: boolean, driveAvailable = running): void {
+  public updateTraction(dt: number, wheels: WheelPhysicsStateSet, throttle: number, running: boolean, driving: boolean, driveAvailable = running, contacts?: WheelContactSet): void {
     if (running && !this.vehicleOperational) this.selfCheck = 1.2;
     this.vehicleOperational = running; this.selfCheck = Math.max(0, this.selfCheck - dt); this.time += dt;
-    let excess = 0;
-    let frontExcess = 0, rearExcess = 0;
-    if (this.options.tractionControlEnabled && running && driveAvailable && driving && throttle > .05) {
-      const ids: readonly WheelId[] = this.config.drivetrainType === 'AWD' ? WHEEL_IDS
-        : this.config.drivetrainType === 'RWD' ? ['rearLeft', 'rearRight'] : ['frontLeft', 'frontRight'];
-      for (const id of ids) {
+    let frontError = -1, rearError = -1;
+    const enabled = this.options.tractionControlEnabled && running && driveAvailable && driving && throttle > .05;
+    if (enabled) {
+      for (const id of WHEEL_IDS) {
+        const front = id === 'frontLeft' || id === 'frontRight';
+        if (this.config.drivetrainType !== 'AWD' && front !== (this.config.drivetrainType === 'FWD')) continue;
         const w = wheels[id];
         const direction = Math.sign(w.longitudinalSpeed || w.angularVelocity);
-        const wheelExcess = w.slipRatio * direction - this.config.tires.peakSlipRatio *
-          (this.config.driverAids.tcs?.slipThresholdMultiplier ?? 1.25);
-        excess = Math.max(excess, wheelExcess);
-        if (id === 'frontLeft' || id === 'frontRight') frontExcess = Math.max(frontExcess, wheelExcess);
-        else rearExcess = Math.max(rearExcess, wheelExcess);
+        const useful = contactUsefulSlip(this.config.tires.peakSlipRatio, contacts?.[id], w.tyre?.longitudinalStiffnessFactor);
+        const target = useful * (this.config.driverAids.tcs?.slipThresholdMultiplier ?? 1.25);
+        const error = w.slipRatio * direction - target;
+        if (front) frontError = Math.max(frontError, error);
+        else rearError = Math.max(rearError, error);
       }
     }
-    const tune = this.config.driverAids.tcs;
-    const target = 1 - clamp(excess / .5, 0, tune?.maximumTorqueReduction ?? .95);
-    this.engineTorqueFactor = damp(this.engineTorqueFactor, target,
-      target < this.engineTorqueFactor ? tune?.response ?? 7 : tune?.recoveryResponse ?? 1.8, dt);
-    if (!this.options.tractionControlEnabled) this.engineTorqueFactor = 1;
-    const frontTarget = 1 - clamp(frontExcess / .5, 0, tune?.maximumTorqueReduction ?? .95);
-    const rearTarget = 1 - clamp(rearExcess / .5, 0, tune?.maximumTorqueReduction ?? .95);
-    this.frontTorqueFactor = this.options.tractionControlEnabled ? damp(this.frontTorqueFactor, frontTarget,
-      frontTarget < this.frontTorqueFactor ? tune?.response ?? 7 : tune?.recoveryResponse ?? 1.8, dt) : 1;
-    this.rearTorqueFactor = this.options.tractionControlEnabled ? damp(this.rearTorqueFactor, rearTarget,
-      rearTarget < this.rearTorqueFactor ? tune?.response ?? 7 : tune?.recoveryResponse ?? 1.8, dt) : 1;
+    this.frontTorqueFactor = this.frontTraction.update(dt, frontError, enabled, this.config.driverAids.tcs);
+    this.rearTorqueFactor = this.rearTraction.update(dt, rearError, enabled, this.config.driverAids.tcs);
+    this.engineTorqueFactor = this.config.drivetrainType === 'FWD' ? this.frontTorqueFactor
+      : this.config.drivetrainType === 'RWD' ? this.rearTorqueFactor : this.frontTorqueFactor * this.config.frontTorqueSplit + this.rearTorqueFactor * this.config.rearTorqueSplit;
     const differential = this.config.electronicDifferential;
     if (!differential) { this.differentialBrakeTorques.fill(0); return; }
     for (let i = 0; i < 4; i++) {
@@ -121,14 +119,14 @@ export class DriverAssistSystem {
       const excessSpeed = direction * ((wheel.angularVelocity - other.angularVelocity) * this.config.wheelRadius -
         (wheel.longitudinalSpeed - other.longitudinalSpeed));
       const target = differential && driven && running && driveAvailable && driving && throttle > .05
-        ? differential.maximumBrakeTorque * clamp((slip - differential.slipThreshold) / .4, 0, 1) *
+        ? differential.maximumBrakeTorque * clamp((slip - differential.slipThreshold * contactUsefulSlip(this.config.tires.peakSlipRatio, contacts?.[WHEEL_IDS[i]!], wheel.tyre?.longitudinalStiffnessFactor) / Math.max(.015, this.config.tires.peakSlipRatio)) / .4, 0, 1) *
           clamp((excessSpeed - differential.speedDifferenceThreshold) / 2, 0, 1) : 0;
       this.differentialBrakeTorques[i] = damp(this.differentialBrakeTorques[i]!, target, differential?.response ?? 10, dt);
     }
   }
   /** Capacities already contain actual loads, surface and tyre load sensitivity. */
   public updateBrakes(dt: number, speed: number, brake: number, wheels: WheelPhysicsStateSet,
-    capacities: readonly number[], coordinator?: BrakeTorqueCoordinator, regenerativeAxle?: 'front' | 'rear' | 'both'): void {
+    capacities: readonly number[], coordinator?: BrakeTorqueCoordinator, regenerativeAxle?: 'front' | 'rear' | 'both', contacts?: WheelContactSet): void {
     const front = capacities[0]! + capacities[1]!;
     const rear = capacities[2]! + capacities[3]!;
     const targetBias = this.options.ebdEnabled && front + rear > 1
@@ -140,7 +138,7 @@ export class DriverAssistSystem {
     for (let i = 0; i < 4; i++) {
       const w = wheels[WHEEL_IDS[i]!];
       const slip = -w.slipRatio * Math.sign(w.longitudinalSpeed || speed);
-      const excessive = slip - this.config.tires.peakSlipRatio * 1.05;
+      const excessive = slip - contactUsefulSlip(this.config.tires.peakSlipRatio, contacts?.[WHEEL_IDS[i]!], w.tyre?.longitudinalStiffnessFactor) * 1.05;
       const requested = brake > .01 || this.esc.brakeTorques[i]! > 1 || coordinator?.hasServiceRequest(i) === true ||
         (regenerativeAxle === 'both' || regenerativeAxle !== undefined && (i < 2) === (regenerativeAxle === 'front'));
       const target = this.options.absEnabled && requested
@@ -152,7 +150,7 @@ export class DriverAssistSystem {
   }
   public getSnapshot(): DriverAssistSnapshot {
     const capabilities = this.capabilities;
-    const tcsActive = this.options.tractionControlEnabled && this.engineTorqueFactor < .98;
+    const tcsActive = this.options.tractionControlEnabled && Math.min(this.frontTorqueFactor, this.rearTorqueFactor) < .98;
     return { ...this.options, absSupported: capabilities.abs, tcsSupported: capabilities.tcs, escSupported: capabilities.esc,
       absLamp: this.vehicleOperational && this.absActive && Math.floor(this.time * 8) % 2 === 0,
       absActive: this.absActive, tcsActive,

@@ -1,6 +1,7 @@
 import { BufferGeometry, DataTexture, Float32BufferAttribute, Group, Mesh, MeshLambertMaterial, NearestFilter, Vector2 } from 'three';
 import type { CityMapData, CityPoint } from '../city/CityMapData';
 import { RegionalTerrainClearance } from './RegionalTerrainClearance';
+import { importVisualGeometry, type TerrainVisualData } from '../city/VisualStreamingData';
 
 interface EarthworkSegment { a: CityPoint; b: CityPoint; halfWidth: number; tunnel: boolean; bridge:boolean; ramp:boolean }
 const samplerCache=new WeakMap<CityMapData,RegionalTerrainSampler>();
@@ -148,6 +149,14 @@ export class RegionalTerrain {
     const geometry=new BufferGeometry();geometry.setAttribute('position',new Float32BufferAttribute(positions,3));geometry.setAttribute('color',new Float32BufferAttribute(colors,3));geometry.computeVertexNormals();
     const mesh=new Mesh(geometry,tier==='far'?this.farLand:this.land);mesh.receiveShadow=true;root.add(mesh);
     if(water.length){const g=new BufferGeometry();g.setAttribute('position',new Float32BufferAttribute(water,3));g.computeVertexNormals();root.add(new Mesh(g,tier==='far'?this.farWater:this.water));}
+    return root;
+  }
+  public materialFor(tier: 'near' | 'mid' | 'far', index: number) {
+    return index === 0 ? tier === 'far' ? this.farLand : this.land : tier === 'far' ? this.farWater : this.water;
+  }
+  public fromCompiled(data: TerrainVisualData): Group {
+    const root = new Group(); root.name = `Regional terrain ${data.key} ${data.tier}`;
+    data.geometries.forEach((g, i) => { const mesh = new Mesh(importVisualGeometry(g), this.materialFor(data.tier, i)); mesh.receiveShadow = i === 0; root.add(mesh); });
     return root;
   }
   dispose(){this.land.dispose();this.water.dispose();this.farLand.dispose();this.farRoad.dispose();this.farWater.dispose();this.mask.dispose();}

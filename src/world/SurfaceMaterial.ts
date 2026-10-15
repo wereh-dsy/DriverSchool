@@ -1,10 +1,16 @@
 import * as THREE from 'three';
+import { SURFACE_PROFILES, surfaceProfile, type SurfaceProfile } from './SurfaceProfile';
 
 /** Surface identity is metadata; forces always use the continuous response values. */
 export type SurfaceType = 'asphalt' | 'concrete' | 'compact-shoulder' | 'grass' | 'curb'
-  | 'compact-gravel' | 'loose-gravel' | 'dirt' | 'damp-dirt';
+  | 'compact-gravel' | 'loose-gravel' | 'dirt' | 'damp-dirt'
+  | 'wet-asphalt' | 'packed-snow' | 'fresh-snow' | 'ice' | 'gravel' | 'sand' | 'mud';
 
 export interface SurfaceMaterial {
+  /** Optional authored override; otherwise use the shared profile for this type. */
+  readonly profile?: SurfaceProfile;
+  readonly depth?: number;
+  readonly wetness?: number;
   readonly surfaceType: SurfaceType;
   /** Relative tyre-force capacity; asphalt is the 1.0 baseline. */
   readonly longitudinalGrip: number;
@@ -30,6 +36,11 @@ export interface RoadSurfaceSample extends SurfaceMaterial {
 
 /** Shared defaults for every map. No surface performs direct speed correction. */
 export const SURFACE_MATERIALS: Readonly<Record<SurfaceType, SurfaceMaterial>> = Object.freeze({
+  'wet-asphalt': profiledMaterial('wet-asphalt'),
+  'packed-snow': profiledMaterial('packed-snow'),
+  'fresh-snow': profiledMaterial('fresh-snow'),
+  ice: profiledMaterial('ice'), gravel: profiledMaterial('gravel'),
+  sand: profiledMaterial('sand'), mud: profiledMaterial('mud'),
   asphalt: Object.freeze({
     surfaceType: 'asphalt', longitudinalGrip: 1, lateralGrip: 1,
     rollingResistance: 1, roughness: 0.025,
@@ -68,6 +79,17 @@ export const SURFACE_MATERIALS: Readonly<Record<SurfaceType, SurfaceMaterial>> =
   }),
 });
 
+/** Profile constants remain the single calibration source for V1 surfaces. */
+function profiledMaterial(surfaceType: SurfaceType): SurfaceMaterial {
+  const profile = SURFACE_PROFILES[surfaceType]!;
+  return Object.freeze({ surfaceType, profile, longitudinalGrip: profile.longitudinalGrip,
+    lateralGrip: profile.lateralGrip, rollingResistance: profile.rollingResistance,
+    roughness: profile.roughness, wetness: profile.wetness });
+}
+
+/** The existing map contract is the Surface Interaction sample boundary. */
+export type SurfaceSample = RoadSurfaceSample;
+
 /** Preserve an authored map calibration while giving it the shared material contract. */
 export function calibratedSurfaceMaterial(
   surfaceType: SurfaceType,
@@ -82,7 +104,7 @@ export function calibratedSurfaceMaterial(
   };
 }
 
-/** Only the dominant label switches; all physical values interpolate continuously. */
+/** Capacities interpolate here; the contact filter handles curve-profile changes. */
 export function blendSurfaceMaterials(
   from: SurfaceMaterial,
   to: SurfaceMaterial,
@@ -91,6 +113,9 @@ export function blendSurfaceMaterials(
   const t = THREE.MathUtils.clamp(blend, 0, 1);
   return {
     surfaceType: t < 0.5 ? from.surfaceType : to.surfaceType,
+    profile: t < .5 ? from.profile : to.profile,
+    depth: THREE.MathUtils.lerp(from.depth ?? surfaceProfile(from).defaultDepth, to.depth ?? surfaceProfile(to).defaultDepth, t),
+    wetness: THREE.MathUtils.lerp(from.wetness ?? 0, to.wetness ?? 0, t),
     longitudinalGrip: THREE.MathUtils.lerp(from.longitudinalGrip, to.longitudinalGrip, t),
     lateralGrip: THREE.MathUtils.lerp(from.lateralGrip, to.lateralGrip, t),
     rollingResistance: THREE.MathUtils.lerp(from.rollingResistance, to.rollingResistance, t),

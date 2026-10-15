@@ -1,5 +1,5 @@
 import { worldToRoadMap, type RoadNetworkData } from '../world/navigation/RoadNetwork';
-import { drawLogicalRoadLayer } from './LogicalRoadMapGeometry';
+import { drawLogicalRoadLayer, drawRoadMapAnnotations } from './LogicalRoadMapGeometry';
 
 export type MinimapPosition = 'off' | 'top-left' | 'top-right';
 
@@ -45,6 +45,7 @@ export class Minimap {
     if (!network) return;
     const scale = this.mapScale();
     drawLogicalRoadLayer(ctx,network.segments,network.intersections,(x,z)=>this.mapPoint(x,z),scale,2.5,()=> '#a8b8c2','#dbe6eb');
+    drawRoadMapAnnotations(ctx,network.mapAnnotations,(x,z)=>this.mapPoint(x,z),scale);
   }
 
   public update(x: number, z: number, yaw: number, dt: number): void {

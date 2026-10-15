@@ -73,7 +73,7 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     this.inputRPM = angularVelocityToRPM(turbine); this.outputRPM = angularVelocityToRPM(outputOmega);
     const shiftScale = this.shiftTarget === null ? 1 :
       this.config.shiftTorqueFactor + (1 - this.config.shiftTorqueFactor) * Math.abs(2 * this.shiftProgress - 1);
-    const converter = this.converter.update(context, turbine, this.selector.driving ? shiftScale : 0);
+    const converter = this.converter.update(context, turbine, this.selector.driving ? shiftScale : 0, this.gearbox.getRatio() * this.gearbox.config.finalDriveRatio, this.gearbox.config.drivetrainEfficiency);
     this.load = converter.load; this.torque = converter.turbineTorque;
     const outputTorque = this.torque * this.gearbox.getRatio() * this.gearbox.config.drivetrainEfficiency;
     this.outputTorque = outputTorque;

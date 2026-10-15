@@ -69,6 +69,8 @@ export interface AutomaticTransmissionConfig {
 }
 
 export interface DualClutchTransmissionConfig {
+  /** Ordinary full-pedal clutch launch RPM; no extra engine torque or overboost. */
+  launchTargetRPM?: number;
   /** Optional throttle blip while approaching the incoming shaft RPM. */
   revMatching?: { response: number; maximumThrottle: number };
   shiftStrategy: AutomaticShiftConfig;

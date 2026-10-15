@@ -83,7 +83,7 @@ export class CVTTransmissionSystem implements TransmissionSystem {
     const outputOmega = context.drivenWheelAngularVelocity * this.gearbox.config.finalDriveRatio;
     const turbine = outputOmega * this.signedRatio;
     this.inputRPM = angularVelocityToRPM(turbine); this.outputRPM = angularVelocityToRPM(outputOmega);
-    const converter = this.converter.update(context, turbine, this.selector.driving ? 1 : 0);
+    const converter = this.converter.update(context, turbine, this.selector.driving ? 1 : 0, this.signedRatio * this.gearbox.config.finalDriveRatio, this.gearbox.config.drivetrainEfficiency);
     this.load = converter.load; this.torque = converter.turbineTorque;
     const outputTorque = this.torque * this.signedRatio * this.gearbox.config.drivetrainEfficiency;
     this.outputTorque = outputTorque;

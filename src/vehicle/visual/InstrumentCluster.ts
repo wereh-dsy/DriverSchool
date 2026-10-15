@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { lateralBoundaryColor } from './LateralAssistDisplay';
 import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
 import { BMW530Instruments } from './BMW530Instruments';
+import { GolfGTIInstruments } from './GolfGTIDisplays';
 import { ElectricCenterDisplay } from './ElectricCenterDisplay';
 import { PremiumEVInstruments } from './PremiumEVInstruments';
 import { VehicleAssetRegistry } from './VehicleAssetRegistry';
@@ -108,7 +109,8 @@ export type InstrumentDisplayStyle =
   | 'suv-virtual'
   | 'ev-center'
   | 'ev-premium'
-  | 'bmw-live';
+  | 'bmw-live'
+  | 'gti-digital';
 
 export interface InstrumentClusterConfig {
   readonly featureClass?: 'standard' | 'advanced';
@@ -1570,6 +1572,7 @@ const parseGearSelector = (gear: InstrumentGear): string => {
  * canvas displays only when the visible value or lamp state changes.
  */
 export class InstrumentCluster extends THREE.Group {
+  private gtiFace: GolfGTIInstruments | null = null;
   private bmwFace: BMW530Instruments | null = null;
   private evCanvas: HTMLCanvasElement | null = null;
   private evTexture: THREE.CanvasTexture | null = null;
@@ -1647,10 +1650,17 @@ export class InstrumentCluster extends THREE.Group {
 
   public constructor(config: Partial<InstrumentClusterConfig> = {}, private readonly assets?: import('./VehicleAssetRegistry').VehicleAssetRegistry) {
     super();
-    this.electricFace = config.displayStyle === 'ev-premium' ? null : new ElectricCenterDisplay(assets);
+    this.electricFace = config.displayStyle === 'ev-premium' || config.displayStyle === 'gti-digital' ? null : new ElectricCenterDisplay(assets);
     this.name = 'Functional instrument cluster';
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.suvScales = getSuvInstrumentScales(this.config);
+    if (this.config.displayStyle === 'gti-digital') {
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas); this.informationTexture.dispose();
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.gtiFace = new GolfGTIInstruments(this.config,assets); this.add(this.gtiFace); return;
+    }
     if (this.config.displayStyle === 'bmw-live') {
       this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
       this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
@@ -2051,6 +2061,7 @@ export class InstrumentCluster extends THREE.Group {
   }
 
   public update(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
+    if (this.gtiFace) { this.gtiFace.update(telemetry, deltaTime); return; }
     if (this.premiumEVFace) { this.premiumEVFace.update(telemetry, deltaTime); return; }
     if (this.bmwFace) { this.bmwFace.update(telemetry, deltaTime); return; }
     if (this.evCanvas && this.evTexture) {

@@ -18,6 +18,7 @@ interface RoadMaterialState {
 export class EnvironmentVisual {
   private readonly roads: RoadMaterialState[] = [];
   private readonly lampMaterials: MeshStandardMaterial[] = [];
+  private readonly lampGlowCache = new Map<MeshStandardMaterial, MeshStandardMaterial>();
   private readonly lampMeshes: { mesh: Mesh; original: MeshStandardMaterial }[] = [];
   private readonly lampPositions: Vector3[] = [];
   private readonly lamps = Array.from({ length: 6 }, () => {
@@ -62,7 +63,7 @@ export class EnvironmentVisual {
     }
     this.roads.length = 0;
     this.lampPositions.length = 0;
-    this.releaseLamps();
+    this.releaseLamps(false);
     const seen = new Set<MeshStandardMaterial>();
     const matrix = new Matrix4();
     ground.root.updateWorldMatrix(true, true);
@@ -75,11 +76,11 @@ export class EnvironmentVisual {
         this.roads.push({ material, color: material.color.clone(), roughness: material.roughness, metalness: material.metalness });
       }
       if (object.userData.environmentLamp !== true || !(object.material instanceof MeshStandardMaterial)) return;
-      const glow = object.material.clone();
-      glow.emissive.set(0xffdf9d);
+      let glow = this.lampGlowCache.get(object.material);
+      if (!glow) { glow = object.material.clone(); glow.emissive.set(0xffdf9d); this.lampGlowCache.set(object.material, glow); }
       this.lampMeshes.push({ mesh: object, original: object.material });
       object.material = glow;
-      this.lampMaterials.push(glow);
+      if (!this.lampMaterials.includes(glow)) this.lampMaterials.push(glow);
       if (object instanceof InstancedMesh) {
         for (let i = 0; i < object.count; i++) {
           object.getMatrixAt(i, matrix);
@@ -87,6 +88,7 @@ export class EnvironmentVisual {
         }
       } else this.lampPositions.push(object.getWorldPosition(new Vector3()));
     });
+    for (const [original, glow] of this.lampGlowCache) if (!this.lampMaterials.includes(glow)) { glow.dispose(); this.lampGlowCache.delete(original); }
     this.lampElapsed = 1;
     this.applyState();
   }
@@ -179,11 +181,11 @@ export class EnvironmentVisual {
     this.releaseLamps();
   }
 
-  private releaseLamps(): void {
+  private releaseLamps(dispose = true): void {
     // Return original materials to the ground's disposal owner.
     for (const entry of this.lampMeshes) entry.mesh.material = entry.original;
     this.lampMeshes.length = 0;
-    for (const material of this.lampMaterials) material.dispose();
+    if (dispose) { for (const material of this.lampGlowCache.values()) material.dispose(); this.lampGlowCache.clear(); }
     this.lampMaterials.length = 0;
   }
 

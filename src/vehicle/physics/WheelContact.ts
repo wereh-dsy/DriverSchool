@@ -1,5 +1,5 @@
 import type { RoadSurfaceSample, SurfaceMaterial, SurfaceType } from '../../world/SurfaceMaterial';
-import { VEHICLE_WHEEL_IDS, wheelLocalPosition } from '../VehicleDimensions';
+import { VEHICLE_WHEEL_IDS } from '../VehicleDimensions';
 import { wetGripScale } from '../../world/environment/EnvironmentState';
 
 export const WHEEL_IDS = VEHICLE_WHEEL_IDS;
@@ -47,31 +47,45 @@ export function sampleWheelContacts(
   pose: WheelContactPose,
   dimensions: WheelContactDimensions,
   wetness = 0,
+  target?: WheelContactSet,
 ): WheelContactSet {
   const sine = Math.sin(pose.yaw);
   const cosine = Math.cos(pose.yaw);
-  const sample = (id: WheelId): WheelContact => {
-    const { x: localX, z: localZ } = wheelLocalPosition(dimensions, id);
+  const result = target ?? createWheelContactBuffer();
+  for (const id of WHEEL_IDS) {
+    const front = id === 'frontLeft' || id === 'frontRight';
+    const left = id === 'frontLeft' || id === 'rearLeft';
+    const localX = (front ? dimensions.frontTrackWidth : dimensions.rearTrackWidth) * (left ? -.5 : .5);
+    const localZ = dimensions.wheelBase * (front ? -.5 : .5);
     const x = pose.x + localX * cosine + localZ * sine;
     const z = pose.z - localX * sine + localZ * cosine;
     const surface = ground.sampleRoadSurface(x, z);
     const weatherGrip = wetGripScale(surface, wetness);
-    return {
-      id, x, z, height: surface.height, wetness,
-      normal: { x: surface.normal.x, y: surface.normal.y, z: surface.normal.z },
-      surfaceType: surface.surfaceType,
-      longitudinalGrip: surface.longitudinalGrip * weatherGrip,
-      lateralGrip: surface.lateralGrip * weatherGrip,
-      rollingResistance: surface.rollingResistance,
-      roughness: surface.roughness,
-    };
-  };
-  return {
-    frontLeft: sample('frontLeft'),
-    frontRight: sample('frontRight'),
-    rearLeft: sample('rearLeft'),
-    rearRight: sample('rearRight'),
-  };
+    const wheel = result[id] as MutableContact;
+    wheel.x = x; wheel.z = z; wheel.height = surface.height;
+    wheel.wetness = Math.max(wetness, surface.wetness ?? 0);
+    wheel.normal.x = surface.normal.x; wheel.normal.y = surface.normal.y; wheel.normal.z = surface.normal.z;
+    wheel.surfaceType = surface.surfaceType;
+    wheel.profile = surface.profile; wheel.depth = surface.depth;
+    wheel.longitudinalGrip = surface.longitudinalGrip * weatherGrip;
+    wheel.lateralGrip = surface.lateralGrip * weatherGrip;
+    wheel.rollingResistance = surface.rollingResistance;
+    wheel.roughness = surface.roughness;
+  }
+  return result;
+}
+
+type MutableContact = { -readonly [K in keyof WheelContact]: WheelContact[K] } & {
+  normal: { x: number; y: number; z: number };
+};
+
+/** Owned by the caller; reuse only after the previous sample has been consumed. */
+export function createWheelContactBuffer(): WheelContactSet {
+  const make = (id: WheelId): WheelContact => ({ id, x: 0, z: 0, height: 0,
+    normal: { x: 0, y: 1, z: 0 }, surfaceType: 'asphalt',
+    longitudinalGrip: 1, lateralGrip: 1, rollingResistance: 1, roughness: .025 });
+  return { frontLeft: make('frontLeft'), frontRight: make('frontRight'),
+    rearLeft: make('rearLeft'), rearRight: make('rearRight') };
 }
 
 export function wheelContactsAsArray(contacts: WheelContactSet): readonly WheelContact[] {
@@ -87,7 +101,8 @@ export function averageWheelGroundGeometry(contacts: WheelContactSet): {
   let normalX = 0;
   let normalY = 0;
   let normalZ = 0;
-  for (const wheel of wheelContactsAsArray(contacts)) {
+  for (const id of WHEEL_IDS) {
+    const wheel = contacts[id];
     height += wheel.height * 0.25;
     normalX += wheel.normal.x;
     normalY += wheel.normal.y;

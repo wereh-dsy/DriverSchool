@@ -3,6 +3,7 @@ import { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { TaycanCabinDisplays } from './TaycanCabinDisplays';
 import { createPrancingHorseBadge } from './PrancingHorseBadge';
 import { buildBMW530Cabin, type BMW530CabinState } from './BMW530Cabin';
+import { buildGolfGTICabin, type GolfGTICabinState } from './GolfGTICabin';
 
 import {
   InstrumentCluster,
@@ -86,6 +87,7 @@ export class Cockpit extends THREE.Group {
   private ambientLevel = 0;
   private readonly ambientSpills: THREE.PointLight[] = [];
   private bmwCabin: BMW530CabinState | null = null;
+  public readonly gtiCabin?: GolfGTICabinState;
   public readonly taycanDisplays?: TaycanCabinDisplays;
   private readonly displayAssets?: VehicleAssetRegistry;
 
@@ -98,6 +100,10 @@ export class Cockpit extends THREE.Group {
     this.consoleWidth = this.layout.consoleWidth;
     this.floorY = this.layout.floorHeight;
 
+    if (config.body.design === 'golf-gti') {
+      this.gtiCabin = buildGolfGTICabin(this, config, this, assets);
+      this.instrumentCluster = this.gtiCabin.instrument; return;
+    }
     if (config.body.design === 'bmw-g38') {
       this.bmwCabin = buildBMW530Cabin(this, config, this, assets);
       this.instrumentCluster = this.bmwCabin.instrument;
@@ -167,10 +173,11 @@ export class Cockpit extends THREE.Group {
 
   /** Updates every cockpit instrument from one render-facing state object. */
   public handleDisplayClick(raycaster: THREE.Raycaster): boolean {
-    return this.taycanDisplays?.click(raycaster) ?? this.bmwCabin?.click(raycaster) ?? false;
+    return this.gtiCabin?.click(raycaster) ?? this.taycanDisplays?.click(raycaster) ?? this.bmwCabin?.click(raycaster) ?? false;
   }
 
   public cycleCenterDisplayPage(): boolean {
+    if (this.gtiCabin) { this.gtiCabin.cyclePage(); return true; }
     if (this.taycanDisplays) { this.taycanDisplays.center.cyclePage(); return true; }
     if (!this.bmwCabin) return false;
     this.bmwCabin.cyclePage(); return true;
@@ -179,6 +186,7 @@ export class Cockpit extends THREE.Group {
   /** Updates every cockpit instrument from one render-facing state object. */
   public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
     this.instrumentCluster.update(telemetry, deltaTime);
+    this.gtiCabin?.update(telemetry, deltaTime);
     this.bmwCabin?.update(telemetry, deltaTime);
     this.taycanDisplays?.update(telemetry, deltaTime);
     const profile = this.config.interiorAmbientLighting;

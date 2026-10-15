@@ -72,7 +72,6 @@ export class Hud {
   private readonly parkingReadout: HTMLElement;
   private readonly parkingZones: HTMLElement[];
   private readonly parkingDistance: HTMLElement;
-  private readonly inputStatus: HTMLElement;
   private readonly clutchMeter: HTMLElement;
   private readonly clutchValue: HTMLElement;
   private readonly clutchModeLabel: HTMLElement;
@@ -104,24 +103,20 @@ export class Hud {
   private readonly toast: HTMLElement;
   private readonly mirrorSideBadge: HTMLElement;
   private readonly mirrorSideLabel: HTMLElement;
-  private readonly activeMapLabel: HTMLElement;
-  private readonly activeVehicleLabel: HTMLElement;
   private readonly startMapButtons: HTMLElement;
   private readonly startVehicleButtons: HTMLElement;
-  private mapOptions: readonly DrivingMapOption[] = [];
-  private vehicleOptions: readonly DrivingVehicleOption[] = [];
   private toastTimer = 0;
   private readonly lapHud: LapHud;
   private debugVisible = false;
   private started = false;
+  private immersiveEnabled = this.readImmersivePreference();
+  public onImmersiveModeChange?: (enabled: boolean) => void;
 
   constructor(private readonly host: HTMLElement) {
     host.innerHTML = `
       <div class="game-ui" aria-label="驾驶界面">
-        <div class="brand-chip"><span class="brand-mark"></span><span>DRIVER LAB</span><em>V0.2</em></div>
-        <div class="map-chip"><small>当前组合</small><strong data-active-map-label>综合公路练习场</strong><i>·</i><strong data-active-vehicle-label>家用轿车</strong></div>
         <section class="mirror-pod" aria-label="右侧后视镜画面">
-          <div class="mirror-label"><span data-mirror-side-badge>R</span><b data-mirror-side-label>RIGHT MIRROR</b><i>LIVE</i></div>
+          <div class="mirror-label"><span data-mirror-side-badge>R</span><b data-mirror-side-label>右后视镜</b></div>
           <div class="mirror-viewport" data-mirror-viewport></div>
           <div class="mirror-glare"></div>
         </section>
@@ -179,18 +174,7 @@ export class Hud {
             <div class="transmission-debug"><dt>MECHANICS / TURBO</dt><dd data-debug-mechanical>—</dd></div>
           </dl>
         </section>
-        <div class="input-status" data-input-status><i></i><span>键盘 · 自动离合</span></div>
-        <div class="control-ribbon" aria-label="键位提示">
-          <span><kbd data-key-action="throttle">W</kbd> 油门</span><span><kbd data-key-action="brake">S</kbd> 制动</span>
-          <span><kbd data-key-action="steerLeft">A</kbd><kbd data-key-action="steerRight">D</kbd> 转向</span>
-          <span><kbd data-key-action="shiftDown">Q</kbd><kbd data-key-action="shiftUp">E</kbd> 换挡</span>
-          <span><kbd data-key-action="handbrake">空格</kbd> 手刹开关</span><span><kbd data-key-action="cycleLights">L</kbd> 灯光</span>
-          <span><kbd data-key-action="cycleWipers">B</kbd> 雨刷</span>
-          <span><kbd data-key-action="cycleDriveMode">T</kbd> 驾驶模式</span>
-          <span><kbd>U</kbd> 行政轿车仪表 Driving / Map</span>
-          <span><kbd>F2</kbd> 数据</span><span><kbd>F3</kbd> 设置</span><span><kbd>F4</kbd> 场地</span><span><kbd>F5</kbd> 车辆</span>
-          <span><kbd data-key-action="toggleClutchMode">M</kbd> 离合模式</span><span><kbd>鼠标</kbd> 观察</span>
-        </div>
+        <div class="control-ribbon" aria-label="界面快捷键"><span><kbd>F1</kbd> 沉浸模式</span></div>
         <div class="toast" data-toast role="status"></div>
         <section class="start-overlay" data-start-overlay>
           <div class="start-card">
@@ -217,7 +201,6 @@ export class Hud {
             <small class="start-note">右上角画面来自右侧实体镜的同一反射纹理</small>
           </div>
         </section>
-        <div class="reticle" aria-hidden="true"><i></i></div>
       </div>`;
 
     this.rightMirrorViewport = this.require('[data-mirror-viewport]');
@@ -231,7 +214,6 @@ export class Hud {
     this.parkingReadout = this.require('[data-rear-parking]');
     this.parkingZones = Array.from(this.require('[data-parking-zones]').children) as HTMLElement[];
     this.parkingDistance = this.require('[data-parking-distance]');
-    this.inputStatus = this.require('[data-input-status]');
     this.clutchMeter = this.require('[data-clutch-meter]');
     this.clutchValue = this.require('[data-clutch-value]');
     this.clutchModeLabel = this.require('[data-clutch-mode-label]');
@@ -244,8 +226,6 @@ export class Hud {
     this.toast = this.require('[data-toast]');
     this.mirrorSideBadge = this.require('[data-mirror-side-badge]');
     this.mirrorSideLabel = this.require('[data-mirror-side-label]');
-    this.activeMapLabel = this.require('[data-active-map-label]');
-    this.activeVehicleLabel = this.require('[data-active-vehicle-label]');
     this.startMapButtons = this.require('[data-start-map-buttons]');
     this.startVehicleButtons = this.require('[data-start-vehicle-buttons]');
     this.debugValues = {
@@ -267,6 +247,8 @@ export class Hud {
     };
 
     this.settings = new ControlSettingsPanel(host);
+    this.settings.setImmersiveMode(this.immersiveEnabled);
+    this.settings.onImmersiveModeChange = enabled => this.setImmersiveMode(enabled);
     this.minimap = new Minimap(this.require('.game-ui'));
     this.lapHud = new LapHud(this.require('.game-ui'));
     this.minimap.setPosition(this.settings.minimapPosition);
@@ -281,12 +263,16 @@ export class Hud {
 
   onStart?: () => void;
   private vehicleLoading = false;
+  private loadingPhase: import('../vehicle/VehicleLoadingLifecycle').VehicleLoadingPhase | undefined;
+  private loadingLabel: string | undefined;
   private readonly loadingStatus = document.createElement('div');
-  public setVehicleLoading(phase: import('../vehicle/VehicleLoadingLifecycle').VehicleLoadingPhase): void {
+  public setVehicleLoading(phase: import('../vehicle/VehicleLoadingLifecycle').VehicleLoadingPhase, label?: string): void {
+    if (phase === this.loadingPhase && label === this.loadingLabel) return;
+    this.loadingPhase = phase; this.loadingLabel = label;
     this.vehicleLoading = phase !== 'Ready';
     const labels = { 'Static asset prepare': '正在准备车辆资源', 'Instance creation': '正在创建车辆',
       'Dynamic state init': '正在初始化车辆状态', 'Visual warmup': '正在准备车辆显示', Ready: '', Failed: '车辆加载失败，请刷新重试' };
-    this.loadingStatus.textContent = labels[phase];
+    this.loadingStatus.textContent = label ?? labels[phase];
     this.loadingStatus.style.cssText = 'position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:1000;padding:10px 18px;background:#101820;color:#eef2ed;border-radius:8px;pointer-events:none';
     this.loadingStatus.hidden = !this.vehicleLoading;
     if (!this.loadingStatus.isConnected) this.host.append(this.loadingStatus);
@@ -299,14 +285,15 @@ export class Hud {
 
   setRoadNetwork(network: RoadNetworkData | undefined): void { this.minimap.setNetwork(network); }
 
-  updateLap(state: Readonly<LapTimerState> | null): void { this.lapHud.update(state); }
+  updateLap(state: Readonly<LapTimerState> | null): void {
+    this.lapHud.update(state?.phase === 'WAITING_FOR_START' ? null : state);
+  }
 
   updateMinimap(x: number, z: number, yaw: number, dt: number): void {
     this.minimap.update(x, z, yaw, dt);
   }
 
   setMapOptions(options: readonly DrivingMapOption[], activeMapId: string): void {
-    this.mapOptions = [...options];
     this.settings.setMapOptions(options, activeMapId);
     this.startMapButtons.replaceChildren();
     for (const option of options) {
@@ -325,8 +312,6 @@ export class Hud {
   }
 
   setActiveMap(mapId: string): void {
-    const option = this.mapOptions.find((candidate) => candidate.id === mapId);
-    this.activeMapLabel.textContent = option?.label ?? mapId;
     this.settings.setActiveMap(mapId);
     this.startMapButtons.querySelectorAll<HTMLButtonElement>('[data-map-id]').forEach((button) => {
       button.classList.toggle('active', button.dataset.mapId === mapId);
@@ -337,7 +322,6 @@ export class Hud {
     options: readonly DrivingVehicleOption[],
     activeVehicleId: string,
   ): void {
-    this.vehicleOptions = [...options];
     this.settings.setVehicleOptions(options, activeVehicleId);
     this.startVehicleButtons.replaceChildren();
     for (const option of options) {
@@ -356,8 +340,6 @@ export class Hud {
   }
 
   setActiveVehicle(vehicleId: string): void {
-    const option = this.vehicleOptions.find((candidate) => candidate.id === vehicleId);
-    this.activeVehicleLabel.textContent = option?.label ?? vehicleId;
     this.settings.setActiveVehicle(vehicleId);
     this.startVehicleButtons
       .querySelectorAll<HTMLButtonElement>('[data-vehicle-id]')
@@ -407,7 +389,7 @@ export class Hud {
       this.parkingDistance.style.color = PROXIMITY_COLORS[nearest?.severity ?? 'NONE'];
     }
     const cruiseActive = data.cruiseActive === true;
-    this.cruiseStatus.hidden = !cruiseAvailable;
+    this.cruiseStatus.hidden = !cruiseAvailable || !cruiseActive;
     this.cruiseStatus.classList.toggle('active', cruiseActive);
     this.cruiseStatus.textContent = cruiseActive
       ? `巡航 ${Math.round(data.cruiseTargetSpeedKmh ?? speedKmh)}`
@@ -513,11 +495,6 @@ export class Hud {
     this.clutchValue.textContent = `${clutchPercent}%`;
     this.clutchModeLabel.textContent = manualClutch ? '手动' : '自动';
 
-    const sourceLabel = data.inputSource === 'gamepad' ? '手柄' : data.inputSource === 'wheel' ? '方向盘' : '键盘';
-    const modeLabel = this.automaticTransmission ? (transmission?.type === 'DCT' ? '双离合自动挡' : transmission?.type === 'CVT' ? '无级变速 CVT' : '液力自动挡') : data.controlMode === 'manual-clutch' ? '手动离合' : '自动离合';
-    this.inputStatus.querySelector('span')!.textContent = `${sourceLabel} · ${modeLabel}`;
-    this.inputStatus.classList.toggle('manual', data.controlMode === 'manual-clutch');
-
     const ev = data.powertrain?.ev;
     this.rpmStrip.hidden = !!ev;
     const energyUnit = this.driveReadout.querySelector<HTMLElement>('[data-energy-unit]')!;
@@ -529,7 +506,6 @@ export class Hud {
     if (ev) {
       this.debugValues.rpm.textContent = `${ev.motorRPM.toFixed(0)} rpm · ${ev.motorTorque.toFixed(1)} Nm`;
       this.debugValues.mode.textContent = data.driveMode ?? 'ELECTRIC';
-      this.inputStatus.querySelector('span')!.textContent = `${sourceLabel} · ${transmission?.type === 'EV_TWO_SPEED' ? '电动两速 / AWD' : '电动单速'}`;
       this.transmissionDebug.textContent = `${transmission?.type} · ${transmission?.selectedMode}${transmission?.currentPhysicalGear ?? ''}\nRATIO ${transmission?.currentRatio.toFixed(3)}${transmission?.selectorRejectedReason ? `\nBLOCKED · ${transmission.selectorRejectedReason}` : ''}`;
       this.feedbackDebug.textContent = `CHASSIS / COLLISION · HAPTIC ${Math.round((data.feedback?.continuousRumble.strong ?? 0) * 100)}%`;
       if (this.debugVisible) this.mechanicalDebug.textContent = [
@@ -552,6 +528,7 @@ export class Hud {
   }
 
   showMessage(message: string, duration = 2): void {
+    if (this.immersiveMode) return;
     this.toast.textContent = message;
     this.toast.classList.add('visible');
     this.toastTimer = duration;
@@ -560,14 +537,19 @@ export class Hud {
   getMirrorRect(): DOMRect {
     return this.rightMirrorViewport.getBoundingClientRect();
   }
+  setMirrorOverlayVisible(visible: boolean): void {
+    const frame = this.rightMirrorViewport.closest<HTMLElement>('.mirror-pod')!;
+    if (frame.hidden === visible) frame.hidden = !visible;
+  }
 
   setMirrorPreviewSide(side: 'left' | 'right'): void {
     const left = side === 'left';
     this.mirrorSideBadge.textContent = left ? 'L' : 'R';
-    this.mirrorSideLabel.textContent = left ? 'LEFT MIRROR' : 'RIGHT MIRROR';
+    this.mirrorSideLabel.textContent = left ? '左后视镜' : '右后视镜';
   }
 
   dispose(): void {
+    this.host.classList.remove('driving-immersive');
     this.loadingStatus.remove();
     this.minimap.dispose();
     window.removeEventListener('keydown', this.onKeyDown);
@@ -577,6 +559,7 @@ export class Hud {
   private start(): void {
     if (this.started || this.vehicleLoading) return;
     this.started = true;
+    this.applyImmersiveMode();
     this.startOverlay.classList.add('leaving');
     window.setTimeout(() => this.startOverlay.remove(), 550);
     this.onStart?.();
@@ -584,15 +567,51 @@ export class Hud {
   }
 
   /** Allows optional engine diagnostics to allocate only while F2 is open. */
-  public get isDebugOpen(): boolean { return this.debugVisible; }
+  public get isDebugOpen(): boolean { return this.debugVisible && !this.immersiveMode; }
+
+  public get immersiveMode(): boolean { return this.started && this.immersiveEnabled; }
+
+  public setImmersiveMode(enabled: boolean): void {
+    this.immersiveEnabled = enabled;
+    this.settings.setImmersiveMode(enabled);
+    try { localStorage.setItem('drivergame.immersive-mode.v1', String(enabled)); } catch { /* Optional preference. */ }
+    this.applyImmersiveMode();
+  }
+
+  private applyImmersiveMode(): void {
+    const immersive = this.immersiveMode;
+    this.host.classList.toggle('driving-immersive', immersive);
+    this.require('.game-ui').inert = immersive;
+    if (immersive) {
+      this.setDebugVisible(false);
+      this.toastTimer = 0;
+      this.toast.classList.remove('visible');
+    }
+    this.onImmersiveModeChange?.(immersive);
+  }
+
+  private readImmersivePreference(): boolean {
+    try { return localStorage.getItem('drivergame.immersive-mode.v1') === 'true'; }
+    catch { return false; }
+  }
+
+  private setDebugVisible(visible: boolean): void {
+    this.debugVisible = visible;
+    this.debugPanel.hidden = !visible;
+    this.driveReadout.classList.toggle('debug-open', visible);
+    this.clutchMeter.classList.toggle('debug-open', visible);
+  }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
-    if (event.code === 'F2') {
+    if (event.code === 'F1' && !event.repeat && this.started) {
       event.preventDefault();
-      this.debugVisible = !this.debugVisible;
-      this.debugPanel.hidden = !this.debugVisible;
-      this.driveReadout.classList.toggle('debug-open', this.debugVisible);
-      this.clutchMeter.classList.toggle('debug-open', this.debugVisible);
+      this.setImmersiveMode(!this.immersiveEnabled);
+      if (this.immersiveMode) this.settings.setVisible(false);
+      return;
+    }
+    if (event.code === 'F2' && !event.repeat && !this.immersiveMode) {
+      event.preventDefault();
+      this.setDebugVisible(!this.debugVisible);
     }
     if (!this.started && (event.code === 'Enter' || event.code === 'Space')) {
       event.preventDefault();

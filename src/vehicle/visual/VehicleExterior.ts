@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 
 import type { VehicleVisualConfig } from './VehicleVisualConfig';
+import { buildGolfGTIExterior } from './GolfGTIExterior';
+import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 
 // The declared dimensions include the existing lamp lips / exhaust outlets.
@@ -1263,7 +1265,9 @@ const addSUVDetails = (root: THREE.Group, config: VehicleVisualConfig, materials
 export function buildVehicleExterior(
   root: THREE.Group,
   config: VehicleVisualConfig,
+  assets?: VehicleAssetRegistry,
 ): void {
+  if (config.body.design === 'golf-gti') { buildGolfGTIExterior(root, config, assets); return; }
   const sport = config.body.profile === 'sport-coupe';
   const materials = createMaterials(config);
   root.userData.vehicleProfile = config.body.profile;

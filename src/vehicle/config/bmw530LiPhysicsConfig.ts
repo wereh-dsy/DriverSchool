@@ -53,7 +53,7 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
         torqueRatioCurve: FAMILY_CONVERTER_CONFIG.torqueRatioCurve.map(p => ({ ...p })),
         pumpTorqueCoefficient: .0058, maximumPumpTorque: 450, lockupCapacity: 460,
         lockupStiffness: 11, lockupApplyRate: .8, lockupMinimumSpeed: 9,
-        lockupMinimumSpeedRatio: .78, lockupMaximumThrottle: .65 } } };
+        lockupMinimumSpeedRatio: .78, lockupMaximumThrottle: 1 } } };
   const force = 19000;
   c.brakes = { ...c.brakes, pedalCurveExponent: 1.17, applyResponse: 10.5, response: 10.5,
     releaseResponse: 17, frontBrakeBias: .63, maxBrakeForce: force,

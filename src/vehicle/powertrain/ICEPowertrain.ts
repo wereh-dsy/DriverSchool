@@ -1,5 +1,5 @@
 import type { VehicleControlMode } from '../../input/VehicleInputState';
-import type { DriveModeCalibration, Gear, VehiclePhysicsConfig } from '../config';
+import type { DriveModeCalibration, DriveSelector, Gear, VehiclePhysicsConfig } from '../config';
 import { Engine } from '../physics/Engine';
 import { FuelSystem } from '../physics/FuelSystem';
 import { Clutch } from '../physics/Clutch';
@@ -114,6 +114,9 @@ export class ICEPowertrain implements Powertrain {
     if (!this.vehicleOperational && !this.engine.isRunning && !this.engine.isStarting) return false;
     this.startStopState = 'DISABLED'; this.stoppedTime = this.restartTime = 0;
     this.engine.stop(); return true;
+  }
+  public requestDriveSelector(selector: DriveSelector, speed: number, lateralSpeed: number, brake: number): boolean {
+    return this.transmission.requestSelector(selector, speed, lateralSpeed, brake);
   }
   public requestGear(
     requestedGear: Gear,
@@ -310,6 +313,7 @@ export class ICEPowertrain implements Powertrain {
       engineTorqueAtRPM: this.engineTorqueAtRPM,
       brake: context.brake, vehicleSpeed: context.vehicleSpeed, vehicleLateralSpeed: context.vehicleLateralSpeed,
       holdingBrake: (context.autoHoldHolding === true || context.parkingBrakeActive === true) && !launchRequested,
+      drivenWheelInertia: context.drivenWheelInertia, drivenWheelReactionTorque: context.drivenWheelReactionTorque,
       drivenWheelAngularVelocity: context.drivenWheelAngularVelocity };
   }
   public getSnapshot(): ICEPowertrainSnapshot {

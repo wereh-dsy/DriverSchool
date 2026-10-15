@@ -1,5 +1,5 @@
 import { worldToRoadMap, type RoadNetworkData, type RoadSegmentData, type RoadIntersectionData } from '../world/navigation/RoadNetwork';
-import { drawLogicalRoadLayer } from './LogicalRoadMapGeometry';
+import { drawLogicalRoadLayer, drawRoadMapAnnotations } from './LogicalRoadMapGeometry';
 
 const TILE = 256, PIXELS = 512;
 type Cell = { roads: Set<RoadSegmentData>; junctions: Set<RoadIntersectionData> };
@@ -73,7 +73,8 @@ export class LocalRoadMap {
     const ctx = canvas.getContext('2d'); if (!ctx) return null;
     ctx.setTransform(PIXELS / TILE, 0, 0, PIXELS / TILE, -x * PIXELS, -z * PIXELS);
     drawLogicalRoadLayer(ctx,entry.roads,entry.junctions,(x,z)=>this.point(x,z),1,2,
-      road=>(road.speedLimit??0)>=70||road.width>=18?'#b4b6b7':'#d0d2d2','#c2c5c5');
+      // Darker circuit pavement stays readable on illuminated cockpit materials.
+      road=>road.roadType==='circuit'?'#657681':(road.speedLimit??0)>=70||road.width>=18?'#b4b6b7':'#d0d2d2','#c2c5c5');
     this.tiles.set(key, canvas); this.rasterizations++;
     if (this.tiles.size > 24) this.tiles.delete(this.tiles.keys().next().value!);
     return canvas;
@@ -88,6 +89,10 @@ export class LocalRoadMap {
         for (let tz = Math.floor(top / TILE); tz <= Math.floor((p.y + halfH) / TILE); tz++) {
           const tile = this.tile(tx, tz); if (tile) ctx.drawImage(tile, rect.x + (tx * TILE - left) * scale, rect.y + (tz * TILE - top) * scale, TILE * scale, TILE * scale);
         }
+      drawRoadMapAnnotations(ctx, this.network.mapAnnotations, (mx,mz) => {
+        const mp = this.point(mx,mz);
+        return { x: rect.x + (mp.x - left) * scale, y: rect.y + (mp.y - top) * scale };
+      }, scale, Math.max(1, Math.min(2.4, rect.width / 208)));
       ctx.translate(rect.x + rect.width / 2, rect.y + rect.height / 2); ctx.rotate(-yaw);
       ctx.beginPath(); ctx.moveTo(0, -18); ctx.lineTo(11, 12); ctx.lineTo(0, 7); ctx.lineTo(-11, 12); ctx.closePath();
       ctx.fillStyle = '#367f91'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.fill(); ctx.stroke();

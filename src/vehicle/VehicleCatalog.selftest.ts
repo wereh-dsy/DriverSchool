@@ -298,7 +298,7 @@ const accelerationSample = (id: ICEVehicleId): AccelerationSample => {
 };
 
 export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
-  assert(VEHICLE_CATALOG.length === 11 && isVehicleId('porsche-taycan-4s'), 'eleven official player vehicles including Taycan 4S');
+  assert(VEHICLE_CATALOG.length === 12 && isVehicleId('porsche-taycan-4s') && isVehicleId('volkswagen-golf-gti'), 'twelve official player vehicles including Taycan 4S and Golf GTI');
   assert(!isVehicleId('test-awd-full-time') && !isVehicleId('test-awd-on-demand'), 'AWD fixtures must not be selectable');
   assert(isVehicleId(DEFAULT_VEHICLE_ID), 'default vehicle must resolve by stable ID');
   assert(VEHICLE_CATALOG.length === VEHICLE_IDS.length, 'catalog/order length mismatch');

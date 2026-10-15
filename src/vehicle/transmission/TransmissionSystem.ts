@@ -49,6 +49,9 @@ export interface TransmissionContext {
   brake: number;
   vehicleSpeed: number;
   vehicleLateralSpeed?: number;
+  /** Effective carrier inertia and signed physical contact/brake reaction, SI. */
+  drivenWheelInertia?: number;
+  drivenWheelReactionTorque?: number;
   drivenWheelAngularVelocity: number;
   selectorRequest?: DriveSelector;
 }

@@ -12,6 +12,12 @@ export interface VehicleDimensions {
   readonly rearWheelWidth?: number;
 }
 
+/** Mk7.5-inspired hot hatch envelope; simulation dimensions, body excludes mirrors. */
+export const GOLF_GTI_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.268, width: 1.799, height: 1.442, wheelBase: 2.631,
+  frontTrackWidth: 1.538, rearTrackWidth: 1.516, wheelRadius: .318, wheelWidth: .225,
+});
+
 /** China G38 LCI long-wheelbase saloon, 245/45 R18 road tyres. */
 export const BMW_530LI_DIMENSIONS: VehicleDimensions = Object.freeze({
   length: 5.106, width: 1.868, height: 1.500, wheelBase: 3.105,

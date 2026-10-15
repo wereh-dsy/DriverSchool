@@ -1,0 +1,22 @@
+{
+  "targeted": {
+    "command": "node .tmp-surface-selftests.mjs",
+    "groups": 6,
+    "assertions": 8499,
+    "exitCode": 0
+  },
+  "typecheck": {
+    "command": "pnpm run typecheck",
+    "exitCode": 0
+  },
+  "build": {
+    "command": "pnpm run build -BasicValidation",
+    "exitCode": 0,
+    "coreSelftests": "skipped by explicit user instruction",
+    "playableDistPublished": true,
+    "publishedIndexMatchesStage": true,
+    "referencedAssetsExist": true,
+    "indexSHA256": "3001e0258677158691161ca1bfa01ed33606269ba8ed99b2186246d6e5fd3c40",
+    "warning": "Main application chunk exceeds 500 kB; build succeeded."
+  }
+}

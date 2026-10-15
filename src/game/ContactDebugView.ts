@@ -9,6 +9,8 @@ import { wheelContactsAsArray } from '../vehicle/physics/WheelContact';
 import type { VehicleRuntimeSnapshot } from '../vehicle/physics/VehicleDynamics';
 
 const SURFACE_COLORS: Record<SurfaceType, readonly [number, number, number]> = {
+  'wet-asphalt': [.2, .45, .65], 'packed-snow': [.8, .9, 1], 'fresh-snow': [1, 1, 1],
+  ice: [.4, .8, 1], gravel: [.7, .65, .55], sand: [1, .8, .4], mud: [.5, .3, .15],
   asphalt: [0.25, 0.9, 1], concrete: [0.8, 0.85, 0.9],
   'compact-shoulder': [1, 0.75, 0.2], grass: [0.35, 1, 0.25], curb: [1, 0.4, 0.65],
   'compact-gravel': [0.9, 0.8, 0.5], 'loose-gravel': [1, 0.6, 0.2],
@@ -90,6 +92,7 @@ export class ContactDebugView {
       rows.push(`   n ${wheel.normal.x.toFixed(2)}, ${wheel.normal.y.toFixed(2)}, ${wheel.normal.z.toFixed(2)} · h ${wheel.height.toFixed(2)}m`);
       const state = physics?.wheels[wheel.id];
       if (state !== undefined) {
+        if (import.meta.env.DEV) rows.push(`   SURFACE depth ${(state.surfaceDepth ?? 0).toFixed(3)}m · estimated μ ${(state.estimatedFriction ?? 0).toFixed(3)} · angle ${(state.slipAngle * 180 / Math.PI).toFixed(2)}° · soft drag ${(state.softSurfaceResistanceForce ?? 0).toFixed(0)}N`);
         rows.push(`   load ${state.normalLoad.toFixed(0)}N · drive ${state.driveTorque.toFixed(0)}Nm · brake ${state.appliedBrakeTorque.toFixed(0)}Nm`);
         rows.push(`   wheel ${state.angularVelocity.toFixed(1)}rad/s · slip ${(state.slipRatio * 100).toFixed(1)}% · Fx ${state.longitudinalForce.toFixed(0)}N`);
         rows.push(`   lateral ${state.lateralForce.toFixed(0)}N · spring ${(state.suspensionCompression * 1_000).toFixed(1)}mm · v ${state.suspensionVelocity.toFixed(3)}m/s`);

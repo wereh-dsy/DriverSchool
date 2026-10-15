@@ -1,3 +1,4 @@
+import { MixedSurfaceGround } from './surface/MixedSurfaceGround';
 import { Scene } from 'three';
 import { createNeutralVehicleInputState } from '../input/VehicleInputState';
 import { createVehiclePhysicsConfig, DEFAULT_VEHICLE_ID, getVehicleDescriptor } from '../vehicle/VehicleCatalog';
@@ -9,6 +10,7 @@ import {
 } from './DrivingGroundCatalog';
 import { DrivingTestTrack } from './DrivingTestTrack';
 import { CircuitGround } from './circuit';
+import { TsukubaGround } from './tsukuba/TsukubaGround';
 import { Subject2Ground } from './subject2';
 import { Subject3Ground } from './subject3';
 import { MountainProvingGround } from './mountain/MountainProvingGround';
@@ -22,7 +24,7 @@ export function runDrivingGroundCatalogSelfTest(): { assertions: number; maps: n
     assertions++;
     if (!ok) throw new Error(`Driving ground catalog: ${message}`);
   };
-  assert(DRIVING_GROUND_CATALOG.length === 9, 'City Main added to the eight existing grounds');
+  assert(DRIVING_GROUND_CATALOG.length === 11, 'mixed surface proving ground added to ten existing grounds');
   assert(['road-course','subject-2-training-ground','subject-3-shared-city-map','simple-circuit','mountain-proving-ground','city-alpha','preset-showcase','city-editor-map'].every(isDrivingGroundId), 'all existing grounds retained');
   assert(new Set(DRIVING_GROUND_CATALOG.map(d => d.id)).size === DRIVING_GROUND_CATALOG.length, 'unique ground IDs');
   assert(isDrivingGroundId(DEFAULT_DRIVING_GROUND_ID), 'registered default');
@@ -39,7 +41,8 @@ export function runDrivingGroundCatalogSelfTest(): { assertions: number; maps: n
     getItem: (key: string) => key === CITY_EDITOR_STORAGE_KEY ? editorMap : null,
   } });
   const implementations = {
-    'road-course': DrivingTestTrack, 'simple-circuit': CircuitGround,
+    'mixed-surface-proving-ground': MixedSurfaceGround,
+    'road-course': DrivingTestTrack, 'simple-circuit': CircuitGround, 'tsukuba-tc2000': TsukubaGround,
     'subject-2-training-ground': Subject2Ground, 'subject-3-shared-city-map': Subject3Ground,
     'mountain-proving-ground': MountainProvingGround,
     'city-alpha': CityGround, 'city-main': CityGround, 'preset-showcase': CityGround, 'city-editor-map': CityGround,

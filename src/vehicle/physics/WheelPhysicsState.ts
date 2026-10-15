@@ -3,6 +3,10 @@ import type { GroundNormal, WheelId } from './WheelContact';
 
 /** Observable SI-unit state of one tyre and its simple spring/damper. */
 export interface WheelPhysicsState {
+  readonly surfaceDepth?: number;
+  /** Current load-sensitive longitudinal capacity / normal load, not a sensor. */
+  readonly estimatedFriction?: number;
+  readonly softSurfaceResistanceForce?: number;
   /** Borrowed latest thermal telemetry; no new thermal objects at physics cadence. */
   readonly tyre?: Readonly<import('./TyreThermalPressureSystem').TyreThermalPressureState>;
   /** Normalized alignment: negative camber top inward; positive toe-in on either side. */
