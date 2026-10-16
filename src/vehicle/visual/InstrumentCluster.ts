@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { lateralBoundaryColor } from './LateralAssistDisplay';
+import { activeNavigation, drawNavigationBanner } from '../../ui/NavigationDisplay';
 import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
 import { BMW530Instruments } from './BMW530Instruments';
 import { GolfGTIInstruments } from './GolfGTIDisplays';
@@ -1447,6 +1448,7 @@ const drawSuvCentre = (context: CanvasRenderingContext2D, options: SuvFaceOption
     const rows = ['Avg. consumption', 'Driving time', 'Trip distance', 'Range'];
     rows.forEach((label, i) => suvText(context, label, centerX, 210 + i * 35, 20, i === 0 ? SUV_TEXT : SUV_TEXT_DIM));
     suvText(context, '›', page.x + 22, 210, 27, SUV_ACCENT_BRIGHT);
+    drawNavigationBanner(context,options.data.navigation?.guidance,{x:page.x,y:180,width:page.width,height:170});
   } else if (options.data?.page === 'PARKING') {
     suvText(context, 'Parking assist', centerX, 170, 22, SUV_TEXT_SOFT);
     drawSuvCar(context, centerX, 234);
@@ -2533,12 +2535,16 @@ export class InstrumentCluster extends THREE.Group {
           if (i === 0) context.moveTo(x, y); else context.lineTo(x, y); }); context.stroke();
       }
       this.drawExecutiveCar(context, 720, 330);
+      const n=data.navigation;
+      if(n?.map.available)n.map.draw(context,{x:576,y:180,width:288,height:234},n.pose.x,n.pose.z,n.pose.yaw,500);
+      drawNavigationBanner(context,n?.guidance,{x:580,y:184,width:280,height:100},true);
     } else {
       if (indicators.cruise) {
         drawStatusLamp(context, 'CRUISE', '#95b6ae', 664, 201, 18);
         text(`${Math.round(telemetry.cruiseTargetSpeedKmh ?? 0)} km/h`, 733, 201, 21, '#becbd8');
       }
       this.drawExecutiveRoad(context, data);
+      if(activeNavigation(data?.navigation?.guidance))drawNavigationBanner(context,data?.navigation?.guidance,{x:580,y:252,width:280,height:130},true);
     }
     context.restore();
     context.restore();

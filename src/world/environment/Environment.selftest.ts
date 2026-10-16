@@ -19,11 +19,21 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
     assertions++;
     if (!condition) throw new Error(`Environment self-test: ${message}`);
   };
+  const lowTraction = new Set(['packed-snow', 'fresh-snow', 'ice', 'sand', 'mud']);
   for (const surface of Object.values(SURFACE_MATERIALS)) {
     const light = wetGripScale(surface, WEATHER_WETNESS.LIGHT_RAIN);
     const heavy = wetGripScale(surface, WEATHER_WETNESS.HEAVY_RAIN);
     assert(wetGripScale(surface, 0) === 1 && heavy < light && light < 1, `${surface.surfaceType}: ordered grip, exact dry restoration`);
-    assert(surface.longitudinalGrip * heavy > 0.45, `${surface.surfaceType}: remains drivable`);
+    if (lowTraction.has(surface.surfaceType)) {
+      assert(surface.longitudinalGrip * heavy > 0 && surface.longitudinalGrip * heavy < .45 &&
+        surface.lateralGrip * heavy > 0 && surface.lateralGrip * heavy < .45, `${surface.surfaceType}: retains authored low traction in rain`);
+    } else assert(surface.longitudinalGrip * heavy > 0.45, `${surface.surfaceType}: remains drivable`);
+  }
+  for (const axis of ['longitudinalGrip', 'lateralGrip'] as const) {
+    const wet = (type: keyof typeof SURFACE_MATERIALS) => SURFACE_MATERIALS[type][axis] * wetGripScale(SURFACE_MATERIALS[type], 1);
+    assert(wet('asphalt') > wet('packed-snow') && wet('packed-snow') > wet('fresh-snow') && wet('fresh-snow') > wet('ice'),
+      `${axis}: rain preserves asphalt/snow/ice traction ordering`);
+    assert(wet('grass') > wet('sand') && wet('sand') > wet('mud'), `${axis}: soft-ground traction remains distinct`);
   }
   assert(wetGripScale(SURFACE_MATERIALS.asphalt, 1) > 0.6, 'heavy rain is a moderate grip reduction');
   assert(wetGripScale(SURFACE_MATERIALS.asphalt, 1) > SURFACE_MATERIALS.grass.lateralGrip * wetGripScale(SURFACE_MATERIALS.grass, 1), 'wet asphalt remains better than wet grass');
@@ -52,6 +62,18 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
     } });
     const state = new EnvironmentState();
     const visual = new EnvironmentVisual(scene, state, sun, hemisphere, sky);
+    const sharedRoad = new MeshStandardMaterial({ color: 0x808080, roughness: .8 }); sharedRoad.userData.wetRoad = true;
+    const roadA = new Mesh(undefined, sharedRoad), roadB = new Mesh(undefined, sharedRoad);
+    const rootA = new Group().add(roadA), rootB = new Group().add(roadB), dryShared = sharedRoad.color.clone();
+    state.weather = 'HEAVY_RAIN';
+    visual.addVisualRoot(rootA); const wetShared = sharedRoad.color.clone();
+    visual.addVisualRoot(rootA); visual.addVisualRoot(rootB);
+    assert(sharedRoad.color.equals(wetShared) && !sharedRoad.color.equals(dryShared), 'incremental publication never captures an already wet baseline');
+    visual.removeVisualRoot(rootA); visual.removeVisualRoot(rootA); visual.applyState();
+    assert(sharedRoad.color.equals(wetShared), 'unloading one root retains shared wet road state without double removal');
+    visual.removeVisualRoot(rootB);
+    assert(sharedRoad.color.equals(dryShared) && sharedRoad.roughness === .8, 'last streamed owner restores the original material');
+    roadA.geometry.dispose(); roadB.geometry.dispose(); sharedRoad.dispose(); state.weather = 'CLEAR';
     for (const descriptor of DRIVING_GROUND_CATALOG) {
       const ground = createDrivingGround(descriptor.id);
       if (ground instanceof CityGround) {
@@ -69,7 +91,7 @@ export function runEnvironmentSelfTest(): { assertions: number; maps: number; ve
         if (!(object instanceof Mesh)) return;
         const materials = Array.isArray(object.material) ? object.material : [object.material];
         for (const material of materials) {
-          if (!material.polygonOffset || material.userData.wetRoad || material.userData.regionalTerrain) continue;
+          if ((!material.polygonOffset && !material.userData.roadMarking) || material.userData.wetRoad || material.userData.regionalTerrain) continue;
           markingCount++;
           markingsLit &&= material instanceof MeshStandardMaterial && material.emissive.getHex() === 0 && material.toneMapped;
           markingNormals &&= object.geometry.getAttribute('normal') !== undefined;

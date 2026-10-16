@@ -146,6 +146,7 @@ const VEHICLE_BY_ID = Object.freeze(Object.fromEntries(VEHICLE_IDS.map(id => {
   const capabilities = resolveVehicleCapabilities(physicsConfig, descriptor.visualConfig);
   const visualConfig = { ...descriptor.visualConfig,
     assetCache: capabilities.navigation && capabilities.laneDisplay,
+    navigationDisplay: capabilities.navigation,
     automaticMirrorFold: capabilities.foldingMirrors ? descriptor.visualConfig.automaticMirrorFold : undefined,
     interiorAmbientLighting: capabilities.ambientLighting ? descriptor.visualConfig.interiorAmbientLighting : undefined,
     parkingCamera: capabilities.parkingCamera ? descriptor.visualConfig.parkingCamera : undefined };

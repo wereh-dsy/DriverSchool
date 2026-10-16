@@ -15,11 +15,15 @@ export function validateRoadSignData(map:CityMapData):MapIssue[] {
   for(let i=0;i<map.signs.length;i++) {
     const s=map.signs[i]!,path='signs['+i+']';
     if(!s||typeof s.id!=='string'||!s.id||ids.has(s.id)){error(path,'Missing/duplicate sign ID.');continue;}ids.add(s.id);
-    if(!Object.hasOwn(ROAD_SIGN_TEMPLATES,s.template)||!Object.hasOwn(ROAD_SIGN_SIZES,s.size)||!['EXPRESSWAY_ADVANCE','EXPRESSWAY_DIVERGE','EXPRESSWAY_ENTRY','EXPRESSWAY_DISTANCE','EXPRESSWAY_SERVICE','RAMP_CONFIRMATION','URBAN_DIRECTION','ROAD_NAME','INTERCHANGE_NAME'].includes(s.type))error(path,'Unknown sign type/template/size.');
+    if(!Object.hasOwn(ROAD_SIGN_TEMPLATES,s.template)||!Object.hasOwn(ROAD_SIGN_SIZES,s.size)||!['EXPRESSWAY_ADVANCE','EXPRESSWAY_DIVERGE','EXPRESSWAY_ENTRY','EXPRESSWAY_DISTANCE','EXPRESSWAY_SERVICE','RAMP_CONFIRMATION','URBAN_DIRECTION','ROAD_NAME','INTERCHANGE_NAME','SPEED_LIMIT','CHEVRON'].includes(s.type))error(path,'Unknown sign type/template/size.');
     if(!map.roads.some(r=>r.id===s.roadId)||!s.position||![s.position.x,s.position.y??0,s.position.z,s.heading].every(Number.isFinite)||!['forward','reverse'].includes(s.laneDirection)||s.language!=='zh-CN')error(path,'Sign needs a road reference, finite pose and valid approach direction/language.');
     if(s.interchangeId&&!map.roadNames?.[s.interchangeId])error(path,'Unknown interchange ID.');
     if(s.approachRoadNameId&&!map.roadNames?.[s.approachRoadNameId])error(path,'Unknown approach road name.');
-    if(!Array.isArray(s.destinations)||!s.destinations.length||s.destinations.length>4)error(path,'Expected one to four destinations (including five-leg junctions).');
+    const safety=s.type==='SPEED_LIMIT'||s.type==='CHEVRON';
+    if(s.type==='SPEED_LIMIT'&&(s.template!=='speed-limit'||!Number.isInteger(s.speedLimitKmh)||s.speedLimitKmh!<5||s.speedLimitKmh!>160))error(path,'Speed board requires a speed-limit template and a 5–160 km/h integer limit.');
+    if(s.type==='CHEVRON'&&(s.template!=='chevron'||!['left','right'].includes(s.chevronDirection!)))error(path,'Chevron board requires its template and a driver-relative turn direction.');
+    if((s.template==='speed-limit')!==(s.type==='SPEED_LIMIT')||(s.template==='chevron')!==(s.type==='CHEVRON'))error(path,'Safety templates must match their sign type.');
+    if(!Array.isArray(s.destinations)||(safety?s.destinations.length!==0:!s.destinations.length||s.destinations.length>4))error(path,safety?'Safety boards do not contain navigation destinations.':'Expected one to four destinations (including five-leg junctions).');
     else for(const d of s.destinations)if(!d||!map.roadNames?.[d.roadNameId]||d.directionId&&!map.roadNames?.[d.directionId]||!['straight','left','right','exit-right','exit-left'].includes(d.arrow)||d.distanceMetres!==undefined&&(!Number.isFinite(d.distanceMetres)||d.distanceMetres<0))error(path,'Invalid destination reference/arrow/distance.');
     if(s.gantryPosts&& (s.template!=='highway-gantry'||s.gantryPosts.length!==2||!s.gantryPosts.every(Number.isFinite)||s.gantryPosts[0]>=0||s.gantryPosts[1]<=0||s.gantryPosts[1]-s.gantryPosts[0]>40))error(path,'Highway gantry requires two finite shoulder supports.');
     if(s.exitNumber!==undefined&&typeof s.exitNumber!=='string')error(path,'exitNumber must be optional text.');

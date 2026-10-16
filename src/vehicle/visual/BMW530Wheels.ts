@@ -1,15 +1,20 @@
 import * as T from 'three';
 import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
 import type { VehicleVisualConfig } from './VehicleVisualConfig';
-import { beam, mesh, rounded, roundel } from './BMW530Geometry';
+import { mesh, rounded } from './BMW530Geometry';
+import { bmwExteriorUV } from './BMW530ExteriorDetails';
 
-export function buildBMW530Wheels(root: T.Group, c: VehicleVisualConfig): {
+export function buildBMW530Wheels(root: T.Group, c: VehicleVisualConfig, map: T.Texture): {
   pivots: Record<VehicleWheelId, T.Group>; wheels: T.Mesh[];
 } {
   const rubber = new T.MeshStandardMaterial({ color: 0x14171b, roughness: .88 });
   const alloy = new T.MeshStandardMaterial({ color: 0xb2b9c0, metalness: .85, roughness: .27 });
   const dark = new T.MeshStandardMaterial({ color: 0x242932, metalness: .6, roughness: .38 });
   const steel = new T.MeshStandardMaterial({ color: 0x7e858d, metalness: .78, roughness: .45 });
+  const machined = new T.MeshStandardMaterial({ map, alphaTest: .45, metalness: .8, roughness: .28, side: T.DoubleSide });
+  const faceGeometry = new T.CircleGeometry(.224, 48);
+  bmwExteriorUV(faceGeometry, 'wheel', (x, y) => [(x + .224) / .448, (y + .224) / .448]);
+  faceGeometry.rotateY(Math.PI / 2);
   const r = c.wheelRadius, w = c.dimensions.wheelWidth;
   const profile = [[.224, -w / 2], [.282, -w / 2], [r - .012, -w * .40], [r, -w * .28],
     [r, w * .28], [r - .012, w * .40], [.282, w / 2], [.224, w / 2], [.224, -w / 2]];
@@ -26,17 +31,8 @@ export function buildBMW530Wheels(root: T.Group, c: VehicleVisualConfig): {
     tyre.add(mesh('18 inch alloy barrel', rimGeometry, dark));
     const disc = mesh('Ventilated road brake disc', discGeometry, steel); disc.position.x = sign * .057; tyre.add(disc);
     const lip = mesh('18 inch polished rim lip', lipGeometry, alloy); lip.position.x = face; tyre.add(lip);
-    for (let i = 0; i < 5; i++) for (const split of [-1, 1]) {
-      const a = i / 5 * Math.PI * 2 + split * .09, b = a + split * .10;
-      tyre.add(beam('BMW paired alloy spoke', [face, Math.sin(a) * .051, Math.cos(a) * .051],
-        [face - sign * .008, Math.sin(b) * .216, Math.cos(b) * .216], .008, alloy));
-    }
-    for (let i = 0; i < 5; i++) {
-      const a = i / 5 * Math.PI * 2;
-      const bolt = mesh('Wheel bolt', new T.CylinderGeometry(.006, .006, .008, 6), dark);
-      bolt.rotation.z = Math.PI / 2; bolt.position.set(face + sign * .005, Math.sin(a) * .033, Math.cos(a) * .033); tyre.add(bolt);
-    }
-    const cap = roundel('BMW wheel centre cap', .023); cap.rotation.y = sign * Math.PI / 2; cap.position.x = face + sign * .008; tyre.add(cap);
+    const spokes = mesh('BMW diamond-cut split-spoke atlas face', faceGeometry, machined);
+    spokes.position.x = face + sign * .003; tyre.add(spokes);
     // Shallow circumferential tread grooves and raised sidewall bead.
     for (const x of [-.065, 0, .065]) {
       const groove = mesh('Tyre tread groove', new T.TorusGeometry(r + .0005, .0014, 4, 64), dark);

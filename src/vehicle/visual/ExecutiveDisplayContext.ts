@@ -8,6 +8,7 @@ import type { TripComputerSnapshot } from '../control/TripComputer';
 import { RearParkingProximity, type RearParkingState } from '../control/RearParkingProximity';
 
 export interface ExecutiveDisplayData {
+  navigation?: import('../SharedVehicleData').NavigationMapData;
   lateralAssist?: import('../control/LateralAssistController').LateralAssistDisplayState;
   version: number;
   page: 'DRIVING' | 'MAP' | 'PARKING' | 'TRIP' | 'CRUISE';
@@ -35,7 +36,7 @@ export class ExecutiveDisplayContext {
   private clockElapsed = Infinity;
   private cruiseWasActive = false;
   public readonly data: ExecutiveDisplayData;
-  public constructor(fuel: FuelSnapshot, private readonly shared?: SharedVehicleData) {
+  public constructor(fuel: FuelSnapshot, private readonly shared?: SharedVehicleData, private readonly navigationEnabled=true) {
     this.data = { version: 0, page: 'TRIP', overlay: null, lanes: [], roads: [], obstacles: [],
       trip: { seconds: 0, averageSpeed: null, fuel } };
   }
@@ -74,6 +75,7 @@ export class ExecutiveDisplayContext {
     this.elapsed = 0;
     this.data.version++; this.data.page = page;
     this.data.lateralAssist = this.shared?.lateralAssist;
+    this.data.navigation = this.navigationEnabled ? this.shared?.navigation : undefined;
     this.data.overlay = this.overlayTime > 0 && this.overlay !== null
       ? { ...this.overlay, alpha: Math.min(1, this.overlayTime / .25) } : null;
     this.data.trip = { seconds: trip?.tripA.operatingTimeSeconds ?? 0, averageSpeed: trip?.tripA.averageSpeedKmh ?? null, fuel,

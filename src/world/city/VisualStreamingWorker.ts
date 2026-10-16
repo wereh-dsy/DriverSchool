@@ -5,6 +5,7 @@ export class VisualStreamingWorker {
   private readonly worker: Worker;
   private readonly queued = new Map<string, { request: VisualWorkerRequest; priority: number }>();
   private inFlight = false;
+  private inFlightKey?: string;
   private initialized = false;
   private disposed = false;
   public error: Error | undefined;
@@ -14,6 +15,7 @@ export class VisualStreamingWorker {
     this.worker.onmessage = (e: MessageEvent<VisualWorkerReply>) => {
       if (this.disposed) return;
       this.inFlight = false;
+      this.inFlightKey = undefined;
       if (e.data.kind === 'ready') this.initialized = true;
       else if (e.data.kind === 'error') this.error = new Error(e.data.message);
       else if (e.data.kind === 'road') this.roadReady(e.data.data);
@@ -24,6 +26,7 @@ export class VisualStreamingWorker {
     this.worker.postMessage({ kind: 'init', map } satisfies VisualWorkerRequest);
   }
   public request(key: string, request: VisualWorkerRequest, priority: number): void {
+    if (this.disposed || this.error || this.inFlightKey === key) return;
     const previous = this.queued.get(key);
     if (!previous || priority < previous.priority) this.queued.set(key, { request, priority });
   }
@@ -32,7 +35,7 @@ export class VisualStreamingWorker {
     let chosen: string | undefined, priority = Infinity;
     for (const [key, job] of this.queued) if (job.priority < priority) { chosen = key; priority = job.priority; }
     if (chosen === undefined) return;
-    const job = this.queued.get(chosen)!; this.queued.delete(chosen); this.inFlight = true; this.worker.postMessage(job.request);
+    const job = this.queued.get(chosen)!; this.queued.delete(chosen); this.inFlight = true; this.inFlightKey = chosen; this.worker.postMessage(job.request);
   }
   public dispose(): void { this.disposed = true; this.worker.terminate(); this.queued.clear(); }
 }

@@ -46,6 +46,7 @@ export interface VehicleVisualConfig {
   readonly mirrorSystem?: { readonly left?: boolean; readonly right?: boolean; readonly interior?: 'planar' | 'static' };
   /** Opt-in platform resource lifetime; other vehicles retain their existing builders. */
   readonly assetCache?: boolean;
+  readonly navigationDisplay?: boolean;
   /** Optional render-data services; independent of physical driving assistance. */
   readonly drivingSceneDisplay?: import('./DrivingSceneDisplayContext').DrivingSceneDisplayFeatures;
   /** Optical geometry calibration, independent of lighting logic. */
@@ -412,9 +413,9 @@ export function withSuspensionStance(config: VehicleVisualConfig, suspension: Su
 export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   parkingCamera: { surroundView: true },
   ...DEFAULT_SEDAN_VISUAL_CONFIG,
-  ...automaticEnvelope(EXECUTIVE_LWB_DIMENSIONS), ...automaticMirrors(EXECUTIVE_LWB_DIMENSIONS, .955, -.81),
+  ...automaticEnvelope(EXECUTIVE_LWB_DIMENSIONS), ...automaticMirrors(EXECUTIVE_LWB_DIMENSIONS, .995, -.95),
   name: 'A6L-inspired long-wheelbase executive sedan',
-  windowGlass: { color: 0x737d85, windshieldOpacity: .18, windowOpacity: .32 },
+  windowGlass: { color: 0x3b4854, windshieldOpacity: .24, windowOpacity: .38 },
   automaticMirrorFold: { angleRadians: degrees(60), response: 4.8 },
   exteriorLighting: EXECUTIVE_LIGHTING_PROFILE,
   interiorAmbientLighting: EXECUTIVE_AMBIENT_PROFILE,
@@ -428,12 +429,12 @@ export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   steeringWheelLockDegrees: 32 * 17.5 * 2,
   gearLeverPosition: [.13, .47, .34],
   dashboard: { position: [0, .75, -.70], dimensions: [1.67, .075, .44], tiltRadians: degrees(-3) },
-  cabin: { width: 1.67, dashboardTopY: .81, windshieldBottomY: .85, windshieldTopY: 1.44,
-    windshieldBottomZ: -.91, windshieldTopZ: -.57, roofY: EXECUTIVE_LWB_DIMENSIONS.height - .035 },
+  cabin: { width: 1.67, dashboardTopY: .81, windshieldBottomY: .91, windshieldTopY: 1.405,
+    windshieldBottomZ: -1.02, windshieldTopZ: -.32, roofY: EXECUTIVE_LWB_DIMENSIONS.height - .035 },
   body: { ...DEFAULT_SEDAN_VISUAL_CONFIG.body, design: 'executive', groundClearance: .20,
-    wheelArchClearance: .095, sillY: .34, hoodTopY: .80, hoodLength: 1.60,
-    trunkDeckY: .81, trunkLength: 1.12, roofWidth: 1.46,
-    roofLength: 1.72, roofCenterZ: .29, color: 0x27313f, trimColor: 0x12171f, interiorColor: 0x242326 },
+    wheelArchClearance: .095, sillY: .34, hoodTopY: .86, hoodLength: 1.48,
+    trunkDeckY: .89, trunkLength: .82, roofWidth: 1.46,
+    roofLength: 1.40, roofCenterZ: .30, color: 0x0d1117, trimColor: 0x101419, interiorColor: 0x242326 },
 };
 
 /** Upright SUV cabin with the SUV virtual cockpit and existing cockpit fixtures. */

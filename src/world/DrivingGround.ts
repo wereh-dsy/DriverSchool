@@ -52,7 +52,11 @@ export interface DrivingGround {
   /** Asynchronous visual readiness only. Logical contacts/topology are already available. */
   readonly visualReady?: boolean;
   readonly visualLoadingError?: Error;
-  setVisualResourcePreparation?(prepare: (texture: THREE.Texture) => void): void;
+  setVisualResourcePreparation?(prepare: (texture: THREE.Texture) => void,
+    warmup?: (root: THREE.Group) => Promise<unknown>): void;
+  /** Incremental visual additions/removals; never changes logical resources. */
+  setVisualObserver?(observer: (root: THREE.Object3D, added: boolean) => void): void;
+  updateVisualVisibility?(eye: THREE.Vector3, fogFar: number, cameras: readonly THREE.Camera[]): void;
   /** Multi-level worlds select support near this height. Existing height-field maps ignore it. */
   setSurfaceReferenceHeight?(height: number): void;
   dispose(): void;
@@ -62,5 +66,6 @@ export interface DrivingGroundDescriptor {
   readonly id: string;
   readonly displayName: string;
   readonly description: string;
+  readonly navigation?: boolean;
   readonly create: () => DrivingGround;
 }

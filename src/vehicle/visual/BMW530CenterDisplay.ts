@@ -1,5 +1,6 @@
 import * as T from 'three';
 import { AdaptiveMapZoom } from '../../ui/LocalRoadMap';
+import { drawNavigationBanner } from '../../ui/NavigationDisplay';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import type { LuxuryVehicleStatusData } from './LuxuryVehicleStatusPage';
 import { luxuryVehicleStatusKey, tyrePressureReading, tyrePressureWarning, pressureText } from './LuxuryVehicleStatusPage';
@@ -45,7 +46,7 @@ export class BMW530CenterDisplay {
     const clock = new Date(), time = clock.getHours().toString().padStart(2,'0') + ':' + clock.getMinutes().toString().padStart(2,'0');
     const mode = !t.driveMode || t.driveMode === 'NORMAL' ? 'COMFORT' : t.driveMode;
     const temperature = t.outsideTemperatureC === undefined ? '— °C' : t.outsideTemperatureC.toFixed(1) + ' °C';
-    const mapKey = scene ? [scene.version,scene.map.version] : ['unavailable'];
+    const mapKey = scene ? [scene.version,scene.map.version,t.sharedVehicle?.navigation.guidance?.version] : ['unavailable'];
     const key = [on,this.page,mode,temperature,time,this.page === 'status' ? luxuryVehicleStatusKey(status,on) : mapKey.join(':')].join('|');
     if (key === this.key || on === this.on && this.key !== '' && this.elapsed < .1) return;
     const elapsed = this.elapsed; this.elapsed = 0; this.key = key; this.on = on;
@@ -67,6 +68,8 @@ export class BMW530CenterDisplay {
         const shade = c.createLinearGradient(0,60,0,416);
         shade.addColorStop(0,'rgba(16,32,50,.38)'); shade.addColorStop(.5,'rgba(17,30,48,.12)'); shade.addColorStop(1,'rgba(5,12,22,.72)');
         c.fillStyle=shade; c.fillRect(0,60,1024,356);
+        scene.map.drawNavigation(c,{x:0,y:0,width:1024,height:416},pose.x,pose.z,metres,pose.yaw);
+        drawNavigationBanner(c,t.sharedVehicle?.navigation.guidance,{x:24,y:110,width:460,height:124});
         const scale = 50 / metres * 1024;
         c.strokeStyle='#8aabba'; c.lineWidth=2; c.beginPath(); c.moveTo(978-scale,353); c.lineTo(978,353); c.stroke();
         text('50 m',978,334,17,'#9baebb','right'); text('N',980,89,20,'#9baebb','right');

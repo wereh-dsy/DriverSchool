@@ -4,6 +4,8 @@ import { TaycanCabinDisplays } from './TaycanCabinDisplays';
 import { createPrancingHorseBadge } from './PrancingHorseBadge';
 import { buildBMW530Cabin, type BMW530CabinState } from './BMW530Cabin';
 import { buildGolfGTICabin, type GolfGTICabinState } from './GolfGTICabin';
+import { applyExecutiveCabinAppearance } from './ExecutiveCabinAppearance';
+import { NavigationCenterDisplay } from './NavigationCenterDisplay';
 
 import {
   InstrumentCluster,
@@ -90,6 +92,7 @@ export class Cockpit extends THREE.Group {
   public readonly gtiCabin?: GolfGTICabinState;
   public readonly taycanDisplays?: TaycanCabinDisplays;
   private readonly displayAssets?: VehicleAssetRegistry;
+  private navigationDisplay?: NavigationCenterDisplay;
 
   public constructor(public readonly config: VehicleVisualConfig, assets?: VehicleAssetRegistry) {
     super();
@@ -151,6 +154,16 @@ export class Cockpit extends THREE.Group {
     this.addWindshieldFrame(config, dark, headliner);
     if (config.body.design === 'executive') this.addExecutiveCabinCompletion(config, interior, softTrim, satin, dark);
     if (config.interiorAmbientLighting) this.addAmbientLighting(config);
+    if (config.body.design === 'executive') applyExecutiveCabinAppearance(this, config, assets);
+    if(config.navigationDisplay&&(config.instrumentCluster.displayStyle==='executive-virtual'||config.instrumentCluster.displayStyle==='suv-virtual')) {
+      const screen=this.getObjectByName('Executive upper centre display glass')??this.getObjectByName('Infotainment display');
+      if(screen instanceof THREE.Mesh){
+        this.navigationDisplay=new NavigationCenterDisplay();
+        const material=screen.material as THREE.MeshStandardMaterial;
+        material.color.set(0xffffff);material.map=this.navigationDisplay.texture;material.emissive.set(0xffffff);material.emissiveMap=this.navigationDisplay.texture;material.emissiveIntensity=.8;material.toneMapped=false;
+        screen.material=material;
+      }
+    }
   }
 
   /** Positive input means steer right; the wheel turns clockwise for the driver. */
@@ -189,6 +202,7 @@ export class Cockpit extends THREE.Group {
     this.gtiCabin?.update(telemetry, deltaTime);
     this.bmwCabin?.update(telemetry, deltaTime);
     this.taycanDisplays?.update(telemetry, deltaTime);
+    this.navigationDisplay?.update(telemetry,deltaTime);
     const profile = this.config.interiorAmbientLighting;
     if (profile && this.ambientMaterial) {
       const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;

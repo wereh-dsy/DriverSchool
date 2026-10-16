@@ -36,7 +36,7 @@ const config = createVehiclePhysicsConfig('porsche-taycan-4s');
 const physics = new VehicleDynamics<ElectricPowertrain>(config, { driveSelector: 'D', speed: 87 / 3.6 }, new ElectricPowertrain(config));
 for (let i = 0; i < 240; i++) physics.stepFixed(1 / 120, { ...createNeutralVehicleInputState(), throttle: .18 });
 const snapshot = physics.getSnapshot();
-const map = await (await fetch('/city-main.json')).json() as CityMapData, network = buildCityRoadNetwork(map);
+const map = await (await fetch('/src/world/city/maps/city-main.json')).json() as CityMapData, network = buildCityRoadNetwork(map);
 const road = network.segments.find(r => r.length > 250 && r.lanes?.some(l => l.direction === 'forward')) ?? network.segments[0]!;
 const mid = Math.max(1, Math.floor(road.centerline.length / 2)), a = road.centerline[mid - 1]!, b = road.centerline[mid]!;
 const projected = projectWorldToRoad({ ...network, segments: [road] }, (a.x + b.x) / 2, (a.z + b.z) / 2)!;

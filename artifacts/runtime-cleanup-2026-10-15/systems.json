@@ -1,0 +1,1220 @@
+{
+  "platform": {
+    "assertions": 40,
+    "migratedVehicles": 3
+  },
+  "ev": {
+    "assertions": 2220,
+    "taycanPerformance": {
+      "zeroTo100Seconds": 3.5083333333333333,
+      "topSpeedKmh": 250.67447760861674,
+      "hardAccelerationEnergyKWh": 0.33169111095957876
+    },
+    "model3Performance": {
+      "zeroTo100Seconds": 6.108333333333333,
+      "topSpeedKmh": 197.8253190846331,
+      "hardAccelerationEnergyKWh": 0.2563301980913918
+    },
+    "teslaThermal": {
+      "startTemp": 24,
+      "peak": 210000,
+      "hotTemp": 113.70726620142275,
+      "hotPower": 155979.6412335465,
+      "cooledTemperature": 74.37177665712544,
+      "recoveredPower": 210000,
+      "sustainedMechanicalKW": 155.97964123354652
+    },
+    "taycanThermal": {
+      "startTemp": 25,
+      "peak": 280000,
+      "hotTemp": 97.42431947695752,
+      "hotPower": 243906.0240288851,
+      "cooledTemperature": 65.30490873496245,
+      "recoveredPower": 280000,
+      "sustainedMechanicalKW": 380
+    },
+    "awdFrontShares": {
+      "lightFront": 0,
+      "mediumFront": 0.3235216874427342,
+      "hardFront": 0.43814343122405414
+    },
+    "overboostMechanicalKW": 439.9999995588916,
+    "brakeBlending": {
+      "normalRegenNm": 1844.1160600142648,
+      "fullRegenNm": 6.153490252783308e-12,
+      "normalFrictionNm": 34.25620471114826,
+      "fullFrictionNm": 1878.372264725407
+    },
+    "energyComparison": {
+      "model3Urban": {
+        "kWhPer100Km": 14.279360671230457,
+        "finalRangeKm": 340.43330429325766
+      },
+      "taycanUrban": {
+        "kWhPer100Km": 15.40358124408366,
+        "finalRangeKm": 433.2550909055395
+      },
+      "model3At100": {
+        "kWhPer100Km": 13.271709518272177,
+        "finalRangeKm": 352.2664384808795
+      },
+      "taycanAt100": {
+        "kWhPer100Km": 17.60403682811131,
+        "finalRangeKm": 435.29393719260236
+      },
+      "model3At120": {
+        "kWhPer100Km": 16.24931686019219,
+        "finalRangeKm": 290.99637648723046
+      },
+      "taycanAt120": {
+        "kWhPer100Km": 21.15768043159772,
+        "finalRangeKm": 366.8485312987293
+      }
+    }
+  },
+  "tyres": {
+    "assertions": 61,
+    "cruiseTemperatureC": 26.929860695565466,
+    "regression": {
+      "BMW": {
+        "maxSpeedDifferenceMps": 0.00008108756868807632,
+        "maxYawDifferenceRad": 0.0000029795600067217265,
+        "maximumTemperatureC": 20.388196845318305
+      },
+      "Tesla": {
+        "maxSpeedDifferenceMps": 0.00009084336859821462,
+        "maxYawDifferenceRad": 0.0000069970756912951515,
+        "maximumTemperatureC": 20.414283875698082
+      },
+      "Taycan": {
+        "maxSpeedDifferenceMps": 0.0002208768855869181,
+        "maxYawDifferenceRad": 0.000008667789709537743,
+        "maximumTemperatureC": 20.862693880021762
+      },
+      "Audi": {
+        "maxSpeedDifferenceMps": 0.00010078998325901978,
+        "maxYawDifferenceRad": 0.000007690910683422203,
+        "maximumTemperatureC": 20.49302170702031
+      }
+    },
+    "hardAccelerationHeatC": {
+      "Tesla": 1.9224914009492622,
+      "Taycan": 3.84601301203746
+    }
+  },
+  "tpms": {
+    "assertions": 12
+  },
+  "taycan": {
+    "assertions": 48,
+    "mapRasterizations": 1,
+    "dynamicRegions": 4,
+    "speedRegionHzMaximum": 30,
+    "mapHzMaximum": 10,
+    "tpmsHzMaximum": 2,
+    "climateHzMaximum": 5,
+    "chronoHzMaximum": 1,
+    "fixedStaticCanvases": 7,
+    "vehicleQueriesByUI": 0,
+    "recordingContexts": 24
+  },
+  "bmw": {
+    "assertions": 150732,
+    "meshes": 438,
+    "vertices": 145263,
+    "materials": 75,
+    "zeroTo100Seconds": 8.033333333333333,
+    "speedAfter20SecondsKmh": 169.39593539286943,
+    "bodySize": [
+      1.8792756473082284,
+      1.5019000039100647,
+      5.130503177642822
+    ],
+    "closureRays": 10
+  },
+  "bmwCabin": {
+    "assertions": 9861,
+    "frontMeshes": 93,
+    "frontVertices": 40054,
+    "cabinMaterials": 22,
+    "closureSamples": 170
+  },
+  "scene": {
+    "assertions": 12,
+    "queries": 3
+  },
+  "loading": {
+    "assertions": 5,
+    "consecutiveSwitches": 3
+  },
+  "lanes": [
+    "straight offset / heading signs",
+    "speed look-ahead and departure prediction",
+    "sticky ID after shallow boundary crossing",
+    "adjacent lane hysteresis prevents ping-pong",
+    "curve tangent / curvature / look-ahead",
+    "topology-confirmed segment transition",
+    "ambiguous overlapping topology unavailable",
+    "reverse-authored travel keeps right-positive convention",
+    "unmarked logical lane unavailable",
+    "elevated overlapping road rejected",
+    "missing logical lane never synthesized",
+    "reset clears tracking",
+    "91 split samples: stable straight continuation"
+  ],
+  "lateral": [
+    "LKA central zone has no centering correction",
+    "LKA predicts departure before proximity threshold",
+    "LKA left departure pushes right",
+    "left indicator suppresses only left departure",
+    "left indicator retains right boundary protection",
+    "right indicator suppresses right departure",
+    "strong input immediately wins arbitration",
+    "low speed inactive",
+    "intersection inactive",
+    "invalid lane disabled",
+    "NaN fails safe",
+    "observation loss fades actual residual demand",
+    "invalid observation finishes fade to zero",
+    "P / R / N forward-gear gate",
+    "LCC does not activate at startup",
+    "LCC centres with exclusive bounded output",
+    "moderate driver steering continuously reduces LCC authority",
+    "LCC curve feed-forward anticipates right bend",
+    "LCC strong driver override",
+    "release delay prevents immediate takeover",
+    "smooth delayed re-engagement",
+    "signal plus intent stops centering",
+    "new lane requires stable confirmation",
+    "new lane reacquires with ramp",
+    "respawn/reset clears runtime request and output",
+    "unsupported vehicle cannot activate",
+    "new LKA still leaves safe central placement alone",
+    "LKA engages while centre still 1.2 m from boundary",
+    "LKA damps inward recovery before it becomes cross-lane overshoot",
+    "recovery countersteer keeps the original boundary highlight",
+    "LKA releases at a settled inner guard without demanding lane centre",
+    "LCC provides small correction inside the former 8 cm deadzone",
+    "LCC damps rightward velocity while centred",
+    "LCC damps leftward velocity with consistent sign",
+    "LCC follows the previewed bend before current heading or offset changes",
+    "trend damping cannot bypass driver override",
+    "override release delay gates residual output",
+    "trend damping retains smooth reacquisition",
+    "large alternating errors remain clamped and slew limited",
+    "bounded speed gain scheduling preserves correction at both speeds"
+  ],
+  "lateralDriving": [
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "straight80",
+      "finalOffset": -0.022,
+      "maxOffset": 0.65,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0128,
+      "maxAssistStep": 0.00019,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.4,
+      "settledRms": 0.027,
+      "firstCorrectionSeconds": 0.558,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "straight120",
+      "finalOffset": 0.02,
+      "maxOffset": 0.65,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0105,
+      "maxAssistStep": 0.00015,
+      "finalState": "ACTIVE",
+      "speedKmh": 110.2,
+      "settledRms": 0.02,
+      "firstCorrectionSeconds": 0.667,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "straightSmall",
+      "finalOffset": 0.023,
+      "maxOffset": 0.15,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0021,
+      "maxAssistStep": 0.00003,
+      "finalState": "ACTIVE",
+      "speedKmh": 110.2,
+      "settledRms": 0.023,
+      "firstCorrectionSeconds": null,
+      "firstCorrectionClearance": null,
+      "minimumClearance": 1.6
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "curve90",
+      "finalOffset": 0.125,
+      "maxOffset": 0.13,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.038,
+      "maxAssistStep": 0.0004,
+      "finalState": "ACTIVE",
+      "speedKmh": 82.7,
+      "settledRms": 0.125,
+      "firstCorrectionSeconds": 3.275,
+      "firstCorrectionClearance": 1.75,
+      "minimumClearance": 1.62
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "signalChange",
+      "finalOffset": -0.015,
+      "maxOffset": 1.904,
+      "laneChanges": 1,
+      "huntingCrossings": 2,
+      "maxAssist": 0.0334,
+      "maxAssistStep": 0.0004,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.4,
+      "settledRms": 0.451,
+      "firstCorrectionSeconds": 0.558,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": -0.154
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "unsignaledChange",
+      "finalOffset": 0.027,
+      "maxOffset": 1.94,
+      "laneChanges": 1,
+      "huntingCrossings": 2,
+      "maxAssist": 0.075,
+      "maxAssistStep": 0.00149,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.4,
+      "settledRms": 0.201,
+      "firstCorrectionSeconds": 0.558,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": -0.19
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "merge",
+      "finalOffset": -0.023,
+      "maxOffset": 0.65,
+      "laneChanges": 1,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0128,
+      "maxAssistStep": 0.00019,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.4,
+      "settledRms": 0.029,
+      "firstCorrectionSeconds": 0.558,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "diverge",
+      "finalOffset": -0.023,
+      "maxOffset": 0.65,
+      "laneChanges": 1,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0128,
+      "maxAssistStep": 0.00019,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.4,
+      "settledRms": 0.029,
+      "firstCorrectionSeconds": 0.558,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "lkaLeft",
+      "finalOffset": -0.254,
+      "maxOffset": 1.609,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.062,
+      "maxAssistStep": 0.00183,
+      "finalState": "READY",
+      "speedKmh": 73.4,
+      "settledRms": 0.281,
+      "firstCorrectionSeconds": 0.017,
+      "firstCorrectionClearance": 0.55,
+      "minimumClearance": 0.141
+    },
+    {
+      "vehicle": "bmw-530li-g38",
+      "scenario": "lkaRight",
+      "finalOffset": 0.254,
+      "maxOffset": 1.609,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.062,
+      "maxAssistStep": 0.00183,
+      "finalState": "READY",
+      "speedKmh": 73.4,
+      "settledRms": 0.281,
+      "firstCorrectionSeconds": 0.017,
+      "firstCorrectionClearance": 0.55,
+      "minimumClearance": 0.141
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "straight80",
+      "finalOffset": -0.019,
+      "maxOffset": 0.65,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0133,
+      "maxAssistStep": 0.0002,
+      "finalState": "ACTIVE",
+      "speedKmh": 76.7,
+      "settledRms": 0.02,
+      "firstCorrectionSeconds": 0.533,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "straight120",
+      "finalOffset": 0.02,
+      "maxOffset": 0.65,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0109,
+      "maxAssistStep": 0.00017,
+      "finalState": "ACTIVE",
+      "speedKmh": 116.9,
+      "settledRms": 0.014,
+      "firstCorrectionSeconds": 0.633,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "straightSmall",
+      "finalOffset": 0.02,
+      "maxOffset": 0.15,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0023,
+      "maxAssistStep": 0.00003,
+      "finalState": "ACTIVE",
+      "speedKmh": 116.9,
+      "settledRms": 0.02,
+      "firstCorrectionSeconds": null,
+      "firstCorrectionClearance": null,
+      "minimumClearance": 1.6
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "curve90",
+      "finalOffset": -0.013,
+      "maxOffset": 0.05,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.037,
+      "maxAssistStep": 0.0004,
+      "finalState": "ACTIVE",
+      "speedKmh": 86.9,
+      "settledRms": 0.01,
+      "firstCorrectionSeconds": 3.35,
+      "firstCorrectionClearance": 1.75,
+      "minimumClearance": 1.7
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "signalChange",
+      "finalOffset": -0.022,
+      "maxOffset": 1.916,
+      "laneChanges": 1,
+      "huntingCrossings": 2,
+      "maxAssist": 0.036,
+      "maxAssistStep": 0.00043,
+      "finalState": "ACTIVE",
+      "speedKmh": 76.7,
+      "settledRms": 0.487,
+      "firstCorrectionSeconds": 0.533,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": -0.166
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "unsignaledChange",
+      "finalOffset": 0.036,
+      "maxOffset": 1.934,
+      "laneChanges": 1,
+      "huntingCrossings": 2,
+      "maxAssist": 0.0859,
+      "maxAssistStep": 0.00149,
+      "finalState": "ACTIVE",
+      "speedKmh": 76.7,
+      "settledRms": 0.18,
+      "firstCorrectionSeconds": 0.533,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": -0.184
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "merge",
+      "finalOffset": -0.016,
+      "maxOffset": 0.65,
+      "laneChanges": 1,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0133,
+      "maxAssistStep": 0.0002,
+      "finalState": "ACTIVE",
+      "speedKmh": 76.7,
+      "settledRms": 0.017,
+      "firstCorrectionSeconds": 0.533,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "diverge",
+      "finalOffset": -0.016,
+      "maxOffset": 0.65,
+      "laneChanges": 1,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0133,
+      "maxAssistStep": 0.0002,
+      "finalState": "ACTIVE",
+      "speedKmh": 76.7,
+      "settledRms": 0.017,
+      "firstCorrectionSeconds": 0.533,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "lkaLeft",
+      "finalOffset": -0.35,
+      "maxOffset": 1.593,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0598,
+      "maxAssistStep": 0.00183,
+      "finalState": "READY",
+      "speedKmh": 76.7,
+      "settledRms": 0.335,
+      "firstCorrectionSeconds": 0.017,
+      "firstCorrectionClearance": 0.55,
+      "minimumClearance": 0.157
+    },
+    {
+      "vehicle": "tesla-model-3-rwd",
+      "scenario": "lkaRight",
+      "finalOffset": 0.35,
+      "maxOffset": 1.593,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0598,
+      "maxAssistStep": 0.00183,
+      "finalState": "READY",
+      "speedKmh": 76.7,
+      "settledRms": 0.335,
+      "firstCorrectionSeconds": 0.017,
+      "firstCorrectionClearance": 0.55,
+      "minimumClearance": 0.157
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "straight80",
+      "finalOffset": -0.018,
+      "maxOffset": 0.65,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0153,
+      "maxAssistStep": 0.0002,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.8,
+      "settledRms": 0.028,
+      "firstCorrectionSeconds": 0.525,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "straight120",
+      "finalOffset": 0,
+      "maxOffset": 0.65,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0126,
+      "maxAssistStep": 0.00016,
+      "finalState": "ACTIVE",
+      "speedKmh": 111,
+      "settledRms": 0.002,
+      "firstCorrectionSeconds": 0.617,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "straightSmall",
+      "finalOffset": 0.015,
+      "maxOffset": 0.15,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0025,
+      "maxAssistStep": 0.00003,
+      "finalState": "ACTIVE",
+      "speedKmh": 111,
+      "settledRms": 0.015,
+      "firstCorrectionSeconds": null,
+      "firstCorrectionClearance": null,
+      "minimumClearance": 1.6
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "curve90",
+      "finalOffset": -0.092,
+      "maxOffset": 0.127,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0479,
+      "maxAssistStep": 0.00046,
+      "finalState": "ACTIVE",
+      "speedKmh": 83,
+      "settledRms": 0.109,
+      "firstCorrectionSeconds": 3.25,
+      "firstCorrectionClearance": 1.75,
+      "minimumClearance": 1.623
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "signalChange",
+      "finalOffset": -0.017,
+      "maxOffset": 1.907,
+      "laneChanges": 1,
+      "huntingCrossings": 2,
+      "maxAssist": 0.0437,
+      "maxAssistStep": 0.00049,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.8,
+      "settledRms": 0.533,
+      "firstCorrectionSeconds": 0.525,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": -0.157
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "unsignaledChange",
+      "finalOffset": 0.054,
+      "maxOffset": 1.93,
+      "laneChanges": 1,
+      "huntingCrossings": 2,
+      "maxAssist": 0.09,
+      "maxAssistStep": 0.00149,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.8,
+      "settledRms": 0.179,
+      "firstCorrectionSeconds": 0.525,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": -0.18
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "merge",
+      "finalOffset": -0.02,
+      "maxOffset": 0.65,
+      "laneChanges": 1,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0153,
+      "maxAssistStep": 0.0002,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.8,
+      "settledRms": 0.041,
+      "firstCorrectionSeconds": 0.525,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "diverge",
+      "finalOffset": -0.02,
+      "maxOffset": 0.65,
+      "laneChanges": 1,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0153,
+      "maxAssistStep": 0.0002,
+      "finalState": "ACTIVE",
+      "speedKmh": 73.8,
+      "settledRms": 0.041,
+      "firstCorrectionSeconds": 0.525,
+      "firstCorrectionClearance": 1.1,
+      "minimumClearance": 1.1
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "lkaLeft",
+      "finalOffset": -0.157,
+      "maxOffset": 1.656,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0652,
+      "maxAssistStep": 0.00183,
+      "finalState": "READY",
+      "speedKmh": 73.8,
+      "settledRms": 0.195,
+      "firstCorrectionSeconds": 0.017,
+      "firstCorrectionClearance": 0.55,
+      "minimumClearance": 0.094
+    },
+    {
+      "vehicle": "executive-lwb-2t",
+      "scenario": "lkaRight",
+      "finalOffset": 0.157,
+      "maxOffset": 1.656,
+      "laneChanges": 0,
+      "huntingCrossings": 0,
+      "maxAssist": 0.0652,
+      "maxAssistStep": 0.00183,
+      "finalState": "READY",
+      "speedKmh": 73.8,
+      "settledRms": 0.195,
+      "firstCorrectionSeconds": 0.017,
+      "firstCorrectionClearance": 0.55,
+      "minimumClearance": 0.094
+    }
+  ],
+  "ldw": [
+    "LDW silent in central safe zone",
+    "LDW predicts right departure before line contact",
+    "sustained departure does not spam sound",
+    "settled centre rearms the next departure",
+    "left signal suppresses intentional left departure",
+    "left signal retains opposite-side warning",
+    "right signal suppresses intentional right departure",
+    "strong driver steering suppresses warning",
+    "low-speed warning unavailable",
+    "intersection warning unavailable",
+    "invalid lane is silent",
+    "uncertain lane is silent",
+    "NaN cannot produce an alert",
+    "reverse/park warning unavailable",
+    "menus/hidden window warning unavailable",
+    "OFF cannot issue a warning-only mode sound",
+    "KEEP_ASSIST cannot issue a warning-only mode sound",
+    "CENTERING_ASSIST cannot issue a warning-only mode sound",
+    "unsupported vehicle is silent"
+  ],
+  "ldwSound": [
+    "LDW uses its own dual-frequency voice for three pulses",
+    "dedicated triplet rhythm",
+    "short finite bursts with no continuous tone",
+    "audible independent peak gain with click-free release to zero",
+    "all one-shot audio nodes disconnect after playback"
+  ],
+  "selection": {
+    "assertions": 28
+  },
+  "selectionDisplay": {
+    "assertions": 52,
+    "skins": [
+      "bmw-live",
+      "ev-center",
+      "executive-virtual"
+    ]
+  },
+  "regional": {
+    "passed": true,
+    "checks": [
+      "map loading and existing city preservation",
+      "G17 continuity, divided lanes, mainline grades",
+      "G38 continuity, divided lanes, mainline grades",
+      "G4516 continuity, divided lanes, mainline grades",
+      "S26 continuity, divided lanes, mainline grades",
+      "S37 continuity, divided lanes, mainline grades",
+      "S68 continuity, divided lanes, mainline grades",
+      "S89 continuity, divided lanes, mainline grades",
+      "S18 continuity, divided lanes, mainline grades",
+      "S36 continuity, divided lanes, mainline grades",
+      "S31 continuity, divided lanes, mainline grades",
+      "G42 continuity, divided lanes, mainline grades",
+      "G65 continuity, divided lanes, mainline grades",
+      "S29 continuity, divided lanes, mainline grades",
+      "CBD, city ring and regional graph connectivity",
+      "青岭枢纽 directed movements and advance signs",
+      "东原枢纽 directed movements and advance signs",
+      "临港枢纽 directed movements and advance signs",
+      "西川枢纽 directed movements and advance signs",
+      "物流枢纽 directed movements and advance signs",
+      "东南枢纽 directed movements and advance signs",
+      "西岭枢纽 directed movements and advance signs",
+      "机场北枢纽 directed movements and advance signs",
+      "北岭西枢纽 directed movements and advance signs",
+      "西川西枢纽 directed movements and advance signs",
+      "机场南枢纽 directed movements and advance signs",
+      "机场南城际疏解枢纽 directed movements and advance signs",
+      "北岭沿江枢纽 directed movements and advance signs",
+      "晨江东枢纽 directed movements and advance signs",
+      "东北绕城西枢纽 directed movements and advance signs",
+      "沿江北枢纽 directed movements and advance signs",
+      "北岭北枢纽 directed movements and advance signs",
+      "晨江东北枢纽 directed movements and advance signs",
+      "东临东枢纽 directed movements and advance signs",
+      "新城东枢纽 directed movements and advance signs",
+      "沿江南枢纽 directed movements and advance signs",
+      "seven ordinary exits and two service areas",
+      "mountain interchange ramps remain above earthworks",
+      "东临大河桥 support and continuity",
+      "青岭隧道 support and continuity",
+      "北岭谷桥 support and continuity",
+      "河湾一桥 support and continuity",
+      "河湾二桥 support and continuity",
+      "云岭隧道 support and continuity",
+      "云岭谷桥 support and continuity",
+      "枢纽主线跨线桥 support and continuity",
+      "枢纽主线跨线桥 support and continuity",
+      "枢纽主线跨线桥 support and continuity",
+      "枢纽主线跨线桥 support and continuity",
+      "晨江沿江跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S31 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "G38 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "S31 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "G42 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "route shields, registry and complete sign content",
+      "speed and heading lookahead, sector boundary movement and reverse",
+      "whole interchange and bridge preload, city detail unload",
+      "runtime streamed resources, surface contacts and reload"
+    ],
+    "routes": [
+      {
+        "id": "G17",
+        "lengthKm": 19.189209179342125,
+        "lanes": "3+3",
+        "terrain": "东郊—平原—大河—农田",
+        "connected": [
+          "S68",
+          "S31",
+          "S29"
+        ]
+      },
+      {
+        "id": "G38",
+        "lengthKm": 19.39603061814997,
+        "lanes": "2+2",
+        "terrain": "缓丘—林区—山谷—隧道—山岭",
+        "connected": [
+          "S68",
+          "G42",
+          "S31",
+          "S29"
+        ]
+      },
+      {
+        "id": "G4516",
+        "lengthKm": 7.06319024346928,
+        "lanes": "3+3",
+        "terrain": "河谷和平原交界的东南放射通道",
+        "connected": [
+          "S89"
+        ]
+      },
+      {
+        "id": "S26",
+        "lengthKm": 8.334412477483104,
+        "lanes": "3+3",
+        "terrain": "工业物流平原；2.0 km连续直线",
+        "connected": [
+          "S68",
+          "S89"
+        ]
+      },
+      {
+        "id": "S37",
+        "lengthKm": 17.916822377689364,
+        "lanes": "2+2",
+        "terrain": "河湾—低丘—老工业河谷",
+        "connected": [
+          "S89",
+          "G65"
+        ]
+      },
+      {
+        "id": "S68",
+        "lengthKm": 8.957797187066232,
+        "lanes": "3+3",
+        "terrain": "青岭—东原—临港，曲线外围联络",
+        "connected": [
+          "G38",
+          "G17",
+          "S26"
+        ]
+      },
+      {
+        "id": "S89",
+        "lengthKm": 40.00231777467103,
+        "lanes": "3+3",
+        "terrain": "西南外圈开放 C 形走廊；两端接区域外，机场与城际方向在主线上错开疏解",
+        "connected": [
+          "S37",
+          "S26",
+          "G4516",
+          "S18",
+          "S36"
+        ]
+      },
+      {
+        "id": "S18",
+        "lengthKm": 7.8687101768224625,
+        "lanes": "3+3",
+        "terrain": "西川绕城接机场、航站楼和机场服务设施",
+        "connected": [
+          "G42",
+          "S89"
+        ]
+      },
+      {
+        "id": "S36",
+        "lengthKm": 44.06372892689299,
+        "lanes": "3+3",
+        "terrain": "西部外联—机场南组合枢纽—南部外圈—城际新区通道",
+        "connected": [
+          "S89",
+          "S29",
+          "S31"
+        ]
+      },
+      {
+        "id": "S31",
+        "lengthKm": 31.815240013540276,
+        "lanes": "2+2",
+        "terrain": "北部区域外贯通沿江走廊；南端外放，原折返保留为晨江东枢纽回转联络匝道",
+        "connected": [
+          "G38",
+          "G17",
+          "S29",
+          "S36"
+        ]
+      },
+      {
+        "id": "G42",
+        "lengthKm": 43.72447312708635,
+        "lanes": "2+2",
+        "terrain": "区域过境通道；边界接续区外高速",
+        "connected": [
+          "G65",
+          "S18",
+          "G38",
+          "S29"
+        ]
+      },
+      {
+        "id": "G65",
+        "lengthKm": 26.773761602292677,
+        "lanes": "2+2",
+        "terrain": "区域过境通道；边界接续区外高速",
+        "connected": [
+          "G42",
+          "S37",
+          "S29"
+        ]
+      },
+      {
+        "id": "S29",
+        "lengthKm": 56.76559209526945,
+        "lanes": "2+2",
+        "terrain": "北—东北—东侧开放 C 形绕行；与西南绕城错开，不首尾闭环",
+        "connected": [
+          "G65",
+          "S31",
+          "G38",
+          "G42",
+          "G17",
+          "S36"
+        ]
+      }
+    ],
+    "roads": 2557,
+    "signs": 1845,
+    "sectors": 4988
+  },
+  "highway": {
+    "passed": true,
+    "checks": [
+      "retained highway skeleton and existing city data",
+      "thirteen routes and stable internal IDs with approved display numbers",
+      "airport, service, exit and continuation node metadata",
+      "open staggered double C, through hubs and retained southern foldback",
+      "continuous G17/G38 ownership, west trunks and explicit network roles",
+      "every exit has 2km / 1km / 500m and destination diverge boards",
+      "green freeway content, direction shields and two shoulder supports",
+      "right-exit semantics, lane assignments, entries and measured mileage",
+      "regular larger highway fonts and all board layouts paint within bounds",
+      "physical auxiliary lanes joined at both ends",
+      "junction spatial index preserves existing clearance predicates",
+      "triangular hatching, acceleration dashes and lane arrows",
+      "shared streetlight geometry across roads and sign support templates",
+      "startup defers remote signs, roads and background geometry",
+      "auxiliary lanes use existing asphalt contact queries",
+      "bounded streaming and first-load statistics",
+      "western sectors stream, unload old sectors and retain road contact"
+    ],
+    "routes": 13,
+    "exits": 12,
+    "junctions": 21,
+    "services": 4,
+    "auxiliaryLanes": 303,
+    "initial": {
+      "sectorCount": 1,
+      "totalSectors": 4988,
+      "roadCount": 4,
+      "compiledRoadCount": 4,
+      "signCount": 1,
+      "barrierCount": 920,
+      "backgroundSectors": 8,
+      "backgroundBatches": 0,
+      "constructorMs": 1375.326700000005,
+      "firstVisibleMs": 8588.63010000001
+    },
+    "loaded": {
+      "sectorCount": 59,
+      "totalSectors": 4988,
+      "roadCount": 64,
+      "compiledRoadCount": 179,
+      "signCount": 53,
+      "barrierCount": 15890,
+      "backgroundSectors": 1983,
+      "backgroundBatches": 0,
+      "constructorMs": 1375.326700000005,
+      "firstVisibleMs": 8588.63010000001,
+      "firstLoadMs": 12208.016600000003
+    }
+  },
+  "golf": {
+    "assertions": 229,
+    "structure": {
+      "assertions": 171,
+      "closureRays": 6,
+      "wheelClearanceRays": 120
+    },
+    "meshes": 149,
+    "materials": 51,
+    "textures": 41,
+    "vertices": 27251,
+    "zeroTo100Seconds": 7.025,
+    "accelerationEndSpeedKmh": 162.75852486546376,
+    "firstUpshiftRPM": {
+      "ECO": 1477.6602541619093,
+      "NORMAL": 2152.379202058002,
+      "SPORT": 3609.3404030282686
+    }
+  },
+  "traction": {
+    "assertions": 2404,
+    "lowSpeedBinsKmh": [
+      0,
+      2,
+      5,
+      10
+    ],
+    "signReversals": 0,
+    "zeroTo100": 3.9916666666666667,
+    "serviceDrag": 0
+  },
+  "surface": {
+    "assertions": 4803,
+    "braking20to5": {
+      "asphalt": {
+        "distance": 27.01424486865443,
+        "seconds": 2.1416666666666617,
+        "abs": false
+      },
+      "wet-asphalt": {
+        "distance": 31.810744861232532,
+        "seconds": 2.5249999999999937,
+        "abs": true
+      },
+      "packed-snow": {
+        "distance": 54.486634754498674,
+        "seconds": 4.35833333333334,
+        "abs": true
+      },
+      "ice": {
+        "distance": 225.6415538255581,
+        "seconds": 18.274999999999604,
+        "abs": true
+      }
+    },
+    "splitResults": [
+      {
+        "esc": false,
+        "maximumYaw": 0.3440984785121517,
+        "pressureDifference": 0.9599004868959539,
+        "asymmetricForce": 3548.980452143238
+      },
+      {
+        "esc": true,
+        "maximumYaw": 0.3440984785121517,
+        "pressureDifference": 0.9599004868959539,
+        "asymmetricForce": 3548.980452143238
+      }
+    ],
+    "softResistanceN": {
+      "fresh-snow": [
+        106.5995661271418,
+        296.6213249999999,
+        579.7778898185818
+      ],
+      "sand": [
+        254.87921111008066,
+        709.22061,
+        1386.2470228047407
+      ],
+      "mud": [
+        155.88483526174323,
+        433.7613,
+        847.8325393461338
+      ],
+      "gravel": [
+        46.141156163583666,
+        128.39124374999997,
+        250.95432492103595
+      ]
+    },
+    "drivetrain": [
+      {
+        "layout": "FWD",
+        "speed": 8.98979787444663,
+        "front": 887.3618034414785,
+        "rear": 0,
+        "frontSlip": 0.31186862711016095,
+        "rearSlip": -0.0018361474876302261
+      },
+      {
+        "layout": "RWD",
+        "speed": 8.718951490116524,
+        "front": 0,
+        "rear": 678.6747097780955,
+        "frontSlip": -0.0009075277953812592,
+        "rearSlip": 0.37196490063292875
+      },
+      {
+        "layout": "AWD",
+        "speed": 9.313983145725501,
+        "front": 480.8719971018569,
+        "rear": 721.3079956527853,
+        "frontSlip": 0.07643168716651615,
+        "rearSlip": 0.2914091158892372
+      }
+    ],
+    "topologyBraking": [
+      19.152524224424358,
+      19.152524224424358,
+      19.152524224424358
+    ],
+    "depthCoast": {
+      "fresh-snow": [
+        9.43667044380527,
+        8.967693095630509,
+        8.273090985658087
+      ],
+      "sand": [
+        9.04006665430036,
+        7.953018834522418,
+        6.355060960384564
+      ],
+      "mud": [
+        9.3076711015997,
+        8.630752322175299,
+        7.629900510991869
+      ]
+    },
+    "evSplit": [
+      {
+        "topology": "RWD",
+        "speed": 17.793822154864177,
+        "rearPressure": 0.13783441482751088
+      },
+      {
+        "topology": "AWD",
+        "speed": 17.590499266532618,
+        "rearPressure": 0.139105341138348
+      }
+    ],
+    "mud": {
+      "lowSlip": 0.9005040759068643,
+      "highSlip": 0.9624045292663534,
+      "lowForce": 753.755491179411,
+      "highForce": 742.2961874163537
+    },
+    "query": {
+      "zones": 125,
+      "maximumCellCandidates": 11
+    },
+    "maxAcceleration": 9.092026338182123,
+    "maxYawStep": 0.005147635775009325
+  },
+  "acceleration": {
+    "stationaryArming": true,
+    "pedalEdgeAndHysteresis": true,
+    "noIdleConsumption": true,
+    "fixedStepTiming": true,
+    "thresholdInterpolation": true,
+    "fuelAccounting": true,
+    "electricAccounting": true,
+    "independentSplits": true,
+    "frozenResults": true,
+    "peakAcceleration": true,
+    "manualStopAndRearm": true,
+    "menuAndBackground": true,
+    "reverseAndRolling": true,
+    "collisionAndLifecycle": true,
+    "invalidCountersAndMissingData": true
+  },
+  "accelerationDiagnostics": {
+    "assertions": 908,
+    "samples": 76,
+    "writes": 1,
+    "zeroTo100": 3.7390754485774953,
+    "passive": true
+  },
+  "trajectory": {
+    "straight": true,
+    "heading": true,
+    "steering": true,
+    "reverse": true,
+    "lateralMotion": true,
+    "observedYaw": true,
+    "analyticTurn": true,
+    "acceleration": true,
+    "brakingAndPartialStop": true,
+    "reverseBraking": true,
+    "invalidAndStationary": true,
+    "bufferReuse": true,
+    "singleLineAndTimeColors": true,
+    "groundProjection": true,
+    "depthOcclusion": true,
+    "projectionDiscontinuity": true,
+    "lifecycle": true,
+    "readOnlyInput": true
+  }
+}

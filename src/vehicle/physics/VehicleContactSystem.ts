@@ -80,8 +80,8 @@ export class VehicleContactSystem {
     const bodyOriginLateralVelocity = after.lateralVelocity - after.yawRate * centerOfMassOffsetZ(dynamics.config);
     const body = chassisBodyPose(after.chassis, this.collisionDimensions.bodyOffsetY);
     this.collision = this.collisionSystem.resolve({
-      previousPose: { ...before, ...previousBody },
-      pose: { ...after, ...body },
+      previousPose: { x: before.x, z: before.z, yaw: before.yaw, ...previousBody },
+      pose: { x: after.x, z: after.z, yaw: after.yaw, ...body },
       velocity: {
         x: -sin * after.speed + cos * bodyOriginLateralVelocity,
         z: -cos * after.speed - sin * bodyOriginLateralVelocity,
@@ -100,14 +100,13 @@ export class VehicleContactSystem {
         // No impact-induced spin. Ordinary steering recovers after leaving contact.
         yawRate: 0,
       });
-    }
-    if (!this.collision.collided) this.secondsSinceCollision += dt;
-    const finalPose = dynamics.getSnapshot();
-    if (this.collision.collided) {
+      const finalPose = dynamics.getSnapshot();
       this.wheelContacts = sampleWheelContacts(this.ground, finalPose, dynamics.config, this.wetness, this.contactBuffer);
       dynamics.syncWheelContacts(this.wheelContacts);
-    }
-    this.sampledPose = { x: finalPose.x, z: finalPose.z, yaw: finalPose.yaw };
-    return dynamics.getSnapshot();
+      after = dynamics.getSnapshot();
+    } else this.secondsSinceCollision += dt;
+    if (!this.sampledPose) this.sampledPose = { x: after.x, z: after.z, yaw: after.yaw };
+    else { this.sampledPose.x = after.x; this.sampledPose.z = after.z; this.sampledPose.yaw = after.yaw; }
+    return after;
   }
 }

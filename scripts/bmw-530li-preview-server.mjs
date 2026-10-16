@@ -15,10 +15,12 @@ const server = await createServer({ root, server: { host: '127.0.0.1', port: 518
         const chunks = []; let bytes = 0;
         for await (const chunk of req) { bytes += chunk.length; if (bytes > 8_000_000) throw new Error('Capture too large'); chunks.push(chunk); }
         const data = JSON.parse(Buffer.concat(chunks).toString('utf8'));
-        if (!/^v6-(driver-day|driver-night|instruments-day|instruments-night|instruments-sport|instruments-p|instruments-r|instruments-n)$/.test(data.name) ||
+        const exterior = /^exterior-(front|front-quarter|side|rear|rear-quarter)$/.test(data.name);
+        if (!(exterior || /^v6-(driver-day|driver-night|instruments-day|instruments-night|instruments-sport|instruments-p|instruments-r|instruments-n)$/.test(data.name)) ||
           !data.image.startsWith('data:image/png;base64,')) throw new Error('Invalid BMW capture');
-        await mkdir(output, { recursive: true });
-        await writeFile(resolve(output, data.name + '.png'), Buffer.from(data.image.slice('data:image/png;base64,'.length), 'base64'));
+        const destination = exterior ? resolve(root, 'artifacts/bmw-530li/exterior-reference') : output;
+        await mkdir(destination, { recursive: true });
+        await writeFile(resolve(destination, data.name + '.png'), Buffer.from(data.image.slice('data:image/png;base64,'.length), 'base64'));
         res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify({ saved: data.name + '.png' }));
       } catch (error) { res.statusCode = 400; res.end(String(error)); }
     });

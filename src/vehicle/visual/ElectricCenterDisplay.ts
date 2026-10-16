@@ -1,4 +1,5 @@
 import { drawStatusLamp } from './InstrumentCluster';
+import { drawNavigationBanner } from '../../ui/NavigationDisplay';
 import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import { lateralBoundaryColor } from './LateralAssistDisplay';
@@ -21,7 +22,7 @@ export class ElectricCenterDisplay {
   public update(canvas: HTMLCanvasElement, telemetry: InstrumentTelemetry, dt: number): boolean {
     const data = telemetry.electricDisplay, ev = telemetry.ev, indicators = telemetry.indicators;
     const tpmsState = telemetry.tpmsState ?? telemetry.sharedVehicle?.tpmsState;
-    const sensorKey = tpmsDisplayKey(tpmsState);
+    const sensorKey = tpmsDisplayKey(tpmsState)+'|nav:'+telemetry.sharedVehicle?.navigation.guidance?.version;
     this.elapsed += dt;
     this.mapElapsed += dt;
     const blink = `${indicators?.leftTurn}|${indicators?.rightTurn}`;
@@ -38,7 +39,7 @@ export class ElectricCenterDisplay {
       c.font = `${bold ? '600' : '400'} ${size}px "Segoe UI", sans-serif`; c.fillStyle = color; c.textAlign = align; c.textBaseline = 'alphabetic'; c.fillText(value, x, y);
     };
     if (data) {
-      const mapKey = `${data.map.version}|${data.parking}`;
+      const mapKey = `${data.map.version}|${data.parking}|${telemetry.sharedVehicle?.navigation.guidance?.version}`;
       if (this.mapElapsed >= .1 || mapKey !== this.mapKey) {
         this.mapCanvas.width = 1024; this.mapCanvas.height = 640;
         const mapContext = this.mapCanvas.getContext('2d');
@@ -55,6 +56,7 @@ export class ElectricCenterDisplay {
     });
     c = live; c.drawImage(header,0,0);
     if (data?.localTime) text(data.localTime, 993, 39, 28, '#525b60', 'right');
+    if(telemetry.ignitionOn!==false)drawNavigationBanner(c,telemetry.sharedVehicle?.navigation.guidance,{x:354,y:70,width:500,height:122});
     if (data?.map.available) {
       const metres = data.viewMetres > 350 ? 100 : data.viewMetres > 140 ? 50 : 20, length = metres / data.viewMetres * 686;
       c.strokeStyle = '#656d70'; c.lineWidth = 2; c.beginPath(); c.moveTo(371, 599); c.lineTo(371 + length, 599); c.stroke();

@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { activeNavigation, drawNavigationBanner } from '../../ui/NavigationDisplay';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { TaycanDisplaySurface, taycanScreenGeometry, text, line, taycanBrightness, TAYCAN_COLORS as C } from './TaycanDisplaySurface';
@@ -81,7 +82,7 @@ export class PremiumEVInstruments extends T.Group {
     this.startup = Math.min(1, this.startup + Math.max(0, dt));
     if (this.clockElapsed >= 1) { this.date.setTime(Date.now()); this.clockText = this.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }); this.clockElapsed = 0; }
     const a = t.sharedVehicle?.lateralAssist ?? t.drivingScene?.lateralAssist;
-    const page = this.page === 'auto' ? a?.lkaAvailable || a?.lccAvailable || a?.lccActive || a?.lkaActive ? 'assistance' : 'driving' : this.page;
+    const page = this.page === 'auto' ? activeNavigation(t.sharedVehicle?.navigation.guidance) ? 'navigation' : a?.lkaAvailable || a?.lccAvailable || a?.lccActive || a?.lkaActive ? 'assistance' : 'driving' : this.page;
     if (page !== this.visiblePage) { this.visiblePage = page; this.center.invalidate(); }
     if ((t.driveMode ?? 'NORMAL') !== this.mode) { this.mode = t.driveMode ?? 'NORMAL'; this.modeHighlight = .8; }
     this.modeHighlight = Math.max(0, this.modeHighlight - dt);
@@ -94,7 +95,7 @@ export class PremiumEVInstruments extends T.Group {
     if (!on) return;
     const e = t.ev, nav = t.sharedVehicle?.navigation;
     this.energy.update(`${e?.stateOfCharge.toFixed(3)}|${Math.round(e?.batteryPowerKw ?? 0)}|${Math.round(e?.estimatedRangeKm ?? 0)}|${Math.round((e?.availableDischargePower ?? 0) / 1000)}|${e?.thermalDerateFraction! > .15}|${e?.batteryTemperature! < 10}|${e?.regenLimitReason}|${this.mode}`, 1 / 30, this.drawEnergy);
-    this.center.update(`${Math.round(t.speedKmh)}|${this.visiblePage}|${t.indicators?.cruise}|${t.cruiseTargetSpeedKmh}|${nav?.speedLimit}|${nav?.roadName}|${e?.launchState}|${Math.round(e?.estimatedRangeKm ?? 0)}|${a?.laneValid}|${a?.leftBoundaryAvailable}|${a?.rightBoundaryAvailable}|${a?.lkaAvailable}|${a?.lccAvailable}|${a?.lkaActive}|${a?.lccActive}|${a?.correctingSide}|${t.laneAssist?.mode}|${nav?.route?.length ?? 0}`, 1 / 30, this.drawCenter);
+    this.center.update(`${Math.round(t.speedKmh)}|${this.visiblePage}|${t.indicators?.cruise}|${t.cruiseTargetSpeedKmh}|${nav?.speedLimit}|${nav?.roadName}|${e?.launchState}|${Math.round(e?.estimatedRangeKm ?? 0)}|${a?.laneValid}|${a?.leftBoundaryAvailable}|${a?.rightBoundaryAvailable}|${a?.lkaAvailable}|${a?.lccAvailable}|${a?.lkaActive}|${a?.lccActive}|${a?.correctingSide}|${t.laneAssist?.mode}|${nav?.guidance?.version}|${nav?.route?.length ?? 0}`, 1 / 30, this.drawCenter);
     this.right.update(`${this.rightPage}|${this.clockText}|${String(t.gear).charAt(0)}|${this.mode}|${this.modeHighlight > 0}|${t.trip?.tripA.distanceKm.toFixed(1)}|${e?.averageConsumptionKWhPer100km?.toFixed(1)}|${e?.tripEnergyConsumedKWh.toFixed(1)}|${t.indicators?.parkingBrake}|${t.indicators?.autoHold}`, 1 / 30, this.drawRight);
     const i = t.indicators;
     this.edges.update(`${i?.positionLights}|${i?.headlights}|${i?.highBeam}|${i?.frontFogLights}|${i?.rearFogLights}|${i?.escOff}|${i?.escActive}|${i?.tcsActive}|${i?.parkingBrake}|${i?.absWarning}|${i?.batteryWarning}|${i?.leftTurn}|${i?.rightTurn}|${(t.tpmsState ?? t.sharedVehicle?.tpmsState)?.warning}`, 1 / 30, this.drawEdges);
@@ -151,6 +152,7 @@ export class PremiumEVInstruments extends T.Group {
         text(c, nav?.speedLimit != null ? `Road limit  ${nav.speedLimit} km/h` : 'No active route', 768, 366, 21, C.secondary, 'center');
       }
     } else text(c, t.ev ? `${Math.round(t.ev.estimatedRangeKm)} km` : '-- km', 768, 380, 26, C.white, 'center');
+    if(this.visiblePage==='navigation'&&!launchReady)drawNavigationBanner(c,nav?.guidance,{x:567,y:350,width:402,height:112});
     if (launchReady) {
       text(c, 'LAUNCH CONTROL', 768, 226, 24, C.white, 'center'); text(c, launch === 'READY' ? 'READY' : 'ARMED', 768, 282, 46, C.blue, 'center', 500);
     }

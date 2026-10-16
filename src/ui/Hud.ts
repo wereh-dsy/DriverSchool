@@ -1,5 +1,8 @@
 import type { Texture } from 'three';
 import { Minimap } from './Minimap';
+import { NavigationMapPanel } from './NavigationMapPanel';
+import type { NavigationController } from '../world/navigation/NavigationController';
+import type { LocalRoadMap } from './LocalRoadMap';
 import { PROXIMITY_COLORS, REAR_ZONE_LABELS, type RearParkingState } from '../vehicle/control/RearParkingProximity';
 import { LapHud } from './LapHud';
 import type { LapTimerState } from '../game/lap/LapTimer';
@@ -59,6 +62,17 @@ export interface HudTelemetry {
 }
 
 export class Hud {
+  private navigationMap?: NavigationMapPanel;
+  public get isMapOpen():boolean { return this.navigationMap?.open ?? false; }
+  public onMapVisibilityChange?: (visible:boolean)=>void;
+  public setNavigation(controller:NavigationController):void {
+    this.navigationMap=new NavigationMapPanel(this.host,controller);
+    this.navigationMap.onVisibilityChange=visible=>this.onMapVisibilityChange?.(visible);
+    this.minimap.onExpand=()=>{if(this.started&&!this.settings.isVisible)this.navigationMap?.show();};
+  }
+  public setNavigationMap(map:LocalRoadMap|undefined):void {this.minimap.setNavigationMap(map);}
+  public resetNavigationMap():void {this.navigationMap?.reset();}
+  public updateNavigation(dt:number):void {this.navigationMap?.update(dt,this.started&&!this.immersiveMode);}
   private readonly minimap: Minimap;
   readonly rightMirrorViewport: HTMLElement;
   readonly settings: ControlSettingsPanel;
@@ -549,6 +563,7 @@ export class Hud {
   }
 
   dispose(): void {
+    this.navigationMap?.dispose();
     this.host.classList.remove('driving-immersive');
     this.loadingStatus.remove();
     this.minimap.dispose();
@@ -603,6 +618,7 @@ export class Hud {
   }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
+    if(event.code==='F10'&&!event.repeat&&!event.ctrlKey&&!event.altKey&&!event.metaKey&&this.started&&!this.settings.isVisible&&!this.vehicleLoading){event.preventDefault();this.navigationMap?.show();return;}
     if (event.code === 'F1' && !event.repeat && this.started) {
       event.preventDefault();
       this.setImmersiveMode(!this.immersiveEnabled);

@@ -1,10 +1,19 @@
 import { worldToRoadMap, type RoadNetworkData } from '../world/navigation/RoadNetwork';
 import { drawLogicalRoadLayer, drawRoadMapAnnotations } from './LogicalRoadMapGeometry';
+import type { LocalRoadMap } from './LocalRoadMap';
 
 export type MinimapPosition = 'off' | 'top-left' | 'top-right';
 
 /** Cached 2D road plan plus player marker; no additional world camera. */
 export class Minimap {
+  public onExpand?: () => void;
+  private localMap?: LocalRoadMap;
+  public setNavigationMap(map: LocalRoadMap | undefined): void {
+    this.localMap=map;this.root.classList.toggle('navigation-enabled',!!map);
+    this.root.setAttribute('role',map?'button':'img');this.root.tabIndex=map?0:-1;
+    this.root.setAttribute('aria-label',map?'区域小地图，点击展开规划导航':'道路小地图');
+    this.root.querySelector('header')!.textContent=map?'区域地图 · 点击展开 · F10':'道路地图 · N ↑';
+  }
   private readonly root = document.createElement('section');
   private readonly canvas = document.createElement('canvas');
   private readonly roadLayer = document.createElement('canvas');
@@ -25,6 +34,8 @@ export class Minimap {
     this.drawing?.scale(2, 2);
     this.root.append(label, this.canvas);
     host.prepend(this.root);
+    this.root.addEventListener('click',()=>{if(this.localMap)this.onExpand?.();});
+    this.root.addEventListener('keydown',event=>{if(this.localMap&&(event.code==='Enter'||event.code==='Space')){event.preventDefault();event.stopPropagation();this.onExpand?.();}});
     this.refreshVisibility();
   }
 
@@ -54,6 +65,7 @@ export class Minimap {
     if (this.elapsed < 1 / 20) return;
     this.elapsed = 0;
     const ctx = this.drawing;
+    if(this.localMap){this.localMap.draw(ctx,{x:0,y:0,width:this.size,height:this.size},x,z,yaw,650);return;}
     ctx.clearRect(0, 0, this.size, this.size);
     ctx.drawImage(this.roadLayer, 0, 0, this.size, this.size);
     const point = this.mapPoint(x, z);

@@ -130,6 +130,7 @@ export class MixedSurfaceGround implements DrivingGround {
       const color = new THREE.Color(COLORS[type] ?? 0x777777).multiplyScalar(1 - Math.min(.22, depth * .7));
       material = new THREE.MeshStandardMaterial({ color, roughness: type === 'ice' ? .20 : type === 'wet-asphalt' ? .28 : .95,
         metalness: 0 });
+      material.userData.wetRoad = type === 'asphalt';
       this.materials.set(key, material);
     }
     return material;
@@ -175,6 +176,7 @@ export class MixedSurfaceGround implements DrivingGround {
   }
   private line(ax: number, az: number, bx: number, bz: number, color: number): void {
     const material = new THREE.MeshStandardMaterial({ color });
+    material.userData.roadMarking = true;
     this.materials.set(`line-${this.materials.size}`, material);
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(.12, Math.hypot(bx - ax, bz - az)), material);
     mesh.rotation.set(-Math.PI / 2, 0, Math.atan2(bx - ax, bz - az));

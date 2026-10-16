@@ -5,6 +5,7 @@ import { polylineLength, roadEdges, roadPoints, rotatePoint, sampleAt } from './
 import { RoadClearance } from './RoadClearance';
 import { ROAD_SIGN_POST_Z,signDimensions } from './RoadSignTemplates';
 import {roadPiers} from './RoadInfrastructure';
+import { optimizeFastRoadSigns, isSafetySign } from '../regional/FastRoadSignPlacement';
 
 export interface SignDecision {
  id:string;nodeId:string;incoming:RoadEndpoint;outgoing:RoadEndpoint[];
@@ -124,5 +125,8 @@ export function generateTopologySigns(map:CityMapData):RoadSignDefinition[] {
   }
  }
  map.environment.metadata={...map.environment.metadata,signGeneration:'topology-v5',navigationSignCount:String(signs.length),signDecisionApproaches:String(decisions.length),signExpresswayDecisions:String(decisions.filter(d=>d.expressway).length),signMissingRequirements:JSON.stringify(missing)};
- return signs;
+ map.signs=signs;
+ optimizeFastRoadSigns(map);
+ map.environment.metadata.navigationSignCount=String(map.signs.filter(s=>!isSafetySign(s)).length);
+ return map.signs;
 }

@@ -1,4 +1,4 @@
-import { BoxGeometry,CanvasTexture,Group,InstancedMesh,LinearFilter,LinearMipmapLinearFilter,Matrix4,MeshBasicMaterial,PlaneGeometry,Quaternion,SRGBColorSpace,Vector3,type BufferGeometry } from 'three';
+import { BoxGeometry,CanvasTexture,CylinderGeometry,Group,InstancedMesh,LinearFilter,LinearMipmapLinearFilter,Matrix4,MeshBasicMaterial,PlaneGeometry,Quaternion,SRGBColorSpace,Vector3,type BufferGeometry } from 'three';
 import { resolveSignContent,type RoadNameRegistry,type RoadSignDefinition } from './RoadSignData';
 import { ROAD_SIGN_POST_Z,signDimensions } from './RoadSignTemplates';
 type Content=ReturnType<typeof resolveSignContent>;
@@ -33,7 +33,8 @@ export class RoadSignRenderer {
       for(const x of t.posts)box(.6,.12,.65,x,.06,ROAD_SIGN_POST_Z);
     }
     if(sign.template==='ceiling')for(const x of [-t.width*.35,t.width*.35])box(.12,t.poleTop-t.bottom-t.height,.12,x,(t.poleTop+t.bottom+t.height)/2,ROAD_SIGN_POST_Z);
-    box(t.width,t.height,0.18,0,t.bottom+t.height/2,0);
+    if(sign.template==='speed-limit')parts.push({geometry:new CylinderGeometry(t.width/2,t.width/2,.18,32).rotateX(Math.PI/2),matrix:new Matrix4().makeTranslation(0,t.bottom+t.height/2,0),face:false});
+    else box(t.width,t.height,0.18,0,t.bottom+t.height/2,0);
     parts.push({geometry:new PlaneGeometry(t.width-0.08,t.height-0.08),matrix:new Matrix4().makeTranslation(0,t.bottom+t.height/2,0.101),face:true});
     this.templates.set(key,parts);return parts;
   }
@@ -42,12 +43,21 @@ export class RoadSignRenderer {
     const content=resolveSignContent(sign,this.names),canvas=this.canvasFactory();
     let texture:CanvasTexture|undefined;
     if(canvas) {
-      canvas.width=sign.highwayLayout?2048:sign.size==='large'?1536:sign.size==='medium'?1024:768;canvas.height=sign.template==='ceiling'?256:sign.highwayLayout?1024:sign.size==='large'?640:sign.size==='medium'?400:216;
+      canvas.width=sign.template==='speed-limit'?256:sign.template==='chevron'?384:sign.highwayLayout?2048:sign.size==='large'?1536:sign.size==='medium'?1024:768;canvas.height=sign.template==='speed-limit'?256:sign.template==='chevron'?192:sign.template==='ceiling'?256:sign.highwayLayout?1024:sign.size==='large'?640:sign.size==='medium'?400:216;
       const ctx=canvas.getContext('2d');if(ctx){this.paint(ctx,canvas.width,canvas.height,content);texture=new CanvasTexture(canvas);texture.colorSpace=SRGBColorSpace;texture.anisotropy=8;texture.minFilter=LinearMipmapLinearFilter;texture.magFilter=LinearFilter;this.texturesCreated++;}
     }
-    const material=new MeshBasicMaterial({color:texture?0xffffff:content.color,map:texture??null,toneMapped:false});this.materials.set(key,material);return material;
+    const material=new MeshBasicMaterial({color:texture?0xffffff:content.color,map:texture??null,toneMapped:false,transparent:sign.type==='SPEED_LIMIT',alphaTest:sign.type==='SPEED_LIMIT'?.1:0});this.materials.set(key,material);return material;
   }
   private paint(ctx:CanvasRenderingContext2D,w:number,h:number,c:Content):void {
+    if(c.type==='SPEED_LIMIT'){
+      ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(w/2,h/2,w*.48,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#d72728';ctx.lineWidth=w*.095;ctx.beginPath();ctx.arc(w/2,h/2,w*.42,0,Math.PI*2);ctx.stroke();
+      ctx.fillStyle='#16191c';ctx.font=`700 ${w*.48}px Arial,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(c.speedLimitKmh),w/2,h*.52,w*.73);return;
+    }
+    if(c.type==='CHEVRON'){
+      ctx.fillStyle='#155aa0';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#fff';ctx.lineWidth=5;ctx.strokeRect(4,4,w-8,h-8);ctx.fillStyle='#fff';
+      for(let i=0;i<3;i++){const x=26+i*112;ctx.save();if(c.chevronDirection==='left'){ctx.translate(w,0);ctx.scale(-1,1);}ctx.beginPath();ctx.moveTo(x,24);ctx.lineTo(x+49,24);ctx.lineTo(x+105,h/2);ctx.lineTo(x+49,h-24);ctx.lineTo(x,h-24);ctx.lineTo(x+56,h/2);ctx.closePath();ctx.fill();ctx.restore();}return;
+    }
     if(c.template==='ceiling'){
       ctx.fillStyle=c.color;ctx.fillRect(0,0,w,h);ctx.strokeStyle='#fff';ctx.lineWidth=6;ctx.strokeRect(10,10,w-20,h-20);ctx.fillStyle='#fff';
       const column=(w-60)/c.destinations.length;
@@ -55,7 +65,7 @@ export class RoadSignRenderer {
     }
     if(c.highwayLayout){this.paintHighway(ctx,w,h,c);return;}
     ctx.fillStyle=c.color;ctx.fillRect(0,0,w,h);ctx.strokeStyle='#ffffff';ctx.lineWidth=5;ctx.strokeRect(14,14,w-28,h-28);ctx.fillStyle='#ffffff';
-    const title=c.interchange??c.approachRoadName,top=title||c.advanceMetres!==undefined?90:25;if(title){ctx.font='400 48px "Microsoft YaHei",sans-serif';ctx.fillText(title,42,62,w*.65);}
+    const title=[c.exitNumber?'出口 '+c.exitNumber:undefined,c.interchange??c.approachRoadName].filter(Boolean).join(' '),top=title||c.advanceMetres!==undefined?90:25;if(title){ctx.font='400 48px "Microsoft YaHei",sans-serif';ctx.fillText(title,42,62,w*.65);}
     if(c.advanceMetres!==undefined){ctx.font='400 43px "Microsoft YaHei",sans-serif';ctx.fillText('前方 '+this.distance(c.advanceMetres),w*.7,62,w*.26);}
     const row=(h-top-25)/Math.max(1,c.destinations.length);
     for(let i=0;i<c.destinations.length;i++) {
@@ -110,12 +120,18 @@ export class RoadSignRenderer {
     }
   }
   buildInstances(signs:RoadSignDefinition[]):Group {
-    const root=new Group(),batches=new Map<string,{part:Part;material:MeshBasicMaterial;matrices:Matrix4[];ids:string[]}>();
+    const root=new Group(),batches=new Map<BufferGeometry,Map<MeshBasicMaterial,{part:Part;material:MeshBasicMaterial;matrices:Matrix4[];ids:string[]}>>();
     for(const sign of signs) {
       const pose=new Matrix4().compose(new Vector3(sign.position.x,sign.position.y??0,sign.position.z),new Quaternion().setFromAxisAngle(new Vector3(0,1,0),sign.heading),new Vector3(1,1,1));
-      this.parts(sign).forEach((part,i)=>{const key=this.templateKey(sign)+':'+i+(part.face?':'+this.contentKey(sign):''),material=part.face?this.materialFor(sign):i===this.parts(sign).length-2?this.backs:this.metal;let batch=batches.get(key);if(!batch){batch={part,material,matrices:[],ids:[]};batches.set(key,batch);}batch.matrices.push(new Matrix4().multiplyMatrices(pose,part.matrix));batch.ids.push(sign.id);});
+      const parts=this.parts(sign);
+      parts.forEach((part,i)=>{
+        const material=part.face?this.materialFor(sign):i===parts.length-2?this.backs:this.metal;
+        let materials=batches.get(part.geometry);if(!materials){materials=new Map();batches.set(part.geometry,materials);}
+        let batch=materials.get(material);if(!batch){batch={part,material,matrices:[],ids:[]};materials.set(material,batch);}
+        batch.matrices.push(new Matrix4().multiplyMatrices(pose,part.matrix));batch.ids.push(sign.id);
+      });
     }
-    for(const batch of batches.values()){const mesh=new InstancedMesh(batch.part.geometry,batch.material,batch.matrices.length);batch.matrices.forEach((m,i)=>mesh.setMatrixAt(i,m));mesh.name='Road sign instances';mesh.userData.signIds=batch.ids;mesh.castShadow=!batch.part.face;mesh.computeBoundingSphere();root.add(mesh);}return root;
+    for(const materials of batches.values())for(const batch of materials.values()){const mesh=new InstancedMesh(batch.part.geometry,batch.material,batch.matrices.length);batch.matrices.forEach((m,i)=>mesh.setMatrixAt(i,m));mesh.name='Road sign instances';mesh.userData.signIds=batch.ids;mesh.castShadow=!batch.part.face;mesh.computeBoundingSphere();root.add(mesh);}return root;
   }
   /** Regional sectors release inactive board textures; template geometry remains reusable. */
   retainContents(signs:RoadSignDefinition[]):void {

@@ -1,4 +1,4 @@
-import type { RoadNetworkData, RoadSegmentData } from '../navigation/RoadNetwork';
+import type { RoadNetworkData, RoadSegmentData, RoadRoutingConnection } from '../navigation/RoadNetwork';
 import type { CityMapData, CityPoint, TravelDirection } from './CityMapData';
 import { junctionExtent, polylineLength, portDirection, roadPoints, rotatePoint } from './geometry';
 import { armControlKind } from '../subject3/trafficSignals';
@@ -18,7 +18,9 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
   const segments = map.roads.map(r => {
     const centerline = roadPoints(r);
     const endpoint = (end: 'start' | 'end') => map.intersections.find(j => j.connections.some(c => c.roadId === r.id && c.end === end))?.id;
-    return { id: r.id, centerline, width: r.laneCount * r.laneWidth, length: polylineLength(centerline),
+    const name = r.roadNameId ? map.roadNames?.[r.roadNameId] : undefined;
+    return { id: r.id, name: name?.primaryText, routeNumber: name?.routeNumber, nameId: r.roadNameId,
+      centerline, width: r.laneCount * r.laneWidth, length: polylineLength(centerline),
       laneCountPerDirection: r.travelDirection === 'two-way' ? r.laneCount / 2 : r.laneCount, laneWidth: r.laneWidth,
       laneCount: r.laneCount, travelDirection: r.travelDirection, speedLimit: r.speedLimit,
       roadType: r.type === 'highway' ? 'highway' as const : r.type === 'ramp_1' ? 'ramp' as const : 'urban' as const,
@@ -48,6 +50,7 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
     if (a && b && a !== b) { a.ends.push(...b.ends); endpointNodes.splice(endpointNodes.indexOf(b), 1); }
   }
   const laneConnections: CityRoadNetwork['laneConnections'] = [];
+  const routingConnections: RoadRoutingConnection[] = [];
   for (const node of endpointNodes.filter(n => n.ends.length > 1)) {
     const incomingRoadIds: string[] = [], outgoingRoadIds: string[] = [];
     for (const end of node.ends) {
@@ -59,12 +62,18 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
     for (const fromId of incomingRoadIds) for (const toId of outgoingRoadIds) if (fromId !== toId) {
       const from = segments.find(r => r.id === fromId)!, to = segments.find(r => r.id === toId)!;
       const fromEnd = node.ends.find(e => e.roadId === fromId)!, toEnd = node.ends.find(e => e.roadId === toId)!;
+      routingConnections.push({ fromRoadId: fromId, fromEnd: fromEnd.end, toRoadId: toId, toEnd: toEnd.end });
       for (const fromLane of from.lanes) for (const toLane of to.lanes) if ((fromLane.direction === 'forward') === (fromEnd.end === 'end') && (toLane.direction === 'forward') === (toEnd.end === 'start')) laneConnections.push({ intersectionId: node.id, fromLaneId: fromLane.id, toLaneId: toLane.id });
     }
   }
   for (const j of map.intersections) for (const incoming of j.connections) for (const outgoing of j.connections) {
     if (incoming.roadId === outgoing.roadId) continue;
     const from = segments.find(r => r.id === incoming.roadId)!, to = segments.find(r => r.id === outgoing.roadId)!;
+    const movement = turnMovement(from.centerline, incoming.end, to.centerline, outgoing.end);
+    const approaches = j.approaches?.[incoming.port]?.lanes;
+    if (!approaches || approaches.some(lane => lane.split('-').includes(movement))) {
+      routingConnections.push({ fromRoadId: from.id, fromEnd: incoming.end, toRoadId: to.id, toEnd: outgoing.end, via: j.position });
+    }
     for (const fromLane of from.lanes) {
       if ((fromLane.direction === 'forward') !== (incoming.end === 'end')) continue;
       for (const toLane of to.lanes) if ((toLane.direction === 'forward') === (outgoing.end === 'start')) {
@@ -73,6 +82,10 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
     }
   }
   return { mapId: map.id, bounds: { minimumX: map.bounds.minX, maximumX: map.bounds.maxX, minimumZ: map.bounds.minZ, maximumZ: map.bounds.maxZ }, segments, connectivity, endpointNodes, laneConnections,
+    routing: { connections: routingConnections, places: [
+      ...(map.regional?.highways?.services ?? []).map(place => ({ id: place.id, name: place.name, position: place.position, roadIds: place.roadIds, kind: 'service' as const })),
+      ...(map.regional?.highways?.junctions ?? []).filter(j=>j.kind==='interchange').map(place=>({id:place.id,name:place.name,position:place.position,roadIds:place.roadIds,kind:'interchange' as const})),
+    ] },
     intersections: map.intersections.map(j => {
       const h = junctionExtent(j, map), box = h * (Math.abs(Math.cos(j.rotation)) + Math.abs(Math.sin(j.rotation)));
       const pavementFootprint=j.pavementFootprint?.map(p=>{const q=rotatePoint(p,j.rotation);return {x:j.position.x+q.x,z:j.position.z+q.z};});
@@ -82,4 +95,11 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
           trafficSignal: j.signalized ? { junctionId: j.id, controlKind: armControlKind(portDirection(j,c.port)) } : undefined };
       }) };
     }) };
+}
+
+function turnMovement(from: readonly CityPoint[], fromEnd: 'start' | 'end', to: readonly CityPoint[], toEnd: 'start' | 'end'): 'left' | 'right' | 'straight' {
+  const a = fromEnd === 'end' ? from.at(-2)! : from[1]!, b = fromEnd === 'end' ? from.at(-1)! : from[0]!;
+  const c = toEnd === 'start' ? to[0]! : to.at(-1)!, d = toEnd === 'start' ? to[1]! : to.at(-2)!;
+  const angle = Math.atan2((b.x-a.x)*(d.z-c.z)-(b.z-a.z)*(d.x-c.x), (b.x-a.x)*(d.x-c.x)+(b.z-a.z)*(d.z-c.z));
+  return Math.abs(angle) < Math.PI / 5 ? 'straight' : angle > 0 ? 'right' : 'left';
 }

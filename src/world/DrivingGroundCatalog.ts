@@ -47,7 +47,7 @@ const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDesc
       description: '现实筑波 TC2000 四轮路线：2,045 米顺时针闭环、S 弯、双发夹、80R、高速末弯与贯通维修道。',
       create: (): DrivingGround => new TsukubaGround(),
     }),
-    'city-main': Object.freeze({ id: 'city-main', version: cityMain.version, displayName: 'City Main · 区域高速网',
+    'city-main': Object.freeze({ id: 'city-main', navigation: true, version: cityMain.version, displayName: 'City Main · 区域高速网',
       description: '无缝城市与区域高速网，包含机场、山谷桥隧、服务区和移动区域加载。', create: (): DrivingGround => new CityGround(cityMain,{spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('regionalSpawn')??undefined}) }),
     'preset-showcase': Object.freeze({ id:'preset-showcase',version:presetShowcase.version,displayName:'道路设施体验场',
       description:'独立道路、匝道、路口和立交的道路设施体验场；高架端口配有地面接入坡道。',

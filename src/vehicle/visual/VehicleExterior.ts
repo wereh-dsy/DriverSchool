@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 import type { VehicleVisualConfig } from './VehicleVisualConfig';
 import { buildGolfGTIExterior } from './GolfGTIExterior';
+import { addExecutiveFascia, executiveSurfaceMap, executiveNoseZ } from './ExecutiveExteriorSurfaces';
+import { executiveLampHousing } from './ExecutiveLampGeometry';
 import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 
@@ -219,16 +221,28 @@ const createBodyGeometry = (
       new THREE.Vector3(-shoulderHalfWidth, shoulderY, station.z),
       new THREE.Vector3(-bottomHalfWidth, sideBottomY, station.z),
     ];
+    if (config.body.design === 'executive') {
+      // Eight strips across the deck replace the wide, flat hood edge. The
+      // original sides, wheel openings and floor remain on their physical datum.
+      const top: THREE.Vector3[] = [];
+      for (let i = 1; i < 8; i++) {
+        const u = 1 - i / 4;
+        top.push(new THREE.Vector3(station.topHalfWidth * u, station.topY + .018 * (1 - u * u), station.z));
+      }
+      points.splice(5, 0, ...top);
+      for (const point of points) point.z = executiveNoseZ(config, point.x, point.y, point.z);
+    }
     for (const point of points) positions.push(point.x, point.y, point.z);
   }
-  const ringSize = 8;
+  const executive = config.body.design === 'executive', ringSize = executive ? 15 : 8;
   for (let stationIndex = 0; stationIndex < dense.length - 1; stationIndex += 1) {
     const current = stationIndex * ringSize;
     const next = current + ringSize;
     // The lateral wheel-opening faces are deliberately absent between the
     // underfloor (0/1) and clipped flank (2/7). No invisible visual wheel cover.
-    for (const edge of [0, 2, 3, 4, 5, 6]) {
-      if (edge === 4 && dense[stationIndex]!.z >= cabinFrontZ - 1e-8 &&
+    const edges = executive ? [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] : [0, 2, 3, 4, 5, 6];
+    for (const edge of edges) {
+      if ((executive ? edge >= 4 && edge <= 11 : edge === 4) && dense[stationIndex]!.z >= cabinFrontZ - 1e-8 &&
         dense[stationIndex + 1]!.z <= cabinRearZ + 1e-8) continue;
       const following = edge + 1;
       indices.push(current + edge, current + following, next + following,
@@ -237,14 +251,18 @@ const createBodyGeometry = (
     if (config.body.design === 'executive' && wheelArchBottom(config, dense[stationIndex]!.z) === 0 &&
       wheelArchBottom(config, dense[stationIndex + 1]!.z) === 0) {
       // Close the sill-to-floor return everywhere except the actual tyre openings.
-      for (const edge of [1, 7]) {
+      for (const edge of [1, ringSize - 1]) {
         const following = (edge + 1) % ringSize;
         indices.push(current + edge, current + following, next + following,
           current + edge, next + following, next + edge);
       }
     }
   }
-  for (let edge = 1; edge < ringSize - 1; edge += 1) indices.push(0, edge + 1, edge);
+  if (executive) {
+    const center = positions.length / 3, y = (dense[0]!.bottomY + dense[0]!.topY) * .5;
+    positions.push(0, y, executiveNoseZ(config, 0, y, dense[0]!.z));
+    for (let edge = 0; edge < ringSize; edge++) indices.push(center, (edge + 1) % ringSize, edge);
+  } else for (let edge = 1; edge < ringSize - 1; edge += 1) indices.push(0, edge + 1, edge);
   const rear = (dense.length - 1) * ringSize;
   for (let edge = 1; edge < ringSize - 1; edge += 1) indices.push(rear, rear + edge, rear + edge + 1);
   const geometry = new THREE.BufferGeometry();
@@ -355,7 +373,7 @@ const addWheelArchFlares = (
   material: THREE.Material,
 ): void => {
   const sport = config.body.profile === 'sport-coupe';
-  const tube = sport ? 0.047 : 0.038;
+  const tube = config.body.design === 'executive' ? .016 : sport ? 0.047 : 0.038;
   const archRadius = config.body.wheelArchCenterY === undefined
     ? config.wheelRadius * (sport ? 1.17 : 1.13)
     : wheelArch(config).radius + tube;
@@ -374,6 +392,26 @@ const addWheelArchFlares = (
       mesh.position.set(side * x, wheelArch(config).centerY, axle * axleZ);
       root.add(mesh);
     }
+  }
+  if (config.body.design === 'executive') {
+    // Dark upper wheel-house returns prevent the background showing through
+    // the clearance gap. One merged mesh; the wheel centres remain fully open.
+    const positions: number[] = [], indices: number[] = [];
+    const inner = config.wheelRadius * .97, outer = wheelArch(config).radius + .025;
+    for (const side of [-1, 1]) for (const axle of [-1, 1]) {
+      const track = axle < 0 ? config.dimensions.frontTrackWidth : config.dimensions.rearTrackWidth;
+      const x = side * (track * .5 - config.dimensions.wheelWidth * .5 - .006), base = positions.length / 3;
+      for (let i = 0; i <= 24; i++) {
+        const angle = i / 24 * Math.PI;
+        for (const radius of [inner, outer]) positions.push(x, wheelArch(config).centerY + Math.sin(angle) * radius,
+          axle * axleZ + Math.cos(angle) * radius);
+        if (i < 24) { const a = base + i * 2; indices.push(a, a + 1, a + 3, a, a + 3, a + 2); }
+      }
+    }
+    const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setIndex(indices); geometry.computeVertexNormals();
+    const lining = new THREE.MeshStandardMaterial({ color: 0x090b0e, roughness: 1, side: THREE.DoubleSide });
+    root.add(createMesh('Executive merged upper wheel-house liners', geometry, lining, 'wheel-well'));
   }
 };
 
@@ -506,10 +544,11 @@ const addCabinGlazingAndPillars = (
       ),
       createBeam(`${direction < 0 ? 'Left' : 'Right'} front window leading frame`,
         new THREE.Vector3(frontLow.x, frontLow.y, frontLow.z),
-        new THREE.Vector3(frontHigh.x, frontHigh.y, frontHigh.z), .014, materials.trim, 'window-trim'),
+        new THREE.Vector3(frontHigh.x, frontHigh.y, frontHigh.z), .014,
+        body.design === 'executive' ? materials.chrome : materials.trim, 'window-trim'),
       createBeam(`${direction < 0 ? 'Left' : 'Right'} front window upper frame`,
         new THREE.Vector3(frontHigh.x, frontHigh.y, frontHigh.z), frontMiddleHigh,
-        .014, materials.trim, 'window-trim'),
+        .014, body.design === 'executive' ? materials.chrome : materials.trim, 'window-trim'),
       createBeam(
         `${direction < 0 ? 'Left' : 'Right'} A-pillar exterior`,
         direction < 0 ? frontBottomLeft : frontBottomRight,
@@ -531,7 +570,7 @@ const addCabinGlazingAndPillars = (
       new THREE.Vector3(outwardX, frontLow.y - 0.015, frontLow.z),
       new THREE.Vector3(outwardX, rearLow.y - 0.015, rearLow.z),
       0.018,
-      materials.trim,
+      body.design === 'executive' ? materials.chrome : materials.trim,
       'window-trim',
     );
     root.add(beltline);
@@ -560,7 +599,14 @@ const addCabinGlazingAndPillars = (
         createQuadGeometry([rearHigh, rearLow, direction < 0 ? rearBottomLeft : rearBottomRight,
           direction < 0 ? rearTopLeft : rearTopRight], direction > 0), materials.paint, 'pillar'));
       root.add(createBeam(`${direction < 0 ? 'Left' : 'Right'} rear window upper seal`,
-        rearMiddleHigh, new THREE.Vector3(rearHigh.x, rearHigh.y, rearHigh.z), .016, materials.trim, 'window-trim'));
+        rearMiddleHigh, new THREE.Vector3(rearHigh.x, rearHigh.y, rearHigh.z), .012, materials.chrome, 'window-trim'));
+      root.add(createBeam(`${direction < 0 ? 'Left' : 'Right'} chrome quarter-window return`,
+        new THREE.Vector3(rearHigh.x, rearHigh.y, rearHigh.z), new THREE.Vector3(rearLow.x, rearLow.y, rearLow.z),
+        .012, materials.chrome, 'window-trim'));
+      const quarterBottom = new THREE.Vector3().lerpVectors(rearMiddleLow, new THREE.Vector3(rearLow.x, rearLow.y, rearLow.z), .72);
+      const quarterTop = new THREE.Vector3().lerpVectors(rearMiddleHigh, new THREE.Vector3(rearHigh.x, rearHigh.y, rearHigh.z), .72);
+      root.add(createBeam(`${direction < 0 ? 'Left' : 'Right'} rear quarter-glass divider`,
+        quarterBottom, quarterTop, .009, materials.trim, 'window-trim'));
     }
   }
 };
@@ -575,6 +621,30 @@ const addRoof = (
   const roofFront = cabin.windshieldTopZ - 0.04;
   const roofRear = roofRearZ(config);
   const halfWidth = body.roofWidth * 0.5;
+  if (body.design === 'executive') {
+    // A small crowned sheet replaces the angular three-section roof. Its edge
+    // follows the existing glass/frame anchors; the centre retains rated height.
+    const positions: number[] = [], indices: number[] = [];
+    const across = 8, along = 6;
+    for (let row = 0; row <= along; row++) {
+      const t = row / along, z = THREE.MathUtils.lerp(roofFront, roofRear, t);
+      const edgeY = THREE.MathUtils.lerp(cabin.windshieldTopY, cabin.roofY - .055, t);
+      const crownY = config.dimensions.height - .035 * (2 * t - 1) ** 2;
+      const width = halfWidth - .045 + .045 * Math.sin(Math.PI * t);
+      for (let column = 0; column <= across; column++) {
+        const u = column / across * 2 - 1;
+        positions.push(u * width, THREE.MathUtils.lerp(crownY, edgeY, u * u), z);
+        if (row < along && column < across) {
+          const a = row * (across + 1) + column, b = a + across + 1;
+          indices.push(a, b, b + 1, a, b + 1, a + 1);
+        }
+      }
+    }
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3)); geometry.setIndex(indices); geometry.computeVertexNormals();
+    root.add(createMesh('Sedan roof outer shell', geometry, material, 'roof'));
+    return;
+  }
   const stations: BodyStation[] = [
     {
       z: roofFront,
@@ -616,15 +686,38 @@ const addSedanDetails = (
   root: THREE.Group,
   config: VehicleVisualConfig,
   materials: ExteriorMaterials,
+  executiveMap?: THREE.Texture,
 ): void => {
   const halfLength = bodyHalfLength(config);
   const halfWidth = bodyHalfWidth(config);
   const hoodFront = config.body.design === undefined ? -halfLength + .24
     : Math.max(-halfLength + .18, config.cabin.windshieldBottomZ - .1 - config.body.hoodLength);
   const hoodRear = config.cabin.windshieldBottomZ - 0.1;
+  const executiveDeck = (front: boolean): THREE.BufferGeometry => {
+    const positions: number[] = [], indices: number[] = [], stations = createSedanStations(config);
+    const start = front ? -halfLength : rearGlassBottomZ(config) + .025, end = front ? hoodRear : halfLength;
+    const zs = [...new Set([start, end, ...stations.filter(s => s.z > start && s.z < end).map(s => s.z),
+      ...Array.from({ length: 11 }, (_, i) => THREE.MathUtils.lerp(start, end, (i + 1) / 12))])].sort((a, b) => a - b);
+    const across = 8;
+    for (let row = 0; row < zs.length; row++) {
+      const z = zs[row]!;
+      const station = fitWheelArchStation(config, sampleStation(stations, z));
+      for (let col = 0; col <= across; col++) {
+        const u = col / across * 2 - 1, x = station.topHalfWidth * u * .985;
+        const y = station.topY + .018 * (1 - u * u) + .002;
+        positions.push(x, y, executiveNoseZ(config, x, y, z));
+        if (row < zs.length - 1 && col < across) {
+          const a = row * (across + 1) + col, b = a + across + 1;
+          indices.push(a, b, b + 1, a, b + 1, a + 1);
+        }
+      }
+    }
+    const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setIndex(indices); geometry.computeVertexNormals(); return geometry;
+  };
   root.add(createMesh(
     'Sedan sculpted bonnet',
-    createTaperedPanelGeometry(
+    config.body.design === 'executive' ? executiveDeck(true) : createTaperedPanelGeometry(
       hoodFront,
       hoodRear,
       wheelSafeDeckHalfWidth(config, halfWidth * .86, true),
@@ -639,7 +732,7 @@ const addSedanDetails = (
 
   root.add(createMesh(
     'Sedan boot lid',
-    createTaperedPanelGeometry(
+    config.body.design === 'executive' ? executiveDeck(false) : createTaperedPanelGeometry(
       config.body.design === undefined ? 1.06 : rearGlassBottomZ(config) + .025,
       halfLength - 0.14,
       wheelSafeDeckHalfWidth(config, halfWidth * .87, false),
@@ -653,7 +746,7 @@ const addSedanDetails = (
   ));
 
   if (config.body.design !== undefined) {
-    addAutomaticFascia(root, config, materials);
+    addAutomaticFascia(root, config, materials, executiveMap);
   } else {
   const grille = createMesh(
     'Sedan chrome framed grille',
@@ -705,11 +798,12 @@ const addSedanDetails = (
       config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055]) {
       const sideStation = sampleStation(createSedanStations(config), z);
       const lowerX = side * stationHalfWidthAtY(sideStation, 0.39);
-      const upperX = side * stationHalfWidthAtY(sideStation, 0.78);
+      const gapTopY = config.body.design === 'executive' ? config.cabin.windshieldBottomY - .045 : .78;
+      const upperX = side * stationHalfWidthAtY(sideStation, gapTopY);
       root.add(createBeam(
         `${side < 0 ? 'Left' : 'Right'} sedan door shut line`,
         new THREE.Vector3(lowerX, 0.39, z + 0.02),
-        new THREE.Vector3(upperX, 0.78, z - 0.015),
+        new THREE.Vector3(upperX, gapTopY, z - 0.015),
         0.008,
         materials.trim,
         'panel-gap',
@@ -743,7 +837,7 @@ const sampleStation = (stations: readonly BodyStation[], z: number): BodyStation
 };
 
 /** A few silhouette-defining surfaces, not badges or cosmetic model clutter. */
-const addAutomaticFascia = (root: THREE.Group, config: VehicleVisualConfig, materials: ExteriorMaterials): void => {
+const addAutomaticFascia = (root: THREE.Group, config: VehicleVisualConfig, materials: ExteriorMaterials, executiveMap?: THREE.Texture): void => {
   const theme = config.body.design!;
   const halfLength = bodyHalfLength(config);
   const halfWidth = bodyHalfWidth(config);
@@ -767,15 +861,7 @@ const addAutomaticFascia = (root: THREE.Group, config: VehicleVisualConfig, mate
     return;
   }
   if (theme === 'executive') {
-    face('Executive satin grille surround', [[-.56,.70],[.56,.70],[.61,.59],[.49,.32],[-.49,.32],[-.61,.59]],
-      -halfLength-.006, materials.chrome, 'grille', true);
-    face('Executive broad six-sided grille', [[-.53,.68],[.53,.68],[.58,.59],[.47,.34],[-.47,.34],[-.58,.59]],
-      -halfLength-.007, materials.trim, 'grille', true);
-    for (const y of [.39,.445,.50,.555,.61,.66]) {
-      const w = y < .5 ? .47 : .53;
-      face('Executive restrained horizontal grille bar', [[-w,y],[w,y],[w,y+.009],[-w,y+.009]],
-        -halfLength-.008, materials.chrome, 'grille', true);
-    }
+    addExecutiveFascia(root, config, executiveMap!);
   } else if (theme === 'flow') {
     face('Flow tapered shield grille', [[-.48,.55],[.48,.55],[.41,.36],[.24,.30],[-.24,.30],[-.41,.36]],
       -halfLength-.006, materials.trim, 'grille', true);
@@ -791,19 +877,24 @@ const addAutomaticFascia = (root: THREE.Group, config: VehicleVisualConfig, mate
       -halfLength-.007, materials.chrome, 'grille', true);
   }
   for (const sign of [-1,1] as const) {
+    if (theme === 'executive') {
+      materials.lamp.map = executiveMap!; materials.lamp.color.set(0xffffff); materials.lamp.roughness = .18;
+      materials.rearLamp.map = executiveMap!; materials.rearLamp.color.set(0xffffff); materials.rearLamp.roughness = .21;
+      const head = createMesh(`${sign < 0 ? 'Left' : 'Right'} swept sedan headlamp`, executiveLampHousing(config, sign, true), materials.lamp, 'headlamp');
+      const tail = createMesh(`${sign < 0 ? 'Left' : 'Right'} sedan tail lamp`, executiveLampHousing(config, sign, false), materials.rearLamp, 'tail-lamp');
+      head.castShadow = tail.castShadow = false; root.add(head, tail); continue;
+    }
     const x = sign * halfWidth * .66;
-    const h = theme === 'executive' ? .058 : theme === 'flow' ? .065 : theme === 'formal' ? .09 : .13;
-    const y = theme === 'executive' ? .735 : theme === 'flow' ? .595 : theme === 'formal' ? .675 : .655;
-    const w = theme === 'executive' ? .245 : theme === 'formal' ? .205 : .225;
+    const h = theme === 'flow' ? .065 : theme === 'formal' ? .09 : .13;
+    const y = theme === 'flow' ? .595 : theme === 'formal' ? .675 : .655;
+    const w = theme === 'formal' ? .205 : .225;
     const head = createMesh(`${sign < 0 ? 'Left' : 'Right'} swept sedan headlamp`, createQuadGeometry([
       {x:x-w,y:y-h*.5,z:-halfLength-.008}, {x:x+w,y:y-h*.5,z:-halfLength-.008},
-      {x:x+w*.85,y:y+h*.5,z:-halfLength+(theme==='executive'?.025:theme==='formal'?.025:.24)},
+      {x:x+w*.85,y:y+h*.5,z:-halfLength+(theme==='formal'?.025:.24)},
       {x:x-w*.8,y:y+h*(theme==='comfort'?.8:.5),z:-halfLength+.065},
     ],true), materials.lamp,'headlamp'); head.castShadow=false; root.add(head);
     const ty=config.body.trunkDeckY-.11;
-    const points: readonly (readonly [number,number])[] = theme === 'executive'
-      ? [[x-.26,ty+.035],[x+.26,ty+.035],[x+.26,ty+.095],[x-.26,ty+.095]]
-      : theme === 'flow'
+    const points: readonly (readonly [number,number])[] = theme === 'flow'
       ? [[x-.22,ty],[x+.22,ty+.015],[x+.17,ty+.078],[x-.19,ty+.07]]
       : theme === 'formal'
         ? [[x-.215,ty],[x+.215,ty],[x+.215,ty+.105],[x-.215,ty+.105]]
@@ -871,8 +962,9 @@ const addFlankPanels = (root: THREE.Group, config: VehicleVisualConfig, material
     for (const handleZ of sport ? [0.43] : [0.13, 0.82]) {
       const station = sampleStation(stations, handleZ);
       const handle = createMesh(`${direction < 0 ? 'Left' : 'Right'} door handle`,
-        new THREE.BoxGeometry(0.018, 0.022, 0.115), materials.trim, 'door-handle');
-      handle.position.set(direction * (stationHalfWidthAtY(station, 0.74) + 0.004), 0.74, handleZ);
+        new THREE.BoxGeometry(0.018, 0.022, 0.115), config.body.design === 'executive' ? materials.chrome : materials.trim, 'door-handle');
+      const handleY = config.body.design === 'executive' ? config.cabin.windshieldBottomY - .075 : .74;
+      handle.position.set(direction * (stationHalfWidthAtY(station, handleY) + 0.004), handleY, handleZ);
       root.add(handle);
     }
   }
@@ -1129,13 +1221,21 @@ const createSedanStations = (config: VehicleVisualConfig): readonly BodyStation[
   if (config.body.design === 'executive') {
     return [
       { z:-halfLength, bottomY:.23, lowerHalfWidth:halfWidth*.83, shoulderY:.52, shoulderHalfWidth:halfWidth*.96, topY:.775, topHalfWidth:halfWidth*.94 },
-      { z:-halfLength+.22, bottomY:.20, lowerHalfWidth:halfWidth*.77, shoulderY:.57, shoulderHalfWidth:halfWidth*.99, topY:.795, topHalfWidth:halfWidth*.94 },
-      { z:-config.wheelBase*.5, bottomY:.20, lowerHalfWidth:halfWidth*.75, shoulderY:.60, shoulderHalfWidth:halfWidth, topY:.80, topHalfWidth:halfWidth*.94 },
-      { z:config.cabin.windshieldBottomZ-.06, bottomY:.20, lowerHalfWidth:halfWidth*.75, shoulderY:.63, shoulderHalfWidth:halfWidth*.988, topY:config.body.hoodTopY, topHalfWidth:halfWidth*.93 },
-      { z:.54, bottomY:.20, lowerHalfWidth:halfWidth*.75, shoulderY:.63, shoulderHalfWidth:halfWidth*.988, topY:.825, topHalfWidth:halfWidth*.93 },
-      { z:config.wheelBase*.5, bottomY:.20, lowerHalfWidth:halfWidth*.76, shoulderY:.61, shoulderHalfWidth:halfWidth, topY:config.body.trunkDeckY, topHalfWidth:halfWidth*.94 },
-      { z:halfLength-.18, bottomY:.22, lowerHalfWidth:halfWidth*.77, shoulderY:.55, shoulderHalfWidth:halfWidth*.99, topY:.795, topHalfWidth:halfWidth*.93 },
-      { z:halfLength, bottomY:.25, lowerHalfWidth:halfWidth*.83, shoulderY:.52, shoulderHalfWidth:halfWidth*.96, topY:.765, topHalfWidth:halfWidth*.93 },
+      // The short vertical rolls use a few silhouette stations, rather than a
+      // thick, box-shaped bonnet/boot sitting above the body.
+      { z:-halfLength+.03, bottomY:.225, lowerHalfWidth:halfWidth*.83, shoulderY:.535, shoulderHalfWidth:halfWidth*.968, topY:.812, topHalfWidth:halfWidth*.94 },
+      { z:-halfLength+.10, bottomY:.215, lowerHalfWidth:halfWidth*.83, shoulderY:.56, shoulderHalfWidth:halfWidth*.98, topY:.838, topHalfWidth:halfWidth*.94 },
+      { z:-halfLength+.20, bottomY:.205, lowerHalfWidth:halfWidth*.83, shoulderY:.585, shoulderHalfWidth:halfWidth*.99, topY:.855, topHalfWidth:halfWidth*.94 },
+      { z:-halfLength+.32, bottomY:.20, lowerHalfWidth:halfWidth*.83, shoulderY:.61, shoulderHalfWidth:halfWidth*.995, topY:config.body.hoodTopY, topHalfWidth:halfWidth*.94 },
+      { z:-config.wheelBase*.5, bottomY:.20, lowerHalfWidth:halfWidth*.83, shoulderY:.67, shoulderHalfWidth:halfWidth, topY:config.body.hoodTopY, topHalfWidth:halfWidth*.94 },
+      { z:config.cabin.windshieldBottomZ-.06, bottomY:.20, lowerHalfWidth:halfWidth*.83, shoulderY:.71, shoulderHalfWidth:halfWidth*.988, topY:config.cabin.windshieldBottomY-.025, topHalfWidth:halfWidth*.93 },
+      { z:.54, bottomY:.20, lowerHalfWidth:halfWidth*.83, shoulderY:.71, shoulderHalfWidth:halfWidth*.988, topY:config.cabin.windshieldBottomY-.025, topHalfWidth:halfWidth*.93 },
+      { z:config.wheelBase*.5, bottomY:.20, lowerHalfWidth:halfWidth*.83, shoulderY:.69, shoulderHalfWidth:halfWidth, topY:config.body.trunkDeckY, topHalfWidth:halfWidth*.94 },
+      { z:halfLength-.32, bottomY:.22, lowerHalfWidth:halfWidth*.83, shoulderY:.63, shoulderHalfWidth:halfWidth*.99, topY:config.body.trunkDeckY, topHalfWidth:halfWidth*.93 },
+      { z:halfLength-.15, bottomY:.23, lowerHalfWidth:halfWidth*.83, shoulderY:.60, shoulderHalfWidth:halfWidth*.985, topY:.883, topHalfWidth:halfWidth*.93 },
+      { z:halfLength-.06, bottomY:.24, lowerHalfWidth:halfWidth*.83, shoulderY:.565, shoulderHalfWidth:halfWidth*.975, topY:.858, topHalfWidth:halfWidth*.93 },
+      { z:halfLength-.02, bottomY:.247, lowerHalfWidth:halfWidth*.83, shoulderY:.535, shoulderHalfWidth:halfWidth*.965, topY:.832, topHalfWidth:halfWidth*.93 },
+      { z:halfLength, bottomY:.25, lowerHalfWidth:halfWidth*.83, shoulderY:.52, shoulderHalfWidth:halfWidth*.96, topY:.800, topHalfWidth:halfWidth*.93 },
     ];
   }
   if (config.body.design !== undefined) {
@@ -1270,6 +1370,14 @@ export function buildVehicleExterior(
   if (config.body.design === 'golf-gti') { buildGolfGTIExterior(root, config, assets); return; }
   const sport = config.body.profile === 'sport-coupe';
   const materials = createMaterials(config);
+  const executiveMap = config.body.design === 'executive' ? executiveSurfaceMap(config, assets) : undefined;
+  if (config.body.design === 'executive') {
+    materials.paint.roughness = .23; materials.paint.metalness = .62;
+    materials.paintDark.color.copy(materials.paint.color).multiplyScalar(.87);
+    materials.paintDark.roughness = .28;
+    materials.lamp.color.set(0x141b23); materials.lamp.emissiveIntensity = 0;
+    materials.rearLamp.color.set(0x3b1018); materials.rearLamp.emissiveIntensity = 0;
+  }
   root.userData.vehicleProfile = config.body.profile;
 
   root.add(createMesh(
@@ -1327,7 +1435,7 @@ export function buildVehicleExterior(
   if (config.body.design === 'mid-supercar') addMidSupercarDetails(root, config, materials);
   else if (sport) addSportsDetails(root, config, materials);
   else if (config.body.profile === 'suv') addSUVDetails(root, config, materials);
-  else addSedanDetails(root, config, materials);
+  else addSedanDetails(root, config, materials, executiveMap);
 
   const [leftSill, rightSill] = addSymmetricMeshes(
     root,
@@ -1338,4 +1446,12 @@ export function buildVehicleExterior(
   );
   leftSill.position.set(-bodyHalfWidth(config) + 0.035, config.body.profile === 'suv' ? config.body.sillY - .31 : 0, 0);
   rightSill.position.set(bodyHalfWidth(config) - 0.035, config.body.profile === 'suv' ? config.body.sillY - .31 : 0, 0);
+  if (config.body.design === 'executive') root.traverse(object => {
+    if (!(object instanceof THREE.Mesh) || !['bumper', 'headlamp', 'front-fender', 'underbody'].includes(object.userData.vehicleBodyPart)) return;
+    const positions = object.geometry.getAttribute('position');
+    for (let i = 0; i < positions.count; i++) positions.setZ(i,
+      executiveNoseZ(config, positions.getX(i) + object.position.x, positions.getY(i) + object.position.y,
+        positions.getZ(i) + object.position.z) - object.position.z);
+    object.geometry.computeVertexNormals(); object.geometry.computeBoundingBox();
+  });
 }

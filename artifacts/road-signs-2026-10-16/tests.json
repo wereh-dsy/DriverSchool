@@ -1,0 +1,307 @@
+{
+  "placement": {
+    "assertions": 11918,
+    "maps": [
+      {
+        "name": "City Main · Regional World",
+        "navigation": 1586,
+        "speedLimits": 769,
+        "chevrons": 656,
+        "readingConflicts": 0,
+        "uniqueSafetyTextures": 16
+      },
+      {
+        "name": "City Main",
+        "navigation": 184,
+        "speedLimits": 143,
+        "chevrons": 126,
+        "readingConflicts": 0,
+        "uniqueSafetyTextures": 12
+      }
+    ]
+  },
+  "regional": {
+    "passed": true,
+    "checks": [
+      "map loading and existing city preservation",
+      "G17 continuity, divided lanes, mainline grades",
+      "G38 continuity, divided lanes, mainline grades",
+      "G4516 continuity, divided lanes, mainline grades",
+      "S26 continuity, divided lanes, mainline grades",
+      "S37 continuity, divided lanes, mainline grades",
+      "S68 continuity, divided lanes, mainline grades",
+      "S89 continuity, divided lanes, mainline grades",
+      "S18 continuity, divided lanes, mainline grades",
+      "S36 continuity, divided lanes, mainline grades",
+      "S31 continuity, divided lanes, mainline grades",
+      "G42 continuity, divided lanes, mainline grades",
+      "G65 continuity, divided lanes, mainline grades",
+      "S29 continuity, divided lanes, mainline grades",
+      "CBD, city ring and regional graph connectivity",
+      "青岭枢纽 directed movements and advance signs",
+      "东原枢纽 directed movements and advance signs",
+      "临港枢纽 directed movements and advance signs",
+      "西川枢纽 directed movements and advance signs",
+      "物流枢纽 directed movements and advance signs",
+      "东南枢纽 directed movements and advance signs",
+      "西岭枢纽 directed movements and advance signs",
+      "机场北枢纽 directed movements and advance signs",
+      "北岭西枢纽 directed movements and advance signs",
+      "西川西枢纽 directed movements and advance signs",
+      "机场南枢纽 directed movements and advance signs",
+      "机场南城际疏解枢纽 directed movements and advance signs",
+      "北岭沿江枢纽 directed movements and advance signs",
+      "晨江东枢纽 directed movements and advance signs",
+      "东北绕城西枢纽 directed movements and advance signs",
+      "沿江北枢纽 directed movements and advance signs",
+      "北岭北枢纽 directed movements and advance signs",
+      "晨江东北枢纽 directed movements and advance signs",
+      "东临东枢纽 directed movements and advance signs",
+      "新城东枢纽 directed movements and advance signs",
+      "沿江南枢纽 directed movements and advance signs",
+      "seven ordinary exits and two service areas",
+      "mountain interchange ramps remain above earthworks",
+      "东临大河桥 support and continuity",
+      "青岭隧道 support and continuity",
+      "北岭谷桥 support and continuity",
+      "河湾一桥 support and continuity",
+      "河湾二桥 support and continuity",
+      "云岭隧道 support and continuity",
+      "云岭谷桥 support and continuity",
+      "枢纽主线跨线桥 support and continuity",
+      "枢纽主线跨线桥 support and continuity",
+      "枢纽主线跨线桥 support and continuity",
+      "枢纽主线跨线桥 support and continuity",
+      "晨江沿江跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S31 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "G38 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S12 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "S31 跨线桥 support and continuity",
+      "S36 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "G42 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "S29 跨线桥 support and continuity",
+      "route shields, registry and complete sign content",
+      "speed and heading lookahead, sector boundary movement and reverse",
+      "whole interchange and bridge preload, city detail unload",
+      "runtime streamed resources, surface contacts and reload"
+    ],
+    "routes": [
+      {
+        "id": "G17",
+        "lengthKm": 19.189209179342125,
+        "lanes": "3+3",
+        "terrain": "东郊—平原—大河—农田",
+        "connected": [
+          "S68",
+          "S31",
+          "S29"
+        ]
+      },
+      {
+        "id": "G38",
+        "lengthKm": 19.39603061814997,
+        "lanes": "2+2",
+        "terrain": "缓丘—林区—山谷—隧道—山岭",
+        "connected": [
+          "S68",
+          "G42",
+          "S31",
+          "S29"
+        ]
+      },
+      {
+        "id": "G4516",
+        "lengthKm": 7.06319024346928,
+        "lanes": "3+3",
+        "terrain": "河谷和平原交界的东南放射通道",
+        "connected": [
+          "S89"
+        ]
+      },
+      {
+        "id": "S26",
+        "lengthKm": 8.334412477483104,
+        "lanes": "3+3",
+        "terrain": "工业物流平原；2.0 km连续直线",
+        "connected": [
+          "S68",
+          "S89"
+        ]
+      },
+      {
+        "id": "S37",
+        "lengthKm": 17.916822377689364,
+        "lanes": "2+2",
+        "terrain": "河湾—低丘—老工业河谷",
+        "connected": [
+          "S89",
+          "G65"
+        ]
+      },
+      {
+        "id": "S68",
+        "lengthKm": 8.957797187066232,
+        "lanes": "3+3",
+        "terrain": "青岭—东原—临港，曲线外围联络",
+        "connected": [
+          "G38",
+          "G17",
+          "S26"
+        ]
+      },
+      {
+        "id": "S89",
+        "lengthKm": 40.00231777467103,
+        "lanes": "3+3",
+        "terrain": "西南外圈开放 C 形走廊；两端接区域外，机场与城际方向在主线上错开疏解",
+        "connected": [
+          "S37",
+          "S26",
+          "G4516",
+          "S18",
+          "S36"
+        ]
+      },
+      {
+        "id": "S18",
+        "lengthKm": 7.8687101768224625,
+        "lanes": "3+3",
+        "terrain": "西川绕城接机场、航站楼和机场服务设施",
+        "connected": [
+          "G42",
+          "S89"
+        ]
+      },
+      {
+        "id": "S36",
+        "lengthKm": 44.06372892689299,
+        "lanes": "3+3",
+        "terrain": "西部外联—机场南组合枢纽—南部外圈—城际新区通道",
+        "connected": [
+          "S89",
+          "S29",
+          "S31"
+        ]
+      },
+      {
+        "id": "S31",
+        "lengthKm": 31.815240013540276,
+        "lanes": "2+2",
+        "terrain": "北部区域外贯通沿江走廊；南端外放，原折返保留为晨江东枢纽回转联络匝道",
+        "connected": [
+          "G38",
+          "G17",
+          "S29",
+          "S36"
+        ]
+      },
+      {
+        "id": "G42",
+        "lengthKm": 43.72447312708635,
+        "lanes": "2+2",
+        "terrain": "区域过境通道；边界接续区外高速",
+        "connected": [
+          "G65",
+          "S18",
+          "G38",
+          "S29"
+        ]
+      },
+      {
+        "id": "G65",
+        "lengthKm": 26.773761602292677,
+        "lanes": "2+2",
+        "terrain": "区域过境通道；边界接续区外高速",
+        "connected": [
+          "G42",
+          "S37",
+          "S29"
+        ]
+      },
+      {
+        "id": "S29",
+        "lengthKm": 56.76559209526945,
+        "lanes": "2+2",
+        "terrain": "北—东北—东侧开放 C 形绕行；与西南绕城错开，不首尾闭环",
+        "connected": [
+          "G65",
+          "S31",
+          "G38",
+          "G42",
+          "G17",
+          "S36"
+        ]
+      }
+    ],
+    "roads": 2557,
+    "signs": 3235,
+    "sectors": 4988
+  },
+  "highway": {
+    "passed": true,
+    "checks": [
+      "retained highway skeleton and existing city data",
+      "thirteen routes and stable internal IDs with approved display numbers",
+      "airport, service, exit and continuation node metadata",
+      "open staggered double C, through hubs and retained southern foldback",
+      "continuous G17/G38 ownership, west trunks and explicit network roles",
+      "every exit has 2km / 1km / 500m and destination diverge boards",
+      "green freeway content, direction shields and two shoulder supports",
+      "right-exit semantics, lane assignments, entries and measured mileage",
+      "regular larger highway fonts and all board layouts paint within bounds",
+      "physical auxiliary lanes joined at both ends",
+      "junction spatial index preserves existing clearance predicates",
+      "triangular hatching, acceleration dashes and lane arrows",
+      "shared streetlight geometry across roads and sign support templates",
+      "startup defers remote signs, roads and background geometry",
+      "auxiliary lanes use existing asphalt contact queries",
+      "bounded streaming and first-load statistics",
+      "western sectors stream, unload old sectors and retain road contact"
+    ],
+    "routes": 13,
+    "exits": 12,
+    "junctions": 21,
+    "services": 4,
+    "auxiliaryLanes": 303,
+    "initial": {
+      "sectorCount": 1,
+      "totalSectors": 4988,
+      "roadCount": 4,
+      "compiledRoadCount": 4,
+      "signCount": 2,
+      "barrierCount": 920,
+      "backgroundSectors": 8,
+      "backgroundBatches": 0,
+      "constructorMs": 1143.4398,
+      "firstVisibleMs": 7644.61740000001
+    },
+    "loaded": {
+      "sectorCount": 59,
+      "totalSectors": 4988,
+      "roadCount": 64,
+      "compiledRoadCount": 179,
+      "signCount": 86,
+      "barrierCount": 15890,
+      "backgroundSectors": 1958,
+      "backgroundBatches": 0,
+      "constructorMs": 1143.4398,
+      "firstVisibleMs": 7644.61740000001,
+      "firstLoadMs": 10796.416600000011
+    }
+  }
+}

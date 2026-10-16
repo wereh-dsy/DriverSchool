@@ -108,9 +108,10 @@ TypeScript, Three.js, Vite and pnpm.
   built-in in the ordinary UI. Cruise uses runtime SET/CANCEL, not a persistent
   ON/OFF preference. LKA/LCC already use LateralAssistController with persistent
   preferences and runtime LCC request/cancel. ACC and BSD are unsupported.
-  LaneAssistState is currently a separate selection/display state: gamepad Y
-  cycles OFF/LDW/LKA/LCC, but does not request LCC or enable/disable steering.
-  Do not assume its OFF label gates LateralAssistController.
+  LaneAssistState owns runtime OFF/LDW/LKA/LCC permission/request: gamepad Y
+  skips unsupported or preference-disabled steering modes. OFF/LDW cannot steer;
+  LCC requests centering through the existing controller. G/F3 SET/CANCEL uses
+  the same mode; menus cancel centering. Selected mode is not proof of intervention.
 - Aero lift/downforce enters separate axle suspension loads and tyre normal
   loads. Tyre differences use TireConfig calibration and surface conditions;
   do not add artificial aerodynamic grip multipliers or tyre-width grip rules.
@@ -146,6 +147,8 @@ TypeScript, Three.js, Vite and pnpm.
   surfaces or colliders. Preserve explicit XYZ endpoint links, support-layer
   height selection, junction pavement and marking ownership. Regional service
   metadata does not implement refuelling or charging interactions.
+  Prepare streamed shaders before publication; defer disposal while asynchronous
+  preparation borrows resources. Environment bindings consume visual deltas.
 - Browser storage is origin-specific and optional. Preserve stable vehicle/map
   IDs and storage schemas. Settings suppress driver commands but do not fully
   pause physics; lap timing and assistance have separate suspension gates.
@@ -164,7 +167,8 @@ TypeScript, Three.js, Vite and pnpm.
   lane assistance, loading and regional changes need their relevant standalone
   checks too. See the context document for entry points.
 - `pnpm run selftest:systems` runs the newer platform/EV/TPMS/HMI/loading/
-  lateral-driving/regional integration checks without rewriting artifact baselines.
+  lateral-driving/regional/Golf/TCS/surface/measurement integration checks without
+  rewriting artifact baselines.
 - Do not weaken assertions, skip failed checks, use `-BasicValidation`, or replace
   the normal build with `vite build` just to report success. A reduced validation
   run requires explicit user instruction. Report pre-existing failures separately

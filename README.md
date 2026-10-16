@@ -1,10 +1,10 @@
 # DriverGame
 
-基于 TypeScript、Three.js 和 Vite 的浏览器第一人称 3D 驾驶模拟项目。当前目录提供 **11 辆可切换车辆、9 个场地入口**，包含燃油 MT / AT / DCT / CVT、纯电固定减速与双电机前单速/后两速动力链、键盘与标准手柄操作，以及数据驱动的城市地图编辑器和区域高速网。车辆系统包含燃油/电量与行程信息、定速巡航、支持车型的 LDW / LKA / LCC、EPB、Auto Hold、自动启停、可变悬架和胎温胎压；闭环测试场提供圈速计时。
+基于 TypeScript、Three.js 和 Vite 的浏览器第一人称 3D 驾驶模拟项目。当前目录提供 **12 辆可切换车辆、11 个场地入口**，包含燃油 MT / AT / DCT / CVT、纯电固定减速与双电机前单速/后两速动力链、键盘与标准手柄操作，以及数据驱动的城市地图编辑器和区域高速网。车辆系统包含燃油/电量与行程信息、定速巡航、支持车型的 LDW / LKA / LCC、EPB、Auto Hold、自动启停、可变悬架和胎温胎压；闭环测试场提供圈速计时，混合路面试验场提供逐轮低附着与松软路面响应。
 
 物理以固定 **120 Hz** 更新，内部使用 SI 单位：距离为米、速度为 m/s、角度为弧度；坐标系为 `+X` 向右、`+Y` 向上、`-Z` 向前。仪表车速显示为 km/h。具体参数和行为以当前源码为准，测试车型与品牌风格车型不代表原厂精确数据。
 
-文档更新至 **2026-10-13**。开发或向 Chat 请求下一步指导时，请阅读 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md)、[可直接复制给 Chat 的指示文本](docs/CHAT_HANDOFF.md) 和 [修复与验证记录](docs/FIXES_2026-10-13.md)。[原始审阅报告](docs/CODE_REVIEW_2026-10-12.md) 保留修复前的证据。
+文档更新至 **2026-10-16**。开发或向 Chat 请求下一步指导时，请阅读 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md)、[可直接复制给 Chat 的指示文本](docs/CHAT_HANDOFF.md) 和 [本轮整理、性能与验证记录](docs/RUNTIME_CLEANUP_2026-10-15.md)。[原始审阅报告](docs/CODE_REVIEW_2026-10-12.md) 与 [早期修复记录](docs/FIXES_2026-10-13.md) 保留对应修订的证据。
 
 ## 内容导航
 
@@ -80,8 +80,9 @@ pnpm start
 | Tesla Model 3 RWD | `tesla-model-3-rwd` | 单后轴永磁电机、固定减速、60 kWh 可用电池；松电门回收、制动融合、无怠速蠕行 | 有 |
 | BMW 530Li | `bmw-530li-g38` | G38 LCI 长轴版、2.0T INLINE4、350 Nm、8AT、RWD、3.105 m 轴距；独立座舱与仪表、EPB / Auto Hold / Start-Stop | 有 |
 | Porsche Taycan 4S | `porsche-taycan-4s` | 双 PSM AWD、105/97 kWh 电池、前单速/后两速；常规峰值 380 kW、Launch Control 440 kW、空气悬架 | 有 |
+| Volkswagen Golf GTI | `volkswagen-golf-gti` | Mk7.5 风格、2.0T L4、350 Nm、7DCT、前驱与制动式 eDiff，独立前舱与四页中控 | 有 |
 
-正式目录共 11 辆车（9 辆燃油、2 辆纯电）。现实车型名表示原型，车身与参数采用当前游戏实现，并非生产车型的完整复刻；Mazda 以 CX-4 仪表为原型，现有车身仍为简化轿车。GT 的现实原型尚未唯一确认。458 为首轮公路标定，不代表原厂悬架或 E-Diff 数据。全时与适时 AWD 试验车保留在 `src/vehicle/fixtures/awdVehicleFixture.ts`，供 selftest 使用，不进入车辆菜单。
+正式目录共 12 辆车（10 辆燃油、2 辆纯电）。现实车型名表示原型，车身与参数采用当前游戏实现，并非生产车型的完整复刻；Mazda 以 CX-4 仪表为原型，现有车身仍为简化轿车。GT 的现实原型尚未唯一确认。458 为首轮公路标定，不代表原厂悬架或 E-Diff 数据。全时与适时 AWD 试验车保留在 `src/vehicle/fixtures/awdVehicleFixture.ts`，供 selftest 使用，不进入车辆菜单。
 
 458 默认 SPORT，通过 `T` 或手柄 B 循环 WET / SPORT / RACE，改变油门响应、换挡速度与策略、TCS / ESC 介入阈值和自适应阻尼，保留辅助系统保护。D 挡支持临时手动选挡与超转保护。中央黄色转速表、侧信息屏和方向盘跃马徽章采用程序化视觉。
 
@@ -100,9 +101,11 @@ Taycan 通过 `T` / 手柄 B 循环 RANGE / NORMAL / SPORT / SPORT_PLUS。Launch
 | 场地 | ID | 内容 |
 | --- | --- | --- |
 | 综合道路测试场 | `road-course` | 长直道、连续弯道、坡道与停车区，适合一般操控与车辆测试 |
+| 混合路面试验场 | `mixed-surface-proving-ground` | 干湿沥青、雪、冰、砂、泥等路面，含分离附着制动带与多档松软深度；见 [路面实现](docs/SURFACE_INTERACTION_V1.md) |
 | 科目二训练场 | `subject-2-training-ground` | 候考、倒库、侧方停车、直角转弯、S 弯、坡起和结束区的连续路线 |
 | 科目三道路训练 | `subject-3-shared-city-map` | 面向道路驾驶流程的路网，含十字与丁字路口、信号灯、学校、公交站与商业区 |
 | 基础环形测试场 | `simple-circuit` | 约 1.54 km 闭环、11.5 m 宽赛道，远端回头弯半径 90 m，支持圈速计时 |
+| 筑波 TC2000 | `tsukuba-tc2000` | 2,045 m 顺时针赛道、连续高程、贯通维修道与圈速；见 [赛道说明](docs/TSUKUBA_TC2000.md) |
 | 山地综合试验场 | `mountain-proving-ground` | 铺装、碎石、土路、坡道、山脊起伏、冲沟、长下坡与低附着湿土谷地 |
 | 城市道路 | `city-alpha` | City 系统的 JSON 城市，主干道、住宅与商业街区、老城、高架与互通连接 |
 | City Main · 区域高速网 | `city-main` | 城市与区域高速、机场、山谷桥隧、互通和服务区；按位置、方向和速度分层加载视觉 |
@@ -111,7 +114,7 @@ Taycan 通过 `T` / 手柄 B 循环 RANGE / NORMAL / SPORT / SPORT_PLUS。Launch
 
 统一入口只负责实例化与加载 metadata。科目二、科目三、山地及其它手工 TypeScript 场地保持原实现；城市道路、道路设施体验场和自定义城市道路继续使用 data-driven City 系统。
 
-科目三与 City 地图提供道路网络数据，小地图显示道路、路口、车辆位置和朝向；没有道路网络的场地会自动隐藏小地图。闭环赛道已有圈速计时；场地仍以自由练习为主，没有考试评分或导航路线。菜单的 `city-main` 读取 `src/world/regional/regional-main.json`，可通过 `?city=main` / `?city=city-main` 打开，`regionalSpawn` 选择数据中的出生点，`regionalDebug=1` 打开区域加载调试。服务区的加油/充电标签是设施信息，尚无交互式补能流程。
+科目三与 City 地图提供道路网络数据，小地图显示道路、路口、车辆位置和朝向；没有道路网络的场地会自动隐藏小地图。闭环赛道已有圈速计时；场地仍以自由练习为主，没有考试评分。菜单的 `city-main` 读取 `src/world/regional/regional-main.json`，可通过 `?city=main` / `?city=city-main` 打开，`regionalSpawn` 选择数据中的出生点，`regionalDebug=1` 打开区域加载调试。该地图独占路线导航：点击小地图或按 **F10** 展开地图，拖动平移、滚轮缩放、选择起终点并开始导航；展开时暂停仿真，关闭后恢复。导航同步到支持车型的车机与配套仪表；F1 沉浸模式隐藏独立小地图和导航 HUD，保留车内显示，仍可用 F10 规划。详见[导航说明](docs/NAVIGATION.md)。服务区的加油/充电标签是设施信息，尚无交互式补能流程。
 
 ### 山地试验与圈速计时
 
@@ -172,7 +175,7 @@ Taycan 通过 `T` / 手柄 B 循环 RANGE / NORMAL / SPORT / SPORT_PLUS。Launch
 | A | 机械手刹 / EPB 开关 |
 | X | 支持车型的定速巡航开关 |
 | B | 支持车型的驾驶模式循环切换 |
-| Y | 循环车道模式显示：OFF → LDW → LKA → LCC；不请求 LCC，不切换实际转向控制 |
+| Y | 循环实际车道辅助模式：OFF → LDW → LKA → LCC；跳过车型不支持或 F3 不允许的模式 |
 | L3（按住） / R3（按住） | 临时远光闪灯 / 喇叭输入 |
 | 十字键 ← / → / ↓ | 左转向灯 / 右转向灯 / 双闪 |
 | 十字键 ↑ | 短按松开后切换主灯；长按 0.65 秒循环雾灯，松开不再切主灯 |
@@ -189,13 +192,13 @@ RT 使用 3% 死区、归一化与 1.1 次方映射，LT 使用独立制动曲�
 
 ### 车道辅助
 
-A6L、Touareg、BMW 530Li、Tesla Model 3、Taycan 配置了 LKA / LCC。控制器使用地图的逻辑车道数据；约 50 km/h 起具备介入条件，LCC 配置上限为 180 km/h，缺少可靠车道、路口/歧义区域、驾驶员接管或设置界面会抑制介入。辅助输出受权限和变化速率限制，走正常转向路径。
+A6L、Touareg、BMW 530Li、Tesla Model 3、Taycan、Golf GTI 配置了 LKA / LCC。控制器使用地图的逻辑车道数据；约 50 km/h 起具备介入条件，LCC 配置上限为 180 km/h，缺少可靠车道、路口/歧义区域、驾驶员接管或设置界面会抑制介入。辅助输出受权限和变化速率限制，走正常转向路径。
 
-F3 的 LKA / LCC ON/OFF 是持久偏好；LCC 另需 `G` 或 F3 按钮实时请求/取消。按当前项目契约，手柄 Y 仍循环独立的模式提示：LDW 模式接入车道偏离声音警告，OFF / LKA / LCC 提示不改变实际转向控制。判断是否介入应看控制器状态与 F3 偏好，不能只看 Y 的模式名称。当前没有 ACC 跟车、BSD 盲区监测或自动导航。
+F3 的“允许 LKA / LCC”是持久偏好，限制运行时可选模式。手柄 Y 循环 OFF / LDW / LKA / LCC，并跳过被禁用或不支持的模式：OFF 立即清除转向辅助；LDW 只警告；LKA 允许边界纠偏；LCC 请求居中。`G` / F3 SET 选择相同的 LCC 模式，CANCEL 或打开设置取消居中并回到允许的 LKA（否则 OFF）。初次加载支持车型时，允许的 LKA 默认待命；复位与主动断电回 OFF。模式表示请求/权限，实际介入仍需观察控制器状态。当前没有 ACC 跟车、BSD 盲区监测或自动驾驶。
 
 ### EPB、Auto Hold 与自动启停
 
-目前 A6L、Touareg、BMW 530Li 配有 EPB、Auto Hold 和燃油 Start/Stop；Tesla 与 Taycan 配有 EPB / Auto Hold，不安装燃油启停系统。其他目录车辆使用机械手刹。各系统独立维护状态，Auto Hold 和 Start/Stop 的偏好在 F3 设置。
+目前 A6L、Touareg、BMW 530Li 配有 EPB、Auto Hold 和燃油 Start/Stop；Tesla、Taycan 和 Golf 配有 EPB / Auto Hold，不安装燃油启停系统。其余目录车辆使用机械手刹。各系统独立维护状态，Auto Hold 和 Start/Stop 的偏好在 F3 设置。
 
 - **EPB：**停车挂 P 或人工熄火时自动施加；在 D / R、动力可用、松开脚刹并有意给油时自动释放，也可用 Space / 手柄 A 切换。执行器有施加与释放过程。行驶中主动施加请求受控的液压紧急制动，低速后转为驻车约束；机械手刹仍直接作用于后轮。
 - **Auto Hold：**默认开启。D / R 近静止、踩刹车达到捕获条件后保持实际液压制动，松脚刹后继续支撑；有意给油且动力可用时渐进释放。自动启停停机期间继续保持，向 EPB 交接时等待驻车执行器完成。
@@ -358,6 +361,7 @@ MapAPI 的 `splitRoadAtPoint` 可显式拆路并保留或重映射外部连接�
 | `pnpm run selftest:grounds` | 单独检查场地目录、统一入口与出生点 |
 | `pnpm run selftest:experience` | 空气载荷、轮胎、可变悬架、启停 / 蠕行、Trip 和真实车辆巡航回归 |
 | `pnpm run selftest:systems` | 平台、EV V2、TPMS、专用 HMI、加载、车道/真实转向场景与区域高速整合检查；不覆盖历史 artifacts |
+| `pnpm run clean:generated` | 清理旧暂存构建、临时 bundle/log、过期发布资源；保留当前与上次可用入口的依赖、最近两份暂存构建及历史基线 |
 | `pnpm run build` | 类型检查、自测、暂存构建并发布可玩版本 |
 | `pnpm preview` | 预览已经构建的 `dist/` |
 | `pnpm map ...` | 城市地图查询、验证与修改 |
@@ -369,6 +373,10 @@ MapAPI 的 `splitRoadAtPoint` 可显式拆路并保留或重映射外部连接�
 核心自测覆盖输入与选挡联锁、MT / AT / DCT / CVT、Powertrain 边界与车型平台、发动机 / 涡轮 / 燃油、四轮轮速 / 轮胎 / 差速器、ABS / EBD / TCS / ESC / AWD、悬挂与静态碰撞、巡航、倒车接近提示、灯光、反馈、后视镜和仪表几何，以及场地目录、山地接触、圈速、城市数据 / 预设和环境。`selftest:experience` 提供车辆体验相关的针对性回归，已包含在核心自测的相应检查中。
 
 核心 runner 包含当前 City V5 与历史 V3 各自的基线检查，不把 V3 专用断言套到 V5；并不自动执行全部独立专项。重大车辆/平台修改还应运行 `pnpm run selftest:systems`。完整入口见 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md#验证入口)，实际结果见修复记录；历史报告里的“通过”不能代替当前运行结果。
+
+`selftest:systems` 现也覆盖 Golf、牵引性能、混合路面、加速计时/被动诊断和轨迹预测。区域扇区在显示前异步预热着色器，环境材质按新增/卸载增量登记，路牌绘制和上传分帧。生产包只保留编辑器 Reload 需要的 `city-alpha.json`，不再复制地图源码与自测文件。清理前可执行 `node scripts/clean-generated.mjs` 只预览；清理旧发布资源后，长期打开的旧标签页需要刷新。性能对照与已知限制见 [本轮记录](docs/RUNTIME_CLEANUP_2026-10-15.md)。
+
+高速与快速路标牌已按车速、牌面阅读间距和支撑层整理，减少重复大牌并补充道路实际限速及弯道导向小牌。限速牌跨数据分段按里程布置，小牌复用纹理与实例几何；没有修改道路限速或物理。数量、前后截图与验证见 [标牌整理记录](docs/ROAD_SIGNS_2026-10-16.md)。专项入口为 `node scripts/test-road-signs.mjs`；`node scripts/optimize-road-signs.mjs` 默认只预览。
 
 开发服务的 `/validation.html` 提供驾驶视角的验证操作，构建入口不包含该页面。驾驶手感、手柄强弱和最终视觉质量由玩家实际体验评估。
 

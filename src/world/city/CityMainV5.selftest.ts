@@ -8,6 +8,7 @@ import {signDecisionNodes} from './SignPlacementGenerator';
 import {resolveSignContent} from './RoadSignData';
 import {ROAD_SIGN_POST_Z,signDimensions,roadSignColliders} from './RoadSignTemplates';
 import {RoadSignRenderer} from './RoadSignRenderer';
+import {isSafetySign} from '../regional/FastRoadSignPlacement';
 import {roadPoints,polylineLength,sampleAt,rotatePoint,roadEdges} from './geometry';
 import {RoadClearance,barrierOffset} from './RoadClearance';
 import {RoadEdgeChains,roadEdgeStrip} from './RoadEdgeChain';
@@ -43,6 +44,12 @@ export function runCityMainV5SelfTest(source:unknown,baseline:unknown) {
   if(s.stationMetres!==undefined){const a=sampleAt(p,s.stationMetres);bearing=Math.atan2(-a.tangent.x,-a.tangent.z)+(s.laneDirection==='reverse'?Math.PI:0);y=a.point.y??0;}
   assert(Math.abs(Math.atan2(Math.sin(s.heading-bearing),Math.cos(s.heading-bearing)))<.001,'sign faces traffic '+s.id);
   assert(Math.abs((s.position.y??0)-y)<.3,'sign height follows road '+s.id);
+  if(isSafetySign(s)){
+   assert(s.destinations.length===0,'safety board has no fictitious navigation '+s.id);
+   assert(s.type==='SPEED_LIMIT'?s.template==='speed-limit'&&s.speedLimitKmh===road.speedLimit:s.template==='chevron'&&['left','right'].includes(s.chevronDirection!),'physical safety content '+s.id);
+   const dims=signDimensions(s.template,s.size);for(const x of [-dims.width/2,0,dims.width/2]){const q=rotatePoint({x,z:0},s.heading),a={x:s.position.x+q.x,z:s.position.z+q.z};assert(!clearance.roadAt(a,.1,y-.3,y+dims.bottom+dims.height,undefined,undefined,true),'low board outside every traffic lane '+s.id);}
+   assert(roadSignColliders(s).length===2,'safety post/board colliders '+s.id);continue;
+  }
   assert(['gantry','highway-gantry','ceiling'].includes(s.template),'all guide boards overhead '+s.id);
   const anchor=sampleAt(p,s.stationMetres!).point;assert(Math.hypot(anchor.x-s.position.x,anchor.z-s.position.z)<1e-6,'guide board centred on road '+s.id);
   const dims=signDimensions(s.template,s.size,s.postOffset,s.gantryPosts,s.mountHeight);assert(dims.bottom>=4.5,'overhead board clearance '+s.id);for(const x of dims.posts){const q=rotatePoint({x,z:ROAD_SIGN_POST_Z},s.heading),a={x:s.position.x+q.x,z:s.position.z+q.z};assert(!clearance.roadAt(a,.44,(s.postBaseY??s.position.y??0)-.3,(s.position.y??0)+dims.poleTop,undefined,undefined,true)&&!clearance.roadAt(a,.3,s.postBaseY??s.position.y??0,(s.position.y??0)+dims.poleTop,s.roadId),'sign post excludes traffic and other decks '+s.id);}

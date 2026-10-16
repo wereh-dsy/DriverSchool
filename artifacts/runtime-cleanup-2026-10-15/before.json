@@ -1,0 +1,1324 @@
+{
+  "version": "before",
+  "baseline": "cc2a93da07def6f565a8155cf13b2dbb81239297",
+  "mirrorPolicy": "every-visible-frame; overlay below30-or-R",
+  "rows": [
+    {
+      "name": "straight-cold",
+      "frame": {
+        "n": 273,
+        "mean": 25.665567765567754,
+        "p95": 72.69999999999709,
+        "p99": 103.10000000000582,
+        "max": 139.3000000000029,
+        "over33": 44,
+        "over50": 24,
+        "over100": 4
+      },
+      "cpu": {
+        "n": 273,
+        "mean": 15.677289375892052,
+        "p95": 23.100000023841858,
+        "p99": 26.600000023841858,
+        "max": 41.5,
+        "over33": 1,
+        "over50": 0,
+        "over100": 0
+      },
+      "speed": {
+        "n": 273,
+        "mean": 133.3902929689793,
+        "p95": 136.12251040471722,
+        "p99": 136.32078211710024,
+        "max": 136.35083386781812,
+        "over33": 273,
+        "over50": 273,
+        "over100": 273
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 4170,
+          "total": 34.79999929666519,
+          "max": 0.699999988079071,
+          "mean": 0.008345323572341773
+        },
+        "physics": {
+          "calls": 834,
+          "total": 347.60000026226044,
+          "max": 1.5999999642372131,
+          "mean": 0.4167865710578662
+        },
+        "visual": {
+          "calls": 274,
+          "total": 139.29999959468842,
+          "max": 3.5,
+          "mean": 0.5083941591047022
+        },
+        "streaming": {
+          "calls": 274,
+          "total": 198.1999996304512,
+          "max": 22.80000001192093,
+          "mean": 0.7233576628848584
+        },
+        "hud": {
+          "calls": 274,
+          "total": 48.599999725818634,
+          "max": 0.30000001192092896,
+          "mean": 0.1773722617730607
+        },
+        "render": {
+          "calls": 548,
+          "total": 3306.1000000834465,
+          "max": 14.800000011920929,
+          "mean": 6.033029197232566
+        },
+        "adaptiveMirrors": {
+          "calls": 274,
+          "total": 932.0000004768372,
+          "max": 5.5,
+          "mean": 3.4014598557548803
+        },
+        "roadInstall": {
+          "calls": 71,
+          "total": 0.8999999761581421,
+          "max": 0.10000002384185791,
+          "mean": 0.012676056002227354
+        },
+        "terrainInstall": {
+          "calls": 38,
+          "total": 0.9000001549720764,
+          "max": 0.10000002384185791,
+          "mean": 0.023684214604528325
+        },
+        "surfaceMerge": {
+          "calls": 42,
+          "total": 12.29999977350235,
+          "max": 1.199999988079071,
+          "mean": 0.29285713746434167
+        },
+        "junctionBuild": {
+          "calls": 31,
+          "total": 41.10000002384186,
+          "max": 3,
+          "mean": 1.3258064523819955
+        },
+        "prefabBuild": {
+          "calls": 32,
+          "total": 3.099999964237213,
+          "max": 0.30000001192092896,
+          "mean": 0.09687499888241291
+        },
+        "signMaterial": {
+          "calls": 154,
+          "total": 50.400000154972076,
+          "max": 9,
+          "mean": 0.32727272827903947
+        },
+        "textureUpload": {
+          "calls": 77,
+          "total": 41.40000009536743,
+          "max": 13.300000011920929,
+          "mean": 0.5376623389008758
+        },
+        "environment": {
+          "calls": 34,
+          "total": 30.500000059604645,
+          "max": 1.5,
+          "mean": 0.8970588252824896
+        }
+      },
+      "heap": [
+        796508429,
+        920397346
+      ],
+      "peaks": [
+        {
+          "t": 3.945500000023836,
+          "frame": 133.59999999999127,
+          "cpu": 41.5,
+          "cost": {
+            "snapshot": 0.2999999523162842,
+            "physics": 3.900000035762787,
+            "visual": 1.600000023841858,
+            "streaming": 22.80000001192093,
+            "hud": 0.19999998807907104,
+            "render": 11.199999988079071,
+            "adaptiveMirrors": 4.300000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 9.300000011920929,
+            "textureUpload": 13.400000035762787
+          }
+        },
+        {
+          "t": 8.375900000023845,
+          "frame": 42.40000000000873,
+          "cpu": 27.69999998807907,
+          "cost": {
+            "snapshot": 1.2999998331069946,
+            "physics": 3.7999998927116394,
+            "visual": 0.5,
+            "streaming": 1.800000011920929,
+            "hud": 0.30000001192092896,
+            "render": 20.100000023841858,
+            "adaptiveMirrors": 5.5,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 1.600000023841858,
+            "textureUpload": 0.19999998807907104,
+            "environment": 0
+          }
+        },
+        {
+          "t": 5.709000000023836,
+          "frame": 35.89999999999418,
+          "cpu": 26.600000023841858,
+          "cost": {
+            "snapshot": 1.0999999046325684,
+            "physics": 3.0999999046325684,
+            "visual": 0.30000001192092896,
+            "streaming": 1.899999976158142,
+            "hud": 0.10000002384185791,
+            "render": 18.5,
+            "adaptiveMirrors": 5.199999988079071,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.7000000476837158,
+            "textureUpload": 0.2999999523162842,
+            "environment": 1.300000011920929
+          }
+        },
+        {
+          "t": 8.200400000023844,
+          "frame": 30.60000000000582,
+          "cpu": 26.399999976158142,
+          "cost": {
+            "snapshot": 0.4999999403953552,
+            "physics": 2.299999952316284,
+            "visual": 0.30000001192092896,
+            "streaming": 8,
+            "hud": 0.20000004768371582,
+            "render": 14.599999964237213,
+            "adaptiveMirrors": 4.299999952316284,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 2,
+            "textureUpload": 5.900000035762787,
+            "environment": 0
+          }
+        },
+        {
+          "t": 8.169800000023839,
+          "frame": 78.69999999999709,
+          "cpu": 24.19999998807907,
+          "cost": {
+            "snapshot": 0.09999996423721313,
+            "physics": 3.0000001192092896,
+            "visual": 1.4000000357627869,
+            "streaming": 1,
+            "hud": 0.10000002384185791,
+            "render": 17.30000001192093,
+            "adaptiveMirrors": 3.899999976158142,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.7000000476837158,
+            "textureUpload": 0.2999999523162842,
+            "environment": 0
+          }
+        },
+        {
+          "t": 5.054400000023845,
+          "frame": 72.69999999999709,
+          "cpu": 24,
+          "cost": {
+            "snapshot": 0.19999992847442627,
+            "physics": 3.800000011920929,
+            "visual": 0.30000001192092896,
+            "streaming": 2.399999976158142,
+            "hud": 0.19999998807907104,
+            "render": 15.600000023841858,
+            "adaptiveMirrors": 5.5,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.5,
+            "textureUpload": 1.800000011920929,
+            "environment": 0
+          }
+        },
+        {
+          "t": 7.848600000023842,
+          "frame": 96.89999999999418,
+          "cpu": 23.899999976158142,
+          "cost": {
+            "snapshot": 0.19999998807907104,
+            "physics": 4.099999964237213,
+            "visual": 1.5,
+            "streaming": 0.8999999761581421,
+            "hud": 0.19999998807907104,
+            "render": 15.699999988079071,
+            "adaptiveMirrors": 3.899999976158142,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.699999988079071,
+            "textureUpload": 0.19999998807907104,
+            "environment": 0
+          }
+        },
+        {
+          "t": 8.006200000023847,
+          "frame": 103.10000000000582,
+          "cpu": 23.80000001192093,
+          "cost": {
+            "snapshot": 0.30000007152557373,
+            "physics": 4.100000023841858,
+            "visual": 1.4000000357627869,
+            "streaming": 0.800000011920929,
+            "hud": 0.19999998807907104,
+            "render": 15.199999988079071,
+            "adaptiveMirrors": 4.199999988079071,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.699999988079071,
+            "textureUpload": 0.10000002384185791,
+            "environment": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1042,
+        871
+      ],
+      "visibility": "visible",
+      "mirrors": {
+        "mask": 1,
+        "overlay": false
+      },
+      "resources": {
+        "sectorCount": 59,
+        "totalSectors": 4988,
+        "roadCount": 180,
+        "compiledRoadCount": 311,
+        "signCount": 114,
+        "barrierCount": 12520,
+        "backgroundSectors": 4988,
+        "backgroundBatches": 151,
+        "constructorMs": 1080.800000011921,
+        "firstVisibleMs": 6852.600000023842,
+        "firstLoadMs": 15129.100000023842
+      }
+    },
+    {
+      "name": "straight-warm",
+      "frame": {
+        "n": 343,
+        "mean": 20.498250728862956,
+        "p95": 36.39999999999418,
+        "p99": 84.89999999999418,
+        "max": 109,
+        "over33": 22,
+        "over50": 10,
+        "over100": 2
+      },
+      "cpu": {
+        "n": 343,
+        "mean": 15.35131195456919,
+        "p95": 22.099999964237213,
+        "p99": 26.19999998807907,
+        "max": 31.599999964237213,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "speed": {
+        "n": 343,
+        "mean": 133.6141678735663,
+        "p95": 135.9955423042399,
+        "p99": 136.29079499764893,
+        "max": 136.3608529706344,
+        "over33": 343,
+        "over50": 343,
+        "over100": 343
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 4220,
+          "total": 37.099999248981476,
+          "max": 0.40000003576278687,
+          "mean": 0.008791469016346322
+        },
+        "physics": {
+          "calls": 844,
+          "total": 358.99999994039536,
+          "max": 1,
+          "mean": 0.4253554501663452
+        },
+        "visual": {
+          "calls": 344,
+          "total": 151.50000023841858,
+          "max": 1.899999976158142,
+          "mean": 0.4404069774372633
+        },
+        "streaming": {
+          "calls": 344,
+          "total": 67.2999997138977,
+          "max": 4.300000011920929,
+          "mean": 0.19563953405202822
+        },
+        "hud": {
+          "calls": 344,
+          "total": 51.99999976158142,
+          "max": 0.40000003576278687,
+          "mean": 0.15116279000459715
+        },
+        "render": {
+          "calls": 688,
+          "total": 4415.000000298023,
+          "max": 16.299999952316284,
+          "mean": 6.417151163223871
+        },
+        "adaptiveMirrors": {
+          "calls": 344,
+          "total": 1085,
+          "max": 5.699999988079071,
+          "mean": 3.1540697674418605
+        },
+        "terrainInstall": {
+          "calls": 9,
+          "total": 0.09999996423721313,
+          "max": 0.09999996423721313,
+          "mean": 0.011111107137468126
+        },
+        "environment": {
+          "calls": 12,
+          "total": 10.499999940395355,
+          "max": 1.699999988079071,
+          "mean": 0.8749999950329462
+        },
+        "prefabBuild": {
+          "calls": 8,
+          "total": 1,
+          "max": 0.19999998807907104,
+          "mean": 0.125
+        },
+        "surfaceMerge": {
+          "calls": 15,
+          "total": 2.099999964237213,
+          "max": 0.800000011920929,
+          "mean": 0.13999999761581422
+        },
+        "junctionBuild": {
+          "calls": 20,
+          "total": 20.5,
+          "max": 2.400000035762787,
+          "mean": 1.025
+        },
+        "signMaterial": {
+          "calls": 72,
+          "total": 8.899999916553497,
+          "max": 0.40000003576278687,
+          "mean": 0.12361110995213191
+        },
+        "textureUpload": {
+          "calls": 36,
+          "total": 12.500000059604645,
+          "max": 3.600000023841858,
+          "mean": 0.3472222238779068
+        }
+      },
+      "heap": [
+        810351218,
+        856666608
+      ],
+      "peaks": [
+        {
+          "t": 7.526300000000003,
+          "frame": 60.69999999999709,
+          "cpu": 31.599999964237213,
+          "cost": {
+            "snapshot": 0.19999998807907104,
+            "physics": 3.899999976158142,
+            "visual": 1.899999976158142,
+            "streaming": 1.899999976158142,
+            "hud": 0.40000003576278687,
+            "render": 20.399999976158142,
+            "adaptiveMirrors": 4.300000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.09999996423721313,
+            "textureUpload": 0,
+            "environment": 1.699999988079071
+          }
+        },
+        {
+          "t": 6.544300000000003,
+          "frame": 42.40000000000873,
+          "cpu": 29.100000023841858,
+          "cost": {
+            "snapshot": 0.19999998807907104,
+            "physics": 2.400000035762787,
+            "visual": 1.4000000357627869,
+            "streaming": 4.300000011920929,
+            "hud": 0.19999998807907104,
+            "render": 20,
+            "adaptiveMirrors": 4.600000023841858,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.5,
+            "textureUpload": 3.700000047683716,
+            "environment": 0
+          }
+        },
+        {
+          "t": 6.126100000000005,
+          "frame": 30.30000000000291,
+          "cpu": 27.30000001192093,
+          "cost": {
+            "snapshot": 0,
+            "physics": 2.8000000715255737,
+            "visual": 0.5,
+            "streaming": 4.199999988079071,
+            "hud": 0.19999998807907104,
+            "render": 18.399999976158142,
+            "adaptiveMirrors": 4.100000023841858,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 4.100000023841858,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0
+          }
+        },
+        {
+          "t": 6.671699999999997,
+          "frame": 97,
+          "cpu": 26.19999998807907,
+          "cost": {
+            "snapshot": 0.19999998807907104,
+            "physics": 5.800000071525574,
+            "visual": 1.300000011920929,
+            "streaming": 0.5,
+            "hud": 0.19999998807907104,
+            "render": 16.80000001192093,
+            "adaptiveMirrors": 4.199999988079071,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.30000001192092896,
+            "textureUpload": 0.19999998807907104,
+            "environment": 0
+          }
+        },
+        {
+          "t": 6.980699999999997,
+          "frame": 109,
+          "cpu": 24.600000023841858,
+          "cost": {
+            "snapshot": 0.699999988079071,
+            "physics": 4.5,
+            "visual": 1.399999976158142,
+            "streaming": 0.6000000238418579,
+            "hud": 0.19999998807907104,
+            "render": 16.399999976158142,
+            "adaptiveMirrors": 4.800000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.2999999523162842,
+            "textureUpload": 0.20000004768371582,
+            "environment": 0
+          }
+        },
+        {
+          "t": 6.871699999999997,
+          "frame": 84.89999999999418,
+          "cpu": 24.400000035762787,
+          "cost": {
+            "snapshot": 0.30000001192092896,
+            "physics": 4.400000035762787,
+            "visual": 0.2999999523162842,
+            "streaming": 0.699999988079071,
+            "hud": 0.19999998807907104,
+            "render": 17.30000001192093,
+            "adaptiveMirrors": 4.699999988079071,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.5999999642372131,
+            "textureUpload": 0.10000002384185791,
+            "environment": 0
+          }
+        },
+        {
+          "t": 6.362399999999994,
+          "frame": 42.39999999999418,
+          "cpu": 24.30000001192093,
+          "cost": {
+            "snapshot": 0.30000007152557373,
+            "physics": 2.400000035762787,
+            "visual": 0.5,
+            "streaming": 2,
+            "hud": 0.19999998807907104,
+            "render": 18.399999976158142,
+            "adaptiveMirrors": 4.5,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 1.800000011920929,
+            "prefabBuild": 0.19999998807907104,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0
+          }
+        },
+        {
+          "t": 6.738300000000003,
+          "frame": 66.60000000000582,
+          "cpu": 24,
+          "cost": {
+            "snapshot": 0.20000004768371582,
+            "physics": 3.5,
+            "visual": 0.30000001192092896,
+            "streaming": 1.4000000357627869,
+            "hud": 0.10000002384185791,
+            "render": 17.30000001192093,
+            "adaptiveMirrors": 4.300000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.6000000238418579,
+            "textureUpload": 0.699999988079071,
+            "environment": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1042,
+        871
+      ],
+      "visibility": "visible",
+      "mirrors": {
+        "mask": 1,
+        "overlay": false
+      },
+      "resources": {
+        "sectorCount": 59,
+        "totalSectors": 4988,
+        "roadCount": 180,
+        "compiledRoadCount": 311,
+        "signCount": 114,
+        "barrierCount": 12520,
+        "backgroundSectors": 4988,
+        "backgroundBatches": 151,
+        "constructorMs": 1080.800000011921,
+        "firstVisibleMs": 6852.600000023842,
+        "firstLoadMs": 15129.100000023842
+      }
+    },
+    {
+      "name": "complex-cold",
+      "frame": {
+        "n": 515,
+        "mean": 13.628737864077676,
+        "p95": 36.10000000000582,
+        "p99": 48.60000000000582,
+        "max": 66.69999999999709,
+        "over33": 26,
+        "over50": 4,
+        "over100": 0
+      },
+      "cpu": {
+        "n": 515,
+        "mean": 9.27669903132522,
+        "p95": 12,
+        "p99": 18.30000001192093,
+        "max": 28.69999998807907,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "speed": {
+        "n": 515,
+        "mean": 133.29635791980309,
+        "p95": 135.985821685177,
+        "p99": 136.41114825463563,
+        "max": 136.51244559104467,
+        "over33": 515,
+        "over50": 515,
+        "over100": 515
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 4210,
+          "total": 38.400000274181366,
+          "max": 0.5999999642372131,
+          "mean": 0.00912114020764403
+        },
+        "physics": {
+          "calls": 842,
+          "total": 281.3999997973442,
+          "max": 1.899999976158142,
+          "mean": 0.33420427529375796
+        },
+        "visual": {
+          "calls": 515,
+          "total": 165.09999948740005,
+          "max": 1.300000011920929,
+          "mean": 0.32058252327650494
+        },
+        "prefabBuild": {
+          "calls": 58,
+          "total": 3.9999998807907104,
+          "max": 0.20000004768371582,
+          "mean": 0.06896551518604674
+        },
+        "streaming": {
+          "calls": 515,
+          "total": 188.80000019073486,
+          "max": 17.19999998807907,
+          "mean": 0.3666019421179318
+        },
+        "environment": {
+          "calls": 85,
+          "total": 25.90000021457672,
+          "max": 0.5,
+          "mean": 0.3047058848773732
+        },
+        "hud": {
+          "calls": 515,
+          "total": 67.69999915361404,
+          "max": 0.5,
+          "mean": 0.13145630903614378
+        },
+        "render": {
+          "calls": 1030,
+          "total": 3832.399999320507,
+          "max": 7.599999964237213,
+          "mean": 3.7207766983694244
+        },
+        "adaptiveMirrors": {
+          "calls": 515,
+          "total": 1231.1000000834465,
+          "max": 3.700000047683716,
+          "mean": 2.390485437055236
+        },
+        "terrainInstall": {
+          "calls": 85,
+          "total": 2.2999998331069946,
+          "max": 0.10000002384185791,
+          "mean": 0.027058821565964643
+        },
+        "surfaceMerge": {
+          "calls": 85,
+          "total": 16.19999986886978,
+          "max": 0.699999988079071,
+          "mean": 0.19058823375140918
+        },
+        "signMaterial": {
+          "calls": 48,
+          "total": 16.30000001192093,
+          "max": 4,
+          "mean": 0.339583333581686
+        },
+        "textureUpload": {
+          "calls": 24,
+          "total": 61.5,
+          "max": 13.099999964237213,
+          "mean": 2.5625
+        },
+        "roadInstall": {
+          "calls": 24,
+          "total": 0.5000000596046448,
+          "max": 0.10000002384185791,
+          "mean": 0.0208333358168602
+        }
+      },
+      "heap": [
+        847278322,
+        962162089
+      ],
+      "peaks": [
+        {
+          "t": 4.456800000011921,
+          "frame": 60.60000000000582,
+          "cpu": 28.69999998807907,
+          "cost": {
+            "snapshot": 0,
+            "physics": 1.6000000834465027,
+            "visual": 0.19999998807907104,
+            "streaming": 17.19999998807907,
+            "hud": 0.19999998807907104,
+            "render": 8.399999976158142,
+            "adaptiveMirrors": 2.899999976158142,
+            "roadInstall": 0.10000002384185791,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 4,
+            "textureUpload": 13.099999964237213,
+            "environment": 0
+          }
+        },
+        {
+          "t": 4.396200000011915,
+          "frame": 36.29999999998836,
+          "cpu": 20.100000023841858,
+          "cost": {
+            "snapshot": 0.30000007152557373,
+            "physics": 1.2999999523162842,
+            "visual": 1.100000023841858,
+            "streaming": 10,
+            "hud": 0.09999996423721313,
+            "render": 6.899999976158142,
+            "adaptiveMirrors": 2.5,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0
+          }
+        },
+        {
+          "t": 4.523500000011918,
+          "frame": 36.30000000000291,
+          "cpu": 14,
+          "cost": {
+            "snapshot": 0.40000009536743164,
+            "physics": 2.200000047683716,
+            "visual": 1.100000023841858,
+            "streaming": 0.800000011920929,
+            "hud": 0.09999996423721313,
+            "render": 8.599999964237213,
+            "adaptiveMirrors": 2.800000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0.40000003576278687,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0.5
+          }
+        },
+        {
+          "t": 3.329500000011918,
+          "frame": 66.69999999999709,
+          "cpu": 12.800000011920929,
+          "cost": {
+            "snapshot": 0.10000002384185791,
+            "physics": 2.5000000596046448,
+            "visual": 1,
+            "streaming": 0.2999999523162842,
+            "hud": 0.19999998807907104,
+            "render": 7.600000023841858,
+            "adaptiveMirrors": 2.800000011920929,
+            "roadInstall": 0.09999996423721313,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0.30000001192092896
+          }
+        },
+        {
+          "t": 3.844700000011915,
+          "frame": 36.39999999999418,
+          "cpu": 12.800000011920929,
+          "cost": {
+            "snapshot": 0.09999996423721313,
+            "physics": 1.0000000596046448,
+            "visual": 1.199999988079071,
+            "streaming": 0.30000001192092896,
+            "hud": 0.19999998807907104,
+            "render": 8.699999988079071,
+            "adaptiveMirrors": 2.5,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0.40000003576278687
+          }
+        },
+        {
+          "t": 4.766000000011918,
+          "frame": 36.39999999999418,
+          "cpu": 12.700000047683716,
+          "cost": {
+            "snapshot": 0.10000002384185791,
+            "physics": 0.8999999761581421,
+            "visual": 0.8999999761581421,
+            "streaming": 0.30000001192092896,
+            "hud": 0.09999996423721313,
+            "render": 9.600000023841858,
+            "adaptiveMirrors": 2.800000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0.30000001192092896
+          }
+        },
+        {
+          "t": 3.250800000011921,
+          "frame": 42.60000000000582,
+          "cpu": 12.5,
+          "cost": {
+            "snapshot": 0.30000001192092896,
+            "physics": 1.7000000476837158,
+            "visual": 0.40000003576278687,
+            "streaming": 1.0999999642372131,
+            "hud": 0.30000001192092896,
+            "render": 8.5,
+            "adaptiveMirrors": 3,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0.10000002384185791,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.6000000238418579,
+            "textureUpload": 0.09999996423721313,
+            "environment": 0
+          }
+        },
+        {
+          "t": 5.735800000011921,
+          "frame": 54.60000000000582,
+          "cpu": 12.100000023841858,
+          "cost": {
+            "snapshot": 0.19999998807907104,
+            "physics": 1.2999999523162842,
+            "visual": 1.0999999642372131,
+            "streaming": 0.30000001192092896,
+            "hud": 0.2999999523162842,
+            "render": 8.600000023841858,
+            "adaptiveMirrors": 2.900000035762787,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1042,
+        871
+      ],
+      "visibility": "visible",
+      "mirrors": {
+        "mask": 1,
+        "overlay": false
+      },
+      "resources": {
+        "sectorCount": 96,
+        "totalSectors": 4988,
+        "roadCount": 85,
+        "compiledRoadCount": 396,
+        "signCount": 50,
+        "barrierCount": 19922,
+        "backgroundSectors": 4988,
+        "backgroundBatches": 151,
+        "constructorMs": 1080.800000011921,
+        "firstVisibleMs": 6852.600000023842,
+        "firstLoadMs": 15129.100000023842
+      }
+    },
+    {
+      "name": "complex-warm",
+      "frame": {
+        "n": 544,
+        "mean": 12.87996323529414,
+        "p95": 30.19999999999709,
+        "p99": 36.40000000000873,
+        "max": 78.90000000000873,
+        "over33": 9,
+        "over50": 3,
+        "over100": 0
+      },
+      "cpu": {
+        "n": 544,
+        "mean": 9.45753676488119,
+        "p95": 11.800000011920929,
+        "p99": 13.5,
+        "max": 19.30000001192093,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "speed": {
+        "n": 544,
+        "mean": 133.2540274474924,
+        "p95": 135.7461405949816,
+        "p99": 136.19144478716274,
+        "max": 136.38091850156314,
+        "over33": 544,
+        "over50": 544,
+        "over100": 544
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 4210,
+          "total": 36.49999988079071,
+          "max": 0.20000004768371582,
+          "mean": 0.008669833700900405
+        },
+        "physics": {
+          "calls": 842,
+          "total": 290.2000004053116,
+          "max": 0.8999999761581421,
+          "mean": 0.34465558242911115
+        },
+        "visual": {
+          "calls": 545,
+          "total": 178.99999922513962,
+          "max": 1.300000011920929,
+          "mean": 0.3284403655507149
+        },
+        "surfaceMerge": {
+          "calls": 17,
+          "total": 3.099999964237213,
+          "max": 0.699999988079071,
+          "mean": 0.18235293907277725
+        },
+        "streaming": {
+          "calls": 545,
+          "total": 68.20000046491623,
+          "max": 10.300000011920929,
+          "mean": 0.12513761553195638
+        },
+        "hud": {
+          "calls": 545,
+          "total": 75.70000064373016,
+          "max": 0.5,
+          "mean": 0.1388990837499636
+        },
+        "render": {
+          "calls": 1090,
+          "total": 4286.900000452995,
+          "max": 8.199999988079071,
+          "mean": 3.9329357802321057
+        },
+        "adaptiveMirrors": {
+          "calls": 545,
+          "total": 1371.8999992609024,
+          "max": 4.399999976158142,
+          "mean": 2.517247705065876
+        },
+        "prefabBuild": {
+          "calls": 20,
+          "total": 1.6999999284744263,
+          "max": 0.19999998807907104,
+          "mean": 0.08499999642372132
+        },
+        "signMaterial": {
+          "calls": 16,
+          "total": 2.1999999284744263,
+          "max": 0.5,
+          "mean": 0.13749999552965164
+        },
+        "textureUpload": {
+          "calls": 8,
+          "total": 1,
+          "max": 0.30000001192092896,
+          "mean": 0.125
+        },
+        "environment": {
+          "calls": 15,
+          "total": 5.900000035762787,
+          "max": 0.699999988079071,
+          "mean": 0.3933333357175191
+        },
+        "terrainInstall": {
+          "calls": 11,
+          "total": 0.30000001192092896,
+          "max": 0.10000002384185791,
+          "mean": 0.027272728356448086
+        },
+        "storage": {
+          "calls": 1,
+          "total": 0,
+          "max": 0,
+          "mean": 0
+        }
+      },
+      "heap": [
+        956260601,
+        1014052973
+      ],
+      "peaks": [
+        {
+          "t": 3.3664000000476806,
+          "frame": 48.59999999999127,
+          "cpu": 14.300000011920929,
+          "cost": {
+            "snapshot": 0.10000002384185791,
+            "physics": 0.7999999523162842,
+            "visual": 1.199999988079071,
+            "streaming": 0.699999988079071,
+            "hud": 0.19999998807907104,
+            "render": 10.600000023841858,
+            "adaptiveMirrors": 3.800000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0.09999996423721313,
+            "signMaterial": 0.40000003576278687,
+            "textureUpload": 0.19999998807907104,
+            "environment": 0
+          }
+        },
+        {
+          "t": 3.7785000000476865,
+          "frame": 78.90000000000873,
+          "cpu": 13.5,
+          "cost": {
+            "snapshot": 0.5999999642372131,
+            "physics": 2.399999976158142,
+            "visual": 0.699999988079071,
+            "streaming": 0.19999998807907104,
+            "hud": 0.20000004768371582,
+            "render": 9.300000011920929,
+            "adaptiveMirrors": 3.199999988079071,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0.09999996423721313,
+            "textureUpload": 0,
+            "environment": 0
+          }
+        },
+        {
+          "t": 3.1602000000476838,
+          "frame": 54.5,
+          "cpu": 12.5,
+          "cost": {
+            "snapshot": 0.10000002384185791,
+            "physics": 1.800000011920929,
+            "visual": 1,
+            "streaming": 0.09999996423721313,
+            "hud": 0.19999998807907104,
+            "render": 8.599999964237213,
+            "adaptiveMirrors": 2.800000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0.09999996423721313,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0
+          }
+        },
+        {
+          "t": 3.420900000047681,
+          "frame": 36.39999999999418,
+          "cpu": 11.899999976158142,
+          "cost": {
+            "snapshot": 0.19999998807907104,
+            "physics": 1.100000023841858,
+            "visual": 0.3999999761581421,
+            "streaming": 0.5,
+            "hud": 0.10000002384185791,
+            "render": 8.100000023841858,
+            "adaptiveMirrors": 3,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0.09999996423721313,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0.699999988079071
+          }
+        },
+        {
+          "t": 3.2088000000476895,
+          "frame": 36.40000000000873,
+          "cpu": 11.699999988079071,
+          "cost": {
+            "snapshot": 0.30000001192092896,
+            "physics": 1.800000011920929,
+            "visual": 0.30000001192092896,
+            "streaming": 0.40000003576278687,
+            "hud": 0.19999998807907104,
+            "render": 7.599999964237213,
+            "adaptiveMirrors": 2.600000023841858,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0.5
+          }
+        },
+        {
+          "t": 3.9544000000476807,
+          "frame": 36.5,
+          "cpu": 11.300000011920929,
+          "cost": {
+            "snapshot": 0,
+            "physics": 1.1000000834465027,
+            "visual": 0.19999998807907104,
+            "streaming": 0.10000002384185791,
+            "hud": 0.10000002384185791,
+            "render": 8.899999976158142,
+            "adaptiveMirrors": 3.300000011920929,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0
+          }
+        },
+        {
+          "t": 6.9242000000476835,
+          "frame": 36.39999999999418,
+          "cpu": 11,
+          "cost": {
+            "snapshot": 0,
+            "physics": 1,
+            "visual": 0.10000002384185791,
+            "streaming": 0.09999996423721313,
+            "hud": 0.10000002384185791,
+            "render": 9.099999964237213,
+            "adaptiveMirrors": 2.899999976158142,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0
+          }
+        },
+        {
+          "t": 3.1057000000476838,
+          "frame": 66.60000000000582,
+          "cpu": 10.599999964237213,
+          "cost": {
+            "snapshot": 0.4999999403953552,
+            "physics": 1.9000000357627869,
+            "visual": 0.30000001192092896,
+            "streaming": 0.3999999761581421,
+            "hud": 0.19999998807907104,
+            "render": 6.599999964237213,
+            "adaptiveMirrors": 2.400000035762787,
+            "roadInstall": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0,
+            "junctionBuild": 0,
+            "prefabBuild": 0,
+            "signMaterial": 0,
+            "textureUpload": 0,
+            "environment": 0.5
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1042,
+        871
+      ],
+      "visibility": "visible",
+      "mirrors": {
+        "mask": 1,
+        "overlay": false
+      },
+      "resources": {
+        "sectorCount": 96,
+        "totalSectors": 4988,
+        "roadCount": 85,
+        "compiledRoadCount": 396,
+        "signCount": 50,
+        "barrierCount": 19922,
+        "backgroundSectors": 4988,
+        "backgroundBatches": 151,
+        "constructorMs": 1080.800000011921,
+        "firstVisibleMs": 6852.600000023842,
+        "firstLoadMs": 15129.100000023842
+      }
+    }
+  ]
+}

@@ -37,7 +37,10 @@ export class CityGround implements DrivingGround {
   private sectorStartOffset=0;
   get visualReady(): boolean { return this.sectors.spawnReady; }
   get visualLoadingError(): Error | undefined { return this.sectors.loadingError; }
-  setVisualResourcePreparation(prepare: (texture: import('three').Texture) => void): void { this.sectors.setResourcePreparation(prepare); }
+  setVisualResourcePreparation(prepare: (texture: import('three').Texture) => void,
+    warmup?: (root: Group) => Promise<unknown>): void { this.sectors.setResourcePreparation(prepare, warmup); }
+  setVisualObserver(observer: (root: import('three').Object3D, added: boolean) => void): void { this.sectors.setVisualObserver(observer); }
+  updateVisualVisibility(eye: Vector3, fogFar: number, cameras: readonly import('three').Camera[]): void { this.sectors.updateVisibility(eye, fogFar, cameras); }
   get loadStatistics(){const stats=this.sectors.loadStatistics;return {...stats,firstVisibleMs:stats.firstVisibleMs===undefined?undefined:this.sectorStartOffset+stats.firstVisibleMs,firstLoadMs:stats.firstLoadMs===undefined?undefined:this.sectorStartOffset+stats.firstLoadMs};}
   constructor(data: unknown, options: SectorOptions & { spawnId?: string } = {}) {
     this.data = loadCityMap(data); this.editor = options.editor ?? false;
@@ -147,9 +150,12 @@ export class CityGround implements DrivingGround {
     const changed=!this.editor&&this.sectors.updatePosition(x,z,yaw,speed);this.regionalDebug?.update();return changed;
   }
   dispose(): void {
-    this.regionalDebug?.dispose();this.sectors.dispose(); this.prefabs.dispose();
-    this.root.traverse(o => { if (o instanceof Mesh) o.geometry.dispose(); });
-    for (const material of Object.values(this.materials)) material.dispose();
-    this.root.clear();
+    this.regionalDebug?.dispose();
+    this.sectors.dispose(() => {
+      this.prefabs.dispose();
+      this.root.traverse(o => { if (o instanceof Mesh) o.geometry.dispose(); });
+      for (const material of Object.values(this.materials)) material.dispose();
+      this.root.clear();
+    });
   }
 }

@@ -3,7 +3,7 @@ import {
   InstancedMesh, LineBasicMaterial, LineSegments, Matrix4, Mesh,
   MeshStandardMaterial, PointLight, Vector3,
 } from 'three';
-import type { DirectionalLight, HemisphereLight, Scene, ShaderMaterial } from 'three';
+import type { DirectionalLight, HemisphereLight, Object3D, Scene, ShaderMaterial } from 'three';
 import type { EnvironmentState } from './EnvironmentState';
 import type { DrivingGround } from '../DrivingGround';
 
@@ -12,14 +12,17 @@ interface RoadMaterialState {
   color: Color;
   roughness: number;
   metalness: number;
+  references: number;
 }
 
 /** Shared material edits, one local rain draw, and a bounded street-light pool. */
 export class EnvironmentVisual {
-  private readonly roads: RoadMaterialState[] = [];
+  private readonly roads = new Map<MeshStandardMaterial, RoadMaterialState>();
+  private meshRoads = new WeakMap<Mesh, MeshStandardMaterial[]>();
+  private observedMeshes = new WeakSet<Mesh>();
   private readonly lampMaterials: MeshStandardMaterial[] = [];
   private readonly lampGlowCache = new Map<MeshStandardMaterial, MeshStandardMaterial>();
-  private readonly lampMeshes: { mesh: Mesh; original: MeshStandardMaterial }[] = [];
+  private readonly lampMeshes: { mesh: Mesh; original: MeshStandardMaterial; positions: Vector3[] }[] = [];
   private readonly lampPositions: Vector3[] = [];
   private readonly lamps = Array.from({ length: 6 }, () => {
     const lamp = new PointLight(0xffe4b3, 0, 32, 1.5);
@@ -55,42 +58,78 @@ export class EnvironmentVisual {
   }
 
   public setGround(ground: Pick<DrivingGround, 'root'>): void {
-    // Streaming may rediscover the same shared materials; restore their baseline.
-    for (const road of this.roads) {
+    for (const road of this.roads.values()) {
       road.material.color.copy(road.color);
       road.material.roughness = road.roughness;
       road.material.metalness = road.metalness;
     }
-    this.roads.length = 0;
+    this.roads.clear(); this.meshRoads = new WeakMap(); this.observedMeshes = new WeakSet();
     this.lampPositions.length = 0;
     this.releaseLamps(false);
-    const seen = new Set<MeshStandardMaterial>();
+    this.addVisualRoot(ground.root);
+  }
+
+  public addVisualRoot(root: Object3D): void {
     const matrix = new Matrix4();
-    ground.root.updateWorldMatrix(true, true);
-    ground.root.traverse(object => {
-      if (!(object instanceof Mesh)) return;
+    root.updateWorldMatrix(true, true);
+    root.traverse(object => {
+      if (!(object instanceof Mesh) || this.observedMeshes.has(object)) return;
+      this.observedMeshes.add(object);
       const materials = Array.isArray(object.material) ? object.material : [object.material];
+      const roads: MeshStandardMaterial[] = [];
       for (const material of materials) {
-        if (!(material instanceof MeshStandardMaterial) || !material.userData.wetRoad || seen.has(material)) continue;
-        seen.add(material);
-        this.roads.push({ material, color: material.color.clone(), roughness: material.roughness, metalness: material.metalness });
+        if (!(material instanceof MeshStandardMaterial) || !material.userData.wetRoad || roads.includes(material)) continue;
+        roads.push(material);
+        let state = this.roads.get(material);
+        if (!state) {
+          state = { material, color: material.color.clone(), roughness: material.roughness, metalness: material.metalness, references: 0 };
+          this.roads.set(material, state);
+        }
+        state.references++;
       }
+      this.meshRoads.set(object, roads);
       if (object.userData.environmentLamp !== true || !(object.material instanceof MeshStandardMaterial)) return;
       let glow = this.lampGlowCache.get(object.material);
       if (!glow) { glow = object.material.clone(); glow.emissive.set(0xffdf9d); this.lampGlowCache.set(object.material, glow); }
-      this.lampMeshes.push({ mesh: object, original: object.material });
+      const positions: Vector3[] = [];
+      this.lampMeshes.push({ mesh: object, original: object.material, positions });
       object.material = glow;
       if (!this.lampMaterials.includes(glow)) this.lampMaterials.push(glow);
       if (object instanceof InstancedMesh) {
         for (let i = 0; i < object.count; i++) {
           object.getMatrixAt(i, matrix);
-          this.lampPositions.push(new Vector3().setFromMatrixPosition(matrix).applyMatrix4(object.matrixWorld));
+          const position = new Vector3().setFromMatrixPosition(matrix).applyMatrix4(object.matrixWorld);
+          positions.push(position); this.lampPositions.push(position);
         }
-      } else this.lampPositions.push(object.getWorldPosition(new Vector3()));
+      } else { const position = object.getWorldPosition(new Vector3()); positions.push(position); this.lampPositions.push(position); }
     });
     for (const [original, glow] of this.lampGlowCache) if (!this.lampMaterials.includes(glow)) { glow.dispose(); this.lampGlowCache.delete(original); }
     this.lampElapsed = 1;
     this.applyState();
+  }
+
+  public removeVisualRoot(root: Object3D): void {
+    root.traverse(object => {
+      if (!(object instanceof Mesh) || !this.observedMeshes.delete(object)) return;
+      for (const material of this.meshRoads.get(object) ?? []) {
+        const state = this.roads.get(material)!;
+        if (--state.references === 0) {
+          material.color.copy(state.color); material.roughness = state.roughness; material.metalness = state.metalness;
+          this.roads.delete(material);
+        }
+      }
+      this.meshRoads.delete(object);
+      const index = this.lampMeshes.findIndex(entry => entry.mesh === object);
+      if (index >= 0) { object.material = this.lampMeshes[index]!.original; this.lampMeshes.splice(index, 1); }
+    });
+    this.lampPositions.length = 0; this.lampMaterials.length = 0;
+    for (const entry of this.lampMeshes) {
+      this.lampPositions.push(...entry.positions);
+      const glow = entry.mesh.material as MeshStandardMaterial;
+      if (!this.lampMaterials.includes(glow)) this.lampMaterials.push(glow);
+    }
+    for (const [original, glow] of this.lampGlowCache) if (!this.lampMaterials.includes(glow)) { glow.dispose(); this.lampGlowCache.delete(original); }
+    this.lampElapsed = 1;
   }
 
   public applyState(): void {
@@ -116,7 +155,7 @@ export class EnvironmentVisual {
       fog.far = 1100 - wet * 660;
     }
     if (this.scene.background instanceof Color) this.scene.background.copy(haze);
-    for (const road of this.roads) {
+    for (const road of this.roads.values()) {
       road.material.color.copy(road.color).multiplyScalar(1 - wet * 0.25);
       road.material.roughness = road.roughness + (0.38 - road.roughness) * wet;
       road.material.metalness = road.metalness + (0.07 - road.metalness) * wet;

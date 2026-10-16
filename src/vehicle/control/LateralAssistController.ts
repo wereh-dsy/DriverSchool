@@ -87,15 +87,19 @@ export class LateralAssistController {
     this.config = config; this.steering = steering; this.wheelBase = wheelBase; this.reset();
   }
   public setPreferences(lka: boolean, lcc: boolean): void {
+    if (!lka && !lcc && (this.lkaEnabled || this.lccEnabled)) this.reset();
     this.lkaEnabled = lka; this.lccEnabled = lcc;
     if (!lcc) this.requested = false;
   }
   public get lccRequested(): boolean { return this.requested; }
   public get laneChangeOverride(): boolean { return this.display.lccState === 'LANE_CHANGE_OVERRIDE'; }
   public toggleLCC(): void {
-    if (!this.config?.lcc.enabled || !this.lccEnabled) return;
-    this.requested = !this.requested; this.ramp = 0; this.stableTime = 0; this.releaseTime = 0;
-    this.captureSeconds = this.config.lcc.activationStableSeconds;
+    this.setLCCRequested(!this.requested);
+  }
+  public setLCCRequested(requested: boolean): void {
+    if (requested && (!this.config?.lcc.enabled || !this.lccEnabled) || requested === this.requested) return;
+    this.requested = requested; this.ramp = 0; this.stableTime = 0; this.releaseTime = 0;
+    this.captureSeconds = this.config?.lcc.activationStableSeconds ?? 0;
     this.display.lccState = this.requested ? 'REACQUIRING' : 'OFF';
   }
   public reset(): void {

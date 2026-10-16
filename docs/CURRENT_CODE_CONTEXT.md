@@ -1,6 +1,6 @@
 # DriverGame 当前代码说明
 
-更新日期：2026-10-13。面向接手代码的开发者与 Chat；功能、标定和测试结果均以当前源码及实际运行结果为准。本文不是原厂车辆规格或完整仿真认证。历史 `*_REPORT.md` 和 `artifacts/` 报告保留为各轮实现记录；本次修复见 [修复与验证记录](FIXES_2026-10-13.md)。
+更新日期：2026-10-16。面向接手代码的开发者与 Chat；功能、标定和测试结果均以当前源码及实际运行结果为准。本文不是原厂车辆规格或完整仿真认证。历史 `*_REPORT.md` 和 `artifacts/` 报告保留为各轮实现记录；最新整理见 [一致性、性能与清理记录](RUNTIME_CLEANUP_2026-10-15.md)，早期修复见 [修复与验证记录](FIXES_2026-10-13.md)。
 
 相关文档：[操作与启动](../README.md)、[代理约束](../AGENTS.md)、[审阅报告](CODE_REVIEW_2026-10-12.md)、[可复制的 Chat 指示文本](CHAT_HANDOFF.md)、[地图作者指南](../src/world/city/AGENT_GUIDE.md)。
 
@@ -11,7 +11,7 @@
 - `src/main.ts`：`?editor=city` 动态导入 CityMapEditor，否则创建 DrivingGame；顶层有启动错误提示。
 - 游戏：`pnpm start` / `pnpm dev`。编辑器：`start-editor.cmd` / `pnpm run editor`。已有构建：`start-game.cmd` 通过 PowerShell HTTP 服务运行 `dist/`，不应以 file:// 打开。
 - `pnpm run build` 调用 Windows PowerShell checkpoint 脚本。`tsconfig.json` 检查 `src`；`scripts/*.ts` 不属于该工程类型检查范围，esbuild 打包也不能替代其类型检查。
-- `vite.config.ts` 的 publicDir 是 `src/world/city/maps`，用于原样提供编辑器 Reload 等 JSON；区域 JSON 由目录静态导入游戏。
+- `vite.config.ts` 禁用整目录 publicDir 复制，只额外发布编辑器 Reload 所需 `city-alpha.json`；内置地图由目录导入，生产包不含地图 recipe/selftest 源码。开发预览工具通过 `/src/world/city/maps/...json` 读取作者数据。
 
 ## 更新链路与真实边界
 
@@ -84,7 +84,7 @@ Golf 是连续大形 + UV 表面细节的车辆制作样板，详见 [Golf 实�
 
 Capabilities 从已安装配置/拓扑推导支持；用户偏好另存；运行中的 SET/CANCEL、介入/接管是第三层。现实名称是原型，游戏标定不是原厂数据。测试 AWD fixture 不进菜单。
 
-DrivingGroundCatalog 有 9 个入口，默认 `road-course`：`road-course`、`subject-2-training-ground`、`subject-3-shared-city-map`、`simple-circuit`、`mountain-proving-ground`、`city-alpha`、`city-main`、`preset-showcase`、`city-editor-map`。科目二/三、赛道、山地与公路测试场保留各自手工实现；City 入口使用数据地图。自定义编辑器入口读取同源 localStorage，没有有效保存时回退 City Alpha。
+DrivingGroundCatalog 有 11 个入口，默认 `road-course`：`road-course`、`mixed-surface-proving-ground`、`subject-2-training-ground`、`subject-3-shared-city-map`、`simple-circuit`、`tsukuba-tc2000`、`mountain-proving-ground`、`city-alpha`、`city-main`、`preset-showcase`、`city-editor-map`。科目二/三、赛道、山地与公路测试场保留各自手工实现；City 入口使用数据地图。自定义编辑器入口读取同源 localStorage，没有有效保存时回退 City Alpha。筑波含连续高程与维修道，混合路面场含逐轮附着、松软深度与分离附着制动带。
 
 环形赛道当前布局 version 3：约 1,536 m、11.5 m 宽，远端回头弯半径 90 m（旧版 45 m），相邻左弯顶点移到 z=-90 以留出连接直道。铺装摩擦保持标准沥青 1.0。计时门总宽约 25.9 m，包含路肩/近侧缓冲区；圈时存储增加可选布局 revision，保留旧键但新版不混用旧成绩。详见 [赛道修复](CIRCUIT_FIXES_2026-10-13.md)。
 
@@ -92,10 +92,12 @@ DrivingGroundCatalog 有 9 个入口，默认 `road-course`：`road-course`、`s
 
 | 使用者 | 文件 | 当前 version | 道路/路口/物件/路牌数 |
 | --- | --- | --- | --- |
-| 游戏菜单 `city-main`；CLI `regional-main` | `src/world/regional/regional-main.json` | 12 | 2555 / 155 / 5358 / 1845 |
-| CLI `city-main-city` 或兼容的 `city-main` | `src/world/city/maps/city-main.json` | 8 | 623 / 155 / 2436 / 408 |
+| 游戏菜单 `city-main`；CLI `regional-main` | `src/world/regional/regional-main.json` | 14 | 2557 / 155 / 5358 / 3235 |
+| CLI `city-main-city` 或兼容的 `city-main` | `src/world/city/maps/city-main.json` | 10 | 623 / 155 / 2436 / 677 |
 
 两文件 id 都是 `city-main`，不是相互替换的同一数据。数量是本次盘点快照。`city-alpha.json` 为 43 道路/12 路口/288 物件；`preset-showcase.json` 为 133 道路/7 路口/15 物件。菜单区域地图包含保留城市、高速网络、机场、服务区、桥隧、近/中/远视觉调度和行进方向预加载。
+
+标牌整理见 [2026-10-16 记录](ROAD_SIGNS_2026-10-16.md)：大型指路牌按同向阅读间距调整；限速与导向小牌复用既有流式、缓存和碰撞系统，限速取道路已有值。`scripts/optimize-road-signs.mjs` 默认预览，`--apply` 只改标牌数据；核心包含新增排布/限速/导向回归。
 
 区域地图验证/修改可用 `pnpm map validate regional-main` 或完整路径；旧 `city-main` 别名会打印 city-only 提示，保持旧工具兼容。区域出生点通过 `regionalSpawn` 选择，调试通过 `regionalDebug=1`。`?city=preset-showcase&preset=<id>` 指向设施样本入口；边链和出口护栏已修复，具体验证结果见修复记录。
 
@@ -109,21 +111,27 @@ BrakeTorqueCoordinator 对脚刹/hold/巡航/ESC/eDiff/动态 EPB 合并服务�
 
 **轮胎与 TPMS。** 四轮轮速与联合滑移、法向载荷、路面材质/湿度决定轮胎力；胎宽不是摩擦倍率。TyreThermalPressureSystem 在 120 Hz 积累滑移/滚动做功，在 20 Hz 积分热状态；固定空气量/体积，用绝对压力和温度推导表压。压力修正滚阻与刚度，不建立胎温峰值抓地曲线。TPMSSensor 2 Hz 采样、按时间滤波、1 kPa 分辨率，告警源自未滤波物理状态。没有磨损、漏气、爆胎或水滑模型。
 
-**Cruise 与车道辅助。** Cruise 是实时 SET/CANCEL，走正常油门和服务制动，不是 ACC。A6L/Touareg/BMW/Tesla/Taycan 安装 lateralAssist。SharedVehicleData 在 5 Hz 做局部查询、30 Hz 更新逻辑车道几何；120 Hz 控制器消费缓存。LKA 在临近边界时纠偏，LCC 有 request、override、lane-change override、reacquire；约 50 km/h 起可用，LCC 配置上限 180 km/h。路口、歧义、低置信度、缺失车道和菜单状态抑制介入。没有相机/视觉神经网络感知。
+**Cruise 与车道辅助。** Cruise 是实时 SET/CANCEL，走正常油门和服务制动，不是 ACC。A6L/Touareg/BMW/Tesla/Taycan/Golf 安装 lateralAssist。SharedVehicleData 在 5 Hz 做局部查询、30 Hz 更新逻辑车道几何；120 Hz 控制器消费缓存。LKA 在临近边界时纠偏，LCC 有 request、override、lane-change override、reacquire；约 50 km/h 起可用，LCC 配置上限 180 km/h。路口、歧义、低置信度、缺失车道和菜单状态抑制介入。没有相机/视觉神经网络感知。
 
-按当前 AGENTS.md 契约，`LaneAssistState` 与 `LateralAssistController` 并非同一个状态机：手柄 Y 循环 OFF/LDW/LKA/LCC 的选择提示，LDW 模式接入偏离声音；它不控制 LKA 偏好或 LCC request。F3 偏好控制实际 LKA/LCC，LCC 另由可改键的 G/F3 按钮请求；I 只点火，不再有全局 LCC 监听器。不能把 Y 显示 OFF 当作实际转向辅助已关闭。
+`LaneAssistState` 统一运行时 OFF/LDW/LKA/LCC 权限与请求，`applyTo` 将模式送到现有 `LateralAssistController`。Y 跳过不支持或被 F3 持久偏好禁用的模式；OFF/LDW 不产生转向，LCC 选择实际请求居中。G/F3 SET/CANCEL 修改同一模式；打开菜单取消居中，复位/主动断电回 OFF。初次加载支持且允许 LKA 的车型默认 LKA 待命。能力、持久偏好、运行模式与实际介入仍分层，选择 LCC 不代表条件已满足；I 仍只点火。
 
-**显示与相机。** 显示皮肤只借用 SharedVehicleData、powertrain snapshot 和 TPMS；BMW/Tesla/Taycan 的专用绘制不拥有物理拓扑。导航能力目前代表逻辑地图/道路信息显示，route 仍为空，不是自动寻路。八区 proximity、HUD 后方五区提示与后方/俯视影像是不同输出；没有自动泊车/避障制动。真实左右镜采用 DriverEye 反射、物理镜面 aperture 和斜裁剪；支持的中央内镜可显示后舱，俯视 360 是简化场景相机，不是四相机拼接。
+**显示与相机。** 显示皮肤只借用 SharedVehicleData、powertrain snapshot 和 TPMS；BMW/Tesla/Taycan 的专用绘制不拥有物理拓扑。区域高速网现已支持地图选点、A* 路线规划与 5 Hz 行驶引导，游戏级 NavigationController 的状态经 SharedVehicleData 同步到车机与配套仪表。F10 展开地图时暂停仿真；沉浸模式隐藏独立导航 UI。其他地图保留原有行为，详见 [导航说明](NAVIGATION.md)。八区 proximity、HUD 后方五区提示与后方/俯视影像是不同输出；没有自动泊车/避障制动。真实左右镜采用 DriverEye 反射、物理镜面 aperture 和斜裁剪；支持的中央内镜可显示后舱，俯视 360 是简化场景相机，不是四相机拼接。
 
 运行时镜面由 `AdaptiveMirrorRendering` 选择视图：可见实体镜面逐帧渲染，只跳过视野外的非关键视图；转头、转向灯、转向输入、泊车/R/P、匝道/路口和车道辅助状态保留关键渲染。右上角独立视图仅在绝对车速低于 30 km/h 或 R 挡显示，不因高速转头/转向灯恢复。缓存纹理随移动镜面重定位，不修改物理眼位或镜面几何。
 
 区域 City 地图的浏览器视觉 streaming 使用原生模块 Worker 编译既有道路、地形和中景道路条带，通过 typed-array transfer 交付主线程；逻辑路网、物理路面与碰撞体常驻。主线程按约 3 ms/最多两步的软预算分阶段发布，单个纹理上传等原子步骤仍可能超预算。远景地形按空间分组追加缓冲，避免每次推进永久增加 Mesh。首次进入/地图切换等待当前近景完成，之后移动 streaming 不暂停物理；编辑器和 Node 验证保持原同步路径。
 
+扇区现在先完成异步 shader 预热再可见，切图/取消时延迟释放预热借用的资源；路牌绘制与上传分开推进，支架按共享几何/材质合批。EnvironmentVisual 按视觉节点增删维护材质与灯位，避免每次发布全图重扫和湿路面重复变暗。区域选择签名包含实际 sector key，跨扇区不会被 100 m 缓存桶漏掉；Worker 近景请求可提优先级并避免重复在途任务。ContactSystem 常规无碰撞步减少两次完整 snapshot，碰撞后仍重采样/同步支撑。
+
+静态扇区按包围球与主相机/实际镜面相机视锥并集筛选可见性，雾判断使用相机空间深度；近 400 m 边界保留阴影与泊车资源，非雾材质和调试视角保留。该筛选不卸载逻辑路网、物理路面或碰撞体。混合路面地图登记湿路/标线材质，复用统一环境系统。
+
+混合路面 V1 的 SurfaceProfile / SurfaceInteraction 复用四轮接触和联合滑移预算，松软地面附加阻力反向于实际接触速度；不变形、不永久陷车。加速测试与被动诊断、两秒轨迹预测均为可选工具，未开启时不记录常驻遥测。Taycan 的 UI/shift/input 选挡统一经 Powertrain 同步所有轴，保留脚刹/速度/方向安全门。详见 [路面](SURFACE_INTERACTION_V1.md) 与 [动力修复](PERFORMANCE_TCS_2026-10-15.md)。
+
 **资源、状态与持久化。** VehicleAssetRegistry 共享不可变几何/静态纹理，实例克隆可变材质、保留独立轮子/显示/状态。VehicleLoadingLifecycle 分帧准备→实例→动态状态→纹理/shader/镜面预热→Ready；未 Ready 时抑制输入/物理。Trip 距离按速度绝对值乘 dt，倒车/滑行计入；FuelSystem 提供实际燃油增量。ODO、Trip A/B、燃油/SOC 按车型每约 10 仿真秒及生命周期保存到 localStorage；纯电能量累计在 ElectricPowertrain 中，不能承诺它与 Trip A/B 同步持久化。所有浏览器保存都按 origin 隔离，存储不可用时降级。
 
 **地图与编辑器。** CityMap schema 2 保留道路/路口/物件、显式 XYZ endpoint links、端口、出生点；现有扩展含 roadNames、signs、regional、高速 transition、围护与不规则路口。渲染扇区可以卸载，逻辑路网/地面索引/碰撞常驻。上下层按 support reference height 区分，投影相交不会自动联通。地面道路 Y 可为 `elevation` 非零平台，不再一律为 0。生产预设展开为普通编辑元素；复杂设施优先用现有预设。GUI 草稿/导出不覆盖源码文件，Play 存同源地图。桥隧是程序化简化几何/碰撞/照明，不是工程 CAD/通用地形开挖。服务区 `fuel`/`charging` 仅为设施元数据。
 
-仍未实现：AI 交通、行人、考试评分、导航寻路、比赛多人、ACC/BSD/Hybrid、完整六自由度或车辆损伤、主动空气动力、轮胎损伤/磨损/水滑。不要根据旧报告再建议“首次引入 EV/LKA/胎压”，也不要因为已有能力字段就推断未实现功能已存在。
+仍未实现：AI 交通、行人、考试评分、比赛多人、ACC/BSD/Hybrid、完整六自由度或车辆损伤、主动空气动力、轮胎损伤/磨损/水滑。不要根据旧报告再建议“首次引入 EV/LKA/胎压”，也不要因为已有能力字段就推断未实现功能已存在。
 
 ## 验证入口
 
@@ -131,6 +139,8 @@ BrakeTorqueCoordinator 对脚刹/hold/巡航/ESC/eDiff/动态 EPB 合并服务�
 | --- | --- |
 | 类型/常规核心 | `pnpm run typecheck`、`pnpm run selftest` |
 | 新增整合回归 | `pnpm run selftest:systems`：平台/EV V2/TPMS/HMI/加载/车道与实际转向/区域高速；不改 artifacts 基线 |
+| 近期新增整合 | 同一 systems 入口另含 Golf、TCS/牵引性能、路面、加速计时/被动诊断与轨迹预测，共 24 组 |
+| 镜面/流式生命周期 | `scripts/run-runtime-rendering-selftests.ts`，核心也包含实际 Worker 调度/预热与延迟释放回归 |
 | 目录/场地/车辆体验 | `pnpm run selftest:vehicles`、`selftest:grounds`、`selftest:experience` |
 | 平台资源与共享显示 | `scripts/run-vehicle-platform-foundation-selftests.ts` |
 | EV / EV V2 | `scripts/run-electric-selftests.ts`、`run-ev-platform-v2-selftests.ts` |
@@ -153,6 +163,8 @@ node .tmp-vehicle-loading-selftests.mjs
 部分 runner 会改写 `artifacts/` 下的历史 JSON 结果；先读脚本，整体审阅可用忽略目录中的临时 runner 直接调用现有自测函数，把新结果保留在本次审阅记录中。不要误运行生成/升级地图的脚本来“验证”，不要静默覆盖地图或历史基线。旧 City V3/V4/V5 检查面向对应版本，不应盲目要求所有历史版本同时成立。
 
 `build` 会记录源码指纹→typecheck→核心 selftest→暂存 Vite 产物→校验指纹→资源复制→原子替换 `dist/index.html`。它不是所有 standalone runner 的全集；重大车辆/平台任务还运行 selftest:systems。失败时保留上一可玩入口，不能用 BasicValidation/单独 vite build 冒充完整发布成功。原始审阅记录修复前失败，当前状态见修复记录。
+
+`node scripts/clean-generated.mjs` 预览，`pnpm run clean:generated` 执行清理。仅清理可重新生成的旧暂存目录、临时 bundle/log、过期发布资源和误复制的地图源码；递归确认当前与 last-good 入口的 JS/CSS/Worker/动态编辑器依赖，保留最近两份暂存构建。历史 artifacts、生成器源码、作者地图与附件保留；旧标签页清理后应刷新。
 
 2026-10-13 修复后实测：正常 build（类型检查 + 66 组核心 + 正式发布）通过，18 组 systems 及车辆体验/巡航专项通过。三份地图 CLI validate 均 0 errors；保留端口/独立网络警告与打包体积提示，详见修复记录。这是该次源码快照的结果，后续修改仍需重验。
 

@@ -1,11 +1,14 @@
 import { worldToRoadMap, type RoadNetworkData, type RoadSegmentData, type RoadIntersectionData } from '../world/navigation/RoadNetwork';
 import { drawLogicalRoadLayer, drawRoadMapAnnotations } from './LogicalRoadMapGeometry';
+import type { NavigationState } from '../world/navigation/NavigationController';
+import { activeNavigation } from './NavigationDisplay';
 
 const TILE = 256, PIXELS = 512;
 type Cell = { roads: Set<RoadSegmentData>; junctions: Set<RoadIntersectionData> };
 
 /** Shared north-up minimap coordinates. Index once, rasterize only visible cached tiles. */
 export class LocalRoadMap {
+  public navigationState?: NavigationState;
   private network: RoadNetworkData | undefined;
   private readonly cells = new Map<string, Cell>();
   private readonly tiles = new Map<string, HTMLCanvasElement>();
@@ -74,7 +77,7 @@ export class LocalRoadMap {
     ctx.setTransform(PIXELS / TILE, 0, 0, PIXELS / TILE, -x * PIXELS, -z * PIXELS);
     drawLogicalRoadLayer(ctx,entry.roads,entry.junctions,(x,z)=>this.point(x,z),1,2,
       // Darker circuit pavement stays readable on illuminated cockpit materials.
-      road=>road.roadType==='circuit'?'#657681':(road.speedLimit??0)>=70||road.width>=18?'#b4b6b7':'#d0d2d2','#c2c5c5');
+      road=>road.roadType==='circuit'?'#657681':(road.speedLimit??0)>=70||road.width>=18?'#b4b6b7':'#d0d2d2','#c2c5c5',{layerByHeight:true});
     this.tiles.set(key, canvas); this.rasterizations++;
     if (this.tiles.size > 24) this.tiles.delete(this.tiles.keys().next().value!);
     return canvas;
@@ -93,6 +96,7 @@ export class LocalRoadMap {
         const mp = this.point(mx,mz);
         return { x: rect.x + (mp.x - left) * scale, y: rect.y + (mp.y - top) * scale };
       }, scale, Math.max(1, Math.min(2.4, rect.width / 208)));
+      this.drawNavigation(ctx, rect, x, z, viewMetres);
       ctx.translate(rect.x + rect.width / 2, rect.y + rect.height / 2); ctx.rotate(-yaw);
       ctx.beginPath(); ctx.moveTo(0, -18); ctx.lineTo(11, 12); ctx.lineTo(0, 7); ctx.lineTo(-11, 12); ctx.closePath();
       ctx.fillStyle = '#367f91'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.fill(); ctx.stroke();
@@ -102,6 +106,16 @@ export class LocalRoadMap {
     ctx.restore();
   }
   public dispose(): void { this.tiles.clear(); this.cells.clear(); this.network = undefined; }
+  public drawNavigation(ctx:CanvasRenderingContext2D,rect:{x:number;y:number;width:number;height:number},x:number,z:number,viewMetres:number,yaw?:number):void {
+    const state=this.navigationState;if(!activeNavigation(state))return;
+    const scale=rect.width/viewMetres;
+    ctx.save();ctx.beginPath();ctx.rect(rect.x,rect.y,rect.width,rect.height);ctx.clip();
+    ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();
+    state.route!.points.forEach((p,i)=>{const px=rect.x+rect.width/2+(p.x-x)*scale,py=rect.y+rect.height/2+(p.z-z)*scale;i?ctx.lineTo(px,py):ctx.moveTo(px,py);});
+    ctx.strokeStyle='#eff8ff';ctx.lineWidth=7;ctx.stroke();ctx.strokeStyle='#208edf';ctx.lineWidth=4;ctx.stroke();
+    if(yaw!==undefined){ctx.translate(rect.x+rect.width/2,rect.y+rect.height/2);ctx.rotate(-yaw);ctx.beginPath();ctx.moveTo(0,-18);ctx.lineTo(11,12);ctx.lineTo(0,7);ctx.lineTo(-11,12);ctx.closePath();ctx.fillStyle='#237ba9';ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.fill();ctx.stroke();}
+    ctx.restore();
+  }
 }
 
 /** Display-only zoom. Speed smoothing, complexity hysteresis and minimum scale hold. */

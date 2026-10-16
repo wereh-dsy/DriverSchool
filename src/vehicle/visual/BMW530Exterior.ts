@@ -1,17 +1,30 @@
 import * as T from 'three';
 import { beam, grid, label, loft, path, polygon, rounded, roundel, roofHeight, sideGlassX, sweep } from './BMW530Geometry';
 import { bmwWindshieldPoint, bmwAPillarRing, bmwFrontWindowCorners } from './BMW530FrontFrame';
+import { bmwExteriorUV, createBMW530ExteriorAtlas } from './BMW530ExteriorDetails';
 import type { MirrorVisualConfig, VehicleVisualConfig, Vector3Tuple as P } from './VehicleVisualConfig';
 import type { MirrorSurfaceMesh } from './VehicleVisual';
 
 const mix = T.MathUtils.lerp;
-const kidney = (sign: number): P[] => [[.035, .88, -2.549], [.10, .922, -2.544], [.37, .904, -2.535],
-  [.443, .85, -2.526], [.428, .677, -2.527], [.34, .62, -2.54], [.10, .615, -2.55], [.037, .67, -2.551]]
+const kidney = (sign: number): P[] => [[.026, .865, -2.548], [.095, .936, -2.540], [.383, .932, -2.516],
+  [.491, .875, -2.495], [.484, .733, -2.502], [.389, .638, -2.522], [.096, .623, -2.548], [.026, .665, -2.551]]
   .map(([x, y, z]) => [sign * x!, y!, z!] as P);
 
+/** Convex rear glazing clears the existing long-wheelbase rear head restraints. */
+const rearGlassPoint = (u: number, v: number): P => {
+  const across = v * 2 - 1, crown = .026 * (1 - across * across) * Math.sin(u * Math.PI);
+  return [across * mix(.83, .682, u), mix(.945, 1.435, u + .95 * u * (1 - u)) + crown * .3,
+    mix(1.96, 1.03, u) + crown];
+};
+
 export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig): void {
-  const paint = new T.MeshPhysicalMaterial({ color: config.body.color, metalness: .64, roughness: .29,
-    clearcoat: .85, clearcoatRoughness: .2, side: T.DoubleSide });
+  const map = createBMW530ExteriorAtlas();
+  const paint = new T.MeshPhysicalMaterial({ color: config.body.color, metalness: .58, roughness: .25,
+    clearcoat: .95, clearcoatRoughness: .15, side: T.DoubleSide });
+  const sidePaint = paint.clone(); sidePaint.map = map;
+  const rearPaint = paint.clone(); rearPaint.map = map;
+  const details = new T.MeshStandardMaterial({ map, metalness: .58, roughness: .32, side: T.DoubleSide });
+  details.name = 'BMW shared static exterior atlas material';
   const black = new T.MeshStandardMaterial({ color: 0x0a0d13, roughness: .52, side: T.DoubleSide });
   const chrome = new T.MeshStandardMaterial({ color: 0xb4bfca, roughness: .24, metalness: .9, side: T.DoubleSide });
   const seal = new T.MeshStandardMaterial({ color: 0x11161b, roughness: .92, side: T.DoubleSide });
@@ -24,16 +37,20 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
   const redLens = lens.clone(); redLens.color.set(0x601017); redLens.opacity = .32;
   const optical = new T.MeshStandardMaterial({ color: 0x667585, metalness: .6, roughness: .2, side: T.DoubleSide });
   const sections = [
-    [-2.553, .76, .90, .65], [-2.40, .88, .92, .75], [-2.02, .934, .935, .83],
+    [-2.553, .845, .918, .855], [-2.40, .895, .94, .87], [-2.02, .934, .950, .86],
     [-1.5525, .934, .95, .864], [-.94, .912, .955, .858], [0, .91, .952, .858],
     [.8, .921, .944, .857], [1.5525, .934, .938, .848], [1.93, .91, .943, .80],
-    [2.33, .88, .925, .75], [2.553, .78, .895, .69],
+    [2.33, .90, .943, .85], [2.553, .855, .916, .82],
   ];
   const sample = (z: number) => {
     let i = 0; while (i < sections.length - 2 && sections[i + 1]![0]! < z) i++;
     const a = sections[i]!, b = sections[i + 1]!, t = (z - a[0]!) / (b[0]! - a[0]!);
     return { width: mix(a[1]!, b[1]!, t), y: mix(a[2]!, b[2]!, t), belt: mix(a[3]!, b[3]!, t) };
   };
+  // The corner stations must turn into the fascia instead of ending in a flat
+  // vertical side wall beyond it. Keep wheel/cabin stations exactly where they are.
+  const cornerZ = (x: number, z: number) => z - Math.sign(z) * .19 * (Math.abs(x) / .89) ** 3 *
+    T.MathUtils.clamp((Math.abs(z) - 2.02) / .533, 0, 1);
   const archY = config.body.wheelArchCenterY ?? config.wheelRadius;
   const archR = config.wheelRadius + config.body.wheelArchClearance;
   const archBottom = (z: number) => {
@@ -42,36 +59,32 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
   };
   for (const sign of [-1, 1]) {
     const side = sign < 0 ? 'Left' : 'Right';
-    root.add(grid(side + ' sculpted body and open wheel arches', 256, 12, (u, v) => {
+    const body = grid(side + ' sculpted body and open wheel arches', 256, 12, (u, v) => {
       const z = mix(-2.553, 2.553, u), s = sample(z), bottom = archBottom(z);
       const y = mix(bottom, s.y, v), f = (y - .24) / (s.y - .24);
-      const width = f < .72 ? s.width - .044 * (1 - f / .72) : mix(s.width, s.belt, (f - .72) / .28);
-      return [sign * width, y, z];
-    }, paint));
+      const waist = .018 * Math.exp(-(((f - .40) / .15) ** 2)) * Math.exp(-((z / 1.4) ** 6));
+      const width = (f < .80 ? s.width - .040 * (1 - f / .80) : mix(s.width, s.belt, (f - .80) / .20)) - waist;
+      return [sign * width, y, cornerZ(width, z)];
+    }, sidePaint);
+    bmwExteriorUV(body.geometry, 'side', (_x, y, z) => [(z + 2.553) / 5.106, (y - .24) / .72]); root.add(body);
     for (const centerZ of [-config.wheelBase / 2, config.wheelBase / 2]) {
-      const arch: P[] = [];
-      for (let i = 0; i <= 40; i++) {
-        const t = Math.PI * i / 40, z = centerZ + Math.cos(t) * archR;
-        arch.push([sign * (sample(z).width - .015), archY + Math.sin(t) * archR, z]);
-      }
-      root.add(path(side + ' rolled fender arch lip', arch, .012, paint));
+      // A thin ruled lip retains the wheel opening without a dense tubular trim.
+      root.add(grid(side + ' rolled fender arch lip', 48, 1, (u, v) => {
+        const a = u * Math.PI, z = centerZ + Math.cos(a) * (archR + v * .010);
+        return [sign * (sample(z).width - .008 + v * .004), archY + Math.sin(a) * (archR + v * .010), z];
+      }, paint));
       root.add(grid(side + ' wheelhouse liner', 40, 4, (u, v) => {
         const angle = u * Math.PI, z = centerZ + Math.cos(angle) * (archR + .005);
-        return [sign * mix(sample(z).width - .012, .63, v), archY + Math.sin(angle) * (archR + .005), z];
+        const roofY = archY + Math.sin(angle) * (archR + .005);
+        // Fold the inner half down behind the tyre: suspension clearance must
+        // reveal a dark wheel well rather than the world on the opposite side.
+        return [sign * mix(sample(z).width - .012, .63, Math.min(1, v * 2)),
+          mix(roofY, .16, Math.max(0, v * 2 - 1)), z];
       }, black));
     }
-    root.add(path(side + ' lower rocker sculpting', [[sign * .885, .282, -1.12], [sign * .915, .30, 0], [sign * .907, .31, 1.12]], .027, paint));
-    root.add(path(side + ' shoulder crease', [[sign * .926, .81, -2.02], [sign * .907, .842, -.86],
-      [sign * .90, .846, .4], [sign * .917, .843, 1.5], [sign * .88, .835, 2.35]], .0024, chrome));
-    for (const [name, z] of [['Front door leading seam', -.90], ['B pillar door seam', .44], ['Long rear door trailing seam', 1.53]] as const) {
-      const low = archBottom(z) + .015, s = sample(z);
-      root.add(path(side + ' ' + name, [[sign * (s.belt + .002), s.y - .005, z],
-        [sign * (s.width + .001), .78, z], [sign * (s.width - .015), Math.max(low, .4), z + .01]], .0023, seal));
-    }
-    for (const z of [.24, 1.30]) {
-      root.add(rounded(side + ' recessed door handle pocket', [.017, .036, .178], [sign * .91, .864, z], black));
-      root.add(rounded(side + ' body-colour door handle', [.023, .021, .15], [sign * .924, .867, z], paint));
-    }
+    root.add(grid(side + ' lower rocker sculpting', 16, 2, (u, v) => {
+      const z = mix(-1.12, 1.12, u); return [sign * (.906 + .006 * Math.sin(Math.PI * v)), mix(.258, .315, v), z];
+    }, paint));
     const frontPoints = [[-.875, .948], [-.32, 1.411], [.39, 1.45], [.412, .947]];
     const rearPoints = [[.475, .947], [.46, 1.45], [1.015, 1.402], [1.446, 1.063], [1.315, .952]];
     for (const [name, list] of [['Front side window', frontPoints], ['Long rear door window', rearPoints]] as const) {
@@ -82,15 +95,19 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
     }
     const quarter: P[] = [[sign * .848, .954, 1.348], [sign * .819, 1.05, 1.47], [sign * .831, 1.018, 1.53]];
     root.add(polygon(side + ' Hofmeister quarter glass', quarter, glass));
-    root.add(path(side + ' Hofmeister kink surround', quarter, .010, chrome, true));
+    root.add(polygon(side + ' satin Hofmeister sail', [[sign * .855, .954, 1.305], [sign * .797, 1.121, 1.371],
+      [sign * .815, 1.075, 1.483], [sign * .850, .981, 1.568], [sign * .862, .950, 1.52]], chrome));
     root.add(loft(side + ' structural B pillar', [
       { z: .407, points: [[sign * .85, .93], [sign * .69, 1.452], [sign * .665, 1.438], [sign * .818, .925]] },
       { z: .474, points: [[sign * .85, .93], [sign * .69, 1.452], [sign * .665, 1.438], [sign * .818, .925]] },
-    ], black));
+    ], chrome));
     // Close the full wedge between the windshield and front side-glass edges.
     root.add(sweep(side + ' sculpted A pillar outer',Array.from({length:29},(_,j)=>bmwAPillarRing(sign,j/28,false)),paint));
-    root.add(polygon(side + ' C pillar shaped sail', [[sign * .696, 1.426, 1.005], [sign * .708, 1.405, 1.093],
-      [sign * .859, .943, 1.89], [sign * .855, .942, 1.53], [sign * .81, 1.08, 1.465]], paint));
+    root.add(grid(side + ' C pillar shaped sail', 24, 4, (u, v) => {
+      const rear = rearGlassPoint(1 - u, sign < 0 ? 0 : 1), y = rear[1];
+      const z = y > 1.08 ? mix(1.005, 1.465, (1.426 - y) / .346) : mix(1.465, 1.53, (1.08 - y) / .137);
+      return [mix(sign * sideGlassX(y), rear[0], v), y, mix(z, rear[2], v)];
+    }, paint));
     root.add(path(side + ' continuous roof rail', [[sign * .70, 1.426, -.315], [sign * .70, 1.469, .35],
       [sign * .70, 1.416, 1.035]], .018, paint));
     root.add(path(side + ' beltline chrome', [[sign * .861, .951, -.88], [sign * .865, .953, .43],
@@ -98,12 +115,12 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
   }
   root.add(grid('Crowned multi-section hood', 40, 32, (u, v) => {
     const z = mix(-2.54, -.935, u), s = sample(z), x = (v * 2 - 1) * s.belt;
-    const crown = .016 * (1 - (v * 2 - 1) ** 2), ridge = .015 * Math.exp(-(((Math.abs(v * 2 - 1) - .59) / .10) ** 2));
-    return [x, s.y + crown + ridge * Math.sin(Math.PI * u), z];
+    const crown = .020 * (1 - (v * 2 - 1) ** 2), ridge = .024 * Math.exp(-(((Math.abs(v * 2 - 1) - .49) / .075) ** 2));
+    return [x, s.y + crown + ridge * Math.sin(Math.PI * u), cornerZ(x, z)];
   }, paint));
   root.add(grid('Trunk deck with integrated trailing lip', 18, 24, (u, v) => {
-    const z = mix(1.875, 2.545, u), s = sample(z), x = (v * 2 - 1) * s.belt;
-    return [x, s.y + .012 * (1 - (v * 2 - 1) ** 2) + .018 * Math.exp(-(((u - .9) / .09) ** 2)), z];
+    const z = mix(1.96, 2.545, u), s = sample(z), x = (v * 2 - 1) * s.belt;
+    return [x, s.y + .012 * (1 - (v * 2 - 1) ** 2) + .018 * Math.exp(-(((u - .9) / .09) ** 2)), cornerZ(x, z)];
   }, paint));
   root.add(grid('Compound curved outer roof', 28, 24, (u, v) => {
     const z = mix(-.31, 1.03, u), x = (v * 2 - 1) * .70; return [x, roofHeight(z, x), z];
@@ -121,87 +138,100 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
       (u, v) => point(u, side === 0 ? v * .025 : 1 - v * .025), seal));
   };
   glazing('Tapered curved windshield', .94, -.945, 1.435, -.31, windscreen,bmwWindshieldPoint);
-  glazing('Sloping rear glass', .945, 1.89, 1.435, 1.03, glass);
-  for (let i = 0; i < 8; i++) root.add(path('Rear glass demister trace', [[-.72 + i * .014, 1.00 + i * .045, 1.80 - i * .078],
-    [0, 1.01 + i * .045, 1.82 - i * .078], [.72 - i * .014, 1.00 + i * .045, 1.80 - i * .078]], .00065, chrome));
+  glazing('Sloping rear glass', .945, 1.96, 1.435, 1.03, glass, rearGlassPoint);
+  for (let i = 0; i < 8; i++) root.add(path('Rear glass demister trace', [.04, .5, .96].map(v => {
+    const p = rearGlassPoint(.10 + i * .095, v); return [p[0], p[1] + .001, p[2] + .001] as P;
+  }), .00065, chrome));
   const wiper = (sign: number) => path('Parked windshield wiper', [[sign * .08, .971, -.944], [sign * .38, .967, -.94], [sign * .70, .958, -.925]], .006, black);
   root.add(wiper(-1), wiper(1));
   const fin = loft('Shark fin antenna', [{ z: .74, points: [[-.026, 1.478], [.026, 1.478], [0, 1.555]] },
     { z: .9, points: [[-.026, 1.461], [.026, 1.461], [0, 1.466]] }], paint);
   // Keep the normal-roof reference within the requested 1.5 m envelope.
   fin.scale.y = .30; fin.position.y = 1.03; root.add(fin);
-  for (const rear of [false, true]) root.add(grid(rear ? 'Sculpted rear bumper' : 'Sculpted front bumper', 32, 20, (u, v) => {
-    const x = (u * 2 - 1) * mix(.86, .78, v), y = mix(.25, rear ? .795 : .609, v);
-    const z = (rear ? 1 : -1) * (2.553 - .14 * (Math.abs(u * 2 - 1) ** 3) - .025 * Math.sin(v * Math.PI));
+  for (const rear of [false, true]) {
+    const bumper = grid(rear ? 'Sculpted rear bumper' : 'Sculpted front bumper', 32, 20, (u, v) => {
+    const x = (u * 2 - 1) * mix(.865, .89, v), y = mix(.25, rear ? .795 : .623, v);
+    const z = (rear ? 1 : -1) * (2.553 - .19 * (Math.abs(u * 2 - 1) ** 3) - .018 * Math.sin(v * Math.PI));
     return [x, y, z];
-  }, paint));
+    }, rear ? rearPaint : paint);
+    if (rear) bmwExteriorUV(bumper.geometry, 'rearPanel', (x, y) => [(x + .89) / 1.78, (y - .25) / .545]);
+    root.add(bumper);
+  }
   root.add(grid('Continuous rear trunk fascia behind recessed lamps', 40, 10, (u, v) => {
-    const x = (u * 2 - 1) * .78;
+    const x = (u * 2 - 1) * .855;
     return [x, mix(.782, .922, v), 2.529 - .19 * (Math.abs(x) / .88) ** 2];
   }, paint));
   root.add(grid('Front fascia between recessed kidneys and lamps', 40, 10, (u, v) => {
-    const x = (u * 2 - 1) * .78;
-    return [x, mix(.598, .894, v), -2.514 + .16 * (Math.abs(x) / .88) ** 2];
+    const x = (u * 2 - 1) * .89;
+    return [x, mix(.598, .918, v), -2.514 + .16 * (Math.abs(x) / .88) ** 2];
   }, paint));
   const output = (name: string, key: string, points: P[], radius: number) => {
     const m = path(name, points, radius, optical); m.userData.lightingKey = key; root.add(m); return m;
   };
+  const surface = (name: string, points: P[], region: Parameters<typeof bmwExteriorUV>[1]) => {
+    const m = polygon(name, points, details);
+    const xs = points.map(p => Math.abs(p[0])), ys = points.map(p => p[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+    bmwExteriorUV(m.geometry, region, (x, y) => [(Math.abs(x) - minX) / (maxX - minX), (y - minY) / (maxY - minY)]);
+    root.add(m); return m;
+  };
   for (const sign of [-1, 1]) {
     const side = sign < 0 ? 'Left' : 'Right', turn = sign < 0 ? 'left' : 'right';
     const outline = kidney(sign);
-    root.add(polygon(side + ' inset kidney dark backing', outline.map(([x, y, z]) => [x, y, z - .002]), black));
-    root.add(path(side + ' thick kidney chrome frame', outline, .016, chrome, true));
+    surface(side + ' inset kidney dark backing', outline.map(([x, y, z]) => [x, y, z - .002]), 'kidney');
+    root.add(path(side + ' thick kidney chrome frame', outline, .012, chrome, true));
     root.add(path(side + ' inset kidney inner frame', outline.map(([x, y, z]) => [x * .91 + sign * .018, .77 + (y - .77) * .87, z + .008]), .009, black, true));
-    for (let i = 0; i < 9; i++) {
-      const x = sign * (.075 + i * .038);
-      root.add(beam(side + ' vertical kidney slat ' + i, [x, .658, -2.555 + Math.abs(x) * .035], [x, .882, -2.552 + Math.abs(x) * .035], .005, chrome));
-    }
-    const head: P[] = [[sign * .457, .876, -2.541], [sign * .83, .91, -2.456], [sign * .905, .86, -2.411],
-      [sign * .886, .744, -2.426], [sign * .474, .738, -2.541]];
-    root.add(polygon(side + ' recessed headlamp housing', head, black));
-    root.add(path(side + ' headlamp perimeter bezel', head, .009, chrome, true));
+    const head: P[] = [[sign * .522, .875, -2.502], [sign * .868, .943, -2.410], [sign * .922, .891, -2.355],
+      [sign * .906, .791, -2.371], [sign * .552, .777, -2.497]];
+    surface(side + ' recessed headlamp housing', head, 'head');
+    root.add(path(side + ' headlamp perimeter bezel', head, .004, black, true));
     root.add(polygon(side + ' clear headlamp outer lens', head.map(([x, y, z]) => [x, y, z - .009]), lens));
-    const lampZ = (x: number) => -2.541 + (x - .457) * .228 - .006;
+    const lampZ = (x: number) => -2.512 + (x - .522) * .30;
     for (let i = 0; i < 2; i++) {
-      const x = .535 + i * .182, z = lampZ(x);
-      const module = rounded(side + ' projector optical module ' + i, [.077, .064, .018], [sign * x, .818, z], optical);
+      const x = .612 + i * .177, z = lampZ(x), y = .831 + i * .015;
+      const module = rounded(side + ' projector optical module ' + i, [.065, .046, .012], [sign * x, y, z], optical);
       module.userData.lightingKey = 'head'; root.add(module);
-      output(side + ' L-shaped DRL ' + i, 'position', [[sign * (x - .036), .854, lampZ(x - .036)],
-        [sign * (x - .032), .773, lampZ(x - .032)], [sign * (x + .092), .776, lampZ(x + .092)]], .006);
+      output(side + ' L-shaped DRL ' + i, 'position', [[sign * (x - .026), y + .057, lampZ(x - .026) - .006],
+        [sign * (x - .042), y + .043, lampZ(x - .042) - .006], [sign * (x - .041), y - .036, lampZ(x - .041) - .006],
+        [sign * (x + .049), y - .035, lampZ(x + .049) - .006]], .0055);
     }
-    output(side + ' front amber indicator', turn, [[sign * .491, .878, -2.547], [sign * .675, .89, -2.501], [sign * .855, .899, -2.45]], .007);
-    const intake: P[] = [[sign * .03, .557, -2.553], [sign * .60, .553, -2.526], [sign * .68, .42, -2.50],
-      [sign * .54, .293, -2.539], [sign * .03, .294, -2.554]];
-    root.add(polygon(side + ' lower central intake recess', intake, black));
-    root.add(path(side + ' intake satin lower edge', intake.slice(2), .007, chrome));
-    const air: P[] = [[sign * .737, .60, -2.49], [sign * .867, .646, -2.428],
-      [sign * .878, .332, -2.416], [sign * .752, .33, -2.484]];
-    root.add(polygon(side + ' bumper side air trim', air, black));
-    root.add(path(side + ' bumper air trim contour', air, .006, chrome, true));
-    for (let row = 0; row < 4; row++) root.add(beam(side + ' lower intake louvre', [sign * .06, .33 + row * .05, -2.552],
-      [sign * .56, .33 + row * .05, -2.535], .006, black));
-    const rear: P[] = [[sign * .19, .885, 2.553], [sign * .68, .921, 2.502], [sign * .881, .881, 2.40],
-      [sign * .89, .79, 2.39], [sign * .48, .791, 2.53], [sign * .19, .824, 2.553]];
-    root.add(polygon(side + ' dark sculpted tail housing', rear, black));
+    output(side + ' front amber indicator', turn, [[sign * .55, .881, -2.510], [sign * .716, .914, -2.460], [sign * .862, .937, -2.416]], .004);
+    const intake: P[] = [[sign * .015, .554, -2.553], [sign * .571, .547, -2.530],
+      [sign * .662, .293, -2.502], [sign * .015, .285, -2.554]];
+    surface(side + ' lower central intake recess', intake, 'intake');
+    root.add(path(side + ' intake satin lower edge', [intake[1]!, intake[2]!, intake[3]!], .004, black));
+    const air: P[] = [[sign * .740, .606, -2.461], [sign * .876, .656, -2.397],
+      [sign * .887, .340, -2.383], [sign * .777, .318, -2.443]];
+    surface(side + ' bumper side air trim', air, 'air');
+    root.add(path(side + ' bumper air trim contour', air, .004, black, true));
+    // Broad diagonal bumper cheeks define the opening in silhouette; the ribs are baked.
+    root.add(polygon(side + ' angular painted bumper cheek', [[sign * .594, .564, -2.519], [sign * .718, .612, -2.475],
+      [sign * .769, .327, -2.454], [sign * .688, .278, -2.493]], paint));
+    const rear: P[] = [[sign * .27, .876, 2.553], [sign * .70, .923, 2.491], [sign * .900, .894, 2.397],
+      [sign * .905, .808, 2.390], [sign * .45, .807, 2.539], [sign * .27, .830, 2.553]];
+    surface(side + ' dark sculpted tail housing', rear, 'tail');
     root.add(polygon(side + ' red outer tail lens', rear.map(([x, y, z]) => [x, y, z + .002]), redLens));
-    output(side + ' tail L light guide', 'tail', [[sign * .225, .877, 2.555], [sign * .66, .885, 2.518],
-      [sign * .86, .865, 2.421], [sign * .84, .825, 2.438], [sign * .55, .832, 2.54]], .010);
-    output(side + ' brake light region', 'brake', [[sign * .26, .843, 2.554], [sign * .67, .849, 2.514], [sign * .857, .844, 2.43]], .009);
+    output(side + ' tail L light guide', 'tail', [[sign * .29, .868, 2.556], [sign * .67, .884, 2.516],
+      [sign * .892, .872, 2.411]], .006);
+    output(side + ' brake light region', 'brake', [[sign * .30, .839, 2.556], [sign * .67, .851, 2.514], [sign * .892, .839, 2.411]], .006);
     output(side + ' rear amber indicator', turn, [[sign * .45, .807, 2.55], [sign * .70, .813, 2.50], [sign * .87, .815, 2.42]], .006);
     output(side + ' reverse optical region', 'reverse', [[sign * .23, .812, 2.556], [sign * .36, .814, 2.548]], .007);
     output(side + ' rear fog reflector', 'fogRear', [[sign * .79, .35, 2.427], [sign * .795, .48, 2.424]], .010);
-    const exhaust = [[sign * .58, .288, 2.545], [sign * .80, .29, 2.485], [sign * .77, .20, 2.49], [sign * .61, .20, 2.54]] as P[];
-    root.add(polygon(side + ' trapezoidal exhaust inset', exhaust, black)); root.add(path(side + ' trapezoidal exhaust surround', exhaust, .009, chrome, true));
+    root.add(polygon(side + ' angular rear bumper shoulder', [[sign * .47, .370, 2.539], [sign * .76, .389, 2.454],
+      [sign * .87, .274, 2.407], [sign * .56, .280, 2.526]], paint));
   }
   root.add(path('Front lower lip', [[-.79, .25, -2.44], [-.5, .248, -2.54], [0, .248, -2.55], [.5, .248, -2.54], [.79, .25, -2.44]], .012, black));
-  root.add(rounded('Rear lower valance', [1.07, .08, .026], [0, .245, 2.535], black));
+  const valance = grid('Rear lower valance', 12, 2, (u, v) => {
+    const x = (u * 2 - 1) * .82; return [x, mix(.235, .365, v), 2.546 - .20 * (Math.abs(x) / .88) ** 2];
+  }, details);
+  bmwExteriorUV(valance.geometry, 'valance', (x, y) => [(x + .82) / 1.64, (y - .235) / .13]); root.add(valance);
   root.add(rounded('Rear license plate recess', [.51, .135, .015], [0, .646, 2.548], black));
   root.add(label('Rear number plate', '530Li · G38', .40, .073, [0, .65, 2.558]));
   root.add(rounded('Front license plate plinth', [.43, .105, .013], [0, .422, -2.552], black));
   root.add(label('Front number plate', 'BMW 530Li', .38, .064, [0, .42, -2.56], [0, Math.PI, 0]));
   const hoodBadge = roundel('Hood roundel', .027); hoodBadge.position.set(0, .933, -2.34); hoodBadge.rotation.x = -Math.PI / 2; root.add(hoodBadge);
   const rearBadge = roundel('Trunk roundel', .03); rearBadge.position.set(0, .861, 2.556); root.add(rearBadge);
-  root.add(label('530Li trunk designation', '530Li', .15, .025, [.55, .947, 2.48]));
+  root.add(label('530Li trunk designation', '530Li', .17, .028, [.57, .943, 2.48]));
   output('High-mounted brake light', 'brake', [[-.105, 1.041, 1.756], [.105, 1.041, 1.756]], .009);
   const floor = config.body.groundClearance;
   root.add(loft('BMW underbody', [

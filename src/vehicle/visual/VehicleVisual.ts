@@ -7,6 +7,7 @@ import { Cockpit } from './Cockpit';
 import { buildBMW530Exterior, buildBMW530SideMirror } from './BMW530Exterior';
 import { buildBMW530Wheels } from './BMW530Wheels';
 import { buildGolfGTIWheels } from './GolfGTIWheels';
+import { buildExecutiveWheels } from './ExecutiveWheels';
 import { buildVehicleExterior, frontDoorSkinAnchor } from './VehicleExterior';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
@@ -391,19 +392,26 @@ export class VehicleVisual {
   }
 
   private buildWheels(): readonly [THREE.Group, THREE.Group] {
+    if (this.config.body.design === 'executive') {
+      const fascia = this.exteriorRoot.getObjectByName('Executive single-frame textured grille and intakes') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
+      const { pivots, wheels } = buildExecutiveWheels(this.exteriorRoot, this.config, fascia.material.map!);
+      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
+      return [pivots.frontLeft, pivots.frontRight];
+    }
     if (this.config.body.design === 'golf-gti') {
       const { pivots, wheels } = buildGolfGTIWheels(this.exteriorRoot, this.config);
       Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
       return [pivots.frontLeft, pivots.frontRight];
     }
     if (this.config.body.design === 'bmw-g38') {
-      const { pivots, wheels } = buildBMW530Wheels(this.exteriorRoot, this.config);
+      const grille = this.exteriorRoot.getObjectByName('Left inset kidney dark backing') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
+      const { pivots, wheels } = buildBMW530Wheels(this.exteriorRoot, this.config, grille.material.map!);
       Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
       return [pivots.frontLeft, pivots.frontRight];
     }
     const sport = this.config.body.profile === 'sport-coupe';
     const design = this.config.body.design;
-    const rimFraction = design === 'road-suv' ? .64 : design === 'executive' ? .66 : design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
+    const rimFraction = design === 'road-suv' ? .64 : design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
     const tyreMaterial = new THREE.MeshStandardMaterial({
       color: 0x111214,
       roughness: 0.88,
@@ -496,11 +504,11 @@ export class VehicleVisual {
         wheel.add(lip);
       }
 
-      const spokeCount = design === 'executive' ? 10 : design === 'flow' ? 10 : design === 'formal' ? 5 : design === 'comfort' ? 7 : sport ? 5 : 6;
+      const spokeCount = design === 'flow' ? 10 : design === 'formal' ? 5 : design === 'comfort' ? 7 : sport ? 5 : 6;
       for (let spokeIndex = 0; spokeIndex < spokeCount; spokeIndex += 1) {
         const spoke = new THREE.Mesh(spokeGeometry, rimMaterial);
         spoke.name = sport ? 'Sports wheel spoke' : 'Sedan wheel spoke';
-        spoke.rotation.x = design === 'flow' || design === 'executive'
+        spoke.rotation.x = design === 'flow'
           ? Math.floor(spokeIndex / 2) / 5 * Math.PI * 2 + (spokeIndex % 2 === 0 ? -.08 : .08)
           : spokeIndex / spokeCount * Math.PI * 2;
         wheel.add(spoke);

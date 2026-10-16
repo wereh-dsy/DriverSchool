@@ -1,4 +1,5 @@
 import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
+import { drawNavigationBanner } from '../../ui/NavigationDisplay';
 import * as T from 'three';
 import { lateralBoundaryColor } from './LateralAssistDisplay';
 import type { InstrumentClusterConfig, InstrumentTelemetry } from './InstrumentCluster';
@@ -46,7 +47,7 @@ export class BMW530Instruments extends T.Group {
     const immediate = [t.laneAssist?.version,t.ignitionOn,t.gear,t.driveMode,i.positionLights,i.headlights,i.highBeam,i.frontFogLights,i.rearFogLights,i.fogLights,
       i.leftTurn,i.rightTurn,i.parkingBrake,i.autoHold,i.absWarning,i.tcsActive,i.escActive,i.tcsOff,i.escOff,i.engineWarning,i.cruise].join('|');
     const key = [Math.round(t.speedKmh),Math.round(t.rpm/25),t.driveMode,Math.round((t.fuelLevel??.7)*100),
-      Math.round(t.coolantTemperatureC??90),t.engineRunning,t.startStopState?.state,t.cruiseTargetSpeedKmh,t.drivingScene?.version,immediate].join('|');
+      Math.round(t.coolantTemperatureC??90),t.engineRunning,t.startStopState?.state,t.cruiseTargetSpeedKmh,t.drivingScene?.version,t.sharedVehicle?.navigation.guidance?.version,immediate].join('|');
     if (key === this.lastKey || this.elapsed < .05 && immediate === this.immediateKey) return;
     this.elapsed = 0; this.lastKey = key; this.immediateKey = immediate;
     let c = this.canvas.getContext('2d')!;
@@ -174,6 +175,7 @@ export class BMW530Instruments extends T.Group {
     }
     if(t.startStopState?.state==='AUTO_STOPPED') text('AUTO STOP',1040,432,21,'#9cbfac');
     drawLaneAssistSelection(c,t.laneAssist,'bmw',720,441);
+    if(String(t.gear).charAt(0)!=='R')drawNavigationBanner(c,t.sharedVehicle?.navigation.guidance,{x:560,y:132,width:320,height:108},true);
     this.texture.needsUpdate = true;
   }
 }

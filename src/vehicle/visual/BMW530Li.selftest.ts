@@ -11,6 +11,7 @@ import { BMW_CABIN_CLOSURE_RAYS } from './BMW530Cabin';
 import { computePlanarMirrorView, createPlanarMirrorViewComputation } from '../../camera/MirrorMath';
 import { BMW530Instruments, drawBMWLightingSymbols } from './BMW530Instruments';
 import { cabinAmbientTarget } from './CabinLightResponse';
+import { VehicleAssetRegistry } from './VehicleAssetRegistry';
 
 export function runBMW530LiSelfTest() {
   let assertions = 0;
@@ -102,7 +103,37 @@ export function runBMW530LiSelfTest() {
       for (let i = 0; i < points.count; i++) assert(Number.isFinite(points.getX(i)) && Number.isFinite(points.getY(i)) && Number.isFinite(points.getZ(i)), 'finite vertex');
     });
     assert(materialCount.size < 85 && meshes < 510, `bounded material and object budget: ${materialCount.size} materials, ${meshes} meshes`);
+    const grille = visual.root.getObjectByName('Left inset kidney dark backing') as T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
+    const atlas = grille.material.map!;
+    assert(atlas.image.width === 1024 && atlas.image.height === 1024, 'single bounded exterior detail atlas');
+    const sideBody = visual.root.getObjectByName('Left sculpted body and open wheel arches') as T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
+    assert(sideBody.material.map === atlas, 'paint modulation and grille share atlas');
+    for (const id of VEHICLE_WHEEL_IDS) {
+      const face = visual.wheelPivots[id].getObjectByName('BMW diamond-cut split-spoke atlas face') as T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
+      assert(face.material.map === atlas && face.material.alphaTest > 0 && !face.material.transparent && face.material.depthWrite,
+        id + ' cutout spokes share atlas with opaque depth and exposed physical brake disc');
+    }
+    visual.exteriorRoot.traverse(o => {
+      if (!(o instanceof T.Mesh) || !(o.material instanceof T.MeshStandardMaterial) || o.material.map !== atlas) return;
+      const uv = o.geometry.getAttribute('uv');
+      assert(uv?.count === o.geometry.getAttribute('position').count, 'complete UV coverage: ' + o.name);
+      for (let i = 0; i < uv.count; i++) assert(uv.getX(i) >= 0 && uv.getX(i) <= 1 && uv.getY(i) >= 0 && uv.getY(i) <= 1, 'atlas coordinates in range');
+    });
     const ray = new T.Raycaster(); ray.layers.enableAll();
+    const liners: T.Object3D[] = []; visual.exteriorRoot.traverse(o => { if (o.name.endsWith(' wheelhouse liner')) liners.push(o); });
+    for (const id of VEHICLE_WHEEL_IDS) {
+      const pivot = visual.wheelPivots[id], sign = id.endsWith('Left') ? -1 : 1;
+      ray.set(new T.Vector3(sign * 2, pivot.position.y + v.wheelRadius + .04, pivot.position.z), new T.Vector3(-sign, 0, 0));
+      assert(ray.intersectObjects(liners).length > 0, id + ' suspension gap closed by dark inner wheelhouse');
+    }
+    for (const side of ['Left', 'Centre', 'Right']) {
+      const headrest = visual.root.getObjectByName('Rear ' + side + ' comfort headrest')!;
+      const box = new T.Box3().setFromObject(headrest), centre = box.getCenter(new T.Vector3());
+      ray.set(new T.Vector3(centre.x, box.max.y - .01, 3), new T.Vector3(0, 0, -1));
+      const glassHit = ray.intersectObject(visual.root.getObjectByName('Sloping rear glass')!)[0];
+      const seatHit = ray.intersectObject(headrest)[0];
+      assert(!!glassHit && !!seatHit && glassHit.distance < seatHit.distance, side + ' rear headrest enclosed by exterior glazing');
+    }
     for (const direction of BMW_CABIN_CLOSURE_RAYS) {
       ray.set(new T.Vector3(...v.driverEyePosition), new T.Vector3(...direction).normalize());
       const hit = ray.intersectObjects(visual.cockpitRoot.children, true).find(h => h.object instanceof T.Mesh &&
@@ -136,6 +167,7 @@ export function runBMW530LiSelfTest() {
     controller.update(.6, neutral, { ignitionOn: true, actualGear: 'N', steeringWheelAngle: 0 }); lights.applyState(controller.state, true);
     assert((visual.root.getObjectByName('Left front amber indicator') as T.Mesh).material instanceof T.MeshStandardMaterial &&
       ((visual.root.getObjectByName('Left front amber indicator') as T.Mesh).material as T.MeshStandardMaterial).emissiveIntensity === 0, 'controller blink phase shared');
+    assert(grille.material.map === atlas && atlas.version === 1, 'live lighting never repaints the static exterior');
     visual.updateInstruments({ ignitionOn: true, engineRunning: true, speedKmh: 87, rpm: 2350, gear: 'D6', driveMode: 'SPORT', fuelLevel: .42,
       coolantTemperatureC: 93, cruiseTargetSpeedKmh: 90, ambientDaylight: .025, indicators: { headlights: true, cruise: true, autoHold: true } }, 1);
     const face = canvases.find(cv => cv.width === 1440 && cv.height === 540)!;
@@ -160,6 +192,22 @@ export function runBMW530LiSelfTest() {
     assert(ambientMaterial.emissiveIntensity < .005 && cabinLights.every(l => l.intensity < .001), 'daytime position lights stay weak');
     visual.updateInstruments({ speedKmh: 0, rpm: 0, gear: 'P', ignitionOn: false }, 2);
     assert(cabinLights.every(l => l.intensity < .001), 'ignition off interior fade');
+    const assets = new VehicleAssetRegistry(), cached: VehicleVisual[] = [];
+    let atlasDisposals = 0;
+    try {
+      VehicleVisual.prepareAssets(v, assets);
+      cached.push(new VehicleVisual(v, assets), new VehicleVisual(v, assets));
+      const a = cached[0]!.root.getObjectByName(grille.name) as T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
+      const b = cached[1]!.root.getObjectByName(grille.name) as T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
+      assert(a.material !== b.material && a.material.map === b.material.map && assets.owns(a.material.map!),
+        'cached instances isolate materials and share registry-owned static atlas');
+      a.material.map!.addEventListener('dispose', () => { atlasDisposals++; });
+      cached[0]!.dispose();
+      assert(atlasDisposals === 0 && b.material.map === a.material.map, 'disposing one car preserves borrowed atlas');
+    } finally {
+      cached.forEach(car => car.dispose()); assets.dispose();
+    }
+    assert(atlasDisposals === 1, 'atlas released once by registry after the last car');
     const dynamics = new VehicleDynamics(createVehiclePhysicsConfig(d.id), { driveSelector: 'D', gear: 1 });
     let zeroTo100 = 0, snapshot = dynamics.getSnapshot();
     for (let step = 0; step < 2400; step++) {

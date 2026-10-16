@@ -1,0 +1,655 @@
+{
+  "version": "after",
+  "baseline": "cc2a93da07def6f565a8155cf13b2dbb81239297",
+  "mirrorPolicy": "every-visible-frame; overlay below30-or-R",
+  "rows": [
+    {
+      "name": "straight-cold",
+      "frame": {
+        "n": 420,
+        "mean": 16.707142857142856,
+        "p95": 16.80000000000291,
+        "p99": 16.89999999999418,
+        "max": 33.30000000000291,
+        "over33": 1,
+        "over50": 0,
+        "over100": 0
+      },
+      "cpu": {
+        "n": 420,
+        "mean": 9.143571429451306,
+        "p95": 12.599999964237213,
+        "p99": 15.599999964237213,
+        "max": 18.19999998807907,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "speed": {
+        "n": 420,
+        "mean": 133.35254171678474,
+        "p95": 135.96394927409554,
+        "p99": 136.2984372474727,
+        "max": 136.37865436701472,
+        "over33": 420,
+        "over50": 420,
+        "over100": 420
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 2526,
+          "total": 27.399999916553497,
+          "max": 0.20000004768371582,
+          "mean": 0.010847189198952296
+        },
+        "physics": {
+          "calls": 842,
+          "total": 290.3999991416931,
+          "max": 1.5999999642372131,
+          "mean": 0.34489311061958805
+        },
+        "visual": {
+          "calls": 420,
+          "total": 141.89999985694885,
+          "max": 1.800000011920929,
+          "mean": 0.33785714251654486
+        },
+        "signMaterial": {
+          "calls": 123,
+          "total": 19.900000274181366,
+          "max": 1.5,
+          "mean": 0.16178862011529566
+        },
+        "junctionBuild": {
+          "calls": 29,
+          "total": 28.399999916553497,
+          "max": 3.199999988079071,
+          "mean": 0.9793103419501206
+        },
+        "streaming": {
+          "calls": 420,
+          "total": 106.69999957084656,
+          "max": 6.199999988079071,
+          "mean": 0.25404761802582515
+        },
+        "hud": {
+          "calls": 420,
+          "total": 49.39999973773956,
+          "max": 0.40000003576278687,
+          "mean": 0.117619046994618
+        },
+        "render": {
+          "calls": 840,
+          "total": 2972.899999797344,
+          "max": 13.5,
+          "mean": 3.53916666642541
+        },
+        "adaptiveMirrors": {
+          "calls": 420,
+          "total": 960.2000002264977,
+          "max": 4.400000035762787,
+          "mean": 2.2861904767297565
+        },
+        "textureUpload": {
+          "calls": 61,
+          "total": 3.3999995589256287,
+          "max": 0.19999998807907104,
+          "mean": 0.05573769768730539
+        },
+        "prefabBuild": {
+          "calls": 26,
+          "total": 1.9999998807907104,
+          "max": 0.2999999523162842,
+          "mean": 0.07692307233810425
+        },
+        "terrainInstall": {
+          "calls": 34,
+          "total": 0.6000000834465027,
+          "max": 0.10000002384185791,
+          "mean": 0.017647061277838313
+        },
+        "surfaceMerge": {
+          "calls": 21,
+          "total": 3.800000011920929,
+          "max": 0.6000000238418579,
+          "mean": 0.18095238152004423
+        },
+        "storage": {
+          "calls": 1,
+          "total": 0.10000002384185791,
+          "max": 0.10000002384185791,
+          "mean": 0.10000002384185791
+        },
+        "roadInstall": {
+          "calls": 48,
+          "total": 1,
+          "max": 0.10000002384185791,
+          "mean": 0.020833333333333332
+        }
+      },
+      "heap": [
+        773202324,
+        819832057
+      ],
+      "peaks": [
+        {
+          "t": 3.334599999964237,
+          "frame": 33.30000000000291,
+          "cpu": 8.200000047683716,
+          "cost": {
+            "snapshot": 0.19999998807907104,
+            "physics": 0.8999999761581421,
+            "visual": 0.19999998807907104,
+            "signMaterial": 0,
+            "junctionBuild": 1.2000000476837158,
+            "streaming": 1.2000000476837158,
+            "hud": 0.09999996423721313,
+            "render": 5.100000023841858,
+            "adaptiveMirrors": 2,
+            "textureUpload": 0,
+            "prefabBuild": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1042,
+        871
+      ],
+      "visibility": "visible",
+      "mirrors": {
+        "mask": 1,
+        "overlay": false
+      },
+      "resources": {
+        "sectorCount": 59,
+        "totalSectors": 4988,
+        "roadCount": 180,
+        "compiledRoadCount": 311,
+        "signCount": 114,
+        "barrierCount": 12520,
+        "backgroundSectors": 4988,
+        "backgroundBatches": 151,
+        "constructorMs": 615.1000000238419,
+        "firstVisibleMs": 4593.199999988079,
+        "firstLoadMs": 9599
+      }
+    },
+    {
+      "name": "straight-warm",
+      "frame": {
+        "n": 413,
+        "mean": 16.990556900726407,
+        "p95": 16.800000000017462,
+        "p99": 16.89999999999418,
+        "max": 149.80000000001746,
+        "over33": 1,
+        "over50": 1,
+        "over100": 1
+      },
+      "cpu": {
+        "n": 413,
+        "mean": 8.55786924890398,
+        "p95": 11,
+        "p99": 12.400000035762787,
+        "max": 15.5,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "speed": {
+        "n": 413,
+        "mean": 133.37014356595432,
+        "p95": 135.98332023830292,
+        "p99": 136.29842065939727,
+        "max": 136.3786380830168,
+        "over33": 413,
+        "over50": 413,
+        "over100": 413
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 2508,
+          "total": 17.599999248981476,
+          "max": 0.30000001192092896,
+          "mean": 0.007017543560199951
+        },
+        "physics": {
+          "calls": 836,
+          "total": 218.5999999642372,
+          "max": 0.699999988079071,
+          "mean": 0.2614832535457383
+        },
+        "visual": {
+          "calls": 413,
+          "total": 123.79999965429306,
+          "max": 5.199999988079071,
+          "mean": 0.2997578684123319
+        },
+        "streaming": {
+          "calls": 413,
+          "total": 48.499999940395355,
+          "max": 2.5,
+          "mean": 0.11743341389926236
+        },
+        "hud": {
+          "calls": 413,
+          "total": 40.40000009536743,
+          "max": 0.40000003576278687,
+          "mean": 0.09782082347546593
+        },
+        "render": {
+          "calls": 826,
+          "total": 2884.2999998927116,
+          "max": 9.800000011920929,
+          "mean": 3.4918886197248327
+        },
+        "adaptiveMirrors": {
+          "calls": 413,
+          "total": 907.100000500679,
+          "max": 3.800000011920929,
+          "mean": 2.196368039953218
+        },
+        "terrainInstall": {
+          "calls": 9,
+          "total": 0.09999996423721313,
+          "max": 0.09999996423721313,
+          "mean": 0.011111107137468126
+        },
+        "prefabBuild": {
+          "calls": 8,
+          "total": 0.5999999046325684,
+          "max": 0.10000002384185791,
+          "mean": 0.07499998807907104
+        },
+        "storage": {
+          "calls": 1,
+          "total": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "surfaceMerge": {
+          "calls": 15,
+          "total": 2.2000001072883606,
+          "max": 0.5,
+          "mean": 0.14666667381922405
+        },
+        "junctionBuild": {
+          "calls": 20,
+          "total": 15.600000023841858,
+          "max": 2.199999988079071,
+          "mean": 0.7800000011920929
+        },
+        "signMaterial": {
+          "calls": 72,
+          "total": 7.299999952316284,
+          "max": 0.30000001192092896,
+          "mean": 0.10138888822661506
+        },
+        "textureUpload": {
+          "calls": 36,
+          "total": 1.6999998688697815,
+          "max": 0.10000002384185791,
+          "mean": 0.04722221857971615
+        }
+      },
+      "heap": [
+        791494455,
+        855848507
+      ],
+      "peaks": [
+        {
+          "t": 6.174600000000006,
+          "frame": 149.80000000001746,
+          "cpu": 12.100000023841858,
+          "cost": {
+            "snapshot": 0,
+            "physics": 2.099999964237213,
+            "visual": 1.199999988079071,
+            "signMaterial": 0,
+            "junctionBuild": 0,
+            "streaming": 0.20000004768371582,
+            "hud": 0.10000002384185791,
+            "render": 7.800000011920929,
+            "adaptiveMirrors": 2.300000011920929,
+            "textureUpload": 0,
+            "prefabBuild": 0,
+            "terrainInstall": 0,
+            "surfaceMerge": 0.10000002384185791,
+            "storage": 0,
+            "roadInstall": 0
+          }
+        }
+      ],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1042,
+        871
+      ],
+      "visibility": "visible",
+      "mirrors": {
+        "mask": 1,
+        "overlay": false
+      },
+      "resources": {
+        "sectorCount": 59,
+        "totalSectors": 4988,
+        "roadCount": 180,
+        "compiledRoadCount": 311,
+        "signCount": 114,
+        "barrierCount": 12520,
+        "backgroundSectors": 4988,
+        "backgroundBatches": 151,
+        "constructorMs": 615.1000000238419,
+        "firstVisibleMs": 4593.199999988079,
+        "firstLoadMs": 9599
+      }
+    },
+    {
+      "name": "complex-cold",
+      "frame": {
+        "n": 421,
+        "mean": 16.668171021377713,
+        "p95": 16.800000000017462,
+        "p99": 16.89999999999418,
+        "max": 16.900000000023283,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "cpu": {
+        "n": 421,
+        "mean": 5.362945367491443,
+        "p95": 6.800000011920929,
+        "p99": 9,
+        "max": 10,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "speed": {
+        "n": 421,
+        "mean": 133.35880083209267,
+        "p95": 135.96391390776486,
+        "p99": 136.2984043039826,
+        "max": 136.37862202639076,
+        "over33": 421,
+        "over50": 421,
+        "over100": 421
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 2526,
+          "total": 17.099999964237213,
+          "max": 0.20000004768371582,
+          "mean": 0.006769596185367068
+        },
+        "physics": {
+          "calls": 842,
+          "total": 174.6000006198883,
+          "max": 0.699999988079071,
+          "mean": 0.20736342116376283
+        },
+        "visual": {
+          "calls": 421,
+          "total": 115.79999959468842,
+          "max": 1.199999988079071,
+          "mean": 0.2750593814600675
+        },
+        "textureUpload": {
+          "calls": 19,
+          "total": 1.0999999642372131,
+          "max": 0.20000004768371582,
+          "mean": 0.057894734959853325
+        },
+        "surfaceMerge": {
+          "calls": 64,
+          "total": 7.299999892711639,
+          "max": 0.40000003576278687,
+          "mean": 0.11406249832361937
+        },
+        "streaming": {
+          "calls": 421,
+          "total": 70.90000069141388,
+          "max": 5.400000035762787,
+          "mean": 0.16840855271119687
+        },
+        "hud": {
+          "calls": 421,
+          "total": 41.89999967813492,
+          "max": 0.30000001192092896,
+          "mean": 0.09952493985305207
+        },
+        "render": {
+          "calls": 842,
+          "total": 1688.1999997496605,
+          "max": 4.199999988079071,
+          "mean": 2.004988123218124
+        },
+        "adaptiveMirrors": {
+          "calls": 421,
+          "total": 658.8000003099442,
+          "max": 3,
+          "mean": 1.564845606436922
+        },
+        "roadInstall": {
+          "calls": 17,
+          "total": 0.20000004768371582,
+          "max": 0.10000002384185791,
+          "mean": 0.0117647086872774
+        },
+        "signMaterial": {
+          "calls": 37,
+          "total": 7.4999998807907104,
+          "max": 1.9000000357627869,
+          "mean": 0.20270269948083
+        },
+        "prefabBuild": {
+          "calls": 44,
+          "total": 2.4000000953674316,
+          "max": 0.19999998807907104,
+          "mean": 0.05454545671289617
+        },
+        "terrainInstall": {
+          "calls": 69,
+          "total": 1.3000001311302185,
+          "max": 0.10000002384185791,
+          "mean": 0.018840581610582878
+        },
+        "storage": {
+          "calls": 1,
+          "total": 0.10000002384185791,
+          "max": 0.10000002384185791,
+          "mean": 0.10000002384185791
+        }
+      },
+      "heap": [
+        797404690,
+        857701845
+      ],
+      "peaks": [],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1042,
+        871
+      ],
+      "visibility": "visible",
+      "mirrors": {
+        "mask": 1,
+        "overlay": false
+      },
+      "resources": {
+        "sectorCount": 96,
+        "totalSectors": 4988,
+        "roadCount": 85,
+        "compiledRoadCount": 396,
+        "signCount": 50,
+        "barrierCount": 19922,
+        "backgroundSectors": 4988,
+        "backgroundBatches": 151,
+        "constructorMs": 615.1000000238419,
+        "firstVisibleMs": 4593.199999988079,
+        "firstLoadMs": 9599
+      }
+    },
+    {
+      "name": "complex-warm",
+      "frame": {
+        "n": 421,
+        "mean": 16.66793349168642,
+        "p95": 16.800000000017462,
+        "p99": 16.89999999999418,
+        "max": 17,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "cpu": {
+        "n": 421,
+        "mean": 6.422090260829608,
+        "p95": 7.699999988079071,
+        "p99": 10.100000023841858,
+        "max": 10.800000011920929,
+        "over33": 0,
+        "over50": 0,
+        "over100": 0
+      },
+      "speed": {
+        "n": 421,
+        "mean": 133.35878271550118,
+        "p95": 135.96389608289695,
+        "p99": 136.29838769982462,
+        "max": 136.37860572720717,
+        "over33": 421,
+        "over50": 421,
+        "over100": 421
+      },
+      "metric": {
+        "snapshot": {
+          "calls": 2526,
+          "total": 22.899999737739563,
+          "max": 0.20000004768371582,
+          "mean": 0.00906571644407742
+        },
+        "physics": {
+          "calls": 842,
+          "total": 192.60000014305115,
+          "max": 0.7000000476837158,
+          "mean": 0.22874109280647403
+        },
+        "visual": {
+          "calls": 421,
+          "total": 117.69999921321869,
+          "max": 1.4000000357627869,
+          "mean": 0.2795724446869803
+        },
+        "surfaceMerge": {
+          "calls": 16,
+          "total": 1.1000000834465027,
+          "max": 0.30000001192092896,
+          "mean": 0.06875000521540642
+        },
+        "streaming": {
+          "calls": 421,
+          "total": 37,
+          "max": 4.399999976158142,
+          "mean": 0.08788598574821853
+        },
+        "hud": {
+          "calls": 421,
+          "total": 48.50000041723251,
+          "max": 0.5,
+          "mean": 0.11520190122858079
+        },
+        "render": {
+          "calls": 842,
+          "total": 2124.2000004649162,
+          "max": 5.699999988079071,
+          "mean": 2.5228028509084517
+        },
+        "adaptiveMirrors": {
+          "calls": 421,
+          "total": 753.4000001549721,
+          "max": 3.699999988079071,
+          "mean": 1.789548693954803
+        },
+        "storage": {
+          "calls": 1,
+          "total": 0.10000002384185791,
+          "max": 0.10000002384185791,
+          "mean": 0.10000002384185791
+        },
+        "terrainInstall": {
+          "calls": 8,
+          "total": 0.20000004768371582,
+          "max": 0.10000002384185791,
+          "mean": 0.025000005960464478
+        },
+        "prefabBuild": {
+          "calls": 18,
+          "total": 1.3000001311302185,
+          "max": 0.10000002384185791,
+          "mean": 0.07222222950723436
+        },
+        "signMaterial": {
+          "calls": 12,
+          "total": 1.4999999403953552,
+          "max": 0.5,
+          "mean": 0.12499999503294627
+        },
+        "textureUpload": {
+          "calls": 6,
+          "total": 0.5,
+          "max": 0.20000004768371582,
+          "mean": 0.08333333333333333
+        }
+      },
+      "heap": [
+        827069884,
+        868077480
+      ],
+      "peaks": [],
+      "graphStable": true,
+      "collidersStable": true,
+      "collisions": false,
+      "selector": "D",
+      "operational": true,
+      "viewport": [
+        1042,
+        871
+      ],
+      "visibility": "visible",
+      "mirrors": {
+        "mask": 1,
+        "overlay": false
+      },
+      "resources": {
+        "sectorCount": 96,
+        "totalSectors": 4988,
+        "roadCount": 85,
+        "compiledRoadCount": 396,
+        "signCount": 50,
+        "barrierCount": 19922,
+        "backgroundSectors": 4988,
+        "backgroundBatches": 151,
+        "constructorMs": 615.1000000238419,
+        "firstVisibleMs": 4593.199999988079,
+        "firstLoadMs": 9599
+      }
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { VehicleVisual } from './VehicleVisual';
 import { DEFAULT_SEDAN_VISUAL_CONFIG, SPORTS_COUPE_VISUAL_CONFIG, EXECUTIVE_SEDAN_VISUAL_CONFIG } from './VehicleVisualConfig';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import { VehicleLighting } from './VehicleLighting';
+import { executiveNoseZ } from './ExecutiveExteriorSurfaces';
 
 export interface VehicleLightingSelfTestResult {
   readonly assertions: number;
@@ -165,6 +166,29 @@ export function runVehicleLightingSelfTest(): VehicleLightingSelfTestResult {
         assert(growth < 0.008, `${config.name}: lamp lenses must not enlarge the contact/body envelope materially`);
         const spotlights = visual.root.children.filter((object) => object instanceof THREE.SpotLight) as THREE.SpotLight[];
         if (config.exteriorLighting) {
+          const signature = all.filter(mesh => mesh.name.includes('DRL segment'));
+          assert(signature.length === 10, 'each executive lamp has a complete five-section light guide');
+          for (const mesh of signature) {
+            const centre = mesh.getWorldPosition(new THREE.Vector3());
+            caster.set(centre.clone().add(new THREE.Vector3(0, 0, -3)), new THREE.Vector3(0, 0, 1));
+            const first = caster.intersectObject(visual.exteriorRoot, true).find(hit => hit.object.userData.vehicleBodyPart !== 'glass');
+            assert(first?.object.userData.lightingOutput === 'position', `${mesh.name}: the complete light guide is exposed above its housing`);
+          }
+          for (let i = 1; i <= 5; i++) {
+            const left = signature.find(mesh => mesh.name === `Left DRL segment ${i}`)!;
+            const right = signature.find(mesh => mesh.name === `Right DRL segment ${i}`)!;
+            assert(Math.abs(left.position.x + right.position.x) < 1e-7 && Math.abs(left.position.y - right.position.y) < 1e-7,
+              'left and right DRL signatures are optically symmetric');
+          }
+          const tailGuides = all.filter(mesh => mesh.name.includes('rear tail lamp light-guide signature'));
+          assert(tailGuides.length === 2 && tailGuides.every(mesh => (mesh.geometry.index?.count ?? 0) === 54),
+            'six tail fins and the continuous lower/outer guide share one mesh on each side');
+          for (const part of ['headlamp', 'tail-lamp']) {
+            const housings: THREE.Mesh[] = [];
+            visual.exteriorRoot.traverse(object => { if (object instanceof THREE.Mesh && object.userData.vehicleBodyPart === part) housings.push(object); });
+            assert(housings.length === 2 && housings.every(mesh => (mesh.material as THREE.MeshStandardMaterial).map?.image.width === 1024),
+              `${part}: reflector artwork borrows the existing static atlas`);
+          }
           const beams = spotlights.filter(light => !light.name.includes('fog') && !light.name.includes('near fill'));
           const modules = all.filter(mesh => mesh.userData.lightingOutput === 'head');
           assert(modules.length === 8 && modules.every(mesh => mesh.geometry instanceof THREE.BoxGeometry && mesh.geometry.parameters.width < .06),
@@ -256,8 +280,9 @@ export function runVehicleLightingSelfTest(): VehicleLightingSelfTestResult {
           assert(glass.filter(mesh => mesh !== windscreen).every(mesh => mesh.material.opacity > windscreen.material.opacity),
             'windscreen remains lighter than side and rear glazing');
           for (const side of [-1, 1]) {
-            const point = new THREE.Vector3(side * (config.dimensions.width * .5 - .005) * .973, .727,
+            const point = new THREE.Vector3(side * (config.dimensions.width * .5 - .005) * .973, .780,
               -(config.dimensions.length - .0226) * .5 + .10);
+            point.z = executiveNoseZ(config, point.x, point.y, point.z);
             const eye = point.clone().add(new THREE.Vector3(side * 2, .1, -2));
             caster.set(eye, point.clone().sub(eye).normalize());
             const first = caster.intersectObject(visual.exteriorRoot, true)

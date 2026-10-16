@@ -37,7 +37,7 @@ const camera = new T.PerspectiveCamera(45, innerWidth / innerHeight, .025, 250);
 const mirrors = new MirrorSystem(renderer, scene, { driverCamera: eye, vehicleRoot: visual.root, hiddenDuringReflection: [visual.cockpitRoot],
   mirrors: { left: { surface: visual.getMirrorSurface('left'), size: v.leftMirrorTransform.size }, right: { surface: visual.getMirrorSurface('right'), size: v.rightMirrorTransform.size } } });
 const center = visual.centerMirrorSurface ? new InteriorMirror(renderer, scene, eye, visual.centerMirrorSurface, v.centerMirrorTransform!.size, visual.mirrorSurfaceRoot) : null;
-const cityMap = await (await fetch('/city-main.json')).json() as CityMapData;
+const cityMap = await (await fetch('/src/world/city/maps/city-main.json')).json() as CityMapData;
 const drivingScene = new DrivingSceneDisplayContext({lanes:true,proximity:true});
 const network = buildCityRoadNetwork(cityMap as CityMapData), spawn = cityMap.environment.spawnPoints[0]!;
 const junction = [...cityMap.intersections].sort((a,b)=>Math.hypot(a.position.x-spawn.position.x,a.position.z-spawn.position.z)-Math.hypot(b.position.x-spawn.position.x,b.position.z-spawn.position.z))[0]!;
@@ -51,6 +51,11 @@ const mapPose = {x:projection.position.x+Math.cos(projection.headingRadians)*off
 
 type P = readonly [number, number, number];
 const views: Record<string, { position: P; target: P; fov?: number }> = {
+  'exterior-front': { position: [0, 1.18, -8.8], target: [0, .78, -.4], fov: 26 },
+  'exterior-front-quarter': { position: [-6.1, 2.1, -7.7], target: [0, .74, 0], fov: 30 },
+  'exterior-side': { position: [-9.2, 1.65, 0], target: [0, .76, 0], fov: 30 },
+  'exterior-rear': { position: [0, 1.28, 8.8], target: [0, .78, .4], fov: 26 },
+  'exterior-rear-quarter': { position: [6.1, 2.1, 7.7], target: [0, .74, 0], fov: 30 },
   'v6-driver-day': { position: v.driverEyePosition, target: [-.30,.98,-1.1], fov:65 },
   'v6-driver-night': { position: v.driverEyePosition, target: [-.30,.98,-1.1], fov:65 },
   'v6-instruments-day': { position: v.driverEyePosition, target: v.instrumentClusterTransform.position, fov:30 },
@@ -95,7 +100,7 @@ async function saveCapture(all: boolean) {
   let message = '';
   try {
     renderer.setPixelRatio(1); renderer.setSize(1440, 900, false); camera.aspect = 1440 / 900;
-    for (const name of all ? Object.keys(views) : [selected]) {
+    for (const name of all ? Object.keys(views).filter(key => key.startsWith('v6-')) : [selected]) {
       selected = name; night = name.includes('night'); applyView();
       for (let i = 0; i < 60; i++) updateCabin(1 / 60);
       mirrors.render(); center?.render(); renderer.render(scene, camera);

@@ -583,18 +583,18 @@ export class ControlSettingsPanel {
       button.textContent = `${label}: ${enabled ? 'ON' : 'OFF'}`;
     });
   }
-  public setLateralAssistance(lka: boolean, lcc: boolean, lkaState: string, lccState: string, requested: boolean): void {
+  public setLateralAssistance(lka: boolean, lcc: boolean, lkaState: string, lccState: string, requested: boolean, mode = 'OFF'): void {
     const ka = this.require<HTMLButtonElement>(this.panel, '[data-lka]');
     const cc = this.require<HTMLButtonElement>(this.panel, '[data-lcc-enabled]');
     const toggle = this.require<HTMLButtonElement>(this.panel, '[data-lcc-toggle]');
     ka.disabled = !lka; cc.disabled = !lcc; toggle.disabled = !lcc || !this.lccPreference;
-    ka.textContent = `LKA: ${lka && this.lkaPreference ? 'ON' : 'OFF'}`;
-    cc.textContent = `LCC: ${lcc && this.lccPreference ? 'ON' : 'OFF'}`;
+    ka.textContent = `允许 LKA: ${lka && this.lkaPreference ? 'ON' : 'OFF'}`;
+    cc.textContent = `允许 LCC: ${lcc && this.lccPreference ? 'ON' : 'OFF'}`;
     ka.setAttribute('aria-pressed', String(lka && this.lkaPreference));
     cc.setAttribute('aria-pressed', String(lcc && this.lccPreference));
     toggle.setAttribute('aria-pressed', String(requested));
     toggle.textContent = `LCC ${requested ? 'CANCEL' : 'SET'} · ${formatKeyboardCode(this.bindings.lccToggle)}`;
-    this.require(this.panel, '[data-lateral-state]').textContent = `LKA ${lkaState} · LCC ${lccState}`;
+    this.require(this.panel, '[data-lateral-state]').textContent = `模式 ${mode} · LKA ${lkaState} · LCC ${lccState}`;
   }
   public setStartStop(available: boolean, enabled: boolean, state: string): void {
     const button = this.require<HTMLButtonElement>(this.panel, '[data-start-stop]');

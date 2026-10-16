@@ -55,7 +55,11 @@ export function junctionSurfaceContains(j: CityIntersection, map: CityMapData, p
 }
 /** One convex outline through actual approach mouths, respecting every road's width. */
 export function setJunctionPavementFootprint(j: CityIntersection, map: CityMapData): void {
-    const points: CityPoint[] = [];
+    // The authored junction anchor is also the hub used by 3D pavement, contact
+    // triangles and route transitions. Acute/skewed approaches can all lie on
+    // one side of it; their mouths alone do not enclose that hub. Include it in
+    // the common convex hull so mesh, support/ownership masks and 2D agree.
+    const points: CityPoint[] = [{x:0,y:0,z:0}];
     const ribbons:CityPoint[][][]=[];
     const approaches:{path:CityPoint[];reach:number;left:number;right:number;distance:number}[]=[];
     for (const c of j.connections) {

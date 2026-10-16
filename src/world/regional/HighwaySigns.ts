@@ -1,6 +1,7 @@
 import type { CityMapData, CityRoad } from '../city/CityMapData';
 import type { RoadSignDefinition, RoadSignDestination } from '../city/RoadSignData';
 import { polylineLength, sampleAt } from '../city/geometry';
+import { optimizeFastRoadSigns } from './FastRoadSignPlacement';
 
 /** Sign authoring follows directed graph links; crossings never create destinations. */
 export function generateHighwaySigns(map: CityMapData): void {
@@ -13,7 +14,7 @@ export function generateHighwaySigns(map: CityMapData): void {
   const upstream = (road: CityRoad, distance: number) => {
     let station = polylineLength(road.centerline) - distance, travelled = 0; const seen = new Set<string>();
     while (station < 0 && !seen.has(road.id)) {
-      seen.add(road.id); const candidates = (previous.get(road.id) ?? []).filter(r => r.type === 'highway' || r.type === 'ramp_1').sort((a, b) => Number(b.roadNameId === road.roadNameId) - Number(a.roadNameId === road.roadNameId) || b.laneCount - a.laneCount);
+      seen.add(road.id); const candidates = (previous.get(road.id) ?? []).filter(r => (r.type === 'highway' || r.type === 'ramp_1') && r.roadNameId === road.roadNameId).sort((a, b) => b.laneCount - a.laneCount);
       const next = candidates.find(r => !seen.has(r.id)); if (!next) break;
       travelled += polylineLength(road.centerline); road = next; station += polylineLength(road.centerline);
     }
@@ -23,7 +24,7 @@ export function generateHighwaySigns(map: CityMapData): void {
   const straight = (road: CityRoad): RoadSignDestination => ({ roadNameId: road.roadNameId!, directionId: names[`${road.roadNameId}:${direction(road)}`]?`${road.roadNameId}:${direction(road)}`:undefined, arrow: 'straight' });
   const used = new Map<string, RoadSignDefinition>();
   const board = (source: CityRoad, distance: number, id: string, destinations: RoadSignDestination[], node?: string, decisions?: string[], exitNumber?: string, facilities?: string[]) => {
-    const location = upstream(source, distance), s = sampleAt(location.road.centerline, location.station), half = location.road.laneCount * location.road.laneWidth / 2;
+    const location = upstream(source, distance), half = location.road.laneCount * location.road.laneWidth / 2;
     // Keep different decisions readable when their advance positions coincide.
     const key = location.road.id + ':' + Math.round(location.station / 12), existing = used.get(key);
     if (existing && existing.interchangeId === node && existing.advanceMetres===Math.round(location.actualDistance) && decisions?.length) { existing.decisionIds = [...new Set([...(existing.decisionIds ?? []), ...(decisions ?? [])])];for(const d of destinations)if(existing.destinations.length<4&&!existing.destinations.some(e=>e.roadNameId===d.roadNameId&&e.directionId===d.directionId&&e.arrow===d.arrow))existing.destinations.push({...d,distanceMetres:d.arrow==='straight'?undefined:Math.round(location.actualDistance)});return existing; }
@@ -36,7 +37,7 @@ export function generateHighwaySigns(map: CityMapData): void {
     if (!decisions?.length) { sign.type = 'RAMP_CONFIRMATION'; sign.advanceMetres = undefined;sign.actualAdvanceMetres=undefined; }
     // An advance marker on a single-lane predecessor uses an ordinary support;
     // the lane-spanning diverge board always remains on its mainline.
-    if (location.road.laneCount === 1) { sign.template = 'dual-post'; sign.gantryPosts = undefined; sign.size = 'medium'; sign.position = { x: s.point.x - s.tangent.z * (half + 6), y: s.point.y, z: s.point.z + s.tangent.x * (half + 6) }; }
+    if (location.road.laneCount === 1) { sign.template = 'dual-post'; sign.gantryPosts = undefined; sign.size = 'medium'; sign.position = { x: pose.point.x - pose.tangent.z * (half + 6), y: pose.point.y, z: pose.point.z + pose.tangent.x * (half + 6) }; }
     if(sign.type==='EXPRESSWAY_DIVERGE'&&sign.template==='highway-gantry')sign.laneArrows=Array.from({length:location.road.laneCount},(_,i)=>i===location.road.laneCount-1?(destinations.find(d=>d.arrow.startsWith('exit-'))?.arrow??'straight'):'straight');
     map.signs!.push(sign); used.set(key, sign);return sign;
   };
@@ -115,5 +116,6 @@ export function generateHighwaySigns(map: CityMapData): void {
     names['airport:terminal']={primaryText:'T1 / T2 航站楼',kind:'destination'};
     map.signs!.push({id:'highway:airport-local:terminal',type:'URBAN_DIRECTION',template:'dual-post',size:'medium',roadId:airport.id,position:{x:s.point.x-s.tangent.z*offset,y:s.point.y,z:s.point.z+s.tangent.x*offset},heading:Math.atan2(-s.tangent.x,-s.tangent.z),laneDirection:'forward',destinations:[{roadNameId:'airport:terminal',arrow:'straight'}],language:'zh-CN',stationMetres:35});
   }
+  optimizeFastRoadSigns(map);
 }
 

@@ -18,6 +18,7 @@ export interface LaneEnvironment extends DrivingEnvironmentData {
   curvature: number | null; lateralOffset: number | null; roadDirection: number | null;
 }
 export interface NavigationMapData {
+  guidance?: import('../world/navigation/NavigationController').NavigationState;
   currentRoad: RoadSegmentData | null;
   /** Existing networks carry IDs, not road names. Unknown metadata stays absent. */
   roadName: string | null; speedLimit: number | null;
@@ -97,12 +98,12 @@ export class SharedVehicleData {
     const colliders = driving || parking || selector === 'R' ? query(pose, driving ? 38 : 7) : [];
     this.detector.update(pose, parking, colliders);
     this.rearDetector.update(pose, selector === 'R', colliders);
-    const projection = nearby.network ? projectWorldToRoad(nearby.network, pose.x, pose.z) : null;
+    const projection = nearby.network ? projectWorldToRoad(nearby.network, pose.x, pose.z, pose.y) : null;
     if (driving) updateDrivingEnvironment(this.lane, pose, nearby.network, colliders, true, projection, this.laneTracker.trackedLane);
     else { this.lane.lanes = []; this.lane.laneMarkings = []; this.lane.obstacles = []; }
     const road = nearby.network?.segments.find(r => r.id === projection?.segmentId);
     const valid = road && projection && projection.distanceFromCenterline <= road.width / 2 + 1;
-    nav.currentRoad = valid ? road : null; nav.roadName = null;
+    nav.currentRoad = valid ? road : null; nav.roadName = valid ? road.name ?? null : null;
     nav.speedLimit = valid ? road.speedLimit ?? null : null; nav.intersections = nearby.network?.intersections ?? [];
     const lane = this.lane;
     lane.currentLane = lane.leftLane = lane.rightLane = null;

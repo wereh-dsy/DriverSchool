@@ -1,0 +1,37 @@
+{
+  "changedFiles": [
+    "src/vehicle/visual/Cockpit.ts",
+    "src/vehicle/visual/ExecutiveCabinAppearance.ts",
+    "src/vehicle/visual/ExecutiveCabinMaterials.ts",
+    "src/vehicle/visual/ExecutiveCabin.selftest.ts",
+    "scripts/run-executive-cabin-selftest.ts"
+  ],
+  "cabin": {
+    "assertions": 92,
+    "cabinMeshes": 119,
+    "cabinTriangles": 6258,
+    "surfaceTextures": 6,
+    "atlasSize": 1024
+  },
+  "lightingAssertions": 375,
+  "structure": {
+    "assertions": 2617,
+    "vehicles": 12
+  },
+  "driverViewPassed": true,
+  "appearanceGeometryBefore": {
+    "triangles": 6270,
+    "meshes": 111
+  },
+  "appearanceGeometryAfter": {
+    "triangles": 6162,
+    "meshes": 111
+  },
+  "normalBuild": {
+    "exitCode": 0,
+    "warning": "Vite large chunk size warning",
+    "published": true,
+    "command": "pnpm run build"
+  },
+  "instrumentChanged": false
+}

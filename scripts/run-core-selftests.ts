@@ -2,6 +2,9 @@ import { runSuspensionKinematicsSelfTest } from '../src/vehicle/physics/Suspensi
 import { runRoadEdgeChainSelfTest } from '../src/world/city/RoadEdgeChain.selftest';
 import { runCityMainV5SelfTest } from '../src/world/city/CityMainV5.selftest';
 import cityMain from '../src/world/city/maps/city-main.json';
+import regionalMain from '../src/world/regional/regional-main.json';
+import type { CityMapData } from '../src/world/city/CityMapData';
+import { runFastRoadSignPlacementSelfTest } from '../src/world/regional/FastRoadSignPlacement.selftest';
 import cityV41 from '../artifacts/city-main-v5/v41-base.json';
 import { runTeslaExperienceSelfTest } from '../src/vehicle/visual/TeslaExperience.selftest';
 import { runElectricPowertrainSelfTest } from '../src/vehicle/powertrain/ElectricPowertrain.selftest';
@@ -18,6 +21,7 @@ import { runExecutiveSedanSelfTest } from '../src/vehicle/physics/ExecutiveSedan
 import { runMirrorGeometrySelfTest } from '../src/camera/MirrorSystem.selftest';
 import { runAdaptiveMirrorSelfTest } from '../src/camera/AdaptiveMirrorRendering.selftest';
 import { runVisualStreamingSelfTest } from '../src/world/city/VisualStreaming.selftest';
+import { runVisualStreamingLifecycleSelfTest } from '../src/world/city/VisualStreamingLifecycle.selftest';
 import { runVehicleInputSystemSelfTest } from '../src/input/VehicleInputSystem.selftest';
 import { runVehicleCatalogSelfTest } from '../src/vehicle/VehicleCatalog.selftest';
 import { runCruiseControlControllerSelfTest } from '../src/vehicle/control/CruiseControlController.selftest';
@@ -69,6 +73,7 @@ import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftes
 const results = {
   roadEdgeChains: runRoadEdgeChainSelfTest(),
   cityV5: runCityMainV5SelfTest(cityMain, cityV41),
+  roadSignPlacement: runFastRoadSignPlacementSelfTest([regionalMain as CityMapData, cityMain as CityMapData]),
   teslaExperience: runTeslaExperienceSelfTest(),
   suspensionKinematics: runSuspensionKinematicsSelfTest(),
   electricPowertrain: runElectricPowertrainSelfTest(),
@@ -124,6 +129,7 @@ const results = {
   mirrors: runMirrorGeometrySelfTest(),
   adaptiveMirrors: runAdaptiveMirrorSelfTest(),
   visualStreaming: runVisualStreamingSelfTest(),
+  visualStreamingLifecycle: await runVisualStreamingLifecycleSelfTest(),
   instruments: runInstrumentClusterLayoutSelfTest(),
   driverView: runDriverViewSelfTest(),
   vehicleExteriors: runVehicleExteriorSelfTest(),

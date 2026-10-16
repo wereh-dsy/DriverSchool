@@ -12,6 +12,9 @@ export interface RoadMapBounds {
 }
 export interface RoadSegmentData {
   readonly id: string;
+  readonly name?: string;
+  readonly routeNumber?: string;
+  readonly nameId?: string;
   readonly centerline: readonly RoadPoint[];
   readonly width: number;
   readonly length: number;
@@ -54,6 +57,17 @@ export interface RoadNetworkData {
   /** Optional authored map landmarks, shared by HUD and vehicle navigation displays. */
   readonly mapAnnotations?: readonly RoadMapAnnotation[];
   readonly laneConnections?: readonly { readonly intersectionId: string; readonly fromLaneId: string; readonly toLaneId: string }[];
+  /** Explicit legal endpoint transitions; geometric crossings never create links. */
+  readonly routing?: { readonly connections: readonly RoadRoutingConnection[]; readonly places: readonly RoadMapPlace[] };
+}
+
+export interface RoadRoutingConnection {
+  readonly fromRoadId: string; readonly fromEnd: 'start' | 'end';
+  readonly toRoadId: string; readonly toEnd: 'start' | 'end'; readonly via?: RoadPoint;
+}
+export interface RoadMapPlace {
+  readonly id: string; readonly name: string; readonly position: RoadPoint; readonly roadIds: readonly string[];
+  readonly kind?: 'service' | 'interchange';
 }
 
 export interface RoadMapAnnotation {
@@ -82,7 +96,7 @@ export interface RoadProjection {
 }
 
 /** On-demand geometry query for guidance consumers. No routing or pathfinding. */
-export const projectWorldToRoad = (network: RoadNetworkData, x: number, z: number): RoadProjection | null => {
+export const projectWorldToRoad = (network: RoadNetworkData, x: number, z: number, referenceHeight?: number): RoadProjection | null => {
   let nearest: RoadProjection | null = null;
   let bestSquared = Infinity;
   for (const road of network.segments) {
@@ -94,10 +108,13 @@ export const projectWorldToRoad = (network: RoadNetworkData, x: number, z: numbe
       const t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / (length * length)));
       const px = a.x + dx * t, pz = a.z + dz * t;
       const squared = (x - px) ** 2 + (z - pz) ** 2;
-      if (squared < bestSquared) {
-        bestSquared = squared;
+      const py=(a.y??0)+((b.y??0)-(a.y??0))*t, heightDifference=referenceHeight===undefined?0:Math.abs(py-referenceHeight);
+      if(referenceHeight!==undefined&&heightDifference>2.5){travelled+=length;continue;}
+      const score=squared+(heightDifference*8)**2;
+      if (score < bestSquared) {
+        bestSquared = score;
         nearest = {
-          segmentId: road.id, position: { x: px, z: pz }, distanceAlong: travelled + length * t,
+          segmentId: road.id, position: referenceHeight===undefined?{ x: px, z: pz }:{x:px,y:py,z:pz}, distanceAlong: travelled + length * t,
           distanceFromCenterline: Math.sqrt(squared),
           lateralOffset: ((x - px) * -dz + (z - pz) * dx) / length,
           headingRadians: Math.atan2(-dx, -dz),

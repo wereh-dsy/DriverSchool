@@ -19,6 +19,7 @@ export interface ExteriorLightingVisualProfile {
   readonly welcomeSeconds?: number;
   readonly sequentialTurnSeconds?: number;
   readonly lowLensIntensity?: number;
+  readonly positionLensIntensity?: number;
   readonly highLensIntensity?: number;
   readonly turnLensIntensity?: number;
   readonly turnLensHeight?: number;
@@ -39,12 +40,12 @@ export const EXECUTIVE_INSTRUMENT_PROFILE: InstrumentVisualProfile = {
   nightBrightness: .82, laneFadeResponse: 5,
 };
 export const EXECUTIVE_LIGHTING_PROFILE: ExteriorLightingVisualProfile = {
-  signature: 'segmented-led', color: 0xf4f1e8,
+  signature: 'segmented-led', color: 0xeaf4ff,
   low: { intensity: 640, distance: 90, angle: .66, targetY: -.28, targetZ: -42 },
   high: { intensity: 1350, distance: 180, angle: .28, targetY: .28, targetZ: -125 },
   penumbra: .62, decay: 1.15, retainLowBeamOnHigh: true,
   autoOffWithIgnition: true, welcomeSeconds: .85, sequentialTurnSeconds: .18,
-  lowLensIntensity: .65, highLensIntensity: 1.05, turnLensIntensity: 4,
+  lowLensIntensity: 1.05, highLensIntensity: 1.5, positionLensIntensity: 1.35, turnLensIntensity: 4,
   turnLensHeight: .028, turnColor: 0xff5f06, turnSpillIntensity: 1.2,
 };
 export const EXECUTIVE_AMBIENT_PROFILE: InteriorAmbientLightingProfile = {

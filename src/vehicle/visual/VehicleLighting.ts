@@ -4,6 +4,8 @@ import {
 } from 'three';
 
 import type { VehicleVisual } from './VehicleVisual';
+import { executiveNoseZ } from './ExecutiveExteriorSurfaces';
+import { executiveDRLHeight, executiveTurnHeight, executiveTailSignature } from './ExecutiveLampGeometry';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import type { VehicleLightingState, VehicleLightMode } from '../control/VehicleLightingController';
 export type { VehicleLightingState, VehicleLightMode } from '../control/VehicleLightingController';
@@ -48,7 +50,7 @@ export class VehicleLighting {
       for (const material of materials) if (material instanceof MeshStandardMaterial) {
         material.emissiveIntensity = 0;
         // A dark optical housing lets the separate LED modules read clearly.
-        if (profile && object.userData.vehicleBodyPart === 'headlamp') material.color.set(0x23313e);
+        if (profile && object.userData.vehicleBodyPart === 'headlamp') material.color.set(executive && material.map ? 0xffffff : 0x23313e);
       }
     });
     for (const [key, color] of [
@@ -112,14 +114,16 @@ export class VehicleLighting {
       }
       if (profile?.signature === 'segmented-led') {
         const centre = side * halfWidth * .66;
-        const turnHeight = profile.turnLensHeight ?? .016, turnY = .736 - turnHeight * .5;
+        const turnHeight = profile.turnLensHeight ?? .016, turnY = executiveTurnHeight(.5);
         for (let i = 0; i < 4; i++) this.addBox(i === 0 ? label + ' low/high headlamp' : `${label} LED optical module ${i + 1}`, 'head', [.047, .024, .004],
           [centre + (i - 1.5) * .087, .751, frontZ]);
         for (let i = 0; i < 5; i++) {
+          const u0 = i / 5, u1 = (i + 1) / 5, x = side * (.405 + (i + .5) * .09);
           this.addSignatureSegment(`${label} DRL segment ${i + 1}`, 'position', side, i, false,
-            [.075, .0045, .004], [centre + side * (i - 2) * .080, .707, frontZ]);
+            [.0904, .011, .004], [x, (executiveDRLHeight(u0) + executiveDRLHeight(u1)) * .5, frontZ],
+            (executiveDRLHeight(u1) - executiveDRLHeight(u0)) / .09);
           this.addSignatureSegment(`${label} front turn segment ${i + 1}`, signalKey, side, i, true,
-            [.075, turnHeight, .004], [centre + side * (i - 2) * .080, turnY, frontZ]);
+            [.089, turnHeight, .004], [x, (executiveTurnHeight(u0) + executiveTurnHeight(u1)) * .5, frontZ], .018 / .45);
         }
         const cornerMaterial = this.materials.get(signalKey)!.clone();
         cornerMaterial.color.set(0x100b05); cornerMaterial.emissive.set(profile.turnColor ?? 0xff7208);
@@ -127,16 +131,12 @@ export class VehicleLighting {
         this.materials.set(`${label} front turn corner`, cornerMaterial);
         const cornerGeometry = new BufferGeometry();
         cornerGeometry.setAttribute('position', new Float32BufferAttribute([
-          centre + side * .19, turnY - turnHeight * .5, frontZ - .002, centre + side * .19, .736, frontZ - .002,
-          side * halfWidth * .973, .736, frontZ + .12, side * halfWidth * .973, turnY - turnHeight * .5, frontZ + .12,
+          side * .848, .778, frontZ - .002, side * .848, .804, frontZ - .002,
+          side * halfWidth * .973, .786, frontZ + .12, side * halfWidth * .973, .760, frontZ + .12,
         ], 3));
         cornerGeometry.setIndex([0, 1, 2, 0, 2, 3]); cornerGeometry.computeVertexNormals();
         this.addLens(new Mesh(cornerGeometry, cornerMaterial), signalKey, `${label} front turn corner`);
         this.signatureSegments.push({ material: cornerMaterial, side, index: 4, turn: true });
-        const returnMaterial = this.signatureSegments.find(segment => segment.side === side && !segment.turn && segment.index === 4)!.material;
-        const returnLens = new Mesh(new BoxGeometry(.032, .0035, .004), returnMaterial);
-        returnLens.position.set(centre + side * .206, .724, frontZ); returnLens.rotation.z = side * .65;
-        this.addLens(returnLens, 'position', label + ' DRL swept return');
         if (profile.turnSpillIntensity) {
           const light = new PointLight(profile.turnColor ?? 0xff7208, 0, 1.25, 2);
           light.name = label + ' amber indicator spill'; light.position.set(side * halfWidth * .82, turnY, frontZ - .035);
@@ -148,11 +148,15 @@ export class VehicleLighting {
         this.addBox(label + ' front position lamp', 'position', [0.24, 0.016, 0.004], [side * (executive ? halfWidth * .66 : .55), executive ? .720 : .588, frontZ]);
       }
       this.addBox(label + ' front fog lamp', 'fogFront', [0.13, 0.048, 0.004], [side * (executive ? .76 : .62), .355, frontZ + .004]);
-      this.addBox(label + ' rear tail lamp', 'tail', [0.32, 0.025, 0.004], [side * (executive ? halfWidth * .66 : .55), executive ? .778 : .731, rearZ]);
-      this.addBox(label + ' brake lamp', 'brake', [0.33, 0.036, 0.004], [side * (executive ? halfWidth * .66 : .55), executive ? .750 : .676, rearZ]);
+      if (executive) {
+        const tail = new Mesh(executiveTailSignature(side), this.materials.get('tail')!);
+        tail.position.set(side * .624, .7344, rearZ + .001);
+        this.addLens(tail, 'tail', label + ' rear tail lamp light-guide signature');
+      } else this.addBox(label + ' rear tail lamp', 'tail', [0.32, 0.025, 0.004], [side * .55, .731, rearZ]);
+      this.addBox(label + ' brake lamp', 'brake', [0.33, executive ? .014 : .036, 0.004], [side * (executive ? halfWidth * .66 : .55), executive ? .750 : .676, rearZ]);
       this.addBox(label + ' reverse lamp', 'reverse', [0.14, 0.026, 0.004], [side * (executive ? .52 : .49), executive ? .715 : .602, rearZ]);
       if (profile?.signature !== 'segmented-led') this.addBox(label + ' front turn signal', signalKey, [.13, .038, .004], [side * (executive ? .81 : .73), executive ? .733 : .6, frontZ]);
-      this.addBox(label + ' rear turn signal', signalKey, [0.17, 0.024, 0.004], [side * (executive ? .80 : .56), executive ? .763 : .633, rearZ]);
+      this.addBox(label + ' rear turn signal', signalKey, [executive ? .37 : .17, executive ? .013 : .024, 0.004], [side * (executive ? .64 : .56), executive ? .763 : .633, rearZ]);
       // The same lamp output wraps around a real rear corner, visible to the
       // real planar mirror; there is no mirror-specific lighting model.
       this.addCornerLens(label + ' tail corner lens', 'tail', side, halfWidth, halfLength, 0.731, 0.023);
@@ -184,7 +188,7 @@ export class VehicleLighting {
       this.materials.get(key)!.emissiveIntensity = intensity;
     };
     output('head', !powered ? 0 : state.effectiveHighBeam ? profile?.highLensIntensity ?? 2.3 : state.lowBeam ? profile?.lowLensIntensity ?? 1.35 : 0);
-    output('position', powered && state.positionLight ? 0.65 : 0);
+    output('position', powered && state.positionLight ? profile?.positionLensIntensity ?? .65 : 0);
     output('tail', powered && state.positionLight ? 0.8 : 0);
     output('brake', state.brakeLight ? 2.1 : 0);
     output('reverse', state.reverseLight ? 1.4 : 0);
@@ -209,7 +213,7 @@ export class VehicleLighting {
         segment.material.emissiveIntensity = lit ? profile?.turnLensIntensity ?? 1.8 : 0;
       } else {
         const t = this.wakeTime / (profile?.welcomeSeconds ?? .85);
-        const normal = state.positionLight ? .65 : 0;
+        const normal = state.positionLight ? profile?.positionLensIntensity ?? .65 : 0;
         const welcome = smooth((t - segment.index * .075) / .16) * (.8 + (normal - .8) * smooth((t - .68) / .32));
         segment.material.emissiveIntensity = powered ? (t < 1 ? welcome : normal) * (blinking ? .18 : 1) : 0;
       }
@@ -268,6 +272,7 @@ export class VehicleLighting {
     if (profile) { light.color.set(profile.color); light.penumbra = profile.penumbra; light.decay = profile.decay; }
     light.name = x < 0 ? 'Left low/high beam' : 'Right low/high beam';
     light.position.set(x, profile ? .747 : this.vehicle.config.body.design === 'executive' ? .735 : .66, z);
+    if (this.vehicle.config.body.design === 'executive') light.position.z = executiveNoseZ(this.vehicle.config, x, light.position.y, z);
     if (this.vehicle.config.lampLayout) { light.position.y = this.vehicle.config.lampLayout.frontHeight; light.position.x = Math.sign(x) * this.vehicle.config.lampLayout.frontLateral; }
     if (this.vehicle.config.body.profile === 'suv') {
       light.position.y = this.vehicle.config.body.hoodTopY - .16;
@@ -334,6 +339,7 @@ export class VehicleLighting {
     if (this.vehicle.config.body.profile === 'suv') y += this.vehicle.config.body.trunkDeckY - .12 - .731;
     if (this.vehicle.config.body.design === 'executive') {
       y = key === 'tail' ? .778 : key === 'brake' ? .750 : key === 'reverse' ? .715 : key === 'fogRear' ? .56 : .763;
+      height = key === 'tail' ? .010 : key === 'brake' ? .014 : key === 'reverse' ? .012 : height;
     }
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new Float32BufferAttribute([
@@ -353,17 +359,31 @@ export class VehicleLighting {
     if (lens.userData.vehicleBodyPart !== 'mirror-housing') lens.userData.vehicleBodyPart = 'active-lamp';
     lens.userData.lightingOutput = key;
     lens.castShadow = false;
+    if (this.vehicle.config.body.design === 'executive' && lens.userData.vehicleBodyPart !== 'mirror-housing') {
+      const config = this.vehicle.config, oldZ = lens.position.z;
+      const newZ = executiveNoseZ(config, lens.position.x, lens.position.y, oldZ);
+      const positions = lens.geometry.getAttribute('position');
+      for (let i = 0; i < positions.count; i++) {
+        // Projectors and diffusers keep their normal controller-owned output,
+        // while the optical surface follows the same rounded nose as its housing.
+        const x = positions.getX(i) + lens.position.x, y = positions.getY(i) + lens.position.y;
+        positions.setZ(i, executiveNoseZ(config, x, y, positions.getZ(i) + oldZ) - newZ);
+      }
+      lens.position.z = newZ; lens.geometry.computeVertexNormals(); lens.geometry.computeBoundingBox();
+    }
     this.lampMeshes.push(lens);
     if (lens.parent === null) this.vehicle.exteriorRoot.add(lens);
   }
 
   private addSignatureSegment(name: string, key: string, side: number, index: number, turn: boolean,
-    size: readonly [number, number, number], position: readonly [number, number, number]): void {
+    size: readonly [number, number, number], position: readonly [number, number, number], slope = 0): void {
     const material = this.materials.get(key)!.clone();
     if (turn) { material.color.set(0x100b05); material.emissive.set(this.vehicle.config.exteriorLighting?.turnColor ?? 0xff7208); }
     this.materials.set(name, material);
     const lens = new Mesh(new BoxGeometry(...size), material);
     lens.position.set(...position);
+    const vertices = lens.geometry.getAttribute('position');
+    for (let i = 0; i < vertices.count; i++) vertices.setY(i, vertices.getY(i) + vertices.getX(i) * side * slope);
     this.addLens(lens, key, name);
     this.signatureSegments.push({ material, side, index, turn });
   }

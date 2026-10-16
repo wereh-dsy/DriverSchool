@@ -1,3 +1,4 @@
 import { runAdaptiveMirrorSelfTest } from '../src/camera/AdaptiveMirrorRendering.selftest';
 import { runVisualStreamingSelfTest } from '../src/world/city/VisualStreaming.selftest';
-console.log(JSON.stringify({ mirrors: runAdaptiveMirrorSelfTest(), streaming: runVisualStreamingSelfTest() }, null, 2));
+import { runVisualStreamingLifecycleSelfTest } from '../src/world/city/VisualStreamingLifecycle.selftest';
+console.log(JSON.stringify({ mirrors: runAdaptiveMirrorSelfTest(), streaming: runVisualStreamingSelfTest(), lifecycle: await runVisualStreamingLifecycleSelfTest() }, null, 2));

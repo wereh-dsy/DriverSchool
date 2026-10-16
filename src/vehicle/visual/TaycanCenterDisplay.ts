@@ -1,5 +1,6 @@
 import * as T from 'three';
 import { AdaptiveMapZoom } from '../../ui/LocalRoadMap';
+import { drawNavigationBanner } from '../../ui/NavigationDisplay';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { TaycanDisplaySurface, text, line, taycanBrightness, TAYCAN_COLORS as C } from './TaycanDisplaySurface';
@@ -94,7 +95,7 @@ export class TaycanCenterDisplay extends T.Group {
     if (this.page === 'navigation') {
       const view = this.zoom.update(dt, t.speedKmh / 3.6, n?.complexity ?? 0, selector);
       const mapKey = n?.map.available ? `${n.map.version}|${n.pose.x.toFixed(1)}|${n.pose.z.toFixed(1)}|${n.pose.yaw.toFixed(2)}|${view.toFixed(0)}|${n.roadName}|${n.speedLimit}` : 'navigation-empty';
-      this.content.update(mapKey, .1, this.drawMap);
+      this.content.update(mapKey+'|'+n?.guidance?.version, .1, this.drawMap);
     } else if (this.page === 'parking') {
       const p = t.sharedVehicle?.parking, r = t.sharedVehicle?.rearParking;
       this.content.update(`${p?.active}|${p?.zones.map(z => `${z.severity}:${z.distanceM?.toFixed(2)}`).join(',')}|${r?.zones.map(z => `${z.severity}:${z.distanceM?.toFixed(2)}`).join(',')}|${selector}`, .1, this.drawParking);
@@ -144,6 +145,8 @@ export class TaycanCenterDisplay extends T.Group {
     text(c, nav.roadName ?? 'Current road', 129, 441, 25, C.white);
     if (nav.speedLimit != null) text(c, `${nav.speedLimit} km/h`, 507, 441, 24, C.secondary, 'right');
     text(c, 'N', 1068, 112, 22, C.secondary, 'center');
+    nav.map.drawNavigation(c,{x:93,y:84,width:1010,height:398},nav.pose.x,nav.pose.z,this.zoom.viewMetres,nav.pose.yaw);
+    drawNavigationBanner(c,nav.guidance,{x:112,y:100,width:510,height:118});
     line(c, 975, 446, 1078, 446, '#b1bdc7'); text(c, `${Math.round(this.zoom.viewMetres * 103 / 1010)} m`, 1078, 425, 18, C.secondary, 'right');
   };
   private drawVehicle = (c: CanvasRenderingContext2D): void => {

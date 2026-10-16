@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { drawNavigationBanner } from '../../ui/NavigationDisplay';
 import { drawStatusLamp, type InstrumentTelemetry, type InstrumentClusterConfig } from './InstrumentCluster';
 import { lateralBoundaryColor } from './LateralAssistDisplay';
 import { PROXIMITY_COLORS } from '../control/RearParkingProximity';
@@ -107,6 +108,7 @@ export class GolfGTIInstruments extends T.Group {
         j ? c.lineTo(x, y) : c.moveTo(x, y); }); c.stroke();
     });
     c.setLineDash([]);drawGTICar(c,640,349,.18);c.restore();
+    if(!String(t.gear).startsWith('R'))drawNavigationBanner(c,t.sharedVehicle?.navigation.guidance,{x:470,y:242,width:340,height:123},true);
     text(c, String(t.gear), 640, 420, 40);
     const fuel = t.fuelLevel === undefined ? '—' : String(Math.round(t.fuelLevel * 100));
     text(c, fuel + ' %', 1032, 373, 29);
@@ -190,6 +192,8 @@ export class GolfGTICenterDisplay {
         const metres = this.zoom.update(elapsed, Math.abs(t.speedKmh) / 3.6, scene.mapComplexity, String(t.gear).charAt(0));
         scene.map.draw(m, { x: 0, y: 88, width: 1024, height: 454 }, p.x, p.z, p.yaw, metres);
         c.save();c.filter='invert(1) saturate(.35) brightness(.8)';c.drawImage(this.mapCanvas,0,0);c.restore();
+        scene.map.drawNavigation(c,{x:0,y:88,width:1024,height:454},p.x,p.z,metres,p.yaw);
+        drawNavigationBanner(c,t.sharedVehicle?.navigation.guidance,{x:24,y:110,width:470,height:125});
         panel(c,875,110,104,64,'#111d29');text(c,'N ↑',927,143,25,'#cfdae1');
       } else {
         panel(c,210,175,604,274,'#14202d');pageIcon(c,'map',512,247,'#a9bdca');
