@@ -5,10 +5,17 @@ export type RoadType = 'urban_2lane' | 'urban_4lane' | 'urban_6lane' | 'highway'
 import type { RoadNameRegistry,RoadSignDefinition } from './RoadSignData';
 export interface CityElementMetadata { groupId?: string; presetSource?: string; designProfile?: 'urban' | 'motorway';roadNameId?:string;corridorSection?:string;roadLevel?:1|2|3|4 }
 export type TravelDirection = 'two-way' | 'forward' | 'reverse';
+export type CityRoadClass = 'avenue' | 'arterial' | 'collector' | 'local' | 'alley' | 'industrial';
+export type CityFacade = 'residential' | 'office' | 'old-town' | 'industrial' | 'campus';
 export interface CityRoad extends CityElementMetadata {
+  /** Player label override. Empty means unnamed; IDs/name IDs remain logical keys. */
+  displayName?: string;
   id: string; type: RoadType; centerline: CityPoint[]; curve?: 'polyline' | 'smooth';
   laneCount: number; laneWidth: number; travelDirection: TravelDirection; speedLimit: number;
   sidewalk?: { enabled: boolean; width: number }; district?: string;
+  /** Authored content classification; never changes traffic/physics topology. */
+  roadClass?: CityRoadClass;
+  decorationProfile?: string;
   styleId?: string;
   /** Paved shoulders relative to centerline order (negative/positive ribbon offset). */
   shoulders?: { left: number; right: number };
@@ -31,7 +38,8 @@ export interface RoadConnection { roadId: string; end: 'start' | 'end'; port: In
 export interface CityIntersection extends CityElementMetadata {
   id: string; type: IntersectionType; position: CityPoint; rotation: number;
   connections: RoadConnection[]; signalized: boolean;
-  signals?: { offsetSeconds?: number; headHeight?: number };
+  signals?: { offsetSeconds?: number; headHeight?: number; profile?: 'standard' | 'lane-countdown';
+    throughGreenSeconds?: number; leftGreenSeconds?: number; amberSeconds?: number; allRedSeconds?: number };
   /** Optional local bearings for skewed and five-leg junctions. Existing cardinal ports are unchanged. */
   portAngles?: Partial<Record<IntersectionPort, number>>;
   channelized?: boolean;
@@ -42,12 +50,15 @@ export interface CityIntersection extends CityElementMetadata {
   approaches?: Partial<Record<IntersectionPort,{lanes:LaneMovement[];arrowDistance?:number}>>;
 }
 export type LaneMovement='straight'|'left'|'right'|'straight-left'|'straight-right'|'left-right';
-export const PREFAB_IDS = ['residential_low', 'residential_mid', 'office', 'commercial', 'industrial', 'school', 'garage', 'parking', 'tree', 'streetlight', 'traffic_sign', 'bus_stop', 'guardrail', 'parked_car', 'noise_barrier', 'green_strip', 'hardscape', 'embankment', 'guide_sign'] as const;
+export const PREFAB_IDS = ['residential_low', 'residential_mid', 'office', 'commercial', 'industrial', 'school', 'garage', 'parking', 'tree', 'streetlight', 'traffic_sign', 'bus_stop', 'guardrail', 'parked_car', 'noise_barrier', 'green_strip', 'hardscape', 'embankment', 'guide_sign', 'water', 'sports_field', 'streetlight_dual', 'streetlight_highway', 'streetlight_small', 'waterway', 'railway_track', 'station_platform', 'stadium'] as const;
 export type PrefabId = typeof PREFAB_IDS[number];
 export interface CityObject extends CityElementMetadata {
   id: string; prefabId: PrefabId; position: CityPoint; rotation: number;
   scale?: { x: number; y: number; z: number }; color?: string; district?: string;
   label?: string;
+  facade?: CityFacade;
+  buildingShape?: 'box' | 'chamfered' | 'slab' | 'courtyard';
+  landmarkModel?: 'station' | 'government' | 'museum' | 'university' | 'exhibition' | 'tower' | 'stadium' | 'arena';
 }
 export interface CityMapData {
   /** Region metadata never replaces the shared logical road graph. */
@@ -64,6 +75,8 @@ export interface CityMapData {
   environment: {
     districts: { id: string; name: string; description?: string }[];
     spawnPoints: { id: string; position: CityPoint; rotation: number }[];
+    corridors?: { id:string;name:string;kind:'waterway'|'railway';width:number;bankWidth?:number;centerline:CityPoint[] }[];
+    landmarks?: {id:string;name:string;position:CityPoint;roadIds:string[]}[];
     metadata?: Record<string, string>;
   };
 }

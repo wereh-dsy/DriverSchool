@@ -1,0 +1,82 @@
+{
+  "cityCompatibility": {
+    "roads": 43,
+    "intersections": 12,
+    "prefabs": 288,
+    "instancedBatches": 120,
+    "streaming": "load/unload/reload passed",
+    "backbone": {
+      "ringLengthMetres": 12093.1,
+      "expressways": "3+3",
+      "systems": 5,
+      "diamonds": 2,
+      "directAccessRamps": 12,
+      "motorwayLength": 1982,
+      "urbanFootprints": {
+        "central": {
+          "width": 660,
+          "depth": 660,
+          "area": 435600
+        },
+        "west": {
+          "width": 540,
+          "depth": 540,
+          "area": 291600
+        },
+        "east": {
+          "width": 660,
+          "depth": 660,
+          "area": 435600
+        },
+        "north": {
+          "width": 740,
+          "depth": 740,
+          "area": 547600
+        },
+        "south": {
+          "width": 660,
+          "depth": 660,
+          "area": 435600
+        }
+      },
+      "peripheralFootprint": {
+        "width": 1335,
+        "depth": 870,
+        "area": 1161450
+      },
+      "tunnelMetres": 500,
+      "underpassMetres": 110,
+      "objectBatches": 37,
+      "maximumGrades": {
+        "mainline": 0.03748437792968744,
+        "ramp": 0.07583357009084632,
+        "underpass": 0.046840289351851895
+      },
+      "contactSamples": 37183
+    }
+  },
+  "streaming": {
+    "passed": true,
+    "assertions": 65,
+    "parityRoads": [
+      "boulevard-north",
+      "alpha-v2-overpass:overpass:1"
+    ]
+  },
+  "streamingLifecycle": {
+    "assertions": 10
+  },
+  "navigation": {
+    "assertions": 205,
+    "regionalRoutes": 4
+  },
+  "mapGeometry": {
+    "assertions": 10002,
+    "junctions": 181,
+    "approaches": 629,
+    "links": 2515,
+    "continuationChecks": 1591,
+    "maximumEndpointGap": 0.017324746811937075,
+    "maximumEdgeGap": 0
+  }
+}

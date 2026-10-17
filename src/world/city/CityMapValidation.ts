@@ -44,6 +44,9 @@ export function validateMap(value: unknown): MapValidation {
     if (!['two-way', 'forward', 'reverse'].includes(r.travelDirection) || r.travelDirection === 'two-way' && r.laneCount % 2 !== 0) issue('direction.invalid', path, 'Two-way roads require an even lane count.');
     if (r.styleId && !ROAD_STYLES.some(s => s.id === r.styleId)) issue('style.invalid', path, `Unknown road style: ${r.styleId}`);
     if (r.designProfile !== undefined && !['urban','motorway'].includes(r.designProfile)) issue('design.profile',path,'Expected urban or motorway design profile.');
+    if(r.roadClass!==undefined&&!['avenue','arterial','collector','local','alley','industrial'].includes(r.roadClass))issue('road.class',path,'Unknown city road hierarchy.');
+    if(r.displayName!==undefined&&(typeof r.displayName!=='string'||r.displayName.length>100))issue('road.displayName',path,'Optional player name must be a string of at most 100 characters; empty means unnamed.');
+    if(r.decorationProfile!==undefined&&(typeof r.decorationProfile!=='string'||!r.decorationProfile.length||r.decorationProfile.length>64))issue('road.decoration',path,'Decoration profile must be a nonempty key of at most 64 characters.');
     if (r.curve && !['polyline', 'smooth'].includes(r.curve)) issue('curve.invalid', path, 'Expected polyline or smooth.');
     if (r.elevationMode && !['ground', 'elevated', 'custom'].includes(r.elevationMode)) issue('elevation.mode', path, 'Expected ground/elevated/custom.');
     if (r.elevationMode === 'elevated' && (!finite(r.elevation ?? 6) || (r.elevation ?? 6) < 2.5 || (r.elevation ?? 6) > 100)) issue('elevation.invalid', path, 'Elevated height must be 2.5–100m.');
@@ -86,6 +89,8 @@ export function validateMap(value: unknown): MapValidation {
     const expected = j.type==='irregular'?5:j.type.startsWith('t_') ? 3 : 4;
     if(j.portAngles!==undefined && (!j.portAngles||typeof j.portAngles!=='object'||Object.entries(j.portAngles).some(([port,angle])=>!portsFor(j).includes(port as typeof j.connections[number]['port'])||!finite(angle))))issue('junction.angles',path,'Finite local bearings on valid ports required.');
     if(j.channelized!==undefined&&typeof j.channelized!=='boolean')issue('junction.channelized',path,'Channelized flag must be boolean.');
+    if(j.signals?.profile!==undefined&&!['standard','lane-countdown'].includes(j.signals.profile))issue('signal.profile',path,'Unknown signal profile.');
+    for(const [key,min,max] of [['throughGreenSeconds',8,90],['leftGreenSeconds',5,45],['amberSeconds',2,6],['allRedSeconds',1,5]] as const){const duration=j.signals?.[key];if(duration!==undefined&&(!finite(duration)||duration<min||duration>max))issue('signal.timing',path,`${key} must be ${min}–${max} seconds.`);}
     if (j.connections.length < expected) issue('junction.weak', path, `${j.id}: ${j.connections.length}/${expected} arms. Preserve the authored junction; inspect missing approaches.`, 'warning');
     for (const c of j.connections) {
       const p = endpoint(c, path), key = `${c?.roadId}:${c?.end}`;
@@ -138,9 +143,16 @@ export function validateMap(value: unknown): MapValidation {
     if (o?.scale && ![o.scale.x, o.scale.y, o.scale.z].every(v => finite(v) && v > 0 && v <= 20)) issue('scale.invalid', `objects[${i}]`, 'Scale axes must be positive and ≤20.');
     if (o?.color && !/^#[0-9a-f]{6}$/i.test(o.color)) issue('color.invalid', `objects[${i}]`, 'Color must be #RRGGBB.');
     if(o?.label!==undefined&&(typeof o.label!=='string'||o.label.length>64))issue('label.invalid',`objects[${i}]`,'Sign label must be at most 64 characters.');
+    if(o?.facade!==undefined&&!['residential','office','old-town','industrial','campus'].includes(o.facade))issue('facade.invalid',`objects[${i}]`,'Unknown shared facade profile.');
+    if(o?.buildingShape!==undefined&&!['box','chamfered','slab','courtyard'].includes(o.buildingShape))issue('building.shape',`objects[${i}]`,'Unknown shared building footprint.');
+    if(o?.landmarkModel!==undefined&&!['station','government','museum','university','exhibition','tower','stadium','arena'].includes(o.landmarkModel))issue('building.landmark',`objects[${i}]`,'Unknown landmark model.');
   });
   if (!m.environment || !Array.isArray(m.environment.districts) || !Array.isArray(m.environment.spawnPoints) || !m.environment.spawnPoints.length) issue('spawn.missing', 'environment', 'District array and at least one spawn required.');
   else for (const s of m.environment.spawnPoints) if (!s || typeof s.id !== 'string' || !point(s.position) || !finite(s.rotation)) issue('spawn.invalid', 'environment.spawnPoints', 'Invalid spawn.');
+  if(m.environment?.corridors!==undefined&&!Array.isArray(m.environment.corridors))issue('corridor.invalid','environment.corridors','Corridors must be an array.');
+  else for(const corridor of m.environment?.corridors??[])if(!corridor||typeof corridor.id!=='string'||!corridor.id||typeof corridor.name!=='string'||!corridor.name||!['waterway','railway'].includes(corridor.kind)||!finite(corridor.width)||corridor.width<1||corridor.width>100||(corridor.bankWidth!==undefined&&(!finite(corridor.bankWidth)||corridor.bankWidth<corridor.width))||!Array.isArray(corridor.centerline)||corridor.centerline.length<2||!corridor.centerline.every(point))issue('corridor.invalid','environment.corridors','Invalid geographic corridor.');
+  if(m.environment?.landmarks!==undefined&&!Array.isArray(m.environment.landmarks))issue('landmark.invalid','environment.landmarks','Landmarks must be an array.');
+  else for(const landmark of m.environment?.landmarks??[])if(!landmark||typeof landmark.id!=='string'||!landmark.id||typeof landmark.name!=='string'||!landmark.name||!point(landmark.position)||!Array.isArray(landmark.roadIds)||!landmark.roadIds.length||landmark.roadIds.some(id=>!m.roads.some(r=>r.id===id)))issue('landmark.invalid','environment.landmarks','Landmark must refer to real access roads.');
   if (errors.length === 0 && b) for (const e of [...m.roads.flatMap(r => r.centerline), ...m.intersections.map(j => j.position), ...m.objects.map(o => o.position)]) {
     if (e.x < b.minX || e.x > b.maxX || e.z < b.minZ || e.z > b.maxZ) { issue('bounds.outside', 'bounds', 'Elements outside bounds; expand before driving there.', 'warning'); break; }
   }

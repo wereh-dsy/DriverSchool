@@ -195,6 +195,8 @@ export class Subject3TrafficSignals {
   public getCycleSeconds(): number {
     return this.cycleSeconds;
   }
+  /** Shared simulation clock for specialized map signal presentations. */
+  protected get clockSeconds(): number { return this.elapsedSeconds; }
 
   public getHeadCount(): number {
     return this.heads.length;

@@ -19,11 +19,12 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
     const centerline = roadPoints(r);
     const endpoint = (end: 'start' | 'end') => map.intersections.find(j => j.connections.some(c => c.roadId === r.id && c.end === end))?.id;
     const name = r.roadNameId ? map.roadNames?.[r.roadNameId] : undefined;
-    return { id: r.id, name: name?.primaryText, routeNumber: name?.routeNumber, nameId: r.roadNameId,
+    const ramp=r.type==='ramp_1'||!!r.gore&&r.laneCount<=2;
+    return { id: r.id, name: r.displayName??(ramp?undefined:name?.primaryText), routeNumber: ramp||r.displayName===''?undefined:name?.routeNumber, nameId: r.roadNameId,
       centerline, width: r.laneCount * r.laneWidth, length: polylineLength(centerline),
       laneCountPerDirection: r.travelDirection === 'two-way' ? r.laneCount / 2 : r.laneCount, laneWidth: r.laneWidth,
       laneCount: r.laneCount, travelDirection: r.travelDirection, speedLimit: r.speedLimit,
-      roadType: r.type === 'highway' ? 'highway' as const : r.type === 'ramp_1' ? 'ramp' as const : 'urban' as const,
+      roadType: ramp ? 'ramp' as const : r.type === 'highway' ? 'highway' as const : 'urban' as const,
       markingsAvailable: r.markings !== false, highwayTransition: r.highwayTransition,
       startIntersectionId: endpoint('start'), endIntersectionId: endpoint('end'),
       lanes: Array.from({ length: r.laneCount }, (_, index): CityLaneData => ({ id: `${r.id}:lane:${index}`, roadId: r.id, index,
@@ -83,7 +84,8 @@ export function buildCityRoadNetwork(map: CityMapData): CityRoadNetwork {
   }
   return { mapId: map.id, bounds: { minimumX: map.bounds.minX, maximumX: map.bounds.maxX, minimumZ: map.bounds.minZ, maximumZ: map.bounds.maxZ }, segments, connectivity, endpointNodes, laneConnections,
     routing: { connections: routingConnections, places: [
-      ...(map.regional?.highways?.services ?? []).map(place => ({ id: place.id, name: place.name, position: place.position, roadIds: place.roadIds, kind: 'service' as const })),
+        ...(map.regional?.highways?.services ?? []).map(place => ({ id: place.id, name: place.name, position: place.position, roadIds: place.roadIds, kind: 'service' as const })),
+        ...(map.environment.landmarks??[]).map(place=>({...place,kind:'landmark' as const})),
       ...(map.regional?.highways?.junctions ?? []).filter(j=>j.kind==='interchange').map(place=>({id:place.id,name:place.name,position:place.position,roadIds:place.roadIds,kind:'interchange' as const})),
     ] },
     intersections: map.intersections.map(j => {

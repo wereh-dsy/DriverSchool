@@ -6,6 +6,7 @@ import { INTERSECTION_LANES, type CityIntersection, type CityMapData } from './C
 import { junctionExtent, polylineLength, portsFor, portDirection, roadPoints, rotatePoint, sampleAt } from './geometry';
 import { insideIntersectionMarkingFootprint } from './MarkingOwnership';
 import {junctionSurfaceHeight,junctionApproachExtent} from './JunctionSurface';
+import {CityTrafficSignals} from './CityTrafficSignals';
 
 export class IntersectionBuilder {
   constructor(private readonly map: CityMapData, private readonly materials: Subject3Materials) {}
@@ -67,10 +68,11 @@ export class IntersectionBuilder {
         const lateral = width / 2 + 1;
         // Far-side pole: beyond the conflict box and the opposite crossing, on the
         // served approach's right, with its arm reaching back over the approach lanes.
-        const center = { x: j.position.x - outward.x * (h + 1) + worldRight.x * lateral, z: j.position.z - outward.z * (h + 1) + worldRight.z * lateral };
+        const headHeight=signals instanceof CityTrafficSignals&&j.signals?.profile?Math.max(7.2,j.signals.headHeight??7.2):j.signals?.headHeight??5.8;
+        const center = signals instanceof CityTrafficSignals&&j.signals?.profile?signals.placePole(index,outward,worldRight,h,width,headHeight):{ x: j.position.x - outward.x * (h + 1) + worldRight.x * lateral, z: j.position.z - outward.z * (h + 1) + worldRight.z * lateral };
         signals.addHead(index, { segmentId: r?.id ?? `${j.id}:${port}`, outward, right: worldRight,
           approachYawRadians: yaw + j.rotation, approachLaneCount: r?.travelDirection === 'two-way' ? laneCount / 2 : laneCount, approachLaneWidth: laneWidth, roadWidth: width, controlKind: armControlKind(d) },
-          center, Math.atan2(-outward.x, -outward.z), this.materials, true, j.signals?.headHeight ?? 5.8);
+          center, Math.atan2(-outward.x, -outward.z), this.materials, true, headHeight);
         signals.root.children.at(-1)!.position.y = j.position.y ?? 0;
       }
     }

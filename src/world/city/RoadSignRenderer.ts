@@ -43,7 +43,7 @@ export class RoadSignRenderer {
     const content=resolveSignContent(sign,this.names),canvas=this.canvasFactory();
     let texture:CanvasTexture|undefined;
     if(canvas) {
-      canvas.width=sign.template==='speed-limit'?256:sign.template==='chevron'?384:sign.highwayLayout?2048:sign.size==='large'?1536:sign.size==='medium'?1024:768;canvas.height=sign.template==='speed-limit'?256:sign.template==='chevron'?192:sign.template==='ceiling'?256:sign.highwayLayout?1024:sign.size==='large'?640:sign.size==='medium'?400:216;
+      canvas.width=sign.template==='speed-limit'?256:sign.template==='chevron'?384:sign.highwayLayout?2048:sign.urbanLayout?1536:sign.size==='large'?1536:sign.size==='medium'?1024:768;canvas.height=sign.template==='speed-limit'?256:sign.template==='chevron'?192:sign.template==='ceiling'?256:sign.highwayLayout?1024:sign.urbanLayout?584:sign.size==='large'?640:sign.size==='medium'?400:216;
       const ctx=canvas.getContext('2d');if(ctx){this.paint(ctx,canvas.width,canvas.height,content);texture=new CanvasTexture(canvas);texture.colorSpace=SRGBColorSpace;texture.anisotropy=8;texture.minFilter=LinearMipmapLinearFilter;texture.magFilter=LinearFilter;this.texturesCreated++;}
     }
     const material=new MeshBasicMaterial({color:texture?0xffffff:content.color,map:texture??null,toneMapped:false,transparent:sign.type==='SPEED_LIMIT',alphaTest:sign.type==='SPEED_LIMIT'?.1:0});this.materials.set(key,material);return material;
@@ -64,6 +64,7 @@ export class RoadSignRenderer {
       c.destinations.forEach((d,i)=>{const x=30+i*column;this.arrow(ctx,x+55,h/2,d.arrow,.6);ctx.font=`400 ${Math.min(150,h*.55)}px "Microsoft YaHei",sans-serif`;ctx.fillText([d.routeNumber,d.direction??d.name].filter(Boolean).join(' '),x+125,h*.7,column-155);});return;
     }
     if(c.highwayLayout){this.paintHighway(ctx,w,h,c);return;}
+    if(c.urbanLayout){this.paintUrbanJunction(ctx,w,h,c);return;}
     ctx.fillStyle=c.color;ctx.fillRect(0,0,w,h);ctx.strokeStyle='#ffffff';ctx.lineWidth=5;ctx.strokeRect(14,14,w-28,h-28);ctx.fillStyle='#ffffff';
     const title=[c.exitNumber?'出口 '+c.exitNumber:undefined,c.interchange??c.approachRoadName].filter(Boolean).join(' '),top=title||c.advanceMetres!==undefined?90:25;if(title){ctx.font='400 48px "Microsoft YaHei",sans-serif';ctx.fillText(title,42,62,w*.65);}
     if(c.advanceMetres!==undefined){ctx.font='400 43px "Microsoft YaHei",sans-serif';ctx.fillText('前方 '+this.distance(c.advanceMetres),w*.7,62,w*.26);}
@@ -81,6 +82,30 @@ export class RoadSignRenderer {
     }
   }
   private distance(m:number):string{return m>=1000?(m/1000).toFixed(m%1000===0?0:1)+' km':Math.round(m)+' m';}
+  /** Reference-style urban board: large Chinese, secondary Latin text, and an
+   * approach-relative junction symbol. Names remain real topology destinations. */
+  private paintUrbanJunction(ctx:CanvasRenderingContext2D,w:number,h:number,c:Content):void {
+    if(w!==2048||h!==780){ctx.save();ctx.scale(w/2048,h/780);this.paintUrbanJunction(ctx,2048,780,c);ctx.restore();return;}
+    ctx.fillStyle='#07549b';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#fff';ctx.lineWidth=7;ctx.strokeRect(18,18,w-36,h-36);
+    ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+    const write=(name:string,secondary:string|undefined,x:number,y:number,max:number,primary=120)=>{
+      let size=primary;ctx.font=`600 ${size}px "Microsoft YaHei",sans-serif`;
+      while(ctx.measureText(name).width>max&&size>104){size-=2;ctx.font=`600 ${size}px "Microsoft YaHei",sans-serif`;}
+      ctx.fillText(name,x,y,max);
+      if(secondary){ctx.font='500 60px Arial,sans-serif';ctx.fillText(secondary,x,y+92,max);}
+    };
+    const unique=c.destinations.filter((d,i,all)=>all.findIndex(a=>a.name===d.name&&a.arrow===d.arrow)===i);
+    const branches={straight:unique.filter(d=>d.arrow==='straight'),left:unique.filter(d=>d.arrow==='left'||d.arrow==='exit-left'),right:unique.filter(d=>d.arrow==='right'||d.arrow==='exit-right')};
+    const top=branches.straight[0];if(top)write(top.name,top.secondaryText,w*.5,h*.13,w*.7,140);
+    for(const [side,x]of [['left',.22],['right',.78]] as const)branches[side].slice(0,2).forEach((d,i,all)=>write(d.name,d.secondaryText,w*x,h*(all.length===1?.50:.40+i*.27),w*.35));
+    if(c.approachRoadName)write(c.approachRoadName,undefined,w*.5,h*.9,w*.75,90);
+    const cx=w*.5,cy=h*.56,stroke=30;
+    ctx.strokeStyle='#fff';ctx.lineWidth=stroke;ctx.lineCap='butt';ctx.beginPath();ctx.moveTo(cx,h*.79);ctx.lineTo(cx,cy);ctx.stroke();
+    const branch=(x:number,y:number)=>{const dx=x-cx,dy=y-cy,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,head=45;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x-ux*head*.5,y-uy*head*.5);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-ux*head-uy*head*.7,y-uy*head+ux*head*.7);ctx.lineTo(x-ux*head+uy*head*.7,y-uy*head-ux*head*.7);ctx.closePath();ctx.fill();};
+    if(branches.straight.length)branch(cx,h*.32);
+    if(branches.left.length)branch(w*.405,cy);
+    if(branches.right.length)branch(w*.595,cy);
+  }
   private arrow(ctx:CanvasRenderingContext2D,x:number,y:number,type:string,scale=1):void {
     ctx.save();ctx.translate(x,y);ctx.rotate(highwayArrowRotation(type));ctx.scale(scale,scale);ctx.beginPath();ctx.moveTo(-20,66);ctx.lineTo(20,66);ctx.lineTo(20,-5);ctx.lineTo(54,-5);ctx.lineTo(0,-76);ctx.lineTo(-54,-5);ctx.lineTo(-20,-5);ctx.closePath();ctx.fill();ctx.restore();
   }

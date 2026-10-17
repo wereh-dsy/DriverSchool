@@ -31,6 +31,7 @@ export function expandCompactInterchange(id:string,p:PresetParameters={}):Preset
   const bm=(p.mainRoadLanes??6)/2*3.75/2+2.5,bc=(p.crossRoadLanes??6)/2*3.75/2+2.5;
   const radius=Math.min(40,Math.max(38,p.rampRadius??38)),delta=Math.abs(mainY-crossY),approach=p.mainApproach??((id==='system_compact_star'?370:330)+Math.max(0,delta-8)*20);
   if(!COMPACT_INTERCHANGE_IDS.includes(id as never)||![mainY,crossY,bm,bc,radius,approach].every(Number.isFinite)||approach<240||approach>600)throw new Error('preset.parameters: invalid compact system dimensions');
+  if(p.rightApproach!==undefined&&(!Number.isFinite(p.rightApproach)||p.rightApproach<160||p.rightApproach>400))throw new Error('preset.parameters: rightApproach must be 160–400m');
   const main=(offset:number)=>profileHeight(p.mainProfile,offset,mainY,p.profileInterpolation),cross=(offset:number)=>profileHeight(p.crossProfile,offset,crossY,p.profileInterpolation);
   const height=(q:CityPoint)=>Math.abs(q.x)<Math.abs(q.z)?main(q.z):cross(q.x);
   const port=(label:string,r:CityRoad,end:'start'|'end')=>map.connectionPorts!.push({id:`${r.id}:port-${end}`,label,endpoint:{roadId:r.id,end},groupId,position:r.centerline[end==='start'?0:r.centerline.length-1],heading:0});
@@ -65,7 +66,7 @@ export function expandCompactInterchange(id:string,p:PresetParameters={}):Preset
       const r=road(`${leftNames[q]}-${id==='system_compact_turbine'?'turbine':id==='system_compact_star'?'star':'semi'}`,join(entrance,core,merge).map(v=>rotatePoint(v,rot)),45);
       r.gore!.length=120;semi.push({r,q});
     }
-    const rightApproach=id==='system_compact_cloverleaf'||id==='system_compact_hybrid'?270:160;
+    const rightApproach=p.rightApproach??(id==='system_compact_cloverleaf'||id==='system_compact_hybrid'?270:160);
     const a=rightApproach,path=bezierPoints(point3(sourceB,0,a),point3(sourceB,0,a*0.45),point3(a*0.45,0,destB),point3(a,0,destB)).map(v=>rotatePoint(v,rot));
     const len=polylineLength(path),sy=height(path[0]!),ey=height(path.at(-1)!);let d=0;
     for(let i=0;i<path.length;i++){if(i)d+=Math.hypot(path[i]!.x-path[i-1]!.x,path[i]!.z-path[i-1]!.z);path[i]!.y=sy+(ey-sy)*compactRampEase((d-55)/(len-110));}

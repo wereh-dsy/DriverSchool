@@ -23,7 +23,7 @@ interface Arc { id: string; road: RoadSegmentData; forward: boolean; length: num
 export interface RoadMatch { location: RouteLocation; distance: number; heightDifference: number; heading: number; score: number }
 const length = (a: RoadPoint, b: RoadPoint) => Math.hypot(b.x-a.x, b.z-a.z);
 const angleDifference = (a: number, b: number) => Math.atan2(Math.sin(a-b), Math.cos(a-b));
-export const roadLabel = (road: RoadSegmentData): string => [road.routeNumber, road.name].filter(Boolean).join(' · ') || (road.roadType === 'ramp' ? '连接匝道' : '未命名道路');
+export const roadLabel = (road: RoadSegmentData): string => [road.routeNumber, road.name].filter(Boolean).join(' · ') || (road.roadType === 'ramp' ? '匝道' : '未命名道路');
 export const navigationDistance = (metres: number): string => metres >= 1000 ? `${(metres/1000).toFixed(1)} km` : `${Math.max(0, Math.round(metres/10)*10)} m`;
 export const navigationTime = (seconds: number): string => `${Math.max(1, Math.ceil(seconds/60))} 分钟`;
 

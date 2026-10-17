@@ -27,6 +27,7 @@ export class CityGround implements DrivingGround {
   readonly roadNetwork;
   readonly colliders;
   readonly sectors: SectorManager;
+  get trafficSignals(): import('../navigation/TrafficSignalState').TrafficSignalProvider { return this.sectors.signals; }
   private readonly materials = { ...createSubject3Materials(), tunnelLight: new MeshBasicMaterial({color:0xffefd0}) };
   private readonly prefabs = new PrefabRegistry(this.materials);
   private readonly surfaces = new Map<string, SurfaceArea[]>();

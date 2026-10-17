@@ -26,7 +26,7 @@ export function signDecisionNodes(map:CityMapData):SignDecision[] {
   const queue=[e],seen=new Set<string>();
   while(queue.length) {
    const a=queue.shift()!,key=a.roadId+':'+a.end;if(seen.has(key))continue;seen.add(key);
-   const r=roads.get(a.roadId)!;if(r.roadNameId&&map.roadNames?.[r.roadNameId])return r.roadNameId;
+   const r=roads.get(a.roadId)!;if(r.displayName!==''&&r.roadNameId&&map.roadNames?.[r.roadNameId])return r.roadNameId;
    const end=a.end==='start'?'end':'start',n=nodeAt.get(r.id+':'+end);
    if(n)queue.push(...n.ends.filter(b=>b.roadId!==r.id&&canLeave(roads.get(b.roadId)!,b.end)));
   }
@@ -36,7 +36,7 @@ export function signDecisionNodes(map:CityMapData):SignDecision[] {
  const destinationRoad=(e:RoadEndpoint):RoadEndpoint=>{
   const queue=[e],seen=new Set<string>();
   while(queue.length){const current=queue.shift()!,key=current.roadId+':'+current.end;if(seen.has(key))continue;seen.add(key);const r=roads.get(current.roadId)!;
-   if(r.roadNameId&&map.roadNames?.[r.roadNameId]&&!r.gore&&!r.highwayTransition&&r.type!=='ramp_1')return current;
+   if(r.displayName!==''&&r.roadNameId&&map.roadNames?.[r.roadNameId]&&!r.gore&&!r.highwayTransition&&r.type!=='ramp_1')return current;
    const node=nodeAt.get(r.id+':'+(current.end==='start'?'end':'start'));if(node)queue.push(...node.ends.filter(next=>next.roadId!==r.id&&canLeave(roads.get(next.roadId)!,next.end)));
   }return e;
  };
@@ -112,7 +112,7 @@ export function generateTopologySigns(map:CityMapData):RoadSignDefinition[] {
      const size=decision.destinations.length>2?'large':'medium';
      for(const extra of [0]) {
       const q=rotatePoint({x:extra,z:0},heading);
-      const sign:RoadSignDefinition={id:oldSigns.get(decision.id+':'+request.type)?.id??'topology-sign:'+decision.id+':'+request.type,type:request.type,template,size,roadId:s.road.id,position:{x:s.point.x+q.x,y:s.point.y??0,z:s.point.z+q.z},heading,laneDirection:s.direction,destinations:decision.destinations,language:'zh-CN',advanceMetres:s.distance,stationMetres:s.station,decisionIds:[decision.id],incomingRoadId:decision.incoming.roadId,outgoingRoadIds:decision.outgoing.map(e=>e.roadId),postOffset:template==='gantry'?Math.max(s.road.laneCount*s.road.laneWidth/2+.65,right+(s.road.sidewalk?.enabled?s.road.sidewalk.width:0)+1):undefined,approachRoadNameId:s.road.roadNameId};
+      const sign:RoadSignDefinition={id:oldSigns.get(decision.id+':'+request.type)?.id??'topology-sign:'+decision.id+':'+request.type,type:request.type,template,size,roadId:s.road.id,position:{x:s.point.x+q.x,y:s.point.y??0,z:s.point.z+q.z},heading,laneDirection:s.direction,destinations:decision.destinations,language:'zh-CN',advanceMetres:s.distance,stationMetres:s.station,decisionIds:[decision.id],incomingRoadId:decision.incoming.roadId,outgoingRoadIds:decision.outgoing.map(e=>e.roadId),postOffset:template==='gantry'?Math.max(s.road.laneCount*s.road.laneWidth/2+.65,right+(s.road.sidewalk?.enabled?s.road.sidewalk.width:0)+1):undefined,approachRoadNameId:s.road.displayName===''?undefined:s.road.roadNameId};
       // CityGround's existing terrain is a flat plane at -0.04 m. A roadside
       // fallback outside an elevated deck therefore needs a ground foundation.
       if(template==='gantry'&&(s.point.y??0)>.5)sign.postBaseY=0;

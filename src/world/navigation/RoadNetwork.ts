@@ -67,7 +67,7 @@ export interface RoadRoutingConnection {
 }
 export interface RoadMapPlace {
   readonly id: string; readonly name: string; readonly position: RoadPoint; readonly roadIds: readonly string[];
-  readonly kind?: 'service' | 'interchange';
+  readonly kind?: 'service' | 'interchange' | 'landmark';
 }
 
 export interface RoadMapAnnotation {

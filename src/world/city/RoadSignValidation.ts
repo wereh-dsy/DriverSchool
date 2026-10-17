@@ -19,6 +19,7 @@ export function validateRoadSignData(map:CityMapData):MapIssue[] {
     if(!map.roads.some(r=>r.id===s.roadId)||!s.position||![s.position.x,s.position.y??0,s.position.z,s.heading].every(Number.isFinite)||!['forward','reverse'].includes(s.laneDirection)||s.language!=='zh-CN')error(path,'Sign needs a road reference, finite pose and valid approach direction/language.');
     if(s.interchangeId&&!map.roadNames?.[s.interchangeId])error(path,'Unknown interchange ID.');
     if(s.approachRoadNameId&&!map.roadNames?.[s.approachRoadNameId])error(path,'Unknown approach road name.');
+    if(s.urbanLayout!==undefined&&(s.urbanLayout!=='junction-diagram'||!['ROAD_NAME','URBAN_DIRECTION'].includes(s.type)||s.highwayLayout))error(path,'Urban junction diagrams require an urban direction/name sign.');
     const safety=s.type==='SPEED_LIMIT'||s.type==='CHEVRON';
     if(s.type==='SPEED_LIMIT'&&(s.template!=='speed-limit'||!Number.isInteger(s.speedLimitKmh)||s.speedLimitKmh!<5||s.speedLimitKmh!>160))error(path,'Speed board requires a speed-limit template and a 5–160 km/h integer limit.');
     if(s.type==='CHEVRON'&&(s.template!=='chevron'||!['left','right'].includes(s.chevronDirection!)))error(path,'Chevron board requires its template and a driver-relative turn direction.');

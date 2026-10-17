@@ -37,8 +37,8 @@ export function cityUrbanElevationCrossings(map:CityMapData):UrbanElevationCross
 /** Repairs only the vertical coordinates of the completed V5 ordinary network.
  * Ground is the default. Only actual unconnected crossings demand a local deck;
  * its transitions propagate along the road, never through a regional height field. */
-export function repairCityMainGroundElevation(map:CityMapData){
- const all=paths(map),byId=new Map(all.map(p=>[p.road.id,p])),ordinary=all.filter(p=>!cityElevationProtectedRoad(p.road)),crossings=cityUrbanElevationCrossings(map);
+export function repairCityMainGroundElevation(map:CityMapData,featureDecks:readonly {roadId:string;station:number;height:number;halfLength:number}[]=[],editableRoadIds:ReadonlySet<string>=new Set(),widenedLandings:ReadonlySet<string>=new Set()){
+ const all=paths(map),byId=new Map(all.map(p=>[p.road.id,p])),ordinary=all.filter(p=>!cityElevationProtectedRoad(p.road)||editableRoadIds.has(p.road.id)),crossings=cityUrbanElevationCrossings(map);
  const ground=cityGroundHeightAt(0,0)+CITY_GROUND_ROAD_OFFSET;
  interface Node {y:number;fixed?:number;edges:{to:number;distance:number}[];label:string}
  const graph:Node[]=[],roadNodes=new Map<string,number[]>(),junctionNodes=new Map<string,number>();
@@ -47,10 +47,11 @@ export function repairCityMainGroundElevation(map:CityMapData){
  for(const p of ordinary){const ids=p.points.map((_,i)=>node(p.road.id+':'+i));roadNodes.set(p.road.id,ids);for(let i=1;i<ids.length;i++)link(ids[i-1]!,ids[i]!,p.stations[i]!-p.stations[i-1]!);}
  for(const j of map.intersections){
   if(!j.connections.some(c=>roadNodes.has(c.roadId)))continue;
-  const fixed=j.connections.some(c=>cityElevationProtectedRoad(byId.get(c.roadId)!.road))?j.position.y??0:undefined,id=node(j.id,fixed);junctionNodes.set(j.id,id);
+  const fixed=j.connections.some(c=>!roadNodes.has(c.roadId))?j.position.y??0:undefined,id=node(j.id,fixed);junctionNodes.set(j.id,id);
   for(const c of j.connections){const ids=roadNodes.get(c.roadId);if(!ids)continue;link(id,ids[c.end==='start'?0:ids.length-1]!,0);
    // A shared footprint is one flat landing, including extended skewed mouths.
-   const p=byId.get(c.roadId)!;for(let i=0;i<ids.length;i++)if(junctionSurfaceContains(j,map,p.points[i]!,1e-5))link(id,ids[i]!,0);
+   const p=byId.get(c.roadId)!,landingMargin=widenedLandings.has(j.id)&&fixed===undefined?2:1e-5;
+   for(let i=0;i<ids.length;i++)if(junctionSurfaceContains(j,map,p.points[i]!,landingMargin))link(id,ids[i]!,0);
   }
  }
  for(const l of map.roadLinks??[]){const a=roadNodes.get(l.from.roadId),b=roadNodes.get(l.to.roadId),end=(ids:number[],e:'start'|'end')=>ids[e==='start'?0:ids.length-1]!;
@@ -68,6 +69,7 @@ export function repairCityMainGroundElevation(map:CityMapData){
  const heightAt=(id:string,d:number)=>{const p=byId.get(id)!,ids=roadNodes.get(id);if(!ids)return sampleAt(p.points,d).point.y??0;for(let i=1;i<ids.length;i++)if(d<=p.stations[i]!||i===ids.length-1){const t=Math.max(0,Math.min(1,(d-p.stations[i-1]!)/(p.stations[i]!-p.stations[i-1]!)));return graph[ids[i-1]!]!.y+t*(graph[ids[i]!]!.y-graph[ids[i-1]!]!.y);}return graph[ids[0]!]!.y;};
  const decks=new Set<string>();
  const deck=(id:string,d:number,y:number,width:number)=>{const p=byId.get(id)!,ids=roadNodes.get(id)!;decks.add(id);for(let i=0;i<ids.length;i++)if(Math.abs(p.stations[i]!-d)<=width+7)raise(ids[i]!,y);};
+ for(const feature of featureDecks){if(!roadNodes.has(feature.roadId))throw new Error('Feature crossing needs an ordinary road '+feature.roadId);deck(feature.roadId,feature.station,feature.height,feature.halfLength);}propagate();
  for(let pass=0;pass<25;pass++){
   let changes=0;
   for(const c of crossings){const ay=heightAt(c.a,c.da),by=heightAt(c.b,c.db);if(Math.abs(ay-by)>=deckSeparation-.001)continue;

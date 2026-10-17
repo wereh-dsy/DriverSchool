@@ -16,6 +16,8 @@ export interface PresetParameters {
     designProfile?: 'urban' | 'motorway';
     mainApproach?: number;
     crossApproach?: number;
+    /** Compact right-turn approach length; omitted preserves existing geometry. */
+    rightApproach?: number;
     crossCarriagewayOffset?: number;
     position?: CityPoint;
     rotation?: number;

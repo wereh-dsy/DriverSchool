@@ -134,7 +134,7 @@ export function runCityMainSelfTest(source:unknown=cityMain,checkContacts=true) 
   const objectBatches=objectRoot.children.length;
   assert(objectRoot.children.every(o=>o instanceof InstancedMesh)&&objectBatches<90,'prefab parts batch independently of object count');
   const treeBatches=objectRoot.children.filter(o=>o.name==='tree instances') as InstancedMesh[];
-  assert(treeBatches.length===2&&treeBatches.every(o=>o.count===map.objects.filter(o=>o.prefabId==='tree').length),'all tree trunks / crowns use two instance batches');
+  assert(treeBatches.length===1&&treeBatches[0]!.count===map.objects.filter(o=>o.prefabId==='tree').length&&treeBatches[0]!.geometry.hasAttribute('color'),'all tree trunks / crowns share one vertex-colored instance batch');
   prefabs.dispose();Object.values(materials).forEach(m=>m.dispose());
   assert(new Set(map.intersections.filter(j=>j.presetSource==='diamond_interchange').map(j=>j.groupId)).size===2,'two meaningful diamonds');
   assert(v4?map.roads.some(r=>r.roadNameId==='new-city-avenue'):map.roads.some(r=>r.id.startsWith('urban-diagonal'))&&map.roads.some(r=>r.id.startsWith('urban-regional-diagonal')),'continuous authored diagonal');

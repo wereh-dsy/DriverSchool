@@ -102,7 +102,7 @@ export class RoadBuilder {
     if (elevated) {
       const bottom = this.map?roadEdgeStrip(road,this.map,barrierOffset(road,-1),barrierOffset(road,1),-.65):createStripGeometry(points, () => 0, { innerOffset: barrierOffset(road, -1), outerOffset: barrierOffset(road, 1), yOffset: -0.65, maximumSpacing: 3 });
       if (bottom) { const index = bottom.getIndex()!; for (let i = 0; i < index.count; i += 3) { const a = index.getX(i); index.setX(i, index.getX(i + 2)); index.setX(i + 2, a); } bottom.computeVertexNormals(); root.add(new Mesh(bottom, this.materials.curb)); }
-      for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, -0.65, 0.02, this.materials.curb);
+      for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, -0.65, 0.024, this.materials.curb);
       const piers = roadPiers(road, this.map, this.clearance);
       if (piers.length) {
         const geometry = road.structure?.pierStyle === 'rectangular' ? this.geometry('pier-rectangular',()=>new BoxGeometry(1.2, 1, 1.2)) : this.geometry('pier-round',()=>new CylinderGeometry(0.6, 0.6, 1, 8));
@@ -111,7 +111,7 @@ export class RoadBuilder {
         mesh.castShadow = true; root.add(mesh);
       }
     }
-    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, 0.05, 1.1, road.structure?.barrierStyle==='concrete'||section.side<0&&road.structure?.medianBarrierStyle==='concrete'?this.materials.curb:this.materials.metal,'road barrier');
+    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, 0.024, 1.1, road.structure?.barrierStyle==='concrete'||section.side<0&&road.structure?.medianBarrierStyle==='concrete'?this.materials.curb:this.materials.metal,'road barrier');
     const enclosure=road.structure?.enclosure;
     if(enclosure) {
       const walls=enclosure.kind==='cutting'?barrierSections(road,this.map,this.clearance,true):[-1,1].map(side=>({side,points:this.map?roadEdgeChains(this.map).barrierEdge(road,side):points}));

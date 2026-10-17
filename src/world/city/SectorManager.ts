@@ -1,7 +1,7 @@
 import { Box3, BufferAttribute, BufferGeometry, CylinderGeometry, Float32BufferAttribute, Group, InstancedMesh, Material, Matrix4, Mesh, Sphere, Vector3, type Camera, type Object3D, type Texture } from 'three';
 import { PREFAB_IDS, type CityIntersection, type CityMapData, type CityObject, type CityRoad } from './CityMapData';
 import type { Subject3Materials } from '../subject3/materials';
-import { Subject3TrafficSignals } from '../subject3/trafficSignals';
+import { CityTrafficSignals } from './CityTrafficSignals';
 import { RoadBuilder } from './RoadBuilder';
 import { IntersectionBuilder } from './IntersectionBuilder';
 import { PrefabRegistry } from './PrefabRegistry';
@@ -29,7 +29,7 @@ export class SectorManager {
   private readonly infrastructureGeometry = new Set<BufferGeometry>();
   private readonly intersectionBuilder: IntersectionBuilder;
   readonly signRenderer:RoadSignRenderer;
-  readonly signals: Subject3TrafficSignals;
+  readonly signals: CityTrafficSignals;
   private currentX = Infinity;
   private currentZ = Infinity;
   private readonly roadBuilder:RoadBuilder;
@@ -87,7 +87,7 @@ export class SectorManager {
     this.loadRadius = Math.max(0, Math.floor(options.loadRadius ?? 1));
     this.intersectionBuilder = new IntersectionBuilder(map, materials);
     this.signRenderer=new RoadSignRenderer(map.roadNames??{});
-    this.signals = new Subject3TrafficSignals(map.intersections.length, map.intersections.map(j => j.signals?.offsetSeconds ?? 0), { greenSeconds: 25, amberSeconds: 3, allRedSeconds: 2 });
+    this.signals = new CityTrafficSignals(map);
     this.root.add(this.signals.root);
     this.roadBuilder = new RoadBuilder(materials, map);
     if(map.regional){this.streaming=new RegionalStreaming(map);this.terrain=new RegionalTerrain(map);}
@@ -444,6 +444,7 @@ export class SectorManager {
     for(const {key,job} of this.retiring)this.disposePublication(key,job.root);
     this.retiring.length=0;this.publications.clear();this.terrainData.clear();this.receivedRoads.length=0;this.instanceGeometry.clear();
     for (const key of this.active.keys()) this.unload(key);
+    this.signals.dispose();
     for (const geometry of this.infrastructureGeometry) geometry.dispose(); this.infrastructureGeometry.clear();
     this.signRenderer.dispose();this.background.traverse(o=>{if(o instanceof Mesh)o.geometry.dispose();});this.backgroundBatches.dispose();
     this.skyline.traverse(o=>{if(o instanceof InstancedMesh)o.dispose();});this.terrain?.dispose(); this.root.clear(); this.plans.clear();
