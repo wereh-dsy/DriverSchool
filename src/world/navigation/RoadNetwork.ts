@@ -23,6 +23,8 @@ export interface RoadSegmentData {
   /** Travel follows the polyline in either order. */
   readonly travelDirection: 'two-way' | 'forward' | 'reverse';
   readonly speedLimit?: number;
+  /** Traffic function; lane geometry and structure are independent. */
+  readonly roadFunction?: import('../city/CityMapData').RoadFunction;
   /** Presentation classification only; does not alter topology or lane control. */
   readonly roadType?: 'highway' | 'urban' | 'ramp' | 'circuit';
   /** Authored logical lanes only. Absence means lateral assistance unavailable. */

@@ -5,6 +5,7 @@ import { RoadClearance } from '../RoadClearance';
 import { buildCityRoadNetwork } from '../CityRoadNetwork';
 import { roadPiers } from '../RoadInfrastructure';
 import { roadEdgeChains } from '../RoadEdgeChain';
+import { roadFunction } from '../RoadClassification';
 
 /** Production recipe checks against sampled geometry, rather than just its graph. */
 export function validatePresetGeometry(map: CityMapData, targets?: ReadonlySet<string>): MapIssue[] {
@@ -38,8 +39,8 @@ export function validatePresetGeometry(map: CityMapData, targets?: ReadonlySet<s
   const paths = map.roads.map(r => {const points=roadPoints(r);return {road:r,points,bounds:{minX:Math.min(...points.map(p=>p.x)),maxX:Math.max(...points.map(p=>p.x)),minZ:Math.min(...points.map(p=>p.z)),maxZ:Math.max(...points.map(p=>p.z))}};});
   for (const {road:r,points} of paths) {
     if(targets&&!targets.has(r.id))continue;
-    const regionalRamp=r.id.startsWith('regional:')&&r.type==='ramp_1';
-    const ramp = r.styleId === 'ramp_1' || regionalRamp, path = `roads.${r.id}`, edges=roadEdges(r);
+    const ramp = roadFunction(r) === 'ramp', regionalRamp = r.id.startsWith('regional:') && ramp;
+    const path = `roads.${r.id}`, edges=roadEdges(r);
     if(r.laneWidth < 3.5) error('geometry.width',path,'Production lanes must be at least 3.5m.');
     if(ramp && !r.highwayTransition && (r.laneWidth < (regionalRamp?3.5:3.8) || edges.width < r.laneCount*r.laneWidth+2.2)) error('geometry.rampWidth',path,'Ramp needs traffic lanes and at least 2.2m of paved shoulders.');
     let grade=0, radius=Infinity;

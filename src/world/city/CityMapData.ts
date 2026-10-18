@@ -5,16 +5,22 @@ export type RoadType = 'urban_2lane' | 'urban_4lane' | 'urban_6lane' | 'highway'
 import type { RoadNameRegistry,RoadSignDefinition } from './RoadSignData';
 export interface CityElementMetadata { groupId?: string; presetSource?: string; designProfile?: 'urban' | 'motorway';roadNameId?:string;corridorSection?:string;roadLevel?:1|2|3|4 }
 export type TravelDirection = 'two-way' | 'forward' | 'reverse';
-export type CityRoadClass = 'avenue' | 'arterial' | 'collector' | 'local' | 'alley' | 'industrial';
+export type RoadFunction = 'expressway' | 'arterial' | 'collector' | 'local' | 'frontage' | 'ramp' | 'connector';
+/** Legacy aliases remain readable during gradual source migration. */
+export type CityRoadClass = RoadFunction | 'avenue' | 'alley' | 'industrial';
+/** Geometry presets supply defaults only; authored dimensions remain authoritative. */
+export type RoadCrossSectionId = 'street' | 'boulevard' | 'shouldered';
 export type CityFacade = 'residential' | 'office' | 'old-town' | 'industrial' | 'campus';
 export interface CityRoad extends CityElementMetadata {
   /** Player label override. Empty means unnamed; IDs/name IDs remain logical keys. */
   displayName?: string;
-  id: string; type: RoadType; centerline: CityPoint[]; curve?: 'polyline' | 'smooth';
+  /** Legacy cross-section discriminator, retained for old maps/editor recipes. */
+  id: string; type?: RoadType; centerline: CityPoint[]; curve?: 'polyline' | 'smooth';
   laneCount: number; laneWidth: number; travelDirection: TravelDirection; speedLimit: number;
   sidewalk?: { enabled: boolean; width: number }; district?: string;
-  /** Authored content classification; never changes traffic/physics topology. */
+  /** Traffic function, independent of lanes, elevation and enclosure. Legacy aliases load through roadFunction(). */
   roadClass?: CityRoadClass;
+  crossSection?: RoadCrossSectionId;
   decorationProfile?: string;
   styleId?: string;
   /** Paved shoulders relative to centerline order (negative/positive ribbon offset). */
@@ -63,6 +69,15 @@ export interface CityObject extends CityElementMetadata {
   landmarkModel?: 'station' | 'government' | 'museum' | 'university' | 'exhibition' | 'tower' | 'stadium' | 'arena';
 }
 export interface CityMapData {
+  /** Persistent authoring relationships; runtime geometry remains ordinary roads/junctions. */
+  editing?: {
+    corridors: { id: string; name: string; roadIds: string[]; district?: string }[];
+    groups: { id: string; name: string; kind: 'corridor' | 'intersection' | 'interchange'; memberIds: string[]; locked: boolean }[];
+    attachments: { id: string; sourceRoadId: string; roadId: string; offset: number }[];
+    ramps: { id: string; roadId: string; kind: 'on' | 'off'; from: RoadEndpoint; to: RoadEndpoint }[];
+    /** A few intentional handles for cubic ramps; sampled centerlines remain runtime truth. */
+    curves?: Record<string, CityPoint[]>;
+  };
   /** Region metadata never replaces the shared logical road graph. */
   regional?: import('../regional/RegionalData').RegionalData;
   schemaVersion?: 1 | 2;

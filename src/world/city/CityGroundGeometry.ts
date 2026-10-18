@@ -10,7 +10,7 @@ export const cityGroundHeightAt = (_x:number,_z:number):number => CITY_GROUND_HE
 
 /** A single batched ground surface with openings for authored open cuts.
  * Roofed bores retain their ground cover. No terrain/streaming subsystem. */
-export function cityGroundGeometry(map: CityMapData): BufferGeometry {
+export function cityGroundGeometry(map: CityMapData, bounds = map.bounds): BufferGeometry {
   const hasArea=(polygon:CityPoint[])=>polygon.length>=3&&Math.abs(polygon.reduce((sum,p,i)=>{const q=polygon[(i+1)%polygon.length]!;return sum+p.x*q.z-q.x*p.z;},0))>1e-6;
   const open=map.roads.filter(r=>r.structure?.enclosure?.kind==='cutting'),chains=roadEdgeChains(map);
   const cells=new Map<string,CityPoint[][]>();
@@ -32,7 +32,7 @@ export function cityGroundGeometry(map: CityMapData): BufferGeometry {
       }
     }
   }
-  const positions:number[]=[],b=map.bounds;
+  const positions:number[]=[],b=bounds;
   const step=open.length||map.environment.landforms?.length?20:Math.max(b.maxX-b.minX,b.maxZ-b.minZ);
   for(let x=b.minX;x<b.maxX;x+=step)for(let z=b.minZ;z<b.maxZ;z+=step) {
     const x1=Math.min(b.maxX,x+step),z1=Math.min(b.maxZ,z+step);

@@ -1,3 +1,6 @@
+import { runCityRoadModelSelfTest } from '../src/world/city/CityRoadModel.selftest';
+import { prepareDrivingGround } from '../src/world/DrivingGroundCatalog';
+import { compileCityRuntimeData } from '../src/world/city/CityRuntimeData';
 import { runSuspensionKinematicsSelfTest } from '../src/vehicle/physics/SuspensionKinematics.selftest';
 import { runRoadEdgeChainSelfTest } from '../src/world/city/RoadEdgeChain.selftest';
 import { runCityMainV5SelfTest } from '../src/world/city/CityMainV5.selftest';
@@ -70,7 +73,10 @@ import { validateAuthoringAPI, validatePresets } from '../src/world/city/CityToo
 
 import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftest';
 
+await prepareDrivingGround('city-main', compileCityRuntimeData(regionalMain));
+
 const results = {
+  cityRoadModel: runCityRoadModelSelfTest(),
   roadEdgeChains: runRoadEdgeChainSelfTest(),
   cityV5: runCityMainV5SelfTest(cityMain, cityV41),
   roadSignPlacement: runFastRoadSignPlacementSelfTest([regionalMain as CityMapData, cityMain as CityMapData]),

@@ -36,7 +36,7 @@ export function expandCompactInterchange(id:string,p:PresetParameters={}):Preset
   const height=(q:CityPoint)=>Math.abs(q.x)<Math.abs(q.z)?main(q.z):cross(q.x);
   const port=(label:string,r:CityRoad,end:'start'|'end')=>map.connectionPorts!.push({id:`${r.id}:port-${end}`,label,endpoint:{roadId:r.id,end},groupId,position:r.centerline[end==='start'?0:r.centerline.length-1],heading:0});
   const road=(movement:string,path:CityPoint[],speed:number)=>{
-    const r:CityRoad={id:`${groupId}:${movement}`,groupId,presetSource:id,designProfile:'urban',type:'ramp_1',styleId:'ramp_1',centerline:path,laneCount:1,laneWidth:3.9,travelDirection:'forward',speedLimit:speed,elevationMode:'custom',shoulders:{left:0.75,right:1.75},structure:{barrierEnabled:true,piersEnabled:true,pierSpacing:45,barrierOffset:0.25},gore:{start:true,end:true,length:100}};
+    const r:CityRoad={id:`${groupId}:${movement}`,groupId,presetSource:id,designProfile:'urban',type:'ramp_1',roadClass:'ramp',crossSection:'shouldered',styleId:'ramp_1',centerline:path,laneCount:1,laneWidth:3.9,travelDirection:'forward',speedLimit:speed,elevationMode:'custom',shoulders:{left:0.75,right:1.75},structure:{barrierEnabled:true,piersEnabled:true,pierSpacing:45,barrierOffset:0.25},gore:{start:true,end:true,length:100}};
     map.roads.push(r);port('Movement In',r,'start');port('Movement Out',r,'end');return r;
   };
   const leftNames=['S-to-W','E-to-S','N-to-E','W-to-N'],rightNames=['S-to-E','E-to-N','N-to-W','W-to-S'];

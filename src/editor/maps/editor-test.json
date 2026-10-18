@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2, "id": "editor-test", "name": "Intent Editor Test Map", "version": 1, "sectorSize": 500,
+  "bounds": {"minX": -600, "maxX": 600, "minZ": -600, "maxZ": 600},
+  "roads": [
+    {"id":"avenue","roadClass":"arterial","crossSection":"boulevard","laneCount":4,"laneWidth":3.6,"speedLimit":50,"travelDirection":"two-way","centerline":[{"x":-450,"y":0,"z":0},{"x":450,"y":0,"z":0}]},
+    {"id":"expressway","roadClass":"expressway","crossSection":"shouldered","laneCount":6,"laneWidth":3.75,"speedLimit":80,"travelDirection":"two-way","elevationMode":"custom","centerline":[{"x":-450,"y":8,"z":-240},{"x":450,"y":8,"z":-240}],"structure":{"barrierEnabled":true,"piersEnabled":true,"pierSpacing":30}}
+  ],
+  "intersections": [], "objects": [], "roadLinks": [], "connectionPorts": [],
+  "editing": {"corridors":[{"id":"avenue-corridor","name":"Avenue","roadIds":["avenue"]},{"id":"expressway-corridor","name":"East-West Expressway","roadIds":["expressway"]}],"groups":[],"attachments":[],"ramps":[]},
+  "environment":{"districts":[],"spawnPoints":[{"id":"start","position":{"x":-300,"y":0,"z":3.6},"rotation":-1.5707963267948966}]}
+}

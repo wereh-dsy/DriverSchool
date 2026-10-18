@@ -12,8 +12,9 @@ if (new URLSearchParams(location.search).get('editor') === 'city') {
     const editor = new CityMapEditor(host);
     window.addEventListener('pagehide', () => editor.dispose(), { once: true });
   }).catch(error => { console.error(error); host.textContent = `City Editor 无法启动：${String(error)}`; });
-} else try {
-  const game = new DrivingGame(host);
+} else void (async () => { try {
+  host.textContent = '正在加载驾驶场景…';
+  const game = await DrivingGame.create(host);
   game.start();
   window.addEventListener('beforeunload', () => game.dispose(), { once: true });
 } catch (error) {
@@ -25,4 +26,4 @@ if (new URLSearchParams(location.search).get('editor') === 'city') {
         <p style="margin:0;color:#eef2ed99">请确认浏览器已启用 WebGL 2 与硬件加速，然后刷新页面。详细错误已写入开发者控制台。</p>
       </section>
     </main>`;
-}
+} })();

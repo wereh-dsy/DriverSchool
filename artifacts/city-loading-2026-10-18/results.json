@@ -1,0 +1,266 @@
+{
+  "date": "2026-10-18",
+  "environment": "Edge headless, SwiftShader, 1280x720, local HTTP; one cold sample per production build",
+  "baseline": {
+    "readyAt": 18391.600000023842,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:4173/assets/index-Blp1CzPq.js",
+        "size": 17948308,
+        "duration": 783.5
+      },
+      {
+        "name": "http://127.0.0.1:4173/assets/VisualStreaming.worker-CDv6HiK8.js",
+        "size": 192499,
+        "duration": -6039.600000023842
+      }
+    ],
+    "errors": []
+  },
+  "updated": {
+    "cold": {
+      "measures": [
+        {
+          "name": "city:resourceLoad",
+          "start": 704.1000000238419,
+          "ms": 1129.5999999046326
+        },
+        {
+          "name": "city:playable",
+          "start": 704.1000000238419,
+          "ms": 13517.599999904633
+        },
+        {
+          "name": "city:firstRender",
+          "start": 704.1000000238419,
+          "ms": 13883.699999928474
+        },
+        {
+          "name": "city:mapParse",
+          "start": 1833.6999999284744,
+          "ms": 142
+        },
+        {
+          "name": "city:loadCityMap",
+          "start": 2003.8999999761581,
+          "ms": 0
+        },
+        {
+          "name": "city:roadNetwork",
+          "start": 2003.8999999761581,
+          "ms": 0.10000002384185791
+        },
+        {
+          "name": "city:groundGeometry",
+          "start": 2004,
+          "ms": 738
+        },
+        {
+          "name": "city:sectorManager",
+          "start": 2742,
+          "ms": 701.3999999761581
+        },
+        {
+          "name": "city:workerReady",
+          "start": 3214.899999976158,
+          "ms": 5873.799999952316
+        },
+        {
+          "name": "city:clearanceIndex",
+          "start": 3443.399999976158,
+          "ms": 0
+        },
+        {
+          "name": "city:colliders",
+          "start": 3443.399999976158,
+          "ms": 2434.7000000476837
+        },
+        {
+          "name": "city:surfaceIndex",
+          "start": 5878.100000023842,
+          "ms": 76.59999990463257
+        },
+        {
+          "name": "city:spawnPreparation",
+          "start": 5954.699999928474,
+          "ms": 11.200000047683716
+        },
+        {
+          "name": "city:colliderIndex",
+          "start": 6061.199999928474,
+          "ms": 181.90000009536743
+        },
+        {
+          "name": "city:sectorWarmup",
+          "start": 14171.699999928474,
+          "ms": 19.300000071525574
+        }
+      ],
+      "resources": [
+        {
+          "name": "http://127.0.0.1:4173/assets/index-DXqDPahU.js",
+          "bytes": 2594357,
+          "ms": 647.3999999761581
+        },
+        {
+          "name": "http://127.0.0.1:4173/assets/city-main.runtime-db47ccab2c3a.json",
+          "bytes": 31039467,
+          "ms": 985.8000000715256
+        },
+        {
+          "name": "http://127.0.0.1:4173/assets/VisualStreaming.worker-BBqK7nkd.js",
+          "bytes": 193062,
+          "ms": -3346.600000023842
+        }
+      ]
+    },
+    "defaultResources": 0,
+    "profiles": [
+      {
+        "sectorCount": 1,
+        "totalSectors": 4988,
+        "roadCount": 28,
+        "compiledRoadCount": 46,
+        "signCount": 10,
+        "barrierCount": 955,
+        "backgroundSectors": 0,
+        "backgroundBatches": 0,
+        "constructorMs": 700.7999999523163,
+        "publicationMs": 70.299999833107,
+        "worker": {
+          "initializationMs": 962.7000000476837,
+          "roadCompileMs": 1007.4999998807907,
+          "terrainCompileMs": 1.5,
+          "backgroundCompileMs": 0
+        },
+        "firstVisibleMs": 12201.5,
+        "initializationMs": {
+          "loadCityMap": 0,
+          "roadNetwork": 0.10000002384185791,
+          "groundGeometry": 738,
+          "sectorManager": 701.3999999761581,
+          "clearanceIndex": 0,
+          "colliders": 2434.7000000476837,
+          "surfaceIndex": 76.59999990463257,
+          "spawnPreparation": 11.200000047683716
+        },
+        "resource": {
+          "startedAt": 704.1000000238419,
+          "resourceLoadMs": 1129.5999999046326,
+          "mapParseMs": 141.80000007152557,
+          "cached": false
+        },
+        "milestones": {
+          "playable": 13517.5,
+          "firstRender": 13883.699999928474
+        }
+      },
+      {
+        "sectorCount": 1,
+        "totalSectors": 4988,
+        "roadCount": 28,
+        "compiledRoadCount": 46,
+        "signCount": 10,
+        "barrierCount": 955,
+        "backgroundSectors": 0,
+        "backgroundBatches": 0,
+        "constructorMs": 693.8000000715256,
+        "publicationMs": 47.90000033378601,
+        "worker": {
+          "initializationMs": 933.0999999046326,
+          "roadCompileMs": 947.6999999284744,
+          "terrainCompileMs": 1,
+          "backgroundCompileMs": 0
+        },
+        "firstVisibleMs": 6560.800000071526,
+        "initializationMs": {
+          "loadCityMap": 0,
+          "roadNetwork": 0.10000002384185791,
+          "groundGeometry": 571,
+          "sectorManager": 694.2000000476837,
+          "clearanceIndex": 0,
+          "colliders": 2535.399999976158,
+          "surfaceIndex": 79.60000002384186,
+          "spawnPreparation": 23.199999928474426
+        },
+        "resource": {
+          "startedAt": 7360.299999952316,
+          "resourceLoadMs": 790.5,
+          "mapParseMs": 92.60000002384186,
+          "cached": false
+        },
+        "milestones": {
+          "playable": 7475.700000047684,
+          "firstRender": 7831.400000095367
+        }
+      },
+      {
+        "sectorCount": 1,
+        "totalSectors": 4988,
+        "roadCount": 28,
+        "compiledRoadCount": 50,
+        "signCount": 10,
+        "barrierCount": 955,
+        "backgroundSectors": 0,
+        "backgroundBatches": 0,
+        "constructorMs": 601.3000000715256,
+        "publicationMs": 14.999999523162842,
+        "worker": {
+          "initializationMs": 858.1000000238419,
+          "roadCompileMs": 823.1999998092651,
+          "terrainCompileMs": 1,
+          "backgroundCompileMs": 0
+        },
+        "firstVisibleMs": 6563.200000166893,
+        "initializationMs": {
+          "loadCityMap": 0,
+          "roadNetwork": 0,
+          "groundGeometry": 419.8000000715256,
+          "sectorManager": 601.5,
+          "clearanceIndex": 0,
+          "colliders": 2519.6999999284744,
+          "surfaceIndex": 36.800000071525574,
+          "spawnPreparation": 14.199999928474426
+        },
+        "resource": {
+          "startedAt": 21918.299999952316,
+          "resourceLoadMs": 0,
+          "mapParseMs": 0,
+          "cached": true
+        },
+        "milestones": {
+          "playable": 6585.800000071526,
+          "firstRender": 7131.100000023842
+        }
+      }
+    ],
+    "checks": [
+      "cold playable/first render",
+      "default excludes map asset",
+      "failed load retains current map",
+      "failed load retry",
+      "cached map switching"
+    ],
+    "errors": []
+  },
+  "navigationStartToPlayableMs": 14221.699999928474,
+  "playableImprovementPercent": 22.672850649698574,
+  "build": {
+    "command": "pnpm run build",
+    "passed": true,
+    "coreGroups": 72,
+    "published": true
+  },
+  "targetedValidation": {
+    "roadModelAssertions": 9,
+    "customHeightSurfaceChecks": 12,
+    "routingAssertions": 223,
+    "regionalRoutes": 3,
+    "mapGeometryAssertions": 12915,
+    "junctions": 250,
+    "links": 2579,
+    "maxEdgeGap": 0,
+    "navigationCombinedRunner": "FAILED: Navigation displays: mercedes-e300l-v214: center screen and instruments both show guidance (unchanged display fixture; left outside scope)"
+  },
+  "remaining": "Whole-map collider generation remains eager (517500 colliders). No collision/surface streaming introduced."
+}

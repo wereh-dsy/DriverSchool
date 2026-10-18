@@ -91,7 +91,7 @@ import {
 } from '../vehicle/visual';
 import {
   DRIVING_GROUND_CATALOG,
-  createDrivingGround,
+  createDrivingGround, prepareDrivingGround,
   getInitialDrivingGroundId,
   getNextDrivingGroundId,
   isDrivingGroundId,
@@ -202,7 +202,14 @@ export class DrivingGame {
   private activeVehicleId: VehicleId;
   private activeGroundId: DrivingGroundId;
 
-  constructor(private readonly host: HTMLElement) {
+  static async create(host: HTMLElement): Promise<DrivingGame> {
+    const groundId = DrivingGame.readStoredGroundId();
+    const timing = await prepareDrivingGround(groundId);
+    host.replaceChildren();
+    return new DrivingGame(host, createDrivingGround(groundId, timing), groundId);
+  }
+
+  private constructor(private readonly host: HTMLElement, initialGround: DrivingGround, initialGroundId: DrivingGroundId) {
     this.hud = new Hud(host);
     this.contactDebug = new ContactDebugView(host);
     this.scene.add(this.contactDebug.root);
@@ -212,8 +219,8 @@ export class DrivingGame {
     this.renderer = this.createRenderer();
     host.prepend(this.renderer.domElement);
 
-    this.activeGroundId = this.readStoredGroundId();
-    this.ground = createDrivingGround(this.activeGroundId);
+    this.activeGroundId = initialGroundId;
+    this.ground = initialGround;
     this.prepareGroundVisuals(this.ground);
     this.hud.setRoadNetwork(this.ground.roadNetwork);
     this.navigation.configure(DRIVING_GROUND_CATALOG.find(g=>g.id===this.activeGroundId)?.navigation?this.ground.roadNetwork:undefined);
@@ -227,7 +234,9 @@ export class DrivingGame {
     const initialVehicle = getVehicleDescriptor(this.activeVehicleId);
     this.vehicleLoading.mark('Static asset prepare');
     VehicleVisual.prepareAssets(initialVehicle.visualConfig, this.vehicleAssets);
+    const colliderIndexStarted = performance.now();
     this.contacts = new VehicleContactSystem(this.ground, initialVehicle.visualConfig.collisionDimensions);
+    performance.measure('city:colliderIndex', {start:colliderIndexStarted,end:performance.now()});
     this.vehicleLoading.mark('Instance creation');
     this.vehicleVisual = new VehicleVisual(initialVehicle.visualConfig, this.vehicleAssets);
     this.vehicleLighting = new VehicleLighting(this.vehicleVisual);
@@ -358,6 +367,7 @@ export class DrivingGame {
     this.lastFrameTime = time;
     if (!this.vehicleLoading.ready) {
       this.input.setEnabled(false); this.haptics.stop(); this.accumulator = 0;
+      if (this.ground.visualReady === false && !this.ground.visualLoadingError) this.updateGroundVisuals(0);
       this.vehicleLoading.advance();
       this.animationFrame = requestAnimationFrame(this.frame);
       return;
@@ -372,7 +382,7 @@ export class DrivingGame {
       }
       this.animationFrame = requestAnimationFrame(this.frame); return;
     }
-    if (this.groundVisualLoading) { this.groundVisualLoading = false; this.hud.setVehicleLoading('Ready'); }
+    if (this.groundVisualLoading) { this.groundVisualLoading = false; this.ground.markLoadMilestone?.('playable'); this.hud.setVehicleLoading('Ready'); }
     if (this.ground.visualLoadingError && !this.groundVisualErrorReported) {
       this.groundVisualErrorReported = true; this.hud.showMessage('地图视觉加载失败 · 请刷新重试', 10);
     }
@@ -595,6 +605,7 @@ export class DrivingGame {
     this.renderer.setScissorTest(false);
     this.renderer.clear(true, true, true);
     this.renderer.render(this.scene, this.visualDebug.renderCamera ?? this.driverCamera.camera);
+    this.ground.markLoadMilestone?.('firstRender');
     if (showMirrorOverlay) this.mirrorOverlay.render(this.renderer, this.hud.getMirrorRect());
 
     this.animationFrame = requestAnimationFrame(this.frame);
@@ -964,13 +975,24 @@ export class DrivingGame {
     );
     this.hud.onMapChange = (groundId) => {
       if (!isDrivingGroundId(groundId)) return;
-      this.switchGround(groundId);
+      void this.switchGround(groundId);
     };
   }
 
-  private switchGround(groundId: DrivingGroundId): void {
+  private groundLoadRequest = 0;
+  private async switchGround(groundId: DrivingGroundId): Promise<void> {
+    const request = ++this.groundLoadRequest;
     if (groundId === this.activeGroundId) return;
-    const nextGround = createDrivingGround(groundId);
+    this.hud.showMessage('正在加载地图资源', 10);
+    let nextGround: DrivingGround;
+    try {
+      const timing = await prepareDrivingGround(groundId);
+      if (request !== this.groundLoadRequest || !this.running) return;
+      nextGround = createDrivingGround(groundId, timing);
+    } catch (error) {
+      if (request === this.groundLoadRequest) this.hud.showMessage(`地图加载失败：${String(error)}`, 10);
+      return;
+    }
     const previousGround = this.ground;
     this.scene.remove(previousGround.root);
     this.ground = nextGround;
@@ -1253,7 +1275,7 @@ export class DrivingGame {
     return DEFAULT_VEHICLE_ID;
   }
 
-  private readStoredGroundId(): DrivingGroundId {
+  private static readStoredGroundId(): DrivingGroundId {
     let stored: string | null = null;
     try {
       stored = localStorage.getItem('drivergame.ground-id.v1');

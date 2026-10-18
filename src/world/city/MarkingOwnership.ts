@@ -2,6 +2,7 @@ import type { CityIntersection, CityMapData, CityPoint, CityRoad, LaneMovement }
 import { junctionExtent, polylineLength, portsFor, roadEdges, roadPoints, rotatePoint, sampleAt } from './geometry';
 import { junctionSurfaceContains, junctionSurfaceHeight } from './JunctionSurface';
 import { roadEdgeChains } from './RoadEdgeChain';
+import { isControlledAccessRoad } from './RoadClassification';
 
 /** Data migration/authoring only. Renderers consume approach data, never infer arrows. */
 export function populateIntersectionMarkingMetadata(map:CityMapData):void {
@@ -11,7 +12,7 @@ export function populateIntersectionMarkingMetadata(map:CityMapData):void {
     j.approaches={};
     for(const port of portsFor(j)) {
       const c=j.connections.find(c=>c.port===port),r=map.roads.find(r=>r.id===c?.roadId);
-      if(!r||r.type==='highway'||r.type==='ramp_1'||r.travelDirection!=='two-way'&&(r.travelDirection==='forward')!==(c?.end==='end'))continue;
+      if(!r||isControlledAccessRoad(r)||r.travelDirection!=='two-way'&&(r.travelDirection==='forward')!==(c?.end==='end'))continue;
       const count=r.travelDirection==='two-way'?r.laneCount/2:r.laneCount;
       const lanes:LaneMovement[]=Array.from({length:count},(_,lane)=>j.type.startsWith('t_')&&port==='north'?'left-right':count===1?'straight':lane===0?'straight-left':lane===count-1?'straight-right':'straight');
       j.approaches[port]={lanes,arrowDistance:30};

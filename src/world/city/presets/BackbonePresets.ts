@@ -56,6 +56,8 @@ export function expandBackbonePreset(id: string, p: PresetParameters): PresetSta
     applyRoadStyle(r,urban?'urban_boulevard_6':'ramp_1');
     Object.assign(r,{type:urban?'urban_6lane':'highway',centerline:points,laneCount:count,laneWidth:urban?3.75:count===3?3.75:3.9,
       travelDirection:urban?'two-way':'forward',speedLimit:speed,elevationMode:'custom',streetlights:false});
+    r.roadClass = urban ? 'arterial' : count >= 3 ? 'expressway' : count === 2 ? 'connector' : 'ramp';
+    r.crossSection = urban ? 'boulevard' : 'shouldered';
     r.structure={barrierEnabled:!urban,piersEnabled:true,pierSpacing:55,barrierOffset:0.25};
     if (!urban) r.shoulders={left:0.75,right:1.75};
     m.roads.push(r);return r;

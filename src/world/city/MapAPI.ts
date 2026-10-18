@@ -3,6 +3,8 @@ import { connectionPoint, portsFor, refreshPortPoses, roadPoints, syncConnection
 import { loadCityMap } from './CityMapLoader';
 import { validateMap } from './CityMapValidation';
 import { applyRoadStyle } from './RoadStyles';
+import { applyRoadCrossSection } from './RoadCrossSection';
+import { roadFunction } from './RoadClassification';
 import { CityMapIds } from './CityMapIds';
 import { checkedEndpoint, connectRoads, roadEndpoint } from './RoadConnections';
 import { expandPreset, type PresetParameters, type PresetStamp } from './presets/InfrastructurePresets';
@@ -32,7 +34,9 @@ export function createRoad(map: CityMapData, input: RoadInput): CityRoad {
   if (!Array.isArray(input.centerline)) throw new Error('road.nodes: centerline array required');
   const road: CityRoad = { id: idFor(map, input.id, input.baseName ?? 'road'), type: 'urban_4lane', centerline: [], laneCount: 4, laneWidth: 3.5, speedLimit: 40, travelDirection: 'two-way' };
   applyRoadStyle(road, input.styleId ?? 'urban_street_4');
+  if (input.crossSection) applyRoadCrossSection(road, input.crossSection);
   const { centerline, baseName: _base, id: _id, ...overrides } = input; Object.assign(road, overrides);
+  if (input.type && !input.roadClass) { delete road.roadClass; road.roadClass = roadFunction(road); }
   road.centerline = centerline.map(p => ({ ...p, y: p?.y ?? (road.elevationMode === 'elevated' ? road.elevation ?? 6 : 0) }));
   if (centerline.some(p => p?.y !== undefined && p.y !== (road.elevation ?? 0)) && input.elevationMode === undefined) road.elevationMode = 'custom';
   if (input.type && input.laneCount === undefined) road.laneCount = ROAD_LANES[input.type];

@@ -9,7 +9,8 @@ import { Subject3Ground } from './subject3';
 import { CityGround } from './city/CityGround';
 import { CITY_EDITOR_STORAGE_KEY } from './city/CityMapLoader';
 import cityAlpha from './city/maps/city-alpha.json';
-import cityMain from './regional/regional-main.json';
+import { cityMainRuntime, prepareCityMain } from './city/CityMainResource';
+import type { CityResourceTiming, CityRuntimeData } from './city/CityRuntimeData';
 import presetShowcase from './city/maps/preset-showcase.json';
 
 export const DRIVING_GROUND_IDS = [
@@ -47,8 +48,8 @@ const GROUND_BY_ID: Readonly<Record<DrivingGroundId, RegisteredDrivingGroundDesc
       description: '现实筑波 TC2000 四轮路线：2,045 米顺时针闭环、S 弯、双发夹、80R、高速末弯与贯通维修道。',
       create: (): DrivingGround => new TsukubaGround(),
     }),
-    'city-main': Object.freeze({ id: 'city-main', navigation: true, version: cityMain.version, displayName: '清江市 · City Main',
-      description: '无缝城市与区域高速网，包含机场、山谷桥隧、服务区和移动区域加载。', create: (): DrivingGround => new CityGround(cityMain,{spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('regionalSpawn')??undefined}) }),
+    'city-main': Object.freeze({ id: 'city-main', navigation: true, version: 22, displayName: '清江市 · City Main',
+      description: '无缝城市与区域高速网，包含机场、山谷桥隧、服务区和移动区域加载。', create: (): DrivingGround => new CityGround(cityMainRuntime().map,{runtime:cityMainRuntime(),spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('regionalSpawn')??undefined}) }),
     'preset-showcase': Object.freeze({ id:'preset-showcase',version:presetShowcase.version,displayName:'道路设施体验场',
       description:'独立道路、匝道、路口和立交的道路设施体验场；高架端口配有地面接入坡道。',
       create:():DrivingGround=>new CityGround(presetShowcase,{spawnId:typeof location==='undefined'?undefined:new URLSearchParams(location.search).get('preset')??undefined}) }),
@@ -108,9 +109,15 @@ export function getDrivingGroundDescriptor(
   return GROUND_BY_ID[id];
 }
 
-export function createDrivingGround(id: DrivingGroundId): DrivingGround {
+/** Prepares only external resources. Synchronous grounds and their API remain unchanged. */
+export async function prepareDrivingGround(id: DrivingGroundId, supplied?: CityRuntimeData): Promise<CityResourceTiming | undefined> {
+  return id === 'city-main' ? prepareCityMain(supplied) : undefined;
+}
+
+export function createDrivingGround(id: DrivingGroundId, resourceTiming?: CityResourceTiming): DrivingGround {
   const descriptor = getDrivingGroundDescriptor(id);
   const ground = descriptor.create();
+  if (ground instanceof CityGround) ground.resourceTiming = resourceTiming;
   // Keep authored route metadata and concrete methods, while the loading entry
   // owns the stable player-facing identity (including editor-map fallback).
   Object.defineProperty(ground, 'metadata', {

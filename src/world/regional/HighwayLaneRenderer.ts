@@ -1,3 +1,4 @@
+import { roadFunction } from '../city/RoadClassification';
 import { Group } from 'three';
 import type { CityMapData, CityPoint, CityRoad } from '../city/CityMapData';
 import { polylineLength, roadPoints, sampleAt } from '../city/geometry';
@@ -84,7 +85,7 @@ function paintGore(decision:CityRoad,map:CityMapData,owner:CityRoad,off:boolean,
   // Hatch the shoulder wedge between mainline and ramp edges. Never draw
   // an invented triangle inside the drivable auxiliary lane.
   const decisionPoints=roadPoints(decision),rampLength=polylineLength(decisionPoints),ids=roadEdgeChains(map).continuations(owner.id),clearance=runtimeRoadClearance(map);
-  const mainlines=map.roads.filter(r=>ids.has(r.id)||owner.roadNameId!==undefined&&r.type==='highway'&&r.roadNameId===owner.roadNameId).map(r=>({...r,centerline:roadPoints(r)}));
+  const mainlines=map.roads.filter(r=>ids.has(r.id)||owner.roadNameId!==undefined&&roadFunction(r)==='expressway'&&r.roadNameId===owner.roadNameId).map(r=>({...r,centerline:roadPoints(r)}));
   const wedge:{a:CityPoint;b:CityPoint}[]=[];
   for(let station=6;station<=Math.min(125,rampLength*.4);station+=6){
     const frame=sampleAt(decisionPoints,off?station:rampLength-station),rampEdge={x:frame.point.x+frame.tangent.z*(decision.laneCount*decision.laneWidth/2+.3),y:frame.point.y,z:frame.point.z-frame.tangent.x*(decision.laneCount*decision.laneWidth/2+.3)};
@@ -119,7 +120,7 @@ export function buildHighwayGoreMarkings(decision:CityRoad,map:CityMapData,mater
     if(map.roads.some(r=>r.highwayTransition?.decisionId===decision.id&&r.highwayTransition.kind===(off?'deceleration':'acceleration')))continue;
     const link=map.roadLinks!.find(l=>off?l.to.roadId===decision.id&&l.to.end==='start':l.from.roadId===decision.id&&l.from.end==='end');
     const owner=link&&map.roads.find(r=>r.id===(off?link.from:link.to).roadId);
-    if(owner?.type==='highway')paintGore(decision,map,owner,off,paint);
+    if(owner&&roadFunction(owner)==='expressway')paintGore(decision,map,owner,off,paint);
   }
   return root;
 }

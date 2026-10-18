@@ -16,6 +16,7 @@ import { cityGroundGeometry } from './CityGroundGeometry';
 import {junctionSurfaceContains,junctionSurfaceHeight,compileJunctionSurface} from './JunctionSurface';
 import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
 import { RegionalDebug } from '../regional/RegionalDebug';
+import type { CityResourceTiming, CityRuntimeData } from './CityRuntimeData';
 
 interface SurfaceArea { contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number }
 export class CityGround implements DrivingGround {
@@ -35,6 +36,16 @@ export class CityGround implements DrivingGround {
   private referenceHeight = 0;
   private readonly regionalDebug?:RegionalDebug;
   private readonly loadStarted=performance.now();
+  readonly initializationMs: Record<string, number> = {};
+  resourceTiming?: CityResourceTiming;
+  private readonly milestones: Record<string, number> = {};
+  markLoadMilestone(name: 'firstRender' | 'playable'): void {
+    if (this.milestones[name] !== undefined) return;
+    const started = this.resourceTiming?.startedAt ?? this.loadStarted;
+    this.milestones[name] = performance.now() - started;
+    performance.measure(`city:${name}`, { start: started, end: performance.now() });
+    if (name === 'playable' && typeof location !== 'undefined' && new URLSearchParams(location.search).get('cityProfile') === '1') console.info('City startup', this.loadStatistics);
+  }
   private sectorStartOffset=0;
   get visualReady(): boolean { return this.sectors.spawnReady; }
   get visualLoadingError(): Error | undefined { return this.sectors.loadingError; }
@@ -42,27 +53,36 @@ export class CityGround implements DrivingGround {
     warmup?: (root: Group) => Promise<unknown>): void { this.sectors.setResourcePreparation(prepare, warmup); }
   setVisualObserver(observer: (root: import('three').Object3D, added: boolean) => void): void { this.sectors.setVisualObserver(observer); }
   updateVisualVisibility(eye: Vector3, fogFar: number, cameras: readonly import('three').Camera[]): void { this.sectors.updateVisibility(eye, fogFar, cameras); }
-  get loadStatistics(){const stats=this.sectors.loadStatistics;return {...stats,firstVisibleMs:stats.firstVisibleMs===undefined?undefined:this.sectorStartOffset+stats.firstVisibleMs,firstLoadMs:stats.firstLoadMs===undefined?undefined:this.sectorStartOffset+stats.firstLoadMs};}
-  constructor(data: unknown, options: SectorOptions & { spawnId?: string } = {}) {
-    this.data = loadCityMap(data); this.editor = options.editor ?? false;
+  get loadStatistics(){const stats=this.sectors.loadStatistics;return {...stats,initializationMs:this.initializationMs,resource:this.resourceTiming,milestones:this.milestones,firstVisibleMs:stats.firstVisibleMs===undefined?undefined:this.sectorStartOffset+stats.firstVisibleMs,firstLoadMs:stats.firstLoadMs===undefined?undefined:this.sectorStartOffset+stats.firstLoadMs};}
+  constructor(data: unknown, options: SectorOptions & { spawnId?: string; runtime?: CityRuntimeData } = {}) {
+    let stage = performance.now();
+    const measured = (name: string) => { const now = performance.now(); this.initializationMs[name] = now - stage; performance.measure(`city:${name}`, {start:stage,end:now}); stage = now; };
+    this.data = options.runtime?.map ?? loadCityMap(data); this.editor = options.editor ?? false;
+    measured('loadCityMap');
     if(this.data.regional){this.materials.asphalt.polygonOffset=true;this.materials.asphalt.polygonOffsetFactor=-1;this.materials.asphalt.polygonOffsetUnits=-1;}
     this.worldBounds = this.data.bounds;
     this.metadata = { id: this.data.id, version: this.data.version, displayName: this.data.name, description: 'Data-driven City Map' };
-    this.roadNetwork = buildCityRoadNetwork(this.data);
+    this.roadNetwork = options.runtime?.roadNetwork ?? buildCityRoadNetwork(this.data);
+    measured('roadNetwork');
     this.root.name = this.data.name; this.root.userData.renderCategory = 'WORLD';
     const groundAreas=this.data.regional?[this.data.regional.cityBounds,...this.data.regional.cityExtensions??[]]:[this.data.bounds];
-    for(const bounds of groundAreas){const base = new Mesh(cityGroundGeometry({...this.data,bounds}), this.materials.grass);base.receiveShadow = true;this.root.add(base);}
+    for(const bounds of groundAreas){const base = new Mesh(cityGroundGeometry(this.data,bounds), this.materials.grass);base.receiveShadow = true;this.root.add(base);}
+    measured('groundGeometry');
     this.sectorStartOffset=performance.now()-this.loadStarted;
     this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options); this.root.add(this.sectors.root);
+    measured('sectorManager');
     const clearance = runtimeRoadClearance(this.data);
+    measured('clearanceIndex');
     this.colliders = [...this.data.objects.flatMap(o => { const c = this.prefabs.collider(o); return c ? [c] : []; }), ...this.data.roads.flatMap(r => roadStructureColliders(r, this.data, clearance)),...(this.data.signs??[]).flatMap(roadSignColliders)];
     for(const j of this.data.intersections.filter(j=>j.channelized))for(const sign of [-1,1]) {
       const h=junctionExtent(j,this.data),q=rotatePoint({x:sign*(h-2.5),z:sign*(h-2.5)},j.rotation);
       this.colliders.push(createStaticOBBCollider({id:j.id+':island:'+sign,x:j.position.x+q.x,z:j.position.z+q.z,width:2,length:2,yaw:j.rotation,minHeight:j.position.y??0,maxHeight:(j.position.y??0)+0.18,type:'obstacle'}));
     }
+    measured('colliders');
     const junctionMasks=new Map(this.data.intersections.filter(j=>j.pavementFootprint).map(j=>[j.id,compileJunctionSurface(j)]));
+    const sourceRoads = new Map(this.data.roads.map(r => [r.id, r]));
     for (const road of this.roadNetwork.segments) {
-      const source = this.data.roads.find(r => r.id === road.id)!;
+      const source = sourceRoads.get(road.id)!;
       const edges = roadEdges(source);
       const sidewalk = source.sidewalk?.enabled ? source.sidewalk.width : 0;
       const masks=[road.startIntersectionId,road.endIntersectionId].flatMap(id=>id&&junctionMasks.has(id)?[junctionMasks.get(id)!]:[]);
@@ -106,6 +126,7 @@ export class CityGround implements DrivingGround {
       this.addArea({ minX: o.position.x - e, maxX: o.position.x + e, minZ: o.position.z - e, maxZ: o.position.z + e }, { pavement: false, heightAt: () => o.position.y ?? 0, gx: 0, gz: 0,
         contains: (x, z) => { const p = rotatePoint({ x: x - o.position.x, z: z - o.position.z }, -o.rotation); return Math.abs(p.x) <= w && Math.abs(p.z) <= d; } });
     }
+    measured('surfaceIndex');
     const authored = this.data.environment.spawnPoints.find(s=>s.id===options.spawnId) ?? this.data.environment.spawnPoints[0]!;
     this.referenceHeight = authored.position.y ?? 0;
     let spawn: CityPoint = authored.position;
@@ -119,6 +140,7 @@ export class CityGround implements DrivingGround {
     this.spawnPose = { position: new Vector3(spawn.x, this.getRoadHeightAt(spawn.x, spawn.z) + 0.04, spawn.z), yawRadians: authored.rotation };
     if (!this.editor) this.sectors.updatePosition(spawn.x, spawn.z);
     if(this.data.regional&&typeof location!=='undefined'&&new URLSearchParams(location.search).get('regionalDebug')==='1')this.regionalDebug=new RegionalDebug(this.sectors);
+    measured('spawnPreparation');
   }
   private addArea(b: DrivingGround['worldBounds'], area: SurfaceArea): void {
     const size = this.data.sectorSize;

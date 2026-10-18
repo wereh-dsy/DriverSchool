@@ -36,7 +36,7 @@ export function runCityGroundElevationSelfTest(before:CityMapData,source:CityMap
  for(const [name,predicate] of [
   ['Central Avenue ground',(r:CityRoad)=>r.roadNameId==='central-avenue'],
   ['West Old City local ground',(r:CityRoad)=>r.id.startsWith('v5-west-')&&r.laneCount===2],
-  ['East New District arterial ground',(r:CityRoad)=>r.roadNameId==='east-avenue'&&r.type.startsWith('urban')],
+  ['East New District arterial ground',(r:CityRoad)=>r.roadNameId==='east-avenue'&&!!r.type?.startsWith('urban')],
  ] as [string,(r:CityRoad)=>boolean][]){const r=groundRoads.find(r=>predicate(r)&&Math.abs((r.elevation??0)-contact)<1e-6)!;assert(r,'selected ground case '+name);
   const root=builder.build(r),pavement=root.children.find(o=>o.name==='road pavement') as Mesh;assert(pavement,'actual road pavement '+name);const a=pavement.geometry.getAttribute('position');for(let i=0;i<a.count;i++)assert(Math.abs(a.getY(i)-ground-.04)<1e-5,'rendered ground road offset '+name);
   assert(!root.children.some(o=>o.name.endsWith(':piers')||o.name==='bridge skirt'),'ground has no bridge underside/piers '+name);cases[name]={road:r.id,beforeY:yRange(old.get(r.id)!),afterY:yRange(r),renderedPavementAboveTerrain:.04};root.traverse(o=>{if(o instanceof Mesh)o.geometry.dispose();});

@@ -23,3 +23,14 @@
 .city-editor .ce-inspector button { margin:4px 3px 4px 0; }
 .city-editor .ce-preset-params label input,.city-editor .ce-preset-params label select { width:80px; margin:0; }
 .city-editor details { color:#ffcf7e; margin-bottom:12px; }
+.city-editor { grid-template-columns:230px 1fr 310px; }
+.city-editor .ce-tools label { align-items:flex-start;flex-direction:column;gap:3px; }
+.city-editor .ce-tools label select,.city-editor .ce-tools label input:not([type=checkbox]) { width:100%; }
+.city-editor .ce-view-label { position:absolute;top:12px;left:14px;padding:7px 12px;background:#192933dd;border:1px solid #4b687a;border-radius:5px;pointer-events:none; }
+.city-editor .ce-preview { position:absolute;left:16px;right:16px;bottom:16px;max-height:45%;overflow:auto;padding:14px;background:#172630f5;border:1px solid #68d8b4;border-radius:6px;box-shadow:0 5px 25px #0005; }
+.city-editor [hidden] { display:none; }
+.city-editor .ce-preview p { margin:7px 0; }
+.city-editor .ce-preview button { margin-right:6px; }
+.city-editor .ce-issue { display:block;text-align:left;width:100%;white-space:normal;margin:5px 0;color:#ffcf7e; }
+.city-editor .ce-issue.error { color:#ff9687; }
+.city-editor textarea { width:100%;min-height:60px;background:#252e3a;color:#e7edf6;border:1px solid #475366; }

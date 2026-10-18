@@ -36,7 +36,7 @@ export function buildRegionalWorld(city: CityMapData): CityMapData {
   const endpoint = (r: CityRoad, end: 'start' | 'end'): RoadEndpoint => ({ roadId: r.id, end });
   const link = (from: RoadEndpoint, to: RoadEndpoint) => map.roadLinks!.push({ id: `regional:link:${serial++}`, from, to });
   const add = (id: string, path: CityPoint[], lanes = 3, speed = 120, route?: string, section = 'GROUND'): CityRoad => {
-    const r: CityRoad = { id, type: lanes === 1 ? 'ramp_1' : 'highway', centerline: path, curve: 'polyline',
+    const r: CityRoad = { id, type: lanes === 1 ? 'ramp_1' : 'highway', roadClass: lanes === 1 ? 'ramp' : 'expressway', crossSection: 'shouldered', centerline: path, curve: 'polyline',
       laneCount: lanes, laneWidth: 3.75, travelDirection: 'forward', speedLimit: speed, elevationMode: 'custom',
       designProfile: 'motorway', roadNameId: route, corridorSection: section, shoulders: { left: 1, right: 3 },
       structure: { barrierEnabled: true, piersEnabled: section === 'BRIDGE' || section === 'RAMP', pierSpacing: 60, barrierOffset: .2, medianBarrierStyle:lanes>1?'concrete':'metal' }, streetlights: false };
@@ -178,7 +178,7 @@ export function buildRegionalWorld(city: CityMapData): CityMapData {
       const a=mouth(station-dir*280),b=mouth(station+dir*280),c=pose(-dir*60,dir*105),d=pose(dir*60,dir*105);
       const from=cut(route,a,false),to=cut(route,b,true);
       const off=add(`${id}:off:${dir}`,bezierPoints(from.point,pose(-dir*200,dir*8.625),pose(-dir*130,dir*105),c),1,50,route.id,'GROUND');
-      const local=add(`${id}:local:${dir}`,[c,d],2,30,undefined,'GROUND');
+      const local=add(`${id}:local:${dir}`,[c,d],2,30,undefined,'GROUND');local.roadClass='local';
       const on=add(`${id}:on:${dir}`,bezierPoints(d,pose(dir*130,dir*105),pose(dir*200,dir*8.625),to.point),1,50,route.id,'GROUND');
       for(const road of [off,on]){const length=polylineLength(road.centerline),sy=road.centerline[0]!.y??0,ey=road.centerline.at(-1)!.y??0;let distance=0;for(let i=0;i<road.centerline.length;i++){if(i)distance+=Math.hypot(road.centerline[i]!.x-road.centerline[i-1]!.x,road.centerline[i]!.z-road.centerline[i-1]!.z);road.centerline[i]!.y=sy+(ey-sy)*compactRampEase(distance/length);}}
       off.gore={start:true,end:false,length:100};on.gore={start:false,end:true,length:100};

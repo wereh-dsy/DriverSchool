@@ -1,3 +1,4 @@
+import { roadFunction } from './RoadClassification';
 import { Box3, BufferAttribute, BufferGeometry, CylinderGeometry, Float32BufferAttribute, Group, InstancedMesh, Material, Matrix4, Mesh, Sphere, Vector3, type Camera, type Object3D, type Texture } from 'three';
 import { PREFAB_IDS, type CityIntersection, type CityMapData, type CityObject, type CityRoad } from './CityMapData';
 import type { Subject3Materials } from '../subject3/materials';
@@ -50,6 +51,7 @@ export class SectorManager {
   private firstReadyMs:number|undefined;
   private firstVisibleMs:number|undefined;
   private constructorMs=0;
+  private publicationMs=0;
   private readonly visualWorker?: VisualStreamingWorker;
   private readonly requestedRoads = new Set<string>();
   private readonly requestedTerrain = new Set<string>();
@@ -79,7 +81,7 @@ export class SectorManager {
   get loadStatistics(){
     const roads=new Set<CityRoad>();let signs=0,barrierTriangles=0;
     for(const key of this.active.keys())if(this.activeTiers.get(key)==='near'){const plan=this.plans.get(key);plan?.roads.forEach(r=>roads.add(r));signs+=plan?.signs.length??0;barrierTriangles+=plan?.barrierTriangles??0;}
-    return {sectorCount:this.active.size,totalSectors:this.streaming?.sectors.size??this.plans.size,roadCount:roads.size,compiledRoadCount:this.compiled.size,signCount:signs,barrierCount:Math.ceil(barrierTriangles/4),backgroundSectors:this.backgroundBuilt,backgroundBatches:this.backgroundBatches.count,constructorMs:this.constructorMs,firstVisibleMs:this.firstVisibleMs,firstLoadMs:this.firstReadyMs};
+    return {sectorCount:this.active.size,totalSectors:this.streaming?.sectors.size??this.plans.size,roadCount:roads.size,compiledRoadCount:this.compiled.size,signCount:signs,barrierCount:Math.ceil(barrierTriangles/4),backgroundSectors:this.backgroundBuilt,backgroundBatches:this.backgroundBatches.count,constructorMs:this.constructorMs,publicationMs:this.publicationMs,worker:this.visualWorker?.timings,firstVisibleMs:this.firstVisibleMs,firstLoadMs:this.firstReadyMs};
   }
   readonly loadRadius: number;
   get ready():boolean {return this.pending.every(key=>this.active.has(key));}
@@ -111,7 +113,7 @@ export class SectorManager {
       this.backgroundPending=[...this.streaming.sectors];
       const silhouettes:BufferGeometry[]=[];
       for(const route of map.regional!.routes){const geometry=createStripGeometry(route.centerline,()=>0,{innerOffset:-route.lanes*3.75-5,outerOffset:route.lanes*3.75+5,yOffset:.024,maximumSpacing:80});if(geometry){const colors=new Float32Array(geometry.getAttribute('position').count*3);colors.fill(.16);geometry.setAttribute('color',new Float32BufferAttribute(colors,3));this.terrain!.drapeSilhouette(geometry,'far');silhouettes.push(geometry);}}
-      for(const road of map.roads.filter(r=>!r.id.startsWith('regional:')&&r.type==='highway'&&r.laneCount>=3&&!r.gore)){const edges=roadEdges(road),geometry=createStripGeometry(roadPoints(road),()=>0,{innerOffset:edges.left,outerOffset:edges.right,yOffset:.024,maximumSpacing:80});if(geometry){const colors=new Float32Array(geometry.getAttribute('position').count*3);colors.fill(.16);geometry.setAttribute('color',new Float32BufferAttribute(colors,3));this.terrain!.drapeSilhouette(geometry,'far');silhouettes.push(geometry);}}
+      for(const road of map.roads.filter(r=>!r.id.startsWith('regional:')&&roadFunction(r)==='expressway'&&r.laneCount>=3&&!r.gore)){const edges=roadEdges(road),geometry=createStripGeometry(roadPoints(road),()=>0,{innerOffset:edges.left,outerOffset:edges.right,yOffset:.024,maximumSpacing:80});if(geometry){const colors=new Float32Array(geometry.getAttribute('position').count*3);colors.fill(.16);geometry.setAttribute('color',new Float32BufferAttribute(colors,3));this.terrain!.drapeSilhouette(geometry,'far');silhouettes.push(geometry);}}
       if(silhouettes.length){const geometry=mergeGeometries(silhouettes);silhouettes.forEach(g=>g.dispose());if(geometry)this.background.add(new Mesh(geometry,this.terrain.farRoad));}
       const forests:BufferGeometry[]=[];
       map.objects.filter(o=>o.id.startsWith('regional:')&&o.prefabId==='tree').filter((_,i)=>i%10===0).forEach(o=>{const geometry=new CylinderGeometry(0,14,12,5).toNonIndexed();geometry.translate(o.position.x,(o.position.y??0)+6,o.position.z);const colors=new Float32Array(geometry.getAttribute('position').count*3);for(let i=0;i<colors.length;i+=3){colors[i]=.24;colors[i+1]=.35;colors[i+2]=.2;}geometry.setAttribute('color',new Float32BufferAttribute(colors,3));forests.push(geometry);});
@@ -291,10 +293,11 @@ export class SectorManager {
     for (const [key, job] of this.publications) {
       if (steps >= 2 || performance.now() - started >= 3) break;
       if (job.preparation) continue;
-      if (!job.built) { job.built = job.task.next().done === true; steps++; }
+      if (!job.built) { const buildStarted = performance.now(); job.built = job.task.next().done === true; this.publicationMs += performance.now() - buildStarted; steps++; }
       if (job.built && !job.warmed) {
         if (this.prepareRoot) {
-          job.preparation = Promise.resolve().then(() => this.prepareRoot!(job.root)).then(() => { job.warmed = true; job.preparation = undefined; }, error => {
+          const warmupStarted = performance.now();
+          job.preparation = Promise.resolve().then(() => this.prepareRoot!(job.root)).then(() => { performance.measure('city:sectorWarmup', {start:warmupStarted,end:performance.now()}); job.warmed = true; job.preparation = undefined; }, error => {
             this.preparationError = error instanceof Error ? error : new Error(String(error)); job.preparation = undefined;
           });
           continue;

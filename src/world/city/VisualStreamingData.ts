@@ -12,8 +12,8 @@ export interface TerrainVisualData { key: string; tier: 'near' | 'mid' | 'far'; 
 export type VisualWorkerRequest = { kind: 'init'; map: import('./CityMapData').CityMapData }
   | { kind: 'road'; id: string } | { kind: 'terrain'; key: string; tier: 'near' | 'mid' | 'far'; roadIds?: string[] }
   | { kind: 'background'; keys: string[] };
-export type VisualWorkerReply = { kind: 'ready' } | { kind: 'road'; data: CompiledRoadVisual }
-  | { kind: 'terrain'; data: TerrainVisualData } | { kind: 'background'; data: TerrainVisualData[] } | { kind: 'error'; message: string };
+export type VisualWorkerReply = ({ kind: 'ready' } | { kind: 'road'; data: CompiledRoadVisual }
+  | { kind: 'terrain'; data: TerrainVisualData } | { kind: 'background'; data: TerrainVisualData[] } | { kind: 'error'; message: string }) & { cpuMs?: number };
 
 export function exportVisualGeometry(g: BufferGeometry): VisualGeometryData {
   g.computeBoundingBox(); g.computeBoundingSphere();

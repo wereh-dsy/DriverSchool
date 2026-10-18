@@ -1,6 +1,7 @@
 import { INTERSECTION_LANES, PREFAB_IDS, ROAD_LANES, type CityMapData, type CityPoint, type RoadEndpoint } from './CityMapData';
 import { directionalPortLabel, portsFor, roadPoints } from './geometry';
 import { ROAD_STYLES } from './RoadStyles';
+import { ROAD_CROSS_SECTIONS } from './RoadCrossSection';
 import catalog from './presets/catalog.json';
 import { validatePresetGeometry } from './presets/PresetGeometryValidation';
 import { validateRoadSignData } from './RoadSignValidation';
@@ -39,12 +40,14 @@ export function validateMap(value: unknown): MapValidation {
   }
   for (let index = 0; index < m.roads.length; index++) {
     const r = m.roads[index], path = `roads[${index}]`; if (!r) continue;
-    if (!Object.hasOwn(ROAD_LANES, r.type) || !Number.isInteger(r.laneCount) || (r.type === 'highway' ? r.laneCount < 1 || r.laneCount > 6 : r.laneCount !== ROAD_LANES[r.type])) issue('lanes.invalid', path, 'Highway supports 1–6 lanes; urban/ramp type fixes count.');
+    if (r.type !== undefined && !Object.hasOwn(ROAD_LANES, r.type) || !Number.isInteger(r.laneCount) || (r.crossSection || r.type === 'highway' ? r.laneCount < 1 || r.laneCount > (r.crossSection ? 8 : 6) : r.type === undefined || r.laneCount !== ROAD_LANES[r.type])) issue('lanes.invalid', path, 'Cross sections support 1–8 lanes; legacy highway supports 1–6 and urban/ramp types fix count.');
+    if (r.type === undefined && r.roadClass === undefined) issue('road.class', path, 'New roads require an explicit traffic function.');
+    if (r.crossSection !== undefined && !Object.hasOwn(ROAD_CROSS_SECTIONS, r.crossSection)) issue('road.crossSection', path, 'Unknown geometric cross-section preset.');
     if (!finite(r.laneWidth) || r.laneWidth < 2 || r.laneWidth > 6 || !finite(r.speedLimit) || r.speedLimit <= 0 || r.speedLimit > 200) issue('road.properties', path, 'Lane width 2–6m, speed 1–200km/h required.');
     if (!['two-way', 'forward', 'reverse'].includes(r.travelDirection) || r.travelDirection === 'two-way' && r.laneCount % 2 !== 0) issue('direction.invalid', path, 'Two-way roads require an even lane count.');
     if (r.styleId && !ROAD_STYLES.some(s => s.id === r.styleId)) issue('style.invalid', path, `Unknown road style: ${r.styleId}`);
     if (r.designProfile !== undefined && !['urban','motorway'].includes(r.designProfile)) issue('design.profile',path,'Expected urban or motorway design profile.');
-    if(r.roadClass!==undefined&&!['avenue','arterial','collector','local','alley','industrial'].includes(r.roadClass))issue('road.class',path,'Unknown city road hierarchy.');
+    if(r.roadClass!==undefined&&!['expressway','arterial','collector','local','frontage','ramp','connector','avenue','alley','industrial'].includes(r.roadClass))issue('road.class',path,'Unknown road function.');
     if(r.displayName!==undefined&&(typeof r.displayName!=='string'||r.displayName.length>100))issue('road.displayName',path,'Optional player name must be a string of at most 100 characters; empty means unnamed.');
     if(r.decorationProfile!==undefined&&(typeof r.decorationProfile!=='string'||!r.decorationProfile.length||r.decorationProfile.length>64))issue('road.decoration',path,'Decoration profile must be a nonempty key of at most 64 characters.');
     if (r.curve && !['polyline', 'smooth'].includes(r.curve)) issue('curve.invalid', path, 'Expected polyline or smooth.');
@@ -172,6 +175,18 @@ export function validateMap(value: unknown): MapValidation {
     for (const j of m.intersections) for (const c of j.connections.slice(1)) join(j.connections[0]!.roadId, c.roadId);
     const components = new Set(m.roads.map(r => root(r.id))).size;
     if (components > 1) issue('network.sparse', 'roads', `${components} separate road components; projected crossings do not imply connectivity.`, 'warning');
+  }
+  if(m.editing){
+    const editor=m.editing,roadIds=new Set(m.roads.map(r=>r.id)),entityIds=new Set([...m.roads,...m.intersections,...m.objects].map(e=>e.id)),editorIds=new Set([...ids,...(m.signs??[]).map(s=>s.id)]);
+    for(const key of ['corridors','groups','attachments','ramps'] as const){
+      if(!Array.isArray(editor[key])){issue('editing.invalid',`editing.${key}`,'Expected authoring collection.');continue;}
+      for(const e of editor[key]){if(!e||typeof e.id!=='string'||!e.id||editorIds.has(e.id))issue('editing.id',`editing.${key}`,'Authoring IDs must be stable and unique.');else editorIds.add(e.id);}
+    }
+    if(Array.isArray(editor.corridors))for(const c of editor.corridors)if(typeof c.name!=='string'||!Array.isArray(c.roadIds)||c.roadIds.some(id=>!roadIds.has(id)))issue('editing.corridor','editing.corridors','Corridors need a name and existing road references.');
+    if(Array.isArray(editor.groups))for(const g of editor.groups)if(typeof g.name!=='string'||typeof g.locked!=='boolean'||!['corridor','intersection','interchange'].includes(g.kind)||!Array.isArray(g.memberIds)||g.memberIds.some(id=>!entityIds.has(id)))issue('editing.group','editing.groups','Groups need ordinary existing members and a lock state.');
+    if(Array.isArray(editor.attachments))for(const a of editor.attachments)if(!roadIds.has(a.sourceRoadId)||!roadIds.has(a.roadId)||a.sourceRoadId===a.roadId||!finite(a.offset))issue('editing.attachment','editing.attachments','Attachments need distinct existing source/child roads and a finite offset.');
+    if(Array.isArray(editor.ramps))for(const r of editor.ramps)if(!roadIds.has(r.roadId)||!roadIds.has(r.from?.roadId)||!roadIds.has(r.to?.roadId)||!['on','off'].includes(r.kind))issue('editing.ramp','editing.ramps','Ramp metadata must reference existing roads.');
+    for(const[id,handles]of Object.entries(editor.curves??{}))if(!roadIds.has(id)||!Array.isArray(handles)||handles.length!==4||!handles.every(point))issue('editing.curve','editing.curves','Cubic authoring handles need an existing road and four finite points.');
   }
   if (!errors.length && m.environment.metadata?.productionGeometry === 'true') errors.push(...validatePresetGeometry(m));
   if(!errors.length)errors.push(...validateHighwayData(m));

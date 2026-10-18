@@ -71,6 +71,8 @@ export function expandPreset(id: string, parameters: PresetParameters = {}): Pre
         const r: CityRoad = { id: name(label), ...meta, type: 'highway', centerline: points, laneCount, laneWidth: 3.75, speedLimit: ramp ? 40 : 80, travelDirection: oneWay ? 'forward' : 'two-way' };
         applyRoadStyle(r, ramp ? 'ramp_1' : 'highway_6');
         r.type = laneCount === 1 ? 'ramp_1' : 'highway';
+        r.roadClass = ramp ? 'ramp' : 'expressway';
+        r.crossSection = 'shouldered';
         r.laneCount = laneCount;
         r.travelDirection = oneWay ? 'forward' : 'two-way';
         r.speedLimit = ramp ? 40 : 80;

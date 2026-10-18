@@ -3,8 +3,9 @@ import type { RoadSignDefinition } from '../city/RoadSignData';
 import { polylineLength, roadEdges, roadPoints, rotatePoint, sampleAt } from '../city/geometry';
 import { RoadClearance } from '../city/RoadClearance';
 import { ROAD_SIGN_POST_Z, signDimensions } from '../city/RoadSignTemplates';
+import { isControlledAccessRoad, roadFunction } from '../city/RoadClassification';
 
-export const isFastRoad = (road: CityRoad) => road.type === 'highway' || road.type === 'ramp_1';
+export const isFastRoad = isControlledAccessRoad;
 export const isSafetySign = (sign: RoadSignDefinition) => sign.type === 'SPEED_LIMIT' || sign.type === 'CHEVRON';
 type End = { roadId: string; end: 'start' | 'end' };
 const readingGap = (a: RoadSignDefinition, b: RoadSignDefinition, roads: Map<string, CityRoad>) =>
@@ -228,7 +229,7 @@ export function optimizeFastRoadSigns(map: CityMapData) {
       until -= length; current = ctx.continuation(road, reverse);
     }
   }
-  for (const road of map.roads.filter(r => isFastRoad(r) && !r.highwayTransition && (r.type === 'ramp_1' || r.gore?.start || r.speedLimit >= 70))) {
+  for (const road of map.roads.filter(r => isFastRoad(r) && !r.highwayTransition && (roadFunction(r) === 'ramp' || r.gore?.start || r.speedLimit >= 70))) {
     const path = ctx.paths.get(road.id)!, length = ctx.lengths.get(road.id)!;
     for (const reverse of directions(road)) {
       let count = 0;

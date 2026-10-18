@@ -35,7 +35,7 @@ export function expandHighways(current: CityMapData): CityMapData {
   const link = (from: RoadEndpoint, to: RoadEndpoint) => map.roadLinks!.push({ id: `regional:upgrade:link:${serial++}`, from, to });
   const add = (id: string, points: CityPoint[], route: string, lanes = 3, speed = 100): CityRoad => {
     const clean=points.filter((p,i)=>!i||Math.hypot(p.x-points[i-1]!.x,p.z-points[i-1]!.z)>=.05);
-    const road: CityRoad = { id, type: lanes === 1 ? 'ramp_1' : 'highway', styleId:lanes===1?'ramp_1':undefined,centerline: clean, curve: 'polyline', laneCount: lanes, laneWidth: lanes===1?3.8:3.75, travelDirection: 'forward', speedLimit: speed, roadNameId: route,
+    const road: CityRoad = { id, type: lanes === 1 ? 'ramp_1' : 'highway', roadClass: lanes === 1 ? 'ramp' : 'expressway', crossSection: 'shouldered', styleId:lanes===1?'ramp_1':undefined,centerline: clean, curve: 'polyline', laneCount: lanes, laneWidth: lanes===1?3.8:3.75, travelDirection: 'forward', speedLimit: speed, roadNameId: route,
       designProfile: 'motorway', elevationMode: 'custom', shoulders: { left: 1, right: lanes === 1 ? 2 : 3 }, corridorSection: 'GROUND', structure: { barrierEnabled: true, piersEnabled: false, barrierOffset: .2, medianBarrierStyle: lanes > 1 ? 'concrete' : 'metal' }, streetlights: false };
     map.roads.push(road); roads.set(id, road); return road;
   };
@@ -123,6 +123,7 @@ export function expandHighways(current: CityMapData): CityMapData {
       const c = point(center.x + perpendicular.x * 145 - s.tangent.x * dir * 70, center.z + perpendicular.z * 145 - s.tangent.z * dir * 70, center.y), d = point(center.x + perpendicular.x * 145 + s.tangent.x * dir * 70, center.z + perpendicular.z * 145 + s.tangent.z * dir * 70, center.y);
       const connector = (a: CityPoint, b: CityPoint, tangent: { x: number; z: number }) => path([[a.x, a.z, tangent.x, tangent.z, a.y ?? 0], [b.x, b.z, s.tangent.x * dir, s.tangent.z * dir, b.y ?? 0]]);
       const off = add(`${id}:off:${dir}`, connector(from.point, c, { x: s.tangent.x * dir, z: s.tangent.z * dir }), r.id, 1, 50), local = add(`${id}:local:${dir}`, [c, d], r.id, 2, 30), on = add(`${id}:on:${dir}`, connector(d, to.point, { x: s.tangent.x * dir, z: s.tangent.z * dir }), r.id, 1, 50);
+      local.roadClass='local';
       off.gore = { start: true, end: false, length: 140 }; on.gore = { start: false, end: true, length: 140 };
       link(from.end, endpoint(off, 'start')); link(endpoint(off, 'end'), endpoint(local, 'start')); link(endpoint(local, 'end'), endpoint(on, 'start')); link(endpoint(on, 'end'), to.end); ids.push(off.id, local.id, on.id);
       const pose = (along: number, across: number) => point(center.x + perpendicular.x * across + s.tangent.x * along, center.z + perpendicular.z * across + s.tangent.z * along, center.y);
@@ -141,6 +142,7 @@ export function expandHighways(current: CityMapData): CityMapData {
   region.structures.push({id:'regional:newcity-overpass',name:'城际山海跨线桥',kind:'bridge',center:point(8569,4400,8.82),roadIds:crossingRoads,radius:750,routes:['S36'],form:'grade separated crossing',reference:'跨越既有 G4516 联络线；保持两条高速独立连接'});
   const airportLocal=roads.get('regional:airport-exit:local:1')!,airportStart=airportLocal.centerline.at(-1)!,airportAccess=add('regional:airport-terminal-access',path([[airportStart.x,airportStart.z,0,-1,airportStart.y??0],[airport.point.x+230,airport.point.z-150,1,0,airport.point.y??0],[airport.point.x+255,airport.point.z+70,0,1,airport.point.y??0]]),s18.id,2,30);
   airportAccess.travelDirection='two-way';airportAccess.designProfile='urban';airportAccess.structure!.barrierEnabled=false;
+  airportAccess.roadClass='collector';
   link(endpoint(airportLocal,'end'),endpoint(airportAccess,'start'));
   for (const [start, end, kind, id, name] of [[1600, 2400, 'tunnel', 'regional:yunling-tunnel', '云岭隧道'], [2900, 3400, 'bridge', 'regional:yunling-bridge', '云岭谷桥']] as const) {
     for (const dir of [1, -1]) { attach(g65, start, dir, true); attach(g65, end, dir, true); }

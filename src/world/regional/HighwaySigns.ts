@@ -1,3 +1,4 @@
+import { roadFunction, isControlledAccessRoad } from '../city/RoadClassification';
 import type { CityMapData, CityRoad } from '../city/CityMapData';
 import type { RoadSignDefinition, RoadSignDestination } from '../city/RoadSignData';
 import { polylineLength, sampleAt } from '../city/geometry';
@@ -14,7 +15,7 @@ export function generateHighwaySigns(map: CityMapData): void {
   const upstream = (road: CityRoad, distance: number) => {
     let station = polylineLength(road.centerline) - distance, travelled = 0; const seen = new Set<string>();
     while (station < 0 && !seen.has(road.id)) {
-      seen.add(road.id); const candidates = (previous.get(road.id) ?? []).filter(r => (r.type === 'highway' || r.type === 'ramp_1') && r.roadNameId === road.roadNameId).sort((a, b) => b.laneCount - a.laneCount);
+      seen.add(road.id); const candidates = (previous.get(road.id) ?? []).filter(r => isControlledAccessRoad(r) && r.roadNameId === road.roadNameId).sort((a, b) => b.laneCount - a.laneCount);
       const next = candidates.find(r => !seen.has(r.id)); if (!next) break;
       travelled += polylineLength(road.centerline); road = next; station += polylineLength(road.centerline);
     }
@@ -91,8 +92,8 @@ export function generateHighwaySigns(map: CityMapData): void {
   // Sparse continuous-section mileage boards. Distances follow the directed
   // mainline graph, not Euclidean distance or a made-up fixed kilometre value.
   const nextMain=new Map<string,CityRoad[]>();
-  for(const l of map.roadLinks!)if(l.from.end==='end'&&l.to.end==='start'){const a=roads.get(l.from.roadId)!,b=roads.get(l.to.roadId)!;if(a.roadNameId===b.roadNameId&&b.type==='highway'){const list=nextMain.get(a.id)??[];list.push(b);nextMain.set(a.id,list);}}
-  const mileageNodes=[...highway.junctions,...highway.exits,...highway.services].map(node=>({id:node.id,approaches:new Set([...node.roadIds,...map.roadLinks!.filter(l=>node.roadIds.includes(l.to.roadId)&&roads.get(l.from.roadId)!.type==='highway').map(l=>l.from.roadId)])}));
+  for(const l of map.roadLinks!)if(l.from.end==='end'&&l.to.end==='start'){const a=roads.get(l.from.roadId)!,b=roads.get(l.to.roadId)!;if(a.roadNameId===b.roadNameId&&roadFunction(b)==='expressway'){const list=nextMain.get(a.id)??[];list.push(b);nextMain.set(a.id,list);}}
+  const mileageNodes=[...highway.junctions,...highway.exits,...highway.services].map(node=>({id:node.id,approaches:new Set([...node.roadIds,...map.roadLinks!.filter(l=>node.roadIds.includes(l.to.roadId)&&roadFunction(roads.get(l.from.roadId)!)==='expressway').map(l=>l.from.roadId)])}));
   for(const route of highway.routes)for(const dir of ['out','in']){
     const list=route.roadIds.map(id=>roads.get(id)!).filter(r=>r.id.includes(':'+dir)),first=list.find(r=>!(previous.get(r.id)??[]).some(p=>list.includes(p)));if(!first)continue;
     let road:CityRoad|undefined=first,covered=0,lastBoard=-4500;const seen=new Set<string>();

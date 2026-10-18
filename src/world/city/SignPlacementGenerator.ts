@@ -1,3 +1,4 @@
+import { roadFunction, isControlledAccessRoad } from './RoadClassification';
 import type { CityMapData, CityPoint, CityRoad, RoadEndpoint } from './CityMapData';
 import type { RoadSignDefinition, RoadSignDestination } from './RoadSignData';
 import { buildCityRoadNetwork } from './CityRoadNetwork';
@@ -14,7 +15,7 @@ export interface SignDecision {
 interface Direction {x:number;z:number}
 const canEnter=(r:CityRoad,end:RoadEndpoint['end'])=>r.travelDirection==='two-way'||(r.travelDirection==='forward')===(end==='end');
 const canLeave=(r:CityRoad,end:RoadEndpoint['end'])=>r.travelDirection==='two-way'||(r.travelDirection==='forward')===(end==='start');
-const isFast=(r:CityRoad)=>r.type==='highway'||r.type==='ramp_1';
+const isFast=isControlledAccessRoad;
 /** Only logical roads, links and junctions participate. No helper meshes. */
 export function signDecisionNodes(map:CityMapData):SignDecision[] {
  const roads=new Map(map.roads.map(r=>[r.id,r])),paths=new Map(map.roads.map(r=>[r.id,roadPoints(r)]));
@@ -36,7 +37,7 @@ export function signDecisionNodes(map:CityMapData):SignDecision[] {
  const destinationRoad=(e:RoadEndpoint):RoadEndpoint=>{
   const queue=[e],seen=new Set<string>();
   while(queue.length){const current=queue.shift()!,key=current.roadId+':'+current.end;if(seen.has(key))continue;seen.add(key);const r=roads.get(current.roadId)!;
-   if(r.displayName!==''&&r.roadNameId&&map.roadNames?.[r.roadNameId]&&!r.gore&&!r.highwayTransition&&r.type!=='ramp_1')return current;
+   if(r.displayName!==''&&r.roadNameId&&map.roadNames?.[r.roadNameId]&&!r.gore&&!r.highwayTransition&&roadFunction(r)!=='ramp')return current;
    const node=nodeAt.get(r.id+':'+(current.end==='start'?'end':'start'));if(node)queue.push(...node.ends.filter(next=>next.roadId!==r.id&&canLeave(roads.get(next.roadId)!,next.end)));
   }return e;
  };
@@ -46,12 +47,12 @@ export function signDecisionNodes(map:CityMapData):SignDecision[] {
   const back=outward(incoming),t={x:-back.x,z:-back.z};
   const outgoing=n.ends.filter(e=>e.roadId!==r.id&&canLeave(roads.get(e.roadId)!,e.end)).filter(e=>{const o=outward(e);return t.x*o.x+t.z*o.z>-.85;});
   if(outgoing.length<2)continue;
-  const expressway=isFast(r),major=r.laneCount>=4||['inner-boulevard','central-avenue','new-city-avenue','north-avenue','south-avenue','west-avenue','east-avenue','industrial-avenue'].includes(r.roadNameId??'')||r.groupId==='north-roundabout';
+  const expressway=isFast(r),major=roadFunction(r)==='arterial'||roadFunction(r)==='collector'&&r.laneCount>=4;
   if(!expressway&&!major)continue;
   const crossroad=n.ends.length===4&&outgoing.length===3&&outgoing.some(e=>{const o=outward(e);return t.x*o.x+t.z*o.z>.94;});
   const destinations=outgoing.map(e=>{
    const o=outward(e),angle=Math.atan2(t.x*o.z-t.z*o.x,t.x*o.x+t.z*o.z);
-   const receiving=destinationRoad(e),travel=outward(receiving),roadNameId=nameFor(receiving),exit=r.type==='highway'&&r.laneCount>1&&(roads.get(e.roadId)!.type==='ramp_1'||!!roads.get(e.roadId)!.gore);
+   const receiving=destinationRoad(e),travel=outward(receiving),roadNameId=nameFor(receiving),exit=roadFunction(r)==='expressway'&&roadFunction(roads.get(e.roadId)!)==='ramp';
    const directionId=map.roadNames?.[roadNameId]?.kind==='expressway'?(Math.abs(travel.x)>Math.abs(travel.z)?travel.x>0?'east-ring':'west-ring':travel.z>0?'south-ring':'north-ring'):undefined;
    const path=paths.get(e.roadId)!,q=sampleAt(e.end==='start'?path:[...path].reverse(),Math.min(20,polylineLength(path))).point,start=e.end==='start'?path[0]!:path.at(-1)!,side=(q.x-start.x)*-t.z+(q.z-start.z)*t.x;
    return {roadNameId,directionId,arrow:exit?side<-.1?'exit-left':'exit-right':Math.abs(angle)<.3?'straight':angle>0?'right':'left'} as RoadSignDestination;
@@ -99,7 +100,7 @@ export function generateTopologySigns(map:CityMapData):RoadSignDefinition[] {
  };
  for(const decision of decisions) {
   const incoming=roads.get(decision.incoming.roadId)!;
-  const requests=decision.expressway?[{type:'EXPRESSWAY_ADVANCE' as const,wanted:incoming.type==='highway'?260:120},{type:'EXPRESSWAY_DIVERGE' as const,wanted:30}]:[{type:decision.crossroad?'ROAD_NAME' as const:'URBAN_DIRECTION' as const,wanted:85}];
+  const requests=decision.expressway?[{type:'EXPRESSWAY_ADVANCE' as const,wanted:roadFunction(incoming)==='expressway'?260:120},{type:'EXPRESSWAY_DIVERGE' as const,wanted:30}]:[{type:decision.crossroad?'ROAD_NAME' as const:'URBAN_DIRECTION' as const,wanted:85}];
   let previousDistance=Infinity;
   for(const request of requests) {
    let placed=false;

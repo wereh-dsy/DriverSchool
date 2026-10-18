@@ -64,7 +64,7 @@ export function reviseHighwayNetwork(input: CityMapData): CityMapData {
         const end = Math.min(length, start + 1200), section = [sampleAt(points, start).point]; let d = 0;
         for (let i = 1; i < points.length; i++) { d += Math.hypot(points[i]!.x - points[i - 1]!.x, points[i]!.z - points[i - 1]!.z); if (d > start && d < end) section.push(points[i]!); }
         section.push(sampleAt(points, end).point);
-        const road: CityRoad = { id: `regional:v2:${id}:${dir === 1 ? 'out' : 'in'}:${Math.floor(start / 1200)}`, type: 'highway', centerline: section, curve: 'polyline', laneCount: lanes, laneWidth: 3.75, speedLimit: speed, travelDirection: 'forward', roadNameId: id, designProfile: 'motorway', elevationMode: 'custom', corridorSection: 'GROUND', shoulders: { left: 1, right: 3 }, structure: { barrierEnabled: true, piersEnabled: false, pierSpacing: 60, medianBarrierStyle: 'concrete' }, streetlights: false };
+        const road: CityRoad = { id: `regional:v2:${id}:${dir === 1 ? 'out' : 'in'}:${Math.floor(start / 1200)}`, type: 'highway', roadClass: 'expressway', crossSection: 'shouldered', centerline: section, curve: 'polyline', laneCount: lanes, laneWidth: 3.75, speedLimit: speed, travelDirection: 'forward', roadNameId: id, designProfile: 'motorway', elevationMode: 'custom', corridorSection: 'GROUND', shoulders: { left: 1, right: 3 }, structure: { barrierEnabled: true, piersEnabled: false, pierSpacing: 60, medianBarrierStyle: 'concrete' }, streetlights: false };
         map.roads.push(road); roads.set(road.id, road); r.roadIds.push(road.id);
         if (previous) link(endpoint(previous, 'end'), endpoint(road, 'start')); previous = road;
       }

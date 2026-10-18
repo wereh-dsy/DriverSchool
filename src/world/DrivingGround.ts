@@ -55,6 +55,7 @@ export interface DrivingGround {
   /** Asynchronous visual readiness only. Logical contacts/topology are already available. */
   readonly visualReady?: boolean;
   readonly visualLoadingError?: Error;
+  markLoadMilestone?(name: 'firstRender' | 'playable'): void;
   setVisualResourcePreparation?(prepare: (texture: THREE.Texture) => void,
     warmup?: (root: THREE.Group) => Promise<unknown>): void;
   /** Incremental visual additions/removals; never changes logical resources. */
