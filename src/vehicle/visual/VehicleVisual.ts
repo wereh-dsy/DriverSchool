@@ -6,6 +6,8 @@ import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../
 import { Cockpit } from './Cockpit';
 import { buildBMW530Exterior, buildBMW530SideMirror } from './BMW530Exterior';
 import { buildBMW530Wheels } from './BMW530Wheels';
+import { buildMercedesE300LExterior, buildMercedesE300LSideMirror } from './MercedesE300LExterior';
+import { buildMercedesE300LWheels } from './MercedesE300LWheels';
 import { buildGolfGTIWheels } from './GolfGTIWheels';
 import { buildExecutiveWheels } from './ExecutiveWheels';
 import { buildVehicleExterior, frontDoorSkinAnchor } from './VehicleExterior';
@@ -93,6 +95,7 @@ export class VehicleVisual {
     // Registry templates never enter the live scene or carry dynamic state.
     assets.prepareSection(config, 'exterior', root => {
       if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
+      else if (config.body.design === 'mercedes-v214') buildMercedesE300LExterior(root, config);
       else buildVehicleExterior(root, config, assets);
     });
   }
@@ -122,7 +125,8 @@ export class VehicleVisual {
     this.assets?.retain();
     this.cockpitRoot = new Cockpit(config, assets);
     this.cockpitRoot.userData.renderCategory = 'COCKPIT';
-    if (config.body.design !== 'bmw-g38' && config.body.design !== 'golf-gti') this.cockpitRoot.add(buildSimplifiedSeats(config));
+    if (config.body.design !== 'bmw-g38' && config.body.design !== 'golf-gti' &&
+      config.body.design !== 'mercedes-v214') this.cockpitRoot.add(buildSimplifiedSeats(config));
     this.mirrorSurfaceRoot.name = 'Mirror surfaces';
     this.mirrorSurfaceRoot.userData.renderCategory = 'MIRROR_SURFACE';
     this.root.add(this.exteriorRoot, this.cockpitRoot, this.mirrorSurfaceRoot);
@@ -130,6 +134,7 @@ export class VehicleVisual {
     if (assets && config.assetCache) {
       this.exteriorRoot.add(assets.section(config, 'exterior', root => {
         if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
+        else if (config.body.design === 'mercedes-v214') buildMercedesE300LExterior(root, config);
         else buildVehicleExterior(root, config, assets);
       }));
       this.exteriorRoot.add(assets.section(config, 'wheels', root => {
@@ -388,6 +393,7 @@ export class VehicleVisual {
 
   private buildExterior(): void {
     if (this.config.body.design === 'bmw-g38') { buildBMW530Exterior(this.exteriorRoot, this.config); return; }
+    if (this.config.body.design === 'mercedes-v214') { buildMercedesE300LExterior(this.exteriorRoot, this.config); return; }
     buildVehicleExterior(this.exteriorRoot, this.config, this.assets);
   }
 
@@ -406,6 +412,13 @@ export class VehicleVisual {
     if (this.config.body.design === 'bmw-g38') {
       const grille = this.exteriorRoot.getObjectByName('Left inset kidney dark backing') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
       const { pivots, wheels } = buildBMW530Wheels(this.exteriorRoot, this.config, grille.material.map!);
+      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
+      return [pivots.frontLeft, pivots.frontRight];
+    }
+    if (this.config.body.design === 'mercedes-v214') {
+      // The wheel faces borrow the already built exterior detail atlas.
+      const grille = this.exteriorRoot.getObjectByName('Traditional grille dark backing') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
+      const { pivots, wheels } = buildMercedesE300LWheels(this.exteriorRoot, this.config, grille.material.map!);
       Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
       return [pivots.frontLeft, pivots.frontRight];
     }
@@ -525,6 +538,8 @@ export class VehicleVisual {
 
   private buildMirror(side: MirrorSide, mirrorConfig: MirrorVisualConfig): MirrorSurfaceMesh {
     if (this.config.body.design === 'bmw-g38') return buildBMW530SideMirror(this.exteriorRoot,
+      this.mirrorSurfaceRoot, side, mirrorConfig, this.config.body.color);
+    if (this.config.body.design === 'mercedes-v214') return buildMercedesE300LSideMirror(this.exteriorRoot,
       this.mirrorSurfaceRoot, side, mirrorConfig, this.config.body.color);
     const assembly = new THREE.Group();
     assembly.name = `${side} mirror assembly`;

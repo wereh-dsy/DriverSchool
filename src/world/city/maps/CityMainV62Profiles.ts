@@ -4,8 +4,8 @@ import { buildCityRoadNetwork } from '../CityRoadNetwork';
 import { cityFeatureCrossings } from './CityMainV6Geography';
 
 /** Authoring-only grade/clearance constraints over existing sampled ramp data. */
-export function fitCityV62Ramps(map:CityMapData,ids:ReadonlySet<string>):void {
-  const grade=.0795,clearance=6.05,paths=new Map(map.roads.map(r=>[r.id,roadPoints(r)])),network=buildCityRoadNetwork(map);
+export function fitCityV62Ramps(map:CityMapData,ids:ReadonlySet<string>,grade=.0795,fixedObstacleIds?:ReadonlySet<string>):void {
+  const clearance=6.05,paths=new Map(map.roads.map(r=>[r.id,roadPoints(r)])),network=buildCityRoadNetwork(map);
   const joined=network.endpointNodes.filter(n=>n.ends.length>1);
   interface Node {y:number;fixed?:number;label:string;edges:{to:number;delta:number}[]}
   const nodes:Node[]=[],indices=new Map<string,number[]>(),stations=new Map<string,number[]>();
@@ -40,7 +40,7 @@ export function fitCityV62Ramps(map:CityMapData,ids:ReadonlySet<string>):void {
   const fixed=(y:number,label:string)=>node(y,label,y);
   const seen=new Set<string>();
   for(const r of map.roads.filter(r=>ids.has(r.id)))for(const other of map.roads) {
-    if(r===other)continue;const key=[r.id,other.id].sort().join('|');if(seen.has(key))continue;seen.add(key);
+    if(r===other||fixedObstacleIds&&!fixedObstacleIds.has(other.id))continue;const key=[r.id,other.id].sort().join('|');if(seen.has(key))continue;seen.add(key);
     const a=paths.get(r.id)!,b=paths.get(other.id)!;
     for(const cross of cityFeatureCrossings(r,b)) {
       if(joined.some(n=>n.ends.some(e=>e.roadId===r.id)&&n.ends.some(e=>e.roadId===other.id)&&Math.hypot(n.position.x-cross.point.x,n.position.z-cross.point.z)<180))continue;

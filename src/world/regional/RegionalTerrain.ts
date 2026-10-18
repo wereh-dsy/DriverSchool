@@ -2,6 +2,7 @@ import { BufferGeometry, DataTexture, Float32BufferAttribute, Group, Mesh, MeshL
 import type { CityMapData, CityPoint } from '../city/CityMapData';
 import { RegionalTerrainClearance } from './RegionalTerrainClearance';
 import { importVisualGeometry, type TerrainVisualData } from '../city/VisualStreamingData';
+import {cityTerrainOffsetAt} from '../city/CityTerrain';
 
 interface EarthworkSegment { a: CityPoint; b: CityPoint; halfWidth: number; tunnel: boolean; bridge:boolean; ramp:boolean }
 const samplerCache=new WeakMap<CityMapData,RegionalTerrainSampler>();
@@ -9,9 +10,11 @@ export function regionalTerrainSampler(map:CityMapData):RegionalTerrainSampler {
 const blend=(v:number)=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 /** Shared terrain support profile and 100m spatial buckets. No whole-region contact scan. */
 export class RegionalTerrainSampler {
+  readonly cityAreas: {minX:number;maxX:number;minZ:number;maxZ:number}[];
   private readonly buckets=new Map<string,EarthworkSegment[]>();
   private readonly westCrossings:CityPoint[];
   constructor(readonly map:CityMapData) {
+    this.cityAreas=[map.regional!.cityBounds,...map.regional!.cityExtensions??[]];
     this.westCrossings=map.regional!.structures.filter(s=>s.kind==='bridge'&&s.routes.includes('S37')).map(s=>s.center).sort((a,b)=>a.z-b.z);
     for(const road of map.roads) {
       if(!road.id.startsWith('regional:'))continue;
@@ -30,8 +33,7 @@ export class RegionalTerrainSampler {
     return x>4000&&Math.abs(x-east)<260 || x < -2600&&Math.abs(x-west)<42 || x>6800&&Math.abs((z+50)%900)<12;
   }
   macroHeight(x:number,z:number):number {
-    const city=this.map.regional!.cityBounds;
-    if(x>=city.minX&&x<=city.maxX&&z>=city.minZ&&z<=city.maxZ)return -.04;
+    if(this.cityAreas.some(city=>x>=city.minX&&x<=city.maxX&&z>=city.minZ&&z<=city.maxZ))return -.04+cityTerrainOffsetAt(this.map.environment.landforms,x,z);
     const north=blend((-z-2100)/2200);
     const ridge=55*Math.exp(-(((z+3250)/380)**2))+65*Math.exp(-(((z+5050)/540)**2));
     const valley=12+10*Math.sin(x/1600)**2;
@@ -136,8 +138,7 @@ export class RegionalTerrain {
       const bounds=this.map.regional!.terrainBounds,a=Math.max(bounds.minX,x+i*step),b=Math.max(bounds.minZ,z+j*step),a1=Math.min(bounds.maxX,x+(i+1)*step),b1=Math.min(bounds.maxZ,z+(j+1)*step);
       if(a1<=a||b1<=b)continue;
       // Existing city's flat mesh owns city terrain and authored open cuts.
-      const city=this.map.regional!.cityBounds;
-      if(a>=city.minX&&a1<=city.maxX&&b>=city.minZ&&b1<=city.maxZ)continue;
+      if(this.sampler.cityAreas.some(city=>a>=city.minX&&a1<=city.maxX&&b>=city.minZ&&b1<=city.maxZ))continue;
       const triangle=(ax:number,az:number,bx:number,bz:number,cx:number,cz:number)=>{
         const original=[{x:ax,y:gridHeight(ax,az),z:az},{x:bx,y:gridHeight(bx,bz),z:bz},{x:cx,y:gridHeight(cx,cz),z:cz}];
         for(const polygon of this.clearance.clip(original))for(let k=1;k+1<polygon.length;k++)for(const p of [polygon[0]!,polygon[k]!,polygon[k+1]!])vertex(p.x,p.z,p.y??0);

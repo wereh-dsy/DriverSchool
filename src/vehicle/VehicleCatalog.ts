@@ -5,10 +5,12 @@ import { createTaycan4SPhysicsConfig } from './config/taycan4SPhysicsConfig';
 import { TAYCAN_4S_VISUAL_CONFIG } from './visual/taycan4SVisualConfig';
 import { createBMW530LiPhysicsConfig } from './config/bmw530LiPhysicsConfig';
 import { BMW_530LI_VISUAL_CONFIG } from './visual/BMW530LiVisualConfig';
+import { createMercedesE300LPhysicsConfig } from './config/mercedesE300LPhysicsConfig';
+import { MERCEDES_E300L_VISUAL_CONFIG } from './visual/MercedesE300LVisualConfig';
 import { isElectricConfig, type ElectricVehiclePhysicsConfig } from './config/ElectricVehiclePhysicsConfig';
 import { TESLA_MODEL_3_VISUAL_CONFIG } from './visual/teslaModel3VisualConfig';
 import { validateVehiclePlatformConfig } from './config/validateVehiclePlatformConfig';
-import { EXECUTIVE_AUDIO_PROFILE, type VehicleAudioProfile } from '../audio/VehicleAudioProfile';
+import { EXECUTIVE_AUDIO_PROFILE, MERCEDES_EXECUTIVE_AUDIO_PROFILE, type VehicleAudioProfile } from '../audio/VehicleAudioProfile';
 import { resolveVehicleCapabilities, type VehicleCapabilities, type VehicleFeatureDeclarations } from './VehicleCapabilities';
 import {
   cloneVehiclePhysicsConfig,
@@ -36,7 +38,8 @@ import {
 import { withSuspensionStance } from './visual/VehicleVisualConfig';
 
 export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
-  'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia', 'tesla-model-3-rwd', 'bmw-530li-g38', 'porsche-taycan-4s', 'volkswagen-golf-gti'] as const;
+  'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia', 'tesla-model-3-rwd', 'bmw-530li-g38', 'porsche-taycan-4s', 'volkswagen-golf-gti',
+  'mercedes-e300l-v214'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
 export type ICEVehicleId = Exclude<VehicleId, 'tesla-model-3-rwd' | 'porsche-taycan-4s'>;
 export type PlayerVehiclePhysicsConfig = VehiclePhysicsConfig | ElectricVehiclePhysicsConfig;
@@ -112,6 +115,11 @@ const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescript
     description: 'G38 LCI 中国长轴版 · 2.0T INLINE4 / 8AT / RWD。3.105 m 轴距行政轿车，350 Nm 游戏标定、舒适且受控的独立悬架，支持手动选挡、EPB、Auto Hold 和定速巡航。',
     capabilities: Object.freeze({ cruiseControl: true, navigation: true, laneDisplay: true, parkingRadar: true, parking360: true, tpms: true }), audioProfile: EXECUTIVE_AUDIO_PROFILE,
     physicsConfig: createBMW530LiPhysicsConfig(), visualConfig: BMW_530LI_VISUAL_CONFIG }),
+  'mercedes-e300l-v214': Object.freeze({ id: 'mercedes-e300l-v214', version: 1, displayName: 'Mercedes-Benz E 300 L',
+    description: '2026 V214 中国长轴版 尊贵型 · 2.0T INLINE4 / 9AT / RWD。3.094 m 轴距豪华行政轿车，190 kW / 400 Nm 游戏标定，标准立标前脸、星徽尾灯与独立 MBUX Superscreen 座舱；舒适取向自适应阻尼，支持手动选挡、EPB、Auto Hold、定速巡航与车道辅助。',
+    capabilities: Object.freeze({ cruiseControl: true, navigation: true, laneDisplay: true, parkingRadar: true, parking360: true, tpms: true }),
+    audioProfile: MERCEDES_EXECUTIVE_AUDIO_PROFILE,
+    physicsConfig: createMercedesE300LPhysicsConfig(), visualConfig: MERCEDES_E300L_VISUAL_CONFIG }),
   'ferrari-458-italia': Object.freeze({ id: 'ferrari-458-italia', version: 1, displayName: 'Ferrari 458 Italia',
     description: '4.5 NA V8 · 7DCT · mid-engine RWD. High-revving road supercar with rear-biased weight distribution, rapid yaw response, strong rear traction and aggressive dual-clutch shifting.',
     capabilities: Object.freeze({ cruiseControl: true }),

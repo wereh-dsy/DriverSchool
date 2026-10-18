@@ -15,6 +15,8 @@ export interface RegionalData {
   version: 1;
   terrainBounds: { minX: number; maxX: number; minZ: number; maxZ: number };
   cityBounds: { minX: number; maxX: number; minZ: number; maxZ: number };
+  /** Non-overlapping flat urban additions; the original terrain envelope stays intact. */
+  cityExtensions?: { minX: number; maxX: number; minZ: number; maxZ: number }[];
   routes: RegionalRoute[]; structures: RegionalStructure[];
   exits: { id: string; name: string; route: string; roadIds: string[] }[];
 }

@@ -72,16 +72,16 @@ const validatePhysics = (id: ICEVehicleId, config: VehiclePhysicsConfig): void =
     Math.abs(config.transmission.efficiency - config.transmission.drivetrainEfficiency) < 1e-9,
     `${id} efficiency aliases disagree`,
   );
-  const ratios = ([1, 2, 3, 4, 5, 6, 7, 8] as const)
+  const ratios = ([1, 2, 3, 4, 5, 6, 7, 8, 9] as const)
     .map((gear) => config.transmission.gearRatios[gear])
     .filter((ratio): ratio is number => ratio !== undefined);
   if (config.transmission.type === 'CVT') {
     assert(ratios.length === 0, `${id} CVT must not have simulated gears`);
     assert(config.transmission.cvt !== undefined && config.transmission.cvt.minimumRatio > 0 &&
       config.transmission.cvt.maximumRatio > config.transmission.cvt.minimumRatio, `${id} CVT variator limits`);
-  } else assert(ratios.length >= 5 && ratios.length <= 8, `${id} must have five to eight gears`);
+  } else assert(ratios.length >= 5 && ratios.length <= 9, `${id} must have five to nine gears`);
   assert(
-    ([1, 2, 3, 4, 5, 6, 7, 8] as const).every((gear, index) =>
+    ([1, 2, 3, 4, 5, 6, 7, 8, 9] as const).every((gear, index) =>
       index < ratios.length
         ? config.transmission.gearRatios[gear] !== undefined
         : config.transmission.gearRatios[gear] === undefined),
@@ -298,7 +298,8 @@ const accelerationSample = (id: ICEVehicleId): AccelerationSample => {
 };
 
 export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
-  assert(VEHICLE_CATALOG.length === 12 && isVehicleId('porsche-taycan-4s') && isVehicleId('volkswagen-golf-gti'), 'twelve official player vehicles including Taycan 4S and Golf GTI');
+  assert(VEHICLE_CATALOG.length === 13 && isVehicleId('porsche-taycan-4s') && isVehicleId('volkswagen-golf-gti') &&
+    isVehicleId('mercedes-e300l-v214'), 'thirteen official player vehicles including Taycan 4S, Golf GTI and E 300 L');
   assert(!isVehicleId('test-awd-full-time') && !isVehicleId('test-awd-on-demand'), 'AWD fixtures must not be selectable');
   assert(isVehicleId(DEFAULT_VEHICLE_ID), 'default vehicle must resolve by stable ID');
   assert(VEHICLE_CATALOG.length === VEHICLE_IDS.length, 'catalog/order length mismatch');

@@ -10,12 +10,12 @@ export function shapeV61Expressways(map:CityMapData):void {
   map.environment.metadata={...map.environment.metadata,v61Expressways:'Existing V6 mainline elevations, tunnel and mature system interchanges preserved by user request; local frontages and partial access only'};
 }
 
-export function cityV61Snap(map:CityMapData,p:CityPoint,match:(r:CityRoad)=>boolean):CityPoint {
+export function cityV61Snap(map:CityMapData,p:CityPoint,match:(r:CityRoad)=>boolean,junctionSpacing=45):CityPoint {
   let best=Infinity,result:CityPoint|undefined;
   for(const r of map.roads.filter(match)) {
     const points=roadPoints(r),length=polylineLength(points);
     for(let d=22;d<length-22;d+=2) {
-      const q=sampleAt(points,d).point;if(map.intersections.some(j=>Math.hypot(j.position.x-q.x,j.position.z-q.z)<45))continue;
+      const q=sampleAt(points,d).point;if(map.intersections.some(j=>Math.hypot(j.position.x-q.x,j.position.z-q.z)<junctionSpacing))continue;
       const gap=Math.hypot(p.x-q.x,p.z-q.z);if(gap<best){best=gap;result=q;}
     }
   }

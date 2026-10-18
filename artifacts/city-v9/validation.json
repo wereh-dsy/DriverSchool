@@ -1,0 +1,107 @@
+{
+  "scope": "City V9 changed road layout, shared frontage junctions, services and signal placement only; no full core / vehicle / platform suite",
+  "version": 21,
+  "schema": {
+    "errors": 0,
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-rail-stop-v6-west-warehouse-lane-end",
+        "message": "铁路边街巷尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-rail-stop-v6-west-warehouse-lane-split-2-split-start",
+        "message": "铁路边街巷尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-rail-stop-v6-west-market-street-end",
+        "message": "铁路边街巷尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-rail-stop-v6-west-market-street-split-2-split-start",
+        "message": "铁路边街巷尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-research-end",
+        "message": "科研园尽端（封闭）: external endpoint reserved for future continuation."
+      }
+    ]
+  },
+  "cityRoads": 937,
+  "reachableRoads": 937,
+  "minimumRoadMetres": 10.591533491299673,
+  "maximumCityGrade": 0.11990038600211575,
+  "rampCrossings": 24,
+  "geographyCrossings": 48,
+  "urbanCrossings": 285,
+  "signPosts": 730,
+  "groundVertices": 0,
+  "relocatedServices": [
+    {
+      "id": "regional:chenjiang-service",
+      "name": "晨江服务区",
+      "from": {
+        "x": 10431.191954642709,
+        "y": 0,
+        "z": 2600.0000000000005
+      },
+      "to": {
+        "x": 18599.999999999975,
+        "y": 0,
+        "z": 2600.0000000000005
+      },
+      "station": 17331.858623182776
+    },
+    {
+      "id": "regional:beiling-parking",
+      "name": "北岭停车区",
+      "from": {
+        "x": 2735.834082155345,
+        "y": 49.91510090456991,
+        "z": -4852.3517498290585
+      },
+      "to": {
+        "x": 9085.797256072261,
+        "y": 65,
+        "z": -9302.539731242701
+      },
+      "station": 13117.961546382056
+    }
+  ],
+  "sharedDividedJunctions": 22,
+  "sharedHeads": 88,
+  "geometry": {
+    "assertions": 12915,
+    "junctions": 250,
+    "approaches": 939,
+    "links": 2579,
+    "continuationChecks": 1694,
+    "maximumEndpointGap": 0.02131440180403195,
+    "maximumEdgeGap": 0
+  },
+  "signals": {
+    "phaseSamples": 640,
+    "advancedJunctions": 176,
+    "checkedPoles": 680,
+    "readableApproaches": 4,
+    "streamingLifecycle": "passed",
+    "legacyTiming": "passed",
+    "navigationLaneAPI": "passed"
+  },
+  "landscape": {
+    "removedHiddenTrees": 246,
+    "plantedVisibleTrees": 977,
+    "addedStreetlights": 232,
+    "landforms": 6
+  },
+  "failures": []
+}

@@ -4,6 +4,8 @@ export type TrafficSignalColor = 'red' | 'amber' | 'green';
 export type TrafficSignalMovement = 'straight' | 'left' | 'right';
 export interface TrafficSignalMovementState {
   readonly movement: TrafficSignalMovement;
+  /** False for an unprotected right turn; permission still requires yielding. */
+  readonly signalControlled?: boolean;
   readonly color: TrafficSignalColor;
   readonly permitted: boolean;
   readonly secondsToChange: number;

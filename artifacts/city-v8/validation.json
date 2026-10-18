@@ -1,0 +1,73 @@
+{
+  "scope": "City V8 map content, terrain and changed signal behavior only; no full core / vehicle / platform suite",
+  "version": 20,
+  "schema": {
+    "errors": 0,
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-rail-stop-v6-west-warehouse-lane-end",
+        "message": "铁路边街巷尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-rail-stop-v6-west-warehouse-lane-split-2-split-start",
+        "message": "铁路边街巷尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-rail-stop-v6-west-market-street-end",
+        "message": "铁路边街巷尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-rail-stop-v6-west-market-street-split-2-split-start",
+        "message": "铁路边街巷尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "path": "connectionPorts.v61-research-end",
+        "message": "科研园尽端（封闭）: external endpoint reserved for future continuation."
+      }
+    ]
+  },
+  "cityRoads": 838,
+  "reachableRoads": 838,
+  "minimumRoadMetres": 10.591533491299673,
+  "maximumCityGrade": 0.11990038600211575,
+  "rampCrossings": 26,
+  "geographyCrossings": 46,
+  "urbanCrossings": 223,
+  "signPosts": 693,
+  "groundVertices": 735663,
+  "geometry": {
+    "assertions": 12145,
+    "junctions": 240,
+    "approaches": 852,
+    "links": 2524,
+    "continuationChecks": 1652,
+    "maximumEndpointGap": 0.02131440180403195,
+    "maximumEdgeGap": 0
+  },
+  "signals": {
+    "phaseSamples": 640,
+    "advancedJunctions": 198,
+    "checkedPoles": 760,
+    "readableApproaches": 4,
+    "streamingLifecycle": "passed",
+    "legacyTiming": "passed",
+    "navigationLaneAPI": "passed"
+  },
+  "landscape": {
+    "removedHiddenTrees": 246,
+    "plantedVisibleTrees": 977,
+    "addedStreetlights": 232,
+    "landforms": 6
+  },
+  "failures": []
+}

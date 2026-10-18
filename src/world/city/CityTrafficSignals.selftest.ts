@@ -5,7 +5,8 @@ import { createSubject3Materials } from '../subject3/materials';
 import { IntersectionBuilder } from './IntersectionBuilder';
 import { Subject3TrafficSignals } from '../subject3/trafficSignals';
 import { RoadClearance } from './RoadClearance';
-import { portDirection, rotatePoint, junctionExtent } from './geometry';
+import { portDirection, rotatePoint } from './geometry';
+import {junctionApproachExtent} from './JunctionSurface';
 import { SectorManager } from './SectorManager';
 import { PrefabRegistry } from './PrefabRegistry';
 
@@ -26,11 +27,12 @@ export function runCityTrafficSignalsSelfTest(actual:CityMapData) {
   let samples=0;
   for(let n=0;n<640;n++) {
     const state=signals.getJunctionSignal(j.id)!;
-    const active=state.lanes.flatMap(l=>l.movements.filter(m=>m.color!=='red').map(m=>({axis:l.roadId==='north'||l.roadId==='south'?'NS':'EW',turn:m.movement==='left'?'left':'through'})));
+    const active=state.lanes.flatMap(l=>l.movements.filter(m=>m.signalControlled!==false&&m.color!=='red').map(m=>({axis:l.roadId==='north'||l.roadId==='south'?'NS':'EW',turn:m.movement==='left'?'left':'through'})));
     assert(new Set(active.map(a=>a.axis+':'+a.turn)).size<=1,'no conflicting through / protected left phases');
     for(const lane of state.lanes)for(const m of lane.movements)assert(m.secondsToChange>=0&&m.secondsToChange<=80&&m.permitted===(m.color==='green'),'exact nonnegative API timers and permission');
     if(n===176)assert(movement('north',1,'straight').color==='amber','amber after green');
-    if(n===200)assert(state.lanes.every(l=>l.movements.every(m=>m.color==='red')),'all-red clearance');
+    assert(state.lanes.every(l=>l.movements.filter(m=>m.movement==='right').every(m=>m.signalControlled===false&&m.permitted&&m.secondsToChange===0)),'right turns remain unprotected without a signal timer');
+    if(n===200)assert(state.lanes.every(l=>l.movements.every(m=>m.signalControlled===false||m.color==='red')),'all-red clearance for controlled movements');
     if(n===216)assert(movement('north',0,'left').color==='green'&&movement('north',1,'straight').color==='red','protected left phase');
     signals.update(.125);samples++;
   }
@@ -48,7 +50,7 @@ export function runCityTrafficSignalsSelfTest(actual:CityMapData) {
     assert(at(6)<at(13),'tens are viewer-left of ones on every approach');
     assert(at(1)>at(5)&&at(2)>at(4),'upper/lower right segments appear on viewer-right, not mirrored');
     const panels=head.userData.signalPanels as {laneId:string;movements:string[];x:number}[];
-    assert(panels.length===3&&panels.some(p=>p.movements.join('-')==='straight-right'),'one combined through/right head per lane');
+    assert(panels.length===3&&panels.every(p=>!p.movements.includes('right')),'shared lanes show through heads without a right-turn arrow');
     const lens=head.children.find(o=>o.name==='Signal straight arrows') as InstancedMesh;lens.getMatrixAt(0,matrix);
     const target=new Vector3(0,.08,0).applyMatrix4(matrix).applyMatrix4(head.matrixWorld),eye=target.clone().add(new Vector3(facing.x*50,0,facing.z*50));eye.y=1.35;
     const ray=new Raycaster(eye,target.clone().sub(eye).normalize()),hit=ray.intersectObjects(head.children,false)[0];
@@ -76,7 +78,7 @@ export function runCityTrafficSignalsSelfTest(actual:CityMapData) {
     if(junction.signals.profile==='lane-countdown')advanced++;
     for(const c of junction.connections) {
       const r=actual.roads.find(r=>r.id===c.roadId)!;if(r.travelDirection!=='two-way'&&(r.travelDirection==='forward')!==(c.end==='end'))continue;
-      const d=rotatePoint(portDirection(junction,c.port),junction.rotation),right={x:d.z,z:-d.x},height=Math.max(7.2,junction.signals.headHeight??7.2),p=actualSignals.placePole(index,d,right,junctionExtent(junction,actual),r.laneCount*r.laneWidth,height),base=Math.min(0,junction.position.y??0);
+      const local=portDirection(junction,c.port),d=rotatePoint(local,junction.rotation),right={x:d.z,z:-d.x},height=Math.max(7.2,junction.signals.headHeight??7.2),h=junctionApproachExtent(junction,actual,c.port),mouth=junction.approachOffsets?.[c.port],anchor=rotatePoint(mouth?{x:mouth.x-local.x*h,z:mouth.z-local.z*h}:{x:0,z:0},junction.rotation),origin={x:junction.position.x+anchor.x,z:junction.position.z+anchor.z},p=actualSignals.placePole(index,d,right,h,r.laneCount*r.laneWidth,height,origin),base=Math.min(0,junction.position.y??0);
       assert(!clearance.roadAt(p,.55,base-.2,(junction.position.y??0)+height+.5,undefined,undefined,true)&&!clearance.junctionAt(p,.55,base-.2,(junction.position.y??0)+height+.5),'every city signal pole clears all traffic layers');poles++;
     }
     for(const lane of actualSignals.getJunctionSignal(junction.id)!.lanes)assert(actual.roads.some(r=>r.id===lane.roadId&&lane.laneId.startsWith(r.id+':lane:')),'stable navigation lane identifiers');

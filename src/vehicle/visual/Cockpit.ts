@@ -3,6 +3,7 @@ import { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { TaycanCabinDisplays } from './TaycanCabinDisplays';
 import { createPrancingHorseBadge } from './PrancingHorseBadge';
 import { buildBMW530Cabin, type BMW530CabinState } from './BMW530Cabin';
+import { buildMercedesE300LCabin, type MercedesE300LCabinState } from './MercedesE300LCabin';
 import { buildGolfGTICabin, type GolfGTICabinState } from './GolfGTICabin';
 import { applyExecutiveCabinAppearance } from './ExecutiveCabinAppearance';
 import { NavigationCenterDisplay } from './NavigationCenterDisplay';
@@ -89,6 +90,7 @@ export class Cockpit extends THREE.Group {
   private ambientLevel = 0;
   private readonly ambientSpills: THREE.PointLight[] = [];
   private bmwCabin: BMW530CabinState | null = null;
+  private mercedesCabin: MercedesE300LCabinState | null = null;
   public readonly gtiCabin?: GolfGTICabinState;
   public readonly taycanDisplays?: TaycanCabinDisplays;
   private readonly displayAssets?: VehicleAssetRegistry;
@@ -110,6 +112,11 @@ export class Cockpit extends THREE.Group {
     if (config.body.design === 'bmw-g38') {
       this.bmwCabin = buildBMW530Cabin(this, config, this, assets);
       this.instrumentCluster = this.bmwCabin.instrument;
+      return;
+    }
+    if (config.body.design === 'mercedes-v214') {
+      this.mercedesCabin = buildMercedesE300LCabin(this, config, this, assets);
+      this.instrumentCluster = this.mercedesCabin.instrument;
       return;
     }
 
@@ -186,12 +193,13 @@ export class Cockpit extends THREE.Group {
 
   /** Updates every cockpit instrument from one render-facing state object. */
   public handleDisplayClick(raycaster: THREE.Raycaster): boolean {
-    return this.gtiCabin?.click(raycaster) ?? this.taycanDisplays?.click(raycaster) ?? this.bmwCabin?.click(raycaster) ?? false;
+    return this.gtiCabin?.click(raycaster) ?? this.taycanDisplays?.click(raycaster) ?? this.bmwCabin?.click(raycaster) ?? this.mercedesCabin?.click(raycaster) ?? false;
   }
 
   public cycleCenterDisplayPage(): boolean {
     if (this.gtiCabin) { this.gtiCabin.cyclePage(); return true; }
     if (this.taycanDisplays) { this.taycanDisplays.center.cyclePage(); return true; }
+    if (this.mercedesCabin) { this.mercedesCabin.cyclePage(); return true; }
     if (!this.bmwCabin) return false;
     this.bmwCabin.cyclePage(); return true;
   }
@@ -201,6 +209,7 @@ export class Cockpit extends THREE.Group {
     this.instrumentCluster.update(telemetry, deltaTime);
     this.gtiCabin?.update(telemetry, deltaTime);
     this.bmwCabin?.update(telemetry, deltaTime);
+    this.mercedesCabin?.update(telemetry, deltaTime);
     this.taycanDisplays?.update(telemetry, deltaTime);
     this.navigationDisplay?.update(telemetry,deltaTime);
     const profile = this.config.interiorAmbientLighting;

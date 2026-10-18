@@ -3,6 +3,7 @@ import { lateralBoundaryColor } from './LateralAssistDisplay';
 import { activeNavigation, drawNavigationBanner } from '../../ui/NavigationDisplay';
 import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
 import { BMW530Instruments } from './BMW530Instruments';
+import { MercedesE300LInstruments } from './MercedesE300LInstruments';
 import { GolfGTIInstruments } from './GolfGTIDisplays';
 import { ElectricCenterDisplay } from './ElectricCenterDisplay';
 import { PremiumEVInstruments } from './PremiumEVInstruments';
@@ -111,7 +112,8 @@ export type InstrumentDisplayStyle =
   | 'ev-center'
   | 'ev-premium'
   | 'bmw-live'
-  | 'gti-digital';
+  | 'gti-digital'
+  | 'mercedes-mbux';
 
 export interface InstrumentClusterConfig {
   readonly featureClass?: 'standard' | 'advanced';
@@ -1576,6 +1578,7 @@ const parseGearSelector = (gear: InstrumentGear): string => {
 export class InstrumentCluster extends THREE.Group {
   private gtiFace: GolfGTIInstruments | null = null;
   private bmwFace: BMW530Instruments | null = null;
+  private mercedesFace: MercedesE300LInstruments | null = null;
   private evCanvas: HTMLCanvasElement | null = null;
   private evTexture: THREE.CanvasTexture | null = null;
   private readonly electricFace: ElectricCenterDisplay | null;
@@ -1670,6 +1673,15 @@ export class InstrumentCluster extends THREE.Group {
       this.informationTexture.dispose();
       this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
       this.bmwFace = new BMW530Instruments(this.config, assets); this.add(this.bmwFace);
+      return;
+    }
+    if (this.config.displayStyle === 'mercedes-mbux') {
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas);
+      this.informationTexture.dispose();
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.mercedesFace = new MercedesE300LInstruments(this.config, assets); this.add(this.mercedesFace);
       return;
     }
     if (this.config.displayStyle === 'ev-premium') {
@@ -2066,6 +2078,7 @@ export class InstrumentCluster extends THREE.Group {
     if (this.gtiFace) { this.gtiFace.update(telemetry, deltaTime); return; }
     if (this.premiumEVFace) { this.premiumEVFace.update(telemetry, deltaTime); return; }
     if (this.bmwFace) { this.bmwFace.update(telemetry, deltaTime); return; }
+    if (this.mercedesFace) { this.mercedesFace.update(telemetry, deltaTime); return; }
     if (this.evCanvas && this.evTexture) {
       if (this.electricFace?.update(this.evCanvas, telemetry, deltaTime)) this.evTexture.needsUpdate = true;
       return;

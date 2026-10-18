@@ -32,8 +32,8 @@ export interface CityRoad extends CityElementMetadata {
   markings?: boolean; curb?: boolean; streetlights?: boolean;
   highwayTransition?: { kind: 'deceleration' | 'acceleration'; taperMetres: number; mainRoadId: string; decisionId: string };
 }
-export type IntersectionType = 't_2lane' | 't_4lane' | 'cross_4lane' | 'cross_6lane' | 'irregular';
-export type IntersectionPort = 'north' | 'east' | 'south' | 'west' | 'extra';
+export type IntersectionType = 't_2lane' | 't_4lane' | 'cross_4lane' | 'cross_6lane' | 'irregular' | 'divided_cross';
+export type IntersectionPort = 'north' | 'east' | 'south' | 'west' | 'extra' | 'extra2';
 export interface RoadConnection { roadId: string; end: 'start' | 'end'; port: IntersectionPort }
 export interface CityIntersection extends CityElementMetadata {
   id: string; type: IntersectionType; position: CityPoint; rotation: number;
@@ -42,6 +42,8 @@ export interface CityIntersection extends CityElementMetadata {
     throughGreenSeconds?: number; leftGreenSeconds?: number; amberSeconds?: number; allRedSeconds?: number };
   /** Optional local bearings for skewed and five-leg junctions. Existing cardinal ports are unchanged. */
   portAngles?: Partial<Record<IntersectionPort, number>>;
+  /** Local approach mouths for one shared junction across a wide median. */
+  approachOffsets?: Partial<Record<IntersectionPort,CityPoint>>;
   channelized?: boolean;
   /** Authoritative local pavement outline, derived from actual approaches on load/edit. */
   pavementFootprint?: CityPoint[];
@@ -76,13 +78,14 @@ export interface CityMapData {
     districts: { id: string; name: string; description?: string }[];
     spawnPoints: { id: string; position: CityPoint; rotation: number }[];
     corridors?: { id:string;name:string;kind:'waterway'|'railway';width:number;bankWidth?:number;centerline:CityPoint[] }[];
+    landforms?: {id:string;center:CityPoint;radiusX:number;radiusZ:number;height:number}[];
     landmarks?: {id:string;name:string;position:CityPoint;roadIds:string[]}[];
     metadata?: Record<string, string>;
   };
 }
 export interface RoadEndpoint { roadId: string; end: 'start' | 'end' }
 export const ROAD_LANES: Record<RoadType, number> = { urban_2lane: 2, urban_4lane: 4, urban_6lane: 6, highway: 6, ramp_1: 1 };
-export const INTERSECTION_LANES: Record<IntersectionType, number> = { t_2lane: 2, t_4lane: 4, cross_4lane: 4, cross_6lane: 6, irregular: 6 };
+export const INTERSECTION_LANES: Record<IntersectionType, number> = { t_2lane: 2, t_4lane: 4, cross_4lane: 4, cross_6lane: 6, irregular: 6, divided_cross: 6 };
 export function newCityMap(): CityMapData {
   return { schemaVersion: 2, id: 'new-city', name: 'New City', version: 1, sectorSize: 500, roadLinks: [], connectionPorts: [],
     bounds: { minX: -1000, maxX: 1000, minZ: -1000, maxZ: 1000 }, roads: [], intersections: [], objects: [],

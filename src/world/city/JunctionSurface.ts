@@ -7,6 +7,7 @@ import type { IntersectionPort } from './CityMapData';
 import { roadEdgeChains } from './RoadEdgeChain';
 /** Paint terminals use the same polygon boundary, including widened acute corners. */
 export function junctionApproachExtent(j:CityIntersection,map:CityMapData,port:IntersectionPort):number {
+    const offset=j.approachOffsets?.[port];if(offset){const d=portDirection(j,port);return offset.x*d.x+offset.z*d.z;}
     if(!j.pavementFootprint)return junctionExtent(j,map);
     const d=portDirection(j,port);let distance=0;
     const polygon=j.pavementFootprint;

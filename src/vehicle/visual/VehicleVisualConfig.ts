@@ -119,7 +119,7 @@ export interface VehicleVisualConfig {
     readonly wheelArchCenterY?: number;
     readonly profile: 'sedan' | 'sport-coupe' | 'suv' | 'hatchback';
     /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
-    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback' | 'bmw-g38' | 'golf-gti';
+    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback' | 'bmw-g38' | 'golf-gti' | 'mercedes-v214';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;

@@ -86,7 +86,8 @@ export function validateMap(value: unknown): MapValidation {
     const ports = new Set<string>();
     if(j.pavementFootprint&&(!Array.isArray(j.pavementFootprint)||j.pavementFootprint.length<3||!j.pavementFootprint.every(point)))issue('junction.pavement',path,'Pavement outline needs at least three finite local points.');
     if(j.pavementHeights&&Object.values(j.pavementHeights).some(y=>!finite(y)||y<-50||y>100))issue('junction.pavementHeight',path,'Approach heights must be finite metres.');
-    const expected = j.type==='irregular'?5:j.type.startsWith('t_') ? 3 : 4;
+    const expected = j.type==='divided_cross'?6:j.type==='irregular'?5:j.type.startsWith('t_') ? 3 : 4;
+    if(j.approachOffsets&&Object.entries(j.approachOffsets).some(([port,p])=>!portsFor(j).includes(port as never)||!point(p)))issue('junction.offset',path,'Finite approach offsets on valid ports required.');
     if(j.portAngles!==undefined && (!j.portAngles||typeof j.portAngles!=='object'||Object.entries(j.portAngles).some(([port,angle])=>!portsFor(j).includes(port as typeof j.connections[number]['port'])||!finite(angle))))issue('junction.angles',path,'Finite local bearings on valid ports required.');
     if(j.channelized!==undefined&&typeof j.channelized!=='boolean')issue('junction.channelized',path,'Channelized flag must be boolean.');
     if(j.signals?.profile!==undefined&&!['standard','lane-countdown'].includes(j.signals.profile))issue('signal.profile',path,'Unknown signal profile.');
@@ -152,6 +153,8 @@ export function validateMap(value: unknown): MapValidation {
   if(m.environment?.corridors!==undefined&&!Array.isArray(m.environment.corridors))issue('corridor.invalid','environment.corridors','Corridors must be an array.');
   else for(const corridor of m.environment?.corridors??[])if(!corridor||typeof corridor.id!=='string'||!corridor.id||typeof corridor.name!=='string'||!corridor.name||!['waterway','railway'].includes(corridor.kind)||!finite(corridor.width)||corridor.width<1||corridor.width>100||(corridor.bankWidth!==undefined&&(!finite(corridor.bankWidth)||corridor.bankWidth<corridor.width))||!Array.isArray(corridor.centerline)||corridor.centerline.length<2||!corridor.centerline.every(point))issue('corridor.invalid','environment.corridors','Invalid geographic corridor.');
   if(m.environment?.landmarks!==undefined&&!Array.isArray(m.environment.landmarks))issue('landmark.invalid','environment.landmarks','Landmarks must be an array.');
+  if(m.environment?.landforms!==undefined&&!Array.isArray(m.environment.landforms))issue('terrain.invalid','environment.landforms','Landforms must be an array.');
+  else for(const f of m.environment?.landforms??[])if(!f||typeof f.id!=='string'||!f.id||!point(f.center)||!finite(f.radiusX)||!finite(f.radiusZ)||f.radiusX<30||f.radiusZ<30||!finite(f.height)||Math.abs(f.height)>6)issue('terrain.invalid','environment.landforms','Landforms require a center, radii of at least 30m and a height within ±6m.');
   else for(const landmark of m.environment?.landmarks??[])if(!landmark||typeof landmark.id!=='string'||!landmark.id||typeof landmark.name!=='string'||!landmark.name||!point(landmark.position)||!Array.isArray(landmark.roadIds)||!landmark.roadIds.length||landmark.roadIds.some(id=>!m.roads.some(r=>r.id===id)))issue('landmark.invalid','environment.landmarks','Landmark must refer to real access roads.');
   if (errors.length === 0 && b) for (const e of [...m.roads.flatMap(r => r.centerline), ...m.intersections.map(j => j.position), ...m.objects.map(o => o.position)]) {
     if (e.x < b.minX || e.x > b.maxX || e.z < b.minZ || e.z > b.maxZ) { issue('bounds.outside', 'bounds', 'Elements outside bounds; expand before driving there.', 'warning'); break; }

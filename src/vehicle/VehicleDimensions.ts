@@ -24,6 +24,17 @@ export const BMW_530LI_DIMENSIONS: VehicleDimensions = Object.freeze({
   frontTrackWidth: 1.605, rearTrackWidth: 1.630, wheelRadius: .339, wheelWidth: .245,
 });
 
+/**
+ * 2026 Mercedes-Benz E 300 L (V214 China long wheelbase), 245/40 R20 front and
+ * 275/35 R20 rear. One geometry datum shared by physics, arches, wheels and the
+ * authored collision envelope; the rear axle carries the wider tyre.
+ */
+export const MERCEDES_E300L_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 5.092, width: 1.880, height: 1.493, wheelBase: 3.094,
+  frontTrackWidth: 1.622, rearTrackWidth: 1.604,
+  wheelRadius: .351, wheelWidth: .245, frontWheelWidth: .245, rearWheelWidth: .275,
+});
+
 /** Model 3 RWD (2024+), body width excludes mirrors. Tyre radius is a simulation datum. */
 export const TESLA_MODEL_3_DIMENSIONS: VehicleDimensions = Object.freeze({
   length: 4.720, width: 1.850, height: 1.440, wheelBase: 2.875,

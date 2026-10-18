@@ -2,7 +2,7 @@ import type { VehicleFeatureDeclarations } from '../VehicleCapabilities';
 import type { AutoHoldConfig, DifferentialConfig, ElectronicDifferentialConfig, ParkingBrakeConfig } from './VehiclePlatformConfig';
 
 /** Forward gears supported by the shared transmission model. */
-export type ForwardGear = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+export type ForwardGear = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 /**
  * Every vehicle keeps the original five ratios, while performance presets may

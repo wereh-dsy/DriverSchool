@@ -50,8 +50,8 @@ export class CityGround implements DrivingGround {
     this.metadata = { id: this.data.id, version: this.data.version, displayName: this.data.name, description: 'Data-driven City Map' };
     this.roadNetwork = buildCityRoadNetwork(this.data);
     this.root.name = this.data.name; this.root.userData.renderCategory = 'WORLD';
-    const base = new Mesh(cityGroundGeometry(this.data.regional?{...this.data,bounds:this.data.regional.cityBounds}:this.data), this.materials.grass);
-    base.receiveShadow = true; this.root.add(base);
+    const groundAreas=this.data.regional?[this.data.regional.cityBounds,...this.data.regional.cityExtensions??[]]:[this.data.bounds];
+    for(const bounds of groundAreas){const base = new Mesh(cityGroundGeometry({...this.data,bounds}), this.materials.grass);base.receiveShadow = true;this.root.add(base);}
     this.sectorStartOffset=performance.now()-this.loadStarted;
     this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options); this.root.add(this.sectors.root);
     const clearance = runtimeRoadClearance(this.data);

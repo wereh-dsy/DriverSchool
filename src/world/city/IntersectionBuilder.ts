@@ -32,17 +32,18 @@ export class IntersectionBuilder {
       const c = j.connections.find(c => c.port === port), r = this.map.roads.find(r => r.id === c?.roadId);
       if(!c||!r)continue;
       const h=junctionApproachExtent(j,this.map,port);
+      const mouth=j.approachOffsets?.[port],anchor=mouth?{x:mouth.x-d.x*h,z:mouth.z-d.z*h}:{x:0,z:0};
       const width = r ? r.laneCount * r.laneWidth : INTERSECTION_LANES[j.type] * 3.5;
       const laneWidth = r?.laneWidth ?? 3.5;
       const laneCount = r?.laneCount ?? INTERSECTION_LANES[j.type];
       const incoming = !r || r.travelDirection === 'two-way' || (r.travelDirection === 'forward') === (c?.end === 'end');
       // Junction paint runs outside-in along the arm: approach arrows, then the
       // stop line, then the pedestrian crossing, then the conflict box.
-      if(j.signalized)for (let offset = -width / 2 + 0.6; offset < width / 2; offset += 1.15) paint(d.x * (h - 4.6) + right.x * offset, d.z * (h - 4.6) + right.z * offset, yaw, 0.55, 3,'crosswalk',port);
+      if(j.signalized)for (let offset = -width / 2 + 0.6; offset < width / 2; offset += 1.15) paint(anchor.x+d.x * (h - 4.6) + right.x * offset, anchor.z+d.z * (h - 4.6) + right.z * offset, yaw, 0.55, 3,'crosswalk',port);
       if (incoming&&r&&c) {
         const twoWay = !r || r.travelDirection === 'two-way', approachWidth = twoWay ? width / 2 : width;
         const lateral = twoWay ? width / 4 : 0;
-        if(j.signalized)paint(d.x * (h - 1) + right.x * lateral,d.z * (h - 1) + right.z * lateral,yaw,approachWidth-0.25,0.35,'stop line',port);
+        if(j.signalized)paint(anchor.x+d.x * (h - 1) + right.x * lateral,anchor.z+d.z * (h - 1) + right.z * lateral,yaw,approachWidth-0.25,0.35,'stop line',port);
         const count = twoWay ? laneCount / 2 : laneCount;
         const approach=j.approaches?.[port];
         for (let lane = 0; lane < Math.min(count,approach?.lanes.length??0); lane++) {
@@ -69,7 +70,8 @@ export class IntersectionBuilder {
         // Far-side pole: beyond the conflict box and the opposite crossing, on the
         // served approach's right, with its arm reaching back over the approach lanes.
         const headHeight=signals instanceof CityTrafficSignals&&j.signals?.profile?Math.max(7.2,j.signals.headHeight??7.2):j.signals?.headHeight??5.8;
-        const center = signals instanceof CityTrafficSignals&&j.signals?.profile?signals.placePole(index,outward,worldRight,h,width,headHeight):{ x: j.position.x - outward.x * (h + 1) + worldRight.x * lateral, z: j.position.z - outward.z * (h + 1) + worldRight.z * lateral };
+        const base=rotatePoint(anchor,j.rotation),poleOrigin={x:j.position.x+base.x,z:j.position.z+base.z};
+        const center = signals instanceof CityTrafficSignals&&j.signals?.profile?signals.placePole(index,outward,worldRight,h,width,headHeight,poleOrigin):{ x: poleOrigin.x - outward.x * (h + 1) + worldRight.x * lateral, z: poleOrigin.z - outward.z * (h + 1) + worldRight.z * lateral };
         signals.addHead(index, { segmentId: r?.id ?? `${j.id}:${port}`, outward, right: worldRight,
           approachYawRadians: yaw + j.rotation, approachLaneCount: r?.travelDirection === 'two-way' ? laneCount / 2 : laneCount, approachLaneWidth: laneWidth, roadWidth: width, controlKind: armControlKind(d) },
           center, Math.atan2(-outward.x, -outward.z), this.materials, true, headHeight);

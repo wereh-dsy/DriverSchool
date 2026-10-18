@@ -33,7 +33,7 @@ export interface InteriorAmbientLightingProfile {
   readonly fadeResponse: number;
   readonly footwellIntensity: number;
   readonly dashboardFillIntensity?: number;
-  readonly steeringBadge: 'four-rings' | 'roundel' | 'vw';
+  readonly steeringBadge: 'four-rings' | 'roundel' | 'vw' | 'mercedes-star';
 }
 export const EXECUTIVE_INSTRUMENT_PROFILE: InstrumentVisualProfile = {
   ringColor: '#bdc9d5', ringGlow: .13, needleWidth: 3, redlineWidth: 5,

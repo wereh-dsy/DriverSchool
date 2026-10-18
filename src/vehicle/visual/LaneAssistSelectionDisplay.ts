@@ -1,10 +1,11 @@
 import { LaneAssistMode, LANE_ASSIST_LABELS, type LaneAssistState } from '../control/LaneAssistState';
 
-export type LaneAssistSkin = 'bmw' | 'audi' | 'tesla';
+export type LaneAssistSkin = 'bmw' | 'audi' | 'tesla' | 'mercedes';
 const STYLES = {
   bmw: { foreground: '#a9c5d9', background: '#102132', edge: '#39536b', font: '"Segoe UI", sans-serif' },
   audi: { foreground: '#c4ced9', background: '#111b26', edge: '#64717f', font: '"Segoe UI Light", sans-serif' },
   tesla: { foreground: '#607c8b', background: '#f4f5f2', edge: '#c7d0d3', font: '"Segoe UI", sans-serif' },
+  mercedes: { foreground: '#a9b7dd', background: '#0c1322', edge: '#3a476b', font: '"Segoe UI", sans-serif' },
 } as const;
 
 /** Mode selection artwork; subdued styling does not claim controller engagement. */

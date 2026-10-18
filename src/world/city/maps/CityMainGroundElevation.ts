@@ -11,7 +11,7 @@ export const CITY_GROUND_ROAD_OFFSET=.016;
 const deckSeparation=6.4,maxGrade=.1;
 export const cityElevationProtectedRoad=(r:CityRoad)=>cityV4LockedRoad(r)||r.type==='highway'||r.type==='ramp_1'||!!r.structure?.enclosure||r.elevationMode==='elevated'||r.centerline.some(p=>(p.y??0)<-.25)||r.id.startsWith('urban-direct-');
 interface Path {road:CityRoad;points:CityPoint[];stations:number[];minX:number;maxX:number;minZ:number;maxZ:number}
-export interface UrbanElevationCrossing {a:string;b:string;da:number;db:number;sinAngle:number;oldA:number;oldB:number}
+export interface UrbanElevationCrossing {a:string;b:string;da:number;db:number;sinAngle:number;oldA:number;oldB:number;clearance?:number;upperRoadId?:string}
 function paths(map:CityMapData):Path[]{return map.roads.map(road=>{const points=roadPoints(road),stations=[0];for(let i=1;i<points.length;i++)stations.push(stations.at(-1)!+Math.hypot(points[i]!.x-points[i-1]!.x,points[i]!.z-points[i-1]!.z));return{road,points,stations,minX:Math.min(...points.map(p=>p.x)),maxX:Math.max(...points.map(p=>p.x)),minZ:Math.min(...points.map(p=>p.z)),maxZ:Math.max(...points.map(p=>p.z))};});}
 /** XZ crossings without a logical connection. No road or junction is created. */
 export function cityUrbanElevationCrossings(map:CityMapData):UrbanElevationCrossing[]{
@@ -37,14 +37,14 @@ export function cityUrbanElevationCrossings(map:CityMapData):UrbanElevationCross
 /** Repairs only the vertical coordinates of the completed V5 ordinary network.
  * Ground is the default. Only actual unconnected crossings demand a local deck;
  * its transitions propagate along the road, never through a regional height field. */
-export function repairCityMainGroundElevation(map:CityMapData,featureDecks:readonly {roadId:string;station:number;height:number;halfLength:number}[]=[],editableRoadIds:ReadonlySet<string>=new Set(),widenedLandings:ReadonlySet<string>=new Set()){
- const all=paths(map),byId=new Map(all.map(p=>[p.road.id,p])),ordinary=all.filter(p=>!cityElevationProtectedRoad(p.road)||editableRoadIds.has(p.road.id)),crossings=cityUrbanElevationCrossings(map);
+export function repairCityMainGroundElevation(map:CityMapData,featureDecks:readonly {roadId:string;station:number;height:number;halfLength:number}[]=[],editableRoadIds:ReadonlySet<string>=new Set(),widenedLandings:ReadonlySet<string>=new Set(),scope?:ReadonlySet<string>,authoredCrossings?:readonly UrbanElevationCrossing[],retainProfiles=false){
+ const all=paths(map),byId=new Map(all.map(p=>[p.road.id,p])),ordinary=all.filter(p=>(!scope||scope.has(p.road.id))&&(!cityElevationProtectedRoad(p.road)||editableRoadIds.has(p.road.id))),crossings=(authoredCrossings??cityUrbanElevationCrossings(map)).filter(c=>!scope||scope.has(c.a)||scope.has(c.b));
  const ground=cityGroundHeightAt(0,0)+CITY_GROUND_ROAD_OFFSET;
  interface Node {y:number;fixed?:number;edges:{to:number;distance:number}[];label:string}
  const graph:Node[]=[],roadNodes=new Map<string,number[]>(),junctionNodes=new Map<string,number>();
  const node=(label:string,fixed?:number)=>{graph.push({y:fixed??ground,fixed,edges:[],label});return graph.length-1;};
  const link=(a:number,b:number,distance:number)=>{graph[a]!.edges.push({to:b,distance});graph[b]!.edges.push({to:a,distance});};
- for(const p of ordinary){const ids=p.points.map((_,i)=>node(p.road.id+':'+i));roadNodes.set(p.road.id,ids);for(let i=1;i<ids.length;i++)link(ids[i-1]!,ids[i]!,p.stations[i]!-p.stations[i-1]!);}
+ for(const p of ordinary){const ids=p.points.map((q,i)=>{const id=node(p.road.id+':'+i);if(retainProfiles)graph[id]!.y=q.y??0;return id;});roadNodes.set(p.road.id,ids);for(let i=1;i<ids.length;i++)link(ids[i-1]!,ids[i]!,p.stations[i]!-p.stations[i-1]!);}
  for(const j of map.intersections){
   if(!j.connections.some(c=>roadNodes.has(c.roadId)))continue;
   const fixed=j.connections.some(c=>!roadNodes.has(c.roadId))?j.position.y??0:undefined,id=node(j.id,fixed);junctionNodes.set(j.id,id);
@@ -65,17 +65,17 @@ export function repairCityMainGroundElevation(map:CityMapData,featureDecks:reado
  const pop=()=>{const top=heap[0]!,last=heap.pop()!;if(heap.length){let i=0;while(i*2+1<heap.length){let c=i*2+1;if(c+1<heap.length&&heap[c+1]!.y>heap[c]!.y)c++;if(heap[c]!.y<=last.y)break;heap[i]=heap[c]!;i=c;}heap[i]=last;}return top;};
  const raise=(id:number,y:number)=>{const n=graph[id]!;if(n.fixed!==undefined){if(y>n.fixed+.001)throw new Error('Ground elevation: local bridge cannot reach fixed landing '+n.label+' required '+y.toFixed(3));return;}if(y>n.y+1e-8){n.y=y;push(id,y);}};
  const propagate=()=>{while(heap.length){const a=pop();if(a.y<graph[a.id]!.y-1e-8)continue;for(const e of graph[a.id]!.edges)raise(e.to,a.y-maxGrade*e.distance);}};
- for(let i=0;i<graph.length;i++)if(graph[i]!.fixed!==undefined)push(i,graph[i]!.y);propagate();
+ for(let i=0;i<graph.length;i++)if(graph[i]!.fixed!==undefined||retainProfiles)push(i,graph[i]!.y);propagate();
  const heightAt=(id:string,d:number)=>{const p=byId.get(id)!,ids=roadNodes.get(id);if(!ids)return sampleAt(p.points,d).point.y??0;for(let i=1;i<ids.length;i++)if(d<=p.stations[i]!||i===ids.length-1){const t=Math.max(0,Math.min(1,(d-p.stations[i-1]!)/(p.stations[i]!-p.stations[i-1]!)));return graph[ids[i-1]!]!.y+t*(graph[ids[i]!]!.y-graph[ids[i-1]!]!.y);}return graph[ids[0]!]!.y;};
  const decks=new Set<string>();
  const deck=(id:string,d:number,y:number,width:number)=>{const p=byId.get(id)!,ids=roadNodes.get(id)!;decks.add(id);for(let i=0;i<ids.length;i++)if(Math.abs(p.stations[i]!-d)<=width+7)raise(ids[i]!,y);};
  for(const feature of featureDecks){if(!roadNodes.has(feature.roadId))throw new Error('Feature crossing needs an ordinary road '+feature.roadId);deck(feature.roadId,feature.station,feature.height,feature.halfLength);}propagate();
  for(let pass=0;pass<25;pass++){
   let changes=0;
-  for(const c of crossings){const ay=heightAt(c.a,c.da),by=heightAt(c.b,c.db);if(Math.abs(ay-by)>=deckSeparation-.001)continue;
-   const ma=roadNodes.has(c.a),mb=roadNodes.has(c.b),upper=ma&&!mb?c.a:mb&&!ma?c.b:c.oldA>=c.oldB?c.a:c.b,lower=upper===c.a?c.b:c.a,d=upper===c.a?c.da:c.db,y=upper===c.a?by:ay;
+  for(const c of crossings){const ay=heightAt(c.a,c.da),by=heightAt(c.b,c.db),separation=c.clearance??deckSeparation;if(Math.abs(ay-by)>=separation-.001)continue;
+   const ma=roadNodes.has(c.a),mb=roadNodes.has(c.b),upper=ma&&!mb?c.a:mb&&!ma?c.b:c.upperRoadId??(c.oldA>=c.oldB?c.a:c.b),lower=upper===c.a?c.b:c.a,d=upper===c.a?c.da:c.db,y=upper===c.a?by:ay;
    const width=(roadEdges(byId.get(lower)!.road).width/2+2)/Math.max(.2,c.sinAngle);
-   deck(upper,d,y+deckSeparation,width);changes++;
+   deck(upper,d,y+separation,width);changes++;
   }propagate();if(!changes)break;if(pass===24)throw new Error('Ground elevation: crossing constraints did not converge');
  }
  let changedRoads=0,groundRoads=0,transitions=0;

@@ -6,6 +6,7 @@ import { MirrorAdjustmentController } from '../../camera/MirrorAdjustmentControl
 import { MirrorSystem } from '../../camera/MirrorSystem';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import { runBMW530LiSelfTest } from './BMW530Li.selftest';
+import { runMercedesE300LSelfTest } from './MercedesE300L.selftest';
 import { runTaycanDisplaysSelfTest } from './TaycanDisplays.selftest';
 import { runGolfGTIStructureSelfTest } from './GolfGTI.selftest';
 
@@ -25,6 +26,12 @@ export function runVehicleStructureSelfTest() {
       if (car.visualConfig.body.design === 'bmw-g38') {
         const result = runBMW530LiSelfTest();
         assert(result.closureRays === 10 && result.meshes > 0, `${car.id}: independent cabin, optics and physical anchors`);
+        continue;
+      }
+      if (car.visualConfig.body.design === 'mercedes-v214') {
+        const result = runMercedesE300LSelfTest();
+        assert(result.closureRays === 10 && result.meshes > 0,
+          `${car.id}: independent Mercedes cabin, Superscreen and physical anchors`);
         continue;
       }
       if (car.visualConfig.instrumentCluster.displayStyle === 'ev-premium') {

@@ -41,7 +41,7 @@ export class CityTrafficSignals extends Subject3TrafficSignals implements Traffi
       }
       const stages:Stage[]=[];
       if(j.signals?.profile==='lane-countdown')for(const axis of ['north-south','east-west'] as const)for(const group of ['through','left'] as const) {
-        if(!lanes.some(l=>l.axis===axis&&l.movements.some(m=>(m==='left')===(group==='left'))))continue;
+        if(!lanes.some(l=>l.axis===axis&&l.movements.some(m=>m!=='right'&&(m==='left')===(group==='left'))))continue;
         for(const color of ['green','amber','red'] as const)stages.push({id:`${axis}-${group}-${color==='red'?'clear':color}`,axis,group,color,duration:color==='green'?(group==='left'?j.signals.leftGreenSeconds??8:j.signals.throughGreenSeconds??22):color==='amber'?j.signals.amberSeconds??3:j.signals.allRedSeconds??2});
       }
       this.plans.set(index,{junction:j,lanes,stages,cycle:stages.reduce((n,s)=>n+s.duration,0)});
@@ -53,6 +53,7 @@ export class CityTrafficSignals extends Subject3TrafficSignals implements Traffi
     throw new Error('Empty City signal plan '+plan.junction.id);
   }
   private movementState(lane:Lane,movement:TrafficSignalMovement,phase?:Phase):TrafficSignalMovementState {
+    if(movement==='right')return {movement,signalControlled:false,color:'green',permitted:true,secondsToGreen:0,secondsToChange:0};
     const plan=this.plans.get(lane.junction)!;
     if(!plan.stages.length) {
       const state=super.getStateForJunction(lane.junction),color=super.getColorForApproach(lane.junction,lane.axis);
@@ -84,12 +85,12 @@ export class CityTrafficSignals extends Subject3TrafficSignals implements Traffi
     return {phase:color==='red'?'all-red':`${axis}-${color}`,quadrant:color==='red'?'none':axis,color,secondsInPhase:p.elapsed,secondsRemaining:p.remaining};
   }
   /** Ground-founded poles are rejected if they cut ANY carriageway below them. */
-  placePole(index:number,outward:Subject3Point2,right:Subject3Point2,h:number,width:number,height:number):Subject3Point2 {
+  placePole(index:number,outward:Subject3Point2,right:Subject3Point2,h:number,width:number,height:number,origin?:Subject3Point2):Subject3Point2 {
     const j=this.map.intersections[index]!,clearance=runtimeRoadClearance(this.map),base=Math.min(0,j.position.y??0);
     // Compact/skewed blocks can have another junction immediately beyond the
     // far crossing. A near-side mast uses the same approach-facing signal head.
     for(const side of [-1,1])for(const extra of [1,4,8,14])for(let lateral=width/2+1;lateral<=width/2+24;lateral+=1) {
-      const p={x:j.position.x+side*outward.x*(h+extra)+right.x*lateral,y:base,z:j.position.z+side*outward.z*(h+extra)+right.z*lateral};
+      const p={x:(origin??j.position).x+side*outward.x*(h+extra)+right.x*lateral,y:base,z:(origin??j.position).z+side*outward.z*(h+extra)+right.z*lateral};
       if(!clearance.roadAt(p,.55,base-.2,(j.position.y??0)+height+.5,undefined,undefined,true)&&!clearance.junctionAt(p,.55,base-.2,(j.position.y??0)+height+.5))return p;
     }
     throw new Error('No signal pole clear of traffic at '+j.id);
@@ -102,17 +103,20 @@ export class CityTrafficSignals extends Subject3TrafficSignals implements Traffi
       if(drop){const extension=new Mesh(new CylinderGeometry(.11,.15,drop,8),materials.darkMetal);extension.position.y=-drop/2;this.root.children.at(-1)!.add(extension);}
       return;
     }
-    const lanes=plan.lanes.filter(l=>l.roadId===arm.segmentId),lateral=(center.x-plan.junction.position.x)*arm.right.x+(center.z-plan.junction.position.z)*arm.right.z;
+    const c=plan.junction.connections.find(c=>c.roadId===arm.segmentId)!,r=this.map.roads.find(r=>r.id===arm.segmentId)!,mouth=r.centerline[c.end==='start'?0:r.centerline.length-1]!;
+    const lanes=plan.lanes.filter(l=>l.roadId===arm.segmentId),lateral=(center.x-mouth.x)*arm.right.x+(center.z-mouth.z)*arm.right.z;
     const road=this.map.roads.find(r=>r.id===arm.segmentId)!,twoWay=road.travelDirection==='two-way',panels:CitySignalPanel[]=[];
     if(!lanes.length)return;
     height=Math.max(7.2,height);
     for(const lane of lanes) {
       const offset=twoWay?(lane.index+.5)*arm.approachLaneWidth:-arm.roadWidth/2+(lane.index+.5)*arm.approachLaneWidth;
-      // Straight/right share the same phase, so one combined head and timer
-      // serves that lane. A protected left remains a separate, spaced head.
-      const groups=plan.stages.length?[lane.movements.filter(m=>m==='left'),lane.movements.filter(m=>m!=='left')].filter(g=>g.length):[lane.movements];
+      // Unprotected right turns have no arrow head or countdown. Shared lanes
+      // retain the head governing their straight / protected-left movement.
+      const controlled=lane.movements.filter(m=>m!=='right');
+      const groups=plan.stages.length?[controlled.filter(m=>m==='left'),controlled.filter(m=>m==='straight')].filter(g=>g.length):controlled.length?[controlled]:[];
       groups.forEach((movements,i)=>panels.push({laneId:lane.laneId,movement:movements[0]!,movements,circular:!plan.stages.length,x:lateral-offset+((groups.length-1)/2-i)*1.12}));
     }
+    if(!panels.length)return;
     this.resources??=new CitySignalVisualResources();
     const visual=this.resources.build(index,panels,height,Math.max(0,plan.junction.position.y??0),materials);visual.root.position.set(center.x,0,center.z);visual.root.rotation.y=yaw;
     visual.root.userData.approachRoadId=road.id;visual.root.userData.signalFacing={...arm.outward};
