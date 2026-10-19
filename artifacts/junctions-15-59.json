@@ -1,0 +1,285 @@
+﻿[
+  {
+    "type": "t_4lane",
+    "position": {
+      "x": 2201.3812257616555,
+      "y": 0,
+      "z": -1000
+    },
+    "rotation": 0,
+    "signalized": true,
+    "portAngles": {
+      "north": 3.141592653589793,
+      "east": -1.5707963267948966,
+      "west": 1.5707963267948966
+    },
+    "channelized": false,
+    "id": "urban-junction-15",
+    "connections": [
+      {
+        "roadId": "urban-roundabout-South-c91",
+        "end": "start",
+        "port": "north"
+      },
+      {
+        "roadId": "urban-north-arterial-split-m91",
+        "end": "end",
+        "port": "east"
+      },
+      {
+        "roadId": "urban-north-arterial-split-split-m91-approach",
+        "end": "start",
+        "port": "west"
+      }
+    ],
+    "markingFootprint": {
+      "kind": "polygon",
+      "points": [
+        {
+          "x": -18.25,
+          "y": 0,
+          "z": -7.5
+        },
+        {
+          "x": 19.040368342722633,
+          "y": 0,
+          "z": -7.4582382559705005
+        },
+        {
+          "x": 17.459631657277367,
+          "y": 0,
+          "z": 7.4582382559705005
+        },
+        {
+          "x": 7.5,
+          "y": 0,
+          "z": 14.5
+        },
+        {
+          "x": -7.5,
+          "y": 0,
+          "z": 14.5
+        },
+        {
+          "x": -18.25,
+          "y": 0,
+          "z": 7.5
+        }
+      ]
+    },
+    "approaches": {
+      "north": {
+        "lanes": [
+          "left-right",
+          "left-right"
+        ],
+        "arrowDistance": 30
+      },
+      "east": {
+        "lanes": [
+          "straight-left",
+          "straight-right"
+        ],
+        "arrowDistance": 30
+      },
+      "west": {
+        "lanes": [
+          "straight-left",
+          "straight-right"
+        ],
+        "arrowDistance": 30
+      }
+    },
+    "pavementFootprint": [
+      {
+        "x": -18.25,
+        "y": 0,
+        "z": -7.5
+      },
+      {
+        "x": 19.040368342722633,
+        "y": 0,
+        "z": -7.4582382559705005
+      },
+      {
+        "x": 17.459631657277367,
+        "y": 0,
+        "z": 7.4582382559705005
+      },
+      {
+        "x": 7.5,
+        "y": 0,
+        "z": 14.5
+      },
+      {
+        "x": -7.5,
+        "y": 0,
+        "z": 14.5
+      },
+      {
+        "x": -18.25,
+        "y": 0,
+        "z": 7.5
+      }
+    ],
+    "pavementHeights": {
+      "north": 0,
+      "east": 0,
+      "west": 0
+    },
+    "signals": {
+      "profile": "lane-countdown",
+      "headHeight": 7.2,
+      "throughGreenSeconds": 22,
+      "leftGreenSeconds": 8,
+      "amberSeconds": 3,
+      "allRedSeconds": 2
+    },
+    "approachOffsets": {
+      "north": {
+        "x": 0,
+        "y": 0,
+        "z": 14.5
+      },
+      "east": {
+        "x": -18.25,
+        "y": 0,
+        "z": 0
+      },
+      "west": {
+        "x": 18.25,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  {
+    "type": "t_4lane",
+    "position": {
+      "x": 1744.758034992727,
+      "y": 0,
+      "z": -1000
+    },
+    "rotation": 0,
+    "signalized": true,
+    "portAngles": {
+      "north": 1.5707963267948966,
+      "east": -1.5707963267948966,
+      "west": 1.5707963267948966
+    },
+    "channelized": false,
+    "markingFootprint": {
+      "kind": "polygon",
+      "points": [
+        {
+          "x": -18.25,
+          "y": 0,
+          "z": -7.5
+        },
+        {
+          "x": 16.518476689532,
+          "y": 0,
+          "z": -7.297384944300661
+        },
+        {
+          "x": 19.981523310468,
+          "y": 0,
+          "z": 7.297384944300661
+        },
+        {
+          "x": -18.25,
+          "y": 0,
+          "z": 7.5
+        }
+      ]
+    },
+    "id": "urban-junction-59",
+    "connections": [
+      {
+        "roadId": "v4-north-split-m91",
+        "end": "end",
+        "port": "east"
+      },
+      {
+        "roadId": "v4-north-split-split-m91-approach",
+        "end": "start",
+        "port": "west"
+      }
+    ],
+    "pavementHeights": {
+      "north": 0,
+      "east": 0,
+      "west": 0
+    },
+    "pavementFootprint": [
+      {
+        "x": -18.25,
+        "y": 0,
+        "z": -7.5
+      },
+      {
+        "x": 16.518476689532,
+        "y": 0,
+        "z": -7.297384944300661
+      },
+      {
+        "x": 19.981523310468,
+        "y": 0,
+        "z": 7.297384944300661
+      },
+      {
+        "x": -18.25,
+        "y": 0,
+        "z": 7.5
+      }
+    ],
+    "approaches": {
+      "north": {
+        "lanes": [
+          "left-right",
+          "left-right"
+        ],
+        "arrowDistance": 30
+      },
+      "east": {
+        "lanes": [
+          "straight-left",
+          "straight-right"
+        ],
+        "arrowDistance": 30
+      },
+      "west": {
+        "lanes": [
+          "straight-left",
+          "straight-right"
+        ],
+        "arrowDistance": 30
+      }
+    },
+    "signals": {
+      "profile": "lane-countdown",
+      "headHeight": 7.2,
+      "throughGreenSeconds": 22,
+      "leftGreenSeconds": 8,
+      "amberSeconds": 3,
+      "allRedSeconds": 2
+    },
+    "approachOffsets": {
+      "north": {
+        "x": 18.25,
+        "y": 0,
+        "z": 0
+      },
+      "east": {
+        "x": -18.25,
+        "y": 0,
+        "z": 0
+      },
+      "west": {
+        "x": 18.25,
+        "y": 0,
+        "z": 0
+      }
+    }
+  }
+]

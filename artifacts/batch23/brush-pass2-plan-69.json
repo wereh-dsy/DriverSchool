@@ -1,0 +1,93 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65"
+    ],
+    "bbox": {
+      "minX": -8175.808989728455,
+      "maxX": -8173.808989728455,
+      "minZ": -1076.567682587771,
+      "maxZ": -1074.567682587771
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65",
+      "state": "INVALID",
+      "position": {
+        "x": -8177.285217627591,
+        "y": 41.81553673838817,
+        "z": -1073.8677175879607
+      },
+      "rotation": -2.5399751871268053,
+      "anchor": {
+        "anchorRoadId": "regional:v3:airport-distributor:N-to-E-turbine",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 65.0201253100802,
+        "lateralOffset": 6.053506993908759,
+        "verticalOffset": 0.0032246446204098334,
+        "facingDirection": "forward",
+        "expectedHeading": -2.5466756436388134,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.occluded:regional:v3:airport-distributor:N-to-E-turbine:road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65::",
+          "code": "roadSign.occluded",
+          "severity": "warning",
+          "objectId": "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65",
+          "roadId": "regional:v3:airport-distributor:N-to-E-turbine",
+          "message": "Approximate incoming sight ray intersects another deck",
+          "metrics": {
+            "roadId": "regional:v3:S36-extension54:out:8:revision415:lane4522-split"
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65",
+          "properties": {
+            "position": {
+              "x": -8177.285217627591,
+              "y": 41.81553673838817,
+              "z": -1073.8677175879607
+            },
+            "heading": -2.5399751871268053,
+            "roadId": "regional:v3:airport-distributor:N-to-E-turbine",
+            "stationMetres": 64.97956374252787
+          }
+        }
+      ],
+      "sourceId": "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.003595886372082
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

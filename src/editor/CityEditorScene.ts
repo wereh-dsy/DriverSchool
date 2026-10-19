@@ -10,11 +10,13 @@ import type { RoadSignDefinition } from '../world/city/RoadSignData';
 import { bounds, overlaps, roadPoints, parallelPath } from './EditorGeometry';
 import type { CityEditingKernel } from './CityEditingKernel';
 import type { EditSummary } from './EditorCommands';
+import type { BrushCandidate } from './PlacementBrush';
 
 /** Editor-only scene cache. No CityGround, physics graph or navigation rebuild during editing. */
 export class CityEditorScene {
   readonly root = new THREE.Group();
   readonly ghost = new THREE.Group();
+  readonly brushGhost = new THREE.Group();
   readonly compare = new THREE.Group();
   readonly overlay = new THREE.Group();
   readonly gizmo = new THREE.Group();
@@ -30,7 +32,15 @@ export class CityEditorScene {
   private signs:RoadSignRenderer;
   get pickTargets():THREE.Object3D[]{return[...this.entries.values()].map(e=>e.root);}
   get gizmoTargets():THREE.Object3D[]{return this.gizmo.children;}
-  constructor(private readonly kernel:CityEditingKernel) {this.signs=new RoadSignRenderer(kernel.data.roadNames??{}); this.root.add(this.overview,this.ghost,this.compare,this.overlay,this.gizmo); this.reset(); }
+  constructor(private readonly kernel:CityEditingKernel) {this.signs=new RoadSignRenderer(kernel.data.roadNames??{}); this.root.add(this.overview,this.ghost,this.brushGhost,this.compare,this.overlay,this.gizmo); this.reset(); }
+  showBrush(candidates:BrushCandidate[]):void {
+    CityEditorScene.clear(this.brushGhost);
+    for(const candidate of candidates){
+      const color=candidate.state==='VALID'?0x48e08c:candidate.state==='ADJUSTED'?0xffd24d:0xff5555;
+      const marker=this.marker(candidate.position,color,1.2);marker.userData.brushCandidate=candidate;this.brushGhost.add(marker);
+      const p=candidate.position;this.brushGhost.add(this.line([p,{x:p.x-Math.sin(candidate.rotation)*4,y:(p.y??0)+.1,z:p.z-Math.cos(candidate.rotation)*4}],color));
+    }
+  }
   private disposeEntry(id:string):void {
     const entry=this.entries.get(id);if(!entry)return;
     entry.signals?.dispose(); const geometries=new Set<THREE.BufferGeometry>();
@@ -96,6 +106,7 @@ export class CityEditorScene {
     if(this.signs.names!==map.roadNames){for(const id of [...this.batches.keys()])if(id.startsWith('signs:'))this.disposeEntry(id);this.signs.dispose();this.signs=new RoadSignRenderer(map.roadNames??{});}
   }
   update(summary:EditSummary):void {
+    CityEditorScene.clear(this.brushGhost);
     if(this.signs.names!==this.kernel.data.roadNames){for(const id of [...this.batches.keys()])if(id.startsWith('signs:'))this.disposeEntry(id);this.signs.dispose();this.signs=new RoadSignRenderer(this.kernel.data.roadNames??{});}
     const ids=new Set([...summary.created,...summary.modified,...summary.deleted]);
     if(summary.area)for(const r of this.kernel.findRoads({bbox:summary.area,limit:10000}))ids.add(r.id);
@@ -154,5 +165,5 @@ export class CityEditorScene {
     for(const s of data.signs??[]){this.ghost.add(this.marker(s.position,color,3));const h={x:s.position.x-Math.sin(s.heading)*12,y:s.position.y,z:s.position.z-Math.cos(s.heading)*12};this.ghost.add(this.line([s.position,h],color));}
   }
   updateSignals(dt:number):void {for(const e of this.entries.values())e.signals?.update(dt);}
-  dispose():void {for(const id of [...this.entries.keys()])this.disposeEntry(id);CityEditorScene.clear(this.overview);CityEditorScene.clear(this.overlay);CityEditorScene.clear(this.ghost);this.clearCompare();this.clearGizmo();this.signs.dispose();this.prefabs.dispose();for(const m of Object.values(this.materials))m.dispose();this.root.clear();}
+  dispose():void {for(const id of [...this.entries.keys()])this.disposeEntry(id);CityEditorScene.clear(this.overview);CityEditorScene.clear(this.overlay);CityEditorScene.clear(this.ghost);CityEditorScene.clear(this.brushGhost);this.clearCompare();this.clearGizmo();this.signs.dispose();this.prefabs.dispose();for(const m of Object.values(this.materials))m.dispose();this.root.clear();}
 }

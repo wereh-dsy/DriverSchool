@@ -1,0 +1,414 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "v6-road-trees-1162",
+      "v6-road-trees-1163",
+      "v8-verge-v8-port-south-split-split-2-38-1",
+      "v8-verge-v8-port-south-split-split-2-90--1",
+      "v8-verge-v8-port-works-38--1",
+      "v8-verge-v8-port-south-split-split-2-split-2-38--1",
+      "v8-verge-v8-ring-south-cross-38--1"
+    ],
+    "bbox": {
+      "minX": 795.3631059032267,
+      "maxX": 1429.3405558152215,
+      "minZ": 2152.771891966709,
+      "maxZ": 2890.801844258653
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-road-trees-1162",
+      "state": "VALID",
+      "position": {
+        "x": 858.4641016151378,
+        "y": -0.04,
+        "z": 2389.9558823529414
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-1-split-split-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 138.4641016151378,
+        "lateralOffset": 9.625,
+        "verticalOffset": -0.9433745156489958,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1162",
+          "properties": {
+            "position": {
+              "x": 858.4641016151378,
+              "y": -0.04,
+              "z": 2389.9558823529414
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1162",
+      "heightMode": "GROUND",
+      "autoMove": 2.225651048246936
+    },
+    {
+      "id": "v6-road-trees-1163",
+      "state": "INVALID",
+      "position": {
+        "x": 893.5671765281015,
+        "y": -0.04,
+        "z": 2389.006549974923
+      },
+      "rotation": -2.8866969903943267,
+      "anchor": {
+        "anchorRoadId": "v8-port-works-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 293.2790577091964,
+        "lateralOffset": -0.05645814921137245,
+        "verticalOffset": 4.287079813353722,
+        "facingDirection": "forward",
+        "expectedHeading": -2.753517532887332,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.insideJunction::v6-road-trees-1163::",
+          "code": "tree.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-road-trees-1163",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-235"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1163",
+          "properties": {
+            "position": {
+              "x": 893.5671765281015,
+              "y": -0.04,
+              "z": 2389.006549974923
+            },
+            "rotation": -2.8866969903943267
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1163",
+      "heightMode": "GROUND",
+      "autoMove": 5.060587631631675
+    },
+    {
+      "id": "v8-verge-v8-port-south-split-split-2-38-1",
+      "state": "VALID",
+      "position": {
+        "x": 1246.9542084877453,
+        "y": -0.04,
+        "z": 2853.3589518021367
+      },
+      "rotation": -1.6334059001864423,
+      "anchor": {
+        "anchorRoadId": "v8-port-yard-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 210.27441652864286,
+        "lateralOffset": -5.400000000000195,
+        "verticalOffset": -0.021925142127841225,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6334059001864423,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-port-south-split-split-2-38-1",
+          "properties": {
+            "position": {
+              "x": 1246.9542084877453,
+              "y": -0.04,
+              "z": 2853.3589518021367
+            },
+            "rotation": -1.6334059001864423
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-port-south-split-split-2-38-1",
+      "heightMode": "GROUND",
+      "autoMove": 5.011838971210176
+    },
+    {
+      "id": "v8-verge-v8-port-south-split-split-2-90--1",
+      "state": "INVALID",
+      "position": {
+        "x": 1304.4416961980294,
+        "y": -0.04,
+        "z": 2856.9629292617087
+      },
+      "rotation": -1.6334059001864423,
+      "anchor": {
+        "anchorRoadId": "v8-port-yard-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 267.8747628537229,
+        "lateralOffset": -5.400000000000195,
+        "verticalOffset": -0.023548212800076268,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6334059001864423,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.insideJunction::v8-verge-v8-port-south-split-split-2-90--1::",
+          "code": "tree.insideJunction",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-port-south-split-split-2-90--1",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-236"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-port-south-split-split-2-90--1",
+          "properties": {
+            "position": {
+              "x": 1304.4416961980294,
+              "y": -0.04,
+              "z": 2856.9629292617087
+            },
+            "rotation": -1.6334059001864423
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-port-south-split-split-2-90--1",
+      "heightMode": "GROUND",
+      "autoMove": 8.872218054064549
+    },
+    {
+      "id": "v8-verge-v8-port-works-38--1",
+      "state": "VALID",
+      "position": {
+        "x": 792.2022720459986,
+        "y": -0.04,
+        "z": 2155.472868195062
+      },
+      "rotation": -2.7535175328873307,
+      "anchor": {
+        "anchorRoadId": "v8-port-works-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 38.75390875375585,
+        "lateralOffset": 5.399999999999784,
+        "verticalOffset": 2.6955700296768854,
+        "facingDirection": "forward",
+        "expectedHeading": -2.7535175328873307,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-port-works-38--1",
+          "properties": {
+            "position": {
+              "x": 792.2022720459986,
+              "y": -0.04,
+              "z": 2155.472868195062
+            },
+            "rotation": -2.7535175328873307
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-port-works-38--1",
+      "heightMode": "GROUND",
+      "autoMove": 4.495270683382392
+    },
+    {
+      "id": "v8-verge-v8-port-south-split-split-2-split-2-38--1",
+      "state": "VALID",
+      "position": {
+        "x": 1428.1523118610999,
+        "y": -0.04,
+        "z": 2897.2932904123263
+      },
+      "rotation": -1.5959188926684722,
+      "anchor": {
+        "anchorRoadId": "v8-port-south-split-split-2-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 26.566089017480028,
+        "lateralOffset": 9.40000000000006,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5959188926684722,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-port-south-split-split-2-split-2-38--1",
+          "properties": {
+            "position": {
+              "x": 1428.1523118610999,
+              "y": -0.04,
+              "z": 2897.2932904123263
+            },
+            "rotation": -1.5959188926684722
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-port-south-split-split-2-split-2-38--1",
+      "heightMode": "GROUND",
+      "autoMove": 7.493917617618215
+    },
+    {
+      "id": "v8-verge-v8-ring-south-cross-38--1",
+      "state": "VALID",
+      "position": {
+        "x": 1045.1249023115467,
+        "y": -0.04,
+        "z": 2421.2110984320584
+      },
+      "rotation": 0.7297902941268509,
+      "anchor": {
+        "anchorRoadId": "v6-logistics-one-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 7.330673804374956,
+        "lateralOffset": 10.000000000000092,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 0.7297902941268509,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-ring-south-cross-38--1",
+          "properties": {
+            "position": {
+              "x": 1045.1249023115467,
+              "y": -0.04,
+              "z": 2421.2110984320584
+            },
+            "rotation": 0.7297902941268509
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-ring-south-cross-38--1",
+      "heightMode": "GROUND",
+      "autoMove": 5.534591807286785
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1162",
+      "properties": {
+        "position": {
+          "x": 858.4641016151378,
+          "y": -0.04,
+          "z": 2389.9558823529414
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-port-south-split-split-2-38-1",
+      "properties": {
+        "position": {
+          "x": 1246.9542084877453,
+          "y": -0.04,
+          "z": 2853.3589518021367
+        },
+        "rotation": -1.6334059001864423
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-port-works-38--1",
+      "properties": {
+        "position": {
+          "x": 792.2022720459986,
+          "y": -0.04,
+          "z": 2155.472868195062
+        },
+        "rotation": -2.7535175328873307
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-port-south-split-split-2-split-2-38--1",
+      "properties": {
+        "position": {
+          "x": 1428.1523118610999,
+          "y": -0.04,
+          "z": 2897.2932904123263
+        },
+        "rotation": -1.5959188926684722
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-ring-south-cross-38--1",
+      "properties": {
+        "position": {
+          "x": 1045.1249023115467,
+          "y": -0.04,
+          "z": 2421.2110984320584
+        },
+        "rotation": 0.7297902941268509
+      }
+    }
+  ],
+  "stats": {
+    "planned": 7,
+    "valid": 5,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 5,
+    "removed": 0
+  },
+  "valid": true
+}

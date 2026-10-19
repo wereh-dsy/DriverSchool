@@ -16,14 +16,24 @@ export class VehicleContactSystem {
   public secondsSinceCollision = Number.POSITIVE_INFINITY;
   private sampledPose: { x: number; z: number; yaw: number } | null = null;
   private wetness = 0;
+  private roadGripMultiplier = 1;
   private readonly contactBuffer = createWheelContactBuffer();
 
   public setWetness(wetness: number): void {
     const value = Number.isFinite(wetness) ? Math.min(1, Math.max(0, wetness)) : 0;
-    if (value === this.wetness) return;
+    const delta = Math.abs(value - this.wetness);
     this.wetness = value;
-    // Discard cached dry contacts so the next fixed step uses actual wet grip.
-    this.wheelContacts = null;
+    // Discard cached contacts on a meaningful change; continuous transitions
+    // avoid invalidating the cache every frame.
+    if (delta > .005) this.wheelContacts = null;
+  }
+
+  /** Shared weather grip scale; all vehicles consume the same value. */
+  public setRoadGripMultiplier(multiplier: number): void {
+    const value = Number.isFinite(multiplier) ? Math.min(1, Math.max(0, multiplier)) : 1;
+    const delta = Math.abs(value - this.roadGripMultiplier);
+    this.roadGripMultiplier = value;
+    if (delta > .002) this.wheelContacts = null;
   }
 
   public constructor(private ground: DrivingGround, private collisionDimensions: CollisionDimensions) {
@@ -57,7 +67,7 @@ export class VehicleContactSystem {
     // a spawn/reset/editor correction changed pose outside this adapter.
     if (this.wheelContacts === null || this.sampledPose?.x !== before.x ||
       this.sampledPose.z !== before.z || this.sampledPose.yaw !== before.yaw) {
-      this.wheelContacts = sampleWheelContacts(this.ground, before, dynamics.config, this.wetness, this.contactBuffer);
+      this.wheelContacts = sampleWheelContacts(this.ground, before, dynamics.config, this.wetness, this.roadGripMultiplier, this.contactBuffer);
       dynamics.syncWheelContacts(this.wheelContacts);
       before = dynamics.getSnapshot();
     }
@@ -71,7 +81,7 @@ export class VehicleContactSystem {
     // Reuse this final-pose query next tick, and give rendering/collision the
     // same support plane even when this step crosses a curb or crest.
     this.ground.setSurfaceReferenceHeight?.(after.chassis.groundHeight);
-    this.wheelContacts = sampleWheelContacts(this.ground, after, dynamics.config, this.wetness, this.contactBuffer);
+    this.wheelContacts = sampleWheelContacts(this.ground, after, dynamics.config, this.wetness, this.roadGripMultiplier, this.contactBuffer);
     dynamics.syncWheelContacts(this.wheelContacts);
     after = dynamics.getSnapshot();
     const sin = Math.sin(after.yaw);
@@ -101,7 +111,7 @@ export class VehicleContactSystem {
         yawRate: 0,
       });
       const finalPose = dynamics.getSnapshot();
-      this.wheelContacts = sampleWheelContacts(this.ground, finalPose, dynamics.config, this.wetness, this.contactBuffer);
+      this.wheelContacts = sampleWheelContacts(this.ground, finalPose, dynamics.config, this.wetness, this.roadGripMultiplier, this.contactBuffer);
       dynamics.syncWheelContacts(this.wheelContacts);
       after = dynamics.getSnapshot();
     } else this.secondsSinceCollision += dt;

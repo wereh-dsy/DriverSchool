@@ -1,0 +1,145 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "traffic_sign",
+    "objectIds": [
+      "diamond-east:exit-sign",
+      "diamond-east:exit-sign-2"
+    ],
+    "bbox": {
+      "minX": 624,
+      "maxX": 1778.3331349508762,
+      "minZ": -174.82000000000005,
+      "maxZ": -130.22619047619048
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "diamond-east:exit-sign",
+      "state": "INVALID",
+      "position": {
+        "x": 1777.3331349508762,
+        "y": 8,
+        "z": -172.44647041832312
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-wb-split-3-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 20.916359699329632,
+        "lateralOffset": 9.488137084989859,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:diamond-east:exit-sign",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "diamond-east:exit-sign",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-wb-split-3-split-split",
+            "lateralOffset": 9.488137084989859
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "diamond-east:exit-sign",
+          "properties": {
+            "position": {
+              "x": 1777.3331349508762,
+              "y": 8,
+              "z": -172.44647041832312
+            },
+            "rotation": 1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "diamond-east:exit-sign",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 1.3735295816769337
+    },
+    {
+      "id": "diamond-east:exit-sign-2",
+      "state": "INVALID",
+      "position": {
+        "x": 625,
+        "y": 8,
+        "z": -132.88686291501014
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 100,
+        "lateralOffset": 9.488137084989859,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:diamond-east:exit-sign-2",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "diamond-east:exit-sign-2",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split",
+            "lateralOffset": 9.488137084989859
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "diamond-east:exit-sign-2",
+          "properties": {
+            "position": {
+              "x": 625,
+              "y": 8,
+              "z": -132.88686291501014
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "diamond-east:exit-sign-2",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 1.6606724388196596
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 2,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,123 @@
+{
+  "inspection": {
+    "key": "-4:-3:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:regional:airport-exit:on:1:false:guide:280"
+      ],
+      "bbox": {
+        "minX": -6285.393354914791,
+        "maxX": -6283.393354914791,
+        "minZ": -4146.5278283102625,
+        "maxZ": -4144.5278283102625
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:airport-exit:on:1:false:guide:280",
+      "properties": {
+        "position": {
+          "x": -6274.959860252514,
+          "y": 23.84178084604207,
+          "z": -4147.037649771127
+        },
+        "heading": 0.158703046345637,
+        "roadId": "regional:airport-exit:on:1",
+        "stationMetres": 279.9999999999999
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-66",
+    "created": [],
+    "modified": [
+      "road-safety:regional:airport-exit:on:1:false:guide:280"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -6324.393354914791,
+      "maxX": -6244.393354914791,
+      "minZ": -4185.5278283102625,
+      "maxZ": -4105.5278283102625
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:regional:airport-exit:on:1:false:guide:280",
+          "regional:S18:out:10",
+          "regional:S18:in:4",
+          "regional:S18:in:5",
+          "regional:S18:out:10:upgrade252",
+          "regional:airport-exit:on:1",
+          "regional:S18:in:5:upgrade258",
+          "regional:airport-exit:off:-1",
+          "regional:airport-exit:on:1:acceleration"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S18:out:10:upgrade252",
+          "regional:airport-exit:on:1:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "regional:airport-exit:on:1",
+          "regional:airport-terminal-access"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S18:in:5:upgrade258",
+          "regional:airport-exit:off:-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:airport-exit:on:1:false:guide:280",
+          "regional:airport-exit:on:1"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      }
+    ],
+    "valid": true
+  }
+}

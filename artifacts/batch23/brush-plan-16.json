@@ -1,0 +1,144 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "hardscape",
+    "objectIds": [
+      "landscape-hardscape-2605",
+      "v3-maintenance-ground-6"
+    ],
+    "bbox": {
+      "minX": 3098.9905571305185,
+      "maxX": 3111,
+      "minZ": -66,
+      "maxZ": -49
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-hardscape-2605",
+      "state": "VALID",
+      "position": {
+        "x": 3067.3,
+        "y": 0.13921790974738146,
+        "z": -65
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-ten-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 357.57744070379454,
+        "lateralOffset": 42.69999999999982,
+        "verticalOffset": -0.019017723378760287,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-hardscape-2605",
+          "properties": {
+            "position": {
+              "x": 3067.3,
+              "y": 0.13921790974738146,
+              "z": -65
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "landscape-hardscape-2605",
+      "heightMode": "GROUND",
+      "autoMove": 32.69057900112346
+    },
+    {
+      "id": "v3-maintenance-ground-6",
+      "state": "VALID",
+      "position": {
+        "x": 3084.8,
+        "y": 0.23854491577297712,
+        "z": -50
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-ten-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 372.57744070379454,
+        "lateralOffset": 25.199999999999818,
+        "verticalOffset": -0.019617826066677363,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v3-maintenance-ground-6",
+          "properties": {
+            "position": {
+              "x": 3084.8,
+              "y": 0.23854491577297712,
+              "z": -50
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v3-maintenance-ground-6",
+      "heightMode": "GROUND",
+      "autoMove": 25.200035711250564
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-hardscape-2605",
+      "properties": {
+        "position": {
+          "x": 3067.3,
+          "y": 0.13921790974738146,
+          "z": -65
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v3-maintenance-ground-6",
+      "properties": {
+        "position": {
+          "x": 3084.8,
+          "y": 0.23854491577297712,
+          "z": -50
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "stats": {
+    "planned": 2,
+    "valid": 2,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 2,
+    "removed": 0
+  },
+  "valid": true
+}

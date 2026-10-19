@@ -1,0 +1,8 @@
+{
+  "label": "A2: close urban-junction-15 gap as a road link",
+  "operations": [
+    { "op": "extendRoad", "roadId": "urban-north-arterial-split-m91", "end": "end", "points": [{ "x": 2219.6312257616555, "y": 0, "z": -1000 }], "crossing": "none" },
+    { "op": "deleteRoad", "id": "urban-junction-15" },
+    { "op": "connectRoads", "from": { "roadId": "urban-north-arterial-split-m91", "end": "end" }, "to": { "roadId": "urban-north-arterial-split-split-m91-approach", "end": "start" } }
+  ]
+}

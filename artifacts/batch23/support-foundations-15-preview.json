@@ -1,0 +1,281 @@
+{
+  "inspection": {
+    "key": "0:-2:streetlight",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight",
+      "bbox": {
+        "minX": 2130.04739808227,
+        "maxX": 2343.1604923310815,
+        "minZ": -4508.920649274269,
+        "maxZ": -4322.987885915774
+      },
+      "objectIds": [
+        "regional:shangu:lamp:1:-65",
+        "regional:shangu:lamp:-1:-65"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "streetlight",
+        "bbox": {
+          "minX": 2130.04739808227,
+          "maxX": 2343.1604923310815,
+          "minZ": -4508.920649274269,
+          "maxZ": -4322.987885915774
+        },
+        "objectIds": [
+          "regional:shangu:lamp:1:-65",
+          "regional:shangu:lamp:-1:-65"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "regional:shangu:lamp:1:-65",
+          "state": "VALID",
+          "position": {
+            "x": 2322.045039109967,
+            "y": 31.64415321323098,
+            "z": -4343.565587764404
+          },
+          "rotation": -0.7748377374629223,
+          "anchor": {
+            "anchorRoadId": "regional:shangu:off:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 222.34033967270784,
+            "lateralOffset": 7.0447056274850155,
+            "verticalOffset": -1.6670337108818245,
+            "facingDirection": "forward",
+            "expectedHeading": -0.7748377374629223,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:shangu:lamp:1:-65",
+              "properties": {
+                "position": {
+                  "x": 2322.045039109967,
+                  "y": 31.64415321323098,
+                  "z": -4343.565587764404
+                },
+                "rotation": -0.7748377374629223
+              }
+            }
+          ],
+          "sourceId": "regional:shangu:lamp:1:-65",
+          "heightMode": "GROUND",
+          "autoMove": 28.120656821179235
+        },
+        {
+          "id": "regional:shangu:lamp:-1:-65",
+          "state": "VALID",
+          "position": {
+            "x": 2153.3936287024676,
+            "y": 31.616589043051885,
+            "z": -4490.921624285269
+          },
+          "rotation": 2.4444118400170387,
+          "anchor": {
+            "anchorRoadId": "regional:shangu:on:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 3.0005950961836314,
+            "lateralOffset": 7.044705627485112,
+            "verticalOffset": -1.7007701421939068,
+            "facingDirection": "forward",
+            "expectedHeading": 2.4444118400170387,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:shangu:lamp:-1:-65",
+              "properties": {
+                "position": {
+                  "x": 2153.3936287024676,
+                  "y": 31.616589043051885,
+                  "z": -4490.921624285269
+                },
+                "rotation": 2.4444118400170387
+              }
+            }
+          ],
+          "sourceId": "regional:shangu:lamp:-1:-65",
+          "heightMode": "GROUND",
+          "autoMove": 28.129490386509662
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "regional:shangu:lamp:1:-65",
+          "properties": {
+            "position": {
+              "x": 2322.045039109967,
+              "y": 31.64415321323098,
+              "z": -4343.565587764404
+            },
+            "rotation": -0.7748377374629223
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:shangu:lamp:-1:-65",
+          "properties": {
+            "position": {
+              "x": 2153.3936287024676,
+              "y": 31.616589043051885,
+              "z": -4490.921624285269
+            },
+            "rotation": 2.4444118400170387
+          }
+        }
+      ],
+      "stats": {
+        "planned": 2,
+        "valid": 2,
+        "adjusted": 0,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 2,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:shangu:lamp:1:-65",
+      "properties": {
+        "position": {
+          "x": 2322.045039109967,
+          "y": 31.64415321323098,
+          "z": -4343.565587764404
+        },
+        "rotation": -0.7748377374629223
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:shangu:lamp:-1:-65",
+      "properties": {
+        "position": {
+          "x": 2153.3936287024676,
+          "y": 31.616589043051885,
+          "z": -4490.921624285269
+        },
+        "rotation": 2.4444118400170387
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-15",
+    "created": [],
+    "modified": [
+      "regional:shangu:lamp:1:-65",
+      "regional:shangu:lamp:-1:-65"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2091.04739808227,
+      "maxX": 2382.1604923310815,
+      "minZ": -4547.920649274269,
+      "maxZ": -4283.987885915774
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:shangu:lamp:1:-65",
+          "regional:shangu:lamp:-1:-65",
+          "regional:G38:out:split10:split24:split284:split354",
+          "regional:shangu:off:1",
+          "regional:shangu:local:1",
+          "regional:G38:in:split362",
+          "regional:shangu:local:-1",
+          "regional:shangu:on:-1"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G38:out:split10:split24:split284:split354",
+          "regional:shangu:on:1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G38:out:split10:split24:split284:split354",
+          "regional:shangu:on:1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G38:in:split362",
+          "regional:shangu:off:-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G38:in:split362",
+          "regional:shangu:on:-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "regional:shangu:lamp:1:-65"
+        ],
+        "message": "Base differs from selected support surface"
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "regional:shangu:lamp:-1:-65"
+        ],
+        "message": "Base differs from selected support surface"
+      }
+    ],
+    "valid": true
+  }
+}

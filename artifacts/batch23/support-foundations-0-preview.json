@@ -1,0 +1,136 @@
+{
+  "inspection": {
+    "key": "-1:-1:traffic_sign",
+    "request": {
+      "mode": "REPAIR",
+      "type": "traffic_sign",
+      "bbox": {
+        "minX": -1405,
+        "maxX": -1403,
+        "minZ": -120.8925948503603,
+        "maxZ": -118.8925948503603
+      },
+      "objectIds": [
+        "diamond-west:exit-sign-2"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "traffic_sign",
+        "bbox": {
+          "minX": -1405,
+          "maxX": -1403,
+          "minZ": -120.8925948503603,
+          "maxZ": -118.8925948503603
+        },
+        "objectIds": [
+          "diamond-west:exit-sign-2"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "diamond-west:exit-sign-2",
+          "state": "INVALID",
+          "position": {
+            "x": -1403.9314198682127,
+            "y": -0.04,
+            "z": -121.0235376574234
+          },
+          "rotation": -1.6313619502312977,
+          "anchor": {
+            "anchorRoadId": "ew-eb-split-4",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 112.02348711075126,
+            "lateralOffset": 9.488137084989845,
+            "verticalOffset": -8.04,
+            "facingDirection": "forward",
+            "expectedHeading": -1.6313619502312977,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "issues": [
+            {
+              "id": "object.insideJunction::diamond-west:exit-sign-2::",
+              "code": "object.insideJunction",
+              "severity": "warning",
+              "objectId": "diamond-west:exit-sign-2",
+              "message": "Object envelope intersects junction pavement",
+              "metrics": {
+                "intersectionId": "urban-junction-2"
+              },
+              "approximate": true
+            }
+          ],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "diamond-west:exit-sign-2",
+              "properties": {
+                "position": {
+                  "x": -1403.9314198682127,
+                  "y": -0.04,
+                  "z": -121.0235376574234
+                },
+                "rotation": -1.6313619502312977
+              }
+            }
+          ],
+          "sourceId": "diamond-west:exit-sign-2",
+          "heightMode": "GROUND",
+          "autoMove": 8.11944178298753
+        }
+      ],
+      "operations": [],
+      "stats": {
+        "planned": 1,
+        "valid": 0,
+        "adjusted": 0,
+        "invalid": 1,
+        "skipped": 1,
+        "added": 0,
+        "moved": 0,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "removeObject",
+      "id": "diamond-west:exit-sign-2"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-0",
+    "created": [],
+    "modified": [],
+    "deleted": [
+      "diamond-west:exit-sign-2"
+    ],
+    "area": {
+      "minX": -1444,
+      "maxX": -1364,
+      "minZ": -159.8925948503603,
+      "maxZ": -79.8925948503603
+    },
+    "warnings": [],
+    "valid": true
+  }
+}

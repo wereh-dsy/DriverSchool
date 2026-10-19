@@ -1,0 +1,565 @@
+{
+  "inspection": {
+    "key": "1:-1:noise_barrier",
+    "request": {
+      "mode": "REPAIR",
+      "type": "noise_barrier",
+      "bbox": {
+        "minX": 2567.5369518274656,
+        "maxX": 3023.2410792269975,
+        "minZ": -1257.679868592779,
+        "maxZ": -539
+      },
+      "objectIds": [
+        "landscape-noise_barrier-221",
+        "landscape-noise_barrier-225",
+        "landscape-noise_barrier-241",
+        "landscape-noise_barrier-245",
+        "landscape-noise_barrier-249",
+        "landscape-noise_barrier-253",
+        "landscape-noise_barrier-257",
+        "landscape-noise_barrier-261",
+        "landscape-noise_barrier-297",
+        "landscape-noise_barrier-756",
+        "landscape-noise_barrier-760",
+        "landscape-noise_barrier-764",
+        "landscape-noise_barrier-768",
+        "landscape-noise_barrier-772",
+        "landscape-noise_barrier-776",
+        "landscape-noise_barrier-792"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "noise_barrier",
+        "bbox": {
+          "minX": 2567.5369518274656,
+          "maxX": 3023.2410792269975,
+          "minZ": -1257.679868592779,
+          "maxZ": -539
+        },
+        "objectIds": [
+          "landscape-noise_barrier-221",
+          "landscape-noise_barrier-225",
+          "landscape-noise_barrier-241",
+          "landscape-noise_barrier-245",
+          "landscape-noise_barrier-249",
+          "landscape-noise_barrier-253",
+          "landscape-noise_barrier-257",
+          "landscape-noise_barrier-261",
+          "landscape-noise_barrier-297",
+          "landscape-noise_barrier-756",
+          "landscape-noise_barrier-760",
+          "landscape-noise_barrier-764",
+          "landscape-noise_barrier-768",
+          "landscape-noise_barrier-772",
+          "landscape-noise_barrier-776",
+          "landscape-noise_barrier-792"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "landscape-noise_barrier-221",
+          "state": "INVALID",
+          "position": {
+            "x": 3094.798875063274,
+            "y": -0.04,
+            "z": -600
+          },
+          "rotation": -3.141592653589793,
+          "anchor": {
+            "anchorRoadId": "v9-newcity-ten",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 120,
+            "lateralOffset": 15.201124936726046,
+            "verticalOffset": -0.016,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [
+            {
+              "id": "object.autoMoveExceeded:landscape-noise_barrier-221",
+              "code": "object.autoMoveExceeded",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-221",
+              "message": "Repair exceeds maxAutoMove",
+              "metrics": {
+                "maxAutoMove": 45
+              }
+            }
+          ],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "landscape-noise_barrier-221",
+              "properties": {
+                "position": {
+                  "x": 3094.798875063274,
+                  "y": -0.04,
+                  "z": -600
+                },
+                "rotation": -3.141592653589793
+              }
+            }
+          ],
+          "sourceId": "landscape-noise_barrier-221",
+          "heightMode": "GROUND",
+          "autoMove": 73.00188584289297
+        },
+        {
+          "id": "landscape-noise_barrier-225",
+          "state": "INVALID",
+          "position": {
+            "x": 3023.7700814980362,
+            "y": -0.04,
+            "z": -713.8204430617634
+          },
+          "rotation": -1.5930099409782184,
+          "anchor": {
+            "anchorRoadId": "v9-newcity-one-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 1231.7558359308484,
+            "lateralOffset": 15.201124936725886,
+            "verticalOffset": -0.016,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5930099409782184,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [
+            {
+              "id": "object.tooCloseToObject:landscape-noise_barrier-225",
+              "code": "object.tooCloseToObject",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-225",
+              "message": "Object envelopes overlap or violate spacing",
+              "metrics": {
+                "otherObjectId": "landscape-noise_barrier-229",
+                "actual": 0.999530431358558,
+                "required": 20.002249873451735
+              },
+              "approximate": true
+            },
+            {
+              "id": "object.autoMoveExceeded:landscape-noise_barrier-225",
+              "code": "object.autoMoveExceeded",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-225",
+              "message": "Repair exceeds maxAutoMove",
+              "metrics": {
+                "maxAutoMove": 45
+              }
+            }
+          ],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "landscape-noise_barrier-225",
+              "properties": {
+                "position": {
+                  "x": 3023.7700814980362,
+                  "y": -0.04,
+                  "z": -713.8204430617634
+                },
+                "rotation": -1.5930099409782184
+              }
+            }
+          ],
+          "sourceId": "landscape-noise_barrier-225",
+          "heightMode": "GROUND",
+          "autoMove": 69.30535932496316
+        },
+        {
+          "id": "landscape-noise_barrier-241",
+          "state": "INVALID",
+          "position": {
+            "x": 3020.4482344675,
+            "y": -0.04,
+            "z": -744.303997759418
+          },
+          "rotation": -1.5930099409782184,
+          "anchor": {
+            "anchorRoadId": "v9-newcity-one-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 1227.7577142054135,
+            "lateralOffset": -15.201124936725886,
+            "verticalOffset": -0.016,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5930099409782184,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [
+            {
+              "id": "object.tooCloseToObject:landscape-noise_barrier-241",
+              "code": "object.tooCloseToObject",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-241",
+              "message": "Object envelopes overlap or violate spacing",
+              "metrics": {
+                "otherObjectId": "landscape-noise_barrier-233",
+                "actual": 1.999060862717571,
+                "required": 20.002249873451735
+              },
+              "approximate": true
+            },
+            {
+              "id": "object.tooCloseToObject:landscape-noise_barrier-241",
+              "code": "object.tooCloseToObject",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-241",
+              "message": "Object envelopes overlap or violate spacing",
+              "metrics": {
+                "otherObjectId": "landscape-noise_barrier-237",
+                "actual": 10.049828908156197,
+                "required": 20.002249873451735
+              },
+              "approximate": true
+            },
+            {
+              "id": "object.autoMoveExceeded:landscape-noise_barrier-241",
+              "code": "object.autoMoveExceeded",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-241",
+              "message": "Repair exceeds maxAutoMove",
+              "metrics": {
+                "maxAutoMove": 45
+              }
+            }
+          ],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "landscape-noise_barrier-241",
+              "properties": {
+                "position": {
+                  "x": 3020.4482344675,
+                  "y": -0.04,
+                  "z": -744.303997759418
+                },
+                "rotation": -1.5930099409782184
+              }
+            }
+          ],
+          "sourceId": "landscape-noise_barrier-241",
+          "heightMode": "GROUND",
+          "autoMove": 81.11535409491636
+        },
+        {
+          "id": "landscape-noise_barrier-297",
+          "state": "INVALID",
+          "position": {
+            "x": 2980.406787523861,
+            "y": -0.04,
+            "z": -455.3099279280889
+          },
+          "rotation": -1.57103832898953,
+          "anchor": {
+            "anchorRoadId": "v9-newcity-three-split-split-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 152.9031138081359,
+            "lateralOffset": -15.201124936725888,
+            "verticalOffset": -0.016,
+            "facingDirection": "forward",
+            "expectedHeading": -1.57103832898953,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [
+            {
+              "id": "object.autoMoveExceeded:landscape-noise_barrier-297",
+              "code": "object.autoMoveExceeded",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-297",
+              "message": "Repair exceeds maxAutoMove",
+              "metrics": {
+                "maxAutoMove": 45
+              }
+            }
+          ],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "landscape-noise_barrier-297",
+              "properties": {
+                "position": {
+                  "x": 2980.406787523861,
+                  "y": -0.04,
+                  "z": -455.3099279280889
+                },
+                "rotation": -1.57103832898953
+              }
+            }
+          ],
+          "sourceId": "landscape-noise_barrier-297",
+          "heightMode": "GROUND",
+          "autoMove": 85.07085474825121
+        },
+        {
+          "id": "landscape-noise_barrier-776",
+          "state": "INVALID",
+          "position": {
+            "x": 2978.7066744402473,
+            "y": -0.04,
+            "z": -745.2313812117607
+          },
+          "rotation": -1.5930099409782175,
+          "anchor": {
+            "anchorRoadId": "v9-newcity-one-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 1186.0058534854836,
+            "lateralOffset": -15.201124936725886,
+            "verticalOffset": -0.016,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5930099409782175,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [
+            {
+              "id": "object.tooCloseToObject:landscape-noise_barrier-776",
+              "code": "object.tooCloseToObject",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-776",
+              "message": "Object envelopes overlap or violate spacing",
+              "metrics": {
+                "otherObjectId": "landscape-noise_barrier-784",
+                "actual": 1.999060862717571,
+                "required": 20.002249873451735
+              },
+              "approximate": true
+            },
+            {
+              "id": "object.autoMoveExceeded:landscape-noise_barrier-776",
+              "code": "object.autoMoveExceeded",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-776",
+              "message": "Repair exceeds maxAutoMove",
+              "metrics": {
+                "maxAutoMove": 45
+              }
+            }
+          ],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "landscape-noise_barrier-776",
+              "properties": {
+                "position": {
+                  "x": 2978.7066744402473,
+                  "y": -0.04,
+                  "z": -745.2313812117607
+                },
+                "rotation": -1.5930099409782175
+              }
+            }
+          ],
+          "sourceId": "landscape-noise_barrier-776",
+          "heightMode": "GROUND",
+          "autoMove": 77.87986667636629
+        },
+        {
+          "id": "landscape-noise_barrier-792",
+          "state": "INVALID",
+          "position": {
+            "x": 2982.0285214707837,
+            "y": -0.04,
+            "z": -714.747826514106
+          },
+          "rotation": -1.5930099409782175,
+          "anchor": {
+            "anchorRoadId": "v9-newcity-one-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 1190.0039752109185,
+            "lateralOffset": 15.201124936725886,
+            "verticalOffset": -0.016,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5930099409782175,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [
+            {
+              "id": "object.tooCloseToObject:landscape-noise_barrier-792",
+              "code": "object.tooCloseToObject",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-792",
+              "message": "Object envelopes overlap or violate spacing",
+              "metrics": {
+                "otherObjectId": "v6-lamps-528",
+                "actual": 9.984983746944051,
+                "required": 10.213256971081831
+              },
+              "approximate": true
+            },
+            {
+              "id": "object.autoMoveExceeded:landscape-noise_barrier-792",
+              "code": "object.autoMoveExceeded",
+              "severity": "warning",
+              "objectId": "landscape-noise_barrier-792",
+              "message": "Repair exceeds maxAutoMove",
+              "metrics": {
+                "maxAutoMove": 45
+              }
+            }
+          ],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "landscape-noise_barrier-792",
+              "properties": {
+                "position": {
+                  "x": 2982.0285214707837,
+                  "y": -0.04,
+                  "z": -714.747826514106
+                },
+                "rotation": -1.5930099409782175
+              }
+            }
+          ],
+          "sourceId": "landscape-noise_barrier-792",
+          "heightMode": "GROUND",
+          "autoMove": 72.53655188177432
+        }
+      ],
+      "operations": [],
+      "stats": {
+        "planned": 6,
+        "valid": 0,
+        "adjusted": 0,
+        "invalid": 6,
+        "skipped": 6,
+        "added": 0,
+        "moved": 0,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-221"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-225"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-241"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-245"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-249"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-253"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-257"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-261"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-297"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-756"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-760"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-764"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-768"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-772"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-776"
+    },
+    {
+      "op": "removeObject",
+      "id": "landscape-noise_barrier-792"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-4",
+    "created": [],
+    "modified": [],
+    "deleted": [
+      "landscape-noise_barrier-221",
+      "landscape-noise_barrier-225",
+      "landscape-noise_barrier-241",
+      "landscape-noise_barrier-245",
+      "landscape-noise_barrier-249",
+      "landscape-noise_barrier-253",
+      "landscape-noise_barrier-257",
+      "landscape-noise_barrier-261",
+      "landscape-noise_barrier-297",
+      "landscape-noise_barrier-756",
+      "landscape-noise_barrier-760",
+      "landscape-noise_barrier-764",
+      "landscape-noise_barrier-768",
+      "landscape-noise_barrier-772",
+      "landscape-noise_barrier-776",
+      "landscape-noise_barrier-792"
+    ],
+    "area": {
+      "minX": 2528.5369518274656,
+      "maxX": 3062.2410792269975,
+      "minZ": -1296.679868592779,
+      "maxZ": -500
+    },
+    "warnings": [],
+    "valid": true
+  }
+}

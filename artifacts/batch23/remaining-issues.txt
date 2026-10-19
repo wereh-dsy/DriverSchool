@@ -1,0 +1,1287 @@
+{ total: 3397, error: 0, warning: 3173, info: 224 } {
+  'structure.insufficientVerticalEnvelope': 412,
+  'ramp.overlapsRamp': 542,
+  'ramp.divergeTooClose': 424,
+  'structure.shellReviewRequired': 14,
+  'vertical.constraintDrivenExtremum': 93,
+  'vertical.localExtremum': 13,
+  'ramp.conflictsWithIntersection': 13,
+  'ramp.crossesFrontageJunction': 24,
+  'ramp.mergeTooClose': 12,
+  'ramp.accessTooLong': 2,
+  'ramp.tooCloseToInterchange': 8,
+  'object.unsupportedOnDeck': 145,
+  'object.tooCloseToObject': 824,
+  'object.buried': 97,
+  'object.floating': 77,
+  'object.insideLane': 94,
+  'object.intersectsBarrier': 40,
+  'building.intersectsRoad': 13,
+  'building.intersectsJunction': 3,
+  'object.insideJunction': 28,
+  'tree.canopyNearRoad': 117,
+  'streetlight.tooDense': 6,
+  'building.intersectsRamp': 1,
+  'object.intersectsRoadStructure': 7,
+  'building.intersectsStructure': 1,
+  'roadSign.intersectsStructure': 27,
+  'roadSign.wrongSide': 8,
+  'roadSign.occluded': 13,
+  'object.wrongStructureLevel': 32,
+  'roadSign.insideLane': 143,
+  'roadSign.tooCloseToJunction': 31,
+  'roadSign.insideJunction': 7,
+  'roadSign.wrongFacing': 1,
+  'trafficLight.insideCarriageway': 15,
+  'trafficLight.occludedByStructure': 2,
+  'trafficLight.insideJunctionConflict': 108
+}
+obstructions [
+  {
+    id: 'building.intersectsRoad::landscape-industrial-2580::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'landscape-industrial-2580',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-port-yard-split-c91-section',
+      distance: 0.5511459482325527,
+      roadHalfWidth: 3.2,
+      objectRadius: 37.26346766031536
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'landscape-industrial-2580',
+      roadId: 'v8-port-yard-split-c91-section',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRoad::landscape-industrial-2580::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'landscape-industrial-2580',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-port-south-split-split-2-split-2-m91',
+      distance: 16.594829733529203,
+      roadHalfWidth: 7.2,
+      objectRadius: 38.10955218142402
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'landscape-industrial-2580',
+      roadId: 'v8-port-south-split-split-2-split-2-m91',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRoad::landscape-industrial-2581::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'landscape-industrial-2581',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-port-yard-split-c91-section',
+      distance: 17.491243900196668,
+      roadHalfWidth: 3.2,
+      objectRadius: 43.44649615424595
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'landscape-industrial-2581',
+      roadId: 'v8-port-yard-split-c91-section',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRoad::landscape-industrial-2581::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'landscape-industrial-2581',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-port-south-split-split-2-split-2-m91',
+      distance: 21.66509628383939,
+      roadHalfWidth: 7.2,
+      objectRadius: 43.66070848188171
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'landscape-industrial-2581',
+      roadId: 'v8-port-south-split-split-2-split-2-m91',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsJunction::landscape-industrial-2581::',
+    code: 'building.intersectsJunction',
+    severity: 'warning',
+    objectId: 'landscape-industrial-2581',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-231' },
+    approximate: true
+  },
+  {
+    id: 'building.intersectsRoad::v61-stadium::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'v61-stadium',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v61-sports-road-split-c91',
+      distance: 15.652272846702889,
+      roadHalfWidth: 7.2,
+      objectRadius: 80.20586153573369
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'v61-stadium',
+      roadId: 'v61-sports-road-split-c91',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRamp::v61-west-depot::',
+    code: 'building.intersectsRamp',
+    severity: 'warning',
+    objectId: 'v61-west-depot',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v91-ring-west-inner-off',
+      distance: 27.188653285018678,
+      roadHalfWidth: 1.875,
+      objectRadius: 43.23350475547785
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'v61-west-depot',
+      roadId: 'v91-ring-west-inner-off',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRoad::v61-port-warehouse::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'v61-port-warehouse',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-port-yard-split-c91-section',
+      distance: 7.819983172114092,
+      roadHalfWidth: 3.2,
+      objectRadius: 43.92584844698803
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'v61-port-warehouse',
+      roadId: 'v8-port-yard-split-c91-section',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRoad::v61-port-warehouse::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'v61-port-warehouse',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-port-south-split-split-2-split-2-m91',
+      distance: 15.213275501122986,
+      roadHalfWidth: 7.2,
+      objectRadius: 43.92765738076817
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'v61-port-warehouse',
+      roadId: 'v8-port-south-split-split-2-split-2-m91',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsJunction::v61-port-warehouse::',
+    code: 'building.intersectsJunction',
+    severity: 'warning',
+    objectId: 'v61-port-warehouse',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-231' },
+    approximate: true
+  },
+  {
+    id: 'building.intersectsRoad::regional:warehouse:-1320:2740::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'regional:warehouse:-1320:2740',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-nancheng-ring-split-split',
+      distance: 0.2925904543992025,
+      roadHalfWidth: 3.2,
+      objectRadius: 56.021204798841524
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'regional:warehouse:-1320:2740',
+      roadId: 'v8-nancheng-ring-split-split',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsStructure::regional:warehouse:-1320:2740::',
+    code: 'building.intersectsStructure',
+    severity: 'warning',
+    objectId: 'regional:warehouse:-1320:2740',
+    message: 'Object intersects an elevated deck envelope',
+    metrics: {
+      roadId: 'v8-nancheng-ring-split-split',
+      deckY: 1.2287341142680015
+    },
+    approximate: true,
+    reviewRequired: true
+  },
+  {
+    id: 'building.intersectsRoad::regional:warehouse:2040:2740::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'regional:warehouse:2040:2740',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v5-south-logistics-split-c91',
+      distance: 15.381990143471207,
+      roadHalfWidth: 7,
+      objectRadius: 74.90296760947959
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'regional:warehouse:2040:2740',
+      roadId: 'v5-south-logistics-split-c91',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsJunction::regional:warehouse:2040:2740::',
+    code: 'building.intersectsJunction',
+    severity: 'warning',
+    objectId: 'regional:warehouse:2040:2740',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-226' },
+    approximate: true
+  },
+  {
+    id: 'building.intersectsRoad::regional:warehouse:3320:3700::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'regional:warehouse:3320:3700',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'regional:S26-extension:in:4',
+      distance: 11.478690148389433,
+      roadHalfWidth: 5.625,
+      objectRadius: 37.5
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'regional:warehouse:3320:3700',
+      roadId: 'regional:S26-extension:in:4',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRoad::regional:warehouse:3320:3700::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'regional:warehouse:3320:3700',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'regional:S26-extension:out:1',
+      distance: 28.728690148389433,
+      roadHalfWidth: 5.625,
+      objectRadius: 37.5
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'regional:warehouse:3320:3700',
+      roadId: 'regional:S26-extension:out:1',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRoad::v8-industrial-tonggang-2::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'v8-industrial-tonggang-2',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-port-yard-split-c91-section',
+      distance: 0.9007587177636549,
+      roadHalfWidth: 3.2,
+      objectRadius: 40.59249983314638
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'v8-industrial-tonggang-2',
+      roadId: 'v8-port-yard-split-c91-section',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'building.intersectsRoad::v8-industrial-tonggang-2::',
+    code: 'building.intersectsRoad',
+    severity: 'warning',
+    objectId: 'v8-industrial-tonggang-2',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v8-port-south-split-split-2-split-2-m91',
+      distance: 12.204634172415346,
+      roadHalfWidth: 7.2,
+      objectRadius: 38.75923480421897
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'v8-industrial-tonggang-2',
+      roadId: 'v8-port-south-split-split-2-split-2-m91',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'trafficLight.insideCarriageway:v6-logistics-one-split-m91:signal:urban-junction-67:west:urban-junction-67:',
+    code: 'trafficLight.insideCarriageway',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-67:west',
+    roadId: 'v6-logistics-one-split-m91',
+    intersectionId: 'urban-junction-67',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v4-access-3-split-c91',
+      distance: 1.0877480904867332,
+      roadHalfWidth: 7.5,
+      objectRadius: 0.15066335932397537
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'signal:urban-junction-67:west',
+      roadId: 'v4-access-3-split-c91',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  {
+    id: 'trafficLight.occludedByStructure:v5-civic-south-split-2-split-split-2-split-v91-m91:signal:urban-junction-46:east:urban-junction-46:',
+    code: 'trafficLight.occludedByStructure',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-46:east',
+    roadId: 'v5-civic-south-split-2-split-split-2-split-v91-m91',
+    intersectionId: 'urban-junction-46',
+    message: 'Approximate incoming sight ray intersects another deck',
+    metrics: { roadId: 'direction-mingyuan-main-section-section' },
+    approximate: true,
+    reviewRequired: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v4-west-offset-c91:signal:urban-junction-55:north:urban-junction-55:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-55:north',
+    roadId: 'v4-west-offset-c91',
+    intersectionId: 'urban-junction-55',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-55' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-shanghai-road-split-2-split-split-split-m91:signal:urban-junction-55:east:urban-junction-55:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-55:east',
+    roadId: 'v8-shanghai-road-split-2-split-split-split-m91',
+    intersectionId: 'urban-junction-55',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-55' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v4-west-offset-split-2-c91:signal:urban-junction-55:south:urban-junction-55:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-55:south',
+    roadId: 'v4-west-offset-split-2-c91',
+    intersectionId: 'urban-junction-55',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-55' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-shanghai-road-split-m91:signal:urban-junction-55:west:urban-junction-55:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-55:west',
+    roadId: 'v8-shanghai-road-split-m91',
+    intersectionId: 'urban-junction-55',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-55' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v5-west-lane-m91-section:signal:urban-junction-86:north:urban-junction-86:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-86:north',
+    roadId: 'v5-west-lane-m91-section',
+    intersectionId: 'urban-junction-86',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-86' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-shanghai-road-m91:signal:urban-junction-86:east:urban-junction-86:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-86:east',
+    roadId: 'v8-shanghai-road-m91',
+    intersectionId: 'urban-junction-86',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-86' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v5-west-lane-split-3-m91:signal:urban-junction-86:south:urban-junction-86:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-86:south',
+    roadId: 'v5-west-lane-split-3-m91',
+    intersectionId: 'urban-junction-86',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-86' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-shanghai-road-split-2-v91-m91:signal:urban-junction-86:west:urban-junction-86:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-86:west',
+    roadId: 'v8-shanghai-road-split-2-v91-m91',
+    intersectionId: 'urban-junction-86',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-86' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v5-west-lane-split-m91:signal:urban-junction-167:north:urban-junction-167:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-167:north',
+    roadId: 'v5-west-lane-split-m91',
+    intersectionId: 'urban-junction-167',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-167' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-hankou-road-split-2-c91:signal:urban-junction-167:east:urban-junction-167:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-167:east',
+    roadId: 'v8-hankou-road-split-2-c91',
+    intersectionId: 'urban-junction-167',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-167' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v5-west-lane-split-split-m91:signal:urban-junction-167:south:urban-junction-167:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-167:south',
+    roadId: 'v5-west-lane-split-split-m91',
+    intersectionId: 'urban-junction-167',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-167' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-hankou-road-split-c91:signal:urban-junction-167:west:urban-junction-167:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-167:west',
+    roadId: 'v8-hankou-road-split-c91',
+    intersectionId: 'urban-junction-167',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-167' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-hankou-road-c91:signal:urban-junction-175:east:urban-junction-175:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-175:east',
+    roadId: 'v8-hankou-road-c91',
+    intersectionId: 'urban-junction-175',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-175' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-beijing-road-split-split:signal:urban-junction-175:west:urban-junction-175:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-175:west',
+    roadId: 'v8-beijing-road-split-split',
+    intersectionId: 'urban-junction-175',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-175' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-shanghai-road-split-2-split-v91-m91:signal:urban-junction-176:north:urban-junction-176:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-176:north',
+    roadId: 'v8-shanghai-road-split-2-split-v91-m91',
+    intersectionId: 'urban-junction-176',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-176' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-hankou-road-c91:signal:urban-junction-176:east:urban-junction-176:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-176:east',
+    roadId: 'v8-hankou-road-c91',
+    intersectionId: 'urban-junction-176',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-176' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-shanghai-road-split-2-split-split-m91:signal:urban-junction-176:south:urban-junction-176:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-176:south',
+    roadId: 'v8-shanghai-road-split-2-split-split-m91',
+    intersectionId: 'urban-junction-176',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-176' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-hankou-road-split-2-c91:signal:urban-junction-176:west:urban-junction-176:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-176:west',
+    roadId: 'v8-hankou-road-split-2-c91',
+    intersectionId: 'urban-junction-176',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-176' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-campus-south-v91:signal:urban-junction-212:east:urban-junction-212:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-212:east',
+    roadId: 'v8-campus-south-v91',
+    intersectionId: 'urban-junction-212',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-212' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v61-university-north-split-2:signal:urban-junction-212:west:urban-junction-212:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-212:west',
+    roadId: 'v61-university-north-split-2',
+    intersectionId: 'urban-junction-212',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-212' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.occludedByStructure:v8-port-works-c91:signal:urban-junction-234:east:urban-junction-234:',
+    code: 'trafficLight.occludedByStructure',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-234:east',
+    roadId: 'v8-port-works-c91',
+    intersectionId: 'urban-junction-234',
+    message: 'Approximate incoming sight ray intersects another deck',
+    metrics: { roadId: 'v6-logistics-one-split-3-split-2-m91' },
+    approximate: true,
+    reviewRequired: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-beijing-road-split-split-section:signal:urban-junction-21:north:urban-junction-21:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-21:north',
+    roadId: 'v8-beijing-road-split-split-section',
+    intersectionId: 'urban-junction-21',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-21' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v91-ring-west-underpass:signal:urban-junction-21:east:urban-junction-21:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-21:east',
+    roadId: 'v91-ring-west-underpass',
+    intersectionId: 'urban-junction-21',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-21' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-beijing-road-split-split-split:signal:urban-junction-21:south:urban-junction-21:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-21:south',
+    roadId: 'v8-beijing-road-split-split-split',
+    intersectionId: 'urban-junction-21',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-21' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-ring-west-cross-split:signal:urban-junction-21:west:urban-junction-21:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-21:west',
+    roadId: 'v8-ring-west-cross-split',
+    intersectionId: 'urban-junction-21',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-21' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-lake-west-c91-section:signal:urban-junction-57:east:urban-junction-57:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-57:east',
+    roadId: 'v9-lake-west-c91-section',
+    intersectionId: 'urban-junction-57',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-57' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v4-north-split-3-split-3-split-m91:signal:urban-junction-57:west:urban-junction-57:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-57:west',
+    roadId: 'v4-north-split-3-split-3-split-m91',
+    intersectionId: 'urban-junction-57',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-57' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-lake-loop-north:signal:urban-junction-84:north:urban-junction-84:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-84:north',
+    roadId: 'v9-lake-loop-north',
+    intersectionId: 'urban-junction-84',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-84' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-lake-loop-north-split-c91:signal:urban-junction-84:west:urban-junction-84:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-84:west',
+    roadId: 'v9-lake-loop-north-split-c91',
+    intersectionId: 'urban-junction-84',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-84' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-lake-east-c91:signal:urban-junction-130:east:urban-junction-130:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-130:east',
+    roadId: 'v9-lake-east-c91',
+    intersectionId: 'urban-junction-130',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-130' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v4-north-split-3-split-split-2-split-2-split-m91:signal:urban-junction-130:west:urban-junction-130:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-130:west',
+    roadId: 'v4-north-split-3-split-split-2-split-2-split-m91',
+    intersectionId: 'urban-junction-130',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-130' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-lake-east-c91:signal:urban-junction-177:east:urban-junction-177:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-177:east',
+    roadId: 'v9-lake-east-c91',
+    intersectionId: 'urban-junction-177',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-177' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-lake-loop-south-split:signal:urban-junction-177:west:urban-junction-177:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-177:west',
+    roadId: 'v9-lake-loop-south-split',
+    intersectionId: 'urban-junction-177',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-177' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:urban-underpass-start-approach-c91:signal:urban-junction-197:north:urban-junction-197:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-197:north',
+    roadId: 'urban-underpass-start-approach-c91',
+    intersectionId: 'urban-junction-197',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-197' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-gongren-street-split-split-3-m91:signal:urban-junction-197:east:urban-junction-197:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-197:east',
+    roadId: 'v8-gongren-street-split-split-3-m91',
+    intersectionId: 'urban-junction-197',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-197' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v8-gongren-street-split-split-3-m91:signal:urban-junction-198:north:urban-junction-198:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-198:north',
+    roadId: 'v8-gongren-street-split-split-3-m91',
+    intersectionId: 'urban-junction-198',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-198' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-lake-loop-north-split-c91:signal:urban-junction-198:east:urban-junction-198:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-198:east',
+    roadId: 'v9-lake-loop-north-split-c91',
+    intersectionId: 'urban-junction-198',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-198' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-lake-loop-north-split-split-c91:signal:urban-junction-198:west:urban-junction-198:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-198:west',
+    roadId: 'v9-lake-loop-north-split-split-c91',
+    intersectionId: 'urban-junction-198',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-198' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v61-exhibition-road-split-split-split:signal:urban-junction-11:north:urban-junction-11:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-11:north',
+    roadId: 'v61-exhibition-road-split-split-split',
+    intersectionId: 'urban-junction-11',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-11' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-chunhui-east-split-split-split:signal:urban-junction-11:east:urban-junction-11:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-11:east',
+    roadId: 'v9-chunhui-east-split-split-split',
+    intersectionId: 'urban-junction-11',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-11' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-one:signal:urban-junction-16:east:urban-junction-16:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-16:east',
+    roadId: 'v9-newcity-one',
+    intersectionId: 'urban-junction-16',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-16' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:urban-east-arterial-split-split-3:signal:urban-junction-16:west:urban-junction-16:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-16:west',
+    roadId: 'urban-east-arterial-split-split-3',
+    intersectionId: 'urban-junction-16',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-16' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:urban-diagonal-split-split-split-split-3-split:signal:urban-junction-17:north:urban-junction-17:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-17:north',
+    roadId: 'urban-diagonal-split-split-split-split-3-split',
+    intersectionId: 'urban-junction-17',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-17' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-one:signal:urban-junction-17:east:urban-junction-17:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-17:east',
+    roadId: 'v9-newcity-one',
+    intersectionId: 'urban-junction-17',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-17' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:urban-diagonal-split-split-split-split-2-split-c91:signal:urban-junction-17:south:urban-junction-17:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-17:south',
+    roadId: 'urban-diagonal-split-split-split-split-2-split-c91',
+    intersectionId: 'urban-junction-17',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-17' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-one-split:signal:urban-junction-17:west:urban-junction-17:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-17:west',
+    roadId: 'v9-newcity-one-split',
+    intersectionId: 'urban-junction-17',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-17' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-chunhui-east:signal:urban-junction-20:north:urban-junction-20:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-20:north',
+    roadId: 'v9-chunhui-east',
+    intersectionId: 'urban-junction-20',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-20' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-one-split:signal:urban-junction-20:east:urban-junction-20:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-20:east',
+    roadId: 'v9-newcity-one-split',
+    intersectionId: 'urban-junction-20',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-20' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-three:signal:urban-junction-100:east:urban-junction-100:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-100:east',
+    roadId: 'v9-newcity-three',
+    intersectionId: 'urban-junction-100',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-100' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:urban-east-arterial-split-split-3-split-split-3-v91:signal:urban-junction-100:west:urban-junction-100:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-100:west',
+    roadId: 'urban-east-arterial-split-split-3-split-split-3-v91',
+    intersectionId: 'urban-junction-100',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-100' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-chunhui-east-split:signal:urban-junction-183:north:urban-junction-183:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-183:north',
+    roadId: 'v9-chunhui-east-split',
+    intersectionId: 'urban-junction-183',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-183' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-three-split-split-split-split-split:signal:urban-junction-183:east:urban-junction-183:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-183:east',
+    roadId: 'v9-newcity-three-split-split-split-split-split',
+    intersectionId: 'urban-junction-183',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-183' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-four:signal:urban-junction-184:east:urban-junction-184:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-184:east',
+    roadId: 'v9-newcity-four',
+    intersectionId: 'urban-junction-184',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-184' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:urban-east-arterial-split-split-3-split-split-split-2:signal:urban-junction-184:west:urban-junction-184:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-184:west',
+    roadId: 'urban-east-arterial-split-split-3-split-split-split-2',
+    intersectionId: 'urban-junction-184',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-184' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-chunhui-east-split-split:signal:urban-junction-185:north:urban-junction-185:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-185:north',
+    roadId: 'v9-chunhui-east-split-split',
+    intersectionId: 'urban-junction-185',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-185' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-four-split-split-split-split-split:signal:urban-junction-185:east:urban-junction-185:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-185:east',
+    roadId: 'v9-newcity-four-split-split-split-split-split',
+    intersectionId: 'urban-junction-185',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-185' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-seven-split-2-c91:signal:urban-junction-186:east:urban-junction-186:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-186:east',
+    roadId: 'v9-newcity-seven-split-2-c91',
+    intersectionId: 'urban-junction-186',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-186' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v4-central-split-split-m91:signal:urban-junction-186:south:urban-junction-186:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-186:south',
+    roadId: 'v4-central-split-split-m91',
+    intersectionId: 'urban-junction-186',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-186' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-seven-split-c91:signal:urban-junction-186:west:urban-junction-186:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-186:west',
+    roadId: 'v9-newcity-seven-split-c91',
+    intersectionId: 'urban-junction-186',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-186' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-seven:signal:urban-junction-187:east:urban-junction-187:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-187:east',
+    roadId: 'v9-newcity-seven',
+    intersectionId: 'urban-junction-187',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-187' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:urban-east-arterial-split-split-3-split-split-split-split-c91:signal:urban-junction-187:west:urban-junction-187:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-187:west',
+    roadId: 'urban-east-arterial-split-split-3-split-split-split-split-c91',
+    intersectionId: 'urban-junction-187',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-187' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-eight:signal:urban-junction-188:east:urban-junction-188:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-188:east',
+    roadId: 'v9-newcity-eight',
+    intersectionId: 'urban-junction-188',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-188' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:urban-east-arterial-split-split-split-3-c91:signal:urban-junction-188:west:urban-junction-188:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-188:west',
+    roadId: 'urban-east-arterial-split-split-split-3-c91',
+    intersectionId: 'urban-junction-188',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-188' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v5-east-garden-split:signal:urban-junction-189:north:urban-junction-189:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-189:north',
+    roadId: 'v5-east-garden-split',
+    intersectionId: 'urban-junction-189',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-189' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-two:signal:urban-junction-189:east:urban-junction-189:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-189:east',
+    roadId: 'v9-newcity-two',
+    intersectionId: 'urban-junction-189',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-189' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v5-east-garden-split-split-2:signal:urban-junction-189:south:urban-junction-189:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-189:south',
+    roadId: 'v5-east-garden-split-split-2',
+    intersectionId: 'urban-junction-189',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-189' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-two-split:signal:urban-junction-189:west:urban-junction-189:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-189:west',
+    roadId: 'v9-newcity-two-split',
+    intersectionId: 'urban-junction-189',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-189' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-three:signal:urban-junction-191:north:urban-junction-191:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-191:north',
+    roadId: 'v9-newcity-three',
+    intersectionId: 'urban-junction-191',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-191' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-two-split:signal:urban-junction-191:east:urban-junction-191:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-191:east',
+    roadId: 'v9-newcity-two-split',
+    intersectionId: 'urban-junction-191',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-191' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-three-split:signal:urban-junction-191:south:urban-junction-191:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-191:south',
+    roadId: 'v9-newcity-three-split',
+    intersectionId: 'urban-junction-191',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-191' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-two-split-split-2-v91:signal:urban-junction-191:west:urban-junction-191:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-191:west',
+    roadId: 'v9-newcity-two-split-split-2-v91',
+    intersectionId: 'urban-junction-191',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-191' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-four:signal:urban-junction-192:north:urban-junction-192:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-192:north',
+    roadId: 'v9-newcity-four',
+    intersectionId: 'urban-junction-192',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-192' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-two-split-split-v91:signal:urban-junction-192:east:urban-junction-192:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-192:east',
+    roadId: 'v9-newcity-two-split-split-v91',
+    intersectionId: 'urban-junction-192',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-192' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-four-split:signal:urban-junction-192:south:urban-junction-192:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-192:south',
+    roadId: 'v9-newcity-four-split',
+    intersectionId: 'urban-junction-192',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-192' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-two-split-split-split:signal:urban-junction-192:west:urban-junction-192:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-192:west',
+    roadId: 'v9-newcity-two-split-split-split',
+    intersectionId: 'urban-junction-192',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-192' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-seven:signal:urban-junction-193:north:urban-junction-193:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-193:north',
+    roadId: 'v9-newcity-seven',
+    intersectionId: 'urban-junction-193',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-193' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-two-split-split-split:signal:urban-junction-193:east:urban-junction-193:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-193:east',
+    roadId: 'v9-newcity-two-split-split-split',
+    intersectionId: 'urban-junction-193',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-193' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-seven-split-2-c91:signal:urban-junction-193:south:urban-junction-193:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-193:south',
+    roadId: 'v9-newcity-seven-split-2-c91',
+    intersectionId: 'urban-junction-193',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-193' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideJunctionConflict:v9-newcity-two-split-split-split-split:signal:urban-junction-193:west:urban-junction-193:',
+    code: 'trafficLight.insideJunctionConflict',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-193:west',
+    roadId: 'v9-newcity-two-split-split-split-split',
+    intersectionId: 'urban-junction-193',
+    message: 'Object envelope intersects junction pavement',
+    metrics: { intersectionId: 'urban-junction-193' },
+    approximate: true
+  },
+  {
+    id: 'trafficLight.insideCarriageway:v9-newcity-eight:signal:urban-junction-194:north:urban-junction-194:',
+    code: 'trafficLight.insideCarriageway',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-194:north',
+    roadId: 'v9-newcity-eight',
+    intersectionId: 'urban-junction-194',
+    message: 'Object envelope intersects carriageway',
+    metrics: {
+      roadId: 'v9-newcity-two-split-split-split-split-split',
+      distance: 0.9985674758017922,
+      roadHalfWidth: 3.2,
+      objectRadius: 0.15005115077697018
+    },
+    approximate: true,
+    repair: {
+      op: 'reanchorObject',
+      id: 'signal:urban-junction-194:north',
+      roadId: 'v9-newcity-two-split-split-split-split-split',
+      strategy: 'moveOutsideCarriageway'
+    }
+  },
+  ... 43 more items
+]

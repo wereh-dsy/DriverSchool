@@ -1,0 +1,488 @@
+{
+  "schemaVersion": 1,
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "system-west:N-to-W-right",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": false,
+        "elevationOnly": true,
+        "maxDisplacement": 2.842170943040401e-14,
+        "elevationDelta": 1.2861241585572456,
+        "controlPointsChanged": 59,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": -1985.78125,
+              "y": 0,
+              "z": -484.92460299639635
+            },
+            "after": {
+              "x": -1985.78125,
+              "y": 0,
+              "z": -484.92460299639635
+            }
+          },
+          "end": {
+            "before": {
+              "x": -2240,
+              "y": 7.836374812947452,
+              "z": -159.06710930257236
+            },
+            "after": {
+              "x": -2240,
+              "y": 7.836374812947453,
+              "z": -159.06710930257236
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.11139557495031971,
+        "afterMaxHeadingDelta": 0.11139557495031971,
+        "crossingElevationsPreserved": true
+      },
+      {
+        "id": "system-west:W-to-S-right",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": false,
+        "elevationOnly": true,
+        "maxDisplacement": 5.3290705182007514e-14,
+        "elevationDelta": 1.3058820053524673,
+        "controlPointsChanged": 110,
+        "endpointsChanged": false,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": -2240,
+              "y": 7.836374812947452,
+              "z": -141.97245958302477
+            },
+            "after": {
+              "x": -2240,
+              "y": 7.836374812947452,
+              "z": -141.97245958302477
+            }
+          },
+          "end": {
+            "before": {
+              "x": -1985.78125,
+              "y": 0,
+              "z": 189.97613460708533
+            },
+            "after": {
+              "x": -1985.78125,
+              "y": 0,
+              "z": 189.97613460708533
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.10873894876360612,
+        "afterMaxHeadingDelta": 0.1087389487636079,
+        "crossingElevationsPreserved": true
+      }
+    ]
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "road-safety:system-west:N-to-W-right:false:guide:280",
+        "type": "roadSign",
+        "displacement": 1.9895196601282805e-13,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "system-west:N-to-W-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 279.99999999999966,
+          "lateralOffset": -3.3500000000002523,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": 2.3528778306618596,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "system-west:N-to-W-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 279.9999999999998,
+          "lateralOffset": -3.3500000000003327,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": 2.3528778306618596,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "road-safety:system-west:N-to-W-right:false:guide:355",
+        "type": "roadSign",
+        "displacement": 0.16926313818118244,
+        "heightDelta": 0.16926313818118244,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "system-west:N-to-W-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 355,
+          "lateralOffset": -3.3500000000000294,
+          "verticalOffset": -3.4416913763379853e-15,
+          "facingDirection": "forward",
+          "expectedHeading": 2.039710509986908,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "system-west:N-to-W-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 355,
+          "lateralOffset": -3.35000000000008,
+          "verticalOffset": 2.220446049250313e-16,
+          "facingDirection": "forward",
+          "expectedHeading": 2.039710509986908,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "road-safety:system-west:W-to-S-right:false:guide:130",
+        "type": "roadSign",
+        "displacement": 1.4210854715202004e-14,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 130.00000000000006,
+          "lateralOffset": -3.3499999999999757,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -2.1365427546626057,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 130.00000000000006,
+          "lateralOffset": -3.3499999999999757,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -2.1365427546626057,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "road-safety:system-west:W-to-S-right:false:guide:205",
+        "type": "roadSign",
+        "displacement": 4.973799150320701e-14,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 204.99999999999986,
+          "lateralOffset": -3.3499999999998815,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -2.4339828391366938,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 204.99999999999997,
+          "lateralOffset": -3.349999999999854,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -2.4339828391366938,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "road-safety:system-west:W-to-S-right:false:guide:280",
+        "type": "roadSign",
+        "displacement": 4.4853010194856324e-14,
+        "heightDelta": 0,
+        "rotationDelta": -5.329070518200751e-15,
+        "anchorBefore": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 279.99999999999983,
+          "lateralOffset": -3.349999999999905,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -2.6864376613127092,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 280,
+          "lateralOffset": -3.3499999999998824,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -2.686437661312715,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "road-safety:system-west:W-to-S-right:false:guide:355",
+        "type": "roadSign",
+        "displacement": 9.947598300641403e-14,
+        "heightDelta": 0,
+        "rotationDelta": 1.7763568394002505e-15,
+        "anchorBefore": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 355.0000000000001,
+          "lateralOffset": 3.34999999999999,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -2.9707100717237527,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 355.00000000000006,
+          "lateralOffset": 3.34999999999999,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -2.970710071723751,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "road-safety:system-west:W-to-S-right:false:speed:65",
+        "type": "roadSign",
+        "displacement": 0.5411330197354016,
+        "heightDelta": -0.5411330197354016,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 64.99999999999967,
+          "lateralOffset": 3.050000000000104,
+          "verticalOffset": -2.4868995751603507e-14,
+          "facingDirection": "forward",
+          "expectedHeading": -1.8363046472163524,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "system-west:W-to-S-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 64.9999999999997,
+          "lateralOffset": 3.050000000000214,
+          "verticalOffset": -1.8207657603852567e-14,
+          "facingDirection": "forward",
+          "expectedHeading": -1.8363046472163524,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [
+    {
+      "roadId": "system-west:N-to-W-right",
+      "before": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 45,
+        "barrierOffset": 0
+      },
+      "after": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 45,
+        "barrierOffset": 0
+      },
+      "beforeType": "elevated",
+      "afterType": "elevated"
+    },
+    {
+      "roadId": "system-west:W-to-S-right",
+      "before": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 45,
+        "barrierOffset": 0
+      },
+      "after": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 45,
+        "barrierOffset": 0
+      },
+      "beforeType": "elevated",
+      "afterType": "elevated"
+    }
+  ],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": -2243.7,
+    "maxX": -1982.08125,
+    "minZ": -488.62460299639633,
+    "maxZ": 193.67613460708532
+  },
+  "maxRoadDisplacement": 5.3290705182007514e-14,
+  "maxElevationDelta": 1.3058820053524673,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 2,
+      "deadEnds": [
+        "ring-ccw-3-split-2",
+        "ew-wb-split-split-split-split-split-split-2",
+        "ew-eb-split-6",
+        "ring-ccw-0-split-split-2"
+      ],
+      "adjacency": [
+        {
+          "id": "system-west:N-to-W-right",
+          "links": [
+            "ring-ccw-3-split-2",
+            "ew-wb-split-split-split-split-split-split-2"
+          ]
+        },
+        {
+          "id": "system-west:W-to-S-right",
+          "links": [
+            "ew-eb-split-6",
+            "ring-ccw-0-split-split-2"
+          ]
+        },
+        {
+          "id": "ring-ccw-3-split-2",
+          "links": [
+            "system-west:N-to-W-right"
+          ]
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-split-2",
+          "links": [
+            "system-west:N-to-W-right"
+          ]
+        },
+        {
+          "id": "ew-eb-split-6",
+          "links": [
+            "system-west:W-to-S-right"
+          ]
+        },
+        {
+          "id": "ring-ccw-0-split-split-2",
+          "links": [
+            "system-west:W-to-S-right"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 2,
+      "deadEnds": [
+        "ring-ccw-3-split-2",
+        "ew-wb-split-split-split-split-split-split-2",
+        "ew-eb-split-6",
+        "ring-ccw-0-split-split-2"
+      ],
+      "adjacency": [
+        {
+          "id": "system-west:N-to-W-right",
+          "links": [
+            "ring-ccw-3-split-2",
+            "ew-wb-split-split-split-split-split-split-2"
+          ]
+        },
+        {
+          "id": "system-west:W-to-S-right",
+          "links": [
+            "ew-eb-split-6",
+            "ring-ccw-0-split-split-2"
+          ]
+        },
+        {
+          "id": "ring-ccw-3-split-2",
+          "links": [
+            "system-west:N-to-W-right"
+          ]
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-split-2",
+          "links": [
+            "system-west:N-to-W-right"
+          ]
+        },
+        {
+          "id": "ew-eb-split-6",
+          "links": [
+            "system-west:W-to-S-right"
+          ]
+        },
+        {
+          "id": "ring-ccw-0-split-split-2",
+          "links": [
+            "system-west:W-to-S-right"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

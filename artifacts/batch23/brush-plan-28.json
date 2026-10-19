@@ -1,0 +1,393 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "hardscape",
+    "objectIds": [
+      "v6-industrial-yard-253",
+      "v6-industrial-yard-255",
+      "v6-industrial-yard-257",
+      "v6-industrial-yard-259",
+      "v6-industrial-yard-261",
+      "v6-industrial-yard-263"
+    ],
+    "bbox": {
+      "minX": -1299.4,
+      "maxX": -244.71428571428578,
+      "minZ": 2557.16647097344,
+      "maxZ": 2572.2
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-industrial-yard-253",
+      "state": "INVALID",
+      "position": {
+        "x": -1280.516313678086,
+        "y": 0.1967245583616139,
+        "z": 2515.998276182898
+      },
+      "rotation": -1.9719075328573132,
+      "anchor": {
+        "anchorRoadId": "v8-industrial-west-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 68.8863408763763,
+        "lateralOffset": -7.295158594952264,
+        "verticalOffset": 0.11882622321966324,
+        "facingDirection": "forward",
+        "expectedHeading": -1.387747442894348,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.insideLane::v6-industrial-yard-253::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v6-industrial-yard-253",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v8-industrial-west-split",
+            "distance": 7.295158594952264,
+            "roadHalfWidth": 3.2,
+            "objectRadius": 53.29025731255598
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-industrial-yard-253",
+            "roadId": "v8-industrial-west-split",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.autoMoveExceeded:v6-industrial-yard-253",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-industrial-yard-253",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-yard-253",
+          "properties": {
+            "position": {
+              "x": -1280.516313678086,
+              "y": 0.1967245583616139,
+              "z": 2515.998276182898
+            },
+            "rotation": -1.9719075328573132
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-yard-253",
+      "heightMode": "GROUND",
+      "autoMove": 45.8037629977993
+    },
+    {
+      "id": "v6-industrial-yard-255",
+      "state": "INVALID",
+      "position": {
+        "x": -1092.8058372100186,
+        "y": 0.5165578233207091,
+        "z": 2528.1002783896743
+      },
+      "rotation": -1.5811014297197303,
+      "anchor": {
+        "anchorRoadId": "v8-industrial-west-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 269.1364168771266,
+        "lateralOffset": 34.33320009127446,
+        "verticalOffset": 0.4708812724331459,
+        "facingDirection": "forward",
+        "expectedHeading": -1.867441677497588,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:v6-industrial-yard-255",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-industrial-yard-255",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-yard-255",
+          "properties": {
+            "position": {
+              "x": -1092.8058372100186,
+              "y": 0.5165578233207091,
+              "z": 2528.1002783896743
+            },
+            "rotation": -1.5811014297197303
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-yard-255",
+      "heightMode": "GROUND",
+      "autoMove": 43.10201039560601
+    },
+    {
+      "id": "v6-industrial-yard-257",
+      "state": "INVALID",
+      "position": {
+        "x": -893.9290290614051,
+        "y": -0.0399907195861793,
+        "z": 2615.133900446249
+      },
+      "rotation": -1.867441677497588,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-2-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 465.1123117460627,
+        "lateralOffset": 21.668191286379326,
+        "verticalOffset": -0.06394186436780112,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5764623731035838,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.insideLane::v6-industrial-yard-257::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v6-industrial-yard-257",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v4-industrial-split-2-split-2",
+            "distance": 21.668191286379326,
+            "roadHalfWidth": 7.5,
+            "objectRadius": 53.922869595301826
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-industrial-yard-257",
+            "roadId": "v4-industrial-split-2-split-2",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.autoMoveExceeded:v6-industrial-yard-257",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-industrial-yard-257",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-yard-257",
+          "properties": {
+            "position": {
+              "x": -893.9290290614051,
+              "y": -0.0399907195861793,
+              "z": 2615.133900446249
+            },
+            "rotation": -1.867441677497588
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-yard-257",
+      "heightMode": "GROUND",
+      "autoMove": 45.94052387714045
+    },
+    {
+      "id": "v6-industrial-yard-259",
+      "state": "INVALID",
+      "position": {
+        "x": -668.5997677976903,
+        "y": -0.04,
+        "z": 2530.284341503906
+      },
+      "rotation": -1.5701037014584902,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-2-split-2-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 76.78440558475187,
+        "lateralOffset": -63.73098745182485,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5701037014584902,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:v6-industrial-yard-259",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-industrial-yard-259",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-yard-259",
+          "properties": {
+            "position": {
+              "x": -668.5997677976903,
+              "y": -0.04,
+              "z": 2530.284341503906
+            },
+            "rotation": -1.5701037014584902
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-yard-259",
+      "heightMode": "GROUND",
+      "autoMove": 40.915728189544865
+    },
+    {
+      "id": "v6-industrial-yard-261",
+      "state": "INVALID",
+      "position": {
+        "x": -457.3406742529222,
+        "y": -0.04,
+        "z": 2529.6733760149014
+      },
+      "rotation": -1.5660327415378323,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-2-split-2-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 288.30397887583274,
+        "lateralOffset": -63.730987451824944,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5660327415378323,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:v6-industrial-yard-261",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-industrial-yard-261",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-yard-261",
+          "properties": {
+            "position": {
+              "x": -457.3406742529222,
+              "y": -0.04,
+              "z": 2529.6733760149014
+            },
+            "rotation": -1.5660327415378323
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-yard-261",
+      "heightMode": "GROUND",
+      "autoMove": 41.52715414290739
+    },
+    {
+      "id": "v6-industrial-yard-263",
+      "state": "INVALID",
+      "position": {
+        "x": -246.03860269640862,
+        "y": -0.04,
+        "z": 2528.343327821842
+      },
+      "rotation": -1.5632289918854525,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-2-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 90.59692921443336,
+        "lateralOffset": -63.73098745182506,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5632289918854525,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:v6-industrial-yard-263",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-industrial-yard-263",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-yard-263",
+          "properties": {
+            "position": {
+              "x": -246.03860269640862,
+              "y": -0.04,
+              "z": 2528.343327821842
+            },
+            "rotation": -1.5632289918854525
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-yard-263",
+      "heightMode": "GROUND",
+      "autoMove": 42.8579564572433
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 6,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 6,
+    "skipped": 6,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

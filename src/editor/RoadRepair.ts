@@ -222,7 +222,8 @@ function nearestStation(points: readonly CityPoint[], target: CityPoint): number
 export function smoothAlignment(source: readonly CityPoint[], options: AlignmentOptions = {}): { points: CityPoint[]; metrics: RepairMetrics } {
   const original = source.map(p => ({ ...p })), originalStations = stationTable(original);
   const length = polylineLength(original);
-  const start = clamp(options.start ?? 0, 0, length), end = clamp(options.end ?? length, start, length);
+  const snap=(station:number)=>originalStations.find(s=>Math.abs(s-station)<.05)??station;
+  const start = snap(clamp(options.start ?? 0, 0, length)), end = snap(clamp(options.end ?? length, start, length));
   if (end - start < 1 || original.length < 3) return { points: original, metrics: emptyMetrics(start, end) };
   const preserve = start > 0 || end < length || options.preserveEndpoints !== false;
   const strength = clamp(options.strength ?? 1, 0.1, 2.5);

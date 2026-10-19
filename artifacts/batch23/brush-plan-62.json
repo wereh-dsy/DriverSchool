@@ -1,0 +1,937 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight_dual",
+    "objectIds": [
+      "v6-lamps-979",
+      "v6-lamps-980",
+      "v6-lamps-2042",
+      "v6-lamps-2043",
+      "v6-lamps-2045",
+      "v6-lamps-2138",
+      "v6-lamps-2154",
+      "v6-lamps-2155",
+      "v6-lamps-2275",
+      "v6-lamps-2276",
+      "v6-lamps-2552",
+      "v6-lamps-2586",
+      "v6-lamps-2612",
+      "v6-lamps-2660",
+      "v6-lamps-2661",
+      "v61-road-lamp-19"
+    ],
+    "bbox": {
+      "minX": -819.5255288934032,
+      "maxX": 0.26765998376367484,
+      "minZ": 28.531588529722317,
+      "maxZ": 1476.9369679210067
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-979",
+      "state": "VALID",
+      "position": {
+        "x": -250.93496977773415,
+        "y": -0.04,
+        "z": 962.5968215813307
+      },
+      "rotation": -0.813426774469954,
+      "anchor": {
+        "anchorRoadId": "access-inner-mingyuan",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 56.28372170100565,
+        "lateralOffset": 12.74581544695389,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570652852238451,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-979",
+          "properties": {
+            "position": {
+              "x": -250.93496977773415,
+              "y": -0.04,
+              "z": 962.5968215813307
+            },
+            "rotation": -0.813426774469954
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-979",
+      "heightMode": "GROUND",
+      "autoMove": 3.5280948688508964
+    },
+    {
+      "id": "v6-lamps-980",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -245.67558999145163,
+        "y": -0.04,
+        "z": 939.1502513058742
+      },
+      "rotation": -1.570652852238451,
+      "anchor": {
+        "anchorRoadId": "access-inner-mingyuan",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 61.54646541941504,
+        "lateralOffset": -10.699999999999942,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570652852238451,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-980",
+          "properties": {
+            "position": {
+              "x": -245.67558999145163,
+              "y": -0.04,
+              "z": 939.1502513058742
+            },
+            "rotation": -1.570652852238451
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-980",
+      "heightMode": "GROUND",
+      "autoMove": 3.3937591614098768
+    },
+    {
+      "id": "v6-lamps-2042",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -0.75,
+        "y": -0.04,
+        "z": 970.3665540989903
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "ns-tunnel:southbound-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 20.366554098990264,
+        "lateralOffset": -7.375,
+        "verticalOffset": 7.96,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "tunnel",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2042",
+          "properties": {
+            "position": {
+              "x": -0.75,
+              "y": -0.04,
+              "z": 970.3665540989903
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2042",
+      "heightMode": "GROUND",
+      "autoMove": 2.00695487618096
+    },
+    {
+      "id": "v6-lamps-2043",
+      "state": "INVALID",
+      "position": {
+        "x": 0.46213203435596384,
+        "y": -0.04,
+        "z": 935.8854300420321
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "ns-tunnel:northbound-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 14.114569957967888,
+        "lateralOffset": -7.662867965644036,
+        "verticalOffset": 7.96,
+        "facingDirection": "forward",
+        "expectedHeading": 0,
+        "structureType": "tunnel",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "streetlight.insideJunction::v6-lamps-2043::",
+          "code": "streetlight.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-lamps-2043",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-38"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2043",
+          "properties": {
+            "position": {
+              "x": 0.46213203435596384,
+              "y": -0.04,
+              "z": 935.8854300420321
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2043",
+      "heightMode": "GROUND",
+      "autoMove": 3.515197100749597
+    },
+    {
+      "id": "v6-lamps-2045",
+      "state": "VALID",
+      "position": {
+        "x": -84.72050830255768,
+        "y": -0.04,
+        "z": 940.4150263256621
+      },
+      "rotation": -1.570652852238451,
+      "anchor": {
+        "anchorRoadId": "access-inner-mingyuan-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 111.82996981286226,
+        "lateralOffset": -9.412132034355958,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570652852238451,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2045",
+          "properties": {
+            "position": {
+              "x": -84.72050830255768,
+              "y": -0.04,
+              "z": 940.4150263256621
+            },
+            "rotation": -1.570652852238451
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2045",
+      "heightMode": "GROUND",
+      "autoMove": 9.094723503029941
+    },
+    {
+      "id": "v6-lamps-2138",
+      "state": "VALID",
+      "position": {
+        "x": -586.273392261941,
+        "y": -0.04,
+        "z": 773.2121320343559
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-south-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 177.46027724249245,
+        "lateralOffset": 9.212132034355932,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2138",
+          "properties": {
+            "position": {
+              "x": -586.273392261941,
+              "y": -0.04,
+              "z": 773.2121320343559
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2138",
+      "heightMode": "GROUND",
+      "autoMove": 7.601960209764405
+    },
+    {
+      "id": "v6-lamps-2154",
+      "state": "INVALID",
+      "position": {
+        "x": -34.484463363996895,
+        "y": -0.04,
+        "z": 754.7878679656441
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-south-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 65.88026047693133,
+        "lateralOffset": -9.212132034355932,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "streetlight.insideJunction::v6-lamps-2154::",
+          "code": "streetlight.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-lamps-2154",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-46"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2154",
+          "properties": {
+            "position": {
+              "x": -34.484463363996895,
+              "y": -0.04,
+              "z": 754.7878679656441
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2154",
+      "heightMode": "GROUND",
+      "autoMove": 3.0721180025850408
+    },
+    {
+      "id": "v6-lamps-2155",
+      "state": "INVALID",
+      "position": {
+        "x": -34.484463363996895,
+        "y": -0.04,
+        "z": 773.2121320343559
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-south-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 65.88026047693133,
+        "lateralOffset": 9.212132034355932,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "streetlight.insideLane::v6-lamps-2155::",
+          "code": "streetlight.insideLane",
+          "severity": "warning",
+          "objectId": "v6-lamps-2155",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "direction-mingyuan-main-section-section",
+            "distance": 3.4698941077112044,
+            "roadHalfWidth": 11.25,
+            "objectRadius": 0.21200280925225035
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-lamps-2155",
+            "roadId": "direction-mingyuan-main-section-section",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.intersectsRoadStructure::v6-lamps-2155::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "v6-lamps-2155",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "direction-mingyuan-main-section-section",
+            "deckY": 6.5,
+            "objectTop": 9.96
+          },
+          "approximate": true
+        },
+        {
+          "id": "streetlight.insideJunction::v6-lamps-2155::",
+          "code": "streetlight.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-lamps-2155",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-46"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2155",
+          "properties": {
+            "position": {
+              "x": -34.484463363996895,
+              "y": -0.04,
+              "z": 773.2121320343559
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2155",
+      "heightMode": "GROUND",
+      "autoMove": 2.2167112657728656
+    },
+    {
+      "id": "v6-lamps-2275",
+      "state": "INVALID",
+      "position": {
+        "x": -14.812973947953111,
+        "y": -0.04,
+        "z": 488.537867965644
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-central-split-3-split-2-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 173.54471056399333,
+        "lateralOffset": -13.462132034355989,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "streetlight.insideJunction::v6-lamps-2275::",
+          "code": "streetlight.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-lamps-2275",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-48"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2275",
+          "properties": {
+            "position": {
+              "x": -14.812973947953111,
+              "y": -0.04,
+              "z": 488.537867965644
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2275",
+      "heightMode": "GROUND",
+      "autoMove": 4.945416669587003
+    },
+    {
+      "id": "v6-lamps-2276",
+      "state": "INVALID",
+      "position": {
+        "x": -14.812973947953111,
+        "y": -0.04,
+        "z": 515.4621320343559
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-central-split-3-split-2-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 173.54471056399333,
+        "lateralOffset": 13.462132034355932,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "streetlight.insideJunction::v6-lamps-2276::",
+          "code": "streetlight.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-lamps-2276",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-48"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2276",
+          "properties": {
+            "position": {
+              "x": -14.812973947953111,
+              "y": -0.04,
+              "z": 515.4621320343559
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2276",
+      "heightMode": "GROUND",
+      "autoMove": 4.279184188572983
+    },
+    {
+      "id": "v6-lamps-2552",
+      "state": "VALID",
+      "position": {
+        "x": -507.287867965644,
+        "y": -0.04,
+        "z": 320.05913476531225
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-civic-avenue-split-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 62.04723000340749,
+        "lateralOffset": -12.712132034355989,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2552",
+          "properties": {
+            "position": {
+              "x": -507.287867965644,
+              "y": -0.04,
+              "z": 320.05913476531225
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2552",
+      "heightMode": "GROUND",
+      "autoMove": 2.5683086929102275
+    },
+    {
+      "id": "v6-lamps-2586",
+      "state": "VALID",
+      "position": {
+        "x": -820.7121320343559,
+        "y": -0.04,
+        "z": 77.32671451048238
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-civic-west-split-split-2-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 118.23576810782414,
+        "lateralOffset": 5.712132034355932,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2586",
+          "properties": {
+            "position": {
+              "x": -820.7121320343559,
+              "y": -0.04,
+              "z": 77.32671451048238
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2586",
+      "heightMode": "GROUND",
+      "autoMove": 2.1928951858272074
+    },
+    {
+      "id": "v6-lamps-2612",
+      "state": "VALID",
+      "position": {
+        "x": -295.712132034356,
+        "y": -0.04,
+        "z": 29.531588529722313
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-civic-block-road-split-2-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 71.28111777970467,
+        "lateralOffset": 5.712132034355989,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2612",
+          "properties": {
+            "position": {
+              "x": -295.712132034356,
+              "y": -0.04,
+              "z": 29.531588529722313
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2612",
+      "heightMode": "GROUND",
+      "autoMove": 4.962320901313114
+    },
+    {
+      "id": "v6-lamps-2660",
+      "state": "VALID",
+      "position": {
+        "x": -196.25179903284678,
+        "y": -0.04,
+        "z": 249.1737791471255
+      },
+      "rotation": -1.570793515461299,
+      "anchor": {
+        "anchorRoadId": "v91-plaza-civic-west-t",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 76.24817450686508,
+        "lateralOffset": 9.41213203435597,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570793515461299,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2660",
+          "properties": {
+            "position": {
+              "x": -196.25179903284678,
+              "y": -0.04,
+              "z": 249.1737791471255
+            },
+            "rotation": -1.570793515461299
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2660",
+      "heightMode": "GROUND",
+      "autoMove": 2.803697685993691
+    },
+    {
+      "id": "v6-lamps-2661",
+      "state": "VALID",
+      "position": {
+        "x": -77.1127654310224,
+        "y": -0.04,
+        "z": 230.34918013877123
+      },
+      "rotation": -1.570793515461299,
+      "anchor": {
+        "anchorRoadId": "v91-plaza-civic-west-t",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 195.38726103044624,
+        "lateralOffset": -9.41213203435597,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570793515461299,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2661",
+          "properties": {
+            "position": {
+              "x": -77.1127654310224,
+              "y": -0.04,
+              "z": 230.34918013877123
+            },
+            "rotation": -1.570793515461299
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2661",
+      "heightMode": "GROUND",
+      "autoMove": 2.8089703186441817
+    },
+    {
+      "id": "v61-road-lamp-19",
+      "state": "VALID",
+      "position": {
+        "x": -180.5831417301312,
+        "y": -0.04,
+        "z": 1480.409335775911
+      },
+      "rotation": -1.4801248793260813,
+      "anchor": {
+        "anchorRoadId": "direction-south-avenue-section-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 611.5736877939007,
+        "lateralOffset": 9.412132034355938,
+        "verticalOffset": -7.050481613518328,
+        "facingDirection": "forward",
+        "expectedHeading": -1.4801248793260813,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-road-lamp-19",
+          "properties": {
+            "position": {
+              "x": -180.5831417301312,
+              "y": -0.04,
+              "z": 1480.409335775911
+            },
+            "rotation": -1.4801248793260813
+          }
+        }
+      ],
+      "sourceId": "v61-road-lamp-19",
+      "heightMode": "GROUND",
+      "autoMove": 4.490993544872213
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-979",
+      "properties": {
+        "position": {
+          "x": -250.93496977773415,
+          "y": -0.04,
+          "z": 962.5968215813307
+        },
+        "rotation": -0.813426774469954
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-980",
+      "properties": {
+        "position": {
+          "x": -245.67558999145163,
+          "y": -0.04,
+          "z": 939.1502513058742
+        },
+        "rotation": -1.570652852238451
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2042",
+      "properties": {
+        "position": {
+          "x": -0.75,
+          "y": -0.04,
+          "z": 970.3665540989903
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2045",
+      "properties": {
+        "position": {
+          "x": -84.72050830255768,
+          "y": -0.04,
+          "z": 940.4150263256621
+        },
+        "rotation": -1.570652852238451
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2138",
+      "properties": {
+        "position": {
+          "x": -586.273392261941,
+          "y": -0.04,
+          "z": 773.2121320343559
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2552",
+      "properties": {
+        "position": {
+          "x": -507.287867965644,
+          "y": -0.04,
+          "z": 320.05913476531225
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2586",
+      "properties": {
+        "position": {
+          "x": -820.7121320343559,
+          "y": -0.04,
+          "z": 77.32671451048238
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2612",
+      "properties": {
+        "position": {
+          "x": -295.712132034356,
+          "y": -0.04,
+          "z": 29.531588529722313
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2660",
+      "properties": {
+        "position": {
+          "x": -196.25179903284678,
+          "y": -0.04,
+          "z": 249.1737791471255
+        },
+        "rotation": -1.570793515461299
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2661",
+      "properties": {
+        "position": {
+          "x": -77.1127654310224,
+          "y": -0.04,
+          "z": 230.34918013877123
+        },
+        "rotation": -1.570793515461299
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v61-road-lamp-19",
+      "properties": {
+        "position": {
+          "x": -180.5831417301312,
+          "y": -0.04,
+          "z": 1480.409335775911
+        },
+        "rotation": -1.4801248793260813
+      }
+    }
+  ],
+  "stats": {
+    "planned": 16,
+    "valid": 9,
+    "adjusted": 2,
+    "invalid": 5,
+    "skipped": 5,
+    "added": 0,
+    "moved": 11,
+    "removed": 0
+  },
+  "valid": true
+}

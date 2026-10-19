@@ -1,0 +1,912 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight_dual",
+    "objectIds": [
+      "v6-lamps-283",
+      "v6-lamps-284",
+      "v6-lamps-335",
+      "v6-lamps-336",
+      "v6-lamps-419",
+      "v6-lamps-420",
+      "v6-lamps-422",
+      "v6-lamps-423",
+      "v6-lamps-424",
+      "v6-lamps-799",
+      "v6-lamps-800",
+      "v6-lamps-804",
+      "v6-lamps-1319",
+      "v6-lamps-1320",
+      "v6-lamps-1321",
+      "v6-lamps-1322"
+    ],
+    "bbox": {
+      "minX": 56.82215898470105,
+      "maxX": 1816.002679728608,
+      "minZ": -279.9217795801013,
+      "maxZ": -21.090097650432824
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-283",
+      "state": "INVALID",
+      "position": {
+        "x": 648.75,
+        "y": 8,
+        "z": -132.78786796564404
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split-split-5",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 23.75,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-283",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-283",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split-split-5",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-283",
+          "properties": {
+            "position": {
+              "x": 648.75,
+              "y": 8,
+              "z": -132.78786796564404
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-283",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.3521794459874306
+    },
+    {
+      "id": "v6-lamps-284",
+      "state": "INVALID",
+      "position": {
+        "x": 873.75,
+        "y": 8,
+        "z": -132.78786796564404
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split-split-5",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 248.75,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-284",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-284",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split-split-5",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-284",
+          "properties": {
+            "position": {
+              "x": 873.75,
+              "y": 8,
+              "z": -132.78786796564404
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-284",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.3521794459874306
+    },
+    {
+      "id": "v6-lamps-335",
+      "state": "INVALID",
+      "position": {
+        "x": 1727.4902524634767,
+        "y": 8,
+        "z": -172.54546536768922
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-wb-split-3-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 70.75924218672913,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-335",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-335",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-wb-split-3-split-split",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-335",
+          "properties": {
+            "position": {
+              "x": 1727.4902524634767,
+              "y": 8,
+              "z": -172.54546536768922
+            },
+            "rotation": 1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-335",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.521703253950539
+    },
+    {
+      "id": "v6-lamps-336",
+      "state": "INVALID",
+      "position": {
+        "x": 1303.1469576130041,
+        "y": 7.784177905053815,
+        "z": -169.71093373481077
+      },
+      "rotation": 1.6720176133563291,
+      "anchor": {
+        "anchorRoadId": "v91-ew-east-wb-on",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 150.9123357305507,
+        "lateralOffset": 5.837132034355959,
+        "verticalOffset": -8.881784197001252e-16,
+        "facingDirection": "forward",
+        "expectedHeading": 1.6720176133563291,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-336",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-336",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "v91-ew-east-wb-on",
+            "lateralOffset": 5.837132034355959
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-336",
+          "properties": {
+            "position": {
+              "x": 1303.1469576130041,
+              "y": 7.784177905053815,
+              "z": -169.71093373481077
+            },
+            "rotation": 1.6720176133563291
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-336",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 4.905778008846675
+    },
+    {
+      "id": "v6-lamps-419",
+      "state": "INVALID",
+      "position": {
+        "x": 1086.337240064,
+        "y": 8,
+        "z": -172.54546536768922
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-wb-split-3-split-split-split-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 63.66275993599993,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-419",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-419",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-wb-split-3-split-split-split-section",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-419",
+          "properties": {
+            "position": {
+              "x": 1086.337240064,
+              "y": 8,
+              "z": -172.54546536768922
+            },
+            "rotation": 1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-419",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.040056658544481
+    },
+    {
+      "id": "v6-lamps-420",
+      "state": "INVALID",
+      "position": {
+        "x": 832.5,
+        "y": 8,
+        "z": -172.54546536768922
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-wb-split-3-split-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 123.75,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-420",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-420",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-wb-split-3-split-split-split-split",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-420",
+          "properties": {
+            "position": {
+              "x": 832.5,
+              "y": 8,
+              "z": -172.54546536768922
+            },
+            "rotation": 1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-420",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.040056658544481
+    },
+    {
+      "id": "v6-lamps-422",
+      "state": "INVALID",
+      "position": {
+        "x": 1064.0205899610978,
+        "y": 8,
+        "z": -132.78786796564404
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split-split-4",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 107.77058996109781,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-422",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-422",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split-split-4",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-422",
+          "properties": {
+            "position": {
+              "x": 1064.0205899610978,
+              "y": 8,
+              "z": -132.78786796564404
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-422",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.3521794459874306
+    },
+    {
+      "id": "v6-lamps-423",
+      "state": "INVALID",
+      "position": {
+        "x": 1366.2830699571634,
+        "y": 8,
+        "z": -132.78786796564404
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split-split-4-split-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 81.28306995716343,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-423",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-423",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split-split-4-split-section",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-423",
+          "properties": {
+            "position": {
+              "x": 1366.2830699571634,
+              "y": 8,
+              "z": -132.78786796564404
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-423",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.347657069256835
+    },
+    {
+      "id": "v6-lamps-424",
+      "state": "INVALID",
+      "position": {
+        "x": 1818.456646600494,
+        "y": 3.8208317709916657,
+        "z": -125.29858724889438
+      },
+      "rotation": -0.9792957465721217,
+      "anchor": {
+        "anchorRoadId": "v91-ew-east-eb-on",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 55.619298685342166,
+        "lateralOffset": -4.837132034356022,
+        "verticalOffset": 1.1102230246251565e-14,
+        "facingDirection": "forward",
+        "expectedHeading": -0.9792957465721217,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-424",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-424",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "v91-ew-east-eb-on",
+            "lateralOffset": -4.837132034356022
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-424",
+          "properties": {
+            "position": {
+              "x": 1818.456646600494,
+              "y": 3.8208317709916657,
+              "z": -125.29858724889438
+            },
+            "rotation": -0.9792957465721217
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-424",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 6.5402631332946255
+    },
+    {
+      "id": "v6-lamps-799",
+      "state": "VALID",
+      "position": {
+        "x": 110.37796387213666,
+        "y": 10.505152626901959,
+        "z": -82.3711725395248
+      },
+      "rotation": -1.6580505771906373,
+      "anchor": {
+        "anchorRoadId": "system-central:N-to-E-semi",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 772.4189594392394,
+        "lateralOffset": 5.912132034355963,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6580505771906373,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-799",
+          "properties": {
+            "position": {
+              "x": 110.37796387213666,
+              "y": 10.505152626901959,
+              "z": -82.3711725395248
+            },
+            "rotation": -1.6580505771906373
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-799",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 6.0347920225136455
+    },
+    {
+      "id": "v6-lamps-800",
+      "state": "INVALID",
+      "position": {
+        "x": 348.40787915364757,
+        "y": 8,
+        "z": -132.78786796564404
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split-2-split-split-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 23.40787915364757,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-800",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-800",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split-2-split-split-split-2",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-800",
+          "properties": {
+            "position": {
+              "x": 348.40787915364757,
+              "y": 8,
+              "z": -132.78786796564404
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-800",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 4.72990808957918
+    },
+    {
+      "id": "v6-lamps-804",
+      "state": "VALID",
+      "position": {
+        "x": 58.205508530210935,
+        "y": 4.569074265993109,
+        "z": -278.87361729326324
+      },
+      "rotation": -0.1249806044375203,
+      "anchor": {
+        "anchorRoadId": "system-central:W-to-N-semi",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 729.2685650341332,
+        "lateralOffset": 5.912132034355963,
+        "verticalOffset": -8.881784197001252e-16,
+        "facingDirection": "forward",
+        "expectedHeading": -0.1249806044375203,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-804",
+          "properties": {
+            "position": {
+              "x": 58.205508530210935,
+              "y": 4.569074265993109,
+              "z": -278.87361729326324
+            },
+            "rotation": -0.1249806044375203
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-804",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 5.288285035896094
+    },
+    {
+      "id": "v6-lamps-1319",
+      "state": "INVALID",
+      "position": {
+        "x": 1142.1931119113779,
+        "y": 8,
+        "z": -132.78786796564404
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split-split-4-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 72.19311191137785,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-1319",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-1319",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split-split-4-split-2",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-1319",
+          "properties": {
+            "position": {
+              "x": 1142.1931119113779,
+              "y": 8,
+              "z": -132.78786796564404
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-1319",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 7.721213801027559
+    },
+    {
+      "id": "v6-lamps-1320",
+      "state": "INVALID",
+      "position": {
+        "x": 1122.5450188471027,
+        "y": 8,
+        "z": -132.78786796564404
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split-split-4-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 52.54501884710271,
+        "lateralOffset": 9.58713203435596,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-1320",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-1320",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split-split-4-split-2",
+            "lateralOffset": 9.58713203435596
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-1320",
+          "properties": {
+            "position": {
+              "x": 1122.5450188471027,
+              "y": 8,
+              "z": -132.78786796564404
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-1320",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 15.745423490723896
+    },
+    {
+      "id": "v6-lamps-1321",
+      "state": "VALID",
+      "position": {
+        "x": 1189.466097904092,
+        "y": 0.2004778204213532,
+        "z": -33.066583657288064
+      },
+      "rotation": -3.026633441226452,
+      "anchor": {
+        "anchorRoadId": "v4-inner-1-split-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 63.68896082331404,
+        "lateralOffset": -9.712132034355918,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -3.026633441226452,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-1321",
+          "properties": {
+            "position": {
+              "x": 1189.466097904092,
+              "y": 0.2004778204213532,
+              "z": -33.066583657288064
+            },
+            "rotation": -3.026633441226452
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-1321",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 11.298854920483716
+    },
+    {
+      "id": "v6-lamps-1322",
+      "state": "VALID",
+      "position": {
+        "x": 1171.0147310490133,
+        "y": 0.19208709916626704,
+        "z": -23.523190054126854
+      },
+      "rotation": -3.026633441226452,
+      "anchor": {
+        "anchorRoadId": "v4-inner-1-split-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 71.05287728634553,
+        "lateralOffset": 9.712132034355921,
+        "verticalOffset": -2.7755575615628914e-17,
+        "facingDirection": "forward",
+        "expectedHeading": -3.026633441226452,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-1322",
+          "properties": {
+            "position": {
+              "x": 1171.0147310490133,
+              "y": 0.19208709916626704,
+              "z": -23.523190054126854
+            },
+            "rotation": -3.026633441226452
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-1322",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 13.910413888200178
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-799",
+      "properties": {
+        "position": {
+          "x": 110.37796387213666,
+          "y": 10.505152626901959,
+          "z": -82.3711725395248
+        },
+        "rotation": -1.6580505771906373
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-804",
+      "properties": {
+        "position": {
+          "x": 58.205508530210935,
+          "y": 4.569074265993109,
+          "z": -278.87361729326324
+        },
+        "rotation": -0.1249806044375203
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1321",
+      "properties": {
+        "position": {
+          "x": 1189.466097904092,
+          "y": 0.2004778204213532,
+          "z": -33.066583657288064
+        },
+        "rotation": -3.026633441226452
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1322",
+      "properties": {
+        "position": {
+          "x": 1171.0147310490133,
+          "y": 0.19208709916626704,
+          "z": -23.523190054126854
+        },
+        "rotation": -3.026633441226452
+      }
+    }
+  ],
+  "stats": {
+    "planned": 16,
+    "valid": 4,
+    "adjusted": 0,
+    "invalid": 12,
+    "skipped": 12,
+    "added": 0,
+    "moved": 4,
+    "removed": 0
+  },
+  "valid": true
+}

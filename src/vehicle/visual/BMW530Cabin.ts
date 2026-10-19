@@ -87,6 +87,9 @@ export function buildBMW530Cabin(root: T.Group, c: VehicleVisualConfig, steering
   strip('Dashboard ambient line', Array.from({length:17},(_,j) => {
     const x = T.MathUtils.lerp(-.825,.825,j/16); return [x,.812,frontFaceZ(x)+.027] as P;
   }));
+  // A single line under the display ledge ties the screens into the dashboard
+  // without adding a second lighting system or wrapping the console.
+  strip('BMW centre display lower ambient edge', [[-.672,.821,-.580],[.346,.821,-.580]]);
   const cowl = sweep('BMW closed windshield lower cowl', Array.from({length:33},(_,j) => {
     const [x,y,z] = bmwWindshieldPoint(0,j/32);
     return [[x,y-.014,z-.026],[x,y+.003,z-.008],[x,y-.007,z+.034],
@@ -304,9 +307,9 @@ export function buildBMW530Cabin(root: T.Group, c: VehicleVisualConfig, steering
     ambient.emissiveIntensity = level;
     frontAmbient.emissiveIntensity = level*1.18;
     for (const light of spills) light.intensity = (light.userData.maximum as number) * level / profile.nightIntensity;
-    const brightness = on ? .66 + .34 * Math.min(1, Math.max(0, daylight)) : 0;
+    const brightness = on ? .70 + .30 * Math.min(1, Math.max(0, daylight)) : 0;
     for (const material of texts) material.opacity = on ? .62 + .22 * daylight : 0;
-    screenMaterial.emissiveIntensity = brightness; screenMaterial.color.setScalar(on ? .06 : 0);
+    screenMaterial.emissiveIntensity = brightness; screenMaterial.color.setScalar(on ? .055 : 0);
     screenMaterial.envMapIntensity = on ? .1 : 0;
     centerDisplay.update(t,dt,t.vehicleStatus);
   } };

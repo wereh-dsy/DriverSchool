@@ -1,0 +1,87 @@
+{
+  "inspection": {
+    "key": "-1:1:tree:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "tree",
+      "objectIds": [
+        "v6-road-trees-902"
+      ],
+      "bbox": {
+        "minX": -2,
+        "maxX": 0,
+        "minZ": 2476.3613479876444,
+        "maxZ": 2478.3613479876444
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-902",
+      "properties": {
+        "position": {
+          "x": 0.7250603543801208,
+          "y": -0.04000000000000001,
+          "z": 2477.3709316562795
+        },
+        "rotation": 3.1360371551891006
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-53",
+    "revision": 52,
+    "label": "objects-60",
+    "created": [],
+    "modified": [
+      "v6-road-trees-902"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -41,
+      "maxX": 40.72506035438012,
+      "minZ": 2437.3613479876444,
+      "maxZ": 2517.3709316562795
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-road-trees-902",
+          "regional:S26:out",
+          "regional:S26:out:split370",
+          "regional:S26:in:split82:split96:split130:split136:split150:split168:split380",
+          "regional:S26:in:split82:split96:split130:split136:split150:split168:lane208",
+          "regional:S26:out:lane316",
+          "regional:S26:in:split82:split96:split130:split136:split150:split168:split380:lane320",
+          "ns-sb-split-split-split-split-split-split-split",
+          "ns-nb",
+          "system-south:feeder-1",
+          "ns-nb-split-3-split"
+        ],
+        "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

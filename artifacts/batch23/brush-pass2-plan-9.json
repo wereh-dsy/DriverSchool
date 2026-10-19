@@ -1,0 +1,141 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "noise_barrier",
+    "objectIds": [
+      "landscape-noise_barrier-668",
+      "landscape-noise_barrier-672"
+    ],
+    "bbox": {
+      "minX": 899,
+      "maxX": 1011,
+      "minZ": -2024.5810604907972,
+      "maxZ": -2006.343313579529
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-noise_barrier-668",
+      "state": "INVALID",
+      "position": {
+        "x": 991.6663114738355,
+        "y": -0.04,
+        "z": -1925.6326185846829
+      },
+      "rotation": -2.094395102385415,
+      "anchor": {
+        "anchorRoadId": "v91-ring-north-outer-cd",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 1.1708440265083258e-14,
+        "lateralOffset": -15.601124936725823,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -2.094395102385415,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:landscape-noise_barrier-668",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-668",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-668",
+          "properties": {
+            "position": {
+              "x": 991.6663114738355,
+              "y": -0.04,
+              "z": -1925.6326185846829
+            },
+            "rotation": -2.094395102385415
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-668",
+      "heightMode": "GROUND",
+      "autoMove": 84.12730479169758
+    },
+    {
+      "id": "landscape-noise_barrier-672",
+      "state": "INVALID",
+      "position": {
+        "x": 922.3202008712809,
+        "y": -0.04,
+        "z": -2102.9532074161684
+      },
+      "rotation": -0.05297618343164579,
+      "anchor": {
+        "anchorRoadId": "v61-university-north",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 6.750155989721213e-14,
+        "lateralOffset": -15.201124936725865,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -0.05297618343164579,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:landscape-noise_barrier-672",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-672",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-672",
+          "properties": {
+            "position": {
+              "x": 922.3202008712809,
+              "y": -0.04,
+              "z": -2102.9532074161684
+            },
+            "rotation": -0.05297618343164579
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-672",
+      "heightMode": "GROUND",
+      "autoMove": 82.84184132717625
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 2,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

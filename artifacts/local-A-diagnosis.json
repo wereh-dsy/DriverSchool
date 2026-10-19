@@ -1,0 +1,161 @@
+{
+  "scope": "bbox",
+  "revision": 0,
+  "coverage": {
+    "roadsChecked": 5,
+    "roadsTotal": 2922,
+    "intersectionsChecked": 2,
+    "intersectionsTotal": 303
+  },
+  "counts": {
+    "error": 0,
+    "warning": 1,
+    "info": 8,
+    "total": 9,
+    "bySeverity": {
+      "error": 0,
+      "warning": 1,
+      "info": 8
+    },
+    "byCode": {
+      "topology.deadEnd": 1,
+      "geometry.redundantControlPoints": 4,
+      "vertical.redundantElevationPoints": 4
+    }
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "topology.deadEnd",
+      "roadId": "urban-north-arterial-split-m91",
+      "message": "Open start endpoint; verify this is an intentional terminus",
+      "metrics": {
+        "end": "start"
+      },
+      "station": 0,
+      "corridorId": "corridor:north-avenue:arterial-4"
+    },
+    {
+      "severity": "info",
+      "code": "geometry.redundantControlPoints",
+      "roadId": "ring-ccw-2-split-split-split",
+      "message": "164 redundant centerline points",
+      "metrics": {
+        "redundantPoints": 164
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "ring-ccw-2-split-split-split",
+        "tolerance": 0.2
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2"
+    },
+    {
+      "severity": "info",
+      "code": "geometry.redundantControlPoints",
+      "roadId": "ring-cw-1-split-3-split-split-split-split",
+      "message": "203 redundant centerline points",
+      "metrics": {
+        "redundantPoints": 203
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "ring-cw-1-split-3-split-split-split-split",
+        "tolerance": 0.2
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2"
+    },
+    {
+      "severity": "info",
+      "code": "geometry.redundantControlPoints",
+      "roadId": "urban-north-arterial-split-split-m91-approach",
+      "message": "26 redundant centerline points",
+      "metrics": {
+        "redundantPoints": 26
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "urban-north-arterial-split-split-m91-approach",
+        "tolerance": 0.2
+      },
+      "corridorId": "corridor:north-avenue:arterial-4"
+    },
+    {
+      "severity": "info",
+      "code": "geometry.redundantControlPoints",
+      "roadId": "v4-north-split-split-m91-approach",
+      "message": "83 redundant centerline points",
+      "metrics": {
+        "redundantPoints": 83
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "v4-north-split-split-m91-approach",
+        "tolerance": 0.2
+      },
+      "corridorId": "corridor:north-avenue:arterial-4"
+    },
+    {
+      "severity": "info",
+      "code": "vertical.redundantElevationPoints",
+      "roadId": "ring-ccw-2-split-split-split",
+      "message": "201 redundant elevation points",
+      "metrics": {
+        "redundantPoints": 201
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "ring-ccw-2-split-split-split",
+        "tolerance": 0.1
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2"
+    },
+    {
+      "severity": "info",
+      "code": "vertical.redundantElevationPoints",
+      "roadId": "ring-cw-1-split-3-split-split-split-split",
+      "message": "240 redundant elevation points",
+      "metrics": {
+        "redundantPoints": 240
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "ring-cw-1-split-3-split-split-split-split",
+        "tolerance": 0.1
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2"
+    },
+    {
+      "severity": "info",
+      "code": "vertical.redundantElevationPoints",
+      "roadId": "urban-north-arterial-split-split-m91-approach",
+      "message": "26 redundant elevation points",
+      "metrics": {
+        "redundantPoints": 26
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "urban-north-arterial-split-split-m91-approach",
+        "tolerance": 0.1
+      },
+      "corridorId": "corridor:north-avenue:arterial-4"
+    },
+    {
+      "severity": "info",
+      "code": "vertical.redundantElevationPoints",
+      "roadId": "v4-north-split-split-m91-approach",
+      "message": "96 redundant elevation points",
+      "metrics": {
+        "redundantPoints": 96
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "v4-north-split-split-m91-approach",
+        "tolerance": 0.1
+      },
+      "corridorId": "corridor:north-avenue:arterial-4"
+    }
+  ],
+  "truncated": false,
+  "mapDigest": "c5ef31970cfc26ef855d60acb4cc7232b10418b9e64f6a0aa2726f9e53e64b5d"
+}

@@ -1,0 +1,103 @@
+{
+  "inspection": {
+    "record": {
+      "id": "v61-station-platform--1-340",
+      "kind": "prefab",
+      "type": "station_platform",
+      "position": {
+        "x": -1522.2471706006331,
+        "y": 0,
+        "z": 488.57142857142856
+      },
+      "rotation": 0,
+      "derived": false,
+      "size": {
+        "width": 8.5,
+        "height": 4.8,
+        "depth": 20,
+        "approximate": true
+      }
+    },
+    "best": {
+      "candidate": {
+        "id": "v61-station-platform--1-340",
+        "kind": "prefab",
+        "type": "station_platform",
+        "position": {
+          "x": -1522.2471706006331,
+          "y": -0.04,
+          "z": 478.75
+        },
+        "rotation": -1.5707963267948966,
+        "derived": false,
+        "size": {
+          "width": 8.5,
+          "height": 4.8,
+          "depth": 20,
+          "approximate": true
+        }
+      },
+      "score": 9.821428571428555
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v61-station-platform--1-340",
+      "properties": {
+        "position": {
+          "x": -1522.2471706006331,
+          "y": -0.04,
+          "z": 478.75
+        },
+        "rotation": -1.5707963267948966
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "station-roof-clearance",
+    "created": [],
+    "modified": [
+      "v61-station-platform--1-340"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1562.2471706006331,
+      "maxX": -1482.2471706006331,
+      "minZ": 438.75,
+      "maxZ": 528.5714285714286
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v61-station-platform--1-340",
+          "v4-central-split-5-m91",
+          "v5-west-lane-split-2-split-m91",
+          "urban-junction-35"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v61-station-platform--1-340"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v61-station-platform--1-340"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

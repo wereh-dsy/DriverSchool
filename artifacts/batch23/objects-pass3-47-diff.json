@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "urban-junction-212",
+        "armsBefore": [
+          {
+            "roadId": "v61-university-north",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-campus-south-v91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v61-university-north-split-2",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "armsAfter": [
+          {
+            "roadId": "v61-university-north",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-campus-south-v91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v61-university-north-split-2",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "markingsRegenerated": false
+      }
+    ]
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "signal:urban-junction-212:east",
+        "type": "trafficLight",
+        "displacement": 3.0000000000000533,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v8-campus-south-v91",
+          "anchorIntersectionId": "urban-junction-212",
+          "approach": "east",
+          "station": 0,
+          "lateralOffset": -4.199999999999806,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 4.70661663667163,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v8-campus-south-v91",
+          "anchorIntersectionId": "urban-junction-212",
+          "approach": "east",
+          "station": 0,
+          "lateralOffset": -4.199999999999888,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 4.70661663667163,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "signal:urban-junction-212:west",
+        "type": "trafficLight",
+        "displacement": 9.899494936611301,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v61-university-north-split-2",
+          "anchorIntersectionId": "urban-junction-212",
+          "approach": "west",
+          "station": 0,
+          "lateralOffset": -4.199999999999917,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 3.091257327359654,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v61-university-north-split-2",
+          "anchorIntersectionId": "urban-junction-212",
+          "approach": "west",
+          "station": 0,
+          "lateralOffset": -11.199999999999962,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 3.091257327359654,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 903.3476193004749,
+    "maxX": 983.3476193004749,
+    "minZ": -2253.9954963788878,
+    "maxZ": -2173.9954963788878
+  },
+  "maxRoadDisplacement": 0,
+  "maxElevationDelta": 0,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 1,
+      "deadEnds": [],
+      "adjacency": [
+        {
+          "id": "v61-university-north",
+          "links": [
+            "v8-campus-south-v91",
+            "v61-university-north-split-2"
+          ]
+        },
+        {
+          "id": "v8-campus-south-v91",
+          "links": [
+            "v61-university-north",
+            "v61-university-north-split-2",
+            "access-finance-north",
+            "v8-campus-south-v91-section"
+          ]
+        },
+        {
+          "id": "v61-university-north-split-2",
+          "links": [
+            "v8-campus-avenue-v91",
+            "v61-university-north-split",
+            "v61-university-north",
+            "v8-campus-south-v91"
+          ]
+        },
+        {
+          "id": "v8-campus-avenue-v91",
+          "links": [
+            "v61-university-north-split-2",
+            "v61-university-north-split"
+          ]
+        },
+        {
+          "id": "v61-university-north-split",
+          "links": [
+            "v61-university-north-split-2",
+            "v8-campus-avenue-v91"
+          ]
+        },
+        {
+          "id": "access-finance-north",
+          "links": [
+            "v8-campus-south-v91",
+            "v8-campus-south-v91-section"
+          ]
+        },
+        {
+          "id": "v8-campus-south-v91-section",
+          "links": [
+            "access-finance-north",
+            "v8-campus-south-v91"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 1,
+      "deadEnds": [],
+      "adjacency": [
+        {
+          "id": "v61-university-north",
+          "links": [
+            "v8-campus-south-v91",
+            "v61-university-north-split-2"
+          ]
+        },
+        {
+          "id": "v8-campus-south-v91",
+          "links": [
+            "v61-university-north",
+            "v61-university-north-split-2",
+            "access-finance-north",
+            "v8-campus-south-v91-section"
+          ]
+        },
+        {
+          "id": "v61-university-north-split-2",
+          "links": [
+            "v8-campus-avenue-v91",
+            "v61-university-north-split",
+            "v61-university-north",
+            "v8-campus-south-v91"
+          ]
+        },
+        {
+          "id": "v8-campus-avenue-v91",
+          "links": [
+            "v61-university-north-split-2",
+            "v61-university-north-split"
+          ]
+        },
+        {
+          "id": "v61-university-north-split",
+          "links": [
+            "v61-university-north-split-2",
+            "v8-campus-avenue-v91"
+          ]
+        },
+        {
+          "id": "access-finance-north",
+          "links": [
+            "v8-campus-south-v91",
+            "v8-campus-south-v91-section"
+          ]
+        },
+        {
+          "id": "v8-campus-south-v91-section",
+          "links": [
+            "access-finance-north",
+            "v8-campus-south-v91"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

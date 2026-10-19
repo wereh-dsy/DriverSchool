@@ -1,0 +1,104 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "v6-road-trees-902"
+    ],
+    "bbox": {
+      "minX": -2,
+      "maxX": 0,
+      "minZ": 2476.3613479876444,
+      "maxZ": 2478.3613479876444
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-road-trees-902",
+      "state": "VALID",
+      "position": {
+        "x": 0.7250603543801208,
+        "y": -0.04000000000000001,
+        "z": 2477.3709316562795
+      },
+      "rotation": 3.1360371551891006,
+      "anchor": {
+        "anchorRoadId": "regional:S26:in:split82:split96:split130:split136:split150:split168:split380:lane320",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 4.2704019527160275,
+        "lateralOffset": -7.424901669127751,
+        "verticalOffset": -0.04000000000000001,
+        "facingDirection": "forward",
+        "expectedHeading": 0.00555549840069245,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::v6-road-trees-902::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "v6-road-trees-902",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "regional:S26:in:split82:split96:split130:split136:split150:split168:split380:lane320",
+            "canopyRadius": 2.1
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-902",
+          "properties": {
+            "position": {
+              "x": 0.7250603543801208,
+              "y": -0.04000000000000001,
+              "z": 2477.3709316562795
+            },
+            "rotation": 3.1360371551891006
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-902",
+      "heightMode": "GROUND",
+      "autoMove": 1.7255506578940458
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-902",
+      "properties": {
+        "position": {
+          "x": 0.7250603543801208,
+          "y": -0.04000000000000001,
+          "z": 2477.3709316562795
+        },
+        "rotation": 3.1360371551891006
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

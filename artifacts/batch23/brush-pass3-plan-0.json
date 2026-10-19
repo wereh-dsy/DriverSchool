@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "traffic_sign",
+    "objectIds": [
+      "diamond-west:exit-sign-2"
+    ],
+    "bbox": {
+      "minX": -1405,
+      "maxX": -1403,
+      "minZ": -120.8925948503603,
+      "maxZ": -118.8925948503603
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "diamond-west:exit-sign-2",
+      "state": "INVALID",
+      "position": {
+        "x": -1403.9314198682127,
+        "y": 8,
+        "z": -121.0235376574234
+      },
+      "rotation": -1.6313619502312977,
+      "anchor": {
+        "anchorRoadId": "ew-eb-split-4",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 112.02348711075126,
+        "lateralOffset": 9.488137084989845,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6313619502312977,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:diamond-west:exit-sign-2",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "diamond-west:exit-sign-2",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ew-eb-split-4",
+            "lateralOffset": 9.488137084989845
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "diamond-west:exit-sign-2",
+          "properties": {
+            "position": {
+              "x": -1403.9314198682127,
+              "y": 8,
+              "z": -121.0235376574234
+            },
+            "rotation": -1.6313619502312977
+          }
+        }
+      ],
+      "sourceId": "diamond-west:exit-sign-2",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 1.1330202413565866
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

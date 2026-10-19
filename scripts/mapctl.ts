@@ -6,17 +6,16 @@ import { EDITOR_ROAD_PRESETS, type EditorCommand, type EditorArea } from '../src
 import { loadCityMap } from '../src/world/city/CityMapLoader';
 import { snapCandidates } from '../src/editor/EditorSnap';
 import { pageDiagnosticReport, repairCommandsFromDiagnosis, type DiagnosticReport, type DiagnosticScope } from '../src/editor/RoadDiagnostics';
+import { assertReceipt, makeReceipt, MAPCTL_HELP } from './mapctl-support';
+import { runEngineeringCommand, requestFlags } from './mapctl-engineering';
 
 const [command, mapArg, ...args] = process.argv.slice(2), flags = new Map<string,string>();
 const json = (value:string) => JSON.parse(value.startsWith('@') ? readFileSync(resolve(value.slice(1)),'utf8').replace(/^\uFEFF/,'') : value);
 const output = (value:unknown) => console.log(JSON.stringify(value??null,null,2));
-const assertCurrentSource = (request: any, digest: string): void => {
-  for (const receipt of [request, request?.diagnosis]) {
-    if (receipt?.mapDigest && receipt.mapDigest !== digest) throw new Error('Map changed since inspect/diagnose/preview; inspect, diagnose or preview again');
-  }
-};
 const usage = 'Usage: pnpm mapctl inspect|query|snap|diagnose|preview|repair|apply|validate <map.json|city-alpha|regional-main> --request @request.json [--out output.json] [--full] [--apply]; page saved diagnostics: query <diagnosis.json> --request {kind:"diagnosis",offset:0,limit:100}';
 try {
+  if(command==='--help'||command==='help'||mapArg==='--help'||args.includes('--help'))output(MAPCTL_HELP);
+  else {
   for(let i=0;i<args.length;i++){
     const arg=args[i]!;
     if(!arg.startsWith('--'))throw new Error('Expected --flag value');
@@ -24,7 +23,7 @@ try {
     if(next===undefined||next.startsWith('--'))flags.set(key,'true');
     else{flags.set(key,next);i++;}
   }
-  const request=flags.has('request')?json(flags.get('request')!):undefined;
+  const request=requestFlags(flags.has('request')?json(flags.get('request')!):undefined,flags);
   if(command==='presets'){output(EDITOR_ROAD_PRESETS);}
   else if(command==='query'&&request?.kind==='diagnosis'){
     if(!mapArg)throw new Error('Diagnosis query requires a saved diagnose --out receipt');
@@ -36,8 +35,11 @@ try {
     if(mapArg==='city-main')throw new Error('Choose regional-main (playable map) or city-main-city (city-only source) explicitly');
     const source=resolve(aliases[mapArg]??mapArg),raw=readFileSync(source,'utf8'),digest=createHash('sha256').update(raw).digest('hex');
     const kernel=new CityEditingKernel(loadCityMap(JSON.parse(raw.replace(/^\uFEFF/,''))));
-    if(command==='preview'||command==='apply'||command==='repair')assertCurrentSource(request,digest);
-    if(command==='inspect'){output(kernel.inspectArea(request??{center:{x:0,z:0},radius:200}));}
+    if(command==='preview'||command==='apply'||command==='repair'||command==='review'||command==='brush')assertReceipt(request,digest);
+    const writesMap=command==='apply'||['repair','brush'].includes(command??'')&&flags.get('apply')==='true';
+    if(flags.has('out')&&resolve(flags.get('out')!).toLowerCase()===source.toLowerCase()&&!writesMap)throw new Error('Read-only output cannot overwrite source map');
+    if(await runEngineeringCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
+    else if(command==='inspect'){output(kernel.inspectArea(request??{center:{x:0,z:0},radius:200}));}
     else if(command==='query'){
       if(request?.kind==='road')output(kernel.getRoad(request.id));else if(request?.kind==='corridor')output(kernel.getCorridor(request.id));else if(request?.kind==='corridors')output(kernel.listCorridors(request.name));else if(request?.kind==='group')output(kernel.getGroup(request.id));else if(request?.kind==='sign')output(kernel.getSign(request.id));else if(request?.kind==='signs')output(kernel.findSigns(request));else if(request?.kind==='intersection')output(kernel.getIntersection(request.id));else if(request?.kind==='connected')output(kernel.getConnectedRoads(request.id));else output(kernel.findRoads(request as RoadQuery));
     }else if(command==='snap')output(snapCandidates(kernel,request.point,request.options));
@@ -62,11 +64,13 @@ try {
       if(!request)throw new Error('--request @operations.json required');
       const operations:EditorCommand|EditorCommand[]=request.operations??request;
       const summary=kernel.preview(operations,request.label??'Agent edit');
-      const receipt={mapDigest:digest,operations,summary};
+      const receipt=makeReceipt(kernel,summary,operations,digest);
+      if(request.affectedIds&&JSON.stringify([...request.affectedIds].sort())!==JSON.stringify(receipt.affectedIds))throw new Error('Affected entities changed; preview again');
       if(command==='preview'){
         if(flags.has('out'))writeFileSync(resolve(flags.get('out')!),JSON.stringify(receipt,null,2)+'\n','utf8');
         output(receipt);if(!summary.valid)process.exitCode=1;
       }else{
+        if(readFileSync(source,'utf8')!==raw)throw new Error('Map changed during preview; inspect and preview again');
         kernel.commit(summary.id);
         const destination=resolve(flags.get('out')??source),temporary=destination+'.tmp-'+process.pid;
         try{writeFileSync(temporary,JSON.stringify(kernel.data,null,2)+'\n','utf8');renameSync(temporary,destination);}finally{if(existsSync(temporary))unlinkSync(temporary);}
@@ -87,8 +91,9 @@ try {
       }else{
         const label=request.label??'Repair roads';
         const summary=kernel.preview(operations,label);
-        const receipt={mapDigest:digest,operations,summary};
+        const receipt=makeReceipt(kernel,summary,operations,digest);
         if(flags.get('apply')==='true'){
+          if(readFileSync(source,'utf8')!==raw)throw new Error('Map changed during preview; inspect and preview again');
           if(!summary.valid)throw new Error(summary.warnings.filter(w=>w.severity==='error').map(w=>w.message).join('\n')||'Repair preview is invalid');
           kernel.commit(summary.id);
           const destination=resolve(flags.get('out')??source),temporary=destination+'.tmp-'+process.pid;
@@ -100,5 +105,6 @@ try {
         }
       }
     }else throw new Error(`Unknown command: ${command}. ${usage}`);
+  }
   }
 }catch(error){output({valid:false,error:String(error)});process.exitCode=1;}

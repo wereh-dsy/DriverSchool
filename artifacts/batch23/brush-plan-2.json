@@ -1,0 +1,158 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "noise_barrier",
+    "objectIds": [
+      "landscape-noise_barrier-18",
+      "landscape-noise_barrier-21"
+    ],
+    "bbox": {
+      "minX": 19.48647393278025,
+      "maxX": 66.31925021257618,
+      "minZ": -2024.7040120934607,
+      "maxZ": -2022.7040120934607
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-noise_barrier-18",
+      "state": "INVALID",
+      "position": {
+        "x": 60.891634014971835,
+        "y": 7.304419736353646,
+        "z": -2022.991953147662
+      },
+      "rotation": 0.15945682925186222,
+      "anchor": {
+        "anchorRoadId": "system-north:W-to-N-star",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 707.2923156856247,
+        "lateralOffset": 15.701124936725892,
+        "verticalOffset": 3.552713678800501e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 0.15945682925186222,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:landscape-noise_barrier-18",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-18",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v6-lamps-864",
+            "actual": 1.9012893647940603,
+            "required": 10.17083056421064
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.unsupportedOnDeck:landscape-noise_barrier-18",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-18",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "system-north:W-to-N-star",
+            "lateralOffset": 15.701124936725892
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-18",
+          "properties": {
+            "position": {
+              "x": 60.891634014971835,
+              "y": 7.304419736353646,
+              "z": -2022.991953147662
+            },
+            "rotation": 0.15945682925186222
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-18",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 4.538132329356962
+    },
+    {
+      "id": "landscape-noise_barrier-21",
+      "state": "INVALID",
+      "position": {
+        "x": 29.624863417532232,
+        "y": 6.963981192884671,
+        "z": -2025.3551994823042
+      },
+      "rotation": 0.17875821426277969,
+      "anchor": {
+        "anchorRoadId": "system-north:W-to-N-star",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 714.874834670599,
+        "lateralOffset": -14.701124936725886,
+        "verticalOffset": -1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 0.17875821426277969,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:landscape-noise_barrier-21",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-21",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "system-north:W-to-N-star",
+            "lateralOffset": -14.701124936725886
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-21",
+          "properties": {
+            "position": {
+              "x": 29.624863417532232,
+              "y": 6.963981192884671,
+              "z": -2025.3551994823042
+            },
+            "rotation": 0.17875821426277969
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-21",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.343977586488426
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 2,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

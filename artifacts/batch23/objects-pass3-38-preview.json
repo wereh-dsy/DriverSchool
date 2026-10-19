@@ -1,0 +1,253 @@
+{
+  "inspection": {
+    "key": "-1:1:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:system-south:E-to-S-loop:false:guide:130",
+        "road-safety:system-south:N-to-W-right:false:guide:205",
+        "road-safety:system-south:N-to-W-right:false:guide:280",
+        "road-safety:system-south:W-to-S-right:false:guide:130",
+        "road-safety:system-south:W-to-S-right:false:guide:205",
+        "road-safety:system-south:W-to-S-right:false:guide:280"
+      ],
+      "bbox": {
+        "minX": -180.34794621672398,
+        "maxX": -23.775864061734275,
+        "minZ": 2037.5641869350545,
+        "maxZ": 2217.604521531651
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 6,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 6,
+      "skipped": 6,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "road-safety:system-south:E-to-S-loop:false:guide:130",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:E-to-S-loop:false:guide:130",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:E-to-S-loop:false:guide:130",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:E-to-S-loop",
+              "groundElevation": -0.04,
+              "actual": -7.991331986070621
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "road-safety:system-south:N-to-W-right:false:guide:205",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:N-to-W-right:false:guide:205",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:N-to-W-right:false:guide:205",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:N-to-W-right",
+              "groundElevation": -0.04,
+              "actual": -4.838453551537589
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "road-safety:system-south:N-to-W-right:false:guide:280",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:N-to-W-right:false:guide:280",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:N-to-W-right:false:guide:280",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:N-to-W-right",
+              "groundElevation": -0.04,
+              "actual": -2.891662618747714
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "road-safety:system-south:W-to-S-right:false:guide:205",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:W-to-S-right:false:guide:205",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:W-to-S-right:false:guide:205",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:W-to-S-right",
+              "groundElevation": -0.04,
+              "actual": -2.126380088073023
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "road-safety:system-south:W-to-S-right:false:guide:280",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:W-to-S-right:false:guide:280",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:W-to-S-right:false:guide:280",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:W-to-S-right",
+              "groundElevation": -0.04,
+              "actual": -3.4033219384579247
+            },
+            "approximate": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-south:W-to-S-right:false:guide:130",
+      "properties": {
+        "position": {
+          "x": -224.97237622569236,
+          "y": 0,
+          "z": 2142.8682995487475
+        },
+        "heading": -1.7586950982272165,
+        "stationMetres": 85
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-38",
+    "created": [],
+    "modified": [
+      "road-safety:system-south:W-to-S-right:false:guide:130"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -263.4026339304088,
+      "maxX": -139.34794621672398,
+      "minZ": 2094.612657919234,
+      "maxZ": 2185.3105825748794
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:system-south:W-to-S-right:false:guide:130",
+          "ring-cw-3",
+          "ring-ccw-1",
+          "system-south:S-to-W-semi",
+          "system-south:N-to-W-right",
+          "system-south:W-to-S-right",
+          "ring-cw-2-split-split",
+          "ring-ccw-0-split-split-split-split"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-3",
+          "system-south:N-to-W-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ring-cw-3-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-W-right",
+          "ns-sb-split-split-split-split-split-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:W-to-S-right",
+          "ns-sb-split-split-split-split-split-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-2-split-split",
+          "system-south:E-to-S-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-0-split-split-split-split",
+          "system-south:W-to-S-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "road-safety:system-south:W-to-S-right:false:guide:130",
+          "system-south:W-to-S-right"
+        ],
+        "message": "Sign support intersects carriageway"
+      }
+    ],
+    "valid": true
+  }
+}

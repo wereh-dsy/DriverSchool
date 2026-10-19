@@ -1,0 +1,144 @@
+{
+  "counts": {
+    "total": 5297,
+    "error": 5,
+    "warning": 382,
+    "info": 4910,
+    "bySeverity": {
+      "error": 5,
+      "warning": 382,
+      "info": 4910
+    },
+    "byCode": {
+      "topology.expresswayCrossing": 5,
+      "geometry.sharpBend": 1,
+      "geometry.shortSegments": 34,
+      "intersection.acuteApproach": 53,
+      "intersection.approachKink": 35,
+      "intersection.shortApproach": 13,
+      "intersection.stalePortAngle": 57,
+      "marking.crosswalkOverlap": 9,
+      "marking.stopLineDisplaced": 40,
+      "topology.deadEnd": 100,
+      "topology.lowClearance": 4,
+      "topology.tinyFragment": 9,
+      "vertical.abruptGradeChange": 66,
+      "vertical.elevationPointOscillation": 6,
+      "vertical.rampReversal": 58,
+      "vertical.wave": 1,
+      "geometry.redundantControlPoints": 2287,
+      "topology.shortConnector": 40,
+      "vertical.gradeReversals": 15,
+      "vertical.redundantElevationPoints": 2358,
+      "vertical.constraintDrivenExtremum": 93,
+      "vertical.localExtremum": 13
+    }
+  },
+  "errors": [
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:S37:in:split108:split126",
+      "message": "Controlled-access crossing with regional:xichuan:N-to-E-turbine:acceleration has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine:acceleration"
+      },
+      "corridorId": "corridor:S37:expressway-2",
+      "id": "topology.expresswayCrossing:regional:S37:in:split108:split126:::regional:xichuan:N-to-E-turbine:acceleration:"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:G38:out:split10:split24:split284:split354",
+      "message": "Controlled-access crossing with regional:shangu:on:1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:shangu:on:1"
+      },
+      "corridorId": "corridor:G38:expressway-2",
+      "id": "topology.expresswayCrossing:regional:G38:out:split10:split24:split284:split354:::regional:shangu:on:1:"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:S37:in:split108:split126:split302:split394",
+      "message": "Controlled-access crossing with regional:hewan:on:-1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:hewan:on:-1"
+      },
+      "corridorId": "corridor:S37:expressway-2",
+      "id": "topology.expresswayCrossing:regional:S37:in:split108:split126:split302:split394:::regional:hewan:on:-1:"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "ring-cw-1-split-3-split-split",
+      "message": "Controlled-access crossing with v8-ring-north:off--1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "v8-ring-north:off--1"
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2",
+      "id": "topology.expresswayCrossing:ring-cw-1-split-3-split-split:::v8-ring-north:off--1:"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "ring-ccw-1-split-3",
+      "message": "Controlled-access crossing with system-south:S-to-E-right has no junction or link",
+      "metrics": {
+        "otherRoadId": "system-south:S-to-E-right"
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2",
+      "id": "topology.expresswayCrossing:ring-ccw-1-split-3:::system-south:S-to-E-right:"
+    }
+  ],
+  "lowClearance": [
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "regional:v3:S29:out:32",
+      "message": "Crossing clearance with regional:v3:northeast-chenjiang:S-to-W-turbine is 5.15 m",
+      "metrics": {
+        "otherRoadId": "regional:v3:northeast-chenjiang:S-to-W-turbine",
+        "clearance": 5.15
+      },
+      "corridorId": "corridor:S29:expressway-2",
+      "id": "topology.lowClearance:regional:v3:S29:out:32:::regional:v3:northeast-chenjiang:S-to-W-turbine:"
+    },
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "regional:v3:S29:in:15",
+      "message": "Crossing clearance with regional:v3:northeast-chenjiang:S-to-W-turbine is 5.15 m",
+      "metrics": {
+        "otherRoadId": "regional:v3:northeast-chenjiang:S-to-W-turbine",
+        "clearance": 5.15
+      },
+      "corridorId": "corridor:S29:expressway-2",
+      "id": "topology.lowClearance:regional:v3:S29:in:15:::regional:v3:northeast-chenjiang:S-to-W-turbine:"
+    },
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "system-north:S-to-E-right",
+      "message": "Crossing clearance with system-north:S-to-W-star is 4.85 m",
+      "metrics": {
+        "otherRoadId": "system-north:S-to-W-star",
+        "clearance": 4.85
+      },
+      "corridorId": "corridor:ring-expressway:ramp-2",
+      "id": "topology.lowClearance:system-north:S-to-E-right:::system-north:S-to-W-star:"
+    },
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "ring-cw-0-split-split-split-2-split-split",
+      "message": "Crossing clearance with system-north:E-to-S-star is 5.45 m",
+      "metrics": {
+        "otherRoadId": "system-north:E-to-S-star",
+        "clearance": 5.45
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2",
+      "id": "topology.lowClearance:ring-cw-0-split-split-split-2-split-split:::system-north:E-to-S-star:"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "mapDigest": "c5ef31970cfc26ef855d60acb4cc7232b10418b9e64f6a0aa2726f9e53e64b5d",
+  "operations": [
+    {
+      "op": "extendRoad",
+      "roadId": "urban-north-arterial-split-m91",
+      "end": "end",
+      "points": [
+        {
+          "x": 2219.6312257616555,
+          "y": 0,
+          "z": -1000
+        }
+      ]
+    },
+    {
+      "op": "deleteRoad",
+      "id": "urban-junction-15"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "A2: close urban-junction-15 gap as a road continuation",
+    "created": [
+      "intersection"
+    ],
+    "modified": [
+      "urban-north-arterial-split-m91",
+      "urban-north-arterial-split-split-m91-approach",
+      "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-15|urban-north-arterial-split|end:URBAN_DIRECTION"
+    ],
+    "deleted": [
+      "urban-junction-15"
+    ],
+    "area": {
+      "minX": 1841.3992204808114,
+      "maxX": 2358.0425760204,
+      "minZ": -1040,
+      "maxZ": -946.2115407282827
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "urban-north-arterial-split-m91",
+          "urban-junction-15",
+          "intersection",
+          "urban-north-arterial-split-split-m91-approach",
+          "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-15|urban-north-arterial-split|end:URBAN_DIRECTION"
+        ],
+        "message": "intersections[0]: intersection: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+      }
+    ],
+    "valid": true
+  }
+}

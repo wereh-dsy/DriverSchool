@@ -1,0 +1,128 @@
+﻿[
+  {
+    "id": "urban-roundabout-West",
+    "class": "arterial",
+    "curve": "polyline",
+    "elevMode": "custom",
+    "roadNameId": "v8-name-urban-roundabout-West",
+    "lanes": 4,
+    "length": 93.133,
+    "pts": 13,
+    "start": {
+      "x": 1156.458365086623,
+      "y": 0,
+      "z": -1330.6464765622359
+    },
+    "end": {
+      "x": 1234.6684392130269,
+      "y": -0.012,
+      "z": -1280.1144315842594
+    },
+    "links": [
+      "urban-institutional:start->urban-roundabout-West:start"
+    ],
+    "junctions": [
+      "urban-junction-114"
+    ]
+  },
+  {
+    "id": "urban-roundabout-West-split",
+    "class": "arterial",
+    "curve": "polyline",
+    "elevMode": "custom",
+    "roadNameId": "v8-name-urban-roundabout-West",
+    "lanes": 4,
+    "length": 135.779,
+    "pts": 16,
+    "start": {
+      "x": 1259.9074653512428,
+      "y": -0.012,
+      "z": -1265.8318702035247
+    },
+    "end": {
+      "x": 1383.243160622337,
+      "y": 0,
+      "z": -1209.290890572959
+    },
+    "links": [],
+    "junctions": [
+      "urban-junction-69",
+      "urban-junction-114"
+    ]
+  },
+  {
+    "id": "urban-north-arterial-split-m91",
+    "class": "arterial",
+    "curve": "polyline",
+    "elevMode": "custom",
+    "roadNameId": "north-avenue",
+    "lanes": 4,
+    "length": 324.232,
+    "pts": 2,
+    "start": {
+      "x": 1858.8992204808114,
+      "y": 0,
+      "z": -1000
+    },
+    "end": {
+      "x": 2183.1312257616555,
+      "y": 0,
+      "z": -1000
+    },
+    "links": [],
+    "junctions": [
+      "urban-junction-15"
+    ]
+  },
+  {
+    "id": "urban-north-arterial-split-split-m91-approach",
+    "class": "arterial",
+    "curve": "polyline",
+    "elevMode": "custom",
+    "roadNameId": "north-avenue",
+    "lanes": 4,
+    "length": 121.314,
+    "pts": 28,
+    "start": {
+      "x": 2219.6312257616555,
+      "y": 0,
+      "z": -1000
+    },
+    "end": {
+      "x": 2340.5425760204,
+      "y": 0,
+      "z": -1000
+    },
+    "links": [
+      "v4-north-split-split-m91-approach:end->urban-north-arterial-split-split-m91-approach:end"
+    ],
+    "junctions": [
+      "urban-junction-15"
+    ]
+  },
+  {
+    "id": "urban-diagonal-split-split-split-split-c91-section",
+    "class": "arterial",
+    "curve": "polyline",
+    "elevMode": "custom",
+    "roadNameId": "v8-name-urban-diagonal",
+    "lanes": 6,
+    "length": 48.394,
+    "pts": 2,
+    "start": {
+      "x": 1437.586311291108,
+      "y": 0,
+      "z": -1153.4794561568149
+    },
+    "end": {
+      "x": 1400.3895500586498,
+      "y": 0,
+      "z": -1184.437342732765
+    },
+    "links": [],
+    "junctions": [
+      "urban-junction-69",
+      "direction-mingyuan-ne-terminal"
+    ]
+  }
+]

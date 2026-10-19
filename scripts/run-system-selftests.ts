@@ -14,6 +14,7 @@ import { runLateralAssistControllerSelfTest } from '../src/vehicle/control/Later
 import { runLateralAssistDrivingSelfTest } from '../src/vehicle/control/LateralAssistDriving.selftest';
 import { runLaneDepartureWarningSelfTest } from '../src/vehicle/control/LaneDepartureWarningController.selftest';
 import { runLaneDepartureWarningSoundSelfTest } from '../src/audio/LaneDepartureWarningSound.selftest';
+import { runWeatherAudioMixSelfTest } from '../src/audio/WeatherAudioMix.selftest';
 import { runLaneAssistStateSelfTest } from '../src/vehicle/control/LaneAssistState.selftest';
 import { runLaneAssistSelectionDisplaySelfTest } from '../src/vehicle/visual/LaneAssistSelectionDisplay.selftest';
 import { runRegionalWorldSelfTest } from '../src/world/regional/RegionalWorld.selftest';
@@ -47,6 +48,7 @@ const results = {
   lateralDriving: runLateralAssistDrivingSelfTest(),
   ldw: runLaneDepartureWarningSelfTest(),
   ldwSound: runLaneDepartureWarningSoundSelfTest(),
+  weatherAudio: runWeatherAudioMixSelfTest(),
   selection: runLaneAssistStateSelfTest(),
   selectionDisplay: runLaneAssistSelectionDisplaySelfTest(),
   regional: runRegionalWorldSelfTest(regional as CityMapData, city as CityMapData),

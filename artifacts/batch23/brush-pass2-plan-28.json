@@ -1,0 +1,104 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "station_platform",
+    "objectIds": [
+      "v61-station-platform--1-340"
+    ],
+    "bbox": {
+      "minX": -1523.2471706006331,
+      "maxX": -1521.2471706006331,
+      "minZ": 487.57142857142856,
+      "maxZ": 489.57142857142856
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v61-station-platform--1-340",
+      "state": "INVALID",
+      "position": {
+        "x": -1522.2471706006331,
+        "y": -0.04,
+        "z": 477.8843430939496
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-central-split-5-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 55.503368242276565,
+        "lateralOffset": -24.11565690605039,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:v61-station-platform--1-340",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v61-station-platform--1-340",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v61-station-platform--1-320",
+            "actual": 15.519991452151375,
+            "required": 21.73131381210073
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:v61-station-platform--1-340",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v61-station-platform--1-340",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v7-city-rail-69",
+            "actual": 9.617640269439063,
+            "required": 37.58588260545207
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-station-platform--1-340",
+          "properties": {
+            "position": {
+              "x": -1522.2471706006331,
+              "y": -0.04,
+              "z": 477.8843430939496
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v61-station-platform--1-340",
+      "heightMode": "GROUND",
+      "autoMove": 10.687160333921325
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

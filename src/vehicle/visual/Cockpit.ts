@@ -7,6 +7,7 @@ import { buildMercedesE300LCabin, type MercedesE300LCabinState } from './Mercede
 import { buildGolfGTICabin, type GolfGTICabinState } from './GolfGTICabin';
 import { applyExecutiveCabinAppearance } from './ExecutiveCabinAppearance';
 import { NavigationCenterDisplay } from './NavigationCenterDisplay';
+import { cabinAmbientTarget } from './CabinLightResponse';
 
 import {
   InstrumentCluster,
@@ -95,6 +96,9 @@ export class Cockpit extends THREE.Group {
   public readonly taycanDisplays?: TaycanCabinDisplays;
   private readonly displayAssets?: VehicleAssetRegistry;
   private navigationDisplay?: NavigationCenterDisplay;
+  private navigationScreenMaterial?: THREE.MeshStandardMaterial;
+  private navigationScreenLevel = 0;
+  private backlightMaterial: THREE.MeshStandardMaterial | null = null;
 
   public constructor(public readonly config: VehicleVisualConfig, assets?: VehicleAssetRegistry) {
     super();
@@ -162,15 +166,62 @@ export class Cockpit extends THREE.Group {
     if (config.body.design === 'executive') this.addExecutiveCabinCompletion(config, interior, softTrim, satin, dark);
     if (config.interiorAmbientLighting) this.addAmbientLighting(config);
     if (config.body.design === 'executive') applyExecutiveCabinAppearance(this, config, assets);
-    if(config.navigationDisplay&&(config.instrumentCluster.displayStyle==='executive-virtual'||config.instrumentCluster.displayStyle==='suv-virtual')) {
-      const screen=this.getObjectByName('Executive upper centre display glass')??this.getObjectByName('Infotainment display');
-      if(screen instanceof THREE.Mesh){
-        this.navigationDisplay=new NavigationCenterDisplay();
-        const material=screen.material as THREE.MeshStandardMaterial;
-        material.color.set(0xffffff);material.map=this.navigationDisplay.texture;material.emissive.set(0xffffff);material.emissiveMap=this.navigationDisplay.texture;material.emissiveIntensity=.8;material.toneMapped=false;
-        screen.material=material;
-      }
+    if (config.navigationDisplay && (config.instrumentCluster.displayStyle === 'executive-virtual' ||
+      config.instrumentCluster.displayStyle === 'suv-virtual')) {
+      const glass = this.getObjectByName('Executive upper centre display glass') ?? this.getObjectByName('Infotainment display');
+      if (glass instanceof THREE.Mesh) this.attachNavigationScreen(glass);
     }
+  }
+
+  /**
+   * The navigation canvas owns a display plane and a cloned material. The
+   * physical glass, its bezel and every other cabin surface keep their shared
+   * atlas, so a map redraw can never repaint the console or steering wheel.
+   */
+  private attachNavigationScreen(glass: THREE.Mesh): void {
+    const parent = glass.parent;
+    const source = glass.material;
+    if (!parent || Array.isArray(source)) return;
+    this.navigationDisplay = new NavigationCenterDisplay();
+    const material = source.clone() as THREE.MeshStandardMaterial;
+    material.name = 'Executive centre navigation screen';
+    material.map = this.navigationDisplay.texture;
+    material.emissiveMap = this.navigationDisplay.texture;
+    material.emissive.set(0xffffff);
+    material.color.set(0xffffff);
+    // The screen is self-lit; the atlas relief/roughness maps belong to trim.
+    material.bumpMap = null;
+    material.roughnessMap = null;
+    material.alphaMap = null;
+    material.roughness = .30;
+    material.metalness = 0;
+    material.side = THREE.FrontSide;
+    if (material instanceof THREE.MeshPhysicalMaterial) {
+      material.clearcoat = .08;
+      material.clearcoatRoughness = .22;
+    }
+    material.envMapIntensity = .03;
+    material.emissiveIntensity = .78;
+    material.toneMapped = false;
+    material.needsUpdate = true;
+    const parameters = glass.geometry instanceof THREE.BoxGeometry ? glass.geometry.parameters : undefined;
+    // Preserve the navigation canvas aspect inside the glass aperture.
+    const availableWidth = Math.max(.05, (parameters?.width ?? .32) - .004);
+    const availableHeight = Math.max(.04, (parameters?.height ?? .116) - .004);
+    const width = Math.min(availableWidth, availableHeight * (1024 / 370));
+    const height = width * (370 / 1024);
+    const depth = parameters?.depth ?? .006;
+    const screen = new THREE.Mesh(new THREE.PlaneGeometry(width, height), material);
+    screen.name = 'Executive centre navigation screen';
+    screen.position.copy(glass.position);
+    // Sit just proud of the glass front; the display never modifies the glass.
+    screen.position.z += depth * .5 + .0012;
+    screen.castShadow = false;
+    screen.receiveShadow = false;
+    screen.renderOrder = 2;
+    parent.add(screen);
+    this.navigationScreenMaterial = material;
+    this.navigationScreenLevel = 0;
   }
 
   /** Positive input means steer right; the wheel turns clockwise for the driver. */
@@ -211,14 +262,24 @@ export class Cockpit extends THREE.Group {
     this.bmwCabin?.update(telemetry, deltaTime);
     this.mercedesCabin?.update(telemetry, deltaTime);
     this.taycanDisplays?.update(telemetry, deltaTime);
-    this.navigationDisplay?.update(telemetry,deltaTime);
+    this.navigationDisplay?.update(telemetry, deltaTime);
+    const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
+    const lampsOn = !!(telemetry.indicators?.positionLights || telemetry.indicators?.headlights || telemetry.indicators?.highBeam);
+    const daylight = THREE.MathUtils.clamp(telemetry.ambientDaylight ?? 1, 0, 1);
+    if (this.navigationScreenMaterial) {
+      // Individually lit screen: visible in daylight, brighter at night without
+      // spilling light or changing the surrounding cockpit materials.
+      const target = on ? .76 + .20 * (1 - daylight) : 0;
+      this.navigationScreenLevel = THREE.MathUtils.damp(this.navigationScreenLevel, target, 7, deltaTime);
+      this.navigationScreenMaterial.emissiveIntensity = this.navigationScreenLevel;
+      this.navigationScreenMaterial.color.setScalar(this.navigationScreenLevel > .005 ? .045 : 0);
+    }
     const profile = this.config.interiorAmbientLighting;
     if (profile && this.ambientMaterial) {
-      const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
-      const night = telemetry.indicators?.positionLights || telemetry.indicators?.headlights || telemetry.indicators?.highBeam;
-      const target = on ? (night ? profile.nightIntensity : profile.dayIntensity) : 0;
+      const target = cabinAmbientTarget(profile, on, lampsOn, daylight);
       this.ambientLevel = THREE.MathUtils.damp(this.ambientLevel, target, profile.fadeResponse, deltaTime);
       this.ambientMaterial.emissiveIntensity = this.ambientLevel;
+      if (this.backlightMaterial) this.backlightMaterial.emissiveIntensity = this.ambientLevel * 1.55;
       const fraction = this.ambientLevel / profile.nightIntensity;
       for (const spill of this.ambientSpills) spill.intensity = (spill.userData.nightIntensity as number) * fraction;
     }
@@ -229,6 +290,11 @@ export class Cockpit extends THREE.Group {
     const material = this.ambientMaterial = new THREE.MeshStandardMaterial({
       color: 0x18242a, emissive: profile.color, emissiveIntensity: 0,
       roughness: .48, metalness: .1, toneMapped: false,
+    });
+    // Cool-white physical key backlight, separate from the coloured guide ribbons.
+    const backlight = this.backlightMaterial = new THREE.MeshStandardMaterial({
+      color: 0x101820, emissive: 0xdbe7ec, emissiveIntensity: 0,
+      roughness: .44, metalness: .08, toneMapped: false,
     });
     const width = config.dashboard.dimensions[0], top = config.cabin.dashboardTopY;
     const rearZ = config.dashboard.position[2] + config.dashboard.dimensions[2] * .5;
@@ -241,16 +307,20 @@ export class Cockpit extends THREE.Group {
     this.add(makeBox('Ambient instrument lower indirect edge', [half * 1.6, .002, .003],
       [transform.position[0], transform.position[1] - (pod.halfHeight + pod.border) * (transform.scale ?? 1) - .006, rearZ + .007], material));
     const stackX = config.gearLeverPosition[0], consoleY = config.gearLeverPosition[1] - .025;
+    // A single transverse lip under the centre stack completes the horizontal
+    // cabin line without wrapping the console in a bright ring.
+    this.add(makeBox('Ambient console leading lip', [this.consoleWidth - .11, .0022, .003],
+      [stackX, consoleY + .016, .020], material));
     const face = this.getObjectByName('Centre stack controls');
     for (const sign of [-1, 1]) {
       this.add(makeBox('Ambient console edge', [.0025, .003, .86],
         [stackX + sign * (this.consoleWidth * .5 - .023), consoleY + .017, .36], material));
       if (face) {
         face.add(makeBox('Ambient centre stack perimeter', [.002, .25, .002], [sign * (this.consoleWidth * .5 - .013), -.03, .009], material));
-        face.add(makeBox('Climate key backlight', [.020, .0015, .001], [sign * .075, -.12, .015], material));
+        face.add(makeBox('Climate key backlight', [.020, .0015, .001], [sign * .075, -.12, .015], backlight));
       }
       const keys = this.steeringWheelRotationGroup.getObjectByName(sign < 0 ? 'Left wheel key panel' : 'Right wheel key panel');
-      if (keys) for (const y of [-.006, .006]) keys.add(makeBox('Wheel key backlight', [.008, .0014, .001], [0, y, .006], material));
+      if (keys) for (const y of [-.006, .006]) keys.add(makeBox('Wheel key backlight', [.008, .0014, .001], [0, y, .006], backlight));
       const light = new THREE.PointLight(profile.color, 0, .65, 2);
       light.name = 'Ambient footwell indirect fill'; light.position.set(sign * .43, this.floorY + .22, -.30);
       light.userData.nightIntensity = profile.footwellIntensity;
@@ -268,6 +338,8 @@ export class Cockpit extends THREE.Group {
       }
       this.getObjectByName('Executive upper centre display assembly')?.add(makeBox('Ambient upper centre display lower edge', [.323, .002, .003],
         [0, -.068, .020], material));
+      this.getObjectByName('Executive lower climate glass')?.add(makeBox('Executive climate key backlight', [.21, .0015, .0012],
+        [0, -.026, .0105], backlight));
       const fill = new THREE.PointLight(profile.color, 0, 1.15, 2);
       fill.name = 'Ambient front fascia indirect fill'; fill.position.set(.25, .80, -.12);
       fill.userData.nightIntensity = profile.dashboardFillIntensity ?? .055;

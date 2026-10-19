@@ -1,0 +1,302 @@
+{
+  "inspection": [
+    {
+      "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+      "before": {
+        "type": "URBAN_DIRECTION",
+        "template": "gantry",
+        "size": "large",
+        "language": "zh-CN",
+        "laneDirection": "reverse",
+        "destinations": [
+          {
+            "roadNameId": "v8-name-v4-west-market",
+            "arrow": "right"
+          },
+          {
+            "roadNameId": "v5-south-west",
+            "arrow": "left"
+          }
+        ],
+        "advanceMetres": 85,
+        "decisionIds": [
+          "urban-junction-133|v5-civic-south|start"
+        ],
+        "incomingRoadId": "v5-civic-south-m91",
+        "outgoingRoadIds": [
+          "v4-west-market-split-split-split-c91",
+          "v5-south-west-c91"
+        ],
+        "postOffset": 9,
+        "approachRoadNameId": "v5-civic-south",
+        "urbanLayout": "junction-diagram",
+        "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+        "roadId": "v5-civic-south-split-4-m91",
+        "stationMetres": 12,
+        "position": {
+          "x": -969.75,
+          "y": 0,
+          "z": 764
+        },
+        "heading": 1.5707963267948966
+      },
+      "selected": {
+        "next": {
+          "type": "URBAN_DIRECTION",
+          "template": "ramp-confirmation",
+          "size": "small",
+          "language": "zh-CN",
+          "laneDirection": "reverse",
+          "destinations": [
+            {
+              "roadNameId": "v8-name-v4-west-market",
+              "arrow": "right"
+            },
+            {
+              "roadNameId": "v5-south-west",
+              "arrow": "left"
+            }
+          ],
+          "advanceMetres": 85,
+          "decisionIds": [
+            "urban-junction-133|v5-civic-south|start"
+          ],
+          "incomingRoadId": "v5-civic-south-m91",
+          "outgoingRoadIds": [
+            "v4-west-market-split-split-split-c91",
+            "v5-south-west-c91"
+          ],
+          "approachRoadNameId": "v5-civic-south",
+          "urbanLayout": "junction-diagram",
+          "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "roadId": "v5-civic-south-split-4-m91",
+          "stationMetres": 12,
+          "position": {
+            "x": -969.75,
+            "y": 0,
+            "z": 755
+          },
+          "heading": 1.5707963267948966
+        },
+        "score": 9
+      }
+    },
+    {
+      "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+      "before": {
+        "type": "URBAN_DIRECTION",
+        "template": "gantry",
+        "size": "large",
+        "language": "zh-CN",
+        "laneDirection": "reverse",
+        "destinations": [
+          {
+            "roadNameId": "v5-civic-south",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "v8-gongren-street",
+            "arrow": "right"
+          }
+        ],
+        "advanceMetres": 68,
+        "decisionIds": [
+          "urban-junction-180|v5-civic-south-split-4|start"
+        ],
+        "incomingRoadId": "v5-civic-south-split-4-m91",
+        "outgoingRoadIds": [
+          "v5-civic-south-m91",
+          "v8-gongren-street-split-split-split-m91"
+        ],
+        "postOffset": 9,
+        "approachRoadNameId": "v5-civic-south",
+        "urbanLayout": "junction-diagram",
+        "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+        "roadId": "v5-civic-south-split-4-m91",
+        "stationMetres": 12,
+        "position": {
+          "x": -969.75,
+          "y": 0,
+          "z": 764
+        },
+        "heading": 1.5707963267948966
+      },
+      "selected": {
+        "next": {
+          "type": "URBAN_DIRECTION",
+          "template": "ramp-confirmation",
+          "size": "small",
+          "language": "zh-CN",
+          "laneDirection": "reverse",
+          "destinations": [
+            {
+              "roadNameId": "v5-civic-south",
+              "arrow": "straight"
+            },
+            {
+              "roadNameId": "v8-gongren-street",
+              "arrow": "right"
+            }
+          ],
+          "advanceMetres": 68,
+          "decisionIds": [
+            "urban-junction-180|v5-civic-south-split-4|start"
+          ],
+          "incomingRoadId": "v5-civic-south-split-4-m91",
+          "outgoingRoadIds": [
+            "v5-civic-south-m91",
+            "v8-gongren-street-split-split-split-m91"
+          ],
+          "approachRoadNameId": "v5-civic-south",
+          "urbanLayout": "junction-diagram",
+          "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "roadId": "v5-civic-south-split-4-m91",
+          "stationMetres": 12,
+          "position": {
+            "x": -969.75,
+            "y": 0,
+            "z": 755
+          },
+          "heading": 1.5707963267948966
+        },
+        "score": 9
+      }
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+      "properties": {
+        "type": "URBAN_DIRECTION",
+        "template": "ramp-confirmation",
+        "size": "small",
+        "language": "zh-CN",
+        "laneDirection": "reverse",
+        "destinations": [
+          {
+            "roadNameId": "v8-name-v4-west-market",
+            "arrow": "right"
+          },
+          {
+            "roadNameId": "v5-south-west",
+            "arrow": "left"
+          }
+        ],
+        "advanceMetres": 85,
+        "decisionIds": [
+          "urban-junction-133|v5-civic-south|start"
+        ],
+        "incomingRoadId": "v5-civic-south-m91",
+        "outgoingRoadIds": [
+          "v4-west-market-split-split-split-c91",
+          "v5-south-west-c91"
+        ],
+        "approachRoadNameId": "v5-civic-south",
+        "urbanLayout": "junction-diagram",
+        "roadId": "v5-civic-south-split-4-m91",
+        "stationMetres": 12,
+        "position": {
+          "x": -969.75,
+          "y": 0,
+          "z": 755
+        },
+        "heading": 1.5707963267948966
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+      "properties": {
+        "type": "URBAN_DIRECTION",
+        "template": "ramp-confirmation",
+        "size": "small",
+        "language": "zh-CN",
+        "laneDirection": "reverse",
+        "destinations": [
+          {
+            "roadNameId": "v5-civic-south",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "v8-gongren-street",
+            "arrow": "right"
+          }
+        ],
+        "advanceMetres": 68,
+        "decisionIds": [
+          "urban-junction-180|v5-civic-south-split-4|start"
+        ],
+        "incomingRoadId": "v5-civic-south-split-4-m91",
+        "outgoingRoadIds": [
+          "v5-civic-south-m91",
+          "v8-gongren-street-split-split-split-m91"
+        ],
+        "approachRoadNameId": "v5-civic-south",
+        "urbanLayout": "junction-diagram",
+        "roadId": "v5-civic-south-split-4-m91",
+        "stationMetres": 12,
+        "position": {
+          "x": -969.75,
+          "y": 0,
+          "z": 755
+        },
+        "heading": 1.5707963267948966
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "compact-roadside-guides-under-bridge",
+    "created": [],
+    "modified": [
+      "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1009.75,
+      "maxX": -929.75,
+      "minZ": 715,
+      "maxZ": 804
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "v5-civic-south-m91",
+          "v5-west-south-lane-split-split-m91",
+          "v8-gongren-street-split-split-split-m91",
+          "urban-junction-180",
+          "urban-junction-181",
+          "v5-civic-south-split-3-m91",
+          "v5-civic-south-split-4-m91",
+          "direction-inner-sw-section-section",
+          "urban-junction-145"
+        ],
+        "message": "intersections[0]: urban-junction-112: 2/5 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

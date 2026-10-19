@@ -14,6 +14,7 @@
     "mapctl": "node scripts/mapctl.mjs",
     "selftest:editor": "node scripts/run-editor-selftests.mjs",
     "selftest:road-quality": "node scripts/run-road-quality-selftests.mjs",
+    "selftest:mapctl": "node scripts/run-mapctl-selftests.mjs && node scripts/validate-mapctl-engineering.mjs",
     "start": "vite --host 127.0.0.1 --port 5173 --open",
     "build": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-checkpoint.ps1",
     "preview": "vite preview",

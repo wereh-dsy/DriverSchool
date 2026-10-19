@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "regional:tree:7960:-4140"
+    ],
+    "bbox": {
+      "minX": 8012.792913106699,
+      "maxX": 8014.792913106699,
+      "minZ": -4120.745458855577,
+      "maxZ": -4118.745458855577
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:tree:7960:-4140",
+      "state": "VALID",
+      "position": {
+        "x": 8027.46988011436,
+        "y": 23.305505518966747,
+        "z": -4126.523870736472
+      },
+      "rotation": -2.68146495353561,
+      "anchor": {
+        "anchorRoadId": "regional:v3:S31-extension130:out:7",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 1037.5730257256744,
+        "lateralOffset": 9.150000000000006,
+        "verticalOffset": -0.4223616069526166,
+        "facingDirection": "forward",
+        "expectedHeading": -2.68146495353561,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:7960:-4140",
+          "properties": {
+            "position": {
+              "x": 8027.46988011436,
+              "y": 23.305505518966747,
+              "z": -4126.523870736472
+            },
+            "rotation": -2.68146495353561
+          }
+        }
+      ],
+      "sourceId": "regional:tree:7960:-4140",
+      "heightMode": "GROUND",
+      "autoMove": 15.295009410207651
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:7960:-4140",
+      "properties": {
+        "position": {
+          "x": 8027.46988011436,
+          "y": 23.305505518966747,
+          "z": -4126.523870736472
+        },
+        "rotation": -2.68146495353561
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

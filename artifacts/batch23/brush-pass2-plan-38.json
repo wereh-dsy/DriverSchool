@@ -1,0 +1,1663 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "regional:tree:-1320:-2700",
+      "regional:tree:-1160:-2860",
+      "regional:tree:-1160:-2700",
+      "regional:tree:-1160:-2540",
+      "regional:tree:-1000:-2860",
+      "regional:tree:-1000:-2700",
+      "regional:tree:-840:-2860",
+      "regional:tree:-840:-2700",
+      "regional:tree:-680:-2860",
+      "regional:tree:-680:-2700",
+      "regional:tree:-520:-2860",
+      "regional:tree:-520:-2700",
+      "regional:tree:-360:-2860",
+      "regional:tree:-360:-2700",
+      "regional:tree:-360:-2540",
+      "regional:tree:-200:-2860",
+      "regional:tree:-200:-2700",
+      "regional:tree:-200:-2540",
+      "regional:tree:-40:-2860",
+      "regional:tree:-40:-2700",
+      "regional:tree:-40:-2540",
+      "v8-verge-v8-campus-avenue-split-90-1",
+      "v8-verge-v8-campus-avenue-split-142--1",
+      "v8-verge-v8-campus-avenue-split-142-1",
+      "v8-verge-v8-campus-north-split-194--1"
+    ],
+    "bbox": {
+      "minX": -1268.5831268154798,
+      "maxX": -0.6550285616879208,
+      "minZ": -2891.1779321432946,
+      "maxZ": -2654.5051150221175
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:tree:-1320:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": -1203.837248355549,
+        "y": -0.04,
+        "z": -2744.139059293571
+      },
+      "rotation": -3.03787520345373,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-north",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 44.74529505354971,
+        "lateralOffset": 9.59999999999999,
+        "verticalOffset": -0.03956019102464681,
+        "facingDirection": "forward",
+        "expectedHeading": -3.03787520345373,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-1320:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-1320:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-north",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-1320:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-1320:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-1320:-2700",
+          "properties": {
+            "position": {
+              "x": -1203.837248355549,
+              "y": -0.04,
+              "z": -2744.139059293571
+            },
+            "rotation": -3.03787520345373
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-1320:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 64.26927681855067
+    },
+    {
+      "id": "regional:tree:-1160:-2860",
+      "state": "VALID",
+      "position": {
+        "x": -1104.6134694124482,
+        "y": -0.04,
+        "z": -2812.727816064858
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 85.33372435074335,
+        "lateralOffset": -9.599999999999865,
+        "verticalOffset": -0.03920337939010959,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-1160:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-1160:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-1160:-2860",
+          "properties": {
+            "position": {
+              "x": -1104.6134694124482,
+              "y": -0.04,
+              "z": -2812.727816064858
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-1160:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 17.826053800699135
+    },
+    {
+      "id": "regional:tree:-1160:-2700",
+      "state": "VALID",
+      "position": {
+        "x": -1183.3786116834842,
+        "y": -0.04,
+        "z": -2733.0439407489794
+      },
+      "rotation": -3.0378752034537064,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-north",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 57.8989055844306,
+        "lateralOffset": -9.59999999999999,
+        "verticalOffset": -0.039455319535276846,
+        "facingDirection": "forward",
+        "expectedHeading": -3.0378752034537064,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-1160:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-1160:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-north",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-1160:-2700",
+          "properties": {
+            "position": {
+              "x": -1183.3786116834842,
+              "y": -0.04,
+              "z": -2733.0439407489794
+            },
+            "rotation": -3.0378752034537064
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-1160:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 13.472531594814257
+    },
+    {
+      "id": "regional:tree:-1160:-2540",
+      "state": "VALID",
+      "position": {
+        "x": -1196.1525527680903,
+        "y": -0.04,
+        "z": -2670.3123286320165
+      },
+      "rotation": -3.0378752034537064,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-north",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 118.97090186444461,
+        "lateralOffset": 9.59999999999999,
+        "verticalOffset": -0.038968402943543694,
+        "facingDirection": "forward",
+        "expectedHeading": -3.0378752034537064,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-1160:-2540::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-1160:-2540",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-north",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-1160:-2540",
+          "properties": {
+            "position": {
+              "x": -1196.1525527680903,
+              "y": -0.04,
+              "z": -2670.3123286320165
+            },
+            "rotation": -3.0378752034537064
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-1160:-2540",
+      "heightMode": "GROUND",
+      "autoMove": 14.720885476336328
+    },
+    {
+      "id": "regional:tree:-1000:-2860",
+      "state": "VALID",
+      "position": {
+        "x": -988.9983992670071,
+        "y": -0.04,
+        "z": -2816.512711903952
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 201.01073106014982,
+        "lateralOffset": -9.599999999999861,
+        "verticalOffset": -0.03824098927798658,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-1000:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-1000:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-1000:-2860",
+          "properties": {
+            "position": {
+              "x": -988.9983992670071,
+              "y": -0.04,
+              "z": -2816.512711903952
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-1000:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 19.121276546258848
+    },
+    {
+      "id": "regional:tree:-1000:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": -1049.0789609998656,
+        "y": -0.04,
+        "z": -2795.335566105799
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 140.26943207591611,
+        "lateralOffset": 9.599999999999865,
+        "verticalOffset": -0.038746334525091596,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-1000:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-1000:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-1000:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-1000:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-1000:-2700",
+          "properties": {
+            "position": {
+              "x": -1049.0789609998656,
+              "y": -0.04,
+              "z": -2795.335566105799
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-1000:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 46.860361300057725
+    },
+    {
+      "id": "regional:tree:-840:-2860",
+      "state": "VALID",
+      "position": {
+        "x": -888.0174421025663,
+        "y": -0.04,
+        "z": -2819.8185301170856
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 302.04578509539505,
+        "lateralOffset": -9.599999999999861,
+        "verticalOffset": -0.03740041482203097,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-840:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-840:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-840:-2860",
+          "properties": {
+            "position": {
+              "x": -888.0174421025663,
+              "y": -0.04,
+              "z": -2819.8185301170856
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-840:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 32.315416856740896
+    },
+    {
+      "id": "regional:tree:-840:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": -805.1426182194809,
+        "y": -0.04,
+        "z": -2803.321321316015
+      },
+      "rotation": -1.5380709684632135,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 384.3364548695467,
+        "lateralOffset": 9.599999999999874,
+        "verticalOffset": -0.03671578674283481,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632135,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-840:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-840:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-840:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-840:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-840:-2700",
+          "properties": {
+            "position": {
+              "x": -805.1426182194809,
+              "y": -0.04,
+              "z": -2803.321321316015
+            },
+            "rotation": -1.5380709684632135
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-840:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 89.39122892680437
+    },
+    {
+      "id": "regional:tree:-680:-2860",
+      "state": "VALID",
+      "position": {
+        "x": -674.9265674303113,
+        "y": -0.04,
+        "z": -2807.5842101262306
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 514.6222641663996,
+        "lateralOffset": 9.599999999999861,
+        "verticalOffset": -0.035631856771062474,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-680:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-680:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-680:-2860",
+          "properties": {
+            "position": {
+              "x": -674.9265674303113,
+              "y": -0.04,
+              "z": -2807.5842101262306
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-680:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 7.154904661350364
+    },
+    {
+      "id": "regional:tree:-680:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": -719.2656791554494,
+        "y": -0.04,
+        "z": -2806.1326785978017
+      },
+      "rotation": -1.5380709684632516,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 470.2593993766647,
+        "lateralOffset": 9.599999999999861,
+        "verticalOffset": -0.03600093947499467,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632516,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-680:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-680:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-680:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-680:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-680:-2700",
+          "properties": {
+            "position": {
+              "x": -719.2656791554494,
+              "y": -0.04,
+              "z": -2806.1326785978017
+            },
+            "rotation": -1.5380709684632516
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-680:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 78.38161049498842
+    },
+    {
+      "id": "regional:tree:-520:-2860",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -553.5455366996789,
+        "y": -0.04,
+        "z": -2831.768687895175
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 636.7296086882884,
+        "lateralOffset": -10.599999999999836,
+        "verticalOffset": -0.03461596861551335,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-520:-2860",
+          "properties": {
+            "position": {
+              "x": -553.5455366996789,
+              "y": -0.04,
+              "z": -2831.768687895175
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-520:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 34.252722102149484
+    },
+    {
+      "id": "regional:tree:-520:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": -531.0867605706093,
+        "y": -0.04,
+        "z": -2812.29310046202
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 658.5391279650206,
+        "lateralOffset": 9.599999999999861,
+        "verticalOffset": -0.034434521443779294,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-520:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-520:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-520:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-520:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-520:-2700",
+          "properties": {
+            "position": {
+              "x": -531.0867605706093,
+              "y": -0.04,
+              "z": -2812.29310046202
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-520:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 79.31399659075461
+    },
+    {
+      "id": "regional:tree:-360:-2860",
+      "state": "VALID",
+      "position": {
+        "x": -344.6061154902706,
+        "y": -0.04,
+        "z": -2837.6082115697245
+      },
+      "rotation": -1.5380709684632516,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 845.7482245388103,
+        "lateralOffset": -9.599999999999863,
+        "verticalOffset": -0.03287701067679776,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632516,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-360:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-360:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-360:-2860",
+          "properties": {
+            "position": {
+              "x": -344.6061154902706,
+              "y": -0.04,
+              "z": -2837.6082115697245
+            },
+            "rotation": -1.5380709684632516
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-360:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 19.091805478388387
+    },
+    {
+      "id": "regional:tree:-360:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": -362.4350867587065,
+        "y": -0.04,
+        "z": -2817.814258021013
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 827.281150770093,
+        "lateralOffset": 9.599999999999863,
+        "verticalOffset": -0.03303064993234581,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-360:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-360:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-360:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-360:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-360:-2700",
+          "properties": {
+            "position": {
+              "x": -362.4350867587065,
+              "y": -0.04,
+              "z": -2817.814258021013
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-360:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 74.17439191396346
+    },
+    {
+      "id": "regional:tree:-360:-2540",
+      "state": "INVALID",
+      "position": {
+        "x": -260.84920486947016,
+        "y": -0.04,
+        "z": -2676.7549032601714
+      },
+      "rotation": 1.582859356007327,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-split-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 43.06881966557799,
+        "lateralOffset": 9.599999999999863,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": 1.582859356007327,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-360:-2540::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-360:-2540",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-avenue-split-split-2",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-360:-2540",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-360:-2540",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-360:-2540",
+          "properties": {
+            "position": {
+              "x": -260.84920486947016,
+              "y": -0.04,
+              "z": -2676.7549032601714
+            },
+            "rotation": 1.582859356007327
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-360:-2540",
+      "heightMode": "GROUND",
+      "autoMove": 96.56785553294807
+    },
+    {
+      "id": "regional:tree:-200:-2860",
+      "state": "VALID",
+      "position": {
+        "x": -246.0273331622468,
+        "y": -0.04,
+        "z": -2840.8353896753724
+      },
+      "rotation": -1.5380709684632514,
+      "anchor": {
+        "anchorRoadId": "direction-campus-west-east",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 944.3798168599395,
+        "lateralOffset": -9.599999999999863,
+        "verticalOffset": -0.032056432137527145,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5380709684632514,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-200:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-200:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "direction-campus-west-east",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-200:-2860",
+          "properties": {
+            "position": {
+              "x": -246.0273331622468,
+              "y": -0.04,
+              "z": -2840.8353896753724
+            },
+            "rotation": -1.5380709684632514
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-200:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 31.320176861151904
+    },
+    {
+      "id": "regional:tree:-200:-2700",
+      "state": "VALID",
+      "position": {
+        "x": -181.92165420632026,
+        "y": -0.04,
+        "z": -2731.635799831929
+      },
+      "rotation": 2.6543054780789044,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-split-v91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 108.8301533014316,
+        "lateralOffset": 5.60000000000005,
+        "verticalOffset": -0.02060647755875001,
+        "facingDirection": "forward",
+        "expectedHeading": 2.6543054780789044,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-200:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-200:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-north-split-v91-section",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-200:-2700",
+          "properties": {
+            "position": {
+              "x": -181.92165420632026,
+              "y": -0.04,
+              "z": -2731.635799831929
+            },
+            "rotation": 2.6543054780789044
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-200:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 3.6004992204710646
+    },
+    {
+      "id": "regional:tree:-200:-2540",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -222.72513029074537,
+        "y": -0.04,
+        "z": -2680.2150356823654
+      },
+      "rotation": 1.582859356007327,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-split-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 4.905780231286524,
+        "lateralOffset": 12.599999999999875,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": 1.582859356007327,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-200:-2540",
+          "properties": {
+            "position": {
+              "x": -222.72513029074537,
+              "y": -0.04,
+              "z": -2680.2150356823654
+            },
+            "rotation": 1.582859356007327
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-200:-2540",
+      "heightMode": "GROUND",
+      "autoMove": 4.648557444969021
+    },
+    {
+      "id": "regional:tree:-40:-2860",
+      "state": "INVALID",
+      "position": {
+        "x": -42,
+        "y": -0.04,
+        "z": -2881.811135376156
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-a-0",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 43.84924198233466,
+        "lateralOffset": -6,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-40:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-40:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v91-ns-0-a-0",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.tooCloseToObject:regional:tree:-40:-2860",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "regional:tree:-40:-2860",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v6-lamps-852",
+            "actual": 0.452993239921418,
+            "required": 0.6
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-40:-2860",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-40:-2860",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-40:-2860",
+          "properties": {
+            "position": {
+              "x": -42,
+              "y": -0.04,
+              "z": -2881.811135376156
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-40:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 38.40218276091274
+    },
+    {
+      "id": "regional:tree:-40:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": -54,
+        "y": -0.04,
+        "z": -2749.419567940844
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-a-0",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 176.2408094176467,
+        "lateralOffset": 6,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-40:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-40:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v91-ns-0-a-0",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-40:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-40:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-40:-2700",
+          "properties": {
+            "position": {
+              "x": -54,
+              "y": -0.04,
+              "z": -2749.419567940844
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-40:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 39.167355830745244
+    },
+    {
+      "id": "regional:tree:-40:-2540",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -42,
+        "y": -0.04,
+        "z": -2694
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-a-0",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 231.66037735849068,
+        "lateralOffset": -6,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-40:-2540::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-40:-2540",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v91-ns-0-a-0",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-40:-2540",
+          "properties": {
+            "position": {
+              "x": -42,
+              "y": -0.04,
+              "z": -2694
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-40:-2540",
+      "heightMode": "GROUND",
+      "autoMove": 19.956092211363078
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-split-90-1",
+      "state": "INVALID",
+      "position": {
+        "x": -42.2,
+        "y": -0.04,
+        "z": -2692
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-a-0",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 233.66037735849068,
+        "lateralOffset": -5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.insideJunction::v8-verge-v8-campus-avenue-split-90-1::",
+          "code": "tree.insideJunction",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-campus-avenue-split-90-1",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-209"
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:v8-verge-v8-campus-avenue-split-90-1",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-campus-avenue-split-90-1",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-split-90-1",
+          "properties": {
+            "position": {
+              "x": -42.2,
+              "y": -0.04,
+              "z": -2692
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-split-90-1",
+      "heightMode": "GROUND",
+      "autoMove": 40.54860682877601
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-split-142--1",
+      "state": "VALID",
+      "position": {
+        "x": -53.8,
+        "y": -0.04,
+        "z": -2652
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-a-1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 0,
+        "lateralOffset": 5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-split-142--1",
+          "properties": {
+            "position": {
+              "x": -53.8,
+              "y": -0.04,
+              "z": -2652
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-split-142--1",
+      "heightMode": "GROUND",
+      "autoMove": 5.697327030779671
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-split-142-1",
+      "state": "VALID",
+      "position": {
+        "x": -53.8,
+        "y": -0.04,
+        "z": -2692
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-a-0",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 233.66037735849068,
+        "lateralOffset": 5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-split-142-1",
+          "properties": {
+            "position": {
+              "x": -53.8,
+              "y": -0.04,
+              "z": -2692
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-split-142-1",
+      "heightMode": "GROUND",
+      "autoMove": 5.107058195101208
+    },
+    {
+      "id": "v8-verge-v8-campus-north-split-194--1",
+      "state": "VALID",
+      "position": {
+        "x": -96.93900433350446,
+        "y": -0.04,
+        "z": -2891.580956403893
+      },
+      "rotation": 2.654305478078904,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 43.071795142559004,
+        "lateralOffset": 5.3999999999998165,
+        "verticalOffset": -0.03627411106843873,
+        "facingDirection": "forward",
+        "expectedHeading": 2.654305478078904,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-north-split-194--1",
+          "properties": {
+            "position": {
+              "x": -96.93900433350446,
+              "y": -0.04,
+              "z": -2891.580956403893
+            },
+            "rotation": 2.654305478078904
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-north-split-194--1",
+      "heightMode": "GROUND",
+      "autoMove": 2.9967059590897005
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-1160:-2860",
+      "properties": {
+        "position": {
+          "x": -1104.6134694124482,
+          "y": -0.04,
+          "z": -2812.727816064858
+        },
+        "rotation": -1.5380709684632514
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-1160:-2700",
+      "properties": {
+        "position": {
+          "x": -1183.3786116834842,
+          "y": -0.04,
+          "z": -2733.0439407489794
+        },
+        "rotation": -3.0378752034537064
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-1160:-2540",
+      "properties": {
+        "position": {
+          "x": -1196.1525527680903,
+          "y": -0.04,
+          "z": -2670.3123286320165
+        },
+        "rotation": -3.0378752034537064
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-1000:-2860",
+      "properties": {
+        "position": {
+          "x": -988.9983992670071,
+          "y": -0.04,
+          "z": -2816.512711903952
+        },
+        "rotation": -1.5380709684632514
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-840:-2860",
+      "properties": {
+        "position": {
+          "x": -888.0174421025663,
+          "y": -0.04,
+          "z": -2819.8185301170856
+        },
+        "rotation": -1.5380709684632514
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-680:-2860",
+      "properties": {
+        "position": {
+          "x": -674.9265674303113,
+          "y": -0.04,
+          "z": -2807.5842101262306
+        },
+        "rotation": -1.5380709684632514
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-520:-2860",
+      "properties": {
+        "position": {
+          "x": -553.5455366996789,
+          "y": -0.04,
+          "z": -2831.768687895175
+        },
+        "rotation": -1.5380709684632514
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-360:-2860",
+      "properties": {
+        "position": {
+          "x": -344.6061154902706,
+          "y": -0.04,
+          "z": -2837.6082115697245
+        },
+        "rotation": -1.5380709684632516
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-200:-2860",
+      "properties": {
+        "position": {
+          "x": -246.0273331622468,
+          "y": -0.04,
+          "z": -2840.8353896753724
+        },
+        "rotation": -1.5380709684632514
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-200:-2700",
+      "properties": {
+        "position": {
+          "x": -181.92165420632026,
+          "y": -0.04,
+          "z": -2731.635799831929
+        },
+        "rotation": 2.6543054780789044
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-200:-2540",
+      "properties": {
+        "position": {
+          "x": -222.72513029074537,
+          "y": -0.04,
+          "z": -2680.2150356823654
+        },
+        "rotation": 1.582859356007327
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-40:-2540",
+      "properties": {
+        "position": {
+          "x": -42,
+          "y": -0.04,
+          "z": -2694
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-split-142--1",
+      "properties": {
+        "position": {
+          "x": -53.8,
+          "y": -0.04,
+          "z": -2652
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-split-142-1",
+      "properties": {
+        "position": {
+          "x": -53.8,
+          "y": -0.04,
+          "z": -2692
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-north-split-194--1",
+      "properties": {
+        "position": {
+          "x": -96.93900433350446,
+          "y": -0.04,
+          "z": -2891.580956403893
+        },
+        "rotation": 2.654305478078904
+      }
+    }
+  ],
+  "stats": {
+    "planned": 25,
+    "valid": 12,
+    "adjusted": 3,
+    "invalid": 10,
+    "skipped": 10,
+    "added": 0,
+    "moved": 15,
+    "removed": 0
+  },
+  "valid": true
+}

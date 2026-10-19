@@ -1,0 +1,81 @@
+objects-5 {"modified":5,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-7 {"modified":4,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-8 {"modified":1,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-10 {"modified":2,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-11 {"modified":3,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-12 {"modified":7,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-13 {"modified":4,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-14 {"modified":1,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-15 {"modified":3,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-16 {"modified":2,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-18 {"modified":48,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-19 {"modified":18,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-20 {"modified":6,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-21 {"modified":12,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-22 {"modified":1,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-23 {"modified":1,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-24 {"modified":1,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-25 {"modified":2,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-26 {"modified":1,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-27 {"modified":3,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-28 {"modified":3,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-29 {"modified":1,"created":0,"deleted":9,"errors":0,"warning":19}
+objects-30 {"modified":2,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-31 {"modified":5,"created":0,"deleted":11,"errors":0,"warning":19}
+objects-32 {"modified":26,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-33 {"modified":3,"created":0,"deleted":2,"errors":0,"warning":19}
+objects-34 {"modified":36,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-35 {"modified":3,"created":0,"deleted":19,"errors":0,"warning":19}
+objects-36 {"modified":31,"created":0,"deleted":2,"errors":0,"warning":19}
+objects-37 {"modified":1,"created":0,"deleted":1,"errors":0,"warning":19}
+objects-38 {"modified":3,"created":0,"deleted":3,"errors":0,"warning":19}
+objects-39 {"modified":18,"created":0,"deleted":3,"errors":0,"warning":19}
+objects-40 {"modified":6,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-41 {"modified":37,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-42 {"modified":45,"created":0,"deleted":1,"errors":0,"warning":19}
+objects-43 {"modified":21,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-44 {"modified":34,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-45 {"modified":5,"created":0,"deleted":3,"errors":0,"warning":19}
+objects-46 {"modified":10,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-47 {"modified":0,"created":0,"deleted":1,"errors":0,"warning":19}
+objects-48 {"modified":5,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-49 {"modified":25,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-50 {"modified":34,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-51 {"modified":1,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-52 {"modified":8,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-53 {"modified":3,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-54 {"modified":7,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-55 {"modified":5,"created":0,"deleted":1,"errors":0,"warning":19}
+objects-56 {"modified":4,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-57 {"modified":0,"created":0,"deleted":4,"errors":0,"warning":19}
+objects-58 {"modified":0,"created":0,"deleted":1,"errors":0,"warning":19}
+objects-59 {"modified":39,"created":0,"deleted":6,"errors":0,"warning":19}
+objects-60 {"modified":1,"created":0,"deleted":0,"errors":0,"warning":19}
+objects-61 {"modified":23,"created":0,"deleted":0,"errors":0,"warning":19}
+
+<--- Last few GCs --->
+
+[37160:0000013B0957F000]   100736 ms: Scavenge (interleaved) 4079.3 (4093.0) -> 4069.6 (4091.3) MB, pooled: 0 MB, 3.11 / 0.00 ms  (average mu = 0.305, current mu = 0.321) allocation failure; 
+[37160:0000013B0957F000]   101782 ms: Mark-Compact 4104.2 (4120.6) -> 4089.6 (4130.6) MB, pooled: 0 MB, 884.65 / 0.00 ms  (average mu = 0.396, current mu = 0.469) allocation failure; scavenge might not succeed
+
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 00007FF6BDF350BF node::OnFatalError+1343
+ 2: 00007FF6BCB5DD27 v8::Function::NewInstance+423
+ 3: 00007FF6BC95E567 X509_STORE_get_lookup_certs+54423
+ 4: 00007FF6BC962274 X509_STORE_get_lookup_certs+70052
+ 5: 00007FF6BC9711DC v8::internal::StrongRootAllocatorBase::deallocate_impl+16604
+ 6: 00007FF6BC970A1B v8::internal::StrongRootAllocatorBase::deallocate_impl+14619
+ 7: 00007FF6BE257DED node::AsyncResource::CallbackScope::CallbackScope+2124541
+ 8: 00007FF6BC95C030 X509_STORE_get_lookup_certs+44896
+ 9: 00007FF6BC97688A X509_STORE_set_cleanup+5098
+10: 00007FF6BC9826E8 uv_timer_set_repeat+19096
+11: 00007FF6BC99DA45 uv_timer_set_repeat+130549
+12: 00007FF6BC99D9AC uv_timer_set_repeat+130396
+13: 00007FF6BC0BA103 v8::base::TimeDelta::TimeDelta+24979
+14: 00007FF6BCB8B328 v8::String::ValueView::ValueView+456
+15: 00007FF6BDD3DA9B v8::CTypeInfoBuilder<v8::FastApiCallbackOptions & __ptr64>::Build+531755
+16: 00007FF6BDD3DDA9 v8::CTypeInfoBuilder<v8::FastApiCallbackOptions & __ptr64>::Build+532537
+17: 00007FF6BDF1CF2C node::MultiIsolatePlatform::DisposeIsolate+657772
+18: 0000013B41BCF64D 

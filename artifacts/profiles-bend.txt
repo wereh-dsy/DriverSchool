@@ -1,0 +1,78 @@
+﻿
+=== north-roundabout:ring-2 | expressway highway lanes=2 len=61.49 group=north-roundabout preset=roundabout name=
+y 0->0 min 0 max 0 net 0 var 0 maxG 0%
+extrema 
+reversals 
+bends 1.21m:89.72deg(1.21/6.25)
+short 1.21m:1.21
+junctions urban-junction-63[north-roundabout:ring-2:end,north-roundabout:ring-3:start,north-roundabout:exit-2:start]
+
+=== north-roundabout:exit-3 | expressway highway lanes=2 len=171.31 group=north-roundabout preset=roundabout name=
+y 0->0 min 0 max 0 net 0 var 0 maxG 0%
+extrema 
+reversals 
+bends 25.83m:113.35deg(4.59/4.54) 30.37m:96.64deg(4.54/3.15)
+junctions urban-junction-65[north-roundabout:ring-4:end,north-roundabout:ring-5:start,north-roundabout:exit-3:start]
+
+=== north-roundabout:ring-7 | expressway highway lanes=2 len=35.88 group=north-roundabout preset=roundabout name=
+y 0->0 min 0 max 0 net 0 var 0 maxG 0%
+extrema 
+reversals 
+bends 2.51m:85.16deg(2.51/3.07) 33.72m:97.02deg(3.56/2.16)
+junctions 
+
+=== urban-east-arterial-split-split-3-split | arterial urban_6lane lanes=6 len=129.75 group= preset= name=east-avenue
+y -0.024->-0.024 min -0.024 max -0.024 net 0 var 0 maxG 0%
+extrema 
+reversals 
+bends 42.52m:83.55deg(9.81/6.33)
+junctions urban-junction-97[urban-diagonal-split-split-spl:start,v5-east-garden-split:start,urban-east-arterial-split-spli:end,v5-east-garden-c91:end,urban-east-arterial-split-spli:start] urban-junction-100[urban-east-arterial-split-spli:end,v9-newcity-three:start,urban-east-arterial-split-spli:start]
+
+=== urban-diagonal-split-split-split-split-3 | arterial urban_6lane lanes=6 len=60.83 group= preset= name=v8-name-urban-diagonal
+y -0.024->-0.024 min -0.024 max -0.024 net 0 var 0 maxG 0%
+extrema 
+reversals 
+bends 42.58m:86.41deg(7.1/6.08)
+junctions urban-junction-97[urban-diagonal-split-split-spl:start,v5-east-garden-split:start,urban-east-arterial-split-spli:end,v5-east-garden-c91:end,urban-east-arterial-split-spli:start]
+
+=== v61-university-north-split-split | collector urban_2lane lanes=2 len=519.23 group= preset= name=v61-university-north
+y -0.024->-0.024 min -0.024 max -0.024 net 0 var 0 maxG 0%
+extrema 
+reversals 
+bends 47.64m:98.37deg(3.79/4.26)
+junctions urban-junction-216[v61-university-north-split:end,v8-campus-north-v91:start,v61-university-north-split-spl:start]
+
+=== urban-east-arterial-split-split-3-split-2 | arterial urban_6lane lanes=6 len=72.14 group= preset= name=east-avenue
+y -0.024->-0.024 min -0.024 max -0.024 net 0 var 0 maxG 0%
+extrema 
+reversals 
+bends 53.89m:89.8deg(6.9/6.08)
+junctions urban-junction-153[urban-east-arterial-split-spli:start,v6-science-one-c91:end,urban-east-arterial-split-spli:start]
+
+=== v61-exhibition-road-split-split-split | arterial urban_4lane lanes=4 len=733.8 group= preset= name=v61-exhibition-road
+y 6.562->6.233 min -0.024 max 6.591 net -0.329 var 31.383 maxG 10%
+extrema 279.71m:-0.024(0.119) 367.38m:6.591(0.598) 403.24m:3.004(0.647) 451.06m:5.493(0.598) 507.88m:-0.024(0.168) 586.62m:-0.024(0.099) 671.84m:6.4(0.008)
+reversals 283.69m:0.215 379.33m:5.395 407.23m:3.102 463.03m:4.297 589.05m:0.175
+bends 100.36m:88.43deg(9.35/11.96) 629.57m:85.67deg(10.43/11.01)
+junctions urban-junction-11[v61-exhibition-road-split-spli:end,v9-chunhui-east-split-split-sp:end,v61-exhibition-road-split-spli:start]
+
+=== north-roundabout:entry-3 | expressway highway lanes=2 len=153.3 group=north-roundabout preset=roundabout name=
+y 0->0 min 0 max 0 net 0 var 0 maxG 0%
+extrema 
+reversals 
+bends 126.23m:99.54deg(2.31/6.66) 132.9m:128.24deg(6.66/4.62)
+junctions urban-junction-66[north-roundabout:ring-5:end,north-roundabout:ring-6:start,north-roundabout:entry-3:end]
+
+=== v4-access-5 | arterial urban_4lane lanes=4 len=172.08 group=v4-urban preset= name=v8-name-v4-access-5
+y -0.024->2.468 min -0.024 max 7.184 net 2.492 var 11.924 maxG 10%
+extrema 14.5m:-0.024(0.205) 124.93m:7.184(0.51)
+reversals 135.12m:6.165
+bends 26.68m:59.71deg(4.44/9.87)
+junctions 
+
+=== v8-nancheng-ring-split-split | collector urban_2lane lanes=2 len=1405.39 group=v8-streets preset= name=v8-nancheng-ring
+y -0.024->-0.024 min -0.024 max 1.557 net 0 var 3.163 maxG 0.66%
+extrema 97.54m:-0.024(0) 487.52m:1.557(0.003)
+reversals 654.7m:0.976
+bends 141.22m:60.34deg(7.94/11.94) 833.83m:52.77deg(11.94/11.96)
+junctions urban-junction-219[v4-industrial-split-2-split-2-:end,v8-nancheng-ring-split-split:end,v4-industrial-split-2-split:start] urban-junction-223[v8-nancheng-ring-split:end,v8-industrial-west:start,v8-nancheng-ring-split-split:start]

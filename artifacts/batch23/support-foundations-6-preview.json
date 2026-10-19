@@ -1,0 +1,261 @@
+{
+  "inspection": {
+    "key": "-1:-1:streetlight_small",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_small",
+      "bbox": {
+        "minX": -2046.9965467247525,
+        "maxX": -1862.2750954104752,
+        "minZ": -965.8975008203674,
+        "maxZ": -126.64734504865744
+      },
+      "objectIds": [
+        "v6-lamps-317",
+        "v6-lamps-350"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "streetlight_small",
+        "bbox": {
+          "minX": -2046.9965467247525,
+          "maxX": -1862.2750954104752,
+          "minZ": -965.8975008203674,
+          "maxZ": -126.64734504865744
+        },
+        "objectIds": [
+          "v6-lamps-317",
+          "v6-lamps-350"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "v6-lamps-317",
+          "state": "VALID",
+          "position": {
+            "x": -2048.574979106343,
+            "y": -0.04,
+            "z": -129.4588920618199
+          },
+          "rotation": -0.6124533303135333,
+          "anchor": {
+            "anchorRoadId": "system-west:N-to-E-loop",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 163.04269380894615,
+            "lateralOffset": -4.912132034356066,
+            "verticalOffset": -7.37893865290734,
+            "facingDirection": "forward",
+            "expectedHeading": -0.6124533303135333,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-317",
+              "properties": {
+                "position": {
+                  "x": -2048.574979106343,
+                  "y": -0.04,
+                  "z": -129.4588920618199
+                },
+                "rotation": -0.6124533303135333
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-317",
+          "heightMode": "GROUND",
+          "autoMove": 8.635485865157365
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-317",
+          "properties": {
+            "position": {
+              "x": -2048.574979106343,
+              "y": -0.04,
+              "z": -129.4588920618199
+            },
+            "rotation": -0.6124533303135333
+          }
+        }
+      ],
+      "stats": {
+        "planned": 1,
+        "valid": 1,
+        "adjusted": 0,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 1,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-317",
+      "properties": {
+        "position": {
+          "x": -2048.574979106343,
+          "y": -0.04,
+          "z": -129.4588920618199
+        },
+        "rotation": -0.6124533303135333
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-350"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-6",
+    "created": [],
+    "modified": [
+      "v6-lamps-317"
+    ],
+    "deleted": [
+      "v6-lamps-350"
+    ],
+    "area": {
+      "minX": -2088.574979106343,
+      "maxX": -1823.2750954104752,
+      "minZ": -1004.8975008203674,
+      "maxZ": -87.64734504865744
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-317",
+          "v6-lamps-350",
+          "ew-wb-split-split-split-split-split",
+          "ew-eb-split-5",
+          "system-west:E-to-S-loop",
+          "system-west:N-to-E-loop",
+          "system-west:N-to-W-right",
+          "system-west:W-to-S-right",
+          "ew-wb-split-split-split-split-split-2",
+          "ew-wb-split-split-split-split-split-2-split",
+          "ew-eb-split-5-split-2",
+          "ew-eb-split-6-split"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-wb-split-split-split-split-split",
+          "system-west:N-to-W-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split-5",
+          "system-west:N-to-E-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:E-to-S-loop",
+          "ring-ccw-3-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:N-to-E-loop",
+          "ring-ccw-0-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:N-to-W-right",
+          "ring-ccw-3-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:W-to-S-right",
+          "ring-ccw-0-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-wb-split-split-split-split-split-2-split",
+          "system-west:E-to-S-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split-6-split",
+          "system-west:W-to-S-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "v6-lamps-317"
+        ],
+        "message": "Base differs from selected support surface"
+      },
+      {
+        "severity": "warning",
+        "code": "object.unsupportedOnDeck",
+        "ids": [
+          "v6-lamps-317"
+        ],
+        "message": "Road-level placement lies outside the available deck/sidewalk envelope"
+      }
+    ],
+    "valid": true
+  }
+}

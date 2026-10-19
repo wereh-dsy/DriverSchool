@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "regional:extension-tree:S31:14140:1"
+    ],
+    "bbox": {
+      "minX": 14142.879809720147,
+      "maxX": 14144.879809720147,
+      "minZ": 4001.6818744039183,
+      "maxZ": 4003.6818744039183
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:extension-tree:S31:14140:1",
+      "state": "VALID",
+      "position": {
+        "x": 14117.384507701612,
+        "y": -8.610669523734504,
+        "z": 3987.3556021690547
+      },
+      "rotation": -0.5244250129758616,
+      "anchor": {
+        "anchorRoadId": "regional:v3:S31-extension130:in:8",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 611.5583095724445,
+        "lateralOffset": 9.125000000000313,
+        "verticalOffset": -11.993972498768068,
+        "facingDirection": "forward",
+        "expectedHeading": -0.5244250129758616,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S31:14140:1",
+          "properties": {
+            "position": {
+              "x": 14117.384507701612,
+              "y": -8.610669523734504,
+              "z": 3987.3556021690547
+            },
+            "rotation": -0.5244250129758616
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S31:14140:1",
+      "heightMode": "GROUND",
+      "autoMove": 31.78603507447257
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:S31:14140:1",
+      "properties": {
+        "position": {
+          "x": 14117.384507701612,
+          "y": -8.610669523734504,
+          "z": 3987.3556021690547
+        },
+        "rotation": -0.5244250129758616
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

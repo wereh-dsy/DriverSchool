@@ -1,0 +1,199 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "guardrail",
+    "objectIds": [
+      "landscape-guardrail-2609",
+      "landscape-guardrail-2614"
+    ],
+    "bbox": {
+      "minX": -1429.366699459807,
+      "maxX": -1423.019443370275,
+      "minZ": -1390.1636001086563,
+      "maxZ": -1388.1521496994776
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-guardrail-2609",
+      "state": "INVALID",
+      "position": {
+        "x": -1442.1869105640108,
+        "y": -0.04,
+        "z": -1376.9789894392854
+      },
+      "rotation": -2.4194741547087038,
+      "anchor": {
+        "anchorRoadId": "v4-west-split-3-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 20.73021632157223,
+        "lateralOffset": 34.500049999950114,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -2.4194741547087038,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:landscape-guardrail-2609",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-guardrail-2609",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "landscape-guardrail-2614",
+            "actual": 21.875136602993166,
+            "required": 50.000099999899994
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:landscape-guardrail-2609",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-guardrail-2609",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v7-city-rail-27",
+            "actual": 28.688178558502965,
+            "required": 43.83454548972347
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:landscape-guardrail-2609",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-guardrail-2609",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v7-city-rail-28",
+            "actual": 24.312696147273787,
+            "required": 43.759465862874706
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-guardrail-2609",
+          "properties": {
+            "position": {
+              "x": -1442.1869105640108,
+              "y": -0.04,
+              "z": -1376.9789894392854
+            },
+            "rotation": -2.4194741547087038
+          }
+        }
+      ],
+      "sourceId": "landscape-guardrail-2609",
+      "heightMode": "GROUND",
+      "autoMove": 18.416993937260177
+    },
+    {
+      "id": "landscape-guardrail-2614",
+      "state": "INVALID",
+      "position": {
+        "x": -1440.2933210561578,
+        "y": -0.04,
+        "z": -1374.8291938082518
+      },
+      "rotation": -2.4194741547087038,
+      "anchor": {
+        "anchorRoadId": "v8-beijing-road-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 0,
+        "lateralOffset": 33.215988246122656,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 2.6015540800757866,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:landscape-guardrail-2614",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-guardrail-2614",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "landscape-guardrail-2609",
+            "actual": 18.63843792179321,
+            "required": 50.000099999899994
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:landscape-guardrail-2614",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-guardrail-2614",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v7-city-rail-27",
+            "actual": 31.214943862401306,
+            "required": 43.83454548972347
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:landscape-guardrail-2614",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-guardrail-2614",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v7-city-rail-28",
+            "actual": 23.249227717015756,
+            "required": 43.759465862874706
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-guardrail-2614",
+          "properties": {
+            "position": {
+              "x": -1440.2933210561578,
+              "y": -0.04,
+              "z": -1374.8291938082518
+            },
+            "rotation": -2.4194741547087038
+          }
+        }
+      ],
+      "sourceId": "landscape-guardrail-2614",
+      "heightMode": "GROUND",
+      "autoMove": 21.686767830180415
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 2,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

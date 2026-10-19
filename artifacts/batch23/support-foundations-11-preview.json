@@ -1,0 +1,96 @@
+{
+  "inspection": {
+    "key": "1:0:streetlight_dual",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_dual",
+      "bbox": {
+        "minX": 2918.0542261454593,
+        "maxX": 3123.2506743689246,
+        "minZ": 38.65838994972421,
+        "maxZ": 949.7246006001988
+      },
+      "objectIds": [
+        "v6-lamps-695",
+        "v6-lamps-709",
+        "v6-lamps-819"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "streetlight_dual",
+        "bbox": {
+          "minX": 2918.0542261454593,
+          "maxX": 3123.2506743689246,
+          "minZ": 38.65838994972421,
+          "maxZ": 949.7246006001988
+        },
+        "objectIds": [
+          "v6-lamps-695",
+          "v6-lamps-709",
+          "v6-lamps-819"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [],
+      "operations": [],
+      "stats": {
+        "planned": 0,
+        "valid": 0,
+        "adjusted": 0,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 0,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-695"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-709"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-819"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-11",
+    "created": [],
+    "modified": [],
+    "deleted": [
+      "v6-lamps-695",
+      "v6-lamps-709",
+      "v6-lamps-819"
+    ],
+    "area": {
+      "minX": 2879.0542261454593,
+      "maxX": 3162.2506743689246,
+      "minZ": -0.34161005027578994,
+      "maxZ": 988.7246006001988
+    },
+    "warnings": [],
+    "valid": true
+  }
+}

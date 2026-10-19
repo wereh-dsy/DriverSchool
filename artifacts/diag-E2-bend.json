@@ -1,0 +1,47 @@
+{
+  "scope": "full",
+  "revision": 0,
+  "coverage": {
+    "roadsChecked": 2922,
+    "roadsTotal": 2922,
+    "intersectionsChecked": 302,
+    "intersectionsTotal": 302
+  },
+  "counts": {
+    "error": 0,
+    "warning": 1,
+    "info": 0,
+    "total": 1,
+    "bySeverity": {
+      "error": 0,
+      "warning": 1,
+      "info": 0
+    },
+    "byCode": {
+      "geometry.sharpBend": 1
+    }
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "geometry.sharpBend",
+      "roadId": "v8-nancheng-ring-split-split",
+      "message": "53° bend over 23.9 m",
+      "metrics": {
+        "angleDegrees": 53,
+        "radius": 13.4,
+        "span": 23.9
+      },
+      "station": 829.5,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v8-nancheng-ring-split-split",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v8-nancheng-ring:collector-2"
+    }
+  ],
+  "truncated": false,
+  "mapDigest": "15b234a38a9315101eaf78fa174f5548fadfa650818820782185683dc144398c"
+}

@@ -1,0 +1,100 @@
+{
+  "inspection": {
+    "key": "-1:-1:commercial:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "commercial",
+      "objectIds": [
+        "v8-chengan-shop-1--1"
+      ],
+      "bbox": {
+        "minX": -1192.4960174830605,
+        "maxX": -1190.4960174830605,
+        "minZ": -375,
+        "maxZ": -373
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-chengan-shop-1--1",
+      "properties": {
+        "position": {
+          "x": -1195.176746929864,
+          "y": -0.04,
+          "z": -371.48055250507724
+        },
+        "rotation": -2.541347482132785
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-54",
+    "created": [],
+    "modified": [
+      "v8-chengan-shop-1--1"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1235.176746929864,
+      "maxX": -1151.4960174830605,
+      "minZ": -414,
+      "maxZ": -331.48055250507724
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v8-chengan-shop-1--1",
+          "v4-west-residential-split-2-split-m91",
+          "urban-junction-165",
+          "v8-chengan-road-c91",
+          "urban-junction-237",
+          "v4-inner-0-split-m91",
+          "v4-inner-0-split-2-v91-m91",
+          "urban-junction-24"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-chengan-shop-1--1"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-chengan-shop-1--1"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

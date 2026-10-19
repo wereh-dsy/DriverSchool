@@ -1,0 +1,98 @@
+{
+  "inspection": {
+    "key": "0:0:residential_mid:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "residential_mid",
+      "objectIds": [
+        "v6-east-housing-219"
+      ],
+      "bbox": {
+        "minX": 1929.5242137376395,
+        "maxX": 1931.5242137376395,
+        "minZ": 227.79868431363874,
+        "maxZ": 229.79868431363874
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-east-housing-219",
+      "properties": {
+        "position": {
+          "x": 1925.7117837396995,
+          "y": -0.04,
+          "z": 228.79868431363874
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-17",
+    "revision": 16,
+    "label": "objects-24",
+    "created": [],
+    "modified": [
+      "v6-east-housing-219"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 1885.7117837396995,
+      "maxX": 1970.5242137376395,
+      "minZ": 188.79868431363874,
+      "maxZ": 268.7986843136388
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-east-housing-219",
+          "system-east:S-to-W-turbine",
+          "v9-newcity-two-split-split-split",
+          "urban-junction-192"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ring-ccw-2-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ew-wb-split-3-split-split-3-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

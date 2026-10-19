@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "signs": {
+    "added": [],
+    "removed": [
+      {
+        "type": "URBAN_DIRECTION",
+        "template": "gantry",
+        "size": "large",
+        "language": "zh-CN",
+        "laneDirection": "reverse",
+        "destinations": [
+          {
+            "roadNameId": "direction-mingyuan-south-street",
+            "directionId": "south-ring",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "v5-east-science",
+            "arrow": "left"
+          }
+        ],
+        "advanceMetres": 85,
+        "decisionIds": [
+          "urban-junction-127|v4-diagonal-split-split-2-split|start"
+        ],
+        "incomingRoadId": "v4-diagonal-split-split-2-split-m91",
+        "outgoingRoadIds": [
+          "v4-diagonal-split-split-2-m91",
+          "v5-east-science-m91"
+        ],
+        "postOffset": 11.5,
+        "approachRoadNameId": "direction-mingyuan-south-street",
+        "urbanLayout": "junction-diagram",
+        "id": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+        "roadId": "v4-diagonal-split-split-m91",
+        "stationMetres": 17.684567891701157,
+        "position": {
+          "x": 1342.6109129019626,
+          "y": 0,
+          "z": -990.7327478843122
+        },
+        "heading": 1.5774055337367217
+      }
+    ],
+    "modified": []
+  },
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "objects": {
+    "added": [],
+    "removed": [
+      "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION"
+    ],
+    "modified": []
+  },
+  "structures": [],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 1342.3609129019626,
+    "maxX": 1342.8609129019626,
+    "minZ": -990.9827478843122,
+    "maxZ": -990.4827478843122
+  },
+  "maxRoadDisplacement": 0,
+  "maxElevationDelta": 0,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 0,
+      "deadEnds": [],
+      "adjacency": []
+    },
+    "after": {
+      "components": 0,
+      "deadEnds": [],
+      "adjacency": []
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

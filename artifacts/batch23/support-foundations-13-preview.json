@@ -1,0 +1,89 @@
+{
+  "inspection": {
+    "key": "1:-1:streetlight_dual",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_dual",
+      "bbox": {
+        "minX": 2529.9976598590165,
+        "maxX": 3245.3383073457035,
+        "minZ": -322.60791714210916,
+        "maxZ": -179.75496838301615
+      },
+      "objectIds": [
+        "v6-lamps-816",
+        "v6-lamps-1978"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "streetlight_dual",
+        "bbox": {
+          "minX": 2529.9976598590165,
+          "maxX": 3245.3383073457035,
+          "minZ": -322.60791714210916,
+          "maxZ": -179.75496838301615
+        },
+        "objectIds": [
+          "v6-lamps-816",
+          "v6-lamps-1978"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [],
+      "operations": [],
+      "stats": {
+        "planned": 0,
+        "valid": 0,
+        "adjusted": 0,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 0,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-816"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-1978"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-13",
+    "created": [],
+    "modified": [],
+    "deleted": [
+      "v6-lamps-816",
+      "v6-lamps-1978"
+    ],
+    "area": {
+      "minX": 2490.9976598590165,
+      "maxX": 3284.3383073457035,
+      "minZ": -361.60791714210916,
+      "maxZ": -140.75496838301615
+    },
+    "warnings": [],
+    "valid": true
+  }
+}

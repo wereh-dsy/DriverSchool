@@ -1,0 +1,120 @@
+{
+  "inspection": {
+    "key": "0:-2:streetlight_small:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_small",
+      "objectIds": [
+        "v8-lamp-v8-campus-avenue-90",
+        "v8-lamp-v8-campus-avenue-194",
+        "v8-lamp-v8-campus-avenue-298"
+      ],
+      "bbox": {
+        "minX": 653.9963537998736,
+        "maxX": 862.4783955100821,
+        "minZ": -2656.239097621236,
+        "maxZ": -2629.155907011114
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 2,
+      "adjusted": 1,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 3,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-avenue-90",
+      "properties": {
+        "position": {
+          "x": 860.9610947843938,
+          "y": -0.019233248973453694,
+          "z": -2623.442766869073
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-avenue-194",
+      "properties": {
+        "position": {
+          "x": 757.3687680009607,
+          "y": -0.013691945862713537,
+          "z": -2631.4253777913764
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-avenue-298",
+      "properties": {
+        "position": {
+          "x": 653.7217279936573,
+          "y": -0.008150642751973362,
+          "z": -2638.6979616032895
+        },
+        "rotation": 1.4938903707850175
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-59",
+    "created": [],
+    "modified": [
+      "v8-lamp-v8-campus-avenue-90",
+      "v8-lamp-v8-campus-avenue-194",
+      "v8-lamp-v8-campus-avenue-298"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 613.7217279936573,
+      "maxX": 901.4783955100821,
+      "minZ": -2695.239097621236,
+      "maxZ": -2583.442766869073
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v8-lamp-v8-campus-avenue-90",
+          "v8-lamp-v8-campus-avenue-194",
+          "v8-lamp-v8-campus-avenue-298",
+          "regional:G38:out:split338:split340",
+          "regional:G38:in:split18:split278:split472:lane304",
+          "v8-campus-avenue-v91",
+          "regional:G38:out:split338",
+          "regional:G38:in:split18:split278:split346"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-lamp-v8-campus-avenue-298"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

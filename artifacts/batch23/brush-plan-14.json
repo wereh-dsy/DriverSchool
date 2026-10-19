@@ -1,0 +1,104 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "industrial",
+    "objectIds": [
+      "landscape-industrial-2583"
+    ],
+    "bbox": {
+      "minX": 3572.5543394078754,
+      "maxX": 3574.5543394078754,
+      "minZ": 1175.4039225569056,
+      "maxZ": 1177.4039225569056
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-industrial-2583",
+      "state": "INVALID",
+      "position": {
+        "x": 3571.548249486536,
+        "y": 9.604649872219131,
+        "z": 1174.6179237021809
+      },
+      "rotation": 2.4141689854853494,
+      "anchor": {
+        "anchorRoadId": "regional:S68:out:split12:split30:split36:split232:split546",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 469.466456161313,
+        "lateralOffset": 65.54312087098398,
+        "verticalOffset": -0.24288241522909892,
+        "facingDirection": "forward",
+        "expectedHeading": 2.4141689854853494,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:landscape-industrial-2583",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2583",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "landscape-industrial-2584",
+            "actual": 82.46598552988856,
+            "required": 109.83624174196785
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.floating:landscape-industrial-2583",
+          "code": "object.floating",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2583",
+          "message": "Base differs from selected support surface",
+          "metrics": {
+            "actual": 9.604649872219131,
+            "expected": 5.242965472854191,
+            "delta": 4.36168439936494
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-industrial-2583",
+          "properties": {
+            "position": {
+              "x": 3571.548249486536,
+              "y": 9.604649872219131,
+              "z": 1174.6179237021809
+            },
+            "rotation": 2.4141689854853494
+          }
+        }
+      ],
+      "sourceId": "landscape-industrial-2583",
+      "heightMode": "GROUND",
+      "autoMove": 9.973138314968715
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,212 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+      "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION"
+    ],
+    "bbox": {
+      "minX": -188.33535903964025,
+      "maxX": -7.125,
+      "minZ": -2678.4223940607285,
+      "maxZ": -2249
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -18,
+        "y": 0,
+        "z": -2252
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "ns-sb-split-3-split-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 18,
+        "lateralOffset": 9.875,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+          "properties": {
+            "position": {
+              "x": -18,
+              "y": 0,
+              "z": -2252
+            },
+            "heading": -3.141592653589793,
+            "roadId": "ns-sb-split-3-split-split-2",
+            "stationMetres": 20
+          }
+        }
+      ],
+      "sourceId": "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 10.075496265693317
+    },
+    {
+      "id": "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": -168.8513289538414,
+        "y": -0.019840971516558382,
+        "z": -2658.6697961825726
+      },
+      "rotation": 4.722483676026921,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 96.95270736781572,
+        "lateralOffset": -9.553553390593281,
+        "verticalOffset": -3.469446951953614e-18,
+        "facingDirection": "reverse",
+        "expectedHeading": 4.722483676026921,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": -168.8513289538414,
+              "y": -0.019840971516558382,
+              "z": -2658.6697961825726
+            },
+            "heading": 4.722483676026921,
+            "roadId": "v8-campus-avenue-split-v91",
+            "stationMetres": 96.95270736781573
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.75355339059317
+    },
+    {
+      "id": "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": -173.35001176867644,
+        "y": -2.073705379369132,
+        "z": -2594.380039198549
+      },
+      "rotation": 0.7291456674587584,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-split-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 84.99830941484701,
+        "lateralOffset": -9.553553390593276,
+        "verticalOffset": 1.3322676295501878e-15,
+        "facingDirection": "reverse",
+        "expectedHeading": 0.7291456674587584,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": -173.35001176867644,
+              "y": -2.073705379369132,
+              "z": -2594.380039198549
+            },
+            "heading": 0.7291456674587584,
+            "roadId": "v8-campus-avenue-split-split-v91",
+            "stationMetres": 84.99830941484696
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.7535533905932
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+      "properties": {
+        "position": {
+          "x": -18,
+          "y": 0,
+          "z": -2252
+        },
+        "heading": -3.141592653589793,
+        "roadId": "ns-sb-split-3-split-split-2",
+        "stationMetres": 20
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -168.8513289538414,
+          "y": -0.019840971516558382,
+          "z": -2658.6697961825726
+        },
+        "heading": 4.722483676026921,
+        "roadId": "v8-campus-avenue-split-v91",
+        "stationMetres": 96.95270736781573
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -173.35001176867644,
+          "y": -2.073705379369132,
+          "z": -2594.380039198549
+        },
+        "heading": 0.7291456674587584,
+        "roadId": "v8-campus-avenue-split-split-v91",
+        "stationMetres": 84.99830941484696
+      }
+    }
+  ],
+  "stats": {
+    "planned": 3,
+    "valid": 2,
+    "adjusted": 1,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 3,
+    "removed": 0
+  },
+  "valid": true
+}

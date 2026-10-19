@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "signs": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "before": {
+          "id": "topology-sign:endpoint:ring-ccw-1:end|ring-ccw-1|end:EXPRESSWAY_DIVERGE",
+          "type": "EXPRESSWAY_DIVERGE",
+          "template": "gantry",
+          "size": "medium",
+          "roadId": "ring-ccw-1",
+          "position": {
+            "x": 16.125000000000057,
+            "y": 0,
+            "z": 2130.3308823529414
+          },
+          "heading": -1.5707963267948966,
+          "laneDirection": "forward",
+          "destinations": [
+            {
+              "roadNameId": "ring-expressway",
+              "directionId": "east-ring",
+              "arrow": "straight"
+            },
+            {
+              "roadNameId": "north-south-expressway",
+              "directionId": "north-ring",
+              "arrow": "exit-right"
+            }
+          ],
+          "language": "zh-CN",
+          "advanceMetres": 30,
+          "stationMetres": 278.98214285714295,
+          "decisionIds": [
+            "endpoint:ring-ccw-1:end|ring-ccw-1|end"
+          ],
+          "incomingRoadId": "ring-ccw-1",
+          "outgoingRoadIds": [
+            "ring-ccw-1-split-3",
+            "system-south:W-to-N-loop"
+          ],
+          "postOffset": 8.375,
+          "approachRoadNameId": "ring-expressway"
+        },
+        "after": {
+          "id": "topology-sign:endpoint:ring-ccw-1:end|ring-ccw-1|end:EXPRESSWAY_DIVERGE",
+          "type": "EXPRESSWAY_DIVERGE",
+          "template": "gantry",
+          "size": "medium",
+          "roadId": "ring-ccw-1",
+          "position": {
+            "x": 11.125000000000114,
+            "y": 0,
+            "z": 2130.3308823529414
+          },
+          "heading": -1.5707963267948966,
+          "laneDirection": "forward",
+          "destinations": [
+            {
+              "roadNameId": "ring-expressway",
+              "directionId": "east-ring",
+              "arrow": "straight"
+            },
+            {
+              "roadNameId": "north-south-expressway",
+              "directionId": "north-ring",
+              "arrow": "exit-right"
+            }
+          ],
+          "language": "zh-CN",
+          "advanceMetres": 30,
+          "stationMetres": 273.982142857143,
+          "decisionIds": [
+            "endpoint:ring-ccw-1:end|ring-ccw-1|end"
+          ],
+          "incomingRoadId": "ring-ccw-1",
+          "outgoingRoadIds": [
+            "ring-ccw-1-split-3",
+            "system-south:W-to-N-loop"
+          ],
+          "postOffset": 6.975,
+          "approachRoadNameId": "ring-expressway"
+        }
+      }
+    ]
+  },
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "topology-sign:endpoint:ring-ccw-1:end|ring-ccw-1|end:EXPRESSWAY_DIVERGE",
+        "type": "roadSign",
+        "displacement": 4.999999999999943,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "ring-ccw-1",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 278.982142857143,
+          "lateralOffset": 0,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -1.5707963267948966,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "ring-ccw-1",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 273.98214285714306,
+          "lateralOffset": 0,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -1.5707963267948966,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 10.875000000000114,
+    "maxX": 16.375000000000057,
+    "minZ": 2130.0808823529414,
+    "maxZ": 2130.5808823529414
+  },
+  "maxRoadDisplacement": 0,
+  "maxElevationDelta": 0,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 0,
+      "deadEnds": [],
+      "adjacency": []
+    },
+    "after": {
+      "components": 0,
+      "deadEnds": [],
+      "adjacency": []
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

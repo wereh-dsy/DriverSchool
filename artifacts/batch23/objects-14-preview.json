@@ -1,0 +1,88 @@
+{
+  "inspection": {
+    "key": "1:0:industrial:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "industrial",
+      "objectIds": [
+        "landscape-industrial-2583"
+      ],
+      "bbox": {
+        "minX": 3572.5543394078754,
+        "maxX": 3574.5543394078754,
+        "minZ": 1175.4039225569056,
+        "maxZ": 1177.4039225569056
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-industrial-2583",
+      "properties": {
+        "position": {
+          "x": 3568.22351144964,
+          "y": 5.25533166254616,
+          "z": 1178.3523737267515
+        },
+        "rotation": 2.4141689854853494
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-8",
+    "revision": 7,
+    "label": "objects-14",
+    "created": [],
+    "modified": [
+      "landscape-industrial-2583"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 3528.22351144964,
+      "maxX": 3613.5543394078754,
+      "minZ": 1136.4039225569056,
+      "maxZ": 1218.3523737267515
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "landscape-industrial-2583",
+          "regional:G4516:out",
+          "regional:S68:out:split12:split30:split36:split232:split546",
+          "regional:S68:in:split84:split102:split240:split550:split558:split566:split574"
+        ],
+        "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "landscape-industrial-2583"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

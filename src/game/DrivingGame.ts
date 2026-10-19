@@ -57,7 +57,7 @@ import {
 import { Hud } from '../ui/Hud';
 import { LapTimer } from './lap/LapTimer';
 import { MirrorOverlayRenderer } from '../ui/MirrorOverlayRenderer';
-import { EnvironmentState } from '../world/environment/EnvironmentState';
+import { WeatherSystem, WEATHER_LABELS, WEATHER_SEQUENCE, type EnvironmentTime, type Weather } from '../world/environment/WeatherSystem';
 import { EnvironmentVisual } from '../world/environment/EnvironmentVisual';
 import { WindshieldRain } from '../camera/WindshieldRain';
 import { WiperController } from '../vehicle/control/WiperController';
@@ -155,7 +155,7 @@ export class DrivingGame {
   private readonly haptics = new GamepadHaptics({ getGamepad: () => this.input.gamepad?.getActiveGamepad() ?? null });
   private readonly sun = new DirectionalLight(0xfff1cf, 3.4);
   private readonly hemisphere = new HemisphereLight(0xd9edf2, 0x52613e, 2.1);
-  private readonly environment = new EnvironmentState();
+  private readonly environment = new WeatherSystem();
   private readonly environmentVisual: EnvironmentVisual;
   private readonly wiperController = new WiperController();
   private windshieldRain: WindshieldRain;
@@ -247,7 +247,8 @@ export class DrivingGame {
     this.scene.fog = new Fog(0xaebfc0, 180, 1_100);
     this.scene.add(this.ground.root, this.vehicleVisual.root);
     this.addLightingAndSky();
-    this.environmentVisual = new EnvironmentVisual(this.scene, this.environment, this.sun, this.hemisphere, this.skyMaterial!);
+    this.environmentVisual = new EnvironmentVisual(this.scene, this.environment, this.sun, this.hemisphere, this.skyMaterial!,
+      value => { this.renderer.toneMappingExposure = value; });
     this.environmentVisual.setGround(this.ground);
 
     const spawn = this.ground.spawnPose;
@@ -315,6 +316,21 @@ export class DrivingGame {
     this.animationFrame = requestAnimationFrame(this.frame);
   }
 
+  /** Public integration point for examinations, maps or scripted events. */
+  public setWeather(weather: Weather, transitionSeconds = 8): void {
+    this.environment.setWeather(weather, transitionSeconds);
+    this.hud.settings.setEnvironment(this.environment.weather, this.environment.time);
+    this.hud.showMessage(`天气 · ${WEATHER_LABELS[weather]}`, 1.8);
+    this.persistEnvironment();
+  }
+
+  public setEnvironmentTime(time: EnvironmentTime): void {
+    this.environment.setTime(time);
+    this.hud.settings.setEnvironment(this.environment.weather, this.environment.time);
+    this.environmentVisual.applyState();
+    this.persistEnvironment();
+  }
+
   dispose(): void {
     this.vehicleLoading.dispose();
     this.pendingVehicleVisual?.dispose(); this.pendingVehicleVisual = null;
@@ -365,6 +381,10 @@ export class DrivingGame {
     if (!this.running) return;
     const frameDt = Math.min(MAX_FRAME_TIME, Math.max(0, (time - this.lastFrameTime) / 1_000));
     this.lastFrameTime = time;
+    // Presets only move targets; all consumers below read the smoothed values.
+    this.environment.update(frameDt);
+    const thunderDelay = this.environment.consumeThunderDelay();
+    if (thunderDelay !== null) this.engineAudio.playThunder(thunderDelay);
     if (!this.vehicleLoading.ready) {
       this.input.setEnabled(false); this.haptics.stop(); this.accumulator = 0;
       if (this.ground.visualReady === false && !this.ground.visualLoadingError) this.updateGroundVisuals(0);
@@ -392,6 +412,9 @@ export class DrivingGame {
       this.updateGroundVisuals(0);this.animationFrame=requestAnimationFrame(this.frame);return;
     }
     this.accumulator = Math.min(this.accumulator + frameDt, FIXED_STEP * MAX_STEPS_PER_FRAME);
+    // Shared weather grip feeds the existing contact sampling for every vehicle.
+    this.contacts.setWetness(this.environment.wetness);
+    this.contacts.setRoadGripMultiplier(this.environment.roadGripMultiplier);
 
     // Automatic PRND buttons in F3 still need a live unified brake sample.
     // All propulsion/steering/accessory commands remain suppressed in menus.
@@ -411,7 +434,7 @@ export class DrivingGame {
       if (driverControls.cycleWipers) {
         const mode = this.wiperController.cycle();
         this.hud.settings.setWiperMode(mode);
-        const labels = { OFF: '关闭', INTERMITTENT: '间歇', LOW: '低速', HIGH: '高速' };
+        const labels = { OFF: '关闭', AUTO: '自动', INTERMITTENT: '间歇', LOW: '低速', HIGH: '高速' };
         this.hud.showMessage(`前雨刷 · ${labels[mode]}`, 1.6);
       }
       const controls = this.cruiseControl.update(FIXED_STEP, driverControls, {
@@ -524,8 +547,9 @@ export class DrivingGame {
     this.hud.updateMinimap(this.snapshot.x, this.snapshot.z, this.snapshot.yaw, frameDt);
     this.updateSun();
     this.driverCamera.update(this.vehicleVisual.root, frameDt);
-    this.wiperController.update(frameDt);
-    this.windshieldRain.update(frameDt, this.environment.weather, this.wiperController);
+    this.wiperController.update(frameDt, this.environment.rainIntensity);
+    if (this.wiperController.sweepStarted) this.engineAudio.playWiperSweep(this.wiperController.effectiveMode);
+    this.windshieldRain.update(frameDt, this.environment.rainIntensity, this.wiperController, this.snapshot.speed);
     this.environmentVisual.update(frameDt, this.driverCamera.camera.position);
     this.updateWorldVisibility();
     const combustionEngine = this.dynamics.engine;
@@ -543,6 +567,8 @@ export class DrivingGame {
         roadRoughness: this.latestRoadRoughness,
         cockpit: this.visualDebug.renderCamera === null,
         driveMode: this.snapshot.driveMode,
+        gear: this.snapshot.gear ?? undefined,
+        acceleration: this.snapshot.acceleration,
         ignitionPhase: combustionEngine.ignitionPhase,
         cruiseActive: this.cruiseControl.status.active,
         lowFuel: this.snapshot.fuel?.lowFuel ?? false,
@@ -564,6 +590,9 @@ export class DrivingGame {
       });
     }
     this.engineAudio.updateTurnSignal(this.lightController.state);
+    this.engineAudio.updateWeather(frameDt, this.environment.rainIntensity,
+      this.environment.windIntensity, this.environment.stormIntensity,
+      this.visualDebug.renderCamera === null, Math.abs(this.snapshot.speed));
     this.hud.updateLap(this.ground.lapCourse ? this.lapTimer.state : null);
     this.hud.update({
       ...this.snapshot,
@@ -723,7 +752,7 @@ export class DrivingGame {
         electricSoundPresence: this.dynamics.powertrain instanceof ElectricPowertrain ? this.dynamics.powertrain.config.audioPresence ?? 1 : 1 } : undefined,
       drivingScene: this.drivingSceneDisplay?.data,
       laneAssist: this.laneAssistSelection.state,
-      ambientDaylight: (this.environment.time === 'DAY' ? 1 : this.environment.time === 'DUSK' ? .32 : .025) * (1 - this.environment.wetness * .48),
+      ambientDaylight: this.ambientDaylight,
       coolantTemperatureC: this.coolantTemperatureC,
       handbrake: this.snapshot.handbrake,
       upshiftRecommended: this.snapshot.upshiftRecommended,
@@ -858,18 +887,25 @@ export class DrivingGame {
     };
     try {
       const stored = JSON.parse(localStorage.getItem('drivergame.environment.v1') ?? '{}');
-      if (['CLEAR', 'LIGHT_RAIN', 'HEAVY_RAIN'].includes(stored.weather)) this.environment.weather = stored.weather;
-      if (['DAY', 'DUSK', 'NIGHT'].includes(stored.time)) this.environment.time = stored.time;
+      // Initial preference snaps to its preset equilibrium; live switching uses transitions.
+      const storedWeather = stored.weather === 'LIGHT_RAIN' ? 'DRIZZLE' : stored.weather;
+      if (WEATHER_SEQUENCE.includes(storedWeather as Weather)) this.environment.setWeather(storedWeather as Weather, 0);
+      if (['DAY', 'DUSK', 'NIGHT'].includes(stored.time)) this.environment.setTime(stored.time as EnvironmentTime);
     } catch { /* Optional preferences must not prevent driving. */ }
     const applyEnvironment = () => {
       this.contacts.setWetness(this.environment.wetness);
+      this.contacts.setRoadGripMultiplier(this.environment.roadGripMultiplier);
       this.environmentVisual.applyState();
       settings.setEnvironment(this.environment.weather, this.environment.time);
-      try { localStorage.setItem('drivergame.environment.v1', JSON.stringify(this.environment)); } catch { /* Optional preference. */ }
+      this.persistEnvironment();
     };
     applyEnvironment();
-    settings.onWeatherChange = weather => { this.environment.weather = weather; applyEnvironment(); };
-    settings.onTimeChange = time => { this.environment.time = time; applyEnvironment(); };
+    settings.onWeatherChange = weather => this.setWeather(weather);
+    settings.onTimeChange = time => {
+      this.environment.setTime(time);
+      applyEnvironment();
+      this.hud.showMessage(`环境时间 · ${{ DAY: '白天', DUSK: '黄昏', NIGHT: '夜间' }[time]}`, 1.6);
+    };
     settings.onWiperModeChange = mode => { this.wiperController.setMode(mode); settings.setWiperMode(mode); };
     this.dynamics.setDriverAssistOptions(settings.driverAssistOptions);
     settings.onDriverAssistsChange = options => this.dynamics.setDriverAssistOptions(options);
@@ -1347,6 +1383,20 @@ export class DrivingGame {
     }
   }
 
+  private persistEnvironment(): void {
+    try {
+      localStorage.setItem('drivergame.environment.v1', JSON.stringify({
+        weather: this.environment.weather, time: this.environment.time,
+      }));
+    } catch { /* Optional preference. */ }
+  }
+
+  /** Day/night owns base daylight; weather only attenuates it for the cabin. */
+  private get ambientDaylight(): number {
+    const daylight = this.environment.time === 'DAY' ? 1 : this.environment.time === 'DUSK' ? .32 : .025;
+    return daylight * this.environment.lightAttenuation;
+  }
+
   private getLightModeLabel(mode: VehicleLightMode): string {
     return { off: '灯光已关闭', position: '示廓灯 / 尾灯', low: '近光灯', high: '远光灯' }[mode];
   }
@@ -1647,6 +1697,11 @@ export class DrivingGame {
       return;
     }
     if (event.code === 'F9' && !event.repeat && this.lateralDebug) { event.preventDefault(); this.lateralDebug.toggle(); }
+    if (event.code === 'KeyY' && event.shiftKey && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey) {
+      event.preventDefault();
+      const index = WEATHER_SEQUENCE.indexOf(this.environment.weather);
+      this.setWeather(WEATHER_SEQUENCE[(index + 1) % WEATHER_SEQUENCE.length]!);
+    }
     if (event.code === 'KeyU' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && this.gameStarted && !this.settingsOpen) {
       if (this.executiveDisplay) { event.preventDefault(); this.executiveDisplay.cyclePage(); }
       else if (this.vehicleVisual.cockpitRoot.cycleCenterDisplayPage()) event.preventDefault();

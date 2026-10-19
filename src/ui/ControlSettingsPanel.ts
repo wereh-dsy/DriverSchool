@@ -11,7 +11,7 @@ import {
 import type { AdjustableMirrorSide, MirrorAdjustment } from '../camera';
 import type { VehicleLightMode } from '../vehicle/visual';
 import type { DriverAssistOptions } from '../vehicle/physics/DriverAssistSystem';
-import type { EnvironmentTime, Weather } from '../world/environment/EnvironmentState';
+import type { EnvironmentTime, Weather } from '../world/environment/WeatherSystem';
 import type { WiperMode } from '../vehicle/control/WiperController';
 import type { MinimapPosition } from './Minimap';
 import type { FuelSnapshot } from '../vehicle/physics/FuelSystem';
@@ -187,11 +187,17 @@ export class ControlSettingsPanel {
               </details>
             </section>
             <section class="settings-group">
-              <div class="settings-group-title"><span>天气与时间</span><small>所有场地通用 · 可自由组合</small></div>
-              <div class="settings-segments">
+              <div class="settings-group-title"><span>天气与时间</span><small>所有场地通用 · Shift+Y 循环天气</small></div>
+              <div class="settings-segments settings-segments-four">
                 <button type="button" data-weather="CLEAR">晴天</button>
-                <button type="button" data-weather="LIGHT_RAIN">小雨</button>
-                <button type="button" data-weather="HEAVY_RAIN">大雨</button>
+                <button type="button" data-weather="OVERCAST">阴天</button>
+                <button type="button" data-weather="DRIZZLE">毛毛雨</button>
+                <button type="button" data-weather="RAIN">中雨</button>
+              </div>
+              <div class="settings-segments">
+                <button type="button" data-weather="HEAVY_RAIN">暴雨</button>
+                <button type="button" data-weather="FOG">雾天</button>
+                <button type="button" data-weather="THUNDERSTORM">雷雨</button>
               </div>
               <div class="settings-segments">
                 <button type="button" data-time="DAY">白天</button>
@@ -200,9 +206,10 @@ export class ControlSettingsPanel {
               </div>
             </section>
             <section class="settings-group">
-              <div class="settings-group-title"><span>前雨刷</span><small><kbd data-key-action="cycleWipers">B</kbd> 关→间歇→低速→高速</small></div>
-              <div class="settings-segments settings-segments-four">
+              <div class="settings-group-title"><span>前雨刷</span><small><kbd data-key-action="cycleWipers">B</kbd> 关→自动→间歇→低速→高速</small></div>
+              <div class="settings-segments">
                 <button type="button" data-wiper="OFF">关闭</button>
+                <button type="button" data-wiper="AUTO">自动</button>
                 <button type="button" data-wiper="INTERMITTENT">间歇</button>
                 <button type="button" data-wiper="LOW">低速</button>
                 <button type="button" data-wiper="HIGH">高速</button>

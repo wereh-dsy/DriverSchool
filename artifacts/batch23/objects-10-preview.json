@@ -1,0 +1,121 @@
+{
+  "inspection": {
+    "key": "0:-2:noise_barrier:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "noise_barrier",
+      "objectIds": [
+        "landscape-noise_barrier-668",
+        "landscape-noise_barrier-672",
+        "landscape-noise_barrier-681",
+        "landscape-noise_barrier-685"
+      ],
+      "bbox": {
+        "minX": 655.25,
+        "maxX": 1011,
+        "minZ": -2024.7040120934607,
+        "maxZ": -2006.343313579529
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 4,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 2,
+      "skipped": 2,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "landscape-noise_barrier-668",
+        "issues": [
+          {
+            "id": "object.floating:landscape-noise_barrier-668",
+            "code": "object.floating",
+            "severity": "warning",
+            "objectId": "landscape-noise_barrier-668",
+            "message": "Base differs from selected support surface",
+            "metrics": {
+              "actual": 8,
+              "expected": -0.04,
+              "delta": 8.04
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "landscape-noise_barrier-672",
+        "issues": [
+          {
+            "id": "object.floating:landscape-noise_barrier-672",
+            "code": "object.floating",
+            "severity": "warning",
+            "objectId": "landscape-noise_barrier-672",
+            "message": "Base differs from selected support surface",
+            "metrics": {
+              "actual": 8,
+              "expected": -0.04,
+              "delta": 8.04
+            },
+            "approximate": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-noise_barrier-681",
+      "properties": {
+        "position": {
+          "x": 680.7739587406136,
+          "y": -0.04,
+          "z": -2027.687349030517
+        },
+        "rotation": 3.016692047058218
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-noise_barrier-685",
+      "properties": {
+        "position": {
+          "x": 641.7970846333533,
+          "y": -0.04,
+          "z": -2025.5460490758114
+        },
+        "rotation": 3.014825203638223
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-4",
+    "revision": 3,
+    "label": "objects-10",
+    "created": [],
+    "modified": [
+      "landscape-noise_barrier-681",
+      "landscape-noise_barrier-685"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 601.7970846333533,
+      "maxX": 752.5,
+      "minZ": -2067.687349030517,
+      "maxZ": -1983.7040120934607
+    },
+    "warnings": [],
+    "valid": true
+  }
+}

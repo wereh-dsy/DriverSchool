@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 1,
+  "signs": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "urban-junction-234",
+        "armsBefore": [
+          {
+            "roadId": "v6-logistics-one-split-3-m91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-port-works-c91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v6-logistics-one-split-3-split-2-m91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "armsAfter": [
+          {
+            "roadId": "v6-logistics-one-split-3-m91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-port-works-c91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v6-logistics-one-split-3-split-2-m91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "markingsRegenerated": false
+      }
+    ]
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "signal:urban-junction-234:east",
+        "type": "trafficLight",
+        "displacement": 75.96472865745024,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v8-port-works-c91",
+          "anchorIntersectionId": "urban-junction-234",
+          "approach": "east",
+          "station": 0,
+          "lateralOffset": -9.200000000000134,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 0.3880751207024624,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v8-port-works-c91",
+          "anchorIntersectionId": "urban-junction-234",
+          "approach": "east",
+          "station": 60.000000000000085,
+          "lateralOffset": -4.199999999999848,
+          "verticalOffset": 4.235294117647068,
+          "facingDirection": "reverse",
+          "expectedHeading": 0.3880751207024624,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 736.935529567747,
+    "maxX": 816.935529567747,
+    "minZ": 2063.857873117,
+    "maxZ": 2171.6563715214043
+  },
+  "maxRoadDisplacement": 0,
+  "maxElevationDelta": 0,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 1,
+      "deadEnds": [],
+      "adjacency": [
+        {
+          "id": "v6-logistics-one-split-3-m91",
+          "links": [
+            "v4-south-split-2-split-split-c91",
+            "v6-logistics-one-m91",
+            "v4-south-split-2-split-split-split-c91",
+            "v8-port-works-c91",
+            "v6-logistics-one-split-3-split-2-m91"
+          ]
+        },
+        {
+          "id": "v8-port-works-c91",
+          "links": [
+            "v6-logistics-one-split-3-m91",
+            "v6-logistics-one-split-3-split-2-m91",
+            "v8-port-south-m91",
+            "v8-port-south-split-2-m91",
+            "v8-port-works-split-2-c91"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-split-3-split-2-m91",
+          "links": [
+            "v6-logistics-one-split-3-m91",
+            "v8-port-works-c91",
+            "v91-ring-south-inner-cd",
+            "v91-ring-south-inner-cd-section-3",
+            "v6-logistics-one-split-3-split-2-m91-section"
+          ]
+        },
+        {
+          "id": "v4-south-split-2-split-split-c91",
+          "links": [
+            "v6-logistics-one-m91",
+            "v4-south-split-2-split-split-split-c91",
+            "v6-logistics-one-split-3-m91"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-m91",
+          "links": [
+            "v4-south-split-2-split-split-c91",
+            "v4-south-split-2-split-split-split-c91",
+            "v6-logistics-one-split-3-m91"
+          ]
+        },
+        {
+          "id": "v4-south-split-2-split-split-split-c91",
+          "links": [
+            "v4-south-split-2-split-split-c91",
+            "v6-logistics-one-m91",
+            "v6-logistics-one-split-3-m91"
+          ]
+        },
+        {
+          "id": "v8-port-south-m91",
+          "links": [
+            "v6-logistics-one-split-3-split-2-m91-section",
+            "v8-port-works-c91",
+            "v8-port-south-split-2-m91",
+            "v8-port-works-split-2-c91"
+          ]
+        },
+        {
+          "id": "v8-port-south-split-2-m91",
+          "links": [
+            "v8-port-south-m91",
+            "v8-port-works-c91",
+            "v8-port-works-split-2-c91"
+          ]
+        },
+        {
+          "id": "v8-port-works-split-2-c91",
+          "links": [
+            "v8-port-south-m91",
+            "v8-port-works-c91",
+            "v8-port-south-split-2-m91"
+          ]
+        },
+        {
+          "id": "v91-ring-south-inner-cd",
+          "links": [
+            "v91-ring-south-inner-cd-section-3",
+            "v6-logistics-one-split-3-split-2-m91",
+            "v6-logistics-one-split-3-split-2-m91-section"
+          ]
+        },
+        {
+          "id": "v91-ring-south-inner-cd-section-3",
+          "links": [
+            "v91-ring-south-inner-cd",
+            "v6-logistics-one-split-3-split-2-m91",
+            "v6-logistics-one-split-3-split-2-m91-section"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-split-3-split-2-m91-section",
+          "links": [
+            "v8-port-south-m91",
+            "v91-ring-south-inner-cd",
+            "v91-ring-south-inner-cd-section-3",
+            "v6-logistics-one-split-3-split-2-m91"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 1,
+      "deadEnds": [],
+      "adjacency": [
+        {
+          "id": "v6-logistics-one-split-3-m91",
+          "links": [
+            "v4-south-split-2-split-split-c91",
+            "v6-logistics-one-m91",
+            "v4-south-split-2-split-split-split-c91",
+            "v8-port-works-c91",
+            "v6-logistics-one-split-3-split-2-m91"
+          ]
+        },
+        {
+          "id": "v8-port-works-c91",
+          "links": [
+            "v6-logistics-one-split-3-m91",
+            "v6-logistics-one-split-3-split-2-m91",
+            "v8-port-south-m91",
+            "v8-port-south-split-2-m91",
+            "v8-port-works-split-2-c91"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-split-3-split-2-m91",
+          "links": [
+            "v6-logistics-one-split-3-m91",
+            "v8-port-works-c91",
+            "v91-ring-south-inner-cd",
+            "v91-ring-south-inner-cd-section-3",
+            "v6-logistics-one-split-3-split-2-m91-section"
+          ]
+        },
+        {
+          "id": "v4-south-split-2-split-split-c91",
+          "links": [
+            "v6-logistics-one-m91",
+            "v4-south-split-2-split-split-split-c91",
+            "v6-logistics-one-split-3-m91"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-m91",
+          "links": [
+            "v4-south-split-2-split-split-c91",
+            "v4-south-split-2-split-split-split-c91",
+            "v6-logistics-one-split-3-m91"
+          ]
+        },
+        {
+          "id": "v4-south-split-2-split-split-split-c91",
+          "links": [
+            "v4-south-split-2-split-split-c91",
+            "v6-logistics-one-m91",
+            "v6-logistics-one-split-3-m91"
+          ]
+        },
+        {
+          "id": "v8-port-south-m91",
+          "links": [
+            "v6-logistics-one-split-3-split-2-m91-section",
+            "v8-port-works-c91",
+            "v8-port-south-split-2-m91",
+            "v8-port-works-split-2-c91"
+          ]
+        },
+        {
+          "id": "v8-port-south-split-2-m91",
+          "links": [
+            "v8-port-south-m91",
+            "v8-port-works-c91",
+            "v8-port-works-split-2-c91"
+          ]
+        },
+        {
+          "id": "v8-port-works-split-2-c91",
+          "links": [
+            "v8-port-south-m91",
+            "v8-port-works-c91",
+            "v8-port-south-split-2-m91"
+          ]
+        },
+        {
+          "id": "v91-ring-south-inner-cd",
+          "links": [
+            "v91-ring-south-inner-cd-section-3",
+            "v6-logistics-one-split-3-split-2-m91",
+            "v6-logistics-one-split-3-split-2-m91-section"
+          ]
+        },
+        {
+          "id": "v91-ring-south-inner-cd-section-3",
+          "links": [
+            "v91-ring-south-inner-cd",
+            "v6-logistics-one-split-3-split-2-m91",
+            "v6-logistics-one-split-3-split-2-m91-section"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-split-3-split-2-m91-section",
+          "links": [
+            "v8-port-south-m91",
+            "v91-ring-south-inner-cd",
+            "v91-ring-south-inner-cd-section-3",
+            "v6-logistics-one-split-3-split-2-m91"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

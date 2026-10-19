@@ -11,6 +11,7 @@ import {clipRoadJunctionPavement} from './JunctionSurface';
 import {roadEdgeChains,roadEdgeStrip} from './RoadEdgeChain';
 import {RoadsidePlacement} from './RoadsidePlacement';
 import {buildHighwayLaneMarkings,buildHighwayGoreMarkings} from '../regional/HighwayLaneRenderer';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 
 /** Shared editor/runtime builder. SectorManager batches its output by material. */
 export class RoadBuilder {
@@ -117,10 +118,22 @@ export class RoadBuilder {
       const walls=enclosure.kind==='cutting'?barrierSections(road,this.map,this.clearance,true):[-1,1].map(side=>({side,points:this.map?roadEdgeChains(this.map).barrierEdge(road,side):points}));
       for(const {side,points:wallPoints} of walls)this.wall(root,wallPoints,enclosure.kind==='cutting'||this.map?0:barrierOffset(road,side),0,enclosure.kind==='cutting'?p=>retainingWallHeight(road,p,this.clearance):enclosure.clearance,this.materials.wall);
       if(enclosure.kind!=='cutting') {
+        const shell:BufferGeometry[]=[];
         for(const underside of [true,false]) {
-          const roof=createStripGeometry(points,()=>0,{innerOffset:edges.left-0.3,outerOffset:edges.right+0.3,yOffset:enclosure.clearance+(underside?0:0.65),maximumSpacing:3});
-          if(roof) {if(underside) {const index=roof.getIndex()!;for(let i=0;i<index.count;i+=3){const a=index.getX(i);index.setX(i,index.getX(i+2));index.setX(i+2,a);}roof.computeVertexNormals();}root.add(new Mesh(roof,this.materials.wall));}
+          const y=enclosure.clearance+(underside?0:.65);
+          const roof=this.map?roadEdgeStrip(road,this.map,edges.left-.3,edges.right+.3,y):createStripGeometry(points,()=>0,{innerOffset:edges.left-.3,outerOffset:edges.right+.3,yOffset:y,maximumSpacing:3});
+          if(roof) {if(underside) {const index=roof.getIndex()!;for(let i=0;i<index.count;i+=3){const a=index.getX(i);index.setX(i,index.getX(i+2));index.setX(i+2,a);}roof.computeVertexNormals();}shell.push(roof);}
         }
+        // Close the roof thickness at real portals. Internal road-ID seams stay
+        // open; the shell uses the same edge frames as walls and pavement.
+        for(const end of ['start','end'] as const){
+          const continued=this.map?.roadLinks?.some(l=>{const a=l.from.roadId===road.id&&l.from.end===end?l.to:l.to.roadId===road.id&&l.to.end===end?l.from:undefined;return a&&this.map!.roads.find(r=>r.id===a.roadId)?.structure?.enclosure?.kind===enclosure.kind;});
+          if(continued)continue;
+          const frame=sampleAt(points,end==='start'?0:length),at=(offset:number,y:number)=>[frame.point.x-frame.tangent.z*offset,(frame.point.y??0)+y,frame.point.z+frame.tangent.x*offset];
+          const fascia=new BufferGeometry();fascia.setAttribute('position',new Float32BufferAttribute([...at(edges.left-.3,enclosure.clearance),...at(edges.right+.3,enclosure.clearance),...at(edges.left-.3,enclosure.clearance+.65),...at(edges.right+.3,enclosure.clearance+.65)],3));
+          fascia.setAttribute('uv',new Float32BufferAttribute([0,0,1,0,0,1,1,1],2));fascia.setIndex(end==='start'?[0,1,2,1,3,2]:[0,2,1,1,2,3]);fascia.computeVertexNormals();shell.push(fascia);
+        }
+        const roof=mergeGeometries(shell);shell.forEach(g=>g.dispose());if(roof){const mesh=new Mesh(roof,this.materials.wall);mesh.name='tunnel ceiling and portals';root.add(mesh);}
         const count=Math.floor(length/30), lights=new InstancedMesh(this.geometry('tunnel-light',()=>new BoxGeometry(0.3,0.08,1.8)),this.materials.tunnelLight??this.materials.signalAmber,count*2),matrix=new Matrix4();
         for(let i=0;i<count;i++)for(let side=0;side<2;side++) {
           const s=sampleAt(points,15+i*30),offset=(side?1:-1)*half*0.6;

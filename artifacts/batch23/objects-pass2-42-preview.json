@@ -1,0 +1,191 @@
+{
+  "inspection": {
+    "key": "1:-3:tree:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "tree",
+      "objectIds": [
+        "regional:tree:2520:-4780",
+        "regional:tree:2840:-5100",
+        "regional:tree:3800:-5100",
+        "regional:tree:3800:-4940",
+        "regional:tree:3960:-5100",
+        "regional:tree:3960:-4940",
+        "regional:extension-tree:G65:280:-1",
+        "regional:extension-tree:G65:280:1"
+      ],
+      "bbox": {
+        "minX": 2508.1191168026126,
+        "maxX": 3988.8578490303335,
+        "minZ": -5143.861765285919,
+        "maxZ": -4817.060029134485
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 8,
+      "valid": 4,
+      "adjusted": 0,
+      "invalid": 4,
+      "skipped": 4,
+      "added": 0,
+      "moved": 4,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:3800:-5100",
+      "properties": {
+        "position": {
+          "x": 3802.4042101832233,
+          "y": 48.78030829566813,
+          "z": -5068.774337245025
+        },
+        "rotation": 2.0306526822309405
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:3800:-4940",
+      "properties": {
+        "position": {
+          "x": 3804.792283766787,
+          "y": 48.69325585889763,
+          "z": -4961.592438839174
+        },
+        "rotation": -1.7441743415974678
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:3960:-5100",
+      "properties": {
+        "position": {
+          "x": 3988.3253417889555,
+          "y": 49.98947309301357,
+          "z": -5046.747786484255
+        },
+        "rotation": 1.8005427628454913
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:3960:-4940",
+      "properties": {
+        "position": {
+          "x": 3926.7630425764464,
+          "y": 55.65073779913753,
+          "z": -4944.941504782116
+        },
+        "rotation": -1.8616308842035967
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "regional:tree:2520:-4780"
+    },
+    {
+      "op": "removeObject",
+      "id": "regional:tree:2840:-5100"
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:G65:280:-1",
+      "properties": {
+        "position": {
+          "x": 3872.3164895081463,
+          "y": 55.2503044315951,
+          "z": -5125.883646374461
+        },
+        "rotation": 2.2640147946305396
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:G65:280:1",
+      "properties": {
+        "position": {
+          "x": 3905.1918344716064,
+          "y": 55.39153820996063,
+          "z": -4928.592052383191
+        },
+        "rotation": -1.8449571668836804
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-42",
+    "created": [],
+    "modified": [
+      "regional:tree:3800:-5100",
+      "regional:tree:3800:-4940",
+      "regional:tree:3960:-5100",
+      "regional:tree:3960:-4940",
+      "regional:extension-tree:G65:280:-1",
+      "regional:extension-tree:G65:280:1"
+    ],
+    "deleted": [
+      "regional:tree:2520:-4780",
+      "regional:tree:2840:-5100"
+    ],
+    "area": {
+      "minX": 2469.1191168026126,
+      "maxX": 4028.3253417889555,
+      "minZ": -5182.861765285919,
+      "maxZ": -4778.060029134485
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:tree:3800:-5100",
+          "regional:tree:3800:-4940",
+          "regional:tree:3960:-5100",
+          "regional:tree:3960:-4940",
+          "regional:tree:2520:-4780",
+          "regional:tree:2840:-5100",
+          "regional:extension-tree:G65:280:-1",
+          "regional:extension-tree:G65:280:1",
+          "regional:G65:in:11",
+          "regional:v2:northwest:E-to-N-right",
+          "regional:G65:out:0:revision234",
+          "regional:G65:in:10:revision204",
+          "regional:v2:northwest:N-to-W-right",
+          "regional:v2:northwest:S-to-W-loop"
+        ],
+        "message": "roads: 5 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G65:in:11",
+          "regional:v2:northwest:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G65:out:0:revision234",
+          "regional:v2:northwest:N-to-W-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

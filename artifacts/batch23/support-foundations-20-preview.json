@@ -1,0 +1,659 @@
+{
+  "inspection": {
+    "key": "3:-2:traffic_sign",
+    "request": {
+      "mode": "REPAIR",
+      "type": "traffic_sign",
+      "bbox": {
+        "minX": 8911.399761414063,
+        "maxX": 9157.69567511869,
+        "minZ": -3089.9884320583456,
+        "maxZ": -2753.4949866154866
+      },
+      "objectIds": [
+        "regional:yanjiang-exit:charger:1:0",
+        "regional:yanjiang-exit:charger:1:1",
+        "regional:yanjiang-exit:charger:1:2",
+        "regional:yanjiang-exit:charger:1:3",
+        "regional:yanjiang-exit:charger:-1:0",
+        "regional:yanjiang-exit:charger:-1:1",
+        "regional:yanjiang-exit:charger:-1:2",
+        "regional:yanjiang-exit:charger:-1:3"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "traffic_sign",
+        "bbox": {
+          "minX": 8911.399761414063,
+          "maxX": 9157.69567511869,
+          "minZ": -3089.9884320583456,
+          "maxZ": -2753.4949866154866
+        },
+        "objectIds": [
+          "regional:yanjiang-exit:charger:1:0",
+          "regional:yanjiang-exit:charger:1:1",
+          "regional:yanjiang-exit:charger:1:2",
+          "regional:yanjiang-exit:charger:1:3",
+          "regional:yanjiang-exit:charger:-1:0",
+          "regional:yanjiang-exit:charger:-1:1",
+          "regional:yanjiang-exit:charger:-1:2",
+          "regional:yanjiang-exit:charger:-1:3"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "regional:yanjiang-exit:charger:1:0",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 8938.363573838154,
+            "y": 17.214435145757037,
+            "z": -2799.6457517436734
+          },
+          "rotation": -2.1897667786348327,
+          "anchor": {
+            "anchorRoadId": "regional:yanjiang-exit:local:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 80.00000000000122,
+            "lateralOffset": 10.249999999999648,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": -2.1897667786348327,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:yanjiang-exit:charger:1:0",
+              "properties": {
+                "position": {
+                  "x": 8938.363573838154,
+                  "y": 17.214435145757037,
+                  "z": -2799.6457517436734
+                },
+                "rotation": -2.1897667786348327
+              }
+            }
+          ],
+          "sourceId": "regional:yanjiang-exit:charger:1:0",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001787709092
+        },
+        {
+          "id": "regional:yanjiang-exit:charger:1:1",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 8942.435954982626,
+            "y": 17.21432008754139,
+            "z": -2796.744767115283
+          },
+          "rotation": -2.1897667786348327,
+          "anchor": {
+            "anchorRoadId": "regional:yanjiang-exit:local:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 85.00000000000146,
+            "lateralOffset": 10.249999999999279,
+            "verticalOffset": -0.040115058215643984,
+            "facingDirection": "forward",
+            "expectedHeading": -2.1897667786348327,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:yanjiang-exit:charger:1:1",
+              "properties": {
+                "position": {
+                  "x": 8942.435954982626,
+                  "y": 17.21432008754139,
+                  "z": -2796.744767115283
+                },
+                "rotation": -2.1897667786348327
+              }
+            }
+          ],
+          "sourceId": "regional:yanjiang-exit:charger:1:1",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001798008412
+        },
+        {
+          "id": "regional:yanjiang-exit:charger:1:2",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 8946.508336127097,
+            "y": 17.210258284139307,
+            "z": -2793.8437824868934
+          },
+          "rotation": -2.1897667786348327,
+          "anchor": {
+            "anchorRoadId": "regional:yanjiang-exit:local:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 90.00000000000142,
+            "lateralOffset": 10.249999999999279,
+            "verticalOffset": -0.04417686161772849,
+            "facingDirection": "forward",
+            "expectedHeading": -2.1897667786348327,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:yanjiang-exit:charger:1:2",
+              "properties": {
+                "position": {
+                  "x": 8946.508336127097,
+                  "y": 17.210258284139307,
+                  "z": -2793.8437824868934
+                },
+                "rotation": -2.1897667786348327
+              }
+            }
+          ],
+          "sourceId": "regional:yanjiang-exit:charger:1:2",
+          "heightMode": "GROUND",
+          "autoMove": 44.7500218055275
+        },
+        {
+          "id": "regional:yanjiang-exit:charger:1:3",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 8950.580717271569,
+            "y": 17.20158925986434,
+            "z": -2790.9427978585027
+          },
+          "rotation": -2.1897667786348327,
+          "anchor": {
+            "anchorRoadId": "regional:yanjiang-exit:local:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 95.00000000000192,
+            "lateralOffset": 10.249999999999279,
+            "verticalOffset": -0.05284588589269745,
+            "facingDirection": "forward",
+            "expectedHeading": -2.1897667786348327,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:yanjiang-exit:charger:1:3",
+              "properties": {
+                "position": {
+                  "x": 8950.580717271569,
+                  "y": 17.20158925986434,
+                  "z": -2790.9427978585027
+                },
+                "rotation": -2.1897667786348327
+              }
+            }
+          ],
+          "sourceId": "regional:yanjiang-exit:charger:1:3",
+          "heightMode": "GROUND",
+          "autoMove": 44.750031203203726
+        },
+        {
+          "id": "regional:yanjiang-exit:charger:-1:0",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 9118.514719261186,
+            "y": 17.214435145757037,
+            "z": -3052.5406208153286
+          },
+          "rotation": 0.9518258749549605,
+          "anchor": {
+            "anchorRoadId": "regional:yanjiang-exit:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 59.99999999999977,
+            "lateralOffset": 10.249999999999279,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": 0.9518258749549605,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:yanjiang-exit:charger:-1:0",
+              "properties": {
+                "position": {
+                  "x": 9118.514719261186,
+                  "y": 17.214435145757037,
+                  "z": -3052.5406208153286
+                },
+                "rotation": 0.9518258749549605
+              }
+            }
+          ],
+          "sourceId": "regional:yanjiang-exit:charger:-1:0",
+          "heightMode": "GROUND",
+          "autoMove": 44.750017877091665
+        },
+        {
+          "id": "regional:yanjiang-exit:charger:-1:1",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 9122.587100405655,
+            "y": 17.214420335125414,
+            "z": -3049.6396361869392
+          },
+          "rotation": 0.9518258749549605,
+          "anchor": {
+            "anchorRoadId": "regional:yanjiang-exit:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 55.00000000000155,
+            "lateralOffset": 10.249999999999279,
+            "verticalOffset": -0.0400148106316216,
+            "facingDirection": "forward",
+            "expectedHeading": 0.9518258749549605,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:yanjiang-exit:charger:-1:1",
+              "properties": {
+                "position": {
+                  "x": 9122.587100405655,
+                  "y": 17.214420335125414,
+                  "z": -3049.6396361869392
+                },
+                "rotation": 0.9518258749549605
+              }
+            }
+          ],
+          "sourceId": "regional:yanjiang-exit:charger:-1:1",
+          "heightMode": "GROUND",
+          "autoMove": 44.750017890332984
+        },
+        {
+          "id": "regional:yanjiang-exit:charger:-1:2",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 9126.659481550127,
+            "y": 17.213867816446108,
+            "z": -3046.738651558549
+          },
+          "rotation": 0.9518258749549605,
+          "anchor": {
+            "anchorRoadId": "regional:yanjiang-exit:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 50.00000000000132,
+            "lateralOffset": 10.249999999999279,
+            "verticalOffset": -0.0405673293109281,
+            "facingDirection": "forward",
+            "expectedHeading": 0.9518258749549605,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:yanjiang-exit:charger:-1:2",
+              "properties": {
+                "position": {
+                  "x": 9126.659481550127,
+                  "y": 17.213867816446108,
+                  "z": -3046.738651558549
+                },
+                "rotation": 0.9518258749549605
+              }
+            }
+          ],
+          "sourceId": "regional:yanjiang-exit:charger:-1:2",
+          "heightMode": "GROUND",
+          "autoMove": 44.750018387796935
+        },
+        {
+          "id": "regional:yanjiang-exit:charger:-1:3",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 9130.731862694598,
+            "y": 17.212682245304062,
+            "z": -3043.837666930159
+          },
+          "rotation": 0.9518258749549605,
+          "anchor": {
+            "anchorRoadId": "regional:yanjiang-exit:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 45.00000000000109,
+            "lateralOffset": 10.249999999999279,
+            "verticalOffset": -0.04175290045297331,
+            "facingDirection": "forward",
+            "expectedHeading": 0.9518258749549605,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:yanjiang-exit:charger:-1:3",
+              "properties": {
+                "position": {
+                  "x": 9130.731862694598,
+                  "y": 17.212682245304062,
+                  "z": -3043.837666930159
+                },
+                "rotation": 0.9518258749549605
+              }
+            }
+          ],
+          "sourceId": "regional:yanjiang-exit:charger:-1:3",
+          "heightMode": "GROUND",
+          "autoMove": 44.750019478260036
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "regional:yanjiang-exit:charger:1:0",
+          "properties": {
+            "position": {
+              "x": 8938.363573838154,
+              "y": 17.214435145757037,
+              "z": -2799.6457517436734
+            },
+            "rotation": -2.1897667786348327
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:yanjiang-exit:charger:1:1",
+          "properties": {
+            "position": {
+              "x": 8942.435954982626,
+              "y": 17.21432008754139,
+              "z": -2796.744767115283
+            },
+            "rotation": -2.1897667786348327
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:yanjiang-exit:charger:1:2",
+          "properties": {
+            "position": {
+              "x": 8946.508336127097,
+              "y": 17.210258284139307,
+              "z": -2793.8437824868934
+            },
+            "rotation": -2.1897667786348327
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:yanjiang-exit:charger:1:3",
+          "properties": {
+            "position": {
+              "x": 8950.580717271569,
+              "y": 17.20158925986434,
+              "z": -2790.9427978585027
+            },
+            "rotation": -2.1897667786348327
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:yanjiang-exit:charger:-1:0",
+          "properties": {
+            "position": {
+              "x": 9118.514719261186,
+              "y": 17.214435145757037,
+              "z": -3052.5406208153286
+            },
+            "rotation": 0.9518258749549605
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:yanjiang-exit:charger:-1:1",
+          "properties": {
+            "position": {
+              "x": 9122.587100405655,
+              "y": 17.214420335125414,
+              "z": -3049.6396361869392
+            },
+            "rotation": 0.9518258749549605
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:yanjiang-exit:charger:-1:2",
+          "properties": {
+            "position": {
+              "x": 9126.659481550127,
+              "y": 17.213867816446108,
+              "z": -3046.738651558549
+            },
+            "rotation": 0.9518258749549605
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:yanjiang-exit:charger:-1:3",
+          "properties": {
+            "position": {
+              "x": 9130.731862694598,
+              "y": 17.212682245304062,
+              "z": -3043.837666930159
+            },
+            "rotation": 0.9518258749549605
+          }
+        }
+      ],
+      "stats": {
+        "planned": 8,
+        "valid": 0,
+        "adjusted": 8,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 8,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:yanjiang-exit:charger:1:0",
+      "properties": {
+        "position": {
+          "x": 8938.363573838154,
+          "y": 17.214435145757037,
+          "z": -2799.6457517436734
+        },
+        "rotation": -2.1897667786348327
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:yanjiang-exit:charger:1:1",
+      "properties": {
+        "position": {
+          "x": 8942.435954982626,
+          "y": 17.21432008754139,
+          "z": -2796.744767115283
+        },
+        "rotation": -2.1897667786348327
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:yanjiang-exit:charger:1:2",
+      "properties": {
+        "position": {
+          "x": 8946.508336127097,
+          "y": 17.210258284139307,
+          "z": -2793.8437824868934
+        },
+        "rotation": -2.1897667786348327
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:yanjiang-exit:charger:1:3",
+      "properties": {
+        "position": {
+          "x": 8950.580717271569,
+          "y": 17.20158925986434,
+          "z": -2790.9427978585027
+        },
+        "rotation": -2.1897667786348327
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:yanjiang-exit:charger:-1:0",
+      "properties": {
+        "position": {
+          "x": 9118.514719261186,
+          "y": 17.214435145757037,
+          "z": -3052.5406208153286
+        },
+        "rotation": 0.9518258749549605
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:yanjiang-exit:charger:-1:1",
+      "properties": {
+        "position": {
+          "x": 9122.587100405655,
+          "y": 17.214420335125414,
+          "z": -3049.6396361869392
+        },
+        "rotation": 0.9518258749549605
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:yanjiang-exit:charger:-1:2",
+      "properties": {
+        "position": {
+          "x": 9126.659481550127,
+          "y": 17.213867816446108,
+          "z": -3046.738651558549
+        },
+        "rotation": 0.9518258749549605
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:yanjiang-exit:charger:-1:3",
+      "properties": {
+        "position": {
+          "x": 9130.731862694598,
+          "y": 17.212682245304062,
+          "z": -3043.837666930159
+        },
+        "rotation": 0.9518258749549605
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-20",
+    "created": [],
+    "modified": [
+      "regional:yanjiang-exit:charger:1:0",
+      "regional:yanjiang-exit:charger:1:1",
+      "regional:yanjiang-exit:charger:1:2",
+      "regional:yanjiang-exit:charger:1:3",
+      "regional:yanjiang-exit:charger:-1:0",
+      "regional:yanjiang-exit:charger:-1:1",
+      "regional:yanjiang-exit:charger:-1:2",
+      "regional:yanjiang-exit:charger:-1:3"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 8872.399761414063,
+      "maxX": 9196.69567511869,
+      "minZ": -3128.9884320583456,
+      "maxZ": -2714.4949866154866
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:yanjiang-exit:charger:1:0",
+          "regional:yanjiang-exit:charger:1:1",
+          "regional:yanjiang-exit:charger:1:2",
+          "regional:yanjiang-exit:charger:1:3",
+          "regional:yanjiang-exit:charger:-1:0",
+          "regional:yanjiang-exit:charger:-1:1",
+          "regional:yanjiang-exit:charger:-1:2",
+          "regional:yanjiang-exit:charger:-1:3",
+          "regional:yanjiang-exit:local:1",
+          "regional:v3:S31-extension130:out:9",
+          "regional:yanjiang-exit:on:1",
+          "regional:yanjiang-exit:off:-1",
+          "regional:yanjiang-exit:local:-1",
+          "regional:v3:S31-extension130:in:16"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

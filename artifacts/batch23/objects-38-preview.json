@@ -1,0 +1,145 @@
+{
+  "inspection": {
+    "key": "1:0:streetlight_dual:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_dual",
+      "objectIds": [
+        "v6-lamps-318",
+        "v6-lamps-696",
+        "v6-lamps-698",
+        "v6-lamps-811",
+        "v6-lamps-841",
+        "v6-lamps-1984"
+      ],
+      "bbox": {
+        "minX": 2414.657182571372,
+        "maxX": 3105.2118743786946,
+        "minZ": 49.999999999999986,
+        "maxZ": 722.5423652531096
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 6,
+      "valid": 1,
+      "adjusted": 1,
+      "invalid": 4,
+      "skipped": 4,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-696",
+      "properties": {
+        "position": {
+          "x": 3105.3,
+          "y": 2.95300436834784,
+          "z": 717.3908597242452
+        },
+        "rotation": 0
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-698",
+      "properties": {
+        "position": {
+          "x": 3071.512098989272,
+          "y": 1.6718751004971764,
+          "z": 359.412132034356
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-318"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-811"
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-841",
+      "properties": {
+        "position": {
+          "x": 2980.0446899038857,
+          "y": 1.4269442728927637,
+          "z": 140.63450865931077
+        },
+        "rotation": -1.570692670283367
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-1984"
+    }
+  ],
+  "summary": {
+    "id": "preview-31",
+    "revision": 30,
+    "label": "objects-38",
+    "created": [],
+    "modified": [
+      "v6-lamps-696",
+      "v6-lamps-698",
+      "v6-lamps-841"
+    ],
+    "deleted": [
+      "v6-lamps-318",
+      "v6-lamps-811",
+      "v6-lamps-1984"
+    ],
+    "area": {
+      "minX": 2375.657182571372,
+      "maxX": 3145.3,
+      "minZ": 10.999999999999986,
+      "maxZ": 761.5423652531096
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-696",
+          "v6-lamps-698",
+          "v6-lamps-318",
+          "v6-lamps-811",
+          "v6-lamps-841",
+          "v6-lamps-1984",
+          "intercity-wb",
+          "peripheral-interchange:S-to-E-right",
+          "intercity-eb-split-split",
+          "peripheral-interchange:E-to-N-right",
+          "v9-newcity-eight-split-split-split-split",
+          "v9-newcity-ten-split-split-split",
+          "v9-newcity-eight-split-split-split-split-split",
+          "v9-newcity-ten-split-split-split-split",
+          "urban-junction-251",
+          "v61-exhibition-road-split-split-2-split",
+          "v61-exhibition-road-split-split-2-split-split",
+          "v9-newcity-ten-split-split",
+          "v9-newcity-ten-split-split-2",
+          "urban-junction-248",
+          "urban-junction-249",
+          "v9-newcity-four-split-split-split-split"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

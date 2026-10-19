@@ -1,0 +1,1224 @@
+{
+  "inspection": {
+    "key": "0:1:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:system-south:E-to-N-right:false:guide:280",
+        "road-safety:system-south:E-to-N-right:false:guide:355",
+        "road-safety:system-south:S-to-E-right:false:guide:205",
+        "road-safety:system-south:W-to-N-loop:false:guide:130",
+        "road-safety:system-south:W-to-N-loop:false:guide:55",
+        "topology-sign:urban-junction-160|v5-south-logistics-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-224|v8-port-south-split|start:ROAD_NAME",
+        "topology-sign:urban-junction-228|v4-industrial-split-2-split-split-2|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-230|v8-port-south-split-split-3|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-231|v8-port-south-split-split-2-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-232|v6-logistics-one-split-2-split-2|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2-split|start:ROAD_NAME",
+        "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-235|v8-port-south|end:ROAD_NAME",
+        "topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-61|v4-industrial-split-2-split-split|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-67|v4-access-3-split|start:ROAD_NAME",
+        "topology-sign:urban-junction-95|v5-south-logistics|start:URBAN_DIRECTION"
+      ],
+      "bbox": {
+        "minX": 22.4996542885137,
+        "maxX": 1994.0949839182013,
+        "minZ": 2000.45571064939,
+        "maxZ": 2908.125914592743
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 25,
+      "valid": 10,
+      "adjusted": 4,
+      "invalid": 11,
+      "skipped": 11,
+      "added": 0,
+      "moved": 14,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "road-safety:system-south:E-to-N-right:false:guide:280",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:E-to-N-right:false:guide:280",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:E-to-N-right:false:guide:280",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:E-to-N-right",
+              "groundElevation": -0.04,
+              "actual": -3.9786560921269887
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "road-safety:system-south:E-to-N-right:false:guide:355",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:E-to-N-right:false:guide:355",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:E-to-N-right:false:guide:355",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:E-to-N-right",
+              "groundElevation": -0.04,
+              "actual": -6.046940734799195
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "road-safety:system-south:S-to-E-right:false:guide:205",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:S-to-E-right:false:guide:205",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:S-to-E-right:false:guide:205",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:S-to-E-right",
+              "groundElevation": -0.04,
+              "actual": -2.200435223286469
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "road-safety:system-south:W-to-N-loop:false:guide:130",
+        "issues": [
+          {
+            "id": "object.wrongStructureLevel:road-safety:system-south:W-to-N-loop:false:guide:130",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "road-safety:system-south:W-to-N-loop:false:guide:130",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "system-south:W-to-N-loop",
+              "groundElevation": -0.04,
+              "actual": -6.641137776485583
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION",
+        "issues": [
+          {
+            "id": "roadSign.insideLane:v8-port-south-split-split-2-split-2-m91:topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION::",
+            "code": "roadSign.insideLane",
+            "severity": "warning",
+            "objectId": "topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION",
+            "roadId": "v8-port-south-split-split-2-split-2-m91",
+            "message": "Sign support intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-south-split-split-2-split-2-m91"
+            },
+            "approximate": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-160|v5-south-logistics-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1914.274320973099,
+          "y": -1.3724740773501964,
+          "z": 2500.2972729194685
+        },
+        "heading": 0.6532664255551732,
+        "roadId": "v5-south-logistics-split-c91",
+        "stationMetres": 54.25086408832669
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1438.251579283654,
+          "y": -3.241267048237197,
+          "z": 2439.993150603705
+        },
+        "heading": 1.5664471500023733,
+        "roadId": "v6-logistics-one-split-m91",
+        "stationMetres": 18.968323794070177
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-224|v8-port-south-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": 973.0483231397843,
+          "y": 0,
+          "z": 2618.674613591541
+        },
+        "heading": 0.2548956631954682,
+        "roadId": "v8-port-south-split-m91",
+        "stationMetres": 84.9999999999998
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1330.0340972305994,
+          "y": 3.4691613511000714,
+          "z": 2815.9834214444095
+        },
+        "heading": 1.5778768222906188,
+        "roadId": "v4-industrial-split-c91",
+        "stationMetres": 22.01785481990163
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-230|v8-port-south-split-split-3|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1087.9682218358778,
+          "y": 0,
+          "z": 2779.3710133131735
+        },
+        "heading": 1.2426172243021698,
+        "roadId": "v8-port-south-split-split-3-m91",
+        "stationMetres": 75.62257442491891
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1827.3299999964127,
+          "y": 0,
+          "z": 2910.62481015003
+        },
+        "heading": -1.5959188926684722,
+        "roadId": "v8-port-south-split-split-2-split-2-m91",
+        "stationMetres": 425.95270136642966
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-231|v8-port-south-split-split-2-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1984.3801978808508,
+          "y": 0,
+          "z": 2845.2138441951406
+        },
+        "heading": 2.0540926928243533,
+        "roadId": "v8-port-south-split-split-2-split-m91",
+        "stationMetres": 85.00000000000004
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-232|v6-logistics-one-split-2-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1191.7985259494617,
+          "y": 0,
+          "z": 2437.5700598561198
+        },
+        "heading": 1.5630654059480347,
+        "roadId": "v6-logistics-one-split-2-split-2-split-m91",
+        "stationMetres": 20.488498621419655
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": 1256.3080579735133,
+          "y": 0,
+          "z": 2438.068787877954
+        },
+        "heading": 1.5630654059480347,
+        "roadId": "v6-logistics-one-split-2-split-2-split-m91",
+        "stationMetres": 84.99995846850345
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1031.5489147396731,
+          "y": 0,
+          "z": 2436.4824638533537
+        },
+        "heading": 3.871382947716644,
+        "roadId": "v6-logistics-one-split-2-m91",
+        "stationMetres": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-235|v8-port-south|end:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": 884.8688483931305,
+          "y": -6,
+          "z": 2356.615268177776
+        },
+        "heading": -2.886696990394325,
+        "roadId": "v8-port-south-m91",
+        "stationMetres": 113.4947461614505
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1393.0145662835203,
+          "y": 3.158803473799637,
+          "z": 2815.5374810647654
+        },
+        "heading": 1.5778768222906188,
+        "roadId": "v4-industrial-split-c91",
+        "stationMetres": 84.99990261884285
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-67|v4-access-3-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": 1392.790061796366,
+          "y": -6.5,
+          "z": 2346.5519692122393
+        },
+        "heading": 3.132811244466845,
+        "roadId": "v4-access-3-split-c91",
+        "stationMetres": 84.9999117961682
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-95|v5-south-logistics|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1915.3132031032924,
+          "y": -0.040068614171612615,
+          "z": 2086.391360687057
+        },
+        "heading": 6.17119203140402,
+        "roadId": "v5-south-logistics-c91",
+        "stationMetres": 84.99745739878325
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-south:W-to-N-loop:false:guide:55",
+      "properties": {
+        "position": {
+          "x": 69.3482112555778,
+          "y": -0.20483773135458555,
+          "z": 2145.9243770939843
+        },
+        "heading": -2.210817892696997,
+        "stationMetres": 30.000000000000362
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-228|v4-industrial-split-2-split-split-2|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1096.1204480580395,
+          "y": -0.015250745753485874,
+          "z": 2828.5624863534867
+        },
+        "heading": -1.5568782730742956,
+        "stationMetres": 48.76392005132575
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1253.0825502231137,
+          "y": 0,
+          "z": 2845.5490310613345
+        },
+        "heading": 1.244826388155248,
+        "stationMetres": 39.999999999999844
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1010.1960183325772,
+          "y": 0,
+          "z": 2397.163290955083
+        },
+        "heading": 3.871382947716644,
+        "stationMetres": 48.54140032631321
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1237.7356329766696,
+          "y": 0,
+          "z": 2840.361340724508
+        },
+        "heading": -1.8967662654345452,
+        "stationMetres": 23.799999999999827
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-61|v4-industrial-split-2-split-split|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1134.0988639510797,
+          "y": -0.008435973635143711,
+          "z": 2828.033866587054
+        },
+        "heading": -1.5568782730742956,
+        "stationMetres": 86.7460146829044
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-79",
+    "created": [],
+    "modified": [
+      "topology-sign:urban-junction-160|v5-south-logistics-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-224|v8-port-south-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-230|v8-port-south-split-split-3|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-231|v8-port-south-split-split-2-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-232|v6-logistics-one-split-2-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-235|v8-port-south|end:ROAD_NAME",
+      "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-67|v4-access-3-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-95|v5-south-logistics|start:URBAN_DIRECTION",
+      "road-safety:system-south:W-to-N-loop:false:guide:55",
+      "topology-sign:urban-junction-228|v4-industrial-split-2-split-split-2|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-61|v4-industrial-split-2-split-split|end:URBAN_DIRECTION"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 36.158558611927276,
+      "maxX": 2033.0949839182013,
+      "minZ": 2044.3401802230742,
+      "maxZ": 2947.125914592743
+    },
+    "warnings": [
+      {
+        "severity": "error",
+        "code": "sign.invalid",
+        "ids": [
+          "topology-sign:urban-junction-160|v5-south-logistics-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-224|v8-port-south-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-230|v8-port-south-split-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-235|v8-port-south|end:ROAD_NAME",
+          "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-67|v4-access-3-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-95|v5-south-logistics|start:URBAN_DIRECTION",
+          "road-safety:system-south:W-to-N-loop:false:guide:55",
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-61|v4-industrial-split-2-split-split|end:URBAN_DIRECTION",
+          "ring-ccw-1",
+          "system-south:S-to-W-semi",
+          "system-south:S-to-E-right",
+          "system-south:E-to-N-right",
+          "system-south:N-to-E-semi",
+          "system-south:W-to-N-loop",
+          "ring-cw-2-split-split-2",
+          "ring-ccw-1-split-3",
+          "v5-south-logistics-split-c91",
+          "urban-junction-160",
+          "v6-logistics-one-split-2-split-m91",
+          "v4-access-3-c91",
+          "v4-access-3-split-c91",
+          "urban-junction-67",
+          "v6-logistics-one-split-m91",
+          "v4-access-5",
+          "v4-industrial-split-2-split",
+          "v8-port-south-split-m91",
+          "v4-access-4-c91",
+          "v8-port-south-split-split-3-m91",
+          "urban-junction-229",
+          "v4-industrial-split-2-split-split-2-c91",
+          "v8-port-yard-split-c91",
+          "v6-logistics-yard-c91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-61",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v4-industrial-split-c91",
+          "v4-industrial-split-2-split-split-c91",
+          "urban-junction-228",
+          "urban-junction-230",
+          "v8-port-south-split-split-2-split-2-m91",
+          "v8-port-yard-split-c91-section",
+          "urban-junction-231",
+          "v8-port-south-split-split-2-split-m91",
+          "urban-junction-225",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v91-ring-south-outer-on",
+          "urban-junction-233",
+          "ring-cw-2-split-3",
+          "ring-ccw-1-split-split-split",
+          "v6-logistics-one-split-2-m91",
+          "urban-junction-235",
+          "v91-ring-south-cross",
+          "urban-junction-232",
+          "urban-junction-173",
+          "v8-port-works-split-2-c91",
+          "ring-cw-2-split-3-split",
+          "v8-port-south-m91",
+          "v8-port-works-c91",
+          "v91-ring-south-inner-on",
+          "ring-ccw-1-split-split-section",
+          "v91-ring-south-outer-off",
+          "ring-ccw-1-split-split-split-split",
+          "ring-cw-2-split-4-split",
+          "ring-cw-2-split-4-split-section",
+          "v91-ring-south-inner-off",
+          "ring-ccw-1-split-split-split-split-section",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91"
+        ],
+        "message": "signs[67]: Ground-founded support must end at or below its road anchor; shoulder gantries and ceiling boards remain road-mounted."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "topology-sign:urban-junction-160|v5-south-logistics-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-224|v8-port-south-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-230|v8-port-south-split-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-235|v8-port-south|end:ROAD_NAME",
+          "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-67|v4-access-3-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-95|v5-south-logistics|start:URBAN_DIRECTION",
+          "road-safety:system-south:W-to-N-loop:false:guide:55",
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-61|v4-industrial-split-2-split-split|end:URBAN_DIRECTION",
+          "ring-ccw-1",
+          "system-south:S-to-W-semi",
+          "system-south:S-to-E-right",
+          "system-south:E-to-N-right",
+          "system-south:N-to-E-semi",
+          "system-south:W-to-N-loop",
+          "ring-cw-2-split-split-2",
+          "ring-ccw-1-split-3",
+          "v5-south-logistics-split-c91",
+          "urban-junction-160",
+          "v6-logistics-one-split-2-split-m91",
+          "v4-access-3-c91",
+          "v4-access-3-split-c91",
+          "urban-junction-67",
+          "v6-logistics-one-split-m91",
+          "v4-access-5",
+          "v4-industrial-split-2-split",
+          "v8-port-south-split-m91",
+          "v4-access-4-c91",
+          "v8-port-south-split-split-3-m91",
+          "urban-junction-229",
+          "v4-industrial-split-2-split-split-2-c91",
+          "v8-port-yard-split-c91",
+          "v6-logistics-yard-c91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-61",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v4-industrial-split-c91",
+          "v4-industrial-split-2-split-split-c91",
+          "urban-junction-228",
+          "urban-junction-230",
+          "v8-port-south-split-split-2-split-2-m91",
+          "v8-port-yard-split-c91-section",
+          "urban-junction-231",
+          "v8-port-south-split-split-2-split-m91",
+          "urban-junction-225",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v91-ring-south-outer-on",
+          "urban-junction-233",
+          "ring-cw-2-split-3",
+          "ring-ccw-1-split-split-split",
+          "v6-logistics-one-split-2-m91",
+          "urban-junction-235",
+          "v91-ring-south-cross",
+          "urban-junction-232",
+          "urban-junction-173",
+          "v8-port-works-split-2-c91",
+          "ring-cw-2-split-3-split",
+          "v8-port-south-m91",
+          "v8-port-works-c91",
+          "v91-ring-south-inner-on",
+          "ring-ccw-1-split-split-section",
+          "v91-ring-south-outer-off",
+          "ring-ccw-1-split-split-split-split",
+          "ring-cw-2-split-4-split",
+          "ring-cw-2-split-4-split-section",
+          "v91-ring-south-inner-off",
+          "ring-ccw-1-split-split-split-split-section",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91"
+        ],
+        "message": "intersections[5]: urban-junction-173: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "topology-sign:urban-junction-160|v5-south-logistics-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-224|v8-port-south-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-230|v8-port-south-split-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-235|v8-port-south|end:ROAD_NAME",
+          "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-67|v4-access-3-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-95|v5-south-logistics|start:URBAN_DIRECTION",
+          "road-safety:system-south:W-to-N-loop:false:guide:55",
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-61|v4-industrial-split-2-split-split|end:URBAN_DIRECTION",
+          "ring-ccw-1",
+          "system-south:S-to-W-semi",
+          "system-south:S-to-E-right",
+          "system-south:E-to-N-right",
+          "system-south:N-to-E-semi",
+          "system-south:W-to-N-loop",
+          "ring-cw-2-split-split-2",
+          "ring-ccw-1-split-3",
+          "v5-south-logistics-split-c91",
+          "urban-junction-160",
+          "v6-logistics-one-split-2-split-m91",
+          "v4-access-3-c91",
+          "v4-access-3-split-c91",
+          "urban-junction-67",
+          "v6-logistics-one-split-m91",
+          "v4-access-5",
+          "v4-industrial-split-2-split",
+          "v8-port-south-split-m91",
+          "v4-access-4-c91",
+          "v8-port-south-split-split-3-m91",
+          "urban-junction-229",
+          "v4-industrial-split-2-split-split-2-c91",
+          "v8-port-yard-split-c91",
+          "v6-logistics-yard-c91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-61",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v4-industrial-split-c91",
+          "v4-industrial-split-2-split-split-c91",
+          "urban-junction-228",
+          "urban-junction-230",
+          "v8-port-south-split-split-2-split-2-m91",
+          "v8-port-yard-split-c91-section",
+          "urban-junction-231",
+          "v8-port-south-split-split-2-split-m91",
+          "urban-junction-225",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v91-ring-south-outer-on",
+          "urban-junction-233",
+          "ring-cw-2-split-3",
+          "ring-ccw-1-split-split-split",
+          "v6-logistics-one-split-2-m91",
+          "urban-junction-235",
+          "v91-ring-south-cross",
+          "urban-junction-232",
+          "urban-junction-173",
+          "v8-port-works-split-2-c91",
+          "ring-cw-2-split-3-split",
+          "v8-port-south-m91",
+          "v8-port-works-c91",
+          "v91-ring-south-inner-on",
+          "ring-ccw-1-split-split-section",
+          "v91-ring-south-outer-off",
+          "ring-ccw-1-split-split-split-split",
+          "ring-cw-2-split-4-split",
+          "ring-cw-2-split-4-split-section",
+          "v91-ring-south-inner-off",
+          "ring-ccw-1-split-split-split-split-section",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91"
+        ],
+        "message": "intersections[16]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "topology-sign:urban-junction-160|v5-south-logistics-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-224|v8-port-south-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-230|v8-port-south-split-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-235|v8-port-south|end:ROAD_NAME",
+          "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-67|v4-access-3-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-95|v5-south-logistics|start:URBAN_DIRECTION",
+          "road-safety:system-south:W-to-N-loop:false:guide:55",
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-61|v4-industrial-split-2-split-split|end:URBAN_DIRECTION",
+          "ring-ccw-1",
+          "system-south:S-to-W-semi",
+          "system-south:S-to-E-right",
+          "system-south:E-to-N-right",
+          "system-south:N-to-E-semi",
+          "system-south:W-to-N-loop",
+          "ring-cw-2-split-split-2",
+          "ring-ccw-1-split-3",
+          "v5-south-logistics-split-c91",
+          "urban-junction-160",
+          "v6-logistics-one-split-2-split-m91",
+          "v4-access-3-c91",
+          "v4-access-3-split-c91",
+          "urban-junction-67",
+          "v6-logistics-one-split-m91",
+          "v4-access-5",
+          "v4-industrial-split-2-split",
+          "v8-port-south-split-m91",
+          "v4-access-4-c91",
+          "v8-port-south-split-split-3-m91",
+          "urban-junction-229",
+          "v4-industrial-split-2-split-split-2-c91",
+          "v8-port-yard-split-c91",
+          "v6-logistics-yard-c91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-61",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v4-industrial-split-c91",
+          "v4-industrial-split-2-split-split-c91",
+          "urban-junction-228",
+          "urban-junction-230",
+          "v8-port-south-split-split-2-split-2-m91",
+          "v8-port-yard-split-c91-section",
+          "urban-junction-231",
+          "v8-port-south-split-split-2-split-m91",
+          "urban-junction-225",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v91-ring-south-outer-on",
+          "urban-junction-233",
+          "ring-cw-2-split-3",
+          "ring-ccw-1-split-split-split",
+          "v6-logistics-one-split-2-m91",
+          "urban-junction-235",
+          "v91-ring-south-cross",
+          "urban-junction-232",
+          "urban-junction-173",
+          "v8-port-works-split-2-c91",
+          "ring-cw-2-split-3-split",
+          "v8-port-south-m91",
+          "v8-port-works-c91",
+          "v91-ring-south-inner-on",
+          "ring-ccw-1-split-split-section",
+          "v91-ring-south-outer-off",
+          "ring-ccw-1-split-split-split-split",
+          "ring-cw-2-split-4-split",
+          "ring-cw-2-split-4-split-section",
+          "v91-ring-south-inner-off",
+          "ring-ccw-1-split-split-split-split-section",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91"
+        ],
+        "message": "intersections[17]: urban-junction-233: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-split-split-split",
+          "v91-ring-south-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ring-cw-3-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-E-right",
+          "ns-nb-split-3-split-split-split-3-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:E-to-N-right",
+          "ns-nb-split-3-split-split-split-2-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-E-semi",
+          "ring-ccw-1-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-E-semi",
+          "ns-sb-split-split-split-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:W-to-N-loop",
+          "ns-nb-split-3-split-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-2-split-split-2",
+          "system-south:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-3",
+          "system-south:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-3",
+          "system-south:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-3",
+          "system-south:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-3",
+          "system-south:W-to-N-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-2-split-4-split-section",
+          "v91-ring-south-inner-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-off",
+          "v91-ring-south-inner-cd-section-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ring-south-inner-on",
+          "ring-cw-2-split-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-on",
+          "v91-ring-south-inner-cd-section-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-split-section",
+          "v91-ring-south-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-on",
+          "v91-ring-south-outer-cd-section-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.wrongFacing",
+        "ids": [
+          "road-safety:system-south:W-to-N-loop:false:guide:55",
+          "system-south:W-to-N-loop"
+        ],
+        "message": "Facing differs from incoming road tangent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-160|v5-south-logistics-split|start:URBAN_DIRECTION",
+          "v5-south-logistics-split-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+          "v6-logistics-one-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION",
+          "v6-logistics-one-split-m91"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "object.wrongStructureLevel",
+        "ids": [
+          "topology-sign:urban-junction-173|v6-logistics-one-split-2-split|start:URBAN_DIRECTION"
+        ],
+        "message": "Underground placement lies outside the supported floor envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-224|v8-port-south-split|start:ROAD_NAME",
+          "v8-port-south-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split-2|end:URBAN_DIRECTION",
+          "v4-industrial-split-2-split-split-2-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+          "v4-industrial-split-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "topology-sign:urban-junction-228|v4-industrial-split-2-split-split|start:URBAN_DIRECTION",
+          "v4-industrial-split-c91"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "v8-port-south-split-split-2-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-230|v8-port-south-split-split-3|start:URBAN_DIRECTION",
+          "v8-port-south-split-split-3-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.tooCloseToJunction",
+        "ids": [
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "v8-port-south-split-split-2-split-2-m91"
+        ],
+        "message": "Sign is immediately beside the junction conflict envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split|start:URBAN_DIRECTION",
+          "v8-port-south-split-split-2-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2-split-2|start:URBAN_DIRECTION",
+          "v6-logistics-one-split-2-split-2-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+          "v6-logistics-one-split-2-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "topology-sign:urban-junction-232|v6-logistics-one-split-2|start:URBAN_DIRECTION",
+          "v6-logistics-one-split-2-m91"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2-split|start:ROAD_NAME",
+          "v6-logistics-one-split-2-split-2-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+          "v6-logistics-one-split-2-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.tooCloseToJunction",
+        "ids": [
+          "topology-sign:urban-junction-233|v6-logistics-one-split-2-split-2|end:URBAN_DIRECTION",
+          "v6-logistics-one-split-2-m91"
+        ],
+        "message": "Sign is immediately beside the junction conflict envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "topology-sign:urban-junction-235|v8-port-south|end:ROAD_NAME",
+          "v8-port-south-m91"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION",
+          "v8-port-south-split-split-2-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-61|v4-industrial-split-2-split-split|end:URBAN_DIRECTION",
+          "v4-industrial-split-2-split-split-2-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+          "v4-industrial-split-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "topology-sign:urban-junction-61|v4-industrial-split|start:URBAN_DIRECTION",
+          "v4-industrial-split-c91"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-67|v4-access-3-split|start:ROAD_NAME",
+          "v4-access-3-split-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-95|v5-south-logistics|start:URBAN_DIRECTION",
+          "v5-south-logistics-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      }
+    ],
+    "valid": false
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "inspection": {
+    "key": "-1:1:hardscape:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "hardscape",
+      "objectIds": [
+        "v6-industrial-yard-253",
+        "v6-industrial-yard-255",
+        "v6-industrial-yard-257",
+        "v6-industrial-yard-259",
+        "v6-industrial-yard-261",
+        "v6-industrial-yard-263"
+      ],
+      "bbox": {
+        "minX": -1299.4,
+        "maxX": -244.71428571428578,
+        "minZ": 2557.16647097344,
+        "maxZ": 2572.2
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 6,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 6,
+      "skipped": 6,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "v6-industrial-yard-253",
+        "issues": [
+          {
+            "id": "object.insideLane::v6-industrial-yard-253::",
+            "code": "object.insideLane",
+            "severity": "warning",
+            "objectId": "v6-industrial-yard-253",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v4-industrial-split-2-split-2",
+              "distance": 17.92724428214794,
+              "roadHalfWidth": 7.5,
+              "objectRadius": 38.85526124151595
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v6-industrial-yard-253",
+              "roadId": "v4-industrial-split-2-split-2",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "object.intersectsBarrier::v6-industrial-yard-253::",
+            "code": "object.intersectsBarrier",
+            "severity": "warning",
+            "objectId": "v6-industrial-yard-253",
+            "message": "Object intersects roadside barrier envelope",
+            "metrics": {
+              "roadId": "v4-industrial-split-2-split-2",
+              "lateralOffset": -17.927244282147935
+            },
+            "approximate": true
+          },
+          {
+            "id": "object.insideLane::v6-industrial-yard-253::",
+            "code": "object.insideLane",
+            "severity": "warning",
+            "objectId": "v6-industrial-yard-253",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-industrial-west-split",
+              "distance": 30.91320586792285,
+              "roadHalfWidth": 3.2,
+              "objectRadius": 29.750576984115582
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v6-industrial-yard-253",
+              "roadId": "v8-industrial-west-split",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "object.insideJunction::v6-industrial-yard-253::",
+            "code": "object.insideJunction",
+            "severity": "warning",
+            "objectId": "v6-industrial-yard-253",
+            "message": "Object envelope intersects junction pavement",
+            "metrics": {
+              "intersectionId": "urban-junction-221"
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "v6-industrial-yard-255",
+        "issues": [
+          {
+            "id": "object.insideLane::v6-industrial-yard-255::",
+            "code": "object.insideLane",
+            "severity": "warning",
+            "objectId": "v6-industrial-yard-255",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v4-industrial-split-2-split-2",
+              "distance": 20.628977249613374,
+              "roadHalfWidth": 7.5,
+              "objectRadius": 21.514130987522464
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v6-industrial-yard-255",
+              "roadId": "v4-industrial-split-2-split-2",
+              "strategy": "moveOutsideCarriageway"
+            }
+          }
+        ]
+      },
+      {
+        "id": "v6-industrial-yard-257",
+        "issues": [
+          {
+            "id": "object.insideLane::v6-industrial-yard-257::",
+            "code": "object.insideLane",
+            "severity": "warning",
+            "objectId": "v6-industrial-yard-257",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-industrial-west-split",
+              "distance": 13.490521303200135,
+              "roadHalfWidth": 3.2,
+              "objectRadius": 34.69845859387745
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v6-industrial-yard-257",
+              "roadId": "v8-industrial-west-split",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "object.insideLane::v6-industrial-yard-257::",
+            "code": "object.insideLane",
+            "severity": "warning",
+            "objectId": "v6-industrial-yard-257",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v4-industrial-split-2-split-2",
+              "distance": 22.33984127730128,
+              "roadHalfWidth": 7.5,
+              "objectRadius": 21.267247327920703
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v6-industrial-yard-257",
+              "roadId": "v4-industrial-split-2-split-2",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "object.intersectsBarrier::v6-industrial-yard-257::",
+            "code": "object.intersectsBarrier",
+            "severity": "warning",
+            "objectId": "v6-industrial-yard-257",
+            "message": "Object intersects roadside barrier envelope",
+            "metrics": {
+              "roadId": "v4-industrial-split-2-split-2",
+              "lateralOffset": -22.339841277301282
+            },
+            "approximate": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-industrial-yard-259",
+      "properties": {
+        "position": {
+          "x": -668.5990751724094,
+          "y": -0.04,
+          "z": 2531.284341264041
+        },
+        "rotation": -1.5701037014584902
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-industrial-yard-261",
+      "properties": {
+        "position": {
+          "x": -457.3359106856808,
+          "y": -0.04,
+          "z": 2530.6733646690504
+        },
+        "rotation": -1.5660327415378323
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-industrial-yard-263",
+      "properties": {
+        "position": {
+          "x": -246.0310354337223,
+          "y": -0.04,
+          "z": 2529.3432991897002
+        },
+        "rotation": -1.5632289918854525
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-21",
+    "revision": 20,
+    "label": "objects-28",
+    "created": [],
+    "modified": [
+      "v6-industrial-yard-259",
+      "v6-industrial-yard-261",
+      "v6-industrial-yard-263"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -708.5990751724094,
+      "maxX": -205.71428571428578,
+      "minZ": 2489.3432991897002,
+      "maxZ": 2611.2
+    },
+    "warnings": [],
+    "valid": true
+  }
+}

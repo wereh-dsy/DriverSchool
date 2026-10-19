@@ -1,0 +1,355 @@
+{
+  "inspection": {
+    "key": "-1:-1:streetlight:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight",
+      "objectIds": [
+        "v6-lamps-352",
+        "v6-lamps-850",
+        "v6-lamps-1497",
+        "v6-lamps-1512",
+        "v6-lamps-1678",
+        "v6-lamps-2449"
+      ],
+      "bbox": {
+        "minX": -925.7993754709719,
+        "maxX": -15.093460695075233,
+        "minZ": -1814.4787341312929,
+        "maxZ": -991.8256158111162
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 6,
+      "valid": 5,
+      "adjusted": 1,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 6,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-352",
+      "properties": {
+        "position": {
+          "x": -17.147661966237237,
+          "y": -0.04,
+          "z": -1808.4716270352596
+        },
+        "rotation": -3.1349555312686777
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-850",
+      "properties": {
+        "position": {
+          "x": -27.78597465145317,
+          "y": -0.04,
+          "z": -1435.5340248206778
+        },
+        "rotation": -2.826497284219396
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1497",
+      "properties": {
+        "position": {
+          "x": -633.7010825498261,
+          "y": -0.04,
+          "z": -1009.6697056274847
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1512",
+      "properties": {
+        "position": {
+          "x": -924.7993754709719,
+          "y": -0.04,
+          "z": -990.3302943725153
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1678",
+      "properties": {
+        "position": {
+          "x": -488.2043030737679,
+          "y": -0.04,
+          "z": -1619.123929148236
+        },
+        "rotation": 1.4096417712681995
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2449",
+      "properties": {
+        "position": {
+          "x": -345.8888341147675,
+          "y": -0.04,
+          "z": -990.3302943725153
+        },
+        "rotation": -1.5707963267948966
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-33",
+    "revision": 32,
+    "label": "objects-40",
+    "created": [],
+    "modified": [
+      "v6-lamps-352",
+      "v6-lamps-850",
+      "v6-lamps-1497",
+      "v6-lamps-1512",
+      "v6-lamps-1678",
+      "v6-lamps-2449"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -964.7993754709719,
+      "maxX": 23.906539304924767,
+      "minZ": -1853.4787341312929,
+      "maxZ": -950.3302943725153
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-352",
+          "v6-lamps-850",
+          "v6-lamps-1497",
+          "v6-lamps-1512",
+          "v6-lamps-1678",
+          "v6-lamps-2449",
+          "ring-ccw-3-split-3",
+          "ns-sb-split-3-split-split",
+          "system-north:S-to-W-star",
+          "system-north:E-to-S-star",
+          "system-north:N-to-E-star",
+          "system-north:N-to-W-right",
+          "system-north:W-to-N-star",
+          "system-north:W-to-S-right",
+          "ring-ccw-3-split-4",
+          "ring-cw-0-split-split-split-2-split-split",
+          "v91-ns-0-a-3",
+          "ns-sb-split-3-split-split-section",
+          "access-ns-north-sb-off",
+          "ns-sb-split-3-split-split-section-section",
+          "system-north:S-to-E-right",
+          "system-north:E-to-N-right",
+          "ns-nb-split-split-split-split-split-split-2-section",
+          "ns-nb-split-split-split-split-split-split-2-section-2",
+          "ns-nb-split-split-split-split-split-split-2",
+          "access-ns-north-nb-on",
+          "ns-sb-split-3-split-split-split-3",
+          "v91-ns-0-a-4",
+          "urban-junction-32",
+          "ns-nb-split-split-split-split-split-split-3",
+          "ns-nb-split-split-split-split-split-split-3-split-2",
+          "ring-cw-0-split-split",
+          "ring-ccw-3-split-3-split",
+          "v4-north-split-3-split-m91",
+          "v4-north-split-3-split-2-split-m91",
+          "urban-junction-179",
+          "v9-lake-loop-south-split",
+          "v4-north-split-3-split-split-2-m91",
+          "v9-lake-east-c91"
+        ],
+        "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-3-split-3",
+          "system-north:N-to-W-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:S-to-E-right",
+          "ring-cw-0-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-north:S-to-E-right",
+          "system-north:S-to-W-star"
+        ],
+        "message": "Crossing clearance 4.8m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:E-to-S-star",
+          "ring-ccw-2-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:N-to-E-star",
+          "ring-cw-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:N-to-W-right",
+          "ns-sb-split-3-split-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:W-to-N-star",
+          "ring-cw-0-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-nb-split-split-split-split-split-split-3",
+          "system-north:S-to-W-star"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-3-split-4",
+          "system-north:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "ring-cw-0-split-split-split-2-split-split",
+          "system-north:E-to-S-star"
+        ],
+        "message": "Crossing clearance 5.4m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-0-split-split-split-2-split-split",
+          "system-north:W-to-S-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-sb-split-3-split-split-split-3",
+          "system-north:E-to-S-star"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "access-ns-north-sb-off",
+          "v91-ns-0-a-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "access-ns-north-sb-off",
+          "ns-sb-split-3-split-split-section-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-nb-split-split-split-split-split-split-2-section",
+          "system-north:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "access-ns-north-nb-on",
+          "ns-nb-split-split-split-split-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "access-ns-north-nb-on",
+          "v91-ns-0-b-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.unsupportedOnDeck",
+        "ids": [
+          "v6-lamps-850"
+        ],
+        "message": "Road-level placement lies outside the available deck/sidewalk envelope"
+      }
+    ],
+    "valid": true
+  }
+}

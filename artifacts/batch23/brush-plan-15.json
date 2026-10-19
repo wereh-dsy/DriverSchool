@@ -1,0 +1,196 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "hardscape",
+    "objectIds": [
+      "landscape-hardscape-2602",
+      "v3-maintenance-ground-3",
+      "v8-chengan-court"
+    ],
+    "bbox": {
+      "minX": -1903.5,
+      "maxX": -1149,
+      "minZ": -406,
+      "maxZ": -21.25547324773543
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-hardscape-2602",
+      "state": "INVALID",
+      "position": {
+        "x": -1936.9002504934667,
+        "y": -0.04,
+        "z": -259.98798919152586
+      },
+      "rotation": -3.134462706026468,
+      "anchor": {
+        "anchorRoadId": "system-west:S-to-W-loop",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 69.30682305679048,
+        "lateralOffset": -5.995841266522006,
+        "verticalOffset": -2.7621144485462286,
+        "facingDirection": "forward",
+        "expectedHeading": -2.1826598994689483,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:landscape-hardscape-2602",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "landscape-hardscape-2602",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-hardscape-2602",
+          "properties": {
+            "position": {
+              "x": -1936.9002504934667,
+              "y": -0.04,
+              "z": -259.98798919152586
+            },
+            "rotation": -3.134462706026468
+          }
+        }
+      ],
+      "sourceId": "landscape-hardscape-2602",
+      "heightMode": "GROUND",
+      "autoMove": 40.90130968044908
+    },
+    {
+      "id": "v3-maintenance-ground-3",
+      "state": "VALID",
+      "position": {
+        "x": -1915.1784910517367,
+        "y": -0.04,
+        "z": -21.875558330409472
+      },
+      "rotation": -3.111636307368884,
+      "anchor": {
+        "anchorRoadId": "system-west:S-to-E-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 228.49161363500733,
+        "lateralOffset": 17.762009412308224,
+        "verticalOffset": -3.6218861053713516,
+        "facingDirection": "forward",
+        "expectedHeading": -0.47267083755784456,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v3-maintenance-ground-3",
+          "properties": {
+            "position": {
+              "x": -1915.1784910517367,
+              "y": -0.04,
+              "z": -21.875558330409472
+            },
+            "rotation": -3.111636307368884
+          }
+        }
+      ],
+      "sourceId": "v3-maintenance-ground-3",
+      "heightMode": "GROUND",
+      "autoMove": 12.684244979239995
+    },
+    {
+      "id": "v8-chengan-court",
+      "state": "INVALID",
+      "position": {
+        "x": -1109.8282057659494,
+        "y": -0.04,
+        "z": -405.2257342755017
+      },
+      "rotation": 0.005619163991728972,
+      "anchor": {
+        "anchorRoadId": "v4-inner-0-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 41.468194844990265,
+        "lateralOffset": 40.423292192132415,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 0.005619163991728972,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:v8-chengan-court",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v8-chengan-court",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-chengan-court",
+          "properties": {
+            "position": {
+              "x": -1109.8282057659494,
+              "y": -0.04,
+              "z": -405.2257342755017
+            },
+            "rotation": 0.005619163991728972
+          }
+        }
+      ],
+      "sourceId": "v8-chengan-court",
+      "heightMode": "GROUND",
+      "autoMove": 40.17244836882657
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v3-maintenance-ground-3",
+      "properties": {
+        "position": {
+          "x": -1915.1784910517367,
+          "y": -0.04,
+          "z": -21.875558330409472
+        },
+        "rotation": -3.111636307368884
+      }
+    }
+  ],
+  "stats": {
+    "planned": 3,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

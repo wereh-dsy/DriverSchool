@@ -10,7 +10,7 @@ import { MERCEDES_E300L_VISUAL_CONFIG } from './visual/MercedesE300LVisualConfig
 import { isElectricConfig, type ElectricVehiclePhysicsConfig } from './config/ElectricVehiclePhysicsConfig';
 import { TESLA_MODEL_3_VISUAL_CONFIG } from './visual/teslaModel3VisualConfig';
 import { validateVehiclePlatformConfig } from './config/validateVehiclePlatformConfig';
-import { EXECUTIVE_AUDIO_PROFILE, MERCEDES_EXECUTIVE_AUDIO_PROFILE, type VehicleAudioProfile } from '../audio/VehicleAudioProfile';
+import { AUDI_A6L_AUDIO_PROFILE, BMW_530LI_AUDIO_PROFILE, MERCEDES_EXECUTIVE_AUDIO_PROFILE, type VehicleAudioProfile } from '../audio/VehicleAudioProfile';
 import { resolveVehicleCapabilities, type VehicleCapabilities, type VehicleFeatureDeclarations } from './VehicleCapabilities';
 import {
   cloneVehiclePhysicsConfig,
@@ -113,7 +113,7 @@ const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescript
     physicsConfig: createTaycan4SPhysicsConfig(), visualConfig: TAYCAN_4S_VISUAL_CONFIG }),
   'bmw-530li-g38': Object.freeze({ id: 'bmw-530li-g38', version: 1, displayName: 'BMW 530Li',
     description: 'G38 LCI 中国长轴版 · 2.0T INLINE4 / 8AT / RWD。3.105 m 轴距行政轿车，350 Nm 游戏标定、舒适且受控的独立悬架，支持手动选挡、EPB、Auto Hold 和定速巡航。',
-    capabilities: Object.freeze({ cruiseControl: true, navigation: true, laneDisplay: true, parkingRadar: true, parking360: true, tpms: true }), audioProfile: EXECUTIVE_AUDIO_PROFILE,
+    capabilities: Object.freeze({ cruiseControl: true, navigation: true, laneDisplay: true, parkingRadar: true, parking360: true, tpms: true }), audioProfile: BMW_530LI_AUDIO_PROFILE,
     physicsConfig: createBMW530LiPhysicsConfig(), visualConfig: BMW_530LI_VISUAL_CONFIG }),
   'mercedes-e300l-v214': Object.freeze({ id: 'mercedes-e300l-v214', version: 1, displayName: 'Mercedes-Benz E 300 L',
     description: '2026 V214 中国长轴版 尊贵型 · 2.0T INLINE4 / 9AT / RWD。3.094 m 轴距豪华行政轿车，190 kW / 400 Nm 游戏标定，标准立标前脸、星徽尾灯与独立 MBUX Superscreen 座舱；舒适取向自适应阻尼，支持手动选挡、EPB、Auto Hold、定速巡航与车道辅助。',
@@ -131,7 +131,7 @@ const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescript
   'executive-lwb-2t': Object.freeze({ id: 'executive-lwb-2t', version: 2, displayName: 'Audi A6L 45 TFSI quattro',
     description: '2.0T INLINE4 / 7DCT / AWD，370 Nm、3.025 m 轴距游戏标定。长轴行政轿车，低中转速扭矩平顺、高速转向稳定、车身动作克制，自适应阻尼偏舒适；当前实现为适时四驱。',
     capabilities: Object.freeze({ cruiseControl: true, navigation: true, laneDisplay: true, parkingRadar: true, parking360: true, tpms: true }),
-    audioProfile: EXECUTIVE_AUDIO_PROFILE, physicsConfig: createExecutiveSedanPhysicsConfig(), visualConfig: EXECUTIVE_SEDAN_VISUAL_CONFIG }),
+    audioProfile: AUDI_A6L_AUDIO_PROFILE, physicsConfig: createExecutiveSedanPhysicsConfig(), visualConfig: EXECUTIVE_SEDAN_VISUAL_CONFIG }),
   'cvt-family-sedan': Object.freeze({ id: 'cvt-family-sedan', version: 2, displayName: 'Nissan Sylphy 2.0L CVT',
     description: '2.0 NA INLINE4 / CVT / FWD。舒适家用轿车，钢带无级变速平顺且无模拟挡位，转向轻柔、悬挂偏软、制动渐进；车身与参数沿用当前游戏实现。',
     capabilities: Object.freeze({ cruiseControl: true }),

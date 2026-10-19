@@ -23,6 +23,35 @@ export function runExecutiveCabinSelfTest() {
       'relief and roughness use half-resolution maps');
     assert(upper.material.emissiveIntensity === 1 && upper.material.emissive.getHex() === 0,
       'static glass does not fabricate luminous display readings');
+    const navigation = find('Executive centre navigation screen');
+    assert(navigation !== undefined && navigation !== upper, 'navigation owns a separate display plane');
+    const navigationMaterial = navigation.material;
+    assert(navigationMaterial !== upper.material && upper.material.map !== navigationMaterial.map &&
+      upper.material.emissiveMap !== navigationMaterial.emissiveMap,
+      'navigation canvas stays out of the shared cabin atlas material');
+    assert(navigation.geometry instanceof T.PlaneGeometry &&
+      navigation.geometry.parameters.width <= .321 && navigation.geometry.parameters.height <= .116,
+      'navigation plane remains inside the centre display aperture');
+    cabin.traverse(o => { if (o instanceof T.Mesh && o !== navigation) {
+      for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
+        assert(m !== navigationMaterial && m.map !== navigationMaterial.map &&
+          (m as T.MeshStandardMaterial).emissiveMap !== navigationMaterial.emissiveMap,
+          'navigation texture never leaks onto ' + o.name);
+      }
+    } });
+    visual.updateInstruments({ speedKmh: 0, rpm: 0, gear: 'P', ignitionOn: true,
+      ambientDaylight: .025, indicators: { headlights: true } }, 2);
+    const nightScreen = navigationMaterial.emissiveIntensity;
+    visual.updateInstruments({ speedKmh: 0, rpm: 0, gear: 'P', ignitionOn: true,
+      ambientDaylight: 1, indicators: {} }, 2);
+    const dayScreen = navigationMaterial.emissiveIntensity;
+    assert(nightScreen > .8 && dayScreen > .7 && nightScreen > dayScreen,
+      'navigation screen is legible by day and brighter at night');
+    visual.updateInstruments({ speedKmh: 0, rpm: 0, gear: 'P', ignitionOn: false }, 2);
+    assert(navigationMaterial.emissiveIntensity < .01, 'navigation screen follows ignition off');
+    assert(navigation.material === navigationMaterial && upper.material.map === map &&
+      upper.material.emissiveIntensity === 1,
+      'display updates never swap cockpit materials or canvases');
     assert(find('Steering wheel rim').material.bumpMap !== null, 'wheel grain is shaded without extra mesh detail');
     const knob = find('Gear knob'); knob.geometry.computeBoundingBox();
     const size = knob.geometry.boundingBox!.getSize(new T.Vector3());

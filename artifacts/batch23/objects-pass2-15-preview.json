@@ -1,0 +1,199 @@
+{
+  "inspection": {
+    "key": "-1:1:streetlight:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight",
+      "objectIds": [
+        "v6-lamps-996",
+        "v6-lamps-997",
+        "v6-lamps-1001",
+        "v6-lamps-1002",
+        "v6-lamps-1003",
+        "v6-lamps-1004",
+        "v6-lamps-1094"
+      ],
+      "bbox": {
+        "minX": -1723.4213780644852,
+        "maxX": -328.87330919948477,
+        "minZ": 2058.74234229029,
+        "maxZ": 2598.787178552604
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 7,
+      "valid": 5,
+      "adjusted": 1,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 6,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-996",
+      "properties": {
+        "position": {
+          "x": -1514.1297371012995,
+          "y": -0.04,
+          "z": 2430.457605629991
+        },
+        "rotation": -2.2051956084512234
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-997",
+      "properties": {
+        "position": {
+          "x": -1345.946425292217,
+          "y": 0.006843986002552892,
+          "z": 2540.9908198563894
+        },
+        "rotation": -1.3877474428942715
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1001",
+      "properties": {
+        "position": {
+          "x": -777.0113649466017,
+          "y": -0.04,
+          "z": 2602.942577298762
+        },
+        "rotation": -1.8674416774974825
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1002",
+      "properties": {
+        "position": {
+          "x": -627.1370702928361,
+          "y": -0.04,
+          "z": 2603.6366127592187
+        },
+        "rotation": -1.5690765993727065
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1004",
+      "properties": {
+        "position": {
+          "x": -329.8337715602837,
+          "y": -0.04,
+          "z": 2602.342183494247
+        },
+        "rotation": -1.5640374135964974
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1094",
+      "properties": {
+        "position": {
+          "x": -1719.5734352022962,
+          "y": -0.04,
+          "z": 2058.4233588170587
+        },
+        "rotation": -2.7078690862042336
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1003",
+      "properties": {
+        "position": {
+          "x": -523.7869106543093,
+          "y": -0.04,
+          "z": 2585.0187314998802
+        },
+        "rotation": -1.5670262975298799
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-15",
+    "created": [],
+    "modified": [
+      "v6-lamps-996",
+      "v6-lamps-997",
+      "v6-lamps-1001",
+      "v6-lamps-1002",
+      "v6-lamps-1004",
+      "v6-lamps-1094",
+      "v6-lamps-1003"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1762.4213780644852,
+      "maxX": -289.8337715602837,
+      "minZ": 2018.4233588170587,
+      "maxZ": 2643.6366127592187
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-996",
+          "v6-lamps-997",
+          "v6-lamps-1001",
+          "v6-lamps-1002",
+          "v6-lamps-1004",
+          "v6-lamps-1094",
+          "v6-lamps-1003",
+          "v4-industrial-split-2",
+          "urban-junction-218",
+          "v8-nancheng-ring-split",
+          "v8-industrial-west",
+          "v4-industrial-split-2-split-2",
+          "v8-industrial-west-split",
+          "v8-nancheng-ring-split-split",
+          "urban-junction-221",
+          "direction-south-industry-link",
+          "urban-junction-222",
+          "v4-industrial-split-2-split-2-split",
+          "v4-industrial-split-2-split",
+          "urban-junction-219",
+          "ring-cw-3-split-2-split",
+          "v4-south-logistics-west",
+          "ring-ccw-0-split-split-split-3-split-section"
+        ],
+        "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.unsupportedOnDeck",
+        "ids": [
+          "v6-lamps-997"
+        ],
+        "message": "Road-level placement lies outside the available deck/sidewalk envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "v6-lamps-1094"
+        ],
+        "message": "Base differs from selected support surface"
+      }
+    ],
+    "valid": true
+  }
+}

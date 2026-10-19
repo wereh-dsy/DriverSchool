@@ -1,0 +1,145 @@
+{
+  "id": "signal:urban-junction-234:east",
+  "kind": "trafficLight",
+  "type": "trafficLight",
+  "position": {
+    "x": 785.0730024914294,
+    "y": 0,
+    "z": 2099.4508861172076
+  },
+  "rotation": -2.7535175328873307,
+  "roadId": "v8-port-works-c91",
+  "intersectionId": "urban-junction-234",
+  "approach": "east",
+  "derived": true,
+  "size": {
+    "width": 0.3,
+    "depth": 0.3,
+    "height": 7.2,
+    "approximate": true
+  },
+  "anchor": {
+    "anchorRoadId": "v8-port-works-c91",
+    "anchorIntersectionId": "urban-junction-234",
+    "approach": "east",
+    "station": 0,
+    "lateralOffset": -9.200000000000134,
+    "verticalOffset": 0,
+    "facingDirection": "reverse",
+    "expectedHeading": 0.3880751207024624,
+    "structureType": "depressed",
+    "derived": true
+  },
+  "distanceToRoad": 16.71809009004741,
+  "nearestLane": {
+    "roadId": "v8-port-works-c91",
+    "index": 0,
+    "approximate": true
+  },
+  "nearestIntersection": {
+    "id": "urban-junction-234",
+    "distance": 9.254188241007613
+  },
+  "structureContext": [
+    {
+      "roadId": "v6-logistics-one-split-3-split-2-m91",
+      "type": "at_grade",
+      "deckY": 0,
+      "verticalOffset": 0
+    },
+    {
+      "roadId": "v6-logistics-one-split-3-m91",
+      "type": "at_grade",
+      "deckY": 0,
+      "verticalOffset": 0
+    },
+    {
+      "roadId": "v8-port-works-c91",
+      "type": "depressed",
+      "deckY": 0,
+      "verticalOffset": 0
+    }
+  ],
+  "signal": {
+    "intersectionId": "urban-junction-234",
+    "approach": "east",
+    "roadId": "v8-port-works-c91",
+    "incoming": true,
+    "mouth": {
+      "x": 782.5359586969064,
+      "y": 0,
+      "z": 2117.5573327256584
+    },
+    "outward": {
+      "x": 0.3784073735918478,
+      "z": 0.9256391627471905
+    },
+    "incomingTangent": {
+      "x": -0.3784073735918478,
+      "z": -0.9256391627471905
+    },
+    "right": {
+      "x": 0.9256391627471905,
+      "z": -0.3784073735918478
+    },
+    "roadWidth": 6.4,
+    "height": 7.2,
+    "divided": false,
+    "expectedPosition": {
+      "x": 785.0730024914294,
+      "y": 0,
+      "z": 2099.4508861172076
+    },
+    "expectedHeading": -2.7535175328873307,
+    "position": {
+      "x": 785.0730024914294,
+      "y": 0,
+      "z": 2099.4508861172076
+    },
+    "heading": -2.7535175328873307,
+    "derived": true,
+    "oppositeSideCandidate": {
+      "x": 785.0730024914294,
+      "y": 0,
+      "z": 2099.4508861172076
+    },
+    "stopLine": {
+      "position": {
+        "x": 790.9796770313919,
+        "y": 0,
+        "z": 2133.98364152246
+      },
+      "width": 2.95,
+      "depth": 0.35,
+      "derived": true,
+      "enabled": true
+    },
+    "paintOffsets": {
+      "boundaryOffset": 14.000000000000007,
+      "crossOffset": 16.200000000000006,
+      "stopOffset": 18.400000000000006,
+      "paintApproach": true
+    }
+  },
+  "visibility": {
+    "approximate": true,
+    "reviewRequired": true,
+    "reason": "Envelope obstruction checks do not implement a renderer visibility test"
+  },
+  "issues": [
+    {
+      "id": "trafficLight.occludedByStructure:v8-port-works-c91:signal:urban-junction-234:east:urban-junction-234:",
+      "code": "trafficLight.occludedByStructure",
+      "severity": "warning",
+      "objectId": "signal:urban-junction-234:east",
+      "roadId": "v8-port-works-c91",
+      "intersectionId": "urban-junction-234",
+      "message": "Approximate incoming sight ray intersects another deck",
+      "metrics": {
+        "roadId": "v6-logistics-one-split-3-split-2-m91"
+      },
+      "approximate": true,
+      "reviewRequired": true
+    }
+  ]
+}

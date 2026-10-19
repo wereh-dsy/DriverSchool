@@ -1,0 +1,113 @@
+{
+  "inspection": {
+    "key": "1:0:streetlight_small:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_small",
+      "objectIds": [
+        "v8-lamp-v8-tonggang-avenue-2274",
+        "v8-lamp-v8-tonggang-avenue-2378",
+        "v8-lamp-v8-tonggang-avenue-2482"
+      ],
+      "bbox": {
+        "minX": 2668.6153188332555,
+        "maxX": 2877.6702676650907,
+        "minZ": 1325.740627426983,
+        "maxZ": 1347.545883402202
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 1,
+      "adjusted": 2,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 3,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-2274",
+      "properties": {
+        "position": {
+          "x": 2669.858330003523,
+          "y": -0.04,
+          "z": 1321.7468259893344
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-2378",
+      "properties": {
+        "position": {
+          "x": 2772.776246890204,
+          "y": -0.04,
+          "z": 1344.1756652719835
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-2482",
+      "properties": {
+        "position": {
+          "x": 2876.5052783703636,
+          "y": -0.04,
+          "z": 1349.9363603761399
+        },
+        "rotation": -1.6194205312068704
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-58",
+    "created": [],
+    "modified": [
+      "v8-lamp-v8-tonggang-avenue-2274",
+      "v8-lamp-v8-tonggang-avenue-2378",
+      "v8-lamp-v8-tonggang-avenue-2482"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2629.6153188332555,
+      "maxX": 2916.6702676650907,
+      "minZ": 1281.7468259893344,
+      "maxZ": 1389.9363603761399
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-lamp-v8-tonggang-avenue-2274"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-lamp-v8-tonggang-avenue-2378"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

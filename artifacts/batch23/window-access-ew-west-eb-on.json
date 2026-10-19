@@ -1,0 +1,95 @@
+{
+  "mainline": "ew-eb-split-4-split-split-section",
+  "frontage": "v91-ew-0-a-6",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 38.525468644291095
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "access-ew-west-eb-on",
+      "distance": 0
+    },
+    {
+      "station": 1.3674586004830824,
+      "kind": "rampAttachment",
+      "id": "access-ew-west-wb-off",
+      "distance": 21.031254735312928
+    },
+    {
+      "station": 38.525468644291095,
+      "kind": "rampAttachment",
+      "id": "system-central:S-to-W-semi",
+      "distance": 20.99342985034184
+    },
+    {
+      "station": 38.525468644291095,
+      "kind": "rampAttachment",
+      "id": "system-central:W-to-N-semi",
+      "distance": 0
+    },
+    {
+      "station": 0,
+      "kind": "ordinaryCrossing",
+      "id": "access-ew-west-eb-on",
+      "distance": 0
+    },
+    {
+      "station": 38.525468644291095,
+      "kind": "ordinaryCrossing",
+      "id": "system-central:W-to-N-semi",
+      "distance": 0
+    },
+    {
+      "station": 38.525468644291095,
+      "kind": "ordinaryCrossing",
+      "id": "ew-eb-split-4-split-split-split",
+      "distance": 0
+    },
+    {
+      "station": 38.525468644291095,
+      "kind": "intersection",
+      "id": "urban-junction-4",
+      "distance": 56.147409683913054
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 38.525468644291095
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ew-eb-split-4-split-split-section",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      }
+    },
+    {
+      "roadId": "v91-ew-0-a-6",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      }
+    }
+  ],
+  "automaticDesign": false
+}

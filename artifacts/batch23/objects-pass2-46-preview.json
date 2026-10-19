@@ -1,0 +1,141 @@
+{
+  "inspection": {
+    "key": "3:-3:tree:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "tree",
+      "objectIds": [
+        "regional:tree:7640:-5100",
+        "regional:tree:7800:-4780",
+        "regional:tree:7800:-4620",
+        "regional:tree:7800:-4460",
+        "regional:tree:7960:-4300"
+      ],
+      "bbox": {
+        "minX": 7687.145738225248,
+        "maxX": 7931.16960821129,
+        "minZ": -5119.712011744319,
+        "maxZ": -4316.789689640595
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 5,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 4,
+      "skipped": 4,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:7960:-4300",
+      "properties": {
+        "position": {
+          "x": 7937.455412747312,
+          "y": 25.071330624988793,
+          "z": -4320.934852264463
+        },
+        "rotation": -2.7340745505413486
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:7640:-5100",
+      "properties": {
+        "position": {
+          "x": 7682.572042108413,
+          "y": 31.9942175882807,
+          "z": -5117.504832772028
+        },
+        "rotation": -2.928302017733089
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:7800:-4780",
+      "properties": {
+        "position": {
+          "x": 7798.849105133197,
+          "y": 29.588485730994485,
+          "z": -4827.614225950026
+        },
+        "rotation": 0.2844783391729803
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:7800:-4620",
+      "properties": {
+        "position": {
+          "x": 7823.745370919834,
+          "y": 27.547288009834382,
+          "z": -4582.981962443922
+        },
+        "rotation": -2.79980414191171
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:7800:-4460",
+      "properties": {
+        "position": {
+          "x": 7849.341078770433,
+          "y": 26.90537751229881,
+          "z": -4512.82090343819
+        },
+        "rotation": -2.781715247464724
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-46",
+    "created": [],
+    "modified": [
+      "regional:tree:7960:-4300",
+      "regional:tree:7640:-5100",
+      "regional:tree:7800:-4780",
+      "regional:tree:7800:-4620",
+      "regional:tree:7800:-4460"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 7642.572042108413,
+      "maxX": 7977.455412747312,
+      "minZ": -5158.712011744319,
+      "maxZ": -4277.789689640595
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:tree:7960:-4300",
+          "regional:tree:7640:-5100",
+          "regional:tree:7800:-4780",
+          "regional:tree:7800:-4620",
+          "regional:tree:7800:-4460",
+          "regional:v3:S31-extension130:out:6",
+          "regional:v3:S31-extension130:out:7",
+          "regional:v3:S31-extension130:in:18",
+          "regional:v3:S31-extension130:in:17"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

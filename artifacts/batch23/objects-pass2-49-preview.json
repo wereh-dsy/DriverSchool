@@ -1,0 +1,166 @@
+{
+  "inspection": {
+    "key": "-4:-3:tree:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "tree",
+      "objectIds": [
+        "regional:extension-tree:S18:5320:1",
+        "regional:extension-tree:S18:6220:-1",
+        "regional:extension-tree:S18:6220:1",
+        "regional:extension-tree:S18:6400:-1",
+        "regional:extension-tree:S18:6400:1",
+        "regional:extension-tree:S18:6940:-1",
+        "regional:extension-tree:S18:6940:1"
+      ],
+      "bbox": {
+        "minX": -6421,
+        "maxX": -6179,
+        "minZ": -5772.289823177541,
+        "maxZ": -4150.289823177546
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 7,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 5,
+      "skipped": 5,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:S18:6940:-1",
+      "properties": {
+        "position": {
+          "x": -6427.762257589677,
+          "y": 23.861230239170094,
+          "z": -5776.630886357936
+        },
+        "rotation": 2.53891078295297
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:S18:6940:1",
+      "properties": {
+        "position": {
+          "x": -6172.237742410323,
+          "y": 23.58224333197616,
+          "z": -5776.630886357935
+        },
+        "rotation": 0.6026818706368232
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "regional:extension-tree:S18:5320:1"
+    },
+    {
+      "op": "removeObject",
+      "id": "regional:extension-tree:S18:6220:-1"
+    },
+    {
+      "op": "removeObject",
+      "id": "regional:extension-tree:S18:6220:1"
+    },
+    {
+      "op": "removeObject",
+      "id": "regional:extension-tree:S18:6400:-1"
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:S18:6400:1",
+      "properties": {
+        "position": {
+          "x": -6179.266367161963,
+          "y": 25.991650573142337,
+          "z": -5230.79300447058
+        },
+        "rotation": -0.6163363128004083
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-49",
+    "created": [],
+    "modified": [
+      "regional:extension-tree:S18:6940:-1",
+      "regional:extension-tree:S18:6940:1",
+      "regional:extension-tree:S18:6400:1"
+    ],
+    "deleted": [
+      "regional:extension-tree:S18:5320:1",
+      "regional:extension-tree:S18:6220:-1",
+      "regional:extension-tree:S18:6220:1",
+      "regional:extension-tree:S18:6400:-1"
+    ],
+    "area": {
+      "minX": -6467.762257589677,
+      "maxX": -6132.237742410323,
+      "minZ": -5816.630886357936,
+      "maxZ": -4111.289823177546
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:extension-tree:S18:6940:-1",
+          "regional:extension-tree:S18:6940:1",
+          "regional:extension-tree:S18:5320:1",
+          "regional:extension-tree:S18:6220:-1",
+          "regional:extension-tree:S18:6220:1",
+          "regional:extension-tree:S18:6400:-1",
+          "regional:extension-tree:S18:6400:1",
+          "regional:v2:airport-north:S-to-E-right",
+          "regional:v2:airport-north:N-to-W-right",
+          "regional:v2:airport-north:E-to-N-right"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:airport-north:S-to-E-right",
+          "regional:S18:out:12:revision162"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:airport-north:N-to-W-right",
+          "regional:v2:G42:in:20:revision158:revision168"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:airport-north:N-to-W-right",
+          "regional:S18:in:1:revision186"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

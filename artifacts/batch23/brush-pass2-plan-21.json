@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "green_strip",
+    "objectIds": [
+      "v6-shrubs-1280"
+    ],
+    "bbox": {
+      "minX": 2299.382847751971,
+      "maxX": 2301.382847751971,
+      "minZ": -659.7083546529103,
+      "maxZ": -657.7083546529103
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-shrubs-1280",
+      "state": "VALID",
+      "position": {
+        "x": 2310.333797664957,
+        "y": -0.04,
+        "z": -658.7083546529103
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-six-north",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 61.291645347089684,
+        "lateralOffset": -10.333797664956819,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-shrubs-1280",
+          "properties": {
+            "position": {
+              "x": 2310.333797664957,
+              "y": -0.04,
+              "z": -658.7083546529103
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-shrubs-1280",
+      "heightMode": "GROUND",
+      "autoMove": 9.95110190736447
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-1280",
+      "properties": {
+        "position": {
+          "x": 2310.333797664957,
+          "y": -0.04,
+          "z": -658.7083546529103
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

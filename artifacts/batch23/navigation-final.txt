@@ -1,0 +1,19 @@
+$ esbuild scripts/run-navigation-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-navigation-selftests.mjs && node .tmp-navigation-selftests.mjs
+
+  .tmp-navigation-selftests.mjs  17.0mb
+
+Done in 594ms
+file:///D:/dsy/drivergame/.tmp-navigation-selftests.mjs:51958
+    if (!ok) throw new Error(`Map geometry consistency: ${message}`);
+                   ^
+
+Error: Map geometry consistency: physical approach/junction height agrees: v91-shared-inner-ew/v91-ew-1-a-3-section-2
+    at assert (file:///D:/dsy/drivergame/.tmp-navigation-selftests.mjs:51958:20)
+    at runMapGeometryConsistencySelfTest (file:///D:/dsy/drivergame/.tmp-navigation-selftests.mjs:52017:11)
+    at file:///D:/dsy/drivergame/.tmp-navigation-selftests.mjs:52039:138
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+[ELIFECYCLE] Command failed with exit code 1.

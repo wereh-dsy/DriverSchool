@@ -77,7 +77,7 @@ export function runSurfaceInteractionSelfTest() {
     }
     assert(ground.queryDiagnostics.maximumCellCandidates < 20, 'spatial index bounds local candidates');
     const buffer = createWheelContactBuffer();
-    const split = sampleWheelContacts(ground, { x: -200, z: -165, yaw: 0 }, config, 0, buffer);
+    const split = sampleWheelContacts(ground, { x: -200, z: -165, yaw: 0 }, config, 0, 1, buffer);
     assert(split === buffer, 'contact adapter reuses four persistent samples');
     assert(split.frontLeft.surfaceType === 'asphalt' && split.rearLeft.surfaceType === 'asphalt' &&
       split.frontRight.surfaceType === 'ice' && split.rearRight.surfaceType === 'ice', 'real map split mu independently samples four wheels');

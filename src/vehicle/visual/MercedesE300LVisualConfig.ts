@@ -21,8 +21,8 @@ export const MERCEDES_E300L_LIGHTING_PROFILE: ExteriorLightingVisualProfile = {
 
 /** Restrained blue-violet cabin illumination, the marque's night signature. */
 export const MERCEDES_E300L_AMBIENT_PROFILE: InteriorAmbientLightingProfile = {
-  color: 0x7c86e0, dayIntensity: .010, nightIntensity: .30, fadeResponse: 4.4,
-  footwellIntensity: .050, dashboardFillIntensity: .060, steeringBadge: 'mercedes-star',
+  color: 0x7c86e0, dayIntensity: .010, nightIntensity: .34, fadeResponse: 4.2,
+  footwellIntensity: .046, dashboardFillIntensity: .072, steeringBadge: 'mercedes-star',
 };
 
 /**

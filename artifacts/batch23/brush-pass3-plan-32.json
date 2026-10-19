@@ -1,0 +1,156 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+      "road-safety:regional:yunling-exit:on:1:false:guide:280"
+    ],
+    "bbox": {
+      "minX": 5502.923846393978,
+      "maxX": 5980.79554446758,
+      "minZ": -7540.650273298559,
+      "maxZ": -7126.576594615805
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+      "state": "VALID",
+      "position": {
+        "x": 5495.831050308529,
+        "y": 71.474124964192,
+        "z": -7132.653703429515
+      },
+      "rotation": 2.5812969721471264,
+      "anchor": {
+        "anchorRoadId": "regional:yunling-exit:on:-1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 279.99999999999966,
+        "lateralOffset": 6.2535533905930265,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 2.5812969721471264,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+          "properties": {
+            "position": {
+              "x": 5495.831050308529,
+              "y": 71.474124964192,
+              "z": -7132.653703429515
+            },
+            "heading": 2.5812969721471264,
+            "roadId": "regional:yunling-exit:on:-1",
+            "stationMetres": 279.9999999999996,
+            "postBaseY": 0
+          }
+        }
+      ],
+      "sourceId": "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.553553390593455
+    },
+    {
+      "id": "road-safety:regional:yunling-exit:on:1:false:guide:280",
+      "state": "VALID",
+      "position": {
+        "x": 5987.264725893384,
+        "y": 68.53605453468946,
+        "z": -7533.693620613088
+      },
+      "rotation": -0.673213095955579,
+      "anchor": {
+        "anchorRoadId": "regional:yunling-exit:on:1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 280.00000000000057,
+        "lateralOffset": 6.253553390593744,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -0.673213095955579,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:regional:yunling-exit:on:1:false:guide:280",
+          "properties": {
+            "position": {
+              "x": 5987.264725893384,
+              "y": 68.53605453468946,
+              "z": -7533.693620613088
+            },
+            "heading": -0.673213095955579,
+            "roadId": "regional:yunling-exit:on:1",
+            "stationMetres": 280,
+            "postBaseY": 0
+          }
+        }
+      ],
+      "sourceId": "road-safety:regional:yunling-exit:on:1:false:guide:280",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.55355339059292
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+      "properties": {
+        "position": {
+          "x": 5495.831050308529,
+          "y": 71.474124964192,
+          "z": -7132.653703429515
+        },
+        "heading": 2.5812969721471264,
+        "roadId": "regional:yunling-exit:on:-1",
+        "stationMetres": 279.9999999999996,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:yunling-exit:on:1:false:guide:280",
+      "properties": {
+        "position": {
+          "x": 5987.264725893384,
+          "y": 68.53605453468946,
+          "z": -7533.693620613088
+        },
+        "heading": -0.673213095955579,
+        "roadId": "regional:yunling-exit:on:1",
+        "stationMetres": 280,
+        "postBaseY": 0
+      }
+    }
+  ],
+  "stats": {
+    "planned": 2,
+    "valid": 2,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 2,
+    "removed": 0
+  },
+  "valid": true
+}

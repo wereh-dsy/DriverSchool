@@ -1,0 +1,64 @@
+{
+  "scope": "full",
+  "revision": 0,
+  "coverage": {
+    "roadsChecked": 2922,
+    "roadsTotal": 2922,
+    "intersectionsChecked": 302,
+    "intersectionsTotal": 302
+  },
+  "counts": {
+    "error": 0,
+    "warning": 2,
+    "info": 0,
+    "total": 2,
+    "bySeverity": {
+      "error": 0,
+      "warning": 2,
+      "info": 0
+    },
+    "byCode": {
+      "geometry.sharpBend": 1,
+      "vertical.steepGrade": 1
+    }
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "geometry.sharpBend",
+      "roadId": "v8-nancheng-ring-split-split",
+      "message": "53° bend over 23.9 m",
+      "metrics": {
+        "angleDegrees": 53,
+        "radius": 13.4,
+        "span": 23.9
+      },
+      "station": 829.5,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v8-nancheng-ring-split-split",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v8-nancheng-ring:collector-2"
+    },
+    {
+      "severity": "warning",
+      "code": "vertical.steepGrade",
+      "roadId": "v61-exhibition-road-split-split-split",
+      "message": "Grade 12.4% exceeds 12%",
+      "metrics": {
+        "maxGradePercent": 12.4
+      },
+      "repair": {
+        "op": "repairElevation",
+        "id": "v61-exhibition-road-split-split-split",
+        "preserveEndpoints": true,
+        "monotonic": false
+      },
+      "corridorId": "corridor:v61-exhibition-road:arterial-2"
+    }
+  ],
+  "truncated": false,
+  "mapDigest": "f41c92839e8244ba3e3e89308d2cf9a05214c232df245deb3078977201cf7f83"
+}

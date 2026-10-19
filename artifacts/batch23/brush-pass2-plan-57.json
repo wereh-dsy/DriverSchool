@@ -1,0 +1,420 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight_small",
+    "objectIds": [
+      "v8-lamp-v8-tonggang-avenue-194",
+      "v8-lamp-v8-tonggang-avenue-506",
+      "v8-lamp-v8-tonggang-avenue-610",
+      "v8-lamp-v8-tonggang-avenue-714",
+      "v8-lamp-v8-tonggang-avenue-818",
+      "v8-lamp-v8-tonggang-avenue-922",
+      "v8-lamp-v8-tonggang-avenue-1026"
+    ],
+    "bbox": {
+      "minX": 592.406558788394,
+      "maxX": 1426.2882358073978,
+      "minZ": 1238.4613210659365,
+      "maxZ": 1265.70395568326
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v8-lamp-v8-tonggang-avenue-194",
+      "state": "VALID",
+      "position": {
+        "x": 585.2739147251816,
+        "y": -0.04,
+        "z": 1240.1701278555386
+      },
+      "rotation": -3.1085257339465535,
+      "anchor": {
+        "anchorRoadId": "v5-south-east-c91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 9.091804245841698e-14,
+        "lateralOffset": 9.212132034356012,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.1085257339465535,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-tonggang-avenue-194",
+          "properties": {
+            "position": {
+              "x": 585.2739147251816,
+              "y": -0.04,
+              "z": 1240.1701278555386
+            },
+            "rotation": -3.1085257339465535
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-tonggang-avenue-194",
+      "heightMode": "GROUND",
+      "autoMove": 8.163571921891176
+    },
+    {
+      "id": "v8-lamp-v8-tonggang-avenue-506",
+      "state": "VALID",
+      "position": {
+        "x": 905.0488658604738,
+        "y": -0.04,
+        "z": 1254.0002411855276
+      },
+      "rotation": -1.6194205312068704,
+      "anchor": {
+        "anchorRoadId": "v8-tonggang-avenue-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 301.5149907692306,
+        "lateralOffset": 9.41213203435586,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6194205312068704,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-tonggang-avenue-506",
+          "properties": {
+            "position": {
+              "x": 905.0488658604738,
+              "y": -0.04,
+              "z": 1254.0002411855276
+            },
+            "rotation": -1.6194205312068704
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-tonggang-avenue-506",
+      "heightMode": "GROUND",
+      "autoMove": 2.850787735778654
+    },
+    {
+      "id": "v8-lamp-v8-tonggang-avenue-610",
+      "state": "VALID",
+      "position": {
+        "x": 1008.919498261467,
+        "y": -0.04,
+        "z": 1259.0548522371305
+      },
+      "rotation": -1.6194205312068704,
+      "anchor": {
+        "anchorRoadId": "v8-tonggang-avenue-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 405.5085356086351,
+        "lateralOffset": 9.412132034355865,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6194205312068704,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-tonggang-avenue-610",
+          "properties": {
+            "position": {
+              "x": 1008.919498261467,
+              "y": -0.04,
+              "z": 1259.0548522371305
+            },
+            "rotation": -1.6194205312068704
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-tonggang-avenue-610",
+      "heightMode": "GROUND",
+      "autoMove": 4.00942650136966
+    },
+    {
+      "id": "v8-lamp-v8-tonggang-avenue-714",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1112.8247438728931,
+        "y": -0.04,
+        "z": 1263.3981729401278
+      },
+      "rotation": -1.6194205312068704,
+      "anchor": {
+        "anchorRoadId": "v8-tonggang-avenue-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 509.50208044804094,
+        "lateralOffset": 8.69999999999993,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6194205312068704,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-tonggang-avenue-714",
+          "properties": {
+            "position": {
+              "x": 1112.8247438728931,
+              "y": -0.04,
+              "z": 1263.3981729401278
+            },
+            "rotation": -1.6194205312068704
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-tonggang-avenue-714",
+      "heightMode": "GROUND",
+      "autoMove": 4.455994338170951
+    },
+    {
+      "id": "v8-lamp-v8-tonggang-avenue-818",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1217.005454611508,
+        "y": -0.04,
+        "z": 1268.467873197948
+      },
+      "rotation": -1.6194205312068704,
+      "anchor": {
+        "anchorRoadId": "v8-tonggang-avenue-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 613.8060705476871,
+        "lateralOffset": 8.69999999999993,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6194205312068704,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-tonggang-avenue-818",
+          "properties": {
+            "position": {
+              "x": 1217.005454611508,
+              "y": -0.04,
+              "z": 1268.467873197948
+            },
+            "rotation": -1.6194205312068704
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-tonggang-avenue-818",
+      "heightMode": "GROUND",
+      "autoMove": 6.082206058682221
+    },
+    {
+      "id": "v8-lamp-v8-tonggang-avenue-922",
+      "state": "VALID",
+      "position": {
+        "x": 1321.6897927632062,
+        "y": -0.04,
+        "z": 1255.4285167312232
+      },
+      "rotation": -1.6194205312068704,
+      "anchor": {
+        "anchorRoadId": "v8-tonggang-avenue-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 717.7329012724595,
+        "lateralOffset": -9.412132034355878,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6194205312068704,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-tonggang-avenue-922",
+          "properties": {
+            "position": {
+              "x": 1321.6897927632062,
+              "y": -0.04,
+              "z": 1255.4285167312232
+            },
+            "rotation": -1.6194205312068704
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-tonggang-avenue-922",
+      "heightMode": "GROUND",
+      "autoMove": 8.129661649854837
+    },
+    {
+      "id": "v8-lamp-v8-tonggang-avenue-1026",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1425.459176690131,
+        "y": -0.04,
+        "z": 1261.1911754888079
+      },
+      "rotation": -1.6194205312068704,
+      "anchor": {
+        "anchorRoadId": "v8-tonggang-avenue-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 821.659731997232,
+        "lateralOffset": -8.699999999999942,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6194205312068704,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-tonggang-avenue-1026",
+          "properties": {
+            "position": {
+              "x": 1425.459176690131,
+              "y": -0.04,
+              "z": 1261.1911754888079
+            },
+            "rotation": -1.6194205312068704
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-tonggang-avenue-1026",
+      "heightMode": "GROUND",
+      "autoMove": 3.5171644089982617
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-194",
+      "properties": {
+        "position": {
+          "x": 585.2739147251816,
+          "y": -0.04,
+          "z": 1240.1701278555386
+        },
+        "rotation": -3.1085257339465535
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-506",
+      "properties": {
+        "position": {
+          "x": 905.0488658604738,
+          "y": -0.04,
+          "z": 1254.0002411855276
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-610",
+      "properties": {
+        "position": {
+          "x": 1008.919498261467,
+          "y": -0.04,
+          "z": 1259.0548522371305
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-714",
+      "properties": {
+        "position": {
+          "x": 1112.8247438728931,
+          "y": -0.04,
+          "z": 1263.3981729401278
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-818",
+      "properties": {
+        "position": {
+          "x": 1217.005454611508,
+          "y": -0.04,
+          "z": 1268.467873197948
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-922",
+      "properties": {
+        "position": {
+          "x": 1321.6897927632062,
+          "y": -0.04,
+          "z": 1255.4285167312232
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-tonggang-avenue-1026",
+      "properties": {
+        "position": {
+          "x": 1425.459176690131,
+          "y": -0.04,
+          "z": 1261.1911754888079
+        },
+        "rotation": -1.6194205312068704
+      }
+    }
+  ],
+  "stats": {
+    "planned": 7,
+    "valid": 4,
+    "adjusted": 3,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 7,
+    "removed": 0
+  },
+  "valid": true
+}

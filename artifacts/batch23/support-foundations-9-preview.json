@@ -1,0 +1,516 @@
+{
+  "inspection": {
+    "key": "0:-1:streetlight_dual",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_dual",
+      "bbox": {
+        "minX": 57.205508530210935,
+        "maxX": 608.5,
+        "minZ": -632.330158061129,
+        "maxZ": -81.3711725395248
+      },
+      "objectIds": [
+        "v6-lamps-421",
+        "v6-lamps-799",
+        "v6-lamps-804",
+        "v6-lamps-806",
+        "v6-lamps-1050",
+        "v6-lamps-1051"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "streetlight_dual",
+        "bbox": {
+          "minX": 57.205508530210935,
+          "maxX": 608.5,
+          "minZ": -632.330158061129,
+          "maxZ": -81.3711725395248
+        },
+        "objectIds": [
+          "v6-lamps-421",
+          "v6-lamps-799",
+          "v6-lamps-804",
+          "v6-lamps-806",
+          "v6-lamps-1050",
+          "v6-lamps-1051"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "v6-lamps-421",
+          "state": "ADJUSTED",
+          "position": {
+            "x": 607.4399018258066,
+            "y": -0.04,
+            "z": -172.53704972302637
+          },
+          "rotation": 1.5413874625936266,
+          "anchor": {
+            "anchorRoadId": "system-central:E-to-S-semi",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 17.83559949463082,
+            "lateralOffset": 9.20000000000001,
+            "verticalOffset": -7.945874915175687,
+            "facingDirection": "forward",
+            "expectedHeading": 1.5413874625936266,
+            "structureType": "depressed",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-421",
+              "properties": {
+                "position": {
+                  "x": 607.4399018258066,
+                  "y": -0.04,
+                  "z": -172.53704972302637
+                },
+                "rotation": 1.5413874625936266
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-421",
+          "heightMode": "GROUND",
+          "autoMove": 8.441170394247926
+        },
+        {
+          "id": "v6-lamps-799",
+          "state": "VALID",
+          "position": {
+            "x": 110.37796387213677,
+            "y": -0.04,
+            "z": -82.37117253952479
+          },
+          "rotation": -1.6580505771906373,
+          "anchor": {
+            "anchorRoadId": "system-central:S-to-E-right",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 294.22597766972257,
+            "lateralOffset": -8.450123232563747,
+            "verticalOffset": 0.9973188057236921,
+            "facingDirection": "forward",
+            "expectedHeading": -1.0113922646414018,
+            "structureType": "depressed",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-799",
+              "properties": {
+                "position": {
+                  "x": 110.37796387213677,
+                  "y": -0.04,
+                  "z": -82.37117253952479
+                },
+                "rotation": -1.6580505771906373
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-799",
+          "heightMode": "GROUND",
+          "autoMove": 10.545152626901958
+        },
+        {
+          "id": "v6-lamps-804",
+          "state": "VALID",
+          "position": {
+            "x": 58.20550853021095,
+            "y": -0.04,
+            "z": -278.87361729326335
+          },
+          "rotation": -0.1249806044375203,
+          "anchor": {
+            "anchorRoadId": "v911-plaza-north-nb",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 251.12638270673665,
+            "lateralOffset": -10.205508530210949,
+            "verticalOffset": -0.04,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-804",
+              "properties": {
+                "position": {
+                  "x": 58.20550853021095,
+                  "y": -0.04,
+                  "z": -278.87361729326335
+                },
+                "rotation": -0.1249806044375203
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-804",
+          "heightMode": "GROUND",
+          "autoMove": 4.609074265993109
+        },
+        {
+          "id": "v6-lamps-806",
+          "state": "VALID",
+          "position": {
+            "x": 288.3328642799817,
+            "y": -0.04,
+            "z": -170.9101435313517
+          },
+          "rotation": 1.4576166746503727,
+          "anchor": {
+            "anchorRoadId": "system-central:E-to-N-right",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 37.41228541658125,
+            "lateralOffset": 5.912132034355965,
+            "verticalOffset": -7.744321839993513,
+            "facingDirection": "forward",
+            "expectedHeading": 1.4576166746503727,
+            "structureType": "depressed",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-806",
+              "properties": {
+                "position": {
+                  "x": 288.3328642799817,
+                  "y": -0.04,
+                  "z": -170.9101435313517
+                },
+                "rotation": 1.4576166746503727
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-806",
+          "heightMode": "GROUND",
+          "autoMove": 8.984316819290955
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-421",
+          "properties": {
+            "position": {
+              "x": 607.4399018258066,
+              "y": -0.04,
+              "z": -172.53704972302637
+            },
+            "rotation": 1.5413874625936266
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-799",
+          "properties": {
+            "position": {
+              "x": 110.37796387213677,
+              "y": -0.04,
+              "z": -82.37117253952479
+            },
+            "rotation": -1.6580505771906373
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-804",
+          "properties": {
+            "position": {
+              "x": 58.20550853021095,
+              "y": -0.04,
+              "z": -278.87361729326335
+            },
+            "rotation": -0.1249806044375203
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-806",
+          "properties": {
+            "position": {
+              "x": 288.3328642799817,
+              "y": -0.04,
+              "z": -170.9101435313517
+            },
+            "rotation": 1.4576166746503727
+          }
+        }
+      ],
+      "stats": {
+        "planned": 4,
+        "valid": 3,
+        "adjusted": 1,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 4,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-421",
+      "properties": {
+        "position": {
+          "x": 607.4399018258066,
+          "y": -0.04,
+          "z": -172.53704972302637
+        },
+        "rotation": 1.5413874625936266
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-799",
+      "properties": {
+        "position": {
+          "x": 110.37796387213677,
+          "y": -0.04,
+          "z": -82.37117253952479
+        },
+        "rotation": -1.6580505771906373
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-804",
+      "properties": {
+        "position": {
+          "x": 58.20550853021095,
+          "y": -0.04,
+          "z": -278.87361729326335
+        },
+        "rotation": -0.1249806044375203
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-806",
+      "properties": {
+        "position": {
+          "x": 288.3328642799817,
+          "y": -0.04,
+          "z": -170.9101435313517
+        },
+        "rotation": 1.4576166746503727
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-1050"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-1051"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-9",
+    "created": [],
+    "modified": [
+      "v6-lamps-421",
+      "v6-lamps-799",
+      "v6-lamps-804",
+      "v6-lamps-806"
+    ],
+    "deleted": [
+      "v6-lamps-1050",
+      "v6-lamps-1051"
+    ],
+    "area": {
+      "minX": 18.205508530210935,
+      "maxX": 647.5,
+      "minZ": -671.330158061129,
+      "maxZ": -42.37117253952479
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-421",
+          "v6-lamps-799",
+          "v6-lamps-804",
+          "v6-lamps-806",
+          "v6-lamps-1050",
+          "v6-lamps-1051",
+          "system-central:E-to-S-semi",
+          "system-central:N-to-E-semi",
+          "v91-ew-1-b-1",
+          "direction-mingyuan-main-section-section-section-section",
+          "ew-eb-split",
+          "ew-wb-split-3-split-split-split-split-split",
+          "ew-wb-split-3-split-split-split-split",
+          "ew-eb-split-split-5",
+          "system-central:S-to-E-right",
+          "v911-plaza-east-eb",
+          "v911-plaza-south-nb",
+          "ns-nb-split",
+          "ns-nb-split-2-split",
+          "system-central:E-to-N-right",
+          "system-central:W-to-N-semi",
+          "v911-plaza-north-nb",
+          "v911-plaza-axis-north",
+          "v911-plaza-east-wb",
+          "ew-eb-split-2-split-split",
+          "ew-wb-split-2-split",
+          "ew-eb-split-2-split-split-split-2",
+          "ew-wb-split-2-split-split-2"
+        ],
+        "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split-2-split-split",
+          "system-central:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-E-right",
+          "ns-nb-split-2-split-2-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ns-sb-split-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-wb-split-3-split-split-split-split-split",
+          "system-central:E-to-S-semi"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-N-right",
+          "ns-nb-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-wb-split-2-split-split-2",
+          "system-central:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ns-sb-split-3-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ns-nb-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "v6-lamps-421"
+        ],
+        "message": "Base differs from selected support surface"
+      },
+      {
+        "severity": "warning",
+        "code": "object.floating",
+        "ids": [
+          "v6-lamps-799"
+        ],
+        "message": "Base differs from selected support surface"
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "v6-lamps-806"
+        ],
+        "message": "Base differs from selected support surface"
+      }
+    ],
+    "valid": true
+  }
+}

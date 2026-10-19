@@ -1,0 +1,95 @@
+{
+  "mainline": "ew-eb-split-split-3-section",
+  "frontage": "v91-ew-1-a-4",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 30.932257114695698
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 30.931219245733303,
+      "kind": "rampAttachment",
+      "id": "system-east:S-to-W-turbine",
+      "distance": 20.577848072978128
+    },
+    {
+      "station": 30.932257114695698,
+      "kind": "rampAttachment",
+      "id": "system-east:W-to-N-turbine",
+      "distance": 0
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "v91-ew-east-wb-off",
+      "distance": 20.58333220648275
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "v91-ew-east-eb-on",
+      "distance": 0
+    },
+    {
+      "station": 30.932257114695698,
+      "kind": "ordinaryCrossing",
+      "id": "ew-eb-split-split-3-split",
+      "distance": 0
+    },
+    {
+      "station": 30.932257114695698,
+      "kind": "ordinaryCrossing",
+      "id": "system-east:W-to-N-turbine",
+      "distance": 0
+    },
+    {
+      "station": 0,
+      "kind": "ordinaryCrossing",
+      "id": "v91-ew-east-eb-on",
+      "distance": 0
+    },
+    {
+      "station": 29.999615247314267,
+      "kind": "intersection",
+      "id": "urban-junction-190",
+      "distance": 7.625585882400978
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 30.932257114695698
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ew-eb-split-split-3-section",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      }
+    },
+    {
+      "roadId": "v91-ew-1-a-4",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      }
+    }
+  ],
+  "automaticDesign": false
+}

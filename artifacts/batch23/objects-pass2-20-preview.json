@@ -1,0 +1,180 @@
+{
+  "inspection": {
+    "key": "1:0:tree:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "tree",
+      "objectIds": [
+        "v6-road-trees-1222",
+        "v8-verge-v8-tonggang-avenue-2170-1",
+        "v8-verge-v8-tonggang-avenue-2222-1",
+        "v8-verge-v8-tonggang-avenue-2274-1",
+        "v8-verge-v8-tonggang-avenue-2326-1",
+        "v8-verge-v8-tonggang-avenue-2378-1",
+        "v8-verge-v8-tonggang-avenue-2430-1"
+      ],
+      "bbox": {
+        "minX": 2096.8443788164595,
+        "maxX": 2825.7160953035236,
+        "minZ": 494.64102837230683,
+        "maxZ": 1344.585482377934
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 7,
+      "valid": 7,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 7,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1222",
+      "properties": {
+        "position": {
+          "x": 2097.8443788164595,
+          "y": -0.04,
+          "z": 488.5
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-tonggang-avenue-2170-1",
+      "properties": {
+        "position": {
+          "x": 2566.0353776292736,
+          "y": -0.04,
+          "z": 1315.993706844343
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-tonggang-avenue-2222-1",
+      "properties": {
+        "position": {
+          "x": 2617.9171999745686,
+          "y": -0.04,
+          "z": 1318.5184092221184
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-tonggang-avenue-2274-1",
+      "properties": {
+        "position": {
+          "x": 2669.7990223198626,
+          "y": -0.04,
+          "z": 1321.0431115998938
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-tonggang-avenue-2326-1",
+      "properties": {
+        "position": {
+          "x": 2720.7670697965664,
+          "y": -0.04,
+          "z": 1342.3455938115455
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-tonggang-avenue-2378-1",
+      "properties": {
+        "position": {
+          "x": 2772.6488921418613,
+          "y": -0.04,
+          "z": 1344.870296189321
+        },
+        "rotation": -1.6194205312068704
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-tonggang-avenue-2430-1",
+      "properties": {
+        "position": {
+          "x": 2824.5307144871567,
+          "y": -0.04,
+          "z": 1347.3949985670965
+        },
+        "rotation": -1.6194205312068704
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-20",
+    "created": [],
+    "modified": [
+      "v6-road-trees-1222",
+      "v8-verge-v8-tonggang-avenue-2170-1",
+      "v8-verge-v8-tonggang-avenue-2222-1",
+      "v8-verge-v8-tonggang-avenue-2274-1",
+      "v8-verge-v8-tonggang-avenue-2326-1",
+      "v8-verge-v8-tonggang-avenue-2378-1",
+      "v8-verge-v8-tonggang-avenue-2430-1"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2057.8443788164595,
+      "maxX": 2864.7160953035236,
+      "minZ": 448.5,
+      "maxZ": 1387.3949985670965
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-road-trees-1222",
+          "v8-verge-v8-tonggang-avenue-2170-1",
+          "v8-verge-v8-tonggang-avenue-2222-1",
+          "v8-verge-v8-tonggang-avenue-2274-1",
+          "v8-verge-v8-tonggang-avenue-2326-1",
+          "v8-verge-v8-tonggang-avenue-2378-1",
+          "v8-verge-v8-tonggang-avenue-2430-1",
+          "v9-newcity-seven-split-2-c91",
+          "v4-central-split-m91-section",
+          "urban-junction-186",
+          "v61-sports-road-split-c91",
+          "v8-tonggang-avenue-m91-section"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-verge-v8-tonggang-avenue-2170-1"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

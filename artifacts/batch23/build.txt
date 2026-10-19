@@ -1,0 +1,26 @@
+$ powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-checkpoint.ps1
+$ tsc -b
+$ esbuild scripts/run-core-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-core-selftests.mjs && node .tmp-core-selftests.mjs
+
+  .tmp-core-selftests.mjs  37.2mb
+
+Done in 752ms
+file:///D:/dsy/drivergame/.tmp-core-selftests.mjs:660768
+    if (!ok) throw new Error(`Executive polish: ${message}`);
+                   ^
+
+Error: Executive polish: map consumes same road network
+    at assert14 (file:///D:/dsy/drivergame/.tmp-core-selftests.mjs:660768:20)
+    at runExecutivePolishSelfTest (file:///D:/dsy/drivergame/.tmp-core-selftests.mjs:660845:3)
+    at file:///D:/dsy/drivergame/.tmp-core-selftests.mjs:911658:20
+
+Node.js v24.19.0
+[ELIFECYCLE] Command failed with exit code 1.
+D:\dsy\drivergame\scripts\build-checkpoint.ps1 : Validation/build failed (1). The playable dist was not changed.
+At D:\dsy\drivergame\scripts\build-checkpoint.ps1:78 char:3
++   Write-Error $_
++   ~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,build-checkpoint.ps1
+ 
+[ELIFECYCLE] Command failed with exit code 1.

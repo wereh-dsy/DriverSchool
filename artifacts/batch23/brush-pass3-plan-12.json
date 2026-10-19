@@ -1,0 +1,109 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "green_strip",
+    "objectIds": [
+      "v6-east-pocket-park-94"
+    ],
+    "bbox": {
+      "minX": 2284.7590352604593,
+      "maxX": 2286.7590352604593,
+      "minZ": 144.00081903134674,
+      "maxZ": 146.00081903134674
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-east-pocket-park-94",
+      "state": "INVALID",
+      "position": {
+        "x": 2266.460079633423,
+        "y": -0.04,
+        "z": 145.00081903134674
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-four-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 298.9616485981803,
+        "lateralOffset": -15.119789377025683,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570692670283366,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.insideLane::v6-east-pocket-park-94::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v6-east-pocket-park-94",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v9-newcity-four-split",
+            "distance": 15.11978937702568,
+            "roadHalfWidth": 7.2,
+            "objectRadius": 20.56658017980747
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-east-pocket-park-94",
+            "roadId": "v9-newcity-four-split",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideJunction::v6-east-pocket-park-94::",
+          "code": "object.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-east-pocket-park-94",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-201"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-pocket-park-94",
+          "properties": {
+            "position": {
+              "x": 2266.460079633423,
+              "y": -0.04,
+              "z": 145.00081903134674
+            },
+            "rotation": 0
+          }
+        }
+      ],
+      "sourceId": "v6-east-pocket-park-94",
+      "heightMode": "GROUND",
+      "autoMove": 19.299033998993757
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

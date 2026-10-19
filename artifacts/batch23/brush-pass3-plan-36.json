@@ -1,0 +1,152 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:system-east:S-to-W-turbine:false:speed:65",
+      "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION"
+    ],
+    "bbox": {
+      "minX": 2269.97816980538,
+      "maxX": 2352.2473653780935,
+      "minZ": 132.18446888787818,
+      "maxZ": 516.25
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:system-east:S-to-W-turbine:false:speed:65",
+      "state": "VALID",
+      "position": {
+        "x": 2354.2213657849843,
+        "y": 11.849888149781554,
+        "z": 133.60477181430034
+      },
+      "rotation": -0.14039599805424727,
+      "anchor": {
+        "anchorRoadId": "system-east:S-to-W-turbine",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 52.999999999999886,
+        "lateralOffset": 6.053553390593358,
+        "verticalOffset": -1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": -0.14039599805424727,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-east:S-to-W-turbine:false:speed:65",
+          "properties": {
+            "position": {
+              "x": 2354.2213657849843,
+              "y": 11.849888149781554,
+              "z": 133.60477181430034
+            },
+            "heading": -0.14039599805424727,
+            "roadId": "system-east:S-to-W-turbine",
+            "stationMetres": 52.9999999999999
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-east:S-to-W-turbine:false:speed:65",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.0035533905935026
+    },
+    {
+      "id": "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+      "state": "INVALID",
+      "position": {
+        "x": 2270.97816980538,
+        "y": 0,
+        "z": 488.3964466094067
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-central-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 73.78123012973991,
+        "lateralOffset": -13.603553390593277,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v6-east-housing-223",
+            "actual": 15.175677272391988,
+            "required": 19.441769650893765
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 2270.97816980538,
+              "y": 0,
+              "z": 488.3964466094067
+            },
+            "heading": 1.5707963267948966,
+            "roadId": "v4-central-split-split-m91",
+            "stationMetres": 73.78123012973991
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 26.853553390593277
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-east:S-to-W-turbine:false:speed:65",
+      "properties": {
+        "position": {
+          "x": 2354.2213657849843,
+          "y": 11.849888149781554,
+          "z": 133.60477181430034
+        },
+        "heading": -0.14039599805424727,
+        "roadId": "system-east:S-to-W-turbine",
+        "stationMetres": 52.9999999999999
+      }
+    }
+  ],
+  "stats": {
+    "planned": 2,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

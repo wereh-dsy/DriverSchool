@@ -1,0 +1,184 @@
+{
+  "inspection": {
+    "key": "0:1:trafficLight:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "trafficLight",
+      "objectIds": [
+        "signal:urban-junction-67:north",
+        "signal:urban-junction-67:east",
+        "signal:urban-junction-67:south",
+        "signal:urban-junction-67:west",
+        "signal:urban-junction-160:east",
+        "signal:urban-junction-160:west",
+        "signal:urban-junction-234:east"
+      ],
+      "bbox": {
+        "minX": 784.0730024914294,
+        "maxX": 1876.3883162161085,
+        "minZ": 2098.4508861172076,
+        "maxZ": 2467.9787343687367
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6,
+      "intersectionId": "urban-junction-67"
+    },
+    "brushStats": {
+      "planned": 7,
+      "valid": 0,
+      "adjusted": 6,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 6,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "signal:urban-junction-234:east",
+        "issues": [
+          {
+            "id": "trafficLight.occludedByStructure:v8-port-works-c91:signal:urban-junction-234:east:urban-junction-234:",
+            "code": "trafficLight.occludedByStructure",
+            "severity": "warning",
+            "objectId": "signal:urban-junction-234:east",
+            "roadId": "v8-port-works-c91",
+            "intersectionId": "urban-junction-234",
+            "message": "Approximate incoming sight ray intersects another deck",
+            "metrics": {
+              "roadId": "v6-logistics-one-split-3-split-2-m91"
+            },
+            "approximate": true,
+            "reviewRequired": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-67",
+      "approach": "north",
+      "position": {
+        "x": 1410.5284949924326,
+        "y": -4,
+        "z": 2466.7431972324443
+      },
+      "heading": 3.1293646156263657
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-67",
+      "approach": "east",
+      "position": {
+        "x": 1384.1916300160337,
+        "y": -4,
+        "z": 2458.336848839296
+      },
+      "heading": 1.5652269900223568
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-67",
+      "approach": "south",
+      "position": {
+        "x": 1392.897172869263,
+        "y": -4,
+        "z": 2431.5560990293548
+      },
+      "heading": -0.008781409122946985
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-67",
+      "approach": "west",
+      "position": {
+        "x": 1419.2834348854365,
+        "y": -4,
+        "z": 2439.910654270142
+      },
+      "heading": -1.5751455035874198
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-160",
+      "approach": "east",
+      "position": {
+        "x": 1850.0383538705244,
+        "y": -2.999999999999999,
+        "z": 2460.3842712933665
+      },
+      "heading": 1.5664471500023749
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-160",
+      "approach": "west",
+      "position": {
+        "x": 1880.623730675265,
+        "y": -3,
+        "z": 2457.7352877645444
+      },
+      "heading": -2.48832622803462
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-43",
+    "created": [],
+    "modified": [
+      "urban-junction-67",
+      "urban-junction-160",
+      "v4-access-3-c91",
+      "v6-logistics-one-split-2-split-m91",
+      "v4-access-3-split-c91",
+      "v6-logistics-one-split-m91",
+      "v5-south-logistics-c91",
+      "v5-south-logistics-split-c91",
+      "urban-junction-226",
+      "v8-port-south-split-split-m91",
+      "v5-south-logistics-split-split-c91"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 1300.4127824636857,
+      "maxX": 2168.699327689878,
+      "minZ": 1981.5332231297893,
+      "maxZ": 2829.7958668194174
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "urban-junction-67",
+          "signal:urban-junction-67:north",
+          "signal:urban-junction-67:east",
+          "signal:urban-junction-67:south",
+          "signal:urban-junction-67:west",
+          "urban-junction-160",
+          "signal:urban-junction-160:east",
+          "signal:urban-junction-160:west",
+          "v4-access-3-c91",
+          "v6-logistics-one-split-2-split-m91",
+          "v4-access-3-split-c91",
+          "v6-logistics-one-split-m91",
+          "v5-south-logistics-c91",
+          "v5-south-logistics-split-c91",
+          "urban-junction-226",
+          "v8-port-south-split-split-m91",
+          "v5-south-logistics-split-split-c91"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

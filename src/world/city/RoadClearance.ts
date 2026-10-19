@@ -4,6 +4,8 @@ import {junctionSurfaceContains,junctionSurfaceHeight} from './JunctionSurface';
 
 interface FootprintSegment { roadId: string; a: CityPoint; b: CityPoint; left: number; right: number;laneHalf:number }
 const runtimeCache = new WeakMap<CityMapData, RoadClearance>();
+/** Mutable authoring transactions invalidate the immutable-runtime cache between commands. */
+export function invalidateRoadClearance(map:CityMapData):void {runtimeCache.delete(map);}
 /** Loaded maps are immutable; editor authoring still uses fresh explicit indexes. */
 export function runtimeRoadClearance(map: CityMapData): RoadClearance {
   let index = runtimeCache.get(map); if(!index){index=new RoadClearance(map);runtimeCache.set(map,index);}return index;

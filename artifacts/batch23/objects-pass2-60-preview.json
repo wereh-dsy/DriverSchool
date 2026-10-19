@@ -1,0 +1,131 @@
+{
+  "inspection": {
+    "key": "0:-2:streetlight_small:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_small",
+      "objectIds": [
+        "v8-lamp-v8-campus-avenue-split-90",
+        "v8-lamp-v8-campus-south-428",
+        "v8-lamp-v8-campus-south-506"
+      ],
+      "bbox": {
+        "minX": 1.3690969116172327,
+        "maxX": 502.31267052349455,
+        "minZ": -2691.53045653125,
+        "maxZ": -2216.7659749903564
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 1,
+      "adjusted": 1,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-south-428",
+      "properties": {
+        "position": {
+          "x": 501.3331110032823,
+          "y": -0.04,
+          "z": -2221.7914494175907
+        },
+        "rotation": 1.5650239830818375
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-south-506",
+      "properties": {
+        "position": {
+          "x": 423.3358995276708,
+          "y": -0.04,
+          "z": -2221.5295372328424
+        },
+        "rotation": 1.5650239830818375
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-avenue-split-90",
+      "properties": {
+        "position": {
+          "x": 32.18786796564404,
+          "y": -0.04,
+          "z": -2697
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-60",
+    "created": [],
+    "modified": [
+      "v8-lamp-v8-campus-south-428",
+      "v8-lamp-v8-campus-south-506",
+      "v8-lamp-v8-campus-avenue-split-90"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -37.630903088382766,
+      "maxX": 541.3331110032823,
+      "minZ": -2737,
+      "maxZ": -2177.7659749903564
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v8-lamp-v8-campus-south-428",
+          "v8-lamp-v8-campus-south-506",
+          "v8-lamp-v8-campus-avenue-split-90",
+          "urban-junction-209",
+          "v8-campus-avenue-v91",
+          "v91-ns-0-b-0",
+          "v91-ns-0-b-1",
+          "system-north:N-to-E-star",
+          "access-finance-north",
+          "v8-campus-south-v91-section"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:N-to-E-star",
+          "ring-cw-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-lamp-v8-campus-south-506"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

@@ -1,0 +1,327 @@
+{
+  "inspection": {
+    "key": "0:-1:traffic_sign",
+    "request": {
+      "mode": "REPAIR",
+      "type": "traffic_sign",
+      "bbox": {
+        "minX": 624,
+        "maxX": 1778.3331349508762,
+        "minZ": -174.82000000000005,
+        "maxZ": -130.22619047619048
+      },
+      "objectIds": [
+        "diamond-east:exit-sign",
+        "diamond-east:exit-sign-2"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "traffic_sign",
+        "bbox": {
+          "minX": 624,
+          "maxX": 1778.3331349508762,
+          "minZ": -174.82000000000005,
+          "maxZ": -130.22619047619048
+        },
+        "objectIds": [
+          "diamond-east:exit-sign",
+          "diamond-east:exit-sign-2"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "diamond-east:exit-sign",
+          "state": "VALID",
+          "position": {
+            "x": 1777.3331349508762,
+            "y": -0.04,
+            "z": -172.44647041832312
+          },
+          "rotation": 1.5707963267948966,
+          "anchor": {
+            "anchorRoadId": "v91-ew-east-wb-off",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 101.73774004482489,
+            "lateralOffset": -25.046641422888676,
+            "verticalOffset": -0.20001230342815676,
+            "facingDirection": "forward",
+            "expectedHeading": 1.4462529070016128,
+            "structureType": "elevated",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "diamond-east:exit-sign",
+              "properties": {
+                "position": {
+                  "x": 1777.3331349508762,
+                  "y": -0.04,
+                  "z": -172.44647041832312
+                },
+                "rotation": 1.5707963267948966
+              }
+            }
+          ],
+          "sourceId": "diamond-east:exit-sign",
+          "heightMode": "GROUND",
+          "autoMove": 8.156481074074874
+        },
+        {
+          "id": "diamond-east:exit-sign-2",
+          "state": "VALID",
+          "position": {
+            "x": 625,
+            "y": -0.04,
+            "z": -132.88686291501014
+          },
+          "rotation": -1.5707963267948966,
+          "anchor": {
+            "anchorRoadId": "system-central:N-to-E-semi",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 1289.7761162994832,
+            "lateralOffset": 9.487644481851646,
+            "verticalOffset": -8.03889555983979,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5606063079174215,
+            "structureType": "depressed",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "diamond-east:exit-sign-2",
+              "properties": {
+                "position": {
+                  "x": 625,
+                  "y": -0.04,
+                  "z": -132.88686291501014
+                },
+                "rotation": -1.5707963267948966
+              }
+            }
+          ],
+          "sourceId": "diamond-east:exit-sign-2",
+          "heightMode": "GROUND",
+          "autoMove": 8.209715765424233
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "diamond-east:exit-sign",
+          "properties": {
+            "position": {
+              "x": 1777.3331349508762,
+              "y": -0.04,
+              "z": -172.44647041832312
+            },
+            "rotation": 1.5707963267948966
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "diamond-east:exit-sign-2",
+          "properties": {
+            "position": {
+              "x": 625,
+              "y": -0.04,
+              "z": -132.88686291501014
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "stats": {
+        "planned": 2,
+        "valid": 2,
+        "adjusted": 0,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 2,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "diamond-east:exit-sign",
+      "properties": {
+        "position": {
+          "x": 1777.3331349508762,
+          "y": -0.04,
+          "z": -172.44647041832312
+        },
+        "rotation": 1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "diamond-east:exit-sign-2",
+      "properties": {
+        "position": {
+          "x": 625,
+          "y": -0.04,
+          "z": -132.88686291501014
+        },
+        "rotation": -1.5707963267948966
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-1",
+    "created": [],
+    "modified": [
+      "diamond-east:exit-sign",
+      "diamond-east:exit-sign-2"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 585,
+      "maxX": 1817.3331349508762,
+      "minZ": -213.82000000000005,
+      "maxZ": -91.22619047619048
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "diamond-east:exit-sign",
+          "diamond-east:exit-sign-2",
+          "v91-ew-1-b-4",
+          "v91-ew-1-b-4-section",
+          "v91-ew-east-wb-off",
+          "ew-wb-split-3-split-split",
+          "ew-eb-split-split-3",
+          "ew-eb-split-split-4-split-split",
+          "v91-ew-east-eb-on",
+          "ew-wb-split-3-split-split-2-section-section",
+          "ew-eb-split",
+          "system-central:E-to-S-semi",
+          "ew-wb-split-3-split-split-split-split-split",
+          "system-central:N-to-E-semi",
+          "v91-ew-1-a-1",
+          "direction-mingyuan-main-section-section-section-section",
+          "ew-wb-split-3-split-split-split-split",
+          "ew-eb-split-split-5"
+        ],
+        "message": "roads: 11 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split-split-3",
+          "v91-ew-east-eb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ns-sb-split-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-wb-split-3-split-split-split-split-split",
+          "system-central:E-to-S-semi"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ns-sb-split-3-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-1-b-4-section",
+          "v91-ew-east-wb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-east-eb-on",
+          "v91-ew-1-a-4-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-wb-split-3-split-split-2-section-section",
+          "v91-ew-east-wb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.unsupportedOnDeck",
+        "ids": [
+          "diamond-east:exit-sign"
+        ],
+        "message": "Road-level placement lies outside the available deck/sidewalk envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "diamond-east:exit-sign-2"
+        ],
+        "message": "Base differs from selected support surface"
+      }
+    ],
+    "valid": true
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:regional:v3:chenjiang-east:N-to-W-right:false:guide:55"
+    ],
+    "bbox": {
+      "minX": 13936.827846190798,
+      "maxX": 13938.827846190798,
+      "minZ": 2168.0773687076935,
+      "maxZ": 2170.0773687076935
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:regional:v3:chenjiang-east:N-to-W-right:false:guide:55",
+      "state": "VALID",
+      "position": {
+        "x": 13928.522151422256,
+        "y": 13.19527565963329,
+        "z": 2171.6454687718974
+      },
+      "rotation": -2.8723241184203907,
+      "anchor": {
+        "anchorRoadId": "regional:v3:chenjiang-east:N-to-W-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 55.00000000000035,
+        "lateralOffset": 6.303553390592451,
+        "verticalOffset": 1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": -2.8723241184203907,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:regional:v3:chenjiang-east:N-to-W-right:false:guide:55",
+          "properties": {
+            "position": {
+              "x": 13928.522151422256,
+              "y": 13.19527565963329,
+              "z": 2171.6454687718974
+            },
+            "heading": -2.8723241184203907,
+            "roadId": "regional:v3:chenjiang-east:N-to-W-right",
+            "stationMetres": 55.00000000000029,
+            "postBaseY": 0
+          }
+        }
+      ],
+      "sourceId": "road-safety:regional:v3:chenjiang-east:N-to-W-right:false:guide:55",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.65355339059304
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:v3:chenjiang-east:N-to-W-right:false:guide:55",
+      "properties": {
+        "position": {
+          "x": 13928.522151422256,
+          "y": 13.19527565963329,
+          "z": 2171.6454687718974
+        },
+        "heading": -2.8723241184203907,
+        "roadId": "regional:v3:chenjiang-east:N-to-W-right",
+        "stationMetres": 55.00000000000029,
+        "postBaseY": 0
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,686 @@
+{
+  "schemaVersion": 1,
+  "roads": {
+    "added": [
+      "ns-sb-split-split-split-split-split-split-3-section"
+    ],
+    "removed": [],
+    "modified": [
+      {
+        "id": "ns-sb-split-split-split-split-split-split-3",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": true,
+        "elevationOnly": false,
+        "maxDisplacement": 40.07598373688597,
+        "elevationDelta": 0,
+        "controlPointsChanged": 5,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": -8.125,
+              "y": -8,
+              "z": 1550
+            },
+            "after": {
+              "x": -8.125,
+              "y": -8,
+              "z": 1550
+            }
+          },
+          "end": {
+            "before": {
+              "x": -8.125,
+              "y": -8,
+              "z": 1600.075983736886
+            },
+            "after": {
+              "x": -8.125,
+              "y": -8,
+              "z": 1560
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0,
+        "afterMaxHeadingDelta": 0,
+        "crossingElevationsPreserved": true
+      },
+      {
+        "id": "v91-ns-sb-on",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": true,
+        "elevationOnly": false,
+        "maxDisplacement": 50,
+        "elevationDelta": 0.2648192593384264,
+        "controlPointsChanged": 96,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": -48,
+              "y": 0,
+              "z": 1410
+            },
+            "after": {
+              "x": -48,
+              "y": 0,
+              "z": 1410
+            }
+          },
+          "end": {
+            "before": {
+              "x": -8.125,
+              "y": -8,
+              "z": 1610
+            },
+            "after": {
+              "x": -8.125,
+              "y": -8,
+              "z": 1560
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.011821699915276263,
+        "afterMaxHeadingDelta": 0.030020572673649323,
+        "crossingElevationsPreserved": false
+      }
+    ]
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "topology-sign:endpoint:ns-sb-split-split-split-split-split-split-2-split:end|ns-sb-split-split-split-split-split-split-2-split|end:EXPRESSWAY_ADVANCE",
+        "type": "roadSign",
+        "displacement": 0,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "ns-sb-split-split-split-split-split-split-3",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 33.20873282415482,
+          "lateralOffset": 0,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -3.141592653589793,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "ns-sb-split-split-split-split-split-split-3-section",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 23.208732824154822,
+          "lateralOffset": 0,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -3.141592653589793,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorRoadUnchanged": false,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [
+    {
+      "roadId": "ns-sb-split-split-split-split-split-split-3",
+      "before": {
+        "barrierEnabled": false,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 8
+        }
+      },
+      "after": {
+        "barrierEnabled": false,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 8
+        }
+      },
+      "beforeType": "depressed",
+      "afterType": "depressed"
+    },
+    {
+      "roadId": "v91-ns-sb-on",
+      "before": {
+        "barrierEnabled": true,
+        "piersEnabled": false,
+        "pierSpacing": 30,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 5.5
+        }
+      },
+      "after": {
+        "barrierEnabled": true,
+        "piersEnabled": false,
+        "pierSpacing": 30,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 6
+        }
+      },
+      "beforeType": "depressed",
+      "afterType": "depressed"
+    }
+  ],
+  "roadLinks": {
+    "added": [
+      {
+        "id": "link-507",
+        "from": {
+          "roadId": "ns-sb-split-split-split-split-split-split-3",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ns-sb-split-split-split-split-split-split-3-section",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-508",
+        "from": {
+          "roadId": "v91-ns-1-a-3",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ns-sb-on",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-520",
+        "from": {
+          "roadId": "v91-ns-sb-on",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ns-sb-split-split-split-split-split-split-3-section",
+          "end": "start"
+        }
+      }
+    ],
+    "removed": [
+      {
+        "id": "link-389",
+        "from": {
+          "roadId": "v91-ns-1-a-3",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ns-sb-on",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-390",
+        "from": {
+          "roadId": "v91-ns-sb-on",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ns-sb-split-split-split-split-split-split-2-section",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-549",
+        "from": {
+          "roadId": "v91-ns-1-a-3-section",
+          "end": "start"
+        },
+        "to": {
+          "roadId": "v91-ns-sb-on",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-550",
+        "from": {
+          "roadId": "v91-ns-sb-on",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ns-sb-split-split-split-split-split-split-2",
+          "end": "end"
+        }
+      }
+    ],
+    "modified": [
+      {
+        "before": {
+          "id": "link-157",
+          "from": {
+            "roadId": "ns-sb-split-split-split-split-split-split-3",
+            "end": "end"
+          },
+          "to": {
+            "roadId": "ns-sb-split-split-split-split-split-split-2",
+            "end": "start"
+          }
+        },
+        "after": {
+          "id": "link-157",
+          "from": {
+            "roadId": "ns-sb-split-split-split-split-split-split-3-section",
+            "end": "end"
+          },
+          "to": {
+            "roadId": "ns-sb-split-split-split-split-split-split-2",
+            "end": "start"
+          }
+        }
+      }
+    ]
+  },
+  "affectedBbox": {
+    "minX": -51.625,
+    "maxX": -0.75,
+    "minZ": 1406.375,
+    "maxZ": 1613.625
+  },
+  "maxRoadDisplacement": 50,
+  "maxElevationDelta": 0.2648192593384264,
+  "topology": {
+    "changed": true,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 1,
+      "deadEnds": [
+        "ns-sb-split-split-split-split-split-split-2-split",
+        "system-south:N-to-E-semi",
+        "ns-sb-split-split-split-split-split"
+      ],
+      "adjacency": [
+        {
+          "id": "ns-sb-split-split-split-split-split-split-3",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-2",
+            "ns-sb-split-split-split-split-split"
+          ]
+        },
+        {
+          "id": "v91-ns-sb-on",
+          "links": [
+            "v91-ns-1-a-3",
+            "ns-sb-split-split-split-split-split-split-2-section",
+            "v91-ns-1-a-3-section",
+            "ns-sb-split-split-split-split-split-split-2"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-3",
+          "links": [
+            "v91-ns-1-a-3-section",
+            "v91-ns-sb-on",
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2-section",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-2-split",
+            "system-south:N-to-E-semi",
+            "ns-sb-split-split-split-split-split-split-2",
+            "v91-ns-sb-on"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-3-section",
+          "links": [
+            "v91-ns-1-a-3",
+            "v91-ns-sb-on",
+            "v4-south-split-2-split-split-2-split-v91",
+            "v4-south-split-2-split-split-2-split-split-v91",
+            "v91-ns-1-b-3-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-3",
+            "ns-sb-split-split-split-split-split-split-2-section",
+            "v91-ns-sb-on"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2-split",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-2-section"
+          ]
+        },
+        {
+          "id": "system-south:N-to-E-semi",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-2-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-3"
+          ]
+        },
+        {
+          "id": "v4-inner-2-split-split-split-v91-m91-section",
+          "links": [
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "access-inner-mingyuan-section",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-2",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-2",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-3",
+          "links": [
+            "v91-ns-1-b-3-section",
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v4-south-split-2-split-split-2-split-v91",
+          "links": [
+            "v4-south-split-2-split-split-2-split-split-v91",
+            "v91-ns-1-a-3-section",
+            "v91-ns-1-b-3-section"
+          ]
+        },
+        {
+          "id": "v4-south-split-2-split-split-2-split-split-v91",
+          "links": [
+            "v4-south-split-2-split-split-2-split-v91",
+            "v91-ns-1-a-3-section",
+            "v91-ns-1-b-3-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-3-section",
+          "links": [
+            "v91-ns-1-b-3",
+            "v4-south-split-2-split-split-2-split-v91",
+            "v4-south-split-2-split-split-2-split-split-v91",
+            "v91-ns-1-a-3-section"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 1,
+      "deadEnds": [
+        "ns-sb-split-split-split-split-split-split-2-split",
+        "system-south:N-to-E-semi",
+        "ns-sb-split-split-split-split-split"
+      ],
+      "adjacency": [
+        {
+          "id": "ns-sb-split-split-split-split-split-split-3-section",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-2",
+            "ns-sb-split-split-split-split-split-split-3",
+            "v91-ns-sb-on"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-3",
+          "links": [
+            "ns-sb-split-split-split-split-split",
+            "ns-sb-split-split-split-split-split-split-3-section"
+          ]
+        },
+        {
+          "id": "v91-ns-sb-on",
+          "links": [
+            "v91-ns-1-a-3",
+            "ns-sb-split-split-split-split-split-split-3-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-3",
+          "links": [
+            "v91-ns-1-a-3-section",
+            "v91-ns-sb-on",
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2-section",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-2-split",
+            "system-south:N-to-E-semi",
+            "ns-sb-split-split-split-split-split-split-2"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-3-section",
+          "links": [
+            "v91-ns-1-a-3",
+            "v4-south-split-2-split-split-2-split-v91",
+            "v4-south-split-2-split-split-2-split-split-v91",
+            "v91-ns-1-b-3-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-3-section",
+            "ns-sb-split-split-split-split-split-split-2-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2-split",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-2-section"
+          ]
+        },
+        {
+          "id": "system-south:N-to-E-semi",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-2-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split",
+          "links": [
+            "ns-sb-split-split-split-split-split-split-3"
+          ]
+        },
+        {
+          "id": "v4-inner-2-split-split-split-v91-m91-section",
+          "links": [
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "access-inner-mingyuan-section",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-2",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-2",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-3",
+          "links": [
+            "v91-ns-1-b-3-section",
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v4-south-split-2-split-split-2-split-v91",
+          "links": [
+            "v4-south-split-2-split-split-2-split-split-v91",
+            "v91-ns-1-a-3-section",
+            "v91-ns-1-b-3-section"
+          ]
+        },
+        {
+          "id": "v4-south-split-2-split-split-2-split-split-v91",
+          "links": [
+            "v4-south-split-2-split-split-2-split-v91",
+            "v91-ns-1-a-3-section",
+            "v91-ns-1-b-3-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-3-section",
+          "links": [
+            "v91-ns-1-b-3",
+            "v4-south-split-2-split-split-2-split-v91",
+            "v4-south-split-2-split-split-2-split-split-v91",
+            "v91-ns-1-a-3-section"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:2",
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:1|ns-sb-split-split-split-split-split-split-2-section:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:1|ns-sb-split-split-split-split-split-split-2-section:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:1|ns-sb-split-split-split-split-split-split-2-section:lane:2",
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:2|ns-sb-split-split-split-split-split-split-2-section:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:2|ns-sb-split-split-split-split-split-split-2-section:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-2:end|ns-sb-split-split-split-split-split-split-2:lane:2|ns-sb-split-split-split-split-split-split-2-section:lane:2",
+      "endpoint:v91-ns-sb-on:end|v91-ns-sb-on:lane:0|ns-sb-split-split-split-split-split-split-3-section:lane:0",
+      "endpoint:v91-ns-sb-on:end|v91-ns-sb-on:lane:0|ns-sb-split-split-split-split-split-split-3-section:lane:1",
+      "endpoint:v91-ns-sb-on:end|v91-ns-sb-on:lane:0|ns-sb-split-split-split-split-split-split-3-section:lane:2",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:0|ns-sb-split-split-split-split-split-split-3-section:lane:0",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:0|ns-sb-split-split-split-split-split-split-3-section:lane:1",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:0|ns-sb-split-split-split-split-split-split-3-section:lane:2",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:1|ns-sb-split-split-split-split-split-split-3-section:lane:0",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:1|ns-sb-split-split-split-split-split-split-3-section:lane:1",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:1|ns-sb-split-split-split-split-split-split-3-section:lane:2",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:2|ns-sb-split-split-split-split-split-split-3-section:lane:0",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:2|ns-sb-split-split-split-split-split-split-3-section:lane:1",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-3:lane:2|ns-sb-split-split-split-split-split-split-3-section:lane:2",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:0|ns-sb-split-split-split-split-split-split-2:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:0|ns-sb-split-split-split-split-split-split-2:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:0|ns-sb-split-split-split-split-split-split-2:lane:2",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:1|ns-sb-split-split-split-split-split-split-2:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:1|ns-sb-split-split-split-split-split-split-2:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:1|ns-sb-split-split-split-split-split-split-2:lane:2",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:2|ns-sb-split-split-split-split-split-split-2:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:2|ns-sb-split-split-split-split-split-split-2:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-3-section:end|ns-sb-split-split-split-split-split-split-3-section:lane:2|ns-sb-split-split-split-split-split-split-2:lane:2"
+    ],
+    "laneConnectionsRemoved": [
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:0|ns-sb-split-split-split-split-split-split-2:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:0|ns-sb-split-split-split-split-split-split-2:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:0|ns-sb-split-split-split-split-split-split-2:lane:2",
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:1|ns-sb-split-split-split-split-split-split-2:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:1|ns-sb-split-split-split-split-split-split-2:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:1|ns-sb-split-split-split-split-split-split-2:lane:2",
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:2|ns-sb-split-split-split-split-split-split-2:lane:0",
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:2|ns-sb-split-split-split-split-split-split-2:lane:1",
+      "endpoint:ns-sb-split-split-split-split-split-split-3:end|ns-sb-split-split-split-split-split-split-3:lane:2|ns-sb-split-split-split-split-split-split-2:lane:2",
+      "endpoint:v91-ns-sb-on:end|v91-ns-sb-on:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:0",
+      "endpoint:v91-ns-sb-on:end|v91-ns-sb-on:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:1",
+      "endpoint:v91-ns-sb-on:end|v91-ns-sb-on:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:2",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:0",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:1",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:0|ns-sb-split-split-split-split-split-split-2-section:lane:2",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:1|ns-sb-split-split-split-split-split-split-2-section:lane:0",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:1|ns-sb-split-split-split-split-split-split-2-section:lane:1",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:1|ns-sb-split-split-split-split-split-split-2-section:lane:2",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:2|ns-sb-split-split-split-split-split-split-2-section:lane:0",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:2|ns-sb-split-split-split-split-split-split-2-section:lane:1",
+      "endpoint:v91-ns-sb-on:end|ns-sb-split-split-split-split-split-split-2:lane:2|ns-sb-split-split-split-split-split-split-2-section:lane:2"
+    ],
+    "directedLaneRouteVerified": true
+  }
+}

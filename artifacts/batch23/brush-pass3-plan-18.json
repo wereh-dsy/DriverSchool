@@ -1,0 +1,150 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "industrial",
+    "objectIds": [
+      "v61-west-depot"
+    ],
+    "bbox": {
+      "minX": -1890.3853524136673,
+      "maxX": -1888.3853524136673,
+      "minZ": 1097.7152018082018,
+      "maxZ": 1099.7152018082018
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v61-west-depot",
+      "state": "INVALID",
+      "position": {
+        "x": -1873.1205592419692,
+        "y": -0.04,
+        "z": 1114.0746008210456
+      },
+      "rotation": -0.7567761862162224,
+      "anchor": {
+        "anchorRoadId": "v8-beijing-road-split-split-split-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 140.36247831803047,
+        "lateralOffset": 44.30703523384257,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -3.0419240010986255,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "building.intersectsRoad::v61-west-depot::",
+          "code": "building.intersectsRoad",
+          "severity": "warning",
+          "objectId": "v61-west-depot",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v8-beijing-road-split-split-split-section",
+            "distance": 44.30703523384257,
+            "roadHalfWidth": 3.2,
+            "objectRadius": 42.24113357652044
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v61-west-depot",
+            "roadId": "v8-beijing-road-split-split-split-section",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.tooCloseToObject:v61-west-depot",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v61-west-depot",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v6-lamps-463",
+            "actual": 33.10096179300501,
+            "required": 44.14662873114311
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:v61-west-depot",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v61-west-depot",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v6-road-trees-467",
+            "actual": 20.726647897162238,
+            "required": 44.18449669678714
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:v61-west-depot",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v61-west-depot",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-verge-v8-beijing-road-split-split-split-194-1",
+            "actual": 35.3158363836435,
+            "required": 44.134496696787146
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:v61-west-depot",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v61-west-depot",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-lamp-v8-beijing-road-split-split-split-194",
+            "actual": 37.31536466941808,
+            "required": 44.14662873114311
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-west-depot",
+          "properties": {
+            "position": {
+              "x": -1873.1205592419692,
+              "y": -0.04,
+              "z": 1114.0746008210456
+            },
+            "rotation": -0.7567761862162224
+          }
+        }
+      ],
+      "sourceId": "v61-west-depot",
+      "heightMode": "GROUND",
+      "autoMove": 22.3708791725731
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

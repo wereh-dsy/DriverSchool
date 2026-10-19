@@ -19,3 +19,18 @@ export function drawNavigationBanner(c:CanvasRenderingContext2D,state:Navigation
   if(!compact){c.fillStyle='#b5c2cb';c.font=`400 ${size*.69}px sans-serif`;c.fillText(`${navigationDistance(state.remainingDistance)} · 预计 ${navigationTime(state.remainingSeconds)}`,rect.x+12,rect.y+rect.height*.84,rect.width-24);}
   c.restore();
 }
+
+/** One-line instrument guidance; deliberately leaves the lane area untouched. */
+export function drawCompactNavigationGuidance(c:CanvasRenderingContext2D,state:NavigationState|undefined,
+  rect:{x:number;y:number;width:number;height:number},emphasis=false):void {
+  if(!activeNavigation(state))return;
+  const size=Math.max(12,Math.min(emphasis?20:17,rect.height*(emphasis?1.15:.78)));
+  c.save();c.beginPath();c.rect(rect.x,rect.y,rect.width,rect.height);c.clip();
+  if(rect.height>=20){c.fillStyle=emphasis?'rgba(9,20,29,.58)':'rgba(9,20,29,.34)';c.fillRect(rect.x,rect.y,rect.width,rect.height);}
+  c.textAlign='left';c.textBaseline='middle';c.fillStyle=emphasis?'#f4f8fb':'#c6d4df';
+  c.font=`${emphasis?600:500} ${size}px "Segoe UI", "Microsoft YaHei", sans-serif`;
+  const line=state.status==='arrived'?'● 已到达目的地':state.status==='rerouting'?state.instruction:
+    `${state.symbol} ${navigationDistance(state.maneuverDistance)} ${state.instruction}${emphasis&&state.nextRoad?` · ${state.nextRoad}`:''}`;
+  c.fillText(line,rect.x+6,rect.y+rect.height*.5,rect.width-12);
+  c.restore();
+}

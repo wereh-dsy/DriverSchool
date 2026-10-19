@@ -41,8 +41,8 @@ export class ExecutiveDisplayContext {
       trip: { seconds: 0, averageSpeed: null, fuel } };
   }
   public cyclePage(): void {
-    // One command walks every information page the face supports; the map page
-    // remains part of the cycle for faces that draw roads.
+    // One command walks every information page the face supports. The manual
+    // page is guidance-only on A6L; the full map stays on the centre screen.
     this.manualPage = this.manualPage === 'DRIVING' ? 'MAP'
       : this.manualPage === 'MAP' ? 'CRUISE' : 'DRIVING';
     this.elapsed = Infinity;
@@ -81,25 +81,8 @@ export class ExecutiveDisplayContext {
     this.data.trip = { seconds: trip?.tripA.operatingTimeSeconds ?? 0, averageSpeed: trip?.tripA.averageSpeedKmh ?? null, fuel,
       distanceKm: trip?.tripA.distanceKm, odometerKm: trip?.totalDistanceKm,
       averageConsumptionLPer100km: trip?.tripA.averageFuelConsumptionLPer100km };
-    const cos = Math.cos(pose.yaw), sin = Math.sin(pose.yaw);
-    const local = (x: number, z: number): DisplayPoint => ({
-      x: (x - pose.x) * cos - (z - pose.z) * sin,
-      forward: -(x - pose.x) * sin - (z - pose.z) * cos });
     this.data.lanes = []; this.data.laneMarkings = []; this.data.roads = []; this.data.obstacles = [];
-    const mapNetwork = this.shared ? this.shared.navigation.nearbyNetwork : network;
-    if (mapNetwork && page === 'MAP') {
-      for (const road of mapNetwork.segments) {
-        const line = road.centerline.map(p => local(p.x, p.z));
-        const nearby = line.some(p => Math.abs(p.x) < 110 && Math.abs(p.forward) < 110) || line.some((p, i) => {
-          const a = line[i - 1]; if (!a) return false;
-          const dx = p.x - a.x, dz = p.forward - a.forward, lengthSquared = dx * dx + dz * dz;
-          const t = lengthSquared ? Math.max(0, Math.min(1, -(a.x * dx + a.forward * dz) / lengthSquared)) : 0;
-          return Math.hypot(a.x + t * dx, a.forward + t * dz) < 110;
-        });
-        if (nearby) this.data.roads.push(line);
-      }
-    }
-    if (page === 'DRIVING' || page === 'CRUISE') {
+    if (page === 'DRIVING' || page === 'CRUISE' || page === 'MAP') {
       if (this.shared) {
         this.data.lanes = this.shared.lane.lanes; this.data.laneMarkings = this.shared.lane.laneMarkings;
         this.data.obstacles = page === 'DRIVING' ? this.shared.lane.obstacles : [];

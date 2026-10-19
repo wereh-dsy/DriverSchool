@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "noise_barrier",
+    "objectIds": [
+      "landscape-noise_barrier-24"
+    ],
+    "bbox": {
+      "minX": -25.526440621040948,
+      "maxX": -23.526440621040948,
+      "minZ": -2024.763929207777,
+      "maxZ": -2022.763929207777
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-noise_barrier-24",
+      "state": "INVALID",
+      "position": {
+        "x": -30.6156591806592,
+        "y": 9.88857159623418,
+        "z": -2024.7445403132203
+      },
+      "rotation": 2.98192297966502,
+      "anchor": {
+        "anchorRoadId": "system-north:N-to-E-star",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 196.76740596342367,
+        "lateralOffset": -14.70112493672584,
+        "verticalOffset": 7.105427357601002e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 2.98192297966502,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:landscape-noise_barrier-24",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-24",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "system-north:N-to-E-star",
+            "lateralOffset": -14.70112493672584
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-24",
+          "properties": {
+            "position": {
+              "x": -30.6156591806592,
+              "y": 9.88857159623418,
+              "z": -2024.7445403132203
+            },
+            "rotation": 2.98192297966502
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-24",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 6.450339795779812
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

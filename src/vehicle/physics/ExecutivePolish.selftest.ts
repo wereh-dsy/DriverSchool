@@ -4,6 +4,7 @@ import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
 import { calculateEngineAudioMix } from '../../audio/EngineAudio';
 import { ExecutiveDisplayContext } from '../visual/ExecutiveDisplayContext';
 import type { RoadNetworkData } from '../../world/navigation/RoadNetwork';
+import { SharedVehicleData } from '../SharedVehicleData';
 
 /** Lifecycle, display priority and sound calibration integration; no handling tuning. */
 export function runExecutivePolishSelfTest() {
@@ -67,10 +68,26 @@ export function runExecutivePolishSelfTest() {
   assert(solidBoundary.some(point => point.x < 0), 'reversed travel retains the real solid boundary on the driver left');
   display.update(.2,pose,'N','NORMAL',false,null,fuel,undefined,[],true);
   assert(display.data.lanes.length === 0 && display.data.laneMarkings?.length === 0, 'missing roads clear geometry and marking types together');
-  display.cyclePage(); update('N'); assert(display.data.page === 'MAP' && display.data.roads.length === 1, 'map consumes same road network');
+  display.cyclePage(); update('N');
+  const shared = new SharedVehicleData({ lanes: true, navigation: true, proximity: false, tpms: false });
+  const navigationDisplay = new ExecutiveDisplayContext(fuel, shared);
+  shared.update(.2, pose, 'N', 0, true, network, () => []);
+  navigationDisplay.cyclePage();
+  navigationDisplay.update(.2, pose, 'N', 'NORMAL', false, null, fuel, network, [], true);
+  assert(display.data.page === 'MAP' && display.data.roads.length === 0 &&
+    navigationDisplay.data.navigation === shared.navigation &&
+    shared.navigation.nearbyNetwork?.segments.length === 1 &&
+    shared.navigation.nearbyNetwork.segments[0] === network.segments[0],
+    'guidance page borrows the same shared road network without an instrument-owned map');
   const longRoad: RoadNetworkData = { ...network, segments: [{ ...network.segments[0]!, centerline: [{x:0,z:1000},{x:0,z:-1000}], length:2000 }] };
   display.update(.2,pose,'N','NORMAL',false,null,fuel,longRoad,[],true);
-  assert(display.data.roads.length === 1, 'map includes long roads crossing the local view even when endpoints are far away');
+  shared.update(.2, pose, 'N', 0, true, longRoad, () => []);
+  navigationDisplay.update(.2, pose, 'N', 'NORMAL', false, null, fuel, longRoad, [], true);
+  assert(navigationDisplay.data.navigation === shared.navigation &&
+    shared.navigation.map.nearby(pose.x, pose.z).network?.segments.length === 1 &&
+    shared.navigation.map.nearby(pose.x, pose.z).network!.segments[0] === longRoad.segments[0],
+    'shared map includes the actual long road crossing the local view when endpoints are far away');
+  shared.dispose();
   update('P','SPORT'); assert(display.data.page === 'TRIP' && display.data.trip.fuel === fuel, 'P overrides mode overlay and reads real FuelSystem snapshot');
   update('R'); assert(display.data.page === 'PARKING', 'R overrides Trip and manual page');
   update('N'); assert(display.data.page === 'MAP', 'leaving reverse restores manually selected page');

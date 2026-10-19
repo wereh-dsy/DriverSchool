@@ -1,0 +1,226 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "office",
+    "objectIds": [
+      "landscape-office-2505",
+      "landscape-office-2553",
+      "landscape-office-2554"
+    ],
+    "bbox": {
+      "minX": 317.4308250346825,
+      "maxX": 1413.3531109787102,
+      "minZ": 283.5037618845913,
+      "maxZ": 768.84718971965
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-office-2505",
+      "state": "VALID",
+      "position": {
+        "x": 333.6482431212994,
+        "y": -0.04,
+        "z": 308.6393826665983
+      },
+      "rotation": -1.0082544206144612,
+      "anchor": {
+        "anchorRoadId": "v91-plaza-civic-east-t",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 284.25749629292875,
+        "lateralOffset": 32.18967159400064,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.0082544206144612,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-office-2505",
+          "properties": {
+            "position": {
+              "x": 333.6482431212994,
+              "y": -0.04,
+              "z": 308.6393826665983
+            },
+            "rotation": -1.0082544206144612
+          }
+        }
+      ],
+      "sourceId": "landscape-office-2505",
+      "heightMode": "GROUND",
+      "autoMove": 28.532430736895545
+    },
+    {
+      "id": "landscape-office-2553",
+      "state": "INVALID",
+      "position": {
+        "x": 1186.2477171903686,
+        "y": -0.04,
+        "z": 797.041140912297
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v8-jincheng-east-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 47.99771719036857,
+        "lateralOffset": 33.04114091229701,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:landscape-office-2553",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-office-2553",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-verge-v8-jincheng-east-194--1",
+            "actual": 16.1994821413972,
+            "required": 24.04114091229696
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:landscape-office-2553",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-office-2553",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-verge-v8-jincheng-east-194-1",
+            "actual": 23.044526067785856,
+            "required": 24.04114091229696
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:landscape-office-2553",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-office-2553",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-lamp-v8-jincheng-east-194",
+            "actual": 21.432050535046578,
+            "required": 24.053272946652925
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-office-2553",
+          "properties": {
+            "position": {
+              "x": 1186.2477171903686,
+              "y": -0.04,
+              "z": 797.041140912297
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "landscape-office-2553",
+      "heightMode": "GROUND",
+      "autoMove": 29.193978595570933
+    },
+    {
+      "id": "landscape-office-2554",
+      "state": "VALID",
+      "position": {
+        "x": 1412.3531109787102,
+        "y": -0.04,
+        "z": 730.958859087703
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v6-residential-east-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 144.10311097871022,
+        "lateralOffset": -33.04114091229701,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-office-2554",
+          "properties": {
+            "position": {
+              "x": 1412.3531109787102,
+              "y": -0.04,
+              "z": 730.958859087703
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "landscape-office-2554",
+      "heightMode": "GROUND",
+      "autoMove": 25.01811620511806
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-office-2505",
+      "properties": {
+        "position": {
+          "x": 333.6482431212994,
+          "y": -0.04,
+          "z": 308.6393826665983
+        },
+        "rotation": -1.0082544206144612
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-office-2554",
+      "properties": {
+        "position": {
+          "x": 1412.3531109787102,
+          "y": -0.04,
+          "z": 730.958859087703
+        },
+        "rotation": -1.5707963267948966
+      }
+    }
+  ],
+  "stats": {
+    "planned": 3,
+    "valid": 2,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 2,
+    "removed": 0
+  },
+  "valid": true
+}

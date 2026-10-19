@@ -1,0 +1,202 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight_small",
+    "objectIds": [
+      "v8-lamp-v8-port-works-194",
+      "v8-lamp-v8-ring-south-cross-split-2-116",
+      "v8-lamp-v8-ring-south-cross-split-2-194"
+    ],
+    "bbox": {
+      "minX": 811.0408168172357,
+      "maxX": 1058.000000000015,
+      "minZ": 2142.900988321155,
+      "maxZ": 2310.8046109089128
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v8-lamp-v8-port-works-194",
+      "state": "VALID",
+      "position": {
+        "x": 810.2899381693302,
+        "y": -0.04,
+        "z": 2308.470476424962
+      },
+      "rotation": 2.490468340037226,
+      "anchor": {
+        "anchorRoadId": "v91-ring-south-inner-on",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 183.7204804449817,
+        "lateralOffset": 5.8371320343558235,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 2.490468340037226,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-port-works-194",
+          "properties": {
+            "position": {
+              "x": 810.2899381693302,
+              "y": -0.04,
+              "z": 2308.470476424962
+            },
+            "rotation": 2.490468340037226
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-port-works-194",
+      "heightMode": "GROUND",
+      "autoMove": 2.201610969485443
+    },
+    {
+      "id": "v8-lamp-v8-ring-south-cross-split-2-116",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1059.7,
+        "y": -0.04,
+        "z": 2221.9009883211547
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v91-ring-south-cross",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 300.0990116788453,
+        "lateralOffset": 9.700000000000045,
+        "verticalOffset": 0.7182357266084392,
+        "facingDirection": "forward",
+        "expectedHeading": 0,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-ring-south-cross-split-2-116",
+          "properties": {
+            "position": {
+              "x": 1059.7,
+              "y": -0.04,
+              "z": 2221.9009883211547
+            },
+            "rotation": 0
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-ring-south-cross-split-2-116",
+      "heightMode": "GROUND",
+      "autoMove": 2.7002962800254364
+    },
+    {
+      "id": "v8-lamp-v8-ring-south-cross-split-2-194",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1059.7000000000005,
+        "y": -0.04,
+        "z": 2143.900988321155
+      },
+      "rotation": -9.369396125968148e-15,
+      "anchor": {
+        "anchorRoadId": "v91-ring-south-cross-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 48.09901167884492,
+        "lateralOffset": 9.700000000000045,
+        "verticalOffset": -0.03333943934396271,
+        "facingDirection": "forward",
+        "expectedHeading": -9.369396125968148e-15,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-ring-south-cross-split-2-194",
+          "properties": {
+            "position": {
+              "x": 1059.7000000000005,
+              "y": -0.04,
+              "z": 2143.900988321155
+            },
+            "rotation": -9.369396125968148e-15
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-ring-south-cross-split-2-194",
+      "heightMode": "GROUND",
+      "autoMove": 2.7002962800302104
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-port-works-194",
+      "properties": {
+        "position": {
+          "x": 810.2899381693302,
+          "y": -0.04,
+          "z": 2308.470476424962
+        },
+        "rotation": 2.490468340037226
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-ring-south-cross-split-2-116",
+      "properties": {
+        "position": {
+          "x": 1059.7,
+          "y": -0.04,
+          "z": 2221.9009883211547
+        },
+        "rotation": 0
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-ring-south-cross-split-2-194",
+      "properties": {
+        "position": {
+          "x": 1059.7000000000005,
+          "y": -0.04,
+          "z": 2143.900988321155
+        },
+        "rotation": -9.369396125968148e-15
+      }
+    }
+  ],
+  "stats": {
+    "planned": 3,
+    "valid": 1,
+    "adjusted": 2,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 3,
+    "removed": 0
+  },
+  "valid": true
+}

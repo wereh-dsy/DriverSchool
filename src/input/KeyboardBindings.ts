@@ -67,7 +67,7 @@ export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] 
   { action: 'rightIndicator', label: '右转向灯', group: '车辆附件' },
   { action: 'hazard', label: '双闪', group: '车辆附件' },
   { action: 'cycleLights', label: '切换灯光', group: '车辆附件' },
-  { action: 'cycleWipers', label: '雨刷（关→间歇→低速→高速）', group: '车辆附件' },
+  { action: 'cycleWipers', label: '雨刷（关→自动→间歇→低速→高速）', group: '车辆附件' },
   { action: 'fogToggle', label: '雾灯循环', group: '车辆附件' },
   { action: 'highBeamFlash', label: '闪远光（按住）', group: '车辆附件' },
   { action: 'horn', label: '喇叭（按住）', group: '车辆附件' },

@@ -1,0 +1,306 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "regional:tree:-3880:1460",
+      "regional:tree:-3720:1460",
+      "regional:tree:-3560:1460",
+      "regional:tree:-3080:1460"
+    ],
+    "bbox": {
+      "minX": -3850.1647130095953,
+      "maxX": -3061.7593300602894,
+      "minZ": 1404.7054994509417,
+      "maxZ": 1498.2441128092396
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:tree:-3880:1460",
+      "state": "VALID",
+      "position": {
+        "x": -3849.23263973525,
+        "y": -0.064,
+        "z": 1435.3878608990015
+      },
+      "rotation": -1.6136272594636316,
+      "anchor": {
+        "anchorRoadId": "regional:v8:airport-city-road",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 513.6926204453249,
+        "lateralOffset": 13.199999999999891,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6136272594636316,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-3880:1460::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-3880:1460",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "regional:v8:airport-city-road",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-3880:1460",
+          "properties": {
+            "position": {
+              "x": -3849.23263973525,
+              "y": -0.064,
+              "z": 1435.3878608990015
+            },
+            "rotation": -1.6136272594636316
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-3880:1460",
+      "heightMode": "GROUND",
+      "autoMove": 9.366281805071843
+    },
+    {
+      "id": "regional:tree:-3720:1460",
+      "state": "INVALID",
+      "position": {
+        "x": -3751.987147510028,
+        "y": -0.064,
+        "z": 1439.555524851511
+      },
+      "rotation": -1.6136272594636127,
+      "anchor": {
+        "anchorRoadId": "regional:v8:airport-city-road",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 611.0273787845056,
+        "lateralOffset": 13.200000000000115,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6136272594636127,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-3720:1460::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-3720:1460",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "regional:v8:airport-city-road",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:-3720:1460",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:-3720:1460",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-3720:1460",
+          "properties": {
+            "position": {
+              "x": -3751.987147510028,
+              "y": -0.064,
+              "z": 1439.555524851511
+            },
+            "rotation": -1.6136272594636127
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-3720:1460",
+      "heightMode": "GROUND",
+      "autoMove": 49.01805577132207
+    },
+    {
+      "id": "regional:tree:-3560:1460",
+      "state": "VALID",
+      "position": {
+        "x": -3529.4633364578617,
+        "y": -0.064,
+        "z": 1422.6680258355793
+      },
+      "rotation": -1.6136272594636127,
+      "anchor": {
+        "anchorRoadId": "regional:v8:airport-city-road",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 832.6240261151762,
+        "lateralOffset": -13.200000000000115,
+        "verticalOffset": -0.0740244037258638,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6136272594636127,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-3560:1460::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-3560:1460",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "regional:v8:airport-city-road",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-3560:1460",
+          "properties": {
+            "position": {
+              "x": -3529.4633364578617,
+              "y": -0.064,
+              "z": 1422.6680258355793
+            },
+            "rotation": -1.6136272594636127
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-3560:1460",
+      "heightMode": "GROUND",
+      "autoMove": 18.377675322405178
+    },
+    {
+      "id": "regional:tree:-3080:1460",
+      "state": "VALID",
+      "position": {
+        "x": -3061.899530104803,
+        "y": -0.064,
+        "z": 1467.1511143673
+      },
+      "rotation": -1.5993599846336501,
+      "anchor": {
+        "anchorRoadId": "regional:v8:airport-city-road",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 1301.489475214146,
+        "lateralOffset": 13.19999999999993,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5993599846336501,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:-3080:1460::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:-3080:1460",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "regional:v8:airport-city-road",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:-3080:1460",
+          "properties": {
+            "position": {
+              "x": -3061.899530104803,
+              "y": -0.064,
+              "z": 1467.1511143673
+            },
+            "rotation": -1.5993599846336501
+          }
+        }
+      ],
+      "sourceId": "regional:tree:-3080:1460",
+      "heightMode": "GROUND",
+      "autoMove": 30.234898642525785
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-3880:1460",
+      "properties": {
+        "position": {
+          "x": -3849.23263973525,
+          "y": -0.064,
+          "z": 1435.3878608990015
+        },
+        "rotation": -1.6136272594636316
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-3560:1460",
+      "properties": {
+        "position": {
+          "x": -3529.4633364578617,
+          "y": -0.064,
+          "z": 1422.6680258355793
+        },
+        "rotation": -1.6136272594636127
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:-3080:1460",
+      "properties": {
+        "position": {
+          "x": -3061.899530104803,
+          "y": -0.064,
+          "z": 1467.1511143673
+        },
+        "rotation": -1.5993599846336501
+      }
+    }
+  ],
+  "stats": {
+    "planned": 4,
+    "valid": 3,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 3,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 2,
+  "usage": "node scripts/mapctl.mjs <command> <map.json|regional-main|editor-test> --request @request.json [--out result.json]",
+  "commands": {
+    "inspect": {
+      "kinds": [
+        "profile",
+        "geometry",
+        "ramp",
+        "object",
+        "structure",
+        "region",
+        "issue"
+      ],
+      "examples": [
+        {
+          "kind": "profile",
+          "roadId": "road-id",
+          "step": 10
+        },
+        {
+          "kind": "object",
+          "objectId": "object-id"
+        },
+        {
+          "kind": "region",
+          "center": {
+            "x": 0,
+            "z": 0
+          },
+          "radius": 300
+        }
+      ]
+    },
+    "query": {
+      "kinds": [
+        "road",
+        "corridor",
+        "corridors",
+        "group",
+        "sign",
+        "signs",
+        "intersection",
+        "connected",
+        "objects",
+        "accessWindows",
+        "diagnosis"
+      ],
+      "examples": [
+        {
+          "kind": "objects",
+          "roadId": "road-id",
+          "radius": 30,
+          "limit": 100,
+          "offset": 0
+        },
+        {
+          "kind": "accessWindows",
+          "mainline": "main-id",
+          "frontage": "frontage-id",
+          "start": 0,
+          "end": 1000,
+          "minLength": 100,
+          "buffer": 80
+        }
+      ]
+    },
+    "diagnose": {
+      "domains": [
+        "legacy (default)",
+        "profile",
+        "ramps",
+        "objects",
+        "structures",
+        "all"
+      ],
+      "scope": "roadId | intersectionId | corridorId | objectId | bbox | center+radius | full:true",
+      "filters": [
+        "codes (prefix[])",
+        "minSeverity",
+        "limit",
+        "offset"
+      ]
+    },
+    "preview": {
+      "request": {
+        "operations": [
+          {
+            "op": "moveObject",
+            "id": "tree-id",
+            "delta": {
+              "x": 0,
+              "y": 0,
+              "z": 2
+            }
+          }
+        ]
+      },
+      "readOnly": true
+    },
+    "repair": {
+      "request": "legacy diagnosis receipt, {diagnosis}, {operations}, or {domain,scope}; preview by default; --apply is explicit"
+    },
+    "brush": {
+      "request": "PlacementBrushRequest; preview only unless --apply; also available as {op:\"brushObjects\",brush:request} in any transaction"
+    },
+    "apply": {
+      "request": "@receipt.json; source digest, operation digest, affected ids and source bytes checked before atomic rename"
+    },
+    "validate": {
+      "request": "local roadId/intersectionId/objectId/corridorId/bbox; --full is explicit"
+    },
+    "review": {
+      "request": "@receipt.json",
+      "packageFlag": "--package artifacts/unique-task-directory",
+      "readOnly": true
+    },
+    "diff": {
+      "syntax": "diff <before.json> --after <after.json> [--full]",
+      "readOnly": true
+    }
+  },
+  "operations": {
+    "moveObject": {
+      "id": "editable id",
+      "delta": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      }
+    },
+    "rotateObject": {
+      "id": "editable id",
+      "rotation": "radians"
+    },
+    "removeObject": {
+      "id": "authored prefab/sign id"
+    },
+    "reanchorObject": {
+      "id": "editable id",
+      "roadId": "optional",
+      "station": "optional metres",
+      "lateralOffset": "signed metres",
+      "verticalOffset": "metres",
+      "strategy": [
+        "reanchorRoadside",
+        "reanchorToApproach",
+        "moveOppositeSide",
+        "fixFacing",
+        "moveToRoadside",
+        "moveOutsideCarriageway",
+        "moveOutward"
+      ]
+    },
+    "repairElevation": {
+      "id": "road/corridor id",
+      "start": "metres",
+      "end": "metres",
+      "strategy": [
+        "smoothLocalExtremum",
+        "smoothWave",
+        "smoothGradeBreak",
+        "fitBetweenConstraints"
+      ],
+      "anchors": [
+        {
+          "station": 100,
+          "elevation": "optional existing elevation"
+        }
+      ],
+      "maxGrade": 0.08
+    },
+    "repairRamp": {
+      "id": "ramp id",
+      "start": "optional metres",
+      "end": "optional metres",
+      "strategy": "same profile strategies"
+    },
+    "brushObjects": {
+      "brush": {
+        "mode": [
+          "SINGLE",
+          "LINE",
+          "RANGE",
+          "AREA",
+          "REPLACE",
+          "REPAIR"
+        ],
+        "type": "existing prefab id | roadSign | trafficLight",
+        "roadId": "id",
+        "intersectionId": "signal anchor",
+        "approaches": [
+          "north"
+        ],
+        "stationStart": 100,
+        "stationEnd": 800,
+        "spacing": 32,
+        "density": 0.002,
+        "side": [
+          "left",
+          "right",
+          "both"
+        ],
+        "lateralOffset": 2,
+        "heightMode": [
+          "GROUND",
+          "ROAD_SURFACE",
+          "ROAD_DECK",
+          "SIDEWALK",
+          "STRUCTURE_DECK",
+          "ABSOLUTE",
+          "RELATIVE"
+        ],
+        "heightOffset": 0.15,
+        "orientation": [
+          "ROAD_FORWARD",
+          "ROAD_BACKWARD",
+          "FACE_TRAFFIC",
+          "FACE_ROAD",
+          "FACE_INTERSECTION",
+          "NORMAL_TO_ROAD",
+          "ABSOLUTE"
+        ],
+        "arrangement": [
+          "ALIGNED",
+          "STAGGERED"
+        ],
+        "autoAdjust": [
+          "STRICT",
+          "SKIP",
+          "ADJUST"
+        ],
+        "maxAutoMove": 5,
+        "seed": 42,
+        "randomPositionJitter": 0,
+        "randomRotationJitter": 0,
+        "randomScaleJitter": 0,
+        "minDistanceToIntersection": 20,
+        "minDistanceToRamp": 10,
+        "minDistanceToObject": 2,
+        "snapMode": [
+          "roadside",
+          "none"
+        ],
+        "pitch": 0,
+        "roll": 0
+      }
+    }
+  },
+  "limitations": [
+    "approximate envelopes are marked; visibility/shell finish returns reviewRequired",
+    "generated signals have stable signal:<intersection>:<port> ids and persist as approach overrides",
+    "pitch/roll unsupported by current object schema and rejected if nonzero",
+    "logical directed lane reachability is checked; physical traffic/driving simulation is not performed"
+  ],
+  "thresholds": {
+    "clearance": 5.5,
+    "deckThickness": 0.65,
+    "localExtremumLength": 100,
+    "localExtremumAmplitude": 0.08,
+    "constraintDistance": 20,
+    "gradeDelta": 0.04,
+    "accessLength": 300,
+    "accessWidth": 80,
+    "interchangeDistance": 80,
+    "attachmentSpacing": 60,
+    "rampDistance": 8,
+    "objectRoadside": 2,
+    "facingTolerance": 0.7853981633974483,
+    "junctionObjectMargin": 2,
+    "streetlightSpacing": 8,
+    "rampJunctionDistance": 15
+  }
+}

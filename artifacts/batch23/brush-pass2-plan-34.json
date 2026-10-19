@@ -1,0 +1,92 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "guide_sign",
+    "objectIds": [
+      "v61-guide-qingjiang-sports"
+    ],
+    "bbox": {
+      "minX": 3033.966849424981,
+      "maxX": 3035.966849424981,
+      "minZ": 1764.204920420196,
+      "maxZ": 1766.204920420196
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v61-guide-qingjiang-sports",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 3065.1408401909675,
+        "y": 14.005427965177953,
+        "z": 1775.9687678105843
+      },
+      "rotation": 2.798938452734371,
+      "anchor": {
+        "anchorRoadId": "regional:S68:out:split12:split30:split36:split232:split546:split554:split562",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 258.9832145738879,
+        "lateralOffset": 14.124999999999952,
+        "verticalOffset": -0.5828159260137777,
+        "facingDirection": "forward",
+        "expectedHeading": 2.798938452734371,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-guide-qingjiang-sports",
+          "properties": {
+            "position": {
+              "x": 3065.1408401909675,
+              "y": 14.005427965177953,
+              "z": 1775.9687678105843
+            },
+            "rotation": 2.798938452734371
+          }
+        }
+      ],
+      "sourceId": "v61-guide-qingjiang-sports",
+      "heightMode": "GROUND",
+      "autoMove": 34.964012096400005
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v61-guide-qingjiang-sports",
+      "properties": {
+        "position": {
+          "x": 3065.1408401909675,
+          "y": 14.005427965177953,
+          "z": 1775.9687678105843
+        },
+        "rotation": 2.798938452734371
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 1,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

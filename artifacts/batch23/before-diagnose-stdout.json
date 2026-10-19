@@ -1,0 +1,2861 @@
+{
+  "schemaVersion": 1,
+  "domain": "all",
+  "scope": {
+    "domain": "all",
+    "full": true,
+    "limit": 1000000,
+    "offset": 0
+  },
+  "coverage": {
+    "roads": 2922,
+    "objects": 11268
+  },
+  "counts": {
+    "total": 10320,
+    "error": 0,
+    "warning": 10111,
+    "info": 209
+  },
+  "issues": [
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S68:in:::20.85",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S68:in",
+      "station": 20.854217305667273,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:lingang:E-to-S-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:qingling:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:qingling:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:qingling:S-to-E-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:qingling:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:qingling:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:qingling:S-to-E-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:qingling:E-to-S-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:qingling:E-to-S-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:qingling:E-to-S-turbine:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:qingling:E-to-S-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:qingling:E-to-S-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:qingling:E-to-S-turbine:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:qingling:E-to-S-turbine:::794.23",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:qingling:E-to-S-turbine",
+      "station": 794.2293989752926,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:qingling:N-to-E-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:qingling:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:qingling:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:qingling:E-to-N-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:qingling:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:qingling:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:qingling:E-to-N-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:qingling:N-to-E-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:qingling:N-to-E-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:qingling:N-to-E-turbine:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:qingling:N-to-E-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:qingling:N-to-E-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:qingling:N-to-E-turbine:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:qingling:N-to-E-turbine:::617.51",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:qingling:N-to-E-turbine",
+      "station": 617.5085410426636,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:qingling:E-to-S-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:S-to-W-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:S-to-W-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:S-to-W-turbine:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:S-to-W-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:S-to-W-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:S-to-W-turbine:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:S-to-W-turbine:::794.26",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:S-to-W-turbine",
+      "station": 794.2591581887582,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-S-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:S-to-W-turbine:::616.87",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:S-to-W-turbine",
+      "station": 616.8695355450997,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-N-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:S-to-E-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:S-to-E-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:E-to-S-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-S-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-S-turbine:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:E-to-S-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-S-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-S-turbine:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:E-to-S-turbine:::794.23",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-S-turbine",
+      "station": 794.2293087829445,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:N-to-E-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:E-to-S-turbine:::733.40",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-S-turbine",
+      "station": 733.3995515450807,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S68:out:split12:split30:split46:split52",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:E-to-S-turbine:::750.66",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-S-turbine",
+      "station": 750.6560887021561,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S68:in:split70:split76",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:E-to-S-turbine:::616.84",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-S-turbine",
+      "station": 616.8396861392852,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:S-to-W-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:E-to-S-turbine:::451.53",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-S-turbine",
+      "station": 451.53341355782436,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-N-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:E-to-S-turbine:::864.70",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-S-turbine",
+      "station": 864.6974802148403,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-N-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S68:out:split12:split30:split46:split52:::370.96",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S68:out:split12:split30:split46:split52",
+      "station": 370.95825546798386,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-S-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S68:out:split12:split30:split46:split52:::156.75",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S68:out:split12:split30:split46:split52",
+      "station": 156.75,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-N-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-N-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-N-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:N-to-E-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:N-to-E-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:N-to-E-turbine:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:N-to-E-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:N-to-E-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:N-to-E-turbine:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:N-to-E-turbine:::794.26",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:N-to-E-turbine",
+      "station": 794.2591581887582,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-N-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:N-to-E-turbine:::616.87",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:N-to-E-turbine",
+      "station": 616.8695355450996,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-S-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:N-to-W-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:N-to-W-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:N-to-W-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:N-to-W-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:N-to-W-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:N-to-W-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:G17:in:split34:split40:split54:split72:::25.50",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:G17:in:split34:split40:split54:split72",
+      "station": 25.5,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "v9-chunhui-east-split-split",
+        "actual": 5.1,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:W-to-N-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-N-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-N-turbine:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:W-to-N-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-N-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-N-turbine:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:W-to-N-turbine:::616.84",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-N-turbine",
+      "station": 616.8396861392849,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:N-to-E-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:W-to-N-turbine:::794.23",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-N-turbine",
+      "station": 794.2293087829443,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:S-to-W-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:W-to-N-turbine:::451.53",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-N-turbine",
+      "station": 451.53341355782413,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-S-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:W-to-N-turbine:::864.70",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-N-turbine",
+      "station": 864.6974802148401,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-S-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:W-to-N-turbine:::750.66",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-N-turbine",
+      "station": 750.6560887021564,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S68:out:split12:split30:split46:split52",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongyuan:W-to-N-turbine:::733.40",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-N-turbine",
+      "station": 733.399551545081,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S68:in:split70:split76",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S68:in:split70:split76:::156.75",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S68:in:split70:split76",
+      "station": 156.75000000000054,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:E-to-S-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S68:in:split70:split76:::370.96",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S68:in:split70:split76",
+      "station": 370.9582554679845,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-N-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:W-to-S-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-S-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-S-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongyuan:W-to-S-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongyuan:W-to-S-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongyuan:W-to-S-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:lingang:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:lingang:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:lingang:S-to-E-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:lingang:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:lingang:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:lingang:S-to-E-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:lingang:E-to-S-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:lingang:E-to-S-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:lingang:E-to-S-star:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:lingang:E-to-S-star:::545.91",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:lingang:E-to-S-star",
+      "station": 545.9119985946198,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:lingang:N-to-E-star",
+        "actual": 4.986382047281323,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:lingang:E-to-S-star:::557.85",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:lingang:E-to-S-star",
+      "station": 557.8491519032098,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S68:in",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:lingang:E-to-S-star:::533.58",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:lingang:E-to-S-star",
+      "station": 533.5815916228302,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S68:out:split12:split30:split36:split88:split94",
+        "actual": 5.348865848744817,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S68:out:split12:split30:split36:split88:split94:::225.21",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S68:out:split12:split30:split36:split88:split94",
+      "station": 225.21097291813624,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:lingang:E-to-S-star",
+        "actual": 5.348865848744817,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:lingang:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:lingang:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:lingang:E-to-N-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:lingang:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:lingang:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:lingang:E-to-N-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:lingang:N-to-E-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:lingang:N-to-E-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:lingang:N-to-E-star:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:lingang:N-to-E-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:lingang:N-to-E-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:lingang:N-to-E-star:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:lingang:N-to-E-star:::587.79",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:lingang:N-to-E-star",
+      "station": 587.7856424621922,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:lingang:E-to-S-star",
+        "actual": 4.986382047281323,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:in:split106:::156.75",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:in:split106",
+      "station": 156.75,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:xichuan:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:xichuan:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:S-to-E-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:xichuan:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:xichuan:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:S-to-E-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:xichuan:E-to-S-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:xichuan:E-to-S-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:E-to-S-turbine:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:xichuan:E-to-S-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:xichuan:E-to-S-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:E-to-S-turbine:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:xichuan:E-to-S-turbine:::794.90",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:xichuan:E-to-S-turbine",
+      "station": 794.8981636863228,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:xichuan:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:xichuan:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:E-to-N-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:xichuan:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:xichuan:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:E-to-N-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:xichuan:N-to-E-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:xichuan:N-to-E-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:xichuan:N-to-E-turbine:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:xichuan:N-to-E-turbine",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:xichuan:N-to-E-turbine:::616.84",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:xichuan:N-to-E-turbine",
+      "station": 616.8396861392856,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:E-to-S-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:xichuan:N-to-E-turbine:::750.66",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:xichuan:N-to-E-turbine",
+      "station": 750.6560887021562,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:in:split106",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:xichuan:N-to-E-turbine:::733.40",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:xichuan:N-to-E-turbine",
+      "station": 733.3995515450808,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:out:split124:split590",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:S-to-W-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:S-to-W-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:S-to-W-star:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:S-to-W-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:S-to-W-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:S-to-W-star:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:S-to-W-star:::587.79",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:S-to-W-star",
+      "station": 587.785642462192,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:W-to-N-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:S-to-W-star:::545.95",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:S-to-W-star",
+      "station": 545.9504592292982,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:E-to-S-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:S-to-E-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:S-to-E-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:E-to-S-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:E-to-S-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:E-to-S-star:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:E-to-S-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:E-to-S-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:E-to-S-star:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:E-to-S-star:::587.75",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:E-to-S-star",
+      "station": 587.747071097836,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:S-to-W-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:E-to-S-star:::532.90",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:E-to-S-star",
+      "station": 532.9008602525868,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:in:split142:split148",
+        "actual": 5.348635775844107,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:E-to-S-star:::545.91",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:E-to-S-star",
+      "station": 545.9118878649423,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:N-to-E-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:E-to-S-star:::558.52",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:E-to-S-star",
+      "station": 558.5239489944116,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:out:split114:split166:split172",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:in:split142:split148:::284.37",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:in:split142:split148",
+      "station": 284.37004240420237,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:W-to-N-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:in:split142:split148:::224.69",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:in:split142:split148",
+      "station": 224.68837723450164,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:E-to-S-star",
+        "actual": 5.348635775844107,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:E-to-N-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:E-to-N-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:N-to-E-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:N-to-E-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:N-to-E-star:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:N-to-E-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:N-to-E-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:N-to-E-star:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:N-to-E-star:::545.95",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:N-to-E-star",
+      "station": 545.950459229298,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:W-to-N-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:N-to-E-star:::587.79",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:N-to-E-star",
+      "station": 587.7856424621917,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:E-to-S-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:N-to-W-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:N-to-W-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:N-to-W-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:N-to-W-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:N-to-W-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:N-to-W-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:W-to-N-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:W-to-N-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:W-to-N-star:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:W-to-N-star:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:W-to-N-star",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:W-to-N-star:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:W-to-N-star:::545.91",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:W-to-N-star",
+      "station": 545.9118878649423,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:S-to-W-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:W-to-N-star:::558.52",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:W-to-N-star",
+      "station": 558.5239489944108,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:in:split142:split148",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:W-to-N-star:::532.90",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:W-to-N-star",
+      "station": 532.900860252587,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:out:split114:split166:split172",
+        "actual": 5.348635775844107,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:logistics:W-to-N-star:::587.75",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:logistics:W-to-N-star",
+      "station": 587.747071097836,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:N-to-E-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:out:split114:split166:split172:::224.69",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:out:split114:split166:split172",
+      "station": 224.6883772345019,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:W-to-N-star",
+        "actual": 5.348635775844107,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:out:split114:split166:split172:::284.37",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:out:split114:split166:split172",
+      "station": 284.37004240420174,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:logistics:E-to-S-star",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:W-to-S-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:W-to-S-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:W-to-S-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:logistics:W-to-S-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:logistics:W-to-S-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:logistics:W-to-S-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:S-to-W-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:S-to-W-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:S-to-W-semi:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:S-to-W-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:S-to-W-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:S-to-W-semi:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:S-to-W-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:S-to-W-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:N-to-W-right:acceleration",
+        "actual": 7.494288558272288,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:S-to-W-semi:::601.81",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:S-to-W-semi",
+      "station": 601.8066531740649,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:W-to-N-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:S-to-W-semi:::562.75",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:S-to-W-semi",
+      "station": 562.7464185300971,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-S-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:S-to-E-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:S-to-E-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:S-to-E-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:S-to-E-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:E-to-S-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-S-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-S-semi:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:E-to-S-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-S-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-N-right:deceleration",
+        "actual": 3.92165870135607,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:dongnan:E-to-S-semi:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-S-semi",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:N-to-E-semi",
+        "actual": 6.884226286893108,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:E-to-S-semi:::708.72",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-S-semi",
+      "station": 708.7234808403314,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:S-to-W-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:E-to-S-semi:::677.20",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-S-semi",
+      "station": 677.1998586153105,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:in:split190:split196",
+        "actual": 5.345766241801877,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:E-to-S-semi:::689.51",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-S-semi",
+      "station": 689.513764340673,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:N-to-E-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:E-to-S-semi:::701.07",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-S-semi",
+      "station": 701.0665624704073,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:out:split114:split138:split156:split214:split220",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:in:split190:split196:::348.33",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:in:split190:split196",
+      "station": 348.3316182291766,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:W-to-N-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:in:split190:split196:::298.61",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:in:split190:split196",
+      "station": 298.60596446592115,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-S-semi",
+        "actual": 5.345766241801877,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-N-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:E-to-N-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:E-to-N-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-N-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:N-to-E-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:N-to-E-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:N-to-E-semi:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:N-to-E-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:N-to-E-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:S-to-E-right:acceleration",
+        "actual": 5.686023422126298,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:dongnan:N-to-E-semi:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:dongnan:N-to-E-semi",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-S-semi",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:N-to-E-semi:::562.72",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:N-to-E-semi",
+      "station": 562.7162013860938,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:W-to-N-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:N-to-E-semi:::601.78",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:N-to-E-semi",
+      "station": 601.7764360300615,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-S-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:N-to-W-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:N-to-W-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:N-to-W-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:N-to-W-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:N-to-W-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:N-to-W-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:W-to-N-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:W-to-N-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:W-to-N-semi:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:W-to-N-semi:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:W-to-N-semi",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:W-to-S-right:deceleration",
+        "actual": 3.8004534232407345,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:W-to-N-semi:::689.50",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:W-to-N-semi",
+      "station": 689.4958745414972,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:S-to-W-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:W-to-N-semi:::708.71",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:W-to-N-semi",
+      "station": 708.7055910411555,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:N-to-E-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:W-to-N-semi:::677.18",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:W-to-N-semi",
+      "station": 677.1819688161335,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:out:split114:split138:split156:split214:split220",
+        "actual": 5.345766241801877,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:dongnan:W-to-N-semi:::701.05",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:dongnan:W-to-N-semi",
+      "station": 701.048672671232,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:S89:in:split190:split196",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:out:split114:split138:split156:split214:split220:::298.61",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:out:split114:split138:split156:split214:split220",
+      "station": 298.6059644659202,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:W-to-N-semi",
+        "actual": 5.345766241801877,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:out:split114:split138:split156:split214:split220:::348.33",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:out:split114:split138:split156:split214:split220",
+      "station": 348.3316182291769,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:E-to-S-semi",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:W-to-S-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:W-to-S-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:W-to-S-right:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:dongnan:W-to-S-right:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:dongnan:W-to-S-right",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:dongnan:W-to-S-right:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.shellReviewRequired:regional:G38:out:split274:::",
+      "code": "structure.shellReviewRequired",
+      "severity": "info",
+      "roadId": "regional:G38:out:split274",
+      "message": "Ceiling is runtime derived; shell continuity and portal finish require visual review",
+      "metrics": {
+        "clearance": 6
+      },
+      "reviewRequired": true,
+      "approximate": true
+    },
+    {
+      "id": "structure.shellReviewRequired:regional:G38:in:split18:split280:::",
+      "code": "structure.shellReviewRequired",
+      "severity": "info",
+      "roadId": "regional:G38:in:split18:split280",
+      "message": "Ceiling is runtime derived; shell continuity and portal finish require visual review",
+      "metrics": {
+        "clearance": 6
+      },
+      "reviewRequired": true,
+      "approximate": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S37:out:split290:split292:split298:split300:::18.28",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S37:out:split290:split292:split298:split300",
+      "station": 18.28039271350076,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:v8:airport-city-road",
+        "actual": 5.1,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:G17:out:split306:::59.08",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:G17:out:split306",
+      "station": 59.08081614450631,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "v9-newcity-ten-split",
+        "actual": 5.1,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:binhe:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:binhe:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:binhe:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:binhe:on:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:binhe:on:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:binhe:on:1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:binhe:off:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:binhe:off:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:binhe:off:-1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "vertical.localExtremum:regional:binhe:on:-1:::213.26",
+      "code": "vertical.localExtremum",
+      "severity": "warning",
+      "roadId": "regional:binhe:on:-1",
+      "station": 213.25906711216265,
+      "message": "Short local crest/sag is a repair candidate",
+      "metrics": {
+        "amplitude": 0.08534574792341143,
+        "wavelength": 3.830220678010164,
+        "nearestHardConstraintDistance": null
+      },
+      "constraintDriven": false,
+      "repair": {
+        "op": "repairElevation",
+        "id": "regional:binhe:on:-1",
+        "start": 211.34395677315757,
+        "end": 215.17417745116774,
+        "strategy": "smoothLocalExtremum"
+      }
+    },
+    {
+      "id": "vertical.localExtremum:regional:binhe:on:-1:::215.17",
+      "code": "vertical.localExtremum",
+      "severity": "warning",
+      "roadId": "regional:binhe:on:-1",
+      "station": 215.17430501079048,
+      "message": "Short local crest/sag is a repair candidate",
+      "metrics": {
+        "amplitude": 0.08969919870594634,
+        "wavelength": 3.8306343471183766,
+        "nearestHardConstraintDistance": null
+      },
+      "constraintDriven": false,
+      "repair": {
+        "op": "repairElevation",
+        "id": "regional:binhe:on:-1",
+        "start": 213.2589878372313,
+        "end": 217.08962218434965,
+        "strategy": "smoothLocalExtremum"
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:binhe:on:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:binhe:on:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:binhe:on:-1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:G38:in:split18:split278:split346:split348:::162.66",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:G38:in:split18:split278:split346:split348",
+      "station": 162.65500985141298,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "v91-ns-0-b-1",
+        "actual": 5.497142760065374,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:shangu:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:shangu:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:shangu:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:shangu:on:1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:shangu:on:1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:shangu:off:-1",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:shangu:off:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:shangu:off:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:shangu:on:1",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:shangu:on:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:shangu:on:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:shangu:off:1",
+        "actual": 0.000056874266102678824,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:shangu:on:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:shangu:on:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:shangu:off:1:deceleration",
+        "actual": 0.000056874266102678824,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:shangu:on:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:shangu:on:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:qingling:N-to-E-turbine:deceleration",
+        "actual": 58.12262392126581,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:hewan:off:1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:hewan:off:1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:hewan:on:-1",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:hewan:on:1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:hewan:on:1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:hewan:off:-1",
+        "actual": 0.000023317501552850884,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:hewan:on:1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:hewan:on:1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:hewan:off:-1:deceleration",
+        "actual": 0.000023317501552850884,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:hewan:off:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:hewan:off:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:hewan:off:-1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:hewan:on:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:hewan:on:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:hewan:off:1",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:wuliuyuan:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:wuliuyuan:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:wuliuyuan:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:wuliuyuan:on:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:wuliuyuan:on:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:wuliuyuan:on:1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:wuliuyuan:off:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:wuliuyuan:off:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:wuliuyuan:off:-1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:wuliuyuan:on:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:wuliuyuan:on:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:wuliuyuan:on:-1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S37:in:split108:split126:split530:split536:split540:::226.43",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S37:in:split108:split126:split530:split536:split540",
+      "station": 226.43087748025596,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:v8:airport-city-road",
+        "actual": 5.1,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.insufficientVerticalEnvelope:regional:S89:out:split124:split590:::151.46",
+      "code": "structure.insufficientVerticalEnvelope",
+      "severity": "warning",
+      "roadId": "regional:S89:out:split124:split590",
+      "station": 151.4582554679837,
+      "message": "Crossing deck clearance is below threshold",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine",
+        "actual": 5.35,
+        "required": 5.5
+      }
+    },
+    {
+      "id": "structure.shellReviewRequired:regional:G65:out:4:::",
+      "code": "structure.shellReviewRequired",
+      "severity": "info",
+      "roadId": "regional:G65:out:4",
+      "message": "Ceiling is runtime derived; shell continuity and portal finish require visual review",
+      "metrics": {
+        "clearance": 6
+      },
+      "reviewRequired": true,
+      "approximate": true
+    },
+    {
+      "id": "structure.shellReviewRequired:regional:G65:in:7:::",
+      "code": "structure.shellReviewRequired",
+      "severity": "info",
+      "roadId": "regional:G65:in:7",
+      "message": "Ceiling is runtime derived; shell continuity and portal finish require visual review",
+      "metrics": {
+        "clearance": 6
+      },
+      "reviewRequired": true,
+      "approximate": true
+    },
+    {
+      "id": "structure.shellReviewRequired:regional:G65:in:8:::",
+      "code": "structure.shellReviewRequired",
+      "severity": "info",
+      "roadId": "regional:G65:in:8",
+      "message": "Ceiling is runtime derived; shell continuity and portal finish require visual review",
+      "metrics": {
+        "clearance": 6
+      },
+      "reviewRequired": true,
+      "approximate": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:chenjiang-east:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:chenjiang-east:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:chenjiang-east:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:chenjiang-east:on:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:chenjiang-east:on:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:chenjiang-east:on:1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:chenjiang-east:off:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:chenjiang-east:off:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:chenjiang-east:off:-1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:chenjiang-east:on:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:chenjiang-east:on:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:chenjiang-east:off:1",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:chenjiang-east:on:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:chenjiang-east:on:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:chenjiang-east:off:1:deceleration",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:yunling-exit:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:yunling-exit:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:yunling-exit:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:yunling-exit:on:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:yunling-exit:on:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:yunling-exit:on:1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:yunling-exit:off:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:yunling-exit:off:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:yunling-exit:off:-1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:yunling-exit:on:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:yunling-exit:on:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:yunling-exit:on:-1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:airport-exit:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:airport-exit:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:airport-exit:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:airport-exit:on:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:airport-exit:on:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:airport-exit:on:1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:airport-exit:off:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:airport-exit:off:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:airport-exit:on:1:acceleration",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:airport-exit:off:-1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:airport-exit:off:-1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:airport-exit:on:1",
+        "actual": 0,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:airport-exit:on:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:airport-exit:on:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:airport-exit:on:-1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:airport-service:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:airport-service:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:airport-service:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:airport-service:on:1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:airport-service:on:1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:airport-service:off:-1",
+        "actual": 0.0000017085810684919211,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.divergeTooClose:regional:airport-service:on:1:::",
+      "code": "ramp.divergeTooClose",
+      "severity": "warning",
+      "roadId": "regional:airport-service:on:1",
+      "message": "Adjacent attachment spacing requires review",
+      "metrics": {
+        "otherRoadId": "regional:airport-service:off:-1:deceleration",
+        "actual": 0.0000017085810684919211,
+        "threshold": 60
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:airport-service:off:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:airport-service:off:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:airport-service:off:-1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:airport-service:on:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:airport-service:on:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:airport-service:on:-1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:newcity-exit:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:newcity-exit:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:newcity-exit:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:newcity-exit:on:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:newcity-exit:on:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:newcity-exit:on:1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:newcity-exit:off:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:newcity-exit:off:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:newcity-exit:off:-1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:newcity-exit:on:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:newcity-exit:on:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:newcity-exit:on:-1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:yanjiang-exit:off:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:yanjiang-exit:off:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:yanjiang-exit:off:1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:yanjiang-exit:on:1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:yanjiang-exit:on:1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:yanjiang-exit:on:1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:yanjiang-exit:off:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:yanjiang-exit:off:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:yanjiang-exit:off:-1:deceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "ramp.overlapsRamp:regional:yanjiang-exit:on:-1:::",
+      "code": "ramp.overlapsRamp",
+      "severity": "warning",
+      "roadId": "regional:yanjiang-exit:on:-1",
+      "message": "Ramp envelopes overlap or run close together",
+      "metrics": {
+        "otherRoadId": "regional:yanjiang-exit:on:-1:acceleration",
+        "actual": 0,
+        "verticalSeparation": 0,
+        "threshold": 8
+      },
+      "approximate": true,
+      "reviewRequired": true
+    },
+    {
+      "id": "structure.shellReviewRequired:regional:G65:out:3:upgrade315:::",
+      "code": "structure.shellReviewRequired",
+      "severity": "info",
+      "roadId": "regional:G65:out:3:upgrade315",
+      "message": "Ceiling is runtime derived; shell continuity and portal finish require visual review",
+      "metrics": {
+        "clearance": 6
+      },
+      "reviewRequired": true,
+      "approximate": true
+    },
+    {
+      "id": "structure.shellReviewRequired:regional:G65:in:6:upgrade321:::",
+      "code": "structure.shellReviewRequired",
+      "severity": "info",
+      "roadId": "regional:G65:in:6:upgrade321",
+      "message": "Ceiling is runtime derived; shell continuity and portal finish require visual review",
+      "metrics": {
+        "clearance": 6
+      },
+      "reviewRequired": true,
+      "approximate": true
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 200,
+    "total": 10320,
+    "nextOffset": 200
+  },
+  "mapDigest": "30a81768abe4e299f5d0ba0f89673d9ca157add7c44a225201d6cab06502f968"
+}

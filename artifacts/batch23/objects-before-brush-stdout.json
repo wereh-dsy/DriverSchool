@@ -1,0 +1,2614 @@
+{
+  "schemaVersion": 1,
+  "domain": "objects",
+  "scope": {
+    "domain": "objects",
+    "full": true,
+    "limit": 1000000,
+    "offset": 0
+  },
+  "coverage": {
+    "roads": 0,
+    "objects": 11268
+  },
+  "counts": {
+    "total": 2790,
+    "error": 0,
+    "warning": 2695,
+    "info": 95
+  },
+  "issues": [
+    {
+      "id": "object.unsupportedOnDeck:diamond-west:exit-sign-2",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "diamond-west:exit-sign-2",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ew-eb-split-4",
+        "lateralOffset": 10.621157326346431
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:diamond-east:exit-sign",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "diamond-east:exit-sign",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ew-wb-split-3-split-split",
+        "lateralOffset": 10.861666666666792
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:diamond-east:exit-sign-2",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "diamond-east:exit-sign-2",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ew-eb-split",
+        "lateralOffset": 11.148809523809518
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "infrastructure-reserve-6",
+        "actual": 16.646964896301697,
+        "required": 70.00028571370262
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "infrastructure-reserve-7",
+        "actual": 68.85530015808388,
+        "required": 70.00028571370262
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-guardrail-2606",
+        "actual": 22.030025122254592,
+        "required": 60.000192856801306
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-guardrail-2611",
+        "actual": 23.564348529892985,
+        "required": 60.000192856801306
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:infrastructure-reserve",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 0,
+        "expected": 2.2095784083603385,
+        "delta": -2.2095784083603385
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:infrastructure-reserve",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "urban-underpass-west-link",
+        "lateralOffset": -68.25350819738847
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-6",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-6",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "infrastructure-reserve",
+        "actual": 16.646964896301697,
+        "required": 70.00028571370262
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-6",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-6",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "infrastructure-reserve-7",
+        "actual": 67.89447563463912,
+        "required": 70.00028571370262
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-6",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-6",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-guardrail-2606",
+        "actual": 24.60300921242689,
+        "required": 60.000192856801306
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-6",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-6",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-guardrail-2611",
+        "actual": 22.80144274701683,
+        "required": 60.000192856801306
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-7",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-7",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "infrastructure-reserve",
+        "actual": 68.85530015808388,
+        "required": 70.00028571370262
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-7",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-7",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "infrastructure-reserve-6",
+        "actual": 67.89447563463912,
+        "required": 70.00028571370262
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-7",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-7",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-guardrail-2606",
+        "actual": 46.84714864675985,
+        "required": 60.000192856801306
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-7",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-7",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-guardrail-2607",
+        "actual": 10.035359292707161,
+        "required": 60.000192856801306
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-7",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-7",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-guardrail-2611",
+        "actual": 46.228868993693744,
+        "required": 60.000192856801306
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:infrastructure-reserve-7",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-7",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-guardrail-2612",
+        "actual": 5.568126551097451,
+        "required": 60.000192856801306
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:infrastructure-reserve-7",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-7",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 0,
+        "expected": 1.2515938339964674,
+        "delta": -1.2515938339964674
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:infrastructure-reserve-7",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "infrastructure-reserve-7",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "v4-west-m91",
+        "lateralOffset": -48.63579826930223
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:massing-old-city",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "massing-old-city",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-residential_low-2529",
+        "actual": 27.783570515652432,
+        "required": 31.37530876342096
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:massing-old-city",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "massing-old-city",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v7-city-rail-85",
+        "actual": 25.32695061918911,
+        "required": 31.938616978043797
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-noise_barrier-18",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-18",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-864",
+        "actual": 4.47901012923059,
+        "required": 10.17083056421064
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-18",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-18",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "system-north:W-to-N-star",
+        "lateralOffset": 20.18563306310723
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-21",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-21",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 6.963981192884671,
+        "delta": 1.0360188071153287
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-21",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-21",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "system-north:W-to-N-star",
+        "lateralOffset": -23.987490327345686
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:landscape-noise_barrier-24",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-24",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 9.88857159623418,
+        "delta": -1.8885715962341791
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-24",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-24",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "system-north:N-to-E-star",
+        "lateralOffset": -20.868797172417228
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-94",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-94",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-cw-0-split-split",
+        "lateralOffset": 27.049632000095613
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-noise_barrier-98",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-98",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-304",
+        "actual": 7.641764756890231,
+        "required": 10.213256971081831
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-98",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-98",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-cw-0-split-split",
+        "lateralOffset": 23.017937535192967
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-102",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-102",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-cw-0-split-split",
+        "lateralOffset": 20.638125654232546
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-106",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-106",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-cw-0-split-split",
+        "lateralOffset": 19.20870254110202
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-110",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-110",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-cw-0-split-split",
+        "lateralOffset": 18.399587319955103
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-114",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-114",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-cw-0-split-split",
+        "lateralOffset": 17.37059195241688
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.insideLane::landscape-noise_barrier-138::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-138",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "distance": 2.7053370251020055,
+        "roadHalfWidth": 5.625,
+        "objectRadius": 0.9019861641386191
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "landscape-noise_barrier-138",
+        "roadId": "ring-ccw-3-split-3-split",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-142",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-142",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "lateralOffset": 32.11498472209693
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-191",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-191",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-noise_barrier-221",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-221",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v9-chunhui-0-4-1",
+        "actual": 31.85157567238299,
+        "required": 35.89513968917397
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-221",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-221",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-225",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-225",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-229",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-229",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-233",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-233",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-237",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-237",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-241",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-241",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-273",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-273",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split",
+        "lateralOffset": 97.78745388068879
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-277",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-277",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split",
+        "lateralOffset": 94.94927846928141
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-297",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-297",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-303",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-303",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.017196826360153728,
+        "delta": 8.017196826360154
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-359",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-359",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "lateralOffset": 12.322857477202023
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-363",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-363",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "lateralOffset": 13.289703035667873
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-367",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-367",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "lateralOffset": 14.780477237183042
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-371",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-371",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "lateralOffset": 16.038107406138472
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-noise_barrier-375",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-375",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-346",
+        "actual": 5.08239432059943,
+        "required": 10.213256971081831
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-375",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-375",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "lateralOffset": 15.281951612091518
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.insideLane::landscape-noise_barrier-383::",
+      "code": "object.insideLane",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-383",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "distance": 2.8947964483329347,
+        "roadHalfWidth": 5.625,
+        "objectRadius": 5.762796055244142
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "landscape-noise_barrier-383",
+        "roadId": "ring-ccw-3-split-3-split",
+        "strategy": "moveOutsideCarriageway"
+      }
+    },
+    {
+      "id": "object.intersectsBarrier::landscape-noise_barrier-383::",
+      "code": "object.intersectsBarrier",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-383",
+      "message": "Object intersects roadside barrier envelope",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-3-split",
+        "lateralOffset": -2.8947964483329347
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-472",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-472",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0,
+        "delta": 8
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-472",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-472",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "system-north:S-to-W-star",
+        "lateralOffset": 34.64281045432916
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-480",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-480",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0.17729534445191764,
+        "delta": 7.822704655548082
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-480",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-480",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "system-north:S-to-W-star",
+        "lateralOffset": -4.759740691492291
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-491",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-491",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-3-split-4",
+        "lateralOffset": 32.28934761683645
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:landscape-noise_barrier-492",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-492",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 13.81143609427302,
+        "delta": -5.81143609427302
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-652",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-652",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0,
+        "delta": 8
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-656",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-656",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0,
+        "delta": 8
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-660",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-660",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0,
+        "delta": 8
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-664",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-664",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0,
+        "delta": 8
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-668",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-668",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0,
+        "delta": 8
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-672",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-672",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0,
+        "delta": 8
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-681",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-681",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.018276774838560026,
+        "delta": 8.01827677483856
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-685",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-685",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.01826356721664773,
+        "delta": 8.018263567216648
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-693",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-693",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split-split-2-split-section",
+        "lateralOffset": 32.23712353226051
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-702",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-702",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 2.918185626043252,
+        "delta": 5.081814373956748
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-706",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-706",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": 0.8883965982536075,
+        "delta": 7.111603401746392
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-706",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-706",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "v91-ring-north-outer-on",
+        "lateralOffset": -13.170449303572582
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-710",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-710",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split-split-2",
+        "lateralOffset": 29.960954098222828
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-714",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-714",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split-split-2",
+        "lateralOffset": 30.989934732841228
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-718",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-718",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-724",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-724",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split",
+        "lateralOffset": 62.26518241860416
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-728",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-728",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split",
+        "lateralOffset": 60.45736813253489
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-732",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-732",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split",
+        "lateralOffset": 53.70046763308444
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-736",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-736",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split",
+        "lateralOffset": 45.25800812935033
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-740",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-740",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split",
+        "lateralOffset": 43.037912241103726
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.unsupportedOnDeck:landscape-noise_barrier-744",
+      "code": "object.unsupportedOnDeck",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-744",
+      "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+      "metrics": {
+        "roadId": "ring-ccw-2-split-split-split",
+        "lateralOffset": 58.72091832088044
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-776",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-776",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-784",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-784",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-noise_barrier-792",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-792",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v9-chunhui-0-4-1",
+        "actual": 34.66482139406001,
+        "required": 35.89513968917397
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.floating:landscape-noise_barrier-792",
+      "code": "object.floating",
+      "severity": "warning",
+      "objectId": "landscape-noise_barrier-792",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 8,
+        "expected": -0.024,
+        "delta": 8.024
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1146",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1146",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v61-road-lamp-49",
+        "actual": 10.377354006171409,
+        "required": 20.827660162444268
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1152",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1152",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1158",
+        "actual": 32.933333333333394,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1152",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1152",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1307",
+        "actual": 14.113832852127004,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1152",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1152",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1310",
+        "actual": 32.624956364381234,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1152",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1152",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1315",
+        "actual": 19.132759863647482,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1158",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1158",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1152",
+        "actual": 32.933333333333394,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1158",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1158",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1161",
+        "actual": 31.75,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1158",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1158",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1238",
+        "actual": 29.133333333333212,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1158",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1158",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1299",
+        "actual": 14.113832852127004,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1158",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1158",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1302",
+        "actual": 32.624956364381234,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1158",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1158",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1307",
+        "actual": 19.132759863647482,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1158",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1158",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1310",
+        "actual": 35.0891721190455,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1161",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1161",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1158",
+        "actual": 31.75,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1161",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1161",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1241",
+        "actual": 29.133333333333212,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1161",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1161",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1299",
+        "actual": 32.624956364381234,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1161",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1161",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1307",
+        "actual": 35.0891721190455,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1163",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1163",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1166",
+        "actual": 33.64928068499524,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1166",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1166",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1163",
+        "actual": 33.64928068499524,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1166",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1166",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-road-trees-691",
+        "actual": 8.833992924760407,
+        "required": 20.865528128088304
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1172",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1172",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1175",
+        "actual": 31.75000000000018,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1172",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1172",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1277",
+        "actual": 29.257315900430623,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1175",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1175",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1172",
+        "actual": 31.75000000000018,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1180",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1180",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1183",
+        "actual": 31.749999999999925,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1180",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1180",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1269",
+        "actual": 27.070092318593982,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1180",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1180",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1272",
+        "actual": 39.77701084889301,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:landscape-embankment-1180",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1180",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 0,
+        "expected": 6.139471796893107,
+        "delta": -6.139471796893107
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1183",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1183",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1180",
+        "actual": 31.749999999999925,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1183",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1183",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1269",
+        "actual": 40.15864925652863,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1183",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1183",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-687",
+        "actual": 12.830303485808795,
+        "required": 20.827660162444268
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:landscape-embankment-1183",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1183",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 0,
+        "expected": 5.7175932538546315,
+        "delta": -5.7175932538546315
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1189",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1189",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1192",
+        "actual": 31.74999999999988,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1189",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1189",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1260",
+        "actual": 24.487699712338305,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1189",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1189",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1263",
+        "actual": 38.080728144467315,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:landscape-embankment-1189",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1189",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 0,
+        "expected": 6.091410063512442,
+        "delta": -6.091410063512442
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1192",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1192",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1189",
+        "actual": 31.74999999999988,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1192",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1192",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1260",
+        "actual": 38.441072213070456,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:landscape-embankment-1192",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1192",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 0,
+        "expected": 5.981907433022347,
+        "delta": -5.981907433022347
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1200",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1200",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1203",
+        "actual": 31.685519906576292,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1200",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1200",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1238",
+        "actual": 29.49306539735597,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1200",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1200",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1241",
+        "actual": 39.146174258124454,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1200",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1200",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1247",
+        "actual": 4.3471011681804095,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1200",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1200",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1250",
+        "actual": 30.829134881423577,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1203",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1203",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1200",
+        "actual": 31.685519906576292,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1203",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1203",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1238",
+        "actual": 39.494141872952625,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1203",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1203",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1247",
+        "actual": 30.875379693256328,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1203",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1203",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-690",
+        "actual": 6.325586937685585,
+        "required": 20.827660162444268
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1203",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1203",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-road-trees-694",
+        "actual": 14.38833833457621,
+        "required": 20.865528128088304
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1238",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1238",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1158",
+        "actual": 29.133333333333212,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1238",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1238",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1200",
+        "actual": 29.49306539735597,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1238",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1238",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1203",
+        "actual": 39.494141872952625,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1238",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1238",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1241",
+        "actual": 31.75,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1238",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1238",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1247",
+        "actual": 33.50274633497639,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1238",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1238",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1299",
+        "actual": 15.365627224425124,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1238",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1238",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1302",
+        "actual": 33.18568968697192,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1241",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1241",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1161",
+        "actual": 29.133333333333212,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1241",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1241",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1200",
+        "actual": 39.146174258124454,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1241",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1241",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1238",
+        "actual": 31.75,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1241",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1241",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1250",
+        "actual": 32.851013076792626,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1241",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1241",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1299",
+        "actual": 33.18568968697192,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1241",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1241",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-699",
+        "actual": 18.26630588681862,
+        "required": 20.827660162444268
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1241",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1241",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-road-trees-704",
+        "actual": 7.113680091516977,
+        "required": 20.865528128088304
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1247",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1247",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1200",
+        "actual": 4.3471011681804095,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1247",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1247",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1203",
+        "actual": 30.875379693256328,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1247",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1247",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1238",
+        "actual": 33.50274633497639,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1247",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1247",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1250",
+        "actual": 31.654641948467038,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1250",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1250",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1200",
+        "actual": 30.829134881423577,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1250",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1250",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1241",
+        "actual": 32.851013076792626,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1250",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1250",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1247",
+        "actual": 31.654641948467038,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1250",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1250",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-699",
+        "actual": 18.12039513849893,
+        "required": 20.827660162444268
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1252",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1252",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1255",
+        "actual": 30.71121025041479,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1255",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1255",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1252",
+        "actual": 30.71121025041479,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1255",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1255",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-701",
+        "actual": 10.931226637309457,
+        "required": 20.827660162444268
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1260",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1260",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1189",
+        "actual": 24.487699712338305,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1260",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1260",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1192",
+        "actual": 38.441072213070456,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1260",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1260",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1263",
+        "actual": 31.749999999999943,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:landscape-embankment-1260",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1260",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 0,
+        "expected": 8.081107062837749,
+        "delta": -8.081107062837749
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1263",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1263",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1189",
+        "actual": 38.080728144467315,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1263",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1263",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1260",
+        "actual": 31.749999999999943,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.buried:landscape-embankment-1263",
+      "code": "object.buried",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1263",
+      "message": "Base differs from selected support surface",
+      "metrics": {
+        "actual": 0,
+        "expected": 8.116827475420742,
+        "delta": -8.116827475420742
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1269",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1269",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1180",
+        "actual": 27.070092318593982,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1269",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1269",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1183",
+        "actual": 40.15864925652863,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1269",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1269",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1272",
+        "actual": 31.75000000000004,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1272",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1272",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1180",
+        "actual": 39.77701084889301,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1272",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1272",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1269",
+        "actual": 31.75000000000004,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1277",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1277",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1172",
+        "actual": 29.257315900430623,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1277",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1277",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1280",
+        "actual": 32.1518836208359,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1280",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1280",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1277",
+        "actual": 32.1518836208359,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1280",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1280",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "v6-lamps-703",
+        "actual": 11.077170643000136,
+        "required": 20.827660162444268
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1299",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1299",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1158",
+        "actual": 14.113832852127004,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1299",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1299",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1161",
+        "actual": 32.624956364381234,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1299",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1299",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1238",
+        "actual": 15.365627224425124,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1299",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1299",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1241",
+        "actual": 33.18568968697192,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1299",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1299",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1302",
+        "actual": 31.75,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1299",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1299",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1307",
+        "actual": 32.933333333333394,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1302",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1302",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1310",
+        "actual": 32.933333333333394,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1302",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1302",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1158",
+        "actual": 32.624956364381234,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1302",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1302",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1238",
+        "actual": 33.18568968697192,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1302",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1302",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1299",
+        "actual": 31.75,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1307",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1307",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1152",
+        "actual": 14.113832852127004,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1307",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1307",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1158",
+        "actual": 19.132759863647482,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1307",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1307",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1161",
+        "actual": 35.0891721190455,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1307",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1307",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1299",
+        "actual": 32.933333333333394,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1307",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1307",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1310",
+        "actual": 31.75,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1307",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1307",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1315",
+        "actual": 32.933333333333394,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1310",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1310",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1302",
+        "actual": 32.933333333333394,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1310",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1310",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1152",
+        "actual": 32.624956364381234,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1310",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1310",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1158",
+        "actual": 35.0891721190455,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1310",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1310",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1307",
+        "actual": 31.75,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1315",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1315",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1152",
+        "actual": 19.132759863647482,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "object.tooCloseToObject:landscape-embankment-1315",
+      "code": "object.tooCloseToObject",
+      "severity": "warning",
+      "objectId": "landscape-embankment-1315",
+      "message": "Object envelopes overlap or violate spacing",
+      "metrics": {
+        "otherObjectId": "landscape-embankment-1307",
+        "actual": 32.933333333333394,
+        "required": 41.23105625617661
+      },
+      "approximate": true
+    },
+    {
+      "id": "building.intersectsRoad::landscape-office-2505::",
+      "code": "building.intersectsRoad",
+      "severity": "warning",
+      "objectId": "landscape-office-2505",
+      "message": "Object envelope intersects carriageway",
+      "metrics": {
+        "roadId": "v91-plaza-civic-east-t",
+        "distance": 3.6572688953890067,
+        "roadHalfWidth": 7.2,
+        "objectRadius": 21.921730975126227
+      },
+      "approximate": true,
+      "repair": {
+        "op": "reanchorObject",
+        "id": "landscape-office-2505",
+        "roadId": "v91-plaza-civic-east-t",
+        "strategy": "moveOutsideCarriageway"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 200,
+    "total": 2790,
+    "nextOffset": 200
+  },
+  "mapDigest": "7b859ffbfd5dd9a312f6e41dc5a64dad3e3b7c99735cc892bfb918607621fa43"
+}

@@ -1,0 +1,522 @@
+{
+  "schemaVersion": 1,
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "urban-junction-67",
+        "armsBefore": [
+          {
+            "roadId": "v4-access-3-c91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v6-logistics-one-split-2-split-m91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v4-access-3-split-c91",
+            "end": "start",
+            "port": "south"
+          },
+          {
+            "roadId": "v6-logistics-one-split-m91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "armsAfter": [
+          {
+            "roadId": "v4-access-3-c91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v6-logistics-one-split-2-split-m91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v4-access-3-split-c91",
+            "end": "start",
+            "port": "south"
+          },
+          {
+            "roadId": "v6-logistics-one-split-m91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "markingsRegenerated": false
+      },
+      {
+        "id": "urban-junction-160",
+        "armsBefore": [
+          {
+            "roadId": "v5-south-logistics-c91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v6-logistics-one-split-m91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v5-south-logistics-split-c91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "armsAfter": [
+          {
+            "roadId": "v5-south-logistics-c91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v6-logistics-one-split-m91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v5-south-logistics-split-c91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "markingsRegenerated": false
+      }
+    ]
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "signal:urban-junction-67:north",
+        "type": "trafficLight",
+        "displacement": 31.693847983480953,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v4-access-3-c91",
+          "anchorIntersectionId": "urban-junction-67",
+          "approach": "north",
+          "station": 90.83118412267464,
+          "lateralOffset": 12.500000000000115,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -0.012228037963427562,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v4-access-3-c91",
+          "anchorIntersectionId": "urban-junction-67",
+          "approach": "north",
+          "station": 90.83118412267464,
+          "lateralOffset": 8.99999999999998,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -0.012228037963427562,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "signal:urban-junction-67:east",
+        "type": "trafficLight",
+        "displacement": 26.87936011143113,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v6-logistics-one-split-2-split-m91",
+          "anchorIntersectionId": "urban-junction-67",
+          "approach": "east",
+          "station": 66.03166618293028,
+          "lateralOffset": 17.799999999999855,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -1.5763656635674366,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v6-logistics-one-split-2-split-m91",
+          "anchorIntersectionId": "urban-junction-67",
+          "approach": "east",
+          "station": 66.03166618293021,
+          "lateralOffset": 9.299999999999988,
+          "verticalOffset": -2.6645352591003757e-15,
+          "facingDirection": "forward",
+          "expectedHeading": -1.5763656635674366,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "signal:urban-junction-67:south",
+        "type": "trafficLight",
+        "displacement": 31.693847983481074,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v4-access-3-split-c91",
+          "anchorIntersectionId": "urban-junction-67",
+          "approach": "south",
+          "station": 0,
+          "lateralOffset": -12.499999999999941,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 3.132811244466846,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v4-access-3-split-c91",
+          "anchorIntersectionId": "urban-junction-67",
+          "approach": "south",
+          "station": 1.1707438114157083e-13,
+          "lateralOffset": -8.999999999999929,
+          "verticalOffset": 1.1546319456101628e-14,
+          "facingDirection": "reverse",
+          "expectedHeading": 3.132811244466846,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "signal:urban-junction-67:west",
+        "type": "trafficLight",
+        "displacement": 21.27204738618259,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v6-logistics-one-split-m91",
+          "anchorIntersectionId": "urban-junction-67",
+          "approach": "west",
+          "station": 0,
+          "lateralOffset": -19.799999999999926,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 1.5664471500023733,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v6-logistics-one-split-m91",
+          "anchorIntersectionId": "urban-junction-67",
+          "approach": "west",
+          "station": 4.5332626541494366e-14,
+          "lateralOffset": -9.300000000000141,
+          "verticalOffset": -1.7763568394002505e-15,
+          "facingDirection": "reverse",
+          "expectedHeading": 1.5664471500023733,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "signal:urban-junction-160:east",
+        "type": "trafficLight",
+        "displacement": 17.084788555905682,
+        "heightDelta": 8.881784197001252e-16,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v6-logistics-one-split-m91",
+          "anchorIntersectionId": "urban-junction-160",
+          "approach": "east",
+          "station": 430.83988815320174,
+          "lateralOffset": 15.800000000000034,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -1.5751455035874184,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v6-logistics-one-split-m91",
+          "anchorIntersectionId": "urban-junction-160",
+          "approach": "east",
+          "station": 430.8398881532017,
+          "lateralOffset": 9.300000000000141,
+          "verticalOffset": -8.881784197001252e-16,
+          "facingDirection": "forward",
+          "expectedHeading": -1.5751455035874184,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "signal:urban-junction-160:west",
+        "type": "trafficLight",
+        "displacement": 16.72991332912366,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v5-south-logistics-split-c91",
+          "anchorIntersectionId": "urban-junction-160",
+          "approach": "west",
+          "station": 0,
+          "lateralOffset": -13.999999999999856,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 0.6532664255551732,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v5-south-logistics-split-c91",
+          "anchorIntersectionId": "urban-junction-160",
+          "approach": "west",
+          "station": 6.366462912410508e-14,
+          "lateralOffset": -8.499999999999947,
+          "verticalOffset": -1.7763568394002505e-15,
+          "facingDirection": "reverse",
+          "expectedHeading": 0.6532664255551732,
+          "structureType": "depressed",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 1361.7431531777318,
+    "maxX": 1904.8786611138962,
+    "minZ": 2409.1344559600293,
+    "maxZ": 2491.1487268631595
+  },
+  "maxRoadDisplacement": 0,
+  "maxElevationDelta": 0,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 1,
+      "deadEnds": [],
+      "adjacency": [
+        {
+          "id": "v4-access-3-c91",
+          "links": [
+            "v6-logistics-one-split-2-split-m91",
+            "v4-access-3-split-c91",
+            "v6-logistics-one-split-m91"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-split-2-split-m91",
+          "links": [
+            "v4-access-3-c91",
+            "v4-access-3-split-c91",
+            "v6-logistics-one-split-m91"
+          ]
+        },
+        {
+          "id": "v4-access-3-split-c91",
+          "links": [
+            "v4-south-split-split-2",
+            "v4-south-split-split",
+            "v4-access-3-c91",
+            "v6-logistics-one-split-2-split-m91",
+            "v6-logistics-one-split-m91"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-split-m91",
+          "links": [
+            "v4-access-3-c91",
+            "v6-logistics-one-split-2-split-m91",
+            "v4-access-3-split-c91",
+            "v5-south-logistics-c91",
+            "v5-south-logistics-split-c91"
+          ]
+        },
+        {
+          "id": "v5-south-logistics-c91",
+          "links": [
+            "v4-south-logistics-east",
+            "v4-south-split-split",
+            "v6-logistics-one-split-m91",
+            "v5-south-logistics-split-c91"
+          ]
+        },
+        {
+          "id": "v5-south-logistics-split-c91",
+          "links": [
+            "v5-south-logistics-c91",
+            "v6-logistics-one-split-m91",
+            "v8-port-south-split-split-m91",
+            "v5-south-logistics-split-split-c91"
+          ]
+        },
+        {
+          "id": "v4-south-split-split-2",
+          "links": [
+            "v4-access-3-split-c91",
+            "v4-south-split-split"
+          ]
+        },
+        {
+          "id": "v4-south-split-split",
+          "links": [
+            "v4-access-3-split-c91",
+            "v4-south-split-split-2",
+            "v4-south-logistics-east",
+            "v5-south-logistics-c91"
+          ]
+        },
+        {
+          "id": "v4-south-logistics-east",
+          "links": [
+            "v4-south-split-split",
+            "v5-south-logistics-c91"
+          ]
+        },
+        {
+          "id": "v8-port-south-split-split-m91",
+          "links": [
+            "v5-south-logistics-split-c91",
+            "v5-south-logistics-split-split-c91"
+          ]
+        },
+        {
+          "id": "v5-south-logistics-split-split-c91",
+          "links": [
+            "v5-south-logistics-split-c91",
+            "v8-port-south-split-split-m91"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 1,
+      "deadEnds": [],
+      "adjacency": [
+        {
+          "id": "v4-access-3-c91",
+          "links": [
+            "v6-logistics-one-split-2-split-m91",
+            "v4-access-3-split-c91",
+            "v6-logistics-one-split-m91"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-split-2-split-m91",
+          "links": [
+            "v4-access-3-c91",
+            "v4-access-3-split-c91",
+            "v6-logistics-one-split-m91"
+          ]
+        },
+        {
+          "id": "v4-access-3-split-c91",
+          "links": [
+            "v4-south-split-split-2",
+            "v4-south-split-split",
+            "v4-access-3-c91",
+            "v6-logistics-one-split-2-split-m91",
+            "v6-logistics-one-split-m91"
+          ]
+        },
+        {
+          "id": "v6-logistics-one-split-m91",
+          "links": [
+            "v4-access-3-c91",
+            "v6-logistics-one-split-2-split-m91",
+            "v4-access-3-split-c91",
+            "v5-south-logistics-c91",
+            "v5-south-logistics-split-c91"
+          ]
+        },
+        {
+          "id": "v5-south-logistics-c91",
+          "links": [
+            "v4-south-logistics-east",
+            "v4-south-split-split",
+            "v6-logistics-one-split-m91",
+            "v5-south-logistics-split-c91"
+          ]
+        },
+        {
+          "id": "v5-south-logistics-split-c91",
+          "links": [
+            "v5-south-logistics-c91",
+            "v6-logistics-one-split-m91",
+            "v8-port-south-split-split-m91",
+            "v5-south-logistics-split-split-c91"
+          ]
+        },
+        {
+          "id": "v4-south-split-split-2",
+          "links": [
+            "v4-access-3-split-c91",
+            "v4-south-split-split"
+          ]
+        },
+        {
+          "id": "v4-south-split-split",
+          "links": [
+            "v4-access-3-split-c91",
+            "v4-south-split-split-2",
+            "v4-south-logistics-east",
+            "v5-south-logistics-c91"
+          ]
+        },
+        {
+          "id": "v4-south-logistics-east",
+          "links": [
+            "v4-south-split-split",
+            "v5-south-logistics-c91"
+          ]
+        },
+        {
+          "id": "v8-port-south-split-split-m91",
+          "links": [
+            "v5-south-logistics-split-c91",
+            "v5-south-logistics-split-split-c91"
+          ]
+        },
+        {
+          "id": "v5-south-logistics-split-split-c91",
+          "links": [
+            "v5-south-logistics-split-c91",
+            "v8-port-south-split-split-m91"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

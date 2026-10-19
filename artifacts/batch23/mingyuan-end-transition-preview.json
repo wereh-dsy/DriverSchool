@@ -1,0 +1,108 @@
+{
+  "inspection": {
+    "terminal": "direction-mingyuan-main-section-section-section-section-section",
+    "reason": "180m terminal approach, six lanes retained; lane turns at junction absorb receiving-road width change"
+  },
+  "operations": [
+    {
+      "op": "splitRoad",
+      "roadId": "direction-mingyuan-main-section-section-section-section",
+      "point": {
+        "x": 1338.518343979706,
+        "y": 11.00521563724698,
+        "z": -983.7712185403764
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "direction-mingyuan-main-section-section-section-section-section",
+      "properties": {
+        "roadClass": "arterial",
+        "speedLimit": 40,
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": false
+        },
+        "streetlights": false,
+        "markings": true
+      }
+    },
+    {
+      "op": "repairIntersection",
+      "id": "direction-mingyuan-ne-terminal"
+    }
+  ],
+  "summary": {
+    "id": "preview-3",
+    "revision": 1,
+    "label": "mingyuan-end-transition",
+    "created": [
+      "direction-mingyuan-main-section-section-section-section-section"
+    ],
+    "modified": [
+      "direction-mingyuan-main-section-section-section-section",
+      "direction-mingyuan-ne-terminal",
+      "urban-diagonal-split-split-split-split-c91",
+      "urban-diagonal-split-split-split-split-c91-section"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 301.46949779140255,
+      "maxX": 1629.2187984017364,
+      "minZ": -1205.687342732765,
+      "maxZ": 462.7517724081137
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "direction-mingyuan-main-section-section-section-section",
+          "direction-mingyuan-ne-terminal",
+          "direction-mingyuan-main-section-section-section-section-section",
+          "urban-diagonal-split-split-split-split-c91",
+          "urban-diagonal-split-split-split-split-c91-section"
+        ],
+        "message": "intersections[0]: urban-junction-69: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      }
+    ],
+    "valid": true,
+    "metrics": {
+      "direction-mingyuan-ne-terminal": {
+        "intersection": {
+          "arms": 3,
+          "beforeApproachExtents": [
+            {
+              "roadId": "direction-mingyuan-main-section-section-section-section-section",
+              "along": 14
+            },
+            {
+              "roadId": "urban-diagonal-split-split-split-split-c91",
+              "along": 16
+            },
+            {
+              "roadId": "urban-diagonal-split-split-split-split-c91-section",
+              "along": 16
+            }
+          ],
+          "afterApproachExtents": [
+            {
+              "roadId": "direction-mingyuan-main-section-section-section-section-section",
+              "along": 14
+            },
+            {
+              "roadId": "urban-diagonal-split-split-split-split-c91",
+              "along": 16
+            },
+            {
+              "roadId": "urban-diagonal-split-split-split-split-c91-section",
+              "along": 16
+            }
+          ],
+          "footprintPoints": 6,
+          "pavementArea": 823
+        }
+      }
+    }
+  }
+}

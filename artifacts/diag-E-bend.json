@@ -1,0 +1,85 @@
+{
+  "scope": "full",
+  "revision": 0,
+  "coverage": {
+    "roadsChecked": 2922,
+    "roadsTotal": 2922,
+    "intersectionsChecked": 302,
+    "intersectionsTotal": 302
+  },
+  "counts": {
+    "error": 1,
+    "warning": 2,
+    "info": 0,
+    "total": 3,
+    "bySeverity": {
+      "error": 1,
+      "warning": 2,
+      "info": 0
+    },
+    "byCode": {
+      "geometry.sharpBend": 2,
+      "geometry.awkwardS": 1
+    }
+  },
+  "issues": [
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "v61-exhibition-road-split-split-split",
+      "message": "86° bend over 21.4 m",
+      "metrics": {
+        "angleDegrees": 86,
+        "radius": 7.7,
+        "span": 21.4
+      },
+      "station": 621.2,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v61-exhibition-road-split-split-split",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v61-exhibition-road:arterial-2"
+    },
+    {
+      "severity": "warning",
+      "code": "geometry.awkwardS",
+      "roadId": "urban-east-arterial-split-split-3-split-2",
+      "message": "Tight S bend between two opposite turns",
+      "metrics": {
+        "firstDegrees": 34,
+        "secondDegrees": 34
+      },
+      "station": 44.6,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "urban-east-arterial-split-split-3-split-2",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:east-avenue:arterial-4"
+    },
+    {
+      "severity": "warning",
+      "code": "geometry.sharpBend",
+      "roadId": "v8-nancheng-ring-split-split",
+      "message": "53° bend over 23.9 m",
+      "metrics": {
+        "angleDegrees": 53,
+        "radius": 13.4,
+        "span": 23.9
+      },
+      "station": 830.1,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v8-nancheng-ring-split-split",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v8-nancheng-ring:collector-2"
+    }
+  ],
+  "truncated": false,
+  "mapDigest": "fe7fee2e6b1741fc6ab0431bcb0e1063bf94bd42d78f6663dc2f63de2bc817c9"
+}

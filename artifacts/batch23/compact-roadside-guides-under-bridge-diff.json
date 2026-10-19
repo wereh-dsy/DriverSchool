@@ -1,0 +1,279 @@
+{
+  "schemaVersion": 1,
+  "signs": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "before": {
+          "type": "URBAN_DIRECTION",
+          "template": "gantry",
+          "size": "large",
+          "language": "zh-CN",
+          "laneDirection": "reverse",
+          "destinations": [
+            {
+              "roadNameId": "v8-name-v4-west-market",
+              "arrow": "right"
+            },
+            {
+              "roadNameId": "v5-south-west",
+              "arrow": "left"
+            }
+          ],
+          "advanceMetres": 85,
+          "decisionIds": [
+            "urban-junction-133|v5-civic-south|start"
+          ],
+          "incomingRoadId": "v5-civic-south-m91",
+          "outgoingRoadIds": [
+            "v4-west-market-split-split-split-c91",
+            "v5-south-west-c91"
+          ],
+          "postOffset": 9,
+          "approachRoadNameId": "v5-civic-south",
+          "urbanLayout": "junction-diagram",
+          "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "roadId": "v5-civic-south-split-4-m91",
+          "stationMetres": 12,
+          "position": {
+            "x": -969.75,
+            "y": 0,
+            "z": 764
+          },
+          "heading": 1.5707963267948966
+        },
+        "after": {
+          "type": "URBAN_DIRECTION",
+          "template": "ramp-confirmation",
+          "size": "small",
+          "language": "zh-CN",
+          "laneDirection": "reverse",
+          "destinations": [
+            {
+              "roadNameId": "v8-name-v4-west-market",
+              "arrow": "right"
+            },
+            {
+              "roadNameId": "v5-south-west",
+              "arrow": "left"
+            }
+          ],
+          "advanceMetres": 85,
+          "decisionIds": [
+            "urban-junction-133|v5-civic-south|start"
+          ],
+          "incomingRoadId": "v5-civic-south-m91",
+          "outgoingRoadIds": [
+            "v4-west-market-split-split-split-c91",
+            "v5-south-west-c91"
+          ],
+          "approachRoadNameId": "v5-civic-south",
+          "urbanLayout": "junction-diagram",
+          "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "roadId": "v5-civic-south-split-4-m91",
+          "stationMetres": 12,
+          "position": {
+            "x": -969.75,
+            "y": 0,
+            "z": 755
+          },
+          "heading": 1.5707963267948966
+        }
+      },
+      {
+        "before": {
+          "type": "URBAN_DIRECTION",
+          "template": "gantry",
+          "size": "large",
+          "language": "zh-CN",
+          "laneDirection": "reverse",
+          "destinations": [
+            {
+              "roadNameId": "v5-civic-south",
+              "arrow": "straight"
+            },
+            {
+              "roadNameId": "v8-gongren-street",
+              "arrow": "right"
+            }
+          ],
+          "advanceMetres": 68,
+          "decisionIds": [
+            "urban-junction-180|v5-civic-south-split-4|start"
+          ],
+          "incomingRoadId": "v5-civic-south-split-4-m91",
+          "outgoingRoadIds": [
+            "v5-civic-south-m91",
+            "v8-gongren-street-split-split-split-m91"
+          ],
+          "postOffset": 9,
+          "approachRoadNameId": "v5-civic-south",
+          "urbanLayout": "junction-diagram",
+          "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "roadId": "v5-civic-south-split-4-m91",
+          "stationMetres": 12,
+          "position": {
+            "x": -969.75,
+            "y": 0,
+            "z": 764
+          },
+          "heading": 1.5707963267948966
+        },
+        "after": {
+          "type": "URBAN_DIRECTION",
+          "template": "ramp-confirmation",
+          "size": "small",
+          "language": "zh-CN",
+          "laneDirection": "reverse",
+          "destinations": [
+            {
+              "roadNameId": "v5-civic-south",
+              "arrow": "straight"
+            },
+            {
+              "roadNameId": "v8-gongren-street",
+              "arrow": "right"
+            }
+          ],
+          "advanceMetres": 68,
+          "decisionIds": [
+            "urban-junction-180|v5-civic-south-split-4|start"
+          ],
+          "incomingRoadId": "v5-civic-south-split-4-m91",
+          "outgoingRoadIds": [
+            "v5-civic-south-m91",
+            "v8-gongren-street-split-split-split-m91"
+          ],
+          "approachRoadNameId": "v5-civic-south",
+          "urbanLayout": "junction-diagram",
+          "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "roadId": "v5-civic-south-split-4-m91",
+          "stationMetres": 12,
+          "position": {
+            "x": -969.75,
+            "y": 0,
+            "z": 755
+          },
+          "heading": 1.5707963267948966
+        }
+      }
+    ]
+  },
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+        "type": "roadSign",
+        "displacement": 9,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v5-civic-south-split-4-m91",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 12,
+          "lateralOffset": 0,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 1.5707963267948966,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v5-civic-south-split-4-m91",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 12,
+          "lateralOffset": -9,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 1.5707963267948966,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+        "type": "roadSign",
+        "displacement": 9,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v5-civic-south-split-4-m91",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 12,
+          "lateralOffset": 0,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 1.5707963267948966,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v5-civic-south-split-4-m91",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 12,
+          "lateralOffset": -9,
+          "verticalOffset": 0,
+          "facingDirection": "reverse",
+          "expectedHeading": 1.5707963267948966,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": -970,
+    "maxX": -969.5,
+    "minZ": 754.75,
+    "maxZ": 764.25
+  },
+  "maxRoadDisplacement": 0,
+  "maxElevationDelta": 0,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 0,
+      "deadEnds": [],
+      "adjacency": []
+    },
+    "after": {
+      "components": 0,
+      "deadEnds": [],
+      "adjacency": []
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "industrial",
+    "objectIds": [
+      "v6-industrial-250",
+      "v6-industrial-252",
+      "v6-industrial-262",
+      "regional:warehouse:-1320:2740"
+    ],
+    "bbox": {
+      "minX": -1319.8175153663797,
+      "maxX": -241.16116829852137,
+      "minZ": 2063.6536696115677,
+      "maxZ": 2789.71315894472
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-industrial-250",
+      "state": "VALID",
+      "position": {
+        "x": -257.8166344273775,
+        "y": -0.04,
+        "z": 2043.5488444936811
+      },
+      "rotation": 1.7719829101291131,
+      "anchor": {
+        "anchorRoadId": "system-south:S-to-W-semi",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 527.7758662434711,
+        "lateralOffset": 58.295151867829006,
+        "verticalOffset": -2.1745306551890278,
+        "facingDirection": "forward",
+        "expectedHeading": 1.7719829101291131,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-250",
+          "properties": {
+            "position": {
+              "x": -257.8166344273775,
+              "y": -0.04,
+              "z": 2043.5488444936811
+            },
+            "rotation": 1.7719829101291131
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-250",
+      "heightMode": "GROUND",
+      "autoMove": 21.539306078086067
+    },
+    {
+      "id": "v6-industrial-252",
+      "state": "VALID",
+      "position": {
+        "x": -1322.9877155940214,
+        "y": 0.016034314560647807,
+        "z": 2461.3879185325986
+      },
+      "rotation": -1.3877474428943104,
+      "anchor": {
+        "anchorRoadId": "v8-industrial-west-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 37.0651307034528,
+        "lateralOffset": -68.72415603532252,
+        "verticalOffset": -0.0031844801672867087,
+        "facingDirection": "forward",
+        "expectedHeading": -1.3877474428943104,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-252",
+          "properties": {
+            "position": {
+              "x": -1322.9877155940214,
+              "y": 0.016034314560647807,
+              "z": 2461.3879185325986
+            },
+            "rotation": -1.3877474428943104
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-252",
+      "heightMode": "GROUND",
+      "autoMove": 22.909623567042907
+    },
+    {
+      "id": "v6-industrial-262",
+      "state": "INVALID",
+      "position": {
+        "x": -242.3512180529023,
+        "y": -0.04,
+        "z": 2519.021988940222
+      },
+      "rotation": -1.5632289918854525,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-2-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 94.35474530012354,
+        "lateralOffset": -73.02415603532236,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5632289918854525,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:v6-industrial-262",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v6-industrial-262",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v6-road-trees-278",
+            "actual": 25.618537898693212,
+            "required": 63.77415603532249
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-industrial-262",
+          "properties": {
+            "position": {
+              "x": -242.3512180529023,
+              "y": -0.04,
+              "z": 2519.021988940222
+            },
+            "rotation": -1.5632289918854525
+          }
+        }
+      ],
+      "sourceId": "v6-industrial-262",
+      "heightMode": "GROUND",
+      "autoMove": 25.114761216231333
+    },
+    {
+      "id": "regional:warehouse:-1320:2740",
+      "state": "INVALID",
+      "position": {
+        "x": -1299.7528703008136,
+        "y": 1.2068192874349268,
+        "z": 2866.4784957101847
+      },
+      "rotation": -1.8788491078186822,
+      "anchor": {
+        "anchorRoadId": "v8-nancheng-ring-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 362.6224918737618,
+        "lateralOffset": 81.89950926856196,
+        "verticalOffset": -0.021914826833076217,
+        "facingDirection": "forward",
+        "expectedHeading": -1.8788491078186822,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:regional:warehouse:-1320:2740",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "regional:warehouse:-1320:2740",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-industrial-nancheng-6",
+            "actual": 66.52185650116651,
+            "required": 139.6805381582202
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:warehouse:-1320:2740",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:warehouse:-1320:2740",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 60
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:warehouse:-1320:2740",
+          "properties": {
+            "position": {
+              "x": -1299.7528703008136,
+              "y": 1.2068192874349268,
+              "z": 2866.4784957101847
+            },
+            "rotation": -1.8788491078186822
+          }
+        }
+      ],
+      "sourceId": "regional:warehouse:-1320:2740",
+      "heightMode": "GROUND",
+      "autoMove": 81.616442930802
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-industrial-250",
+      "properties": {
+        "position": {
+          "x": -257.8166344273775,
+          "y": -0.04,
+          "z": 2043.5488444936811
+        },
+        "rotation": 1.7719829101291131
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-industrial-252",
+      "properties": {
+        "position": {
+          "x": -1322.9877155940214,
+          "y": 0.016034314560647807,
+          "z": 2461.3879185325986
+        },
+        "rotation": -1.3877474428943104
+      }
+    }
+  ],
+  "stats": {
+    "planned": 4,
+    "valid": 2,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 2,
+    "removed": 0
+  },
+  "valid": true
+}

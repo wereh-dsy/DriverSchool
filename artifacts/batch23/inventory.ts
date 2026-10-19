@@ -1,0 +1,14 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {analysisContext,structureType} from '../../src/editor/MapAnalysis';
+import {inspectProfile} from '../../src/editor/RoadProfileAnalysis';
+import {roadFunction} from '../../src/world/city/RoadClassification';
+import {polylineLength} from '../../src/world/city/geometry';
+import type {CityMapData} from '../../src/world/city/CityMapData';
+const map=JSON.parse(readFileSync(process.argv[2]??'src/world/regional/regional-main.json','utf8')) as CityMapData;
+const c=analysisContext(map),brief=(r:any)=>({id:r.id,name:map.roadNames?.[r.roadNameId??'']?.primaryText,class:roadFunction(r),lanes:r.laneCount,width:r.laneWidth,curve:r.curve,length:polylineLength(c.path(r.id)),ends:[c.path(r.id)[0],c.path(r.id).at(-1)],section:r.corridorSection,structure:r.structure,links:map.roadLinks?.filter(l=>l.from.roadId===r.id||l.to.roadId===r.id)});
+const ramps=map.roads.filter(r=>roadFunction(r)==='ramp').map(r=>{const p=inspectProfile(c,r.id);return {...brief(r),extrema:p.extrema,metrics:p.metrics,constraints:p.constraints,points:r.centerline,metadata:map.editing?.ramps.find(m=>m.roadId===r.id)};});
+const names=Object.entries(map.roadNames??{}).filter(([id,n])=>/明远|Mingyuan/i.test(id+JSON.stringify(n))).map(([id,n])=>({id,...n}));
+const mingyuan=map.roads.filter(r=>names.some(n=>n.id===r.roadNameId)||/mingyuan/i.test(r.id)).map(brief);
+const underground=map.roads.filter(r=>['tunnel','depressed'].includes(structureType(r))).map(brief);
+writeFileSync('artifacts/batch23/inventory.json',JSON.stringify({counts:{roads:map.roads.length,ramps:ramps.length,objects:map.objects.length,signs:map.signs?.length},names,mingyuan,underground,ramps},null,2));
+console.log(JSON.stringify({roads:map.roads.length,ramps:ramps.length,extrema:ramps.filter(r=>r.extrema.length).map(r=>({id:r.id,length:r.length,extrema:r.extrema})),names,mingyuan,underground},null,2));

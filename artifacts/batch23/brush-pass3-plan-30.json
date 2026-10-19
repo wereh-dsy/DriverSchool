@@ -1,0 +1,96 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55"
+    ],
+    "bbox": {
+      "minX": 7586.211887338574,
+      "maxX": 7588.211887338574,
+      "minZ": -11844.256833872432,
+      "maxZ": -11842.256833872432
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55",
+      "state": "VALID",
+      "position": {
+        "x": 7577.650237371139,
+        "y": 70,
+        "z": -11844.585721740266
+      },
+      "rotation": 3.00349624328848,
+      "anchor": {
+        "anchorRoadId": "regional:v3:northeast-river:N-to-W-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 54.99999999999971,
+        "lateralOffset": 6.303553390593009,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 3.00349624328848,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55",
+          "properties": {
+            "position": {
+              "x": 7577.650237371139,
+              "y": 70,
+              "z": -11844.585721740266
+            },
+            "heading": 3.00349624328848,
+            "roadId": "regional:v3:northeast-river:N-to-W-right",
+            "stationMetres": 54.999999999999794,
+            "postBaseY": 0
+          }
+        }
+      ],
+      "sourceId": "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.653553390593013
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55",
+      "properties": {
+        "position": {
+          "x": 7577.650237371139,
+          "y": 70,
+          "z": -11844.585721740266
+        },
+        "heading": 3.00349624328848,
+        "roadId": "regional:v3:northeast-river:N-to-W-right",
+        "stationMetres": 54.999999999999794,
+        "postBaseY": 0
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

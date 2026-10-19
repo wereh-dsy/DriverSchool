@@ -1,0 +1,105 @@
+{
+  "mainline": "ns-sb-split-3-split-split",
+  "frontage": "v91-ns-0-a-3-section",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 114.99782398980095
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 114.99782398980093,
+      "kind": "rampAttachment",
+      "id": "access-ns-north-sb-off",
+      "distance": 8.881784197001252e-16
+    },
+    {
+      "station": 114.99782398980095,
+      "kind": "rampAttachment",
+      "id": "access-ns-north-nb-on",
+      "distance": 16.260858401117975
+    },
+    {
+      "station": 99.65939310907753,
+      "kind": "gradeSeparatedCrossing",
+      "id": "system-north:S-to-W-star",
+      "distance": 0
+    },
+    {
+      "station": 37.72370380365385,
+      "kind": "gradeSeparatedCrossing",
+      "id": "system-north:N-to-E-star",
+      "distance": 0
+    },
+    {
+      "station": 63.21659400029344,
+      "kind": "gradeSeparatedCrossing",
+      "id": "system-north:W-to-N-star",
+      "distance": 0
+    },
+    {
+      "station": 65.29585244284671,
+      "kind": "gradeSeparatedCrossing",
+      "id": "ring-ccw-3-split-4",
+      "distance": 0
+    },
+    {
+      "station": 0,
+      "kind": "ordinaryCrossing",
+      "id": "ns-sb-split-3-split-split-2-split-split",
+      "distance": 0
+    },
+    {
+      "station": 96.84761384692982,
+      "kind": "gradeSeparatedCrossing",
+      "id": "ring-cw-0-split-split-split-2-split-split",
+      "distance": 0
+    },
+    {
+      "station": 114.99782398980093,
+      "kind": "ordinaryCrossing",
+      "id": "access-ns-north-sb-off",
+      "distance": 0
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 114.99782398980095
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ns-sb-split-3-split-split",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      }
+    },
+    {
+      "roadId": "v91-ns-0-a-3-section",
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": false,
+        "barrierOffset": 0,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 5.5
+        }
+      }
+    }
+  ],
+  "automaticDesign": false
+}

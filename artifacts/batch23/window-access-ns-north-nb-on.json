@@ -1,0 +1,127 @@
+{
+  "mainline": "ns-nb-split-split-split-split-split-split-2-section",
+  "frontage": "v91-ns-0-b-3-section",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 209.99563492146007
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 209.99563492146007,
+      "kind": "rampAttachment",
+      "id": "system-north:N-to-W-right",
+      "distance": 16.250000002606484
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "access-ns-north-sb-off",
+      "distance": 43.08451873012084
+    },
+    {
+      "station": 209.99563492145984,
+      "kind": "rampAttachment",
+      "id": "system-north:E-to-N-right",
+      "distance": 1.2434497875801753e-14
+    },
+    {
+      "station": 1.2022094166240466e-17,
+      "kind": "rampAttachment",
+      "id": "access-ns-north-nb-on",
+      "distance": 1.7763568394002505e-15
+    },
+    {
+      "station": 209.99563492146007,
+      "kind": "ordinaryCrossing",
+      "id": "system-north:E-to-N-right",
+      "distance": 0
+    },
+    {
+      "station": 51.83748339930234,
+      "kind": "gradeSeparatedCrossing",
+      "id": "system-north:N-to-E-star",
+      "distance": 0
+    },
+    {
+      "station": 77.24842750297569,
+      "kind": "gradeSeparatedCrossing",
+      "id": "system-north:W-to-N-star",
+      "distance": 0
+    },
+    {
+      "station": 209.99563492146007,
+      "kind": "ordinaryCrossing",
+      "id": "ns-nb-split-split-split-split-split-split-2-split",
+      "distance": 0
+    },
+    {
+      "station": 15.172893806180381,
+      "kind": "gradeSeparatedCrossing",
+      "id": "system-north:E-to-S-star",
+      "distance": 0
+    },
+    {
+      "station": 49.69716895107019,
+      "kind": "gradeSeparatedCrossing",
+      "id": "ring-ccw-3-split-4",
+      "distance": 0
+    },
+    {
+      "station": 18.146588048026302,
+      "kind": "gradeSeparatedCrossing",
+      "id": "ring-cw-0-split-split-split-2-split-split",
+      "distance": 0
+    },
+    {
+      "station": 0,
+      "kind": "ordinaryCrossing",
+      "id": "access-ns-north-nb-on",
+      "distance": 0
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 137.2484275029757
+    },
+    {
+      "start": 149.99563492145984,
+      "end": 209.99563492146007
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ns-nb-split-split-split-split-split-split-2-section",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      }
+    },
+    {
+      "roadId": "v91-ns-0-b-3-section",
+      "structure": {
+        "barrierEnabled": true,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": false,
+        "barrierOffset": 0,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 5.5
+        }
+      }
+    }
+  ],
+  "automaticDesign": false
+}

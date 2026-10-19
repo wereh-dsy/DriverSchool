@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "commercial",
+    "objectIds": [
+      "v9-chunhui-0-0--1"
+    ],
+    "bbox": {
+      "minX": 1797,
+      "maxX": 1799,
+      "minZ": -611,
+      "maxZ": -609
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v9-chunhui-0-0--1",
+      "state": "VALID",
+      "position": {
+        "x": 1803.438889409538,
+        "y": -0.04,
+        "z": -609.4607470556449
+      },
+      "rotation": -0.0988246415882494,
+      "anchor": {
+        "anchorRoadId": "v5-east-garden-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 83.52933128335927,
+        "lateralOffset": -38.12837311388032,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.566665119156183,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v9-chunhui-0-0--1",
+          "properties": {
+            "position": {
+              "x": 1803.438889409538,
+              "y": -0.04,
+              "z": -609.4607470556449
+            },
+            "rotation": -0.0988246415882494
+          }
+        }
+      ],
+      "sourceId": "v9-chunhui-0-0--1",
+      "heightMode": "GROUND",
+      "autoMove": 5.4657032253114535
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v9-chunhui-0-0--1",
+      "properties": {
+        "position": {
+          "x": 1803.438889409538,
+          "y": -0.04,
+          "z": -609.4607470556449
+        },
+        "rotation": -0.0988246415882494
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

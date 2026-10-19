@@ -1,0 +1,208 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "residential_mid",
+    "objectIds": [
+      "v6-east-housing-223",
+      "v9-chunhui-1-2--1"
+    ],
+    "bbox": {
+      "minX": 2277.01131212946,
+      "maxX": 2329,
+      "minZ": 284,
+      "maxZ": 475.16386573020554
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-east-housing-223",
+      "state": "INVALID",
+      "position": {
+        "x": 2275.7117837396995,
+        "y": -0.04,
+        "z": 474.16386573020554
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-six-south-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 26.546733871759102,
+        "lateralOffset": 24.288216260300487,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "building.intersectsJunction::v6-east-housing-223::",
+          "code": "building.intersectsJunction",
+          "severity": "warning",
+          "objectId": "v6-east-housing-223",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-199"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-housing-223",
+          "properties": {
+            "position": {
+              "x": 2275.7117837396995,
+              "y": -0.04,
+              "z": 474.16386573020554
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-east-housing-223",
+      "heightMode": "GROUND",
+      "autoMove": 2.2998762608700747
+    },
+    {
+      "id": "v9-chunhui-1-2--1",
+      "state": "INVALID",
+      "position": {
+        "x": 2324.525889371514,
+        "y": -0.04,
+        "z": 285
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-six-south-split-2-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 107.38286814155359,
+        "lateralOffset": -24.52588937151404,
+        "verticalOffset": -0.02441853032979658,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.intersectsRoadStructure::v9-chunhui-1-2--1::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "v9-chunhui-1-2--1",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "ring-cw-1-split-split-split",
+            "deckY": 14.396422847928426,
+            "objectTop": 34.358
+          },
+          "approximate": true
+        },
+        {
+          "id": "building.intersectsStructure::v9-chunhui-1-2--1::",
+          "code": "building.intersectsStructure",
+          "severity": "warning",
+          "objectId": "v9-chunhui-1-2--1",
+          "message": "Object intersects an elevated deck envelope",
+          "metrics": {
+            "roadId": "ring-cw-1-split-split-split",
+            "deckY": 14.396422847928426
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.intersectsBarrier::v9-chunhui-1-2--1::",
+          "code": "object.intersectsBarrier",
+          "severity": "warning",
+          "objectId": "v9-chunhui-1-2--1",
+          "message": "Object intersects roadside barrier envelope",
+          "metrics": {
+            "roadId": "ring-cw-1-split-split-split",
+            "lateralOffset": 23.79104613752925
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.intersectsRoadStructure::v9-chunhui-1-2--1::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "v9-chunhui-1-2--1",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "ring-cw-1-split-split-split-2",
+            "deckY": 14.397746567901235,
+            "objectTop": 34.358
+          },
+          "approximate": true
+        },
+        {
+          "id": "building.intersectsStructure::v9-chunhui-1-2--1::",
+          "code": "building.intersectsStructure",
+          "severity": "warning",
+          "objectId": "v9-chunhui-1-2--1",
+          "message": "Object intersects an elevated deck envelope",
+          "metrics": {
+            "roadId": "ring-cw-1-split-split-split-2",
+            "deckY": 14.397746567901235
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.intersectsBarrier::v9-chunhui-1-2--1::",
+          "code": "object.intersectsBarrier",
+          "severity": "warning",
+          "objectId": "v9-chunhui-1-2--1",
+          "message": "Object intersects roadside barrier envelope",
+          "metrics": {
+            "roadId": "ring-cw-1-split-split-split-2",
+            "lateralOffset": 23.77259131497559
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v9-chunhui-1-2--1",
+          "properties": {
+            "position": {
+              "x": 2324.525889371514,
+              "y": -0.04,
+              "z": 285
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v9-chunhui-1-2--1",
+      "heightMode": "GROUND",
+      "autoMove": 3.4743408956173414
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 2,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

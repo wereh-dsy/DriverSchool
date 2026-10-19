@@ -1,0 +1,167 @@
+{
+  "inspection": {
+    "key": "-2:-1:streetlight_small:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_small",
+      "objectIds": [
+        "v6-lamps-317",
+        "v6-lamps-895"
+      ],
+      "bbox": {
+        "minX": -2120,
+        "maxX": -2070,
+        "minZ": -172.0659713733415,
+        "maxZ": -130.224697968427
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 2,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 2,
+      "skipped": 2,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-317",
+      "properties": {
+        "position": {
+          "x": -2045.9965467247525,
+          "y": 8,
+          "z": -127.64734504865744
+        },
+        "rotation": -1.5695236945586226
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-895"
+    }
+  ],
+  "summary": {
+    "id": "preview-30",
+    "revision": 29,
+    "label": "objects-37",
+    "created": [],
+    "modified": [
+      "v6-lamps-317"
+    ],
+    "deleted": [
+      "v6-lamps-895"
+    ],
+    "area": {
+      "minX": -2159,
+      "maxX": -2005.9965467247525,
+      "minZ": -211.0659713733415,
+      "maxZ": -87.64734504865744
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-317",
+          "v6-lamps-895",
+          "ew-wb-split-split-split-split-split",
+          "ew-eb-split-5",
+          "system-west:E-to-S-loop",
+          "system-west:N-to-E-loop",
+          "system-west:N-to-W-right",
+          "system-west:W-to-S-right",
+          "ew-wb-split-split-split-split-split-2",
+          "ew-wb-split-split-split-split-split-2-split",
+          "ew-eb-split-5-split-2",
+          "ew-eb-split-6-split"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-wb-split-split-split-split-split",
+          "system-west:N-to-W-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split-5",
+          "system-west:N-to-E-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:E-to-S-loop",
+          "ring-ccw-3-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:N-to-E-loop",
+          "ring-ccw-0-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:N-to-W-right",
+          "ring-ccw-3-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:W-to-S-right",
+          "ring-ccw-0-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-wb-split-split-split-split-split-2-split",
+          "system-west:E-to-S-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split-6-split",
+          "system-west:W-to-S-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

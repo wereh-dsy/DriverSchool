@@ -1,0 +1,94 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:regional:airport-exit:on:1:false:guide:280"
+    ],
+    "bbox": {
+      "minX": -6285.393354914791,
+      "maxX": -6283.393354914791,
+      "minZ": -4146.5278283102625,
+      "maxZ": -4144.5278283102625
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:regional:airport-exit:on:1:false:guide:280",
+      "state": "VALID",
+      "position": {
+        "x": -6274.959860252514,
+        "y": 23.84178084604207,
+        "z": -4147.037649771127
+      },
+      "rotation": 0.158703046345637,
+      "anchor": {
+        "anchorRoadId": "regional:airport-exit:on:1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 280.00000000000045,
+        "lateralOffset": 6.2535533905930745,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 0.158703046345637,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:regional:airport-exit:on:1:false:guide:280",
+          "properties": {
+            "position": {
+              "x": -6274.959860252514,
+              "y": 23.84178084604207,
+              "z": -4147.037649771127
+            },
+            "heading": 0.158703046345637,
+            "roadId": "regional:airport-exit:on:1",
+            "stationMetres": 279.9999999999999
+          }
+        }
+      ],
+      "sourceId": "road-safety:regional:airport-exit:on:1:false:guide:280",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.553553390592706
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:airport-exit:on:1:false:guide:280",
+      "properties": {
+        "position": {
+          "x": -6274.959860252514,
+          "y": 23.84178084604207,
+          "z": -4147.037649771127
+        },
+        "heading": 0.158703046345637,
+        "roadId": "regional:airport-exit:on:1",
+        "stationMetres": 279.9999999999999
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

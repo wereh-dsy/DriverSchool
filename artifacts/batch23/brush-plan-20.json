@@ -1,0 +1,456 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "green_strip",
+    "objectIds": [
+      "v6-east-pocket-park-86",
+      "v6-east-pocket-park-90",
+      "v6-east-pocket-park-94",
+      "v6-east-pocket-park-95",
+      "v6-east-pocket-park-96",
+      "v6-east-pocket-park-99",
+      "v6-shrubs-1223"
+    ],
+    "bbox": {
+      "minX": 2056.8150591639387,
+      "maxX": 2395.760652191003,
+      "minZ": 144.00081903134674,
+      "maxZ": 496.64102837230683
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-east-pocket-park-86",
+      "state": "VALID",
+      "position": {
+        "x": 2057.8115207852356,
+        "y": -0.04,
+        "z": 119.3304483497576
+      },
+      "rotation": -1.5706926702833695,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-four-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 90.31575177199288,
+        "lateralOffset": -40.81178770241181,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5706926702833695,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-pocket-park-86",
+          "properties": {
+            "position": {
+              "x": 2057.8115207852356,
+              "y": -0.04,
+              "z": 119.3304483497576
+            },
+            "rotation": -1.5706926702833695
+          }
+        }
+      ],
+      "sourceId": "v6-east-pocket-park-86",
+      "heightMode": "GROUND",
+      "autoMove": 34.135658726377144
+    },
+    {
+      "id": "v6-east-pocket-park-90",
+      "state": "VALID",
+      "position": {
+        "x": 2172.8841055327716,
+        "y": -0.04,
+        "z": 199.33822519818563
+      },
+      "rotation": -1.5706926702833695,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-four-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 205.38004257429193,
+        "lateralOffset": 39.20791673887365,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5706926702833695,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-pocket-park-90",
+          "properties": {
+            "position": {
+              "x": 2172.8841055327716,
+              "y": -0.04,
+              "z": 199.33822519818563
+            },
+            "rotation": -1.5706926702833695
+          }
+        }
+      ],
+      "sourceId": "v6-east-pocket-park-90",
+      "heightMode": "GROUND",
+      "autoMove": 23.384487284389635
+    },
+    {
+      "id": "v6-east-pocket-park-94",
+      "state": "INVALID",
+      "position": {
+        "x": 2266.460079633423,
+        "y": -0.04,
+        "z": 145.00081903134674
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-four-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 298.9616485981803,
+        "lateralOffset": -15.119789377025683,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570692670283366,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.insideLane::v6-east-pocket-park-94::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v6-east-pocket-park-94",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v9-newcity-four-split",
+            "distance": 15.11978937702568,
+            "roadHalfWidth": 7.2,
+            "objectRadius": 20.56658017980747
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-east-pocket-park-94",
+            "roadId": "v9-newcity-four-split",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideJunction::v6-east-pocket-park-94::",
+          "code": "object.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-east-pocket-park-94",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-201"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-pocket-park-94",
+          "properties": {
+            "position": {
+              "x": 2266.460079633423,
+              "y": -0.04,
+              "z": 145.00081903134674
+            },
+            "rotation": 0
+          }
+        }
+      ],
+      "sourceId": "v6-east-pocket-park-94",
+      "heightMode": "GROUND",
+      "autoMove": 19.299033998993757
+    },
+    {
+      "id": "v6-east-pocket-park-95",
+      "state": "INVALID",
+      "position": {
+        "x": 2266.5209724630445,
+        "y": -0.04,
+        "z": 187.1130892676794
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-four-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 299.0181762164571,
+        "lateralOffset": 26.992486945004014,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570692670283366,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.insideLane::v6-east-pocket-park-95::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v6-east-pocket-park-95",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v9-newcity-four-split",
+            "distance": 26.99248694500401,
+            "roadHalfWidth": 7.2,
+            "objectRadius": 20.482582669497386
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-east-pocket-park-95",
+            "roadId": "v9-newcity-four-split",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideJunction::v6-east-pocket-park-95::",
+          "code": "object.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-east-pocket-park-95",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-201"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-pocket-park-95",
+          "properties": {
+            "position": {
+              "x": 2266.5209724630445,
+              "y": -0.04,
+              "z": 187.1130892676794
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-east-pocket-park-95",
+      "heightMode": "GROUND",
+      "autoMove": 19.67525240794338
+    },
+    {
+      "id": "v6-east-pocket-park-96",
+      "state": "VALID",
+      "position": {
+        "x": 2266.6196663953974,
+        "y": -0.04,
+        "z": 229.00514920822678
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-six-south-split-2-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 51.38801734978037,
+        "lateralOffset": 33.38033360460258,
+        "verticalOffset": -0.020028683440238945,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-pocket-park-96",
+          "properties": {
+            "position": {
+              "x": 2266.6196663953974,
+              "y": -0.04,
+              "z": 229.00514920822678
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-east-pocket-park-96",
+      "heightMode": "GROUND",
+      "autoMove": 20.694106453970367
+    },
+    {
+      "id": "v6-east-pocket-park-99",
+      "state": "VALID",
+      "position": {
+        "x": 2394.763342839262,
+        "y": -0.04,
+        "z": 196.90000489257147
+      },
+      "rotation": -1.570692670283367,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-four-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 77.25952954586538,
+        "lateralOffset": 36.79269567403697,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570692670283367,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-pocket-park-99",
+          "properties": {
+            "position": {
+              "x": 2394.763342839262,
+              "y": -0.04,
+              "z": 196.90000489257147
+            },
+            "rotation": -1.570692670283367
+          }
+        }
+      ],
+      "sourceId": "v6-east-pocket-park-99",
+      "heightMode": "GROUND",
+      "autoMove": 25.95740743889769
+    },
+    {
+      "id": "v6-shrubs-1223",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 2097.778664335298,
+        "y": -0.04,
+        "z": 483.60804112315697
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-seven-split-2-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 140.55045981578127,
+        "lateralOffset": 8.700000000000017,
+        "verticalOffset": -0.03244903910135677,
+        "facingDirection": "forward",
+        "expectedHeading": -1.8983501717985813,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-shrubs-1223",
+          "properties": {
+            "position": {
+              "x": 2097.778664335298,
+              "y": -0.04,
+              "z": 483.60804112315697
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-shrubs-1223",
+      "heightMode": "GROUND",
+      "autoMove": 12.033292381191346
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-east-pocket-park-86",
+      "properties": {
+        "position": {
+          "x": 2057.8115207852356,
+          "y": -0.04,
+          "z": 119.3304483497576
+        },
+        "rotation": -1.5706926702833695
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-east-pocket-park-90",
+      "properties": {
+        "position": {
+          "x": 2172.8841055327716,
+          "y": -0.04,
+          "z": 199.33822519818563
+        },
+        "rotation": -1.5706926702833695
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-east-pocket-park-96",
+      "properties": {
+        "position": {
+          "x": 2266.6196663953974,
+          "y": -0.04,
+          "z": 229.00514920822678
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-east-pocket-park-99",
+      "properties": {
+        "position": {
+          "x": 2394.763342839262,
+          "y": -0.04,
+          "z": 196.90000489257147
+        },
+        "rotation": -1.570692670283367
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-1223",
+      "properties": {
+        "position": {
+          "x": 2097.778664335298,
+          "y": -0.04,
+          "z": 483.60804112315697
+        },
+        "rotation": -1.5707963267948966
+      }
+    }
+  ],
+  "stats": {
+    "planned": 7,
+    "valid": 4,
+    "adjusted": 1,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 5,
+    "removed": 0
+  },
+  "valid": true
+}

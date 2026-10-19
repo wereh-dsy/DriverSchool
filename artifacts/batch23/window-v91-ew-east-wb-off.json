@@ -1,0 +1,95 @@
+{
+  "mainline": "ew-wb-split-3-split-split-2",
+  "frontage": "v91-ew-1-b-4",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 30.9322590943864
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "system-east:S-to-W-turbine",
+      "distance": 2.2737367544323206e-13
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "system-east:W-to-N-turbine",
+      "distance": 20.577848099151225
+    },
+    {
+      "station": 30.9322590943864,
+      "kind": "rampAttachment",
+      "id": "v91-ew-east-wb-off",
+      "distance": 0
+    },
+    {
+      "station": 30.9322590943864,
+      "kind": "rampAttachment",
+      "id": "v91-ew-east-eb-on",
+      "distance": 49.48407318530378
+    },
+    {
+      "station": 0,
+      "kind": "ordinaryCrossing",
+      "id": "system-east:S-to-W-turbine",
+      "distance": 0
+    },
+    {
+      "station": 0,
+      "kind": "ordinaryCrossing",
+      "id": "ew-wb-split-3-split-split-3-section",
+      "distance": 0
+    },
+    {
+      "station": 30.9322590943864,
+      "kind": "ordinaryCrossing",
+      "id": "v91-ew-east-wb-off",
+      "distance": 0
+    },
+    {
+      "station": 0.9259422956809006,
+      "kind": "intersection",
+      "id": "urban-junction-190",
+      "distance": 12.952668170241742
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 30.9322590943864
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ew-wb-split-3-split-split-2",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      }
+    },
+    {
+      "roadId": "v91-ew-1-b-4",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      }
+    }
+  ],
+  "automaticDesign": false
+}

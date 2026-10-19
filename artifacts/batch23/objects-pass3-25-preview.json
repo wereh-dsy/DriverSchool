@@ -1,0 +1,258 @@
+{
+  "inspection": {
+    "key": "-3:-1:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:regional:airport-service:on:-1:false:guide:280",
+        "road-safety:regional:v3:airport-south:N-to-E-turbine:false:speed:65",
+        "road-safety:regional:v3:airport-south:S-to-E-right:false:speed:65"
+      ],
+      "bbox": {
+        "minX": -5963.116249150335,
+        "maxX": -5315.097993395219,
+        "minZ": -1686.1223632672409,
+        "maxZ": -796.815733019295
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 3,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 3,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:airport-service:on:-1:false:guide:280",
+      "properties": {
+        "position": {
+          "x": -5932.558427895853,
+          "y": 20.892570658962565,
+          "z": -1679.4219263389325
+        },
+        "heading": -2.5022321584328706,
+        "roadId": "regional:airport-service:on:-1",
+        "stationMetres": 280,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:v3:airport-south:N-to-E-turbine:false:speed:65",
+      "properties": {
+        "position": {
+          "x": -5962.489350246702,
+          "y": 29.338825752662718,
+          "z": -794.8354430095756
+        },
+        "heading": -1.6953379280965735,
+        "roadId": "regional:v3:airport-south:N-to-E-turbine",
+        "stationMetres": 52.999999999999524
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:v3:airport-south:S-to-E-right:false:speed:65",
+      "properties": {
+        "position": {
+          "x": -5314.461777010304,
+          "y": 27.06424214374041,
+          "z": -806.0975255756013
+        },
+        "heading": 0.9946931786364723,
+        "roadId": "regional:v3:airport-south:S-to-E-right",
+        "stationMetres": 77.00000000000017
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-25",
+    "created": [],
+    "modified": [
+      "road-safety:regional:airport-service:on:-1:false:guide:280",
+      "road-safety:regional:v3:airport-south:N-to-E-turbine:false:speed:65",
+      "road-safety:regional:v3:airport-south:S-to-E-right:false:speed:65"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -6002.116249150335,
+      "maxX": -5276.097993395219,
+      "minZ": -1725.1223632672409,
+      "maxZ": -757.815733019295
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:regional:airport-service:on:-1:false:guide:280",
+          "road-safety:regional:v3:airport-south:N-to-E-turbine:false:speed:65",
+          "road-safety:regional:v3:airport-south:S-to-E-right:false:speed:65",
+          "regional:S18:in:10",
+          "regional:S18:out:5:upgrade266",
+          "regional:airport-service:off:1",
+          "regional:S18:in:10:upgrade276",
+          "regional:airport-service:on:-1",
+          "regional:S18:out:5:lane416",
+          "regional:airport-service:off:1:deceleration",
+          "regional:airport-service:on:-1:acceleration",
+          "regional:v3:S89-extension2:out:10",
+          "regional:v3:S89-extension2:in:2:revision381",
+          "regional:v3:S89-extension2:out:9:revision385",
+          "regional:v3:airport-south:N-to-E-turbine",
+          "regional:v3:S89-extension2:out:10-split-2",
+          "regional:v3:S89-extension2:in:2-split-split",
+          "regional:S18:in:12",
+          "regional:S18:out:3:revision369",
+          "regional:v3:airport-south:S-to-E-right",
+          "regional:v3:S89-extension2:in:2-split",
+          "regional:v3:airport-south:E-to-S-turbine"
+        ],
+        "message": "roads: 8 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S18:in:10:upgrade276",
+          "regional:airport-service:on:-1:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S18:out:5:lane416",
+          "regional:airport-service:off:1:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "tiny.fragment",
+        "ids": [
+          "regional:v3:S89-extension2:out:10"
+        ],
+        "message": "Road shorter than 3m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:S-to-E-right",
+          "regional:S18:out:4"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S89-extension2:in:2-split",
+          "regional:v3:airport-south:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S89-extension2:in:2-split",
+          "regional:v3:airport-south:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:E-to-S-turbine",
+          "regional:S18:in:11-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:N-to-E-turbine",
+          "regional:S18:out:4-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S89-extension2:out:10-split-2",
+          "regional:v3:airport-south:E-to-S-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S89-extension2:out:10-split-2",
+          "regional:v3:airport-south:E-to-S-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S89-extension2:out:10-split-2",
+          "regional:v3:airport-south:N-to-E-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:airport-service:on:-1:false:guide:280",
+          "regional:airport-service:on:-1"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:v3:airport-south:N-to-E-turbine:false:speed:65",
+          "regional:v3:airport-south:N-to-E-turbine"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.occluded",
+        "ids": [
+          "road-safety:regional:v3:airport-south:S-to-E-right:false:speed:65",
+          "regional:v3:airport-south:S-to-E-right"
+        ],
+        "message": "Approximate incoming sight ray intersects another deck"
+      }
+    ],
+    "valid": true
+  }
+}

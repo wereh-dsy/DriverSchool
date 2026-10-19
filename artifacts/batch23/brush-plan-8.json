@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "noise_barrier",
+    "objectIds": [
+      "landscape-noise_barrier-472"
+    ],
+    "bbox": {
+      "minX": -292.42857142857144,
+      "maxX": -290.42857142857144,
+      "minZ": -1923.009429475426,
+      "maxZ": -1921.009429475426
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-noise_barrier-472",
+      "state": "VALID",
+      "position": {
+        "x": -288.902165372532,
+        "y": -0.04,
+        "z": -1903.2369836388339
+      },
+      "rotation": 1.7045730879664454,
+      "anchor": {
+        "anchorRoadId": "system-north:S-to-W-star",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 816.6508335489609,
+        "lateralOffset": 15.701124936725988,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 1.7045730879664454,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-472",
+          "properties": {
+            "position": {
+              "x": -288.902165372532,
+              "y": -0.04,
+              "z": -1903.2369836388339
+            },
+            "rotation": 1.7045730879664454
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-472",
+      "heightMode": "GROUND",
+      "autoMove": 20.577391726061382
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-noise_barrier-472",
+      "properties": {
+        "position": {
+          "x": -288.902165372532,
+          "y": -0.04,
+          "z": -1903.2369836388339
+        },
+        "rotation": 1.7045730879664454
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,221 @@
+{
+  "inspection": {
+    "key": "-1:0:residential_low:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "residential_low",
+      "objectIds": [
+        "landscape-residential_low-2519",
+        "landscape-residential_low-2532",
+        "v6-west-south-155",
+        "v6-west-south-157",
+        "v6-west-south-160",
+        "v6-west-south-184",
+        "v6-west-south-188"
+      ],
+      "bbox": {
+        "minX": -1647.2430861904677,
+        "maxX": -1392.4409603676656,
+        "minZ": 223.41059299706677,
+        "maxZ": 1160.1201363395967
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 7,
+      "valid": 7,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 7,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-residential_low-2519",
+      "properties": {
+        "position": {
+          "x": -1433.2098440821733,
+          "y": -0.04,
+          "z": 750.5280726239934
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-residential_low-2532",
+      "properties": {
+        "position": {
+          "x": -1377.071723505063,
+          "y": -0.04,
+          "z": 1159.1201363395967
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-west-south-155",
+      "properties": {
+        "position": {
+          "x": -1641.2860149347987,
+          "y": -0.04,
+          "z": 224.2514037642977
+        },
+        "rotation": -3.109490120572067
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-west-south-157",
+      "properties": {
+        "position": {
+          "x": -1484.151409509701,
+          "y": -0.04,
+          "z": 243.69029313819982
+        },
+        "rotation": -1.5660896760726033
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-west-south-160",
+      "properties": {
+        "position": {
+          "x": -1640.7249987790851,
+          "y": -0.04,
+          "z": 331.46274970793723
+        },
+        "rotation": -3.109490120572067
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-west-south-184",
+      "properties": {
+        "position": {
+          "x": -1428.0810218867473,
+          "y": -0.04,
+          "z": 851.5141344984853
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-west-south-188",
+      "properties": {
+        "position": {
+          "x": -1428.8012922590651,
+          "y": -0.04,
+          "z": 928.2733357336353
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-6",
+    "revision": 5,
+    "label": "objects-12",
+    "created": [],
+    "modified": [
+      "landscape-residential_low-2519",
+      "landscape-residential_low-2532",
+      "v6-west-south-155",
+      "v6-west-south-157",
+      "v6-west-south-160",
+      "v6-west-south-184",
+      "v6-west-south-188"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1686.2430861904677,
+      "maxX": -1337.071723505063,
+      "minZ": 184.2514037642977,
+      "maxZ": 1199.1201363395967
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "landscape-residential_low-2519",
+          "landscape-residential_low-2532",
+          "v6-west-south-155",
+          "v6-west-south-157",
+          "v6-west-south-160",
+          "v6-west-south-184",
+          "v6-west-south-188",
+          "v4-west-split-split-4-m91",
+          "v8-hankou-road-split-c91",
+          "urban-junction-174",
+          "ring-cw-3-split-2-split",
+          "ring-ccw-0-split-split-split-3-split-section",
+          "v4-west-split-split-3-split-2-m91",
+          "v8-shanghai-road-split-2-split-v91-m91",
+          "v4-west-market-c91",
+          "v4-west-market-split-2-c91",
+          "urban-junction-87",
+          "urban-junction-147",
+          "v5-west-market-road-split-2-m91",
+          "urban-junction-136",
+          "urban-junction-204",
+          "v4-west-split-split-4-split-m91",
+          "v4-west-market-split-split-2-c91",
+          "urban-junction-74",
+          "v4-west-market-split-split-c91",
+          "v4-west-split-split-3-m91",
+          "v5-west-south-lane-m91"
+        ],
+        "message": "intersections[4]: urban-junction-87: 2/5 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "landscape-residential_low-2519",
+          "landscape-residential_low-2532",
+          "v6-west-south-155",
+          "v6-west-south-157",
+          "v6-west-south-160",
+          "v6-west-south-184",
+          "v6-west-south-188",
+          "v4-west-split-split-4-m91",
+          "v8-hankou-road-split-c91",
+          "urban-junction-174",
+          "ring-cw-3-split-2-split",
+          "ring-ccw-0-split-split-split-3-split-section",
+          "v4-west-split-split-3-split-2-m91",
+          "v8-shanghai-road-split-2-split-v91-m91",
+          "v4-west-market-c91",
+          "v4-west-market-split-2-c91",
+          "urban-junction-87",
+          "urban-junction-147",
+          "v5-west-market-road-split-2-m91",
+          "urban-junction-136",
+          "urban-junction-204",
+          "v4-west-split-split-4-split-m91",
+          "v4-west-market-split-split-2-c91",
+          "urban-junction-74",
+          "v4-west-market-split-split-c91",
+          "v4-west-split-split-3-m91",
+          "v5-west-south-lane-m91"
+        ],
+        "message": "roads: 9 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

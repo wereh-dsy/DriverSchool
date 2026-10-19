@@ -1,0 +1,133 @@
+{
+  "inspection": {
+    "key": "8:-3:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:regional:v3:northeast-chenjiang:N-to-W-right:false:guide:55"
+      ],
+      "bbox": {
+        "minX": 16445.13929808707,
+        "maxX": 16447.13929808707,
+        "minZ": -4757.140840940233,
+        "maxZ": -4755.140840940233
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:v3:northeast-chenjiang:N-to-W-right:false:guide:55",
+      "properties": {
+        "position": {
+          "x": 16436.490285366523,
+          "y": 40.84851655960453,
+          "z": -4756.4368925974895
+        },
+        "heading": 3.11092020882094,
+        "roadId": "regional:v3:northeast-chenjiang:N-to-W-right",
+        "stationMetres": 55.00000000000017
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-72",
+    "created": [],
+    "modified": [
+      "road-safety:regional:v3:northeast-chenjiang:N-to-W-right:false:guide:55"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 16406.13929808707,
+      "maxX": 16486.13929808707,
+      "minZ": -4796.140840940233,
+      "maxZ": -4716.140840940233
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:regional:v3:northeast-chenjiang:N-to-W-right:false:guide:55",
+          "regional:v3:northeast-chenjiang:N-to-E-turbine",
+          "regional:v3:northeast-chenjiang:N-to-W-right",
+          "regional:v3:northeast-chenjiang:W-to-N-turbine",
+          "regional:v3:S29:out:31:revision703:lane4842",
+          "regional:v3:S29:in:15",
+          "regional:v3:S29:in:15:revision699",
+          "regional:v3:northeast-chenjiang:E-to-N-right",
+          "regional:v3:S29:out:31:revision703:revision709",
+          "regional:v3:northeast-chenjiang:E-to-N-right:acceleration"
+        ],
+        "message": "roads: 5 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "regional:v3:S29:in:15",
+          "regional:v3:northeast-chenjiang:S-to-W-turbine"
+        ],
+        "message": "Crossing clearance 5.2m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S29:in:15:revision699",
+          "regional:v3:northeast-chenjiang:E-to-N-right:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:northeast-chenjiang:W-to-N-turbine",
+          "regional:v3:S29:in:15:revision699:lane4830"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S29:out:31:revision703:lane4842",
+          "regional:v3:northeast-chenjiang:N-to-W-right:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:v3:northeast-chenjiang:N-to-W-right:false:guide:55",
+          "regional:v3:northeast-chenjiang:N-to-W-right"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      }
+    ],
+    "valid": true
+  }
+}

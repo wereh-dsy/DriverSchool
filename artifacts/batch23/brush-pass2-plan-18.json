@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight",
+    "objectIds": [
+      "v6-lamps-1095"
+    ],
+    "bbox": {
+      "minX": -1649.3435441983333,
+      "maxX": -1647.3435441983333,
+      "minZ": 2180.7374532113354,
+      "maxZ": 2182.7374532113354
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-1095",
+      "state": "VALID",
+      "position": {
+        "x": -1651.7161799535284,
+        "y": 5.229832859129623,
+        "z": 2182.678743853325
+      },
+      "rotation": -2.869422015282832,
+      "anchor": {
+        "anchorRoadId": "v4-south-logistics-west",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 618.5095484578757,
+        "lateralOffset": -9.669705627484678,
+        "verticalOffset": -2.4868995751603507e-14,
+        "facingDirection": "forward",
+        "expectedHeading": -2.869422015282832,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-1095",
+          "properties": {
+            "position": {
+              "x": -1651.7161799535284,
+              "y": 5.229832859129623,
+              "z": 2182.678743853325
+            },
+            "rotation": -2.869422015282832
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-1095",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.8729738915884595
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1095",
+      "properties": {
+        "position": {
+          "x": -1651.7161799535284,
+          "y": 5.229832859129623,
+          "z": 2182.678743853325
+        },
+        "rotation": -2.869422015282832
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

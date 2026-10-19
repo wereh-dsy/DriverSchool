@@ -1,0 +1,154 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "industrial",
+    "objectIds": [
+      "regional:warehouse:2040:2740",
+      "regional:warehouse:3320:3700"
+    ],
+    "bbox": {
+      "minX": 2077.8472045642993,
+      "maxX": 3374.2519783293174,
+      "minZ": 2704.4021166902385,
+      "maxZ": 3680.8963098516106
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:warehouse:2040:2740",
+      "state": "INVALID",
+      "position": {
+        "x": 2133.7987900058233,
+        "y": -0.04,
+        "z": 2663.3437461373105
+      },
+      "rotation": -2.488326228034621,
+      "anchor": {
+        "anchorRoadId": "v5-south-logistics-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 317.14987302915745,
+        "lateralOffset": -84.58158028752126,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -2.488326228034621,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:regional:warehouse:2040:2740",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "regional:warehouse:2040:2740",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "regional:warehouse:2040:2580",
+            "actual": 84.95253048568571,
+            "required": 152.87865965434207
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:warehouse:2040:2740",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:warehouse:2040:2740",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 60
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:warehouse:2040:2740",
+          "properties": {
+            "position": {
+              "x": 2133.7987900058233,
+              "y": -0.04,
+              "z": 2663.3437461373105
+            },
+            "rotation": -2.488326228034621
+          }
+        }
+      ],
+      "sourceId": "regional:warehouse:2040:2740",
+      "heightMode": "GROUND",
+      "autoMove": 69.19959014405005
+    },
+    {
+      "id": "regional:warehouse:3320:3700",
+      "state": "INVALID",
+      "position": {
+        "x": 3373.2519783293174,
+        "y": -0.04000000000000001,
+        "z": 3602.539097843302
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "regional:S26-extension:in:4",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 166.76547646256313,
+        "lateralOffset": 88.83590215669801,
+        "verticalOffset": -0.04000000000000001,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:warehouse:3320:3700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:warehouse:3320:3700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 60
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:warehouse:3320:3700",
+          "properties": {
+            "position": {
+              "x": 3373.2519783293174,
+              "y": -0.04000000000000001,
+              "z": 3602.539097843302
+            },
+            "rotation": 1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "regional:warehouse:3320:3700",
+      "heightMode": "GROUND",
+      "autoMove": 77.35721200830858
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 2,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

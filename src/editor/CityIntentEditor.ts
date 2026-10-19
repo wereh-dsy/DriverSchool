@@ -16,8 +16,10 @@ import { ROAD_SIGN_TEMPLATES } from '../world/city/RoadSignTemplates';
 import { portsFor } from '../world/city/geometry';
 import type { RoadSignDefinition } from '../world/city/RoadSignData';
 import './city-editor.css';
+import { PlacementBrushPanel } from './PlacementBrushPanel';
+import type { BrushCandidate, PlacementBrushRequest } from './PlacementBrush';
 
-type Tool = 'select' | 'road' | 'corridor' | 'intersection' | 'ramp' | 'elevation' | 'object' | 'interchange' | 'sign';
+type Tool = 'select' | 'road' | 'corridor' | 'intersection' | 'ramp' | 'elevation' | 'object' | 'interchange' | 'sign' | 'brush';
 interface Drag { id:string; index?:number; point:CityPoint; screenY:number; moved:boolean; command?:EditorCommand }
 interface GizmoDrag { axis:'x'|'y'|'z'|'n'; origin:CityPoint; direction:CityPoint; startX:number; startY:number; screenX:number; screenY:number; screenLength:number; moved:boolean; command?:EditorCommand }
 interface PreviewGhost { roads:CityRoad[]; intersections:CityIntersection[]; objects:CityMapData['objects']; signs:RoadSignDefinition[]; beforeRoads:CityRoad[]; beforeIntersections:CityIntersection[] }
@@ -36,6 +38,9 @@ export class CityMapEditor {
   private readonly inspector:HTMLElement;
   private readonly observer:ResizeObserver;
   private readonly file=document.createElement('input');
+  private readonly brushPanel:PlacementBrushPanel;
+  private brushScope:{roadId?:string;intersectionId?:string;start?:number;end?:number;first?:CityPoint;last?:CityPoint}|null=null;
+  private brushDragging=false;
   private readonly grid=new THREE.Group();
   private kernel:CityEditingKernel;
   private view:CityEditorScene;
@@ -70,7 +75,7 @@ export class CityMapEditor {
     this.kernel=new CityEditingKernel(data);this.view=new CityEditorScene(this.kernel);
     this.ui.className='city-editor';
     this.ui.innerHTML=`<header><strong>城市意图编辑器</strong>${[['new','新建'],['main','清江市 City Main'],['alpha','City Alpha'],['test','测试地图'],['import','打开'],['export','保存'],['undo','撤销'],['redo','重做'],['view','顶视图 / 3D'],['fit','全图'],['focus','聚焦'],['diagnose','诊断'],['validate','验证选择'],['nearby','验证区域'],['validate-full','验证全图'],['play','试玩']].map(([a,l])=>`<button data-action="${a}">${l}</button>`).join('')}</header>
-      <aside class="ce-tools"><h3>工具</h3>${(['select','road','corridor','intersection','ramp','elevation','object','interchange','sign'] as Tool[]).map(t=>`<button data-tool="${t}">${this.toolName(t)}</button>`).join('')}
+      <aside class="ce-tools"><h3>工具</h3>${(['select','road','corridor','intersection','ramp','elevation','object','interchange','sign','brush'] as Tool[]).map(t=>`<button data-tool="${t}">${this.toolName(t)}</button>`).join('')}
       <label>道路预设<select data-preset>${Object.entries(EDITOR_ROAD_PRESETS).map(([id,p])=>`<option value="${id}">${p.label}</option>`).join('')}</select></label>
       <label>曲线<select data-curve><option value="smooth">平滑</option><option value="polyline">折线</option></select></label>
       <label>绘制高程 m<input data-height type="number" value="0" step="1"></label>
@@ -83,6 +88,7 @@ export class CityMapEditor {
       <p class="ce-hint">左键：选择 / 画路 / 拖动。<br>3D：右键旋转；中键 / Shift+右键平移；滚轮缩放。<br>Shift+拖动：高程。<br>Ctrl+点击：多选。<br>Tab：切换吸附；C：相交方式。<br>Enter：预览 / 确认；Esc：取消。<br>选中后使用红/绿/蓝/品红轴向手柄移动。</p>
       <h3>道路 / 走廊 / 组 / 标牌</h3><input data-search placeholder="搜索道路名 / ID / 区域"><select data-list size="7"></select></aside><div class="ce-viewport"><div class="ce-view-label"></div><section class="ce-preview" hidden><strong data-preview-title></strong><p data-preview-report></p><p data-preview-metrics class="ce-hint"></p><button data-action="before">修复前 ghost: 开</button><button data-action="commit">确认 / 提交 (Enter)</button><button data-action="cancel">取消 (Esc)</button><details><summary>局部验证</summary><div data-issues></div></details></section></div><aside class="ce-inspector"></aside><footer></footer>`;
     host.replaceChildren(this.ui);this.viewport=this.require('.ce-viewport');this.inspector=this.require('.ce-inspector');this.viewport.prepend(this.renderer.domElement);
+    this.brushPanel=new PlacementBrushPanel(this.require('.ce-tools'),()=>{if(this.tool==='brush')this.previewBrush();});
     this.renderer.setPixelRatio(Math.min(devicePixelRatio,2));this.renderer.setClearColor(0x8ea8b2);this.scene.add(this.view.root,this.grid,new THREE.HemisphereLight(0xe4f5ff,0x66725b,2.5));
     const sun=new THREE.DirectionalLight(0xfff2d8,3);sun.position.set(200,400,100);this.scene.add(sun);
     const terrain=new THREE.Mesh(new THREE.PlaneGeometry(200000,200000),new THREE.MeshStandardMaterial({color:0x677c64,transparent:true,opacity:0.4,depthWrite:false}));terrain.rotation.x=-Math.PI/2;terrain.position.y=-0.12;terrain.userData.editorTerrain=true;this.scene.add(terrain);
@@ -96,10 +102,21 @@ export class CityMapEditor {
     this.file.type='file';this.file.accept='.json,application/json';this.file.hidden=true;this.ui.append(this.file);
     this.file.addEventListener('change',()=>{const file=this.file.files?.[0];if(file)void file.text().then(text=>{const parsed=JSON.parse(text);if(parsed?.operations&&!parsed.roads)this.openAgentReceipt(parsed);else this.open(loadCityMap(parsed));}).catch(error=>this.status(String(error)));this.file.value='';});
     const canvas=this.renderer.domElement;canvas.addEventListener('pointerdown',e=>this.pointerDown(e));canvas.addEventListener('pointermove',e=>this.pointerMove(e));canvas.addEventListener('pointerup',e=>this.pointerUp(e));canvas.addEventListener('pointercancel',()=>{this.drag=null;this.gizmoDrag=null;this.cancel();});canvas.addEventListener('dblclick',e=>{if(e.button===0&&this.tool==='road')this.finishRoad();});
+    canvas.addEventListener('wheel',e=>{if(this.tool!=='brush'||!e.altKey&&!e.shiftKey)return;e.preventDefault();e.stopImmediatePropagation();this.brushPanel.nudge(e.altKey?'height':'lateral',Math.sign(-e.deltaY)*(e.altKey?.05:.25));this.previewBrush();},{passive:false,capture:true});
     window.addEventListener('keydown',this.keyHandler);window.addEventListener('beforeunload',this.unloadHandler);this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(this.viewport);
     this.resize();this.fit();this.drawGrid();this.updateUI();this.populate();this.expose();this.animate(0);if(new URLSearchParams(location.search).get('map')==='regional-main')void this.openMain();
   }
-  private toolName(t:Tool):string{return ({select:'选择',road:'道路',corridor:'走廊',intersection:'路口',ramp:'匝道',elevation:'高程',object:'物体',interchange:'立交',sign:'标牌'} as Record<Tool,string>)[t];}
+  private toolName(t:Tool):string{return ({select:'选择',road:'道路',corridor:'走廊',intersection:'路口',ramp:'匝道',elevation:'高程',object:'物体',interchange:'立交',sign:'标牌',brush:'物件刷子'} as Record<Tool,string>)[t];}
+  private previewBrush(panel=true):void {
+    const request=this.brushPanel.request(),scope=this.brushScope;
+    if(!scope){const road=this.kernel.getRoad(this.selectedId??''),junction=this.kernel.getIntersection(this.selectedId??'');if(road)this.brushScope={roadId:road.id,start:0,end:polylineLength(roadPoints(road))};else if(junction)this.brushScope={intersectionId:junction.id};else{this.status('刷子：请选择道路或路口，或拖出范围');return;}}
+    const selected=this.brushScope!;
+    const brush:PlacementBrushRequest={...request,roadId:selected.roadId,intersectionId:selected.intersectionId,stationStart:Math.min(selected.start??0,selected.end??0),stationEnd:Math.max(selected.start??0,selected.end??0),...(selected.first&&selected.last?{bbox:bounds([selected.first,selected.last])}:{})};
+    if(request.mode==='LINE'&&selected.roadId){brush.stationStart=0;brush.stationEnd=polylineLength(roadPoints(this.kernel.getRoad(selected.roadId)!));}
+    const summary=this.preview({op:'brushObjects',brush},'Placement Brush',panel);
+    const metrics=summary?.metrics?.brush as {stats:Record<string,number>;candidates:BrushCandidate[]}|undefined;
+    if(metrics){this.view.showBrush(metrics.candidates);this.brushPanel.report(JSON.stringify(metrics.stats));if(panel)this.require('[data-preview-metrics]').textContent=JSON.stringify({stats:metrics.stats,candidates:metrics.candidates.slice(0,5).map(c=>({state:c.state,height:c.position.y,anchor:c.anchor,issues:c.issues.map(i=>i.code),adjustment:c.adjustmentReasons}))});}
+  }
   private require<T extends HTMLElement=HTMLElement>(s:string):T{return this.ui.querySelector<T>(s)!;}
   private value(name:string):string{return this.require<HTMLInputElement>(`[data-${name}]`).value;}
   private checked(name:string):boolean{return this.require<HTMLInputElement>(`[data-${name}]`).checked;}
@@ -216,6 +233,13 @@ export class CityMapEditor {
   private pointerDown(e:PointerEvent):void {
     if(e.button!==0||this.pending)return;const p=this.planePoint(e);if(!p)return;
     try{
+      if(this.tool==='brush'){
+        const hit=this.pick(e),request=this.brushPanel.request();
+        if(request.type==='trafficLight'){const j=hit&&this.kernel.getIntersection(hit.id);if(!j){this.status('交通灯刷：请选择路口');return;}this.brushScope={intersectionId:j.id};this.previewBrush();return;}
+        if(request.mode==='AREA')this.brushScope={first:p,last:p};
+        else {const road=hit&&this.kernel.getRoad(hit.id);if(!road){this.status('道路刷：请点选道路');return;}const station=project(roadPoints(road),hit!.point).along;this.selectedId=road.id;this.brushScope={roadId:road.id,start:station,end:station};}
+        this.brushDragging=true;this.renderer.domElement.setPointerCapture(e.pointerId);this.previewBrush(false);return;
+      }
       if(this.tool==='select'&&this.selectedId){
         this.setRay(e);
         const gizmo=this.raycaster.intersectObjects(this.view.gizmoTargets,true).find(hit=>hit.object.userData.gizmoAxis);
@@ -237,6 +261,7 @@ export class CityMapEditor {
   }
   private pointerMove(e:PointerEvent):void {
     if(this.pending)return;
+    if(this.brushDragging&&this.brushScope){const point=this.planePoint(e);if(!point)return;if(this.brushScope.roadId)this.brushScope.end=project(roadPoints(this.kernel.getRoad(this.brushScope.roadId)!),point).along;else this.brushScope.last=point;if(performance.now()-this.lastPointerPreview>120){this.lastPointerPreview=performance.now();this.previewBrush(false);}return;}
     if(this.gizmoDrag){this.dragGizmo(e);return;}
     if(this.drag){const drag=this.drag,p=this.planePoint(e,drag.point.y??0);if(!p)return;const elevation=e.shiftKey||this.tool==='elevation',dy=(drag.screenY-e.clientY)*0.1;if(!drag.moved&&Math.hypot(p.x-drag.point.x,p.z-drag.point.z)<0.5&&Math.abs(dy)<0.2)return;drag.moved=true;
       if(drag.index!==undefined)drag.command={op:'editControlPoint',roadId:drag.id,index:drag.index,point:elevation?{...drag.point,y:(drag.point.y??0)+dy}:p};
@@ -246,6 +271,7 @@ export class CityMapEditor {
     const hit=this.pick(e),id=hit?.id??null,p=this.planePoint(e),changed=id!==this.hoverId;this.hoverId=id;if(this.tool==='road'&&p){const point=this.snapped(p);if(this.draft.length&&performance.now()-this.lastPointerPreview>80){this.lastPointerPreview=performance.now();this.preview(this.roadCommand([...this.draft,point]),'创建道路',false);}this.drawOverlay();this.status();}else if(changed){this.drawOverlay();this.status(hit?`Hover ${hit.id} · Y ${(hit.point.y??0).toFixed(1)}m`:undefined);}
   }
   private pointerUp(e:PointerEvent):void {
+    if(this.brushDragging){this.brushDragging=false;if(this.renderer.domElement.hasPointerCapture(e.pointerId))this.renderer.domElement.releasePointerCapture(e.pointerId);this.previewBrush();return;}
     if(this.gizmoDrag){const gizmo=this.gizmoDrag;this.gizmoDrag=null;this.gizmoKey='';if(this.renderer.domElement.hasPointerCapture(e.pointerId))this.renderer.domElement.releasePointerCapture(e.pointerId);if(gizmo.moved&&gizmo.command)this.preview(gizmo.command,'移动选择');return;}
     const drag=this.drag;this.drag=null;if(this.renderer.domElement.hasPointerCapture(e.pointerId))this.renderer.domElement.releasePointerCapture(e.pointerId);if(drag?.moved&&drag.command)this.preview(drag.command,'移动 / 编辑选择');
   }
@@ -255,7 +281,7 @@ export class CityMapEditor {
     try{const summary=this.kernel.preview(command,label);this.previewGhost=this.kernel.previewData(summary.id);this.renderPreviewGhosts(summary.valid);if(panel){this.pending=summary;this.require<HTMLElement>('.ce-preview').hidden=false;this.require('[data-preview-title]').textContent=label;this.require('[data-preview-report]').textContent=`+${summary.created.length} 新建 · ${summary.modified.length} 修改 · −${summary.deleted.length} 删除 · ${summary.warnings.length} 个问题`;const metrics=summary.metrics?Object.entries(summary.metrics).map(([id,value])=>`${id}: ${JSON.stringify(value)}`).join(' · '):'';this.require('[data-preview-metrics]').textContent=metrics;this.require<HTMLButtonElement>('[data-action=before]').textContent=`修复前 ghost: ${this.showBefore?'开':'关'}`;this.require<HTMLButtonElement>('[data-action=commit]').disabled=!summary.valid;this.showIssues(summary.warnings,this.require('[data-issues]'));}this.status(summary.warnings.find(w=>w.severity==='error')?.message??`${label} · ghost 预览${panel?' · 确认后提交':''}`);return summary;}catch(error){CityEditorScene.clear(this.view.ghost);this.view.clearCompare();this.previewGhost=null;if(panel){this.pending=null;this.require<HTMLElement>('.ce-preview').hidden=true;this.status(String(error));}if(propagate)throw error;return null;}
   }
   private commit(propagate=false):EditSummary|null {if(!this.pending){if(propagate)throw new Error('No pending preview');return null;}try{const summary=this.kernel.commit(this.pending.id);this.pending=null;this.previewGhost=null;this.gizmoKey='';this.view.clearCompare();this.require<HTMLElement>('.ce-preview').hidden=true;this.draft=[];this.extension=null;this.snap=null;this.dirty=true;if(this.selectedId&&!this.data.roads.some(r=>r.id===this.selectedId)&&!this.data.editing?.corridors.some(c=>c.id===this.selectedId)&&!this.data.intersections.some(j=>j.id===this.selectedId)&&!this.data.editing?.groups.some(g=>g.id===this.selectedId))this.selectedId=null;this.selectedId??=summary.created.find(id=>!!this.kernel.getRoad(id))??null;this.view.update(summary);this.populate();this.drawOverlay();this.updateUI();this.persist();return summary;}catch(error){this.status(String(error));if(propagate)throw error;return null;}}
-  private cancel():void {this.pending=null;this.previewGhost=null;this.gizmoKey='';this.gizmoDrag=null;this.draft=[];this.extension=null;this.snap=null;this.drag=null;this.kernel.cancelPreview();CityEditorScene.clear(this.view.ghost);this.view.clearCompare();this.require<HTMLElement>('.ce-preview').hidden=true;this.drawOverlay();this.status();}
+  private cancel():void {this.brushDragging=false;this.brushScope=null;CityEditorScene.clear(this.view.brushGhost);this.pending=null;this.previewGhost=null;this.gizmoKey='';this.gizmoDrag=null;this.draft=[];this.extension=null;this.snap=null;this.drag=null;this.kernel.cancelPreview();CityEditorScene.clear(this.view.ghost);this.view.clearCompare();this.require<HTMLElement>('.ce-preview').hidden=true;this.drawOverlay();this.status();}
   private persist():void {window.clearTimeout(this.persistTimer);this.persistTimer=window.setTimeout(()=>{try{localStorage.setItem(CITY_EDITOR_STORAGE_KEY,JSON.stringify(this.data));}catch{this.status('浏览器草稿存储不可用；请使用“保存”导出 JSON。');}},400);}
   private showIssues(issues:EditorIssue[],target=this.inspector):void {target.replaceChildren();if(!issues.length){target.textContent='无局部问题。';return;}for(const issue of issues){const b=document.createElement('button');b.className=`ce-issue ${issue.severity}`;b.textContent=`${issue.severity==='error'?'错误':issue.severity==='warning'?'警告':'提示'}：${issue.code} · ${issue.message}`;b.addEventListener('click',()=>{this.selectedId=issue.ids[0]??null;this.drawOverlay();this.focus();});target.append(b);}}
   private updateUI():void {
@@ -344,5 +370,5 @@ export class CityMapEditor {
     else if(e.code==='Tab'&&this.snapOptions.length){e.preventDefault();this.snapChoice=(this.snapChoice+1)%this.snapOptions.length;this.snap=this.snapOptions[this.snapChoice]!;this.drawOverlay();this.status();}
   }
   private animate=(time:number):void=>{this.frame=requestAnimationFrame(this.animate);const dt=this.lastFrame?Math.min(0.1,(time-this.lastFrame)/1000):0;this.lastFrame=time;this.controls.update();if(time-this.lastPopulate>600&&!this.drag){this.lastPopulate=time;this.populate();}this.view.updateSignals(dt);this.renderer.render(this.scene,this.camera);};
-  dispose():void {cancelAnimationFrame(this.frame);window.clearTimeout(this.persistTimer);this.observer.disconnect();window.removeEventListener('keydown',this.keyHandler);window.removeEventListener('beforeunload',this.unloadHandler);this.topControls.dispose();this.orbit.dispose();this.view.dispose();CityEditorScene.clear(this.grid);this.scene.traverse(o=>{if(o instanceof THREE.Mesh&&o.userData.editorTerrain){o.geometry.dispose();(o.material as THREE.Material).dispose();}});this.renderer.dispose();delete(window as unknown as {cityEditor?:unknown}).cityEditor;this.ui.remove();}
+  dispose():void {cancelAnimationFrame(this.frame);this.brushPanel.dispose();window.clearTimeout(this.persistTimer);this.observer.disconnect();window.removeEventListener('keydown',this.keyHandler);window.removeEventListener('beforeunload',this.unloadHandler);this.topControls.dispose();this.orbit.dispose();this.view.dispose();CityEditorScene.clear(this.grid);this.scene.traverse(o=>{if(o instanceof THREE.Mesh&&o.userData.editorTerrain){o.geometry.dispose();(o.material as THREE.Material).dispose();}});this.renderer.dispose();delete(window as unknown as {cityEditor?:unknown}).cityEditor;this.ui.remove();}
 }

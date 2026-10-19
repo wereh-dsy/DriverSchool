@@ -1,0 +1,425 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "industrial",
+    "objectIds": [
+      "landscape-industrial-2580",
+      "landscape-industrial-2581",
+      "v61-port-warehouse",
+      "v8-industrial-tonggang-2"
+    ],
+    "bbox": {
+      "minX": 1472.7641464634585,
+      "maxX": 1791.5993013984444,
+      "minZ": 2871.436382742587,
+      "maxZ": 2881
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-industrial-2580",
+      "state": "INVALID",
+      "position": {
+        "x": 1476.8039424400329,
+        "y": -0.04,
+        "z": 2823.9482232561936
+      },
+      "rotation": -1.6334059001864412,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 168.72762673567442,
+        "lateralOffset": -0.8497566845378072,
+        "verticalOffset": -2.786216718744444,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5637158312991744,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "building.intersectsRoad::landscape-industrial-2580::",
+          "code": "building.intersectsRoad",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2580",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "distance": 0.8497566845378071,
+            "roadHalfWidth": 7.5,
+            "objectRadius": 38.381880902276855
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "landscape-industrial-2580",
+            "roadId": "v4-industrial-split-c91",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.intersectsRoadStructure::landscape-industrial-2580::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2580",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "deckY": 2.746216718744444,
+            "objectTop": 20.024000000000004
+          },
+          "approximate": true
+        },
+        {
+          "id": "building.intersectsStructure::landscape-industrial-2580::",
+          "code": "building.intersectsStructure",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2580",
+          "message": "Object intersects an elevated deck envelope",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "deckY": 2.746216718744444
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.tooCloseToObject:landscape-industrial-2580",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2580",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v6-lamps-2874",
+            "actual": 27.97466461488447,
+            "required": 44.14662873114311
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-industrial-2580",
+          "properties": {
+            "position": {
+              "x": 1476.8039424400329,
+              "y": -0.04,
+              "z": 2823.9482232561936
+            },
+            "rotation": -1.6334059001864412
+          }
+        }
+      ],
+      "sourceId": "landscape-industrial-2580",
+      "heightMode": "GROUND",
+      "autoMove": 48.58336721509845
+    },
+    {
+      "id": "landscape-industrial-2581",
+      "state": "INVALID",
+      "position": {
+        "x": 1792.579177859305,
+        "y": -0.04,
+        "z": 2843.7446498538798
+      },
+      "rotation": -1.6334059001864412,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 484.3547794041507,
+        "lateralOffset": 21.18200013430604,
+        "verticalOffset": -1.2308945826132152,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5637158312991744,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "building.intersectsRoad::landscape-industrial-2581::",
+          "code": "building.intersectsRoad",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2581",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "distance": 21.182000134306037,
+            "roadHalfWidth": 7.5,
+            "objectRadius": 38.381880902276855
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "landscape-industrial-2581",
+            "roadId": "v4-industrial-split-c91",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.intersectsRoadStructure::landscape-industrial-2581::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2581",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "deckY": 1.1908945826132151,
+            "objectTop": 21.848000000000006
+          },
+          "approximate": true
+        },
+        {
+          "id": "building.intersectsStructure::landscape-industrial-2581::",
+          "code": "building.intersectsStructure",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2581",
+          "message": "Object intersects an elevated deck envelope",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "deckY": 1.1908945826132151
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "building.intersectsJunction::landscape-industrial-2581::",
+          "code": "building.intersectsJunction",
+          "severity": "warning",
+          "objectId": "landscape-industrial-2581",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-231"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-industrial-2581",
+          "properties": {
+            "position": {
+              "x": 1792.579177859305,
+              "y": -0.04,
+              "z": 2843.7446498538798
+            },
+            "rotation": -1.6334059001864412
+          }
+        }
+      ],
+      "sourceId": "landscape-industrial-2581",
+      "heightMode": "GROUND",
+      "autoMove": 31.643278078431514
+    },
+    {
+      "id": "v61-port-warehouse",
+      "state": "INVALID",
+      "position": {
+        "x": 1707.0268228295613,
+        "y": -0.04,
+        "z": 2838.3812434602255
+      },
+      "rotation": -1.6334059001864412,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 398.84254413887504,
+        "lateralOffset": 15.212980179995924,
+        "verticalOffset": -1.6522749083985648,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5637158312991744,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "building.intersectsRoad::v61-port-warehouse::",
+          "code": "building.intersectsRoad",
+          "severity": "warning",
+          "objectId": "v61-port-warehouse",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "distance": 15.21298017999592,
+            "roadHalfWidth": 7.5,
+            "objectRadius": 38.381880902276855
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v61-port-warehouse",
+            "roadId": "v4-industrial-split-c91",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.intersectsRoadStructure::v61-port-warehouse::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "v61-port-warehouse",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "deckY": 1.6122749083985648,
+            "objectTop": 11.360000000000001
+          },
+          "approximate": true
+        },
+        {
+          "id": "building.intersectsStructure::v61-port-warehouse::",
+          "code": "building.intersectsStructure",
+          "severity": "warning",
+          "objectId": "v61-port-warehouse",
+          "message": "Object intersects an elevated deck envelope",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "deckY": 1.6122749083985648
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-port-warehouse",
+          "properties": {
+            "position": {
+              "x": 1707.0268228295613,
+              "y": -0.04,
+              "z": 2838.3812434602255
+            },
+            "rotation": -1.6334059001864412
+          }
+        }
+      ],
+      "sourceId": "v61-port-warehouse",
+      "heightMode": "GROUND",
+      "autoMove": 41.31453288832406
+    },
+    {
+      "id": "v8-industrial-tonggang-2",
+      "state": "INVALID",
+      "position": {
+        "x": 1604.2096374873329,
+        "y": -0.04,
+        "z": 2812.851554696863
+      },
+      "rotation": -1.6334059001864412,
+      "anchor": {
+        "anchorRoadId": "v4-industrial-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 296.208697410189,
+        "lateralOffset": -11.04405917566802,
+        "verticalOffset": -2.158025736183313,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5637158312991744,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "building.intersectsRoad::v8-industrial-tonggang-2::",
+          "code": "building.intersectsRoad",
+          "severity": "warning",
+          "objectId": "v8-industrial-tonggang-2",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "distance": 11.044059175668018,
+            "roadHalfWidth": 7.5,
+            "objectRadius": 53.08843776414335
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v8-industrial-tonggang-2",
+            "roadId": "v4-industrial-split-c91",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.intersectsRoadStructure::v8-industrial-tonggang-2::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "v8-industrial-tonggang-2",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "deckY": 2.118025736183313,
+            "objectTop": 9.080000000000002
+          },
+          "approximate": true
+        },
+        {
+          "id": "building.intersectsStructure::v8-industrial-tonggang-2::",
+          "code": "building.intersectsStructure",
+          "severity": "warning",
+          "objectId": "v8-industrial-tonggang-2",
+          "message": "Object intersects an elevated deck envelope",
+          "metrics": {
+            "roadId": "v4-industrial-split-c91",
+            "deckY": 2.118025736183313
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:v8-industrial-tonggang-2",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v8-industrial-tonggang-2",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 60
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-industrial-tonggang-2",
+          "properties": {
+            "position": {
+              "x": 1604.2096374873329,
+              "y": -0.04,
+              "z": 2812.851554696863
+            },
+            "rotation": -1.6334059001864412
+          }
+        }
+      ],
+      "sourceId": "v8-industrial-tonggang-2",
+      "heightMode": "GROUND",
+      "autoMove": 67.28028206245243
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 4,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 4,
+    "skipped": 4,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

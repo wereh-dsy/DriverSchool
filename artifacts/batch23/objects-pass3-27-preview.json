@@ -1,0 +1,130 @@
+{
+  "inspection": {
+    "key": "-4:-1:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:regional:v3:airport-distributor:S-to-W-turbine:false:speed:65"
+      ],
+      "bbox": {
+        "minX": -7427.733332191953,
+        "maxX": -7425.733332191953,
+        "minZ": -90.8679334834161,
+        "maxZ": -88.8679334834161
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:v3:airport-distributor:S-to-W-turbine:false:speed:65",
+      "properties": {
+        "position": {
+          "x": -7423.895303063173,
+          "y": 41.89040724001315,
+          "z": -90.85125623528093
+        },
+        "heading": 0.33353628779392397,
+        "roadId": "regional:v3:airport-distributor:S-to-W-turbine",
+        "stationMetres": 52.999999999999986
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-27",
+    "created": [],
+    "modified": [
+      "road-safety:regional:v3:airport-distributor:S-to-W-turbine:false:speed:65"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -7466.733332191953,
+      "maxX": -7386.733332191953,
+      "minZ": -129.8679334834161,
+      "maxZ": -49.867933483415996
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:regional:v3:airport-distributor:S-to-W-turbine:false:speed:65",
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494",
+          "regional:v3:airport-distributor:S-to-W-turbine",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split",
+          "regional:v3:airport-distributor:E-to-S-turbine",
+          "regional:v3:S36-extension54:out:9:revision435-split"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:S-to-W-turbine",
+          "regional:v3:S89-extension2:in:4:revision423"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split",
+          "regional:v3:airport-distributor:S-to-W-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:E-to-S-turbine",
+          "regional:v3:S89-extension2:in:3:revision403:lane4506-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:v3:airport-distributor:S-to-W-turbine:false:speed:65",
+          "regional:v3:airport-distributor:S-to-W-turbine"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      }
+    ],
+    "valid": true
+  }
+}

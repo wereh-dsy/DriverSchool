@@ -1,0 +1,209 @@
+{
+  "inspection": {
+    "key": "0:-1:noise_barrier:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "noise_barrier",
+      "objectIds": [
+        "landscape-noise_barrier-303",
+        "landscape-noise_barrier-652",
+        "landscape-noise_barrier-656",
+        "landscape-noise_barrier-660",
+        "landscape-noise_barrier-664",
+        "landscape-noise_barrier-718"
+      ],
+      "bbox": {
+        "minX": 624,
+        "maxX": 1207.5628365665616,
+        "minZ": -1984.1416979705555,
+        "maxZ": -1737.994029473437
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 6,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 5,
+      "skipped": 5,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "landscape-noise_barrier-660",
+        "issues": [
+          {
+            "id": "object.floating:landscape-noise_barrier-660",
+            "code": "object.floating",
+            "severity": "warning",
+            "objectId": "landscape-noise_barrier-660",
+            "message": "Base differs from selected support surface",
+            "metrics": {
+              "actual": 8,
+              "expected": -0.04,
+              "delta": 8.04
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "landscape-noise_barrier-664",
+        "issues": [
+          {
+            "id": "object.floating:landscape-noise_barrier-664",
+            "code": "object.floating",
+            "severity": "warning",
+            "objectId": "landscape-noise_barrier-664",
+            "message": "Base differs from selected support surface",
+            "metrics": {
+              "actual": 8,
+              "expected": -0.04,
+              "delta": 8.04
+            },
+            "approximate": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-noise_barrier-303",
+      "properties": {
+        "position": {
+          "x": 621.3207377959758,
+          "y": -0.04,
+          "z": -1882.5198725357304
+        },
+        "rotation": 2.985332299983206
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-noise_barrier-652",
+      "properties": {
+        "position": {
+          "x": 1189.3472561265914,
+          "y": -0.04,
+          "z": -1823.0484773615462
+        },
+        "rotation": -2.0943951023854153
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-noise_barrier-656",
+      "properties": {
+        "position": {
+          "x": 1126.698765594564,
+          "y": -0.04,
+          "z": -1859.218600233886
+        },
+        "rotation": -2.0943951023854153
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-noise_barrier-718",
+      "properties": {
+        "position": {
+          "x": 1202.8499064857294,
+          "y": -0.04,
+          "z": -1735.5630301195824
+        },
+        "rotation": 2.465000945250645
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-2",
+    "revision": 1,
+    "label": "objects-7",
+    "created": [],
+    "modified": [
+      "landscape-noise_barrier-303",
+      "landscape-noise_barrier-652",
+      "landscape-noise_barrier-656",
+      "landscape-noise_barrier-718"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 581.3207377959758,
+      "maxX": 1246.5628365665616,
+      "minZ": -1940.5948744495504,
+      "maxZ": -1695.5630301195824
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "landscape-noise_barrier-303",
+          "landscape-noise_barrier-652",
+          "landscape-noise_barrier-656",
+          "landscape-noise_barrier-718",
+          "ring-ccw-2-split-split-split-split-2-split-section",
+          "access-finance-north",
+          "ring-ccw-2-split-split-split-split-2",
+          "ring-cw-1-split-3-split-split",
+          "v8-ring-north:off--1",
+          "v91-ring-north-outer-cd-section-2",
+          "v91-ring-north-outer-junction",
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-on",
+          "v8-ring-north-cross",
+          "v91-ring-north-inner-junction",
+          "v91-ring-north-outer-cd-section"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-1-split-3-split-split",
+          "v8-ring-north:off--1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-1-split-3-split-split",
+          "v8-ring-north:off--1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ring-north-outer-on",
+          "ring-ccw-2-split-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

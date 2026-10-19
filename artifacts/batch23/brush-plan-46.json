@@ -1,0 +1,581 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight",
+    "objectIds": [
+      "v6-lamps-495",
+      "v6-lamps-511",
+      "v6-lamps-514",
+      "v6-lamps-515",
+      "v6-lamps-516",
+      "v6-lamps-730",
+      "v6-lamps-741",
+      "v6-lamps-1917",
+      "v6-lamps-2453",
+      "v6-lamps-2479"
+    ],
+    "bbox": {
+      "minX": 77.03661240469093,
+      "maxX": 1717.0308704711495,
+      "minZ": -1886.129505634098,
+      "maxZ": -963.2360373890795
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-495",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 621.7676581370133,
+        "y": -0.04,
+        "z": -1825.7839981621246
+      },
+      "rotation": 2.976809290551276,
+      "anchor": {
+        "anchorRoadId": "access-finance-north",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 386.3174102896558,
+        "lateralOffset": 9.700000000000044,
+        "verticalOffset": -0.02355924066529918,
+        "facingDirection": "forward",
+        "expectedHeading": 2.9773228950774553,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-495",
+          "properties": {
+            "position": {
+              "x": 621.7676581370133,
+              "y": -0.04,
+              "z": -1825.7839981621246
+            },
+            "rotation": 2.976809290551276
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-495",
+      "heightMode": "GROUND",
+      "autoMove": 6.763333732356063
+    },
+    {
+      "id": "v6-lamps-511",
+      "state": "VALID",
+      "position": {
+        "x": 1301.0788810823958,
+        "y": -0.04,
+        "z": -1634.2906758198712
+      },
+      "rotation": 0.9588509925012342,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 15.787205930033302,
+        "lateralOffset": 9.544705627484799,
+        "verticalOffset": -8.04,
+        "facingDirection": "forward",
+        "expectedHeading": 0.9588509925012342,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-511",
+          "properties": {
+            "position": {
+              "x": 1301.0788810823958,
+              "y": -0.04,
+              "z": -1634.2906758198712
+            },
+            "rotation": 0.9588509925012342
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-511",
+      "heightMode": "GROUND",
+      "autoMove": 5.2339823297154195
+    },
+    {
+      "id": "v6-lamps-514",
+      "state": "VALID",
+      "position": {
+        "x": 1036.4144304443014,
+        "y": -0.04,
+        "z": -1814.6913520483672
+      },
+      "rotation": 1.093945248701177,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split-split-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 337.9367193233571,
+        "lateralOffset": -8.544705627484708,
+        "verticalOffset": -8.04,
+        "facingDirection": "forward",
+        "expectedHeading": 1.093945248701177,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-514",
+          "properties": {
+            "position": {
+              "x": 1036.4144304443014,
+              "y": -0.04,
+              "z": -1814.6913520483672
+            },
+            "rotation": 1.093945248701177
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-514",
+      "heightMode": "GROUND",
+      "autoMove": 2.9206983787356817
+    },
+    {
+      "id": "v6-lamps-515",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1206.4409048623475,
+        "y": -0.04,
+        "z": -1706.6538300501902
+      },
+      "rotation": 2.465000945250645,
+      "anchor": {
+        "anchorRoadId": "v8-ring-north-cross",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 58.561590320817224,
+        "lateralOffset": -5.700000000000083,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": 2.465000945250645,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-515",
+          "properties": {
+            "position": {
+              "x": 1206.4409048623475,
+              "y": -0.04,
+              "z": -1706.6538300501902
+            },
+            "rotation": 2.465000945250645
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-515",
+      "heightMode": "GROUND",
+      "autoMove": 17.039022522968075
+    },
+    {
+      "id": "v6-lamps-516",
+      "state": "INVALID",
+      "position": {
+        "x": 1137.7837071575896,
+        "y": -0.04,
+        "z": -1829.9193556855346
+      },
+      "rotation": -2.0943951023854153,
+      "anchor": {
+        "anchorRoadId": "v91-ring-north-outer-cd-section-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 28.750720515782586,
+        "lateralOffset": -5.76970562748483,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -2.0943951023854153,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:v6-lamps-516",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-lamps-516",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-516",
+          "properties": {
+            "position": {
+              "x": 1137.7837071575896,
+              "y": -0.04,
+              "z": -1829.9193556855346
+            },
+            "rotation": -2.0943951023854153
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-516",
+      "heightMode": "GROUND",
+      "autoMove": 64.27511423369056
+    },
+    {
+      "id": "v6-lamps-730",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 962.5513192876945,
+        "y": -0.04,
+        "z": -1821.0691818758667
+      },
+      "rotation": -1.7705431953383235,
+      "anchor": {
+        "anchorRoadId": "v8-ring-north:off--1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 37.783659969016895,
+        "lateralOffset": -8.199999999999964,
+        "verticalOffset": -6.527947952371544,
+        "facingDirection": "forward",
+        "expectedHeading": -1.7705431953383235,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-730",
+          "properties": {
+            "position": {
+              "x": 962.5513192876945,
+              "y": -0.04,
+              "z": -1821.0691818758667
+            },
+            "rotation": -1.7705431953383235
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-730",
+      "heightMode": "GROUND",
+      "autoMove": 1.843388184166297
+    },
+    {
+      "id": "v6-lamps-741",
+      "state": "VALID",
+      "position": {
+        "x": 1716.7201116697292,
+        "y": -0.04,
+        "z": -1475.909840464284
+      },
+      "rotation": 1.4826803621180362,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 1312.528917542449,
+        "lateralOffset": 9.544705627484824,
+        "verticalOffset": -8.04,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4826803621180362,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-741",
+          "properties": {
+            "position": {
+              "x": 1716.7201116697292,
+              "y": -0.04,
+              "z": -1475.909840464284
+            },
+            "rotation": 1.4826803621180362
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-741",
+      "heightMode": "GROUND",
+      "autoMove": 7.834414342261463
+    },
+    {
+      "id": "v6-lamps-1917",
+      "state": "VALID",
+      "position": {
+        "x": 1176.1517621112823,
+        "y": -0.04,
+        "z": -990.3303028350724
+      },
+      "rotation": -1.5694733287254201,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-3-split-split-2-split-m91-section-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 295.4428829792515,
+        "lateralOffset": 9.669705627484744,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5694733287254201,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-1917",
+          "properties": {
+            "position": {
+              "x": 1176.1517621112823,
+              "y": -0.04,
+              "z": -990.3303028350724
+            },
+            "rotation": -1.5694733287254201
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-1917",
+      "heightMode": "GROUND",
+      "autoMove": 13.306140584577227
+    },
+    {
+      "id": "v6-lamps-2453",
+      "state": "VALID",
+      "position": {
+        "x": 78.03661240469093,
+        "y": -0.04,
+        "z": -990.3302943725153
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-3-split-split-2-split-2-split-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 23.23661240469092,
+        "lateralOffset": 9.669705627484745,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2453",
+          "properties": {
+            "position": {
+              "x": 78.03661240469093,
+              "y": -0.04,
+              "z": -990.3302943725153
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2453",
+      "heightMode": "GROUND",
+      "autoMove": 15.312694441199682
+    },
+    {
+      "id": "v6-lamps-2479",
+      "state": "VALID",
+      "position": {
+        "x": 875.3330470035515,
+        "y": -0.04,
+        "z": -963.0411165241745
+      },
+      "rotation": 2.8702551331261614,
+      "anchor": {
+        "anchorRoadId": "access-central-north-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 4.838259183247394,
+        "lateralOffset": -9.369705627484773,
+        "verticalOffset": -0.028827833176877638,
+        "facingDirection": "forward",
+        "expectedHeading": 2.8702551331261614,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2479",
+          "properties": {
+            "position": {
+              "x": 875.3330470035515,
+              "y": -0.04,
+              "z": -963.0411165241745
+            },
+            "rotation": 2.8702551331261614
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2479",
+      "heightMode": "GROUND",
+      "autoMove": 4.4614122203034094
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-495",
+      "properties": {
+        "position": {
+          "x": 621.7676581370133,
+          "y": -0.04,
+          "z": -1825.7839981621246
+        },
+        "rotation": 2.976809290551276
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-511",
+      "properties": {
+        "position": {
+          "x": 1301.0788810823958,
+          "y": -0.04,
+          "z": -1634.2906758198712
+        },
+        "rotation": 0.9588509925012342
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-514",
+      "properties": {
+        "position": {
+          "x": 1036.4144304443014,
+          "y": -0.04,
+          "z": -1814.6913520483672
+        },
+        "rotation": 1.093945248701177
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-515",
+      "properties": {
+        "position": {
+          "x": 1206.4409048623475,
+          "y": -0.04,
+          "z": -1706.6538300501902
+        },
+        "rotation": 2.465000945250645
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-730",
+      "properties": {
+        "position": {
+          "x": 962.5513192876945,
+          "y": -0.04,
+          "z": -1821.0691818758667
+        },
+        "rotation": -1.7705431953383235
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-741",
+      "properties": {
+        "position": {
+          "x": 1716.7201116697292,
+          "y": -0.04,
+          "z": -1475.909840464284
+        },
+        "rotation": 1.4826803621180362
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1917",
+      "properties": {
+        "position": {
+          "x": 1176.1517621112823,
+          "y": -0.04,
+          "z": -990.3303028350724
+        },
+        "rotation": -1.5694733287254201
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2453",
+      "properties": {
+        "position": {
+          "x": 78.03661240469093,
+          "y": -0.04,
+          "z": -990.3302943725153
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2479",
+      "properties": {
+        "position": {
+          "x": 875.3330470035515,
+          "y": -0.04,
+          "z": -963.0411165241745
+        },
+        "rotation": 2.8702551331261614
+      }
+    }
+  ],
+  "stats": {
+    "planned": 10,
+    "valid": 6,
+    "adjusted": 3,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 9,
+    "removed": 0
+  },
+  "valid": true
+}

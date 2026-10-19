@@ -1,0 +1,88 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "stadium",
+    "objectIds": [
+      "v61-stadium"
+    ],
+    "bbox": {
+      "minX": 2791.450307939588,
+      "maxX": 2793.450307939588,
+      "minZ": 1664.5223895466734,
+      "maxZ": 1666.5223895466734
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v61-stadium",
+      "state": "INVALID",
+      "position": {
+        "x": 2729.6385685783353,
+        "y": -0.04,
+        "z": 1626.4050946075406
+      },
+      "rotation": 2.584598219787173,
+      "anchor": {
+        "anchorRoadId": "v61-sports-road-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 367.51942292058305,
+        "lateralOffset": 89.64874144447494,
+        "verticalOffset": -0.029903985408591783,
+        "facingDirection": "forward",
+        "expectedHeading": 2.584598219787173,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:v61-stadium",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v61-stadium",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 60
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-stadium",
+          "properties": {
+            "position": {
+              "x": 2729.6385685783353,
+              "y": -0.04,
+              "z": 1626.4050946075406
+            },
+            "rotation": 2.584598219787173
+          }
+        }
+      ],
+      "sourceId": "v61-stadium",
+      "heightMode": "GROUND",
+      "autoMove": 73.99647940909801
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

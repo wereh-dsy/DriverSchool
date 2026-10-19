@@ -1,0 +1,210 @@
+{
+  "inspection": {
+    "key": "-1:1:industrial:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "industrial",
+      "objectIds": [
+        "v6-industrial-250",
+        "v6-industrial-252",
+        "v6-industrial-262",
+        "regional:warehouse:-1320:2740"
+      ],
+      "bbox": {
+        "minX": -1319.8175153663797,
+        "maxX": -241.16116829852137,
+        "minZ": 2063.6536696115677,
+        "maxZ": 2789.71315894472
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 4,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 2,
+      "skipped": 2,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "regional:warehouse:-1320:2740",
+        "issues": [
+          {
+            "id": "building.intersectsRoad::regional:warehouse:-1320:2740::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "regional:warehouse:-1320:2740",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-nancheng-ring-split-split",
+              "distance": 0.2925904543992025,
+              "roadHalfWidth": 3.2,
+              "objectRadius": 56.021204798841524
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "regional:warehouse:-1320:2740",
+              "roadId": "v8-nancheng-ring-split-split",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "object.intersectsRoadStructure::regional:warehouse:-1320:2740::",
+            "code": "object.intersectsRoadStructure",
+            "severity": "warning",
+            "objectId": "regional:warehouse:-1320:2740",
+            "message": "Object crosses elevated deck envelope",
+            "metrics": {
+              "roadId": "v8-nancheng-ring-split-split",
+              "deckY": 1.2287341142680015,
+              "objectTop": 11.360000000000001
+            },
+            "approximate": true
+          },
+          {
+            "id": "building.intersectsStructure::regional:warehouse:-1320:2740::",
+            "code": "building.intersectsStructure",
+            "severity": "warning",
+            "objectId": "regional:warehouse:-1320:2740",
+            "message": "Object intersects an elevated deck envelope",
+            "metrics": {
+              "roadId": "v8-nancheng-ring-split-split",
+              "deckY": 1.2287341142680015
+            },
+            "approximate": true,
+            "reviewRequired": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-industrial-250",
+      "properties": {
+        "position": {
+          "x": -257.8166344273775,
+          "y": -0.04,
+          "z": 2043.5488444936811
+        },
+        "rotation": 1.7719829101291131
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-industrial-252",
+      "properties": {
+        "position": {
+          "x": -1322.9877155940214,
+          "y": 0.016034314560647807,
+          "z": 2461.3879185325986
+        },
+        "rotation": -1.3877474428943104
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-industrial-262",
+      "properties": {
+        "position": {
+          "x": -267.3318702839072,
+          "y": -0.04,
+          "z": 2519.2087448500383
+        },
+        "rotation": -1.563484381268377
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-20",
+    "revision": 19,
+    "label": "objects-27",
+    "created": [],
+    "modified": [
+      "v6-industrial-250",
+      "v6-industrial-252",
+      "v6-industrial-262"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1362.9877155940214,
+      "maxX": -202.16116829852137,
+      "minZ": 2003.5488444936811,
+      "maxZ": 2584.1359992141543
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-industrial-250",
+          "v6-industrial-252",
+          "v6-industrial-262",
+          "system-south:N-to-W-right",
+          "system-south:S-to-W-semi",
+          "v4-industrial-split-2",
+          "v8-industrial-west-split",
+          "urban-junction-221",
+          "urban-junction-219"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ring-cw-3-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-W-right",
+          "ring-cw-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-W-right",
+          "ns-sb-split-split-split-split-split-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v6-industrial-262"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

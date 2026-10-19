@@ -1,0 +1,171 @@
+{
+  "inspection": {
+    "key": "0:1:streetlight_small:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_small",
+      "objectIds": [
+        "v8-lamp-v8-port-works-194",
+        "v8-lamp-v8-ring-south-cross-split-2-116",
+        "v8-lamp-v8-ring-south-cross-split-2-194"
+      ],
+      "bbox": {
+        "minX": 811.0408168172357,
+        "maxX": 1058.000000000015,
+        "minZ": 2142.900988321155,
+        "maxZ": 2310.8046109089128
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 1,
+      "adjusted": 2,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 3,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-port-works-194",
+      "properties": {
+        "position": {
+          "x": 810.2899381693302,
+          "y": -0.04,
+          "z": 2308.470476424962
+        },
+        "rotation": 2.490468340037226
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-ring-south-cross-split-2-116",
+      "properties": {
+        "position": {
+          "x": 1059.7,
+          "y": -0.04,
+          "z": 2221.9009883211547
+        },
+        "rotation": 0
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-ring-south-cross-split-2-194",
+      "properties": {
+        "position": {
+          "x": 1059.7000000000005,
+          "y": -0.04,
+          "z": 2143.900988321155
+        },
+        "rotation": -9.369396125968148e-15
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-61",
+    "created": [],
+    "modified": [
+      "v8-lamp-v8-port-works-194",
+      "v8-lamp-v8-ring-south-cross-split-2-116",
+      "v8-lamp-v8-ring-south-cross-split-2-194"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 770.2899381693302,
+      "maxX": 1099.7000000000005,
+      "minZ": 2103.900988321155,
+      "maxZ": 2349.8046109089128
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v8-lamp-v8-port-works-194",
+          "v8-lamp-v8-ring-south-cross-split-2-116",
+          "v8-lamp-v8-ring-south-cross-split-2-194",
+          "v8-port-works-c91",
+          "v91-ring-south-inner-on",
+          "v8-port-south-m91",
+          "urban-junction-227",
+          "v91-ring-south-cross-section",
+          "v91-ring-south-inner-cd-section",
+          "v91-ring-south-inner-cd-section-2",
+          "v91-ring-south-inner-junction",
+          "v6-logistics-one-split-2-m91",
+          "v91-ring-south-cross"
+        ],
+        "message": "intersections[1]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v8-lamp-v8-port-works-194",
+          "v8-lamp-v8-ring-south-cross-split-2-116",
+          "v8-lamp-v8-ring-south-cross-split-2-194",
+          "v8-port-works-c91",
+          "v91-ring-south-inner-on",
+          "v8-port-south-m91",
+          "urban-junction-227",
+          "v91-ring-south-cross-section",
+          "v91-ring-south-inner-cd-section",
+          "v91-ring-south-inner-cd-section-2",
+          "v91-ring-south-inner-junction",
+          "v6-logistics-one-split-2-m91",
+          "v91-ring-south-cross"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ring-south-inner-on",
+          "ring-cw-2-split-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-on",
+          "v91-ring-south-inner-cd-section-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-lamp-v8-ring-south-cross-split-2-116"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v8-lamp-v8-ring-south-cross-split-2-194"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

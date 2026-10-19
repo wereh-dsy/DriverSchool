@@ -1,0 +1,134 @@
+{
+  "inspection": {
+    "key": "-1:-1:noise_barrier:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "noise_barrier",
+      "objectIds": [
+        "landscape-noise_barrier-472"
+      ],
+      "bbox": {
+        "minX": -292.42857142857144,
+        "maxX": -290.42857142857144,
+        "minZ": -1923.009429475426,
+        "maxZ": -1921.009429475426
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-noise_barrier-472",
+      "properties": {
+        "position": {
+          "x": -288.902165372532,
+          "y": -0.04,
+          "z": -1903.2369836388339
+        },
+        "rotation": 1.7045730879664454
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-3",
+    "revision": 2,
+    "label": "objects-8",
+    "created": [],
+    "modified": [
+      "landscape-noise_barrier-472"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -331.42857142857144,
+      "maxX": -248.902165372532,
+      "minZ": -1962.009429475426,
+      "maxZ": -1863.2369836388339
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "landscape-noise_barrier-472",
+          "system-north:S-to-W-star",
+          "system-north:W-to-N-star",
+          "ring-ccw-3-split-3-split-3",
+          "ring-cw-0-split-split-split-2-split"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-north:S-to-W-star",
+          "system-north:S-to-E-right"
+        ],
+        "message": "Crossing clearance 4.8m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:S-to-W-star",
+          "ns-nb-split-split-split-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:W-to-N-star",
+          "ns-nb-split-split-split-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-3-split-3-split-3",
+          "system-north:S-to-W-star"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-0-split-split-split-2-split",
+          "system-north:W-to-N-star"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.unsupportedOnDeck",
+        "ids": [
+          "landscape-noise_barrier-472"
+        ],
+        "message": "Road-level placement lies outside the available deck/sidewalk envelope"
+      }
+    ],
+    "valid": true
+  }
+}

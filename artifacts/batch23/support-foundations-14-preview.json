@@ -1,0 +1,163 @@
+{
+  "inspection": {
+    "key": "0:-2:guardrail",
+    "request": {
+      "mode": "REPAIR",
+      "type": "guardrail",
+      "bbox": {
+        "minX": 1365.126005692724,
+        "maxX": 1367.126005692724,
+        "minZ": -2663.988773781212,
+        "maxZ": -2661.988773781212
+      },
+      "objectIds": [
+        "v61-research-end-rail"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "guardrail",
+        "bbox": {
+          "minX": 1365.126005692724,
+          "maxX": 1367.126005692724,
+          "minZ": -2663.988773781212,
+          "maxZ": -2661.988773781212
+        },
+        "objectIds": [
+          "v61-research-end-rail"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "v61-research-end-rail",
+          "state": "VALID",
+          "position": {
+            "x": 1361.3811586001907,
+            "y": 3.8907066125388483,
+            "z": -2679.1739044229907
+          },
+          "rotation": -2.219560052653154,
+          "anchor": {
+            "anchorRoadId": "v61-university-north-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 509.4877925166196,
+            "lateralOffset": -10.200999900019923,
+            "verticalOffset": 3.9147066125388483,
+            "facingDirection": "forward",
+            "expectedHeading": -2.219560052653154,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v61-research-end-rail",
+              "properties": {
+                "position": {
+                  "x": 1361.3811586001907,
+                  "y": 3.8907066125388483,
+                  "z": -2679.1739044229907
+                },
+                "rotation": -2.219560052653154
+              }
+            }
+          ],
+          "sourceId": "v61-research-end-rail",
+          "heightMode": "GROUND",
+          "autoMove": 17.314645699096076
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "v61-research-end-rail",
+          "properties": {
+            "position": {
+              "x": 1361.3811586001907,
+              "y": 3.8907066125388483,
+              "z": -2679.1739044229907
+            },
+            "rotation": -2.219560052653154
+          }
+        }
+      ],
+      "stats": {
+        "planned": 1,
+        "valid": 1,
+        "adjusted": 0,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 1,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v61-research-end-rail",
+      "properties": {
+        "position": {
+          "x": 1361.3811586001907,
+          "y": 3.8907066125388483,
+          "z": -2679.1739044229907
+        },
+        "rotation": -2.219560052653154
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-14",
+    "created": [],
+    "modified": [
+      "v61-research-end-rail"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 1321.3811586001907,
+      "maxX": 1406.126005692724,
+      "minZ": -2719.1739044229907,
+      "maxZ": -2622.988773781212
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "port.unused",
+        "ids": [
+          "v61-research-end-rail",
+          "v61-university-north-split-split"
+        ],
+        "message": "connectionPorts.v61-research-end: 科研园尽端（封闭）: external endpoint reserved for future continuation."
+      },
+      {
+        "severity": "warning",
+        "code": "object.floating",
+        "ids": [
+          "v61-research-end-rail"
+        ],
+        "message": "Base differs from selected support surface"
+      }
+    ],
+    "valid": true
+  }
+}

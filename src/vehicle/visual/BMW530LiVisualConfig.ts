@@ -36,6 +36,6 @@ export const BMW_530LI_VISUAL_CONFIG: VehicleVisualConfig = {
     turnLensIntensity: 3.5, turnColor: 0xff850c },
   lampLayout: { frontHeight: .807, frontIndicatorHeight: .862, frontLateral: .657,
     rearTailHeight: .88, rearBrakeHeight: .843, rearIndicatorHeight: .81, rearReverseHeight: .796, mirrorRepeater: true },
-  interiorAmbientLighting: { color: 0xc9a780, dayIntensity: .004, nightIntensity: .22,
-    fadeResponse: 5, footwellIntensity: .045, dashboardFillIntensity: .025, steeringBadge: 'roundel' },
+  interiorAmbientLighting: { color: 0xc9a780, dayIntensity: .004, nightIntensity: .23,
+    fadeResponse: 5, footwellIntensity: .040, dashboardFillIntensity: .028, steeringBadge: 'roundel' },
 };

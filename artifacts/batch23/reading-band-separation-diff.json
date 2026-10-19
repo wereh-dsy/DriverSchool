@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "signs": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "before": {
+          "id": "regional:v2:northwest:S-to-E-right:confirm",
+          "type": "RAMP_CONFIRMATION",
+          "template": "dual-post",
+          "size": "medium",
+          "roadId": "regional:v2:northwest:S-to-E-right",
+          "position": {
+            "x": 4661.352125798168,
+            "y": 62.29413927049389,
+            "z": -5394.272410917625
+          },
+          "heading": 1.9358170636615435,
+          "laneDirection": "forward",
+          "destinations": [
+            {
+              "roadNameId": "G42",
+              "directionId": "G42:forward",
+              "arrow": "straight"
+            }
+          ],
+          "language": "zh-CN",
+          "stationMetres": 140,
+          "incomingRoadId": "regional:v2:northwest:S-to-E-right",
+          "highwayLayout": true
+        },
+        "after": {
+          "id": "regional:v2:northwest:S-to-E-right:confirm",
+          "type": "RAMP_CONFIRMATION",
+          "template": "dual-post",
+          "size": "medium",
+          "roadId": "regional:v2:northwest:S-to-E-right",
+          "position": {
+            "x": 4652.093634355841,
+            "y": 62.34587915756252,
+            "z": -5390.840695646828
+          },
+          "heading": 1.9200071622962325,
+          "laneDirection": "forward",
+          "destinations": [
+            {
+              "roadNameId": "G42",
+              "directionId": "G42:forward",
+              "arrow": "straight"
+            }
+          ],
+          "language": "zh-CN",
+          "stationMetres": 150.0000000000001,
+          "incomingRoadId": "regional:v2:northwest:S-to-E-right",
+          "highwayLayout": true
+        }
+      },
+      {
+        "before": {
+          "id": "regional:v3:north-river:N-to-E-turbine:confirm",
+          "type": "RAMP_CONFIRMATION",
+          "template": "dual-post",
+          "size": "medium",
+          "roadId": "regional:v3:north-river:N-to-E-turbine",
+          "position": {
+            "x": 7563.365107655204,
+            "y": 63.79024430495581,
+            "z": -9007.169611836558
+          },
+          "heading": 2.9512548859095227,
+          "laneDirection": "forward",
+          "destinations": [
+            {
+              "roadNameId": "G38",
+              "directionId": "G38:forward",
+              "arrow": "straight"
+            }
+          ],
+          "language": "zh-CN",
+          "stationMetres": 140,
+          "incomingRoadId": "regional:v3:north-river:N-to-E-turbine",
+          "highwayLayout": true
+        },
+        "after": {
+          "id": "regional:v3:north-river:N-to-E-turbine:confirm",
+          "type": "RAMP_CONFIRMATION",
+          "template": "dual-post",
+          "size": "medium",
+          "roadId": "regional:v3:north-river:N-to-E-turbine",
+          "position": {
+            "x": 7561.451608432549,
+            "y": 63.87498168018972,
+            "z": -8997.398480187003
+          },
+          "heading": 2.9458144689659127,
+          "laneDirection": "forward",
+          "destinations": [
+            {
+              "roadNameId": "G38",
+              "directionId": "G38:forward",
+              "arrow": "straight"
+            }
+          ],
+          "language": "zh-CN",
+          "stationMetres": 150.00000000000054,
+          "incomingRoadId": "regional:v3:north-river:N-to-E-turbine",
+          "highwayLayout": true
+        }
+      }
+    ]
+  },
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "regional:v2:northwest:S-to-E-right:confirm",
+        "type": "roadSign",
+        "displacement": 9.87415872383028,
+        "heightDelta": 0.051739887068627866,
+        "rotationDelta": -0.015809901365311022,
+        "anchorBefore": {
+          "anchorRoadId": "regional:v2:northwest:S-to-E-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 140.0000000000001,
+          "lateralOffset": 7.950000000000408,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": 1.9358170636615435,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "regional:v2:northwest:S-to-E-right",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 149.99999999999966,
+          "lateralOffset": 7.950000000000634,
+          "verticalOffset": 7.105427357601002e-15,
+          "facingDirection": "forward",
+          "expectedHeading": 1.9200071622962325,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      },
+      {
+        "id": "regional:v3:north-river:N-to-E-turbine:confirm",
+        "type": "roadSign",
+        "displacement": 9.957091614060971,
+        "heightDelta": 0.08473737523390668,
+        "rotationDelta": -0.005440416943609972,
+        "anchorBefore": {
+          "anchorRoadId": "regional:v3:north-river:N-to-E-turbine",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 140.00000000000054,
+          "lateralOffset": 7.949999999998265,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": 2.9512548859095227,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "regional:v3:north-river:N-to-E-turbine",
+          "anchorIntersectionId": null,
+          "approach": null,
+          "station": 150.00000000000045,
+          "lateralOffset": 7.9499999999981785,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": 2.9458144689659127,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 4651.843634355841,
+    "maxX": 7563.615107655204,
+    "minZ": -9007.419611836558,
+    "maxZ": -5390.590695646828
+  },
+  "maxRoadDisplacement": 0,
+  "maxElevationDelta": 0,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 0,
+      "deadEnds": [],
+      "adjacency": []
+    },
+    "after": {
+      "components": 0,
+      "deadEnds": [],
+      "adjacency": []
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

@@ -1,7 +1,7 @@
 import { CylinderGeometry, Group, Mesh } from 'three';
 import type { CityIntersection, CityMapData } from './CityMapData';
 import { portDirection } from './geometry';
-import { runtimeRoadClearance } from './RoadClearance';
+import { findSignalPole } from './SignalPlacement';
 import { armControlKind, Subject3TrafficSignals, type Subject3JunctionControlKind, type Subject3SignalArmMetadata, type Subject3TrafficSignalState } from '../subject3/trafficSignals';
 import type { Subject3Point2 } from '../subject3/Subject3GroundConfig';
 import type { Subject3Materials } from '../subject3/materials';
@@ -86,14 +86,7 @@ export class CityTrafficSignals extends Subject3TrafficSignals implements Traffi
   }
   /** Ground-founded poles are rejected if they cut ANY carriageway below them. */
   placePole(index:number,outward:Subject3Point2,right:Subject3Point2,h:number,width:number,height:number,origin?:Subject3Point2):Subject3Point2 {
-    const j=this.map.intersections[index]!,clearance=runtimeRoadClearance(this.map),base=Math.min(0,j.position.y??0);
-    // Compact/skewed blocks can have another junction immediately beyond the
-    // far crossing. A near-side mast uses the same approach-facing signal head.
-    for(const side of [-1,1])for(const extra of [1,4,8,14])for(let lateral=width/2+1;lateral<=width/2+24;lateral+=1) {
-      const p={x:(origin??j.position).x+side*outward.x*(h+extra)+right.x*lateral,y:base,z:(origin??j.position).z+side*outward.z*(h+extra)+right.z*lateral};
-      if(!clearance.roadAt(p,.55,base-.2,(j.position.y??0)+height+.5,undefined,undefined,true)&&!clearance.junctionAt(p,.55,base-.2,(j.position.y??0)+height+.5))return p;
-    }
-    throw new Error('No signal pole clear of traffic at '+j.id);
+    return findSignalPole(this.map,this.map.intersections[index]!,outward,right,h,width,height,origin);
   }
   override addHead(index:number,arm:Subject3SignalArmMetadata,center:Subject3Point2,yaw:number,materials:Subject3Materials,shadows:boolean,height:number):void {
     const plan=this.plans.get(index);

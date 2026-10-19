@@ -1,0 +1,91 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "guardrail",
+    "objectIds": [
+      "v6-reserved-end-3191"
+    ],
+    "bbox": {
+      "minX": 2072.581066946945,
+      "maxX": 2074.581066946945,
+      "minZ": 2723.311782858514,
+      "maxZ": 2725.311782858514
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-reserved-end-3191",
+      "state": "INVALID",
+      "position": {
+        "x": 2062.69538550836,
+        "y": -0.04,
+        "z": 2732.643371837914
+      },
+      "rotation": -2.488326228034621,
+      "anchor": {
+        "anchorRoadId": "v5-south-logistics-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 328.96541943804937,
+        "lateralOffset": 14.000999900019856,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -2.488326228034621,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:v6-reserved-end-3191",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v6-reserved-end-3191",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "regional:warehouse:2040:2740",
+            "actual": 31.669658047357682,
+            "required": 80.58258018754142
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-reserved-end-3191",
+          "properties": {
+            "position": {
+              "x": 2062.69538550836,
+              "y": -0.04,
+              "z": 2732.643371837914
+            },
+            "rotation": -2.488326228034621
+          }
+        }
+      ],
+      "sourceId": "v6-reserved-end-3191",
+      "heightMode": "GROUND",
+      "autoMove": 13.708210506992485
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,147 @@
+{
+  "inspection": {
+    "signal": {
+      "intersectionId": "urban-junction-234",
+      "approach": "east",
+      "roadId": "v8-port-works-c91",
+      "incoming": true,
+      "mouth": {
+        "x": 782.5359586969064,
+        "y": 0,
+        "z": 2117.5573327256584
+      },
+      "outward": {
+        "x": 0.3784073735918478,
+        "z": 0.9256391627471905
+      },
+      "incomingTangent": {
+        "x": -0.3784073735918478,
+        "z": -0.9256391627471905
+      },
+      "right": {
+        "x": 0.9256391627471905,
+        "z": -0.3784073735918478
+      },
+      "roadWidth": 6.4,
+      "height": 7.2,
+      "divided": false,
+      "expectedPosition": {
+        "x": 785.0730024914294,
+        "y": 0,
+        "z": 2099.4508861172076
+      },
+      "expectedHeading": -2.7535175328873307,
+      "position": {
+        "x": 785.0730024914294,
+        "y": 0,
+        "z": 2099.4508861172076
+      },
+      "heading": -2.7535175328873307,
+      "derived": true,
+      "oppositeSideCandidate": {
+        "x": 785.0730024914294,
+        "y": 0,
+        "z": 2099.4508861172076
+      },
+      "stopLine": {
+        "position": {
+          "x": 790.9796770313919,
+          "y": 0,
+          "z": 2133.98364152246
+        },
+        "width": 2.95,
+        "depth": 0.35,
+        "derived": true,
+        "enabled": true
+      },
+      "paintOffsets": {
+        "boundaryOffset": 14.000000000000007,
+        "crossOffset": 16.200000000000006,
+        "stopOffset": 18.400000000000006,
+        "paintApproach": true
+      }
+    },
+    "selected": {
+      "position": {
+        "x": 809.1280855959554,
+        "y": 0,
+        "z": 2171.506371521404
+      },
+      "height": 7.2,
+      "score": 61
+    }
+  },
+  "operations": [
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-234",
+      "approach": "east",
+      "position": {
+        "x": 809.1280855959554,
+        "y": 0,
+        "z": 2171.506371521404
+      },
+      "heading": -2.7535175328873307,
+      "poleHeight": 7.2
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "signal-port-works-visible",
+    "created": [],
+    "modified": [
+      "urban-junction-234",
+      "v6-logistics-one-split-3-m91",
+      "v8-port-works-c91",
+      "v6-logistics-one-split-3-split-2-m91",
+      "urban-junction-235",
+      "v8-port-south-m91",
+      "v8-port-south-split-2-m91",
+      "v8-port-works-split-2-c91",
+      "v91-ring-south-industrial-tie",
+      "v91-ring-south-inner-cd",
+      "v91-ring-south-inner-cd-section-3",
+      "v6-logistics-one-split-3-split-2-m91-section"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 689.0325032556143,
+      "maxX": 1049.965461511381,
+      "minZ": 1978.9619204990795,
+      "maxZ": 2522.1607359347654
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "urban-junction-234",
+          "signal:urban-junction-234:east",
+          "v6-logistics-one-split-3-m91",
+          "v8-port-works-c91",
+          "v6-logistics-one-split-3-split-2-m91",
+          "urban-junction-235",
+          "v8-port-south-m91",
+          "v8-port-south-split-2-m91",
+          "v8-port-works-split-2-c91",
+          "v91-ring-south-industrial-tie",
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-inner-cd-section-3",
+          "v6-logistics-one-split-3-split-2-m91-section"
+        ],
+        "message": "intersections[3]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-cd-section-3",
+          "v91-ring-south-inner-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

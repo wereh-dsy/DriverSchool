@@ -1,0 +1,185 @@
+{
+  "inspection": {
+    "key": "-1:-2:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+        "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION"
+      ],
+      "bbox": {
+        "minX": -188.33535903964025,
+        "maxX": -7.125,
+        "minZ": -2678.4223940607285,
+        "maxZ": -2249
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 2,
+      "adjusted": 1,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 3,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+      "properties": {
+        "position": {
+          "x": -18,
+          "y": 0,
+          "z": -2252
+        },
+        "heading": -3.141592653589793,
+        "roadId": "ns-sb-split-3-split-split-2",
+        "stationMetres": 20
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -168.8513289538414,
+          "y": -0.019840971516558382,
+          "z": -2658.6697961825726
+        },
+        "heading": 4.722483676026921,
+        "roadId": "v8-campus-avenue-split-v91",
+        "stationMetres": 96.95270736781573
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -173.35001176867644,
+          "y": -2.073705379369132,
+          "z": -2594.380039198549
+        },
+        "heading": 0.7291456674587584,
+        "roadId": "v8-campus-avenue-split-split-v91",
+        "stationMetres": 84.99830941484696
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-40",
+    "created": [],
+    "modified": [
+      "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+      "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -227.33535903964025,
+      "maxX": 31.875,
+      "minZ": -2717.4223940607285,
+      "maxZ": -2210
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+          "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION",
+          "ns-sb-split-3-split",
+          "ns-sb-split-3-split-split-2",
+          "system-north:N-to-E-star",
+          "system-north:W-to-N-star",
+          "ns-sb-split-3-split-split-2-split",
+          "v91-ns-0-a-2",
+          "v91-ns-0-a-3",
+          "urban-junction-214",
+          "ns-nb-split-split-split-split-split-split",
+          "ns-nb-split-split-split-split-split-split-2-split",
+          "ns-nb-split-split-split-split-split-split-2-split-split",
+          "v8-campus-avenue-split-split-2",
+          "v8-campus-avenue-split-split-v91",
+          "v8-campus-south-split-v91-section",
+          "v8-campus-north-split-v91-section",
+          "urban-junction-213",
+          "urban-junction-217",
+          "v8-campus-avenue-split-v91"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:N-to-E-star",
+          "ring-cw-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:W-to-N-star",
+          "ring-cw-0-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-a-3",
+          "access-ns-north-sb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.tooCloseToJunction",
+        "ids": [
+          "topology-sign:endpoint:ns-sb-split-3-split-split-2:end|ns-sb-split-3-split-split-2|end:EXPRESSWAY_DIVERGE",
+          "ns-sb-split-3-split-split-2"
+        ],
+        "message": "Sign is immediately beside the junction conflict envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-209|v8-campus-avenue-split|start:URBAN_DIRECTION",
+          "v8-campus-avenue-split-v91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-213|v8-campus-avenue-split-split|start:URBAN_DIRECTION",
+          "v8-campus-avenue-split-split-v91"
+        ],
+        "message": "Sign support intersects carriageway"
+      }
+    ],
+    "valid": true
+  }
+}

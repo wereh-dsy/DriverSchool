@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "residential_mid",
+    "objectIds": [
+      "v6-east-housing-219"
+    ],
+    "bbox": {
+      "minX": 1929.5242137376395,
+      "maxX": 1931.5242137376395,
+      "minZ": 227.79868431363874,
+      "maxZ": 229.79868431363874
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-east-housing-219",
+      "state": "VALID",
+      "position": {
+        "x": 1925.7117837396995,
+        "y": -0.04,
+        "z": 228.79868431363874
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v9-newcity-two-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 51.145272676027474,
+        "lateralOffset": 24.288216260300487,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-east-housing-219",
+          "properties": {
+            "position": {
+              "x": 1925.7117837396995,
+              "y": -0.04,
+              "z": 228.79868431363874
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-east-housing-219",
+      "heightMode": "GROUND",
+      "autoMove": 4.812596231253173
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-east-housing-219",
+      "properties": {
+        "position": {
+          "x": 1925.7117837396995,
+          "y": -0.04,
+          "z": 228.79868431363874
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,119 @@
+{
+  "inspection": {
+    "key": "-5:-1:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65"
+      ],
+      "bbox": {
+        "minX": -8175.808989728455,
+        "maxX": -8173.808989728455,
+        "minZ": -1076.567682587771,
+        "maxZ": -1074.567682587771
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65",
+      "properties": {
+        "position": {
+          "x": -8169.824688853428,
+          "y": 40.86153673838817,
+          "z": -1064.5430227291404
+        },
+        "heading": -2.557640853334852,
+        "stationMetres": 76.97956374252787
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-69",
+    "created": [],
+    "modified": [
+      "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -8214.808989728455,
+      "maxX": -8128.153108320337,
+      "minZ": -1115.567682587771,
+      "maxZ": -1025.6476553542698
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:regional:v3:airport-distributor:N-to-E-turbine:false:speed:65",
+          "regional:v3:airport-distributor:N-to-E-turbine",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split",
+          "regional:v3:airport-distributor:W-to-N-turbine",
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:S36-extension54:out:8:revision415:revision421"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:N-to-E-turbine",
+          "regional:v3:S89-extension2:out:9"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split",
+          "regional:v3:airport-distributor:N-to-E-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:W-to-N-turbine",
+          "regional:v3:S36-extension54:in:21:revision411:lane4510"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:W-to-N-turbine",
+          "regional:v3:S89-extension2:out:7:revision427-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

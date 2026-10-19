@@ -1,0 +1,77 @@
+{
+  "mainline": "ew-eb-split-split-4-split-2",
+  "frontage": "v91-ew-1-a-3-section",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 80
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 80,
+      "kind": "rampAttachment",
+      "id": "v91-ew-east-wb-on",
+      "distance": 20.583333333333258
+    },
+    {
+      "station": 80,
+      "kind": "rampAttachment",
+      "id": "v91-ew-east-eb-off",
+      "distance": 0
+    },
+    {
+      "station": 80,
+      "kind": "ordinaryCrossing",
+      "id": "v91-ew-east-eb-off",
+      "distance": 0
+    },
+    {
+      "station": 5.115081859980591,
+      "kind": "intersection",
+      "id": "urban-junction-8",
+      "distance": 7.625
+    },
+    {
+      "station": 80,
+      "kind": "intersection",
+      "id": "v91-shared-inner-ew",
+      "distance": 17.893301838047133
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 80
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ew-eb-split-split-4-split-2",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      }
+    },
+    {
+      "roadId": "v91-ew-1-a-3-section",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      }
+    }
+  ],
+  "automaticDesign": false
+}

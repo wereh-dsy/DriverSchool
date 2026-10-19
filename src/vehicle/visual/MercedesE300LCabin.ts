@@ -58,7 +58,8 @@ export function buildMercedesE300LCabin(root: T.Group, c: VehicleVisualConfig, s
   const ventSlotMaterial = new T.MeshStandardMaterial({ map: textures.ventSlot, roughness: .48,
     metalness: .40, side: T.DoubleSide });
   const climateMaterial = new T.MeshStandardMaterial({ map: textures.climateBar, roughness: .40,
-    metalness: .35, side: T.DoubleSide });
+    metalness: .35, side: T.DoubleSide, emissive: 0xffffff, emissiveMap: textures.climateBar,
+    emissiveIntensity: 0 });
   const turbineMaterial = new T.MeshStandardMaterial({ map: textures.turbineVent, roughness: .46,
     metalness: .52, side: T.DoubleSide });
   const seatSwitchMaterial = new T.MeshStandardMaterial({ map: textures.seatControls, roughness: .34,
@@ -168,6 +169,15 @@ export function buildMercedesE300LCabin(root: T.Group, c: VehicleVisualConfig, s
   const climateBar = mesh('Mercedes climate control key row', new T.PlaneGeometry(.560, .030), climateMaterial);
   climateBar.position.set(.148, CLIMATE_Y, DASH_FACE_Z + .012);
   root.add(climateBar);
+  // Continuous, low-level guide light: upper-pad seam, screen base and both
+  // console shoulders. The door ribbons already share this material, so the
+  // cabin reads as one continuous band rather than isolated glowing strips.
+  root.add(path('Mercedes dashboard ambient ribbon',
+    stations.map(x => [x, .932, -.672] as P), .0016, ambient));
+  root.add(path('Mercedes screen lower ambient ribbon',
+    stations.map(x => [x, .706, -.662] as P), .0014, ambient));
+  for (const x of [-.151, .151]) root.add(path('Mercedes console ambient edge',
+    [[x, .604, -.380], [x, .577, -.070], [x, .577, .380]], .0014, ambient));
 
   // ---- Steering wheel: three-spoke luxury rim with the star hub ----------
   const base = steering.steeringWheelBase, wheel = steering.steeringWheelRotationGroup;
@@ -436,12 +446,13 @@ export function buildMercedesE300LCabin(root: T.Group, c: VehicleVisualConfig, s
       ambient.emissiveIntensity = ambientLevel;
       for (const light of spills)
         light.intensity = (light.userData.maximum as number) * ambientLevel / ambientProfile.nightIntensity;
-      const brightness = on ? .66 + .34 * Math.min(1, Math.max(0, daylight)) : 0;
+      const brightness = on ? .70 + .30 * Math.min(1, Math.max(0, daylight)) : 0;
+      climateMaterial.emissiveIntensity = on ? .055 + .12 * (1 - daylight) : 0;
       for (const material of textMaterials) material.opacity = on ? .60 + .24 * daylight : 0;
       screenMaterial.emissiveIntensity = brightness;
-      screenMaterial.color.setScalar(on ? .06 : 0);
+      screenMaterial.color.setScalar(on ? .055 : 0);
       passengerMaterial.emissiveIntensity = brightness * .92;
-      passengerMaterial.color.setScalar(on ? .06 : 0);
+      passengerMaterial.color.setScalar(on ? .055 : 0);
       centerDisplay.update(t, dt, { on, readings: t.vehicleStatus });
     },
   };

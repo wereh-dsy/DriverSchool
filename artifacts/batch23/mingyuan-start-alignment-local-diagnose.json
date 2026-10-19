@@ -1,0 +1,1038 @@
+{
+  "before": {
+    "scope": "bbox",
+    "coverage": {
+      "roadsChecked": 21,
+      "roadsTotal": 2942,
+      "intersectionsChecked": 17,
+      "intersectionsTotal": 302
+    },
+    "counts": {
+      "error": 0,
+      "warning": 4,
+      "info": 29,
+      "total": 33,
+      "bySeverity": {
+        "error": 0,
+        "warning": 4,
+        "info": 29
+      },
+      "byCode": {
+        "intersection.acuteApproach": 1,
+        "marking.stopLineDisplaced": 3,
+        "geometry.redundantControlPoints": 14,
+        "topology.deadEnd": 1,
+        "vertical.redundantElevationPoints": 14
+      }
+    },
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-71",
+        "message": "Arms south and west meet at 25°",
+        "metrics": {
+          "angleDegrees": 25,
+          "portA": "south",
+          "portB": "west"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-71"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-71",
+        "message": "Stop line on south is 12.8 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "south",
+          "offset": 12.8
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-71"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "direction-mingyuan-companion-inner",
+        "message": "Stop line on east is 8.8 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "east",
+          "offset": 8.8
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "direction-mingyuan-companion-inner"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "access-mingyuan-inner-signal",
+        "message": "Stop line on north is 14 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 14
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "access-mingyuan-inner-signal"
+        }
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ring-cw-3-split-2-split",
+        "message": "216 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 216
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-cw-3-split-2-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v5-south-west-split",
+        "message": "32 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 32
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v5-south-west-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-south-west:arterial-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ring-ccw-0-split-split-split-3-split-section",
+        "message": "221 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 221
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-ccw-0-split-split-split-3-split-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-main",
+        "message": "54 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 54
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-west-collector",
+        "message": "38 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 38
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-companion",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-companion",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-mingyuan-south-street:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-avenue-section",
+        "message": "11 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 11
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-avenue-section-2",
+        "message": "16 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 16
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-avenue-section-2-section",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-2-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-companion-section",
+        "message": "62 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 62
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-companion-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-mingyuan-south-street:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-west-collector-section",
+        "message": "12 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 12
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-avenue-section-section",
+        "message": "109 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 109
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-west-collector-section-section",
+        "message": "33 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 33
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-main-section",
+        "message": "3 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 3
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "topology.deadEnd",
+        "roadId": "v4-west-offset-split-c91-section",
+        "message": "Open end endpoint; verify this is an intentional terminus",
+        "metrics": {
+          "end": "end"
+        },
+        "station": 196.1,
+        "corridorId": "corridor:v8-name-v4-west-offset:local-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ring-cw-3-split-2-split",
+        "message": "260 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 260
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-cw-3-split-2-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v5-south-west-split",
+        "message": "30 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 30
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v5-south-west-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-south-west:arterial-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ring-ccw-0-split-split-split-3-split-section",
+        "message": "265 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 265
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-ccw-0-split-split-split-3-split-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-main",
+        "message": "27 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 27
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-west-collector",
+        "message": "38 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 38
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-companion",
+        "message": "29 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 29
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-companion",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-mingyuan-south-street:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-avenue-section",
+        "message": "11 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 11
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-avenue-section-2",
+        "message": "16 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 16
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-avenue-section-2-section",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-2-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-companion-section",
+        "message": "73 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 73
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-companion-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-mingyuan-south-street:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-west-collector-section",
+        "message": "12 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 12
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-avenue-section-section",
+        "message": "77 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 77
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-west-collector-section-section",
+        "message": "34 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 34
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-main-section",
+        "message": "10 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 10
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      }
+    ],
+    "truncated": false
+  },
+  "after": {
+    "scope": "bbox",
+    "coverage": {
+      "roadsChecked": 21,
+      "roadsTotal": 2942,
+      "intersectionsChecked": 17,
+      "intersectionsTotal": 302
+    },
+    "counts": {
+      "error": 0,
+      "warning": 4,
+      "info": 29,
+      "total": 33,
+      "bySeverity": {
+        "error": 0,
+        "warning": 4,
+        "info": 29
+      },
+      "byCode": {
+        "intersection.acuteApproach": 1,
+        "marking.stopLineDisplaced": 3,
+        "geometry.redundantControlPoints": 14,
+        "topology.deadEnd": 1,
+        "vertical.redundantElevationPoints": 14
+      }
+    },
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-71",
+        "message": "Arms south and west meet at 25°",
+        "metrics": {
+          "angleDegrees": 25,
+          "portA": "south",
+          "portB": "west"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-71"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-71",
+        "message": "Stop line on south is 12.8 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "south",
+          "offset": 12.8
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-71"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "direction-mingyuan-companion-inner",
+        "message": "Stop line on east is 8.8 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "east",
+          "offset": 8.8
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "direction-mingyuan-companion-inner"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "access-mingyuan-inner-signal",
+        "message": "Stop line on north is 14 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 14
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "access-mingyuan-inner-signal"
+        }
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ring-cw-3-split-2-split",
+        "message": "216 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 216
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-cw-3-split-2-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v5-south-west-split",
+        "message": "32 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 32
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v5-south-west-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-south-west:arterial-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ring-ccw-0-split-split-split-3-split-section",
+        "message": "221 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 221
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-ccw-0-split-split-split-3-split-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-main",
+        "message": "51 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 51
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-west-collector",
+        "message": "38 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 38
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-companion",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-companion",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-mingyuan-south-street:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-avenue-section",
+        "message": "11 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 11
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-avenue-section-2",
+        "message": "16 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 16
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-avenue-section-2-section",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-2-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-companion-section",
+        "message": "62 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 62
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-companion-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-mingyuan-south-street:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-west-collector-section",
+        "message": "12 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 12
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-avenue-section-section",
+        "message": "109 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 109
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-south-west-collector-section-section",
+        "message": "33 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 33
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-main-section",
+        "message": "3 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 3
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "topology.deadEnd",
+        "roadId": "v4-west-offset-split-c91-section",
+        "message": "Open end endpoint; verify this is an intentional terminus",
+        "metrics": {
+          "end": "end"
+        },
+        "station": 196.1,
+        "corridorId": "corridor:v8-name-v4-west-offset:local-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ring-cw-3-split-2-split",
+        "message": "260 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 260
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-cw-3-split-2-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v5-south-west-split",
+        "message": "30 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 30
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v5-south-west-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-south-west:arterial-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ring-ccw-0-split-split-split-3-split-section",
+        "message": "265 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 265
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-ccw-0-split-split-split-3-split-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-main",
+        "message": "28 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 28
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-west-collector",
+        "message": "38 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 38
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-companion",
+        "message": "29 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 29
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-companion",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-mingyuan-south-street:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-avenue-section",
+        "message": "11 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 11
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-avenue-section-2",
+        "message": "16 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 16
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-avenue-section-2-section",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-2-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-companion-section",
+        "message": "73 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 73
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-companion-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-mingyuan-south-street:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-west-collector-section",
+        "message": "12 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 12
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-avenue-section-section",
+        "message": "77 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 77
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-avenue-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-avenue:arterial"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-south-west-collector-section-section",
+        "message": "34 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 34
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-south-west-collector-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:direction-south-west-collector:collector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-main-section",
+        "message": "10 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 10
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      }
+    ],
+    "truncated": false
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "inspection": {
+    "id": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+    "kind": "sign",
+    "type": "roadSign",
+    "position": {
+      "x": 1342.6109129019626,
+      "y": 0,
+      "z": -990.7327478843122
+    },
+    "rotation": 1.5774055337367217,
+    "roadId": "v4-diagonal-split-split-m91",
+    "derived": false,
+    "size": {
+      "width": 0.5,
+      "depth": 0.5,
+      "height": 5.5,
+      "approximate": true
+    },
+    "anchor": {
+      "anchorRoadId": "v4-diagonal-split-split-m91",
+      "anchorIntersectionId": null,
+      "approach": null,
+      "station": 17.684567891701338,
+      "lateralOffset": 9.500000000000027,
+      "verticalOffset": 0,
+      "facingDirection": "reverse",
+      "expectedHeading": 1.5774055337367217,
+      "structureType": "at_grade",
+      "derived": true
+    },
+    "distanceToRoad": 0.6405329935879241,
+    "nearestLane": {
+      "roadId": "v4-diagonal-split-split-m91",
+      "index": 3,
+      "approximate": true
+    },
+    "nearestIntersection": {
+      "id": "urban-junction-40",
+      "distance": 36.44453069701583
+    },
+    "structureContext": [
+      {
+        "roadId": "direction-mingyuan-main-section-section-section-section-section",
+        "type": "elevated",
+        "deckY": 10.263009576994886,
+        "verticalOffset": -10.263009576994886
+      },
+      {
+        "roadId": "direction-mingyuan-main-section-section-section-section",
+        "type": "elevated",
+        "deckY": 11.005215637247021,
+        "verticalOffset": -11.005215637247021
+      },
+      {
+        "roadId": "v4-north-split-2-m91",
+        "type": "at_grade",
+        "deckY": 0,
+        "verticalOffset": 0
+      },
+      {
+        "roadId": "v4-diagonal-split-split-m91",
+        "type": "at_grade",
+        "deckY": 0,
+        "verticalOffset": 0
+      },
+      {
+        "roadId": "v4-diagonal-split-split-2-split-m91",
+        "type": "at_grade",
+        "deckY": 0,
+        "verticalOffset": 0
+      },
+      {
+        "roadId": "v4-north-split-3-split-split-m91",
+        "type": "at_grade",
+        "deckY": 0,
+        "verticalOffset": 0
+      }
+    ],
+    "signal": null,
+    "visibility": {
+      "approximate": true,
+      "reviewRequired": true,
+      "reason": "Envelope obstruction checks do not implement a renderer visibility test"
+    },
+    "issues": [
+      {
+        "id": "roadSign.insideLane:v4-diagonal-split-split-m91:topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION::",
+        "code": "roadSign.insideLane",
+        "severity": "warning",
+        "objectId": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+        "roadId": "v4-diagonal-split-split-m91",
+        "message": "Sign support intersects carriageway",
+        "metrics": {
+          "roadId": "direction-mingyuan-main-section-section-section-section-section"
+        },
+        "approximate": true
+      },
+      {
+        "id": "roadSign.intersectsStructure:v4-diagonal-split-split-m91:topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION::",
+        "code": "roadSign.intersectsStructure",
+        "severity": "warning",
+        "objectId": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+        "roadId": "v4-diagonal-split-split-m91",
+        "message": "Sign support/board crosses a road deck",
+        "metrics": {
+          "roadId": "direction-mingyuan-main-section-section-section-section-section",
+          "deckY": 10.263009576994886
+        },
+        "approximate": true,
+        "reviewRequired": true
+      },
+      {
+        "id": "roadSign.insideLane:v4-diagonal-split-split-m91:topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION::",
+        "code": "roadSign.insideLane",
+        "severity": "warning",
+        "objectId": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+        "roadId": "v4-diagonal-split-split-m91",
+        "message": "Sign support intersects carriageway",
+        "metrics": {
+          "roadId": "v4-north-split-2-m91"
+        },
+        "approximate": true
+      },
+      {
+        "id": "roadSign.insideLane:v4-diagonal-split-split-m91:topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION::",
+        "code": "roadSign.insideLane",
+        "severity": "warning",
+        "objectId": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+        "roadId": "v4-diagonal-split-split-m91",
+        "message": "Sign support intersects carriageway",
+        "metrics": {
+          "roadId": "v4-diagonal-split-split-m91"
+        },
+        "approximate": true
+      },
+      {
+        "id": "roadSign.insideJunction:v4-diagonal-split-split-m91:topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION::",
+        "code": "roadSign.insideJunction",
+        "severity": "warning",
+        "objectId": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+        "roadId": "v4-diagonal-split-split-m91",
+        "message": "Object envelope intersects junction pavement",
+        "metrics": {
+          "intersectionId": "urban-junction-40"
+        },
+        "approximate": true
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "removeObject",
+      "id": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "remove-redundant-obstructing-sign",
+    "created": [],
+    "modified": [],
+    "deleted": [
+      "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION"
+    ],
+    "area": {
+      "minX": 1302.6109129019626,
+      "maxX": 1382.6109129019626,
+      "minZ": -1030.7327478843122,
+      "maxZ": -950.7327478843122
+    },
+    "warnings": [],
+    "valid": true
+  }
+}

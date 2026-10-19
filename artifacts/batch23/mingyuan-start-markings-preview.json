@@ -1,0 +1,147 @@
+{
+  "inspection": {
+    "servedRoad": "direction-mingyuan-main",
+    "lanes": {
+      "lanes": [
+        "left",
+        "straight",
+        "straight-right"
+      ],
+      "arrowDistance": 35
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-56",
+      "properties": {
+        "approaches": {
+          "north": {
+            "lanes": [
+              "straight-left",
+              "straight-right"
+            ],
+            "arrowDistance": 30
+          },
+          "east": {
+            "lanes": [
+              "straight"
+            ],
+            "arrowDistance": 30
+          },
+          "south": {
+            "lanes": [
+              "left",
+              "straight",
+              "straight-right"
+            ],
+            "arrowDistance": 35
+          },
+          "west": {
+            "lanes": [
+              "straight"
+            ],
+            "arrowDistance": 30
+          }
+        }
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-4",
+    "revision": 2,
+    "label": "mingyuan-start-markings",
+    "created": [],
+    "modified": [
+      "urban-junction-56",
+      "v4-diagonal-split-3-m91",
+      "v8-shanghai-road-split-split-2-m91",
+      "v8-shanghai-road-split-split-m91",
+      "direction-mingyuan-main",
+      "urban-junction-41",
+      "v4-diagonal-split-4-m91",
+      "v4-south-split-3-split-c91-section",
+      "v4-south-split-2-c91",
+      "urban-junction-42",
+      "v4-diagonal-m91",
+      "v4-west-split-split-2-m91-section",
+      "v4-west-split-split-m91",
+      "urban-junction-68",
+      "v4-south-split-2-split-3-c91",
+      "v4-south-split-2-split-2-c91",
+      "urban-junction-71",
+      "v4-west-split-split-3-split-m91-section",
+      "v8-shanghai-road-split-m91",
+      "v4-west-split-split-3-split-split-m91",
+      "urban-junction-220",
+      "v8-nancheng-ring",
+      "v91-local-junction-11",
+      "v4-south-split-3-split-c91",
+      "v4-west-split-split-2-m91",
+      "direction-south-west-terminal",
+      "direction-south-avenue",
+      "v4-west-split-split-3-split-m91",
+      "direction-south-local-1",
+      "direction-south-avenue-section-2",
+      "v4-west-offset-split-c91",
+      "v4-west-offset-split-c91-section",
+      "direction-south-local-2",
+      "direction-south-avenue-section-2-section",
+      "v5-south-west-split-2-c91",
+      "v5-south-west-split-2-c91-section"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1655.3901996646853,
+      "maxX": -939.9546110797141,
+      "minZ": 983.1928184532952,
+      "maxZ": 2382.8216548392243
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "urban-junction-56",
+          "v4-diagonal-split-3-m91",
+          "v8-shanghai-road-split-split-2-m91",
+          "v8-shanghai-road-split-split-m91",
+          "direction-mingyuan-main",
+          "urban-junction-41",
+          "v4-diagonal-split-4-m91",
+          "v4-south-split-3-split-c91-section",
+          "v4-south-split-2-c91",
+          "urban-junction-42",
+          "v4-diagonal-m91",
+          "v4-west-split-split-2-m91-section",
+          "v4-west-split-split-m91",
+          "urban-junction-68",
+          "v4-south-split-2-split-3-c91",
+          "v4-south-split-2-split-2-c91",
+          "urban-junction-71",
+          "v4-west-split-split-3-split-m91-section",
+          "v8-shanghai-road-split-m91",
+          "v4-west-split-split-3-split-split-m91",
+          "urban-junction-220",
+          "v8-nancheng-ring",
+          "v91-local-junction-11",
+          "v4-south-split-3-split-c91",
+          "v4-west-split-split-2-m91",
+          "direction-south-west-terminal",
+          "direction-south-avenue",
+          "v4-west-split-split-3-split-m91",
+          "direction-south-local-1",
+          "direction-south-avenue-section-2",
+          "v4-west-offset-split-c91",
+          "v4-west-offset-split-c91-section",
+          "direction-south-local-2",
+          "direction-south-avenue-section-2-section",
+          "v5-south-west-split-2-c91",
+          "v5-south-west-split-2-c91-section"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

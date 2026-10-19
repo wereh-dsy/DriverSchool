@@ -1,0 +1,96 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:system-west:W-to-S-right:false:speed:65"
+    ],
+    "bbox": {
+      "minX": -2177.5008703517265,
+      "maxX": -2175.5008703517265,
+      "minZ": -131.90033975957977,
+      "maxZ": -129.90033975957977
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:system-west:W-to-S-right:false:speed:65",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -2178.114629186411,
+        "y": 3.8006506359378096,
+        "z": -124.96584041898886
+      },
+      "rotation": -1.8363046472163524,
+      "anchor": {
+        "anchorRoadId": "system-west:W-to-S-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 64.9999999999999,
+        "lateralOffset": 9.199999999999882,
+        "verticalOffset": 2.1316282072803006e-14,
+        "facingDirection": "forward",
+        "expectedHeading": -1.8363046472163524,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-west:W-to-S-right:false:speed:65",
+          "properties": {
+            "position": {
+              "x": -2178.114629186411,
+              "y": 3.8006506359378096,
+              "z": -124.96584041898886
+            },
+            "heading": -1.8363046472163524,
+            "roadId": "system-west:W-to-S-right",
+            "stationMetres": 64.9999999999997
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-west:W-to-S-right:false:speed:65",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 6.149999999999721
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-west:W-to-S-right:false:speed:65",
+      "properties": {
+        "position": {
+          "x": -2178.114629186411,
+          "y": 3.8006506359378096,
+          "z": -124.96584041898886
+        },
+        "heading": -1.8363046472163524,
+        "roadId": "system-west:W-to-S-right",
+        "stationMetres": 64.9999999999997
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 1,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "roads": {
+    "added": [
+      "direction-mingyuan-main-section-section-section-section-section"
+    ],
+    "removed": [],
+    "modified": [
+      {
+        "id": "direction-mingyuan-main-section-section-section-section",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": true,
+        "elevationOnly": false,
+        "maxDisplacement": 180.00000000000108,
+        "elevationDelta": 12.809068948959574,
+        "controlPointsChanged": 8,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": 322.71949779140255,
+              "y": 0.00008122675690229018,
+              "z": 441.5017724081137
+            },
+            "after": {
+              "x": 322.71949779140255,
+              "y": 0.00008122675690229018,
+              "z": 441.5017724081137
+            }
+          },
+          "end": {
+            "before": {
+              "x": 1441.7621025228948,
+              "y": 0.02528862929298005,
+              "z": -1131.2185865123954
+            },
+            "after": {
+              "x": 1338.5183439797058,
+              "y": 11.005215637247021,
+              "z": -983.771218540376
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.010733284650874308,
+        "afterMaxHeadingDelta": 0.010733284650874308,
+        "crossingElevationsPreserved": false
+      }
+    ]
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "direction-mingyuan-ne-terminal",
+        "armsBefore": [
+          {
+            "roadId": "direction-mingyuan-main-section-section-section-section",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "urban-diagonal-split-split-split-split-c91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "urban-diagonal-split-split-split-split-c91-section",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "armsAfter": [
+          {
+            "roadId": "direction-mingyuan-main-section-section-section-section-section",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "urban-diagonal-split-split-split-split-c91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "urban-diagonal-split-split-split-split-c91-section",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "markingsRegenerated": true
+      }
+    ]
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "signal:direction-mingyuan-ne-terminal:north",
+        "type": "trafficLight",
+        "displacement": 2.2737367544323206e-13,
+        "heightDelta": 0,
+        "rotationDelta": 5.329070518200751e-15,
+        "anchorBefore": {
+          "anchorRoadId": "direction-mingyuan-main-section-section-section-section",
+          "anchorIntersectionId": "direction-mingyuan-ne-terminal",
+          "approach": "north",
+          "station": 1930.879482350589,
+          "lateralOffset": 12.249999999999874,
+          "verticalOffset": -0.025288629292980036,
+          "facingDirection": "forward",
+          "expectedHeading": -0.6108652381980084,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "direction-mingyuan-main-section-section-section-section-section",
+          "anchorIntersectionId": "direction-mingyuan-ne-terminal",
+          "approach": "north",
+          "station": 180.00000000000043,
+          "lateralOffset": 12.250000000000012,
+          "verticalOffset": -0.02528862929298864,
+          "facingDirection": "forward",
+          "expectedHeading": -0.610865238198003,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": false,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [
+    {
+      "roadId": "direction-mingyuan-main-section-section-section-section",
+      "before": {
+        "piersEnabled": true,
+        "pierSpacing": 35,
+        "barrierEnabled": true,
+        "medianBarrierStyle": "concrete"
+      },
+      "after": {
+        "piersEnabled": true,
+        "pierSpacing": 35,
+        "barrierEnabled": true,
+        "medianBarrierStyle": "concrete"
+      },
+      "beforeType": "elevated",
+      "afterType": "elevated"
+    }
+  ],
+  "roadLinks": {
+    "added": [
+      {
+        "id": "link-541",
+        "from": {
+          "roadId": "direction-mingyuan-main-section-section-section-section",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "direction-mingyuan-main-section-section-section-section-section",
+          "end": "start"
+        }
+      }
+    ],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 309.71949779140255,
+    "maxX": 1490.0727058980797,
+    "minZ": -1183.0873581574901,
+    "maxZ": 454.5017724081137
+  },
+  "maxRoadDisplacement": 180.00000000000108,
+  "maxElevationDelta": 12.809068948959574,
+  "topology": {
+    "changed": true,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 1,
+      "deadEnds": [
+        "direction-mingyuan-main-section-section-section-section-2",
+        "urban-roundabout-West-split"
+      ],
+      "adjacency": [
+        {
+          "id": "direction-mingyuan-main-section-section-section-section",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section-2",
+            "urban-diagonal-split-split-split-split-c91",
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-c91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "v4-north-split-m91",
+            "direction-mingyuan-main-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-c91-section",
+          "links": [
+            "urban-roundabout-West-split",
+            "direction-mingyuan-main-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "direction-mingyuan-main-section-section-section-section-2",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section"
+          ]
+        },
+        {
+          "id": "urban-roundabout-West-split",
+          "links": [
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "v4-north-split-2-split-m91",
+          "links": [
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "v4-north-split-m91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-2-split-c91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "v4-north-split-m91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "v4-north-split-m91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 1,
+      "deadEnds": [
+        "direction-mingyuan-main-section-section-section-section-2",
+        "urban-roundabout-West-split"
+      ],
+      "adjacency": [
+        {
+          "id": "direction-mingyuan-main-section-section-section-section-section",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91",
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "direction-mingyuan-main-section-section-section-section",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section-2",
+            "direction-mingyuan-main-section-section-section-section-section"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-c91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "v4-north-split-m91",
+            "direction-mingyuan-main-section-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-c91-section",
+          "links": [
+            "urban-roundabout-West-split",
+            "direction-mingyuan-main-section-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "direction-mingyuan-main-section-section-section-section-2",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section"
+          ]
+        },
+        {
+          "id": "urban-roundabout-West-split",
+          "links": [
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "v4-north-split-2-split-m91",
+          "links": [
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "v4-north-split-m91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-2-split-c91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "v4-north-split-m91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "v4-north-split-m91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:3|direction-mingyuan-main-section-section-section-section-section:lane:3",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:3|direction-mingyuan-main-section-section-section-section-section:lane:4",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:3|direction-mingyuan-main-section-section-section-section-section:lane:5",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:4|direction-mingyuan-main-section-section-section-section-section:lane:3",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:4|direction-mingyuan-main-section-section-section-section-section:lane:4",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:4|direction-mingyuan-main-section-section-section-section-section:lane:5",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:5|direction-mingyuan-main-section-section-section-section-section:lane:3",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:5|direction-mingyuan-main-section-section-section-section-section:lane:4",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section:lane:5|direction-mingyuan-main-section-section-section-section-section:lane:5",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:0|direction-mingyuan-main-section-section-section-section:lane:0",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:0|direction-mingyuan-main-section-section-section-section:lane:1",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:0|direction-mingyuan-main-section-section-section-section:lane:2",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:1|direction-mingyuan-main-section-section-section-section:lane:0",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:1|direction-mingyuan-main-section-section-section-section:lane:1",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:1|direction-mingyuan-main-section-section-section-section:lane:2",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:2|direction-mingyuan-main-section-section-section-section:lane:0",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:2|direction-mingyuan-main-section-section-section-section:lane:1",
+      "endpoint:direction-mingyuan-main-section-section-section-section:end|direction-mingyuan-main-section-section-section-section-section:lane:2|direction-mingyuan-main-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91:lane:0",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91:lane:1",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91:lane:2",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91:lane:0",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91:lane:1",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91:lane:2",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91:lane:0",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91:lane:1",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91:lane:2",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91-section:lane:3",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91-section:lane:4",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91-section:lane:5",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91-section:lane:3",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91-section:lane:4",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91-section:lane:5",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91-section:lane:3",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91-section:lane:4",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91-section:lane:5",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:3|direction-mingyuan-main-section-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:3|direction-mingyuan-main-section-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:3|direction-mingyuan-main-section-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:4|direction-mingyuan-main-section-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:4|direction-mingyuan-main-section-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:4|direction-mingyuan-main-section-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:5|direction-mingyuan-main-section-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:5|direction-mingyuan-main-section-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:5|direction-mingyuan-main-section-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:0|direction-mingyuan-main-section-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:0|direction-mingyuan-main-section-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:0|direction-mingyuan-main-section-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:1|direction-mingyuan-main-section-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:1|direction-mingyuan-main-section-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:1|direction-mingyuan-main-section-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:2|direction-mingyuan-main-section-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:2|direction-mingyuan-main-section-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:2|direction-mingyuan-main-section-section-section-section-section:lane:2"
+    ],
+    "laneConnectionsRemoved": [
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91:lane:0",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91:lane:1",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91:lane:2",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91:lane:0",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91:lane:1",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91:lane:2",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91:lane:0",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91:lane:1",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91:lane:2",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91-section:lane:3",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91-section:lane:4",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:3|urban-diagonal-split-split-split-split-c91-section:lane:5",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91-section:lane:3",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91-section:lane:4",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:4|urban-diagonal-split-split-split-split-c91-section:lane:5",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91-section:lane:3",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91-section:lane:4",
+      "direction-mingyuan-ne-terminal|direction-mingyuan-main-section-section-section-section:lane:5|urban-diagonal-split-split-split-split-c91-section:lane:5",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:3|direction-mingyuan-main-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:3|direction-mingyuan-main-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:3|direction-mingyuan-main-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:4|direction-mingyuan-main-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:4|direction-mingyuan-main-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:4|direction-mingyuan-main-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:5|direction-mingyuan-main-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:5|direction-mingyuan-main-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91:lane:5|direction-mingyuan-main-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:0|direction-mingyuan-main-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:0|direction-mingyuan-main-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:0|direction-mingyuan-main-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:1|direction-mingyuan-main-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:1|direction-mingyuan-main-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:1|direction-mingyuan-main-section-section-section-section:lane:2",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:2|direction-mingyuan-main-section-section-section-section:lane:0",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:2|direction-mingyuan-main-section-section-section-section:lane:1",
+      "direction-mingyuan-ne-terminal|urban-diagonal-split-split-split-split-c91-section:lane:2|direction-mingyuan-main-section-section-section-section:lane:2"
+    ],
+    "directedLaneRouteVerified": true
+  }
+}

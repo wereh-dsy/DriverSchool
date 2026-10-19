@@ -1,0 +1,172 @@
+{
+  "inspection": {
+    "key": "0:-1:streetlight:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight",
+      "objectIds": [
+        "v6-lamps-273",
+        "v6-lamps-338",
+        "v6-lamps-520",
+        "v6-lamps-521",
+        "v6-lamps-522",
+        "v6-lamps-523",
+        "v6-lamps-843",
+        "v6-lamps-854",
+        "v6-lamps-855",
+        "v6-lamps-1251"
+      ],
+      "bbox": {
+        "minX": 52.16963308459725,
+        "maxX": 1850.213772091893,
+        "minZ": -1881.7508531785047,
+        "maxZ": -1127.3194746341164
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 10,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 10,
+      "skipped": 10,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-273"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-338"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-520"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-521"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-522"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-523"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-843"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-854"
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-855"
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1251",
+      "properties": {
+        "position": {
+          "x": 1428.5166551025889,
+          "y": 0.025288629292988807,
+          "z": -1140.493148643053
+        },
+        "rotation": -0.610865238198003
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-22",
+    "revision": 21,
+    "label": "objects-29",
+    "created": [],
+    "modified": [
+      "v6-lamps-1251"
+    ],
+    "deleted": [
+      "v6-lamps-273",
+      "v6-lamps-338",
+      "v6-lamps-520",
+      "v6-lamps-521",
+      "v6-lamps-522",
+      "v6-lamps-523",
+      "v6-lamps-843",
+      "v6-lamps-854",
+      "v6-lamps-855"
+    ],
+    "area": {
+      "minX": 13.169633084597251,
+      "maxX": 1889.213772091893,
+      "minZ": -1920.7508531785047,
+      "maxZ": -1088.3194746341164
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v6-lamps-273",
+          "v6-lamps-338",
+          "v6-lamps-520",
+          "v6-lamps-521",
+          "v6-lamps-522",
+          "v6-lamps-523",
+          "v6-lamps-843",
+          "v6-lamps-854",
+          "v6-lamps-855",
+          "v6-lamps-1251",
+          "urban-diagonal-split-split-split-split-c91-section",
+          "direction-mingyuan-main-section-section-section-section-section",
+          "urban-junction-69",
+          "urban-junction-40",
+          "ring-cw-1-split-3-split-split-split-split",
+          "urban-diagonal-split-split-split-split-c91",
+          "direction-mingyuan-ne-terminal"
+        ],
+        "message": "intersections[0]: urban-junction-69: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-273",
+          "v6-lamps-338",
+          "v6-lamps-520",
+          "v6-lamps-521",
+          "v6-lamps-522",
+          "v6-lamps-523",
+          "v6-lamps-843",
+          "v6-lamps-854",
+          "v6-lamps-855",
+          "v6-lamps-1251",
+          "urban-diagonal-split-split-split-split-c91-section",
+          "direction-mingyuan-main-section-section-section-section-section",
+          "urban-junction-69",
+          "urban-junction-40",
+          "ring-cw-1-split-3-split-split-split-split",
+          "urban-diagonal-split-split-split-split-c91",
+          "direction-mingyuan-ne-terminal"
+        ],
+        "message": "roads: 8 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

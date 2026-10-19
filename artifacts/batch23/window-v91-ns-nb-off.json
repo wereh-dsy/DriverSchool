@@ -1,0 +1,113 @@
+{
+  "mainline": "ns-nb-split-3-split-split-split-2-split",
+  "frontage": "v91-ns-1-b-3",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 233.20873282415482
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 233.20873282415482,
+      "kind": "rampAttachment",
+      "id": "v91-ns-sb-on",
+      "distance": 52.57435211203273
+    },
+    {
+      "station": 89.67125833969453,
+      "kind": "rampAttachment",
+      "id": "system-south:N-to-E-semi",
+      "distance": 16.249999999999957
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "system-south:N-to-W-right",
+      "distance": 16.249999999999964
+    },
+    {
+      "station": 233.20873282415482,
+      "kind": "rampAttachment",
+      "id": "v91-ns-nb-off",
+      "distance": 0
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "system-south:E-to-N-right",
+      "distance": 1.5987211554602254e-14
+    },
+    {
+      "station": 55.746684112597904,
+      "kind": "gradeSeparatedCrossing",
+      "id": "v4-south-split-2-split-split-2",
+      "distance": 0
+    },
+    {
+      "station": 62.10938722827723,
+      "kind": "gradeSeparatedCrossing",
+      "id": "v4-south-split-2-split-split-2-split-v91",
+      "distance": 0
+    },
+    {
+      "station": 233.20873282415482,
+      "kind": "ordinaryCrossing",
+      "id": "v91-ns-nb-off",
+      "distance": 0
+    },
+    {
+      "station": 3.410605131648481e-12,
+      "kind": "ordinaryCrossing",
+      "id": "system-south:E-to-N-right",
+      "distance": 0
+    },
+    {
+      "station": 69.18075162079981,
+      "kind": "intersection",
+      "id": "urban-junction-49",
+      "distance": 8.125
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 149.67125833969453
+    },
+    {
+      "start": 173.20873282415482,
+      "end": 233.20873282415482
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ns-nb-split-3-split-split-split-2-split",
+      "structure": {
+        "barrierEnabled": false,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 8
+        }
+      }
+    },
+    {
+      "roadId": "v91-ns-1-b-3",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      }
+    }
+  ],
+  "automaticDesign": false
+}

@@ -1,0 +1,383 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:system-south:E-to-S-loop:false:guide:130",
+      "road-safety:system-south:N-to-W-right:false:guide:205",
+      "road-safety:system-south:N-to-W-right:false:guide:280",
+      "road-safety:system-south:W-to-S-right:false:guide:130",
+      "road-safety:system-south:W-to-S-right:false:guide:205",
+      "road-safety:system-south:W-to-S-right:false:guide:280"
+    ],
+    "bbox": {
+      "minX": -180.34794621672398,
+      "maxX": -23.775864061734275,
+      "minZ": 2037.5641869350545,
+      "maxZ": 2217.604521531651
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:system-south:E-to-S-loop:false:guide:130",
+      "state": "INVALID",
+      "position": {
+        "x": -29.173406066481355,
+        "y": -7.991331986070621,
+        "z": 2066.6774313588985
+      },
+      "rotation": -2.0574230209291606,
+      "anchor": {
+        "anchorRoadId": "system-south:E-to-S-loop",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 129.9999999999999,
+        "lateralOffset": 6.053553390593418,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -2.0574230209291606,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-south:E-to-S-loop:false:guide:130",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-south:E-to-S-loop:false:guide:130",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-south:E-to-S-loop",
+            "groundElevation": -0.04,
+            "actual": -7.991331986070621
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-south:E-to-S-loop:false:guide:130",
+          "properties": {
+            "position": {
+              "x": -29.173406066481355,
+              "y": -7.991331986070621,
+              "z": 2066.6774313588985
+            },
+            "heading": -2.0574230209291606,
+            "roadId": "system-south:E-to-S-loop",
+            "stationMetres": 129.99999999999986
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-south:E-to-S-loop:false:guide:130",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.40355339059361
+    },
+    {
+      "id": "road-safety:system-south:N-to-W-right:false:guide:205",
+      "state": "INVALID",
+      "position": {
+        "x": -67.72473152681053,
+        "y": -4.838453551537591,
+        "z": 2032.5356006598665
+      },
+      "rotation": 2.44566634696111,
+      "anchor": {
+        "anchorRoadId": "system-south:N-to-W-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 204.99999999999986,
+        "lateralOffset": 6.053553390593361,
+        "verticalOffset": 1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 2.44566634696111,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-south:N-to-W-right:false:guide:205",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-south:N-to-W-right:false:guide:205",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-south:N-to-W-right",
+            "groundElevation": -0.04,
+            "actual": -4.838453551537591
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-south:N-to-W-right:false:guide:205",
+          "properties": {
+            "position": {
+              "x": -67.72473152681053,
+              "y": -4.838453551537591,
+              "z": 2032.5356006598665
+            },
+            "heading": 2.44566634696111,
+            "roadId": "system-south:N-to-W-right",
+            "stationMetres": 204.99999999999997
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-south:N-to-W-right:false:guide:205",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593311
+    },
+    {
+      "id": "road-safety:system-south:N-to-W-right:false:guide:280",
+      "state": "INVALID",
+      "position": {
+        "x": -126.00331713717787,
+        "y": -2.891662618747714,
+        "z": 2073.74619729486
+      },
+      "rotation": 1.9699046096159487,
+      "anchor": {
+        "anchorRoadId": "system-south:N-to-W-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 280.00000000000006,
+        "lateralOffset": 6.05355339059313,
+        "verticalOffset": -1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 1.9699046096159487,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-south:N-to-W-right:false:guide:280",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-south:N-to-W-right:false:guide:280",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-south:N-to-W-right",
+            "groundElevation": -0.04,
+            "actual": -2.891662618747714
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-south:N-to-W-right:false:guide:280",
+          "properties": {
+            "position": {
+              "x": -126.00331713717787,
+              "y": -2.891662618747714,
+              "z": 2073.74619729486
+            },
+            "heading": 1.9699046096159487,
+            "roadId": "system-south:N-to-W-right",
+            "stationMetres": 280
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-south:N-to-W-right:false:guide:280",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.4035533905931
+    },
+    {
+      "id": "road-safety:system-south:W-to-S-right:false:guide:130",
+      "state": "INVALID",
+      "position": {
+        "x": -182.0812520118841,
+        "y": -0.9913057259025894,
+        "z": 2154.308129785085
+      },
+      "rotation": -1.8657205376842216,
+      "anchor": {
+        "anchorRoadId": "system-south:W-to-S-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 129.99999999999994,
+        "lateralOffset": 6.053553390593074,
+        "verticalOffset": -8.881784197001252e-16,
+        "facingDirection": "forward",
+        "expectedHeading": -1.8657205376842216,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-south:W-to-S-right:false:guide:130",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-south:W-to-S-right:false:guide:130",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-south:W-to-S-right",
+            "groundElevation": -0.04,
+            "actual": -0.9913057259025894
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-south:W-to-S-right:false:guide:130",
+          "properties": {
+            "position": {
+              "x": -182.0812520118841,
+              "y": -0.9913057259025894,
+              "z": 2154.308129785085
+            },
+            "heading": -1.8657205376842216,
+            "roadId": "system-south:W-to-S-right",
+            "stationMetres": 130
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-south:W-to-S-right:false:guide:130",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593009
+    },
+    {
+      "id": "road-safety:system-south:W-to-S-right:false:guide:205",
+      "state": "INVALID",
+      "position": {
+        "x": -112.29334771222565,
+        "y": -2.1263800880730206,
+        "z": 2179.264030712012
+      },
+      "rotation": -2.0034561316589237,
+      "anchor": {
+        "anchorRoadId": "system-south:W-to-S-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 204.9999999999998,
+        "lateralOffset": 6.053553390593343,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -2.0034561316589237,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-south:W-to-S-right:false:guide:205",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-south:W-to-S-right:false:guide:205",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-south:W-to-S-right",
+            "groundElevation": -0.04,
+            "actual": -2.1263800880730206
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-south:W-to-S-right:false:guide:205",
+          "properties": {
+            "position": {
+              "x": -112.29334771222565,
+              "y": -2.1263800880730206,
+              "z": 2179.264030712012
+            },
+            "heading": -2.0034561316589237,
+            "roadId": "system-south:W-to-S-right",
+            "stationMetres": 204.9999999999999
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-south:W-to-S-right:false:guide:205",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593164
+    },
+    {
+      "id": "road-safety:system-south:W-to-S-right:false:guide:280",
+      "state": "INVALID",
+      "position": {
+        "x": -55.178688793812576,
+        "y": -3.4033219384579247,
+        "z": 2222.7145126378477
+      },
+      "rotation": -2.4343326290561653,
+      "anchor": {
+        "anchorRoadId": "system-south:W-to-S-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 280.00000000000017,
+        "lateralOffset": 6.053553390593436,
+        "verticalOffset": 4.440892098500626e-16,
+        "facingDirection": "forward",
+        "expectedHeading": -2.4343326290561653,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-south:W-to-S-right:false:guide:280",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-south:W-to-S-right:false:guide:280",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-south:W-to-S-right",
+            "groundElevation": -0.04,
+            "actual": -3.4033219384579247
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-south:W-to-S-right:false:guide:280",
+          "properties": {
+            "position": {
+              "x": -55.178688793812576,
+              "y": -3.4033219384579247,
+              "z": 2222.7145126378477
+            },
+            "heading": -2.4343326290561653,
+            "roadId": "system-south:W-to-S-right",
+            "stationMetres": 280
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-south:W-to-S-right:false:guide:280",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593546
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 6,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 6,
+    "skipped": 6,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

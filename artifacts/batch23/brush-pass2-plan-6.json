@@ -1,0 +1,340 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "noise_barrier",
+    "objectIds": [
+      "landscape-noise_barrier-273",
+      "landscape-noise_barrier-277",
+      "landscape-noise_barrier-736",
+      "landscape-noise_barrier-740",
+      "landscape-noise_barrier-744"
+    ],
+    "bbox": {
+      "minX": 2073.63032144635,
+      "maxX": 2274.6113350416153,
+      "minZ": -1469.1826114219114,
+      "maxZ": -1362.177044949294
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "landscape-noise_barrier-273",
+      "state": "INVALID",
+      "position": {
+        "x": 2218.4484517728833,
+        "y": 8,
+        "z": -1345.320797579171
+      },
+      "rotation": 0.7904767890934683,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 790.5594652368866,
+        "lateralOffset": 19.3761249367259,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 0.7904767890934683,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:landscape-noise_barrier-273",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-273",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ring-ccw-2-split-split-split",
+            "lateralOffset": 19.3761249367259
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:landscape-noise_barrier-273",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-273",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-273",
+          "properties": {
+            "position": {
+              "x": 2218.4484517728833,
+              "y": 8,
+              "z": -1345.320797579171
+            },
+            "rotation": 0.7904767890934683
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-273",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 78.41132894396304
+    },
+    {
+      "id": "landscape-noise_barrier-277",
+      "state": "INVALID",
+      "position": {
+        "x": 2144.8946539043436,
+        "y": 8,
+        "z": -1403.9432648364102
+      },
+      "rotation": 1.008134166902569,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 880.5746171626668,
+        "lateralOffset": 19.37612493672593,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.008134166902569,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:landscape-noise_barrier-277",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-277",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ring-ccw-2-split-split-split",
+            "lateralOffset": 19.37612493672593
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:landscape-noise_barrier-277",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-277",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-277",
+          "properties": {
+            "position": {
+              "x": 2144.8946539043436,
+              "y": 8,
+              "z": -1403.9432648364102
+            },
+            "rotation": 1.008134166902569
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-277",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 75.57315353255552
+    },
+    {
+      "id": "landscape-noise_barrier-736",
+      "state": "INVALID",
+      "position": {
+        "x": 2065.3656547253486,
+        "y": 8,
+        "z": -1444.015736817498
+      },
+      "rotation": 1.20471462463078,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 965.9736290661921,
+        "lateralOffset": 19.37612493672552,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.20471462463078,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:landscape-noise_barrier-736",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-736",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ring-ccw-2-split-split-split",
+            "lateralOffset": 19.37612493672552
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-736",
+          "properties": {
+            "position": {
+              "x": 2065.3656547253486,
+              "y": 8,
+              "z": -1444.015736817498
+            },
+            "rotation": 1.20471462463078
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-736",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 25.881883192624755
+    },
+    {
+      "id": "landscape-noise_barrier-740",
+      "state": "INVALID",
+      "position": {
+        "x": 2151.420176756189,
+        "y": 8,
+        "z": -1399.709093261097
+      },
+      "rotation": 0.9928133430856302,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 873.0925006041977,
+        "lateralOffset": 19.376124936725724,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 0.9928133430856302,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:landscape-noise_barrier-740",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-740",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ring-ccw-2-split-split-split",
+            "lateralOffset": 19.376124936725724
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-740",
+          "properties": {
+            "position": {
+              "x": 2151.420176756189,
+              "y": 8,
+              "z": -1399.709093261097
+            },
+            "rotation": 0.9928133430856302
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-740",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 23.661787304378116
+    },
+    {
+      "id": "landscape-noise_barrier-744",
+      "state": "INVALID",
+      "position": {
+        "x": 2227.63168678181,
+        "y": 8,
+        "z": -1335.9880884387917
+      },
+      "rotation": 0.7629314694786744,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 777.9993557613099,
+        "lateralOffset": 19.376124936725667,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 0.7629314694786744,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:landscape-noise_barrier-744",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-744",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ring-ccw-2-split-split-split",
+            "lateralOffset": 19.376124936725667
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:landscape-noise_barrier-744",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "landscape-noise_barrier-744",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "landscape-noise_barrier-744",
+          "properties": {
+            "position": {
+              "x": 2227.63168678181,
+              "y": 8,
+              "z": -1335.9880884387917
+            },
+            "rotation": 0.7629314694786744
+          }
+        }
+      ],
+      "sourceId": "landscape-noise_barrier-744",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 39.34479338415494
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 5,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 5,
+    "skipped": 5,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,1708 @@
+{
+  "before": {
+    "navigation": {
+      "passed": true,
+      "result": {
+        "assertions": 87,
+        "regionalRoutes": 1
+      }
+    },
+    "displays": {
+      "passed": true,
+      "result": {
+        "assertions": 21,
+        "equippedDisplays": 6
+      }
+    },
+    "geometry": {
+      "passed": false,
+      "error": "Error: Map geometry consistency: physical approach/junction height agrees: v91-shared-inner-ew/v91-ew-1-a-3-section-2"
+    },
+    "regional": {
+      "passed": false,
+      "error": "Error: City changed: roads/ring-cw-0"
+    },
+    "routes": [
+      {
+        "name": "v91-ew-east-eb-off",
+        "from": "ew-eb-split-split-4-split-2",
+        "to": "v91-ew-1-a-3-section",
+        "reachable": true,
+        "distance": 319.8558682933486,
+        "sections": [
+          "ew-eb-split-split-4-split-2",
+          "v91-ew-east-eb-off",
+          "v91-ew-1-a-3-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-east-wb-on",
+        "from": "v91-ew-1-b-3-section",
+        "to": "ew-wb-split-3-split-split-split-section",
+        "reachable": true,
+        "distance": 318.9090610021158,
+        "sections": [
+          "v91-ew-1-b-3-section",
+          "v91-ew-east-wb-on",
+          "ew-wb-split-3-split-split-split-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ns-sb-on",
+        "from": "v91-ns-1-a-3",
+        "to": "ns-sb-split-split-split-split-split-split-2-section",
+        "reachable": true,
+        "distance": 221.59916247224757,
+        "sections": [
+          "v91-ns-1-a-3",
+          "v91-ns-sb-on",
+          "ns-sb-split-split-split-split-split-split-2-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ns-nb-off",
+        "from": "ns-nb-split-3-split-split-split-2-split",
+        "to": "v91-ns-1-b-3",
+        "reachable": true,
+        "distance": 221.59916247224757,
+        "sections": [
+          "ns-nb-split-3-split-split-split-2-split",
+          "v91-ns-nb-off",
+          "v91-ns-1-b-3"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-west-eb-off",
+        "from": "ew-eb-split-5-split-split",
+        "to": "v91-ew-0-a-1-section",
+        "reachable": true,
+        "distance": 148.75415621988495,
+        "sections": [
+          "ew-eb-split-5-split-split",
+          "v91-ew-west-eb-off",
+          "v91-ew-0-a-1-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-west-wb-on",
+        "from": "v91-ew-0-b-1-section",
+        "to": "ew-wb-split-split-split-split-2-section",
+        "reachable": true,
+        "distance": 149.0089157989876,
+        "sections": [
+          "v91-ew-0-b-1-section",
+          "v91-ew-west-wb-on",
+          "ew-wb-split-split-split-split-2-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ew-west-eb-on",
+        "from": "v91-ew-0-a-6",
+        "to": "ew-eb-split-4-split-split-section",
+        "reachable": true,
+        "distance": 168.22001079073019,
+        "sections": [
+          "v91-ew-0-a-6",
+          "access-ew-west-eb-on",
+          "ew-eb-split-4-split-split-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ew-west-wb-off",
+        "from": "ew-wb-split-split-split-split-4",
+        "to": "v91-ew-0-b-6",
+        "reachable": true,
+        "distance": 177.65189206110458,
+        "sections": [
+          "ew-wb-split-split-split-split-4",
+          "access-ew-west-wb-off",
+          "v91-ew-0-b-6"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ns-north-sb-off",
+        "from": "ns-sb-split-3-split-split",
+        "to": "v91-ns-0-a-3-section",
+        "reachable": true,
+        "distance": 201.84426679403848,
+        "sections": [
+          "ns-sb-split-3-split-split",
+          "access-ns-north-sb-off",
+          "v91-ns-0-a-3-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ns-north-nb-on",
+        "from": "v91-ns-0-b-3-section",
+        "to": "ns-nb-split-split-split-split-split-split-2-section",
+        "reachable": true,
+        "distance": 201.27285470012993,
+        "sections": [
+          "v91-ns-0-b-3-section",
+          "access-ns-north-nb-on",
+          "ns-nb-split-split-split-split-split-split-2-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ns-north-sb-on",
+        "from": "v91-ns-0-a-4",
+        "to": "ns-sb-split-3-split-split-split-section",
+        "reachable": true,
+        "distance": 259.7026343505073,
+        "sections": [
+          "v91-ns-0-a-4",
+          "access-ns-north-sb-on",
+          "ns-sb-split-3-split-split-split-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ns-north-nb-off",
+        "from": "system-north:feeder-1",
+        "to": "v91-ns-0-b-4",
+        "reachable": true,
+        "distance": 252.3820257712247,
+        "sections": [
+          "system-north:feeder-1",
+          "access-ns-north-nb-off",
+          "v91-ns-0-b-4"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-east-eb-on",
+        "from": "v91-ew-1-a-4",
+        "to": "ew-eb-split-split-3-section",
+        "reachable": true,
+        "distance": 172.7810063940732,
+        "sections": [
+          "v91-ew-1-a-4",
+          "v91-ew-east-eb-on",
+          "ew-eb-split-split-3-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ns-sb-off",
+        "from": "ns-sb-split-split-split-split",
+        "to": "v91-ns-1-a-1-section-section",
+        "reachable": true,
+        "distance": 172.61736820956506,
+        "sections": [
+          "ns-sb-split-split-split-split",
+          "v91-ns-sb-off",
+          "v91-ns-1-a-1-section-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ns-nb-on",
+        "from": "v91-ns-1-b-1-section-section",
+        "to": "ns-nb-split-3-split-split-split-split-split-section",
+        "reachable": true,
+        "distance": 172.61736820956506,
+        "sections": [
+          "v91-ns-1-b-1-section-section",
+          "v91-ns-nb-on",
+          "ns-nb-split-3-split-split-split-split-split-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-east-wb-off",
+        "from": "ew-wb-split-3-split-split-2",
+        "to": "v91-ew-1-b-4",
+        "reachable": true,
+        "distance": 171.13436248900348,
+        "sections": [
+          "ew-wb-split-3-split-split-2",
+          "v91-ew-east-wb-off",
+          "v91-ew-1-b-4"
+        ],
+        "access": true
+      },
+      {
+        "name": "ew-eb through",
+        "from": "ew-eb",
+        "to": "ew-eb-split-split",
+        "reachable": true,
+        "distance": 5448.185957326115,
+        "sections": [
+          "ew-eb",
+          "ew-eb-split-6",
+          "ew-eb-split-6-split",
+          "ew-eb-split-5",
+          "ew-eb-split-5-split-2",
+          "ew-eb-split-5-split-2-split",
+          "ew-eb-split-5-split",
+          "ew-eb-split-5-split-split",
+          "ew-eb-split-5-split-split-section",
+          "ew-eb-split-4",
+          "ew-eb-split-4-split",
+          "ew-eb-split-4-split-split",
+          "ew-eb-split-4-split-split-section",
+          "ew-eb-split-4-split-split-split",
+          "ew-eb-split-3",
+          "ew-eb-split-3-split",
+          "ew-eb-split-3-split-split-4",
+          "ew-eb-split-3-split-split-3",
+          "ew-eb-split-3-split-split-2",
+          "ew-eb-split-3-split-split",
+          "ew-eb-split-2",
+          "ew-eb-split-2-split",
+          "ew-eb-split-2-split-split",
+          "ew-eb-split-2-split-split-split-2",
+          "ew-eb-split-2-split-split-split",
+          "ew-eb-split",
+          "ew-eb-split-split-5",
+          "ew-eb-split-split-4",
+          "ew-eb-split-split-4-split-2",
+          "ew-eb-split-split-4-split-2-section",
+          "ew-eb-split-split-4-split",
+          "ew-eb-split-split-4-split-split",
+          "ew-eb-split-split-3",
+          "ew-eb-split-split-3-section",
+          "ew-eb-split-split-3-split",
+          "ew-eb-split-split-3-split-section",
+          "ew-eb-split-split-3-split-split",
+          "ew-eb-split-split-2",
+          "ew-eb-split-split-2-split",
+          "ew-eb-split-split-2-split-split",
+          "ew-eb-split-split-2-split-split-split",
+          "ew-eb-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "ew-wb through",
+        "from": "ew-wb",
+        "to": "ew-wb-split-split-split-split-split-split",
+        "reachable": true,
+        "distance": 5448.167610033233,
+        "sections": [
+          "ew-wb",
+          "ew-wb-split-4",
+          "ew-wb-split-4-split",
+          "ew-wb-split-4-split-split",
+          "ew-wb-split-3",
+          "ew-wb-split-3-split",
+          "ew-wb-split-3-split-split-3",
+          "ew-wb-split-3-split-split-3-section",
+          "ew-wb-split-3-split-split-2",
+          "ew-wb-split-3-split-split-2-section",
+          "ew-wb-split-3-split-split",
+          "ew-wb-split-3-split-split-split-2",
+          "ew-wb-split-3-split-split-split",
+          "ew-wb-split-3-split-split-split-section",
+          "ew-wb-split-3-split-split-split-split-2",
+          "ew-wb-split-3-split-split-split-split",
+          "ew-wb-split-3-split-split-split-split-split",
+          "ew-wb-split-2",
+          "ew-wb-split-2-split",
+          "ew-wb-split-2-split-split-2",
+          "ew-wb-split-2-split-split",
+          "ew-wb-split",
+          "ew-wb-split-split",
+          "ew-wb-split-split-split-3",
+          "ew-wb-split-split-split-3-split",
+          "ew-wb-split-split-split-2",
+          "ew-wb-split-split-split-2-v6",
+          "ew-wb-split-split-split",
+          "ew-wb-split-split-split-split-4",
+          "ew-wb-split-split-split-split-4-section",
+          "ew-wb-split-split-split-split-3",
+          "ew-wb-split-split-split-split-3-split",
+          "ew-wb-split-split-split-split-2",
+          "ew-wb-split-split-split-split-2-section",
+          "ew-wb-split-split-split-split-2-split",
+          "ew-wb-split-split-split-split",
+          "ew-wb-split-split-split-split-split-2",
+          "ew-wb-split-split-split-split-split-2-split",
+          "ew-wb-split-split-split-split-split",
+          "ew-wb-split-split-split-split-split-split-2",
+          "ew-wb-split-split-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "ns-sb through",
+        "from": "ns-sb",
+        "to": "ns-sb-split-split-split-split-split-split-split",
+        "reachable": true,
+        "distance": 4947.318305738812,
+        "sections": [
+          "ns-sb",
+          "system-north:feeder--1",
+          "ns-sb-split-3-split",
+          "ns-sb-split-3-split-split-2",
+          "ns-sb-split-3-split-split-2-split",
+          "ns-sb-split-3-split-split-2-split-split",
+          "ns-sb-split-3-split-split",
+          "ns-sb-split-3-split-split-section",
+          "ns-sb-split-3-split-split-split-3",
+          "ns-sb-split-3-split-split-split-2",
+          "ns-sb-split-3-split-split-split",
+          "ns-sb-split-3-split-split-split-section",
+          "ns-sb-split-3-split-split-split-split",
+          "ns-sb-split-2",
+          "ns-sb-split-2-split",
+          "ns-sb-split-2-split-split-2",
+          "ns-sb-split-2-split-split",
+          "ns-sb-split",
+          "ns-sb-split-split",
+          "ns-sb-split-split-split-3",
+          "ns-sb-split-split-split-3-split",
+          "ns-sb-split-split-split-2",
+          "ns-sb-split-split-split",
+          "ns-sb-split-split-split-section",
+          "ns-sb-split-split-split-split",
+          "ns-sb-split-split-split-split-section",
+          "ns-tunnel:southbound",
+          "ns-tunnel:southbound-split",
+          "ns-tunnel:southbound-split-split",
+          "system-south:feeder--1",
+          "ns-sb-split-split-split-split-split",
+          "ns-sb-split-split-split-split-split-split-3",
+          "ns-sb-split-split-split-split-split-split-2",
+          "ns-sb-split-split-split-split-split-split-2-section",
+          "ns-sb-split-split-split-split-split-split-2-split",
+          "ns-sb-split-split-split-split-split-split-2-split-split",
+          "ns-sb-split-split-split-split-split-split",
+          "ns-sb-split-split-split-split-split-split-split-2",
+          "ns-sb-split-split-split-split-split-split-split-2-split",
+          "ns-sb-split-split-split-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "ns-nb through",
+        "from": "ns-nb",
+        "to": "ns-nb-split-split-split-split-split-split",
+        "reachable": true,
+        "distance": 4947.3183859599885,
+        "sections": [
+          "ns-nb",
+          "system-south:feeder-1",
+          "ns-nb-split-3-split",
+          "ns-nb-split-3-split-split",
+          "ns-nb-split-3-split-split-split-3",
+          "ns-nb-split-3-split-split-split-3-split",
+          "ns-nb-split-3-split-split-split-2",
+          "ns-nb-split-3-split-split-split-2-split-2",
+          "ns-nb-split-3-split-split-split-2-split",
+          "ns-nb-split-3-split-split-split-2-split-section",
+          "ns-nb-split-3-split-split-split",
+          "ns-nb-split-3-split-split-split-split",
+          "ns-tunnel:northbound",
+          "ns-tunnel:northbound-split-2",
+          "ns-tunnel:northbound-split",
+          "ns-nb-split-3-split-split-split-split-split",
+          "ns-nb-split-3-split-split-split-split-split-section",
+          "ns-nb-split-3-split-split-split-split-split-split",
+          "ns-nb-split-3-split-split-split-split-split-split-section",
+          "ns-nb-split-2",
+          "ns-nb-split-2-split-2",
+          "ns-nb-split-2-split-2-split-2",
+          "ns-nb-split-2-split-2-split",
+          "ns-nb-split-2-split",
+          "ns-nb-split",
+          "ns-nb-split-split-2",
+          "ns-nb-split-split-2-split-2",
+          "ns-nb-split-split-2-split",
+          "ns-nb-split-split-2-split-v6",
+          "ns-nb-split-split",
+          "ns-nb-split-split-split",
+          "system-north:feeder-1",
+          "system-north:feeder-1-section",
+          "ns-nb-split-split-split-split",
+          "ns-nb-split-split-split-split-split",
+          "ns-nb-split-split-split-split-split-v6",
+          "ns-nb-split-split-split-split-split-split-3",
+          "ns-nb-split-split-split-split-split-split-3-split-2",
+          "ns-nb-split-split-split-split-split-split-3-split",
+          "ns-nb-split-split-split-split-split-split-2",
+          "ns-nb-split-split-split-split-split-split-2-section",
+          "ns-nb-split-split-split-split-split-split-2-split",
+          "ns-nb-split-split-split-split-split-split-2-split-split",
+          "ns-nb-split-split-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "Mingyuan SW-NE",
+        "from": "direction-mingyuan-main",
+        "to": "direction-mingyuan-main-section-section-section-section",
+        "reachable": true,
+        "distance": 3965.491270820253,
+        "sections": [
+          "direction-mingyuan-main",
+          "direction-mingyuan-main-section",
+          "direction-mingyuan-main-section-section-2",
+          "direction-mingyuan-main-section-section",
+          "direction-mingyuan-main-section-section-section",
+          "direction-mingyuan-main-section-section-section-section-2",
+          "direction-mingyuan-main-section-section-section-section"
+        ],
+        "access": false
+      },
+      {
+        "name": "Mingyuan NE-SW",
+        "from": "direction-mingyuan-main-section-section-section-section",
+        "to": "direction-mingyuan-main",
+        "reachable": true,
+        "distance": 3965.4912708202523,
+        "sections": [
+          "direction-mingyuan-main-section-section-section-section",
+          "direction-mingyuan-main-section-section-section-section-2",
+          "direction-mingyuan-main-section-section-section",
+          "direction-mingyuan-main-section-section",
+          "direction-mingyuan-main-section-section-2",
+          "direction-mingyuan-main-section",
+          "direction-mingyuan-main"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:S-to-W-star",
+        "from": "ns-nb-split-split-split-split-split-v6",
+        "to": "ring-ccw-3-split-3-split-2",
+        "reachable": true,
+        "distance": 969.2700546004141,
+        "sections": [
+          "ns-nb-split-split-split-split-split-v6",
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:S-to-E-right",
+        "from": "ns-nb-split-split-split-split-split-split-3-split-2",
+        "to": "ring-cw-0-split-split-split-split",
+        "reachable": true,
+        "distance": 415.27784267014215,
+        "sections": [
+          "ns-nb-split-split-split-split-split-split-3-split-2",
+          "system-north:S-to-E-right",
+          "ring-cw-0-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:E-to-S-star",
+        "from": "ring-ccw-2-split-split-split-split",
+        "to": "ns-sb-split-3-split-split-split-2",
+        "reachable": true,
+        "distance": 1013.9954949637348,
+        "sections": [
+          "ring-ccw-2-split-split-split-split",
+          "system-north:E-to-S-star",
+          "ns-sb-split-3-split-split-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:E-to-N-right",
+        "from": "ring-ccw-3",
+        "to": "ns-nb-split-split-split-split-split-split-2-split",
+        "reachable": true,
+        "distance": 296.9272270204672,
+        "sections": [
+          "ring-ccw-3",
+          "system-north:E-to-N-right",
+          "ns-nb-split-split-split-split-split-split-2-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:N-to-E-star",
+        "from": "ns-sb-split-3-split-split-2",
+        "to": "ring-cw-1-split-3",
+        "reachable": true,
+        "distance": 949.8358281066129,
+        "sections": [
+          "ns-sb-split-3-split-split-2",
+          "system-north:N-to-E-star",
+          "ring-cw-1-split-3"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:N-to-W-right",
+        "from": "ns-sb-split-3-split-split-2-split",
+        "to": "ring-ccw-3-split-3-split-3",
+        "reachable": true,
+        "distance": 279.45893500375894,
+        "sections": [
+          "ns-sb-split-3-split-split-2-split",
+          "system-north:N-to-W-right",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:W-to-N-star",
+        "from": "ring-cw-0-split-split-split-2",
+        "to": "ns-nb-split-split-split-split-split-split-2-split-split",
+        "reachable": true,
+        "distance": 926.6344685040448,
+        "sections": [
+          "ring-cw-0-split-split-split-2",
+          "system-north:W-to-N-star",
+          "ns-nb-split-split-split-split-split-split-2-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:W-to-S-right",
+        "from": "ring-cw-0-split-split-split-2-split",
+        "to": "ns-sb-split-3-split-split-split-3",
+        "reachable": true,
+        "distance": 405.31820368816614,
+        "sections": [
+          "ring-cw-0-split-split-split-2-split",
+          "system-north:W-to-S-right",
+          "ns-sb-split-3-split-split-split-3"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:S-to-W-semi",
+        "from": "ns-nb-split-3-split-split",
+        "to": "ring-cw-3-split-2-split-2",
+        "reachable": true,
+        "distance": 675.8475241403191,
+        "sections": [
+          "ns-nb-split-3-split-split",
+          "system-south:S-to-W-semi",
+          "ring-cw-3-split-2-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:S-to-E-right",
+        "from": "ns-nb-split-3-split-split-split-3",
+        "to": "ring-ccw-1-split-2",
+        "reachable": true,
+        "distance": 465.962405295462,
+        "sections": [
+          "ns-nb-split-3-split-split-split-3",
+          "system-south:S-to-E-right",
+          "ring-ccw-1-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:E-to-S-loop",
+        "from": "ring-cw-2-split-split-2",
+        "to": "ns-sb-split-split-split-split-split-split-split-2",
+        "reachable": true,
+        "distance": 180.15169849358415,
+        "sections": [
+          "ring-cw-2-split-split-2",
+          "system-south:E-to-S-loop",
+          "ns-sb-split-split-split-split-split-split-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:E-to-N-right",
+        "from": "ring-cw-2-split",
+        "to": "ns-nb-split-3-split-split-split-2-split",
+        "reachable": true,
+        "distance": 532.2266310984019,
+        "sections": [
+          "ring-cw-2-split",
+          "system-south:E-to-N-right",
+          "ns-nb-split-3-split-split-split-2-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:N-to-E-semi",
+        "from": "ns-sb-split-split-split-split-split-split-2-section",
+        "to": "ring-ccw-1-split-split-2",
+        "reachable": true,
+        "distance": 859.0959269016422,
+        "sections": [
+          "ns-sb-split-split-split-split-split-split-2-section",
+          "system-south:N-to-E-semi",
+          "ring-ccw-1-split-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:N-to-W-right",
+        "from": "ns-sb-split-split-split-split-split-split-2-split",
+        "to": "ring-cw-3-split-3",
+        "reachable": true,
+        "distance": 486.2291578925928,
+        "sections": [
+          "ns-sb-split-split-split-split-split-split-2-split",
+          "system-south:N-to-W-right",
+          "ring-cw-3-split-3"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:W-to-N-loop",
+        "from": "ring-ccw-1",
+        "to": "ns-nb-split-3-split-split-split-2-split-2",
+        "reachable": true,
+        "distance": 177.07212995534633,
+        "sections": [
+          "ring-ccw-1",
+          "system-south:W-to-N-loop",
+          "ns-nb-split-3-split-split-split-2-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:W-to-S-right",
+        "from": "ring-ccw-0-split-split-split",
+        "to": "ns-sb-split-split-split-split-split-split-split-2-split",
+        "reachable": true,
+        "distance": 427.55374887800895,
+        "sections": [
+          "ring-ccw-0-split-split-split",
+          "system-south:W-to-S-right",
+          "ns-sb-split-split-split-split-split-split-split-2-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:S-to-W-semi",
+        "from": "ns-nb-split-3-split-split-split-split-split-section",
+        "to": "ew-wb-split-split-split-split-4",
+        "reachable": true,
+        "distance": 1275.4943081336767,
+        "sections": [
+          "ns-nb-split-3-split-split-split-split-split-section",
+          "system-central:S-to-W-semi",
+          "ew-wb-split-split-split-split-4"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:S-to-E-right",
+        "from": "ns-nb-split-2-split-2",
+        "to": "ew-eb-split-2-split-split-split-2",
+        "reachable": true,
+        "distance": 533.6143146563575,
+        "sections": [
+          "ns-nb-split-2-split-2",
+          "system-central:S-to-E-right",
+          "ew-eb-split-2-split-split-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:E-to-S-semi",
+        "from": "ew-wb-split-3-split-split-split-split",
+        "to": "ns-sb-split-split-split-split",
+        "reachable": true,
+        "distance": 1324.8841066646678,
+        "sections": [
+          "ew-wb-split-3-split-split-split-split",
+          "system-central:E-to-S-semi",
+          "ns-sb-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:E-to-N-right",
+        "from": "ew-wb-split-2-split",
+        "to": "ns-nb-split-split-2-split-2",
+        "reachable": true,
+        "distance": 521.3611940822844,
+        "sections": [
+          "ew-wb-split-2-split",
+          "system-central:E-to-N-right",
+          "ns-nb-split-split-2-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:N-to-E-semi",
+        "from": "ns-sb-split-3-split-split-split-section",
+        "to": "ew-eb-split-split-5",
+        "reachable": true,
+        "distance": 1305.8727989222737,
+        "sections": [
+          "ns-sb-split-3-split-split-split-section",
+          "system-central:N-to-E-semi",
+          "ew-eb-split-split-5"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:N-to-W-right",
+        "from": "ns-sb-split-2-split",
+        "to": "ew-wb-split-split-split-3-split",
+        "reachable": true,
+        "distance": 504.2267162305078,
+        "sections": [
+          "ns-sb-split-2-split",
+          "system-central:N-to-W-right",
+          "ew-wb-split-split-split-3-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:W-to-N-semi",
+        "from": "ew-eb-split-4-split-split-section",
+        "to": "ns-nb-split-split-split",
+        "reachable": true,
+        "distance": 1252.5923075219669,
+        "sections": [
+          "ew-eb-split-4-split-split-section",
+          "system-central:W-to-N-semi",
+          "ns-nb-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:W-to-S-right",
+        "from": "ew-eb-split-3-split",
+        "to": "ns-sb-split-split-split-3-split",
+        "reachable": true,
+        "distance": 563.4964452760283,
+        "sections": [
+          "ew-eb-split-3-split",
+          "system-central:W-to-S-right",
+          "ns-sb-split-split-split-3-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "机场",
+        "from": "ew-eb",
+        "to": "regional:S18:out:0",
+        "reachable": true,
+        "distance": 7858.1521559709545
+      },
+      {
+        "name": "星湖",
+        "from": "ew-eb",
+        "to": "v9-lake-loop-north",
+        "reachable": true,
+        "distance": 2922.572748839487
+      }
+    ]
+  },
+  "after": {
+    "navigation": {
+      "passed": true,
+      "result": {
+        "assertions": 87,
+        "regionalRoutes": 1
+      }
+    },
+    "displays": {
+      "passed": true,
+      "result": {
+        "assertions": 21,
+        "equippedDisplays": 6
+      }
+    },
+    "geometry": {
+      "passed": false,
+      "error": "Error: Map geometry consistency: physical approach/junction height agrees: v91-shared-inner-ew/v91-ew-1-a-3-section-2"
+    },
+    "routes": [
+      {
+        "name": "v91-ew-east-eb-off",
+        "from": "ew-eb-split-split-4-split",
+        "to": "v91-ew-1-a-3-section",
+        "reachable": true,
+        "distance": 187.18754455957756,
+        "sections": [
+          "ew-eb-split-split-4-split",
+          "v91-ew-east-eb-off",
+          "v91-ew-1-a-3-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-east-wb-on",
+        "from": "v91-ew-1-b-3-section",
+        "to": "ew-wb-split-3-split-split-split-2-section",
+        "reachable": true,
+        "distance": 185.681119594446,
+        "sections": [
+          "v91-ew-1-b-3-section",
+          "v91-ew-east-wb-on",
+          "ew-wb-split-3-split-split-split-2-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ns-sb-on",
+        "from": "v91-ns-1-a-3",
+        "to": "ns-sb-split-split-split-split-split-split-3-section",
+        "reachable": true,
+        "distance": 172.6173682095651,
+        "sections": [
+          "v91-ns-1-a-3",
+          "v91-ns-sb-on",
+          "ns-sb-split-split-split-split-split-split-3-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ns-nb-off",
+        "from": "ns-nb-split-3-split-split-split",
+        "to": "v91-ns-1-b-3",
+        "reachable": true,
+        "distance": 172.61736820956506,
+        "sections": [
+          "ns-nb-split-3-split-split-split",
+          "v91-ns-nb-off",
+          "v91-ns-1-b-3"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-west-eb-off",
+        "from": "ew-eb-split-5-split-split-section",
+        "to": "v91-ew-0-a-1-section",
+        "reachable": true,
+        "distance": 127.71654073802493,
+        "sections": [
+          "ew-eb-split-5-split-split-section",
+          "v91-ew-west-eb-off",
+          "v91-ew-0-a-1-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-west-wb-on",
+        "from": "v91-ew-0-b-1-section",
+        "to": "ew-wb-split-split-split-split-2-section-2",
+        "reachable": true,
+        "distance": 128.26467641465217,
+        "sections": [
+          "v91-ew-0-b-1-section",
+          "v91-ew-west-wb-on",
+          "ew-wb-split-split-split-split-2-section-2"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ew-west-eb-on",
+        "from": "v91-ew-0-a-6",
+        "to": "ew-eb-split-4-split-split-section-2",
+        "reachable": true,
+        "distance": 128.4447387892087,
+        "sections": [
+          "v91-ew-0-a-6",
+          "access-ew-west-eb-on",
+          "ew-eb-split-4-split-split-section-2"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ew-west-wb-off",
+        "from": "ew-wb-split-split-split-split-4-section",
+        "to": "v91-ew-0-b-6",
+        "reachable": true,
+        "distance": 142.49108385887476,
+        "sections": [
+          "ew-wb-split-split-split-split-4-section",
+          "access-ew-west-wb-off",
+          "v91-ew-0-b-6"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ns-north-sb-off",
+        "from": "ns-sb-split-3-split-split-section",
+        "to": "v91-ns-0-a-3-section",
+        "reachable": true,
+        "distance": 163.51858662994883,
+        "sections": [
+          "ns-sb-split-3-split-split-section",
+          "access-ns-north-sb-off",
+          "v91-ns-0-a-3-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ns-north-nb-on",
+        "from": "v91-ns-0-b-3-section",
+        "to": "ns-nb-split-split-split-split-split-split-2-section-2",
+        "reachable": true,
+        "distance": 162.62941783115684,
+        "sections": [
+          "v91-ns-0-b-3-section",
+          "access-ns-north-nb-on",
+          "ns-nb-split-split-split-split-split-split-2-section-2"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ns-north-sb-on",
+        "from": "v91-ns-0-a-4",
+        "to": "ns-sb-split-3-split-split-split-section-2",
+        "reachable": true,
+        "distance": 197.2983882412242,
+        "sections": [
+          "v91-ns-0-a-4",
+          "access-ns-north-sb-on",
+          "ns-sb-split-3-split-split-split-section-2"
+        ],
+        "access": true
+      },
+      {
+        "name": "access-ns-north-nb-off",
+        "from": "ns-nb-split-split-split-split",
+        "to": "v91-ns-0-b-4",
+        "reachable": true,
+        "distance": 188.17990993712124,
+        "sections": [
+          "ns-nb-split-split-split-split",
+          "access-ns-north-nb-off",
+          "v91-ns-0-b-4"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-east-eb-on",
+        "from": "v91-ew-1-a-4",
+        "to": "ew-eb-split-split-3-section-2",
+        "reachable": true,
+        "distance": 130.48188228924255,
+        "sections": [
+          "v91-ew-1-a-4",
+          "v91-ew-east-eb-on",
+          "ew-eb-split-split-3-section-2"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ns-sb-off",
+        "from": "ns-sb-split-split-split-split-section",
+        "to": "v91-ns-1-a-1-section-section-section",
+        "reachable": true,
+        "distance": 150.2501453792567,
+        "sections": [
+          "ns-sb-split-split-split-split-section",
+          "v91-ns-sb-off",
+          "v91-ns-1-a-1-section-section-section"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ns-nb-on",
+        "from": "v91-ns-1-b-1-section-section-section",
+        "to": "ns-nb-split-3-split-split-split-split-split-section-2",
+        "reachable": true,
+        "distance": 150.2501453792567,
+        "sections": [
+          "v91-ns-1-b-1-section-section-section",
+          "v91-ns-nb-on",
+          "ns-nb-split-3-split-split-split-split-split-section-2"
+        ],
+        "access": true
+      },
+      {
+        "name": "v91-ew-east-wb-off",
+        "from": "ew-wb-split-3-split-split-2-section",
+        "to": "v91-ew-1-b-4",
+        "reachable": true,
+        "distance": 128.21355704198368,
+        "sections": [
+          "ew-wb-split-3-split-split-2-section",
+          "v91-ew-east-wb-off",
+          "v91-ew-1-b-4"
+        ],
+        "access": true
+      },
+      {
+        "name": "ew-eb through",
+        "from": "ew-eb",
+        "to": "ew-eb-split-split",
+        "reachable": true,
+        "distance": 5448.185957326115,
+        "sections": [
+          "ew-eb",
+          "ew-eb-split-6",
+          "ew-eb-split-6-split",
+          "ew-eb-split-5",
+          "ew-eb-split-5-split-2",
+          "ew-eb-split-5-split-2-split",
+          "ew-eb-split-5-split",
+          "ew-eb-split-5-split-split",
+          "ew-eb-split-5-split-split-section",
+          "ew-eb-split-5-split-split-section-section",
+          "ew-eb-split-4",
+          "ew-eb-split-4-split",
+          "ew-eb-split-4-split-split",
+          "ew-eb-split-4-split-split-section-2",
+          "ew-eb-split-4-split-split-section",
+          "ew-eb-split-4-split-split-split",
+          "ew-eb-split-3",
+          "ew-eb-split-3-split",
+          "ew-eb-split-3-split-split-4",
+          "ew-eb-split-3-split-split-3",
+          "ew-eb-split-3-split-split-2",
+          "ew-eb-split-3-split-split",
+          "ew-eb-split-2",
+          "ew-eb-split-2-split",
+          "ew-eb-split-2-split-split",
+          "ew-eb-split-2-split-split-split-2",
+          "ew-eb-split-2-split-split-split",
+          "ew-eb-split",
+          "ew-eb-split-split-5",
+          "ew-eb-split-split-4",
+          "ew-eb-split-split-4-split-2",
+          "ew-eb-split-split-4-split-2-section",
+          "ew-eb-split-split-4-split",
+          "ew-eb-split-split-4-split-section",
+          "ew-eb-split-split-4-split-split",
+          "ew-eb-split-split-3",
+          "ew-eb-split-split-3-section-2",
+          "ew-eb-split-split-3-section",
+          "ew-eb-split-split-3-split",
+          "ew-eb-split-split-3-split-section",
+          "ew-eb-split-split-3-split-split",
+          "ew-eb-split-split-2",
+          "ew-eb-split-split-2-split",
+          "ew-eb-split-split-2-split-split",
+          "ew-eb-split-split-2-split-split-split",
+          "ew-eb-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "ew-wb through",
+        "from": "ew-wb",
+        "to": "ew-wb-split-split-split-split-split-split",
+        "reachable": true,
+        "distance": 5448.167610033233,
+        "sections": [
+          "ew-wb",
+          "ew-wb-split-4",
+          "ew-wb-split-4-split",
+          "ew-wb-split-4-split-split",
+          "ew-wb-split-3",
+          "ew-wb-split-3-split",
+          "ew-wb-split-3-split-split-3",
+          "ew-wb-split-3-split-split-3-section",
+          "ew-wb-split-3-split-split-2",
+          "ew-wb-split-3-split-split-2-section",
+          "ew-wb-split-3-split-split-2-section-section",
+          "ew-wb-split-3-split-split",
+          "ew-wb-split-3-split-split-split-2",
+          "ew-wb-split-3-split-split-split-2-section",
+          "ew-wb-split-3-split-split-split",
+          "ew-wb-split-3-split-split-split-section",
+          "ew-wb-split-3-split-split-split-split-2",
+          "ew-wb-split-3-split-split-split-split",
+          "ew-wb-split-3-split-split-split-split-split",
+          "ew-wb-split-2",
+          "ew-wb-split-2-split",
+          "ew-wb-split-2-split-split-2",
+          "ew-wb-split-2-split-split",
+          "ew-wb-split",
+          "ew-wb-split-split",
+          "ew-wb-split-split-split-3",
+          "ew-wb-split-split-split-3-split",
+          "ew-wb-split-split-split-2",
+          "ew-wb-split-split-split-2-v6",
+          "ew-wb-split-split-split",
+          "ew-wb-split-split-split-split-4",
+          "ew-wb-split-split-split-split-4-section",
+          "ew-wb-split-split-split-split-4-section-section",
+          "ew-wb-split-split-split-split-3",
+          "ew-wb-split-split-split-split-3-split",
+          "ew-wb-split-split-split-split-2",
+          "ew-wb-split-split-split-split-2-section-2",
+          "ew-wb-split-split-split-split-2-section",
+          "ew-wb-split-split-split-split-2-split",
+          "ew-wb-split-split-split-split",
+          "ew-wb-split-split-split-split-split-2",
+          "ew-wb-split-split-split-split-split-2-split",
+          "ew-wb-split-split-split-split-split",
+          "ew-wb-split-split-split-split-split-split-2",
+          "ew-wb-split-split-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "ns-sb through",
+        "from": "ns-sb",
+        "to": "ns-sb-split-split-split-split-split-split-split",
+        "reachable": true,
+        "distance": 4947.318305738812,
+        "sections": [
+          "ns-sb",
+          "system-north:feeder--1",
+          "ns-sb-split-3-split",
+          "ns-sb-split-3-split-split-2",
+          "ns-sb-split-3-split-split-2-split",
+          "ns-sb-split-3-split-split-2-split-split",
+          "ns-sb-split-3-split-split",
+          "ns-sb-split-3-split-split-section",
+          "ns-sb-split-3-split-split-section-section",
+          "ns-sb-split-3-split-split-split-3",
+          "ns-sb-split-3-split-split-split-2",
+          "ns-sb-split-3-split-split-split",
+          "ns-sb-split-3-split-split-split-section-2",
+          "ns-sb-split-3-split-split-split-section",
+          "ns-sb-split-3-split-split-split-split",
+          "ns-sb-split-2",
+          "ns-sb-split-2-split",
+          "ns-sb-split-2-split-split-2",
+          "ns-sb-split-2-split-split",
+          "ns-sb-split",
+          "ns-sb-split-split",
+          "ns-sb-split-split-split-3",
+          "ns-sb-split-split-split-3-split",
+          "ns-sb-split-split-split-2",
+          "ns-sb-split-split-split",
+          "ns-sb-split-split-split-section",
+          "ns-sb-split-split-split-split",
+          "ns-sb-split-split-split-split-section",
+          "ns-sb-split-split-split-split-section-section",
+          "ns-tunnel:southbound",
+          "ns-tunnel:southbound-split",
+          "ns-tunnel:southbound-split-split",
+          "system-south:feeder--1",
+          "ns-sb-split-split-split-split-split",
+          "ns-sb-split-split-split-split-split-split-3",
+          "ns-sb-split-split-split-split-split-split-3-section",
+          "ns-sb-split-split-split-split-split-split-2",
+          "ns-sb-split-split-split-split-split-split-2-section",
+          "ns-sb-split-split-split-split-split-split-2-split",
+          "ns-sb-split-split-split-split-split-split-2-split-split",
+          "ns-sb-split-split-split-split-split-split",
+          "ns-sb-split-split-split-split-split-split-split-2",
+          "ns-sb-split-split-split-split-split-split-split-2-split",
+          "ns-sb-split-split-split-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "ns-nb through",
+        "from": "ns-nb",
+        "to": "ns-nb-split-split-split-split-split-split",
+        "reachable": true,
+        "distance": 4947.318385959988,
+        "sections": [
+          "ns-nb",
+          "system-south:feeder-1",
+          "ns-nb-split-3-split",
+          "ns-nb-split-3-split-split",
+          "ns-nb-split-3-split-split-split-3",
+          "ns-nb-split-3-split-split-split-3-split",
+          "ns-nb-split-3-split-split-split-2",
+          "ns-nb-split-3-split-split-split-2-split-2",
+          "ns-nb-split-3-split-split-split-2-split",
+          "ns-nb-split-3-split-split-split-2-split-section",
+          "ns-nb-split-3-split-split-split",
+          "ns-nb-split-3-split-split-split-section",
+          "ns-nb-split-3-split-split-split-split",
+          "ns-tunnel:northbound",
+          "ns-tunnel:northbound-split-2",
+          "ns-tunnel:northbound-split",
+          "ns-nb-split-3-split-split-split-split-split",
+          "ns-nb-split-3-split-split-split-split-split-section-2",
+          "ns-nb-split-3-split-split-split-split-split-section",
+          "ns-nb-split-3-split-split-split-split-split-split",
+          "ns-nb-split-3-split-split-split-split-split-split-section",
+          "ns-nb-split-2",
+          "ns-nb-split-2-split-2",
+          "ns-nb-split-2-split-2-split-2",
+          "ns-nb-split-2-split-2-split",
+          "ns-nb-split-2-split",
+          "ns-nb-split",
+          "ns-nb-split-split-2",
+          "ns-nb-split-split-2-split-2",
+          "ns-nb-split-split-2-split",
+          "ns-nb-split-split-2-split-v6",
+          "ns-nb-split-split",
+          "ns-nb-split-split-split",
+          "system-north:feeder-1",
+          "system-north:feeder-1-section",
+          "ns-nb-split-split-split-split",
+          "ns-nb-split-split-split-split-section",
+          "ns-nb-split-split-split-split-split",
+          "ns-nb-split-split-split-split-split-v6",
+          "ns-nb-split-split-split-split-split-split-3",
+          "ns-nb-split-split-split-split-split-split-3-split-2",
+          "ns-nb-split-split-split-split-split-split-3-split",
+          "ns-nb-split-split-split-split-split-split-2",
+          "ns-nb-split-split-split-split-split-split-2-section-2",
+          "ns-nb-split-split-split-split-split-split-2-section",
+          "ns-nb-split-split-split-split-split-split-2-split",
+          "ns-nb-split-split-split-split-split-split-2-split-split",
+          "ns-nb-split-split-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "Mingyuan SW-NE",
+        "from": "direction-mingyuan-main",
+        "to": "direction-mingyuan-main-section-section-section-section-section",
+        "reachable": true,
+        "distance": 3965.4912708202514,
+        "sections": [
+          "direction-mingyuan-main",
+          "direction-mingyuan-main-section-2",
+          "direction-mingyuan-main-section",
+          "direction-mingyuan-main-section-section-2",
+          "direction-mingyuan-main-section-section",
+          "direction-mingyuan-main-section-section-section",
+          "direction-mingyuan-main-section-section-section-section-2",
+          "direction-mingyuan-main-section-section-section-section",
+          "direction-mingyuan-main-section-section-section-section-section"
+        ],
+        "access": false
+      },
+      {
+        "name": "Mingyuan NE-SW",
+        "from": "direction-mingyuan-main-section-section-section-section-section",
+        "to": "direction-mingyuan-main",
+        "reachable": true,
+        "distance": 3965.491270820251,
+        "sections": [
+          "direction-mingyuan-main-section-section-section-section-section",
+          "direction-mingyuan-main-section-section-section-section",
+          "direction-mingyuan-main-section-section-section-section-2",
+          "direction-mingyuan-main-section-section-section",
+          "direction-mingyuan-main-section-section",
+          "direction-mingyuan-main-section-section-2",
+          "direction-mingyuan-main-section",
+          "direction-mingyuan-main-section-2",
+          "direction-mingyuan-main"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:S-to-W-star",
+        "from": "ns-nb-split-split-split-split-split-v6",
+        "to": "ring-ccw-3-split-3-split-2",
+        "reachable": true,
+        "distance": 969.2700546004141,
+        "sections": [
+          "ns-nb-split-split-split-split-split-v6",
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:S-to-E-right",
+        "from": "ns-nb-split-split-split-split-split-split-3-split-2",
+        "to": "ring-cw-0-split-split-split-split",
+        "reachable": true,
+        "distance": 415.27784267014215,
+        "sections": [
+          "ns-nb-split-split-split-split-split-split-3-split-2",
+          "system-north:S-to-E-right",
+          "ring-cw-0-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:E-to-S-star",
+        "from": "ring-ccw-2-split-split-split-split",
+        "to": "ns-sb-split-3-split-split-split-2",
+        "reachable": true,
+        "distance": 1013.9954949637348,
+        "sections": [
+          "ring-ccw-2-split-split-split-split",
+          "system-north:E-to-S-star",
+          "ns-sb-split-3-split-split-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:E-to-N-right",
+        "from": "ring-ccw-3",
+        "to": "ns-nb-split-split-split-split-split-split-2-split",
+        "reachable": true,
+        "distance": 296.9272270204672,
+        "sections": [
+          "ring-ccw-3",
+          "system-north:E-to-N-right",
+          "ns-nb-split-split-split-split-split-split-2-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:N-to-E-star",
+        "from": "ns-sb-split-3-split-split-2",
+        "to": "ring-cw-1-split-3",
+        "reachable": true,
+        "distance": 949.8358281066129,
+        "sections": [
+          "ns-sb-split-3-split-split-2",
+          "system-north:N-to-E-star",
+          "ring-cw-1-split-3"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:N-to-W-right",
+        "from": "ns-sb-split-3-split-split-2-split",
+        "to": "ring-ccw-3-split-3-split-3",
+        "reachable": true,
+        "distance": 279.45893500375894,
+        "sections": [
+          "ns-sb-split-3-split-split-2-split",
+          "system-north:N-to-W-right",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:W-to-N-star",
+        "from": "ring-cw-0-split-split-split-2",
+        "to": "ns-nb-split-split-split-split-split-split-2-split-split",
+        "reachable": true,
+        "distance": 926.6344685040448,
+        "sections": [
+          "ring-cw-0-split-split-split-2",
+          "system-north:W-to-N-star",
+          "ns-nb-split-split-split-split-split-split-2-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-north:W-to-S-right",
+        "from": "ring-cw-0-split-split-split-2-split",
+        "to": "ns-sb-split-3-split-split-split-3",
+        "reachable": true,
+        "distance": 405.31820368816614,
+        "sections": [
+          "ring-cw-0-split-split-split-2-split",
+          "system-north:W-to-S-right",
+          "ns-sb-split-3-split-split-split-3"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:S-to-W-semi",
+        "from": "ns-nb-split-3-split-split",
+        "to": "ring-cw-3-split-2-split-2",
+        "reachable": true,
+        "distance": 675.8475241403191,
+        "sections": [
+          "ns-nb-split-3-split-split",
+          "system-south:S-to-W-semi",
+          "ring-cw-3-split-2-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:S-to-E-right",
+        "from": "ns-nb-split-3-split-split-split-3",
+        "to": "ring-ccw-1-split-2",
+        "reachable": true,
+        "distance": 465.962405295462,
+        "sections": [
+          "ns-nb-split-3-split-split-split-3",
+          "system-south:S-to-E-right",
+          "ring-ccw-1-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:E-to-S-loop",
+        "from": "ring-cw-2-split-split-2",
+        "to": "ns-sb-split-split-split-split-split-split-split-2",
+        "reachable": true,
+        "distance": 180.15169849358415,
+        "sections": [
+          "ring-cw-2-split-split-2",
+          "system-south:E-to-S-loop",
+          "ns-sb-split-split-split-split-split-split-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:E-to-N-right",
+        "from": "ring-cw-2-split",
+        "to": "ns-nb-split-3-split-split-split-2-split",
+        "reachable": true,
+        "distance": 532.2266310984019,
+        "sections": [
+          "ring-cw-2-split",
+          "system-south:E-to-N-right",
+          "ns-nb-split-3-split-split-split-2-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:N-to-E-semi",
+        "from": "ns-sb-split-split-split-split-split-split-2-section",
+        "to": "ring-ccw-1-split-split-2",
+        "reachable": true,
+        "distance": 859.0959269016422,
+        "sections": [
+          "ns-sb-split-split-split-split-split-split-2-section",
+          "system-south:N-to-E-semi",
+          "ring-ccw-1-split-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:N-to-W-right",
+        "from": "ns-sb-split-split-split-split-split-split-2-split",
+        "to": "ring-cw-3-split-3",
+        "reachable": true,
+        "distance": 486.2291578925928,
+        "sections": [
+          "ns-sb-split-split-split-split-split-split-2-split",
+          "system-south:N-to-W-right",
+          "ring-cw-3-split-3"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:W-to-N-loop",
+        "from": "ring-ccw-1",
+        "to": "ns-nb-split-3-split-split-split-2-split-2",
+        "reachable": true,
+        "distance": 177.07212995534633,
+        "sections": [
+          "ring-ccw-1",
+          "system-south:W-to-N-loop",
+          "ns-nb-split-3-split-split-split-2-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-south:W-to-S-right",
+        "from": "ring-ccw-0-split-split-split",
+        "to": "ns-sb-split-split-split-split-split-split-split-2-split",
+        "reachable": true,
+        "distance": 427.55374887800895,
+        "sections": [
+          "ring-ccw-0-split-split-split",
+          "system-south:W-to-S-right",
+          "ns-sb-split-split-split-split-split-split-split-2-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:S-to-W-semi",
+        "from": "ns-nb-split-3-split-split-split-split-split-section",
+        "to": "ew-wb-split-split-split-split-4",
+        "reachable": true,
+        "distance": 1275.4943081336767,
+        "sections": [
+          "ns-nb-split-3-split-split-split-split-split-section",
+          "system-central:S-to-W-semi",
+          "ew-wb-split-split-split-split-4"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:S-to-E-right",
+        "from": "ns-nb-split-2-split-2",
+        "to": "ew-eb-split-2-split-split-split-2",
+        "reachable": true,
+        "distance": 533.6143146563575,
+        "sections": [
+          "ns-nb-split-2-split-2",
+          "system-central:S-to-E-right",
+          "ew-eb-split-2-split-split-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:E-to-S-semi",
+        "from": "ew-wb-split-3-split-split-split-split",
+        "to": "ns-sb-split-split-split-split",
+        "reachable": true,
+        "distance": 1324.8841066646678,
+        "sections": [
+          "ew-wb-split-3-split-split-split-split",
+          "system-central:E-to-S-semi",
+          "ns-sb-split-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:E-to-N-right",
+        "from": "ew-wb-split-2-split",
+        "to": "ns-nb-split-split-2-split-2",
+        "reachable": true,
+        "distance": 521.3611940822844,
+        "sections": [
+          "ew-wb-split-2-split",
+          "system-central:E-to-N-right",
+          "ns-nb-split-split-2-split-2"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:N-to-E-semi",
+        "from": "ns-sb-split-3-split-split-split-section",
+        "to": "ew-eb-split-split-5",
+        "reachable": true,
+        "distance": 1305.8727989222737,
+        "sections": [
+          "ns-sb-split-3-split-split-split-section",
+          "system-central:N-to-E-semi",
+          "ew-eb-split-split-5"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:N-to-W-right",
+        "from": "ns-sb-split-2-split",
+        "to": "ew-wb-split-split-split-3-split",
+        "reachable": true,
+        "distance": 504.2267162305078,
+        "sections": [
+          "ns-sb-split-2-split",
+          "system-central:N-to-W-right",
+          "ew-wb-split-split-split-3-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:W-to-N-semi",
+        "from": "ew-eb-split-4-split-split-section",
+        "to": "ns-nb-split-split-split",
+        "reachable": true,
+        "distance": 1252.5923075219669,
+        "sections": [
+          "ew-eb-split-4-split-split-section",
+          "system-central:W-to-N-semi",
+          "ns-nb-split-split-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "system-central:W-to-S-right",
+        "from": "ew-eb-split-3-split",
+        "to": "ns-sb-split-split-split-3-split",
+        "reachable": true,
+        "distance": 563.4964452760283,
+        "sections": [
+          "ew-eb-split-3-split",
+          "system-central:W-to-S-right",
+          "ns-sb-split-split-split-3-split"
+        ],
+        "access": false
+      },
+      {
+        "name": "机场",
+        "from": "ew-eb",
+        "to": "regional:S18:out:0",
+        "reachable": true,
+        "distance": 7858.443883190181
+      },
+      {
+        "name": "星湖",
+        "from": "ew-eb",
+        "to": "v9-lake-loop-north",
+        "reachable": true,
+        "distance": 2922.8644760587117
+      }
+    ],
+    "shells": {
+      "passed": true,
+      "result": {
+        "tunnels": 14,
+        "results": [
+          {
+            "roadId": "regional:G38:out:split274",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "regional:G38:in:split18:split280",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "regional:G65:out:4",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "regional:G65:in:7",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "regional:G65:in:8",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "regional:G65:out:3:upgrade315",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "regional:G65:in:6:upgrade321",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "ns-tunnel:northbound",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "ns-tunnel:southbound",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "urban-rail-underpass:underpass",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "ns-tunnel:northbound-split",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "ns-tunnel:southbound-split",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "ns-tunnel:southbound-split-split",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          },
+          {
+            "roadId": "ns-tunnel:northbound-split-2",
+            "ceilingVisibleFromBelow": true,
+            "roofDrawCalls": 1
+          }
+        ]
+      }
+    },
+    "regional": {
+      "passed": false,
+      "error": "Error: City changed: roads/ring-cw-0"
+    }
+  },
+  "reachability": {
+    "sources": 3508,
+    "verifiedPairs": 9898960,
+    "losses": []
+  },
+  "routeRegressions": []
+}

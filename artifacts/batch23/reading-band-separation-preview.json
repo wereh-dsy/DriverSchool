@@ -1,0 +1,133 @@
+{
+  "inspection": {
+    "audit": {
+      "navigation": 1404,
+      "speedLimits": 666,
+      "chevrons": 637,
+      "conflicts": [
+        {
+          "a": "regional:v2:northwest:S-to-E-right:confirm",
+          "b": "regional:v2:northwest:S-to-E-right:entry"
+        },
+        {
+          "a": "regional:v3:north-river:N-to-E-turbine:confirm",
+          "b": "regional:v3:north-river:N-to-E-turbine:entry"
+        }
+      ]
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "regional:v2:northwest:S-to-E-right:confirm",
+      "properties": {
+        "type": "RAMP_CONFIRMATION",
+        "template": "dual-post",
+        "size": "medium",
+        "roadId": "regional:v2:northwest:S-to-E-right",
+        "position": {
+          "x": 4652.093634355841,
+          "y": 62.34587915756252,
+          "z": -5390.840695646828
+        },
+        "heading": 1.9200071622962325,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "G42",
+            "directionId": "G42:forward",
+            "arrow": "straight"
+          }
+        ],
+        "language": "zh-CN",
+        "stationMetres": 150.0000000000001,
+        "incomingRoadId": "regional:v2:northwest:S-to-E-right",
+        "highwayLayout": true
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "regional:v3:north-river:N-to-E-turbine:confirm",
+      "properties": {
+        "type": "RAMP_CONFIRMATION",
+        "template": "dual-post",
+        "size": "medium",
+        "roadId": "regional:v3:north-river:N-to-E-turbine",
+        "position": {
+          "x": 7561.451608432549,
+          "y": 63.87498168018972,
+          "z": -8997.398480187003
+        },
+        "heading": 2.9458144689659127,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "G38",
+            "directionId": "G38:forward",
+            "arrow": "straight"
+          }
+        ],
+        "language": "zh-CN",
+        "stationMetres": 150.00000000000054,
+        "incomingRoadId": "regional:v3:north-river:N-to-E-turbine",
+        "highwayLayout": true
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "reading-band-separation",
+    "created": [],
+    "modified": [
+      "regional:v2:northwest:S-to-E-right:confirm",
+      "regional:v3:north-river:N-to-E-turbine:confirm"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 4612.093634355841,
+      "maxX": 7603.365107655204,
+      "minZ": -9047.169611836558,
+      "maxZ": -5350.840695646828
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:v2:northwest:S-to-E-right:confirm",
+          "regional:v3:north-river:N-to-E-turbine:confirm",
+          "regional:G65:out:2",
+          "regional:G65:in:9",
+          "regional:v2:northwest:S-to-E-right",
+          "regional:v2:northwest:W-to-S-right",
+          "regional:v3:S31-extension130:out:3:revision463",
+          "regional:v3:north-river:N-to-E-turbine",
+          "regional:v3:north-river:W-to-N-turbine",
+          "regional:v3:S31-extension130:in:21:revision459:lane4570"
+        ],
+        "message": "roads: 12 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G65:in:9",
+          "regional:v2:northwest:W-to-N-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:north-river:W-to-N-turbine",
+          "regional:G65:out:9:revision475"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

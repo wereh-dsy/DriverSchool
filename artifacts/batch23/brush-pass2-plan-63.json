@@ -1,0 +1,94 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "highway:S29:out:mileage:28800"
+    ],
+    "bbox": {
+      "minX": 10527.689106056614,
+      "maxX": 10529.689106056614,
+      "minZ": -10988.332484170305,
+      "maxZ": -10986.332484170305
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "highway:S29:out:mileage:28800",
+      "state": "VALID",
+      "position": {
+        "x": 10526.878474917214,
+        "y": 87.99915435312522,
+        "z": -10978.410808362902
+      },
+      "rotation": -1.7710243369165124,
+      "anchor": {
+        "anchorRoadId": "regional:v3:S29:out:24",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 149.99999999999943,
+        "lateralOffset": 9.103553390592896,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.7710243369165124,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "highway:S29:out:mileage:28800",
+          "properties": {
+            "position": {
+              "x": 10526.878474917214,
+              "y": 87.99915435312522,
+              "z": -10978.410808362902
+            },
+            "heading": -1.7710243369165124,
+            "roadId": "regional:v3:S29:out:24",
+            "stationMetres": 149.99999999999923
+          }
+        }
+      ],
+      "sourceId": "highway:S29:out:mileage:28800",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.103553390592896
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "highway:S29:out:mileage:28800",
+      "properties": {
+        "position": {
+          "x": 10526.878474917214,
+          "y": 87.99915435312522,
+          "z": -10978.410808362902
+        },
+        "heading": -1.7710243369165124,
+        "roadId": "regional:v3:S29:out:24",
+        "stationMetres": 149.99999999999923
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

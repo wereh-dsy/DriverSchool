@@ -1,0 +1,1915 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "v6-road-trees-455",
+      "v6-road-trees-461",
+      "v6-road-trees-919",
+      "v6-road-trees-981",
+      "v6-road-trees-982",
+      "v6-road-trees-1042",
+      "v6-road-trees-1429",
+      "v6-road-trees-1436",
+      "v6-road-trees-1525",
+      "v6-road-trees-1535",
+      "v6-road-trees-1540",
+      "v6-road-trees-1633",
+      "v6-road-trees-2128",
+      "v6-road-trees-2130",
+      "v6-road-trees-2140",
+      "v6-road-trees-2165",
+      "v6-road-trees-2267",
+      "v6-road-trees-2368",
+      "v6-road-trees-2524",
+      "v6-road-trees-2677",
+      "v6-road-trees-2683",
+      "v6-road-trees-2686",
+      "v6-road-trees-2715",
+      "v6-road-trees-2962",
+      "v6-road-trees-2964",
+      "v8-verge-v8-beijing-road-split-428--1",
+      "v8-verge-v8-beijing-road-split-506--1",
+      "v8-verge-v8-beijing-road-split-584--1",
+      "v8-verge-v8-beijing-road-split-662--1",
+      "v8-verge-v8-shanghai-road-split-split-2-116-1",
+      "v8-verge-v8-gongren-street-split-split-split-142--1",
+      "v8-verge-v8-gongren-street-split-split-split-142-1",
+      "v8-verge-v8-gongren-street-split-split-2-split-506--1",
+      "v8-verge-v8-beijing-road-split-split-split-split-506-1"
+    ],
+    "bbox": {
+      "minX": -1876.3745997202188,
+      "maxX": -42.48446336399691,
+      "minZ": 14.334661548126402,
+      "maxZ": 1675.9583277803015
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-road-trees-455",
+      "state": "VALID",
+      "position": {
+        "x": -1866.4733134417995,
+        "y": -0.04,
+        "z": 580.2013082709377
+      },
+      "rotation": -3.111636307368884,
+      "anchor": {
+        "anchorRoadId": "v8-beijing-road-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 664.6627520599314,
+        "lateralOffset": -5.450000000000043,
+        "verticalOffset": -0.02026054374827909,
+        "facingDirection": "forward",
+        "expectedHeading": -3.111636307368884,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-455",
+          "properties": {
+            "position": {
+              "x": -1866.4733134417995,
+              "y": -0.04,
+              "z": 580.2013082709377
+            },
+            "rotation": -3.111636307368884
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-455",
+      "heightMode": "GROUND",
+      "autoMove": 4.097470079535399
+    },
+    {
+      "id": "v6-road-trees-461",
+      "state": "VALID",
+      "position": {
+        "x": -1858.0198047876324,
+        "y": -0.04,
+        "z": 1008.0361578490863
+      },
+      "rotation": -0.4756542837236823,
+      "anchor": {
+        "anchorRoadId": "v91-ring-west-inner-off",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 220.80366341622496,
+        "lateralOffset": -4.875000000000121,
+        "verticalOffset": -0.01793973886026711,
+        "facingDirection": "forward",
+        "expectedHeading": -0.4756542837236823,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-461",
+          "properties": {
+            "position": {
+              "x": -1858.0198047876324,
+              "y": -0.04,
+              "z": 1008.0361578490863
+            },
+            "rotation": -0.4756542837236823
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-461",
+      "heightMode": "GROUND",
+      "autoMove": 4.528956307706163
+    },
+    {
+      "id": "v6-road-trees-919",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -1137.1380319430793,
+        "y": -0.04,
+        "z": 15.33552652001088
+      },
+      "rotation": -0.00020527634774112624,
+      "anchor": {
+        "anchorRoadId": "v4-inner-0-v91-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 114.5475604827995,
+        "lateralOffset": 12.749999999999945,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -0.00020527634774112624,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-919",
+          "properties": {
+            "position": {
+              "x": -1137.1380319430793,
+              "y": -0.04,
+              "z": 15.33552652001088
+            },
+            "rotation": -0.00020527634774112624
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-919",
+      "heightMode": "GROUND",
+      "autoMove": 4.21388470893995
+    },
+    {
+      "id": "v6-road-trees-981",
+      "state": "VALID",
+      "position": {
+        "x": -229.2650413484684,
+        "y": -0.04,
+        "z": 982.6542203841633
+      },
+      "rotation": -0.813426774469954,
+      "anchor": {
+        "anchorRoadId": "direction-mingyuan-main-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 37.13608809289345,
+        "lateralOffset": 15.249999999999982,
+        "verticalOffset": -0.06357910684394215,
+        "facingDirection": "forward",
+        "expectedHeading": -0.813426774469954,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-981",
+          "properties": {
+            "position": {
+              "x": -229.2650413484684,
+              "y": -0.04,
+              "z": 982.6542203841633
+            },
+            "rotation": -0.813426774469954
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-981",
+      "heightMode": "GROUND",
+      "autoMove": 14.485300339739528
+    },
+    {
+      "id": "v6-road-trees-982",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -246.07960756349885,
+        "y": -0.04,
+        "z": 940.4003092849821
+      },
+      "rotation": -1.570652852238451,
+      "anchor": {
+        "anchorRoadId": "access-inner-mingyuan",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 61.14226850001269,
+        "lateralOffset": -9.44999999999995,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570652852238451,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-982",
+          "properties": {
+            "position": {
+              "x": -246.07960756349885,
+              "y": -0.04,
+              "z": 940.4003092849821
+            },
+            "rotation": -1.570652852238451
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-982",
+      "heightMode": "GROUND",
+      "autoMove": 12.440625790936343
+    },
+    {
+      "id": "v6-road-trees-1042",
+      "state": "VALID",
+      "position": {
+        "x": -1526.6760265809019,
+        "y": -0.04,
+        "z": 1262.6640278294565
+      },
+      "rotation": -1.431114570394917,
+      "anchor": {
+        "anchorRoadId": "v4-west-offset-split-2-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 76.27107259394664,
+        "lateralOffset": -6.000000000000081,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.431114570394917,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1042",
+          "properties": {
+            "position": {
+              "x": -1526.6760265809019,
+              "y": -0.04,
+              "z": 1262.6640278294565
+            },
+            "rotation": -1.431114570394917
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1042",
+      "heightMode": "GROUND",
+      "autoMove": 5.817426634321068
+    },
+    {
+      "id": "v6-road-trees-1429",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -1310.1036825282604,
+        "y": -0.04,
+        "z": 1677.4516942021953
+      },
+      "rotation": -2.7053307448216595,
+      "anchor": {
+        "anchorRoadId": "v8-shanghai-road-split-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 225.53531246865964,
+        "lateralOffset": 8.449999999999946,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -2.7053307448216595,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1429",
+          "properties": {
+            "position": {
+              "x": -1310.1036825282604,
+              "y": -0.04,
+              "z": 1677.4516942021953
+            },
+            "rotation": -2.7053307448216595
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1429",
+      "heightMode": "GROUND",
+      "autoMove": 5.9008340664803525
+    },
+    {
+      "id": "v6-road-trees-1436",
+      "state": "VALID",
+      "position": {
+        "x": -1183.6189914664799,
+        "y": -0.04,
+        "z": 1658.62567962685
+      },
+      "rotation": -1.0471975511965979,
+      "anchor": {
+        "anchorRoadId": "direction-mingyuan-main",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 105.24426903512528,
+        "lateralOffset": 15.249999999999972,
+        "verticalOffset": -3.6618350776410393,
+        "facingDirection": "forward",
+        "expectedHeading": -1.0471975511965979,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1436",
+          "properties": {
+            "position": {
+              "x": -1183.6189914664799,
+              "y": -0.04,
+              "z": 1658.62567962685
+            },
+            "rotation": -1.0471975511965979
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1436",
+      "heightMode": "GROUND",
+      "autoMove": 6.668037482342174
+    },
+    {
+      "id": "v6-road-trees-1525",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -1446.308371822464,
+        "y": -0.04,
+        "z": 1664.584554911593
+      },
+      "rotation": -1.844725037846932,
+      "anchor": {
+        "anchorRoadId": "v4-south-split-3-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 22.502613173153723,
+        "lateralOffset": 9.750000000000039,
+        "verticalOffset": -0.028274773302823422,
+        "facingDirection": "forward",
+        "expectedHeading": 1.82706518476697,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1525",
+          "properties": {
+            "position": {
+              "x": -1446.308371822464,
+              "y": -0.04,
+              "z": 1664.584554911593
+            },
+            "rotation": -1.844725037846932
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1525",
+      "heightMode": "GROUND",
+      "autoMove": 7.0273211252478385
+    },
+    {
+      "id": "v6-road-trees-1535",
+      "state": "VALID",
+      "position": {
+        "x": -1414.890783793618,
+        "y": -0.04,
+        "z": 873.9323020639592
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v4-west-split-split-4-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 52.81680558973528,
+        "lateralOffset": 9.75,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1535",
+          "properties": {
+            "position": {
+              "x": -1414.890783793618,
+              "y": -0.04,
+              "z": 873.9323020639592
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1535",
+      "heightMode": "GROUND",
+      "autoMove": 12.757752996120223
+    },
+    {
+      "id": "v6-road-trees-1540",
+      "state": "VALID",
+      "position": {
+        "x": -1427.020153429502,
+        "y": -0.04,
+        "z": 1260.7707018230744
+      },
+      "rotation": -1.431114570394917,
+      "anchor": {
+        "anchorRoadId": "v4-west-offset-split-2-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 175.21993684682394,
+        "lateralOffset": 6.000000000000113,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.431114570394917,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1540",
+          "properties": {
+            "position": {
+              "x": -1427.020153429502,
+              "y": -0.04,
+              "z": 1260.7707018230744
+            },
+            "rotation": -1.431114570394917
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1540",
+      "heightMode": "GROUND",
+      "autoMove": 3.253204676082
+    },
+    {
+      "id": "v6-road-trees-1633",
+      "state": "VALID",
+      "position": {
+        "x": -1033.1355988297148,
+        "y": -0.04,
+        "z": 858.8319715950638
+      },
+      "rotation": -0.7689848395305943,
+      "anchor": {
+        "anchorRoadId": "v5-west-south-lane-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 149.30390245343253,
+        "lateralOffset": -5.749999999999986,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -0.7689848395305943,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-1633",
+          "properties": {
+            "position": {
+              "x": -1033.1355988297148,
+              "y": -0.04,
+              "z": 858.8319715950638
+            },
+            "rotation": -0.7689848395305943
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-1633",
+      "heightMode": "GROUND",
+      "autoMove": 2.464619488726847
+    },
+    {
+      "id": "v6-road-trees-2128",
+      "state": "VALID",
+      "position": {
+        "x": -990.55,
+        "y": -0.04,
+        "z": 640.9171914473172
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v8-gongren-street-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 120.66719144731725,
+        "lateralOffset": -9.450000000000045,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2128",
+          "properties": {
+            "position": {
+              "x": -990.55,
+              "y": -0.04,
+              "z": 640.9171914473172
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2128",
+      "heightMode": "GROUND",
+      "autoMove": 4.2155589130269835
+    },
+    {
+      "id": "v6-road-trees-2130",
+      "state": "VALID",
+      "position": {
+        "x": -1053.8953697877282,
+        "y": -0.04,
+        "z": 623.2591936697306
+      },
+      "rotation": 0.7326501819022547,
+      "anchor": {
+        "anchorRoadId": "v4-inner-3-split-2-split-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 40.23790932644826,
+        "lateralOffset": -9.750000000000103,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 0.7326501819022547,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2130",
+          "properties": {
+            "position": {
+              "x": -1053.8953697877282,
+              "y": -0.04,
+              "z": 623.2591936697306
+            },
+            "rotation": 0.7326501819022547
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2130",
+      "heightMode": "GROUND",
+      "autoMove": 4.590649510475977
+    },
+    {
+      "id": "v6-road-trees-2140",
+      "state": "VALID",
+      "position": {
+        "x": -597.8234926598865,
+        "y": -0.04,
+        "z": 754.75
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-south-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 165.910176844547,
+        "lateralOffset": -9.25,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2140",
+          "properties": {
+            "position": {
+              "x": -597.8234926598865,
+              "y": -0.04,
+              "z": 754.75
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2140",
+      "heightMode": "GROUND",
+      "autoMove": 4.9381705931609705
+    },
+    {
+      "id": "v6-road-trees-2165",
+      "state": "INVALID",
+      "position": {
+        "x": -42.15,
+        "y": -0.04,
+        "z": 784
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-1-a-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 0,
+        "lateralOffset": -5.850000000000001,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.insideLane::v6-road-trees-2165::",
+          "code": "tree.insideLane",
+          "severity": "warning",
+          "objectId": "v6-road-trees-2165",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "direction-mingyuan-main-section-section",
+            "distance": 0.8080303532116332,
+            "roadHalfWidth": 11.25,
+            "objectRadius": 0.25
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-road-trees-2165",
+            "roadId": "direction-mingyuan-main-section-section",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.intersectsRoadStructure::v6-road-trees-2165::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "v6-road-trees-2165",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "direction-mingyuan-main-section-section",
+            "deckY": 6.5,
+            "objectTop": 6.896
+          },
+          "approximate": true
+        },
+        {
+          "id": "tree.insideJunction::v6-road-trees-2165::",
+          "code": "tree.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-road-trees-2165",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-46"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2165",
+          "properties": {
+            "position": {
+              "x": -42.15,
+              "y": -0.04,
+              "z": 784
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2165",
+      "heightMode": "GROUND",
+      "autoMove": 1.3414697148750898
+    },
+    {
+      "id": "v6-road-trees-2267",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -1560.6611768959099,
+        "y": -0.04,
+        "z": 777.5827046603637
+      },
+      "rotation": -1.6973589971235483,
+      "anchor": {
+        "anchorRoadId": "v8-hankou-road-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 10.75791869334026,
+        "lateralOffset": -5.449999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.6973589971235483,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2267",
+          "properties": {
+            "position": {
+              "x": -1560.6611768959099,
+              "y": -0.04,
+              "z": 777.5827046603637
+            },
+            "rotation": -1.6973589971235483
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2267",
+      "heightMode": "GROUND",
+      "autoMove": 5.213830742152416
+    },
+    {
+      "id": "v6-road-trees-2368",
+      "state": "VALID",
+      "position": {
+        "x": -889.8674961282346,
+        "y": -0.04,
+        "z": 1359.542573264248
+      },
+      "rotation": -0.8812145132842454,
+      "anchor": {
+        "anchorRoadId": "direction-mingyuan-companion",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 81.0509359106869,
+        "lateralOffset": 5.849999999999907,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -0.8812145132842454,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2368",
+          "properties": {
+            "position": {
+              "x": -889.8674961282346,
+              "y": -0.04,
+              "z": 1359.542573264248
+            },
+            "rotation": -0.8812145132842454
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2368",
+      "heightMode": "GROUND",
+      "autoMove": 5.506729427739536
+    },
+    {
+      "id": "v6-road-trees-2524",
+      "state": "VALID",
+      "position": {
+        "x": -1232.5648696789137,
+        "y": -0.04,
+        "z": 1012.922067539322
+      },
+      "rotation": -1.3005570423683892,
+      "anchor": {
+        "anchorRoadId": "v5-west-south-lane-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 159.98223737401193,
+        "lateralOffset": 5.749999999999857,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.3005570423683892,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2524",
+          "properties": {
+            "position": {
+              "x": -1232.5648696789137,
+              "y": -0.04,
+              "z": 1012.922067539322
+            },
+            "rotation": -1.3005570423683892
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2524",
+      "heightMode": "GROUND",
+      "autoMove": 2.2934904792098747
+    },
+    {
+      "id": "v6-road-trees-2677",
+      "state": "VALID",
+      "position": {
+        "x": -284.25,
+        "y": -0.04,
+        "z": 308.72049897081143
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-civic-block-road-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 50.708594208906675,
+        "lateralOffset": -5.75,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2677",
+          "properties": {
+            "position": {
+              "x": -284.25,
+              "y": -0.04,
+              "z": 308.72049897081143
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2677",
+      "heightMode": "GROUND",
+      "autoMove": 2.7334242432234563
+    },
+    {
+      "id": "v6-road-trees-2683",
+      "state": "VALID",
+      "position": {
+        "x": -870.9610141525513,
+        "y": -0.04,
+        "z": 859.5754694376371
+      },
+      "rotation": 1.0291750988153872,
+      "anchor": {
+        "anchorRoadId": "direction-inner-sw-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 59.831689317204415,
+        "lateralOffset": 9.45000000000001,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 1.0291750988153872,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2683",
+          "properties": {
+            "position": {
+              "x": -870.9610141525513,
+              "y": -0.04,
+              "z": 859.5754694376371
+            },
+            "rotation": 1.0291750988153872
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2683",
+      "heightMode": "GROUND",
+      "autoMove": 7.041768990816927
+    },
+    {
+      "id": "v6-road-trees-2686",
+      "state": "VALID",
+      "position": {
+        "x": -809.25,
+        "y": -0.04,
+        "z": 851.233005810578
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-civic-west-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 330.983005810578,
+        "lateralOffset": -5.75,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2686",
+          "properties": {
+            "position": {
+              "x": -809.25,
+              "y": -0.04,
+              "z": 851.233005810578
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2686",
+      "heightMode": "GROUND",
+      "autoMove": 3.364215675380302
+    },
+    {
+      "id": "v6-road-trees-2715",
+      "state": "VALID",
+      "position": {
+        "x": -1250.75,
+        "y": -0.04,
+        "z": 279.64789384759416
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-west-east-road-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 43.5459395065356,
+        "lateralOffset": -9.25,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2715",
+          "properties": {
+            "position": {
+              "x": -1250.75,
+              "y": -0.04,
+              "z": 279.64789384759416
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2715",
+      "heightMode": "GROUND",
+      "autoMove": 2.0646686135979158
+    },
+    {
+      "id": "v6-road-trees-2962",
+      "state": "VALID",
+      "position": {
+        "x": -1269.25,
+        "y": -0.04,
+        "z": 679.6347827007803
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-west-east-road-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 54.86451148667971,
+        "lateralOffset": 9.25,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2962",
+          "properties": {
+            "position": {
+              "x": -1269.25,
+              "y": -0.04,
+              "z": 679.6347827007803
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2962",
+      "heightMode": "GROUND",
+      "autoMove": 3.149593432914768
+    },
+    {
+      "id": "v6-road-trees-2964",
+      "state": "VALID",
+      "position": {
+        "x": -1250.75,
+        "y": -0.04,
+        "z": 808.3978499796027
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-west-east-road-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 183.62757876550214,
+        "lateralOffset": -9.25,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-2964",
+          "properties": {
+            "position": {
+              "x": -1250.75,
+              "y": -0.04,
+              "z": 808.3978499796027
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-2964",
+      "heightMode": "GROUND",
+      "autoMove": 8.972301801367566
+    },
+    {
+      "id": "v8-verge-v8-beijing-road-split-428--1",
+      "state": "VALID",
+      "position": {
+        "x": -1872.8169542048067,
+        "y": -0.04,
+        "z": 370.1711675346562
+      },
+      "rotation": -3.111636307368884,
+      "anchor": {
+        "anchorRoadId": "v8-beijing-road-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 454.53683910336076,
+        "lateralOffset": -5.399999999999944,
+        "verticalOffset": -0.0265009585350327,
+        "facingDirection": "forward",
+        "expectedHeading": -3.111636307368884,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-beijing-road-split-428--1",
+          "properties": {
+            "position": {
+              "x": -1872.8169542048067,
+              "y": -0.04,
+              "z": 370.1711675346562
+            },
+            "rotation": -3.111636307368884
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-beijing-road-split-428--1",
+      "heightMode": "GROUND",
+      "autoMove": 2.559106166301402
+    },
+    {
+      "id": "v8-verge-v8-beijing-road-split-506--1",
+      "state": "VALID",
+      "position": {
+        "x": -1870.4808477181919,
+        "y": -0.04,
+        "z": 448.13153138380505
+      },
+      "rotation": -3.111636307368884,
+      "anchor": {
+        "anchorRoadId": "v8-beijing-road-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 532.5321961767692,
+        "lateralOffset": -5.399999999999943,
+        "verticalOffset": -0.0241846170008992,
+        "facingDirection": "forward",
+        "expectedHeading": -3.111636307368884,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-beijing-road-split-506--1",
+          "properties": {
+            "position": {
+              "x": -1870.4808477181919,
+              "y": -0.04,
+              "z": 448.13153138380505
+            },
+            "rotation": -3.111636307368884
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-beijing-road-split-506--1",
+      "heightMode": "GROUND",
+      "autoMove": 3.410071617501477
+    },
+    {
+      "id": "v8-verge-v8-beijing-road-split-584--1",
+      "state": "VALID",
+      "position": {
+        "x": -1868.144741231577,
+        "y": -0.04,
+        "z": 526.0918952329545
+      },
+      "rotation": -3.111636307368884,
+      "anchor": {
+        "anchorRoadId": "v8-beijing-road-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 610.5275532501781,
+        "lateralOffset": -5.399999999999943,
+        "verticalOffset": -0.02186827546676568,
+        "facingDirection": "forward",
+        "expectedHeading": -3.111636307368884,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-beijing-road-split-584--1",
+          "properties": {
+            "position": {
+              "x": -1868.144741231577,
+              "y": -0.04,
+              "z": 526.0918952329545
+            },
+            "rotation": -3.111636307368884
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-beijing-road-split-584--1",
+      "heightMode": "GROUND",
+      "autoMove": 4.261068232932973
+    },
+    {
+      "id": "v8-verge-v8-beijing-road-split-662--1",
+      "state": "VALID",
+      "position": {
+        "x": -1865.830663509519,
+        "y": -0.04,
+        "z": 603.3171168658448
+      },
+      "rotation": -3.111636307368884,
+      "anchor": {
+        "anchorRoadId": "v8-beijing-road-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 687.7874381320025,
+        "lateralOffset": -5.399999999999943,
+        "verticalOffset": -0.01957377631977534,
+        "facingDirection": "forward",
+        "expectedHeading": -3.111636307368884,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-beijing-road-split-662--1",
+          "properties": {
+            "position": {
+              "x": -1865.830663509519,
+              "y": -0.04,
+              "z": 603.3171168658448
+            },
+            "rotation": -3.111636307368884
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-beijing-road-split-662--1",
+      "heightMode": "GROUND",
+      "autoMove": 4.78073024507175
+    },
+    {
+      "id": "v8-verge-v8-shanghai-road-split-split-2-116-1",
+      "state": "VALID",
+      "position": {
+        "x": -1414.8407837936181,
+        "y": -0.04,
+        "z": 1564.2446086168113
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v4-west-split-split-3-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 92.38552651029636,
+        "lateralOffset": 9.700000000000045,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-shanghai-road-split-split-2-116-1",
+          "properties": {
+            "position": {
+              "x": -1414.8407837936181,
+              "y": -0.04,
+              "z": 1564.2446086168113
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-shanghai-road-split-split-2-116-1",
+      "heightMode": "GROUND",
+      "autoMove": 6.122714788414309
+    },
+    {
+      "id": "v8-verge-v8-gongren-street-split-split-split-142--1",
+      "state": "VALID",
+      "position": {
+        "x": -1047.9220708793318,
+        "y": -0.04,
+        "z": 754.8
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-south-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 78.82792912066816,
+        "lateralOffset": -9.200000000000045,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-gongren-street-split-split-split-142--1",
+          "properties": {
+            "position": {
+              "x": -1047.9220708793318,
+              "y": -0.04,
+              "z": 754.8
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-gongren-street-split-split-split-142--1",
+      "heightMode": "GROUND",
+      "autoMove": 6.867522415298745
+    },
+    {
+      "id": "v8-verge-v8-gongren-street-split-split-split-142-1",
+      "state": "VALID",
+      "position": {
+        "x": -1075.9256095990286,
+        "y": -0.04,
+        "z": 754.8
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-south-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 50.824390400971424,
+        "lateralOffset": -9.200000000000045,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-gongren-street-split-split-split-142-1",
+          "properties": {
+            "position": {
+              "x": -1075.9256095990286,
+              "y": -0.04,
+              "z": 754.8
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-gongren-street-split-split-split-142-1",
+      "heightMode": "GROUND",
+      "autoMove": 2.13895145140892
+    },
+    {
+      "id": "v8-verge-v8-gongren-street-split-split-2-split-506--1",
+      "state": "VALID",
+      "position": {
+        "x": -990.6,
+        "y": -0.04,
+        "z": 450.187358904705
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v8-gongren-street-split-split-2-split-v91-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 204.8878912381852,
+        "lateralOffset": -9.399999999999977,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-gongren-street-split-split-2-split-506--1",
+          "properties": {
+            "position": {
+              "x": -990.6,
+              "y": -0.04,
+              "z": 450.187358904705
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-gongren-street-split-split-2-split-506--1",
+      "heightMode": "GROUND",
+      "autoMove": 4.724040244499823
+    },
+    {
+      "id": "v8-verge-v8-beijing-road-split-split-split-split-506-1",
+      "state": "VALID",
+      "position": {
+        "x": -1552.6673612233574,
+        "y": -0.04,
+        "z": 1612.3470485623232
+      },
+      "rotation": -1.8447250378469302,
+      "anchor": {
+        "anchorRoadId": "v8-beijing-road-split-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 504.1738638666616,
+        "lateralOffset": 4.91546763120379,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -2.265152812965564,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-beijing-road-split-split-split-split-506-1",
+          "properties": {
+            "position": {
+              "x": -1552.6673612233574,
+              "y": -0.04,
+              "z": 1612.3470485623232
+            },
+            "rotation": -1.8447250378469302
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-beijing-road-split-split-split-split-506-1",
+      "heightMode": "GROUND",
+      "autoMove": 4.474346639368852
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-455",
+      "properties": {
+        "position": {
+          "x": -1866.4733134417995,
+          "y": -0.04,
+          "z": 580.2013082709377
+        },
+        "rotation": -3.111636307368884
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-461",
+      "properties": {
+        "position": {
+          "x": -1858.0198047876324,
+          "y": -0.04,
+          "z": 1008.0361578490863
+        },
+        "rotation": -0.4756542837236823
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-919",
+      "properties": {
+        "position": {
+          "x": -1137.1380319430793,
+          "y": -0.04,
+          "z": 15.33552652001088
+        },
+        "rotation": -0.00020527634774112624
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-981",
+      "properties": {
+        "position": {
+          "x": -229.2650413484684,
+          "y": -0.04,
+          "z": 982.6542203841633
+        },
+        "rotation": -0.813426774469954
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-982",
+      "properties": {
+        "position": {
+          "x": -246.07960756349885,
+          "y": -0.04,
+          "z": 940.4003092849821
+        },
+        "rotation": -1.570652852238451
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1042",
+      "properties": {
+        "position": {
+          "x": -1526.6760265809019,
+          "y": -0.04,
+          "z": 1262.6640278294565
+        },
+        "rotation": -1.431114570394917
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1429",
+      "properties": {
+        "position": {
+          "x": -1310.1036825282604,
+          "y": -0.04,
+          "z": 1677.4516942021953
+        },
+        "rotation": -2.7053307448216595
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1436",
+      "properties": {
+        "position": {
+          "x": -1183.6189914664799,
+          "y": -0.04,
+          "z": 1658.62567962685
+        },
+        "rotation": -1.0471975511965979
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1525",
+      "properties": {
+        "position": {
+          "x": -1446.308371822464,
+          "y": -0.04,
+          "z": 1664.584554911593
+        },
+        "rotation": -1.844725037846932
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1535",
+      "properties": {
+        "position": {
+          "x": -1414.890783793618,
+          "y": -0.04,
+          "z": 873.9323020639592
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1540",
+      "properties": {
+        "position": {
+          "x": -1427.020153429502,
+          "y": -0.04,
+          "z": 1260.7707018230744
+        },
+        "rotation": -1.431114570394917
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-1633",
+      "properties": {
+        "position": {
+          "x": -1033.1355988297148,
+          "y": -0.04,
+          "z": 858.8319715950638
+        },
+        "rotation": -0.7689848395305943
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2128",
+      "properties": {
+        "position": {
+          "x": -990.55,
+          "y": -0.04,
+          "z": 640.9171914473172
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2130",
+      "properties": {
+        "position": {
+          "x": -1053.8953697877282,
+          "y": -0.04,
+          "z": 623.2591936697306
+        },
+        "rotation": 0.7326501819022547
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2140",
+      "properties": {
+        "position": {
+          "x": -597.8234926598865,
+          "y": -0.04,
+          "z": 754.75
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2267",
+      "properties": {
+        "position": {
+          "x": -1560.6611768959099,
+          "y": -0.04,
+          "z": 777.5827046603637
+        },
+        "rotation": -1.6973589971235483
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2368",
+      "properties": {
+        "position": {
+          "x": -889.8674961282346,
+          "y": -0.04,
+          "z": 1359.542573264248
+        },
+        "rotation": -0.8812145132842454
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2524",
+      "properties": {
+        "position": {
+          "x": -1232.5648696789137,
+          "y": -0.04,
+          "z": 1012.922067539322
+        },
+        "rotation": -1.3005570423683892
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2677",
+      "properties": {
+        "position": {
+          "x": -284.25,
+          "y": -0.04,
+          "z": 308.72049897081143
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2683",
+      "properties": {
+        "position": {
+          "x": -870.9610141525513,
+          "y": -0.04,
+          "z": 859.5754694376371
+        },
+        "rotation": 1.0291750988153872
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2686",
+      "properties": {
+        "position": {
+          "x": -809.25,
+          "y": -0.04,
+          "z": 851.233005810578
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2715",
+      "properties": {
+        "position": {
+          "x": -1250.75,
+          "y": -0.04,
+          "z": 279.64789384759416
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2962",
+      "properties": {
+        "position": {
+          "x": -1269.25,
+          "y": -0.04,
+          "z": 679.6347827007803
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-2964",
+      "properties": {
+        "position": {
+          "x": -1250.75,
+          "y": -0.04,
+          "z": 808.3978499796027
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-beijing-road-split-428--1",
+      "properties": {
+        "position": {
+          "x": -1872.8169542048067,
+          "y": -0.04,
+          "z": 370.1711675346562
+        },
+        "rotation": -3.111636307368884
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-beijing-road-split-506--1",
+      "properties": {
+        "position": {
+          "x": -1870.4808477181919,
+          "y": -0.04,
+          "z": 448.13153138380505
+        },
+        "rotation": -3.111636307368884
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-beijing-road-split-584--1",
+      "properties": {
+        "position": {
+          "x": -1868.144741231577,
+          "y": -0.04,
+          "z": 526.0918952329545
+        },
+        "rotation": -3.111636307368884
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-beijing-road-split-662--1",
+      "properties": {
+        "position": {
+          "x": -1865.830663509519,
+          "y": -0.04,
+          "z": 603.3171168658448
+        },
+        "rotation": -3.111636307368884
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-shanghai-road-split-split-2-116-1",
+      "properties": {
+        "position": {
+          "x": -1414.8407837936181,
+          "y": -0.04,
+          "z": 1564.2446086168113
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-gongren-street-split-split-split-142--1",
+      "properties": {
+        "position": {
+          "x": -1047.9220708793318,
+          "y": -0.04,
+          "z": 754.8
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-gongren-street-split-split-split-142-1",
+      "properties": {
+        "position": {
+          "x": -1075.9256095990286,
+          "y": -0.04,
+          "z": 754.8
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-gongren-street-split-split-2-split-506--1",
+      "properties": {
+        "position": {
+          "x": -990.6,
+          "y": -0.04,
+          "z": 450.187358904705
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-beijing-road-split-split-split-split-506-1",
+      "properties": {
+        "position": {
+          "x": -1552.6673612233574,
+          "y": -0.04,
+          "z": 1612.3470485623232
+        },
+        "rotation": -1.8447250378469302
+      }
+    }
+  ],
+  "stats": {
+    "planned": 34,
+    "valid": 28,
+    "adjusted": 5,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 33,
+    "removed": 0
+  },
+  "valid": true
+}

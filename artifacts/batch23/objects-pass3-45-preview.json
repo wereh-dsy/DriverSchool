@@ -1,0 +1,507 @@
+{
+  "inspection": {
+    "key": "0:-1:trafficLight:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "trafficLight",
+      "objectIds": [
+        "signal:urban-junction-32:north",
+        "signal:urban-junction-32:extra",
+        "signal:urban-junction-16:east",
+        "signal:urban-junction-16:west",
+        "signal:urban-junction-17:north",
+        "signal:urban-junction-17:east",
+        "signal:urban-junction-17:south",
+        "signal:urban-junction-17:west",
+        "signal:urban-junction-100:east",
+        "signal:urban-junction-100:west",
+        "signal:urban-junction-189:north",
+        "signal:urban-junction-189:east",
+        "signal:urban-junction-189:south",
+        "signal:urban-junction-189:west",
+        "signal:urban-junction-191:north",
+        "signal:urban-junction-191:east",
+        "signal:urban-junction-191:south",
+        "signal:urban-junction-191:west",
+        "signal:v91-local-jinhua-fuqian:south",
+        "signal:v91-ring-north-inner-junction:south"
+      ],
+      "bbox": {
+        "minX": 17.24124063360727,
+        "maxX": 1955.2,
+        "minZ": -1668.299369767837,
+        "maxZ": -435.15792137584367
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6,
+      "intersectionId": "urban-junction-32"
+    },
+    "brushStats": {
+      "planned": 20,
+      "valid": 16,
+      "adjusted": 2,
+      "invalid": 2,
+      "skipped": 2,
+      "added": 0,
+      "moved": 18,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "signal:urban-junction-32:north",
+        "issues": [
+          {
+            "id": "object.intersectsRoadStructure:v6-campus-west-split-v91:signal:urban-junction-32:north:urban-junction-32:",
+            "code": "object.intersectsRoadStructure",
+            "severity": "warning",
+            "objectId": "signal:urban-junction-32:north",
+            "roadId": "v6-campus-west-split-v91",
+            "intersectionId": "urban-junction-32",
+            "message": "Object crosses elevated deck envelope",
+            "metrics": {
+              "roadId": "ns-nb-split-split-split-split-split-split-3-split",
+              "deckY": 0,
+              "objectTop": 1.2000000000000002
+            },
+            "approximate": true
+          },
+          {
+            "id": "object.wrongStructureLevel:signal:urban-junction-32:north",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "signal:urban-junction-32:north",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "v6-campus-west-split-v91",
+              "groundElevation": -0.04,
+              "actual": -6
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "signal:urban-junction-32:extra",
+        "issues": [
+          {
+            "id": "object.intersectsRoadStructure:v91-ns-0-b-4:signal:urban-junction-32:extra:urban-junction-32:",
+            "code": "object.intersectsRoadStructure",
+            "severity": "warning",
+            "objectId": "signal:urban-junction-32:extra",
+            "roadId": "v91-ns-0-b-4",
+            "intersectionId": "urban-junction-32",
+            "message": "Object crosses elevated deck envelope",
+            "metrics": {
+              "roadId": "system-north:S-to-W-star",
+              "deckY": 0,
+              "objectTop": 1.2000000000000002
+            },
+            "approximate": true
+          },
+          {
+            "id": "object.wrongStructureLevel:signal:urban-junction-32:extra",
+            "code": "object.wrongStructureLevel",
+            "severity": "warning",
+            "objectId": "signal:urban-junction-32:extra",
+            "message": "Underground placement lies outside the supported floor envelope",
+            "metrics": {
+              "roadId": "v91-ns-0-b-4",
+              "groundElevation": -0.04,
+              "actual": -6
+            },
+            "approximate": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-16",
+      "approach": "east",
+      "position": {
+        "x": 1635.9499283626726,
+        "y": -0.024,
+        "z": -764.0599288319231
+      },
+      "heading": -1.5930099409782146
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-16",
+      "approach": "west",
+      "position": {
+        "x": 1669.1031848851924,
+        "y": -0.024,
+        "z": -763.55
+      },
+      "heading": -3.141592653589793
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-17",
+      "approach": "north",
+      "position": {
+        "x": 1792.3650677811165,
+        "y": -0.024,
+        "z": -763.031360276241
+      },
+      "heading": 3.0421695984228236
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-17",
+      "approach": "east",
+      "position": {
+        "x": 1788.113631826003,
+        "y": -0.024,
+        "z": -743.2749731043647
+      },
+      "heading": 1.548582712611661
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-17",
+      "approach": "south",
+      "position": {
+        "x": 1759.6800237596512,
+        "y": -0.024,
+        "z": -740.2670811661606
+      },
+      "heading": 0.6007845771134447
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-17",
+      "approach": "west",
+      "position": {
+        "x": 1760.5958720166882,
+        "y": -0.024,
+        "z": -765.2916235098367
+      },
+      "heading": -1.593009940978219
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-100",
+      "approach": "east",
+      "position": {
+        "x": 1635.8542017043553,
+        "y": -0.024,
+        "z": -444.63418735214276
+      },
+      "heading": -1.57103832898953
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-100",
+      "approach": "west",
+      "position": {
+        "x": 1669.1031848851924,
+        "y": -0.024,
+        "z": -444.4307994444376
+      },
+      "heading": -3.141592653589793
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-189",
+      "approach": "north",
+      "position": {
+        "x": 1954.2069021778543,
+        "y": -0.024,
+        "z": -554.1979863007817
+      },
+      "heading": 1.5823414854404743
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-189",
+      "approach": "east",
+      "position": {
+        "x": 1932.8,
+        "y": -0.024,
+        "z": -563.8127860130609
+      },
+      "heading": 0
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-189",
+      "approach": "south",
+      "position": {
+        "x": 1942.718118935314,
+        "y": -0.024,
+        "z": -587.8366566833877
+      },
+      "heading": -1.6169148304509153
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-189",
+      "approach": "west",
+      "position": {
+        "x": 1967.2,
+        "y": -0.024,
+        "z": -579.8127860130609
+      },
+      "heading": -3.141592653589793
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-191",
+      "approach": "north",
+      "position": {
+        "x": 1953.9955954429704,
+        "y": -0.024,
+        "z": -422.1571957792223
+      },
+      "heading": 1.570554324600257
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-191",
+      "approach": "east",
+      "position": {
+        "x": 1931.8,
+        "y": -0.024,
+        "z": -436.35816325504953
+      },
+      "heading": 0
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-191",
+      "approach": "south",
+      "position": {
+        "x": 1946.0044045570296,
+        "y": -0.024,
+        "z": -458.5591307308765
+      },
+      "heading": -1.5710383289895293
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-191",
+      "approach": "west",
+      "position": {
+        "x": 1968.2,
+        "y": -0.024,
+        "z": -444.35816325504953
+      },
+      "heading": -3.141592653589793
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "v91-local-jinhua-fuqian",
+      "approach": "south",
+      "position": {
+        "x": 1060.6650818599805,
+        "y": 0,
+        "z": -540.5
+      },
+      "heading": 1.5707963267948966
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "v91-ring-north-inner-junction",
+      "approach": "south",
+      "position": {
+        "x": 1166.7504426594796,
+        "y": -0.024,
+        "z": -1673.8382791468794
+      },
+      "heading": -0.6765917083391457
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-45",
+    "created": [],
+    "modified": [
+      "urban-junction-16",
+      "urban-junction-17",
+      "urban-junction-100",
+      "urban-junction-189",
+      "urban-junction-191",
+      "v91-local-jinhua-fuqian",
+      "v91-ring-north-inner-junction",
+      "urban-east-arterial-split",
+      "v9-newcity-one",
+      "urban-east-arterial-split-split-3",
+      "urban-diagonal-split-split-split-split-3-split",
+      "urban-diagonal-split-split-split-split-2-split-c91",
+      "v9-newcity-one-split",
+      "urban-junction-20",
+      "v9-chunhui-east",
+      "v9-chunhui-east-split",
+      "urban-east-arterial-split-split-3-split",
+      "v9-newcity-three",
+      "urban-east-arterial-split-split-3-split-split-3-v91",
+      "urban-junction-183",
+      "v9-newcity-three-split-split-split-split-split",
+      "v9-chunhui-east-split-split",
+      "urban-junction-185",
+      "v9-newcity-four-split-split-split-split-split",
+      "v9-chunhui-east-split-split-split",
+      "v5-east-garden-split",
+      "v9-newcity-two",
+      "v5-east-garden-split-split-2",
+      "v9-newcity-two-split",
+      "v9-newcity-three-split",
+      "v9-newcity-two-split-split-2-v91",
+      "urban-junction-196",
+      "v9-newcity-six-north-split",
+      "v9-newcity-three-split-split",
+      "v9-newcity-six-north-split-split",
+      "urban-junction-206",
+      "v9-newcity-five-north-split",
+      "v9-newcity-three-split-split-split",
+      "v9-newcity-five-north-split-split",
+      "urban-junction-242",
+      "v9-newcity-nine-north",
+      "v9-newcity-three-split-split-split-split",
+      "v9-newcity-nine-north-split",
+      "urban-junction-247",
+      "v9-newcity-ten",
+      "v9-newcity-ten-split",
+      "urban-junction-250",
+      "v9-newcity-four-split-split-split-split",
+      "v9-newcity-ten-split-split-2",
+      "diamond-east:west-local-split-v91",
+      "diamond-east:west-local-split-v91-section",
+      "v5-civic-north-split-split-m91",
+      "v5-civic-north-split-split-m91-section",
+      "v8-ring-north:off--1",
+      "v8-ring-north:on--1",
+      "v8-ring-north-cross",
+      "v8-ring-north-cross-split-2"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 781.25,
+      "maxX": 3470,
+      "minZ": -1829.386065335115,
+      "maxZ": 892.7439494210798
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "urban-junction-16",
+          "signal:urban-junction-16:east",
+          "signal:urban-junction-16:west",
+          "urban-junction-17",
+          "signal:urban-junction-17:north",
+          "signal:urban-junction-17:east",
+          "signal:urban-junction-17:south",
+          "signal:urban-junction-17:west",
+          "urban-junction-100",
+          "signal:urban-junction-100:east",
+          "signal:urban-junction-100:west",
+          "urban-junction-189",
+          "signal:urban-junction-189:north",
+          "signal:urban-junction-189:east",
+          "signal:urban-junction-189:south",
+          "signal:urban-junction-189:west",
+          "urban-junction-191",
+          "signal:urban-junction-191:north",
+          "signal:urban-junction-191:east",
+          "signal:urban-junction-191:south",
+          "signal:urban-junction-191:west",
+          "v91-local-jinhua-fuqian",
+          "signal:v91-local-jinhua-fuqian:south",
+          "v91-ring-north-inner-junction",
+          "signal:v91-ring-north-inner-junction:south",
+          "urban-east-arterial-split",
+          "v9-newcity-one",
+          "urban-east-arterial-split-split-3",
+          "urban-diagonal-split-split-split-split-3-split",
+          "urban-diagonal-split-split-split-split-2-split-c91",
+          "v9-newcity-one-split",
+          "urban-junction-20",
+          "v9-chunhui-east",
+          "v9-chunhui-east-split",
+          "urban-east-arterial-split-split-3-split",
+          "v9-newcity-three",
+          "urban-east-arterial-split-split-3-split-split-3-v91",
+          "urban-junction-183",
+          "v9-newcity-three-split-split-split-split-split",
+          "v9-chunhui-east-split-split",
+          "urban-junction-185",
+          "v9-newcity-four-split-split-split-split-split",
+          "v9-chunhui-east-split-split-split",
+          "v5-east-garden-split",
+          "v9-newcity-two",
+          "v5-east-garden-split-split-2",
+          "v9-newcity-two-split",
+          "v9-newcity-three-split",
+          "v9-newcity-two-split-split-2-v91",
+          "urban-junction-196",
+          "v9-newcity-six-north-split",
+          "v9-newcity-three-split-split",
+          "v9-newcity-six-north-split-split",
+          "urban-junction-206",
+          "v9-newcity-five-north-split",
+          "v9-newcity-three-split-split-split",
+          "v9-newcity-five-north-split-split",
+          "urban-junction-242",
+          "v9-newcity-nine-north",
+          "v9-newcity-three-split-split-split-split",
+          "v9-newcity-nine-north-split",
+          "urban-junction-247",
+          "v9-newcity-ten",
+          "v9-newcity-ten-split",
+          "urban-junction-250",
+          "v9-newcity-four-split-split-split-split",
+          "v9-newcity-ten-split-split-2",
+          "diamond-east:west-local-split-v91",
+          "diamond-east:west-local-split-v91-section",
+          "v5-civic-north-split-split-m91",
+          "v5-civic-north-split-split-m91-section",
+          "v8-ring-north:off--1",
+          "v8-ring-north:on--1",
+          "v8-ring-north-cross",
+          "v8-ring-north-cross-split-2"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:off--1",
+          "ring-cw-1-split-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:off--1",
+          "ring-cw-1-split-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:on--1",
+          "ring-cw-1-split-3-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

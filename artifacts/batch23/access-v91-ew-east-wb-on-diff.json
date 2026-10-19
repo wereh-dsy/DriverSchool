@@ -1,0 +1,680 @@
+{
+  "schemaVersion": 1,
+  "roads": {
+    "added": [
+      "ew-wb-split-3-split-split-split-2-section"
+    ],
+    "removed": [],
+    "modified": [
+      {
+        "id": "ew-wb-split-3-split-split-split-2",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": true,
+        "elevationOnly": false,
+        "maxDisplacement": 85.09735,
+        "elevationDelta": 0,
+        "controlPointsChanged": 9,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": 1670,
+              "y": 8,
+              "z": -162.95833333333326
+            },
+            "after": {
+              "x": 1670,
+              "y": 8,
+              "z": -162.95833333333326
+            }
+          },
+          "end": {
+            "before": {
+              "x": 1199.90265,
+              "y": 8,
+              "z": -162.95833333333326
+            },
+            "after": {
+              "x": 1285,
+              "y": 8,
+              "z": -162.95833333333326
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0,
+        "afterMaxHeadingDelta": 0,
+        "crossingElevationsPreserved": true
+      },
+      {
+        "id": "v91-ew-east-wb-on",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": true,
+        "elevationOnly": false,
+        "maxDisplacement": 134.99999999999977,
+        "elevationDelta": 0.2699215855561228,
+        "controlPointsChanged": 96,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": 1450,
+              "y": 0,
+              "z": -198
+            },
+            "after": {
+              "x": 1450,
+              "y": 0,
+              "z": -198
+            }
+          },
+          "end": {
+            "before": {
+              "x": 1150.0000000000002,
+              "y": 8,
+              "z": -162.95833333333326
+            },
+            "after": {
+              "x": 1285,
+              "y": 8,
+              "z": -162.95833333333326
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.006988040752446079,
+        "afterMaxHeadingDelta": 0.02263736041375397,
+        "crossingElevationsPreserved": true
+      }
+    ]
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "structures": [
+    {
+      "roadId": "ew-wb-split-3-split-split-split-2",
+      "before": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      },
+      "after": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      },
+      "beforeType": "elevated",
+      "afterType": "elevated"
+    },
+    {
+      "roadId": "v91-ew-east-wb-on",
+      "before": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 30
+      },
+      "after": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 30
+      },
+      "beforeType": "elevated",
+      "afterType": "elevated"
+    }
+  ],
+  "roadLinks": {
+    "added": [
+      {
+        "id": "link-212",
+        "from": {
+          "roadId": "ew-wb-split-3-split-split-split-2",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ew-wb-split-3-split-split-split-2-section",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-224",
+        "from": {
+          "roadId": "v91-ew-1-b-3-section",
+          "end": "start"
+        },
+        "to": {
+          "roadId": "v91-ew-east-wb-on",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-338",
+        "from": {
+          "roadId": "v91-ew-east-wb-on",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ew-wb-split-3-split-split-split-2-section",
+          "end": "start"
+        }
+      }
+    ],
+    "removed": [
+      {
+        "id": "link-377",
+        "from": {
+          "roadId": "v91-ew-1-b-3-section",
+          "end": "start"
+        },
+        "to": {
+          "roadId": "v91-ew-east-wb-on",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-379",
+        "from": {
+          "roadId": "v91-ew-east-wb-on",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ew-wb-split-3-split-split-split-section",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-545",
+        "from": {
+          "roadId": "v91-ew-east-wb-on",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ew-wb-split-3-split-split-split",
+          "end": "end"
+        }
+      },
+      {
+        "id": "link-547",
+        "from": {
+          "roadId": "v91-ew-east-wb-on",
+          "end": "start"
+        },
+        "to": {
+          "roadId": "v91-ew-1-b-3-section-2-section",
+          "end": "end"
+        }
+      }
+    ],
+    "modified": [
+      {
+        "before": {
+          "id": "link-173",
+          "from": {
+            "roadId": "ew-wb-split-3-split-split-split-2",
+            "end": "end"
+          },
+          "to": {
+            "roadId": "ew-wb-split-3-split-split-split",
+            "end": "start"
+          }
+        },
+        "after": {
+          "id": "link-173",
+          "from": {
+            "roadId": "ew-wb-split-3-split-split-split-2-section",
+            "end": "end"
+          },
+          "to": {
+            "roadId": "ew-wb-split-3-split-split-split",
+            "end": "start"
+          }
+        }
+      }
+    ]
+  },
+  "affectedBbox": {
+    "minX": 1146.3750000000002,
+    "maxX": 1677.375,
+    "minZ": -201.625,
+    "maxZ": -155.58333333333326
+  },
+  "maxRoadDisplacement": 134.99999999999977,
+  "maxElevationDelta": 0.2699215855561228,
+  "topology": {
+    "changed": true,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 1,
+      "deadEnds": [
+        "ew-wb-split-3-split-split",
+        "ew-wb-split-3-split-split-split-split-2"
+      ],
+      "adjacency": [
+        {
+          "id": "ew-wb-split-3-split-split-split-2",
+          "links": [
+            "ew-wb-split-3-split-split-split",
+            "ew-wb-split-3-split-split"
+          ]
+        },
+        {
+          "id": "v91-ew-east-wb-on",
+          "links": [
+            "v91-ew-1-b-3-section",
+            "ew-wb-split-3-split-split-split-section",
+            "ew-wb-split-3-split-split-split",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-b-3-section",
+          "links": [
+            "v91-ew-1-b-3-section-2-section",
+            "v91-ew-east-wb-on",
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split-split-section",
+          "links": [
+            "ew-wb-split-3-split-split-split-split-2",
+            "ew-wb-split-3-split-split-split",
+            "v91-ew-east-wb-on"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split-split",
+          "links": [
+            "ew-wb-split-3-split-split-split-2",
+            "ew-wb-split-3-split-split-split-section",
+            "v91-ew-east-wb-on"
+          ]
+        },
+        {
+          "id": "v91-ew-1-b-3-section-2-section",
+          "links": [
+            "v91-ew-1-b-3-section",
+            "v91-ew-east-wb-on",
+            "v5-east-science-split-3-m91",
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split",
+          "links": [
+            "ew-wb-split-3-split-split-split-2"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split-split-split-2",
+          "links": [
+            "ew-wb-split-3-split-split-split-section"
+          ]
+        },
+        {
+          "id": "urban-east-arterial-split-split-3-split-split-3-v91",
+          "links": [
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "urban-east-arterial-split-split-3-split-split-2-v91",
+          "links": [
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "v91-ew-1-a-3-section",
+          "links": [
+            "v91-ew-1-a-3-section-2-section",
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "v91-ew-1-a-4",
+          "links": [
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "v91-ew-1-b-4",
+          "links": [
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-3-section"
+          ]
+        },
+        {
+          "id": "v5-east-science-split-3-m91",
+          "links": [
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v5-east-science-split-3-m91-section",
+          "links": [
+            "v5-east-science-split-3-m91",
+            "v91-ew-1-a-3-section-2",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-a-3-section-2",
+          "links": [
+            "v91-ew-1-b-3-section-2",
+            "v5-east-science-split-3-m91",
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-a-3-section-2-section",
+          "links": [
+            "v91-ew-1-a-3-section",
+            "v5-east-science-split-3-m91",
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2",
+            "v91-ew-1-b-3-section-2",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-b-3-section-2",
+          "links": [
+            "v91-ew-1-a-3-section-2",
+            "v5-east-science-split-3-m91",
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 1,
+      "deadEnds": [
+        "ew-wb-split-3-split-split",
+        "ew-wb-split-3-split-split-split-split-2"
+      ],
+      "adjacency": [
+        {
+          "id": "ew-wb-split-3-split-split-split-2-section",
+          "links": [
+            "ew-wb-split-3-split-split-split",
+            "ew-wb-split-3-split-split-split-2",
+            "v91-ew-east-wb-on"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split-split-2",
+          "links": [
+            "ew-wb-split-3-split-split",
+            "ew-wb-split-3-split-split-split-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-east-wb-on",
+          "links": [
+            "v91-ew-1-b-3-section",
+            "ew-wb-split-3-split-split-split-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-b-3-section",
+          "links": [
+            "v91-ew-1-b-3-section-2-section",
+            "v91-ew-east-wb-on",
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split-split-section",
+          "links": [
+            "ew-wb-split-3-split-split-split-split-2",
+            "ew-wb-split-3-split-split-split"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split-split",
+          "links": [
+            "ew-wb-split-3-split-split-split-2-section",
+            "ew-wb-split-3-split-split-split-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-b-3-section-2-section",
+          "links": [
+            "v91-ew-1-b-3-section",
+            "v5-east-science-split-3-m91",
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split",
+          "links": [
+            "ew-wb-split-3-split-split-split-2"
+          ]
+        },
+        {
+          "id": "ew-wb-split-3-split-split-split-split-2",
+          "links": [
+            "ew-wb-split-3-split-split-split-section"
+          ]
+        },
+        {
+          "id": "urban-east-arterial-split-split-3-split-split-3-v91",
+          "links": [
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "urban-east-arterial-split-split-3-split-split-2-v91",
+          "links": [
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "v91-ew-1-a-3-section",
+          "links": [
+            "v91-ew-1-a-3-section-2-section",
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "v91-ew-1-a-4",
+          "links": [
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-4"
+          ]
+        },
+        {
+          "id": "v91-ew-1-b-4",
+          "links": [
+            "urban-east-arterial-split-split-3-split-split-3-v91",
+            "urban-east-arterial-split-split-3-split-split-2-v91",
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-4",
+            "v91-ew-1-b-3-section"
+          ]
+        },
+        {
+          "id": "v5-east-science-split-3-m91",
+          "links": [
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v5-east-science-split-3-m91-section",
+          "links": [
+            "v5-east-science-split-3-m91",
+            "v91-ew-1-a-3-section-2",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-a-3-section-2",
+          "links": [
+            "v91-ew-1-b-3-section-2",
+            "v5-east-science-split-3-m91",
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-a-3-section-2-section",
+          "links": [
+            "v91-ew-1-a-3-section",
+            "v5-east-science-split-3-m91",
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2",
+            "v91-ew-1-b-3-section-2",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        },
+        {
+          "id": "v91-ew-1-b-3-section-2",
+          "links": [
+            "v91-ew-1-a-3-section-2",
+            "v5-east-science-split-3-m91",
+            "v5-east-science-split-3-m91-section",
+            "v91-ew-1-a-3-section-2-section",
+            "v91-ew-1-b-3-section-2-section"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:0|ew-wb-split-3-split-split-split-section:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:0|ew-wb-split-3-split-split-split-section:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:0|ew-wb-split-3-split-split-split-section:lane:2",
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:1|ew-wb-split-3-split-split-split-section:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:1|ew-wb-split-3-split-split-split-section:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:1|ew-wb-split-3-split-split-split-section:lane:2",
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:2|ew-wb-split-3-split-split-split-section:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:2|ew-wb-split-3-split-split-split-section:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split:end|ew-wb-split-3-split-split-split:lane:2|ew-wb-split-3-split-split-split-section:lane:2",
+      "endpoint:v91-ew-east-wb-on:end|v91-ew-east-wb-on:lane:0|ew-wb-split-3-split-split-split-2-section:lane:0",
+      "endpoint:v91-ew-east-wb-on:end|v91-ew-east-wb-on:lane:0|ew-wb-split-3-split-split-split-2-section:lane:1",
+      "endpoint:v91-ew-east-wb-on:end|v91-ew-east-wb-on:lane:0|ew-wb-split-3-split-split-split-2-section:lane:2",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:0|ew-wb-split-3-split-split-split-2-section:lane:0",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:0|ew-wb-split-3-split-split-split-2-section:lane:1",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:0|ew-wb-split-3-split-split-split-2-section:lane:2",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:1|ew-wb-split-3-split-split-split-2-section:lane:0",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:1|ew-wb-split-3-split-split-split-2-section:lane:1",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:1|ew-wb-split-3-split-split-split-2-section:lane:2",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:2|ew-wb-split-3-split-split-split-2-section:lane:0",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:2|ew-wb-split-3-split-split-split-2-section:lane:1",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split-2:lane:2|ew-wb-split-3-split-split-split-2-section:lane:2",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:0|ew-wb-split-3-split-split-split:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:0|ew-wb-split-3-split-split-split:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:0|ew-wb-split-3-split-split-split:lane:2",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:1|ew-wb-split-3-split-split-split:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:1|ew-wb-split-3-split-split-split:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:1|ew-wb-split-3-split-split-split:lane:2",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:2|ew-wb-split-3-split-split-split:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:2|ew-wb-split-3-split-split-split:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split-2-section:end|ew-wb-split-3-split-split-split-2-section:lane:2|ew-wb-split-3-split-split-split:lane:2"
+    ],
+    "laneConnectionsRemoved": [
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:0|ew-wb-split-3-split-split-split:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:0|ew-wb-split-3-split-split-split:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:0|ew-wb-split-3-split-split-split:lane:2",
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:1|ew-wb-split-3-split-split-split:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:1|ew-wb-split-3-split-split-split:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:1|ew-wb-split-3-split-split-split:lane:2",
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:2|ew-wb-split-3-split-split-split:lane:0",
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:2|ew-wb-split-3-split-split-split:lane:1",
+      "endpoint:ew-wb-split-3-split-split-split-2:end|ew-wb-split-3-split-split-split-2:lane:2|ew-wb-split-3-split-split-split:lane:2",
+      "endpoint:v91-ew-east-wb-on:end|v91-ew-east-wb-on:lane:0|ew-wb-split-3-split-split-split-section:lane:0",
+      "endpoint:v91-ew-east-wb-on:end|v91-ew-east-wb-on:lane:0|ew-wb-split-3-split-split-split-section:lane:1",
+      "endpoint:v91-ew-east-wb-on:end|v91-ew-east-wb-on:lane:0|ew-wb-split-3-split-split-split-section:lane:2",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:0|ew-wb-split-3-split-split-split-section:lane:0",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:0|ew-wb-split-3-split-split-split-section:lane:1",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:0|ew-wb-split-3-split-split-split-section:lane:2",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:1|ew-wb-split-3-split-split-split-section:lane:0",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:1|ew-wb-split-3-split-split-split-section:lane:1",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:1|ew-wb-split-3-split-split-split-section:lane:2",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:2|ew-wb-split-3-split-split-split-section:lane:0",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:2|ew-wb-split-3-split-split-split-section:lane:1",
+      "endpoint:v91-ew-east-wb-on:end|ew-wb-split-3-split-split-split:lane:2|ew-wb-split-3-split-split-split-section:lane:2"
+    ],
+    "directedLaneRouteVerified": true
+  }
+}

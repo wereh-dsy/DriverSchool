@@ -1,6 +1,6 @@
 import type { RoadSurfaceSample, SurfaceMaterial, SurfaceType } from '../../world/SurfaceMaterial';
 import { VEHICLE_WHEEL_IDS } from '../VehicleDimensions';
-import { wetGripScale } from '../../world/environment/EnvironmentState';
+import { wetGripScale } from '../../world/environment/WeatherSystem';
 
 export const WHEEL_IDS = VEHICLE_WHEEL_IDS;
 export type WheelId = typeof WHEEL_IDS[number];
@@ -41,17 +41,23 @@ export interface WheelSurfaceQuery {
   sampleRoadSurface(x: number, z: number): RoadSurfaceSample;
 }
 
-/** Four independent samples; local forward is -Z and local right is +X. */
+/** Four independent samples; local forward is -Z and local right is +X.
+ * `roadGripMultiplier` is the shared weather friction scale. It layers on the
+ * existing surface-wetness response and per-tyre wet retention; it does not
+ * alter the tyre curve or add hydroplaning.
+ */
 export function sampleWheelContacts(
   ground: WheelSurfaceQuery,
   pose: WheelContactPose,
   dimensions: WheelContactDimensions,
   wetness = 0,
+  roadGripMultiplier = 1,
   target?: WheelContactSet,
 ): WheelContactSet {
   const sine = Math.sin(pose.yaw);
   const cosine = Math.cos(pose.yaw);
   const result = target ?? createWheelContactBuffer();
+  const weatherGrip = Number.isFinite(roadGripMultiplier) ? Math.max(0, roadGripMultiplier) : 1;
   for (const id of WHEEL_IDS) {
     const front = id === 'frontLeft' || id === 'frontRight';
     const left = id === 'frontLeft' || id === 'rearLeft';
@@ -60,15 +66,15 @@ export function sampleWheelContacts(
     const x = pose.x + localX * cosine + localZ * sine;
     const z = pose.z - localX * sine + localZ * cosine;
     const surface = ground.sampleRoadSurface(x, z);
-    const weatherGrip = wetGripScale(surface, wetness);
+    const wetGrip = wetGripScale(surface, wetness) * weatherGrip;
     const wheel = result[id] as MutableContact;
     wheel.x = x; wheel.z = z; wheel.height = surface.height;
     wheel.wetness = Math.max(wetness, surface.wetness ?? 0);
     wheel.normal.x = surface.normal.x; wheel.normal.y = surface.normal.y; wheel.normal.z = surface.normal.z;
     wheel.surfaceType = surface.surfaceType;
     wheel.profile = surface.profile; wheel.depth = surface.depth;
-    wheel.longitudinalGrip = surface.longitudinalGrip * weatherGrip;
-    wheel.lateralGrip = surface.lateralGrip * weatherGrip;
+    wheel.longitudinalGrip = surface.longitudinalGrip * wetGrip;
+    wheel.lateralGrip = surface.lateralGrip * wetGrip;
     wheel.rollingResistance = surface.rollingResistance;
     wheel.roughness = surface.roughness;
   }

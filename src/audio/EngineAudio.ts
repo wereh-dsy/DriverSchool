@@ -3,6 +3,7 @@ import type { VehicleAudioProfile } from './VehicleAudioProfile';
 import { calculateElectricAudioMix, TurnSignalClickTracker, type ElectricAudioOptions } from './ElectricAudioMix';
 import type { VehicleLightingState } from '../vehicle/control/VehicleLightingController';
 import { playLaneDepartureWarningSound } from './LaneDepartureWarningSound';
+import { calculateWeatherAudioMix, createWeatherAudioMix } from './WeatherAudioMix';
 
 /** Additional telemetry used by the synthesized vehicle and road-noise layers. */
 export interface EngineAudioUpdateOptions {
@@ -14,6 +15,12 @@ export interface EngineAudioUpdateOptions {
   clutchEngagement?: number;
   /** Surface roughness from 0 (smooth asphalt) to 1 (very coarse). */
   roadRoughness?: number;
+  /** Physical forward gear, used only for subtle drivetrain colour. */
+  gear?: number | string;
+  /** Longitudinal acceleration in m/s²; positive under power, negative on overrun. */
+  acceleration?: number;
+  /** Internally smoothed acceleration, -1..1. */
+  accelerationLoad?: number;
   engineCharacter?: EngineConfig;
   profile?: VehicleAudioProfile;
   cockpit?: boolean;
@@ -31,6 +38,7 @@ interface EngineMix {
   upperExhaust: number;
   intake: number;
   mechanical: number;
+  turbo: number;
   road: number;
   wind: number;
   load: number;
@@ -48,9 +56,9 @@ const smoothStep = (value: number): number => {
 };
 
 /**
- * Produces a conservative mix from the configured four-stroke firing density. Keeping this calculation separate
- * from the Web Audio graph makes future sample-based or electric powertrains easy
- * to add without changing the game's vehicle interface.
+ * Produces a conservative mix from the configured four-stroke firing density.
+ * Profiles add load/rpm layers with smooth crossfades; every optional value
+ * falls back to the original single-layer calibration for legacy cars.
  */
 export const calculateEngineAudioMix = (
   rpm: number,
@@ -67,23 +75,72 @@ export const calculateEngineAudioMix = (
   const speedNormal = smoothStep(speed / 42);
 
   const profile = options.profile;
-  const sport = options.driveMode === 'SPORT' ? (profile?.sportPresence ?? 1) : 1;
-  const cabin = profile && options.cockpit !== false
+  const cockpit = options.cockpit !== false;
+  const driveMode = options.driveMode;
+  const modePresence = profile
+    ? driveMode === 'SPORT' ? profile.sportPresence
+      : driveMode === 'ECO' ? (profile.ecoPresence ?? .8) : 1
+    : 1;
+  const cabin = profile && cockpit
     ? profile.cabinIdle + (profile.cabinLoad - profile.cabinIdle) * smoothStep(load) : 1;
-  const presence = cabin * sport;
+  const presence = profile
+    ? cockpit ? cabin * modePresence : (profile.exteriorPresence ?? 1) * modePresence
+    : 1;
+  // Idle/low/mid/high partition of the rpm range; weights sum to one so the
+  // layer crossfade never changes overall level at a constant load.
+  let layerPresence = 1;
+  if (profile) {
+    const idleBand = 1 - smoothStep(rpmNormal / .12);
+    const lowBand = smoothStep(rpmNormal / .18) * (1 - smoothStep((rpmNormal - .22) / .22));
+    const midBand = smoothStep((rpmNormal - .25) / .25) * (1 - smoothStep((rpmNormal - .60) / .22));
+    const highBand = smoothStep((rpmNormal - .55) / .30);
+    const total = Math.max(.0001, idleBand + lowBand + midBand + highBand);
+    layerPresence = (idleBand * (profile.idlePresence ?? 1) + lowBand * (profile.lowPresence ?? 1) +
+      midBand * (profile.midPresence ?? 1) + highBand * (profile.highPresence ?? 1)) / total;
+  }
+  // Lift-off keeps a little body instead of cutting to silence; the scheduled
+  // gains still damp the reduction over roughly 100 ms.
+  const overrun = profile
+    ? 1 - smoothStep(1 - load / .35) * smoothStep((safeRpm - 1_200) / 2_000) *
+      (1 - (profile.overrunPresence ?? .55))
+    : 1;
+  const turbo = profile
+    ? (profile.turboPresence ?? 0) * smoothStep((load - .32) / .68) * smoothStep((safeRpm - 1_100) / 3_200)
+    : 0;
+  const gear = typeof options.gear === 'number' ? Math.abs(options.gear)
+    : Math.abs(Number(String(options.gear ?? '').replace(/[^\d.-]/g, '')));
+  const gearPresence = profile && Number.isFinite(gear) && gear >= 1
+    ? 1 + (profile.gearPresence ?? 0) * (1 - clamp((gear - 1) / 7)) : 1;
+  const acceleration = profile
+    ? clamp(options.accelerationLoad ?? 0, -1, 1) * (profile.accelerationPresence ?? 0) : 0;
+  const drivetrainBody = gearPresence * (1 + acceleration);
   const character = options.engineCharacter;
   const bodyPresence = character?.soundProfile === 'full-bodied' ? 1.45 : character?.cylinderCount === 6 ? 1.15 : 1;
   const upperPresence = character?.soundProfile === 'full-bodied' ? .55 : character?.cylinderCount === 6 ? .8 : 1;
   return {
     // Four-stroke firing rate: cylinder count / two crank revolutions.
     firingHz: clamp(safeRpm * (options.engineCharacter?.cylinderCount ?? 4) / 120, 18, 850),
-    exhaust: profile ? (0.008 + Math.pow(load, 1.3) * 0.065 + rpmNormal * load * 0.008) * presence : 0.030 + load * 0.026 + rpmNormal * 0.009,
-    exhaustBody: bodyPresence * (profile ? (0.011 + load * 0.048) * (1 - rpmNormal * .35) * presence : (1 - rpmNormal * 0.72) * (0.018 + load * 0.009)),
-    upperExhaust: upperPresence * (profile ? (.001 + rpmNormal * load * .004) * presence : 0.006 + rpmNormal * 0.015 + load * 0.006),
-    intake: profile ? (.0006 + Math.pow(load, 2) * .016) * presence : 0.0015 + Math.pow(load, 1.35) * 0.031 + rpmNormal * safeThrottle * 0.006,
-    mechanical: profile ? (.0008 + rpmNormal * .003) * presence : 0.0025 + rpmNormal * 0.010 + (1 - load) * rpmNormal * 0.002,
-    road: speedNormal * (0.011 + roadRoughness * 0.021) * (profile && options.cockpit !== false ? profile.cabinRoad : 1),
-    wind: Math.pow(clamp(speed / 50), 1.7) * 0.020 * (profile && options.cockpit !== false ? profile.cabinWind : 1),
+    exhaust: profile
+      ? (0.007 + Math.pow(load, 1.35) * 0.064 * (profile.loadDepth ?? 1) + rpmNormal * load * 0.009) *
+        presence * layerPresence * overrun * drivetrainBody
+      : 0.030 + load * 0.026 + rpmNormal * 0.009,
+    exhaustBody: bodyPresence * (profile
+      ? (0.010 + Math.pow(load, 1.15) * 0.047 * (profile.loadDepth ?? 1)) * (1 - rpmNormal * .32) *
+        presence * layerPresence * overrun * drivetrainBody
+      : (1 - rpmNormal * 0.72) * (0.018 + load * 0.009)),
+    upperExhaust: upperPresence * (profile
+      ? (0.0012 + rpmNormal * load * 0.0055 * (profile.highPresence ?? 1)) *
+        presence * layerPresence * overrun
+      : 0.006 + rpmNormal * 0.015 + load * 0.006),
+    intake: profile
+      ? (.0006 + Math.pow(load, 2) * .015 + turbo * .012) * presence * layerPresence
+      : 0.0015 + Math.pow(load, 1.35) * 0.031 + rpmNormal * safeThrottle * 0.006,
+    mechanical: profile
+      ? (.0008 + rpmNormal * .0031 * (profile.highPresence ?? 1)) * presence * layerPresence
+      : 0.0025 + rpmNormal * 0.010 + (1 - load) * rpmNormal * 0.002,
+    turbo,
+    road: speedNormal * (0.011 + roadRoughness * 0.021) * (profile && cockpit ? profile.cabinRoad : 1),
+    wind: Math.pow(clamp(speed / 50), 1.7) * 0.020 * (profile && cockpit ? profile.cabinWind : 1),
     load,
     speed,
   };
@@ -139,18 +196,34 @@ export class EngineAudio {
   private lastCruise = false;
   private lastLowFuel = false;
   private nextParkingChime = 0;
+  private accelerationLoad = 0;
+  private lastUpdateTime = 0;
   private electricMotor: OscillatorNode | null = null;
   private electricHarmonic: OscillatorNode | null = null;
   private pedestrianHum: OscillatorNode | null = null;
   private electricGain: GainNode | null = null;
   private harmonicGain: GainNode | null = null;
   private pedestrianGain: GainNode | null = null;
+  private weatherBus: GainNode | null = null;
+  private rainGain: GainNode | null = null;
+  private rainBodyGain: GainNode | null = null;
+  private glassRainGain: GainNode | null = null;
+  private weatherWindGain: GainNode | null = null;
+  private rainFilter: BiquadFilterNode | null = null;
+  private rainLowpass: BiquadFilterNode | null = null;
+  private glassRainFilter: BiquadFilterNode | null = null;
+  private weatherWindFilter: BiquadFilterNode | null = null;
+  private weatherNoiseBuffer: AudioBuffer | null = null;
+  private weatherElapsed = 0;
+  private readonly weatherMix = createWeatherAudioMix();
   private readonly signalClicks = new TurnSignalClickTracker();
 
   public configure(profile?: VehicleAudioProfile): void {
     this.profile = profile;
     this.lastPhase = 'OFF'; this.lastRunning = false; this.lastMode = '';
     this.lastCruise = false; this.lastLowFuel = false;
+    this.accelerationLoad = 0; this.lastUpdateTime = 0;
+    calculateWeatherAudioMix(this.weatherMix, 0, 0, 0, true, 0, this.profile);
     this.signalClicks.reset();
     if (this.context) {
       this.setPulseWave(this.context);
@@ -193,8 +266,14 @@ export class EngineAudio {
     if (context.state === 'suspended' && document.visibilityState === 'visible') void this.resume();
 
     options = { ...options, profile: this.profile };
-    const mix = calculateEngineAudioMix(rpm, throttle, options);
     const now = context.currentTime;
+    const elapsed = this.lastUpdateTime > 0 ? clamp(now - this.lastUpdateTime, .001, .1) : 1 / 60;
+    this.lastUpdateTime = now;
+    const accelerationTarget = clamp((options.acceleration ?? 0) / 4, -1, 1);
+    this.accelerationLoad += (accelerationTarget - this.accelerationLoad) *
+      (1 - Math.exp(-elapsed * 4.2));
+    options = { ...options, accelerationLoad: this.accelerationLoad };
+    const mix = calculateEngineAudioMix(rpm, throttle, options);
     this.electricGain?.gain.setTargetAtTime(SILENCE, now, .06);
     this.harmonicGain?.gain.setTargetAtTime(SILENCE, now, .06);
     this.pedestrianGain?.gain.setTargetAtTime(SILENCE, now, .06);
@@ -232,7 +311,7 @@ export class EngineAudio {
     this.lastFiringHz = mix.firingHz;
 
     this.engineBus?.gain.setTargetAtTime(options.ignitionPhase === 'STOPPING' && this.profile
-      ? .42 * clamp(rpm / 750) : .70, now, this.profile ? .055 : .14);
+      ? .42 * clamp(rpm / 750) : .70 * (this.profile?.engineBusLevel ?? 1), now, this.profile ? .055 : .14);
     this.exhaustPulse?.frequency.setTargetAtTime(mix.firingHz, now, 0.040);
     this.exhaustBody?.frequency.setTargetAtTime(mix.firingHz * 0.502, now, 0.052);
     this.upperExhaust?.frequency.setTargetAtTime(mix.firingHz * 2.012, now, 0.038);
@@ -252,7 +331,7 @@ export class EngineAudio {
       0.075,
     );
     this.intakeFilter?.frequency.setTargetAtTime(
-      this.profile ? 310 + rpm * .085 + mix.load * 240 : 430 + rpm * 0.21 + mix.load * 430,
+      this.profile ? 300 + rpm * .082 + mix.load * 230 + mix.turbo * 1_500 : 430 + rpm * 0.21 + mix.load * 430,
       now,
       0.085,
     );
@@ -279,7 +358,8 @@ export class EngineAudio {
     if (!edge || !context || context.state !== 'running' || !this.transientBus) return;
     const now = context.currentTime, tone = context.createOscillator(); tone.type = 'triangle';
     tone.frequency.setValueAtTime(edge === 'on' ? 1250 : 920, now);
-    const envelope = this.createOneShotEnvelope(context, now, .035, .024, .002, .025);
+    const envelope = this.createOneShotEnvelope(context, now, .035,
+      this.profile?.turnSignalLevel ?? .024, .002, .025);
     tone.connect(envelope).connect(this.transientBus); tone.start(now); tone.stop(now + .04);
     tone.onended = () => { tone.disconnect(); envelope.disconnect(); };
   }
@@ -288,6 +368,87 @@ export class EngineAudio {
   public playLaneDepartureWarning(): void {
     if (!this.context || this.context.state !== 'running' || !this.transientBus || document.hidden) return;
     playLaneDepartureWarningSound(this.context, this.transientBus);
+  }
+
+  /**
+   * Layered weather ambience on the existing graph. Continuous values are
+   * smoothed at ~10 Hz; cabin filtering reuses the same sources, no second
+   * AudioContext and no per-drop sound.
+   */
+  public updateWeather(dt: number, rainIntensity: number, windIntensity: number,
+    stormIntensity: number, cockpit: boolean, speedMetersPerSecond: number): void {
+    const context = this.context;
+    if (!context || !this.weatherBus) return;
+    this.weatherElapsed += Number.isFinite(dt) ? Math.min(.1, Math.max(0, dt)) : 0;
+    if (this.weatherElapsed < .1) return;
+    this.weatherElapsed = 0;
+    const now = context.currentTime;
+    const mix = calculateWeatherAudioMix(this.weatherMix, rainIntensity, windIntensity,
+      stormIntensity, cockpit !== false, speedMetersPerSecond, this.profile);
+    this.rainGain?.gain.setTargetAtTime(mix.rainAmbient, now, .35);
+    this.rainBodyGain?.gain.setTargetAtTime(mix.rainBody, now, .45);
+    this.glassRainGain?.gain.setTargetAtTime(mix.glassRain, now, .3);
+    this.weatherWindGain?.gain.setTargetAtTime(mix.wind, now, .5);
+    this.rainFilter?.frequency.setTargetAtTime(mix.rainFilterHz, now, .5);
+    this.rainFilter?.Q.setTargetAtTime(mix.rainQ, now, .5);
+    this.rainLowpass?.frequency.setTargetAtTime(mix.rainLowpassHz, now, .5);
+    this.glassRainFilter?.frequency.setTargetAtTime(mix.glassFilterHz, now, .4);
+    this.weatherWindFilter?.frequency.setTargetAtTime(mix.windFilterHz, now, .5);
+  }
+
+  /** One short low-volume transient per wiper stroke. */
+  public playWiperSweep(mode: 'OFF' | 'INTERMITTENT' | 'LOW' | 'HIGH'): void {
+    const context = this.context, bus = this.transientBus;
+    if (!context || !bus || context.state !== 'running' || mode === 'OFF' || document.hidden) return;
+    const now = context.currentTime;
+    const fast = mode === 'HIGH';
+    const duration = fast ? .38 : .52;
+    const motor = context.createOscillator();
+    motor.type = 'triangle';
+    motor.frequency.setValueAtTime(fast ? 132 : 104, now);
+    motor.frequency.linearRampToValueAtTime(fast ? 116 : 92, now + duration);
+    const motorEnvelope = this.createOneShotEnvelope(context, now, duration, .011, .03, duration * .6);
+    motor.connect(motorEnvelope).connect(bus);
+    if (this.weatherNoiseBuffer) {
+      const swish = context.createBufferSource();
+      swish.buffer = this.weatherNoiseBuffer;
+      const filter = context.createBiquadFilter();
+      filter.type = 'bandpass'; filter.frequency.value = fast ? 1_250 : 900; filter.Q.value = .7;
+      const envelope = this.createOneShotEnvelope(context, now, duration * .9, .008, .06, duration * .5);
+      swish.connect(filter).connect(envelope).connect(bus);
+      swish.start(now); swish.stop(now + duration);
+      swish.onended = () => { swish.disconnect(); filter.disconnect(); envelope.disconnect(); };
+    }
+    motor.start(now); motor.stop(now + duration);
+    motor.onended = () => { motor.disconnect(); motorEnvelope.disconnect(); };
+  }
+
+  /** Scheduled by WeatherSystem; delay conveys distance without spatial audio. */
+  public playThunder(delaySeconds: number): void {
+    const context = this.context, bus = this.transientBus;
+    if (!context || !bus || context.state !== 'running' || document.hidden) return;
+    const start = context.currentTime + (Number.isFinite(delaySeconds) ? Math.min(4, Math.max(0, delaySeconds)) : 0);
+    const mix = this.weatherMix;
+    if (this.weatherNoiseBuffer) {
+      const burst = context.createBufferSource();
+      burst.buffer = this.weatherNoiseBuffer;
+      burst.playbackRate.value = .62;
+      const filter = context.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.setValueAtTime(mix.thunderLowpassHz, start);
+      filter.frequency.exponentialRampToValueAtTime(120, start + 1.6);
+      const envelope = this.createOneShotEnvelope(context, start, 2.3, mix.thunder, .03, 1.6);
+      burst.connect(filter).connect(envelope).connect(bus);
+      burst.start(start); burst.stop(start + 2.4);
+      burst.onended = () => { burst.disconnect(); filter.disconnect(); envelope.disconnect(); };
+    }
+    const rumble = context.createOscillator();
+    rumble.type = 'sine';
+    rumble.frequency.setValueAtTime(46, start);
+    rumble.frequency.exponentialRampToValueAtTime(29, start + 1.4);
+    const envelope = this.createOneShotEnvelope(context, start, 1.7, mix.thunderBody, .05, 1.1);
+    rumble.connect(envelope).connect(bus);
+    rumble.start(start); rumble.stop(start + 1.8);
+    rumble.onended = () => { rumble.disconnect(); envelope.disconnect(); };
   }
 
   /** Play the starter motor when the driver presses the ignition control. */
@@ -370,6 +531,7 @@ export class EngineAudio {
 
     this.createEngineLayers(context, now);
     this.createNoiseLayers(context, now);
+    this.createWeatherLayers(context, now);
     this.electricMotor = context.createOscillator(); this.electricMotor.type = 'sine';
     this.electricHarmonic = context.createOscillator(); this.electricHarmonic.type = 'sine';
     this.pedestrianHum = context.createOscillator(); this.pedestrianHum.type = 'sine'; this.pedestrianHum.frequency.value = 135;
@@ -476,6 +638,44 @@ export class EngineAudio {
     this.intakeNoise.start();
     this.roadNoise.start();
     this.windNoise.start();
+  }
+
+  private createWeatherLayers(context: AudioContext, now: number): void {
+    if (!this.master) return;
+    const bus = context.createGain();
+    bus.gain.value = 1;
+    bus.connect(this.master);
+    this.weatherBus = bus;
+    const noise = this.weatherNoiseBuffer = this.createNoiseBuffer(context, false);
+    const soft = this.createNoiseBuffer(context, true);
+
+    const rain = context.createBufferSource(); rain.buffer = noise; rain.loop = true;
+    this.rainFilter = context.createBiquadFilter();
+    this.rainFilter.type = 'bandpass'; this.rainFilter.frequency.value = 1_600; this.rainFilter.Q.value = .55;
+    this.rainLowpass = context.createBiquadFilter();
+    this.rainLowpass.type = 'lowpass'; this.rainLowpass.frequency.value = 6_400;
+    this.rainGain = this.createSilentGain(context, now);
+    rain.connect(this.rainFilter).connect(this.rainLowpass).connect(this.rainGain).connect(bus);
+
+    const body = context.createBufferSource(); body.buffer = soft; body.loop = true;
+    const bodyFilter = context.createBiquadFilter();
+    bodyFilter.type = 'lowpass'; bodyFilter.frequency.value = 380;
+    this.rainBodyGain = this.createSilentGain(context, now);
+    body.connect(bodyFilter).connect(this.rainBodyGain).connect(bus);
+
+    const glass = context.createBufferSource(); glass.buffer = noise; glass.loop = true;
+    this.glassRainFilter = context.createBiquadFilter();
+    this.glassRainFilter.type = 'bandpass'; this.glassRainFilter.frequency.value = 2_800; this.glassRainFilter.Q.value = .65;
+    this.glassRainGain = this.createSilentGain(context, now);
+    glass.connect(this.glassRainFilter).connect(this.glassRainGain).connect(bus);
+
+    const wind = context.createBufferSource(); wind.buffer = soft; wind.loop = true;
+    this.weatherWindFilter = context.createBiquadFilter();
+    this.weatherWindFilter.type = 'bandpass'; this.weatherWindFilter.frequency.value = 520; this.weatherWindFilter.Q.value = .4;
+    this.weatherWindGain = this.createSilentGain(context, now);
+    wind.connect(this.weatherWindFilter).connect(this.weatherWindGain).connect(bus);
+
+    rain.start(); body.start(); glass.start(); wind.start();
   }
 
   private updateRoadNoise(mix: Pick<EngineMix, 'road' | 'wind' | 'speed'>, now: number): void {

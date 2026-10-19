@@ -1,0 +1,210 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "hardscape",
+    "objectIds": [
+      "v8-century-plaza"
+    ],
+    "bbox": {
+      "minX": 109,
+      "maxX": 111,
+      "minZ": -76,
+      "maxZ": -74
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v8-century-plaza",
+      "state": "INVALID",
+      "position": {
+        "x": 60.551884622942445,
+        "y": -0.04,
+        "z": -149.85467820934946
+      },
+      "rotation": -0.9870137228291084,
+      "anchor": {
+        "anchorRoadId": "v911-plaza-middle-nb",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 52.14532179065054,
+        "lateralOffset": -12.551884622942445,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.insideLane::v8-century-plaza::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v8-century-plaza",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v911-plaza-middle-nb",
+            "distance": 12.551884622942445,
+            "roadHalfWidth": 3.6,
+            "objectRadius": 82.38802603792982
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v8-century-plaza",
+            "roadId": "v911-plaza-middle-nb",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideLane::v8-century-plaza::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v8-century-plaza",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v911-plaza-east-eb",
+            "distance": 38.04019030966867,
+            "roadHalfWidth": 3.6,
+            "objectRadius": 87.38594704196323
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v8-century-plaza",
+            "roadId": "v911-plaza-east-eb",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideLane::v8-century-plaza::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v8-century-plaza",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v911-plaza-south-nb",
+            "distance": 47.539563195346375,
+            "roadHalfWidth": 3.6,
+            "objectRadius": 82.37968354125964
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v8-century-plaza",
+            "roadId": "v911-plaza-south-nb",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideLane::v8-century-plaza::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v8-century-plaza",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v911-plaza-east-wb",
+            "distance": 59.91776588507976,
+            "roadHalfWidth": 3.6,
+            "objectRadius": 87.39354640324476
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v8-century-plaza",
+            "roadId": "v911-plaza-east-wb",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideLane::v8-century-plaza::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v8-century-plaza",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v911-plaza-north-nb",
+            "distance": 69.29166392531624,
+            "roadHalfWidth": 3.6,
+            "objectRadius": 82.38802603792982
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v8-century-plaza",
+            "roadId": "v911-plaza-north-nb",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideJunction::v8-century-plaza::",
+          "code": "object.insideJunction",
+          "severity": "warning",
+          "objectId": "v8-century-plaza",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "v911-plaza-axis-north"
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.insideJunction::v8-century-plaza::",
+          "code": "object.insideJunction",
+          "severity": "warning",
+          "objectId": "v8-century-plaza",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "v911-plaza-axis-south"
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:v8-century-plaza",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v8-century-plaza",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-century-plaza",
+          "properties": {
+            "position": {
+              "x": 60.551884622942445,
+              "y": -0.04,
+              "z": -149.85467820934946
+            },
+            "rotation": -0.9870137228291084
+          }
+        }
+      ],
+      "sourceId": "v8-century-plaza",
+      "heightMode": "GROUND",
+      "autoMove": 89.71253738562996
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

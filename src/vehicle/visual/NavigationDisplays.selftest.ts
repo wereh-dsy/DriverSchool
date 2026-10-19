@@ -37,9 +37,38 @@ export function runNavigationDisplaysSelfTest() {
       const offset=texts.length;visual.updateInstruments(telemetry,1.2);visual.updateInstruments(telemetry,1.2);
       const guidance=texts.slice(offset).filter(text=>text.includes('右转进入'));
       assert(guidance.length>0,`${descriptor.id}: real route reaches the physical display`);
-      if(descriptor.visualConfig.instrumentCluster.displayStyle!=='ev-center')assert(guidance.length>=2,`${descriptor.id}: center screen and instruments both show guidance`);
+      if(descriptor.visualConfig.instrumentCluster.displayStyle!=='ev-center'){
+        let centerGuidance=0;
+        if(descriptor.visualConfig.instrumentCluster.displayStyle==='mercedes-mbux'){
+          // MBUX HOME is an application launcher. Guidance belongs to the
+          // NAVIGATION page; the instrument still shows its compact guidance.
+          const before=texts.length;
+          visual.cockpitRoot.cycleCenterDisplayPage();
+          visual.updateInstruments(telemetry,.2);
+          centerGuidance=texts.slice(before).filter(text=>text.includes('右转进入')).length;
+          assert(centerGuidance>0,`${descriptor.id}: navigation page shows guidance`);
+        }
+        if(descriptor.visualConfig.instrumentCluster.displayStyle==='executive-virtual'){
+          const data=executive!.data,map=data.navigation?.map;
+          let mapDraws=0;
+          const original=map?.draw;
+          if(map&&original)map.draw=((..._args:Parameters<typeof original>)=>{mapDraws++;}) as typeof map.draw;
+          data.version++;data.page='MAP';
+          const before=texts.length;visual.updateInstruments(telemetry,.2);
+          assert(mapDraws===0,`${descriptor.id}: instrument never draws the full navigation map`);
+          assert(texts.slice(before).filter(text=>text.includes('右转进入')).length>0,`${descriptor.id}: instrument keeps compact guidance`);
+          if(map&&original)map.draw=original;
+        }
+        assert(guidance.length+centerGuidance>=2,`${descriptor.id}: centre/navigation plus instrument guidance`);
+      }
       const before=texts.length;navigation.state.nextRoad='更新后的下一道路';navigation.state.version++;
       visual.updateInstruments(telemetry,.2);assert(texts.slice(before).includes('更新后的下一道路'),`${descriptor.id}: route version invalidates a stationary display`);
+      if(descriptor.visualConfig.instrumentCluster.displayStyle==='executive-virtual'){
+        navigation.clear();executive!.data.version++;executive!.data.page='DRIVING';
+        const noRouteStart=texts.length;visual.updateInstruments(telemetry,.2);
+        assert(!texts.slice(noRouteStart).some(text=>text.includes('右转进入')||text.includes('已到达目的地')),
+          `${descriptor.id}: no-route instrument leaves no empty navigation frame`);
+      }
       visual.dispose();shared.dispose();assets.dispose();
     }
     return {assertions,equippedDisplays:equipped.length};

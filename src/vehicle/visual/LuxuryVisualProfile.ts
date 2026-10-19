@@ -37,7 +37,7 @@ export interface InteriorAmbientLightingProfile {
 }
 export const EXECUTIVE_INSTRUMENT_PROFILE: InstrumentVisualProfile = {
   ringColor: '#bdc9d5', ringGlow: .13, needleWidth: 3, redlineWidth: 5,
-  nightBrightness: .82, laneFadeResponse: 5,
+  nightBrightness: .86, laneFadeResponse: 5,
 };
 export const EXECUTIVE_LIGHTING_PROFILE: ExteriorLightingVisualProfile = {
   signature: 'segmented-led', color: 0xeaf4ff,
@@ -49,6 +49,6 @@ export const EXECUTIVE_LIGHTING_PROFILE: ExteriorLightingVisualProfile = {
   turnLensHeight: .028, turnColor: 0xff5f06, turnSpillIntensity: 1.2,
 };
 export const EXECUTIVE_AMBIENT_PROFILE: InteriorAmbientLightingProfile = {
-  color: 0x9ebcc7, dayIntensity: .015, nightIntensity: .28, fadeResponse: 5,
-  footwellIntensity: .035, dashboardFillIntensity: .055, steeringBadge: 'four-rings',
+  color: 0x9ebcc7, dayIntensity: .010, nightIntensity: .245, fadeResponse: 4.6,
+  footwellIntensity: .022, dashboardFillIntensity: .042, steeringBadge: 'four-rings',
 };

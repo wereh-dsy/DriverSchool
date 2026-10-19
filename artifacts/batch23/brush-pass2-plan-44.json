@@ -1,0 +1,158 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "regional:tree:4280:4180",
+      "regional:tree:4440:4500"
+    ],
+    "bbox": {
+      "minX": 4290.257658158356,
+      "maxX": 4495.663515785005,
+      "minZ": 4127.982593423516,
+      "maxZ": 4523.471462157773
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:tree:4280:4180",
+      "state": "VALID",
+      "position": {
+        "x": 4298.159703505688,
+        "y": -0.04000000000000001,
+        "z": 4125.778842058801
+      },
+      "rotation": -2.7070141827969505,
+      "anchor": {
+        "anchorRoadId": "regional:S26-extension:in:2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 25.714399450757547,
+        "lateralOffset": -8.224928823210194,
+        "verticalOffset": -0.04000000000000001,
+        "facingDirection": "forward",
+        "expectedHeading": 0.43457922545880506,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:4280:4180::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:4280:4180",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "regional:S26-extension:in:2",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:4280:4180",
+          "properties": {
+            "position": {
+              "x": 4298.159703505688,
+              "y": -0.04000000000000001,
+              "z": 4125.778842058801
+            },
+            "rotation": -2.7070141827969505
+          }
+        }
+      ],
+      "sourceId": "regional:tree:4280:4180",
+      "heightMode": "GROUND",
+      "autoMove": 7.609352980611505
+    },
+    {
+      "id": "regional:tree:4440:4500",
+      "state": "VALID",
+      "position": {
+        "x": 4496.8191125663725,
+        "y": -0.04,
+        "z": 4521.399643332853
+      },
+      "rotation": 0.46142596970498634,
+      "anchor": {
+        "anchorRoadId": "regional:S26-extension:in:1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 82.85242798338089,
+        "lateralOffset": 11.024999999999487,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 0.46142596970498634,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:4440:4500",
+          "properties": {
+            "position": {
+              "x": 4496.8191125663725,
+              "y": -0.04,
+              "z": 4521.399643332853
+            },
+            "rotation": 0.46142596970498634
+          }
+        }
+      ],
+      "sourceId": "regional:tree:4440:4500",
+      "heightMode": "GROUND",
+      "autoMove": 2.407362265487886
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:4280:4180",
+      "properties": {
+        "position": {
+          "x": 4298.159703505688,
+          "y": -0.04000000000000001,
+          "z": 4125.778842058801
+        },
+        "rotation": -2.7070141827969505
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:4440:4500",
+      "properties": {
+        "position": {
+          "x": 4496.8191125663725,
+          "y": -0.04,
+          "z": 4521.399643332853
+        },
+        "rotation": 0.46142596970498634
+      }
+    }
+  ],
+  "stats": {
+    "planned": 2,
+    "valid": 2,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 2,
+    "removed": 0
+  },
+  "valid": true
+}

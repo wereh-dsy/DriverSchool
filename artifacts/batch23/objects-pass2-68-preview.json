@@ -1,0 +1,179 @@
+{
+  "inspection": {
+    "key": "1:1:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:regional:lingang:E-to-S-star:false:guide:55",
+        "topology-sign:urban-junction-225|v4-industrial-split-split|start:URBAN_DIRECTION"
+      ],
+      "bbox": {
+        "minX": 2136.246969330617,
+        "maxX": 2184.005937066818,
+        "minZ": 2820.2547087416224,
+        "maxZ": 3211.7778747164434
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 2,
+      "valid": 1,
+      "adjusted": 1,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:lingang:E-to-S-star:false:guide:55",
+      "properties": {
+        "position": {
+          "x": 2173.449541096019,
+          "y": 20,
+          "z": 3209.4117161918484
+        },
+        "heading": 2.999597245486618,
+        "roadId": "regional:lingang:E-to-S-star",
+        "stationMetres": 54.999999999999986
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-225|v4-industrial-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 2133.214378846953,
+          "y": -0.019751353123021082,
+          "z": 2802.0716898449245
+        },
+        "heading": 1.6757893188210409,
+        "roadId": "v4-industrial-split-split-c91",
+        "stationMetres": 67.62487162688667
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-68",
+    "created": [],
+    "modified": [
+      "road-safety:regional:lingang:E-to-S-star:false:guide:55",
+      "topology-sign:urban-junction-225|v4-industrial-split-split|start:URBAN_DIRECTION"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2097.246969330617,
+      "maxX": 2223.005937066818,
+      "minZ": 2781.2547087416224,
+      "maxZ": 3250.7778747164434
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:regional:lingang:E-to-S-star:false:guide:55",
+          "topology-sign:urban-junction-225|v4-industrial-split-split|start:URBAN_DIRECTION",
+          "regional:S68:out:split12:split30:split36:split88",
+          "regional:lingang:E-to-S-star",
+          "regional:S68:in:split84:split102",
+          "regional:lingang:N-to-E-star",
+          "regional:S68:in:split84:lane100",
+          "regional:S68:out:split12:split30:split36:split232:split238:lane104",
+          "regional:S68:in:split84",
+          "regional:S68:out:split12:split30:split36:split88:lane108",
+          "regional:lingang:E-to-N-right:deceleration",
+          "regional:lingang:S-to-E-right:acceleration",
+          "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570:split578:split584",
+          "v4-south-logistics-east-split",
+          "v8-port-south-split-split-m91",
+          "v5-south-logistics-split-c91",
+          "v5-south-logistics-split-split-c91",
+          "urban-junction-85",
+          "urban-junction-225",
+          "urban-junction-226",
+          "urban-junction-231",
+          "v4-industrial-split-split-c91"
+        ],
+        "message": "roads: 5 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S68:in:split84",
+          "regional:lingang:S-to-E-right:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:lingang:E-to-S-star",
+          "regional:S26:out:split100:split508"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S68:in:split84:split102",
+          "regional:lingang:N-to-E-star:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S68:out:split12:split30:split36:split232:split238:lane104",
+          "regional:lingang:E-to-S-star:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S68:out:split12:split30:split36:split88:lane108",
+          "regional:lingang:E-to-N-right:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:lingang:E-to-S-star:false:guide:55",
+          "regional:lingang:E-to-S-star"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-225|v4-industrial-split-split|start:URBAN_DIRECTION",
+          "v4-industrial-split-split-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      }
+    ],
+    "valid": true
+  }
+}

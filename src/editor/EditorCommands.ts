@@ -17,6 +17,12 @@ export const EDITOR_ROAD_PRESETS = {
   ramp1: preset('Ramp 1 lane', 'ramp', 1, 40, true, true), ramp2: preset('Ramp 2 lane', 'ramp', 2, 40, true, true),
 };
 export type EditorCommand =
+  | { op:'moveObject'; id:string; delta:CityPoint }
+  | { op:'rotateObject'; id:string; rotation:number }
+  | { op:'removeObject'; id:string }
+  | { op:'reanchorObject'; id:string; roadId?:string; station?:number; lateralOffset?:number; verticalOffset?:number; strategy?:import('./ObjectAnalysis').ObjectRepairStrategy }
+  | { op:'setSignalPlacement'; intersectionId:string; approach:import('../world/city/CityMapData').IntersectionPort; position:CityPoint; heading:number; poleHeight?:number }
+  | { op:'brushObjects'; brush:import('./PlacementBrush').PlacementBrushRequest }
   | {op:'modifyMap';properties:Partial<Pick<CityMapData,'id'|'name'|'sectorSize'|'bounds'>>;spawn?:{position:CityPoint;rotation:number}}
   | { op: 'createRoad'; id?: string; preset?: RoadPresetId; points: CityPoint[]; properties?: Partial<CityRoad>; crossing?: CrossingMode; corridorId?: string }
   | { op: 'extendRoad'; roadId: string; end: 'start' | 'end'; points: CityPoint[]; crossing?: CrossingMode }
@@ -31,7 +37,7 @@ export type EditorCommand =
   | { op: 'generateFrontageRoads'; id: string; side: 'left' | 'right' | 'both'; offset: number; preset?: RoadPresetId; elevation?:number }
   | { op: 'detach'; id: string }
   | { op: 'createRamp'; id?: string; fromRoadId: string; toRoadId: string; fromDistance: number; toDistance: number; kind: 'on' | 'off'; lanes: 1 | 2 }
-  | { op: 'modifyRamp'; id: string; points?: CityPoint[]; lanes?: 1 | 2; kind?: 'on' | 'off' }
+  | { op: 'modifyRamp'; id: string; points?: CityPoint[]; lanes?: 1 | 2; kind?: 'on' | 'off'; from?: { roadId: string; station: number }; to?: { roadId: string; station: number } }
   | { op: 'createIntersection'; id?: string; position: CityPoint; roadIds?: string[]; signalized?: boolean }
   | { op: 'modifyIntersection'; id: string; properties: Partial<Omit<CityIntersection, 'id'>> }
   | { op: 'changeRoadClass'; id: string; roadClass: RoadFunction }
@@ -46,9 +52,9 @@ export type EditorCommand =
   | { op: 'setRoadName'; id: string; nameId: string; entry: RoadNameEntry }
   | { op: 'setCorridorName'; id: string; name: string; nameId?: string; kind?: RoadNameEntry['kind']; roadIds?: string[] }
   | { op: 'smoothRoad'; id: string; start?: number; end?: number; strength?: number; preserveEndpoints?: boolean; preserveIntersections?: boolean; tolerance?: number }
-  | { op: 'repairElevation'; id: string; start?: number; end?: number; strength?: number; maxGrade?: number; preserveEndpoints?: boolean; monotonic?: boolean; tolerance?: number }
+  | { op: 'repairElevation'; id: string; start?: number; end?: number; strength?: number; maxGrade?: number; preserveEndpoints?: boolean; monotonic?: boolean; tolerance?: number; strategy?:import('./RoadProfileAnalysis').ProfileStrategy; anchors?:{station:number;elevation?:number}[] }
   | { op: 'simplifyRoad'; id: string; tolerance?: number; start?: number; end?: number }
-  | { op: 'repairRamp'; id: string; strength?: number; maxGrade?: number; monotonic?: boolean }
+  | { op: 'repairRamp'; id: string; strength?: number; maxGrade?: number; monotonic?: boolean; start?:number; end?:number; strategy?:import('./RoadProfileAnalysis').ProfileStrategy; anchors?:{station:number;elevation?:number}[] }
   | { op: 'repairIntersection'; id: string; rebuildFootprint?: boolean; rebuildMarkings?: boolean; approachMargin?: number }
   | { op: 'repairIntersections'; bbox?: EditorArea; intersectionIds?: string[]; codes?: string[]; limit?: number }
   | { op: 'createSign'; id?: string; roadId: string; station: number; direction?: 'forward' | 'reverse'; offset?: number; properties: Partial<RoadSignDefinition> }

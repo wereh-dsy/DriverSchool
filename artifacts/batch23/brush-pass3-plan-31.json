@@ -1,0 +1,96 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:regional:yanjiang-exit:on:1:false:guide:280"
+    ],
+    "bbox": {
+      "minX": 9267.210216413105,
+      "maxX": 9269.210216413105,
+      "minZ": -2755.0539117269213,
+      "maxZ": -2753.0539117269213
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:regional:yanjiang-exit:on:1:false:guide:280",
+      "state": "VALID",
+      "position": {
+        "x": 9264.957677071663,
+        "y": 15.930784791746293,
+        "z": -2745.0710741897465
+      },
+      "rotation": -1.918195344896963,
+      "anchor": {
+        "anchorRoadId": "regional:yanjiang-exit:on:1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 280.0000000000001,
+        "lateralOffset": 6.253553390592773,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.918195344896963,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:regional:yanjiang-exit:on:1:false:guide:280",
+          "properties": {
+            "position": {
+              "x": 9264.957677071663,
+              "y": 15.930784791746293,
+              "z": -2745.0710741897465
+            },
+            "heading": -1.918195344896963,
+            "roadId": "regional:yanjiang-exit:on:1",
+            "stationMetres": 279.99999999999983,
+            "postBaseY": 0
+          }
+        }
+      ],
+      "sourceId": "road-safety:regional:yanjiang-exit:on:1:false:guide:280",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.553553390592619
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:yanjiang-exit:on:1:false:guide:280",
+      "properties": {
+        "position": {
+          "x": 9264.957677071663,
+          "y": 15.930784791746293,
+          "z": -2745.0710741897465
+        },
+        "heading": -1.918195344896963,
+        "roadId": "regional:yanjiang-exit:on:1",
+        "stationMetres": 279.99999999999983,
+        "postBaseY": 0
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

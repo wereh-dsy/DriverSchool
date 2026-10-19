@@ -1,0 +1,87 @@
+{
+  "inspection": {
+    "key": "0:2:industrial:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "industrial",
+      "objectIds": [
+        "regional:warehouse:1240:4020"
+      ],
+      "bbox": {
+        "minX": 1289.2423399806867,
+        "maxX": 1291.2423399806867,
+        "minZ": 4018.2260681887933,
+        "maxZ": 4020.2260681887933
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:warehouse:1240:4020",
+      "properties": {
+        "position": {
+          "x": 1304.829210232753,
+          "y": -0.04,
+          "z": 4047.2114733094495
+        },
+        "rotation": -0.30187348747363046
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-40",
+    "created": [],
+    "modified": [
+      "regional:warehouse:1240:4020"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 1250.2423399806867,
+      "maxX": 1344.829210232753,
+      "minZ": 3979.2260681887933,
+      "maxZ": 4087.2114733094495
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:warehouse:1240:4020",
+          "regional:S26:in:split82:split96:split506",
+          "regional:S26:out:split144:split510:split514:split518:split522"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "regional:warehouse:1240:4020"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

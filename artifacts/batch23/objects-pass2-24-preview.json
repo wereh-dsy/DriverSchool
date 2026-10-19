@@ -1,0 +1,100 @@
+{
+  "inspection": {
+    "key": "0:1:streetlight_highway:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_highway",
+      "objectIds": [
+        "v6-lamps-2863",
+        "v6-lamps-2948"
+      ],
+      "bbox": {
+        "minX": 1309.3321954687124,
+        "maxX": 1929.9077899751185,
+        "minZ": 2731.072117112959,
+        "maxZ": 2736.0484189401186
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 2,
+      "valid": 0,
+      "adjusted": 1,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-2863",
+      "properties": {
+        "position": {
+          "x": 1302.4373850288678,
+          "y": 2.787057112802567,
+          "z": 2734.8725633766226
+        },
+        "rotation": 3.1193215061249138
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-2948"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-24",
+    "created": [],
+    "modified": [
+      "v6-lamps-2863"
+    ],
+    "deleted": [
+      "v6-lamps-2948"
+    ],
+    "area": {
+      "minX": 1262.4373850288678,
+      "maxX": 1968.9077899751185,
+      "minZ": 2692.072117112959,
+      "maxZ": 2775.0484189401186
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v6-lamps-2863",
+          "v6-lamps-2948",
+          "v6-logistics-yard-c91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-236"
+        ],
+        "message": "intersections[1]: urban-junction-173: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v6-lamps-2863",
+          "v6-lamps-2948",
+          "v6-logistics-yard-c91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-236"
+        ],
+        "message": "intersections[2]: urban-junction-233: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      }
+    ],
+    "valid": true
+  }
+}

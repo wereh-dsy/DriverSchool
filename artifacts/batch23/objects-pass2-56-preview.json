@@ -1,0 +1,103 @@
+{
+  "inspection": {
+    "key": "0:-1:streetlight_small:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_small",
+      "objectIds": [
+        "v8-lamp-v8-ew-frontage-east-split-90",
+        "v8-lamp-v8-ns-frontage-north-split-2-610"
+      ],
+      "bbox": {
+        "minX": 96.8,
+        "maxX": 1184.3650818599806,
+        "minZ": -851.2777777777778,
+        "maxZ": -61.8
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 2,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-ew-frontage-east-split-90",
+      "properties": {
+        "position": {
+          "x": 1185.9977292710248,
+          "y": -0.04,
+          "z": -63.103987381408054
+        },
+        "rotation": -3.026633441226452
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-ns-frontage-north-split-2-610",
+      "properties": {
+        "position": {
+          "x": 97.80183734762117,
+          "y": -0.04,
+          "z": -859.6776173420869
+        },
+        "rotation": -1.570991792641435
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-56",
+    "created": [],
+    "modified": [
+      "v8-lamp-v8-ew-frontage-east-split-90",
+      "v8-lamp-v8-ns-frontage-north-split-2-610"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 57.8,
+      "maxX": 1225.9977292710248,
+      "minZ": -899.6776173420869,
+      "maxZ": -22.799999999999997
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v8-lamp-v8-ew-frontage-east-split-90",
+          "v8-lamp-v8-ns-frontage-north-split-2-610",
+          "v91-ew-1-a-3",
+          "v4-inner-1-split-m91-section",
+          "v91-ew-1-a-3-section-2",
+          "direction-mingyuan-main-section-section-section-section",
+          "urban-junction-8",
+          "v91-shared-inner-ew",
+          "v91-shared-science-ew",
+          "v4-inner-1-m91-section",
+          "v91-ns-0-b-4-section",
+          "v91-ns-0-b-4-section-2",
+          "v91-shared-inner-ns"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

@@ -1,0 +1,36 @@
+import { build } from 'esbuild';
+import { spawnSync } from 'node:child_process';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+try {
+  const bundle=await build({entryPoints:['src/editor/MapEngineering.selftest.ts'],bundle:true,platform:'node',format:'esm',write:false,logLevel:'silent'});
+  const suite=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
+  const directory=resolve('.tmp-mapctl-engineering');mkdirSync(directory,{recursive:true});
+  const source=resolve(directory,'source.json'),request=resolve(directory,'request.json'),receipt=resolve(directory,'receipt.json'),after=resolve(directory,'after.json');
+  const raw=JSON.stringify(suite.engineeringFixture().data,null,2)+'\n';writeFileSync(source,raw);
+  const checks=[];const check=(condition,message)=>{if(!condition)throw new Error(message);checks.push(message);};
+  const invoke=(command,body,extra=[],map=source)=>{if(body!==undefined)writeFileSync(request,JSON.stringify(body));const result=spawnSync(process.execPath,['scripts/mapctl.mjs',command,...(command==='--help'?[]:[map]),...(body===undefined?[]:['--request','@'+request]),...extra],{encoding:'utf8',maxBuffer:20_000_000});let parsed;try{parsed=JSON.parse(result.stdout);}catch{throw new Error((result.stderr||result.stdout).slice(0,1000));}return {status:result.status,body:parsed};};
+  check(invoke('--help').body.operations.brushObjects,'machine-readable help');
+  const profile=invoke('inspect',{kind:'profile',roadId:'wave'});check(profile.status===0&&profile.body.extrema.length===2,'CLI profile inspect');
+  const diagnosis=invoke('diagnose',{domain:'profile',roadId:'wave'});check(diagnosis.status===0&&diagnosis.body.issues.some(i=>i.code==='vertical.localExtremum'),'CLI single-extremum diagnosis');
+  const drill=invoke('inspect',{kind:'issue',issueId:diagnosis.body.issues[0].id,scope:{roadId:'wave'}});check(drill.status===0&&drill.body.issue.code.startsWith('vertical.'),'issue drill-down');
+  check(invoke('query',{kind:'objects',roadId:'local',radius:25}).body.objects.some(o=>o.id==='bad-tree'),'object query');
+  check(invoke('inspect',{kind:'object',objectId:'sign'}).body.issues.some(i=>i.code==='roadSign.wrongFacing'),'sign inspection');
+  check(invoke('inspect',{kind:'structure',roadId:'tunnel'}).body.ceilingCoverage.derived,'derived structure inspection');
+  check(invoke('inspect',{kind:'region',center:{x:100,z:0},radius:80}).body.objects.objects.length>0,'region aggregation');
+  const ramp=invoke('inspect',{kind:'ramp',roadId:'access'});check(ramp.status===0&&ramp.body.sourceRoadId,'ramp metadata');
+  check(invoke('query',{kind:'accessWindows',mainline:ramp.body.sourceRoadId,frontage:ramp.body.targetRoadId,minLength:20,buffer:20}).status===0,'ramp access windows');
+  const brush={mode:'RANGE',type:'streetlight',roadId:'local',stationStart:30,stationEnd:120,spacing:30,side:'both',lateralOffset:3,seed:42};
+  const brushPreview=invoke('brush',brush,['--out',receipt]);check(brushPreview.status===0&&brushPreview.body.summary.metrics.brush.stats.added===8&&readFileSync(source,'utf8')===raw,'brush preview leaves source unchanged');
+  const applied=invoke('apply',JSON.parse(readFileSync(receipt,'utf8')),['--out',after]);check(applied.status===0&&JSON.parse(readFileSync(after,'utf8')).objects.length===suite.engineeringFixture().data.objects.length+8,'brush receipt batch apply');
+  const stale=invoke('apply',JSON.parse(readFileSync(receipt,'utf8')),[],after);check(stale.status!==0&&stale.body.error.includes('Map changed'),'stale receipt refuses changed map');
+  const preview=invoke('preview',{operations:[{op:'moveObject',id:'bad-tree',delta:{x:0,y:0,z:14}},{op:'reanchorObject',id:'sign',strategy:'fixFacing'}]},['--out',receipt]);check(preview.status===0&&preview.body.affectedIds.includes('bad-tree')&&preview.body.operationDigest,'receipt binds operations, affected IDs and source state');
+  const artifact=resolve(directory,'review-'+Date.now());const reviewed=invoke('review',preview.body,['--package',artifact]);
+  check(reviewed.status===0&&reviewed.body.issueDiff.resolved.some(i=>i.code==='tree.insideLane'),'transaction semantic and diagnostic review');
+  check(['request.json','preview.json','receipt.json','diff.json','diagnose-before.json','diagnose-after.json','validate.json','REPORT.md'].every(name=>existsSync(resolve(artifact,name))),'review package generation');
+  const tampered=structuredClone(preview.body);tampered.operations[0].delta.z=100;const refused=invoke('apply',tampered);check(refused.status!==0&&refused.body.error.includes('operations changed')&&readFileSync(source,'utf8')===raw,'operation tampering rejected without writes');
+  check(invoke('diff',undefined,['--after',after]).body.objects.added.length===8,'before/after semantic diff');
+  const sourceOutput=invoke('preview',{operations:[{op:'moveObject',id:'bad-tree',delta:{x:0,z:1}}]},['--out',source]);check(sourceOutput.status!==0&&readFileSync(source,'utf8')===raw,'read-only output cannot overwrite source');
+  writeFileSync(source,raw+'\n');const repairStale=invoke('repair',preview.body,['--apply']);check(repairStale.status!==0&&readFileSync(source,'utf8')===raw+'\n','repair stale receipt refuses writes');
+  console.log(JSON.stringify({passed:true,checks:checks.length,scenarios:checks},null,2));
+}catch(error){console.error(error.message);process.exitCode=1;}

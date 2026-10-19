@@ -1,0 +1,189 @@
+{
+  "inspection": {
+    "key": "1:0:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "regional:dongnan:N-to-W-right:sign:2000",
+        "road-safety:system-east:S-to-W-turbine:false:speed:65",
+        "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION"
+      ],
+      "bbox": {
+        "minX": 2269.97816980538,
+        "maxX": 3760.2394602892373,
+        "minZ": 120.423125848015,
+        "maxZ": 1032.2875355602605
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 3,
+      "skipped": 3,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "regional:dongnan:N-to-W-right:sign:2000",
+      "properties": {
+        "position": {
+          "x": 3755.043304483712,
+          "y": 0.19999345874790028,
+          "z": 1028.5686614447936
+        },
+        "heading": -2.145724869750166,
+        "stationMetres": 227.12258357998806
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-east:S-to-W-turbine:false:speed:65",
+      "properties": {
+        "position": {
+          "x": 2353.231205125212,
+          "y": 11.84988814978155,
+          "z": 133.4648365869997
+        },
+        "heading": -0.14039599805424727,
+        "stationMetres": 52.99999999999996
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 2270.97816980538,
+          "y": 0,
+          "z": 502
+        },
+        "heading": 1.5707963267948966,
+        "stationMetres": 73.78123012973991
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-64",
+    "created": [],
+    "modified": [
+      "regional:dongnan:N-to-W-right:sign:2000",
+      "road-safety:system-east:S-to-W-turbine:false:speed:65",
+      "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2230.97816980538,
+      "maxX": 3799.2394602892373,
+      "minZ": 81.423125848015,
+      "maxZ": 1071.2875355602605
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:dongnan:N-to-W-right:sign:2000",
+          "road-safety:system-east:S-to-W-turbine:false:speed:65",
+          "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+          "regional:G4516:out",
+          "regional:G4516:in:split178:split184:split198:split216:split482:split490:split498",
+          "regional:G4516:in:split178:split184:split198:split216:split482:split490:split498:split504",
+          "regional:S68:out:split12:split30:split36:split232:split546",
+          "regional:S68:in:split84:split102:split240:split550:split558:split566:split574:split582",
+          "ring-ccw-2-split",
+          "ring-cw-1-split-split",
+          "ring-ccw-2-split-2",
+          "ring-ccw-2-split-2-split",
+          "ring-cw-1-split-split-split-2",
+          "ring-cw-1-split-split-2-split",
+          "system-east:S-to-W-turbine",
+          "system-east:E-to-S-turbine",
+          "v9-newcity-six-south",
+          "v9-newcity-four-split-split",
+          "v9-newcity-six-south-split-2-c91",
+          "urban-junction-201",
+          "v9-newcity-six-south-split-split",
+          "v4-central-split-split-m91",
+          "v4-central-split-split-split-m91",
+          "v9-newcity-seven-split-c91",
+          "v9-newcity-six-south-split-c91",
+          "urban-junction-186",
+          "urban-junction-199",
+          "urban-junction-200"
+        ],
+        "message": "roads: 11 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-1-split-split",
+          "system-east:E-to-S-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-2-split",
+          "system-east:S-to-W-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ew-wb-split-3-split-split-3-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:E-to-S-turbine",
+          "ew-wb-split-4-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:system-east:S-to-W-turbine:false:speed:65",
+          "system-east:S-to-W-turbine"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+          "v4-central-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      }
+    ],
+    "valid": true
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "mainline": "ns-sb-split-split-split-split-split-split-2-section",
+  "frontage": "v91-ns-1-a-3",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 143.5374744844603
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "v91-ns-sb-on",
+      "distance": 0
+    },
+    {
+      "station": 143.5374744844603,
+      "kind": "rampAttachment",
+      "id": "system-south:N-to-E-semi",
+      "distance": 4.085620730620576e-14
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "v91-ns-nb-off",
+      "distance": 16.25
+    },
+    {
+      "station": 143.5374744844603,
+      "kind": "ordinaryCrossing",
+      "id": "system-south:N-to-E-semi",
+      "distance": 0
+    },
+    {
+      "station": 0,
+      "kind": "ordinaryCrossing",
+      "id": "v91-ns-sb-on",
+      "distance": 0
+    },
+    {
+      "station": 143.5374744844603,
+      "kind": "intersection",
+      "id": "urban-junction-49",
+      "distance": 22.042606256907774
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 60
+    },
+    {
+      "start": 83.53747448446029,
+      "end": 143.5374744844603
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ns-sb-split-split-split-split-split-split-2-section",
+      "structure": {
+        "barrierEnabled": false,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 8
+        }
+      }
+    },
+    {
+      "roadId": "v91-ns-1-a-3",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      }
+    }
+  ],
+  "automaticDesign": false
+}

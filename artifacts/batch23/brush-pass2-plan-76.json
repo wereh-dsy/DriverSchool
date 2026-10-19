@@ -1,0 +1,2434 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:system-central:E-to-N-right:false:guide:130",
+      "road-safety:system-central:E-to-N-right:false:guide:205",
+      "road-safety:system-central:E-to-N-right:false:guide:280",
+      "road-safety:system-central:E-to-N-right:false:guide:355",
+      "road-safety:system-central:E-to-S-semi:false:speed:65",
+      "road-safety:system-central:S-to-E-right:false:guide:205",
+      "road-safety:system-central:S-to-E-right:false:guide:280",
+      "road-safety:system-north:S-to-E-right:false:guide:205",
+      "road-safety:v8-ring-north:off--1:false:speed:65",
+      "topology-sign:urban-junction-153|urban-east-arterial-split-split-3-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-100|urban-east-arterial-split-split-3-split-split-3|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-127|v5-east-science|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-131|v4-north-split-3-split-split-2-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-151|v5-east-garden|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-151|v5-east-science-split-3|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-157|v5-east-science-split-4|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-157|v5-east-science|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-157|v6-science-one|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-169|v5-civic-north-split-split-2-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-17|urban-diagonal-split-split-split-split-2-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-19|urban-diagonal-split-split-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-19|v4-north-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-22|v5-finance-road-split-3-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-25|v4-diagonal-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-25|v4-inner-1-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-28|v5-civic-north-split-split-2-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-32|v6-campus-west-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-33|v6-civic-north-link-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-40|v4-north-split-2|start:ROAD_NAME",
+      "topology-sign:urban-junction-44|v4-diagonal-split-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-58|v4-north-split-3-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-60|v4-north-split-2|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-69|urban-diagonal-split-split-split-split|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-8|diamond-east:west-local-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-83|v4-inner-1|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-83|v5-finance-road|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-9|v4-cbd-east-collector-split-2-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-93|v5-civic-north-split-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-83|v4-inner-1-split-2|start:URBAN_DIRECTION"
+    ],
+    "bbox": {
+      "minX": 35.737054280283786,
+      "maxX": 1741.2371488514123,
+      "minZ": -1804.5285519056436,
+      "maxZ": -10.381672199083846
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:system-central:E-to-N-right:false:guide:130",
+      "state": "INVALID",
+      "position": {
+        "x": 200.72571595776543,
+        "y": -1.2634708232395875,
+        "z": -193.7917199621187
+      },
+      "rotation": 1.170985154796607,
+      "anchor": {
+        "anchorRoadId": "system-central:E-to-N-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 130,
+        "lateralOffset": 6.053553390593282,
+        "verticalOffset": -8.881784197001252e-16,
+        "facingDirection": "forward",
+        "expectedHeading": 1.170985154796607,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-central:E-to-N-right:false:guide:130",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-central:E-to-N-right:false:guide:130",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-central:E-to-N-right",
+            "groundElevation": -0.04,
+            "actual": -1.2634708232395875
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-central:E-to-N-right:false:guide:130",
+          "properties": {
+            "position": {
+              "x": 200.72571595776543,
+              "y": -1.2634708232395875,
+              "z": -193.7917199621187
+            },
+            "heading": 1.170985154796607,
+            "roadId": "system-central:E-to-N-right",
+            "stationMetres": 130
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-central:E-to-N-right:false:guide:130",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593245
+    },
+    {
+      "id": "road-safety:system-central:E-to-N-right:false:guide:205",
+      "state": "INVALID",
+      "position": {
+        "x": 133.08359065133646,
+        "y": -8.487087879074819,
+        "z": -224.83981794799504
+      },
+      "rotation": 1.0797460007440676,
+      "anchor": {
+        "anchorRoadId": "system-central:E-to-N-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 205.00000000000006,
+        "lateralOffset": 6.0535533905932475,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.0797460007440676,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-central:E-to-N-right:false:guide:205",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-central:E-to-N-right:false:guide:205",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-central:E-to-N-right",
+            "groundElevation": -0.04,
+            "actual": -8.487087879074819
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-central:E-to-N-right:false:guide:205",
+          "properties": {
+            "position": {
+              "x": 133.08359065133646,
+              "y": -8.487087879074819,
+              "z": -224.83981794799504
+            },
+            "heading": 1.0797460007440676,
+            "roadId": "system-central:E-to-N-right",
+            "stationMetres": 205.00000000000003
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-central:E-to-N-right:false:guide:205",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593292
+    },
+    {
+      "id": "road-safety:system-central:E-to-N-right:false:guide:280",
+      "state": "INVALID",
+      "position": {
+        "x": 78.17791104929049,
+        "y": -7.467970443406499,
+        "z": -270.7714822958817
+      },
+      "rotation": 0.6308046201384672,
+      "anchor": {
+        "anchorRoadId": "system-central:E-to-N-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 280.0000000000001,
+        "lateralOffset": 6.053553390593262,
+        "verticalOffset": 8.881784197001252e-16,
+        "facingDirection": "forward",
+        "expectedHeading": 0.6308046201384672,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-central:E-to-N-right:false:guide:280",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-central:E-to-N-right:false:guide:280",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-central:E-to-N-right",
+            "groundElevation": -0.04,
+            "actual": -7.467970443406499
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-central:E-to-N-right:false:guide:280",
+          "properties": {
+            "position": {
+              "x": 78.17791104929049,
+              "y": -7.467970443406499,
+              "z": -270.7714822958817
+            },
+            "heading": 0.6308046201384672,
+            "roadId": "system-central:E-to-N-right",
+            "stationMetres": 280.00000000000006
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-central:E-to-N-right:false:guide:280",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593263
+    },
+    {
+      "id": "road-safety:system-central:E-to-N-right:false:guide:355",
+      "state": "INVALID",
+      "position": {
+        "x": 45.625100208238635,
+        "y": -6.40685447884924,
+        "z": -336.09652139888055
+      },
+      "rotation": 0.332652464827225,
+      "anchor": {
+        "anchorRoadId": "system-central:E-to-N-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 355,
+        "lateralOffset": 6.053553390593278,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 0.332652464827225,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-central:E-to-N-right:false:guide:355",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-central:E-to-N-right:false:guide:355",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-central:E-to-N-right",
+            "groundElevation": -0.04,
+            "actual": -6.40685447884924
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-central:E-to-N-right:false:guide:355",
+          "properties": {
+            "position": {
+              "x": 45.625100208238635,
+              "y": -6.40685447884924,
+              "z": -336.09652139888055
+            },
+            "heading": 0.332652464827225,
+            "roadId": "system-central:E-to-N-right",
+            "stationMetres": 355
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-central:E-to-N-right:false:guide:355",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.40355339059325
+    },
+    {
+      "id": "road-safety:system-central:E-to-S-semi:false:speed:65",
+      "state": "INVALID",
+      "position": {
+        "x": 560.6479304354691,
+        "y": 4.276166981289439,
+        "z": -172.6841049378116
+      },
+      "rotation": 1.484595404696985,
+      "anchor": {
+        "anchorRoadId": "system-central:E-to-S-semi",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 65,
+        "lateralOffset": 6.053553390593264,
+        "verticalOffset": 1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 1.484595404696985,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.occluded:system-central:E-to-S-semi:road-safety:system-central:E-to-S-semi:false:speed:65::",
+          "code": "roadSign.occluded",
+          "severity": "warning",
+          "objectId": "road-safety:system-central:E-to-S-semi:false:speed:65",
+          "roadId": "system-central:E-to-S-semi",
+          "message": "Approximate incoming sight ray intersects another deck",
+          "metrics": {
+            "roadId": "ew-wb-split-3-split-split-split-split-split"
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-central:E-to-S-semi:false:speed:65",
+          "properties": {
+            "position": {
+              "x": 560.6479304354691,
+              "y": 4.276166981289439,
+              "z": -172.6841049378116
+            },
+            "heading": 1.484595404696985,
+            "roadId": "system-central:E-to-S-semi",
+            "stationMetres": 64.99999999999999
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-central:E-to-S-semi:false:speed:65",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.003553390593315
+    },
+    {
+      "id": "road-safety:system-central:S-to-E-right:false:guide:205",
+      "state": "INVALID",
+      "position": {
+        "x": 61.12014242704842,
+        "y": -6.49658133001917,
+        "z": -6.818666056165707
+      },
+      "rotation": -0.5066407761189536,
+      "anchor": {
+        "anchorRoadId": "system-central:S-to-E-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 205.00000000000006,
+        "lateralOffset": 6.053553390593278,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -0.5066407761189536,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-central:S-to-E-right:false:guide:205",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-central:S-to-E-right:false:guide:205",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-central:S-to-E-right",
+            "groundElevation": -0.04,
+            "actual": -6.49658133001917
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-central:S-to-E-right:false:guide:205",
+          "properties": {
+            "position": {
+              "x": 61.12014242704842,
+              "y": -6.49658133001917,
+              "z": -6.818666056165707
+            },
+            "heading": -0.5066407761189536,
+            "roadId": "system-central:S-to-E-right",
+            "stationMetres": 205.00000000000003
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-central:S-to-E-right:false:guide:205",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593272
+    },
+    {
+      "id": "road-safety:system-central:S-to-E-right:false:guide:280",
+      "state": "INVALID",
+      "position": {
+        "x": 106.76613411295469,
+        "y": -2.2870936142472864,
+        "z": -62.26142529308902
+      },
+      "rotation": -0.9329298387293822,
+      "anchor": {
+        "anchorRoadId": "system-central:S-to-E-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 280.0000000000001,
+        "lateralOffset": 6.053553390593276,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -0.9329298387293822,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.wrongStructureLevel:road-safety:system-central:S-to-E-right:false:guide:280",
+          "code": "object.wrongStructureLevel",
+          "severity": "warning",
+          "objectId": "road-safety:system-central:S-to-E-right:false:guide:280",
+          "message": "Underground placement lies outside the supported floor envelope",
+          "metrics": {
+            "roadId": "system-central:S-to-E-right",
+            "groundElevation": -0.04,
+            "actual": -2.2870936142472864
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-central:S-to-E-right:false:guide:280",
+          "properties": {
+            "position": {
+              "x": 106.76613411295469,
+              "y": -2.2870936142472864,
+              "z": -62.26142529308902
+            },
+            "heading": -0.9329298387293822,
+            "roadId": "system-central:S-to-E-right",
+            "stationMetres": 280.00000000000006
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-central:S-to-E-right:false:guide:280",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593284
+    },
+    {
+      "id": "road-safety:system-north:S-to-E-right:false:guide:205",
+      "state": "VALID",
+      "position": {
+        "x": 59.797698417033686,
+        "y": 4.1740031661374015,
+        "z": -1711.3383118679394
+      },
+      "rotation": -0.34466581398116736,
+      "anchor": {
+        "anchorRoadId": "system-north:S-to-E-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 205.00000000000006,
+        "lateralOffset": 6.053553390593236,
+        "verticalOffset": -1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": -0.34466581398116736,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-north:S-to-E-right:false:guide:205",
+          "properties": {
+            "position": {
+              "x": 59.797698417033686,
+              "y": 4.1740031661374015,
+              "z": -1711.3383118679394
+            },
+            "heading": -0.34466581398116736,
+            "roadId": "system-north:S-to-E-right",
+            "stationMetres": 204.99999999999994
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-north:S-to-E-right:false:guide:205",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593185
+    },
+    {
+      "id": "road-safety:v8-ring-north:off--1:false:speed:65",
+      "state": "INVALID",
+      "position": {
+        "x": 985.5039054236092,
+        "y": 4.324248919908394,
+        "z": -1800.6628718783836
+      },
+      "rotation": -1.8749639367352058,
+      "anchor": {
+        "anchorRoadId": "v8-ring-north:off--1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 64.99999999999999,
+        "lateralOffset": 6.05355339059337,
+        "verticalOffset": 5.329070518200751e-15,
+        "facingDirection": "forward",
+        "expectedHeading": -1.8749639367352058,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.occluded:v8-ring-north:off--1:road-safety:v8-ring-north:off--1:false:speed:65::",
+          "code": "roadSign.occluded",
+          "severity": "warning",
+          "objectId": "road-safety:v8-ring-north:off--1:false:speed:65",
+          "roadId": "v8-ring-north:off--1",
+          "message": "Approximate incoming sight ray intersects another deck",
+          "metrics": {
+            "roadId": "ring-cw-1-split-3-split-split"
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:v8-ring-north:off--1:false:speed:65",
+          "properties": {
+            "position": {
+              "x": 985.5039054236092,
+              "y": 4.324248919908394,
+              "z": -1800.6628718783836
+            },
+            "heading": -1.8749639367352058,
+            "roadId": "v8-ring-north:off--1",
+            "stationMetres": 64.99999999999991
+          }
+        }
+      ],
+      "sourceId": "road-safety:v8-ring-north:off--1:false:speed:65",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.0035533905933183
+    },
+    {
+      "id": "topology-sign:urban-junction-153|urban-east-arterial-split-split-3-split-2|start:URBAN_DIRECTION",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1681.5127085489273,
+        "y": -0.024,
+        "z": -605.7910570711115
+      },
+      "rotation": 1.2077657676380718,
+      "anchor": {
+        "anchorRoadId": "urban-east-arterial-split-split-3-split-2-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 12.855340366627484,
+        "lateralOffset": -16.75000000000002,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.2077657676380718,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-153|urban-east-arterial-split-split-3-split-2|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1681.5127085489273,
+              "y": -0.024,
+              "z": -605.7910570711115
+            },
+            "heading": 1.2077657676380718,
+            "roadId": "urban-east-arterial-split-split-3-split-2-split",
+            "stationMetres": 12.85534036662742
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-153|urban-east-arterial-split-split-3-split-2|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 16.750000000000018
+    },
+    {
+      "id": "topology-sign:urban-junction-100|urban-east-arterial-split-split-3-split-split-3|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1663.4567382757857,
+        "y": -0.0141057712187708,
+        "z": -337.1807994444376
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "urban-east-arterial-split-split-3-split-split-3-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 84.99999999999999,
+        "lateralOffset": -13.603553390593333,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-100|urban-east-arterial-split-split-3-split-split-3|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1663.4567382757857,
+              "y": -0.0141057712187708,
+              "z": -337.1807994444376
+            },
+            "heading": 0,
+            "roadId": "urban-east-arterial-split-split-3-split-split-3-v91",
+            "stationMetres": 84.99999999999999
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-100|urban-east-arterial-split-split-3-split-split-3|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 26.853553390593333
+    },
+    {
+      "id": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+      "state": "INVALID",
+      "position": {
+        "x": 1342.4830021937735,
+        "y": 0,
+        "z": -1010.0858785791966
+      },
+      "rotation": 1.5774055337367217,
+      "anchor": {
+        "anchorRoadId": "v4-diagonal-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 17.68456789170115,
+        "lateralOffset": -9.853553390593277,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5774055337367217,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.intersectsStructure:v4-diagonal-split-split-m91:topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION::",
+          "code": "roadSign.intersectsStructure",
+          "severity": "warning",
+          "objectId": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+          "roadId": "v4-diagonal-split-split-m91",
+          "message": "Sign support/board crosses a road deck",
+          "metrics": {
+            "roadId": "direction-mingyuan-main-section-section-section-section-section",
+            "deckY": 8.808112002769688
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "roadSign.tooCloseToJunction:v4-diagonal-split-split-m91:topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION::",
+          "code": "roadSign.tooCloseToJunction",
+          "severity": "warning",
+          "objectId": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+          "roadId": "v4-diagonal-split-split-m91",
+          "message": "Sign is immediately beside the junction conflict envelope",
+          "metrics": {
+            "intersectionId": "urban-junction-40"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1342.4830021937735,
+              "y": 0,
+              "z": -1010.0858785791966
+            },
+            "heading": 1.5774055337367217,
+            "roadId": "v4-diagonal-split-split-m91",
+            "stationMetres": 17.684567891701338
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.353553390593305
+    },
+    {
+      "id": "topology-sign:urban-junction-127|v5-east-science|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1259.3535533905933,
+        "y": 0,
+        "z": -778.7976988733691
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v5-east-science-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 80.75807760402586,
+        "lateralOffset": -9.353553390593333,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-127|v5-east-science|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1259.3535533905933,
+              "y": 0,
+              "z": -778.7976988733691
+            },
+            "heading": 0,
+            "roadId": "v5-east-science-m91",
+            "stationMetres": 80.75807760402586
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-127|v5-east-science|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.353553390593333
+    },
+    {
+      "id": "topology-sign:urban-junction-131|v4-north-split-3-split-split-2-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 412.0950842919978,
+        "y": 0,
+        "z": -1009.5609002400683
+      },
+      "rotation": 1.5598322278585024,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-3-split-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 81.23825317175265,
+        "lateralOffset": -9.853553390593275,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5598322278585024,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-131|v4-north-split-3-split-split-2-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 412.0950842919978,
+              "y": 0,
+              "z": -1009.5609002400683
+            },
+            "heading": 1.5598322278585024,
+            "roadId": "v4-north-split-3-split-split-2-split-m91",
+            "stationMetres": 81.23825317175266
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-131|v4-north-split-3-split-split-2-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.353553390593298
+    },
+    {
+      "id": "topology-sign:urban-junction-151|v5-east-garden|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1368.5636852569237,
+        "y": -0.005982516643843573,
+        "z": -579.4396060871125
+      },
+      "rotation": 1.5732185152819178,
+      "anchor": {
+        "anchorRoadId": "v5-east-garden-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 104.58668917781384,
+        "lateralOffset": -9.353553390593243,
+        "verticalOffset": -1.734723475976807e-18,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5732185152819178,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-151|v5-east-garden|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1368.5636852569237,
+              "y": -0.005982516643843573,
+              "z": -579.4396060871125
+            },
+            "heading": 1.5732185152819178,
+            "roadId": "v5-east-garden-c91",
+            "stationMetres": 104.58668917781388
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-151|v5-east-garden|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.353553390593277
+    },
+    {
+      "id": "topology-sign:urban-junction-151|v5-east-science-split-3|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1259.3535533905933,
+        "y": 0,
+        "z": -471.3860725220343
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v5-east-science-split-3-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 80.1627685807382,
+        "lateralOffset": -9.353553390593333,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-151|v5-east-science-split-3|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1259.3535533905933,
+              "y": 0,
+              "z": -471.3860725220343
+            },
+            "heading": 0,
+            "roadId": "v5-east-science-split-3-m91",
+            "stationMetres": 80.1627685807382
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-151|v5-east-science-split-3|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.353553390593333
+    },
+    {
+      "id": "topology-sign:urban-junction-157|v5-east-science-split-4|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1259.3535533905933,
+        "y": 0,
+        "z": -648.4853937747545
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v5-east-science-split-4-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 80.42025430249872,
+        "lateralOffset": -9.353553390593333,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-157|v5-east-science-split-4|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1259.3535533905933,
+              "y": 0,
+              "z": -648.4853937747545
+            },
+            "heading": 0,
+            "roadId": "v5-east-science-split-4-m91",
+            "stationMetres": 80.42025430249872
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-157|v5-east-science-split-4|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.353553390593333
+    },
+    {
+      "id": "topology-sign:urban-junction-157|v5-east-science|end:URBAN_DIRECTION",
+      "state": "INVALID",
+      "position": {
+        "x": 1240.6464466094067,
+        "y": 0,
+        "z": -845.8560350906653
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v5-east-science-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 13.699741386729672,
+        "lateralOffset": 9.353553390593333,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.insideLane:v5-east-science-m91:topology-sign:urban-junction-157|v5-east-science|end:URBAN_DIRECTION::",
+          "code": "roadSign.insideLane",
+          "severity": "warning",
+          "objectId": "topology-sign:urban-junction-157|v5-east-science|end:URBAN_DIRECTION",
+          "roadId": "v5-east-science-m91",
+          "message": "Sign support intersects carriageway",
+          "metrics": {
+            "roadId": "v4-diagonal-split-split-2-m91"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-157|v5-east-science|end:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1240.6464466094067,
+              "y": 0,
+              "z": -845.8560350906653
+            },
+            "heading": -3.141592653589793,
+            "roadId": "v5-east-science-m91",
+            "stationMetres": 13.699741386729672
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-157|v5-east-science|end:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 0.35355339059333346
+    },
+    {
+      "id": "topology-sign:urban-junction-157|v6-science-one|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1349.991939014021,
+        "y": -0.00549299779761912,
+        "z": -737.2759820297822
+      },
+      "rotation": 1.3770872498398892,
+      "anchor": {
+        "anchorRoadId": "v6-science-one-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 85.82362364264912,
+        "lateralOffset": -9.5535533905933,
+        "verticalOffset": 2.6020852139652106e-18,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.3770872498398892,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-157|v6-science-one|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1349.991939014021,
+              "y": -0.00549299779761912,
+              "z": -737.2759820297822
+            },
+            "heading": 1.3770872498398892,
+            "roadId": "v6-science-one-c91",
+            "stationMetres": 85.82362364264908
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-157|v6-science-one|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.753553390593282
+    },
+    {
+      "id": "topology-sign:urban-junction-169|v5-civic-north-split-split-2-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 447.71810235504097,
+        "y": 0,
+        "z": -559.3535533905932
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-north-split-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 80.55193004850986,
+        "lateralOffset": -9.35355339059322,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-169|v5-civic-north-split-split-2-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 447.71810235504097,
+              "y": 0,
+              "z": -559.3535533905932
+            },
+            "heading": 1.5707963267948966,
+            "roadId": "v5-civic-north-split-split-2-split-m91",
+            "stationMetres": 80.55193004850986
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-169|v5-civic-north-split-split-2-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.35355339059322
+    },
+    {
+      "id": "topology-sign:urban-junction-17|urban-diagonal-split-split-split-split-2-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1718.0858579449668,
+        "y": -0.01617552590929642,
+        "z": -835.7175072973281
+      },
+      "rotation": 3.7423772307032377,
+      "anchor": {
+        "anchorRoadId": "urban-diagonal-split-split-split-split-2-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 82.99908612826174,
+        "lateralOffset": -13.603553390593284,
+        "verticalOffset": 6.938893903907228e-18,
+        "facingDirection": "reverse",
+        "expectedHeading": 3.7423772307032377,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-17|urban-diagonal-split-split-split-split-2-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1718.0858579449668,
+              "y": -0.01617552590929642,
+              "z": -835.7175072973281
+            },
+            "heading": 3.7423772307032377,
+            "roadId": "urban-diagonal-split-split-split-split-2-split-c91",
+            "stationMetres": 82.99908612826181
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-17|urban-diagonal-split-split-split-split-2-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 26.85355339059333
+    },
+    {
+      "id": "topology-sign:urban-junction-19|urban-diagonal-split-split-split-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1570.9460956617804,
+        "y": 0,
+        "z": -1024.7889797410849
+      },
+      "rotation": 4.01827637997061,
+      "anchor": {
+        "anchorRoadId": "urban-diagonal-split-split-split-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 36.845773775741165,
+        "lateralOffset": -13.603553390593186,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 4.01827637997061,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-19|urban-diagonal-split-split-split-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1570.9460956617804,
+              "y": 0,
+              "z": -1024.7889797410849
+            },
+            "heading": 4.01827637997061,
+            "roadId": "urban-diagonal-split-split-split-split-c91",
+            "stationMetres": 36.845773775741144
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-19|urban-diagonal-split-split-split-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 26.853553390593095
+    },
+    {
+      "id": "topology-sign:urban-junction-19|v4-north-split|start:URBAN_DIRECTION",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1725.2038158396886,
+        "y": 0,
+        "z": -1013
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 84.95767183126645,
+        "lateralOffset": -13,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-19|v4-north-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1725.2038158396886,
+              "y": 0,
+              "z": -1013
+            },
+            "heading": 1.5707963267948966,
+            "roadId": "v4-north-split-m91",
+            "stationMetres": 84.95767183126645
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-19|v4-north-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 22.5
+    },
+    {
+      "id": "topology-sign:urban-junction-22|v5-finance-road-split-3-split-2|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 489.3535533905933,
+        "y": 0,
+        "z": -13.670436547426
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v5-finance-road-split-3-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 28.722994124252473,
+        "lateralOffset": -9.353553390593277,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-22|v5-finance-road-split-3-split-2|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 489.3535533905933,
+              "y": 0,
+              "z": -13.670436547426
+            },
+            "heading": 0,
+            "roadId": "v5-finance-road-split-3-split-m91",
+            "stationMetres": 28.722994124252473
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-22|v5-finance-road-split-3-split-2|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.353553390593277
+    },
+    {
+      "id": "topology-sign:urban-junction-25|v4-diagonal-split|start:URBAN_DIRECTION",
+      "state": "INVALID",
+      "position": {
+        "x": 1116.3285306891544,
+        "y": 0,
+        "z": -622.1474380317086
+      },
+      "rotation": 3.0029977018227205,
+      "anchor": {
+        "anchorRoadId": "v4-diagonal-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 52.69840263592259,
+        "lateralOffset": -13.603553390593376,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 3.0029977018227205,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.insideJunction:v4-diagonal-split-m91:topology-sign:urban-junction-25|v4-diagonal-split|start:URBAN_DIRECTION::",
+          "code": "roadSign.insideJunction",
+          "severity": "warning",
+          "objectId": "topology-sign:urban-junction-25|v4-diagonal-split|start:URBAN_DIRECTION",
+          "roadId": "v4-diagonal-split-m91",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-25"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-25|v4-diagonal-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1116.3285306891544,
+              "y": 0,
+              "z": -622.1474380317086
+            },
+            "heading": 3.0029977018227205,
+            "roadId": "v4-diagonal-split-m91",
+            "stationMetres": 52.69840263592268
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-25|v4-diagonal-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 26.853553390593266
+    },
+    {
+      "id": "topology-sign:urban-junction-25|v4-inner-1-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1141.5048300398655,
+        "y": 0.10158586121619811,
+        "z": -449.6624747264461
+      },
+      "rotation": 0.1149592123633405,
+      "anchor": {
+        "anchorRoadId": "v4-inner-1-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 83.89198049109544,
+        "lateralOffset": -9.853553390593254,
+        "verticalOffset": -4.163336342344337e-17,
+        "facingDirection": "reverse",
+        "expectedHeading": 0.1149592123633405,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-25|v4-inner-1-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1141.5048300398655,
+              "y": 0.10158586121619811,
+              "z": -449.6624747264461
+            },
+            "heading": 0.1149592123633405,
+            "roadId": "v4-inner-1-split-m91",
+            "stationMetres": 83.8919804910954
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-25|v4-inner-1-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.35355339059339
+    },
+    {
+      "id": "topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1096.75,
+        "y": 0,
+        "z": -540.5
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-north-split-split-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 7.184918140019363,
+        "lateralOffset": 9.5,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1096.75,
+              "y": 0,
+              "z": -540.5
+            },
+            "heading": -1.5707963267948966,
+            "roadId": "v5-civic-north-split-split-m91-section",
+            "stationMetres": 12.184918140019363
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 5.024937810560445
+    },
+    {
+      "id": "topology-sign:urban-junction-28|v5-civic-north-split-split-2-split-2|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 169,
+        "y": 0,
+        "z": -559.3535533905932
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-north-split-split-2-split-2-v91-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 97,
+        "lateralOffset": -9.35355339059322,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-28|v5-civic-north-split-split-2-split-2|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 169,
+              "y": 0,
+              "z": -559.3535533905932
+            },
+            "heading": 1.5707963267948966,
+            "roadId": "v5-civic-north-split-split-2-split-2-v91-m91",
+            "stationMetres": 97
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-28|v5-civic-north-split-split-2-split-2|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.35355339059322
+    },
+    {
+      "id": "topology-sign:urban-junction-32|v6-campus-west-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 154.63226489939413,
+        "y": -4.835747215041261,
+        "z": -1448.2258965208716
+      },
+      "rotation": 1.1182602029618125,
+      "anchor": {
+        "anchorRoadId": "v6-campus-west-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 87.23608488371663,
+        "lateralOffset": -9.5535533905932,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.1182602029618125,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-32|v6-campus-west-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 154.63226489939413,
+              "y": -4.835747215041261,
+              "z": -1448.2258965208716
+            },
+            "heading": 1.1182602029618125,
+            "roadId": "v6-campus-west-split-v91",
+            "stationMetres": 87.23608488371659
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-32|v6-campus-west-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.75355339059314
+    },
+    {
+      "id": "topology-sign:urban-junction-33|v6-civic-north-link-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 167.96076978316577,
+        "y": 0,
+        "z": -589.7439205697605
+      },
+      "rotation": 1.4061842079806381,
+      "anchor": {
+        "anchorRoadId": "v6-civic-north-link-split-v91-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 95.68875317835575,
+        "lateralOffset": -9.553553390593276,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.4061842079806381,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-33|v6-civic-north-link-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 167.96076978316577,
+              "y": 0,
+              "z": -589.7439205697605
+            },
+            "heading": 1.4061842079806381,
+            "roadId": "v6-civic-north-link-split-v91-c91",
+            "stationMetres": 95.68875317835577
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-33|v6-civic-north-link-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.753553390593286
+    },
+    {
+      "id": "topology-sign:urban-junction-40|v4-north-split-2|start:ROAD_NAME",
+      "state": "VALID",
+      "position": {
+        "x": 1409.8011559665315,
+        "y": 0,
+        "z": -1009.8535533905932
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 84.18682950850712,
+        "lateralOffset": -9.85355339059322,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-40|v4-north-split-2|start:ROAD_NAME",
+          "properties": {
+            "position": {
+              "x": 1409.8011559665315,
+              "y": 0,
+              "z": -1009.8535533905932
+            },
+            "heading": 1.5707963267948966,
+            "roadId": "v4-north-split-2-m91",
+            "stationMetres": 84.18682950850712
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-40|v4-north-split-2|start:ROAD_NAME",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.35355339059322
+    },
+    {
+      "id": "topology-sign:urban-junction-44|v4-diagonal-split-split-2|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1202.92638115321,
+        "y": 0,
+        "z": -833.5250266604355
+      },
+      "rotation": 2.4786961136515573,
+      "anchor": {
+        "anchorRoadId": "v4-diagonal-split-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 84.6082397505214,
+        "lateralOffset": -9.853553390593294,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 2.4786961136515573,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-44|v4-diagonal-split-split-2|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1202.92638115321,
+              "y": 0,
+              "z": -833.5250266604355
+            },
+            "heading": 2.4786961136515573,
+            "roadId": "v4-diagonal-split-split-2-m91",
+            "stationMetres": 84.60823975052145
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-44|v4-diagonal-split-split-2|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.353553390593422
+    },
+    {
+      "id": "topology-sign:urban-junction-58|v4-north-split-3-split-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1276.7996078774424,
+        "y": 0,
+        "z": -1009.8535533905932
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-3-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 64.16063876430576,
+        "lateralOffset": -9.85355339059322,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-58|v4-north-split-3-split-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1276.7996078774424,
+              "y": 0,
+              "z": -1009.8535533905932
+            },
+            "heading": 1.5707963267948966,
+            "roadId": "v4-north-split-3-split-split-m91",
+            "stationMetres": 64.16063876430576
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-58|v4-north-split-3-split-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.35355339059322
+    },
+    {
+      "id": "topology-sign:urban-junction-60|v4-north-split-2|end:URBAN_DIRECTION",
+      "state": "INVALID",
+      "position": {
+        "x": 1385.9909589228685,
+        "y": 0,
+        "z": -990.1464466094068
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 60.37663246484408,
+        "lateralOffset": 9.85355339059322,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.tooCloseToJunction:v4-north-split-2-m91:topology-sign:urban-junction-60|v4-north-split-2|end:URBAN_DIRECTION::",
+          "code": "roadSign.tooCloseToJunction",
+          "severity": "warning",
+          "objectId": "topology-sign:urban-junction-60|v4-north-split-2|end:URBAN_DIRECTION",
+          "roadId": "v4-north-split-2-m91",
+          "message": "Sign is immediately beside the junction conflict envelope",
+          "metrics": {
+            "intersectionId": "urban-junction-40"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-60|v4-north-split-2|end:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1385.9909589228685,
+              "y": 0,
+              "z": -990.1464466094068
+            },
+            "heading": -1.5707963267948966,
+            "roadId": "v4-north-split-2-m91",
+            "stationMetres": 60.37663246484408
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-60|v4-north-split-2|end:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 0.3535533905932198
+    },
+    {
+      "id": "topology-sign:urban-junction-69|urban-diagonal-split-split-split-split|end:URBAN_DIRECTION",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 1448.3013468748354,
+        "y": 0,
+        "z": -1166.3538692478826
+      },
+      "rotation": 0.8766837263808183,
+      "anchor": {
+        "anchorRoadId": "urban-diagonal-split-split-split-split-c91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 0,
+        "lateralOffset": 16.75000000000007,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 0.8766837263808183,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-69|urban-diagonal-split-split-split-split|end:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1448.3013468748354,
+              "y": 0,
+              "z": -1166.3538692478826
+            },
+            "heading": 0.8766837263808183,
+            "roadId": "urban-diagonal-split-split-split-split-c91-section",
+            "stationMetres": 0
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-69|urban-diagonal-split-split-split-split|end:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.500000000000163
+    },
+    {
+      "id": "topology-sign:urban-junction-8|diamond-east:west-local-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 1061.5115284693873,
+        "y": 0,
+        "z": -291.66666666666663
+      },
+      "rotation": 3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "diamond-east:west-local-split-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 75.66666666666663,
+        "lateralOffset": -13.603553390593333,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-8|diamond-east:west-local-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 1061.5115284693873,
+              "y": 0,
+              "z": -291.66666666666663
+            },
+            "heading": 3.141592653589793,
+            "roadId": "diamond-east:west-local-split-v91",
+            "stationMetres": 75.66666666666663
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-8|diamond-east:west-local-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 26.853553390593333
+    },
+    {
+      "id": "topology-sign:urban-junction-83|v4-inner-1|end:URBAN_DIRECTION",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 460.49804571406435,
+        "y": 0,
+        "z": -839.8945902088537
+      },
+      "rotation": -1.570991792641435,
+      "anchor": {
+        "anchorRoadId": "v4-inner-1-m91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 405.70000818391753,
+        "lateralOffset": 10.000000000000012,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.570991792641435,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-83|v4-inner-1|end:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 460.49804571406435,
+              "y": 0,
+              "z": -839.8945902088537
+            },
+            "heading": -1.570991792641435,
+            "roadId": "v4-inner-1-m91-section",
+            "stationMetres": 410.70000818391753
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-83|v4-inner-1|end:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 5.024937810560461
+    },
+    {
+      "id": "topology-sign:urban-junction-83|v5-finance-road|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 489.3535533905933,
+        "y": 0,
+        "z": -753.9314413051732
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v5-finance-road-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 77.70933712866292,
+        "lateralOffset": -9.353553390593277,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-83|v5-finance-road|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 489.3535533905933,
+              "y": 0,
+              "z": -753.9314413051732
+            },
+            "heading": 0,
+            "roadId": "v5-finance-road-m91",
+            "stationMetres": 77.70933712866292
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-83|v5-finance-road|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.353553390593277
+    },
+    {
+      "id": "topology-sign:urban-junction-9|v4-cbd-east-collector-split-2-split-2|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 789.8535533905932,
+        "y": 0,
+        "z": -13.86314960778725
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v4-cbd-east-collector-split-2-split-2-v91-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 70.13685039221275,
+        "lateralOffset": -9.85355339059322,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-9|v4-cbd-east-collector-split-2-split-2|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 789.8535533905932,
+              "y": 0,
+              "z": -13.86314960778725
+            },
+            "heading": 0,
+            "roadId": "v4-cbd-east-collector-split-2-split-2-v91-m91",
+            "stationMetres": 70.13685039221275
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-9|v4-cbd-east-collector-split-2-split-2|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.35355339059322
+    },
+    {
+      "id": "topology-sign:urban-junction-93|v5-civic-north-split-split|start:ROAD_NAME",
+      "state": "VALID",
+      "position": {
+        "x": 804.5587338835554,
+        "y": 0,
+        "z": -559.3535533905932
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v5-civic-north-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 6.30873388355542,
+        "lateralOffset": -9.35355339059322,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-93|v5-civic-north-split-split|start:ROAD_NAME",
+          "properties": {
+            "position": {
+              "x": 804.5587338835554,
+              "y": 0,
+              "z": -559.3535533905932
+            },
+            "heading": 1.5707963267948966,
+            "roadId": "v5-civic-north-split-split-m91",
+            "stationMetres": 6.30873388355542
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-93|v5-civic-north-split-split|start:ROAD_NAME",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18.35355339059322
+    },
+    {
+      "id": "topology-sign:urban-junction-83|v4-inner-1-split-2|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 664.9315618925328,
+        "y": 0,
+        "z": -863.7650353369303
+      },
+      "rotation": 1.6531950470285166,
+      "anchor": {
+        "anchorRoadId": "v4-inner-1-split-2-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 172.94954369436186,
+        "lateralOffset": -9.853553390593252,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.6531950470285166,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-83|v4-inner-1-split-2|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 664.9315618925328,
+              "y": 0,
+              "z": -863.7650353369303
+            },
+            "heading": 1.6531950470285166,
+            "roadId": "v4-inner-1-split-2-m91",
+            "stationMetres": 172.9495436943618
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-83|v4-inner-1-split-2|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.353553390593266
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-north:S-to-E-right:false:guide:205",
+      "properties": {
+        "position": {
+          "x": 59.797698417033686,
+          "y": 4.1740031661374015,
+          "z": -1711.3383118679394
+        },
+        "heading": -0.34466581398116736,
+        "roadId": "system-north:S-to-E-right",
+        "stationMetres": 204.99999999999994
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-153|urban-east-arterial-split-split-3-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1681.5127085489273,
+          "y": -0.024,
+          "z": -605.7910570711115
+        },
+        "heading": 1.2077657676380718,
+        "roadId": "urban-east-arterial-split-split-3-split-2-split",
+        "stationMetres": 12.85534036662742
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-100|urban-east-arterial-split-split-3-split-split-3|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1663.4567382757857,
+          "y": -0.0141057712187708,
+          "z": -337.1807994444376
+        },
+        "heading": 0,
+        "roadId": "urban-east-arterial-split-split-3-split-split-3-v91",
+        "stationMetres": 84.99999999999999
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-127|v5-east-science|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1259.3535533905933,
+          "y": 0,
+          "z": -778.7976988733691
+        },
+        "heading": 0,
+        "roadId": "v5-east-science-m91",
+        "stationMetres": 80.75807760402586
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-131|v4-north-split-3-split-split-2-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 412.0950842919978,
+          "y": 0,
+          "z": -1009.5609002400683
+        },
+        "heading": 1.5598322278585024,
+        "roadId": "v4-north-split-3-split-split-2-split-m91",
+        "stationMetres": 81.23825317175266
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-151|v5-east-garden|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1368.5636852569237,
+          "y": -0.005982516643843573,
+          "z": -579.4396060871125
+        },
+        "heading": 1.5732185152819178,
+        "roadId": "v5-east-garden-c91",
+        "stationMetres": 104.58668917781388
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-151|v5-east-science-split-3|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1259.3535533905933,
+          "y": 0,
+          "z": -471.3860725220343
+        },
+        "heading": 0,
+        "roadId": "v5-east-science-split-3-m91",
+        "stationMetres": 80.1627685807382
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-157|v5-east-science-split-4|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1259.3535533905933,
+          "y": 0,
+          "z": -648.4853937747545
+        },
+        "heading": 0,
+        "roadId": "v5-east-science-split-4-m91",
+        "stationMetres": 80.42025430249872
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-157|v6-science-one|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1349.991939014021,
+          "y": -0.00549299779761912,
+          "z": -737.2759820297822
+        },
+        "heading": 1.3770872498398892,
+        "roadId": "v6-science-one-c91",
+        "stationMetres": 85.82362364264908
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-169|v5-civic-north-split-split-2-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 447.71810235504097,
+          "y": 0,
+          "z": -559.3535533905932
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v5-civic-north-split-split-2-split-m91",
+        "stationMetres": 80.55193004850986
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-17|urban-diagonal-split-split-split-split-2-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1718.0858579449668,
+          "y": -0.01617552590929642,
+          "z": -835.7175072973281
+        },
+        "heading": 3.7423772307032377,
+        "roadId": "urban-diagonal-split-split-split-split-2-split-c91",
+        "stationMetres": 82.99908612826181
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-19|urban-diagonal-split-split-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1570.9460956617804,
+          "y": 0,
+          "z": -1024.7889797410849
+        },
+        "heading": 4.01827637997061,
+        "roadId": "urban-diagonal-split-split-split-split-c91",
+        "stationMetres": 36.845773775741144
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-19|v4-north-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1725.2038158396886,
+          "y": 0,
+          "z": -1013
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v4-north-split-m91",
+        "stationMetres": 84.95767183126645
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-22|v5-finance-road-split-3-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 489.3535533905933,
+          "y": 0,
+          "z": -13.670436547426
+        },
+        "heading": 0,
+        "roadId": "v5-finance-road-split-3-split-m91",
+        "stationMetres": 28.722994124252473
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-25|v4-inner-1-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1141.5048300398655,
+          "y": 0.10158586121619811,
+          "z": -449.6624747264461
+        },
+        "heading": 0.1149592123633405,
+        "roadId": "v4-inner-1-split-m91",
+        "stationMetres": 83.8919804910954
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1096.75,
+          "y": 0,
+          "z": -540.5
+        },
+        "heading": -1.5707963267948966,
+        "roadId": "v5-civic-north-split-split-m91-section",
+        "stationMetres": 12.184918140019363
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-28|v5-civic-north-split-split-2-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 169,
+          "y": 0,
+          "z": -559.3535533905932
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v5-civic-north-split-split-2-split-2-v91-m91",
+        "stationMetres": 97
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-32|v6-campus-west-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 154.63226489939413,
+          "y": -4.835747215041261,
+          "z": -1448.2258965208716
+        },
+        "heading": 1.1182602029618125,
+        "roadId": "v6-campus-west-split-v91",
+        "stationMetres": 87.23608488371659
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-33|v6-civic-north-link-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 167.96076978316577,
+          "y": 0,
+          "z": -589.7439205697605
+        },
+        "heading": 1.4061842079806381,
+        "roadId": "v6-civic-north-link-split-v91-c91",
+        "stationMetres": 95.68875317835577
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-40|v4-north-split-2|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": 1409.8011559665315,
+          "y": 0,
+          "z": -1009.8535533905932
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v4-north-split-2-m91",
+        "stationMetres": 84.18682950850712
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-44|v4-diagonal-split-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1202.92638115321,
+          "y": 0,
+          "z": -833.5250266604355
+        },
+        "heading": 2.4786961136515573,
+        "roadId": "v4-diagonal-split-split-2-m91",
+        "stationMetres": 84.60823975052145
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-58|v4-north-split-3-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1276.7996078774424,
+          "y": 0,
+          "z": -1009.8535533905932
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v4-north-split-3-split-split-m91",
+        "stationMetres": 64.16063876430576
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-69|urban-diagonal-split-split-split-split|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1448.3013468748354,
+          "y": 0,
+          "z": -1166.3538692478826
+        },
+        "heading": 0.8766837263808183,
+        "roadId": "urban-diagonal-split-split-split-split-c91-section",
+        "stationMetres": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-8|diamond-east:west-local-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 1061.5115284693873,
+          "y": 0,
+          "z": -291.66666666666663
+        },
+        "heading": 3.141592653589793,
+        "roadId": "diamond-east:west-local-split-v91",
+        "stationMetres": 75.66666666666663
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-83|v4-inner-1|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 460.49804571406435,
+          "y": 0,
+          "z": -839.8945902088537
+        },
+        "heading": -1.570991792641435,
+        "roadId": "v4-inner-1-m91-section",
+        "stationMetres": 410.70000818391753
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-83|v5-finance-road|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 489.3535533905933,
+          "y": 0,
+          "z": -753.9314413051732
+        },
+        "heading": 0,
+        "roadId": "v5-finance-road-m91",
+        "stationMetres": 77.70933712866292
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-9|v4-cbd-east-collector-split-2-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 789.8535533905932,
+          "y": 0,
+          "z": -13.86314960778725
+        },
+        "heading": 0,
+        "roadId": "v4-cbd-east-collector-split-2-split-2-v91-m91",
+        "stationMetres": 70.13685039221275
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-93|v5-civic-north-split-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": 804.5587338835554,
+          "y": 0,
+          "z": -559.3535533905932
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v5-civic-north-split-split-m91",
+        "stationMetres": 6.30873388355542
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-83|v4-inner-1-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 664.9315618925328,
+          "y": 0,
+          "z": -863.7650353369303
+        },
+        "heading": 1.6531950470285166,
+        "roadId": "v4-inner-1-split-2-m91",
+        "stationMetres": 172.9495436943618
+      }
+    }
+  ],
+  "stats": {
+    "planned": 41,
+    "valid": 24,
+    "adjusted": 5,
+    "invalid": 12,
+    "skipped": 12,
+    "added": 0,
+    "moved": 29,
+    "removed": 0
+  },
+  "valid": true
+}

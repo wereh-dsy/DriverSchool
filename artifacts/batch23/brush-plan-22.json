@@ -1,0 +1,104 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "office",
+    "objectIds": [
+      "v6-finance-201"
+    ],
+    "bbox": {
+      "minX": 589.2324525261798,
+      "maxX": 591.2324525261798,
+      "minZ": -98.6451449947009,
+      "maxZ": -96.6451449947009
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-finance-201",
+      "state": "INVALID",
+      "position": {
+        "x": 590.2324525261798,
+        "y": -0.04,
+        "z": -72.93768766723962
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v91-ew-1-a-1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 90.23245252617983,
+        "lateralOffset": 29.062312332760385,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:v6-finance-201",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v6-finance-201",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-verge-v8-ew-frontage-east-split-4-90-1",
+            "actual": 15.958712185659996,
+            "required": 23.662312332760383
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.tooCloseToObject:v6-finance-201",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v6-finance-201",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-lamp-v8-ew-frontage-east-split-4-90",
+            "actual": 14.495852646732251,
+            "required": 23.674444367116347
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-finance-201",
+          "properties": {
+            "position": {
+              "x": 590.2324525261798,
+              "y": -0.04,
+              "z": -72.93768766723962
+            },
+            "rotation": -1.5707963267948966
+          }
+        }
+      ],
+      "sourceId": "v6-finance-201",
+      "heightMode": "GROUND",
+      "autoMove": 24.707489706328328
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

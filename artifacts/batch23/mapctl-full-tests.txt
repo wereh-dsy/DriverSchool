@@ -1,0 +1,71 @@
+$ node scripts/run-mapctl-selftests.mjs && node scripts/validate-mapctl-engineering.mjs
+{
+  "engineering": {
+    "passed": true,
+    "checks": 59,
+    "scenarios": [
+      "profile",
+      "local extrema",
+      "constraints",
+      "interval repair",
+      "ramps/windows",
+      "objects",
+      "signals",
+      "signs",
+      "building bounds",
+      "vertical structures",
+      "batch/undo",
+      "semantic diff",
+      "issue diff",
+      "brush modes",
+      "seed/spacing",
+      "height/facing",
+      "legality",
+      "bounded adjustment",
+      "rebrush",
+      "invalid-only repair",
+      "shared Editor legality"
+    ]
+  },
+  "legacySyntheticRoadQuality": {
+    "passed": true,
+    "checks": 123,
+    "scenarios": {
+      "horizontal": true,
+      "vertical": true,
+      "ramp": true,
+      "ordinary": true,
+      "skew": true,
+      "divided": true,
+      "naming": true,
+      "gizmo": true
+    },
+    "real": []
+  }
+}
+{
+  "passed": true,
+  "checks": 20,
+  "scenarios": [
+    "machine-readable help",
+    "CLI profile inspect",
+    "CLI single-extremum diagnosis",
+    "issue drill-down",
+    "object query",
+    "sign inspection",
+    "derived structure inspection",
+    "region aggregation",
+    "ramp metadata",
+    "ramp access windows",
+    "brush preview leaves source unchanged",
+    "brush receipt batch apply",
+    "stale receipt refuses changed map",
+    "receipt binds operations, affected IDs and source state",
+    "transaction semantic and diagnostic review",
+    "review package generation",
+    "operation tampering rejected without writes",
+    "before/after semantic diff",
+    "read-only output cannot overwrite source",
+    "repair stale receipt refuses writes"
+  ]
+}

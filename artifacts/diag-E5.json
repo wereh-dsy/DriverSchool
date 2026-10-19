@@ -1,0 +1,113 @@
+{
+  "scope": "full",
+  "revision": 0,
+  "coverage": {
+    "roadsChecked": 2922,
+    "roadsTotal": 2922,
+    "intersectionsChecked": 302,
+    "intersectionsTotal": 302
+  },
+  "counts": {
+    "error": 0,
+    "warning": 6,
+    "info": 0,
+    "total": 6,
+    "bySeverity": {
+      "error": 0,
+      "warning": 6,
+      "info": 0
+    },
+    "byCode": {
+      "geometry.sharpBend": 1,
+      "topology.lowClearance": 4,
+      "vertical.wave": 1
+    }
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "geometry.sharpBend",
+      "roadId": "v8-nancheng-ring-split-split",
+      "message": "53° bend over 23.9 m",
+      "metrics": {
+        "angleDegrees": 53,
+        "radius": 13.4,
+        "span": 23.9
+      },
+      "station": 829.5,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v8-nancheng-ring-split-split",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v8-nancheng-ring:collector-2"
+    },
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "regional:v3:S29:out:32",
+      "message": "Crossing clearance with regional:v3:northeast-chenjiang:S-to-W-turbine is 5.15 m",
+      "metrics": {
+        "otherRoadId": "regional:v3:northeast-chenjiang:S-to-W-turbine",
+        "clearance": 5.15
+      },
+      "corridorId": "corridor:S29:expressway-2"
+    },
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "regional:v3:S29:in:15",
+      "message": "Crossing clearance with regional:v3:northeast-chenjiang:S-to-W-turbine is 5.15 m",
+      "metrics": {
+        "otherRoadId": "regional:v3:northeast-chenjiang:S-to-W-turbine",
+        "clearance": 5.15
+      },
+      "corridorId": "corridor:S29:expressway-2"
+    },
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "system-north:S-to-E-right",
+      "message": "Crossing clearance with system-north:S-to-W-star is 4.85 m",
+      "metrics": {
+        "otherRoadId": "system-north:S-to-W-star",
+        "clearance": 4.85
+      },
+      "corridorId": "corridor:ring-expressway:ramp-2"
+    },
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "ring-cw-0-split-split-split-2-split-split",
+      "message": "Crossing clearance with system-north:E-to-S-star is 5.45 m",
+      "metrics": {
+        "otherRoadId": "system-north:E-to-S-star",
+        "clearance": 5.45
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2"
+    },
+    {
+      "severity": "warning",
+      "code": "vertical.wave",
+      "roadId": "system-north:E-to-S-star",
+      "message": "Elevation oscillates 9 times (0.14 m RMS)",
+      "metrics": {
+        "reversals": 8,
+        "crossings": 9,
+        "rms": 0.14,
+        "amplitude": 0.33,
+        "maxGradePercent": 12
+      },
+      "repair": {
+        "op": "repairRamp",
+        "id": "system-north:E-to-S-star",
+        "preserveEndpoints": true,
+        "strength": 2
+      },
+      "corridorId": "corridor:north-south-expressway:ramp-2"
+    }
+  ],
+  "truncated": false,
+  "mapDigest": "3a53d7f0120f561ab75c8a162d3fe926ebd3bcfb9898ff62db5db8607e30de51"
+}

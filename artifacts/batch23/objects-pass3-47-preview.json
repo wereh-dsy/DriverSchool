@@ -1,0 +1,114 @@
+{
+  "inspection": {
+    "key": "0:-2:trafficLight:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "trafficLight",
+      "objectIds": [
+        "signal:urban-junction-212:east",
+        "signal:urban-junction-212:west"
+      ],
+      "bbox": {
+        "minX": 938.1111494546617,
+        "maxX": 945.3233956750364,
+        "minZ": -2214.207649981675,
+        "maxZ": -2208.6220366573434
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6,
+      "intersectionId": "urban-junction-212"
+    },
+    "brushStats": {
+      "planned": 2,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-212",
+      "approach": "east",
+      "position": {
+        "x": 947.3233456952473,
+        "y": -0.024,
+        "z": -2209.604719722371
+      },
+      "heading": 1.565023983081837
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-212",
+      "approach": "west",
+      "position": {
+        "x": 931.7678168249416,
+        "y": -0.024,
+        "z": -2206.5687143825535
+      },
+      "heading": -0.050335326230138734
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-47",
+    "created": [],
+    "modified": [
+      "urban-junction-212",
+      "v61-university-north",
+      "v8-campus-south-v91",
+      "v61-university-north-split-2",
+      "access-finance-north-source",
+      "access-finance-north",
+      "v8-campus-south-v91-section",
+      "access-finance-north-cross-1",
+      "access-finance-north-section",
+      "v5-north-campus-split",
+      "v5-north-campus-split-section",
+      "access-finance-north-cross-2",
+      "access-finance-north-section-section",
+      "v4-north-split-3-split-split-2-split-m91",
+      "v4-north-split-3-split-split-2-split-m91-section",
+      "access-central-north-source",
+      "access-central-north",
+      "v5-north-campus-split-section-section",
+      "access-central-north-cross-1",
+      "access-central-north-section",
+      "v4-north-split-3-split-split-2-split-m91-section-section",
+      "access-central-north-cross-2",
+      "access-central-north-section-section",
+      "v4-inner-1-split-2-m91",
+      "v4-inner-1-split-2-m91-section"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 58.8,
+      "maxX": 1197.0263597689254,
+      "minZ": -2604.5021939201856,
+      "maxZ": -540.2436059618942
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v4-inner-1-split-2-m91-section",
+          "v4-access-16-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

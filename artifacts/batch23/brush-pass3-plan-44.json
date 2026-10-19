@@ -1,0 +1,1051 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "trafficLight",
+    "objectIds": [
+      "signal:urban-junction-4:north",
+      "signal:urban-junction-53:west",
+      "signal:urban-junction-86:north",
+      "signal:urban-junction-86:east",
+      "signal:urban-junction-86:south",
+      "signal:urban-junction-86:west",
+      "signal:urban-junction-57:east",
+      "signal:urban-junction-57:west",
+      "signal:urban-junction-84:north",
+      "signal:urban-junction-84:west",
+      "signal:urban-junction-130:east",
+      "signal:urban-junction-130:west",
+      "signal:urban-junction-177:east",
+      "signal:urban-junction-177:west",
+      "signal:urban-junction-197:north",
+      "signal:urban-junction-197:east",
+      "signal:urban-junction-198:north",
+      "signal:urban-junction-198:east",
+      "signal:urban-junction-198:west"
+    ],
+    "bbox": {
+      "minX": -1926.857142857143,
+      "maxX": -242.04003329734897,
+      "minZ": -1439.2047675832594,
+      "maxZ": -148
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6,
+    "intersectionId": "urban-junction-4"
+  },
+  "candidates": [
+    {
+      "id": "signal:urban-junction-4:north",
+      "state": "INVALID",
+      "position": {
+        "x": -541.5,
+        "y": 0,
+        "z": -149
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v5-civic-avenue-split-split-3-v91-m91",
+        "anchorIntersectionId": "urban-junction-4",
+        "approach": "north",
+        "station": 31.646791331677036,
+        "lateralOffset": 21.5,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.intersectsRoadStructure:v5-civic-avenue-split-split-3-v91-m91:signal:urban-junction-4:north:urban-junction-4:",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "signal:urban-junction-4:north",
+          "roadId": "v5-civic-avenue-split-split-3-v91-m91",
+          "intersectionId": "urban-junction-4",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "system-central:S-to-W-semi",
+            "deckY": 7.1063430242510295,
+            "objectTop": 7.2
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.intersectsBarrier:v5-civic-avenue-split-split-3-v91-m91:signal:urban-junction-4:north:urban-junction-4:",
+          "code": "object.intersectsBarrier",
+          "severity": "warning",
+          "objectId": "signal:urban-junction-4:north",
+          "roadId": "v5-civic-avenue-split-split-3-v91-m91",
+          "intersectionId": "urban-junction-4",
+          "message": "Object intersects roadside barrier envelope",
+          "metrics": {
+            "roadId": "system-central:S-to-W-semi",
+            "lateralOffset": -2.5707950345658177
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-4",
+          "approach": "north",
+          "position": {
+            "x": -541.5,
+            "y": 0,
+            "z": -149
+          },
+          "heading": 0
+        }
+      ],
+      "sourceId": "signal:urban-junction-4:north",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 0
+    },
+    {
+      "id": "signal:urban-junction-53:west",
+      "state": "INVALID",
+      "position": {
+        "x": -1925.857142857143,
+        "y": 0,
+        "z": -202.6
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v91-ew-0-b-0",
+        "anchorIntersectionId": "urban-junction-53",
+        "approach": "west",
+        "station": 0,
+        "lateralOffset": -4.599999999999994,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.intersectsRoadStructure:v91-ew-0-b-0:signal:urban-junction-53:west:urban-junction-53:",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "signal:urban-junction-53:west",
+          "roadId": "v91-ew-0-b-0",
+          "intersectionId": "urban-junction-53",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "system-west:S-to-W-loop",
+            "deckY": 5.975110368420817,
+            "objectTop": 7.2
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-53",
+          "approach": "west",
+          "position": {
+            "x": -1925.857142857143,
+            "y": 0,
+            "z": -202.6
+          },
+          "heading": -1.5707963267948966
+        }
+      ],
+      "sourceId": "signal:urban-junction-53:west",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 0
+    },
+    {
+      "id": "signal:urban-junction-86:north",
+      "state": "VALID",
+      "position": {
+        "x": -1618.9292057487503,
+        "y": 0,
+        "z": -877.0873089442628
+      },
+      "rotation": 0.20675850777133173,
+      "anchor": {
+        "anchorRoadId": "v5-west-lane-m91-section",
+        "anchorIntersectionId": "urban-junction-86",
+        "approach": "north",
+        "station": 84.98578498264771,
+        "lateralOffset": 8.499999999999915,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -2.9348341458184617,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-86",
+          "approach": "north",
+          "position": {
+            "x": -1618.9292057487503,
+            "y": 0,
+            "z": -877.0873089442628
+          },
+          "heading": 0.20675850777133173
+        }
+      ],
+      "sourceId": "signal:urban-junction-86:north",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.999999999999976
+    },
+    {
+      "id": "signal:urban-junction-86:east",
+      "state": "VALID",
+      "position": {
+        "x": -1618.6212757176083,
+        "y": 0,
+        "z": -880.7330165748665
+      },
+      "rotation": -0.11937632840578197,
+      "anchor": {
+        "anchorRoadId": "v8-shanghai-road-m91",
+        "anchorIntersectionId": "urban-junction-86",
+        "approach": "east",
+        "station": 88.34533413886695,
+        "lateralOffset": 10.200000000000056,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 3.022216325184011,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-86",
+          "approach": "east",
+          "position": {
+            "x": -1618.6212757176083,
+            "y": 0,
+            "z": -880.7330165748665
+          },
+          "heading": -0.11937632840578197
+        }
+      ],
+      "sourceId": "signal:urban-junction-86:east",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 6.000000000000022
+    },
+    {
+      "id": "signal:urban-junction-86:south",
+      "state": "VALID",
+      "position": {
+        "x": -1601.9136444103667,
+        "y": 0,
+        "z": -881.7374425540287
+      },
+      "rotation": -3.1066777272558244,
+      "anchor": {
+        "anchorRoadId": "v5-west-lane-split-3-m91",
+        "anchorIntersectionId": "urban-junction-86",
+        "approach": "south",
+        "station": 0,
+        "lateralOffset": -6.500000000000148,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0.034914926333968754,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-86",
+          "approach": "south",
+          "position": {
+            "x": -1601.9136444103667,
+            "y": 0,
+            "z": -881.7374425540287
+          },
+          "heading": -3.1066777272558244
+        }
+      ],
+      "sourceId": "signal:urban-junction-86:south",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.0000000000000946
+    },
+    {
+      "id": "signal:urban-junction-86:west",
+      "state": "VALID",
+      "position": {
+        "x": -1601.958353287483,
+        "y": 0,
+        "z": -880.9143225581809
+      },
+      "rotation": 3.0480647839212134,
+      "anchor": {
+        "anchorRoadId": "v8-shanghai-road-split-2-v91-m91",
+        "anchorIntersectionId": "urban-junction-86",
+        "approach": "west",
+        "station": 0,
+        "lateralOffset": -6.200000000000074,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 6.1896574375110065,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-86",
+          "approach": "west",
+          "position": {
+            "x": -1601.958353287483,
+            "y": 0,
+            "z": -880.9143225581809
+          },
+          "heading": 3.0480647839212134
+        }
+      ],
+      "sourceId": "signal:urban-junction-86:west",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.0000000000001
+    },
+    {
+      "id": "signal:urban-junction-57:east",
+      "state": "VALID",
+      "position": {
+        "x": -1232.072198655675,
+        "y": 0,
+        "z": -991.3626519992721
+      },
+      "rotation": 0.1694169068868708,
+      "anchor": {
+        "anchorRoadId": "v9-lake-west-c91-section",
+        "anchorIntersectionId": "urban-junction-57",
+        "approach": "east",
+        "station": 280.14766775708944,
+        "lateralOffset": 4.200000000000056,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -2.9721757467029226,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-57",
+          "approach": "east",
+          "position": {
+            "x": -1232.072198655675,
+            "y": 0,
+            "z": -991.3626519992721
+          },
+          "heading": 0.1694169068868708
+        }
+      ],
+      "sourceId": "signal:urban-junction-57:east",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 7.000000000000048
+    },
+    {
+      "id": "signal:urban-junction-57:west",
+      "state": "VALID",
+      "position": {
+        "x": -1230.0380276081976,
+        "y": 0,
+        "z": -1026.5
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-3-split-3-split-m91",
+        "anchorIntersectionId": "urban-junction-57",
+        "approach": "west",
+        "station": 0,
+        "lateralOffset": -26.5,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-57",
+          "approach": "west",
+          "position": {
+            "x": -1230.0380276081976,
+            "y": 0,
+            "z": -1026.5
+          },
+          "heading": -1.5707963267948966
+        }
+      ],
+      "sourceId": "signal:urban-junction-57:west",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 18
+    },
+    {
+      "id": "signal:urban-junction-84:north",
+      "state": "VALID",
+      "position": {
+        "x": -1316.7641404681533,
+        "y": -0.024,
+        "z": -1431.5260729547801
+      },
+      "rotation": 0.5038999828955325,
+      "anchor": {
+        "anchorRoadId": "v9-lake-loop-north",
+        "anchorIntersectionId": "urban-junction-84",
+        "approach": "north",
+        "station": 146.03573752930302,
+        "lateralOffset": 5.199999999999957,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -2.6376926706942605,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-84",
+          "approach": "north",
+          "position": {
+            "x": -1316.7641404681533,
+            "y": -0.024,
+            "z": -1431.5260729547801
+          },
+          "heading": 0.5038999828955325
+        }
+      ],
+      "sourceId": "signal:urban-junction-84:north",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 1.000000000000088
+    },
+    {
+      "id": "signal:urban-junction-84:west",
+      "state": "VALID",
+      "position": {
+        "x": -1309.0997698326435,
+        "y": -0.024,
+        "z": -1439.6282771957137
+      },
+      "rotation": -2.349599394769459,
+      "anchor": {
+        "anchorRoadId": "v9-lake-loop-north-split-c91",
+        "anchorIntersectionId": "urban-junction-84",
+        "approach": "west",
+        "station": 0,
+        "lateralOffset": -6.199999999999952,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0.7919932588203342,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-84",
+          "approach": "west",
+          "position": {
+            "x": -1309.0997698326435,
+            "y": -0.024,
+            "z": -1439.6282771957137
+          },
+          "heading": -2.349599394769459
+        }
+      ],
+      "sourceId": "signal:urban-junction-84:west",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 2.0000000000000555
+    },
+    {
+      "id": "signal:urban-junction-130:east",
+      "state": "VALID",
+      "position": {
+        "x": -264.45607837196815,
+        "y": 0,
+        "z": -991.9128502775675
+      },
+      "rotation": 0.1774644472805479,
+      "anchor": {
+        "anchorRoadId": "v9-lake-east-c91",
+        "anchorIntersectionId": "urban-junction-130",
+        "approach": "east",
+        "station": 363.27783361771765,
+        "lateralOffset": 23.199999999999957,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -2.9641282063092453,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-130",
+          "approach": "east",
+          "position": {
+            "x": -264.45607837196815,
+            "y": 0,
+            "z": -991.9128502775675
+          },
+          "heading": 0.1774644472805479
+        }
+      ],
+      "sourceId": "signal:urban-junction-130:east",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.235384061671287
+    },
+    {
+      "id": "signal:urban-junction-130:west",
+      "state": "VALID",
+      "position": {
+        "x": -243.04003329734897,
+        "y": 0,
+        "z": -1024.5
+      },
+      "rotation": -1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "v4-north-split-3-split-split-2-split-2-split-m91",
+        "anchorIntersectionId": "urban-junction-130",
+        "approach": "west",
+        "station": 0,
+        "lateralOffset": -24.5,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-130",
+          "approach": "west",
+          "position": {
+            "x": -243.04003329734897,
+            "y": 0,
+            "z": -1024.5
+          },
+          "heading": -1.5707963267948966
+        }
+      ],
+      "sourceId": "signal:urban-junction-130:west",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 16
+    },
+    {
+      "id": "signal:urban-junction-177:east",
+      "state": "VALID",
+      "position": {
+        "x": -310.885471252016,
+        "y": -0.024,
+        "z": -1394.6733227532927
+      },
+      "rotation": -2.9337400391869397,
+      "anchor": {
+        "anchorRoadId": "v9-lake-east-c91",
+        "anchorIntersectionId": "urban-junction-177",
+        "approach": "east",
+        "station": 0,
+        "lateralOffset": -10.199999999999967,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0.2078526144028534,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-177",
+          "approach": "east",
+          "position": {
+            "x": -310.885471252016,
+            "y": -0.024,
+            "z": -1394.6733227532927
+          },
+          "heading": -2.9337400391869397
+        }
+      ],
+      "sourceId": "signal:urban-junction-177:east",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 5.9999999999999725
+    },
+    {
+      "id": "signal:urban-junction-177:west",
+      "state": "VALID",
+      "position": {
+        "x": -324.26776491456246,
+        "y": -0.024,
+        "z": -1383.6709734696985
+      },
+      "rotation": -0.10955053238072973,
+      "anchor": {
+        "anchorRoadId": "v9-lake-loop-south-split",
+        "anchorIntersectionId": "urban-junction-177",
+        "approach": "west",
+        "station": 0,
+        "lateralOffset": -7.199999999999975,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 3.0320421212090634,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-177",
+          "approach": "west",
+          "position": {
+            "x": -324.26776491456246,
+            "y": -0.024,
+            "z": -1383.6709734696985
+          },
+          "heading": -0.10955053238072973
+        }
+      ],
+      "sourceId": "signal:urban-junction-177:west",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.0000000000000098
+    },
+    {
+      "id": "signal:urban-junction-197:north",
+      "state": "VALID",
+      "position": {
+        "x": -992,
+        "y": 0,
+        "z": -1252.1944444444443
+      },
+      "rotation": 1.5707963267948966,
+      "anchor": {
+        "anchorRoadId": "urban-underpass-start-approach-c91",
+        "anchorIntersectionId": "urban-junction-197",
+        "approach": "north",
+        "station": 0,
+        "lateralOffset": -12.25,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 4.71238898038469,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-197",
+          "approach": "north",
+          "position": {
+            "x": -992,
+            "y": 0,
+            "z": -1252.1944444444443
+          },
+          "heading": 1.5707963267948966
+        }
+      ],
+      "sourceId": "signal:urban-junction-197:north",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 7
+    },
+    {
+      "id": "signal:urban-junction-197:east",
+      "state": "ADJUSTED",
+      "position": {
+        "x": -1008.7,
+        "y": 0,
+        "z": -1282.6944444444443
+      },
+      "rotation": 0,
+      "anchor": {
+        "anchorRoadId": "v8-gongren-street-split-split-3-m91",
+        "anchorIntersectionId": "urban-junction-197",
+        "approach": "east",
+        "station": 52.41559212016068,
+        "lateralOffset": 8.700000000000045,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-197",
+          "approach": "east",
+          "position": {
+            "x": -1008.7,
+            "y": 0,
+            "z": -1282.6944444444443
+          },
+          "heading": 0
+        }
+      ],
+      "sourceId": "signal:urban-junction-197:east",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.256492411651713
+    },
+    {
+      "id": "signal:urban-junction-198:north",
+      "state": "VALID",
+      "position": {
+        "x": -991.8,
+        "y": 0,
+        "z": -1357.360036564605
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v8-gongren-street-split-split-3-m91",
+        "anchorIntersectionId": "urban-junction-198",
+        "approach": "north",
+        "station": 0,
+        "lateralOffset": -8.200000000000045,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 0,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-198",
+          "approach": "north",
+          "position": {
+            "x": -991.8,
+            "y": 0,
+            "z": -1357.360036564605
+          },
+          "heading": -3.141592653589793
+        }
+      ],
+      "sourceId": "signal:urban-junction-198:north",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3
+    },
+    {
+      "id": "signal:urban-junction-198:east",
+      "state": "VALID",
+      "position": {
+        "x": -991.8392376679705,
+        "y": 0,
+        "z": -1334.532933902165
+      },
+      "rotation": 1.8443263675065888,
+      "anchor": {
+        "anchorRoadId": "v9-lake-loop-north-split-c91",
+        "anchorIntersectionId": "urban-junction-198",
+        "approach": "east",
+        "station": 313.01071394249453,
+        "lateralOffset": 27.199999999999886,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -1.2972662860832045,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-198",
+          "approach": "east",
+          "position": {
+            "x": -991.8392376679705,
+            "y": 0,
+            "z": -1334.532933902165
+          },
+          "heading": 1.8443263675065888
+        }
+      ],
+      "sourceId": "signal:urban-junction-198:east",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 23.000000000000014
+    },
+    {
+      "id": "signal:urban-junction-198:west",
+      "state": "VALID",
+      "position": {
+        "x": -1001.7217065261884,
+        "y": 0,
+        "z": -1359.0790522391737
+      },
+      "rotation": -1.4799078139013113,
+      "anchor": {
+        "anchorRoadId": "v9-lake-loop-north-split-split-c91",
+        "anchorIntersectionId": "urban-junction-198",
+        "approach": "west",
+        "station": 0,
+        "lateralOffset": -8.199999999999953,
+        "verticalOffset": 0,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.6616848396884818,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "setSignalPlacement",
+          "intersectionId": "urban-junction-198",
+          "approach": "west",
+          "position": {
+            "x": -1001.7217065261884,
+            "y": 0,
+            "z": -1359.0790522391737
+          },
+          "heading": -1.4799078139013113
+        }
+      ],
+      "sourceId": "signal:urban-junction-198:west",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 4.000000000000106
+    }
+  ],
+  "operations": [
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-86",
+      "approach": "north",
+      "position": {
+        "x": -1618.9292057487503,
+        "y": 0,
+        "z": -877.0873089442628
+      },
+      "heading": 0.20675850777133173
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-86",
+      "approach": "east",
+      "position": {
+        "x": -1618.6212757176083,
+        "y": 0,
+        "z": -880.7330165748665
+      },
+      "heading": -0.11937632840578197
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-86",
+      "approach": "south",
+      "position": {
+        "x": -1601.9136444103667,
+        "y": 0,
+        "z": -881.7374425540287
+      },
+      "heading": -3.1066777272558244
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-86",
+      "approach": "west",
+      "position": {
+        "x": -1601.958353287483,
+        "y": 0,
+        "z": -880.9143225581809
+      },
+      "heading": 3.0480647839212134
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-57",
+      "approach": "east",
+      "position": {
+        "x": -1232.072198655675,
+        "y": 0,
+        "z": -991.3626519992721
+      },
+      "heading": 0.1694169068868708
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-57",
+      "approach": "west",
+      "position": {
+        "x": -1230.0380276081976,
+        "y": 0,
+        "z": -1026.5
+      },
+      "heading": -1.5707963267948966
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-84",
+      "approach": "north",
+      "position": {
+        "x": -1316.7641404681533,
+        "y": -0.024,
+        "z": -1431.5260729547801
+      },
+      "heading": 0.5038999828955325
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-84",
+      "approach": "west",
+      "position": {
+        "x": -1309.0997698326435,
+        "y": -0.024,
+        "z": -1439.6282771957137
+      },
+      "heading": -2.349599394769459
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-130",
+      "approach": "east",
+      "position": {
+        "x": -264.45607837196815,
+        "y": 0,
+        "z": -991.9128502775675
+      },
+      "heading": 0.1774644472805479
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-130",
+      "approach": "west",
+      "position": {
+        "x": -243.04003329734897,
+        "y": 0,
+        "z": -1024.5
+      },
+      "heading": -1.5707963267948966
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-177",
+      "approach": "east",
+      "position": {
+        "x": -310.885471252016,
+        "y": -0.024,
+        "z": -1394.6733227532927
+      },
+      "heading": -2.9337400391869397
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-177",
+      "approach": "west",
+      "position": {
+        "x": -324.26776491456246,
+        "y": -0.024,
+        "z": -1383.6709734696985
+      },
+      "heading": -0.10955053238072973
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-197",
+      "approach": "north",
+      "position": {
+        "x": -992,
+        "y": 0,
+        "z": -1252.1944444444443
+      },
+      "heading": 1.5707963267948966
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-197",
+      "approach": "east",
+      "position": {
+        "x": -1008.7,
+        "y": 0,
+        "z": -1282.6944444444443
+      },
+      "heading": 0
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-198",
+      "approach": "north",
+      "position": {
+        "x": -991.8,
+        "y": 0,
+        "z": -1357.360036564605
+      },
+      "heading": -3.141592653589793
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-198",
+      "approach": "east",
+      "position": {
+        "x": -991.8392376679705,
+        "y": 0,
+        "z": -1334.532933902165
+      },
+      "heading": 1.8443263675065888
+    },
+    {
+      "op": "setSignalPlacement",
+      "intersectionId": "urban-junction-198",
+      "approach": "west",
+      "position": {
+        "x": -1001.7217065261884,
+        "y": 0,
+        "z": -1359.0790522391737
+      },
+      "heading": -1.4799078139013113
+    }
+  ],
+  "stats": {
+    "planned": 19,
+    "valid": 16,
+    "adjusted": 1,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 17,
+    "removed": 0
+  },
+  "valid": true
+}

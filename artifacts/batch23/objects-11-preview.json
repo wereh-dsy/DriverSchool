@@ -1,0 +1,141 @@
+{
+  "inspection": {
+    "key": "0:0:office:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "office",
+      "objectIds": [
+        "landscape-office-2505",
+        "landscape-office-2553",
+        "landscape-office-2554"
+      ],
+      "bbox": {
+        "minX": 317.4308250346825,
+        "maxX": 1413.3531109787102,
+        "minZ": 283.5037618845913,
+        "maxZ": 768.84718971965
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-office-2505",
+      "properties": {
+        "position": {
+          "x": 333.6482431212994,
+          "y": -0.04,
+          "z": 308.6393826665983
+        },
+        "rotation": -1.0082544206144612
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-office-2554",
+      "properties": {
+        "position": {
+          "x": 1412.3531109787102,
+          "y": -0.04,
+          "z": 730.958859087703
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-office-2553",
+      "properties": {
+        "position": {
+          "x": 1191.2477171903686,
+          "y": -0.04,
+          "z": 797.041140912297
+        },
+        "rotation": -1.5707963267948966
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-5",
+    "revision": 4,
+    "label": "objects-11",
+    "created": [],
+    "modified": [
+      "landscape-office-2505",
+      "landscape-office-2554",
+      "landscape-office-2553"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 278.4308250346825,
+      "maxX": 1452.3531109787102,
+      "minZ": 244.5037618845913,
+      "maxZ": 837.041140912297
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "landscape-office-2505",
+          "landscape-office-2554",
+          "landscape-office-2553",
+          "system-central:E-to-S-semi",
+          "v91-plaza-civic-east-t",
+          "direction-mingyuan-main-section-section-section-section",
+          "v8-jincheng-east-m91",
+          "urban-junction-27",
+          "urban-junction-162",
+          "ring-cw-2-split-4-split",
+          "v6-residential-east-m91"
+        ],
+        "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ew-wb-split-3-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ns-sb-split-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "landscape-office-2553"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

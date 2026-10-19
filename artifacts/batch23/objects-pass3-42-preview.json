@@ -1,0 +1,1533 @@
+{
+  "inspection": {
+    "key": "-1:0:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "topology-sign:urban-junction-109|v4-inner-3-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-112|v5-civic-south-split-2|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-120|v4-central-split-3-split-2-split|start:ROAD_NAME",
+        "topology-sign:urban-junction-122|v4-central-split-3-split-3-split-2|start:ROAD_NAME",
+        "topology-sign:urban-junction-132|v4-west-split-split-3-split-2|start:ROAD_NAME",
+        "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-133|v5-south-west|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-136|v4-west-split-2-split-split-2-split|start:ROAD_NAME",
+        "topology-sign:urban-junction-137|v5-civic-avenue-split-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-137|v5-civic-south-split-2-split-2|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-145|v5-civic-south-split-3|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-149|v5-west-east-road-split-2-split-2-split|start:ROAD_NAME",
+        "topology-sign:urban-junction-150|v5-south-west-split-2|start:ROAD_NAME",
+        "topology-sign:urban-junction-154|v4-west-split-split-4|start:ROAD_NAME",
+        "topology-sign:urban-junction-163|v5-west-east-road-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-174|v4-west-split-split-4-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-178|v4-central-split-3|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-178|v8-gongren-street-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-180|v8-gongren-street-split-split-split|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-181|v4-inner-3-split-2-split-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-181|v8-gongren-street-split-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-182|v8-gongren-street-split-split-2-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-204|v4-west-split-2-split-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-204|v4-west-split-2-split-split|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-205|v4-west-split-2-split-split-split-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-220|v4-south-split-2-split-3|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-220|v4-south-split-2|end:URBAN_DIRECTION",
+        "topology-sign:urban-junction-29|v4-central-split-3|start:ROAD_NAME",
+        "topology-sign:urban-junction-35|v4-central-split-5|start:ROAD_NAME",
+        "topology-sign:urban-junction-36|v4-central-split-3-split-2|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-41|v4-diagonal-split-4|end:ROAD_NAME",
+        "topology-sign:urban-junction-42|v4-diagonal-split-4|start:ROAD_NAME",
+        "topology-sign:urban-junction-51|v4-south-split-3-split|start:URBAN_DIRECTION",
+        "topology-sign:urban-junction-71|v4-west-split-split-3-split-split|start:ROAD_NAME",
+        "topology-sign:urban-junction-74|v4-west-split-split-3|start:ROAD_NAME",
+        "topology-sign:urban-junction-75|v4-west-split-split-3-split|start:ROAD_NAME",
+        "topology-sign:urban-junction-82|v4-inner-0|start:URBAN_DIRECTION"
+      ],
+      "bbox": {
+        "minX": -1493.7505388429097,
+        "maxX": -166.679113083375,
+        "minZ": 16.113140730261648,
+        "maxZ": 1809.5708131669521
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 38,
+      "valid": 28,
+      "adjusted": 4,
+      "invalid": 6,
+      "skipped": 6,
+      "added": 0,
+      "moved": 32,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "topology-sign:urban-junction-181|v8-gongren-street-split-split-split|start:URBAN_DIRECTION",
+        "issues": [
+          {
+            "id": "roadSign.insideLane:v8-gongren-street-split-split-split-m91:topology-sign:urban-junction-181|v8-gongren-street-split-split-split|start:URBAN_DIRECTION::",
+            "code": "roadSign.insideLane",
+            "severity": "warning",
+            "objectId": "topology-sign:urban-junction-181|v8-gongren-street-split-split-split|start:URBAN_DIRECTION",
+            "roadId": "v8-gongren-street-split-split-split-m91",
+            "message": "Sign support intersects carriageway",
+            "metrics": {
+              "roadId": "v8-gongren-street-split-split-split-m91"
+            },
+            "approximate": true
+          },
+          {
+            "id": "roadSign.tooCloseToJunction:v8-gongren-street-split-split-split-m91:topology-sign:urban-junction-181|v8-gongren-street-split-split-split|start:URBAN_DIRECTION::",
+            "code": "roadSign.tooCloseToJunction",
+            "severity": "warning",
+            "objectId": "topology-sign:urban-junction-181|v8-gongren-street-split-split-split|start:URBAN_DIRECTION",
+            "roadId": "v8-gongren-street-split-split-split-m91",
+            "message": "Sign is immediately beside the junction conflict envelope",
+            "metrics": {
+              "intersectionId": "urban-junction-180"
+            },
+            "approximate": true
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-109|v4-inner-3-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1159.760287590345,
+          "y": 0,
+          "z": 106.44090898174635
+        },
+        "heading": 3.141387377242052,
+        "roadId": "v4-inner-0-v91-m91",
+        "stationMetres": 23.437536126596246
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-112|v5-civic-south-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -693.6493173586234,
+          "y": 0,
+          "z": 754.6464466094068
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v5-civic-south-split-2-m91",
+        "stationMetres": 70.08435214581004
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-120|v4-central-split-3-split-2-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -167.679113083375,
+          "y": 0,
+          "z": 488.3964466094067
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v4-central-split-3-split-2-split-split-m91",
+        "stationMetres": 20.678571428571445
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-122|v4-central-split-3-split-3-split-2|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -683.0131784070081,
+          "y": 0,
+          "z": 488.3964466094067
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v4-central-split-3-split-3-split-2-m91",
+        "stationMetres": 113.73682159299187,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-132|v4-west-split-split-3-split-2|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1395.2872304030248,
+          "y": 0,
+          "z": 1157.04395484238
+        },
+        "heading": 0,
+        "roadId": "v4-west-split-split-3-split-2-m91",
+        "stationMetres": 84.03218186959064
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-133|v5-south-west|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1134.1259189533625,
+          "y": -0.0018368012671920867,
+          "z": 1041.3376598547268
+        },
+        "heading": 0.025871150046026692,
+        "roadId": "v5-south-west-split-2-c91",
+        "stationMetres": 41.400655887541994
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-136|v4-west-split-2-split-split-2-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1414.9943371842114,
+          "y": 0,
+          "z": 157.63770557759022
+        },
+        "heading": 3.141592653589793,
+        "roadId": "v4-west-split-2-split-split-2-split-v91-m91",
+        "stationMetres": 84.21096618024308
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-137|v5-civic-avenue-split-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -507.1464466094067,
+          "y": 0,
+          "z": 827.1500747481915
+        },
+        "heading": 0,
+        "roadId": "v5-civic-avenue-split-split-split-m91",
+        "stationMetres": 44.900074748191514
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-137|v5-civic-south-split-2-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -417.0312319242097,
+          "y": 0,
+          "z": 754.6464466094068
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v5-civic-south-split-2-split-2-m91",
+        "stationMetres": 84.71876807579031
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-145|v5-civic-south-split-3|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -841.4599759753828,
+          "y": 0,
+          "z": 754.6464466094068
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v5-civic-south-split-3-m91",
+        "stationMetres": 73.65518701440976,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-149|v5-west-east-road-split-2-split-2-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1269.3535533905933,
+          "y": 0,
+          "z": 115.37749558459252
+        },
+        "heading": 3.141592653589793,
+        "roadId": "v5-west-east-road-split-2-split-2-split-v91-m91",
+        "stationMetres": 84.22445875646603
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-150|v5-south-west-split-2|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1132.9989668990618,
+          "y": -0.0037696287913148983,
+          "z": 1084.8881248286727
+        },
+        "heading": 0.025871150046026692,
+        "roadId": "v5-south-west-split-2-c91",
+        "stationMetres": 84.9656994474831
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-154|v4-west-split-split-4|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1395.2872304030248,
+          "y": 0,
+          "z": 680.2880932604143
+        },
+        "heading": 0,
+        "roadId": "v4-west-split-split-4-m91",
+        "stationMetres": 83.92243889865779
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-163|v5-west-east-road-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1250.6464466094067,
+          "y": 0,
+          "z": 705.3489130938477
+        },
+        "heading": 0,
+        "roadId": "v5-west-east-road-split-split-m91",
+        "stationMetres": 80.57864187974714
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-174|v4-west-split-split-4-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1395.2872304030248,
+          "y": 0,
+          "z": 936.9381539054872
+        },
+        "heading": 0,
+        "roadId": "v4-west-split-split-3-m91",
+        "stationMetres": 26.505851841527942,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-178|v8-gongren-street-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -990.4464466094067,
+          "y": 0,
+          "z": 569.6740848035846
+        },
+        "heading": 0,
+        "roadId": "v8-gongren-street-split-split-m91",
+        "stationMetres": 49.42408480358461
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-180|v8-gongren-street-split-split-split|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1009.7,
+          "y": 0,
+          "z": 740.75
+        },
+        "heading": -3.141592653589793,
+        "roadId": "v8-gongren-street-split-split-split-m91",
+        "stationMetres": 58.9146275212903
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-181|v4-inner-3-split-2-split-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1133.421735485358,
+          "y": 0,
+          "z": 535.0220771768951
+        },
+        "heading": 3.8742428354920477,
+        "roadId": "v4-inner-3-split-2-split-split-split-m91",
+        "stationMetres": 159.02435992052358
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-182|v8-gongren-street-split-split-2-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -990.4464466094067,
+          "y": 0,
+          "z": 17.113140730261648
+        },
+        "heading": 0,
+        "roadId": "v8-gongren-street-split-split-2-split-v91-m91",
+        "stationMetres": 101.11314073026165
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-204|v4-west-split-2-split-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1395.2872304030248,
+          "y": 0,
+          "z": 466.14022978755344
+        },
+        "heading": 0,
+        "roadId": "v4-west-split-2-split-split-split-split-m91",
+        "stationMetres": 10.803213061080498
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-204|v4-west-split-2-split-split|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1414.9943371842114,
+          "y": 0,
+          "z": 203.46551632689307
+        },
+        "heading": 3.141592653589793,
+        "roadId": "v4-west-split-2-split-split-2-split-v91-m91",
+        "stationMetres": 38.383155430940235
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-205|v4-west-split-2-split-split-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1395.2872304030248,
+          "y": 0,
+          "z": 607.6399951172094
+        },
+        "heading": 0,
+        "roadId": "v4-west-split-split-4-m91",
+        "stationMetres": 11.274340755452954
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-220|v4-south-split-2-split-3|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1161.6110403896807,
+          "y": 0.3327491435844194,
+          "z": 1789.3763285378075
+        },
+        "heading": 1.442496816567968,
+        "roadId": "v4-south-split-2-split-2-c91",
+        "stationMetres": 41.98404803041825
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-29|v4-central-split-3|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1046.823017411738,
+          "y": 0,
+          "z": 488.3964466094067
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v4-central-split-3-m91",
+        "stationMetres": 84.80409863333534
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-35|v4-central-split-5|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1487.7505388429097,
+          "y": 0,
+          "z": 488.25
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v4-central-split-5-m91",
+        "stationMetres": 85,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-36|v4-central-split-3-split-2|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -189.60766050313225,
+          "y": 0,
+          "z": 488.3964466094067
+        },
+        "heading": 1.5707963267948966,
+        "roadId": "v4-central-split-3-split-2-split-m91",
+        "stationMetres": 82.14233949686775
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-41|v4-diagonal-split-4|end:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1383.3948498459015,
+          "y": 0,
+          "z": 1797.8877071806908
+        },
+        "heading": -0.8612902259609466,
+        "roadId": "v4-diagonal-split-4-m91",
+        "stationMetres": 0,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-51|v4-south-split-3-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1364.3538831110782,
+          "y": -0.0015436709475310558,
+          "z": 1731.1204078387893
+        },
+        "heading": 1.026830416182836,
+        "roadId": "v4-south-split-3-split-c91-section",
+        "stationMetres": 29.742126584286964
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-71|v4-west-split-split-3-split-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1395.2872304030248,
+          "y": 0,
+          "z": 1539.0552891554605
+        },
+        "heading": 0,
+        "roadId": "v4-west-split-split-3-split-split-m91",
+        "stationMetres": 67.19620704894555
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-74|v4-west-split-split-3|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1395.2872304030248,
+          "y": 0,
+          "z": 994.317328899435
+        },
+        "heading": 0,
+        "roadId": "v4-west-split-split-3-m91",
+        "stationMetres": 83.88502683547574
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-75|v4-west-split-split-3-split|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1395.140783793618,
+          "y": 0,
+          "z": 1365.4981976798063
+        },
+        "heading": 0,
+        "roadId": "v4-west-split-split-3-split-m91-section",
+        "stationMetres": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-82|v4-inner-0|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1159.7476503533992,
+          "y": 0,
+          "z": 44.87883957004899
+        },
+        "heading": 3.141387377242052,
+        "roadId": "v4-inner-0-v91-m91",
+        "stationMetres": 84.99960683535656
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -969.75,
+          "y": 0,
+          "z": 764
+        },
+        "heading": 1.5707963267948966,
+        "stationMetres": 12
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-178|v4-central-split-3|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1116.3604456459773,
+          "y": 0,
+          "z": 502
+        },
+        "heading": -1.5707963267948966,
+        "stationMetres": 15.26667039909603
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -969.75,
+          "y": 0,
+          "z": 764
+        },
+        "heading": 1.5707963267948966,
+        "stationMetres": 12
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-220|v4-south-split-2|end:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": -1436.7704782537926,
+          "y": -0.022333041005968952,
+          "z": 1698.8361258649004
+        },
+        "heading": -2.1147622374069575,
+        "stationMetres": 6.308207253524703
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-42|v4-diagonal-split-4|start:ROAD_NAME",
+      "properties": {
+        "position": {
+          "x": -1388.0704000117787,
+          "y": 0,
+          "z": 1784.7675230872273
+        },
+        "heading": 2.2803024276288464,
+        "stationMetres": 5,
+        "postBaseY": 0
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-42",
+    "created": [],
+    "modified": [
+      "topology-sign:urban-junction-109|v4-inner-3-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-112|v5-civic-south-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-120|v4-central-split-3-split-2-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-122|v4-central-split-3-split-3-split-2|start:ROAD_NAME",
+      "topology-sign:urban-junction-132|v4-west-split-split-3-split-2|start:ROAD_NAME",
+      "topology-sign:urban-junction-133|v5-south-west|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-136|v4-west-split-2-split-split-2-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-137|v5-civic-avenue-split-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-137|v5-civic-south-split-2-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-145|v5-civic-south-split-3|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-149|v5-west-east-road-split-2-split-2-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-150|v5-south-west-split-2|start:ROAD_NAME",
+      "topology-sign:urban-junction-154|v4-west-split-split-4|start:ROAD_NAME",
+      "topology-sign:urban-junction-163|v5-west-east-road-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-174|v4-west-split-split-4-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-178|v8-gongren-street-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-180|v8-gongren-street-split-split-split|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-181|v4-inner-3-split-2-split-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-182|v8-gongren-street-split-split-2-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-204|v4-west-split-2-split-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-204|v4-west-split-2-split-split|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-205|v4-west-split-2-split-split-split-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-220|v4-south-split-2-split-3|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-29|v4-central-split-3|start:ROAD_NAME",
+      "topology-sign:urban-junction-35|v4-central-split-5|start:ROAD_NAME",
+      "topology-sign:urban-junction-36|v4-central-split-3-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-41|v4-diagonal-split-4|end:ROAD_NAME",
+      "topology-sign:urban-junction-51|v4-south-split-3-split|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-71|v4-west-split-split-3-split-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-74|v4-west-split-split-3|start:ROAD_NAME",
+      "topology-sign:urban-junction-75|v4-west-split-split-3-split|start:ROAD_NAME",
+      "topology-sign:urban-junction-82|v4-inner-0|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-178|v4-central-split-3|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-220|v4-south-split-2|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-42|v4-diagonal-split-4|start:ROAD_NAME"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1532.7505388429097,
+      "maxX": -127.679113083375,
+      "minZ": -22.886859269738352,
+      "maxZ": 1848.5708131669521
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "topology-sign:urban-junction-109|v4-inner-3-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-112|v5-civic-south-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-120|v4-central-split-3-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-122|v4-central-split-3-split-3-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-132|v4-west-split-split-3-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-133|v5-south-west|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-136|v4-west-split-2-split-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-137|v5-civic-avenue-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-137|v5-civic-south-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-145|v5-civic-south-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-149|v5-west-east-road-split-2-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-150|v5-south-west-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-154|v4-west-split-split-4|start:ROAD_NAME",
+          "topology-sign:urban-junction-163|v5-west-east-road-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-174|v4-west-split-split-4-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-178|v8-gongren-street-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-180|v8-gongren-street-split-split-split|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-181|v4-inner-3-split-2-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-182|v8-gongren-street-split-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-204|v4-west-split-2-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-204|v4-west-split-2-split-split|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-205|v4-west-split-2-split-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-220|v4-south-split-2-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-29|v4-central-split-3|start:ROAD_NAME",
+          "topology-sign:urban-junction-35|v4-central-split-5|start:ROAD_NAME",
+          "topology-sign:urban-junction-36|v4-central-split-3-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-41|v4-diagonal-split-4|end:ROAD_NAME",
+          "topology-sign:urban-junction-51|v4-south-split-3-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-71|v4-west-split-split-3-split-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-74|v4-west-split-split-3|start:ROAD_NAME",
+          "topology-sign:urban-junction-75|v4-west-split-split-3-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-82|v4-inner-0|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-178|v4-central-split-3|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-220|v4-south-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-42|v4-diagonal-split-4|start:ROAD_NAME",
+          "v4-inner-3-split-split-m91",
+          "v5-west-market-road-split-split-m91",
+          "v4-inner-0-v91-m91",
+          "urban-junction-82",
+          "v5-civic-south-split-2-m91",
+          "urban-junction-112",
+          "system-central:S-to-W-semi",
+          "v4-central-split-3-split-2-split-m91",
+          "v4-central-split-3-split-2-split-split-m91",
+          "direction-mingyuan-main-section-section",
+          "v4-central-split-3-split-3-split-2-m91",
+          "ring-cw-3-split-2-split",
+          "ring-ccw-0-split-split-split-3-split-section",
+          "v4-west-split-split-3-split-2-m91",
+          "v5-civic-south-m91",
+          "v5-west-south-lane-split-split-m91",
+          "v8-gongren-street-split-split-split-m91",
+          "urban-junction-180",
+          "v5-civic-south-split-3-m91",
+          "v5-civic-south-split-4-m91",
+          "direction-inner-sw-section-section",
+          "urban-junction-145",
+          "direction-south-inner-west",
+          "v5-west-south-lane-split-m91",
+          "v5-south-west-split-2-c91",
+          "direction-mingyuan-main-section-2",
+          "urban-junction-150",
+          "v4-west-split-2-split-split-2-split-v91-m91",
+          "v5-civic-avenue-split-split-split-m91",
+          "urban-junction-137",
+          "v5-civic-south-split-2-split-2-m91",
+          "v5-civic-west-split-split-m91",
+          "v5-west-east-road-split-2-split-2-split-v91-m91",
+          "v4-west-split-split-4-m91",
+          "v5-west-east-road-split-split-m91",
+          "v4-west-split-split-3-m91",
+          "v5-west-south-lane-m91",
+          "v4-west-market-split-split-2-c91",
+          "urban-junction-74",
+          "v4-west-market-split-split-c91",
+          "v4-inner-3-split-m91",
+          "v4-central-split-3-m91",
+          "v4-central-split-4-split-m91",
+          "v4-inner-3-split-2-split-split-split-m91",
+          "urban-junction-29",
+          "v8-gongren-street-split-split-m91",
+          "urban-junction-178",
+          "urban-junction-181",
+          "v8-gongren-street-split-split-2-split-v91-m91",
+          "v4-west-split-m91",
+          "v4-central-split-5-m91",
+          "v4-west-split-2-split-split-split-m91",
+          "v4-west-split-2-split-split-split-split-m91",
+          "v61-station-forecourt-c91",
+          "urban-junction-34",
+          "urban-junction-205",
+          "v4-central-split-4-m91",
+          "urban-junction-136",
+          "v5-west-market-road-split-m91",
+          "v6-west-market-street-split-2-split-c91",
+          "urban-junction-154",
+          "v6-west-market-street-split-c91",
+          "v4-south-split-2-split-2-c91",
+          "urban-junction-68",
+          "v5-south-west-split",
+          "v4-south-split-2-split",
+          "urban-junction-124",
+          "v4-west-split-split-2-m91",
+          "v8-shanghai-road-split-split-2-m91",
+          "v4-south-split-3-c91",
+          "v4-south-split-3-split-c91",
+          "v4-south-c91-section",
+          "v8-beijing-road-split-split-split-split-section",
+          "v4-south-split-3-split-c91-section",
+          "v4-west-split-split-2-m91-section",
+          "urban-junction-72",
+          "urban-junction-51",
+          "v91-local-junction-8",
+          "v91-local-junction-11",
+          "v4-diagonal-split-4-m91",
+          "v8-gongren-street-split-split-2-split-v91-m91-section",
+          "urban-junction-172",
+          "v8-nancheng-ring",
+          "v4-diagonal-m91",
+          "urban-junction-42",
+          "v4-west-split-split-m91",
+          "v4-diagonal-split-3-m91",
+          "v4-south-split-2-c91",
+          "urban-junction-41",
+          "urban-junction-56",
+          "urban-junction-220",
+          "v4-west-split-split-3-split-split-m91",
+          "urban-junction-71",
+          "urban-junction-132",
+          "v4-west-split-split-3-split-m91",
+          "v8-shanghai-road-split-m91",
+          "v4-west-offset-split-c91",
+          "direction-south-avenue",
+          "v4-west-split-split-3-split-m91-section",
+          "direction-south-west-terminal",
+          "direction-south-local-1"
+        ],
+        "message": "intersections[13]: urban-junction-112: 2/5 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "topology-sign:urban-junction-109|v4-inner-3-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-112|v5-civic-south-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-120|v4-central-split-3-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-122|v4-central-split-3-split-3-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-132|v4-west-split-split-3-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-133|v5-south-west|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-136|v4-west-split-2-split-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-137|v5-civic-avenue-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-137|v5-civic-south-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-145|v5-civic-south-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-149|v5-west-east-road-split-2-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-150|v5-south-west-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-154|v4-west-split-split-4|start:ROAD_NAME",
+          "topology-sign:urban-junction-163|v5-west-east-road-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-174|v4-west-split-split-4-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-178|v8-gongren-street-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-180|v8-gongren-street-split-split-split|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-181|v4-inner-3-split-2-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-182|v8-gongren-street-split-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-204|v4-west-split-2-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-204|v4-west-split-2-split-split|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-205|v4-west-split-2-split-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-220|v4-south-split-2-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-29|v4-central-split-3|start:ROAD_NAME",
+          "topology-sign:urban-junction-35|v4-central-split-5|start:ROAD_NAME",
+          "topology-sign:urban-junction-36|v4-central-split-3-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-41|v4-diagonal-split-4|end:ROAD_NAME",
+          "topology-sign:urban-junction-51|v4-south-split-3-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-71|v4-west-split-split-3-split-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-74|v4-west-split-split-3|start:ROAD_NAME",
+          "topology-sign:urban-junction-75|v4-west-split-split-3-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-82|v4-inner-0|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-178|v4-central-split-3|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-220|v4-south-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-42|v4-diagonal-split-4|start:ROAD_NAME",
+          "v4-inner-3-split-split-m91",
+          "v5-west-market-road-split-split-m91",
+          "v4-inner-0-v91-m91",
+          "urban-junction-82",
+          "v5-civic-south-split-2-m91",
+          "urban-junction-112",
+          "system-central:S-to-W-semi",
+          "v4-central-split-3-split-2-split-m91",
+          "v4-central-split-3-split-2-split-split-m91",
+          "direction-mingyuan-main-section-section",
+          "v4-central-split-3-split-3-split-2-m91",
+          "ring-cw-3-split-2-split",
+          "ring-ccw-0-split-split-split-3-split-section",
+          "v4-west-split-split-3-split-2-m91",
+          "v5-civic-south-m91",
+          "v5-west-south-lane-split-split-m91",
+          "v8-gongren-street-split-split-split-m91",
+          "urban-junction-180",
+          "v5-civic-south-split-3-m91",
+          "v5-civic-south-split-4-m91",
+          "direction-inner-sw-section-section",
+          "urban-junction-145",
+          "direction-south-inner-west",
+          "v5-west-south-lane-split-m91",
+          "v5-south-west-split-2-c91",
+          "direction-mingyuan-main-section-2",
+          "urban-junction-150",
+          "v4-west-split-2-split-split-2-split-v91-m91",
+          "v5-civic-avenue-split-split-split-m91",
+          "urban-junction-137",
+          "v5-civic-south-split-2-split-2-m91",
+          "v5-civic-west-split-split-m91",
+          "v5-west-east-road-split-2-split-2-split-v91-m91",
+          "v4-west-split-split-4-m91",
+          "v5-west-east-road-split-split-m91",
+          "v4-west-split-split-3-m91",
+          "v5-west-south-lane-m91",
+          "v4-west-market-split-split-2-c91",
+          "urban-junction-74",
+          "v4-west-market-split-split-c91",
+          "v4-inner-3-split-m91",
+          "v4-central-split-3-m91",
+          "v4-central-split-4-split-m91",
+          "v4-inner-3-split-2-split-split-split-m91",
+          "urban-junction-29",
+          "v8-gongren-street-split-split-m91",
+          "urban-junction-178",
+          "urban-junction-181",
+          "v8-gongren-street-split-split-2-split-v91-m91",
+          "v4-west-split-m91",
+          "v4-central-split-5-m91",
+          "v4-west-split-2-split-split-split-m91",
+          "v4-west-split-2-split-split-split-split-m91",
+          "v61-station-forecourt-c91",
+          "urban-junction-34",
+          "urban-junction-205",
+          "v4-central-split-4-m91",
+          "urban-junction-136",
+          "v5-west-market-road-split-m91",
+          "v6-west-market-street-split-2-split-c91",
+          "urban-junction-154",
+          "v6-west-market-street-split-c91",
+          "v4-south-split-2-split-2-c91",
+          "urban-junction-68",
+          "v5-south-west-split",
+          "v4-south-split-2-split",
+          "urban-junction-124",
+          "v4-west-split-split-2-m91",
+          "v8-shanghai-road-split-split-2-m91",
+          "v4-south-split-3-c91",
+          "v4-south-split-3-split-c91",
+          "v4-south-c91-section",
+          "v8-beijing-road-split-split-split-split-section",
+          "v4-south-split-3-split-c91-section",
+          "v4-west-split-split-2-m91-section",
+          "urban-junction-72",
+          "urban-junction-51",
+          "v91-local-junction-8",
+          "v91-local-junction-11",
+          "v4-diagonal-split-4-m91",
+          "v8-gongren-street-split-split-2-split-v91-m91-section",
+          "urban-junction-172",
+          "v8-nancheng-ring",
+          "v4-diagonal-m91",
+          "urban-junction-42",
+          "v4-west-split-split-m91",
+          "v4-diagonal-split-3-m91",
+          "v4-south-split-2-c91",
+          "urban-junction-41",
+          "urban-junction-56",
+          "urban-junction-220",
+          "v4-west-split-split-3-split-split-m91",
+          "urban-junction-71",
+          "urban-junction-132",
+          "v4-west-split-split-3-split-m91",
+          "v8-shanghai-road-split-m91",
+          "v4-west-offset-split-c91",
+          "direction-south-avenue",
+          "v4-west-split-split-3-split-m91-section",
+          "direction-south-west-terminal",
+          "direction-south-local-1"
+        ],
+        "message": "intersections[24]: urban-junction-143: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "topology-sign:urban-junction-109|v4-inner-3-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-112|v5-civic-south-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-120|v4-central-split-3-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-122|v4-central-split-3-split-3-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-132|v4-west-split-split-3-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-133|v5-south-west|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-136|v4-west-split-2-split-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-137|v5-civic-avenue-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-137|v5-civic-south-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-145|v5-civic-south-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-149|v5-west-east-road-split-2-split-2-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-150|v5-south-west-split-2|start:ROAD_NAME",
+          "topology-sign:urban-junction-154|v4-west-split-split-4|start:ROAD_NAME",
+          "topology-sign:urban-junction-163|v5-west-east-road-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-174|v4-west-split-split-4-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-178|v8-gongren-street-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-180|v8-gongren-street-split-split-split|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-181|v4-inner-3-split-2-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-182|v8-gongren-street-split-split-2-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-204|v4-west-split-2-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-204|v4-west-split-2-split-split|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-205|v4-west-split-2-split-split-split-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-220|v4-south-split-2-split-3|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-29|v4-central-split-3|start:ROAD_NAME",
+          "topology-sign:urban-junction-35|v4-central-split-5|start:ROAD_NAME",
+          "topology-sign:urban-junction-36|v4-central-split-3-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-41|v4-diagonal-split-4|end:ROAD_NAME",
+          "topology-sign:urban-junction-51|v4-south-split-3-split|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-71|v4-west-split-split-3-split-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-74|v4-west-split-split-3|start:ROAD_NAME",
+          "topology-sign:urban-junction-75|v4-west-split-split-3-split|start:ROAD_NAME",
+          "topology-sign:urban-junction-82|v4-inner-0|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-178|v4-central-split-3|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-220|v4-south-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-42|v4-diagonal-split-4|start:ROAD_NAME",
+          "v4-inner-3-split-split-m91",
+          "v5-west-market-road-split-split-m91",
+          "v4-inner-0-v91-m91",
+          "urban-junction-82",
+          "v5-civic-south-split-2-m91",
+          "urban-junction-112",
+          "system-central:S-to-W-semi",
+          "v4-central-split-3-split-2-split-m91",
+          "v4-central-split-3-split-2-split-split-m91",
+          "direction-mingyuan-main-section-section",
+          "v4-central-split-3-split-3-split-2-m91",
+          "ring-cw-3-split-2-split",
+          "ring-ccw-0-split-split-split-3-split-section",
+          "v4-west-split-split-3-split-2-m91",
+          "v5-civic-south-m91",
+          "v5-west-south-lane-split-split-m91",
+          "v8-gongren-street-split-split-split-m91",
+          "urban-junction-180",
+          "v5-civic-south-split-3-m91",
+          "v5-civic-south-split-4-m91",
+          "direction-inner-sw-section-section",
+          "urban-junction-145",
+          "direction-south-inner-west",
+          "v5-west-south-lane-split-m91",
+          "v5-south-west-split-2-c91",
+          "direction-mingyuan-main-section-2",
+          "urban-junction-150",
+          "v4-west-split-2-split-split-2-split-v91-m91",
+          "v5-civic-avenue-split-split-split-m91",
+          "urban-junction-137",
+          "v5-civic-south-split-2-split-2-m91",
+          "v5-civic-west-split-split-m91",
+          "v5-west-east-road-split-2-split-2-split-v91-m91",
+          "v4-west-split-split-4-m91",
+          "v5-west-east-road-split-split-m91",
+          "v4-west-split-split-3-m91",
+          "v5-west-south-lane-m91",
+          "v4-west-market-split-split-2-c91",
+          "urban-junction-74",
+          "v4-west-market-split-split-c91",
+          "v4-inner-3-split-m91",
+          "v4-central-split-3-m91",
+          "v4-central-split-4-split-m91",
+          "v4-inner-3-split-2-split-split-split-m91",
+          "urban-junction-29",
+          "v8-gongren-street-split-split-m91",
+          "urban-junction-178",
+          "urban-junction-181",
+          "v8-gongren-street-split-split-2-split-v91-m91",
+          "v4-west-split-m91",
+          "v4-central-split-5-m91",
+          "v4-west-split-2-split-split-split-m91",
+          "v4-west-split-2-split-split-split-split-m91",
+          "v61-station-forecourt-c91",
+          "urban-junction-34",
+          "urban-junction-205",
+          "v4-central-split-4-m91",
+          "urban-junction-136",
+          "v5-west-market-road-split-m91",
+          "v6-west-market-street-split-2-split-c91",
+          "urban-junction-154",
+          "v6-west-market-street-split-c91",
+          "v4-south-split-2-split-2-c91",
+          "urban-junction-68",
+          "v5-south-west-split",
+          "v4-south-split-2-split",
+          "urban-junction-124",
+          "v4-west-split-split-2-m91",
+          "v8-shanghai-road-split-split-2-m91",
+          "v4-south-split-3-c91",
+          "v4-south-split-3-split-c91",
+          "v4-south-c91-section",
+          "v8-beijing-road-split-split-split-split-section",
+          "v4-south-split-3-split-c91-section",
+          "v4-west-split-split-2-m91-section",
+          "urban-junction-72",
+          "urban-junction-51",
+          "v91-local-junction-8",
+          "v91-local-junction-11",
+          "v4-diagonal-split-4-m91",
+          "v8-gongren-street-split-split-2-split-v91-m91-section",
+          "urban-junction-172",
+          "v8-nancheng-ring",
+          "v4-diagonal-m91",
+          "urban-junction-42",
+          "v4-west-split-split-m91",
+          "v4-diagonal-split-3-m91",
+          "v4-south-split-2-c91",
+          "urban-junction-41",
+          "urban-junction-56",
+          "urban-junction-220",
+          "v4-west-split-split-3-split-split-m91",
+          "urban-junction-71",
+          "urban-junction-132",
+          "v4-west-split-split-3-split-m91",
+          "v8-shanghai-road-split-m91",
+          "v4-west-offset-split-c91",
+          "direction-south-avenue",
+          "v4-west-split-split-3-split-m91-section",
+          "direction-south-west-terminal",
+          "direction-south-local-1"
+        ],
+        "message": "roads: 12 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ew-wb-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-109|v4-inner-3-split-split|start:URBAN_DIRECTION",
+          "v4-inner-0-v91-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-112|v5-civic-south-split-2|start:URBAN_DIRECTION",
+          "v5-civic-south-split-2-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-120|v4-central-split-3-split-2-split|start:ROAD_NAME",
+          "v4-central-split-3-split-2-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-122|v4-central-split-3-split-3-split-2|start:ROAD_NAME",
+          "v4-central-split-3-split-3-split-2-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-132|v4-west-split-split-3-split-2|start:ROAD_NAME",
+          "v4-west-split-split-3-split-2-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "v5-civic-south-split-4-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "v5-civic-south-split-4-m91"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+          "v5-civic-south-split-4-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-133|v5-south-west|start:URBAN_DIRECTION",
+          "v5-south-west-split-2-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-136|v4-west-split-2-split-split-2-split|start:ROAD_NAME",
+          "v4-west-split-2-split-split-2-split-v91-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-137|v5-civic-avenue-split-split-split|start:URBAN_DIRECTION",
+          "v5-civic-avenue-split-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-137|v5-civic-south-split-2-split-2|start:URBAN_DIRECTION",
+          "v5-civic-south-split-2-split-2-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-145|v5-civic-south-split-3|start:URBAN_DIRECTION",
+          "v5-civic-south-split-3-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-149|v5-west-east-road-split-2-split-2-split|start:ROAD_NAME",
+          "v5-west-east-road-split-2-split-2-split-v91-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-150|v5-south-west-split-2|start:ROAD_NAME",
+          "v5-south-west-split-2-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-154|v4-west-split-split-4|start:ROAD_NAME",
+          "v4-west-split-split-4-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-163|v5-west-east-road-split-split|start:URBAN_DIRECTION",
+          "v5-west-east-road-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-174|v4-west-split-split-4-split|start:URBAN_DIRECTION",
+          "v4-west-split-split-3-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-178|v4-central-split-3|end:URBAN_DIRECTION",
+          "v4-central-split-3-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-178|v8-gongren-street-split-split|start:URBAN_DIRECTION",
+          "v8-gongren-street-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "v5-civic-south-split-4-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "v5-civic-south-split-4-m91"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+          "v5-civic-south-split-4-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.tooCloseToJunction",
+        "ids": [
+          "topology-sign:urban-junction-180|v8-gongren-street-split-split-split|end:URBAN_DIRECTION",
+          "v8-gongren-street-split-split-split-m91"
+        ],
+        "message": "Sign is immediately beside the junction conflict envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "topology-sign:urban-junction-180|v8-gongren-street-split-split-split|end:URBAN_DIRECTION"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-181|v4-inner-3-split-2-split-split-split|start:URBAN_DIRECTION",
+          "v4-inner-3-split-2-split-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-182|v8-gongren-street-split-split-2-split|start:URBAN_DIRECTION",
+          "v8-gongren-street-split-split-2-split-v91-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-204|v4-west-split-2-split-split-split|start:URBAN_DIRECTION",
+          "v4-west-split-2-split-split-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-204|v4-west-split-2-split-split|end:URBAN_DIRECTION",
+          "v4-west-split-2-split-split-2-split-v91-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-205|v4-west-split-2-split-split-split-split|start:URBAN_DIRECTION",
+          "v4-west-split-split-4-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-220|v4-south-split-2-split-3|start:URBAN_DIRECTION",
+          "v4-south-split-2-split-2-c91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-29|v4-central-split-3|start:ROAD_NAME",
+          "v4-central-split-3-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-35|v4-central-split-5|start:ROAD_NAME",
+          "v4-central-split-5-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "topology-sign:urban-junction-35|v4-central-split-5|start:ROAD_NAME"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-36|v4-central-split-3-split-2|start:URBAN_DIRECTION",
+          "v4-central-split-3-split-2-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.tooCloseToJunction",
+        "ids": [
+          "topology-sign:urban-junction-41|v4-diagonal-split-4|end:ROAD_NAME",
+          "v4-diagonal-split-4-m91"
+        ],
+        "message": "Sign is immediately beside the junction conflict envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-42|v4-diagonal-split-4|start:ROAD_NAME",
+          "v4-diagonal-split-4-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-51|v4-south-split-3-split|start:URBAN_DIRECTION",
+          "v4-south-split-3-split-c91-section"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-71|v4-west-split-split-3-split-split|start:ROAD_NAME",
+          "v4-west-split-split-3-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-74|v4-west-split-split-3|start:ROAD_NAME",
+          "v4-west-split-split-3-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-75|v4-west-split-split-3-split|start:ROAD_NAME",
+          "v4-west-split-split-3-split-m91-section"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.tooCloseToJunction",
+        "ids": [
+          "topology-sign:urban-junction-75|v4-west-split-split-3-split|start:ROAD_NAME",
+          "v4-west-split-split-3-split-m91-section"
+        ],
+        "message": "Sign is immediately beside the junction conflict envelope"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-82|v4-inner-0|start:URBAN_DIRECTION",
+          "v4-inner-0-v91-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      }
+    ],
+    "valid": true
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight_highway",
+    "objectIds": [
+      "v6-lamps-2876",
+      "v6-lamps-2949",
+      "v61-road-lamp-37"
+    ],
+    "bbox": {
+      "minX": 2030.1398688242552,
+      "maxX": 2864.647985664473,
+      "minZ": 2101.0954438505746,
+      "maxZ": 2825.6292076802292
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-2876",
+      "state": "INVALID",
+      "position": {
+        "x": 2031.1820397694562,
+        "y": -0.04,
+        "z": 2830.5850395142584
+      },
+      "rotation": -1.5637158312991744,
+      "anchor": {
+        "anchorRoadId": "v8-port-south-split-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 133.2395424371488,
+        "lateralOffset": -0.7580502206803391,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.08749996076544,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "streetlight.insideLane::v6-lamps-2876::",
+          "code": "streetlight.insideLane",
+          "severity": "warning",
+          "objectId": "v6-lamps-2876",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v8-port-south-split-split-2-split-m91",
+            "distance": 0.7580502206803391,
+            "roadHalfWidth": 7.2,
+            "objectRadius": 0.20207330606353813
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-lamps-2876",
+            "roadId": "v8-port-south-split-split-2-split-m91",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "streetlight.insideJunction::v6-lamps-2876::",
+          "code": "streetlight.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-lamps-2876",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-225"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2876",
+          "properties": {
+            "position": {
+              "x": 2031.1820397694562,
+              "y": -0.04,
+              "z": 2830.5850395142584
+            },
+            "rotation": -1.5637158312991744
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2876",
+      "heightMode": "GROUND",
+      "autoMove": 5.958293986021003
+    },
+    {
+      "id": "v6-lamps-2949",
+      "state": "INVALID",
+      "position": {
+        "x": 2118.875925320881,
+        "y": -0.04,
+        "z": 2767.8532598666607
+      },
+      "rotation": -2.488326228034621,
+      "anchor": {
+        "anchorRoadId": "v5-south-logistics-split-c91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 391.0712949605827,
+        "lateralOffset": -9.212132034356065,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -2.488326228034621,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:v6-lamps-2949",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v6-lamps-2949",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "regional:warehouse:2040:2740",
+            "actual": 74.17845893148746,
+            "required": 75.7937123218774
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-2949",
+          "properties": {
+            "position": {
+              "x": 2118.875925320881,
+              "y": -0.04,
+              "z": 2767.8532598666607
+            },
+            "rotation": -2.488326228034621
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-2949",
+      "heightMode": "GROUND",
+      "autoMove": 4.046873161233978
+    },
+    {
+      "id": "v61-road-lamp-37",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 2853.092474047824,
+        "y": 16.956801850241263,
+        "z": 2091.818419848937
+      },
+      "rotation": -0.780686159795995,
+      "anchor": {
+        "anchorRoadId": "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 233.9898268224778,
+        "lateralOffset": 10.125000000000068,
+        "verticalOffset": -0.3172475671657722,
+        "facingDirection": "forward",
+        "expectedHeading": 2.3754206347843176,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-road-lamp-37",
+          "properties": {
+            "position": {
+              "x": 2853.092474047824,
+              "y": 16.956801850241263,
+              "z": 2091.818419848937
+            },
+            "rotation": -0.780686159795995
+          }
+        }
+      ],
+      "sourceId": "v61-road-lamp-37",
+      "heightMode": "GROUND",
+      "autoMove": 22.46261731873174
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v61-road-lamp-37",
+      "properties": {
+        "position": {
+          "x": 2853.092474047824,
+          "y": 16.956801850241263,
+          "z": 2091.818419848937
+        },
+        "rotation": -0.780686159795995
+      }
+    }
+  ],
+  "stats": {
+    "planned": 3,
+    "valid": 0,
+    "adjusted": 1,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

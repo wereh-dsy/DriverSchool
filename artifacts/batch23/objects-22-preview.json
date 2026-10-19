@@ -1,0 +1,134 @@
+{
+  "inspection": {
+    "key": "0:-1:office:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "office",
+      "objectIds": [
+        "v6-finance-201"
+      ],
+      "bbox": {
+        "minX": 589.2324525261798,
+        "maxX": 591.2324525261798,
+        "minZ": -98.6451449947009,
+        "maxZ": -96.6451449947009
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-finance-201",
+      "properties": {
+        "position": {
+          "x": 595.2324525261798,
+          "y": -0.04,
+          "z": -72.93768766723962
+        },
+        "rotation": -1.5707963267948966
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-15",
+    "revision": 14,
+    "label": "objects-22",
+    "created": [],
+    "modified": [
+      "v6-finance-201"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 550.2324525261798,
+      "maxX": 635.2324525261798,
+      "minZ": -137.6451449947009,
+      "maxZ": -32.937687667239615
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-finance-201",
+          "system-central:E-to-S-semi",
+          "system-central:N-to-E-semi",
+          "v91-ew-1-a-1",
+          "direction-mingyuan-main-section-section-section-section",
+          "urban-junction-22"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ew-wb-split-3-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ns-sb-split-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ew-eb-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ns-sb-split-3-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v6-finance-201"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v6-finance-201"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

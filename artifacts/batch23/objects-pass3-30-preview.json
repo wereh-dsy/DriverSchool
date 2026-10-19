@@ -1,0 +1,124 @@
+{
+  "inspection": {
+    "key": "3:-6:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55"
+      ],
+      "bbox": {
+        "minX": 7586.211887338574,
+        "maxX": 7588.211887338574,
+        "minZ": -11844.256833872432,
+        "maxZ": -11842.256833872432
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55",
+      "properties": {
+        "position": {
+          "x": 7577.650237371139,
+          "y": 70,
+          "z": -11844.585721740266
+        },
+        "heading": 3.00349624328848,
+        "roadId": "regional:v3:northeast-river:N-to-W-right",
+        "stationMetres": 54.999999999999794,
+        "postBaseY": 0
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-30",
+    "created": [],
+    "modified": [
+      "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 7547.211887338574,
+      "maxX": 7627.211887338574,
+      "minZ": -11883.256833872432,
+      "maxZ": -11803.256833872432
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55",
+          "regional:v3:S31-extension130:in:23:revision589",
+          "regional:v3:S31-extension130:in:23:revision589:revision603",
+          "regional:v3:northeast-river:N-to-E-turbine",
+          "regional:v3:S31-extension130:out:1:revision613",
+          "regional:v3:northeast-river:N-to-W-right",
+          "regional:v3:northeast-river:W-to-N-turbine",
+          "regional:v3:S31-extension130:out:1:lane4726",
+          "regional:v3:northeast-river:E-to-N-right"
+        ],
+        "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S31-extension130:in:23:revision589",
+          "regional:v3:northeast-river:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S31-extension130:in:23:revision589",
+          "regional:v3:northeast-river:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S31-extension130:out:1:lane4726",
+          "regional:v3:northeast-river:N-to-W-right:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:v3:northeast-river:N-to-W-right:false:guide:55",
+          "regional:v3:northeast-river:N-to-W-right"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      }
+    ],
+    "valid": true
+  }
+}

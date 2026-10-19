@@ -5,8 +5,9 @@ import { armControlKind, Subject3TrafficSignals } from '../subject3/trafficSigna
 import { INTERSECTION_LANES, type CityIntersection, type CityMapData } from './CityMapData';
 import { junctionExtent, polylineLength, portsFor, roadPoints, rotatePoint, sampleAt } from './geometry';
 import { insideIntersectionMarkingFootprint } from './MarkingOwnership';
-import {junctionSurfaceHeight,junctionApproachExtent,junctionSurfaceContains} from './JunctionSurface';
+import {junctionSurfaceHeight,junctionApproachExtent} from './JunctionSurface';
 import {CityTrafficSignals} from './CityTrafficSignals';
+import { approachPaintOffsets } from './SignalPlacement';
 
 export class IntersectionBuilder {
   constructor(private readonly map: CityMapData, private readonly materials: Subject3Materials) {}
@@ -52,13 +53,8 @@ export class IntersectionBuilder {
       // Paint must follow the authoritative pavement boundary. The actual
       // approach mouth is the road endpoint, not a fixed offset from center.
       const localMouth=j.approachOffsets?.[port]??rotatePoint({x:endpoint.x-j.position.x,z:endpoint.z-j.position.z},-j.rotation);
-      const toWorld=(x:number,z:number)=>rotatePoint({x,z},j.rotation);
-      const insidePavement=(x:number,z:number)=>{const w=toWorld(x,z);return junctionSurfaceContains(j,this.map,{x:j.position.x+w.x,y:j.position.y??0,z:j.position.z+w.z},0.15);};
-      // Walk just outside the final footprint before placing stop line/crosswalk.
-      let boundaryOffset=0.8;
-      while(boundaryOffset<30&&insidePavement(localMouth.x+d.x*boundaryOffset,localMouth.z+d.z*boundaryOffset))boundaryOffset+=0.4;
-      const paintApproach=boundaryOffset<30;
-      const crossOffset=boundaryOffset+2.2, stopOffset=crossOffset+2.2;
+      const mouthWorld=rotatePoint(localMouth,j.rotation),outwardWorld=rotatePoint(d,j.rotation);
+      const {paintApproach,crossOffset,stopOffset}=approachPaintOffsets(this.map,j,{x:j.position.x+mouthWorld.x,y:j.position.y,z:j.position.z+mouthWorld.z},outwardWorld);
       const width = r ? r.laneCount * r.laneWidth : INTERSECTION_LANES[j.type] * 3.5;
       const laneWidth = r?.laneWidth ?? 3.5;
       const laneCount = r?.laneCount ?? INTERSECTION_LANES[j.type];
@@ -98,14 +94,15 @@ export class IntersectionBuilder {
         const lateral = width / 2 + 1;
         // Far-side pole: beyond the conflict box and the opposite crossing, on the
         // served approach's right, with its arm reaching back over the approach lanes.
-        const headHeight=signals instanceof CityTrafficSignals&&j.signals?.profile?Math.max(7.2,j.signals.headHeight??7.2):j.signals?.headHeight??5.8;
+        const headHeight=j.signals?.placements?.[port]?.headHeight??(signals instanceof CityTrafficSignals&&j.signals?.profile?Math.max(7.2,j.signals.headHeight??7.2):j.signals?.headHeight??5.8);
         const reach=Math.max(h,Math.hypot(localMouth.x,localMouth.z));
         const base=rotatePoint(localMouth,j.rotation),poleOrigin={x:j.position.x+base.x,z:j.position.z+base.z};
-        const center = signals instanceof CityTrafficSignals&&j.signals?.profile?signals.placePole(index,outward,worldRight,reach,width,headHeight,poleOrigin):{ x: poleOrigin.x - outward.x * (reach + 1) + worldRight.x * lateral, z: poleOrigin.z - outward.z * (reach + 1) + worldRight.z * lateral };
+        const placement=j.signals?.placements?.[port];
+        const center = placement?.position??(signals instanceof CityTrafficSignals&&j.signals?.profile?signals.placePole(index,outward,worldRight,reach,width,headHeight,poleOrigin):{ x: poleOrigin.x - outward.x * (reach + 1) + worldRight.x * lateral, z: poleOrigin.z - outward.z * (reach + 1) + worldRight.z * lateral });
         signals.addHead(index, { segmentId: r?.id ?? `${j.id}:${port}`, outward, right: worldRight,
           approachYawRadians: yaw + j.rotation, approachLaneCount: r?.travelDirection === 'two-way' ? laneCount / 2 : laneCount, approachLaneWidth: laneWidth, roadWidth: width, controlKind: armControlKind(d) },
-          center, Math.atan2(-outward.x, -outward.z), this.materials, true, headHeight);
-        signals.root.children.at(-1)!.position.y = j.position.y ?? 0;
+          center, placement?.heading??Math.atan2(-outward.x, -outward.z), this.materials, true, headHeight);
+        signals.root.children.at(-1)!.position.y = placement?.position.y??j.position.y??0;
       }
     }
     // The closed side of a T gets an uninterrupted sidewalk and curb.

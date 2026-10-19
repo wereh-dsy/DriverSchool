@@ -1,0 +1,1000 @@
+{
+  "schemaVersion": 1,
+  "roads": {
+    "added": [
+      "ns-sb-split-split-split-split-section-section",
+      "v91-ns-1-a-1-section-section-section"
+    ],
+    "removed": [],
+    "modified": [
+      {
+        "id": "ns-sb-split-split-split-split-section",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": true,
+        "elevationOnly": false,
+        "maxDisplacement": 32.61904761904759,
+        "elevationDelta": 0.008561733493795742,
+        "controlPointsChanged": 5,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": -8.125,
+              "y": -7.962266059711077,
+              "z": 550
+            },
+            "after": {
+              "x": -8.125,
+              "y": -7.962266059711077,
+              "z": 550
+            }
+          },
+          "end": {
+            "before": {
+              "x": -8.125,
+              "y": -8,
+              "z": 632.6190476190476
+            },
+            "after": {
+              "x": -8.125,
+              "y": -7.997333043230484,
+              "z": 600
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0,
+        "afterMaxHeadingDelta": 0,
+        "crossingElevationsPreserved": true
+      },
+      {
+        "id": "v91-ns-1-a-1-section-section",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": true,
+        "elevationOnly": false,
+        "maxDisplacement": 14,
+        "elevationDelta": 0,
+        "controlPointsChanged": 1,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": -48,
+              "y": 0,
+              "z": 700
+            },
+            "after": {
+              "x": -48,
+              "y": 0,
+              "z": 700
+            }
+          },
+          "end": {
+            "before": {
+              "x": -48,
+              "y": 0,
+              "z": 744
+            },
+            "after": {
+              "x": -48,
+              "y": 0,
+              "z": 730
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0,
+        "afterMaxHeadingDelta": 0,
+        "crossingElevationsPreserved": true
+      },
+      {
+        "id": "v91-ns-sb-off",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": true,
+        "elevationOnly": false,
+        "maxDisplacement": 50,
+        "elevationDelta": 0.03600691061201822,
+        "controlPointsChanged": 44,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": -8.125,
+              "y": -7.962266059711077,
+              "z": 550
+            },
+            "after": {
+              "x": -8.125,
+              "y": -7.997333043230484,
+              "z": 600
+            }
+          },
+          "end": {
+            "before": {
+              "x": -48,
+              "y": 0,
+              "z": 700
+            },
+            "after": {
+              "x": -48,
+              "y": 0,
+              "z": 730
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.030020572673648434,
+        "afterMaxHeadingDelta": 0.037896149876709646,
+        "crossingElevationsPreserved": false
+      }
+    ]
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "urban-junction-46",
+        "armsBefore": [
+          {
+            "roadId": "v5-civic-south-split-2-split-split-2-v91-m91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v91-ns-1-a-1-section-section",
+            "end": "end",
+            "port": "south"
+          },
+          {
+            "roadId": "v91-ns-1-a-2",
+            "end": "start",
+            "port": "west"
+          },
+          {
+            "roadId": "v91-ns-1-b-1-section-section",
+            "end": "end",
+            "port": "extra"
+          },
+          {
+            "roadId": "v91-ns-1-b-2",
+            "end": "start",
+            "port": "extra2"
+          }
+        ],
+        "armsAfter": [
+          {
+            "roadId": "v5-civic-south-split-2-split-split-2-v91-m91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v91-ns-1-a-1-section-section-section",
+            "end": "end",
+            "port": "south"
+          },
+          {
+            "roadId": "v91-ns-1-a-2",
+            "end": "start",
+            "port": "west"
+          },
+          {
+            "roadId": "v91-ns-1-b-1-section-section",
+            "end": "end",
+            "port": "extra"
+          },
+          {
+            "roadId": "v91-ns-1-b-2",
+            "end": "start",
+            "port": "extra2"
+          }
+        ],
+        "markingsRegenerated": false
+      }
+    ]
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "signal:urban-junction-46:south",
+        "type": "trafficLight",
+        "displacement": 0,
+        "heightDelta": 0,
+        "rotationDelta": 0,
+        "anchorBefore": {
+          "anchorRoadId": "v91-ns-1-a-1-section-section",
+          "anchorIntersectionId": "urban-junction-46",
+          "approach": "south",
+          "station": 44,
+          "lateralOffset": 24.599999999999994,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -3.141592653589793,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "v91-ns-1-a-1-section-section-section",
+          "anchorIntersectionId": "urban-junction-46",
+          "approach": "south",
+          "station": 14,
+          "lateralOffset": 24.599999999999994,
+          "verticalOffset": 0,
+          "facingDirection": "forward",
+          "expectedHeading": -3.141592653589793,
+          "structureType": "at_grade",
+          "derived": true
+        },
+        "anchorRoadUnchanged": false,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [
+    {
+      "roadId": "ns-sb-split-split-split-split-section",
+      "before": {
+        "barrierEnabled": false,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 8
+        }
+      },
+      "after": {
+        "barrierEnabled": false,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 8
+        }
+      },
+      "beforeType": "depressed",
+      "afterType": "depressed"
+    },
+    {
+      "roadId": "v91-ns-sb-off",
+      "before": {
+        "barrierEnabled": true,
+        "piersEnabled": false,
+        "pierSpacing": 30,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 5.5
+        }
+      },
+      "after": {
+        "barrierEnabled": true,
+        "piersEnabled": false,
+        "pierSpacing": 30,
+        "enclosure": {
+          "kind": "cutting",
+          "clearance": 6
+        }
+      },
+      "beforeType": "depressed",
+      "afterType": "depressed"
+    }
+  ],
+  "roadLinks": {
+    "added": [
+      {
+        "id": "link-405",
+        "from": {
+          "roadId": "ns-sb-split-split-split-split-section",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ns-sb-split-split-split-split-section-section",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-407",
+        "from": {
+          "roadId": "v91-ns-1-a-1-section-section",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ns-1-a-1-section-section-section",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-523",
+        "from": {
+          "roadId": "ns-sb-split-split-split-split-section",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ns-sb-off",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-526",
+        "from": {
+          "roadId": "v91-ns-sb-off",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ns-1-a-1-section-section-section",
+          "end": "start"
+        }
+      }
+    ],
+    "removed": [
+      {
+        "id": "link-536",
+        "from": {
+          "roadId": "ns-sb-split-split-split-split",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ns-sb-off",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-537",
+        "from": {
+          "roadId": "v91-ns-sb-off",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ns-1-a-1-section-section",
+          "end": "start"
+        }
+      },
+      {
+        "id": "link-548",
+        "from": {
+          "roadId": "v91-ns-1-a-1-section",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "v91-ns-sb-off",
+          "end": "end"
+        }
+      },
+      {
+        "id": "link-562",
+        "from": {
+          "roadId": "v91-ns-sb-off",
+          "end": "start"
+        },
+        "to": {
+          "roadId": "ns-sb-split-split-split-split-section",
+          "end": "start"
+        }
+      }
+    ],
+    "modified": [
+      {
+        "before": {
+          "id": "link-183",
+          "from": {
+            "roadId": "ns-sb-split-split-split-split-section",
+            "end": "end"
+          },
+          "to": {
+            "roadId": "ns-tunnel:southbound",
+            "end": "start"
+          }
+        },
+        "after": {
+          "id": "link-183",
+          "from": {
+            "roadId": "ns-sb-split-split-split-split-section-section",
+            "end": "end"
+          },
+          "to": {
+            "roadId": "ns-tunnel:southbound",
+            "end": "start"
+          }
+        }
+      }
+    ]
+  },
+  "affectedBbox": {
+    "minX": -72.75,
+    "maxX": 40,
+    "minZ": 542.625,
+    "maxZ": 804
+  },
+  "maxRoadDisplacement": 50,
+  "maxElevationDelta": 0.03600691061201822,
+  "topology": {
+    "changed": true,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 1,
+      "deadEnds": [
+        "ns-sb-split-split-split-section",
+        "system-central:E-to-S-semi",
+        "ns-tunnel:southbound-split",
+        "v5-civic-south-split-2-split-m91",
+        "v91-ns-1-a-1"
+      ],
+      "adjacency": [
+        {
+          "id": "ns-sb-split-split-split-split-section",
+          "links": [
+            "ns-tunnel:southbound",
+            "ns-sb-split-split-split-split",
+            "v91-ns-sb-off"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-1-section-section",
+          "links": [
+            "v91-ns-1-a-1-section",
+            "v91-ns-sb-off",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v91-ns-sb-off",
+          "links": [
+            "ns-sb-split-split-split-split",
+            "v91-ns-1-a-1-section-section",
+            "v91-ns-1-a-1-section",
+            "ns-sb-split-split-split-split-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split",
+          "links": [
+            "ns-sb-split-split-split-section",
+            "system-central:E-to-S-semi",
+            "ns-sb-split-split-split-split-section",
+            "v91-ns-sb-off"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-1-section",
+          "links": [
+            "v91-ns-1-a-1",
+            "v91-ns-1-a-1-section-section",
+            "v91-ns-sb-off"
+          ]
+        },
+        {
+          "id": "ns-tunnel:southbound",
+          "links": [
+            "ns-sb-split-split-split-split-section",
+            "ns-tunnel:southbound-split"
+          ]
+        },
+        {
+          "id": "v5-civic-south-split-2-split-split-2-v91-m91",
+          "links": [
+            "v5-civic-south-split-2-split-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-1-section-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v5-civic-south-split-2-split-split-2-split-v91-m91",
+          "links": [
+            "v5-finance-road-split-m91",
+            "v5-civic-south-split-2-split-split-m91",
+            "v5-finance-road-split-split-m91",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v91-ns-1-a-1-section-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-2",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-1-section-section",
+            "v91-ns-1-b-1-section-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-1-section-section",
+          "links": [
+            "v91-ns-1-b-1-section",
+            "v91-ns-nb-on",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-1-section-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-2",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-3",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-1-section-section",
+            "v91-ns-1-b-1-section-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-section",
+          "links": [
+            "ns-sb-split-split-split-split"
+          ]
+        },
+        {
+          "id": "system-central:E-to-S-semi",
+          "links": [
+            "ns-sb-split-split-split-split"
+          ]
+        },
+        {
+          "id": "ns-tunnel:southbound-split",
+          "links": [
+            "ns-tunnel:southbound"
+          ]
+        },
+        {
+          "id": "v5-civic-south-split-2-split-m91",
+          "links": [
+            "v5-civic-south-split-2-split-split-2-v91-m91"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-1",
+          "links": [
+            "v91-ns-1-a-1-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-1-section",
+          "links": [
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-nb-on"
+          ]
+        },
+        {
+          "id": "v91-ns-nb-on",
+          "links": [
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-1-b-1-section"
+          ]
+        },
+        {
+          "id": "v5-finance-road-split-m91",
+          "links": [
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v5-civic-south-split-2-split-split-m91",
+            "v5-finance-road-split-split-m91"
+          ]
+        },
+        {
+          "id": "v5-civic-south-split-2-split-split-m91",
+          "links": [
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v5-finance-road-split-m91",
+            "v5-finance-road-split-split-m91"
+          ]
+        },
+        {
+          "id": "v5-finance-road-split-split-m91",
+          "links": [
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v5-finance-road-split-m91",
+            "v5-civic-south-split-2-split-split-m91"
+          ]
+        },
+        {
+          "id": "v4-inner-2-split-split-split-v91-m91-section",
+          "links": [
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "access-inner-mingyuan-section",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-3",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-3",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 1,
+      "deadEnds": [
+        "ns-sb-split-split-split-section",
+        "system-central:E-to-S-semi",
+        "ns-tunnel:southbound-split",
+        "v5-civic-south-split-2-split-m91",
+        "v91-ns-1-a-1"
+      ],
+      "adjacency": [
+        {
+          "id": "ns-sb-split-split-split-split-section-section",
+          "links": [
+            "ns-tunnel:southbound",
+            "ns-sb-split-split-split-split-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-1-section-section-section",
+          "links": [
+            "v91-ns-1-a-1-section-section",
+            "v91-ns-sb-off",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split-section",
+          "links": [
+            "ns-sb-split-split-split-split",
+            "ns-sb-split-split-split-split-section-section",
+            "v91-ns-sb-off"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-1-section-section",
+          "links": [
+            "v91-ns-1-a-1-section",
+            "v91-ns-1-a-1-section-section-section"
+          ]
+        },
+        {
+          "id": "v91-ns-sb-off",
+          "links": [
+            "ns-sb-split-split-split-split-section",
+            "v91-ns-1-a-1-section-section-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-split",
+          "links": [
+            "ns-sb-split-split-split-section",
+            "system-central:E-to-S-semi",
+            "ns-sb-split-split-split-split-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-1-section",
+          "links": [
+            "v91-ns-1-a-1",
+            "v91-ns-1-a-1-section-section"
+          ]
+        },
+        {
+          "id": "ns-tunnel:southbound",
+          "links": [
+            "ns-sb-split-split-split-split-section-section",
+            "ns-tunnel:southbound-split"
+          ]
+        },
+        {
+          "id": "v5-civic-south-split-2-split-split-2-v91-m91",
+          "links": [
+            "v5-civic-south-split-2-split-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-1-section-section-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v5-civic-south-split-2-split-split-2-split-v91-m91",
+          "links": [
+            "v5-finance-road-split-m91",
+            "v5-civic-south-split-2-split-split-m91",
+            "v5-finance-road-split-split-m91",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v91-ns-1-a-1-section-section-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-2",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-1-section-section-section",
+            "v91-ns-1-b-1-section-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-1-section-section",
+          "links": [
+            "v91-ns-1-b-1-section",
+            "v91-ns-nb-on",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-1-section-section-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-2"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-2",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-3",
+            "v5-civic-south-split-2-split-split-2-v91-m91",
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v91-ns-1-a-1-section-section-section",
+            "v91-ns-1-b-1-section-section"
+          ]
+        },
+        {
+          "id": "ns-sb-split-split-split-section",
+          "links": [
+            "ns-sb-split-split-split-split"
+          ]
+        },
+        {
+          "id": "system-central:E-to-S-semi",
+          "links": [
+            "ns-sb-split-split-split-split"
+          ]
+        },
+        {
+          "id": "ns-tunnel:southbound-split",
+          "links": [
+            "ns-tunnel:southbound"
+          ]
+        },
+        {
+          "id": "v5-civic-south-split-2-split-m91",
+          "links": [
+            "v5-civic-south-split-2-split-split-2-v91-m91"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-1",
+          "links": [
+            "v91-ns-1-a-1-section"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-1-section",
+          "links": [
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-nb-on"
+          ]
+        },
+        {
+          "id": "v91-ns-nb-on",
+          "links": [
+            "v91-ns-1-b-1-section-section",
+            "v91-ns-1-b-1-section"
+          ]
+        },
+        {
+          "id": "v5-finance-road-split-m91",
+          "links": [
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v5-civic-south-split-2-split-split-m91",
+            "v5-finance-road-split-split-m91"
+          ]
+        },
+        {
+          "id": "v5-civic-south-split-2-split-split-m91",
+          "links": [
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v5-finance-road-split-m91",
+            "v5-finance-road-split-split-m91"
+          ]
+        },
+        {
+          "id": "v5-finance-road-split-split-m91",
+          "links": [
+            "v5-civic-south-split-2-split-split-2-split-v91-m91",
+            "v5-finance-road-split-m91",
+            "v5-civic-south-split-2-split-split-m91"
+          ]
+        },
+        {
+          "id": "v4-inner-2-split-split-split-v91-m91-section",
+          "links": [
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "access-inner-mingyuan-section",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-a-3",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-b-2",
+            "v91-ns-1-b-3"
+          ]
+        },
+        {
+          "id": "v91-ns-1-b-3",
+          "links": [
+            "v4-inner-2-split-split-split-v91-m91-section",
+            "access-inner-mingyuan-section",
+            "v91-ns-1-a-2",
+            "v91-ns-1-a-3",
+            "v91-ns-1-b-2"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [
+      "endpoint:v91-ns-1-a-1-section:end|v91-ns-1-a-1-section:lane:0|v91-ns-1-a-1-section-section:lane:0",
+      "endpoint:v91-ns-1-a-1-section:end|v91-ns-1-a-1-section:lane:0|v91-ns-1-a-1-section-section:lane:1",
+      "endpoint:v91-ns-1-a-1-section:end|v91-ns-1-a-1-section:lane:1|v91-ns-1-a-1-section-section:lane:0",
+      "endpoint:v91-ns-1-a-1-section:end|v91-ns-1-a-1-section:lane:1|v91-ns-1-a-1-section-section:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:0|ns-sb-split-split-split-split-section-section:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:0|ns-sb-split-split-split-split-section-section:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:0|ns-sb-split-split-split-split-section-section:lane:2",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:1|ns-sb-split-split-split-split-section-section:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:1|ns-sb-split-split-split-split-section-section:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:1|ns-sb-split-split-split-split-section-section:lane:2",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:2|ns-sb-split-split-split-split-section-section:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:2|ns-sb-split-split-split-split-section-section:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:2|ns-sb-split-split-split-split-section-section:lane:2",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:0|v91-ns-sb-off:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:1|v91-ns-sb-off:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:2|v91-ns-sb-off:lane:0",
+      "endpoint:v91-ns-sb-off:end|v91-ns-sb-off:lane:0|v91-ns-1-a-1-section-section-section:lane:0",
+      "endpoint:v91-ns-sb-off:end|v91-ns-sb-off:lane:0|v91-ns-1-a-1-section-section-section:lane:1",
+      "endpoint:v91-ns-sb-off:end|v91-ns-1-a-1-section-section:lane:0|v91-ns-1-a-1-section-section-section:lane:0",
+      "endpoint:v91-ns-sb-off:end|v91-ns-1-a-1-section-section:lane:0|v91-ns-1-a-1-section-section-section:lane:1",
+      "endpoint:v91-ns-sb-off:end|v91-ns-1-a-1-section-section:lane:1|v91-ns-1-a-1-section-section-section:lane:0",
+      "endpoint:v91-ns-sb-off:end|v91-ns-1-a-1-section-section:lane:1|v91-ns-1-a-1-section-section-section:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:0|ns-tunnel:southbound:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:0|ns-tunnel:southbound:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:0|ns-tunnel:southbound:lane:2",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:1|ns-tunnel:southbound:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:1|ns-tunnel:southbound:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:1|ns-tunnel:southbound:lane:2",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:2|ns-tunnel:southbound:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:2|ns-tunnel:southbound:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section-section:end|ns-sb-split-split-split-split-section-section:lane:2|ns-tunnel:southbound:lane:2",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:0|v5-civic-south-split-2-split-split-2-v91-m91:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:0|v5-civic-south-split-2-split-split-2-v91-m91:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:1|v5-civic-south-split-2-split-split-2-v91-m91:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:1|v5-civic-south-split-2-split-split-2-v91-m91:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:0|v5-civic-south-split-2-split-split-2-split-v91-m91:lane:2",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:0|v5-civic-south-split-2-split-split-2-split-v91-m91:lane:3",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:1|v5-civic-south-split-2-split-split-2-split-v91-m91:lane:2",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:1|v5-civic-south-split-2-split-split-2-split-v91-m91:lane:3",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:0|v91-ns-1-a-2:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:0|v91-ns-1-a-2:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:1|v91-ns-1-a-2:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:1|v91-ns-1-a-2:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:0|v91-ns-1-b-1-section-section:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:0|v91-ns-1-b-1-section-section:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:1|v91-ns-1-b-1-section-section:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section-section:lane:1|v91-ns-1-b-1-section-section:lane:1"
+    ],
+    "laneConnectionsRemoved": [
+      "endpoint:ns-sb-split-split-split-split:end|ns-sb-split-split-split-split:lane:0|v91-ns-sb-off:lane:0",
+      "endpoint:ns-sb-split-split-split-split:end|ns-sb-split-split-split-split:lane:1|v91-ns-sb-off:lane:0",
+      "endpoint:ns-sb-split-split-split-split:end|ns-sb-split-split-split-split:lane:2|v91-ns-sb-off:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:0|ns-tunnel:southbound:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:0|ns-tunnel:southbound:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:0|ns-tunnel:southbound:lane:2",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:1|ns-tunnel:southbound:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:1|ns-tunnel:southbound:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:1|ns-tunnel:southbound:lane:2",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:2|ns-tunnel:southbound:lane:0",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:2|ns-tunnel:southbound:lane:1",
+      "endpoint:ns-sb-split-split-split-split-section:end|ns-sb-split-split-split-split-section:lane:2|ns-tunnel:southbound:lane:2",
+      "endpoint:v91-ns-sb-off:end|v91-ns-sb-off:lane:0|v91-ns-1-a-1-section-section:lane:0",
+      "endpoint:v91-ns-sb-off:end|v91-ns-sb-off:lane:0|v91-ns-1-a-1-section-section:lane:1",
+      "endpoint:v91-ns-sb-off:end|v91-ns-1-a-1-section:lane:0|v91-ns-1-a-1-section-section:lane:0",
+      "endpoint:v91-ns-sb-off:end|v91-ns-1-a-1-section:lane:0|v91-ns-1-a-1-section-section:lane:1",
+      "endpoint:v91-ns-sb-off:end|v91-ns-1-a-1-section:lane:1|v91-ns-1-a-1-section-section:lane:0",
+      "endpoint:v91-ns-sb-off:end|v91-ns-1-a-1-section:lane:1|v91-ns-1-a-1-section-section:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:0|v5-civic-south-split-2-split-split-2-v91-m91:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:0|v5-civic-south-split-2-split-split-2-v91-m91:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:1|v5-civic-south-split-2-split-split-2-v91-m91:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:1|v5-civic-south-split-2-split-split-2-v91-m91:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:0|v5-civic-south-split-2-split-split-2-split-v91-m91:lane:2",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:0|v5-civic-south-split-2-split-split-2-split-v91-m91:lane:3",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:1|v5-civic-south-split-2-split-split-2-split-v91-m91:lane:2",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:1|v5-civic-south-split-2-split-split-2-split-v91-m91:lane:3",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:0|v91-ns-1-a-2:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:0|v91-ns-1-a-2:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:1|v91-ns-1-a-2:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:1|v91-ns-1-a-2:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:0|v91-ns-1-b-1-section-section:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:0|v91-ns-1-b-1-section-section:lane:1",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:1|v91-ns-1-b-1-section-section:lane:0",
+      "urban-junction-46|v91-ns-1-a-1-section-section:lane:1|v91-ns-1-b-1-section-section:lane:1"
+    ],
+    "directedLaneRouteVerified": true
+  }
+}

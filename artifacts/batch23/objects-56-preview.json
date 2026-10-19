@@ -1,0 +1,181 @@
+{
+  "inspection": {
+    "key": "-1:-2:streetlight:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight",
+      "objectIds": [
+        "v6-lamps-844",
+        "v6-lamps-852",
+        "v6-lamps-853",
+        "v6-lamps-856"
+      ],
+      "bbox": {
+        "minX": -68.35417766797728,
+        "maxX": -28.462421283810862,
+        "minZ": -2883.201221747877,
+        "maxZ": -2115.896145370383
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 4,
+      "valid": 3,
+      "adjusted": 1,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 4,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-844",
+      "properties": {
+        "position": {
+          "x": -53.76970562748477,
+          "y": -0.04,
+          "z": -2116.896145370383
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-852",
+      "properties": {
+        "position": {
+          "x": -42.23029437251523,
+          "y": -0.04,
+          "z": -2882.201221747877
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-853",
+      "properties": {
+        "position": {
+          "x": -53.76970562748477,
+          "y": -0.04,
+          "z": -2316.6989225713214
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-856",
+      "properties": {
+        "position": {
+          "x": -41.9,
+          "y": -0.04,
+          "z": -2203.8333333333335
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-49",
+    "revision": 48,
+    "label": "objects-56",
+    "created": [],
+    "modified": [
+      "v6-lamps-844",
+      "v6-lamps-852",
+      "v6-lamps-853",
+      "v6-lamps-856"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -107.35417766797728,
+      "maxX": 10.537578716189138,
+      "minZ": -2922.201221747877,
+      "maxZ": -2076.896145370383
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-844",
+          "v6-lamps-852",
+          "v6-lamps-853",
+          "v6-lamps-856",
+          "system-north:N-to-E-star",
+          "system-north:W-to-N-star",
+          "ns-sb-split-3-split-split-2-split",
+          "v91-ns-0-a-3",
+          "urban-junction-214",
+          "v8-campus-north-split-v91",
+          "v91-ns-0-a-0",
+          "urban-junction-215",
+          "direction-campus-north-t",
+          "ns-sb-split-3-split",
+          "ns-sb-split-3-split-split-2",
+          "v8-campus-south-split-v91",
+          "v91-ns-0-a-2",
+          "urban-junction-211",
+          "ns-nb-split-split-split-split-split-split-2-split",
+          "ns-nb-split-split-split-split-split-split-2-split-split"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:N-to-E-star",
+          "ring-cw-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:W-to-N-star",
+          "ring-cw-0-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-a-3",
+          "access-ns-north-sb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "object.floating",
+        "ids": [
+          "v6-lamps-844"
+        ],
+        "message": "Base differs from selected support surface"
+      },
+      {
+        "severity": "warning",
+        "code": "object.floating",
+        "ids": [
+          "v6-lamps-853"
+        ],
+        "message": "Base differs from selected support surface"
+      }
+    ],
+    "valid": true
+  }
+}

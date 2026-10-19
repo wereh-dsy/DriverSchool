@@ -1,0 +1,101 @@
+{
+  "mainline": "ew-wb-split-split-split-split-2-section",
+  "frontage": "v91-ew-0-b-1-section",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 106.83251791975172
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 106.83251791975172,
+      "kind": "rampAttachment",
+      "id": "system-west:E-to-N-right",
+      "distance": 0
+    },
+    {
+      "station": 106.48785530701211,
+      "kind": "rampAttachment",
+      "id": "system-west:S-to-E-right",
+      "distance": 20.580447487712505
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "v91-ew-west-wb-on",
+      "distance": 2.3437142008433856e-13
+    },
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "v91-ew-west-eb-off",
+      "distance": 29.03844956674867
+    },
+    {
+      "station": 106.83251791975172,
+      "kind": "ordinaryCrossing",
+      "id": "system-west:E-to-N-right",
+      "distance": 0
+    },
+    {
+      "station": 106.83251791975172,
+      "kind": "ordinaryCrossing",
+      "id": "ew-wb-split-split-split-split-2-split",
+      "distance": 0
+    },
+    {
+      "station": 1.926333161807783e-10,
+      "kind": "ordinaryCrossing",
+      "id": "v91-ew-west-wb-on",
+      "distance": 0
+    },
+    {
+      "station": 30.352486243024156,
+      "kind": "intersection",
+      "id": "urban-junction-90",
+      "distance": 11.01313976356775
+    },
+    {
+      "station": 0,
+      "kind": "intersection",
+      "id": "v91-shared-old-town-ew",
+      "distance": 54.95026420824633
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 106.83251791975172
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ew-wb-split-split-split-split-2-section",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      }
+    },
+    {
+      "roadId": "v91-ew-0-b-1-section",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      }
+    }
+  ],
+  "automaticDesign": false
+}

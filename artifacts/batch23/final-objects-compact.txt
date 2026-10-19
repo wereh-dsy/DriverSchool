@@ -1,0 +1,63 @@
+{ total: 1686, error: 0, warning: 1569, info: 117 } {
+  'object.unsupportedOnDeck': 145,
+  'object.tooCloseToObject': 822,
+  'object.buried': 97,
+  'object.floating': 77,
+  'object.insideLane': 94,
+  'object.intersectsBarrier': 39,
+  'building.intersectsRoad': 13,
+  'building.intersectsJunction': 3,
+  'object.insideJunction': 28,
+  'tree.canopyOccludesSign': 1,
+  'tree.canopyNearRoad': 117,
+  'streetlight.tooDense': 6,
+  'building.intersectsRamp': 1,
+  'object.intersectsRoadStructure': 7,
+  'building.intersectsStructure': 1,
+  'roadSign.intersectsStructure': 26,
+  'roadSign.wrongSide': 8,
+  'roadSign.occluded': 3,
+  'object.wrongStructureLevel': 21,
+  'roadSign.insideLane': 148,
+  'roadSign.wrongFacing': 1,
+  'roadSign.tooCloseToJunction': 24,
+  'roadSign.insideJunction': 2,
+  'trafficLight.occludedByStructure': 2
+}
+remaining buildings [
+  'landscape-industrial-2580',
+  'landscape-industrial-2581',
+  'v61-stadium',
+  'v61-west-depot',
+  'v61-port-warehouse',
+  'regional:warehouse:-1320:2740',
+  'regional:warehouse:2040:2740',
+  'regional:warehouse:3320:3700',
+  'v8-industrial-tonggang-2'
+]
+signals [
+  {
+    id: 'trafficLight.occludedByStructure:v5-civic-south-split-2-split-split-2-split-v91-m91:signal:urban-junction-46:east:urban-junction-46:',
+    code: 'trafficLight.occludedByStructure',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-46:east',
+    roadId: 'v5-civic-south-split-2-split-split-2-split-v91-m91',
+    intersectionId: 'urban-junction-46',
+    message: 'Approximate incoming sight ray intersects another deck',
+    metrics: { roadId: 'direction-mingyuan-main-section-section' },
+    approximate: true,
+    reviewRequired: true
+  },
+  {
+    id: 'trafficLight.occludedByStructure:v8-port-works-c91:signal:urban-junction-234:east:urban-junction-234:',
+    code: 'trafficLight.occludedByStructure',
+    severity: 'warning',
+    objectId: 'signal:urban-junction-234:east',
+    roadId: 'v8-port-works-c91',
+    intersectionId: 'urban-junction-234',
+    message: 'Approximate incoming sight ray intersects another deck',
+    metrics: { roadId: 'v6-logistics-one-split-3-split-2-m91' },
+    approximate: true,
+    reviewRequired: true
+  }
+]

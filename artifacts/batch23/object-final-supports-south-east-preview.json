@@ -1,0 +1,325 @@
+{
+  "inspection": {
+    "review": [
+      {
+        "id": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+        "unresolved": [
+          {
+            "id": "roadSign.insideLane:v5-civic-south-split-4-m91:topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION::",
+            "code": "roadSign.insideLane",
+            "severity": "warning",
+            "objectId": "topology-sign:urban-junction-133|v5-civic-south|start:URBAN_DIRECTION",
+            "roadId": "v5-civic-south-split-4-m91",
+            "message": "Sign support intersects carriageway",
+            "metrics": {
+              "roadId": "direction-inner-sw-section-section"
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+        "unresolved": [
+          {
+            "id": "roadSign.insideLane:v5-civic-south-split-4-m91:topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION::",
+            "code": "roadSign.insideLane",
+            "severity": "warning",
+            "objectId": "topology-sign:urban-junction-180|v5-civic-south-split-4|start:URBAN_DIRECTION",
+            "roadId": "v5-civic-south-split-4-m91",
+            "message": "Sign support intersects carriageway",
+            "metrics": {
+              "roadId": "direction-inner-sw-section-section"
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+        "unresolved": [
+          {
+            "id": "roadSign.tooCloseToJunction:v8-port-south-split-split-2-split-2-m91:topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION::",
+            "code": "roadSign.tooCloseToJunction",
+            "severity": "warning",
+            "objectId": "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+            "roadId": "v8-port-south-split-split-2-split-2-m91",
+            "message": "Sign is immediately beside the junction conflict envelope",
+            "metrics": {
+              "intersectionId": "urban-junction-231"
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION",
+        "unresolved": [
+          {
+            "id": "roadSign.tooCloseToJunction:v5-civic-north-split-split-m91-section:topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION::",
+            "code": "roadSign.tooCloseToJunction",
+            "severity": "warning",
+            "objectId": "topology-sign:urban-junction-25|v5-civic-north-split-split|end:URBAN_DIRECTION",
+            "roadId": "v5-civic-north-split-split-m91-section",
+            "message": "Sign is immediately beside the junction conflict envelope",
+            "metrics": {
+              "intersectionId": "urban-junction-25"
+            },
+            "approximate": true
+          }
+        ]
+      }
+    ],
+    "reason": "Remaining physical supports, structures and obstructing surface props after brush repair"
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "topology-sign:endpoint:ring-ccw-1:end|ring-ccw-1|end:EXPRESSWAY_DIVERGE",
+      "properties": {
+        "type": "EXPRESSWAY_DIVERGE",
+        "template": "gantry",
+        "size": "medium",
+        "roadId": "ring-ccw-1",
+        "position": {
+          "x": 11.125000000000114,
+          "y": 0,
+          "z": 2130.3308823529414
+        },
+        "heading": -1.5707963267948966,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "ring-expressway",
+            "directionId": "east-ring",
+            "arrow": "straight"
+          },
+          {
+            "roadNameId": "north-south-expressway",
+            "directionId": "north-ring",
+            "arrow": "exit-right"
+          }
+        ],
+        "language": "zh-CN",
+        "advanceMetres": 30,
+        "stationMetres": 273.982142857143,
+        "decisionIds": [
+          "endpoint:ring-ccw-1:end|ring-ccw-1|end"
+        ],
+        "incomingRoadId": "ring-ccw-1",
+        "outgoingRoadIds": [
+          "ring-ccw-1-split-3",
+          "system-south:W-to-N-loop"
+        ],
+        "postOffset": 6.975,
+        "approachRoadNameId": "ring-expressway"
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "object-final-supports-south-east",
+    "created": [],
+    "modified": [
+      "topology-sign:endpoint:ring-ccw-1:end|ring-ccw-1|end:EXPRESSWAY_DIVERGE"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -28.874999999999886,
+      "maxX": 56.12500000000006,
+      "minZ": 2090.3308823529414,
+      "maxZ": 2170.3308823529414
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "topology-sign:endpoint:ring-ccw-1:end|ring-ccw-1|end:EXPRESSWAY_DIVERGE",
+          "ring-ccw-1",
+          "ns-sb-split-split-split-split-split-split",
+          "system-south:S-to-W-semi",
+          "system-south:E-to-S-loop",
+          "system-south:N-to-E-semi",
+          "system-south:N-to-W-right",
+          "system-south:W-to-S-right",
+          "ring-cw-2-split-split",
+          "ns-sb-split-split-split-split-split-split-split-2",
+          "ring-cw-2-split-split-2",
+          "ns-nb-split-3-split-split-split-2",
+          "system-south:S-to-E-right",
+          "system-south:E-to-N-right",
+          "system-south:W-to-N-loop",
+          "ns-nb-split-3-split-split-split-3-split",
+          "ring-ccw-1-split-3",
+          "ns-nb-split-3-split-split-split-2-split-2"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-sb-split-split-split-split-split-split",
+          "system-south:E-to-S-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-nb-split-3-split-split-split-2",
+          "system-south:W-to-N-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ring-cw-3-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-E-semi",
+          "ring-ccw-1-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-E-semi",
+          "ns-sb-split-split-split-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-W-right",
+          "ring-cw-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-W-right",
+          "ns-sb-split-split-split-split-split-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:W-to-S-right",
+          "ring-ccw-0-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-nb-split-3-split-split-split-3-split",
+          "system-south:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-2-split-split",
+          "system-south:E-to-S-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-sb-split-split-split-split-split-split-split-2",
+          "system-south:W-to-S-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-2-split-split-2",
+          "system-south:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-3",
+          "system-south:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-3",
+          "system-south:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-3",
+          "system-south:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-3",
+          "system-south:W-to-N-loop"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-nb-split-3-split-split-split-2-split-2",
+          "system-south:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

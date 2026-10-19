@@ -1,0 +1,238 @@
+{
+  "inspection": {
+    "key": "2:1:streetlight",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight",
+      "bbox": {
+        "minX": 6742.203331535097,
+        "maxX": 6850.203624080791,
+        "minZ": 3198.8677077609013,
+        "maxZ": 3276.126846609465
+      },
+      "objectIds": [
+        "regional:wuliuyuan:lamp:-1:-65",
+        "regional:wuliuyuan:lamp:-1:65"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "streetlight",
+        "bbox": {
+          "minX": 6742.203331535097,
+          "maxX": 6850.203624080791,
+          "minZ": 3198.8677077609013,
+          "maxZ": 3276.126846609465
+        },
+        "objectIds": [
+          "regional:wuliuyuan:lamp:-1:-65",
+          "regional:wuliuyuan:lamp:-1:65"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "regional:wuliuyuan:lamp:-1:-65",
+          "state": "VALID",
+          "position": {
+            "x": 6728.426565733066,
+            "y": -7.04,
+            "z": 3223.7387155611978
+          },
+          "rotation": 0.9734411668520148,
+          "anchor": {
+            "anchorRoadId": "regional:wuliuyuan:on:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 3.0888872548894297,
+            "lateralOffset": 7.044705627484823,
+            "verticalOffset": -10.62151905999799,
+            "facingDirection": "forward",
+            "expectedHeading": 0.9734411668520148,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:wuliuyuan:lamp:-1:-65",
+              "properties": {
+                "position": {
+                  "x": 6728.426565733066,
+                  "y": -7.04,
+                  "z": 3223.7387155611978
+                },
+                "rotation": 0.9734411668520148
+              }
+            }
+          ],
+          "sourceId": "regional:wuliuyuan:lamp:-1:-65",
+          "heightMode": "GROUND",
+          "autoMove": 30.016261927205928
+        },
+        {
+          "id": "regional:wuliuyuan:lamp:-1:65",
+          "state": "VALID",
+          "position": {
+            "x": 6831.758312617291,
+            "y": 3.4236937399089866,
+            "z": 3297.11665397336
+          },
+          "rotation": 0.8941241319573212,
+          "anchor": {
+            "anchorRoadId": "regional:wuliuyuan:off:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 238.6087814022475,
+            "lateralOffset": 7.044705627484758,
+            "verticalOffset": -0.15543698229786118,
+            "facingDirection": "forward",
+            "expectedHeading": 0.8941241319573212,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:wuliuyuan:lamp:-1:65",
+              "properties": {
+                "position": {
+                  "x": 6831.758312617291,
+                  "y": 3.4236937399089866,
+                  "z": 3297.11665397336
+                },
+                "rotation": 0.8941241319573212
+              }
+            }
+          ],
+          "sourceId": "regional:wuliuyuan:lamp:-1:65",
+          "heightMode": "GROUND",
+          "autoMove": 28.069826407161095
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "regional:wuliuyuan:lamp:-1:-65",
+          "properties": {
+            "position": {
+              "x": 6728.426565733066,
+              "y": -7.04,
+              "z": 3223.7387155611978
+            },
+            "rotation": 0.9734411668520148
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:wuliuyuan:lamp:-1:65",
+          "properties": {
+            "position": {
+              "x": 6831.758312617291,
+              "y": 3.4236937399089866,
+              "z": 3297.11665397336
+            },
+            "rotation": 0.8941241319573212
+          }
+        }
+      ],
+      "stats": {
+        "planned": 2,
+        "valid": 2,
+        "adjusted": 0,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 2,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:wuliuyuan:lamp:-1:-65",
+      "properties": {
+        "position": {
+          "x": 6728.426565733066,
+          "y": -7.04,
+          "z": 3223.7387155611978
+        },
+        "rotation": 0.9734411668520148
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:wuliuyuan:lamp:-1:65",
+      "properties": {
+        "position": {
+          "x": 6831.758312617291,
+          "y": 3.4236937399089866,
+          "z": 3297.11665397336
+        },
+        "rotation": 0.8941241319573212
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-16",
+    "created": [],
+    "modified": [
+      "regional:wuliuyuan:lamp:-1:-65",
+      "regional:wuliuyuan:lamp:-1:65"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 6688.426565733066,
+      "maxX": 6889.203624080791,
+      "minZ": 3159.8677077609013,
+      "maxZ": 3337.11665397336
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:wuliuyuan:lamp:-1:-65",
+          "regional:wuliuyuan:lamp:-1:65",
+          "regional:G4516:out:split192:split402",
+          "regional:G4516:in:split410",
+          "regional:wuliuyuan:on:-1",
+          "regional:v3:S36-extension54:out:24",
+          "regional:v3:S36-extension54:in:6",
+          "regional:wuliuyuan:local:-1",
+          "regional:wuliuyuan:off:-1"
+        ],
+        "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "regional:wuliuyuan:lamp:-1:-65"
+        ],
+        "message": "Base differs from selected support surface"
+      }
+    ],
+    "valid": true
+  }
+}

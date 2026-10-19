@@ -1,0 +1,91 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "commercial",
+    "objectIds": [
+      "v8-chengan-shop-1--1"
+    ],
+    "bbox": {
+      "minX": -1192.4960174830605,
+      "maxX": -1190.4960174830605,
+      "minZ": -375,
+      "maxZ": -373
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v8-chengan-shop-1--1",
+      "state": "INVALID",
+      "position": {
+        "x": -1195.176746929864,
+        "y": -0.04,
+        "z": -371.48055250507724
+      },
+      "rotation": -2.541347482132785,
+      "anchor": {
+        "anchorRoadId": "v4-west-residential-split-2-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 130.82231365398766,
+        "lateralOffset": 22.97128044019956,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -2.541347482132785,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:v8-chengan-shop-1--1",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v8-chengan-shop-1--1",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v8-verge-v8-chengan-road-38--1",
+            "actual": 16.06252573440337,
+            "required": 17.42128044019956
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-chengan-shop-1--1",
+          "properties": {
+            "position": {
+              "x": -1195.176746929864,
+              "y": -0.04,
+              "z": -371.48055250507724
+            },
+            "rotation": -2.541347482132785
+          }
+        }
+      ],
+      "sourceId": "v8-chengan-shop-1--1",
+      "heightMode": "GROUND",
+      "autoMove": 4.4606036520003824
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

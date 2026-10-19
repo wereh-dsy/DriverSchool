@@ -1,0 +1,5644 @@
+{
+  "inspection": [
+    {
+      "roadId": "ns-nb-split-split-split-split-split",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": 21.913108530471355,
+            "y": -1.1530128849231245,
+            "z": -1281.3171700622222
+          },
+          "deckElevation": -1.1530128849231245,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 21.247736782273456,
+            "y": -1.0842021724855044e-19,
+            "z": -1300
+          },
+          "deckElevation": -1.0842021724855044e-19,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 18.694674483585594
+      },
+      "enclosure": null,
+      "clearance": null,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [
+        {
+          "roadId": "ns-nb-split-split-split-split-split-v6",
+          "station": 18.694674483585594,
+          "point": {
+            "x": 21.247736782273456,
+            "y": 0,
+            "z": -1300
+          },
+          "otherY": 0,
+          "clearance": -0.65,
+          "requiredClearance": 5.5,
+          "connected": true
+        },
+        {
+          "roadId": "ns-nb-split-split-split-split-section",
+          "station": 0,
+          "point": {
+            "x": 21.91310853047137,
+            "y": -1.1530128849231462,
+            "z": -1281.3171700622217
+          },
+          "otherY": -1.1530128849231458,
+          "clearance": -0.6499999999999996,
+          "requiredClearance": 5.5,
+          "connected": true
+        }
+      ],
+      "nearbyObjects": [
+        {
+          "id": "v6-road-trees-2792",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": 40.70255591899385,
+            "y": 0,
+            "z": -1285.9142203689034
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 7.208,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "access-ns-north-nb-off",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 137.33549006744775,
+            "lateralOffset": -5.135557034463537,
+            "verticalOffset": 6.163757575320785,
+            "facingDirection": "forward",
+            "expectedHeading": -0.12985134407922044,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "road-safety:ns-nb-split-split-split-split-split:false:speed:15",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 28.299848304997894,
+            "y": -0.22787277140938056,
+            "z": -1296.5541376100145
+          },
+          "rotation": 0.03559903148743657,
+          "roadId": "ns-nb-split-split-split-split-split",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-nb-split-split-split-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 14.99999999999989,
+            "lateralOffset": 6.924999999999981,
+            "verticalOffset": 6.772360450213455e-15,
+            "facingDirection": "forward",
+            "expectedHeading": 0.03559903148743669,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "topology-sign:endpoint:ns-nb-split-split-split-split-split-v6:end|ns-nb-split-split-split-split-split-v6|end:EXPRESSWAY_DIVERGE",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 21.365632459287152,
+            "y": -0.20429967915183334,
+            "z": -1296.6896326902793
+          },
+          "rotation": 0.03559903148743657,
+          "roadId": "ns-nb-split-split-split-split-split",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-nb-split-split-split-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 15.382208466261611,
+            "lateralOffset": 0,
+            "verticalOffset": 1.887379141862766e-15,
+            "facingDirection": "forward",
+            "expectedHeading": 0.03559903148743669,
+            "structureType": "depressed",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": true,
+      "reviewReason": "Negative road elevation has no authored enclosure; cover/portal intent needs review",
+      "envelope": {
+        "roadId": "ns-nb-split-split-split-split-split",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": 21.913108530471355,
+            "y": -1.1530128849231245,
+            "z": -1281.3171700622222
+          },
+          {
+            "x": 21.247736782273456,
+            "y": -1.0842021724855044e-19,
+            "z": -1300
+          }
+        ],
+        "carriagewayWidth": 11.25,
+        "pavedEdges": {
+          "left": -6.375,
+          "right": 7.375,
+          "width": 13.75
+        },
+        "shoulders": {
+          "left": 0.75,
+          "right": 1.75
+        },
+        "roadsideStart": {
+          "left": -8.375,
+          "right": 9.375
+        },
+        "bbox": {
+          "minX": 13.872736782273456,
+          "maxX": 29.288108530471355,
+          "minZ": -1307.375,
+          "maxZ": -1273.9421700622222
+        },
+        "structureType": "depressed",
+        "junctions": []
+      }
+    },
+    {
+      "roadId": "ns-tunnel:northbound",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1264.336359224908
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1254.518142138179
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1244.81071747072
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1235.2442303336518
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1225.7922947413942
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1216.485570348481
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1207.2964662290422
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1198.25595715291
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1189.3354037558086
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1180.5658857631972
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1171.9178826058342
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1163.422358073578
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1155.049088357218
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1144.108928
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1133.4127933276945
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1122.9593153380117
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1112.7462887620934
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1102.7706466267468
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1093.028434816678
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1083.514786636725
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1074.2238973740923
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1065.1489988605847
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1056.2823340348393
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1045.484217714251
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1034.9665670266418
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1024.729796958697
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1014.7285903946558
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 1004.953934656066
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 995.3592981642757
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 985.9250307913003
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 976.6040000823439
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 967.3646589923561
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 957.3809523809523
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 950
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 314.33635922490794
+      },
+      "enclosure": {
+        "kind": "cutting",
+        "clearance": 6
+      },
+      "clearance": 6,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [],
+      "nearbyObjects": [
+        {
+          "id": "v6-lamps-2042",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": -0.7323400162363252,
+            "y": 0.126,
+            "z": 968.3665540989903
+          },
+          "rotation": 1.6482987625833885,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 18.366554098990264,
+            "lateralOffset": -7.392659983763675,
+            "verticalOffset": 8.126,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-lamps-2043",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": -3.049143326124665,
+            "y": 0.126,
+            "z": 935.8854300420321
+          },
+          "rotation": -1.460926979442323,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 35.88543004203211,
+            "lateralOffset": -5.075856673875335,
+            "verticalOffset": 8.126,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-road-trees-2066",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -1.1873837853638194,
+            "y": 0,
+            "z": 974.3798444497545
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 6.936,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 24.3798444497545,
+            "lateralOffset": -6.937616214636181,
+            "verticalOffset": 8,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-road-trees-2067",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -4.587040816178231,
+            "y": 0,
+            "z": 927.5787362882884
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 6.936,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 27.578736288288383,
+            "lateralOffset": -3.537959183821769,
+            "verticalOffset": 8,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "road-safety:ns-tunnel:northbound:false:speed:35",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 15.05,
+            "y": -8,
+            "z": 1229.336359224908
+          },
+          "rotation": 0,
+          "roadId": "ns-tunnel:northbound",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:northbound",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 35,
+            "lateralOffset": 6.925000000000001,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": 0,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-38:north",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -0.9994797215002981,
+            "y": 0,
+            "z": 928.5735461594501
+          },
+          "rotation": -1.5708208094594434,
+          "roadId": "v4-inner-2-split-split-split-v91-m91-section",
+          "intersectionId": "urban-junction-38",
+          "approach": "north",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v4-inner-2-split-split-split-v91-m91-section",
+            "anchorIntersectionId": "urban-junction-38",
+            "approach": "north",
+            "station": 220.00000420797244,
+            "lateralOffset": 21.250000000000046,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": 1.57077184413035,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-38:east",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": 1.003040909235596,
+            "y": 0,
+            "z": 971.0148595268082
+          },
+          "rotation": 1.5709398013513423,
+          "roadId": "access-inner-mingyuan-section",
+          "intersectionId": "urban-junction-38",
+          "approach": "east",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "access-inner-mingyuan-section",
+            "anchorIntersectionId": "urban-junction-38",
+            "approach": "east",
+            "station": 124.54912784486733,
+            "lateralOffset": 21.200000000000028,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -1.570652852238451,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": false,
+      "reviewReason": null,
+      "envelope": {
+        "roadId": "ns-tunnel:northbound",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1264.336359224908
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1254.518142138179
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1244.81071747072
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1235.2442303336518
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1225.7922947413942
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1216.485570348481
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1207.2964662290422
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1198.25595715291
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1189.3354037558086
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1180.5658857631972
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1171.9178826058342
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1163.422358073578
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1155.049088357218
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1144.108928
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1133.4127933276945
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1122.9593153380117
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1112.7462887620934
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1102.7706466267468
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1093.028434816678
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1083.514786636725
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1074.2238973740923
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1065.1489988605847
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1056.2823340348393
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1045.484217714251
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1034.9665670266418
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1024.729796958697
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1014.7285903946558
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 1004.953934656066
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 995.3592981642757
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 985.9250307913003
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 976.6040000823439
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 967.3646589923561
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 957.3809523809523
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 950
+          }
+        ],
+        "carriagewayWidth": 11.25,
+        "pavedEdges": {
+          "left": -6.375,
+          "right": 7.375,
+          "width": 13.75
+        },
+        "shoulders": {
+          "left": 0.75,
+          "right": 1.75
+        },
+        "roadsideStart": {
+          "left": -8.375,
+          "right": 9.375
+        },
+        "bbox": {
+          "minX": 0.75,
+          "maxX": 15.5,
+          "minZ": 942.625,
+          "maxZ": 1271.711359224908
+        },
+        "structureType": "depressed",
+        "junctions": []
+      }
+    },
+    {
+      "roadId": "intercity-wb",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": 3550,
+            "y": 0,
+            "z": 908.0011675429201
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3541.04255319149,
+            "y": 0,
+            "z": 902.8295832167748
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3532.531914893617,
+            "y": 0,
+            "z": 897.9159639045226
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3524.021276595745,
+            "y": 0,
+            "z": 893.0023445922706
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3515.5106382978724,
+            "y": 0,
+            "z": 888.0887252800184
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3507,
+            "y": 0,
+            "z": 883.1751059677663
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.039999999999999994
+        },
+        {
+          "xyz": {
+            "x": 3498.4893617021276,
+            "y": -2.751609704532143e-7,
+            "z": 878.2614866555141
+          },
+          "deckElevation": -2.751609704532143e-7,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3489.978723404255,
+            "y": -0.0000793063314032949,
+            "z": 873.347867343262
+          },
+          "deckElevation": -0.0000793063314032949,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3481.468085106383,
+            "y": -0.0004951074767145514,
+            "z": 868.4342480310097
+          },
+          "deckElevation": -0.0004951074767145514,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3472.957446808511,
+            "y": -0.0015186151313342222,
+            "z": 863.5206287187577
+          },
+          "deckElevation": -0.0015186151313342222,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3464.446808510638,
+            "y": -0.003406216649496585,
+            "z": 858.6070094065055
+          },
+          "deckElevation": -0.003406216649496585,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3455.9361702127662,
+            "y": -0.006400007382931783,
+            "z": 853.6933900942535
+          },
+          "deckElevation": -0.006400007382931783,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3447.4255319148933,
+            "y": -0.010728047858408196,
+            "z": 848.7797707820012
+          },
+          "deckElevation": -0.010728047858408196,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3438.9148936170213,
+            "y": -0.016604620955355642,
+            "z": 843.8661514697492
+          },
+          "deckElevation": -0.016604620955355642,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3430.404255319149,
+            "y": -0.024230489083506335,
+            "z": 838.952532157497
+          },
+          "deckElevation": -0.024230489083506335,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3421.8936170212764,
+            "y": -0.033793151360452356,
+            "z": 834.0389128452449
+          },
+          "deckElevation": -0.033793151360452356,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3413.3829787234044,
+            "y": -0.04546710078925553,
+            "z": 829.1252935329926
+          },
+          "deckElevation": -0.04546710078925553,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3404.811444919048,
+            "y": -0.05952243257666101,
+            "z": 824.1816981375587
+          },
+          "deckElevation": -0.05952243257666101,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3396.0666207985887,
+            "y": -0.07639605273881678,
+            "z": 819.1950122869209
+          },
+          "deckElevation": -0.07639605273881678,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3387.281033101155,
+            "y": -0.09607431623496865,
+            "z": 814.2676503753867
+          },
+          "deckElevation": -0.09607431623496865,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3378.4605671214085,
+            "y": -0.11871697167184081,
+            "z": 809.4029996688466
+          },
+          "deckElevation": -0.11871697167184081,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3369.6056704822086,
+            "y": -0.14448271760624998,
+            "z": 804.6013070396165
+          },
+          "deckElevation": -0.14448271760624998,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3360.7167925537105,
+            "y": -0.1735192590026493,
+            "z": 799.8628161650033
+          },
+          "deckElevation": -0.1735192590026493,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3351.794384430561,
+            "y": -0.20596306810148413,
+            "z": 795.1877675149381
+          },
+          "deckElevation": -0.20596306810148413,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3342.8388989090026,
+            "y": -0.24193916677354643,
+            "z": 790.576398339772
+          },
+          "deckElevation": -0.24193916677354643,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3333.8507904638955,
+            "y": -0.2815609308311382,
+            "z": 786.0289426582372
+          },
+          "deckElevation": -0.2815609308311382,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3324.830515225658,
+            "y": -0.3249299167356785,
+            "z": 781.5456312455703
+          },
+          "deckElevation": -0.3249299167356785,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3315.7785309571113,
+            "y": -0.3721357111107544,
+            "z": 777.1266916218012
+          },
+          "deckElevation": -0.3721357111107544,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3306.6952970302577,
+            "y": -0.42325580343640556,
+            "z": 772.7723480402068
+          },
+          "deckElevation": -0.42325580343640556,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3297.5812744029604,
+            "y": -0.4783554822684746,
+            "z": 768.48282147593
+          },
+          "deckElevation": -0.4783554822684746,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3288.4369255955553,
+            "y": -0.5374877552927018,
+            "z": 764.2583296147666
+          },
+          "deckElevation": -0.5374877552927018,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3279.2627146673785,
+            "y": -0.6006932934894191,
+            "z": 760.0990868421175
+          },
+          "deckElevation": -0.6006932934894191,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3270.0591071932126,
+            "y": -0.6680003996500359,
+            "z": 756.0053042321091
+          },
+          "deckElevation": -0.6680003996500359,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3260.8265702396657,
+            "y": -0.7394250014512718,
+            "z": 751.9771895368816
+          },
+          "deckElevation": -0.7394250014512718,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3251.565572341463,
+            "y": -0.8149706692574616,
+            "z": 748.014947176046
+          },
+          "deckElevation": -0.8149706692574616,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3242.276583477671,
+            "y": -0.8946286587853383,
+            "z": 744.1187782263105
+          },
+          "deckElevation": -0.8946286587853383,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3232.9600750478508,
+            "y": -0.9783779787290712,
+            "z": 740.2888804112761
+          },
+          "deckElevation": -0.9783779787290712,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3223.6165198481294,
+            "y": -1.066185483407021,
+            "z": 736.5254480914017
+          },
+          "deckElevation": -1.066185483407021,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3214.246392047209,
+            "y": -1.1580059904541784,
+            "z": 732.8286722541416
+          },
+          "deckElevation": -1.1580059904541784,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3204.850167162306,
+            "y": -1.2537824235475288,
+            "z": 729.1987405042532
+          },
+          "deckElevation": -1.2537824235475288,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3195.4283220350144,
+            "y": -1.353445980113909,
+            "z": 725.6358370542757
+          },
+          "deckElevation": -1.353445980113909,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3185.981334807112,
+            "y": -1.4569163239325738,
+            "z": 722.1401427151823
+          },
+          "deckElevation": -1.4569163239325738,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3176.509684896292,
+            "y": -1.5641018025071878,
+            "z": 718.7118348872038
+          },
+          "deckElevation": -1.5641018025071878,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3167.0138529718342,
+            "y": -1.674899689044227,
+            "z": 715.3510875508265
+          },
+          "deckElevation": -1.674899689044227,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3157.494320930213,
+            "y": -1.7891964488373757,
+            "z": 712.0580712579625
+          },
+          "deckElevation": -1.7891964488373757,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3147.9515718706407,
+            "y": -1.9068680298200764,
+            "z": 708.832953123295
+          },
+          "deckElevation": -1.9068680298200764,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3138.386090070553,
+            "y": -2.0277801770110155,
+            "z": 705.6758968157969
+          },
+          "deckElevation": -2.0277801770110155,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3128.798360961031,
+            "y": -2.1517887705402146,
+            "z": 702.5870625504247
+          },
+          "deckElevation": -2.1517887705402146,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3119.1888711021647,
+            "y": -2.278740186906605,
+            "z": 699.5666070799894
+          },
+          "deckElevation": -2.278740186906605,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3109.5581081583673,
+            "y": -2.4084716830811796,
+            "z": 696.6146836871998
+          },
+          "deckElevation": -2.4084716830811796,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3099.9763287546502,
+            "y": -2.539847237750224,
+            "z": 693.7314421768848
+          },
+          "deckElevation": -2.539847237750224,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3095.685333561733,
+            "y": -2.599377573527061,
+            "z": 688.849314812683
+          },
+          "deckElevation": -2.599377573527061,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3091.995173643463,
+            "y": -2.650898737413189,
+            "z": 684.8348211685129
+          },
+          "deckElevation": -2.650898737413189,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3088.2943572084814,
+            "y": -2.7028604017939797,
+            "z": 680.9762060014996
+          },
+          "deckElevation": -2.7028604017939797,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3086.646079381502,
+            "y": -2.7260952189070027,
+            "z": 679.313312823731
+          },
+          "deckElevation": -2.7260952189070027,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 519.6233304877908
+      },
+      "enclosure": null,
+      "clearance": null,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [
+        {
+          "roadId": "peripheral-interchange:E-to-N-right",
+          "station": 519.6233304877908,
+          "point": {
+            "x": 3086.6460793814986,
+            "y": -2.726095218907056,
+            "z": 679.3133128237272
+          },
+          "otherY": -2.7260952189070347,
+          "clearance": -0.6499999999999787,
+          "requiredClearance": 5.5,
+          "connected": true
+        },
+        {
+          "roadId": "v61-exhibition-road-split-split-split",
+          "station": 49.686996766305704,
+          "point": {
+            "x": 3506.969798562624,
+            "y": -9.764551760503989e-10,
+            "z": 883.1576691597674
+          },
+          "otherY": 5.759060760219322,
+          "clearance": 5.109060761195777,
+          "requiredClearance": 5.5,
+          "connected": false
+        },
+        {
+          "roadId": "v9-chunhui-east-split-split-split",
+          "station": 134.93595239366144,
+          "point": {
+            "x": 3433.1420373432416,
+            "y": -0.02177732823368249,
+            "z": 840.5331913460894
+          },
+          "otherY": 5.985906511782533,
+          "clearance": 5.357683840016215,
+          "requiredClearance": 5.5,
+          "connected": false
+        },
+        {
+          "roadId": "regional:G4516:in:split178:split184:split198:split216:split482:split490:split498:split504",
+          "station": 0,
+          "point": {
+            "x": 3550,
+            "y": 0,
+            "z": 908.0011675429201
+          },
+          "otherY": 0,
+          "clearance": -0.65,
+          "requiredClearance": 5.5,
+          "connected": true
+        },
+        {
+          "roadId": "v9-newcity-eight-split-split-split-split",
+          "startStation": 499.9827973239502,
+          "endStation": 506.4826286560639,
+          "station": 499.9827973239502,
+          "point": {
+            "x": 3099.9763287546502,
+            "y": -2.5398472377502217,
+            "z": 693.7314421768848
+          },
+          "otherY": 2.95300436834784,
+          "clearance": 4.842851606098062,
+          "relation": "below",
+          "approximate": true
+        },
+        {
+          "roadId": "v9-newcity-eight-split-split-split-split-split",
+          "startStation": 446.2479855170706,
+          "endStation": 480,
+          "station": 446.2479855170706,
+          "point": {
+            "x": 3151.207275410632,
+            "y": -1.8667219691440404,
+            "z": 709.9332679762142
+          },
+          "otherY": 0.5819345572228851,
+          "clearance": 1.7986565263669259,
+          "relation": "below",
+          "approximate": true
+        },
+        {
+          "roadId": "v9-newcity-ten-split-split-split-split",
+          "startStation": 479.9036144870888,
+          "endStation": 499.9827973239502,
+          "station": 479.9036144870888,
+          "point": {
+            "x": 3119.1888711021647,
+            "y": -2.2787401869066035,
+            "z": 699.5666070799894
+          },
+          "otherY": 2.95300436834784,
+          "clearance": 4.581744555254444,
+          "relation": "below",
+          "approximate": true
+        }
+      ],
+      "nearbyObjects": [
+        {
+          "id": "v6-lamps-696",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": 3104.2118743786946,
+            "y": 8.15,
+            "z": 721.5423652531096
+          },
+          "rotation": -3.0636302660151324,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v9-newcity-ten-split-split-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 0,
+            "lateralOffset": -5.788125621305426,
+            "verticalOffset": 5.19699563165216,
+            "facingDirection": "forward",
+            "expectedHeading": 0,
+            "structureType": "elevated",
+            "derived": true
+          }
+        },
+        {
+          "id": "v61-road-lamp-52",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": 3493.434665378539,
+            "y": 0,
+            "z": 899.7770052851134
+          },
+          "rotation": 1.6741537341329915,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "intercity-eb-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 450.89243925144444,
+            "lateralOffset": -6.839666129375486,
+            "verticalOffset": 0.00011991701887930986,
+            "facingDirection": "forward",
+            "expectedHeading": -2.0943951023931855,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v61-exhibition-parking-1940",
+          "kind": "prefab",
+          "type": "parking",
+          "position": {
+            "x": 3274.540987044658,
+            "y": 0,
+            "z": 740.5043768503448
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 60,
+            "height": 0,
+            "depth": 48,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "intercity-wb",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 320.82629641403304,
+            "lateralOffset": 15.999832975658865,
+            "verticalOffset": 0.6828254476315324,
+            "facingDirection": "forward",
+            "expectedHeading": 1.1593972888248052,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "road-safety:intercity-wb:false:speed:65",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 3497.7958487540113,
+            "y": -0.000044672424244894655,
+            "z": 868.4214098669825
+          },
+          "rotation": 1.0471975511966078,
+          "roadId": "intercity-wb",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "intercity-wb",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 65,
+            "lateralOffset": 8.175000000000056,
+            "verticalOffset": 7.453889935837843e-20,
+            "facingDirection": "forward",
+            "expectedHeading": 1.0471975511966078,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "topology-sign:urban-junction-11|v61-exhibition-road-split-split-split|end:URBAN_DIRECTION",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 3516.4012746386775,
+            "y": 5.361698929642196,
+            "z": 882.2923227923477
+          },
+          "rotation": 1.662094448029407,
+          "roadId": "v61-exhibition-road-split-split-split",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v61-exhibition-road-split-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 648.8004283351843,
+            "lateralOffset": 2.2642671425326903e-13,
+            "verticalOffset": -6.217248937900877e-15,
+            "facingDirection": "forward",
+            "expectedHeading": 1.662094448029407,
+            "structureType": "elevated",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": true,
+      "reviewReason": "Negative road elevation has no authored enclosure; cover/portal intent needs review",
+      "envelope": {
+        "roadId": "intercity-wb",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": 3550,
+            "y": 0,
+            "z": 908.0011675429201
+          },
+          {
+            "x": 3541.04255319149,
+            "y": 0,
+            "z": 902.8295832167748
+          },
+          {
+            "x": 3532.531914893617,
+            "y": 0,
+            "z": 897.9159639045226
+          },
+          {
+            "x": 3524.021276595745,
+            "y": 0,
+            "z": 893.0023445922706
+          },
+          {
+            "x": 3515.5106382978724,
+            "y": 0,
+            "z": 888.0887252800184
+          },
+          {
+            "x": 3507,
+            "y": 0,
+            "z": 883.1751059677663
+          },
+          {
+            "x": 3498.4893617021276,
+            "y": -2.751609704532143e-7,
+            "z": 878.2614866555141
+          },
+          {
+            "x": 3489.978723404255,
+            "y": -0.0000793063314032949,
+            "z": 873.347867343262
+          },
+          {
+            "x": 3481.468085106383,
+            "y": -0.0004951074767145514,
+            "z": 868.4342480310097
+          },
+          {
+            "x": 3472.957446808511,
+            "y": -0.0015186151313342222,
+            "z": 863.5206287187577
+          },
+          {
+            "x": 3464.446808510638,
+            "y": -0.003406216649496585,
+            "z": 858.6070094065055
+          },
+          {
+            "x": 3455.9361702127662,
+            "y": -0.006400007382931783,
+            "z": 853.6933900942535
+          },
+          {
+            "x": 3447.4255319148933,
+            "y": -0.010728047858408196,
+            "z": 848.7797707820012
+          },
+          {
+            "x": 3438.9148936170213,
+            "y": -0.016604620955355642,
+            "z": 843.8661514697492
+          },
+          {
+            "x": 3430.404255319149,
+            "y": -0.024230489083506335,
+            "z": 838.952532157497
+          },
+          {
+            "x": 3421.8936170212764,
+            "y": -0.033793151360452356,
+            "z": 834.0389128452449
+          },
+          {
+            "x": 3413.3829787234044,
+            "y": -0.04546710078925553,
+            "z": 829.1252935329926
+          },
+          {
+            "x": 3404.811444919048,
+            "y": -0.05952243257666101,
+            "z": 824.1816981375587
+          },
+          {
+            "x": 3396.0666207985887,
+            "y": -0.07639605273881678,
+            "z": 819.1950122869209
+          },
+          {
+            "x": 3387.281033101155,
+            "y": -0.09607431623496865,
+            "z": 814.2676503753867
+          },
+          {
+            "x": 3378.4605671214085,
+            "y": -0.11871697167184081,
+            "z": 809.4029996688466
+          },
+          {
+            "x": 3369.6056704822086,
+            "y": -0.14448271760624998,
+            "z": 804.6013070396165
+          },
+          {
+            "x": 3360.7167925537105,
+            "y": -0.1735192590026493,
+            "z": 799.8628161650033
+          },
+          {
+            "x": 3351.794384430561,
+            "y": -0.20596306810148413,
+            "z": 795.1877675149381
+          },
+          {
+            "x": 3342.8388989090026,
+            "y": -0.24193916677354643,
+            "z": 790.576398339772
+          },
+          {
+            "x": 3333.8507904638955,
+            "y": -0.2815609308311382,
+            "z": 786.0289426582372
+          },
+          {
+            "x": 3324.830515225658,
+            "y": -0.3249299167356785,
+            "z": 781.5456312455703
+          },
+          {
+            "x": 3315.7785309571113,
+            "y": -0.3721357111107544,
+            "z": 777.1266916218012
+          },
+          {
+            "x": 3306.6952970302577,
+            "y": -0.42325580343640556,
+            "z": 772.7723480402068
+          },
+          {
+            "x": 3297.5812744029604,
+            "y": -0.4783554822684746,
+            "z": 768.48282147593
+          },
+          {
+            "x": 3288.4369255955553,
+            "y": -0.5374877552927018,
+            "z": 764.2583296147666
+          },
+          {
+            "x": 3279.2627146673785,
+            "y": -0.6006932934894191,
+            "z": 760.0990868421175
+          },
+          {
+            "x": 3270.0591071932126,
+            "y": -0.6680003996500359,
+            "z": 756.0053042321091
+          },
+          {
+            "x": 3260.8265702396657,
+            "y": -0.7394250014512718,
+            "z": 751.9771895368816
+          },
+          {
+            "x": 3251.565572341463,
+            "y": -0.8149706692574616,
+            "z": 748.014947176046
+          },
+          {
+            "x": 3242.276583477671,
+            "y": -0.8946286587853383,
+            "z": 744.1187782263105
+          },
+          {
+            "x": 3232.9600750478508,
+            "y": -0.9783779787290712,
+            "z": 740.2888804112761
+          },
+          {
+            "x": 3223.6165198481294,
+            "y": -1.066185483407021,
+            "z": 736.5254480914017
+          },
+          {
+            "x": 3214.246392047209,
+            "y": -1.1580059904541784,
+            "z": 732.8286722541416
+          },
+          {
+            "x": 3204.850167162306,
+            "y": -1.2537824235475288,
+            "z": 729.1987405042532
+          },
+          {
+            "x": 3195.4283220350144,
+            "y": -1.353445980113909,
+            "z": 725.6358370542757
+          },
+          {
+            "x": 3185.981334807112,
+            "y": -1.4569163239325738,
+            "z": 722.1401427151823
+          },
+          {
+            "x": 3176.509684896292,
+            "y": -1.5641018025071878,
+            "z": 718.7118348872038
+          },
+          {
+            "x": 3167.0138529718342,
+            "y": -1.674899689044227,
+            "z": 715.3510875508265
+          },
+          {
+            "x": 3157.494320930213,
+            "y": -1.7891964488373757,
+            "z": 712.0580712579625
+          },
+          {
+            "x": 3147.9515718706407,
+            "y": -1.9068680298200764,
+            "z": 708.832953123295
+          },
+          {
+            "x": 3138.386090070553,
+            "y": -2.0277801770110155,
+            "z": 705.6758968157969
+          },
+          {
+            "x": 3128.798360961031,
+            "y": -2.1517887705402146,
+            "z": 702.5870625504247
+          },
+          {
+            "x": 3119.1888711021647,
+            "y": -2.278740186906605,
+            "z": 699.5666070799894
+          },
+          {
+            "x": 3109.5581081583673,
+            "y": -2.4084716830811796,
+            "z": 696.6146836871998
+          },
+          {
+            "x": 3099.9763287546502,
+            "y": -2.539847237750224,
+            "z": 693.7314421768848
+          },
+          {
+            "x": 3095.685333561733,
+            "y": -2.599377573527061,
+            "z": 688.849314812683
+          },
+          {
+            "x": 3091.995173643463,
+            "y": -2.650898737413189,
+            "z": 684.8348211685129
+          },
+          {
+            "x": 3088.2943572084814,
+            "y": -2.7028604017939797,
+            "z": 680.9762060014996
+          },
+          {
+            "x": 3086.646079381502,
+            "y": -2.7260952189070027,
+            "z": 679.313312823731
+          }
+        ],
+        "carriagewayWidth": 11.25,
+        "pavedEdges": {
+          "left": -7.125,
+          "right": 8.625,
+          "width": 15.75
+        },
+        "shoulders": {
+          "left": 1.5,
+          "right": 3
+        },
+        "roadsideStart": {
+          "left": -9.125,
+          "right": 10.625
+        },
+        "bbox": {
+          "minX": 3078.021079381502,
+          "maxX": 3558.625,
+          "minZ": 670.688312823731,
+          "maxZ": 916.6261675429201
+        },
+        "structureType": "depressed",
+        "junctions": []
+      }
+    },
+    {
+      "roadId": "ns-sb-split-3-split-split-split-2",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": 3.9434014803499355,
+            "y": 0,
+            "z": -1326.6666666666665
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 5.663108530471357,
+            "y": -1.1530128849231245,
+            "z": -1281.3171700622222
+          },
+          "deckElevation": -1.1530128849231245,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 45.38209156280419
+      },
+      "enclosure": null,
+      "clearance": null,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [
+        {
+          "roadId": "ns-sb-split-3-split-split-split",
+          "station": 45.38209156280419,
+          "point": {
+            "x": 5.663108530471357,
+            "y": -1.1530128849231245,
+            "z": -1281.3171700622222
+          },
+          "otherY": -1.1530128849231245,
+          "clearance": -0.65,
+          "requiredClearance": 5.5,
+          "connected": true
+        },
+        {
+          "roadId": "system-north:E-to-S-star",
+          "station": 6.827417715037146e-13,
+          "point": {
+            "x": 3.943401480349965,
+            "y": -1.966401841662297e-14,
+            "z": -1326.6666666666658
+          },
+          "otherY": 0,
+          "clearance": -0.6499999999999804,
+          "requiredClearance": 5.5,
+          "connected": true
+        },
+        {
+          "roadId": "ns-sb-split-3-split-split-split-3",
+          "station": 0,
+          "point": {
+            "x": 3.9434014803499355,
+            "y": 0,
+            "z": -1326.6666666666665
+          },
+          "otherY": 0,
+          "clearance": -0.65,
+          "requiredClearance": 5.5,
+          "connected": true
+        }
+      ],
+      "nearbyObjects": [
+        {
+          "id": "road-safety:ns-nb-split-split-split-split-split:false:speed:15",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 28.299848304997894,
+            "y": -0.22787277140938056,
+            "z": -1296.5541376100145
+          },
+          "rotation": 0.03559903148743657,
+          "roadId": "ns-nb-split-split-split-split-split",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-nb-split-split-split-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 14.99999999999989,
+            "lateralOffset": 6.924999999999981,
+            "verticalOffset": 6.772360450213455e-15,
+            "facingDirection": "forward",
+            "expectedHeading": 0.03559903148743669,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "topology-sign:endpoint:ns-nb-split-split-split-split-split-v6:end|ns-nb-split-split-split-split-split-v6|end:EXPRESSWAY_DIVERGE",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 21.365632459287152,
+            "y": -0.20429967915183334,
+            "z": -1296.6896326902793
+          },
+          "rotation": 0.03559903148743657,
+          "roadId": "ns-nb-split-split-split-split-split",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-nb-split-split-split-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 15.382208466261611,
+            "lateralOffset": 0,
+            "verticalOffset": 1.887379141862766e-15,
+            "facingDirection": "forward",
+            "expectedHeading": 0.03559903148743669,
+            "structureType": "depressed",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": true,
+      "reviewReason": "Negative road elevation has no authored enclosure; cover/portal intent needs review",
+      "envelope": {
+        "roadId": "ns-sb-split-3-split-split-split-2",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": 3.9434014803499355,
+            "y": 0,
+            "z": -1326.6666666666665
+          },
+          {
+            "x": 5.663108530471357,
+            "y": -1.1530128849231245,
+            "z": -1281.3171700622222
+          }
+        ],
+        "carriagewayWidth": 11.25,
+        "pavedEdges": {
+          "left": -6.375,
+          "right": 7.375,
+          "width": 13.75
+        },
+        "shoulders": {
+          "left": 0.75,
+          "right": 1.75
+        },
+        "roadsideStart": {
+          "left": -8.375,
+          "right": 9.375
+        },
+        "bbox": {
+          "minX": -3.4315985196500645,
+          "maxX": 13.038108530471357,
+          "minZ": -1334.0416666666665,
+          "maxZ": -1273.9421700622222
+        },
+        "structureType": "depressed",
+        "junctions": []
+      }
+    },
+    {
+      "roadId": "intercity-eb-split-split",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": 3087.2920449569465,
+            "y": -2.7169830558564594,
+            "z": 708.8794115884837
+          },
+          "deckElevation": -2.7169830558564594,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3091.3539612425307,
+            "y": -2.659881123237229,
+            "z": 713.1625062127152
+          },
+          "deckElevation": -2.659881123237229,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3094.9674750148483,
+            "y": -2.6093768827948294,
+            "z": 717.148336538324
+          },
+          "deckElevation": -2.6093768827948294,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3098.5699928845547,
+            "y": -2.5593118728126534,
+            "z": 721.2863556911884
+          },
+          "deckElevation": -2.5593118728126534,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3099.768317506663,
+            "y": -2.5427233967065535,
+            "z": 722.6994339826632
+          },
+          "deckElevation": -2.5427233967065535,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3101.4480466106775,
+            "y": -2.5195264660117793,
+            "z": 723.4143929211167
+          },
+          "deckElevation": -2.5195264660117793,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3110.88810137737,
+            "y": -2.390413682469391,
+            "z": 726.3078623853362
+          },
+          "deckElevation": -2.390413682469391,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3120.307304308337,
+            "y": -2.2638330526991606,
+            "z": 729.2685068563569
+          },
+          "deckElevation": -2.2638330526991606,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3129.7051773958883,
+            "y": -2.1399437049262833,
+            "z": 732.2961760867711
+          },
+          "deckElevation": -2.1399437049262833,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3139.081243714787,
+            "y": -2.0188966277078206,
+            "z": 735.3907164277844
+          },
+          "deckElevation": -2.0188966277078206,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3148.435027446446,
+            "y": -1.9008343113380386,
+            "z": 738.5519708370128
+          },
+          "deckElevation": -1.9008343113380386,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3157.766053903085,
+            "y": -1.785890409820392,
+            "z": 741.7797788864535
+          },
+          "deckElevation": -1.785890409820392,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3167.073849551811,
+            "y": -1.6741894237650987,
+            "z": 745.0739767706254
+          },
+          "deckElevation": -1.6741894237650987,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3176.357942038655,
+            "y": -1.5658464045372584,
+            "z": 748.4343973148816
+          },
+          "deckElevation": -1.5658464045372584,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3185.617860212539,
+            "y": -1.4609666799480037,
+            "z": 751.860869983894
+          },
+          "deckElevation": -1.4609666799480037,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3194.8531341491907,
+            "y": -1.359645601747073,
+            "z": 755.3532208903077
+          },
+          "deckElevation": -1.359645601747073,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3204.0632951749876,
+            "y": -1.2619683151418934,
+            "z": 758.9112728035645
+          },
+          "deckElevation": -1.2619683151418934,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3213.24787589074,
+            "y": -1.168009550534208,
+            "z": 762.5348451588985
+          },
+          "deckElevation": -1.168009550534208,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3222.406410195418,
+            "y": -1.0778334376313294,
+            "z": 766.2237540664985
+          },
+          "deckElevation": -1.0778334376313294,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3231.5384333097963,
+            "y": -0.9914933420554908,
+            "z": 769.9778123208391
+          },
+          "deckElevation": -0.9914933420554908,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3240.643481800047,
+            "y": -0.9090317245402488,
+            "z": 773.7968294101838
+          },
+          "deckElevation": -0.9090317245402488,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3249.7210936012566,
+            "y": -0.830480022769609,
+            "z": 777.6806115262503
+          },
+          "deckElevation": -0.830480022769609,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3258.770808040872,
+            "y": -0.7558585558812725,
+            "z": 781.6289615740476
+          },
+          "deckElevation": -0.7558585558812725,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3267.7921658620835,
+            "y": -0.6851764516219454,
+            "z": 785.6416791818776
+          },
+          "deckElevation": -0.6851764516219454,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3276.7847092471284,
+            "y": -0.6184315961092652,
+            "z": 789.7185607115039
+          },
+          "deckElevation": -0.6184315961092652,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3285.7479818405254,
+            "y": -0.5556106061214292,
+            "z": 793.8593992684857
+          },
+          "deckElevation": -0.5556106061214292,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3294.681528772233,
+            "y": -0.49668882380292256,
+            "z": 798.063984712678
+          },
+          "deckElevation": -0.49668882380292256,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3303.584896680733,
+            "y": -0.4416303336418448,
+            "z": 802.3321036688942
+          },
+          "deckElevation": -0.4416303336418448,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3312.4576337360404,
+            "y": -0.3903880015422434,
+            "z": 806.6635395377373
+          },
+          "deckElevation": -0.3903880015422434,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3321.29928966263,
+            "y": -0.34290353578304167,
+            "z": 811.0580725065888
+          },
+          "deckElevation": -0.34290353578304167,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3330.1094157622892,
+            "y": -0.29910756962342244,
+            "z": 815.5154795607665
+          },
+          "deckElevation": -0.29910756962342244,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3338.887564936887,
+            "y": -0.2589197652840447,
+            "z": 820.0355344948405
+          },
+          "deckElevation": -0.2589197652840447,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3347.633291711063,
+            "y": -0.2222489390026734,
+            "z": 824.6180079241124
+          },
+          "deckElevation": -0.2222489390026734,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3356.3461522548378,
+            "y": -0.18899320683323317,
+            "z": 829.2626672962577
+          },
+          "deckElevation": -0.18899320683323317,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3365.0257044061327,
+            "y": -0.15904015082801948,
+            "z": 833.9692769031267
+          },
+          "deckElevation": -0.15904015082801948,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3373.6715076932123,
+            "y": -0.13226700521403867,
+            "z": 838.7375978927057
+          },
+          "deckElevation": -0.13226700521403867,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3382.2831233570323,
+            "y": -0.10854086214702097,
+            "z": 843.5673882812391
+          },
+          "deckElevation": -0.10854086214702097,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3390.865553815321,
+            "y": -0.08770655610318556,
+            "z": 848.4615401766011
+          },
+          "deckElevation": -0.08770655610318556,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3399.3829787234044,
+            "y": -0.06968607675207661,
+            "z": 853.374004838957
+          },
+          "deckElevation": -0.06968607675207661,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3407.8936170212764,
+            "y": -0.054193037231893726,
+            "z": 858.2876241512091
+          },
+          "deckElevation": -0.054193037231893726,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3416.404255319149,
+            "y": -0.041070710673053235,
+            "z": 863.2012434634613
+          },
+          "deckElevation": -0.041070710673053235,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3424.9148936170213,
+            "y": -0.030165439637765523,
+            "z": 868.1148627757134
+          },
+          "deckElevation": -0.030165439637765523,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3433.4255319148933,
+            "y": -0.021310983630867142,
+            "z": 873.0284820879656
+          },
+          "deckElevation": -0.021310983630867142,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3441.9361702127662,
+            "y": -0.014328261922264218,
+            "z": 877.9421014002177
+          },
+          "deckElevation": -0.014328261922264218,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3450.446808510638,
+            "y": -0.009025096369254193,
+            "z": 882.8557207124699
+          },
+          "deckElevation": -0.009025096369254193,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3458.95744680851,
+            "y": -0.005195954238980782,
+            "z": 887.7693400247219
+          },
+          "deckElevation": -0.005195954238980782,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3467.468085106383,
+            "y": -0.0026216910308729524,
+            "z": 892.6829593369741
+          },
+          "deckElevation": -0.0026216910308729524,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3475.978723404255,
+            "y": -0.001069293298887608,
+            "z": 897.5965786492262
+          },
+          "deckElevation": -0.001069293298887608,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3484.4893617021276,
+            "y": -0.0002916214740409373,
+            "z": 902.5101979614784
+          },
+          "deckElevation": -0.0002916214740409373,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3493,
+            "y": -0.000027152686728371123,
+            "z": 907.4238172737305
+          },
+          "deckElevation": -0.000027152686728371123,
+          "groundElevation": -0.04000000000000001
+        },
+        {
+          "xyz": {
+            "x": 3501.5106382978724,
+            "y": 0,
+            "z": 912.3374365859827
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3510.021276595745,
+            "y": 0,
+            "z": 917.2510558982348
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3518.531914893617,
+            "y": 0,
+            "z": 922.1646752104871
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3527.042553191489,
+            "y": 0,
+            "z": 927.078294522739
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3535.553191489362,
+            "y": 0,
+            "z": 931.9919138349912
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3544.0638297872338,
+            "y": 0,
+            "z": 936.9055331472433
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 3550,
+            "y": 0,
+            "z": 940.3327826175394
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 520.1573446734099
+      },
+      "enclosure": null,
+      "clearance": null,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [
+        {
+          "roadId": "peripheral-interchange:S-to-E-right",
+          "station": 0,
+          "point": {
+            "x": 3087.2920449569465,
+            "y": -2.7169830558564594,
+            "z": 708.8794115884837
+          },
+          "otherY": -2.7169830558564585,
+          "clearance": -0.6499999999999991,
+          "requiredClearance": 5.5,
+          "connected": true
+        },
+        {
+          "roadId": "v61-exhibition-road-split-split-split",
+          "station": 414.69570045972074,
+          "point": {
+            "x": 3458.667536986069,
+            "y": -0.005326391684003732,
+            "z": 887.6019605106949
+          },
+          "otherY": 6.240203737317492,
+          "clearance": 5.595530129001495,
+          "requiredClearance": 5.5,
+          "connected": false
+        },
+        {
+          "roadId": "v9-chunhui-east-split-split-split",
+          "station": 385.48876773264965,
+          "point": {
+            "x": 3433.3735912778025,
+            "y": -0.021365022595983052,
+            "z": 872.9984941471592
+          },
+          "otherY": 6.231997291216401,
+          "clearance": 5.603362313812384,
+          "requiredClearance": 5.5,
+          "connected": false
+        },
+        {
+          "roadId": "regional:G4516:out",
+          "station": 520.1573446734099,
+          "point": {
+            "x": 3550,
+            "y": 0,
+            "z": 940.3327826175394
+          },
+          "otherY": 0,
+          "clearance": -0.65,
+          "requiredClearance": 5.5,
+          "connected": true
+        },
+        {
+          "roadId": "v9-newcity-eight-split-split-split-split",
+          "startStation": 0,
+          "endStation": 0,
+          "station": 0,
+          "point": {
+            "x": 3087.2920449569465,
+            "y": -2.7169830558564594,
+            "z": 708.8794115884837
+          },
+          "otherY": 2.95300436834784,
+          "clearance": 5.019987424204299,
+          "relation": "below",
+          "approximate": true
+        },
+        {
+          "roadId": "v9-newcity-ten-split-split-split-split",
+          "startStation": 18.62212183600068,
+          "endStation": 30.321218604781464,
+          "station": 30.321218604781464,
+          "point": {
+            "x": 3110.88810137737,
+            "y": -2.390413682469391,
+            "z": 726.3078623853362
+          },
+          "otherY": 2.95300436834784,
+          "clearance": 4.693418050817231,
+          "relation": "below",
+          "approximate": true
+        }
+      ],
+      "nearbyObjects": [
+        {
+          "id": "v6-lamps-696",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": 3104.2118743786946,
+            "y": 8.15,
+            "z": 721.5423652531096
+          },
+          "rotation": -3.0636302660151324,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v9-newcity-ten-split-split-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 0,
+            "lateralOffset": -5.788125621305426,
+            "verticalOffset": 5.19699563165216,
+            "facingDirection": "forward",
+            "expectedHeading": 0,
+            "structureType": "elevated",
+            "derived": true
+          }
+        },
+        {
+          "id": "v61-road-lamp-52",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": 3493.434665378539,
+            "y": 0,
+            "z": 899.7770052851134
+          },
+          "rotation": 1.6741537341329915,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "intercity-eb-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 450.89243925144444,
+            "lateralOffset": -6.839666129375486,
+            "verticalOffset": 0.00011991701887930986,
+            "facingDirection": "forward",
+            "expectedHeading": -2.0943951023931855,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "road-safety:intercity-eb-split-split:false:speed:65",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 3141.2557101811317,
+            "y": -1.958413954284369,
+            "z": 744.7548664641322
+          },
+          "rotation": -1.896709850381605,
+          "roadId": "intercity-eb-split-split",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "intercity-eb-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 65.00000000000023,
+            "lateralOffset": 8.174999999999933,
+            "verticalOffset": -2.6645352591003757e-15,
+            "facingDirection": "forward",
+            "expectedHeading": -1.896709850381605,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-11:north",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": 3431.763305698871,
+            "y": 6.233154435455891,
+            "z": 881.8315600892385
+          },
+          "rotation": -1.4794701391477632,
+          "roadId": "v61-exhibition-road-split-split-split",
+          "intersectionId": "urban-junction-11",
+          "approach": "north",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 5.8,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v61-exhibition-road-split-split-split",
+            "anchorIntersectionId": "urban-junction-11",
+            "approach": "north",
+            "station": 717.8436699181196,
+            "lateralOffset": 8.199999999999982,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": 1.6621225144420302,
+            "structureType": "elevated",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-11:east",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": 3425.300363896725,
+            "y": 6.233154435455891,
+            "z": 890.8020466111428
+          },
+          "rotation": 0.007132230051396211,
+          "roadId": "v9-chunhui-east-split-split-split",
+          "intersectionId": "urban-junction-11",
+          "approach": "east",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 5.8,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v9-chunhui-east-split-split-split",
+            "anchorIntersectionId": "urban-junction-11",
+            "approach": "east",
+            "station": 701.3560448300036,
+            "lateralOffset": 8.199999999999696,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -3.134460423538397,
+            "structureType": "elevated",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-11:west",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": 3435.0760698958875,
+            "y": 6.233154435455891,
+            "z": 897.9894575498818
+          },
+          "rotation": 1.641009020692933,
+          "roadId": "v61-exhibition-road-split-split-split-split",
+          "intersectionId": "urban-junction-11",
+          "approach": "west",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 5.8,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v61-exhibition-road-split-split-split-split",
+            "anchorIntersectionId": "urban-junction-11",
+            "approach": "west",
+            "station": 0,
+            "lateralOffset": -8.200000000000019,
+            "verticalOffset": 0,
+            "facingDirection": "reverse",
+            "expectedHeading": 4.782601674282726,
+            "structureType": "elevated",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": true,
+      "reviewReason": "Negative road elevation has no authored enclosure; cover/portal intent needs review",
+      "envelope": {
+        "roadId": "intercity-eb-split-split",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": 3087.2920449569465,
+            "y": -2.7169830558564594,
+            "z": 708.8794115884837
+          },
+          {
+            "x": 3091.3539612425307,
+            "y": -2.659881123237229,
+            "z": 713.1625062127152
+          },
+          {
+            "x": 3094.9674750148483,
+            "y": -2.6093768827948294,
+            "z": 717.148336538324
+          },
+          {
+            "x": 3098.5699928845547,
+            "y": -2.5593118728126534,
+            "z": 721.2863556911884
+          },
+          {
+            "x": 3099.768317506663,
+            "y": -2.5427233967065535,
+            "z": 722.6994339826632
+          },
+          {
+            "x": 3101.4480466106775,
+            "y": -2.5195264660117793,
+            "z": 723.4143929211167
+          },
+          {
+            "x": 3110.88810137737,
+            "y": -2.390413682469391,
+            "z": 726.3078623853362
+          },
+          {
+            "x": 3120.307304308337,
+            "y": -2.2638330526991606,
+            "z": 729.2685068563569
+          },
+          {
+            "x": 3129.7051773958883,
+            "y": -2.1399437049262833,
+            "z": 732.2961760867711
+          },
+          {
+            "x": 3139.081243714787,
+            "y": -2.0188966277078206,
+            "z": 735.3907164277844
+          },
+          {
+            "x": 3148.435027446446,
+            "y": -1.9008343113380386,
+            "z": 738.5519708370128
+          },
+          {
+            "x": 3157.766053903085,
+            "y": -1.785890409820392,
+            "z": 741.7797788864535
+          },
+          {
+            "x": 3167.073849551811,
+            "y": -1.6741894237650987,
+            "z": 745.0739767706254
+          },
+          {
+            "x": 3176.357942038655,
+            "y": -1.5658464045372584,
+            "z": 748.4343973148816
+          },
+          {
+            "x": 3185.617860212539,
+            "y": -1.4609666799480037,
+            "z": 751.860869983894
+          },
+          {
+            "x": 3194.8531341491907,
+            "y": -1.359645601747073,
+            "z": 755.3532208903077
+          },
+          {
+            "x": 3204.0632951749876,
+            "y": -1.2619683151418934,
+            "z": 758.9112728035645
+          },
+          {
+            "x": 3213.24787589074,
+            "y": -1.168009550534208,
+            "z": 762.5348451588985
+          },
+          {
+            "x": 3222.406410195418,
+            "y": -1.0778334376313294,
+            "z": 766.2237540664985
+          },
+          {
+            "x": 3231.5384333097963,
+            "y": -0.9914933420554908,
+            "z": 769.9778123208391
+          },
+          {
+            "x": 3240.643481800047,
+            "y": -0.9090317245402488,
+            "z": 773.7968294101838
+          },
+          {
+            "x": 3249.7210936012566,
+            "y": -0.830480022769609,
+            "z": 777.6806115262503
+          },
+          {
+            "x": 3258.770808040872,
+            "y": -0.7558585558812725,
+            "z": 781.6289615740476
+          },
+          {
+            "x": 3267.7921658620835,
+            "y": -0.6851764516219454,
+            "z": 785.6416791818776
+          },
+          {
+            "x": 3276.7847092471284,
+            "y": -0.6184315961092652,
+            "z": 789.7185607115039
+          },
+          {
+            "x": 3285.7479818405254,
+            "y": -0.5556106061214292,
+            "z": 793.8593992684857
+          },
+          {
+            "x": 3294.681528772233,
+            "y": -0.49668882380292256,
+            "z": 798.063984712678
+          },
+          {
+            "x": 3303.584896680733,
+            "y": -0.4416303336418448,
+            "z": 802.3321036688942
+          },
+          {
+            "x": 3312.4576337360404,
+            "y": -0.3903880015422434,
+            "z": 806.6635395377373
+          },
+          {
+            "x": 3321.29928966263,
+            "y": -0.34290353578304167,
+            "z": 811.0580725065888
+          },
+          {
+            "x": 3330.1094157622892,
+            "y": -0.29910756962342244,
+            "z": 815.5154795607665
+          },
+          {
+            "x": 3338.887564936887,
+            "y": -0.2589197652840447,
+            "z": 820.0355344948405
+          },
+          {
+            "x": 3347.633291711063,
+            "y": -0.2222489390026734,
+            "z": 824.6180079241124
+          },
+          {
+            "x": 3356.3461522548378,
+            "y": -0.18899320683323317,
+            "z": 829.2626672962577
+          },
+          {
+            "x": 3365.0257044061327,
+            "y": -0.15904015082801948,
+            "z": 833.9692769031267
+          },
+          {
+            "x": 3373.6715076932123,
+            "y": -0.13226700521403867,
+            "z": 838.7375978927057
+          },
+          {
+            "x": 3382.2831233570323,
+            "y": -0.10854086214702097,
+            "z": 843.5673882812391
+          },
+          {
+            "x": 3390.865553815321,
+            "y": -0.08770655610318556,
+            "z": 848.4615401766011
+          },
+          {
+            "x": 3399.3829787234044,
+            "y": -0.06968607675207661,
+            "z": 853.374004838957
+          },
+          {
+            "x": 3407.8936170212764,
+            "y": -0.054193037231893726,
+            "z": 858.2876241512091
+          },
+          {
+            "x": 3416.404255319149,
+            "y": -0.041070710673053235,
+            "z": 863.2012434634613
+          },
+          {
+            "x": 3424.9148936170213,
+            "y": -0.030165439637765523,
+            "z": 868.1148627757134
+          },
+          {
+            "x": 3433.4255319148933,
+            "y": -0.021310983630867142,
+            "z": 873.0284820879656
+          },
+          {
+            "x": 3441.9361702127662,
+            "y": -0.014328261922264218,
+            "z": 877.9421014002177
+          },
+          {
+            "x": 3450.446808510638,
+            "y": -0.009025096369254193,
+            "z": 882.8557207124699
+          },
+          {
+            "x": 3458.95744680851,
+            "y": -0.005195954238980782,
+            "z": 887.7693400247219
+          },
+          {
+            "x": 3467.468085106383,
+            "y": -0.0026216910308729524,
+            "z": 892.6829593369741
+          },
+          {
+            "x": 3475.978723404255,
+            "y": -0.001069293298887608,
+            "z": 897.5965786492262
+          },
+          {
+            "x": 3484.4893617021276,
+            "y": -0.0002916214740409373,
+            "z": 902.5101979614784
+          },
+          {
+            "x": 3493,
+            "y": -0.000027152686728371123,
+            "z": 907.4238172737305
+          },
+          {
+            "x": 3501.5106382978724,
+            "y": 0,
+            "z": 912.3374365859827
+          },
+          {
+            "x": 3510.021276595745,
+            "y": 0,
+            "z": 917.2510558982348
+          },
+          {
+            "x": 3518.531914893617,
+            "y": 0,
+            "z": 922.1646752104871
+          },
+          {
+            "x": 3527.042553191489,
+            "y": 0,
+            "z": 927.078294522739
+          },
+          {
+            "x": 3535.553191489362,
+            "y": 0,
+            "z": 931.9919138349912
+          },
+          {
+            "x": 3544.0638297872338,
+            "y": 0,
+            "z": 936.9055331472433
+          },
+          {
+            "x": 3550,
+            "y": 0,
+            "z": 940.3327826175394
+          }
+        ],
+        "carriagewayWidth": 11.25,
+        "pavedEdges": {
+          "left": -7.125,
+          "right": 8.625,
+          "width": 15.75
+        },
+        "shoulders": {
+          "left": 1.5,
+          "right": 3
+        },
+        "roadsideStart": {
+          "left": -9.125,
+          "right": 10.625
+        },
+        "bbox": {
+          "minX": 3078.6670449569465,
+          "maxX": 3558.625,
+          "minZ": 700.2544115884837,
+          "maxZ": 948.9577826175394
+        },
+        "structureType": "depressed",
+        "junctions": []
+      }
+    },
+    {
+      "roadId": "ns-tunnel:southbound-split",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 900
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 907.6190476190475
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 915.4761904761906
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 923.3333333333333
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 931.1904761904761
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 939.047619047619
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 950
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 50
+      },
+      "enclosure": {
+        "kind": "cutting",
+        "clearance": 6
+      },
+      "clearance": 6,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [],
+      "nearbyObjects": [
+        {
+          "id": "v6-lamps-2042",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": -0.7323400162363252,
+            "y": 0.126,
+            "z": 968.3665540989903
+          },
+          "rotation": 1.6482987625833885,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 18.366554098990264,
+            "lateralOffset": -7.392659983763675,
+            "verticalOffset": 8.126,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-lamps-2043",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": -3.049143326124665,
+            "y": 0.126,
+            "z": 935.8854300420321
+          },
+          "rotation": -1.460926979442323,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 35.88543004203211,
+            "lateralOffset": -5.075856673875335,
+            "verticalOffset": 8.126,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-road-trees-2066",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -1.1873837853638194,
+            "y": 0,
+            "z": 974.3798444497545
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 6.936,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 24.3798444497545,
+            "lateralOffset": -6.937616214636181,
+            "verticalOffset": 8,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-road-trees-2067",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -4.587040816178231,
+            "y": 0,
+            "z": 927.5787362882884
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 6.936,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 27.578736288288383,
+            "lateralOffset": -3.537959183821769,
+            "verticalOffset": 8,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "topology-sign:endpoint:ns-tunnel:southbound-split:end|ns-tunnel:southbound-split|end:EXPRESSWAY_DIVERGE",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": -8.125,
+            "y": -8,
+            "z": 920
+          },
+          "rotation": -3.141592653589793,
+          "roadId": "ns-tunnel:southbound-split",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 20,
+            "lateralOffset": 0,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-38:north",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -0.9994797215002981,
+            "y": 0,
+            "z": 928.5735461594501
+          },
+          "rotation": -1.5708208094594434,
+          "roadId": "v4-inner-2-split-split-split-v91-m91-section",
+          "intersectionId": "urban-junction-38",
+          "approach": "north",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v4-inner-2-split-split-split-v91-m91-section",
+            "anchorIntersectionId": "urban-junction-38",
+            "approach": "north",
+            "station": 220.00000420797244,
+            "lateralOffset": 21.250000000000046,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": 1.57077184413035,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-38:east",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": 1.003040909235596,
+            "y": 0,
+            "z": 971.0148595268082
+          },
+          "rotation": 1.5709398013513423,
+          "roadId": "access-inner-mingyuan-section",
+          "intersectionId": "urban-junction-38",
+          "approach": "east",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "access-inner-mingyuan-section",
+            "anchorIntersectionId": "urban-junction-38",
+            "approach": "east",
+            "station": 124.54912784486733,
+            "lateralOffset": 21.200000000000028,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -1.570652852238451,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": false,
+      "reviewReason": null,
+      "envelope": {
+        "roadId": "ns-tunnel:southbound-split",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 900
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 907.6190476190475
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 915.4761904761906
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 923.3333333333333
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 931.1904761904761
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 939.047619047619
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 950
+          }
+        ],
+        "carriagewayWidth": 11.25,
+        "pavedEdges": {
+          "left": -6.375,
+          "right": 7.375,
+          "width": 13.75
+        },
+        "shoulders": {
+          "left": 0.75,
+          "right": 1.75
+        },
+        "roadsideStart": {
+          "left": -8.375,
+          "right": 9.375
+        },
+        "bbox": {
+          "minX": -15.5,
+          "maxX": -0.75,
+          "minZ": 892.625,
+          "maxZ": 957.375
+        },
+        "structureType": "depressed",
+        "junctions": []
+      }
+    },
+    {
+      "roadId": "ns-tunnel:southbound-split-split",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 950
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 953.4524030505297
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 964.6038420861246
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 973.8347666733054
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 983.1306154509554
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 992.5333025160204
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1002.0785502926964
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1011.8019104400968
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1021.7333669800498
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1031.9024164392995
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1042.3336025361302
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1053.0506896053105
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1062.9453512218638
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1071.9686760303998
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1081.2059905168971
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1090.6643116627035
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1100.3496866343246
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1110.2672182211913
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1120.421090273425
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1130.8145931396039
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1141.4501491045307
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1152.3293378269973
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1162.0319092693023
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1170.5121202952027
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1179.1296230573296
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1187.8838680974457
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1196.7742099819134
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1205.7995917392468
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1214.9589726567674
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1224.2508150786355
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1233.6737044762463
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1243.2256493383002
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1252.9048827833826
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -8.125,
+            "y": -8,
+            "z": 1264.336359224908
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 314.33635922490794
+      },
+      "enclosure": {
+        "kind": "cutting",
+        "clearance": 6
+      },
+      "clearance": 6,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [],
+      "nearbyObjects": [
+        {
+          "id": "v6-lamps-2042",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": -0.7323400162363252,
+            "y": 0.126,
+            "z": 968.3665540989903
+          },
+          "rotation": 1.6482987625833885,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 18.366554098990264,
+            "lateralOffset": -7.392659983763675,
+            "verticalOffset": 8.126,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-lamps-2043",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": -3.049143326124665,
+            "y": 0.126,
+            "z": 935.8854300420321
+          },
+          "rotation": -1.460926979442323,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 35.88543004203211,
+            "lateralOffset": -5.075856673875335,
+            "verticalOffset": 8.126,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-road-trees-2066",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -1.1873837853638194,
+            "y": 0,
+            "z": 974.3798444497545
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 6.936,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 24.3798444497545,
+            "lateralOffset": -6.937616214636181,
+            "verticalOffset": 8,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-road-trees-2067",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -4.587040816178231,
+            "y": 0,
+            "z": 927.5787362882884
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 6.936,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 27.578736288288383,
+            "lateralOffset": -3.537959183821769,
+            "verticalOffset": 8,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "road-safety:ns-tunnel:northbound:false:speed:35",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": 15.05,
+            "y": -8,
+            "z": 1229.336359224908
+          },
+          "rotation": 0,
+          "roadId": "ns-tunnel:northbound",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:northbound",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 35,
+            "lateralOffset": 6.925000000000001,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": 0,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-38:north",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -0.9994797215002981,
+            "y": 0,
+            "z": 928.5735461594501
+          },
+          "rotation": -1.5708208094594434,
+          "roadId": "v4-inner-2-split-split-split-v91-m91-section",
+          "intersectionId": "urban-junction-38",
+          "approach": "north",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v4-inner-2-split-split-split-v91-m91-section",
+            "anchorIntersectionId": "urban-junction-38",
+            "approach": "north",
+            "station": 220.00000420797244,
+            "lateralOffset": 21.250000000000046,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": 1.57077184413035,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-38:east",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": 1.003040909235596,
+            "y": 0,
+            "z": 971.0148595268082
+          },
+          "rotation": 1.5709398013513423,
+          "roadId": "access-inner-mingyuan-section",
+          "intersectionId": "urban-junction-38",
+          "approach": "east",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "access-inner-mingyuan-section",
+            "anchorIntersectionId": "urban-junction-38",
+            "approach": "east",
+            "station": 124.54912784486733,
+            "lateralOffset": 21.200000000000028,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -1.570652852238451,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": false,
+      "reviewReason": null,
+      "envelope": {
+        "roadId": "ns-tunnel:southbound-split-split",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 950
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 953.4524030505297
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 964.6038420861246
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 973.8347666733054
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 983.1306154509554
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 992.5333025160204
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1002.0785502926964
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1011.8019104400968
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1021.7333669800498
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1031.9024164392995
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1042.3336025361302
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1053.0506896053105
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1062.9453512218638
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1071.9686760303998
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1081.2059905168971
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1090.6643116627035
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1100.3496866343246
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1110.2672182211913
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1120.421090273425
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1130.8145931396039
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1141.4501491045307
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1152.3293378269973
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1162.0319092693023
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1170.5121202952027
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1179.1296230573296
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1187.8838680974457
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1196.7742099819134
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1205.7995917392468
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1214.9589726567674
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1224.2508150786355
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1233.6737044762463
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1243.2256493383002
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1252.9048827833826
+          },
+          {
+            "x": -8.125,
+            "y": -8,
+            "z": 1264.336359224908
+          }
+        ],
+        "carriagewayWidth": 11.25,
+        "pavedEdges": {
+          "left": -6.375,
+          "right": 7.375,
+          "width": 13.75
+        },
+        "shoulders": {
+          "left": 0.75,
+          "right": 1.75
+        },
+        "roadsideStart": {
+          "left": -8.375,
+          "right": 9.375
+        },
+        "bbox": {
+          "minX": -15.5,
+          "maxX": -0.75,
+          "minZ": 942.625,
+          "maxZ": 1271.711359224908
+        },
+        "structureType": "depressed",
+        "junctions": []
+      }
+    },
+    {
+      "roadId": "ns-tunnel:northbound-split-2",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 950
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 941.6666666666665
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 933.8095238095239
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 925.952380952381
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 918.0952380952381
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 910.2380952380952
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": 8.125,
+            "y": -8,
+            "z": 900
+          },
+          "deckElevation": -8,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 50
+      },
+      "enclosure": {
+        "kind": "cutting",
+        "clearance": 6
+      },
+      "clearance": 6,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [],
+      "nearbyObjects": [
+        {
+          "id": "v6-lamps-2042",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": -0.7323400162363252,
+            "y": 0.126,
+            "z": 968.3665540989903
+          },
+          "rotation": 1.6482987625833885,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 18.366554098990264,
+            "lateralOffset": -7.392659983763675,
+            "verticalOffset": 8.126,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-lamps-2043",
+          "kind": "prefab",
+          "type": "streetlight_dual",
+          "position": {
+            "x": -3.049143326124665,
+            "y": 0.126,
+            "z": 935.8854300420321
+          },
+          "rotation": -1.460926979442323,
+          "derived": false,
+          "size": {
+            "width": 0.3,
+            "height": 10,
+            "depth": 0.3,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 35.88543004203211,
+            "lateralOffset": -5.075856673875335,
+            "verticalOffset": 8.126,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-road-trees-2066",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -1.1873837853638194,
+            "y": 0,
+            "z": 974.3798444497545
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 6.936,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 24.3798444497545,
+            "lateralOffset": -6.937616214636181,
+            "verticalOffset": 8,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v6-road-trees-2067",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -4.587040816178231,
+            "y": 0,
+            "z": 927.5787362882884
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "height": 6.936,
+            "depth": 0.5,
+            "approximate": true,
+            "trunkRadius": 0.25,
+            "canopyRadius": 2.1
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 27.578736288288383,
+            "lateralOffset": -3.537959183821769,
+            "verticalOffset": 8,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "topology-sign:endpoint:ns-tunnel:southbound-split:end|ns-tunnel:southbound-split|end:EXPRESSWAY_DIVERGE",
+          "kind": "sign",
+          "type": "roadSign",
+          "position": {
+            "x": -8.125,
+            "y": -8,
+            "z": 920
+          },
+          "rotation": -3.141592653589793,
+          "roadId": "ns-tunnel:southbound-split",
+          "derived": false,
+          "size": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 5.5,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "ns-tunnel:southbound-split",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 20,
+            "lateralOffset": 0,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-38:north",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -0.9994797215002981,
+            "y": 0,
+            "z": 928.5735461594501
+          },
+          "rotation": -1.5708208094594434,
+          "roadId": "v4-inner-2-split-split-split-v91-m91-section",
+          "intersectionId": "urban-junction-38",
+          "approach": "north",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v4-inner-2-split-split-split-v91-m91-section",
+            "anchorIntersectionId": "urban-junction-38",
+            "approach": "north",
+            "station": 220.00000420797244,
+            "lateralOffset": 21.250000000000046,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": 1.57077184413035,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-38:east",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": 1.003040909235596,
+            "y": 0,
+            "z": 971.0148595268082
+          },
+          "rotation": 1.5709398013513423,
+          "roadId": "access-inner-mingyuan-section",
+          "intersectionId": "urban-junction-38",
+          "approach": "east",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "access-inner-mingyuan-section",
+            "anchorIntersectionId": "urban-junction-38",
+            "approach": "east",
+            "station": 124.54912784486733,
+            "lateralOffset": 21.200000000000028,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -1.570652852238451,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": false,
+      "reviewReason": null,
+      "envelope": {
+        "roadId": "ns-tunnel:northbound-split-2",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 950
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 941.6666666666665
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 933.8095238095239
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 925.952380952381
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 918.0952380952381
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 910.2380952380952
+          },
+          {
+            "x": 8.125,
+            "y": -8,
+            "z": 900
+          }
+        ],
+        "carriagewayWidth": 11.25,
+        "pavedEdges": {
+          "left": -6.375,
+          "right": 7.375,
+          "width": 13.75
+        },
+        "shoulders": {
+          "left": 0.75,
+          "right": 1.75
+        },
+        "roadsideStart": {
+          "left": -8.375,
+          "right": 9.375
+        },
+        "bbox": {
+          "minX": 0.75,
+          "maxX": 15.5,
+          "minZ": 892.625,
+          "maxZ": 957.375
+        },
+        "structureType": "depressed",
+        "junctions": []
+      }
+    },
+    {
+      "roadId": "v91-ring-west-underpass",
+      "type": "depressed",
+      "approximate": true,
+      "deckThickness": 0.65,
+      "deck": [
+        {
+          "xyz": {
+            "x": -2132,
+            "y": 0,
+            "z": 900
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -2110,
+            "y": 0,
+            "z": 900
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -2025,
+            "y": -6,
+            "z": 900
+          },
+          "deckElevation": -6,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -1940,
+            "y": -6,
+            "z": 900
+          },
+          "deckElevation": -6,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -1875,
+            "y": 0,
+            "z": 900
+          },
+          "deckElevation": 0,
+          "groundElevation": -0.04
+        },
+        {
+          "xyz": {
+            "x": -1867.5000000000016,
+            "y": -0.024,
+            "z": 899.9999999999822
+          },
+          "deckElevation": -0.024,
+          "groundElevation": -0.04
+        }
+      ],
+      "span": {
+        "start": 0,
+        "end": 264.4999999999984
+      },
+      "enclosure": null,
+      "clearance": null,
+      "portals": [],
+      "ceilingCoverage": null,
+      "nearbyUpperLowerRoads": [
+        {
+          "roadId": "ring-cw-3-split-2-split-split",
+          "station": 156.78472927481835,
+          "point": {
+            "x": -1975.2152707251817,
+            "y": -6,
+            "z": 900
+          },
+          "otherY": 8,
+          "clearance": 13.35,
+          "requiredClearance": 5.5,
+          "connected": false
+        },
+        {
+          "roadId": "ring-ccw-0-split-split-split-3",
+          "station": 146.21875,
+          "point": {
+            "x": -1985.78125,
+            "y": -6,
+            "z": 900
+          },
+          "otherY": 8,
+          "clearance": 13.35,
+          "requiredClearance": 5.5,
+          "connected": false
+        }
+      ],
+      "nearbyObjects": [
+        {
+          "id": "v8-verge-v8-ring-west-cross-38--1",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -2032.2152707251817,
+            "y": 0,
+            "z": 890.9999999999721
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.4,
+            "height": 6.867999999999999,
+            "depth": 0.4,
+            "approximate": true,
+            "trunkRadius": 0.2,
+            "canopyRadius": 1.6800000000000002
+          },
+          "anchor": {
+            "anchorRoadId": "v91-ring-west-underpass",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 99.78472927481835,
+            "lateralOffset": -9.000000000027853,
+            "verticalOffset": 5.490686772340119,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5707963267948966,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v8-verge-v8-ring-west-cross-38-1",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -2032.2152707251817,
+            "y": 0,
+            "z": 908.9999999999721
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.4,
+            "height": 6.867999999999999,
+            "depth": 0.4,
+            "approximate": true,
+            "trunkRadius": 0.2,
+            "canopyRadius": 1.6800000000000002
+          },
+          "anchor": {
+            "anchorRoadId": "v91-ring-west-underpass",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 99.78472927481835,
+            "lateralOffset": 8.999999999972147,
+            "verticalOffset": 5.490686772340119,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5707963267948966,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v8-verge-v8-ring-west-cross-split-2-38--1",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -1907.2152707251805,
+            "y": 0,
+            "z": 890.999999999977
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.4,
+            "height": 6.867999999999999,
+            "depth": 0.4,
+            "approximate": true,
+            "trunkRadius": 0.2,
+            "canopyRadius": 1.6800000000000002
+          },
+          "anchor": {
+            "anchorRoadId": "v91-ring-west-underpass",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 224.78472927481948,
+            "lateralOffset": -9.000000000022965,
+            "verticalOffset": 2.9737172977089714,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5707963267948966,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "v8-verge-v8-ring-west-cross-split-2-38-1",
+          "kind": "prefab",
+          "type": "tree",
+          "position": {
+            "x": -1907.2152707251828,
+            "y": 0,
+            "z": 908.999999999977
+          },
+          "rotation": 0,
+          "derived": false,
+          "size": {
+            "width": 0.4,
+            "height": 6.867999999999999,
+            "depth": 0.4,
+            "approximate": true,
+            "trunkRadius": 0.2,
+            "canopyRadius": 1.6800000000000002
+          },
+          "anchor": {
+            "anchorRoadId": "v91-ring-west-underpass",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 224.7847292748172,
+            "lateralOffset": 8.999999999977035,
+            "verticalOffset": 2.9737172977091806,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5707963267948966,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-21:north",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -1854.0796524798645,
+            "y": -0.024,
+            "z": 901.4129528100825
+          },
+          "rotation": 0.0996686524910998,
+          "roadId": "v8-beijing-road-split-split-section",
+          "intersectionId": "urban-junction-21",
+          "approach": "north",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 5.8,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v8-beijing-road-split-split-section",
+            "anchorIntersectionId": "urban-junction-21",
+            "approach": "north",
+            "station": 52.84912934783061,
+            "lateralOffset": 4.20000000000015,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -3.0419240010986934,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-21:east",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -1848.999999999982,
+            "y": -0.024,
+            "z": 908.1999999999382
+          },
+          "rotation": 1.5707963267972767,
+          "roadId": "v91-ring-west-underpass",
+          "intersectionId": "urban-junction-21",
+          "approach": "east",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 5.8,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v91-ring-west-underpass",
+            "anchorIntersectionId": "urban-junction-21",
+            "approach": "east",
+            "station": 264.4999999999984,
+            "lateralOffset": 8.200000000000076,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5707963267925167,
+            "structureType": "depressed",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-21:south",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -1845.920347520138,
+            "y": -0.024,
+            "z": 898.5870471898863
+          },
+          "rotation": -3.0419240010987183,
+          "roadId": "v8-beijing-road-split-split-split",
+          "intersectionId": "urban-junction-21",
+          "approach": "south",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 5.8,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v8-beijing-road-split-split-split",
+            "anchorIntersectionId": "urban-junction-21",
+            "approach": "south",
+            "station": 0,
+            "lateralOffset": -4.200000000000144,
+            "verticalOffset": 0,
+            "facingDirection": "reverse",
+            "expectedHeading": 0.09966865249107482,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:urban-junction-21:west",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -1851.0000000000016,
+            "y": -0.024,
+            "z": 895.7999999999892
+          },
+          "rotation": -1.5707963267948812,
+          "roadId": "v8-ring-west-cross-split",
+          "intersectionId": "urban-junction-21",
+          "approach": "west",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 5.8,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v8-ring-west-cross-split",
+            "anchorIntersectionId": "urban-junction-21",
+            "approach": "west",
+            "station": 0,
+            "lateralOffset": -4.200000000000102,
+            "verticalOffset": 0,
+            "facingDirection": "reverse",
+            "expectedHeading": 1.5707963267949119,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:v91-ring-west-outer-junction:north",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -2144.6,
+            "y": 0,
+            "z": 901
+          },
+          "rotation": 0,
+          "roadId": "v91-ring-west-distributor-section-2",
+          "intersectionId": "v91-ring-west-outer-junction",
+          "approach": "north",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v91-ring-west-distributor-section-2",
+            "anchorIntersectionId": "v91-ring-west-outer-junction",
+            "approach": "north",
+            "station": 59.60000000000002,
+            "lateralOffset": 4.599999999999909,
+            "verticalOffset": 0,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:v91-ring-west-outer-junction:east",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -2131.4,
+            "y": 0,
+            "z": 892
+          },
+          "rotation": -3.141592653589793,
+          "roadId": "v91-ring-west-distributor-section",
+          "intersectionId": "v91-ring-west-outer-junction",
+          "approach": "east",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v91-ring-west-distributor-section",
+            "anchorIntersectionId": "v91-ring-west-outer-junction",
+            "approach": "east",
+            "station": 0,
+            "lateralOffset": -8.599999999999909,
+            "verticalOffset": 0,
+            "facingDirection": "reverse",
+            "expectedHeading": 0,
+            "structureType": "at_grade",
+            "derived": true
+          }
+        },
+        {
+          "id": "signal:v91-ring-west-outer-junction:west",
+          "kind": "trafficLight",
+          "type": "trafficLight",
+          "position": {
+            "x": -2148,
+            "y": 0,
+            "z": 891.8
+          },
+          "rotation": -1.5707963267948966,
+          "roadId": "v91-ring-west-underpass",
+          "intersectionId": "v91-ring-west-outer-junction",
+          "approach": "west",
+          "derived": true,
+          "size": {
+            "width": 0.3,
+            "depth": 0.3,
+            "height": 7.2,
+            "approximate": true
+          },
+          "anchor": {
+            "anchorRoadId": "v91-ring-west-underpass",
+            "anchorIntersectionId": "v91-ring-west-outer-junction",
+            "approach": "west",
+            "station": 0,
+            "lateralOffset": -8.200000000000045,
+            "verticalOffset": 0,
+            "facingDirection": "reverse",
+            "expectedHeading": 1.5707963267948966,
+            "structureType": "depressed",
+            "derived": true
+          }
+        }
+      ],
+      "reviewRequired": true,
+      "reviewReason": "Negative road elevation has no authored enclosure; cover/portal intent needs review",
+      "envelope": {
+        "roadId": "v91-ring-west-underpass",
+        "approximate": true,
+        "centerline": [
+          {
+            "x": -2132,
+            "y": 0,
+            "z": 900
+          },
+          {
+            "x": -2110,
+            "y": 0,
+            "z": 900
+          },
+          {
+            "x": -2025,
+            "y": -6,
+            "z": 900
+          },
+          {
+            "x": -1940,
+            "y": -6,
+            "z": 900
+          },
+          {
+            "x": -1875,
+            "y": 0,
+            "z": 900
+          },
+          {
+            "x": -1867.5000000000016,
+            "y": -0.024,
+            "z": 899.9999999999822
+          }
+        ],
+        "carriagewayWidth": 14.4,
+        "pavedEdges": {
+          "left": -7.2,
+          "right": 7.2,
+          "width": 14.4
+        },
+        "shoulders": {
+          "left": 0,
+          "right": 0
+        },
+        "roadsideStart": {
+          "left": -9.2,
+          "right": 9.2
+        },
+        "bbox": {
+          "minX": -2139.2,
+          "maxX": -1860.3000000000015,
+          "minZ": 892.7999999999821,
+          "maxZ": 907.2
+        },
+        "structureType": "depressed",
+        "junctions": [
+          {
+            "id": "urban-junction-21",
+            "position": {
+              "x": -1850.0000000000016,
+              "y": -0.024,
+              "z": 899.9999999999844
+            },
+            "rotation": 0,
+            "pavement": [
+              {
+                "x": -17.500000000017135,
+                "y": 0,
+                "z": -7.200000000002274
+              },
+              {
+                "x": -4.925434091540126,
+                "y": 0,
+                "z": -17.094738927807704
+              },
+              {
+                "x": 1.4428039258038443,
+                "y": 0,
+                "z": -17.7315627295417
+              },
+              {
+                "x": 17.49999999999995,
+                "y": 0,
+                "z": -3.1999999999954527
+              },
+              {
+                "x": 17.50000000000005,
+                "y": 0,
+                "z": 3.2000000000045477
+              },
+              {
+                "x": 4.925434091540362,
+                "y": 0,
+                "z": 17.094738927807782
+              },
+              {
+                "x": -1.442803925803625,
+                "y": 0,
+                "z": 17.731562729541622
+              },
+              {
+                "x": -17.499999999982865,
+                "y": 0,
+                "z": 7.199999999997726
+              }
+            ],
+            "approximate": false
+          },
+          {
+            "id": "v91-ring-west-outer-junction",
+            "position": {
+              "x": -2140,
+              "y": 0,
+              "z": 900
+            },
+            "rotation": 0,
+            "pavement": [
+              {
+                "x": -3.6,
+                "y": 0,
+                "z": -10.399999999999977
+              },
+              {
+                "x": 3.6,
+                "y": 0,
+                "z": -10.399999999999977
+              },
+              {
+                "x": 8,
+                "y": 0,
+                "z": -7.2
+              },
+              {
+                "x": 8,
+                "y": 0,
+                "z": 7.2
+              },
+              {
+                "x": 3.6,
+                "y": 0,
+                "z": 10.399999999999977
+              },
+              {
+                "x": -3.6,
+                "y": 0,
+                "z": 10.399999999999977
+              }
+            ],
+            "approximate": false
+          }
+        ]
+      }
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyRoad",
+      "id": "ns-nb-split-split-split-split-split",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": false,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete",
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "ns-tunnel:northbound",
+      "properties": {
+        "corridorSection": "tunnel-mainline",
+        "streetlights": false,
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": false,
+          "pierSpacing": 55,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "tunnel",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "intercity-wb",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": false,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete",
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "ns-sb-split-3-split-split-split-2",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": false,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete",
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "intercity-eb-split-split",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": false,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete",
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "ns-tunnel:southbound-split",
+      "properties": {
+        "corridorSection": "tunnel-mainline",
+        "streetlights": false,
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": false,
+          "pierSpacing": 55,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "tunnel",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "ns-tunnel:southbound-split-split",
+      "properties": {
+        "corridorSection": "tunnel-mainline",
+        "streetlights": false,
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": false,
+          "pierSpacing": 55,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "tunnel",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "ns-tunnel:northbound-split-2",
+      "properties": {
+        "corridorSection": "tunnel-mainline",
+        "streetlights": false,
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": false,
+          "pierSpacing": 55,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "tunnel",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-west-underpass",
+      "properties": {
+        "structure": {
+          "barrierEnabled": false,
+          "pierSpacing": 30,
+          "pierStyle": "round",
+          "piersEnabled": false,
+          "barrierOffset": 0,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "tunnel-shells-and-open-cuts",
+    "created": [],
+    "modified": [
+      "ns-nb-split-split-split-split-split",
+      "ns-tunnel:northbound",
+      "intercity-wb",
+      "ns-sb-split-3-split-split-split-2",
+      "intercity-eb-split-split",
+      "ns-tunnel:southbound-split",
+      "ns-tunnel:southbound-split-split",
+      "ns-tunnel:northbound-split-2",
+      "v91-ring-west-underpass",
+      "urban-junction-21",
+      "v8-beijing-road-split-split-section",
+      "v8-beijing-road-split-split-split",
+      "v8-ring-west-cross-split",
+      "v91-ring-west-outer-junction",
+      "v91-ring-west-distributor-section-2",
+      "v91-ring-west-distributor-section"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -2180,
+      "maxX": 3565.625,
+      "minZ": -1342.2916666666665,
+      "maxZ": 1279.961359224908
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ns-nb-split-split-split-split-split",
+          "ns-tunnel:northbound",
+          "intercity-wb",
+          "ns-sb-split-3-split-split-split-2",
+          "intercity-eb-split-split",
+          "ns-tunnel:southbound-split",
+          "ns-tunnel:southbound-split-split",
+          "ns-tunnel:northbound-split-2",
+          "v91-ring-west-underpass",
+          "urban-junction-21",
+          "v8-beijing-road-split-split-section",
+          "v8-beijing-road-split-split-split",
+          "v8-ring-west-cross-split",
+          "v91-ring-west-outer-junction",
+          "v91-ring-west-distributor-section-2",
+          "v91-ring-west-distributor-section"
+        ],
+        "message": "roads: 9 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

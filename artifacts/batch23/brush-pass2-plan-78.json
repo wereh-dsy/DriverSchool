@@ -1,0 +1,326 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "road-safety:system-east:N-to-E-turbine:false:speed:65",
+      "road-safety:system-east:N-to-W-right:false:speed:65",
+      "road-safety:system-east:S-to-E-right:false:speed:65",
+      "road-safety:system-east:W-to-S-right:false:guide:130",
+      "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION"
+    ],
+    "bbox": {
+      "minX": 2287.0566948143055,
+      "maxX": 2356.8690953526025,
+      "minZ": -987.2115407282827,
+      "maxZ": -49.239817415531704
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "road-safety:system-east:N-to-E-turbine:false:speed:65",
+      "state": "INVALID",
+      "position": {
+        "x": 2317.0713342543368,
+        "y": 10.835999951120078,
+        "z": -424.0115775400304
+      },
+      "rotation": 2.9528701599683793,
+      "anchor": {
+        "anchorRoadId": "system-east:N-to-E-turbine",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 64.99999999999996,
+        "lateralOffset": 6.0535533905932235,
+        "verticalOffset": 1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 2.9528701599683793,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.occluded:system-east:N-to-E-turbine:road-safety:system-east:N-to-E-turbine:false:speed:65::",
+          "code": "roadSign.occluded",
+          "severity": "warning",
+          "objectId": "road-safety:system-east:N-to-E-turbine:false:speed:65",
+          "roadId": "system-east:N-to-E-turbine",
+          "message": "Approximate incoming sight ray intersects another deck",
+          "metrics": {
+            "roadId": "ring-cw-1-split"
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-east:N-to-E-turbine:false:speed:65",
+          "properties": {
+            "position": {
+              "x": 2317.0713342543368,
+              "y": 10.835999951120078,
+              "z": -424.0115775400304
+            },
+            "heading": 2.9528701599683793,
+            "roadId": "system-east:N-to-E-turbine",
+            "stationMetres": 64.99999999999996
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-east:N-to-E-turbine:false:speed:65",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.0035533905934426
+    },
+    {
+      "id": "road-safety:system-east:N-to-W-right:false:speed:65",
+      "state": "INVALID",
+      "position": {
+        "x": 2314.365527158116,
+        "y": 10.791917433322626,
+        "z": -251.7244377497922
+      },
+      "rotation": 2.8120325749784985,
+      "anchor": {
+        "anchorRoadId": "system-east:N-to-W-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 64.99999999999982,
+        "lateralOffset": 6.05355339059308,
+        "verticalOffset": -7.105427357601002e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 2.8120325749784985,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.occluded:system-east:N-to-W-right:road-safety:system-east:N-to-W-right:false:speed:65::",
+          "code": "roadSign.occluded",
+          "severity": "warning",
+          "objectId": "road-safety:system-east:N-to-W-right:false:speed:65",
+          "roadId": "system-east:N-to-W-right",
+          "message": "Approximate incoming sight ray intersects another deck",
+          "metrics": {
+            "roadId": "ring-cw-1-split-split-2"
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-east:N-to-W-right:false:speed:65",
+          "properties": {
+            "position": {
+              "x": 2314.365527158116,
+              "y": 10.791917433322626,
+              "z": -251.7244377497922
+            },
+            "heading": 2.8120325749784985,
+            "roadId": "system-east:N-to-W-right",
+            "stationMetres": 64.99999999999991
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-east:N-to-W-right:false:speed:65",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.0035533905932055
+    },
+    {
+      "id": "road-safety:system-east:S-to-E-right:false:speed:65",
+      "state": "INVALID",
+      "position": {
+        "x": 2358.719023202036,
+        "y": 10.845916920540107,
+        "z": -49.291532530506586
+      },
+      "rotation": -0.3212164253880384,
+      "anchor": {
+        "anchorRoadId": "system-east:S-to-E-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 64.99999999999994,
+        "lateralOffset": 6.053553390593322,
+        "verticalOffset": -1.7763568394002505e-15,
+        "facingDirection": "forward",
+        "expectedHeading": -0.3212164253880384,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "roadSign.occluded:system-east:S-to-E-right:road-safety:system-east:S-to-E-right:false:speed:65::",
+          "code": "roadSign.occluded",
+          "severity": "warning",
+          "objectId": "road-safety:system-east:S-to-E-right:false:speed:65",
+          "roadId": "system-east:S-to-E-right",
+          "message": "Approximate incoming sight ray intersects another deck",
+          "metrics": {
+            "roadId": "ring-ccw-2-split-split-2"
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-east:S-to-E-right:false:speed:65",
+          "properties": {
+            "position": {
+              "x": 2358.719023202036,
+              "y": 10.845916920540107,
+              "z": -49.291532530506586
+            },
+            "heading": -0.3212164253880384,
+            "roadId": "system-east:S-to-E-right",
+            "stationMetres": 64.99999999999996
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-east:S-to-E-right:false:speed:65",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 3.003553390593362
+    },
+    {
+      "id": "road-safety:system-east:W-to-S-right:false:guide:130",
+      "state": "VALID",
+      "position": {
+        "x": 2295.882020900766,
+        "y": 8,
+        "z": -85.29594473406922
+      },
+      "rotation": -2.521303659561466,
+      "anchor": {
+        "anchorRoadId": "system-east:W-to-S-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 130.00000000000003,
+        "lateralOffset": 6.053553390593402,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": -2.521303659561466,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "road-safety:system-east:W-to-S-right:false:guide:130",
+          "properties": {
+            "position": {
+              "x": 2295.882020900766,
+              "y": 8,
+              "z": -85.29594473406922
+            },
+            "heading": -2.521303659561466,
+            "roadId": "system-east:W-to-S-right",
+            "stationMetres": 130.00000000000009
+          }
+        }
+      ],
+      "sourceId": "road-safety:system-east:W-to-S-right:false:guide:130",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.403553390593498
+    },
+    {
+      "id": "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+      "state": "VALID",
+      "position": {
+        "x": 2288.0389678252886,
+        "y": -0.010073903925719014,
+        "z": -1005.5650860003099
+      },
+      "rotation": 1.5717122821824123,
+      "anchor": {
+        "anchorRoadId": "urban-north-arterial-split-split-m91-approach",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 68.70299181837228,
+        "lateralOffset": -9.852920639077526,
+        "verticalOffset": -0.000021968159420291886,
+        "facingDirection": "reverse",
+        "expectedHeading": 1.5830450889010652,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+          "properties": {
+            "position": {
+              "x": 2288.0389678252886,
+              "y": -0.010073903925719014,
+              "z": -1005.5650860003099
+            },
+            "heading": 1.5717122821824123,
+            "roadId": "urban-north-arterial-split-split-m91-approach",
+            "stationMetres": 68.59132579259847
+          }
+        }
+      ],
+      "sourceId": "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 19.35355339059331
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-east:W-to-S-right:false:guide:130",
+      "properties": {
+        "position": {
+          "x": 2295.882020900766,
+          "y": 8,
+          "z": -85.29594473406922
+        },
+        "heading": -2.521303659561466,
+        "roadId": "system-east:W-to-S-right",
+        "stationMetres": 130.00000000000009
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 2288.0389678252886,
+          "y": -0.010073903925719014,
+          "z": -1005.5650860003099
+        },
+        "heading": 1.5717122821824123,
+        "roadId": "urban-north-arterial-split-split-m91-approach",
+        "stationMetres": 68.59132579259847
+      }
+    }
+  ],
+  "stats": {
+    "planned": 5,
+    "valid": 2,
+    "adjusted": 0,
+    "invalid": 3,
+    "skipped": 3,
+    "added": 0,
+    "moved": 2,
+    "removed": 0
+  },
+  "valid": true
+}

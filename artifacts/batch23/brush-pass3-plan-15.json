@@ -1,0 +1,172 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "green_strip",
+    "objectIds": [
+      "v6-river-bank-65",
+      "v6-river-bank-67"
+    ],
+    "bbox": {
+      "minX": -570.2174740014708,
+      "maxX": -562.5341680233583,
+      "minZ": -162.14272623930242,
+      "maxZ": -122.11622375492209
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-river-bank-65",
+      "state": "INVALID",
+      "position": {
+        "x": -565.5435890420725,
+        "y": -0.04,
+        "z": -180.48926825312438
+      },
+      "rotation": 1.674289842490299,
+      "anchor": {
+        "anchorRoadId": "v91-ew-0-b-6-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 194.45641095792746,
+        "lateralOffset": 17.51073174687562,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.insideLane::v6-river-bank-65::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v6-river-bank-65",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v91-ew-0-b-6-section",
+            "distance": 17.51073174687562,
+            "roadHalfWidth": 3.6,
+            "objectRadius": 18.002983465236063
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-river-bank-65",
+            "roadId": "v91-ew-0-b-6-section",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.insideJunction::v6-river-bank-65::",
+          "code": "object.insideJunction",
+          "severity": "warning",
+          "objectId": "v6-river-bank-65",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-4"
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-river-bank-65",
+          "properties": {
+            "position": {
+              "x": -565.5435890420725,
+              "y": -0.04,
+              "z": -180.48926825312438
+            },
+            "rotation": 1.674289842490299
+          }
+        }
+      ],
+      "sourceId": "v6-river-bank-65",
+      "heightMode": "GROUND",
+      "autoMove": 19.450685456379905
+    },
+    {
+      "id": "v6-river-bank-67",
+      "state": "INVALID",
+      "position": {
+        "x": -567.7795741918268,
+        "y": -0.04,
+        "z": -95.61043397213943
+      },
+      "rotation": -1.518567609490573,
+      "anchor": {
+        "anchorRoadId": "v91-ew-0-a-6-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 192.22042580817322,
+        "lateralOffset": 6.3895660278605675,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -1.5707963267948966,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.insideLane::v6-river-bank-67::",
+          "code": "object.insideLane",
+          "severity": "warning",
+          "objectId": "v6-river-bank-67",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "v91-ew-0-a-6-section",
+            "distance": 6.3895660278605675,
+            "roadHalfWidth": 3.6,
+            "objectRadius": 17.068254072469305
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v6-river-bank-67",
+            "roadId": "v91-ew-0-a-6-section",
+            "strategy": "moveOutsideCarriageway"
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-river-bank-67",
+          "properties": {
+            "position": {
+              "x": -567.7795741918268,
+              "y": -0.04,
+              "z": -95.61043397213943
+            },
+            "rotation": -1.518567609490573
+          }
+        }
+      ],
+      "sourceId": "v6-river-bank-67",
+      "heightMode": "GROUND",
+      "autoMove": 27.543397238489035
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 2,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 2,
+    "skipped": 2,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

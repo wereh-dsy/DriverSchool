@@ -1,0 +1,306 @@
+{
+  "inspection": {
+    "key": "1:-1:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:system-east:N-to-E-turbine:false:speed:65",
+        "road-safety:system-east:W-to-S-right:false:guide:130",
+        "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION"
+      ],
+      "bbox": {
+        "minX": 2287.0566948143055,
+        "maxX": 2323.1181399424136,
+        "minZ": -987.2115407282827,
+        "maxZ": -89.76195143210978
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 3,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 3,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-east:N-to-E-turbine:false:speed:65",
+      "properties": {
+        "position": {
+          "x": 2319.1570217392887,
+          "y": 11.798045770055387,
+          "z": -435.70309403366235
+        },
+        "heading": 2.973296948429119,
+        "roadId": "system-east:N-to-E-turbine",
+        "stationMetres": 52.99999999999994
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-east:W-to-S-right:false:guide:130",
+      "properties": {
+        "position": {
+          "x": 2295.882020900766,
+          "y": 8,
+          "z": -85.29594473406922
+        },
+        "heading": -2.521303659561466,
+        "roadId": "system-east:W-to-S-right",
+        "stationMetres": 130.00000000000009,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 2288.0389678252886,
+          "y": -0.010073903925719014,
+          "z": -1005.5650860003099
+        },
+        "heading": 1.5717122821824123,
+        "roadId": "urban-north-arterial-split-split-m91-approach",
+        "stationMetres": 68.59132579259847
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-35",
+    "created": [],
+    "modified": [
+      "road-safety:system-east:N-to-E-turbine:false:speed:65",
+      "road-safety:system-east:W-to-S-right:false:guide:130",
+      "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2248.0566948143055,
+      "maxX": 2362.1181399424136,
+      "minZ": -1026.2115407282827,
+      "maxZ": -50.76195143210978
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "road-safety:system-east:N-to-E-turbine:false:speed:65",
+          "road-safety:system-east:W-to-S-right:false:guide:130",
+          "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+          "ring-ccw-2-split-split",
+          "ring-cw-1-split",
+          "ring-cw-1-split-2",
+          "ring-ccw-2-split-split-2-split",
+          "ring-cw-1-split-2-split",
+          "ring-ccw-2-split-split-split-2",
+          "system-east:N-to-E-turbine",
+          "system-east:W-to-N-turbine",
+          "v9-newcity-three-split",
+          "v5-east-garden-split-split-split",
+          "v9-newcity-six-north-split",
+          "v9-newcity-three-split-split",
+          "v9-newcity-six-north-split-split",
+          "urban-junction-195",
+          "urban-junction-196",
+          "ew-eb-split-split-2",
+          "ring-ccw-2-split-split-2",
+          "ring-cw-1-split-split-2",
+          "ew-eb-split-split-3-split-split",
+          "system-east:S-to-W-turbine",
+          "system-east:S-to-E-right",
+          "system-east:E-to-S-turbine",
+          "system-east:W-to-S-right",
+          "v91-ew-1-a-5",
+          "ring-ccw-2-split-split-split",
+          "ring-cw-1-split-3-split-split-split-split",
+          "urban-north-arterial-split-split-m91-approach",
+          "v4-north-split-split-m91-approach"
+        ],
+        "message": "intersections[0]: urban-junction-59: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:system-east:N-to-E-turbine:false:speed:65",
+          "road-safety:system-east:W-to-S-right:false:guide:130",
+          "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+          "ring-ccw-2-split-split",
+          "ring-cw-1-split",
+          "ring-cw-1-split-2",
+          "ring-ccw-2-split-split-2-split",
+          "ring-cw-1-split-2-split",
+          "ring-ccw-2-split-split-split-2",
+          "system-east:N-to-E-turbine",
+          "system-east:W-to-N-turbine",
+          "v9-newcity-three-split",
+          "v5-east-garden-split-split-split",
+          "v9-newcity-six-north-split",
+          "v9-newcity-three-split-split",
+          "v9-newcity-six-north-split-split",
+          "urban-junction-195",
+          "urban-junction-196",
+          "ew-eb-split-split-2",
+          "ring-ccw-2-split-split-2",
+          "ring-cw-1-split-split-2",
+          "ew-eb-split-split-3-split-split",
+          "system-east:S-to-W-turbine",
+          "system-east:S-to-E-right",
+          "system-east:E-to-S-turbine",
+          "system-east:W-to-S-right",
+          "v91-ew-1-a-5",
+          "ring-ccw-2-split-split-split",
+          "ring-cw-1-split-3-split-split-split-split",
+          "urban-north-arterial-split-split-m91-approach",
+          "v4-north-split-split-m91-approach"
+        ],
+        "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-split",
+          "system-east:W-to-N-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-split-2",
+          "system-east:S-to-E-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-split-2",
+          "system-east:E-to-N-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-1-split-split-2",
+          "system-east:N-to-W-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-1-split-split-2",
+          "system-east:W-to-S-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split-split-3-split-split",
+          "system-east:W-to-S-right"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ring-ccw-2-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-E-right",
+          "ew-eb-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:E-to-S-turbine",
+          "ring-cw-1-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:E-to-S-turbine",
+          "ew-wb-split-4-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:N-to-E-turbine",
+          "ew-eb-split-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "road-safety:system-east:W-to-S-right:false:guide:130",
+          "system-east:W-to-S-right"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+          "urban-north-arterial-split-split-m91-approach"
+        ],
+        "message": "Sign support intersects carriageway"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-15|urban-north-arterial-split-split|start:URBAN_DIRECTION",
+          "urban-north-arterial-split-split-m91-approach"
+        ],
+        "message": "Sign support intersects carriageway"
+      }
+    ],
+    "valid": true
+  }
+}

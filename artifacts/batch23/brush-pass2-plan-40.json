@@ -1,0 +1,91 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "industrial",
+    "objectIds": [
+      "regional:warehouse:1240:4020"
+    ],
+    "bbox": {
+      "minX": 1289.2423399806867,
+      "maxX": 1291.2423399806867,
+      "minZ": 4018.2260681887933,
+      "maxZ": 4020.2260681887933
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:warehouse:1240:4020",
+      "state": "INVALID",
+      "position": {
+        "x": 1311.6122381219946,
+        "y": -0.04,
+        "z": 4026.8245130479577
+      },
+      "rotation": -0.34162624413807074,
+      "anchor": {
+        "anchorRoadId": "regional:S26:out:split144:split510:split514:split518:split522",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 220.88328542311865,
+        "lateralOffset": 88.28272761316333,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -0.37987280832053194,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:regional:warehouse:1240:4020",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "regional:warehouse:1240:4020",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "regional:warehouse:1400:4020",
+            "actual": 143.5814638573508,
+            "required": 155.62367743942818
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:warehouse:1240:4020",
+          "properties": {
+            "position": {
+              "x": 1311.6122381219946,
+              "y": -0.04,
+              "z": 4026.8245130479577
+            },
+            "rotation": -0.34162624413807074
+          }
+        }
+      ],
+      "sourceId": "regional:warehouse:1240:4020",
+      "heightMode": "GROUND",
+      "autoMove": 22.680584446782575
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

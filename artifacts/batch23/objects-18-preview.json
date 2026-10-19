@@ -1,0 +1,1155 @@
+{
+  "inspection": {
+    "key": "-1:-1:green_strip:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "green_strip",
+      "objectIds": [
+        "v6-star-lake-1",
+        "v6-star-lake-5",
+        "v6-star-lake-7",
+        "v6-star-lake-9",
+        "v6-star-lake-13",
+        "v6-star-lake-14",
+        "v6-star-lake-30",
+        "v6-star-lake-35",
+        "v6-star-lake-39",
+        "v6-star-lake-40",
+        "v6-star-lake-44",
+        "v6-shrubs-928",
+        "v6-shrubs-932",
+        "v6-shrubs-1490",
+        "v6-shrubs-1819",
+        "v6-shrubs-1847",
+        "v6-shrubs-2093",
+        "v6-shrubs-2440",
+        "v6-shrubs-2458",
+        "v6-shrubs-2462",
+        "v6-river-bank-1",
+        "v6-river-bank-3",
+        "v6-river-bank-5",
+        "v6-river-bank-7",
+        "v6-river-bank-15",
+        "v6-river-bank-17",
+        "v6-river-bank-19",
+        "v6-river-bank-21",
+        "v6-river-bank-25",
+        "v6-river-bank-27",
+        "v6-river-bank-29",
+        "v6-river-bank-31",
+        "v6-river-bank-33",
+        "v6-river-bank-35",
+        "v6-river-bank-37",
+        "v6-river-bank-39",
+        "v6-river-bank-41",
+        "v6-river-bank-43",
+        "v6-river-bank-45",
+        "v6-river-bank-47",
+        "v6-river-bank-49",
+        "v6-river-bank-51",
+        "v6-river-bank-53",
+        "v6-river-bank-55",
+        "v6-river-bank-57",
+        "v6-river-bank-59",
+        "v6-river-bank-63",
+        "v6-river-bank-65",
+        "v6-river-bank-67",
+        "v6-river-bank-69"
+      ],
+      "bbox": {
+        "minX": -1339.2121537036096,
+        "maxX": -207.58057398313883,
+        "minZ": -1760.8101532871347,
+        "maxZ": -83.41772643423573
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 50,
+      "valid": 40,
+      "adjusted": 0,
+      "invalid": 10,
+      "skipped": 10,
+      "added": 0,
+      "moved": 40,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "v6-river-bank-65",
+        "issues": [
+          {
+            "id": "object.insideJunction::v6-river-bank-65::",
+            "code": "object.insideJunction",
+            "severity": "warning",
+            "objectId": "v6-river-bank-65",
+            "message": "Object envelope intersects junction pavement",
+            "metrics": {
+              "intersectionId": "urban-junction-4"
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "v6-river-bank-67",
+        "issues": [
+          {
+            "id": "object.insideLane::v6-river-bank-67::",
+            "code": "object.insideLane",
+            "severity": "warning",
+            "objectId": "v6-river-bank-67",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v91-ew-0-a-6-section",
+              "distance": 21.11622375492209,
+              "roadHalfWidth": 3.6,
+              "objectRadius": 23.022549661460573
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v6-river-bank-67",
+              "roadId": "v91-ew-0-a-6-section",
+              "strategy": "moveOutsideCarriageway"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-1",
+      "properties": {
+        "position": {
+          "x": -947.9821053947154,
+          "y": -0.04,
+          "z": -1783.1881900301723
+        },
+        "rotation": 1.7498859078044655
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-5",
+      "properties": {
+        "position": {
+          "x": -898.2157019903262,
+          "y": -0.04,
+          "z": -1788.1079316936355
+        },
+        "rotation": 1.5872520339185376
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-7",
+      "properties": {
+        "position": {
+          "x": -893.4082376416887,
+          "y": -0.04,
+          "z": -1363.695111571635
+        },
+        "rotation": -2.2862382796623417
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-9",
+      "properties": {
+        "position": {
+          "x": -848.7708109188367,
+          "y": -0.04,
+          "z": -1785.6710913981071
+        },
+        "rotation": 1.4561015711185255
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-13",
+      "properties": {
+        "position": {
+          "x": -800.9348371312915,
+          "y": -0.04,
+          "z": -1776.1815999538348
+        },
+        "rotation": 1.284743114404527
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-14",
+      "properties": {
+        "position": {
+          "x": -809.3134951547551,
+          "y": -0.04,
+          "z": -1713.4153888229155
+        },
+        "rotation": 1.2531676675715266
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-30",
+      "properties": {
+        "position": {
+          "x": -663.5501966767696,
+          "y": -0.04,
+          "z": -1693.2366485725986
+        },
+        "rotation": 0.7348466787418352
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-35",
+      "properties": {
+        "position": {
+          "x": -617.378929710778,
+          "y": -0.04,
+          "z": -1675.6481214902562
+        },
+        "rotation": 1.3320144681996087
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-39",
+      "properties": {
+        "position": {
+          "x": -573.738384984952,
+          "y": -0.04,
+          "z": -1660.9099570710748
+        },
+        "rotation": 1.1576683628347244
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-40",
+      "properties": {
+        "position": {
+          "x": -586.9383311017251,
+          "y": -0.04,
+          "z": -1597.9105206517768
+        },
+        "rotation": 1.102335559283958
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-star-lake-44",
+      "properties": {
+        "position": {
+          "x": -529.9018701398195,
+          "y": -0.04,
+          "z": -1595.3547856058826
+        },
+        "rotation": 1.6403543448603892
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-932",
+      "properties": {
+        "position": {
+          "x": -1164.6838667596517,
+          "y": -0.04,
+          "z": -273.18297110999873
+        },
+        "rotation": 0.0004197782175989191
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-1490",
+      "properties": {
+        "position": {
+          "x": -1338.2121537036096,
+          "y": -0.04,
+          "z": -985.3685754652473
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-1847",
+      "properties": {
+        "position": {
+          "x": -437.5597305729016,
+          "y": -0.04,
+          "z": -326.46916174175595
+        },
+        "rotation": -2.433537857852345
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-2093",
+      "properties": {
+        "position": {
+          "x": -208.5823923077085,
+          "y": -0.04,
+          "z": -864.7560710256054
+        },
+        "rotation": -1.570260837909038
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-2440",
+      "properties": {
+        "position": {
+          "x": -1072.7047447521281,
+          "y": -0.04,
+          "z": -1014.6314297748604
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-2458",
+      "properties": {
+        "position": {
+          "x": -291.1189741739447,
+          "y": -0.04,
+          "z": -1014.6314318182367
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-2462",
+      "properties": {
+        "position": {
+          "x": -216.83294622888195,
+          "y": -0.04,
+          "z": -985.3685646869695
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-1",
+      "properties": {
+        "position": {
+          "x": -740.7876411159664,
+          "y": -0.04,
+          "z": -1683.6321780841877
+        },
+        "rotation": 0.9479090625133899
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-3",
+      "properties": {
+        "position": {
+          "x": -719.2294381136661,
+          "y": -0.04,
+          "z": -1665.9511386619708
+        },
+        "rotation": 0.8245279309897269
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-5",
+      "properties": {
+        "position": {
+          "x": -700.2545134586375,
+          "y": -0.04,
+          "z": -1645.3594645501587
+        },
+        "rotation": 0.670286077497688
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-7",
+      "properties": {
+        "position": {
+          "x": -673.1484161246493,
+          "y": -0.04,
+          "z": -1625.0625364207149
+        },
+        "rotation": 1.4428473309347192
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-15",
+      "properties": {
+        "position": {
+          "x": -609.6172707077333,
+          "y": -0.04,
+          "z": -1150.4203046021516
+        },
+        "rotation": -1.3770597509359142
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-25",
+      "properties": {
+        "position": {
+          "x": -553.8957522979213,
+          "y": -0.04,
+          "z": -910.2201914094294
+        },
+        "rotation": -3.00336187546814
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-27",
+      "properties": {
+        "position": {
+          "x": -556.0533279935534,
+          "y": -0.04,
+          "z": -879.7860903245858
+        },
+        "rotation": -3.0671743037856287
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-31",
+      "properties": {
+        "position": {
+          "x": -558.3200831613162,
+          "y": -0.04,
+          "z": -805.0858013936488
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-33",
+      "properties": {
+        "position": {
+          "x": -558.3210949849024,
+          "y": -0.04,
+          "z": -767.0899921110058
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-35",
+      "properties": {
+        "position": {
+          "x": -558.3211130167981,
+          "y": -0.04,
+          "z": -729.0912663605454
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-37",
+      "properties": {
+        "position": {
+          "x": -558.320663459016,
+          "y": -0.04,
+          "z": -691.0934609912699
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-39",
+      "properties": {
+        "position": {
+          "x": -558.3201147747209,
+          "y": -0.04,
+          "z": -653.1022345297093
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-41",
+      "properties": {
+        "position": {
+          "x": -558.3200068331327,
+          "y": -0.04,
+          "z": -615.1176411151143
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-47",
+      "properties": {
+        "position": {
+          "x": -558.3210450800531,
+          "y": -0.04,
+          "z": -501.1414453585916
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-49",
+      "properties": {
+        "position": {
+          "x": -558.3201404524167,
+          "y": -0.04,
+          "z": -463.14724526394815
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-51",
+      "properties": {
+        "position": {
+          "x": -558.3174394861799,
+          "y": -0.04,
+          "z": -425.17493003384044
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-53",
+      "properties": {
+        "position": {
+          "x": -558.3126705563171,
+          "y": -0.04,
+          "z": -381.75
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-55",
+      "properties": {
+        "position": {
+          "x": -558.3073032976476,
+          "y": -0.04,
+          "z": -349.3921304191483
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-57",
+      "properties": {
+        "position": {
+          "x": -558.3016638805782,
+          "y": -0.04,
+          "z": -311.6060881753707
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-59",
+      "properties": {
+        "position": {
+          "x": -558.2961913742785,
+          "y": -0.04,
+          "z": -273.89245517299355
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-63",
+      "properties": {
+        "position": {
+          "x": -558.1254418773449,
+          "y": -0.04,
+          "z": -229.3864117199467
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-69",
+      "properties": {
+        "position": {
+          "x": -575.1221648566753,
+          "y": -0.04,
+          "z": -70.09803216792866
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-928",
+      "properties": {
+        "position": {
+          "x": -1169.86764097734,
+          "y": -0.04,
+          "z": -210.88992611533337
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-shrubs-1819",
+      "properties": {
+        "position": {
+          "x": -540,
+          "y": -0.04,
+          "z": -86.11415446882127
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-17",
+      "properties": {
+        "position": {
+          "x": -604.4272884768642,
+          "y": -0.04,
+          "z": -1066.9995043237216
+        },
+        "rotation": -2.934759662033364
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-19",
+      "properties": {
+        "position": {
+          "x": -603.7886972661718,
+          "y": -0.04,
+          "z": -1041.1919516679254
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-21",
+      "properties": {
+        "position": {
+          "x": -571.5655333817579,
+          "y": -0.04,
+          "z": -963.3259700584848
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-29",
+      "properties": {
+        "position": {
+          "x": -563.639524058051,
+          "y": -0.04,
+          "z": -815.5939306358084
+        },
+        "rotation": -1.5727300183245274
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-43",
+      "properties": {
+        "position": {
+          "x": -557.3203423336856,
+          "y": -0.04,
+          "z": -582.1314448367389
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-river-bank-45",
+      "properties": {
+        "position": {
+          "x": -559.1185895796482,
+          "y": -0.04,
+          "z": -516.1791387356441
+        },
+        "rotation": -1.5707963267948966
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-11",
+    "revision": 10,
+    "label": "objects-18",
+    "created": [],
+    "modified": [
+      "v6-star-lake-1",
+      "v6-star-lake-5",
+      "v6-star-lake-7",
+      "v6-star-lake-9",
+      "v6-star-lake-13",
+      "v6-star-lake-14",
+      "v6-star-lake-30",
+      "v6-star-lake-35",
+      "v6-star-lake-39",
+      "v6-star-lake-40",
+      "v6-star-lake-44",
+      "v6-shrubs-932",
+      "v6-shrubs-1490",
+      "v6-shrubs-1847",
+      "v6-shrubs-2093",
+      "v6-shrubs-2440",
+      "v6-shrubs-2458",
+      "v6-shrubs-2462",
+      "v6-river-bank-1",
+      "v6-river-bank-3",
+      "v6-river-bank-5",
+      "v6-river-bank-7",
+      "v6-river-bank-15",
+      "v6-river-bank-25",
+      "v6-river-bank-27",
+      "v6-river-bank-31",
+      "v6-river-bank-33",
+      "v6-river-bank-35",
+      "v6-river-bank-37",
+      "v6-river-bank-39",
+      "v6-river-bank-41",
+      "v6-river-bank-47",
+      "v6-river-bank-49",
+      "v6-river-bank-51",
+      "v6-river-bank-53",
+      "v6-river-bank-55",
+      "v6-river-bank-57",
+      "v6-river-bank-59",
+      "v6-river-bank-63",
+      "v6-river-bank-69",
+      "v6-shrubs-928",
+      "v6-shrubs-1819",
+      "v6-river-bank-17",
+      "v6-river-bank-19",
+      "v6-river-bank-21",
+      "v6-river-bank-29",
+      "v6-river-bank-43",
+      "v6-river-bank-45"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1378.2121537036096,
+      "maxX": -168.58057398313883,
+      "minZ": -1828.1079316936355,
+      "maxZ": -30.098032167928665
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v6-star-lake-1",
+          "v6-star-lake-5",
+          "v6-star-lake-7",
+          "v6-star-lake-9",
+          "v6-star-lake-13",
+          "v6-star-lake-14",
+          "v6-star-lake-30",
+          "v6-star-lake-35",
+          "v6-star-lake-39",
+          "v6-star-lake-40",
+          "v6-star-lake-44",
+          "v6-shrubs-932",
+          "v6-shrubs-1490",
+          "v6-shrubs-1847",
+          "v6-shrubs-2093",
+          "v6-shrubs-2440",
+          "v6-shrubs-2458",
+          "v6-shrubs-2462",
+          "v6-river-bank-1",
+          "v6-river-bank-3",
+          "v6-river-bank-5",
+          "v6-river-bank-7",
+          "v6-river-bank-15",
+          "v6-river-bank-25",
+          "v6-river-bank-27",
+          "v6-river-bank-31",
+          "v6-river-bank-33",
+          "v6-river-bank-35",
+          "v6-river-bank-37",
+          "v6-river-bank-39",
+          "v6-river-bank-41",
+          "v6-river-bank-47",
+          "v6-river-bank-49",
+          "v6-river-bank-51",
+          "v6-river-bank-53",
+          "v6-river-bank-55",
+          "v6-river-bank-57",
+          "v6-river-bank-59",
+          "v6-river-bank-63",
+          "v6-river-bank-69",
+          "v6-shrubs-928",
+          "v6-shrubs-1819",
+          "v6-river-bank-17",
+          "v6-river-bank-19",
+          "v6-river-bank-21",
+          "v6-river-bank-29",
+          "v6-river-bank-43",
+          "v6-river-bank-45",
+          "ring-cw-0-split-split",
+          "ring-ccw-3-split-3-split",
+          "v9-lake-loop-south-split",
+          "v9-lake-loop-north-split-split-c91",
+          "v91-ew-0-b-3",
+          "urban-junction",
+          "urban-junction-3",
+          "ew-wb-split-split-split-split-3-split",
+          "v91-ew-0-b-4",
+          "v4-inner-0-split-2-v91-m91",
+          "urban-junction-24",
+          "v4-north-split-3-m91",
+          "urban-junction-45",
+          "urban-junction-128",
+          "system-central:S-to-W-semi",
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split",
+          "v91-ew-0-a-7",
+          "v5-civic-avenue-split-split-3-split-m91",
+          "v5-civic-avenue-split-split-3-split-2-v91-m91",
+          "v91-ew-0-a-6-section",
+          "ew-eb-split-4-split-split-section",
+          "urban-junction-4",
+          "v4-civic-collector-split-split-m91",
+          "urban-junction-89",
+          "v4-inner-0-split-split-split-split-m91",
+          "urban-junction-105",
+          "v4-north-split-3-split-2-m91",
+          "v4-north-split-3-split-3-split-m91",
+          "urban-junction-179",
+          "v4-north-split-3-split-split-2-m91",
+          "v4-north-split-3-split-split-2-split-2-m91",
+          "v9-lake-east-c91",
+          "urban-junction-130",
+          "v4-north-split-3-split-split-2-split-2-split-m91",
+          "access-shifu-north-source",
+          "v9-lake-loop-north-split-split-c91-section",
+          "access-shifu-north",
+          "access-shifu-north-cross-1",
+          "v4-north-split-3-split-m91",
+          "v4-north-split-3-split-m91-section",
+          "access-shifu-north-section",
+          "v4-inner-0-split-split-m91-section",
+          "urban-junction-103",
+          "v5-civic-avenue-m91",
+          "v4-inner-0-split-split-split-m91",
+          "urban-junction-91",
+          "v91-local-junction-2",
+          "v5-civic-north-split-m91",
+          "v5-civic-avenue-m91-section",
+          "v5-civic-north-split-m91-section",
+          "v5-civic-avenue-split-m91",
+          "v5-civic-avenue-split-split-3-v91-m91",
+          "v91-ew-0-b-6-section",
+          "ew-eb-split-4-split-split-section-2"
+        ],
+        "message": "intersections[2]: urban-junction-89: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v6-star-lake-1",
+          "v6-star-lake-5",
+          "v6-star-lake-7",
+          "v6-star-lake-9",
+          "v6-star-lake-13",
+          "v6-star-lake-14",
+          "v6-star-lake-30",
+          "v6-star-lake-35",
+          "v6-star-lake-39",
+          "v6-star-lake-40",
+          "v6-star-lake-44",
+          "v6-shrubs-932",
+          "v6-shrubs-1490",
+          "v6-shrubs-1847",
+          "v6-shrubs-2093",
+          "v6-shrubs-2440",
+          "v6-shrubs-2458",
+          "v6-shrubs-2462",
+          "v6-river-bank-1",
+          "v6-river-bank-3",
+          "v6-river-bank-5",
+          "v6-river-bank-7",
+          "v6-river-bank-15",
+          "v6-river-bank-25",
+          "v6-river-bank-27",
+          "v6-river-bank-31",
+          "v6-river-bank-33",
+          "v6-river-bank-35",
+          "v6-river-bank-37",
+          "v6-river-bank-39",
+          "v6-river-bank-41",
+          "v6-river-bank-47",
+          "v6-river-bank-49",
+          "v6-river-bank-51",
+          "v6-river-bank-53",
+          "v6-river-bank-55",
+          "v6-river-bank-57",
+          "v6-river-bank-59",
+          "v6-river-bank-63",
+          "v6-river-bank-69",
+          "v6-shrubs-928",
+          "v6-shrubs-1819",
+          "v6-river-bank-17",
+          "v6-river-bank-19",
+          "v6-river-bank-21",
+          "v6-river-bank-29",
+          "v6-river-bank-43",
+          "v6-river-bank-45",
+          "ring-cw-0-split-split",
+          "ring-ccw-3-split-3-split",
+          "v9-lake-loop-south-split",
+          "v9-lake-loop-north-split-split-c91",
+          "v91-ew-0-b-3",
+          "urban-junction",
+          "urban-junction-3",
+          "ew-wb-split-split-split-split-3-split",
+          "v91-ew-0-b-4",
+          "v4-inner-0-split-2-v91-m91",
+          "urban-junction-24",
+          "v4-north-split-3-m91",
+          "urban-junction-45",
+          "urban-junction-128",
+          "system-central:S-to-W-semi",
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split",
+          "v91-ew-0-a-7",
+          "v5-civic-avenue-split-split-3-split-m91",
+          "v5-civic-avenue-split-split-3-split-2-v91-m91",
+          "v91-ew-0-a-6-section",
+          "ew-eb-split-4-split-split-section",
+          "urban-junction-4",
+          "v4-civic-collector-split-split-m91",
+          "urban-junction-89",
+          "v4-inner-0-split-split-split-split-m91",
+          "urban-junction-105",
+          "v4-north-split-3-split-2-m91",
+          "v4-north-split-3-split-3-split-m91",
+          "urban-junction-179",
+          "v4-north-split-3-split-split-2-m91",
+          "v4-north-split-3-split-split-2-split-2-m91",
+          "v9-lake-east-c91",
+          "urban-junction-130",
+          "v4-north-split-3-split-split-2-split-2-split-m91",
+          "access-shifu-north-source",
+          "v9-lake-loop-north-split-split-c91-section",
+          "access-shifu-north",
+          "access-shifu-north-cross-1",
+          "v4-north-split-3-split-m91",
+          "v4-north-split-3-split-m91-section",
+          "access-shifu-north-section",
+          "v4-inner-0-split-split-m91-section",
+          "urban-junction-103",
+          "v5-civic-avenue-m91",
+          "v4-inner-0-split-split-split-m91",
+          "urban-junction-91",
+          "v91-local-junction-2",
+          "v5-civic-north-split-m91",
+          "v5-civic-avenue-m91-section",
+          "v5-civic-north-split-m91-section",
+          "v5-civic-avenue-split-m91",
+          "v5-civic-avenue-split-split-3-v91-m91",
+          "v91-ew-0-b-6-section",
+          "ew-eb-split-4-split-split-section-2"
+        ],
+        "message": "intersections[3]: urban-junction-91: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-star-lake-1",
+          "v6-star-lake-5",
+          "v6-star-lake-7",
+          "v6-star-lake-9",
+          "v6-star-lake-13",
+          "v6-star-lake-14",
+          "v6-star-lake-30",
+          "v6-star-lake-35",
+          "v6-star-lake-39",
+          "v6-star-lake-40",
+          "v6-star-lake-44",
+          "v6-shrubs-932",
+          "v6-shrubs-1490",
+          "v6-shrubs-1847",
+          "v6-shrubs-2093",
+          "v6-shrubs-2440",
+          "v6-shrubs-2458",
+          "v6-shrubs-2462",
+          "v6-river-bank-1",
+          "v6-river-bank-3",
+          "v6-river-bank-5",
+          "v6-river-bank-7",
+          "v6-river-bank-15",
+          "v6-river-bank-25",
+          "v6-river-bank-27",
+          "v6-river-bank-31",
+          "v6-river-bank-33",
+          "v6-river-bank-35",
+          "v6-river-bank-37",
+          "v6-river-bank-39",
+          "v6-river-bank-41",
+          "v6-river-bank-47",
+          "v6-river-bank-49",
+          "v6-river-bank-51",
+          "v6-river-bank-53",
+          "v6-river-bank-55",
+          "v6-river-bank-57",
+          "v6-river-bank-59",
+          "v6-river-bank-63",
+          "v6-river-bank-69",
+          "v6-shrubs-928",
+          "v6-shrubs-1819",
+          "v6-river-bank-17",
+          "v6-river-bank-19",
+          "v6-river-bank-21",
+          "v6-river-bank-29",
+          "v6-river-bank-43",
+          "v6-river-bank-45",
+          "ring-cw-0-split-split",
+          "ring-ccw-3-split-3-split",
+          "v9-lake-loop-south-split",
+          "v9-lake-loop-north-split-split-c91",
+          "v91-ew-0-b-3",
+          "urban-junction",
+          "urban-junction-3",
+          "ew-wb-split-split-split-split-3-split",
+          "v91-ew-0-b-4",
+          "v4-inner-0-split-2-v91-m91",
+          "urban-junction-24",
+          "v4-north-split-3-m91",
+          "urban-junction-45",
+          "urban-junction-128",
+          "system-central:S-to-W-semi",
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split",
+          "v91-ew-0-a-7",
+          "v5-civic-avenue-split-split-3-split-m91",
+          "v5-civic-avenue-split-split-3-split-2-v91-m91",
+          "v91-ew-0-a-6-section",
+          "ew-eb-split-4-split-split-section",
+          "urban-junction-4",
+          "v4-civic-collector-split-split-m91",
+          "urban-junction-89",
+          "v4-inner-0-split-split-split-split-m91",
+          "urban-junction-105",
+          "v4-north-split-3-split-2-m91",
+          "v4-north-split-3-split-3-split-m91",
+          "urban-junction-179",
+          "v4-north-split-3-split-split-2-m91",
+          "v4-north-split-3-split-split-2-split-2-m91",
+          "v9-lake-east-c91",
+          "urban-junction-130",
+          "v4-north-split-3-split-split-2-split-2-split-m91",
+          "access-shifu-north-source",
+          "v9-lake-loop-north-split-split-c91-section",
+          "access-shifu-north",
+          "access-shifu-north-cross-1",
+          "v4-north-split-3-split-m91",
+          "v4-north-split-3-split-m91-section",
+          "access-shifu-north-section",
+          "v4-inner-0-split-split-m91-section",
+          "urban-junction-103",
+          "v5-civic-avenue-m91",
+          "v4-inner-0-split-split-split-m91",
+          "urban-junction-91",
+          "v91-local-junction-2",
+          "v5-civic-north-split-m91",
+          "v5-civic-avenue-m91-section",
+          "v5-civic-north-split-m91-section",
+          "v5-civic-avenue-split-m91",
+          "v5-civic-avenue-split-split-3-v91-m91",
+          "v91-ew-0-b-6-section",
+          "ew-eb-split-4-split-split-section-2"
+        ],
+        "message": "roads: 17 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ew-wb-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ns-nb-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ew-eb-split-4-split-split-split",
+          "system-central:W-to-N-semi"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-a-6-section",
+          "access-ew-west-eb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-b-6-section",
+          "access-ew-west-wb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

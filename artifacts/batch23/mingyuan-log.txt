@@ -1,0 +1,15 @@
+mingyuan-start-alignment {"modified":26,"created":0,"deleted":0,"errors":0,"warning":19}
+mingyuan-start-transition {"modified":26,"created":1,"deleted":0,"errors":0,"warning":19}
+mingyuan-start-markings {"modified":36,"created":0,"deleted":0,"errors":0,"warning":19}
+file:///D:/dsy/drivergame/artifacts/batch23/engineering.mjs:16622
+  if (!summary.valid) throw new Error(name + ": " + JSON.stringify(summary.warnings.filter((i) => i.severity === "error")));
+                            ^
+
+Error: mingyuan-end-alignment: [{"severity":"error","code":"road.degenerate","ids":["direction-mingyuan-main-section-section-section-section","direction-mingyuan-ne-terminal","urban-diagonal-split-split-split-split-c91","urban-diagonal-split-split-split-split-c91-section"],"message":"roads[6].centerline: Distinct start/end and consecutive nodes need at least 0.05m horizontal separation."}]
+    at tx (file:///D:/dsy/drivergame/artifacts/batch23/engineering.mjs:16622:29)
+    at file:///D:/dsy/drivergame/artifacts/batch23/engineering.mjs:16718:5
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0

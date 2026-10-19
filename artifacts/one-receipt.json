@@ -1,0 +1,90 @@
+{
+  "mapDigest": "1f8954a67b1fce1327daece5c27d1a72340d7cde4e45ad425c67cfd0c2eeba2b",
+  "operations": [
+    {
+      "op": "repairElevation",
+      "preserveEndpoints": true,
+      "id": "system-north:E-to-S-star",
+      "strength": 1,
+      "start": 394,
+      "end": 521,
+      "maxGrade": 0.08
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "test",
+    "created": [],
+    "modified": [
+      "system-north:E-to-S-star",
+      "road-safety:system-north:E-to-S-star:false:guide:130",
+      "road-safety:system-north:E-to-S-star:false:guide:355",
+      "road-safety:system-north:E-to-S-star:false:guide:430",
+      "road-safety:system-north:E-to-S-star:false:guide:505",
+      "road-safety:system-north:E-to-S-star:false:speed:65"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -59.614150472773275,
+      "maxX": 474.45,
+      "minZ": -1941.6937906645944,
+      "maxZ": -1314.716666666667
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:E-to-S-star",
+          "ring-ccw-2-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-north:E-to-S-star",
+          "ring-ccw-3-split-4"
+        ],
+        "message": "Crossing clearance 4.3m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-north:E-to-S-star",
+          "ring-cw-0-split-split-split-2-split-split"
+        ],
+        "message": "Crossing clearance 4.6m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:E-to-S-star",
+          "ns-sb-split-3-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true,
+    "metrics": {
+      "system-north:E-to-S-star": {
+        "elevation": {
+          "beforeMaxGrade": 12,
+          "afterMaxGrade": 8,
+          "beforeGradeReversals": 5,
+          "afterGradeReversals": 1,
+          "removedControlPoints": 0,
+          "affectedStart": 394,
+          "affectedEnd": 521,
+          "maxDeviation": 0,
+          "maxHeightDelta": 1.911,
+          "monotonic": false
+        }
+      }
+    }
+  }
+}

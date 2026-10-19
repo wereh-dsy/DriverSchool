@@ -1,0 +1,169 @@
+{
+  "inspection": {
+    "key": "2:-4:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+        "road-safety:regional:yunling-exit:on:1:false:guide:280"
+      ],
+      "bbox": {
+        "minX": 5502.923846393978,
+        "maxX": 5980.79554446758,
+        "minZ": -7540.650273298559,
+        "maxZ": -7126.576594615805
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 2,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+      "properties": {
+        "position": {
+          "x": 5495.831050308529,
+          "y": 71.474124964192,
+          "z": -7132.653703429515
+        },
+        "heading": 2.5812969721471264,
+        "roadId": "regional:yunling-exit:on:-1",
+        "stationMetres": 279.9999999999996,
+        "postBaseY": 0
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "road-safety:regional:yunling-exit:on:1:false:guide:280",
+      "properties": {
+        "position": {
+          "x": 5987.264725893384,
+          "y": 68.53605453468946,
+          "z": -7533.693620613088
+        },
+        "heading": -0.673213095955579,
+        "roadId": "regional:yunling-exit:on:1",
+        "stationMetres": 280,
+        "postBaseY": 0
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-32",
+    "created": [],
+    "modified": [
+      "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+      "road-safety:regional:yunling-exit:on:1:false:guide:280"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 5463.923846393978,
+      "maxX": 6019.79554446758,
+      "minZ": -7579.650273298559,
+      "maxZ": -7087.576594615805
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+          "road-safety:regional:yunling-exit:on:1:false:guide:280",
+          "regional:G65:in:5",
+          "regional:G65:out:6:upgrade234",
+          "regional:yunling-exit:off:1",
+          "regional:G65:in:5:upgrade244",
+          "regional:yunling-exit:on:-1",
+          "regional:G65:in:4:upgrade329",
+          "regional:G65:out:6:lane388",
+          "regional:yunling-exit:off:1:deceleration",
+          "regional:yunling-exit:on:-1:acceleration",
+          "regional:G65:out:7",
+          "regional:G65:out:7:upgrade236",
+          "regional:yunling-exit:on:1",
+          "regional:G65:in:3:upgrade242",
+          "regional:yunling-exit:off:-1",
+          "regional:yunling-exit:on:1:acceleration",
+          "regional:G65:in:3:lane396",
+          "regional:yunling-exit:off:-1:deceleration"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G65:out:7:upgrade236",
+          "regional:yunling-exit:on:1:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G65:in:5:upgrade244",
+          "regional:yunling-exit:on:-1:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G65:out:6:lane388",
+          "regional:yunling-exit:off:1:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G65:in:3:lane396",
+          "regional:yunling-exit:off:-1:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:yunling-exit:on:-1:false:guide:280",
+          "regional:yunling-exit:on:-1"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:regional:yunling-exit:on:1:false:guide:280",
+          "regional:yunling-exit:on:1"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      }
+    ],
+    "valid": true
+  }
+}

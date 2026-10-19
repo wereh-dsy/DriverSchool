@@ -1,0 +1,100 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight",
+    "objectIds": [
+      "v6-lamps-524"
+    ],
+    "bbox": {
+      "minX": 2201.9062265305797,
+      "maxX": 2203.9062265305797,
+      "minZ": -1396.446025547554,
+      "maxZ": -1394.446025547554
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-524",
+      "state": "INVALID",
+      "position": {
+        "x": 2179.672679420189,
+        "y": 8,
+        "z": -1366.805475506734
+      },
+      "rotation": 0.8892563184957533,
+      "anchor": {
+        "anchorRoadId": "ring-ccw-2-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 832.3621780721272,
+        "lateralOffset": 9.54470562748471,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 0.8892563184957533,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-524",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-524",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "ring-ccw-2-split-split-split",
+            "lateralOffset": 9.54470562748471
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:v6-lamps-524",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-lamps-524",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-524",
+          "properties": {
+            "position": {
+              "x": 2179.672679420189,
+              "y": 8,
+              "z": -1366.805475506734
+            },
+            "rotation": 0.8892563184957533
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-524",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 36.87955148820897
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

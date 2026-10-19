@@ -1,0 +1,77 @@
+{
+  "inspection": {
+    "key": "-1:0:residential_mid:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "residential_mid",
+      "objectIds": [
+        "v6-inner-west-housing-215"
+      ],
+      "bbox": {
+        "minX": -1123.1990445637875,
+        "maxX": -1121.1990445637875,
+        "minZ": 559.4291526810363,
+        "maxZ": 561.4291526810363
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-inner-west-housing-215",
+      "properties": {
+        "position": {
+          "x": -1129.6957869164999,
+          "y": -0.04,
+          "z": 567.1739833155573
+        },
+        "rotation": 0.7326501819022547
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-16",
+    "revision": 15,
+    "label": "objects-23",
+    "created": [],
+    "modified": [
+      "v6-inner-west-housing-215"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1169.6957869164999,
+      "maxX": -1082.1990445637875,
+      "minZ": 520.4291526810363,
+      "maxZ": 607.1739833155573
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "v6-inner-west-housing-215"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

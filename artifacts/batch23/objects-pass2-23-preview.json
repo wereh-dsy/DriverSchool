@@ -1,0 +1,142 @@
+{
+  "inspection": {
+    "key": "-1:0:streetlight:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight",
+      "objectIds": [
+        "v6-lamps-1425",
+        "v6-lamps-1428",
+        "v6-lamps-1524"
+      ],
+      "bbox": {
+        "minX": -1406.5866817950118,
+        "maxX": -1211.1237757355054,
+        "minZ": 1657.0308221054092,
+        "maxZ": 1696.8512160701484
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 3,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 3,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1425",
+      "properties": {
+        "position": {
+          "x": -1303.0690766092089,
+          "y": -0.04,
+          "z": 1685.2505305925113
+        },
+        "rotation": -2.7053307448216595
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1428",
+      "properties": {
+        "position": {
+          "x": -1204.7801459919067,
+          "y": -0.04,
+          "z": 1670.7503619332963
+        },
+        "rotation": -1.0471975511965979
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1524",
+      "properties": {
+        "position": {
+          "x": -1414.8104894211028,
+          "y": -0.04,
+          "z": 1695.8512160701484
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-23",
+    "created": [],
+    "modified": [
+      "v6-lamps-1425",
+      "v6-lamps-1428",
+      "v6-lamps-1524"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1454.8104894211028,
+      "maxX": -1164.7801459919067,
+      "minZ": 1618.0308221054092,
+      "maxZ": 1735.8512160701484
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-1425",
+          "v6-lamps-1428",
+          "v6-lamps-1524",
+          "ring-cw-3-split-2-split",
+          "ring-ccw-0-split-split-split-3-split-section",
+          "v4-diagonal-split-3-m91",
+          "v8-shanghai-road-split-split-m91",
+          "v8-shanghai-road-split-split-2-m91",
+          "direction-mingyuan-main",
+          "urban-junction-41",
+          "urban-junction-56",
+          "v4-west-split-split-2-m91",
+          "v4-west-split-split-3-split-split-m91",
+          "v4-south-split-3-c91",
+          "v4-south-split-3-split-c91",
+          "v4-south-c91-section",
+          "v8-beijing-road-split-split-split-split-section",
+          "v4-south-split-3-split-c91-section",
+          "v4-west-split-split-2-m91-section",
+          "urban-junction-72",
+          "urban-junction-51",
+          "v91-local-junction-11"
+        ],
+        "message": "roads: 8 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.buried",
+        "ids": [
+          "v6-lamps-1428"
+        ],
+        "message": "Base differs from selected support surface"
+      },
+      {
+        "severity": "warning",
+        "code": "object.unsupportedOnDeck",
+        "ids": [
+          "v6-lamps-1428"
+        ],
+        "message": "Road-level placement lies outside the available deck/sidewalk envelope"
+      }
+    ],
+    "valid": true
+  }
+}

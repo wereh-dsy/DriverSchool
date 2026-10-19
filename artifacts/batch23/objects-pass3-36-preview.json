@@ -1,0 +1,169 @@
+{
+  "inspection": {
+    "key": "1:0:roadSign:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "roadSign",
+      "objectIds": [
+        "road-safety:system-east:S-to-W-turbine:false:speed:65",
+        "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION"
+      ],
+      "bbox": {
+        "minX": 2269.97816980538,
+        "maxX": 2352.2473653780935,
+        "minZ": 132.18446888787818,
+        "maxZ": 516.25
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "FACE_TRAFFIC",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 2,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "road-safety:system-east:S-to-W-turbine:false:speed:65",
+      "properties": {
+        "position": {
+          "x": 2354.2213657849843,
+          "y": 11.849888149781554,
+          "z": 133.60477181430034
+        },
+        "heading": -0.14039599805424727,
+        "roadId": "system-east:S-to-W-turbine",
+        "stationMetres": 52.9999999999999
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+      "properties": {
+        "position": {
+          "x": 2270.97816980538,
+          "y": 0,
+          "z": 502
+        },
+        "heading": 1.5707963267948966,
+        "stationMetres": 73.78123012973991
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass3-36",
+    "created": [],
+    "modified": [
+      "road-safety:system-east:S-to-W-turbine:false:speed:65",
+      "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2230.97816980538,
+      "maxX": 2391.2473653780935,
+      "minZ": 93.18446888787818,
+      "maxZ": 555.25
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "road-safety:system-east:S-to-W-turbine:false:speed:65",
+          "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+          "ring-ccw-2-split",
+          "ring-cw-1-split-split",
+          "ring-ccw-2-split-2",
+          "ring-ccw-2-split-2-split",
+          "ring-cw-1-split-split-split-2",
+          "ring-cw-1-split-split-2-split",
+          "system-east:S-to-W-turbine",
+          "system-east:E-to-S-turbine",
+          "v9-newcity-six-south",
+          "v9-newcity-four-split-split",
+          "v9-newcity-six-south-split-2-c91",
+          "urban-junction-201",
+          "v9-newcity-six-south-split-split",
+          "v4-central-split-split-m91",
+          "v4-central-split-split-split-m91",
+          "v9-newcity-seven-split-c91",
+          "v9-newcity-six-south-split-c91",
+          "urban-junction-186",
+          "urban-junction-199",
+          "urban-junction-200"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-1-split-split",
+          "system-east:E-to-S-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-2-split",
+          "system-east:S-to-W-turbine"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ew-wb-split-3-split-split-3-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:E-to-S-turbine",
+          "ew-wb-split-4-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.intersectsStructure",
+        "ids": [
+          "road-safety:system-east:S-to-W-turbine:false:speed:65",
+          "system-east:S-to-W-turbine"
+        ],
+        "message": "Sign support/board crosses a road deck"
+      },
+      {
+        "severity": "warning",
+        "code": "roadSign.insideLane",
+        "ids": [
+          "topology-sign:urban-junction-186|v4-central-split-split|start:URBAN_DIRECTION",
+          "v4-central-split-split-m91"
+        ],
+        "message": "Sign support intersects carriageway"
+      }
+    ],
+    "valid": true
+  }
+}

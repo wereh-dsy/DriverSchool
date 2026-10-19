@@ -1,0 +1,67 @@
+{ total: 1403, error: 0, warning: 1286, info: 117 } {
+  'object.unsupportedOnDeck': 145,
+  'object.tooCloseToObject': 799,
+  'object.buried': 96,
+  'object.floating': 77,
+  'tree.canopyOccludesSign': 1,
+  'tree.canopyNearRoad': 117,
+  'streetlight.tooDense': 6,
+  'object.insideLane': 78,
+  'object.intersectsBarrier': 26,
+  'object.insideJunction': 22,
+  'roadSign.wrongSide': 8,
+  'object.wrongStructureLevel': 20,
+  'roadSign.insideLane': 3,
+  'roadSign.intersectsStructure': 1,
+  'roadSign.insideJunction': 1,
+  'roadSign.tooCloseToJunction': 2,
+  'trafficLight.occludedByStructure': 1
+}
+[
+  {
+    id: 'topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION',
+    code: 'roadSign.insideLane',
+    metrics: {
+      roadId: 'direction-mingyuan-main-section-section-section-section-section'
+    }
+  },
+  {
+    id: 'topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION',
+    code: 'roadSign.intersectsStructure',
+    metrics: {
+      roadId: 'direction-mingyuan-main-section-section-section-section-section',
+      deckY: 10.263009576994886
+    }
+  },
+  {
+    id: 'topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION',
+    code: 'roadSign.insideLane',
+    metrics: { roadId: 'v4-north-split-2-m91' }
+  },
+  {
+    id: 'topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION',
+    code: 'roadSign.insideLane',
+    metrics: { roadId: 'v4-diagonal-split-split-m91' }
+  },
+  {
+    id: 'topology-sign:urban-junction-127|v4-diagonal-split-split-2-split|start:URBAN_DIRECTION',
+    code: 'roadSign.insideJunction',
+    metrics: { intersectionId: 'urban-junction-40' }
+  },
+  {
+    id: 'signal:urban-junction-234:east',
+    code: 'trafficLight.occludedByStructure',
+    metrics: { roadId: 'v6-logistics-one-split-3-split-2-m91' }
+  }
+]
+loose props [
+  'guardrail',         'noise_barrier',
+  'embankment',        'industrial',
+  'streetlight_small', 'streetlight',
+  'streetlight_dual',  'streetlight_highway',
+  'guide_sign',        'station_platform',
+  'waterway',          'parking',
+  'commercial',        'garage',
+  'railway_track',     'sports_field',
+  'water',             'residential_mid'
+]

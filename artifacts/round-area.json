@@ -1,0 +1,466 @@
+﻿{
+  "roads": [
+    {
+      "id": "ring-ccw-2-split-split-split",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "custom",
+      "roadNameId": "ring-expressway",
+      "lanes": 3,
+      "length": 1399.469,
+      "pts": 203,
+      "start": {
+        "x": 2343.2440476190477,
+        "y": 14.397746567901235,
+        "z": -576.8982730611739
+      },
+      "end": {
+        "x": 1629.9999999999993,
+        "y": 8,
+        "z": -1479.4958239775567
+      },
+      "links": [
+        "ring-ccw-2-split-split-split-2:end->ring-ccw-2-split-split-split:start",
+        "ring-ccw-2-split-split-split:end->ring-ccw-2-split-split-split-section:start",
+        "ring-ccw-2-split-split-split:end->v91-ring-north-outer-off:start"
+      ],
+      "junctions": []
+    },
+    {
+      "id": "north-roundabout:ring-4",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "presetSource": "roundabout",
+      "lanes": 2,
+      "length": 103.633,
+      "pts": 22,
+      "start": {
+        "x": 2013.0888858520927,
+        "y": 0,
+        "z": -1107.6445685135743
+      },
+      "end": {
+        "x": 2106.3861199215494,
+        "y": 0,
+        "z": -1062.7011486350423
+      },
+      "links": [],
+      "junctions": [
+        "urban-junction-64",
+        "urban-junction-65"
+      ]
+    },
+    {
+      "id": "north-roundabout:ring-5",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "presetSource": "roundabout",
+      "lanes": 2,
+      "length": 145.026,
+      "pts": 17,
+      "start": {
+        "x": 2131.978262114375,
+        "y": 0,
+        "z": -1051.3416022473439
+      },
+      "end": {
+        "x": 2268.2827798904304,
+        "y": 0,
+        "z": -1002.6547685150298
+      },
+      "links": [],
+      "junctions": [
+        "urban-junction-65",
+        "urban-junction-66"
+      ]
+    },
+    {
+      "id": "north-roundabout:ring-6",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "presetSource": "roundabout",
+      "lanes": 2,
+      "length": 82.946,
+      "pts": 19,
+      "start": {
+        "x": 2296.0148912816285,
+        "y": 0,
+        "z": -998.8297856460476
+      },
+      "end": {
+        "x": 2377.212244642682,
+        "y": 0,
+        "z": -1010.580191906045
+      },
+      "links": [
+        "north-roundabout:ring-6:end->v6-ring-continuation-urban-junction-67:start"
+      ],
+      "junctions": [
+        "urban-junction-66"
+      ]
+    },
+    {
+      "id": "north-roundabout:ring-7",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "presetSource": "roundabout",
+      "lanes": 2,
+      "length": 35.876,
+      "pts": 13,
+      "start": {
+        "x": 2404.6017856506423,
+        "y": 0,
+        "z": -1034.876291195399
+      },
+      "end": {
+        "x": 2400.2021539666976,
+        "y": 0,
+        "z": -1066.3427036753692
+      },
+      "links": [
+        "v6-ring-continuation-urban-junction-67:end->north-roundabout:ring-7:start",
+        "north-roundabout:ring-7:end->v6-ring-continuation-urban-junction-68:start"
+      ],
+      "junctions": []
+    },
+    {
+      "id": "north-roundabout:ring-8",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "presetSource": "roundabout",
+      "lanes": 2,
+      "length": 75.904,
+      "pts": 13,
+      "start": {
+        "x": 2364.5876111901803,
+        "y": 0,
+        "z": -1094.4951566042446
+      },
+      "end": {
+        "x": 2296.4949789995876,
+        "y": 0,
+        "z": -1126.9877422248092
+      },
+      "links": [
+        "north-roundabout:ring-8:end->v6-ring-continuation-urban-junction-62:start",
+        "v6-ring-continuation-urban-junction-68:end->north-roundabout:ring-8:start"
+      ],
+      "junctions": []
+    },
+    {
+      "id": "north-roundabout:entry-3",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "presetSource": "roundabout",
+      "lanes": 2,
+      "length": 153.298,
+      "pts": 43,
+      "start": {
+        "x": 2220.957352232531,
+        "y": 0,
+        "z": -882.9086820288574
+      },
+      "end": {
+        "x": 2268.2301012305957,
+        "y": 0,
+        "z": -1002.290056439468
+      },
+      "links": [
+        "urban-roundabout-South-entry:end->north-roundabout:entry-3:start"
+      ],
+      "junctions": [
+        "urban-junction-66"
+      ]
+    },
+    {
+      "id": "north-roundabout:exit-3",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "presetSource": "roundabout",
+      "lanes": 2,
+      "length": 171.305,
+      "pts": 44,
+      "start": {
+        "x": 2131.8672643839345,
+        "y": 0,
+        "z": -1051.0990741112973
+      },
+      "end": {
+        "x": 2181.7206761395946,
+        "y": 0,
+        "z": -902.1866877310929
+      },
+      "links": [
+        "north-roundabout:exit-3:end->urban-roundabout-South-exit:start"
+      ],
+      "junctions": [
+        "urban-junction-65"
+      ]
+    },
+    {
+      "id": "urban-roundabout-South-exit",
+      "class": "collector",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "lanes": 2,
+      "length": 27.076,
+      "pts": 3,
+      "start": {
+        "x": 2181.7206761395946,
+        "y": 0,
+        "z": -902.1866877310929
+      },
+      "end": {
+        "x": 2194.5694114769667,
+        "y": 0,
+        "z": -878.3531853745712
+      },
+      "links": [
+        "north-roundabout:exit-3:end->urban-roundabout-South-exit:start"
+      ],
+      "junctions": [
+        "urban-junction-70"
+      ]
+    },
+    {
+      "id": "v6-ring-continuation-urban-junction-67",
+      "class": "frontage",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "lanes": 2,
+      "length": 36.639,
+      "pts": 13,
+      "start": {
+        "x": 2377.212244642682,
+        "y": 0,
+        "z": -1010.580191906045
+      },
+      "end": {
+        "x": 2404.6017856506423,
+        "y": 0,
+        "z": -1034.876291195399
+      },
+      "links": [
+        "north-roundabout:ring-6:end->v6-ring-continuation-urban-junction-67:start",
+        "v6-ring-continuation-urban-junction-67:end->north-roundabout:ring-7:start"
+      ],
+      "junctions": []
+    },
+    {
+      "id": "v6-ring-continuation-urban-junction-68",
+      "class": "frontage",
+      "curve": "polyline",
+      "elevMode": "ground",
+      "groupId": "north-roundabout",
+      "lanes": 2,
+      "length": 45.404,
+      "pts": 9,
+      "start": {
+        "x": 2400.2021539666976,
+        "y": 0,
+        "z": -1066.3427036753692
+      },
+      "end": {
+        "x": 2364.5876111901803,
+        "y": 0,
+        "z": -1094.4951566042446
+      },
+      "links": [
+        "north-roundabout:ring-7:end->v6-ring-continuation-urban-junction-68:start",
+        "v6-ring-continuation-urban-junction-68:end->north-roundabout:ring-8:start"
+      ],
+      "junctions": []
+    },
+    {
+      "id": "ring-cw-1-split-3-split-split-split-split",
+      "class": "expressway",
+      "curve": "polyline",
+      "elevMode": "custom",
+      "roadNameId": "ring-expressway",
+      "lanes": 3,
+      "length": 1579.085,
+      "pts": 242,
+      "start": {
+        "x": 1435.6776099124697,
+        "y": 8,
+        "z": -1526.0711814524075
+      },
+      "end": {
+        "x": 2330.085995224792,
+        "y": 14.397746567901235,
+        "z": -579.3549509417962
+      },
+      "links": [
+        "ring-cw-1-split-3-split-split-split-split:end->ring-cw-1-split-2:start",
+        "ring-cw-1-split-3-split-split-split:end->ring-cw-1-split-3-split-split-split-split:start",
+        "v8-ring-north:on--1:end->ring-cw-1-split-3-split-split-split-split:start"
+      ],
+      "junctions": []
+    },
+    {
+      "id": "urban-north-arterial-split-m91",
+      "class": "arterial",
+      "curve": "polyline",
+      "elevMode": "custom",
+      "roadNameId": "north-avenue",
+      "lanes": 4,
+      "length": 324.232,
+      "pts": 2,
+      "start": {
+        "x": 1858.8992204808114,
+        "y": 0,
+        "z": -1000
+      },
+      "end": {
+        "x": 2183.1312257616555,
+        "y": 0,
+        "z": -1000
+      },
+      "links": [],
+      "junctions": [
+        "urban-junction-15"
+      ]
+    },
+    {
+      "id": "urban-roundabout-South-c91",
+      "class": "arterial",
+      "curve": "polyline",
+      "elevMode": "custom",
+      "roadNameId": "v8-name-urban-roundabout-South",
+      "lanes": 4,
+      "length": 134.447,
+      "pts": 2,
+      "start": {
+        "x": 2201.3812257616555,
+        "y": 0,
+        "z": -985.5
+      },
+      "end": {
+        "x": 2201.3812257616555,
+        "y": 0,
+        "z": -851.052826545581
+      },
+      "links": [],
+      "junctions": [
+        "urban-junction-15",
+        "urban-junction-70"
+      ]
+    },
+    {
+      "id": "urban-north-arterial-split-split-m91-approach",
+      "class": "arterial",
+      "curve": "polyline",
+      "elevMode": "custom",
+      "roadNameId": "north-avenue",
+      "lanes": 4,
+      "length": 121.314,
+      "pts": 28,
+      "start": {
+        "x": 2219.6312257616555,
+        "y": 0,
+        "z": -1000
+      },
+      "end": {
+        "x": 2340.5425760204,
+        "y": 0,
+        "z": -1000
+      },
+      "links": [
+        "v4-north-split-split-m91-approach:end->urban-north-arterial-split-split-m91-approach:end"
+      ],
+      "junctions": [
+        "urban-junction-15"
+      ]
+    },
+    {
+      "id": "v4-north-split-split-m91-approach",
+      "class": "arterial",
+      "curve": "polyline",
+      "elevMode": "custom",
+      "groupId": "v4-urban",
+      "roadNameId": "north-avenue",
+      "lanes": 4,
+      "length": 589.68,
+      "pts": 98,
+      "start": {
+        "x": 1763.008034992727,
+        "y": 0,
+        "z": -1000
+      },
+      "end": {
+        "x": 2340.5425760204,
+        "y": 0,
+        "z": -1000
+      },
+      "links": [
+        "v4-north-split-split-m91-approach:end->urban-north-arterial-split-split-m91-approach:end"
+      ],
+      "junctions": [
+        "urban-junction-59"
+      ]
+    }
+  ],
+  "junctions": [
+    {
+      "id": "urban-junction-15",
+      "position": {
+        "x": 2201.3812257616555,
+        "y": 0,
+        "z": -1000
+      },
+      "signalized": true,
+      "connections": [
+        "urban-roundabout-South-c91:start",
+        "urban-north-arterial-split-m91:end",
+        "urban-north-arterial-split-split-m91-approach:start"
+      ],
+      "ports": []
+    },
+    {
+      "id": "urban-junction-65",
+      "position": {
+        "x": 2119.193234390982,
+        "y": 0,
+        "z": -1057.0462552702784
+      },
+      "signalized": false,
+      "connections": [
+        "north-roundabout:ring-4:end",
+        "north-roundabout:ring-5:start",
+        "north-roundabout:exit-3:start"
+      ],
+      "ports": []
+    },
+    {
+      "id": "urban-junction-66",
+      "position": {
+        "x": 2282.1114481542118,
+        "y": 0,
+        "z": -1000.471208566165
+      },
+      "signalized": false,
+      "connections": [
+        "north-roundabout:ring-5:end",
+        "north-roundabout:ring-6:start",
+        "north-roundabout:entry-3:end"
+      ],
+      "ports": []
+    }
+  ],
+  "links": []
+}

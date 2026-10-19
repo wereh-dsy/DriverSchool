@@ -1,0 +1,472 @@
+{
+  "inspection": {
+    "key": "-1:-1:streetlight_dual",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_dual",
+      "bbox": {
+        "minX": -289.63440122484616,
+        "maxX": -37.20794962190779,
+        "minZ": -227.00774179303352,
+        "maxZ": -100.7535531821331
+      },
+      "objectIds": [
+        "v6-lamps-798",
+        "v6-lamps-802",
+        "v6-lamps-803",
+        "v6-lamps-810"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "streetlight_dual",
+        "bbox": {
+          "minX": -289.63440122484616,
+          "maxX": -37.20794962190779,
+          "minZ": -227.00774179303352,
+          "maxZ": -100.7535531821331
+        },
+        "objectIds": [
+          "v6-lamps-798",
+          "v6-lamps-802",
+          "v6-lamps-803",
+          "v6-lamps-810"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "v6-lamps-798",
+          "state": "VALID",
+          "position": {
+            "x": -38.20794962190787,
+            "y": -0.04,
+            "z": -226.00774179303372
+          },
+          "rotation": -2.753419738275111,
+          "anchor": {
+            "anchorRoadId": "v911-plaza-north-sb",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 303.9922582069663,
+            "lateralOffset": -9.792050378092128,
+            "verticalOffset": -0.04,
+            "facingDirection": "forward",
+            "expectedHeading": -3.141592653589793,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-798",
+              "properties": {
+                "position": {
+                  "x": -38.20794962190787,
+                  "y": -0.04,
+                  "z": -226.00774179303372
+                },
+                "rotation": -2.753419738275111
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-798",
+          "heightMode": "GROUND",
+          "autoMove": 12.477250848406753
+        },
+        {
+          "id": "v6-lamps-802",
+          "state": "VALID",
+          "position": {
+            "x": -268.3507505679691,
+            "y": -0.04,
+            "z": -106.41135368411148
+          },
+          "rotation": -1.7014022446972563,
+          "anchor": {
+            "anchorRoadId": "v911-plaza-west-eb",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 1.6496390205751024,
+            "lateralOffset": -4.411208011097884,
+            "verticalOffset": -0.04,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5707080103722046,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-802",
+              "properties": {
+                "position": {
+                  "x": -268.3507505679691,
+                  "y": -0.04,
+                  "z": -106.41135368411148
+                },
+                "rotation": -1.7014022446972563
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-802",
+          "heightMode": "GROUND",
+          "autoMove": 11.190568411678234
+        },
+        {
+          "id": "v6-lamps-803",
+          "state": "VALID",
+          "position": {
+            "x": -56.15012247873577,
+            "y": -0.04,
+            "z": -101.75355318213299
+          },
+          "rotation": -0.9830454472919017,
+          "anchor": {
+            "anchorRoadId": "v911-plaza-south-sb",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 2.235726423558015,
+            "lateralOffset": 8.154040026667506,
+            "verticalOffset": -0.04,
+            "facingDirection": "forward",
+            "expectedHeading": -3.1408873226714165,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-803",
+              "properties": {
+                "position": {
+                  "x": -56.15012247873577,
+                  "y": -0.04,
+                  "z": -101.75355318213299
+                },
+                "rotation": -0.9830454472919017
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-803",
+          "heightMode": "GROUND",
+          "autoMove": 9.980539912001362
+        },
+        {
+          "id": "v6-lamps-810",
+          "state": "INVALID",
+          "position": {
+            "x": -290.20890481233545,
+            "y": -0.04,
+            "z": -109.29670304355831
+          },
+          "rotation": -1.7012013053355888,
+          "anchor": {
+            "anchorRoadId": "v91-ew-0-a-8",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 19.939666534318008,
+            "lateralOffset": -7.29670304355831,
+            "verticalOffset": -0.04,
+            "facingDirection": "forward",
+            "expectedHeading": -1.5707963267948966,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [
+            {
+              "id": "streetlight.insideJunction::v6-lamps-810::",
+              "code": "streetlight.insideJunction",
+              "severity": "warning",
+              "objectId": "v6-lamps-810",
+              "message": "Object envelope intersects junction pavement",
+              "metrics": {
+                "intersectionId": "urban-junction-7"
+              },
+              "approximate": true
+            }
+          ],
+          "adjustmentReasons": [],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "v6-lamps-810",
+              "properties": {
+                "position": {
+                  "x": -290.20890481233545,
+                  "y": -0.04,
+                  "z": -109.29670304355831
+                },
+                "rotation": -1.7012013053355888
+              }
+            }
+          ],
+          "sourceId": "v6-lamps-810",
+          "heightMode": "GROUND",
+          "autoMove": 14.534480178048542
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-798",
+          "properties": {
+            "position": {
+              "x": -38.20794962190787,
+              "y": -0.04,
+              "z": -226.00774179303372
+            },
+            "rotation": -2.753419738275111
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-802",
+          "properties": {
+            "position": {
+              "x": -268.3507505679691,
+              "y": -0.04,
+              "z": -106.41135368411148
+            },
+            "rotation": -1.7014022446972563
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-803",
+          "properties": {
+            "position": {
+              "x": -56.15012247873577,
+              "y": -0.04,
+              "z": -101.75355318213299
+            },
+            "rotation": -0.9830454472919017
+          }
+        }
+      ],
+      "stats": {
+        "planned": 4,
+        "valid": 3,
+        "adjusted": 0,
+        "invalid": 1,
+        "skipped": 1,
+        "added": 0,
+        "moved": 3,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-798",
+      "properties": {
+        "position": {
+          "x": -38.20794962190787,
+          "y": -0.04,
+          "z": -226.00774179303372
+        },
+        "rotation": -2.753419738275111
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-802",
+      "properties": {
+        "position": {
+          "x": -268.3507505679691,
+          "y": -0.04,
+          "z": -106.41135368411148
+        },
+        "rotation": -1.7014022446972563
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-803",
+      "properties": {
+        "position": {
+          "x": -56.15012247873577,
+          "y": -0.04,
+          "z": -101.75355318213299
+        },
+        "rotation": -0.9830454472919017
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-810"
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-12",
+    "created": [],
+    "modified": [
+      "v6-lamps-798",
+      "v6-lamps-802",
+      "v6-lamps-803"
+    ],
+    "deleted": [
+      "v6-lamps-810"
+    ],
+    "area": {
+      "minX": -328.63440122484616,
+      "maxX": 1.7920503780922132,
+      "minZ": -266.0077417930337,
+      "maxZ": -61.75355318213299
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-798",
+          "v6-lamps-802",
+          "v6-lamps-803",
+          "v6-lamps-810",
+          "ns-sb-split",
+          "ns-sb-split-2-split-split",
+          "system-central:S-to-W-semi",
+          "system-central:E-to-S-semi",
+          "system-central:N-to-E-semi",
+          "system-central:N-to-W-right",
+          "system-central:W-to-N-semi",
+          "v911-plaza-west-wb",
+          "v911-plaza-north-sb",
+          "v911-plaza-middle-sb",
+          "v911-plaza-axis-north",
+          "ns-nb-split",
+          "ns-nb-split-2-split",
+          "ew-wb-split-split-split-3",
+          "ew-wb-split-split-split-3-split",
+          "system-central:W-to-S-right",
+          "ew-eb-split-3-split-split-2",
+          "ew-eb-split-3-split-split-3",
+          "v91-ew-0-a-8",
+          "v5-civic-block-road-split-2-split-2-split-2-v91-m91",
+          "v911-plaza-west-eb",
+          "urban-junction-5",
+          "urban-junction-7",
+          "ns-sb-split-split",
+          "ew-eb-split-2",
+          "ew-eb-split-3-split-split",
+          "v911-plaza-south-sb",
+          "v911-plaza-axis-south"
+        ],
+        "message": "roads: 10 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ew-wb-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ew-wb-split-3-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ns-sb-split-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ew-eb-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ns-sb-split-3-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-W-right",
+          "ns-sb-split-2-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ns-nb-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-S-right",
+          "ns-sb-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

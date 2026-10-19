@@ -1,0 +1,425 @@
+{
+  "before": {
+    "navigation": {
+      "passed": true,
+      "result": {
+        "assertions": 87,
+        "regionalRoutes": 1
+      }
+    },
+    "displays": {
+      "passed": true,
+      "result": {
+        "assertions": 21,
+        "equippedDisplays": 6
+      }
+    },
+    "geometry": {
+      "passed": false,
+      "error": "Error: Map geometry consistency: physical approach/junction height agrees: v91-shared-inner-ew/v91-ew-1-a-3-section-2"
+    }
+  },
+  "after": {
+    "navigation": {
+      "passed": true,
+      "result": {
+        "assertions": 87,
+        "regionalRoutes": 1
+      }
+    },
+    "displays": {
+      "passed": true,
+      "result": {
+        "assertions": 21,
+        "equippedDisplays": 6
+      }
+    },
+    "geometry": {
+      "passed": false,
+      "error": "Error: Map geometry consistency: physical approach/junction height agrees: v91-shared-inner-ew/v91-ew-1-a-3-section-2"
+    },
+    "shells": {
+      "passed": false,
+      "error": "TypeError: builder.dispose is not a function"
+    },
+    "regional": {
+      "passed": false,
+      "error": "Error: City changed: roads/ring-cw-0"
+    }
+  },
+  "routes": [
+    {
+      "name": "v91-ew-east-eb-off",
+      "from": "ew-eb-split-split-4-split",
+      "to": "v91-ew-1-a-3-section",
+      "reachable": true,
+      "distance": 187.18754455957756,
+      "access": true
+    },
+    {
+      "name": "v91-ew-east-wb-on",
+      "from": "v91-ew-1-b-3-section",
+      "to": "ew-wb-split-3-split-split-split-2-section",
+      "reachable": true,
+      "distance": 185.681119594446,
+      "access": true
+    },
+    {
+      "name": "v91-ns-sb-on",
+      "from": "v91-ns-1-a-3",
+      "to": "ns-sb-split-split-split-split-split-split-3-section",
+      "reachable": true,
+      "distance": 172.6173682095651,
+      "access": true
+    },
+    {
+      "name": "v91-ns-nb-off",
+      "from": "ns-nb-split-3-split-split-split",
+      "to": "v91-ns-1-b-3",
+      "reachable": true,
+      "distance": 172.61736820956506,
+      "access": true
+    },
+    {
+      "name": "v91-ew-west-eb-off",
+      "from": "ew-eb-split-5-split-split-section",
+      "to": "v91-ew-0-a-1-section",
+      "reachable": true,
+      "distance": 127.71654073802493,
+      "access": true
+    },
+    {
+      "name": "v91-ew-west-wb-on",
+      "from": "v91-ew-0-b-1-section",
+      "to": "ew-wb-split-split-split-split-2-section-2",
+      "reachable": true,
+      "distance": 128.26467641465217,
+      "access": true
+    },
+    {
+      "name": "access-ew-west-eb-on",
+      "from": "v91-ew-0-a-6",
+      "to": "ew-eb-split-4-split-split-section-2",
+      "reachable": true,
+      "distance": 128.4447387892087,
+      "access": true
+    },
+    {
+      "name": "access-ew-west-wb-off",
+      "from": "ew-wb-split-split-split-split-4-section",
+      "to": "v91-ew-0-b-6",
+      "reachable": true,
+      "distance": 142.49108385887476,
+      "access": true
+    },
+    {
+      "name": "access-ns-north-sb-off",
+      "from": "ns-sb-split-3-split-split-section",
+      "to": "v91-ns-0-a-3-section",
+      "reachable": true,
+      "distance": 163.51858662994883,
+      "access": true
+    },
+    {
+      "name": "access-ns-north-nb-on",
+      "from": "v91-ns-0-b-3-section",
+      "to": "ns-nb-split-split-split-split-split-split-2-section-2",
+      "reachable": true,
+      "distance": 162.62941783115684,
+      "access": true
+    },
+    {
+      "name": "access-ns-north-sb-on",
+      "from": "v91-ns-0-a-4",
+      "to": "ns-sb-split-3-split-split-split-section-2",
+      "reachable": true,
+      "distance": 197.2983882412242,
+      "access": true
+    },
+    {
+      "name": "access-ns-north-nb-off",
+      "from": "ns-nb-split-split-split-split",
+      "to": "v91-ns-0-b-4",
+      "reachable": true,
+      "distance": 188.17990993712124,
+      "access": true
+    },
+    {
+      "name": "v91-ew-east-eb-on",
+      "from": "v91-ew-1-a-4",
+      "to": "ew-eb-split-split-3-section-2",
+      "reachable": true,
+      "distance": 130.48188228924255,
+      "access": true
+    },
+    {
+      "name": "v91-ns-sb-off",
+      "from": "ns-sb-split-split-split-split-section",
+      "to": "v91-ns-1-a-1-section-section-section",
+      "reachable": true,
+      "distance": 150.2501453792567,
+      "access": true
+    },
+    {
+      "name": "v91-ns-nb-on",
+      "from": "v91-ns-1-b-1-section-section-section",
+      "to": "ns-nb-split-3-split-split-split-split-split-section-2",
+      "reachable": true,
+      "distance": 150.2501453792567,
+      "access": true
+    },
+    {
+      "name": "v91-ew-east-wb-off",
+      "from": "ew-wb-split-3-split-split-2-section",
+      "to": "v91-ew-1-b-4",
+      "reachable": true,
+      "distance": 128.21355704198368,
+      "access": true
+    },
+    {
+      "name": "ew-eb through",
+      "from": "ew-eb",
+      "to": "ew-eb-split-split",
+      "reachable": true,
+      "distance": 5448.185957326115,
+      "access": false
+    },
+    {
+      "name": "ew-wb through",
+      "from": "ew-wb",
+      "to": "ew-wb-split-split-split-split-split-split",
+      "reachable": true,
+      "distance": 5448.167610033233,
+      "access": false
+    },
+    {
+      "name": "ns-sb through",
+      "from": "ns-sb",
+      "to": "ns-sb-split-split-split-split-split-split-split",
+      "reachable": true,
+      "distance": 4947.318305738812,
+      "access": false
+    },
+    {
+      "name": "ns-nb through",
+      "from": "ns-nb",
+      "to": "ns-nb-split-split-split-split-split-split",
+      "reachable": true,
+      "distance": 4947.318385959988,
+      "access": false
+    },
+    {
+      "name": "Mingyuan SW-NE",
+      "from": "direction-mingyuan-main",
+      "to": "direction-mingyuan-main-section-section-section-section-section",
+      "reachable": true,
+      "distance": 3965.4912708202514,
+      "access": false
+    },
+    {
+      "name": "Mingyuan NE-SW",
+      "from": "direction-mingyuan-main-section-section-section-section-section",
+      "to": "direction-mingyuan-main",
+      "reachable": true,
+      "distance": 3965.491270820251,
+      "access": false
+    },
+    {
+      "name": "system-north:S-to-W-star",
+      "from": "ns-nb-split-split-split-split-split-v6",
+      "to": "ring-ccw-3-split-3-split-2",
+      "reachable": true,
+      "distance": 969.2700546004141,
+      "access": false
+    },
+    {
+      "name": "system-north:S-to-E-right",
+      "from": "ns-nb-split-split-split-split-split-split-3-split-2",
+      "to": "ring-cw-0-split-split-split-split",
+      "reachable": true,
+      "distance": 415.27784267014215,
+      "access": false
+    },
+    {
+      "name": "system-north:E-to-S-star",
+      "from": "ring-ccw-2-split-split-split-split",
+      "to": "ns-sb-split-3-split-split-split-2",
+      "reachable": true,
+      "distance": 1013.9954949637348,
+      "access": false
+    },
+    {
+      "name": "system-north:E-to-N-right",
+      "from": "ring-ccw-3",
+      "to": "ns-nb-split-split-split-split-split-split-2-split",
+      "reachable": true,
+      "distance": 296.9272270204672,
+      "access": false
+    },
+    {
+      "name": "system-north:N-to-E-star",
+      "from": "ns-sb-split-3-split-split-2",
+      "to": "ring-cw-1-split-3",
+      "reachable": true,
+      "distance": 949.8358281066129,
+      "access": false
+    },
+    {
+      "name": "system-north:N-to-W-right",
+      "from": "ns-sb-split-3-split-split-2-split",
+      "to": "ring-ccw-3-split-3-split-3",
+      "reachable": true,
+      "distance": 279.45893500375894,
+      "access": false
+    },
+    {
+      "name": "system-north:W-to-N-star",
+      "from": "ring-cw-0-split-split-split-2",
+      "to": "ns-nb-split-split-split-split-split-split-2-split-split",
+      "reachable": true,
+      "distance": 926.6344685040448,
+      "access": false
+    },
+    {
+      "name": "system-north:W-to-S-right",
+      "from": "ring-cw-0-split-split-split-2-split",
+      "to": "ns-sb-split-3-split-split-split-3",
+      "reachable": true,
+      "distance": 405.31820368816614,
+      "access": false
+    },
+    {
+      "name": "system-south:S-to-W-semi",
+      "from": "ns-nb-split-3-split-split",
+      "to": "ring-cw-3-split-2-split-2",
+      "reachable": true,
+      "distance": 675.8475241403191,
+      "access": false
+    },
+    {
+      "name": "system-south:S-to-E-right",
+      "from": "ns-nb-split-3-split-split-split-3",
+      "to": "ring-ccw-1-split-2",
+      "reachable": true,
+      "distance": 465.962405295462,
+      "access": false
+    },
+    {
+      "name": "system-south:E-to-S-loop",
+      "from": "ring-cw-2-split-split-2",
+      "to": "ns-sb-split-split-split-split-split-split-split-2",
+      "reachable": true,
+      "distance": 180.15169849358415,
+      "access": false
+    },
+    {
+      "name": "system-south:E-to-N-right",
+      "from": "ring-cw-2-split",
+      "to": "ns-nb-split-3-split-split-split-2-split",
+      "reachable": true,
+      "distance": 532.2266310984019,
+      "access": false
+    },
+    {
+      "name": "system-south:N-to-E-semi",
+      "from": "ns-sb-split-split-split-split-split-split-2-section",
+      "to": "ring-ccw-1-split-split-2",
+      "reachable": true,
+      "distance": 859.0959269016422,
+      "access": false
+    },
+    {
+      "name": "system-south:N-to-W-right",
+      "from": "ns-sb-split-split-split-split-split-split-2-split",
+      "to": "ring-cw-3-split-3",
+      "reachable": true,
+      "distance": 486.2291578925928,
+      "access": false
+    },
+    {
+      "name": "system-south:W-to-N-loop",
+      "from": "ring-ccw-1",
+      "to": "ns-nb-split-3-split-split-split-2-split-2",
+      "reachable": true,
+      "distance": 177.07212995534633,
+      "access": false
+    },
+    {
+      "name": "system-south:W-to-S-right",
+      "from": "ring-ccw-0-split-split-split",
+      "to": "ns-sb-split-split-split-split-split-split-split-2-split",
+      "reachable": true,
+      "distance": 427.55374887800895,
+      "access": false
+    },
+    {
+      "name": "system-central:S-to-W-semi",
+      "from": "ns-nb-split-3-split-split-split-split-split-section",
+      "to": "ew-wb-split-split-split-split-4",
+      "reachable": true,
+      "distance": 1275.4943081336767,
+      "access": false
+    },
+    {
+      "name": "system-central:S-to-E-right",
+      "from": "ns-nb-split-2-split-2",
+      "to": "ew-eb-split-2-split-split-split-2",
+      "reachable": true,
+      "distance": 533.6143146563575,
+      "access": false
+    },
+    {
+      "name": "system-central:E-to-S-semi",
+      "from": "ew-wb-split-3-split-split-split-split",
+      "to": "ns-sb-split-split-split-split",
+      "reachable": true,
+      "distance": 1324.8841066646678,
+      "access": false
+    },
+    {
+      "name": "system-central:E-to-N-right",
+      "from": "ew-wb-split-2-split",
+      "to": "ns-nb-split-split-2-split-2",
+      "reachable": true,
+      "distance": 521.3611940822844,
+      "access": false
+    },
+    {
+      "name": "system-central:N-to-E-semi",
+      "from": "ns-sb-split-3-split-split-split-section",
+      "to": "ew-eb-split-split-5",
+      "reachable": true,
+      "distance": 1305.8727989222737,
+      "access": false
+    },
+    {
+      "name": "system-central:N-to-W-right",
+      "from": "ns-sb-split-2-split",
+      "to": "ew-wb-split-split-split-3-split",
+      "reachable": true,
+      "distance": 504.2267162305078,
+      "access": false
+    },
+    {
+      "name": "system-central:W-to-N-semi",
+      "from": "ew-eb-split-4-split-split-section",
+      "to": "ns-nb-split-split-split",
+      "reachable": true,
+      "distance": 1252.5923075219669,
+      "access": false
+    },
+    {
+      "name": "system-central:W-to-S-right",
+      "from": "ew-eb-split-3-split",
+      "to": "ns-sb-split-split-split-3-split",
+      "reachable": true,
+      "distance": 563.4964452760283,
+      "access": false
+    }
+  ],
+  "reachability": {
+    "sources": 3508,
+    "verifiedPairs": 9898960,
+    "losses": []
+  }
+}

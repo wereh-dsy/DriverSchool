@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight",
+    "objectIds": [
+      "v6-lamps-864"
+    ],
+    "bbox": {
+      "minX": 60.00015022164999,
+      "maxX": 62.00015022164999,
+      "minZ": -2025.8901432017838,
+      "maxZ": -2023.8901432017838
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-864",
+      "state": "INVALID",
+      "position": {
+        "x": 50.890100486402886,
+        "y": 7.221050061299306,
+        "z": -2023.264222833991
+      },
+      "rotation": 0.15945682925186222,
+      "anchor": {
+        "anchorRoadId": "system-north:W-to-N-star",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 709.1491942683714,
+        "lateralOffset": 5.869705627484771,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 0.15945682925186222,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-864",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-864",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "system-north:W-to-N-star",
+            "lateralOffset": 5.869705627484771
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-864",
+          "properties": {
+            "position": {
+              "x": 50.890100486402886,
+              "y": 7.221050061299306,
+              "z": -2023.264222833991
+            },
+            "rotation": 0.15945682925186222
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-864",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 10.282007132860073
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

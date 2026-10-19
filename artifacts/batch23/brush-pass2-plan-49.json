@@ -1,0 +1,409 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "regional:extension-tree:S18:5320:1",
+      "regional:extension-tree:S18:6220:-1",
+      "regional:extension-tree:S18:6220:1",
+      "regional:extension-tree:S18:6400:-1",
+      "regional:extension-tree:S18:6400:1",
+      "regional:extension-tree:S18:6940:-1",
+      "regional:extension-tree:S18:6940:1"
+    ],
+    "bbox": {
+      "minX": -6421,
+      "maxX": -6179,
+      "minZ": -5772.289823177541,
+      "maxZ": -4150.289823177546
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:extension-tree:S18:5320:1",
+      "state": "INVALID",
+      "position": {
+        "x": -6258.338331107198,
+        "y": 23.79316597276062,
+        "z": -4100.812523978564
+      },
+      "rotation": 0.5723930401743419,
+      "anchor": {
+        "anchorRoadId": "regional:airport-exit:on:1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 227.90362210333367,
+        "lateralOffset": 6.275000000000098,
+        "verticalOffset": -0.11723220654489452,
+        "facingDirection": "forward",
+        "expectedHeading": 0.5723930401743419,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:extension-tree:S18:5320:1",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:extension-tree:S18:5320:1",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S18:5320:1",
+          "properties": {
+            "position": {
+              "x": -6258.338331107198,
+              "y": 23.79316597276062,
+              "z": -4100.812523978564
+            },
+            "rotation": 0.5723930401743419
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S18:5320:1",
+      "heightMode": "GROUND",
+      "autoMove": 93.37316321460716
+    },
+    {
+      "id": "regional:extension-tree:S18:6220:-1",
+      "state": "INVALID",
+      "position": {
+        "x": -6363.069332037326,
+        "y": 22.082708182249828,
+        "z": -5071.6670310881445
+      },
+      "rotation": -2.7978705708973814,
+      "anchor": {
+        "anchorRoadId": "regional:v2:airport-north:W-to-S-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 769.1558421170155,
+        "lateralOffset": 6.3250000000012,
+        "verticalOffset": -1.8622632491988895,
+        "facingDirection": "forward",
+        "expectedHeading": -2.7978705708973814,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:extension-tree:S18:6220:-1",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:extension-tree:S18:6220:-1",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S18:6220:-1",
+          "properties": {
+            "position": {
+              "x": -6363.069332037326,
+              "y": 22.082708182249828,
+              "z": -5071.6670310881445
+            },
+            "rotation": -2.7978705708973814
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S18:6220:-1",
+      "heightMode": "GROUND",
+      "autoMove": 89.48310628333842
+    },
+    {
+      "id": "regional:extension-tree:S18:6220:1",
+      "state": "INVALID",
+      "position": {
+        "x": -6236.930667962674,
+        "y": 22.077821531202396,
+        "z": -5071.6670310881445
+      },
+      "rotation": -0.34372208269241195,
+      "anchor": {
+        "anchorRoadId": "regional:v2:airport-north:S-to-E-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 227.81830176598976,
+        "lateralOffset": 6.3250000000012,
+        "verticalOffset": -3.058168416247806,
+        "facingDirection": "forward",
+        "expectedHeading": -0.34372208269241195,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:extension-tree:S18:6220:1",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:extension-tree:S18:6220:1",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S18:6220:1",
+          "properties": {
+            "position": {
+              "x": -6236.930667962674,
+              "y": 22.077821531202396,
+              "z": -5071.6670310881445
+            },
+            "rotation": -0.34372208269241195
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S18:6220:1",
+      "heightMode": "GROUND",
+      "autoMove": 88.39111617309206
+    },
+    {
+      "id": "regional:extension-tree:S18:6400:-1",
+      "state": "INVALID",
+      "position": {
+        "x": -6428.893650046063,
+        "y": 24.69087166811152,
+        "z": -5225.012509754318
+      },
+      "rotation": -2.525256340789385,
+      "anchor": {
+        "anchorRoadId": "regional:v2:airport-north:W-to-S-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 602.1044039543567,
+        "lateralOffset": -5.324999999999624,
+        "verticalOffset": -1.2204955086821343,
+        "facingDirection": "forward",
+        "expectedHeading": -2.525256340789385,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:extension-tree:S18:6400:-1",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:extension-tree:S18:6400:-1",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S18:6400:-1",
+          "properties": {
+            "position": {
+              "x": -6428.893650046063,
+              "y": 24.69087166811152,
+              "z": -5225.012509754318
+            },
+            "rotation": -2.525256340789385
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S18:6400:-1",
+      "heightMode": "GROUND",
+      "autoMove": 56.60418828529844
+    },
+    {
+      "id": "regional:extension-tree:S18:6400:1",
+      "state": "INVALID",
+      "position": {
+        "x": -6171.106349953937,
+        "y": 25.958980301329937,
+        "z": -5225.012509754318
+      },
+      "rotation": -0.6163363128004083,
+      "anchor": {
+        "anchorRoadId": "regional:v2:airport-north:S-to-E-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 394.8697399286484,
+        "lateralOffset": -5.324503601119238,
+        "verticalOffset": -1.112864404693621,
+        "facingDirection": "forward",
+        "expectedHeading": -0.6026818706368232,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:extension-tree:S18:6400:1",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:extension-tree:S18:6400:1",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S18:6400:1",
+          "properties": {
+            "position": {
+              "x": -6171.106349953937,
+              "y": 25.958980301329937,
+              "z": -5225.012509754318
+            },
+            "rotation": -0.6163363128004083
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S18:6400:1",
+      "heightMode": "GROUND",
+      "autoMove": 53.896206950165386
+    },
+    {
+      "id": "regional:extension-tree:S18:6940:-1",
+      "state": "VALID",
+      "position": {
+        "x": -6427.762257589677,
+        "y": 23.861230239170094,
+        "z": -5776.630886357936
+      },
+      "rotation": 2.53891078295297,
+      "anchor": {
+        "anchorRoadId": "regional:v2:airport-north:N-to-W-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 392.94725349158574,
+        "lateralOffset": -5.325000000000133,
+        "verticalOffset": -1.169589760111588,
+        "facingDirection": "forward",
+        "expectedHeading": 2.53891078295297,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S18:6940:-1",
+          "properties": {
+            "position": {
+              "x": -6427.762257589677,
+              "y": 23.861230239170094,
+              "z": -5776.630886357936
+            },
+            "rotation": 2.53891078295297
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S18:6940:-1",
+      "heightMode": "GROUND",
+      "autoMove": 11.902482985181644
+    },
+    {
+      "id": "regional:extension-tree:S18:6940:1",
+      "state": "VALID",
+      "position": {
+        "x": -6172.237742410323,
+        "y": 23.58224333197616,
+        "z": -5776.630886357935
+      },
+      "rotation": 0.6026818706368232,
+      "anchor": {
+        "anchorRoadId": "regional:v2:airport-north:E-to-N-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 604.0268903914192,
+        "lateralOffset": -5.325000000000133,
+        "verticalOffset": -1.3806297942153556,
+        "facingDirection": "forward",
+        "expectedHeading": 0.6026818706368232,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S18:6940:1",
+          "properties": {
+            "position": {
+              "x": -6172.237742410323,
+              "y": 23.58224333197616,
+              "z": -5776.630886357935
+            },
+            "rotation": 0.6026818706368232
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S18:6940:1",
+      "heightMode": "GROUND",
+      "autoMove": 11.201443236610347
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:S18:6940:-1",
+      "properties": {
+        "position": {
+          "x": -6427.762257589677,
+          "y": 23.861230239170094,
+          "z": -5776.630886357936
+        },
+        "rotation": 2.53891078295297
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:S18:6940:1",
+      "properties": {
+        "position": {
+          "x": -6172.237742410323,
+          "y": 23.58224333197616,
+          "z": -5776.630886357935
+        },
+        "rotation": 0.6026818706368232
+      }
+    }
+  ],
+  "stats": {
+    "planned": 7,
+    "valid": 2,
+    "adjusted": 0,
+    "invalid": 5,
+    "skipped": 5,
+    "added": 0,
+    "moved": 2,
+    "removed": 0
+  },
+  "valid": true
+}

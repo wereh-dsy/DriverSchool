@@ -1,0 +1,188 @@
+{
+  "inspection": {
+    "key": "1:1:industrial:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "industrial",
+      "objectIds": [
+        "regional:warehouse:2040:2580",
+        "regional:warehouse:2040:2740",
+        "regional:warehouse:2520:2580",
+        "regional:warehouse:3320:3700"
+      ],
+      "bbox": {
+        "minX": 2077.8472045642993,
+        "maxX": 3374.2519783293174,
+        "minZ": 2528.9394962325237,
+        "maxZ": 3680.8963098516106
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 4,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 4,
+      "skipped": 4,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "regional:warehouse:2040:2740",
+        "issues": [
+          {
+            "id": "building.intersectsRoad::regional:warehouse:2040:2740::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "regional:warehouse:2040:2740",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v5-south-logistics-split-c91",
+              "distance": 15.381990143471207,
+              "roadHalfWidth": 7,
+              "objectRadius": 74.90296760947959
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "regional:warehouse:2040:2740",
+              "roadId": "v5-south-logistics-split-c91",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "building.intersectsJunction::regional:warehouse:2040:2740::",
+            "code": "building.intersectsJunction",
+            "severity": "warning",
+            "objectId": "regional:warehouse:2040:2740",
+            "message": "Object envelope intersects junction pavement",
+            "metrics": {
+              "intersectionId": "urban-junction-226"
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "regional:warehouse:3320:3700",
+        "issues": [
+          {
+            "id": "building.intersectsRoad::regional:warehouse:3320:3700::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "regional:warehouse:3320:3700",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "regional:S26-extension:in:4",
+              "distance": 11.478690148389433,
+              "roadHalfWidth": 5.625,
+              "objectRadius": 37.5
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "regional:warehouse:3320:3700",
+              "roadId": "regional:S26-extension:in:4",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "building.intersectsRoad::regional:warehouse:3320:3700::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "regional:warehouse:3320:3700",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "regional:S26-extension:out:1",
+              "distance": 28.728690148389433,
+              "roadHalfWidth": 5.625,
+              "objectRadius": 37.5
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "regional:warehouse:3320:3700",
+              "roadId": "regional:S26-extension:out:1",
+              "strategy": "moveOutsideCarriageway"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:warehouse:2040:2580",
+      "properties": {
+        "position": {
+          "x": 2083.538852989833,
+          "y": -0.04,
+          "z": 2594.85381135073
+        },
+        "rotation": -2.488326228034621
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:warehouse:2520:2580",
+      "properties": {
+        "position": {
+          "x": 2572.8899913542245,
+          "y": -0.04,
+          "z": 2540.582843267162
+        },
+        "rotation": 2.2296712124971134
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-41",
+    "created": [],
+    "modified": [
+      "regional:warehouse:2040:2580",
+      "regional:warehouse:2520:2580"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2043.5388529898328,
+      "maxX": 2612.8899913542245,
+      "minZ": 2489.9394962325237,
+      "maxZ": 2662.647391438313
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:warehouse:2040:2580",
+          "regional:warehouse:2520:2580",
+          "v5-south-logistics-split-c91",
+          "regional:S68:in:split84:split102:split240:split550",
+          "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570:split578",
+          "v4-south-logistics-east-split"
+        ],
+        "message": "roads: 5 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "regional:warehouse:2040:2580"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "inspection": {
+    "key": "2:0:streetlight_dual:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_dual",
+      "objectIds": [
+        "v6-lamps-687"
+      ],
+      "bbox": {
+        "minX": 4009.558667490622,
+        "maxX": 4011.558667490622,
+        "minZ": 762.3429104018583,
+        "maxZ": 764.3429104018583
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 0,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 0,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-687",
+      "properties": {
+        "position": {
+          "x": 3965.9636597292306,
+          "y": 8.052746778598285,
+          "z": 746.9939074410248
+        },
+        "rotation": -0.35139537904625295
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-44",
+    "revision": 43,
+    "label": "objects-51",
+    "created": [],
+    "modified": [
+      "v6-lamps-687"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 3925.9636597292306,
+      "maxX": 4050.558667490622,
+      "minZ": 706.9939074410248,
+      "maxZ": 803.3429104018583
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-687",
+          "regional:S68:out:split12:split30:split36:split232",
+          "regional:S68:in:split84:split102:split240:split550:split558:split566:split574:split582"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

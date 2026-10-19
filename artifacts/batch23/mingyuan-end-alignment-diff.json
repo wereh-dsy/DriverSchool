@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "direction-mingyuan-main-section-section-section-section",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": false,
+        "elevationOnly": true,
+        "maxDisplacement": 5.084229945850415e-13,
+        "elevationDelta": 0.2752916377886182,
+        "controlPointsChanged": 10,
+        "endpointsChanged": true,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": 322.71949779140255,
+              "y": 0.00008122675690229018,
+              "z": 441.5017724081137
+            },
+            "after": {
+              "x": 322.71949779140255,
+              "y": 0.00008122675690229018,
+              "z": 441.5017724081137
+            }
+          },
+          "end": {
+            "before": {
+              "x": 1441.762102522895,
+              "y": 0.02528862929297722,
+              "z": -1131.2185865123959
+            },
+            "after": {
+              "x": 1441.7621025228948,
+              "y": 0.02528862929298005,
+              "z": -1131.2185865123954
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.010733284650874308,
+        "afterMaxHeadingDelta": 0.010733284650874308,
+        "crossingElevationsPreserved": false
+      }
+    ]
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "direction-mingyuan-ne-terminal",
+        "armsBefore": [
+          {
+            "roadId": "direction-mingyuan-main-section-section-section-section",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "urban-diagonal-split-split-split-split-c91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "urban-diagonal-split-split-split-split-c91-section",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "armsAfter": [
+          {
+            "roadId": "direction-mingyuan-main-section-section-section-section",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "urban-diagonal-split-split-split-split-c91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "urban-diagonal-split-split-split-split-c91-section",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "markingsRegenerated": true
+      }
+    ]
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "signal:direction-mingyuan-ne-terminal:north",
+        "type": "trafficLight",
+        "displacement": 0,
+        "heightDelta": 0,
+        "rotationDelta": 1.7763568394002505e-15,
+        "anchorBefore": {
+          "anchorRoadId": "direction-mingyuan-main-section-section-section-section",
+          "anchorIntersectionId": "direction-mingyuan-ne-terminal",
+          "approach": "north",
+          "station": 1930.8794823505898,
+          "lateralOffset": 12.249999999999893,
+          "verticalOffset": -0.02528862929297722,
+          "facingDirection": "forward",
+          "expectedHeading": -0.6108652381980103,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorAfter": {
+          "anchorRoadId": "direction-mingyuan-main-section-section-section-section",
+          "anchorIntersectionId": "direction-mingyuan-ne-terminal",
+          "approach": "north",
+          "station": 1930.879482350589,
+          "lateralOffset": 12.249999999999874,
+          "verticalOffset": -0.025288629292980036,
+          "facingDirection": "forward",
+          "expectedHeading": -0.6108652381980084,
+          "structureType": "elevated",
+          "derived": true
+        },
+        "anchorRoadUnchanged": true,
+        "anchorApproachUnchanged": true
+      }
+    ]
+  },
+  "structures": [
+    {
+      "roadId": "direction-mingyuan-main-section-section-section-section",
+      "before": {
+        "piersEnabled": true,
+        "pierSpacing": 35,
+        "barrierEnabled": true,
+        "medianBarrierStyle": "concrete"
+      },
+      "after": {
+        "piersEnabled": true,
+        "pierSpacing": 35,
+        "barrierEnabled": true,
+        "medianBarrierStyle": "concrete"
+      },
+      "beforeType": "elevated",
+      "afterType": "elevated"
+    }
+  ],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 309.71949779140255,
+    "maxX": 1490.0727058980797,
+    "minZ": -1183.0873581574901,
+    "maxZ": 454.5017724081137
+  },
+  "maxRoadDisplacement": 5.084229945850415e-13,
+  "maxElevationDelta": 0.2752916377886182,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 1,
+      "deadEnds": [
+        "direction-mingyuan-main-section-section-section-section-2",
+        "urban-roundabout-West-split"
+      ],
+      "adjacency": [
+        {
+          "id": "direction-mingyuan-main-section-section-section-section",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section-2",
+            "urban-diagonal-split-split-split-split-c91",
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-c91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "v4-north-split-m91",
+            "direction-mingyuan-main-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-c91-section",
+          "links": [
+            "urban-roundabout-West-split",
+            "direction-mingyuan-main-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "direction-mingyuan-main-section-section-section-section-2",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section"
+          ]
+        },
+        {
+          "id": "urban-roundabout-West-split",
+          "links": [
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "v4-north-split-2-split-m91",
+          "links": [
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "v4-north-split-m91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-2-split-c91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "v4-north-split-m91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "v4-north-split-m91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 1,
+      "deadEnds": [
+        "direction-mingyuan-main-section-section-section-section-2",
+        "urban-roundabout-West-split"
+      ],
+      "adjacency": [
+        {
+          "id": "direction-mingyuan-main-section-section-section-section",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section-2",
+            "urban-diagonal-split-split-split-split-c91",
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-c91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "v4-north-split-m91",
+            "direction-mingyuan-main-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-c91-section",
+          "links": [
+            "urban-roundabout-West-split",
+            "direction-mingyuan-main-section-section-section-section",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "direction-mingyuan-main-section-section-section-section-2",
+          "links": [
+            "direction-mingyuan-main-section-section-section-section"
+          ]
+        },
+        {
+          "id": "urban-roundabout-West-split",
+          "links": [
+            "urban-diagonal-split-split-split-split-c91-section"
+          ]
+        },
+        {
+          "id": "v4-north-split-2-split-m91",
+          "links": [
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "v4-north-split-m91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "urban-diagonal-split-split-split-split-2-split-c91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "v4-north-split-m91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        },
+        {
+          "id": "v4-north-split-m91",
+          "links": [
+            "v4-north-split-2-split-m91",
+            "urban-diagonal-split-split-split-split-2-split-c91",
+            "urban-diagonal-split-split-split-split-c91"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

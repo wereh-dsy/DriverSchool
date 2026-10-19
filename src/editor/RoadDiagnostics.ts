@@ -4,6 +4,7 @@ import { polylineLength, roadEdges, roadPoints, sampleAt } from '../world/city/g
 import { roadFunction } from '../world/city/RoadClassification';
 import type { EditorArea } from './EditorCommands';
 import { bounds, distance, overlaps } from './EditorGeometry';
+import { approachPaintOffsets } from '../world/city/SignalPlacement';
 
 /**
  * Map-quality diagnostics for the CLI/Agent workflow. This is deliberately
@@ -11,19 +12,21 @@ import { bounds, distance, overlaps } from './EditorGeometry';
  * structurally legal, diagnose reports geometric and marking quality.
  */
 export type DiagnosticSeverity = 'info' | 'warning' | 'error';
-export type DiagnosticMetric = number | string | boolean;
+export type DiagnosticMetric = number | string | boolean | null;
 export interface RepairSuggestion {
   op: 'smoothRoad' | 'repairElevation' | 'simplifyRoad' | 'repairRamp' | 'repairIntersection';
   id: string;
   [key: string]: unknown;
 }
 export interface DiagnosticIssue {
+  id?: string;
   severity: DiagnosticSeverity;
   code: string;
   message: string;
   roadId?: string;
   corridorId?: string;
   intersectionId?: string;
+  objectId?: string;
   /** Station along the reported road, metres from its authored start. */
   station?: number;
   metrics?: Record<string, DiagnosticMetric>;
@@ -347,13 +350,7 @@ function cornerCrosswalk(row: CityRoad, mouth: CityPoint, outward: CityPoint, of
   return { center: { x: mouth.x + outward.x * offset, y: mouth.y, z: mouth.z + outward.z * offset }, right: { x: outward.z, z: -outward.x }, width: edges.right - edges.left };
 }
 function outsideStopOffset(j: CityIntersection, map: CityMapData, mouth: CityPoint, outward: CityPoint): number {
-  let offset = 0.8;
-  while (offset < 30) {
-    const p = { x: mouth.x + outward.x * offset, y: mouth.y, z: mouth.z + outward.z * offset };
-    if (!junctionSurfaceContains(j, map, p, 0.1)) break;
-    offset += 0.4;
-  }
-  return offset;
+  return approachPaintOffsets(map,j,mouth,outward).boundaryOffset;
 }
 function obbOverlap(a: { center: CityPoint; right: CityPoint; width: number }, b: { center: CityPoint; right: CityPoint; width: number }): boolean {
   // Crosswalk bars are 0.55 m wide across and 3 m long along the approach.

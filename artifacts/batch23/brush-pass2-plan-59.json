@@ -1,0 +1,200 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight_small",
+    "objectIds": [
+      "v8-lamp-v8-campus-avenue-90",
+      "v8-lamp-v8-campus-avenue-194",
+      "v8-lamp-v8-campus-avenue-298"
+    ],
+    "bbox": {
+      "minX": 653.9963537998736,
+      "maxX": 862.4783955100821,
+      "minZ": -2656.239097621236,
+      "maxZ": -2629.155907011114
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v8-lamp-v8-campus-avenue-90",
+      "state": "VALID",
+      "position": {
+        "x": 860.9610947843938,
+        "y": -0.019233248973453694,
+        "z": -2623.442766869073
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 89.37658174774317,
+        "lateralOffset": 9.412132034355992,
+        "verticalOffset": 3.469446951953614e-18,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850175,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-campus-avenue-90",
+          "properties": {
+            "position": {
+              "x": 860.9610947843938,
+              "y": -0.019233248973453694,
+              "z": -2623.442766869073
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-campus-avenue-90",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 6.733069175743488
+    },
+    {
+      "id": "v8-lamp-v8-campus-avenue-194",
+      "state": "VALID",
+      "position": {
+        "x": 757.3687680009607,
+        "y": -0.013691945862713537,
+        "z": -2631.4253777913764
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 193.2760150741212,
+        "lateralOffset": 9.412132034355992,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850175,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-campus-avenue-194",
+          "properties": {
+            "position": {
+              "x": 757.3687680009607,
+              "y": -0.013691945862713537,
+              "z": -2631.4253777913764
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-campus-avenue-194",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 11.309275116593849
+    },
+    {
+      "id": "v8-lamp-v8-campus-avenue-298",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 653.7217279936573,
+        "y": -0.008150642751973362,
+        "z": -2638.6979616032895
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 297.1754484004994,
+        "lateralOffset": 8.70000000000022,
+        "verticalOffset": 0,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850175,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-lamp-v8-campus-avenue-298",
+          "properties": {
+            "position": {
+              "x": 653.7217279936573,
+              "y": -0.008150642751973362,
+              "z": -2638.6979616032895
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-lamp-v8-campus-avenue-298",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 16.61489416828849
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-avenue-90",
+      "properties": {
+        "position": {
+          "x": 860.9610947843938,
+          "y": -0.019233248973453694,
+          "z": -2623.442766869073
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-avenue-194",
+      "properties": {
+        "position": {
+          "x": 757.3687680009607,
+          "y": -0.013691945862713537,
+          "z": -2631.4253777913764
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-lamp-v8-campus-avenue-298",
+      "properties": {
+        "position": {
+          "x": 653.7217279936573,
+          "y": -0.008150642751973362,
+          "z": -2638.6979616032895
+        },
+        "rotation": 1.4938903707850175
+      }
+    }
+  ],
+  "stats": {
+    "planned": 3,
+    "valid": 2,
+    "adjusted": 1,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 3,
+    "removed": 0
+  },
+  "valid": true
+}

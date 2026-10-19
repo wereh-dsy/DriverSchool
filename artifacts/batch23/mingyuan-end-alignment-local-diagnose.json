@@ -1,0 +1,3940 @@
+{
+  "before": {
+    "scope": "bbox",
+    "coverage": {
+      "roadsChecked": 100,
+      "roadsTotal": 2943,
+      "intersectionsChecked": 46,
+      "intersectionsTotal": 302
+    },
+    "counts": {
+      "error": 0,
+      "warning": 36,
+      "info": 94,
+      "total": 130,
+      "bySeverity": {
+        "error": 0,
+        "warning": 36,
+        "info": 94
+      },
+      "byCode": {
+        "geometry.shortSegments": 2,
+        "intersection.acuteApproach": 7,
+        "intersection.approachKink": 7,
+        "intersection.shortApproach": 2,
+        "intersection.stalePortAngle": 9,
+        "marking.crosswalkOverlap": 1,
+        "marking.stopLineDisplaced": 5,
+        "vertical.abruptGradeChange": 3,
+        "vertical.elevationPointOscillation": 1,
+        "geometry.redundantControlPoints": 43,
+        "topology.deadEnd": 1,
+        "topology.shortConnector": 1,
+        "vertical.gradeReversals": 2,
+        "vertical.rampReversal": 2,
+        "vertical.redundantElevationPoints": 44
+      }
+    },
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "geometry.shortSegments",
+        "roadId": "v4-inner-1-split-2-m91-section",
+        "message": "55 road segments shorter than 1.5 m",
+        "metrics": {
+          "shortSegments": 55
+        },
+        "repair": {
+          "op": "smoothRoad",
+          "id": "v4-inner-1-split-2-m91-section",
+          "strength": 1,
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-25",
+        "message": "Arms north and west meet at 3°",
+        "metrics": {
+          "angleDegrees": 3,
+          "portA": "north",
+          "portB": "west"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-25"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-40",
+        "message": "Arms south and west meet at 0°",
+        "metrics": {
+          "angleDegrees": 0,
+          "portA": "south",
+          "portB": "west"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-40"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-44",
+        "message": "Arms north and east meet at 23°",
+        "metrics": {
+          "angleDegrees": 23,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-44"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-97",
+        "message": "Arms north and east meet at 2°",
+        "metrics": {
+          "angleDegrees": 2,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-97"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-169",
+        "message": "Arms north and east meet at 9°",
+        "metrics": {
+          "angleDegrees": 9,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-169"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-9",
+        "message": "Arms north and east meet at 0°",
+        "metrics": {
+          "angleDegrees": 0,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-9"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-33",
+        "message": "Arms north and east meet at 9°",
+        "metrics": {
+          "angleDegrees": 9,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-33"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-25",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-25"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-40",
+        "message": "Approach south runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "south",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-40"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-44",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-44"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-97",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-97"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-169",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-169"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-9",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-9"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-33",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-33"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.shortApproach",
+        "intersectionId": "urban-junction-28",
+        "message": "Approach v91-ns-0-a-5 is only 6 m long",
+        "metrics": {
+          "roadId": "v91-ns-0-a-5",
+          "length": 6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-28"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.shortApproach",
+        "intersectionId": "urban-junction-33",
+        "message": "Approach v91-ns-0-a-5 is only 6 m long",
+        "metrics": {
+          "roadId": "v91-ns-0-a-5",
+          "length": 6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-33"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-69",
+        "message": "Port west bearing differs from the road by 50°",
+        "metrics": {
+          "port": "west",
+          "deltaDegrees": 50
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-69"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-25",
+        "message": "Port north bearing differs from the road by 70°",
+        "metrics": {
+          "port": "north",
+          "deltaDegrees": 70
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-25"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-97",
+        "message": "Port north bearing differs from the road by 48°",
+        "metrics": {
+          "port": "north",
+          "deltaDegrees": 48
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-97"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-8",
+        "message": "Port south bearing differs from the road by 67°",
+        "metrics": {
+          "port": "south",
+          "deltaDegrees": 67
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-8"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-9",
+        "message": "Port north bearing differs from the road by 180°",
+        "metrics": {
+          "port": "north",
+          "deltaDegrees": 180
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-9"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-10",
+        "message": "Port south bearing differs from the road by 67°",
+        "metrics": {
+          "port": "south",
+          "deltaDegrees": 67
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-10"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-22",
+        "message": "Port south bearing differs from the road by 67°",
+        "metrics": {
+          "port": "south",
+          "deltaDegrees": 67
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-22"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-28",
+        "message": "Port south bearing differs from the road by 67°",
+        "metrics": {
+          "port": "south",
+          "deltaDegrees": 67
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-28"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-33",
+        "message": "Port north bearing differs from the road by 180°",
+        "metrics": {
+          "port": "north",
+          "deltaDegrees": 180
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-33"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.crosswalkOverlap",
+        "intersectionId": "urban-junction-40",
+        "message": "Crosswalks on south and west overlap",
+        "metrics": {
+          "portA": "south",
+          "portB": "west"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-40"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-19",
+        "message": "Stop line on north is 15.6 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 15.6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-19"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-60",
+        "message": "Stop line on north is 17.6 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 17.6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-60"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-97",
+        "message": "Stop line on south is 17.6 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "south",
+          "offset": 17.6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-97"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-127",
+        "message": "Stop line on north is 14 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 14
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-127"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "access-mingyuan-zhongshan-signal",
+        "message": "Stop line on north is 14 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 14
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "access-mingyuan-zhongshan-signal"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "vertical.abruptGradeChange",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "Grade changes 10% over a short interval",
+        "metrics": {
+          "gradeChangePercent": 9.6
+        },
+        "station": 119.9,
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:E-to-S-semi",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "warning",
+        "code": "vertical.abruptGradeChange",
+        "roadId": "system-central:S-to-E-right",
+        "message": "Grade changes 8% over a short interval",
+        "metrics": {
+          "gradeChangePercent": 7.6
+        },
+        "station": 435,
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:S-to-E-right",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "warning",
+        "code": "vertical.abruptGradeChange",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "Grade changes 9% over a short interval",
+        "metrics": {
+          "gradeChangePercent": 8.6
+        },
+        "station": 1140,
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:N-to-E-semi",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "warning",
+        "code": "vertical.elevationPointOscillation",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "4 high-frequency elevation control points",
+        "metrics": {
+          "oscillations": 4,
+          "amplitude": 0.18,
+          "closeExtrema": 2
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:E-to-S-semi",
+          "preserveEndpoints": true,
+          "strength": 2
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split",
+        "message": "15 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 15
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-2",
+        "message": "17 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 17
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split",
+        "message": "5 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split",
+        "message": "52 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4-split",
+        "message": "7 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-2-split-split",
+        "message": "19 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-2-split",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-2-split-split-split",
+        "message": "17 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 17
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v4-university",
+        "message": "12 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 12
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-university",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v8-name-v4-university:collector-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "system-central:S-to-E-right",
+        "message": "6 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 6
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:S-to-E-right",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "45 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 45
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:E-to-S-semi",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split-split",
+        "message": "15 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 15
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "system-central:E-to-N-right",
+        "message": "5 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:E-to-N-right",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-2-split-split-2",
+        "message": "19 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2-split-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "73 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 73
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:N-to-E-semi",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-5",
+        "message": "52 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-5",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4-split-2",
+        "message": "7 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ring-cw-1-split-3-split-split-split-split",
+        "message": "203 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 203
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-cw-1-split-3-split-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-2",
+        "message": "37 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 37
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split-2",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "diamond-east:west-local-split-v91",
+        "message": "3 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 3
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "diamond-east:west-local-split-v91",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v8-jinhua-street:arterial-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4-split-2-section",
+        "message": "5 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-2-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v91-ew-east-eb-off",
+        "message": "16 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 16
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-ew-east-eb-off",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:G4516:connector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-section",
+        "message": "7 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v91-ew-east-wb-on",
+        "message": "19 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-ew-east-wb-on",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:G4516:connector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v91-plaza-civic-east-t",
+        "message": "11 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 11
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-plaza-civic-east-t",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-civic-middle:collector-4"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v911-plaza-east-wb",
+        "message": "56 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 56
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v911-plaza-east-wb",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v9-chengjing-road:frontage-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v911-plaza-east-eb",
+        "message": "56 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 56
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v911-plaza-east-eb",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v9-chengjing-road:frontage-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v4-inner-1-split-2-m91",
+        "message": "55 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 55
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-inner-1-split-2-m91",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-main-section-section-section-section",
+        "message": "43 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 43
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section-section-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-main-section-section-section-section-2",
+        "message": "4 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 4
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section-section-section-section-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-central-north",
+        "message": "74 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 74
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-finance-north-section",
+        "message": "70 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 70
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-finance-north-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-finance-road:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-finance-north-section-section",
+        "message": "27 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 27
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-finance-north-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-finance-road:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v5-north-campus-split-section-section",
+        "message": "40 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 40
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v5-north-campus-split-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-north-campus:collector-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-central-north-section",
+        "message": "24 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 24
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v4-north-split-3-split-split-2-split-m91-section-section",
+        "message": "2 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 2
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-north-split-3-split-split-2-split-m91-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:north-avenue:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-central-north-section-section",
+        "message": "84 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 84
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v4-inner-1-split-2-m91-section",
+        "message": "217 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 217
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-inner-1-split-2-m91-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4-split-section",
+        "message": "37 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 37
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-2-section",
+        "message": "8 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 8
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-2-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.shortSegments",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "2 road segments shorter than 1.5 m",
+        "metrics": {
+          "shortSegments": 2
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:N-to-E-semi",
+          "strength": 1,
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "topology.deadEnd",
+        "roadId": "v4-diagonal-split-split-m91",
+        "message": "Open end endpoint; verify this is an intentional terminus",
+        "metrics": {
+          "end": "end"
+        },
+        "station": 75.6,
+        "corridorId": "corridor:new-city-avenue:arterial-3"
+      },
+      {
+        "severity": "info",
+        "code": "topology.shortConnector",
+        "roadId": "v5-civic-north-split-split-m91-section",
+        "message": "Short connector between junctions (12.2 m)",
+        "metrics": {
+          "length": 12.2
+        },
+        "corridorId": "corridor:v5-civic-north:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.gradeReversals",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "6 grade direction changes",
+        "metrics": {
+          "reversals": 6,
+          "maxGradePercent": 10
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:E-to-S-semi",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.gradeReversals",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "7 grade direction changes",
+        "metrics": {
+          "reversals": 7,
+          "maxGradePercent": 11.1
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:N-to-E-semi",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.rampReversal",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "Ramp rises/falls 68 m for a 15.9 m net change",
+        "metrics": {
+          "netChange": 15.9,
+          "totalVariation": 68
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:E-to-S-semi",
+          "strength": 1.5
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.rampReversal",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "Ramp rises/falls 73.7 m for a 13.4 m net change",
+        "metrics": {
+          "netChange": 13.4,
+          "totalVariation": 73.7
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:N-to-E-semi",
+          "strength": 1.5
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split",
+        "message": "15 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 15
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-2",
+        "message": "17 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 17
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split",
+        "message": "5 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split",
+        "message": "52 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4-split",
+        "message": "7 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-2-split-split",
+        "message": "19 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-2-split",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-2-split-split-split",
+        "message": "17 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 17
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-university",
+        "message": "20 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 20
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-university",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v8-name-v4-university:collector-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "system-central:S-to-E-right",
+        "message": "58 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 58
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:S-to-E-right",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "69 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 69
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:E-to-S-semi",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split-split",
+        "message": "15 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 15
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "system-central:E-to-N-right",
+        "message": "54 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 54
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:E-to-N-right",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-2-split-split-2",
+        "message": "19 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2-split-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "81 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 81
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:N-to-E-semi",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-5",
+        "message": "52 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-5",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4-split-2",
+        "message": "7 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ring-cw-1-split-3-split-split-split-split",
+        "message": "240 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 240
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-cw-1-split-3-split-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-2",
+        "message": "37 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 37
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split-2",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4-split-2-section",
+        "message": "5 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-2-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v91-ew-east-eb-off",
+        "message": "46 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 46
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-ew-east-eb-off",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:G4516:connector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-section",
+        "message": "7 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v91-ew-east-wb-on",
+        "message": "45 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 45
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-ew-east-wb-on",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:G4516:connector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-north-split-3-split-split-2-split-m91",
+        "message": "3 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 3
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-north-split-3-split-split-2-split-m91",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-avenue:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v91-plaza-civic-east-t",
+        "message": "47 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 47
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-plaza-civic-east-t",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-civic-middle:collector-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v911-plaza-east-wb",
+        "message": "56 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 56
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v911-plaza-east-wb",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v9-chengjing-road:frontage-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v911-plaza-east-eb",
+        "message": "56 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 56
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v911-plaza-east-eb",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v9-chengjing-road:frontage-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-inner-1-split-2-m91",
+        "message": "55 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 55
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-inner-1-split-2-m91",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-main-section-section-section-section",
+        "message": "10 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 10
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section-section-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-main-section-section-section-section-2",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section-section-section-section-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-central-north",
+        "message": "74 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 74
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-finance-north-section",
+        "message": "70 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 70
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-finance-north-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-finance-road:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-finance-north-section-section",
+        "message": "28 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 28
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-finance-north-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-finance-road:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-north-split-3-split-split-2-split-m91-section",
+        "message": "14 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 14
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-north-split-3-split-split-2-split-m91-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-avenue:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v5-north-campus-split-section-section",
+        "message": "52 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v5-north-campus-split-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-north-campus:collector-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-central-north-section",
+        "message": "24 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 24
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-north-split-3-split-split-2-split-m91-section-section",
+        "message": "7 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-north-split-3-split-split-2-split-m91-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-avenue:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-central-north-section-section",
+        "message": "84 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 84
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-inner-1-split-2-m91-section",
+        "message": "228 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 228
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-inner-1-split-2-m91-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4-split-section",
+        "message": "38 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 38
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-2-section",
+        "message": "8 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 8
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-2-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      }
+    ],
+    "truncated": false
+  },
+  "after": {
+    "scope": "bbox",
+    "coverage": {
+      "roadsChecked": 100,
+      "roadsTotal": 2943,
+      "intersectionsChecked": 46,
+      "intersectionsTotal": 302
+    },
+    "counts": {
+      "error": 0,
+      "warning": 36,
+      "info": 94,
+      "total": 130,
+      "bySeverity": {
+        "error": 0,
+        "warning": 36,
+        "info": 94
+      },
+      "byCode": {
+        "geometry.shortSegments": 2,
+        "intersection.acuteApproach": 7,
+        "intersection.approachKink": 7,
+        "intersection.shortApproach": 2,
+        "intersection.stalePortAngle": 9,
+        "marking.crosswalkOverlap": 1,
+        "marking.stopLineDisplaced": 5,
+        "vertical.abruptGradeChange": 3,
+        "vertical.elevationPointOscillation": 1,
+        "geometry.redundantControlPoints": 43,
+        "topology.deadEnd": 1,
+        "topology.shortConnector": 1,
+        "vertical.gradeReversals": 2,
+        "vertical.rampReversal": 2,
+        "vertical.redundantElevationPoints": 44
+      }
+    },
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "geometry.shortSegments",
+        "roadId": "v4-inner-1-split-2-m91-section",
+        "message": "55 road segments shorter than 1.5 m",
+        "metrics": {
+          "shortSegments": 55
+        },
+        "repair": {
+          "op": "smoothRoad",
+          "id": "v4-inner-1-split-2-m91-section",
+          "strength": 1,
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-25",
+        "message": "Arms north and west meet at 3°",
+        "metrics": {
+          "angleDegrees": 3,
+          "portA": "north",
+          "portB": "west"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-25"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-40",
+        "message": "Arms south and west meet at 0°",
+        "metrics": {
+          "angleDegrees": 0,
+          "portA": "south",
+          "portB": "west"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-40"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-44",
+        "message": "Arms north and east meet at 23°",
+        "metrics": {
+          "angleDegrees": 23,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-44"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-97",
+        "message": "Arms north and east meet at 2°",
+        "metrics": {
+          "angleDegrees": 2,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-97"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-169",
+        "message": "Arms north and east meet at 9°",
+        "metrics": {
+          "angleDegrees": 9,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-169"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-9",
+        "message": "Arms north and east meet at 0°",
+        "metrics": {
+          "angleDegrees": 0,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-9"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.acuteApproach",
+        "intersectionId": "urban-junction-33",
+        "message": "Arms north and east meet at 9°",
+        "metrics": {
+          "angleDegrees": 9,
+          "portA": "north",
+          "portB": "east"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-33"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-25",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-25"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-40",
+        "message": "Approach south runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "south",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-40"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-44",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-44"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-97",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-97"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-169",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-169"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-9",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-9"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.approachKink",
+        "intersectionId": "urban-junction-33",
+        "message": "Approach north runs along the junction edge; smooth it before rebuilding markings",
+        "metrics": {
+          "port": "north",
+          "offset": 30.399999999999956
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-33"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.shortApproach",
+        "intersectionId": "urban-junction-28",
+        "message": "Approach v91-ns-0-a-5 is only 6 m long",
+        "metrics": {
+          "roadId": "v91-ns-0-a-5",
+          "length": 6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-28"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.shortApproach",
+        "intersectionId": "urban-junction-33",
+        "message": "Approach v91-ns-0-a-5 is only 6 m long",
+        "metrics": {
+          "roadId": "v91-ns-0-a-5",
+          "length": 6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-33"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-69",
+        "message": "Port west bearing differs from the road by 50°",
+        "metrics": {
+          "port": "west",
+          "deltaDegrees": 50
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-69"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-25",
+        "message": "Port north bearing differs from the road by 70°",
+        "metrics": {
+          "port": "north",
+          "deltaDegrees": 70
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-25"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-97",
+        "message": "Port north bearing differs from the road by 48°",
+        "metrics": {
+          "port": "north",
+          "deltaDegrees": 48
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-97"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-8",
+        "message": "Port south bearing differs from the road by 67°",
+        "metrics": {
+          "port": "south",
+          "deltaDegrees": 67
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-8"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-9",
+        "message": "Port north bearing differs from the road by 180°",
+        "metrics": {
+          "port": "north",
+          "deltaDegrees": 180
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-9"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-10",
+        "message": "Port south bearing differs from the road by 67°",
+        "metrics": {
+          "port": "south",
+          "deltaDegrees": 67
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-10"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-22",
+        "message": "Port south bearing differs from the road by 67°",
+        "metrics": {
+          "port": "south",
+          "deltaDegrees": 67
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-22"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-28",
+        "message": "Port south bearing differs from the road by 67°",
+        "metrics": {
+          "port": "south",
+          "deltaDegrees": 67
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-28"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "intersection.stalePortAngle",
+        "intersectionId": "urban-junction-33",
+        "message": "Port north bearing differs from the road by 180°",
+        "metrics": {
+          "port": "north",
+          "deltaDegrees": 180
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-33"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.crosswalkOverlap",
+        "intersectionId": "urban-junction-40",
+        "message": "Crosswalks on south and west overlap",
+        "metrics": {
+          "portA": "south",
+          "portB": "west"
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-40"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-19",
+        "message": "Stop line on north is 15.6 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 15.6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-19"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-60",
+        "message": "Stop line on north is 17.6 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 17.6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-60"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-97",
+        "message": "Stop line on south is 17.6 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "south",
+          "offset": 17.6
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-97"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "urban-junction-127",
+        "message": "Stop line on north is 14 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 14
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "urban-junction-127"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "marking.stopLineDisplaced",
+        "intersectionId": "access-mingyuan-zhongshan-signal",
+        "message": "Stop line on north is 14 m from the mouth because the approach is tangential",
+        "metrics": {
+          "port": "north",
+          "offset": 14
+        },
+        "repair": {
+          "op": "repairIntersection",
+          "id": "access-mingyuan-zhongshan-signal"
+        }
+      },
+      {
+        "severity": "warning",
+        "code": "vertical.abruptGradeChange",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "Grade changes 10% over a short interval",
+        "metrics": {
+          "gradeChangePercent": 9.6
+        },
+        "station": 119.9,
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:E-to-S-semi",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "warning",
+        "code": "vertical.abruptGradeChange",
+        "roadId": "system-central:S-to-E-right",
+        "message": "Grade changes 8% over a short interval",
+        "metrics": {
+          "gradeChangePercent": 7.6
+        },
+        "station": 435,
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:S-to-E-right",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "warning",
+        "code": "vertical.abruptGradeChange",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "Grade changes 9% over a short interval",
+        "metrics": {
+          "gradeChangePercent": 8.6
+        },
+        "station": 1140,
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:N-to-E-semi",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "warning",
+        "code": "vertical.elevationPointOscillation",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "4 high-frequency elevation control points",
+        "metrics": {
+          "oscillations": 4,
+          "amplitude": 0.18,
+          "closeExtrema": 2
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:E-to-S-semi",
+          "preserveEndpoints": true,
+          "strength": 2
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split",
+        "message": "15 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 15
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-2",
+        "message": "17 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 17
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split",
+        "message": "5 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split",
+        "message": "52 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4-split",
+        "message": "7 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-2-split-split",
+        "message": "19 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-2-split",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-2-split-split-split",
+        "message": "17 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 17
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v4-university",
+        "message": "12 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 12
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-university",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v8-name-v4-university:collector-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "system-central:S-to-E-right",
+        "message": "6 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 6
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:S-to-E-right",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "45 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 45
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:E-to-S-semi",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split-split",
+        "message": "15 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 15
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "system-central:E-to-N-right",
+        "message": "5 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:E-to-N-right",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-2-split-split-2",
+        "message": "19 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2-split-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "73 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 73
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:N-to-E-semi",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-5",
+        "message": "52 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-5",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4-split-2",
+        "message": "7 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ring-cw-1-split-3-split-split-split-split",
+        "message": "203 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 203
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-cw-1-split-3-split-split-split-split",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-2",
+        "message": "37 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 37
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split-2",
+        "message": "13 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "diamond-east:west-local-split-v91",
+        "message": "3 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 3
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "diamond-east:west-local-split-v91",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v8-jinhua-street:arterial-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4-split-2-section",
+        "message": "5 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-2-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v91-ew-east-eb-off",
+        "message": "16 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 16
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-ew-east-eb-off",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:G4516:connector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-section",
+        "message": "7 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v91-ew-east-wb-on",
+        "message": "19 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-ew-east-wb-on",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:G4516:connector"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v91-plaza-civic-east-t",
+        "message": "11 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 11
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-plaza-civic-east-t",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-civic-middle:collector-4"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v911-plaza-east-wb",
+        "message": "56 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 56
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v911-plaza-east-wb",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v9-chengjing-road:frontage-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v911-plaza-east-eb",
+        "message": "56 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 56
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v911-plaza-east-eb",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v9-chengjing-road:frontage-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v4-inner-1-split-2-m91",
+        "message": "55 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 55
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-inner-1-split-2-m91",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-main-section-section-section-section",
+        "message": "41 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 41
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section-section-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "direction-mingyuan-main-section-section-section-section-2",
+        "message": "4 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 4
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section-section-section-section-2",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-central-north",
+        "message": "74 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 74
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-finance-north-section",
+        "message": "70 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 70
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-finance-north-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-finance-road:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-finance-north-section-section",
+        "message": "27 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 27
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-finance-north-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-finance-road:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v5-north-campus-split-section-section",
+        "message": "40 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 40
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v5-north-campus-split-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:v5-north-campus:collector-3"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-central-north-section",
+        "message": "24 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 24
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v4-north-split-3-split-split-2-split-m91-section-section",
+        "message": "2 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 2
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-north-split-3-split-split-2-split-m91-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:north-avenue:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "access-central-north-section-section",
+        "message": "84 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 84
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north-section-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "v4-inner-1-split-2-m91-section",
+        "message": "217 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 217
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-inner-1-split-2-m91-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-eb-split-split-4-split-section",
+        "message": "37 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 37
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.redundantControlPoints",
+        "roadId": "ew-wb-split-3-split-split-split-2-section",
+        "message": "8 redundant centerline points",
+        "metrics": {
+          "redundantPoints": 8
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-2-section",
+          "tolerance": 0.2
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "geometry.shortSegments",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "2 road segments shorter than 1.5 m",
+        "metrics": {
+          "shortSegments": 2
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:N-to-E-semi",
+          "strength": 1,
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "topology.deadEnd",
+        "roadId": "v4-diagonal-split-split-m91",
+        "message": "Open end endpoint; verify this is an intentional terminus",
+        "metrics": {
+          "end": "end"
+        },
+        "station": 75.6,
+        "corridorId": "corridor:new-city-avenue:arterial-3"
+      },
+      {
+        "severity": "info",
+        "code": "topology.shortConnector",
+        "roadId": "v5-civic-north-split-split-m91-section",
+        "message": "Short connector between junctions (12.2 m)",
+        "metrics": {
+          "length": 12.2
+        },
+        "corridorId": "corridor:v5-civic-north:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.gradeReversals",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "6 grade direction changes",
+        "metrics": {
+          "reversals": 6,
+          "maxGradePercent": 10
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:E-to-S-semi",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.gradeReversals",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "7 grade direction changes",
+        "metrics": {
+          "reversals": 7,
+          "maxGradePercent": 11.1
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:N-to-E-semi",
+          "preserveEndpoints": true
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.rampReversal",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "Ramp rises/falls 68 m for a 15.9 m net change",
+        "metrics": {
+          "netChange": 15.9,
+          "totalVariation": 68
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:E-to-S-semi",
+          "strength": 1.5
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.rampReversal",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "Ramp rises/falls 73.7 m for a 13.4 m net change",
+        "metrics": {
+          "netChange": 13.4,
+          "totalVariation": 73.7
+        },
+        "repair": {
+          "op": "repairRamp",
+          "id": "system-central:N-to-E-semi",
+          "strength": 1.5
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split",
+        "message": "15 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 15
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-2",
+        "message": "17 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 17
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split",
+        "message": "5 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split",
+        "message": "52 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4-split",
+        "message": "7 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-2-split-split",
+        "message": "19 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-2-split",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-2-split-split-split",
+        "message": "17 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 17
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-university",
+        "message": "20 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 20
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-university",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v8-name-v4-university:collector-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "system-central:S-to-E-right",
+        "message": "58 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 58
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:S-to-E-right",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-2-split-split-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "system-central:E-to-S-semi",
+        "message": "69 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 69
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:E-to-S-semi",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split-split",
+        "message": "15 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 15
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "system-central:E-to-N-right",
+        "message": "54 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 54
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:E-to-N-right",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-south-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-2-split-split-2",
+        "message": "19 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 19
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-2-split-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "system-central:N-to-E-semi",
+        "message": "81 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 81
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "system-central:N-to-E-semi",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:ramp-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-5",
+        "message": "52 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-5",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4-split-2",
+        "message": "7 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ring-cw-1-split-3-split-split-split-split",
+        "message": "240 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 240
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ring-cw-1-split-3-split-split-split-split",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:ring-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-2",
+        "message": "37 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 37
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-split-2",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-split-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4-split-2-section",
+        "message": "5 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 5
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-2-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v91-ew-east-eb-off",
+        "message": "46 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 46
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-ew-east-eb-off",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:G4516:connector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-section",
+        "message": "7 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v91-ew-east-wb-on",
+        "message": "45 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 45
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-ew-east-wb-on",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:G4516:connector"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-north-split-3-split-split-2-split-m91",
+        "message": "3 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 3
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-north-split-3-split-split-2-split-m91",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-avenue:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v91-plaza-civic-east-t",
+        "message": "47 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 47
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v91-plaza-civic-east-t",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-civic-middle:collector-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v911-plaza-east-wb",
+        "message": "56 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 56
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v911-plaza-east-wb",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v9-chengjing-road:frontage-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v911-plaza-east-eb",
+        "message": "56 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 56
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v911-plaza-east-eb",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v9-chengjing-road:frontage-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-inner-1-split-2-m91",
+        "message": "55 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 55
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-inner-1-split-2-m91",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-main-section-section-section-section",
+        "message": "12 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 12
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section-section-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "direction-mingyuan-main-section-section-section-section-2",
+        "message": "13 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 13
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "direction-mingyuan-main-section-section-section-section-2",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:new-city-avenue:expressway"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-central-north",
+        "message": "74 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 74
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-finance-north-section",
+        "message": "70 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 70
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-finance-north-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-finance-road:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-finance-north-section-section",
+        "message": "28 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 28
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-finance-north-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-finance-road:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-north-split-3-split-split-2-split-m91-section",
+        "message": "14 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 14
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-north-split-3-split-split-2-split-m91-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-avenue:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v5-north-campus-split-section-section",
+        "message": "52 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 52
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v5-north-campus-split-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:v5-north-campus:collector-3"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-central-north-section",
+        "message": "24 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 24
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-north-split-3-split-split-2-split-m91-section-section",
+        "message": "7 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 7
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-north-split-3-split-split-2-split-m91-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:north-avenue:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "access-central-north-section-section",
+        "message": "84 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 84
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "access-central-north-section-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:central-street:arterial-5"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "v4-inner-1-split-2-m91-section",
+        "message": "228 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 228
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "v4-inner-1-split-2-m91-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:inner-boulevard:arterial-4"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-eb-split-split-4-split-section",
+        "message": "38 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 38
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-eb-split-split-4-split-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      },
+      {
+        "severity": "info",
+        "code": "vertical.redundantElevationPoints",
+        "roadId": "ew-wb-split-3-split-split-split-2-section",
+        "message": "8 redundant elevation points",
+        "metrics": {
+          "redundantPoints": 8
+        },
+        "repair": {
+          "op": "simplifyRoad",
+          "id": "ew-wb-split-3-split-split-split-2-section",
+          "tolerance": 0.1
+        },
+        "corridorId": "corridor:east-west-expressway:expressway-2"
+      }
+    ],
+    "truncated": false
+  }
+}

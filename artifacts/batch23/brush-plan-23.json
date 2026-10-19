@@ -1,0 +1,91 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "residential_mid",
+    "objectIds": [
+      "v6-inner-west-housing-215"
+    ],
+    "bbox": {
+      "minX": -1123.1990445637875,
+      "maxX": -1121.1990445637875,
+      "minZ": 559.4291526810363,
+      "maxZ": 561.4291526810363
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-inner-west-housing-215",
+      "state": "INVALID",
+      "position": {
+        "x": -1129.6957869164999,
+        "y": -0.04,
+        "z": 567.1739833155573
+      },
+      "rotation": 0.7326501819022547,
+      "anchor": {
+        "anchorRoadId": "v4-inner-3-split-2-split-split-split-m91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 132.6304180352056,
+        "lateralOffset": -28.588216260300445,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 0.7326501819022547,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:v6-inner-west-housing-215",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v6-inner-west-housing-215",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v6-road-trees-2134",
+            "actual": 18.986839937391757,
+            "required": 19.33821626030049
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-inner-west-housing-215",
+          "properties": {
+            "position": {
+              "x": -1129.6957869164999,
+              "y": -0.04,
+              "z": 567.1739833155573
+            },
+            "rotation": 0.7326501819022547
+          }
+        }
+      ],
+      "sourceId": "v6-inner-west-housing-215",
+      "heightMode": "GROUND",
+      "autoMove": 10.08441798971679
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

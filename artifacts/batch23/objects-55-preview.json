@@ -1,0 +1,160 @@
+{
+  "inspection": {
+    "key": "1:-1:streetlight_dual:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_dual",
+      "objectIds": [
+        "v6-lamps-817",
+        "v6-lamps-818",
+        "v6-lamps-820",
+        "v6-lamps-822",
+        "v6-lamps-829",
+        "v6-lamps-1980"
+      ],
+      "bbox": {
+        "minX": 2505.7490074624097,
+        "maxX": 3081.1786225312476,
+        "minZ": -231.71648809038768,
+        "maxZ": -107.32363290011668
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 6,
+      "valid": 0,
+      "adjusted": 1,
+      "invalid": 5,
+      "skipped": 5,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-820",
+      "properties": {
+        "position": {
+          "x": 3105.3,
+          "y": 0.5176367099883399,
+          "z": -191.6763670998834
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-817",
+      "properties": {
+        "position": {
+          "x": 3105.587867965644,
+          "y": 4.421648809038768,
+          "z": -230.71648809038768
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-818",
+      "properties": {
+        "position": {
+          "x": 2922.6666666666665,
+          "y": 0,
+          "z": -133.28786796564404
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-822",
+      "properties": {
+        "position": {
+          "x": 2922.6666666666665,
+          "y": 0,
+          "z": -177.71213203435596
+        },
+        "rotation": 1.5707963267948966
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-829",
+      "properties": {
+        "position": {
+          "x": 2922.6666666666665,
+          "y": 0,
+          "z": -122.28786796564404
+        },
+        "rotation": -1.5707963267948966
+      }
+    },
+    {
+      "op": "removeObject",
+      "id": "v6-lamps-1980"
+    }
+  ],
+  "summary": {
+    "id": "preview-48",
+    "revision": 47,
+    "label": "objects-55",
+    "created": [],
+    "modified": [
+      "v6-lamps-820",
+      "v6-lamps-817",
+      "v6-lamps-818",
+      "v6-lamps-822",
+      "v6-lamps-829"
+    ],
+    "deleted": [
+      "v6-lamps-1980"
+    ],
+    "area": {
+      "minX": 2466.7490074624097,
+      "maxX": 3145.587867965644,
+      "minZ": -270.71648809038766,
+      "maxZ": -68.32363290011668
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-820",
+          "v6-lamps-817",
+          "v6-lamps-818",
+          "v6-lamps-822",
+          "v6-lamps-829",
+          "v6-lamps-1980",
+          "regional:G17:in:split34:split40:split54:split72:split316",
+          "regional:G17:out:lane272",
+          "v9-newcity-ten-split",
+          "regional:G17:out",
+          "regional:G17:in:split34:split40:split54:split72:split316:lane276",
+          "ew-wb",
+          "ew-eb-split-split"
+        ],
+        "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "streetlight.tooDense",
+        "ids": [
+          "v6-lamps-829"
+        ],
+        "message": "Streetlight spacing is below review threshold"
+      }
+    ],
+    "valid": true
+  }
+}

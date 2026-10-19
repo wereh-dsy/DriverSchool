@@ -1,0 +1,16 @@
+$ esbuild scripts/run-core-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-core-selftests.mjs && node .tmp-core-selftests.mjs
+
+  .tmp-core-selftests.mjs  37.2mb
+
+Done in 804ms
+file:///D:/dsy/drivergame/.tmp-core-selftests.mjs:426552
+    if (!value) throw new Error("Fast road signs: " + message);
+                      ^
+
+Error: Fast road signs: low sign stays outside traffic lanes road-safety:regional:airport-exit:on:1:false:guide:280
+    at check (file:///D:/dsy/drivergame/.tmp-core-selftests.mjs:426552:23)
+    at runFastRoadSignPlacementSelfTest (file:///D:/dsy/drivergame/.tmp-core-selftests.mjs:426657:9)
+    at file:///D:/dsy/drivergame/.tmp-core-selftests.mjs:911637:22
+
+Node.js v24.19.0
+[ELIFECYCLE] Command failed with exit code 1.

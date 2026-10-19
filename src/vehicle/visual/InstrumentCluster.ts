@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { lateralBoundaryColor } from './LateralAssistDisplay';
-import { activeNavigation, drawNavigationBanner } from '../../ui/NavigationDisplay';
+import { activeNavigation, drawCompactNavigationGuidance, drawNavigationBanner } from '../../ui/NavigationDisplay';
 import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
 import { BMW530Instruments } from './BMW530Instruments';
 import { MercedesE300LInstruments } from './MercedesE300LInstruments';
@@ -2168,7 +2168,7 @@ export class InstrumentCluster extends THREE.Group {
       if (pageKey !== this.executivePageKey) { this.executivePageKey = pageKey; this.executivePageTime = 0; }
       this.executivePageTime += dt;
       const lanes = telemetry.executive?.lanes;
-      const hasLanes = page === 'DRIVING' && (lanes?.length ?? 0) >= 2 && lanes!.every(line => line.length > 1);
+      const hasLanes = (page === 'DRIVING' || page === 'MAP') && (lanes?.length ?? 0) >= 2 && lanes!.every(line => line.length > 1);
       if (hasLanes) {
         this.executiveLanePoints = lanes!;
         this.executiveLaneMarkings = telemetry.executive?.laneMarkings ?? [];
@@ -2541,23 +2541,21 @@ export class InstrumentCluster extends THREE.Group {
         text('km/h', 720, 327, 22, '#9eacbb');
       }
     } else if (data?.page === 'MAP') {
-      if (!data.roads.length) text('No road data', 720, 246, 21, '#6e7e90');
-      context.strokeStyle = '#8393a4'; context.lineWidth = 3; context.lineJoin = 'round'; context.lineCap = 'round';
-      for (const line of data.roads) {
-        context.beginPath(); line.forEach((p, i) => { const x = 720 + p.x * 1.9, y = 330 - p.forward * 1.9;
-          if (i === 0) context.moveTo(x, y); else context.lineTo(x, y); }); context.stroke();
-      }
-      this.drawExecutiveCar(context, 720, 330);
-      const n=data.navigation;
-      if(n?.map.available)n.map.draw(context,{x:576,y:180,width:288,height:234},n.pose.x,n.pose.z,n.pose.yaw,500);
-      drawNavigationBanner(context,n?.guidance,{x:580,y:184,width:280,height:100},true);
+      // Instrument guidance only: the full map belongs to the centre display.
+      const guidance = data.navigation?.guidance;
+      if (activeNavigation(guidance)) drawNavigationBanner(context, guidance, { x: 600, y: 210, width: 240, height: 145 });
+      else this.drawExecutiveRoad(context, data);
     } else {
       if (indicators.cruise) {
         drawStatusLamp(context, 'CRUISE', '#95b6ae', 664, 201, 18);
         text(`${Math.round(telemetry.cruiseTargetSpeedKmh ?? 0)} km/h`, 733, 201, 21, '#becbd8');
       }
       this.drawExecutiveRoad(context, data);
-      if(activeNavigation(data?.navigation?.guidance))drawNavigationBanner(context,data?.navigation?.guidance,{x:580,y:252,width:280,height:130},true);
+      const guidance = data?.navigation?.guidance;
+      if (activeNavigation(guidance)) {
+        const close = guidance.status !== 'navigating' || guidance.maneuverDistance < 250;
+        drawCompactNavigationGuidance(context, guidance, { x: 580, y: 155, width: 280, height: 20 }, close);
+      }
     }
     context.restore();
     context.restore();

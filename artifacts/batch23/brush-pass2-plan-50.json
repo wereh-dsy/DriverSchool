@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "regional:extension-tree:S31:13780:1"
+    ],
+    "bbox": {
+      "minX": 14177.273866479849,
+      "maxX": 14179.273866479849,
+      "minZ": 3687.7834508231226,
+      "maxZ": 3689.7834508231226
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:extension-tree:S31:13780:1",
+      "state": "VALID",
+      "position": {
+        "x": 14210.246997361792,
+        "y": -7.889828122469966,
+        "z": 3698.833077380108
+      },
+      "rotation": 2.8370553474464852,
+      "anchor": {
+        "anchorRoadId": "regional:v3:chenjiang-east:E-to-S-turbine:acceleration",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 66.34505539618073,
+        "lateralOffset": 6.250000000000567,
+        "verticalOffset": -12,
+        "facingDirection": "forward",
+        "expectedHeading": 2.8370553474464852,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:extension-tree:S31:13780:1",
+          "properties": {
+            "position": {
+              "x": 14210.246997361792,
+              "y": -7.889828122469966,
+              "z": 3698.833077380108
+            },
+            "rotation": 2.8370553474464852
+          }
+        }
+      ],
+      "sourceId": "regional:extension-tree:S31:13780:1",
+      "heightMode": "GROUND",
+      "autoMove": 34.42231680002133
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:S31:13780:1",
+      "properties": {
+        "position": {
+          "x": 14210.246997361792,
+          "y": -7.889828122469966,
+          "z": 3698.833077380108
+        },
+        "rotation": 2.8370553474464852
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

@@ -1,0 +1,90 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight_dual",
+    "objectIds": [
+      "v6-lamps-1378"
+    ],
+    "bbox": {
+      "minX": 328.6458291975443,
+      "maxX": 330.6458291975443,
+      "minZ": 389.7680239618926,
+      "maxZ": 391.7680239618926
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-1378",
+      "state": "INVALID",
+      "position": {
+        "x": 340.9935962668872,
+        "y": 0.09100365118957068,
+        "z": 400.85440610285343
+      },
+      "rotation": -0.7266166473144267,
+      "anchor": {
+        "anchorRoadId": "direction-mingyuan-main-section-section-section-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 42.53233938712654,
+        "lateralOffset": -14.212132034355935,
+        "verticalOffset": -1.6653345369377348e-16,
+        "facingDirection": "forward",
+        "expectedHeading": -0.7266166473144267,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.unsupportedOnDeck:v6-lamps-1378",
+          "code": "object.unsupportedOnDeck",
+          "severity": "warning",
+          "objectId": "v6-lamps-1378",
+          "message": "Road-level placement lies outside the available deck/sidewalk envelope",
+          "metrics": {
+            "roadId": "direction-mingyuan-main-section-section-section-section",
+            "lateralOffset": -14.212132034355935
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-1378",
+          "properties": {
+            "position": {
+              "x": 340.9935962668872,
+              "y": 0.09100365118957068,
+              "z": 400.85440610285343
+            },
+            "rotation": -0.7266166473144267
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-1378",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 15.182494752114602
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

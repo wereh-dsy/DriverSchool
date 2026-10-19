@@ -1,0 +1,55 @@
+﻿{
+  "mapDigest": "c5ef31970cfc26ef855d60acb4cc7232b10418b9e64f6a0aa2726f9e53e64b5d",
+  "operations": [
+    {
+      "op": "extendRoad",
+      "roadId": "urban-north-arterial-split-m91",
+      "end": "end",
+      "points": [
+        {
+          "x": 2219.6312257616555,
+          "y": 0,
+          "z": -1000
+        }
+      ],
+      "crossing": "none"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "urban-junction-15"
+    },
+    {
+      "op": "connectRoads",
+      "from": {
+        "roadId": "urban-north-arterial-split-m91",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "urban-north-arterial-split-split-m91-approach",
+        "end": "start"
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "A2: close urban-junction-15 gap as a road link",
+    "created": [],
+    "modified": [
+      "urban-north-arterial-split-m91",
+      "urban-north-arterial-split-split-m91-approach",
+      "topology-sign:urban-junction-15|urban-north-arterial-split|end:URBAN_DIRECTION"
+    ],
+    "deleted": [
+      "urban-junction-15"
+    ],
+    "area": {
+      "minX": 1841.3992204808114,
+      "maxX": 2358.0425760204,
+      "minZ": -1040,
+      "maxZ": -950.5
+    },
+    "warnings": [],
+    "valid": true
+  }
+}

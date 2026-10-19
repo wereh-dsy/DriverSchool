@@ -1,0 +1,143 @@
+{
+  "inspection": {
+    "key": "1:0:streetlight_highway:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_highway",
+      "objectIds": [
+        "v6-lamps-575",
+        "v6-lamps-576",
+        "v6-lamps-710",
+        "v6-lamps-711",
+        "v61-road-lamp-36"
+      ],
+      "bbox": {
+        "minX": 2979.459174463656,
+        "maxX": 3135.6580470239405,
+        "minZ": 1312.2282268336335,
+        "maxZ": 1937.2051610355059
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 5,
+      "valid": 3,
+      "adjusted": 0,
+      "invalid": 2,
+      "skipped": 2,
+      "added": 0,
+      "moved": 3,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-576",
+      "properties": {
+        "position": {
+          "x": 3133.8782229438057,
+          "y": -0.04,
+          "z": 1349.437608199845
+        },
+        "rotation": -1.666158373697306
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-710",
+      "properties": {
+        "position": {
+          "x": 3095.025933175699,
+          "y": -0.04,
+          "z": 1345.7213022220262
+        },
+        "rotation": -1.666158373697306
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-711",
+      "properties": {
+        "position": {
+          "x": 3053.4705407417796,
+          "y": 14.921947269496668,
+          "z": 1885.631183997451
+        },
+        "rotation": -0.4778327548335623
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-575",
+      "properties": {
+        "position": {
+          "x": 3046.5545686566347,
+          "y": 15.196021637905893,
+          "z": 1918.920556712777
+        },
+        "rotation": -0.531433493856761
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v61-road-lamp-36",
+      "properties": {
+        "position": {
+          "x": 3010.240452688929,
+          "y": 15.090398829917367,
+          "z": 1882.3146038302557
+        },
+        "rotation": 2.627676816314216
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-41",
+    "revision": 40,
+    "label": "objects-48",
+    "created": [],
+    "modified": [
+      "v6-lamps-576",
+      "v6-lamps-710",
+      "v6-lamps-711",
+      "v6-lamps-575",
+      "v61-road-lamp-36"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2940.459174463656,
+      "maxX": 3174.6580470239405,
+      "minZ": 1273.2282268336335,
+      "maxZ": 1976.2051610355059
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-576",
+          "v6-lamps-710",
+          "v6-lamps-711",
+          "v6-lamps-575",
+          "v61-road-lamp-36",
+          "regional:S68:in:split84:split102:split240:split550:split558",
+          "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570",
+          "v61-sports-road-split-c91",
+          "regional:S68:out:split12:split30:split36:split232:split546:split554:split562",
+          "v8-tonggang-avenue-split-m91",
+          "urban-junction-50"
+        ],
+        "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

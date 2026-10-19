@@ -1,0 +1,111 @@
+{
+  "inspection": {
+    "key": "1:1:streetlight_highway:ROAD_SURFACE",
+    "request": {
+      "mode": "REPAIR",
+      "type": "streetlight_highway",
+      "objectIds": [
+        "v6-lamps-713",
+        "v6-lamps-1106",
+        "v6-lamps-1107"
+      ],
+      "bbox": {
+        "minX": 2365.8195425904887,
+        "maxX": 2552.7233141350016,
+        "minZ": 2434.4736312469972,
+        "maxZ": 2536.5951666160418
+      },
+      "heightMode": "ROAD_SURFACE",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 3,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 1,
+      "skipped": 1,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1106",
+      "properties": {
+        "position": {
+          "x": 2536.819118055709,
+          "y": 6.528922203799234,
+          "z": 2452.0688377578913
+        },
+        "rotation": 2.78301570791929
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-1107",
+      "properties": {
+        "position": {
+          "x": 2363.475522138946,
+          "y": -0.024,
+          "z": 2531.750964647112
+        },
+        "rotation": 2.2867229914532166
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v6-lamps-713",
+      "properties": {
+        "position": {
+          "x": 2455.486577532208,
+          "y": 0.07345791662025238,
+          "z": 2485.78243424621
+        },
+        "rotation": 1.8524282482992684
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-46",
+    "revision": 45,
+    "label": "objects-53",
+    "created": [],
+    "modified": [
+      "v6-lamps-1106",
+      "v6-lamps-1107",
+      "v6-lamps-713"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 2323.475522138946,
+      "maxX": 2591.7233141350016,
+      "minZ": 2395.4736312469972,
+      "maxZ": 2575.5951666160418
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v6-lamps-1106",
+          "v6-lamps-1107",
+          "v6-lamps-713",
+          "regional:S68:in:split84:split102:split240:split550",
+          "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570:split578",
+          "v4-south-logistics-east-split",
+          "regional:S68:in:split84:split102:split240"
+        ],
+        "message": "roads: 5 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

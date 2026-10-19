@@ -1,0 +1,200 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "commercial",
+    "objectIds": [
+      "v61-exhibition",
+      "v61-sports-hall",
+      "v9-chunhui-2-3-1"
+    ],
+    "bbox": {
+      "minX": 2335.97593419597,
+      "maxX": 3364.065575455451,
+      "minZ": 494.4964888488576,
+      "maxZ": 1628.048140912605
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 60,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v61-exhibition",
+      "state": "INVALID",
+      "position": {
+        "x": 3363.0666398534663,
+        "y": 0.15685902733236384,
+        "z": 505.76499968349356
+      },
+      "rotation": -1.570692670283367,
+      "anchor": {
+        "anchorRoadId": "v9-chunhui-east-split-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 331.08492955521893,
+        "lateralOffset": 67.68599166081167,
+        "verticalOffset": -1.1642679413031451,
+        "facingDirection": "forward",
+        "expectedHeading": -3.1344604235384352,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.tooCloseToObject:v61-exhibition",
+          "code": "object.tooCloseToObject",
+          "severity": "warning",
+          "objectId": "v61-exhibition",
+          "message": "Object envelopes overlap or violate spacing",
+          "metrics": {
+            "otherObjectId": "v9-chunhui-2-5-1",
+            "actual": 85.07596467563256,
+            "required": 91.87964650476697
+          },
+          "approximate": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-exhibition",
+          "properties": {
+            "position": {
+              "x": 3363.0666398534663,
+              "y": 0.15685902733236384,
+              "z": 505.76499968349356
+            },
+            "rotation": -1.570692670283367
+          }
+        }
+      ],
+      "sourceId": "v61-exhibition",
+      "heightMode": "GROUND",
+      "autoMove": 10.269524077104414
+    },
+    {
+      "id": "v61-sports-hall",
+      "state": "VALID",
+      "position": {
+        "x": 2327.3662215778327,
+        "y": -0.04,
+        "z": 1624.6088874924797
+      },
+      "rotation": 2.8930105839740237,
+      "anchor": {
+        "anchorRoadId": "ring-cw-2-split-4-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 862.4028003939707,
+        "lateralOffset": 49.90276825831881,
+        "verticalOffset": -3.7818762442521248,
+        "facingDirection": "forward",
+        "expectedHeading": 2.8930105839740237,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v61-sports-hall",
+          "properties": {
+            "position": {
+              "x": 2327.3662215778327,
+              "y": -0.04,
+              "z": 1624.6088874924797
+            },
+            "rotation": 2.8930105839740237
+          }
+        }
+      ],
+      "sourceId": "v61-sports-hall",
+      "heightMode": "GROUND",
+      "autoMove": 9.914541535077507
+    },
+    {
+      "id": "v9-chunhui-2-3-1",
+      "state": "VALID",
+      "position": {
+        "x": 2711.0318579083632,
+        "y": -0.04,
+        "z": 543.6718729252578
+      },
+      "rotation": 1.262659605188541,
+      "anchor": {
+        "anchorRoadId": "peripheral-interchange:E-to-N-right",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 406.3156971146084,
+        "lateralOffset": 39.24906854146622,
+        "verticalOffset": -1.8896543131588217,
+        "facingDirection": "forward",
+        "expectedHeading": 1.262659605188541,
+        "structureType": "elevated",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v9-chunhui-2-3-1",
+          "properties": {
+            "position": {
+              "x": 2711.0318579083632,
+              "y": -0.04,
+              "z": 543.6718729252578
+            },
+            "rotation": 1.262659605188541
+          }
+        }
+      ],
+      "sourceId": "v9-chunhui-2-3-1",
+      "heightMode": "GROUND",
+      "autoMove": 13.294077082377388
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v61-sports-hall",
+      "properties": {
+        "position": {
+          "x": 2327.3662215778327,
+          "y": -0.04,
+          "z": 1624.6088874924797
+        },
+        "rotation": 2.8930105839740237
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v9-chunhui-2-3-1",
+      "properties": {
+        "position": {
+          "x": 2711.0318579083632,
+          "y": -0.04,
+          "z": 543.6718729252578
+        },
+        "rotation": 1.262659605188541
+      }
+    }
+  ],
+  "stats": {
+    "planned": 3,
+    "valid": 2,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 2,
+    "removed": 0
+  },
+  "valid": true
+}

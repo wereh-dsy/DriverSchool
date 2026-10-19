@@ -1,0 +1,668 @@
+{
+  "inspection": {
+    "key": "-3:-1:traffic_sign",
+    "request": {
+      "mode": "REPAIR",
+      "type": "traffic_sign",
+      "bbox": {
+        "minX": -6237.980068994038,
+        "maxX": -5864.71735283561,
+        "minZ": -2076.126573210163,
+        "maxZ": -1897.1116854043387
+      },
+      "objectIds": [
+        "regional:airport-service:charger:1:0",
+        "regional:airport-service:charger:1:1",
+        "regional:airport-service:charger:1:2",
+        "regional:airport-service:charger:1:3",
+        "regional:airport-service:charger:-1:0",
+        "regional:airport-service:charger:-1:1",
+        "regional:airport-service:charger:-1:2",
+        "regional:airport-service:charger:-1:3"
+      ],
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 45,
+      "limit": 5000
+    },
+    "plan": {
+      "request": {
+        "mode": "REPAIR",
+        "type": "traffic_sign",
+        "bbox": {
+          "minX": -6237.980068994038,
+          "maxX": -5864.71735283561,
+          "minZ": -2076.126573210163,
+          "maxZ": -1897.1116854043387
+        },
+        "objectIds": [
+          "regional:airport-service:charger:1:0",
+          "regional:airport-service:charger:1:1",
+          "regional:airport-service:charger:1:2",
+          "regional:airport-service:charger:1:3",
+          "regional:airport-service:charger:-1:0",
+          "regional:airport-service:charger:-1:1",
+          "regional:airport-service:charger:-1:2",
+          "regional:airport-service:charger:-1:3"
+        ],
+        "heightMode": "GROUND",
+        "heightOffset": 0,
+        "orientation": "ROAD_FORWARD",
+        "autoAdjust": "ADJUST",
+        "maxAutoMove": 45,
+        "limit": 5000
+      },
+      "candidates": [
+        {
+          "id": "regional:airport-service:charger:1:0",
+          "state": "ADJUSTED",
+          "position": {
+            "x": -5906.567181505904,
+            "y": 22.152007240256395,
+            "z": -2043.1622212108064
+          },
+          "rotation": 0.4205970274435473,
+          "anchor": {
+            "anchorRoadId": "regional:airport-service:local:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 80.00000000000001,
+            "lateralOffset": 10.249999999999753,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": 0.4205970274435473,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:airport-service:charger:1:0",
+              "properties": {
+                "position": {
+                  "x": -5906.567181505904,
+                  "y": 22.152007240256395,
+                  "z": -2043.1622212108064
+                },
+                "rotation": 0.4205970274435473
+              }
+            }
+          ],
+          "sourceId": "regional:airport-service:charger:1:0",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001787709187
+        },
+        {
+          "id": "regional:airport-service:charger:1:1",
+          "state": "ADJUSTED",
+          "position": {
+            "x": -5908.608709103462,
+            "y": 22.152007240256395,
+            "z": -2047.7264478778784
+          },
+          "rotation": 0.4205970274435473,
+          "anchor": {
+            "anchorRoadId": "regional:airport-service:local:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 85.0000000000004,
+            "lateralOffset": 10.24999999999966,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": 0.4205970274435473,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:airport-service:charger:1:1",
+              "properties": {
+                "position": {
+                  "x": -5908.608709103462,
+                  "y": 22.152007240256395,
+                  "z": -2047.7264478778784
+                },
+                "rotation": 0.4205970274435473
+              }
+            }
+          ],
+          "sourceId": "regional:airport-service:charger:1:1",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001787709169
+        },
+        {
+          "id": "regional:airport-service:charger:1:2",
+          "state": "ADJUSTED",
+          "position": {
+            "x": -5910.65023670102,
+            "y": 22.152007240256395,
+            "z": -2052.29067454495
+          },
+          "rotation": 0.4205970274435473,
+          "anchor": {
+            "anchorRoadId": "regional:airport-service:local:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 90,
+            "lateralOffset": 10.249999999999568,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": 0.4205970274435473,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:airport-service:charger:1:2",
+              "properties": {
+                "position": {
+                  "x": -5910.65023670102,
+                  "y": 22.152007240256395,
+                  "z": -2052.29067454495
+                },
+                "rotation": 0.4205970274435473
+              }
+            }
+          ],
+          "sourceId": "regional:airport-service:charger:1:2",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001787709187
+        },
+        {
+          "id": "regional:airport-service:charger:1:3",
+          "state": "ADJUSTED",
+          "position": {
+            "x": -5912.691764298577,
+            "y": 22.152007240256395,
+            "z": -2056.854901212022
+          },
+          "rotation": 0.4205970274435473,
+          "anchor": {
+            "anchorRoadId": "regional:airport-service:local:1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 95.00000000000001,
+            "lateralOffset": 10.249999999999753,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": 0.4205970274435473,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:airport-service:charger:1:3",
+              "properties": {
+                "position": {
+                  "x": -5912.691764298577,
+                  "y": 22.152007240256395,
+                  "z": -2056.854901212022
+                },
+                "rotation": 0.4205970274435473
+              }
+            }
+          ],
+          "sourceId": "regional:airport-service:charger:1:3",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001787709187
+        },
+        {
+          "id": "regional:airport-service:charger:-1:0",
+          "state": "ADJUSTED",
+          "position": {
+            "x": -6190.005657531071,
+            "y": 22.152007240256395,
+            "z": -1916.383357402479
+          },
+          "rotation": -2.7209956261462467,
+          "anchor": {
+            "anchorRoadId": "regional:airport-service:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 60.00000000000062,
+            "lateralOffset": 10.249999999999662,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": -2.7209956261462467,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:airport-service:charger:-1:0",
+              "properties": {
+                "position": {
+                  "x": -6190.005657531071,
+                  "y": 22.152007240256395,
+                  "z": -1916.383357402479
+                },
+                "rotation": -2.7209956261462467
+              }
+            }
+          ],
+          "sourceId": "regional:airport-service:charger:-1:0",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001787709169
+        },
+        {
+          "id": "regional:airport-service:charger:-1:1",
+          "state": "ADJUSTED",
+          "position": {
+            "x": -6192.047185128629,
+            "y": 22.152007240256395,
+            "z": -1920.9475840695516
+          },
+          "rotation": -2.7209956261462467,
+          "anchor": {
+            "anchorRoadId": "regional:airport-service:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 54.999999999999815,
+            "lateralOffset": 10.249999999999662,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": -2.7209956261462467,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:airport-service:charger:-1:1",
+              "properties": {
+                "position": {
+                  "x": -6192.047185128629,
+                  "y": 22.152007240256395,
+                  "z": -1920.9475840695516
+                },
+                "rotation": -2.7209956261462467
+              }
+            }
+          ],
+          "sourceId": "regional:airport-service:charger:-1:1",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001787709187
+        },
+        {
+          "id": "regional:airport-service:charger:-1:2",
+          "state": "ADJUSTED",
+          "position": {
+            "x": -6194.088712726187,
+            "y": 22.152007240256395,
+            "z": -1925.5118107366231
+          },
+          "rotation": -2.7209956261462467,
+          "anchor": {
+            "anchorRoadId": "regional:airport-service:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 50.00000000000022,
+            "lateralOffset": 10.249999999999662,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": -2.7209956261462467,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:airport-service:charger:-1:2",
+              "properties": {
+                "position": {
+                  "x": -6194.088712726187,
+                  "y": 22.152007240256395,
+                  "z": -1925.5118107366231
+                },
+                "rotation": -2.7209956261462467
+              }
+            }
+          ],
+          "sourceId": "regional:airport-service:charger:-1:2",
+          "heightMode": "GROUND",
+          "autoMove": 44.750017877091786
+        },
+        {
+          "id": "regional:airport-service:charger:-1:3",
+          "state": "ADJUSTED",
+          "position": {
+            "x": -6196.130240323744,
+            "y": 22.152007240256395,
+            "z": -1930.076037403695
+          },
+          "rotation": -2.7209956261462467,
+          "anchor": {
+            "anchorRoadId": "regional:airport-service:local:-1",
+            "anchorIntersectionId": null,
+            "approach": null,
+            "station": 45.00000000000041,
+            "lateralOffset": 10.249999999999662,
+            "verticalOffset": -0.03999999999999915,
+            "facingDirection": "forward",
+            "expectedHeading": -2.7209956261462467,
+            "structureType": "at_grade",
+            "derived": true
+          },
+          "issues": [],
+          "adjustmentReasons": [
+            "Adjusted roadside/station/support height/facing within maxAutoMove"
+          ],
+          "commands": [
+            {
+              "op": "modifyObject",
+              "id": "regional:airport-service:charger:-1:3",
+              "properties": {
+                "position": {
+                  "x": -6196.130240323744,
+                  "y": 22.152007240256395,
+                  "z": -1930.076037403695
+                },
+                "rotation": -2.7209956261462467
+              }
+            }
+          ],
+          "sourceId": "regional:airport-service:charger:-1:3",
+          "heightMode": "GROUND",
+          "autoMove": 44.75001787709169
+        }
+      ],
+      "operations": [
+        {
+          "op": "modifyObject",
+          "id": "regional:airport-service:charger:1:0",
+          "properties": {
+            "position": {
+              "x": -5906.567181505904,
+              "y": 22.152007240256395,
+              "z": -2043.1622212108064
+            },
+            "rotation": 0.4205970274435473
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:airport-service:charger:1:1",
+          "properties": {
+            "position": {
+              "x": -5908.608709103462,
+              "y": 22.152007240256395,
+              "z": -2047.7264478778784
+            },
+            "rotation": 0.4205970274435473
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:airport-service:charger:1:2",
+          "properties": {
+            "position": {
+              "x": -5910.65023670102,
+              "y": 22.152007240256395,
+              "z": -2052.29067454495
+            },
+            "rotation": 0.4205970274435473
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:airport-service:charger:1:3",
+          "properties": {
+            "position": {
+              "x": -5912.691764298577,
+              "y": 22.152007240256395,
+              "z": -2056.854901212022
+            },
+            "rotation": 0.4205970274435473
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:airport-service:charger:-1:0",
+          "properties": {
+            "position": {
+              "x": -6190.005657531071,
+              "y": 22.152007240256395,
+              "z": -1916.383357402479
+            },
+            "rotation": -2.7209956261462467
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:airport-service:charger:-1:1",
+          "properties": {
+            "position": {
+              "x": -6192.047185128629,
+              "y": 22.152007240256395,
+              "z": -1920.9475840695516
+            },
+            "rotation": -2.7209956261462467
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:airport-service:charger:-1:2",
+          "properties": {
+            "position": {
+              "x": -6194.088712726187,
+              "y": 22.152007240256395,
+              "z": -1925.5118107366231
+            },
+            "rotation": -2.7209956261462467
+          }
+        },
+        {
+          "op": "modifyObject",
+          "id": "regional:airport-service:charger:-1:3",
+          "properties": {
+            "position": {
+              "x": -6196.130240323744,
+              "y": 22.152007240256395,
+              "z": -1930.076037403695
+            },
+            "rotation": -2.7209956261462467
+          }
+        }
+      ],
+      "stats": {
+        "planned": 8,
+        "valid": 0,
+        "adjusted": 8,
+        "invalid": 0,
+        "skipped": 0,
+        "added": 0,
+        "moved": 8,
+        "removed": 0
+      },
+      "valid": true
+    }
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:airport-service:charger:1:0",
+      "properties": {
+        "position": {
+          "x": -5906.567181505904,
+          "y": 22.152007240256395,
+          "z": -2043.1622212108064
+        },
+        "rotation": 0.4205970274435473
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:airport-service:charger:1:1",
+      "properties": {
+        "position": {
+          "x": -5908.608709103462,
+          "y": 22.152007240256395,
+          "z": -2047.7264478778784
+        },
+        "rotation": 0.4205970274435473
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:airport-service:charger:1:2",
+      "properties": {
+        "position": {
+          "x": -5910.65023670102,
+          "y": 22.152007240256395,
+          "z": -2052.29067454495
+        },
+        "rotation": 0.4205970274435473
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:airport-service:charger:1:3",
+      "properties": {
+        "position": {
+          "x": -5912.691764298577,
+          "y": 22.152007240256395,
+          "z": -2056.854901212022
+        },
+        "rotation": 0.4205970274435473
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:airport-service:charger:-1:0",
+      "properties": {
+        "position": {
+          "x": -6190.005657531071,
+          "y": 22.152007240256395,
+          "z": -1916.383357402479
+        },
+        "rotation": -2.7209956261462467
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:airport-service:charger:-1:1",
+      "properties": {
+        "position": {
+          "x": -6192.047185128629,
+          "y": 22.152007240256395,
+          "z": -1920.9475840695516
+        },
+        "rotation": -2.7209956261462467
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:airport-service:charger:-1:2",
+      "properties": {
+        "position": {
+          "x": -6194.088712726187,
+          "y": 22.152007240256395,
+          "z": -1925.5118107366231
+        },
+        "rotation": -2.7209956261462467
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:airport-service:charger:-1:3",
+      "properties": {
+        "position": {
+          "x": -6196.130240323744,
+          "y": 22.152007240256395,
+          "z": -1930.076037403695
+        },
+        "rotation": -2.7209956261462467
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "support-foundations-18",
+    "created": [],
+    "modified": [
+      "regional:airport-service:charger:1:0",
+      "regional:airport-service:charger:1:1",
+      "regional:airport-service:charger:1:2",
+      "regional:airport-service:charger:1:3",
+      "regional:airport-service:charger:-1:0",
+      "regional:airport-service:charger:-1:1",
+      "regional:airport-service:charger:-1:2",
+      "regional:airport-service:charger:-1:3"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -6276.980068994038,
+      "maxX": -5825.71735283561,
+      "minZ": -2115.126573210163,
+      "maxZ": -1858.1116854043387
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:airport-service:charger:1:0",
+          "regional:airport-service:charger:1:1",
+          "regional:airport-service:charger:1:2",
+          "regional:airport-service:charger:1:3",
+          "regional:airport-service:charger:-1:0",
+          "regional:airport-service:charger:-1:1",
+          "regional:airport-service:charger:-1:2",
+          "regional:airport-service:charger:-1:3",
+          "regional:S18:in:9",
+          "regional:airport-service:local:1",
+          "regional:airport-service:on:1",
+          "regional:airport-service:local:-1",
+          "regional:S18:out:6",
+          "regional:airport-service:off:-1"
+        ],
+        "message": "roads: 5 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:S18:out:6",
+          "regional:airport-service:on:1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

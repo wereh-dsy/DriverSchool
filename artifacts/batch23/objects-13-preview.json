@@ -1,0 +1,353 @@
+{
+  "inspection": {
+    "key": "0:1:industrial:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "industrial",
+      "objectIds": [
+        "landscape-industrial-2571",
+        "landscape-industrial-2578",
+        "landscape-industrial-2579",
+        "landscape-industrial-2580",
+        "landscape-industrial-2581",
+        "v61-port-warehouse",
+        "regional:warehouse:760:2900",
+        "v8-industrial-tonggang-2"
+      ],
+      "bbox": {
+        "minX": 805.5566525977556,
+        "maxX": 1791.5993013984444,
+        "minZ": 2794.012440181996,
+        "maxZ": 2886.944626596918
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 60,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 8,
+      "valid": 2,
+      "adjusted": 0,
+      "invalid": 6,
+      "skipped": 6,
+      "added": 0,
+      "moved": 2,
+      "removed": 0
+    },
+    "unresolved": [
+      {
+        "id": "landscape-industrial-2580",
+        "issues": [
+          {
+            "id": "building.intersectsRoad::landscape-industrial-2580::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "landscape-industrial-2580",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-yard-split-c91-section",
+              "distance": 0.5511459482325527,
+              "roadHalfWidth": 3.2,
+              "objectRadius": 37.26346766031536
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "landscape-industrial-2580",
+              "roadId": "v8-port-yard-split-c91-section",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "building.intersectsRoad::landscape-industrial-2580::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "landscape-industrial-2580",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "distance": 16.594829733529203,
+              "roadHalfWidth": 7.2,
+              "objectRadius": 38.10955218142402
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "landscape-industrial-2580",
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "strategy": "moveOutsideCarriageway"
+            }
+          }
+        ]
+      },
+      {
+        "id": "landscape-industrial-2581",
+        "issues": [
+          {
+            "id": "building.intersectsRoad::landscape-industrial-2581::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "landscape-industrial-2581",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-yard-split-c91-section",
+              "distance": 17.491243900196668,
+              "roadHalfWidth": 3.2,
+              "objectRadius": 43.44649615424595
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "landscape-industrial-2581",
+              "roadId": "v8-port-yard-split-c91-section",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "building.intersectsRoad::landscape-industrial-2581::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "landscape-industrial-2581",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "distance": 21.66509628383939,
+              "roadHalfWidth": 7.2,
+              "objectRadius": 43.66070848188171
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "landscape-industrial-2581",
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "building.intersectsJunction::landscape-industrial-2581::",
+            "code": "building.intersectsJunction",
+            "severity": "warning",
+            "objectId": "landscape-industrial-2581",
+            "message": "Object envelope intersects junction pavement",
+            "metrics": {
+              "intersectionId": "urban-junction-231"
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "v61-port-warehouse",
+        "issues": [
+          {
+            "id": "building.intersectsRoad::v61-port-warehouse::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "v61-port-warehouse",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-yard-split-c91-section",
+              "distance": 7.819983172114092,
+              "roadHalfWidth": 3.2,
+              "objectRadius": 43.92584844698803
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v61-port-warehouse",
+              "roadId": "v8-port-yard-split-c91-section",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "building.intersectsRoad::v61-port-warehouse::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "v61-port-warehouse",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "distance": 15.213275501122986,
+              "roadHalfWidth": 7.2,
+              "objectRadius": 43.92765738076817
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v61-port-warehouse",
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "building.intersectsJunction::v61-port-warehouse::",
+            "code": "building.intersectsJunction",
+            "severity": "warning",
+            "objectId": "v61-port-warehouse",
+            "message": "Object envelope intersects junction pavement",
+            "metrics": {
+              "intersectionId": "urban-junction-231"
+            },
+            "approximate": true
+          }
+        ]
+      },
+      {
+        "id": "v8-industrial-tonggang-2",
+        "issues": [
+          {
+            "id": "building.intersectsRoad::v8-industrial-tonggang-2::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "v8-industrial-tonggang-2",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-yard-split-c91-section",
+              "distance": 0.9007587177636549,
+              "roadHalfWidth": 3.2,
+              "objectRadius": 40.59249983314638
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v8-industrial-tonggang-2",
+              "roadId": "v8-port-yard-split-c91-section",
+              "strategy": "moveOutsideCarriageway"
+            }
+          },
+          {
+            "id": "building.intersectsRoad::v8-industrial-tonggang-2::",
+            "code": "building.intersectsRoad",
+            "severity": "warning",
+            "objectId": "v8-industrial-tonggang-2",
+            "message": "Object envelope intersects carriageway",
+            "metrics": {
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "distance": 12.204634172415346,
+              "roadHalfWidth": 7.2,
+              "objectRadius": 38.75923480421897
+            },
+            "approximate": true,
+            "repair": {
+              "op": "reanchorObject",
+              "id": "v8-industrial-tonggang-2",
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "strategy": "moveOutsideCarriageway"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "landscape-industrial-2578",
+      "properties": {
+        "position": {
+          "x": 1100.8715224437324,
+          "y": -0.04,
+          "z": 2898.8423655467036
+        },
+        "rotation": -1.6334059001864423
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-industrial-2579",
+      "properties": {
+        "position": {
+          "x": 1223.724456886292,
+          "y": -0.04,
+          "z": 2906.5442016193565
+        },
+        "rotation": -1.6334059001864423
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "landscape-industrial-2571",
+      "properties": {
+        "position": {
+          "x": 845.177214614805,
+          "y": -0.04,
+          "z": 2778.3347758548375
+        },
+        "rotation": -1.5593328952683523
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:warehouse:760:2900",
+      "properties": {
+        "position": {
+          "x": 802.0851975736975,
+          "y": -0.04,
+          "z": 2918.753354562299
+        },
+        "rotation": -1.5595181191277663
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-7",
+    "revision": 6,
+    "label": "objects-13",
+    "created": [],
+    "modified": [
+      "landscape-industrial-2578",
+      "landscape-industrial-2579",
+      "landscape-industrial-2571",
+      "regional:warehouse:760:2900"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 762.0851975736975,
+      "maxX": 1265.0158753673322,
+      "minZ": 2738.3347758548375,
+      "maxZ": 2958.753354562299
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "landscape-industrial-2578",
+          "landscape-industrial-2579",
+          "landscape-industrial-2571",
+          "regional:warehouse:760:2900",
+          "v4-industrial-split-2-split",
+          "v8-port-yard-split-c91",
+          "urban-junction-228",
+          "urban-junction-229",
+          "v8-port-works-split-split-c91",
+          "v8-port-south-split-split-2-m91",
+          "urban-junction-61",
+          "urban-junction-236"
+        ],
+        "message": "intersections[4]: urban-junction-233: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "landscape-industrial-2571"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      },
+      {
+        "severity": "warning",
+        "code": "object.tooCloseToObject",
+        "ids": [
+          "regional:warehouse:760:2900"
+        ],
+        "message": "Object envelopes overlap or violate spacing"
+      }
+    ],
+    "valid": true
+  }
+}

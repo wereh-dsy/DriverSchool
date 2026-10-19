@@ -1,0 +1,106 @@
+{
+  "mapDigest": "1f8954a67b1fce1327daece5c27d1a72340d7cde4e45ad425c67cfd0c2eeba2b",
+  "operations": [
+    {
+      "strength": 1,
+      "op": "repairElevation",
+      "maxGrade": 0.1,
+      "id": "system-east:S-to-W-turbine",
+      "preserveEndpoints": true
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "test s1",
+    "created": [],
+    "modified": [
+      "system-east:S-to-W-turbine",
+      "road-safety:system-east:S-to-W-turbine:false:guide:130",
+      "road-safety:system-east:S-to-W-turbine:false:guide:355",
+      "road-safety:system-east:S-to-W-turbine:false:guide:430",
+      "road-safety:system-east:S-to-W-turbine:false:guide:580",
+      "road-safety:system-east:S-to-W-turbine:false:speed:65"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 1938.982257260435,
+      "maxX": 2440.5083620719533,
+      "minZ": -266.0317360325429,
+      "maxZ": 197.53639839226918
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ring-ccw-2-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ring-ccw-2-split-split-2"
+        ],
+        "message": "Crossing clearance 4.3m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ring-cw-1-split-split-2"
+        ],
+        "message": "Crossing clearance 4.3m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "system-east:S-to-E-right"
+        ],
+        "message": "Crossing clearance 4.9m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "system-east:N-to-E-turbine"
+        ],
+        "message": "Crossing clearance 5.3m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ew-wb-split-3-split-split-3-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true,
+    "metrics": {
+      "system-east:S-to-W-turbine": {
+        "elevation": {
+          "beforeMaxGrade": 9.8,
+          "afterMaxGrade": 10,
+          "beforeGradeReversals": 12,
+          "afterGradeReversals": 2,
+          "removedControlPoints": 25,
+          "affectedStart": 0,
+          "affectedEnd": 835.74,
+          "maxDeviation": 0,
+          "maxHeightDelta": 1.728,
+          "monotonic": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "streetlight_dual",
+    "objectIds": [
+      "v6-lamps-687"
+    ],
+    "bbox": {
+      "minX": 4009.558667490622,
+      "maxX": 4011.558667490622,
+      "minZ": 762.3429104018583,
+      "maxZ": 764.3429104018583
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-lamps-687",
+      "state": "INVALID",
+      "position": {
+        "x": 3956.5747264685397,
+        "y": 8.050151129045787,
+        "z": 743.551824898974
+      },
+      "rotation": -0.35139537904625295,
+      "anchor": {
+        "anchorRoadId": "regional:S68:in:split84:split102:split240:split550:split558:split566:split574:split582",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 409.8527201518232,
+        "lateralOffset": 10.837132034356054,
+        "verticalOffset": -0.08813864169088781,
+        "facingDirection": "forward",
+        "expectedHeading": -0.35139537904625295,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:v6-lamps-687",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v6-lamps-687",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-lamps-687",
+          "properties": {
+            "position": {
+              "x": 3956.5747264685397,
+              "y": 8.050151129045787,
+              "z": 743.551824898974
+            },
+            "rotation": -0.35139537904625295
+          }
+        }
+      ],
+      "sourceId": "v6-lamps-687",
+      "heightMode": "GROUND",
+      "autoMove": 58.037620053891935
+    }
+  ],
+  "operations": [],
+  "stats": {
+    "planned": 1,
+    "valid": 0,
+    "adjusted": 0,
+    "invalid": 1,
+    "skipped": 1,
+    "added": 0,
+    "moved": 0,
+    "removed": 0
+  },
+  "valid": true
+}

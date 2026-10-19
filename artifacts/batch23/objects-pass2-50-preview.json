@@ -1,0 +1,127 @@
+{
+  "inspection": {
+    "key": "7:1:tree:GROUND",
+    "request": {
+      "mode": "REPAIR",
+      "type": "tree",
+      "objectIds": [
+        "regional:extension-tree:S31:13780:1"
+      ],
+      "bbox": {
+        "minX": 14177.273866479849,
+        "maxX": 14179.273866479849,
+        "minZ": 3687.7834508231226,
+        "maxZ": 3689.7834508231226
+      },
+      "heightMode": "GROUND",
+      "heightOffset": 0,
+      "orientation": "ROAD_FORWARD",
+      "autoAdjust": "ADJUST",
+      "maxAutoMove": 35,
+      "limit": 5000,
+      "minDistanceToObject": 0.6
+    },
+    "brushStats": {
+      "planned": 1,
+      "valid": 1,
+      "adjusted": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "added": 0,
+      "moved": 1,
+      "removed": 0
+    },
+    "unresolved": []
+  },
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "regional:extension-tree:S31:13780:1",
+      "properties": {
+        "position": {
+          "x": 14210.246997361792,
+          "y": -7.889828122469966,
+          "z": 3698.833077380108
+        },
+        "rotation": 2.8370553474464852
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "objects-pass2-50",
+    "created": [],
+    "modified": [
+      "regional:extension-tree:S31:13780:1"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 14138.273866479849,
+      "maxX": 14250.246997361792,
+      "minZ": 3648.7834508231226,
+      "maxZ": 3738.833077380108
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:extension-tree:S31:13780:1",
+          "regional:v3:S31-extension130:out:16:revision501",
+          "regional:v3:chenjiang-foldback",
+          "regional:v3:S31-extension130:in:8:lane4590",
+          "regional:v3:chenjiang-east:S-to-W-turbine:deceleration",
+          "regional:v3:chenjiang-east:E-to-S-turbine:acceleration"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S31-extension130:out:16:revision501",
+          "regional:v3:chenjiang-east:E-to-S-turbine:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "regional:v3:chenjiang-foldback",
+          "regional:v3:chenjiang-east:S-to-W-turbine"
+        ],
+        "message": "Crossing clearance 5.4m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:chenjiang-foldback",
+          "regional:v3:G17-extension185:out:1:revision495"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "regional:v3:chenjiang-foldback",
+          "regional:v3:chenjiang-east:S-to-E-right:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:S31-extension130:in:8:lane4590",
+          "regional:v3:chenjiang-east:S-to-W-turbine:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

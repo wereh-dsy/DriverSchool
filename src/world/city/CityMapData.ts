@@ -45,7 +45,9 @@ export interface CityIntersection extends CityElementMetadata {
   id: string; type: IntersectionType; position: CityPoint; rotation: number;
   connections: RoadConnection[]; signalized: boolean;
   signals?: { offsetSeconds?: number; headHeight?: number; profile?: 'standard' | 'lane-countdown';
-    throughGreenSeconds?: number; leftGreenSeconds?: number; amberSeconds?: number; allRedSeconds?: number };
+    throughGreenSeconds?: number; leftGreenSeconds?: number; amberSeconds?: number; allRedSeconds?: number;
+    /** Optional editor-authored override for a generated approach signal. */
+    placements?: Partial<Record<IntersectionPort,{position:CityPoint;heading:number;headHeight?:number}>> };
   /** Optional local bearings for skewed and five-leg junctions. Existing cardinal ports are unchanged. */
   portAngles?: Partial<Record<IntersectionPort, number>>;
   /** Local approach mouths for one shared junction across a wide median. */

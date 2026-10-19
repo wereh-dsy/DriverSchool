@@ -1,0 +1,71 @@
+{
+  "mainline": "ew-wb-split-3-split-split-split-section",
+  "frontage": "v91-ew-1-b-3-section",
+  "direction": "forward",
+  "stationRange": {
+    "start": 0,
+    "end": 80
+  },
+  "thresholds": {
+    "buffer": 60,
+    "minLength": 30
+  },
+  "events": [
+    {
+      "station": 0,
+      "kind": "rampAttachment",
+      "id": "v91-ew-east-wb-on",
+      "distance": 2.2737367544323206e-13
+    },
+    {
+      "station": 0,
+      "kind": "ordinaryCrossing",
+      "id": "v91-ew-east-wb-on",
+      "distance": 0
+    },
+    {
+      "station": 74.88491814001941,
+      "kind": "intersection",
+      "id": "urban-junction-8",
+      "distance": 12.958333333333258
+    },
+    {
+      "station": 0,
+      "kind": "intersection",
+      "id": "v91-shared-inner-ew",
+      "distance": 20.73518816999834
+    }
+  ],
+  "excludedSpans": [
+    {
+      "start": 0,
+      "end": 80
+    }
+  ],
+  "freeSpans": [],
+  "candidateWindows": [],
+  "structures": [
+    {
+      "roadId": "ew-wb-split-3-split-split-split-section",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      }
+    },
+    {
+      "roadId": "v91-ew-1-b-3-section",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      }
+    }
+  ],
+  "automaticDesign": false
+}

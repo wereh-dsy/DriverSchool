@@ -1,0 +1,94 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "roadSign",
+    "objectIds": [
+      "regional:v3:north-river:N-to-W-right:sign:500"
+    ],
+    "bbox": {
+      "minX": 7591.658284659003,
+      "maxX": 7593.658284659003,
+      "minZ": -9101.541441167437,
+      "maxZ": -9099.541441167437
+    },
+    "heightMode": "ROAD_SURFACE",
+    "heightOffset": 0,
+    "orientation": "FACE_TRAFFIC",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "regional:v3:north-river:N-to-W-right:sign:500",
+      "state": "VALID",
+      "position": {
+        "x": 7583.554733219444,
+        "y": 62.18021445361272,
+        "z": -9100.547401258093
+      },
+      "rotation": 3.140937954174689,
+      "anchor": {
+        "anchorRoadId": "regional:v3:S31-extension130:out:3:revision463",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 43.99953709737435,
+        "lateralOffset": 9.103553390592944,
+        "verticalOffset": -7.105427357601002e-15,
+        "facingDirection": "forward",
+        "expectedHeading": 3.140937954174689,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifySign",
+          "id": "regional:v3:north-river:N-to-W-right:sign:500",
+          "properties": {
+            "position": {
+              "x": 7583.554733219444,
+              "y": 62.18021445361272,
+              "z": -9100.547401258093
+            },
+            "heading": 3.140937954174689,
+            "roadId": "regional:v3:S31-extension130:out:3:revision463",
+            "stationMetres": 43.999537097375146
+          }
+        }
+      ],
+      "sourceId": "regional:v3:north-river:N-to-W-right:sign:500",
+      "heightMode": "ROAD_SURFACE",
+      "autoMove": 9.103553390592946
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "regional:v3:north-river:N-to-W-right:sign:500",
+      "properties": {
+        "position": {
+          "x": 7583.554733219444,
+          "y": 62.18021445361272,
+          "z": -9100.547401258093
+        },
+        "heading": 3.140937954174689,
+        "roadId": "regional:v3:S31-extension130:out:3:revision463",
+        "stationMetres": 43.999537097375146
+      }
+    }
+  ],
+  "stats": {
+    "planned": 1,
+    "valid": 1,
+    "adjusted": 0,
+    "invalid": 0,
+    "skipped": 0,
+    "added": 0,
+    "moved": 1,
+    "removed": 0
+  },
+  "valid": true
+}

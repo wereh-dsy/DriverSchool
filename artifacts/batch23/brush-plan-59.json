@@ -1,0 +1,2727 @@
+{
+  "request": {
+    "mode": "REPAIR",
+    "type": "tree",
+    "objectIds": [
+      "v6-road-trees-866",
+      "regional:tree:120:-3020",
+      "regional:tree:120:-2860",
+      "regional:tree:120:-2700",
+      "regional:tree:120:-2540",
+      "regional:tree:280:-3020",
+      "regional:tree:280:-2700",
+      "regional:tree:440:-3020",
+      "regional:tree:440:-2860",
+      "regional:tree:600:-3020",
+      "regional:tree:600:-2860",
+      "regional:tree:760:-3020",
+      "regional:tree:760:-2700",
+      "regional:tree:760:-2540",
+      "regional:tree:920:-3020",
+      "regional:tree:920:-2860",
+      "regional:tree:920:-2540",
+      "regional:tree:1080:-3020",
+      "regional:tree:1080:-2860",
+      "regional:tree:1080:-2700",
+      "regional:tree:1240:-2860",
+      "v8-verge-v8-campus-avenue-38--1",
+      "v8-verge-v8-campus-avenue-38-1",
+      "v8-verge-v8-campus-avenue-90--1",
+      "v8-verge-v8-campus-avenue-90-1",
+      "v8-verge-v8-campus-avenue-142--1",
+      "v8-verge-v8-campus-avenue-142-1",
+      "v8-verge-v8-campus-avenue-194-1",
+      "v8-verge-v8-campus-avenue-246-1",
+      "v8-verge-v8-campus-avenue-298-1",
+      "v8-verge-v8-campus-avenue-350--1",
+      "v8-verge-v8-campus-avenue-350-1",
+      "v8-verge-v8-campus-avenue-610--1",
+      "v8-verge-v8-campus-avenue-662--1",
+      "v8-verge-v8-campus-avenue-714--1",
+      "v8-verge-v8-campus-avenue-766--1",
+      "v8-verge-v8-campus-avenue-split-38--1",
+      "v8-verge-v8-campus-avenue-split-38-1",
+      "v8-verge-v8-campus-avenue-split-90--1",
+      "v8-verge-v8-campus-south-506-1",
+      "v8-verge-v8-campus-south-584-1",
+      "v8-verge-v8-campus-south-split-38--1",
+      "v8-verge-v8-campus-south-split-38-1",
+      "v8-verge-v8-campus-north-116--1",
+      "v8-verge-v8-campus-north-split-38-1"
+    ],
+    "bbox": {
+      "minX": 3.6875531592452298,
+      "maxX": 1205.4744980005635,
+      "minZ": -3056.308255832624,
+      "maxZ": -2210.081140795599
+    },
+    "heightMode": "GROUND",
+    "heightOffset": 0,
+    "orientation": "ROAD_FORWARD",
+    "autoAdjust": "ADJUST",
+    "maxAutoMove": 35,
+    "limit": 5000,
+    "minDistanceToObject": 0.6
+  },
+  "candidates": [
+    {
+      "id": "v6-road-trees-866",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 42.15,
+        "y": -0.04,
+        "z": -2694
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-b-0",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 231.66037735849068,
+        "lateralOffset": 5.850000000000001,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v6-road-trees-866",
+          "properties": {
+            "position": {
+              "x": 42.15,
+              "y": -0.04,
+              "z": -2694
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v6-road-trees-866",
+      "heightMode": "GROUND",
+      "autoMove": 13.54624675375767
+    },
+    {
+      "id": "regional:tree:120:-3020",
+      "state": "VALID",
+      "position": {
+        "x": 146.95343897286529,
+        "y": -0.028434912811232817,
+        "z": -2966.0120771394922
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 829.3206954443248,
+        "lateralOffset": 5.599999999999788,
+        "verticalOffset": -0.02645017296416375,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:120:-3020::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:120:-3020",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-north-v91",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:120:-3020",
+          "properties": {
+            "position": {
+              "x": 146.95343897286529,
+              "y": -0.028434912811232817,
+              "z": -2966.0120771394922
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:120:-3020",
+      "heightMode": "GROUND",
+      "autoMove": 28.098780553346376
+    },
+    {
+      "id": "regional:tree:120:-2860",
+      "state": "INVALID",
+      "position": {
+        "x": 144.34308309010777,
+        "y": -0.024156655522782924,
+        "z": -2954.9301654955643
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 831.3658662241091,
+        "lateralOffset": -5.599999999999783,
+        "verticalOffset": -0.022226207057831123,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:120:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:120:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-north-v91",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:120:-2860",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:120:-2860",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:120:-2860",
+          "properties": {
+            "position": {
+              "x": 144.34308309010777,
+              "y": -0.024156655522782924,
+              "z": -2954.9301654955643
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:120:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 47.26315859801243
+    },
+    {
+      "id": "regional:tree:120:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": 123.1870376095197,
+        "y": -0.005469491284036447,
+        "z": -2680.482538111203
+      },
+      "rotation": 1.4938903707850184,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 829.3522973285022,
+        "lateralOffset": 9.599999999999989,
+        "verticalOffset": -0.005469491284036447,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850184,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:120:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:120:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-avenue-v91",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:120:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:120:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:120:-2700",
+          "properties": {
+            "position": {
+              "x": 123.1870376095197,
+              "y": -0.005469491284036447,
+              "z": -2680.482538111203
+            },
+            "rotation": 1.4938903707850184
+          }
+        }
+      ],
+      "sourceId": "regional:tree:120:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 56.571864349489864
+    },
+    {
+      "id": "regional:tree:120:-2540",
+      "state": "VALID",
+      "position": {
+        "x": 86.16867884231307,
+        "y": -0.04,
+        "z": -2664.0781767302847
+      },
+      "rotation": 1.4938903707850184,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 865.0008871762561,
+        "lateralOffset": -9.599999999999993,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850184,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:120:-2540::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:120:-2540",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-avenue-v91",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:120:-2540",
+          "properties": {
+            "position": {
+              "x": 86.16867884231307,
+              "y": -0.04,
+              "z": -2664.0781767302847
+            },
+            "rotation": 1.4938903707850184
+          }
+        }
+      ],
+      "sourceId": "regional:tree:120:-2540",
+      "heightMode": "GROUND",
+      "autoMove": 12.922715291760543
+    },
+    {
+      "id": "regional:tree:280:-3020",
+      "state": "INVALID",
+      "position": {
+        "x": 234.47355801963835,
+        "y": 0.2587135565268181,
+        "z": -2961.5692883637453
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 741.6878841801229,
+        "lateralOffset": 5.599999999999788,
+        "verticalOffset": 0.26302460891921736,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:280:-3020::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:280:-3020",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-north-v91",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:280:-3020",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:280:-3020",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:280:-3020",
+          "properties": {
+            "position": {
+              "x": 234.47355801963835,
+              "y": 0.2587135565268181,
+              "z": -2961.5692883637453
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:280:-3020",
+      "heightMode": "GROUND",
+      "autoMove": 96.31645193076935
+    },
+    {
+      "id": "regional:tree:280:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": 259.30839736122937,
+        "y": 1.3991666997676901,
+        "z": -2669.993307037318
+      },
+      "rotation": 1.4938903707850149,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 692.8273964892205,
+        "lateralOffset": 9.599999999999996,
+        "verticalOffset": 3.3049201501270073,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850149,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:tree:280:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:280:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:280:-2700",
+          "properties": {
+            "position": {
+              "x": 259.30839736122937,
+              "y": 1.3991666997676901,
+              "z": -2669.993307037318
+            },
+            "rotation": 1.4938903707850149
+          }
+        }
+      ],
+      "sourceId": "regional:tree:280:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 66.86713335331737
+    },
+    {
+      "id": "regional:tree:440:-3020",
+      "state": "VALID",
+      "position": {
+        "x": 474.8393871755355,
+        "y": 1.147185644046613,
+        "z": -2949.367584121591
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 501.012556378923,
+        "lateralOffset": 5.599999999999783,
+        "verticalOffset": 1.1578856964760806,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:440:-3020",
+          "properties": {
+            "position": {
+              "x": 474.8393871755355,
+              "y": 1.147185644046613,
+              "z": -2949.367584121591
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:440:-3020",
+      "heightMode": "GROUND",
+      "autoMove": 24.717190502946195
+    },
+    {
+      "id": "regional:tree:440:-2860",
+      "state": "INVALID",
+      "position": {
+        "x": 486.6752868157018,
+        "y": 1.217083079313846,
+        "z": -2937.5523363877687
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 488.5928704205871,
+        "lateralOffset": -5.599999999999783,
+        "verticalOffset": 1.2281128264185972,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:tree:440:-2860",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:440:-2860",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:440:-2860",
+          "properties": {
+            "position": {
+              "x": 486.6752868157018,
+              "y": 1.217083079313846,
+              "z": -2937.5523363877687
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:440:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 56.84809825927933
+    },
+    {
+      "id": "regional:tree:600:-3020",
+      "state": "VALID",
+      "position": {
+        "x": 567.2229297227274,
+        "y": 1.041239802353406,
+        "z": -2944.6779131023704
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 408.5100593972884,
+        "lateralOffset": 5.599999999999786,
+        "verticalOffset": 1.0543954386686167,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:600:-3020",
+          "properties": {
+            "position": {
+              "x": 567.2229297227274,
+              "y": 1.041239802353406,
+              "z": -2944.6779131023704
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:600:-3020",
+      "heightMode": "GROUND",
+      "autoMove": 33.751687104980434
+    },
+    {
+      "id": "regional:tree:600:-2860",
+      "state": "INVALID",
+      "position": {
+        "x": 591.074885710521,
+        "y": 1.0262646753421647,
+        "z": -2932.252693617465
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 384.05884503702134,
+        "lateralOffset": -5.599999999999779,
+        "verticalOffset": 1.0400693969245747,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:tree:600:-2860",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:600:-2860",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:600:-2860",
+          "properties": {
+            "position": {
+              "x": 591.074885710521,
+              "y": 1.0262646753421647,
+              "z": -2932.252693617465
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:600:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 41.606360327783094
+    },
+    {
+      "id": "regional:tree:760:-3020",
+      "state": "INVALID",
+      "position": {
+        "x": 737.5924667609978,
+        "y": 0.2868281709817943,
+        "z": -2936.029434613918
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 237.92115198886447,
+        "lateralOffset": 5.599999999999786,
+        "verticalOffset": 0.30451228367101935,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:760:-3020::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:760:-3020",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-north-v91",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:760:-3020",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:760:-3020",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:760:-3020",
+          "properties": {
+            "position": {
+              "x": 737.5924667609978,
+              "y": 0.2868281709817943,
+              "z": -2936.029434613918
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:760:-3020",
+      "heightMode": "GROUND",
+      "autoMove": 81.46671090845962
+    },
+    {
+      "id": "regional:tree:760:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": 792.0464147821287,
+        "y": 7.578052014985256,
+        "z": -2628.9416148064747
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split472:lane304",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 244.01980013237235,
+        "lateralOffset": 6.22735463793955,
+        "verticalOffset": -0.7567748364460849,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4422676355380597,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.intersectsRoadStructure::regional:tree:760:-2700::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "regional:tree:760:-2700",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "regional:G38:in:split18:split278:split472:lane304",
+            "deckY": 8.334826851431341,
+            "objectTop": 16.418052014985257
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.intersectsBarrier::regional:tree:760:-2700::",
+          "code": "object.intersectsBarrier",
+          "severity": "warning",
+          "objectId": "regional:tree:760:-2700",
+          "message": "Object intersects roadside barrier envelope",
+          "metrics": {
+            "roadId": "regional:G38:in:split18:split278:split472:lane304",
+            "lateralOffset": 6.22735463793955
+          },
+          "approximate": true
+        },
+        {
+          "id": "tree.canopyNearRoad::regional:tree:760:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:760:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "regional:G38:in:split18:split278:split472:lane304",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:760:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:760:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:760:-2700",
+          "properties": {
+            "position": {
+              "x": 792.0464147821287,
+              "y": 7.578052014985256,
+              "z": -2628.9416148064747
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "regional:tree:760:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 78.29372235730283
+    },
+    {
+      "id": "regional:tree:760:-2540",
+      "state": "INVALID",
+      "position": {
+        "x": 701.6220415450725,
+        "y": 6.397064776436814,
+        "z": -2635.90953040271
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split346",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 59.765283346952636,
+        "lateralOffset": 8.639029202839561,
+        "verticalOffset": -0.7087128048303928,
+        "facingDirection": "forward",
+        "expectedHeading": 1.570204936885133,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "object.autoMoveExceeded:regional:tree:760:-2540",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:760:-2540",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:760:-2540",
+          "properties": {
+            "position": {
+              "x": 701.6220415450725,
+              "y": 6.397064776436814,
+              "z": -2635.90953040271
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "regional:tree:760:-2540",
+      "heightMode": "GROUND",
+      "autoMove": 52.064547959866765
+    },
+    {
+      "id": "regional:tree:920:-3020",
+      "state": "INVALID",
+      "position": {
+        "x": 993.2257224277243,
+        "y": -0.04,
+        "z": -2965.8360011171253
+      },
+      "rotation": -0.48757059199444513,
+      "anchor": {
+        "anchorRoadId": "v61-university-north-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 33.69379359541134,
+        "lateralOffset": -5.599999999999998,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -0.48757059199444513,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:920:-3020::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:920:-3020",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v61-university-north-split-split",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:920:-3020",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:920:-3020",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:920:-3020",
+          "properties": {
+            "position": {
+              "x": 993.2257224277243,
+              "y": -0.04,
+              "z": -2965.8360011171253
+            },
+            "rotation": -0.48757059199444513
+          }
+        }
+      ],
+      "sourceId": "regional:tree:920:-3020",
+      "heightMode": "GROUND",
+      "autoMove": 60.10316040372354
+    },
+    {
+      "id": "regional:tree:920:-2860",
+      "state": "INVALID",
+      "position": {
+        "x": 914.5796806011114,
+        "y": -0.04,
+        "z": -2915.8306013340657
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 60.137500522388585,
+        "lateralOffset": -5.599999999999779,
+        "verticalOffset": -0.017596418280913725,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:920:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:920:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v8-campus-north-v91",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:920:-2860",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:920:-2860",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:920:-2860",
+          "properties": {
+            "position": {
+              "x": 914.5796806011114,
+              "y": -0.04,
+              "z": -2915.8306013340657
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "regional:tree:920:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 43.65934985027669
+    },
+    {
+      "id": "regional:tree:920:-2540",
+      "state": "VALID",
+      "position": {
+        "x": 959.2448932560151,
+        "y": 6.901811089736039,
+        "z": -2629.9915712983507
+      },
+      "rotation": -0.05801788128479466,
+      "anchor": {
+        "anchorRoadId": "v61-university-north-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 10.02746449765574,
+        "lateralOffset": -5.599999999999954,
+        "verticalOffset": 6.925811089736039,
+        "facingDirection": "forward",
+        "expectedHeading": -0.05801788128479466,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:920:-2540",
+          "properties": {
+            "position": {
+              "x": 959.2448932560151,
+              "y": 6.901811089736039,
+              "z": -2629.9915712983507
+            },
+            "rotation": -0.05801788128479466
+          }
+        }
+      ],
+      "sourceId": "regional:tree:920:-2540",
+      "heightMode": "GROUND",
+      "autoMove": 6.771475252019244
+    },
+    {
+      "id": "regional:tree:1080:-3020",
+      "state": "INVALID",
+      "position": {
+        "x": 1070.7490530695884,
+        "y": -0.04,
+        "z": -2944.2724870571938
+      },
+      "rotation": -2.2129675151637946,
+      "anchor": {
+        "anchorRoadId": "v61-university-north-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 115.27205586904748,
+        "lateralOffset": -5.600000000000128,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -2.2129675151637946,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:1080:-3020::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:1080:-3020",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v61-university-north-split-split",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:1080:-3020",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:1080:-3020",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:1080:-3020",
+          "properties": {
+            "position": {
+              "x": 1070.7490530695884,
+              "y": -0.04,
+              "z": -2944.2724870571938
+            },
+            "rotation": -2.2129675151637946
+          }
+        }
+      ],
+      "sourceId": "regional:tree:1080:-3020",
+      "heightMode": "GROUND",
+      "autoMove": 78.5941434303378
+    },
+    {
+      "id": "regional:tree:1080:-2860",
+      "state": "VALID",
+      "position": {
+        "x": 1078.0197770758925,
+        "y": -0.04,
+        "z": -2924.2197679629276
+      },
+      "rotation": -2.2640154307992364,
+      "anchor": {
+        "anchorRoadId": "v61-university-north-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 133.39932131581088,
+        "lateralOffset": 5.600000000000147,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -2.2640154307992364,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:1080:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:1080:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v61-university-north-split-split",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:1080:-2860",
+          "properties": {
+            "position": {
+              "x": 1078.0197770758925,
+              "y": -0.04,
+              "z": -2924.2197679629276
+            },
+            "rotation": -2.2640154307992364
+          }
+        }
+      ],
+      "sourceId": "regional:tree:1080:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 34.899181873793154
+    },
+    {
+      "id": "regional:tree:1080:-2700",
+      "state": "INVALID",
+      "position": {
+        "x": 978.0299484304895,
+        "y": -0.04,
+        "z": -2748.6742051665915
+      },
+      "rotation": -0.07159388357458296,
+      "anchor": {
+        "anchorRoadId": "v61-university-north-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 129.6784090016817,
+        "lateralOffset": 5.599999999999944,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -0.07159388357458296,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:1080:-2700::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:1080:-2700",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v61-university-north-split",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        },
+        {
+          "id": "object.autoMoveExceeded:regional:tree:1080:-2700",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "regional:tree:1080:-2700",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:1080:-2700",
+          "properties": {
+            "position": {
+              "x": 978.0299484304895,
+              "y": -0.04,
+              "z": -2748.6742051665915
+            },
+            "rotation": -0.07159388357458296
+          }
+        }
+      ],
+      "sourceId": "regional:tree:1080:-2700",
+      "heightMode": "GROUND",
+      "autoMove": 79.52920107332791
+    },
+    {
+      "id": "regional:tree:1240:-2860",
+      "state": "VALID",
+      "position": {
+        "x": 1194.8377628859312,
+        "y": -0.04,
+        "z": -2825.5341576708047
+      },
+      "rotation": -2.37172229924561,
+      "anchor": {
+        "anchorRoadId": "v61-university-north-split-split",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 286.2980370147173,
+        "lateralOffset": -5.600000000000001,
+        "verticalOffset": -0.016,
+        "facingDirection": "forward",
+        "expectedHeading": -2.37172229924561,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.canopyNearRoad::regional:tree:1240:-2860::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "regional:tree:1240:-2860",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "v61-university-north-split-split",
+            "canopyRadius": 3.3600000000000003
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "regional:tree:1240:-2860",
+          "properties": {
+            "position": {
+              "x": 1194.8377628859312,
+              "y": -0.04,
+              "z": -2825.5341576708047
+            },
+            "rotation": -2.37172229924561
+          }
+        }
+      ],
+      "sourceId": "regional:tree:1240:-2860",
+      "heightMode": "GROUND",
+      "autoMove": 15.982382683719575
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-38--1",
+      "state": "VALID",
+      "position": {
+        "x": 910.1546382596088,
+        "y": 9.173252920893814,
+        "z": -2600.784112040422
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split472:lane304",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 124.57941799544994,
+        "lateralOffset": 10.751776145342845,
+        "verticalOffset": -0.7709130165227016,
+        "facingDirection": "forward",
+        "expectedHeading": 1.1712291750579211,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-38--1",
+          "properties": {
+            "position": {
+              "x": 910.1546382596088,
+              "y": 9.173252920893814,
+              "z": -2600.784112040422
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-38--1",
+      "heightMode": "GROUND",
+      "autoMove": 9.68788968840228
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-38-1",
+      "state": "VALID",
+      "position": {
+        "x": 912.8439988464621,
+        "y": 9.211079378842493,
+        "z": -2619.432609350265
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 37.33893239601731,
+        "lateralOffset": 9.399999999999837,
+        "verticalOffset": 9.233087969114706,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850175,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-38-1",
+          "properties": {
+            "position": {
+              "x": 912.8439988464621,
+              "y": 9.211079378842493,
+              "z": -2619.432609350265
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-38-1",
+      "heightMode": "GROUND",
+      "autoMove": 11.248853337939444
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-90--1",
+      "state": "INVALID",
+      "position": {
+        "x": 858.3584748678905,
+        "y": 8.468990818254108,
+        "z": -2604.775417501574
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split472:lane304",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 174.2595591007921,
+        "lateralOffset": -3.280434474992424,
+        "verticalOffset": -0.8169769507446851,
+        "facingDirection": "forward",
+        "expectedHeading": 1.2717750533606789,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.insideLane::v8-verge-v8-campus-avenue-90--1::",
+          "code": "tree.insideLane",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-campus-avenue-90--1",
+          "message": "Object envelope intersects carriageway",
+          "metrics": {
+            "roadId": "regional:G38:in:split18:split278:split472:lane304",
+            "distance": 3.280434474992424,
+            "roadHalfWidth": 3.75,
+            "objectRadius": 0.2
+          },
+          "approximate": true,
+          "repair": {
+            "op": "reanchorObject",
+            "id": "v8-verge-v8-campus-avenue-90--1",
+            "roadId": "regional:G38:in:split18:split278:split472:lane304",
+            "strategy": "moveOutsideCarriageway"
+          }
+        },
+        {
+          "id": "object.intersectsRoadStructure::v8-verge-v8-campus-avenue-90--1::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-campus-avenue-90--1",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "regional:G38:in:split18:split278:split472:lane304",
+            "deckY": 9.285967768998793,
+            "objectTop": 14.248990818254107
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.intersectsRoadStructure::v8-verge-v8-campus-avenue-90--1::",
+          "code": "object.intersectsRoadStructure",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-campus-avenue-90--1",
+          "message": "Object crosses elevated deck envelope",
+          "metrics": {
+            "roadId": "regional:G38:out:split338:split340",
+            "deckY": 9.261386020019238,
+            "objectTop": 14.248990818254107
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.intersectsBarrier::v8-verge-v8-campus-avenue-90--1::",
+          "code": "object.intersectsBarrier",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-campus-avenue-90--1",
+          "message": "Object intersects roadside barrier envelope",
+          "metrics": {
+            "roadId": "regional:G38:out:split338:split340",
+            "lateralOffset": -4.263681130078452
+          },
+          "approximate": true
+        },
+        {
+          "id": "tree.canopyNearRoad::v8-verge-v8-campus-avenue-90--1::",
+          "code": "tree.canopyNearRoad",
+          "severity": "info",
+          "objectId": "v8-verge-v8-campus-avenue-90--1",
+          "message": "Canopy extends toward carriageway; trunk is clear",
+          "metrics": {
+            "roadId": "regional:G38:out:split338:split340",
+            "canopyRadius": 1.6800000000000002
+          },
+          "approximate": true,
+          "reviewRequired": true
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-90--1",
+          "properties": {
+            "position": {
+              "x": 858.3584748678905,
+              "y": 8.468990818254108,
+              "z": -2604.775417501574
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-90--1",
+      "heightMode": "GROUND",
+      "autoMove": 8.509497065959929
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-90-1",
+      "state": "VALID",
+      "position": {
+        "x": 861.0478354547471,
+        "y": 8.475991401169537,
+        "z": -2623.4239148114166
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split472:lane304",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 177.0539285051847,
+        "lateralOffset": 15.346511906734026,
+        "verticalOffset": -0.7723903588689964,
+        "facingDirection": "forward",
+        "expectedHeading": 1.2801962016916995,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-90-1",
+          "properties": {
+            "position": {
+              "x": 861.0478354547471,
+              "y": 8.475991401169537,
+              "z": -2623.4239148114166
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-90-1",
+      "heightMode": "GROUND",
+      "autoMove": 12.177301500195009
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-142--1",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 805.9342292934588,
+        "y": 7.8105651811333825,
+        "z": -2605.2387668453107
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:out:split338:split340",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 46.59356875027815,
+        "lateralOffset": 7.949999999999778,
+        "verticalOffset": -0.7530911588820324,
+        "facingDirection": "forward",
+        "expectedHeading": -1.7469804792107704,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-142--1",
+          "properties": {
+            "position": {
+              "x": 805.9342292934588,
+              "y": 7.8105651811333825,
+              "z": -2605.2387668453107
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-142--1",
+      "heightMode": "GROUND",
+      "autoMove": 9.261816638168986
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-142-1",
+      "state": "VALID",
+      "position": {
+        "x": 809.2516720630304,
+        "y": 7.807058951346809,
+        "z": -2627.4152202725686
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split472:lane304",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 227.04682103023578,
+        "lateralOffset": 7.312420702174823,
+        "verticalOffset": -0.7610034134509682,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4023833403537314,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-142-1",
+          "properties": {
+            "position": {
+              "x": 809.2516720630304,
+              "y": 7.807058951346809,
+              "z": -2627.4152202725686
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-142-1",
+      "heightMode": "GROUND",
+      "autoMove": 13.47661846345869
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-194-1",
+      "state": "ADJUSTED",
+      "position": {
+        "x": 757.6130310137161,
+        "y": 7.1507632770481315,
+        "z": -2633.9255957061227
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split346",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 4.241746850239414,
+        "lateralOffset": 7.949999999999914,
+        "verticalOffset": -0.7125449528901981,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5083456971754572,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [
+        "Adjusted roadside/station/support height/facing within maxAutoMove"
+      ],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-194-1",
+          "properties": {
+            "position": {
+              "x": 757.6130310137161,
+              "y": 7.1507632770481315,
+              "z": -2633.9255957061227
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-194-1",
+      "heightMode": "GROUND",
+      "autoMove": 12.793206290971519
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-246-1",
+      "state": "VALID",
+      "position": {
+        "x": 705.6593452795959,
+        "y": 6.455505987374619,
+        "z": -2635.397831194872
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split346",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 55.746572481873564,
+        "lateralOffset": 8.134369447746975,
+        "verticalOffset": -0.7046806923889015,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5678814411377708,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-246-1",
+          "properties": {
+            "position": {
+              "x": 705.6593452795959,
+              "y": 6.455505987374619,
+              "z": -2635.397831194872
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-246-1",
+      "heightMode": "GROUND",
+      "autoMove": 16.670767342900028
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-298-1",
+      "state": "VALID",
+      "position": {
+        "x": 653.8631818878806,
+        "y": 5.7772178896738,
+        "z": -2639.3891366560238
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split346",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 107.46698757562052,
+        "lateralOffset": 12.189852060897296,
+        "verticalOffset": -0.688185738629139,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5750745814442688,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-298-1",
+          "properties": {
+            "position": {
+              "x": 653.8631818878806,
+              "y": 5.7772178896738,
+              "z": -2639.3891366560238
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-298-1",
+      "heightMode": "GROUND",
+      "autoMove": 18.53995904069198
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-350--1",
+      "state": "VALID",
+      "position": {
+        "x": 600.8220650685636,
+        "y": 5.111382772874964,
+        "z": -2643.4763756591424
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split346",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 160.396290766219,
+        "lateralOffset": 16.654613039102877,
+        "verticalOffset": -0.6570213400974927,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5807277008885885,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-350--1",
+          "properties": {
+            "position": {
+              "x": 600.8220650685636,
+              "y": 5.111382772874964,
+              "z": -2643.4763756591424
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-350--1",
+      "heightMode": "GROUND",
+      "autoMove": 9.138769899660302
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-350-1",
+      "state": "VALID",
+      "position": {
+        "x": 602.0670184961638,
+        "y": 5.1261789270663325,
+        "z": -2643.380442117176
+      },
+      "rotation": 1.4938903707850175,
+      "anchor": {
+        "anchorRoadId": "regional:G38:in:split18:split278:split346",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 159.15235147058803,
+        "lateralOffset": 16.54632033319518,
+        "verticalOffset": -0.6584501940494665,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5807277008885885,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-350-1",
+          "properties": {
+            "position": {
+              "x": 602.0670184961638,
+              "y": 5.1261789270663325,
+              "z": -2643.380442117176
+            },
+            "rotation": 1.4938903707850175
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-350-1",
+      "heightMode": "GROUND",
+      "autoMove": 20.55367586227806
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-610--1",
+      "state": "VALID",
+      "position": {
+        "x": 344.05292203409937,
+        "y": 2.357178815239947,
+        "z": -2663.262475936458
+      },
+      "rotation": 1.4938903707850206,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 607.8162292854996,
+        "lateralOffset": 9.399999999999839,
+        "verticalOffset": 6.357178815239947,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850206,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-610--1",
+          "properties": {
+            "position": {
+              "x": 344.05292203409937,
+              "y": 2.357178815239947,
+              "z": -2663.262475936458
+            },
+            "rotation": 1.4938903707850206
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-610--1",
+      "heightMode": "GROUND",
+      "autoMove": 2.6376194166011855
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-662--1",
+      "state": "VALID",
+      "position": {
+        "x": 292.5212709265506,
+        "y": 1.8250179730363352,
+        "z": -2667.2333986268563
+      },
+      "rotation": 1.4938903707850149,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 659.5006494997505,
+        "lateralOffset": 9.399999999999842,
+        "verticalOffset": 4.84166298971132,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850149,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-662--1",
+          "properties": {
+            "position": {
+              "x": 292.5212709265506,
+              "y": 1.8250179730363352,
+              "z": -2667.2333986268563
+            },
+            "rotation": 1.4938903707850149
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-662--1",
+      "heightMode": "GROUND",
+      "autoMove": 3.511204072376338
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-714--1",
+      "state": "VALID",
+      "position": {
+        "x": 240.98961981900342,
+        "y": 1.1643699895019943,
+        "z": -2671.204321317254
+      },
+      "rotation": 1.4938903707850149,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 711.1850697139996,
+        "lateralOffset": 9.399999999999842,
+        "verticalOffset": 2.4582009990353426,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850149,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-714--1",
+          "properties": {
+            "position": {
+              "x": 240.98961981900342,
+              "y": 1.1643699895019943,
+              "z": -2671.204321317254
+            },
+            "rotation": 1.4938903707850149
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-714--1",
+      "heightMode": "GROUND",
+      "autoMove": 9.117227774500211
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-766--1",
+      "state": "VALID",
+      "position": {
+        "x": 188.0135615522016,
+        "y": 0.9058642915092876,
+        "z": -2656.4308131558423
+      },
+      "rotation": 1.4938903707850184,
+      "anchor": {
+        "anchorRoadId": "v8-campus-avenue-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 762.8694899282469,
+        "lateralOffset": -9.399999999999839,
+        "verticalOffset": 0.9058642915092876,
+        "facingDirection": "forward",
+        "expectedHeading": 1.4938903707850184,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-766--1",
+          "properties": {
+            "position": {
+              "x": 188.0135615522016,
+              "y": 0.9058642915092876,
+              "z": -2656.4308131558423
+            },
+            "rotation": 1.4938903707850184
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-766--1",
+      "heightMode": "GROUND",
+      "autoMove": 4.037020518804274
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-split-38--1",
+      "state": "VALID",
+      "position": {
+        "x": 53.8,
+        "y": -0.04,
+        "z": -2652
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-b-1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 0,
+        "lateralOffset": -5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-split-38--1",
+          "properties": {
+            "position": {
+              "x": 53.8,
+              "y": -0.04,
+              "z": -2652
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-split-38--1",
+      "heightMode": "GROUND",
+      "autoMove": 4.841158792542323
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-split-38-1",
+      "state": "VALID",
+      "position": {
+        "x": 53.8,
+        "y": -0.04,
+        "z": -2692
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-b-0",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 233.66037735849068,
+        "lateralOffset": -5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-split-38-1",
+          "properties": {
+            "position": {
+              "x": 53.8,
+              "y": -0.04,
+              "z": -2692
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-split-38-1",
+      "heightMode": "GROUND",
+      "autoMove": 3.6800560501174244
+    },
+    {
+      "id": "v8-verge-v8-campus-avenue-split-90--1",
+      "state": "INVALID",
+      "position": {
+        "x": 42.2,
+        "y": -0.04,
+        "z": -2652
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-b-1",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 0,
+        "lateralOffset": 5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [
+        {
+          "id": "tree.insideJunction::v8-verge-v8-campus-avenue-split-90--1::",
+          "code": "tree.insideJunction",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-campus-avenue-split-90--1",
+          "message": "Object envelope intersects junction pavement",
+          "metrics": {
+            "intersectionId": "urban-junction-209"
+          },
+          "approximate": true
+        },
+        {
+          "id": "object.autoMoveExceeded:v8-verge-v8-campus-avenue-split-90--1",
+          "code": "object.autoMoveExceeded",
+          "severity": "warning",
+          "objectId": "v8-verge-v8-campus-avenue-split-90--1",
+          "message": "Repair exceeds maxAutoMove",
+          "metrics": {
+            "maxAutoMove": 35
+          }
+        }
+      ],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-avenue-split-90--1",
+          "properties": {
+            "position": {
+              "x": 42.2,
+              "y": -0.04,
+              "z": -2652
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-avenue-split-90--1",
+      "heightMode": "GROUND",
+      "autoMove": 37.518420281362104
+    },
+    {
+      "id": "v8-verge-v8-campus-south-506-1",
+      "state": "VALID",
+      "position": {
+        "x": 423.3159756344173,
+        "y": -0.04,
+        "z": -2222.229663903825
+      },
+      "rotation": 1.5650239830818375,
+      "anchor": {
+        "anchorRoadId": "v8-campus-south-v91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 246.30108403274056,
+        "lateralOffset": 5.399999999999868,
+        "verticalOffset": -0.030166377699154916,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5650239830818375,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-south-506-1",
+          "properties": {
+            "position": {
+              "x": 423.3159756344173,
+              "y": -0.04,
+              "z": -2222.229663903825
+            },
+            "rotation": 1.5650239830818375
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-south-506-1",
+      "heightMode": "GROUND",
+      "autoMove": 2.46409321303707
+    },
+    {
+      "id": "v8-verge-v8-campus-south-584-1",
+      "state": "VALID",
+      "position": {
+        "x": 345.32287480685204,
+        "y": -0.04,
+        "z": -2222.679871889363
+      },
+      "rotation": 1.5650239830818375,
+      "anchor": {
+        "anchorRoadId": "v8-campus-south-v91-section",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 324.29548424153126,
+        "lateralOffset": 5.399999999999869,
+        "verticalOffset": -0.03234966227156706,
+        "facingDirection": "forward",
+        "expectedHeading": 1.5650239830818375,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-south-584-1",
+          "properties": {
+            "position": {
+              "x": 345.32287480685204,
+              "y": -0.04,
+              "z": -2222.679871889363
+            },
+            "rotation": 1.5650239830818375
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-south-584-1",
+      "heightMode": "GROUND",
+      "autoMove": 3.3986354413717064
+    },
+    {
+      "id": "v8-verge-v8-campus-south-split-38--1",
+      "state": "VALID",
+      "position": {
+        "x": 53.8,
+        "y": -0.04,
+        "z": -2205.8333333333335
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-b-3",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 0,
+        "lateralOffset": -5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-south-split-38--1",
+          "properties": {
+            "position": {
+              "x": 53.8,
+              "y": -0.04,
+              "z": -2205.8333333333335
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-south-split-38--1",
+      "heightMode": "GROUND",
+      "autoMove": 8.080440529625236
+    },
+    {
+      "id": "v8-verge-v8-campus-south-split-38-1",
+      "state": "VALID",
+      "position": {
+        "x": 53.8,
+        "y": -0.04,
+        "z": -2245.8333333333335
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-b-2",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 154.16666666666652,
+        "lateralOffset": -5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-south-split-38-1",
+          "properties": {
+            "position": {
+              "x": 53.8,
+              "y": -0.04,
+              "z": -2245.8333333333335
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-south-split-38-1",
+      "heightMode": "GROUND",
+      "autoMove": 6.628063072525377
+    },
+    {
+      "id": "v8-verge-v8-campus-north-116--1",
+      "state": "VALID",
+      "position": {
+        "x": 858.9987018207895,
+        "y": -0.04,
+        "z": -2929.666225482718
+      },
+      "rotation": 1.520076806255052,
+      "anchor": {
+        "anchorRoadId": "v8-campus-north-v91",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 116.34843982926512,
+        "lateralOffset": 5.399999999999933,
+        "verticalOffset": -0.01908860153291672,
+        "facingDirection": "forward",
+        "expectedHeading": 1.520076806255052,
+        "structureType": "at_grade",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-north-116--1",
+          "properties": {
+            "position": {
+              "x": 858.9987018207895,
+              "y": -0.04,
+              "z": -2929.666225482718
+            },
+            "rotation": 1.520076806255052
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-north-116--1",
+      "heightMode": "GROUND",
+      "autoMove": 5.198785326993955
+    },
+    {
+      "id": "v8-verge-v8-campus-north-split-38-1",
+      "state": "VALID",
+      "position": {
+        "x": 53.8,
+        "y": -0.04,
+        "z": -2925.6603773584907
+      },
+      "rotation": -3.141592653589793,
+      "anchor": {
+        "anchorRoadId": "v91-ns-0-b-0",
+        "anchorIntersectionId": null,
+        "approach": null,
+        "station": 0,
+        "lateralOffset": -5.799999999999997,
+        "verticalOffset": -0.04,
+        "facingDirection": "forward",
+        "expectedHeading": -3.141592653589793,
+        "structureType": "depressed",
+        "derived": true
+      },
+      "issues": [],
+      "adjustmentReasons": [],
+      "commands": [
+        {
+          "op": "modifyObject",
+          "id": "v8-verge-v8-campus-north-split-38-1",
+          "properties": {
+            "position": {
+              "x": 53.8,
+              "y": -0.04,
+              "z": -2925.6603773584907
+            },
+            "rotation": -3.141592653589793
+          }
+        }
+      ],
+      "sourceId": "v8-verge-v8-campus-north-split-38-1",
+      "heightMode": "GROUND",
+      "autoMove": 14.948900767481662
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyObject",
+      "id": "v6-road-trees-866",
+      "properties": {
+        "position": {
+          "x": 42.15,
+          "y": -0.04,
+          "z": -2694
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:120:-3020",
+      "properties": {
+        "position": {
+          "x": 146.95343897286529,
+          "y": -0.028434912811232817,
+          "z": -2966.0120771394922
+        },
+        "rotation": 1.520076806255052
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:120:-2540",
+      "properties": {
+        "position": {
+          "x": 86.16867884231307,
+          "y": -0.04,
+          "z": -2664.0781767302847
+        },
+        "rotation": 1.4938903707850184
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:440:-3020",
+      "properties": {
+        "position": {
+          "x": 474.8393871755355,
+          "y": 1.147185644046613,
+          "z": -2949.367584121591
+        },
+        "rotation": 1.520076806255052
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:600:-3020",
+      "properties": {
+        "position": {
+          "x": 567.2229297227274,
+          "y": 1.041239802353406,
+          "z": -2944.6779131023704
+        },
+        "rotation": 1.520076806255052
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:920:-2540",
+      "properties": {
+        "position": {
+          "x": 959.2448932560151,
+          "y": 6.901811089736039,
+          "z": -2629.9915712983507
+        },
+        "rotation": -0.05801788128479466
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:1080:-2860",
+      "properties": {
+        "position": {
+          "x": 1078.0197770758925,
+          "y": -0.04,
+          "z": -2924.2197679629276
+        },
+        "rotation": -2.2640154307992364
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "regional:tree:1240:-2860",
+      "properties": {
+        "position": {
+          "x": 1194.8377628859312,
+          "y": -0.04,
+          "z": -2825.5341576708047
+        },
+        "rotation": -2.37172229924561
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-38--1",
+      "properties": {
+        "position": {
+          "x": 910.1546382596088,
+          "y": 9.173252920893814,
+          "z": -2600.784112040422
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-38-1",
+      "properties": {
+        "position": {
+          "x": 912.8439988464621,
+          "y": 9.211079378842493,
+          "z": -2619.432609350265
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-90-1",
+      "properties": {
+        "position": {
+          "x": 861.0478354547471,
+          "y": 8.475991401169537,
+          "z": -2623.4239148114166
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-142--1",
+      "properties": {
+        "position": {
+          "x": 805.9342292934588,
+          "y": 7.8105651811333825,
+          "z": -2605.2387668453107
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-142-1",
+      "properties": {
+        "position": {
+          "x": 809.2516720630304,
+          "y": 7.807058951346809,
+          "z": -2627.4152202725686
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-194-1",
+      "properties": {
+        "position": {
+          "x": 757.6130310137161,
+          "y": 7.1507632770481315,
+          "z": -2633.9255957061227
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-246-1",
+      "properties": {
+        "position": {
+          "x": 705.6593452795959,
+          "y": 6.455505987374619,
+          "z": -2635.397831194872
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-298-1",
+      "properties": {
+        "position": {
+          "x": 653.8631818878806,
+          "y": 5.7772178896738,
+          "z": -2639.3891366560238
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-350--1",
+      "properties": {
+        "position": {
+          "x": 600.8220650685636,
+          "y": 5.111382772874964,
+          "z": -2643.4763756591424
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-350-1",
+      "properties": {
+        "position": {
+          "x": 602.0670184961638,
+          "y": 5.1261789270663325,
+          "z": -2643.380442117176
+        },
+        "rotation": 1.4938903707850175
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-610--1",
+      "properties": {
+        "position": {
+          "x": 344.05292203409937,
+          "y": 2.357178815239947,
+          "z": -2663.262475936458
+        },
+        "rotation": 1.4938903707850206
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-662--1",
+      "properties": {
+        "position": {
+          "x": 292.5212709265506,
+          "y": 1.8250179730363352,
+          "z": -2667.2333986268563
+        },
+        "rotation": 1.4938903707850149
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-714--1",
+      "properties": {
+        "position": {
+          "x": 240.98961981900342,
+          "y": 1.1643699895019943,
+          "z": -2671.204321317254
+        },
+        "rotation": 1.4938903707850149
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-766--1",
+      "properties": {
+        "position": {
+          "x": 188.0135615522016,
+          "y": 0.9058642915092876,
+          "z": -2656.4308131558423
+        },
+        "rotation": 1.4938903707850184
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-split-38--1",
+      "properties": {
+        "position": {
+          "x": 53.8,
+          "y": -0.04,
+          "z": -2652
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-avenue-split-38-1",
+      "properties": {
+        "position": {
+          "x": 53.8,
+          "y": -0.04,
+          "z": -2692
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-south-506-1",
+      "properties": {
+        "position": {
+          "x": 423.3159756344173,
+          "y": -0.04,
+          "z": -2222.229663903825
+        },
+        "rotation": 1.5650239830818375
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-south-584-1",
+      "properties": {
+        "position": {
+          "x": 345.32287480685204,
+          "y": -0.04,
+          "z": -2222.679871889363
+        },
+        "rotation": 1.5650239830818375
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-south-split-38--1",
+      "properties": {
+        "position": {
+          "x": 53.8,
+          "y": -0.04,
+          "z": -2205.8333333333335
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-south-split-38-1",
+      "properties": {
+        "position": {
+          "x": 53.8,
+          "y": -0.04,
+          "z": -2245.8333333333335
+        },
+        "rotation": -3.141592653589793
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-north-116--1",
+      "properties": {
+        "position": {
+          "x": 858.9987018207895,
+          "y": -0.04,
+          "z": -2929.666225482718
+        },
+        "rotation": 1.520076806255052
+      }
+    },
+    {
+      "op": "modifyObject",
+      "id": "v8-verge-v8-campus-north-split-38-1",
+      "properties": {
+        "position": {
+          "x": 53.8,
+          "y": -0.04,
+          "z": -2925.6603773584907
+        },
+        "rotation": -3.141592653589793
+      }
+    }
+  ],
+  "stats": {
+    "planned": 45,
+    "valid": 27,
+    "adjusted": 3,
+    "invalid": 15,
+    "skipped": 15,
+    "added": 0,
+    "moved": 30,
+    "removed": 0
+  },
+  "valid": true
+}
