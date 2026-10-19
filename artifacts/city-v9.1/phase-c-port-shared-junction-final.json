@@ -1,0 +1,290 @@
+{
+  "operations": [
+    {
+      "op": "setElevationProfile",
+      "id": "v8-port-works-split-split-c91",
+      "height": -3.2,
+      "profile": [
+        {
+          "distance": 0,
+          "height": 0
+        },
+        {
+          "distance": 120,
+          "height": 0
+        },
+        {
+          "distance": 240,
+          "height": -3.2
+        },
+        {
+          "distance": 405,
+          "height": -3.2
+        },
+        {
+          "distance": 435,
+          "height": 0
+        },
+        {
+          "distance": 459.7111015940618,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "op": "simplifyRoad",
+      "id": "v8-port-works-split-split-c91",
+      "tolerance": 0.02
+    },
+    {
+      "op": "createIntersection",
+      "position": {
+        "x": 1374.3421432814368,
+        "y": 0,
+        "z": 2886.5381892782325
+      },
+      "roadIds": [
+        "v8-port-yard-split-c91"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "repairIntersection",
+      "id": "urban-junction-236"
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-236",
+      "properties": {
+        "approaches": {}
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "Edit map",
+    "created": [
+      "v8-port-yard-split-c91-section"
+    ],
+    "modified": [
+      "v8-port-works-split-split-c91",
+      "urban-junction-236",
+      "v8-port-yard-split-c91",
+      "urban-junction-231",
+      "v8-port-south-split-split-2-m91",
+      "v8-port-south-split-split-2-split-2-m91",
+      "urban-junction-228",
+      "v4-industrial-split-2-split-split-2-c91",
+      "v8-port-south-split-split-3-m91",
+      "v4-industrial-split-2-split-split-c91",
+      "urban-junction-229",
+      "v4-industrial-split-2-split",
+      "v8-port-yard-c91",
+      "urban-junction-230",
+      "v8-port-south-split-m91",
+      "v8-port-south-split-split-2-split-m91",
+      "urban-junction-233",
+      "v6-logistics-one-split-2-split-2-m91",
+      "v6-logistics-one-split-2-split-2-split-m91",
+      "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+      "topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION",
+      "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -353.65098141670086,
+      "maxX": 2053.2995646943664,
+      "minZ": 2407.429626673336,
+      "maxZ": 2947.125914592743
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-yard-split-c91",
+          "urban-junction-231",
+          "v8-port-yard-split-c91-section",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-228",
+          "v4-industrial-split-2-split-split-2-c91",
+          "v8-port-south-split-split-3-m91",
+          "v4-industrial-split-2-split-split-c91",
+          "urban-junction-229",
+          "v4-industrial-split-2-split",
+          "v8-port-yard-c91",
+          "urban-junction-230",
+          "v8-port-south-split-m91",
+          "v8-port-south-split-split-2-split-m91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION"
+        ],
+        "message": "intersections[1]: urban-junction-173: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-yard-split-c91",
+          "urban-junction-231",
+          "v8-port-yard-split-c91-section",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-228",
+          "v4-industrial-split-2-split-split-2-c91",
+          "v8-port-south-split-split-3-m91",
+          "v4-industrial-split-2-split-split-c91",
+          "urban-junction-229",
+          "v4-industrial-split-2-split",
+          "v8-port-yard-c91",
+          "urban-junction-230",
+          "v8-port-south-split-m91",
+          "v8-port-south-split-split-2-split-m91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION"
+        ],
+        "message": "intersections[9]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-yard-split-c91",
+          "urban-junction-231",
+          "v8-port-yard-split-c91-section",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-228",
+          "v4-industrial-split-2-split-split-2-c91",
+          "v8-port-south-split-split-3-m91",
+          "v4-industrial-split-2-split-split-c91",
+          "urban-junction-229",
+          "v4-industrial-split-2-split",
+          "v8-port-yard-c91",
+          "urban-junction-230",
+          "v8-port-south-split-m91",
+          "v8-port-south-split-split-2-split-m91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION"
+        ],
+        "message": "intersections[10]: urban-junction-233: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-yard-split-c91",
+          "urban-junction-231",
+          "v8-port-yard-split-c91-section",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-228",
+          "v4-industrial-split-2-split-split-2-c91",
+          "v8-port-south-split-split-3-m91",
+          "v4-industrial-split-2-split-split-c91",
+          "urban-junction-229",
+          "v4-industrial-split-2-split",
+          "v8-port-yard-c91",
+          "urban-junction-230",
+          "v8-port-south-split-m91",
+          "v8-port-south-split-split-2-split-m91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "topology-sign:urban-junction-228|v8-port-south-split-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-231|v8-port-south-split-split-2-split-2|end:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2-split-2|start:URBAN_DIRECTION",
+          "topology-sign:urban-junction-236|v8-port-south-split-split-2|end:URBAN_DIRECTION"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true,
+    "metrics": {
+      "v8-port-works-split-split-c91": {
+        "simplify": {
+          "beforePoints": 93,
+          "afterPoints": 6,
+          "removedControlPoints": 87
+        }
+      },
+      "urban-junction-236": {
+        "intersection": {
+          "arms": 5,
+          "beforeApproachExtents": [
+            {
+              "roadId": "v8-port-south-split-split-2-m91",
+              "along": 14
+            },
+            {
+              "roadId": "v8-port-works-split-split-c91",
+              "along": 14
+            },
+            {
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "along": 14
+            },
+            {
+              "roadId": "v8-port-yard-split-c91",
+              "along": 8
+            },
+            {
+              "roadId": "v8-port-yard-split-c91-section",
+              "along": 8
+            }
+          ],
+          "afterApproachExtents": [
+            {
+              "roadId": "v8-port-south-split-split-2-m91",
+              "along": 80
+            },
+            {
+              "roadId": "v8-port-works-split-split-c91",
+              "along": 30
+            },
+            {
+              "roadId": "v8-port-south-split-split-2-split-2-m91",
+              "along": 27
+            },
+            {
+              "roadId": "v8-port-yard-split-c91",
+              "along": 31
+            },
+            {
+              "roadId": "v8-port-yard-split-c91-section",
+              "along": 31
+            }
+          ],
+          "footprintPoints": 7,
+          "pavementArea": 3860
+        }
+      }
+    }
+  }
+}

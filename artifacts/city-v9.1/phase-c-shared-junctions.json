@@ -1,0 +1,1019 @@
+{
+  "note": "Shared nodes use existing split/modify/repair commands and MapAPI.detachRoadEndpoint; kernel automatic capture is limited to 25m.",
+  "transactions": [
+    {
+      "id": "v91-shared-inner-ew",
+      "splits": [
+        {
+          "op": "splitRoad",
+          "roadId": "v4-inner-1-split-m91",
+          "point": {
+            "x": 1166.1873291702943,
+            "y": 0.3358792214936699,
+            "z": -149.99999999999994
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ew-1-a-3",
+          "point": {
+            "x": 1166.1873291702943,
+            "y": 0,
+            "z": -102
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ew-1-b-3",
+          "point": {
+            "x": 1166.1873291702943,
+            "y": 0,
+            "z": -198
+          }
+        }
+      ],
+      "detachedEndpoints": [
+        {
+          "roadId": "v4-inner-1-split-m91",
+          "end": "end"
+        },
+        {
+          "roadId": "v4-inner-1-split-m91-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ew-1-a-3",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ew-1-a-3-section-2",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ew-1-b-3",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ew-1-b-3-section-2",
+          "end": "start"
+        }
+      ],
+      "operations": [
+        {
+          "op": "createIntersection",
+          "id": "v91-shared-inner-ew",
+          "position": {
+            "x": 1166.1873291702943,
+            "y": 0,
+            "z": -149.99999999999994
+          },
+          "roadIds": []
+        },
+        {
+          "op": "modifyIntersection",
+          "id": "v91-shared-inner-ew",
+          "properties": {
+            "type": "divided_cross",
+            "position": {
+              "x": 1166.1873291702943,
+              "y": 0,
+              "z": -149.99999999999994
+            },
+            "rotation": 0,
+            "signalized": true,
+            "connections": [
+              {
+                "roadId": "v4-inner-1-split-m91",
+                "end": "end",
+                "port": "north"
+              },
+              {
+                "roadId": "v4-inner-1-split-m91-section",
+                "end": "start",
+                "port": "east"
+              },
+              {
+                "roadId": "v91-ew-1-a-3",
+                "end": "end",
+                "port": "south"
+              },
+              {
+                "roadId": "v91-ew-1-a-3-section-2",
+                "end": "start",
+                "port": "west"
+              },
+              {
+                "roadId": "v91-ew-1-b-3",
+                "end": "end",
+                "port": "extra"
+              },
+              {
+                "roadId": "v91-ew-1-b-3-section-2",
+                "end": "start",
+                "port": "extra2"
+              }
+            ],
+            "approachOffsets": {
+              "north": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "east": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "south": {
+                "x": 0,
+                "y": 0,
+                "z": 47.99999999999994
+              },
+              "west": {
+                "x": 0,
+                "y": 0,
+                "z": 47.99999999999994
+              },
+              "extra": {
+                "x": 0,
+                "y": 0,
+                "z": -48.00000000000006
+              },
+              "extra2": {
+                "x": 0,
+                "y": 0,
+                "z": -48.00000000000006
+              }
+            },
+            "portAngles": {
+              "north": -0.11495921236334063,
+              "east": 3.026633441226452,
+              "south": -1.5707963267948966,
+              "west": 1.5707963267948966,
+              "extra": -1.5707963267948966,
+              "extra2": 1.5707963267948966
+            },
+            "pavementHeights": {
+              "north": 0,
+              "east": 0,
+              "south": 0,
+              "west": 0,
+              "extra": 0,
+              "extra2": 0
+            }
+          }
+        },
+        {
+          "op": "repairIntersection",
+          "id": "v91-shared-inner-ew"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "v91-shared-science-ew",
+      "splits": [
+        {
+          "op": "splitRoad",
+          "roadId": "v5-east-science-split-3-m91",
+          "point": {
+            "x": 1250,
+            "y": 0,
+            "z": -150
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ew-1-a-3-section-2",
+          "point": {
+            "x": 1250,
+            "y": 0,
+            "z": -102
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ew-1-b-3-section-2",
+          "point": {
+            "x": 1250,
+            "y": 0,
+            "z": -198
+          }
+        }
+      ],
+      "detachedEndpoints": [
+        {
+          "roadId": "v5-east-science-split-3-m91",
+          "end": "end"
+        },
+        {
+          "roadId": "v5-east-science-split-3-m91-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ew-1-a-3-section-2",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ew-1-a-3-section-2-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ew-1-b-3-section-2",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ew-1-b-3-section-2-section",
+          "end": "start"
+        }
+      ],
+      "operations": [
+        {
+          "op": "createIntersection",
+          "id": "v91-shared-science-ew",
+          "position": {
+            "x": 1250,
+            "y": 0,
+            "z": -150
+          },
+          "roadIds": []
+        },
+        {
+          "op": "modifyIntersection",
+          "id": "v91-shared-science-ew",
+          "properties": {
+            "type": "divided_cross",
+            "position": {
+              "x": 1250,
+              "y": 0,
+              "z": -150
+            },
+            "rotation": 0,
+            "signalized": true,
+            "connections": [
+              {
+                "roadId": "v5-east-science-split-3-m91",
+                "end": "end",
+                "port": "north"
+              },
+              {
+                "roadId": "v5-east-science-split-3-m91-section",
+                "end": "start",
+                "port": "east"
+              },
+              {
+                "roadId": "v91-ew-1-a-3-section-2",
+                "end": "end",
+                "port": "south"
+              },
+              {
+                "roadId": "v91-ew-1-a-3-section-2-section",
+                "end": "start",
+                "port": "west"
+              },
+              {
+                "roadId": "v91-ew-1-b-3-section-2",
+                "end": "end",
+                "port": "extra"
+              },
+              {
+                "roadId": "v91-ew-1-b-3-section-2-section",
+                "end": "start",
+                "port": "extra2"
+              }
+            ],
+            "approachOffsets": {
+              "north": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "east": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "south": {
+                "x": 0,
+                "y": 0,
+                "z": 48
+              },
+              "west": {
+                "x": 0,
+                "y": 0,
+                "z": 48
+              },
+              "extra": {
+                "x": 0,
+                "y": 0,
+                "z": -48
+              },
+              "extra2": {
+                "x": 0,
+                "y": 0,
+                "z": -48
+              }
+            },
+            "portAngles": {
+              "north": 0,
+              "east": 3.141592653589793,
+              "south": -1.5707963267948966,
+              "west": 1.5707963267948966,
+              "extra": -1.5707963267948966,
+              "extra2": 1.5707963267948966
+            },
+            "pavementHeights": {
+              "north": 0,
+              "east": 0,
+              "south": 0,
+              "west": 0,
+              "extra": 0,
+              "extra2": 0
+            }
+          }
+        },
+        {
+          "op": "repairIntersection",
+          "id": "v91-shared-science-ew"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "v91-shared-old-town-ew",
+      "splits": [
+        {
+          "op": "splitRoad",
+          "roadId": "v5-west-lane-split-2-split-2-m91",
+          "point": {
+            "x": -1586.0422367805465,
+            "y": 0,
+            "z": -150.00000000000009
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ew-0-a-1",
+          "point": {
+            "x": -1586.0422367805465,
+            "y": 0,
+            "z": -102
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ew-0-b-1",
+          "point": {
+            "x": -1586.0422367805465,
+            "y": 0,
+            "z": -198
+          }
+        }
+      ],
+      "detachedEndpoints": [
+        {
+          "roadId": "v5-west-lane-split-2-split-2-m91",
+          "end": "end"
+        },
+        {
+          "roadId": "v5-west-lane-split-2-split-2-m91-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ew-0-a-1",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ew-0-a-1-section-2",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ew-0-b-1",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ew-0-b-1-section-2",
+          "end": "start"
+        }
+      ],
+      "operations": [
+        {
+          "op": "createIntersection",
+          "id": "v91-shared-old-town-ew",
+          "position": {
+            "x": -1586.0422367805465,
+            "y": 0,
+            "z": -149.99999999999997
+          },
+          "roadIds": []
+        },
+        {
+          "op": "modifyIntersection",
+          "id": "v91-shared-old-town-ew",
+          "properties": {
+            "type": "divided_cross",
+            "position": {
+              "x": -1586.0422367805465,
+              "y": 0,
+              "z": -149.99999999999997
+            },
+            "rotation": 0,
+            "signalized": true,
+            "connections": [
+              {
+                "roadId": "v5-west-lane-split-2-split-2-m91",
+                "end": "end",
+                "port": "north"
+              },
+              {
+                "roadId": "v5-west-lane-split-2-split-2-m91-section",
+                "end": "start",
+                "port": "east"
+              },
+              {
+                "roadId": "v91-ew-0-a-1",
+                "end": "end",
+                "port": "south"
+              },
+              {
+                "roadId": "v91-ew-0-a-1-section-2",
+                "end": "start",
+                "port": "west"
+              },
+              {
+                "roadId": "v91-ew-0-b-1",
+                "end": "end",
+                "port": "extra"
+              },
+              {
+                "roadId": "v91-ew-0-b-1-section-2",
+                "end": "start",
+                "port": "extra2"
+              }
+            ],
+            "approachOffsets": {
+              "north": {
+                "x": 0,
+                "y": 0,
+                "z": -1.7053025658242404e-13
+              },
+              "east": {
+                "x": 0,
+                "y": 0,
+                "z": -1.7053025658242404e-13
+              },
+              "south": {
+                "x": 0,
+                "y": 0,
+                "z": 47.99999999999997
+              },
+              "west": {
+                "x": 0,
+                "y": 0,
+                "z": 47.99999999999997
+              },
+              "extra": {
+                "x": 0,
+                "y": 0,
+                "z": -48.00000000000003
+              },
+              "extra2": {
+                "x": 0,
+                "y": 0,
+                "z": -48.00000000000003
+              }
+            },
+            "portAngles": {
+              "north": -0.05868245187201994,
+              "east": 3.082910201717773,
+              "south": -1.5707963267948966,
+              "west": 1.5707963267948966,
+              "extra": -1.5707963267948966,
+              "extra2": 1.5707963267948966
+            },
+            "pavementHeights": {
+              "north": 0,
+              "east": 0,
+              "south": 0,
+              "west": 0,
+              "extra": 0,
+              "extra2": 0
+            }
+          }
+        },
+        {
+          "op": "repairIntersection",
+          "id": "v91-shared-old-town-ew"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "v91-shared-inner-ns",
+      "splits": [
+        {
+          "op": "splitRoad",
+          "roadId": "v4-inner-1-m91",
+          "point": {
+            "x": 1.4210854715202004e-14,
+            "y": 0,
+            "z": -849.9846020413694
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ns-0-a-4",
+          "point": {
+            "x": -48,
+            "y": 0,
+            "z": -849.9846020413695
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ns-0-b-4",
+          "point": {
+            "x": 48,
+            "y": 0,
+            "z": -849.9846020413695
+          }
+        }
+      ],
+      "detachedEndpoints": [
+        {
+          "roadId": "v4-inner-1-m91",
+          "end": "end"
+        },
+        {
+          "roadId": "v4-inner-1-m91-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ns-0-a-4",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ns-0-a-4-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ns-0-b-4",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ns-0-b-4-section",
+          "end": "start"
+        }
+      ],
+      "operations": [
+        {
+          "op": "createIntersection",
+          "id": "v91-shared-inner-ns",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": -849.9846020413694
+          },
+          "roadIds": []
+        },
+        {
+          "op": "modifyIntersection",
+          "id": "v91-shared-inner-ns",
+          "properties": {
+            "type": "divided_cross",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -849.9846020413694
+            },
+            "rotation": 0,
+            "signalized": true,
+            "connections": [
+              {
+                "roadId": "v4-inner-1-m91",
+                "end": "end",
+                "port": "north"
+              },
+              {
+                "roadId": "v4-inner-1-m91-section",
+                "end": "start",
+                "port": "east"
+              },
+              {
+                "roadId": "v91-ns-0-a-4",
+                "end": "end",
+                "port": "south"
+              },
+              {
+                "roadId": "v91-ns-0-a-4-section",
+                "end": "start",
+                "port": "west"
+              },
+              {
+                "roadId": "v91-ns-0-b-4",
+                "end": "end",
+                "port": "extra"
+              },
+              {
+                "roadId": "v91-ns-0-b-4-section",
+                "end": "start",
+                "port": "extra2"
+              }
+            ],
+            "approachOffsets": {
+              "north": {
+                "x": 2.842170943040401e-14,
+                "y": 0,
+                "z": 0
+              },
+              "east": {
+                "x": 2.842170943040401e-14,
+                "y": 0,
+                "z": 0
+              },
+              "south": {
+                "x": -48,
+                "y": 0,
+                "z": -1.1368683772161603e-13
+              },
+              "west": {
+                "x": -48,
+                "y": 0,
+                "z": -1.1368683772161603e-13
+              },
+              "extra": {
+                "x": 48,
+                "y": 0,
+                "z": -1.1368683772161603e-13
+              },
+              "extra2": {
+                "x": 48,
+                "y": 0,
+                "z": -1.1368683772161603e-13
+              }
+            },
+            "portAngles": {
+              "north": -1.5706008609483586,
+              "east": 1.570991792641435,
+              "south": 0,
+              "west": 3.141592653589793,
+              "extra": 0,
+              "extra2": 3.141592653589793
+            },
+            "pavementHeights": {
+              "north": 0,
+              "east": 0,
+              "south": 0,
+              "west": 0,
+              "extra": 0,
+              "extra2": 0
+            }
+          }
+        },
+        {
+          "op": "repairIntersection",
+          "id": "v91-shared-inner-ns"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "v91-shared-north-avenue-ns",
+      "splits": [
+        {
+          "op": "splitRoad",
+          "roadId": "v4-north-split-3-split-split-2-split-2-split-m91",
+          "point": {
+            "x": -2.842170943040401e-14,
+            "y": 0,
+            "z": -1000
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ns-0-a-4",
+          "point": {
+            "x": -48,
+            "y": 0,
+            "z": -1000
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-ns-0-b-4",
+          "point": {
+            "x": 48,
+            "y": 0,
+            "z": -1000
+          }
+        }
+      ],
+      "detachedEndpoints": [
+        {
+          "roadId": "v4-north-split-3-split-split-2-split-2-split-m91",
+          "end": "end"
+        },
+        {
+          "roadId": "v4-north-split-3-split-split-2-split-2-split-m91-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ns-0-a-4",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ns-0-a-4-section-2",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-ns-0-b-4",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ns-0-b-4-section-2",
+          "end": "start"
+        }
+      ],
+      "operations": [
+        {
+          "op": "createIntersection",
+          "id": "v91-shared-north-avenue-ns",
+          "position": {
+            "x": -2.842170943040401e-14,
+            "y": 0,
+            "z": -1000
+          },
+          "roadIds": []
+        },
+        {
+          "op": "modifyIntersection",
+          "id": "v91-shared-north-avenue-ns",
+          "properties": {
+            "type": "divided_cross",
+            "position": {
+              "x": -2.842170943040401e-14,
+              "y": 0,
+              "z": -1000
+            },
+            "rotation": 0,
+            "signalized": true,
+            "connections": [
+              {
+                "roadId": "v4-north-split-3-split-split-2-split-2-split-m91",
+                "end": "end",
+                "port": "north"
+              },
+              {
+                "roadId": "v4-north-split-3-split-split-2-split-2-split-m91-section",
+                "end": "start",
+                "port": "east"
+              },
+              {
+                "roadId": "v91-ns-0-a-4",
+                "end": "end",
+                "port": "south"
+              },
+              {
+                "roadId": "v91-ns-0-a-4-section-2",
+                "end": "start",
+                "port": "west"
+              },
+              {
+                "roadId": "v91-ns-0-b-4",
+                "end": "end",
+                "port": "extra"
+              },
+              {
+                "roadId": "v91-ns-0-b-4-section-2",
+                "end": "start",
+                "port": "extra2"
+              }
+            ],
+            "approachOffsets": {
+              "north": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "east": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "south": {
+                "x": -47.99999999999997,
+                "y": 0,
+                "z": 0
+              },
+              "west": {
+                "x": -47.99999999999997,
+                "y": 0,
+                "z": 0
+              },
+              "extra": {
+                "x": 48.00000000000003,
+                "y": 0,
+                "z": 0
+              },
+              "extra2": {
+                "x": 48.00000000000003,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "portAngles": {
+              "north": -1.5707963267948966,
+              "east": 1.5707963267948966,
+              "south": 0,
+              "west": 3.141592653589793,
+              "extra": 0,
+              "extra2": 3.141592653589793
+            },
+            "pavementHeights": {
+              "north": 0,
+              "east": 0,
+              "south": 0,
+              "west": 0,
+              "extra": 0,
+              "extra2": 0
+            }
+          }
+        },
+        {
+          "op": "repairIntersection",
+          "id": "v91-shared-north-avenue-ns"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "v91-shared-plaza-south-ns",
+      "splits": [
+        {
+          "op": "splitRoad",
+          "roadId": "v5-civic-middle-split-split-2-c91",
+          "point": {
+            "x": 0,
+            "y": 0,
+            "z": 239.76118738404452
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-square-s-in-continuous",
+          "point": {
+            "x": 47.443059343291004,
+            "y": 0,
+            "z": 235.06311575221258
+          }
+        },
+        {
+          "op": "splitRoad",
+          "roadId": "v91-square-s-out",
+          "point": {
+            "x": -48.063385917675404,
+            "y": 0,
+            "z": 240.8783104916101
+          }
+        }
+      ],
+      "detachedEndpoints": [
+        {
+          "roadId": "v5-civic-middle-split-split-2-c91",
+          "end": "end"
+        },
+        {
+          "roadId": "v5-civic-middle-split-split-2-c91-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-square-s-in-continuous",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-square-s-in-continuous-section",
+          "end": "start"
+        },
+        {
+          "roadId": "v91-square-s-out",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-square-s-out-section",
+          "end": "start"
+        }
+      ],
+      "operations": [
+        {
+          "op": "createIntersection",
+          "id": "v91-shared-plaza-south-ns",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 239.76118738404452
+          },
+          "roadIds": []
+        },
+        {
+          "op": "modifyIntersection",
+          "id": "v91-shared-plaza-south-ns",
+          "properties": {
+            "type": "divided_cross",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 239.76118738404452
+            },
+            "rotation": 0,
+            "signalized": true,
+            "connections": [
+              {
+                "roadId": "v5-civic-middle-split-split-2-c91",
+                "end": "end",
+                "port": "north"
+              },
+              {
+                "roadId": "v5-civic-middle-split-split-2-c91-section",
+                "end": "start",
+                "port": "east"
+              },
+              {
+                "roadId": "v91-square-s-in-continuous",
+                "end": "end",
+                "port": "south"
+              },
+              {
+                "roadId": "v91-square-s-in-continuous-section",
+                "end": "start",
+                "port": "west"
+              },
+              {
+                "roadId": "v91-square-s-out",
+                "end": "end",
+                "port": "extra"
+              },
+              {
+                "roadId": "v91-square-s-out-section",
+                "end": "start",
+                "port": "extra2"
+              }
+            ],
+            "approachOffsets": {
+              "north": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "east": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "south": {
+                "x": 47.443059343291,
+                "y": 0,
+                "z": -4.698071631832022
+              },
+              "west": {
+                "x": 47.443059343291,
+                "y": 0,
+                "z": -4.698071631832022
+              },
+              "extra": {
+                "x": -48.063385917675404,
+                "y": 0,
+                "z": 1.117123107565675
+              },
+              "extra2": {
+                "x": -48.063385917675404,
+                "y": 0,
+                "z": 1.117123107565675
+              }
+            },
+            "portAngles": {
+              "north": -1.5707988005116562,
+              "east": 1.5707938530781371,
+              "south": -0.09870368647018118,
+              "west": 3.0428889671196164,
+              "extra": -0.023238521092352107,
+              "extra2": 3.118354132497426
+            },
+            "pavementHeights": {
+              "north": 0,
+              "east": 0,
+              "south": 0,
+              "west": 0,
+              "extra": 0,
+              "extra2": 0
+            }
+          }
+        },
+        {
+          "op": "repairIntersection",
+          "id": "v91-shared-plaza-south-ns"
+        }
+      ],
+      "valid": true
+    }
+  ]
+}

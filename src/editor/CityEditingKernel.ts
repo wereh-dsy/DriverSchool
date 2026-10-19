@@ -1,8 +1,9 @@
 import { newCityMap, type CityMapData, type CityRoad, type CityPoint, type CityIntersection, type RoadEndpoint, type IntersectionPort } from '../world/city/CityMapData';
 import { createRoad, placePrefab } from '../world/city/MapAPI';
 import { validateMap } from '../world/city/CityMapValidation';
-import { connectionPoint, portsFor, refreshPortPoses, syncConnections } from '../world/city/geometry';
+import { connectionPoint, portsFor, refreshPortPoses, rotatePoint, syncConnections } from '../world/city/geometry';
 import { setJunctionPavementFootprint } from '../world/city/JunctionSurface';
+import { populateIntersectionMarkingMetadata } from '../world/city/MarkingOwnership';
 import { roadFunction } from '../world/city/RoadClassification';
 import { expandPreset } from '../world/city/presets/InfrastructurePresets';
 import type { RoadSignDefinition } from '../world/city/RoadSignData';
@@ -10,6 +11,8 @@ import { adoptEditorMetadata } from './EditorMapMetadata';
 import { CityEditorHistory } from './CityEditorHistory';
 import { EDITOR_ROAD_PRESETS, type EditorCommand, type EditorArea, type EditorIssue, type EditSummary, type CrossingMode } from './EditorCommands';
 import { bounds, union, overlaps, distance, project, slicePath, parallelPath, crossings, maxGrade, polylineLength, roadPoints, sampleAt, EditorSpatialIndex, cubicPath } from './EditorGeometry';
+import { diagnoseMap, type DiagnosticReport, type DiagnosticScope } from './RoadDiagnostics';
+import { cubicHandles, elevationRepairForRoad, gradeMetrics, repairElevation, simplifyPoints, smoothAlignment } from './RoadRepair';
 
 const editing = (map: CityMapData): NonNullable<CityMapData['editing']> => map.editing ?? { corridors: [], groups: [], attachments: [], ramps: [] };
 const endpoint = (map: CityMapData, e: RoadEndpoint): CityPoint => { const r = map.roads.find(r => r.id === e.roadId); if (!r) throw new Error(`Missing road ${e.roadId}`); return roadPoints({ ...r, curve: 'polyline' })[e.end === 'start' ? 0 : r.centerline.length - 1]!; };
@@ -21,6 +24,7 @@ class EditTransaction {
   readonly map: CityMapData;
   readonly changed = new Set<string>();
   readonly notes: EditorIssue[] = [];
+  readonly metrics: Record<string, unknown> = {};
   private used: Set<string>;
   constructor(readonly before: CityMapData, private readonly index: EditorSpatialIndex) {
     this.map = { ...before, bounds: { ...before.bounds }, roads: [...before.roads], intersections: [...before.intersections], objects: [...before.objects],
@@ -28,6 +32,28 @@ class EditTransaction {
     this.used = new Set([...before.roads, ...before.intersections, ...before.objects,...before.signs??[], ...before.roadLinks ?? [], ...before.connectionPorts ?? [], ...editing(before).corridors, ...editing(before).groups, ...editing(before).ramps, ...editing(before).attachments].map(e => e.id));
   }
   id(base: string, explicit = false): string { let id = base, n = 2; if (explicit && this.used.has(id)) throw new Error(`ID already exists: ${id}`); while (this.used.has(id)) id = `${base}-${n++}`; this.used.add(id); return id; }
+  record(id: string, value: Record<string, unknown>): void {
+    const previous = this.metrics[id];
+    this.metrics[id] = previous && typeof previous === 'object' && !Array.isArray(previous) ? { ...(previous as Record<string, unknown>), ...value } : value;
+  }
+  /** Name references are semantic, independent of the road carrying the sign. */
+  remapSignNames(oldIds: Set<string>, nameId: string): void {
+    if (!oldIds.size) return;
+    this.map.signs = this.map.signs!.map(sign => {
+      let changed = false;
+      const destinations = sign.destinations.map(destination => {
+        const roadNameId = oldIds.has(destination.roadNameId) ? nameId : destination.roadNameId;
+        const directionId = destination.directionId && oldIds.has(destination.directionId) ? nameId : destination.directionId;
+        if (roadNameId === destination.roadNameId && directionId === destination.directionId) return destination;
+        changed = true; return { ...destination, roadNameId, ...(destination.directionId ? { directionId } : {}) };
+      });
+      const next = { ...sign, destinations };
+      if (sign.approachRoadNameId && oldIds.has(sign.approachRoadNameId)) { next.approachRoadNameId = nameId; changed = true; }
+      if (sign.interchangeId && oldIds.has(sign.interchangeId)) { next.interchangeId = nameId; changed = true; }
+      if (changed) this.changed.add(sign.id);
+      return changed ? next : sign;
+    });
+  }
   assertUnlocked(id: string): void {
     const group = editing(this.map).groups.find(g => g.locked && (g.id === id || g.memberIds.includes(id)));
     if (group) throw new Error(`Locked group ${group.name}: unlock before editing ${id}`);
@@ -128,17 +154,44 @@ class EditTransaction {
     if (count > 6) throw new Error('This foundation supports at most six junction arms');
     j.type = count <= 3 ? 't_4lane' : count === 4 ? 'cross_4lane' : count === 5 ? 'irregular' : 'divided_cross';
     const allPorts: IntersectionPort[] = portsFor(j);
-    const extent = Math.max(12, ...arms.map(e => { const r = this.road(e.roadId); return r.laneCount * r.laneWidth / 2 + 7; }));
+    // Each mouth must clear the actual ribbon of every non-parallel approach.
+    // This is what makes skewed junctions and divided carriageways irregular
+    // instead of forcing one square footprint around the centerline crossing.
+    interface ArmInfo { pts: CityPoint[]; len: number; start: boolean; half: number; outward: CityPoint; mouth: CityPoint; }
+    const info = new Map<RoadEndpoint, ArmInfo>();
     for (const arm of arms) {
       if (j.connections.some(c => sameEnd(c, arm))) continue;
-      const r = this.road(arm.roadId), pts = roadPoints(r), len = polylineLength(pts), start = arm.end === 'start';
+      const r = this.road(arm.roadId), pts = roadPoints(r), len = polylineLength(pts), start = arm.end === 'start', q = project(pts, position);
+      const half = r.laneCount * r.laneWidth / 2 + Math.max(r.shoulders?.left ?? 0, r.shoulders?.right ?? 0);
+      const mouth = sampleAt(pts, Math.max(0, Math.min(len, q.along))).point;
+      const a = start ? pts[0]! : pts.at(-1)!, b = start ? pts[1] ?? pts[0]! : pts.at(-2) ?? pts.at(-1)!;
+      const dx = b.x - a.x, dz = b.z - a.z, dl = Math.hypot(dx, dz) || 1;
+      info.set(arm, { pts, len, start, half, outward: { x: dx / dl, z: dz / dl }, mouth });
+    }
+    const extentFor = (arm: RoadEndpoint): number => {
+      const own = info.get(arm); if (!own) return 12;
+      let needed = 8;
+      for (const [other, oi] of info) {
+        if (other.roadId === arm.roadId && other.end === arm.end) continue;
+        const cross = own.outward.x * oi.outward.z - own.outward.z * oi.outward.x;
+        if (Math.abs(cross) < 0.2) continue; // collinear continuation or parallel carriageway
+        const px = oi.mouth.x - position.x, pz = oi.mouth.z - position.z;
+        const along = Math.abs((px * oi.outward.z - pz * oi.outward.x) / cross);
+        needed = Math.max(needed, along + oi.half / Math.abs(cross) + 3.2);
+      }
+      return Math.max(8, Math.min(80, needed));
+    };
+    for (const arm of arms) {
+      if (j.connections.some(c => sameEnd(c, arm))) continue;
+      const r = this.road(arm.roadId), pts = info.get(arm)!.pts, len = info.get(arm)!.len, start = arm.end === 'start', extent = extentFor(arm);
       const q = project(pts, position), cut = Math.min(len - 0.2, start ? q.along + extent : Math.max(0.2, q.along - extent));
       if (len < extent + 2) throw new Error('Intersection would leave a tiny approach; move crossing farther from the endpoint');
       const mouth = sampleAt(pts, cut).point, port = allPorts.find(p => !j!.connections.some(c => c.port === p))!;
       this.detach(arm); r.centerline = slicePath(pts, start ? cut : 0, start ? len : cut); r.curve = 'polyline'; r.elevationMode = 'custom';
       this.map.signs=this.map.signs!.map(s=>s.roadId===r.id?{...s,stationMetres:Math.max(0,Math.min(polylineLength(r.centerline),(s.stationMetres??project(pts,s.position).along)-(start?cut:0)))}:s);
-      j.portAngles![port] = Math.atan2(mouth.x - position.x, -(mouth.z - position.z));
-      j.approachOffsets![port] = { x: mouth.x - position.x, y: (mouth.y ?? 0) - (position.y ?? 0), z: mouth.z - position.z };
+      j.portAngles![port] = Math.atan2(mouth.x - position.x, -(mouth.z - position.z)) + j.rotation;
+      const localMouth = rotatePoint({ x: mouth.x - position.x, z: mouth.z - position.z }, -j.rotation);
+      j.approachOffsets![port] = { x: localMouth.x, y: (mouth.y ?? 0) - (position.y ?? 0), z: localMouth.z };
       (j.pavementHeights ??= {})[port] = mouth.y ?? position.y ?? 0;
       j.connections.push({ ...arm, port });
     }
@@ -237,6 +290,63 @@ class EditTransaction {
     editing(this.map).groups.push({id:groupId,name:'Directional T / Y',kind:'interchange',memberIds:[...ids],locked:false});this.changed.add(groupId);
     for(const id of families)for(const end of ['start','end'] as const){const parts=this.map.roads.filter(r=>r.id===id||r.id.startsWith(id+'-section'));const target=end==='start'?parts[0]!:parts.at(-1)!;const e={roadId:target.id,end};if(!this.map.roadLinks!.some(l=>sameEnd(l.from,e)||sameEnd(l.to,e)))this.map.connectionPorts!.push({id:this.id('port'),label:`${id} ${end}`,endpoint:e,groupId});}
   }
+  /** Rebuild one junction from its real approach mouths, without deleting it. */
+  repairJunction(j: CityIntersection, options: { rebuildFootprint?: boolean; rebuildMarkings?: boolean; approachMargin?: number } = {}): Record<string, unknown> {
+    const margin = options.approachMargin ?? 3.2;
+    const readArms = () => j.connections.flatMap(c => {
+      const r = this.map.roads.find(r => r.id === c.roadId); if (!r) return [];
+      const pts = roadPoints(r), start = c.end === 'start';
+      const mouth = start ? pts[0]! : pts.at(-1)!;
+      const neighbour = start ? pts[1] ?? pts[0]! : pts.at(-2) ?? pts.at(-1)!;
+      const dx = neighbour.x - mouth.x, dz = neighbour.z - mouth.z, length = Math.hypot(dx, dz) || 1;
+      const half = r.laneCount * r.laneWidth / 2 + Math.max(r.shoulders?.left ?? 0, r.shoulders?.right ?? 0);
+      return [{ c, r, pts, start, mouth, outward: { x: dx / length, z: dz / length }, half, along: 0 }];
+    });
+    let arms = readArms();
+    const before = arms.map(a => ({ roadId: a.r.id, along: Math.round((a.mouth.x - j.position.x) * a.outward.x + (a.mouth.z - j.position.z) * a.outward.z) }));
+    for (const arm of arms) arm.along = (arm.mouth.x - j.position.x) * arm.outward.x + (arm.mouth.z - j.position.z) * arm.outward.z;
+    const needs = new Map<string, number>();
+    for (const arm of arms) {
+      let needed = 8;
+      for (const other of arms) {
+        if (other.r.id === arm.r.id && other.c.end === arm.c.end) continue;
+        const cross = arm.outward.x * other.outward.z - arm.outward.z * other.outward.x;
+        if (Math.abs(cross) < 0.2) continue;
+        const px = other.mouth.x - j.position.x, pz = other.mouth.z - j.position.z;
+        const along = Math.abs((px * other.outward.z - pz * other.outward.x) / cross);
+        needed = Math.max(needed, along + other.half / Math.abs(cross) + margin);
+      }
+      needs.set(`${arm.r.id}:${arm.c.end}`, Math.max(8, Math.min(80, needed)));
+    }
+    for (const arm of arms) {
+      const needed = needs.get(`${arm.r.id}:${arm.c.end}`)!;
+      if (needed <= arm.along + 0.05) continue;
+      const delta = needed - arm.along;
+      if (polylineLength(arm.pts) - delta < 8) continue;
+      const outwardPath = arm.start ? arm.pts : [...arm.pts].reverse();
+      const kept = slicePath(outwardPath, delta, polylineLength(outwardPath));
+      const r = this.road(arm.r.id);
+      r.centerline = arm.start ? kept : kept.reverse();
+      r.curve = 'polyline'; r.elevationMode = 'custom'; this.changed.add(r.id);
+      if (editing(this.map).curves?.[r.id]) delete editing(this.map).curves![r.id];
+    }
+    arms = readArms();
+    j.portAngles = {}; j.approachOffsets = {}; j.pavementHeights = {};
+    for (const arm of arms) {
+      if (arm.c.port === undefined) continue;
+      const localMouth = rotatePoint({ x: arm.mouth.x - j.position.x, z: arm.mouth.z - j.position.z }, -j.rotation);
+      j.portAngles[arm.c.port] = Math.atan2(arm.outward.x, -arm.outward.z) + j.rotation;
+      j.approachOffsets[arm.c.port] = { x: localMouth.x, y: (arm.mouth.y ?? 0) - (j.position.y ?? 0), z: localMouth.z };
+      j.pavementHeights[arm.c.port] = arm.mouth.y ?? j.position.y ?? 0;
+    }
+    delete j.approaches;
+    setJunctionPavementFootprint(j, this.map);
+    if (options.rebuildMarkings !== false) populateIntersectionMarkingMetadata({ ...this.map, intersections: [j] });
+    const after = arms.map(a => ({ roadId: a.r.id, along: Math.round((a.mouth.x - j.position.x) * a.outward.x + (a.mouth.z - j.position.z) * a.outward.z) }));
+    const area = (j.pavementFootprint ?? []).reduce((sum, p, i, list) => { const q = list[(i + 1) % list.length]!; return sum + p.x * q.z - q.x * p.z; }, 0) / 2;
+    return { arms: arms.length, beforeApproachExtents: before, afterApproachExtents: after, footprintPoints: j.pavementFootprint?.length ?? 0, pavementArea: Math.round(Math.abs(area)) };
+  }
+
   execute(c: EditorCommand): void {
     switch (c.op) {
       case 'modifyMap': {Object.assign(this.map,structuredClone(c.properties));if(c.spawn)this.map.environment={...this.map.environment,spawnPoints:[{...this.map.environment.spawnPoints[0]!,...structuredClone(c.spawn)},...this.map.environment.spawnPoints.slice(1)]};break;}
@@ -268,6 +378,9 @@ class EditTransaction {
         if(Math.abs((roadPoints(a).at(-1)!.y??0)-(roadPoints(b)[0]!.y??0))>0.2)throw new Error('Merge endpoints must share elevation');
         if (this.map.intersections.some(j => j.connections.some(e => e.roadId === a.id && e.end === 'end' || e.roadId === b.id && e.end === 'start')) || this.map.roadLinks!.some(l => [l.from,l.to].some(e => e.roadId === b.id && e.end === 'start' || e.roadId === a.id && e.end === 'end') && [l.from,l.to].some(e => e.roadId !== a.id && e.roadId !== b.id))) throw new Error('Merge would remove a branching or intersection connection');
         const aLength=polylineLength(roadPoints(a));
+        // The surviving road keeps its own logical name; if it had none, adopt
+        // the merged continuation's name instead of inventing a duplicate.
+        if(!a.roadNameId&&b.roadNameId)a.roadNameId=b.roadNameId;
         a.centerline = [...roadPoints(a), ...roadPoints(b).slice(1)]; a.curve = 'polyline'; a.elevationMode = 'custom';if(editing(this.map).curves?.[a.id])delete editing(this.map).curves![a.id];
         this.map.signs=this.map.signs!.map(sign=>{if(sign.roadId!==b.id)return sign;this.changed.add(sign.id);return{...sign,roadId:a.id,stationMetres:(sign.stationMetres??project(roadPoints(b),sign.position).along)+aLength,incomingRoadId:sign.incomingRoadId===b.id?a.id:sign.incomingRoadId};});
         this.detach({ roadId: a.id, end: 'end' }); this.detach({ roadId: b.id, end: 'start' }); this.remapEnd(b.id, a.id);
@@ -338,7 +451,95 @@ class EditTransaction {
       case 'setLocked': { const group = editing(this.map).groups.find(g => g.id === c.id); if (!group) throw new Error('Missing group'); group.locked = c.locked; this.changed.add(group.id); break; }
       case 'placeObject': { const fragment = newCityMap(), o = placePrefab(fragment, { ...c.properties, id: this.id(c.properties.id ?? c.properties.prefabId, !!c.properties.id) }); this.map.objects.push(o); this.changed.add(o.id); break; }
       case 'modifyObject': { this.assertUnlocked(c.id); const i = this.map.objects.findIndex(o=>o.id===c.id); if(i<0) throw new Error('Missing object'); this.map.objects[i] = {...structuredClone(this.map.objects[i]!),...structuredClone(c.properties)}; this.changed.add(c.id); break; }
-      case 'setRoadName': {this.map.roadNames={...this.map.roadNames,[c.nameId]:{...this.map.roadNames?.[c.nameId],...structuredClone(c.entry)}};for(const r of this.roadsFor(c.id)){r.roadNameId=c.nameId;r.displayName=c.entry.primaryText;}break;}
+      case 'setRoadName': {
+        const roads = this.roadsFor(c.id), oldIds = new Set(roads.map(r => r.roadNameId).filter((id): id is string => !!id && id !== c.nameId));
+        this.map.roadNames = { ...this.map.roadNames, [c.nameId]: { ...this.map.roadNames?.[c.nameId], ...structuredClone(c.entry) } };
+        for (const r of roads) { r.roadNameId = c.nameId; delete r.displayName; this.changed.add(r.id); }
+        this.remapSignNames(oldIds, c.nameId);
+        break;
+      }
+      case 'setCorridorName': {
+        const roads = c.roadIds?.length ? c.roadIds.map(id => this.road(id)) : this.roadsFor(c.id);
+        const existing = roads.map(r => r.roadNameId).filter((id): id is string => !!id);
+        const nameId = c.nameId ?? (existing.length && existing.every(id => id === existing[0]) ? existing[0]! : `name:${c.id}`);
+        const entry = { ...this.map.roadNames?.[nameId], primaryText: c.name, kind: c.kind ?? this.map.roadNames?.[nameId]?.kind ?? (roads.some(r => roadFunction(r) === 'expressway') ? 'expressway' as const : 'urban' as const) };
+        this.map.roadNames = { ...this.map.roadNames, [nameId]: entry };
+        const oldIds = new Set(existing.filter(id => id !== nameId));
+        for (const r of roads) { r.roadNameId = nameId; delete r.displayName; this.changed.add(r.id); }
+        const corridor = editing(this.map).corridors.find(corridor => corridor.id === c.id); if (corridor) corridor.name = c.name;
+        this.remapSignNames(oldIds, nameId);
+        this.record(c.id, { nameId, roads: roads.length, name: c.name });
+        break;
+      }
+      case 'smoothRoad': {
+        for (const r of this.roadsFor(c.id)) {
+          const source = roadPoints(r), result = smoothAlignment(source, { start: c.start, end: c.end, strength: c.strength, preserveEndpoints: c.preserveEndpoints, simplifyTolerance: c.tolerance });
+          const partial = (c.start ?? 0) > 0 || (c.end ?? Infinity) < polylineLength(source);
+          const ramp = roadFunction(r) === 'ramp';
+          r.centerline = result.points.map(point => ({ ...point }));
+          // A second whole-road spline pass would reshape the untouched exterior.
+          r.curve = partial ? 'polyline' : r.curve === 'smooth' || ramp ? 'smooth' : 'polyline';
+          if (editing(this.map).curves?.[r.id]) {
+            if (ramp && !partial) { const handles = cubicHandles(result.points); editing(this.map).curves![r.id] = handles; r.centerline = cubicPath(handles); r.curve = 'polyline'; }
+            else delete editing(this.map).curves![r.id];
+          }
+          this.changed.add(r.id); this.record(r.id, { smooth: result.metrics });
+        }
+        break;
+      }
+      case 'repairElevation': {
+        for (const r of this.roadsFor(c.id)) {
+          const partial = (c.start ?? 0) > 0 || (c.end ?? Infinity) < polylineLength(roadPoints(r));
+          const result = elevationRepairForRoad(r, { start: c.start, end: c.end, strength: c.strength, preserveEndpoints: c.preserveEndpoints, maxGrade: c.maxGrade, monotonic: c.monotonic, simplifyTolerance: c.tolerance });
+          r.centerline = result.points.map(point => ({ ...point }));
+          r.curve = !partial && r.curve === 'smooth' ? 'smooth' : 'polyline';
+          r.elevationMode = 'custom';
+          if (editing(this.map).curves?.[r.id]) delete editing(this.map).curves![r.id];
+          this.changed.add(r.id); this.record(r.id, { elevation: result.metrics });
+        }
+        break;
+      }
+      case 'simplifyRoad': {
+        for (const r of this.roadsFor(c.id)) {
+          const source = roadPoints(r), simplified = simplifyPoints(source, c.tolerance ?? 0.25, 0.04);
+          r.centerline = simplified.map(point => ({ ...point })); r.curve = 'polyline';
+          if (editing(this.map).curves?.[r.id]) delete editing(this.map).curves![r.id];
+          this.changed.add(r.id);
+          this.record(r.id, { simplify: { beforePoints: source.length, afterPoints: simplified.length, removedControlPoints: Math.max(0, source.length - simplified.length) } });
+        }
+        break;
+      }
+      case 'repairRamp': {
+        const ramp = editing(this.map).ramps.find(entry => entry.id === c.id || entry.roadId === c.id);
+        const r = ramp ? this.road(ramp.roadId) : this.road(c.id);
+        const source = roadPoints(r);
+        const aligned = smoothAlignment(source, { strength: Math.max(1.1, c.strength ?? 1.25), preserveEndpoints: true, simplifyTolerance: 0.9 });
+        const net = Math.abs((aligned.points.at(-1)?.y ?? 0) - (aligned.points[0]?.y ?? 0));
+        let variation = 0;
+        for (let i = 1; i < aligned.points.length; i++) variation += Math.abs((aligned.points[i]!.y ?? 0) - (aligned.points[i - 1]!.y ?? 0));
+        const vertical = repairElevation(aligned.points, { strength: Math.max(1.2, c.strength ?? 1.5), preserveEndpoints: true, maxGrade: c.maxGrade ?? 0.08, monotonic: c.monotonic ?? (net > 1.2 && variation < net * 2.5) });
+        let points = vertical.points;
+        if (editing(this.map).curves?.[r.id]) { const handles = cubicHandles(points); editing(this.map).curves![r.id] = handles; points = cubicPath(handles); }
+        r.centerline = points.map(point => ({ ...point })); r.curve = 'polyline'; r.elevationMode = 'custom'; this.changed.add(r.id);
+        const finalGrade = gradeMetrics(points);
+        this.record(r.id, { ramp: { ...aligned.metrics, ...vertical.metrics, afterMaxGrade: Math.round(finalGrade.maxGrade * 1000) / 10, afterGradeReversals: finalGrade.reversals } });
+        break;
+      }
+      case 'repairIntersection': {
+        const j = this.junction(c.id), metrics = this.repairJunction(j, { rebuildFootprint: c.rebuildFootprint, rebuildMarkings: c.rebuildMarkings, approachMargin: c.approachMargin });
+        this.record(j.id, { intersection: metrics }); break;
+      }
+      case 'repairIntersections': {
+        const ids = new Set(c.intersectionIds ?? []);
+        if (!ids.size) {
+          if (!c.bbox) throw new Error('repairIntersections requires a bbox or explicit intersectionIds');
+          const report = diagnoseMap(this.map, { bbox: c.bbox, codes: c.codes ?? ['intersection.', 'marking.'], minSeverity: 'warning', limit: c.limit ?? 40 }, {});
+          for (const issue of report.issues) if (issue.intersectionId && issue.repair?.op === 'repairIntersection') ids.add(issue.intersectionId);
+        }
+        let repaired = 0;
+        for (const id of [...ids].slice(0, c.limit ?? 20)) { try { this.repairJunction(this.junction(id), {}); repaired++; } catch (error) { this.notes.push({ severity: 'warning', code: 'intersection.repairSkipped', ids: [id], message: String(error) }); } }
+        this.record('intersections', { repaired }); break;
+      }
       case 'createSign': {
         const r=this.map.roads.find(r=>r.id===c.roadId);if(!r)throw new Error('Missing sign road');this.assertUnlocked(r.id);
         const pts=roadPoints(r),length=polylineLength(pts);if(c.station<0||c.station>length)throw new Error('Sign station lies outside road');
@@ -361,7 +562,10 @@ class EditTransaction {
     for (const j of this.map.intersections) if (this.changed.has(j.id) || j.connections.some(c => this.changed.has(c.roadId))) {
       const w = this.junction(j.id); for (const e of w.connections) this.road(e.roadId);
       const local = { ...this.map, roads: this.map.roads.filter(r => w.connections.some(c => c.roadId === r.id)), intersections: [w], connectionPorts: [] };
-      syncConnections(local); setJunctionPavementFootprint(w, local);
+      syncConnections(local);
+      // The outline must see neighbouring junctions too, so an approach reach
+      // stops at the next shared junction instead of the full road length.
+      setJunctionPavementFootprint(w, this.map);
     }
     refreshPortPoses(this.map);
     // Stationed signs follow road transforms/profile edits; split/merge remaps ownership above.
@@ -437,13 +641,14 @@ export class CityEditingKernel {
     const areas=[...new Set([...created,...deleted,...modified])].flatMap(id=>[this.byId.get(id),after.roads.find(r=>r.id===id),after.intersections.find(j=>j.id===id),after.objects.find(o=>o.id===id),this.map.signs?.find(s=>s.id===id),after.signs?.find(s=>s.id===id)].filter(e=>!!e).map(e=>'position'in e!?bounds([e!.position],40):areaOf(e!)));
     const ids=new Set([...transaction.changed,...created]);
     const warnings=[...transaction.notes,...this.validateIds(after,ids)];
-    const summary:EditSummary={id:`preview-${++this.sequence}`,revision:this.revision,label,created,modified,deleted,area:union(areas),warnings,valid:!warnings.some(w=>w.severity==='error')};
+    const summary:EditSummary={id:`preview-${++this.sequence}`,revision:this.revision,label,created,modified,deleted,area:union(areas),warnings,valid:!warnings.some(w=>w.severity==='error'),...(Object.keys(transaction.metrics).length?{metrics:transaction.metrics}:{})};
     this.pending.clear();this.pending.set(summary.id,{transaction,summary}); return structuredClone(summary);
   }
   dryRun(commands: EditorCommand | EditorCommand[],label?:string):EditSummary {return this.preview(commands,label);}
-  previewData(id:string):{roads:CityRoad[];intersections:CityIntersection[];objects:CityMapData['objects'];signs:RoadSignDefinition[]} {
-    const p=this.pending.get(id);if(!p)throw new Error('Preview expired');const ids=new Set([...p.summary.created,...p.summary.modified]);
-    return structuredClone({roads:p.transaction.map.roads.filter(r=>ids.has(r.id)),intersections:p.transaction.map.intersections.filter(j=>ids.has(j.id)),objects:p.transaction.map.objects.filter(o=>ids.has(o.id)),signs:(p.transaction.map.signs??[]).filter(s=>ids.has(s.id))});
+  previewData(id:string):{roads:CityRoad[];intersections:CityIntersection[];objects:CityMapData['objects'];signs:RoadSignDefinition[];beforeRoads:CityRoad[];beforeIntersections:CityIntersection[]} {
+    const p=this.pending.get(id);if(!p)throw new Error('Preview expired');const ids=new Set([...p.summary.created,...p.summary.modified,...p.summary.deleted]);
+    return structuredClone({roads:p.transaction.map.roads.filter(r=>ids.has(r.id)),intersections:p.transaction.map.intersections.filter(j=>ids.has(j.id)),objects:p.transaction.map.objects.filter(o=>ids.has(o.id)),signs:(p.transaction.map.signs??[]).filter(s=>ids.has(s.id)),
+      beforeRoads:this.map.roads.filter(r=>ids.has(r.id)),beforeIntersections:this.map.intersections.filter(j=>ids.has(j.id))});
   }
   commit(id:string):EditSummary {
     const p=this.pending.get(id);if(!p||p.summary.revision!==this.revision)throw new Error('Preview is stale; preview again');
@@ -461,6 +666,13 @@ export class CityEditingKernel {
   validateCorridor(id:string):EditorIssue[]{const c=this.getCorridor(id);return c?this.validateIds(this.map,new Set(c.roadIds)):[{severity:'error',code:'corridor.missing',ids:[id],message:'Missing corridor'}];}
   validateIntersection(id:string):EditorIssue[]{const j=this.getIntersection(id);return this.validateIds(this.map,new Set([id,...j?.connections.map(c=>c.roadId)??[]]));}
   validateArea(area:EditorArea):EditorIssue[]{return this.validateIds(this.map,new Set(this.index.query(area)));}
+  /** Quality diagnostics; distinct from structural validation. */
+  diagnose(scope: DiagnosticScope = {}, options: { retainAllIssues?: boolean } = {}): DiagnosticReport { return diagnoseMap(this.map, scope, { index: this.index, revision: this.revision, retainAllIssues: options.retainAllIssues }); }
+  /** Explicit full-map schema validation. Never called implicitly by an edit. */
+  validateFull(): EditorIssue[] {
+    const report = validateMap(this.map);
+    return [...report.errors, ...report.warnings].map(issue => ({ severity: issue.severity, code: issue.code, ids: [], message: `${issue.path}: ${issue.message}` }));
+  }
   private validateIds(map:CityMapData,ids:Set<string>):EditorIssue[]{
     const result:EditorIssue[]=[],add=(severity:EditorIssue['severity'],code:string,objects:string[],message:string)=>result.push({severity,code,ids:objects,message});
     const selected=map.roads.filter(r=>ids.has(r.id));

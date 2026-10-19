@@ -44,6 +44,13 @@ export type EditorCommand =
   | { op: 'placeObject'; properties: Omit<CityObject, 'id'> & { id?: string } }
   | { op: 'modifyObject'; id: string; properties: Partial<Omit<CityObject, 'id'>> }
   | { op: 'setRoadName'; id: string; nameId: string; entry: RoadNameEntry }
+  | { op: 'setCorridorName'; id: string; name: string; nameId?: string; kind?: RoadNameEntry['kind']; roadIds?: string[] }
+  | { op: 'smoothRoad'; id: string; start?: number; end?: number; strength?: number; preserveEndpoints?: boolean; preserveIntersections?: boolean; tolerance?: number }
+  | { op: 'repairElevation'; id: string; start?: number; end?: number; strength?: number; maxGrade?: number; preserveEndpoints?: boolean; monotonic?: boolean; tolerance?: number }
+  | { op: 'simplifyRoad'; id: string; tolerance?: number; start?: number; end?: number }
+  | { op: 'repairRamp'; id: string; strength?: number; maxGrade?: number; monotonic?: boolean }
+  | { op: 'repairIntersection'; id: string; rebuildFootprint?: boolean; rebuildMarkings?: boolean; approachMargin?: number }
+  | { op: 'repairIntersections'; bbox?: EditorArea; intersectionIds?: string[]; codes?: string[]; limit?: number }
   | { op: 'createSign'; id?: string; roadId: string; station: number; direction?: 'forward' | 'reverse'; offset?: number; properties: Partial<RoadSignDefinition> }
   | { op: 'modifySign'; id: string; properties: Partial<Omit<RoadSignDefinition, 'id'>> }
   | { op: 'deleteSign'; id: string }
@@ -54,4 +61,6 @@ export interface EditorIssue { severity: 'error' | 'warning'; code: string; ids:
 export interface EditSummary {
   id: string; revision: number; label: string; created: string[]; modified: string[]; deleted: string[];
   area: EditorArea | null; warnings: EditorIssue[]; valid: boolean;
+  /** Repair measurements for the CLI/Agent receipt (never required by renderers). */
+  metrics?: Record<string, unknown>;
 }

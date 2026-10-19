@@ -1,0 +1,362 @@
+{
+  "scope": "full",
+  "revision": 0,
+  "coverage": {
+    "roadsChecked": 2943,
+    "roadsTotal": 2943,
+    "intersectionsChecked": 308,
+    "intersectionsTotal": 308
+  },
+  "counts": {
+    "error": 17,
+    "warning": 414,
+    "info": 4821,
+    "total": 5252,
+    "bySeverity": {
+      "error": 17,
+      "warning": 414,
+      "info": 4821
+    },
+    "byCode": {
+      "geometry.sharpBend": 11,
+      "topology.expresswayCrossing": 8,
+      "geometry.awkwardS": 2,
+      "geometry.shortSegments": 30,
+      "intersection.acuteApproach": 55,
+      "intersection.approachKink": 38,
+      "intersection.shortApproach": 14,
+      "intersection.stalePortAngle": 59,
+      "marking.crosswalkOverlap": 10,
+      "marking.stopLineDisplaced": 44,
+      "topology.deadEnd": 100,
+      "topology.lowClearance": 4,
+      "topology.tinyFragment": 9,
+      "vertical.abruptGradeChange": 77,
+      "vertical.elevationPointOscillation": 17,
+      "vertical.rampReversal": 62,
+      "vertical.wave": 4,
+      "geometry.redundantControlPoints": 2288,
+      "topology.shortConnector": 37,
+      "vertical.gradeReversals": 16,
+      "vertical.redundantElevationPoints": 2367
+    }
+  },
+  "issues": [
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "north-roundabout:ring-2",
+      "message": "90° bend over 7.5 m",
+      "metrics": {
+        "angleDegrees": 90,
+        "radius": 0.9,
+        "span": 7.5
+      },
+      "station": 1.2,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "north-roundabout:ring-2",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "north-roundabout:exit-3",
+      "message": "113° bend over 9.1 m",
+      "metrics": {
+        "angleDegrees": 113,
+        "radius": 2.7,
+        "span": 9.1
+      },
+      "station": 25.8,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "north-roundabout:exit-3",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "north-roundabout:ring-7",
+      "message": "97° bend over 5.7 m",
+      "metrics": {
+        "angleDegrees": 97,
+        "radius": 1.4,
+        "span": 5.7
+      },
+      "station": 33.7,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "north-roundabout:ring-7",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "urban-east-arterial-split-split-3-split",
+      "message": "84° bend over 16.1 m",
+      "metrics": {
+        "angleDegrees": 84,
+        "radius": 4.7,
+        "span": 16.1
+      },
+      "station": 42.5,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "urban-east-arterial-split-split-3-split",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:east-avenue:arterial-4"
+    },
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "urban-diagonal-split-split-split-split-3",
+      "message": "86° bend over 13.2 m",
+      "metrics": {
+        "angleDegrees": 86,
+        "radius": 4.4,
+        "span": 13.2
+      },
+      "station": 42.6,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "urban-diagonal-split-split-split-split-3",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v8-name-urban-diagonal:arterial-3"
+    },
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "v61-university-north-split-split",
+      "message": "98° bend over 8 m",
+      "metrics": {
+        "angleDegrees": 98,
+        "radius": 2.5,
+        "span": 8
+      },
+      "station": 47.6,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v61-university-north-split-split",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v61-university-north:collector-2"
+    },
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "urban-east-arterial-split-split-3-split-2",
+      "message": "90° bend over 13 m",
+      "metrics": {
+        "angleDegrees": 90,
+        "radius": 4.3,
+        "span": 13
+      },
+      "station": 53.9,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "urban-east-arterial-split-split-3-split-2",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:east-avenue:arterial-4"
+    },
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "v61-exhibition-road-split-split-split",
+      "message": "88° bend over 21.3 m",
+      "metrics": {
+        "angleDegrees": 88,
+        "radius": 6.7,
+        "span": 21.3
+      },
+      "station": 100.4,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v61-exhibition-road-split-split-split",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v61-exhibition-road:arterial-2"
+    },
+    {
+      "severity": "error",
+      "code": "geometry.sharpBend",
+      "roadId": "north-roundabout:entry-3",
+      "message": "128° bend over 11.3 m",
+      "metrics": {
+        "angleDegrees": 128,
+        "radius": 2.6,
+        "span": 11.3
+      },
+      "station": 132.9,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "north-roundabout:entry-3",
+        "strength": 1.5,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:S37:in:split108:split126",
+      "message": "Controlled-access crossing with regional:xichuan:N-to-E-turbine:acceleration has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:xichuan:N-to-E-turbine:acceleration"
+      },
+      "corridorId": "corridor:S37:expressway-2"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:G38:out:split10:split24:split284:split354",
+      "message": "Controlled-access crossing with regional:shangu:on:1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:shangu:on:1"
+      },
+      "corridorId": "corridor:G38:expressway-2"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "regional:S37:in:split108:split126:split302:split394",
+      "message": "Controlled-access crossing with regional:hewan:on:-1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "regional:hewan:on:-1"
+      },
+      "corridorId": "corridor:S37:expressway-2"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "ring-cw-1-split-3-split-split",
+      "message": "Controlled-access crossing with v8-ring-north:off--1 has no junction or link",
+      "metrics": {
+        "otherRoadId": "v8-ring-north:off--1"
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "north-roundabout:ring-6",
+      "message": "Controlled-access crossing with v4-north-split-split-m91-approach has no junction or link",
+      "metrics": {
+        "otherRoadId": "v4-north-split-split-m91-approach"
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "north-roundabout:entry-3",
+      "message": "Controlled-access crossing with urban-north-arterial-split-split-m91-approach has no junction or link",
+      "metrics": {
+        "otherRoadId": "urban-north-arterial-split-split-m91-approach"
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "north-roundabout:exit-3",
+      "message": "Controlled-access crossing with urban-north-arterial-split-m91 has no junction or link",
+      "metrics": {
+        "otherRoadId": "urban-north-arterial-split-m91"
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "error",
+      "code": "topology.expresswayCrossing",
+      "roadId": "ring-ccw-1-split-3",
+      "message": "Controlled-access crossing with system-south:S-to-E-right has no junction or link",
+      "metrics": {
+        "otherRoadId": "system-south:S-to-E-right"
+      },
+      "corridorId": "corridor:ring-expressway:expressway-2"
+    },
+    {
+      "severity": "warning",
+      "code": "geometry.awkwardS",
+      "roadId": "north-roundabout:exit-3",
+      "message": "Tight S bend between two opposite turns",
+      "metrics": {
+        "firstDegrees": 113,
+        "secondDegrees": 97
+      },
+      "station": 25.8,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "north-roundabout:exit-3",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "warning",
+      "code": "geometry.awkwardS",
+      "roadId": "north-roundabout:entry-3",
+      "message": "Tight S bend between two opposite turns",
+      "metrics": {
+        "firstDegrees": 100,
+        "secondDegrees": 128
+      },
+      "station": 126.2,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "north-roundabout:entry-3",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:G17:expressway"
+    },
+    {
+      "severity": "warning",
+      "code": "geometry.sharpBend",
+      "roadId": "v4-access-5",
+      "message": "60° bend over 14.3 m",
+      "metrics": {
+        "angleDegrees": 60,
+        "radius": 4.5,
+        "span": 14.3
+      },
+      "station": 26.7,
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v4-access-5",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v8-name-v4-access-5:arterial-2"
+    }
+  ],
+  "truncated": true,
+  "mapDigest": "41c433895b210548093e116b4455d62cbefd02be02be2963d4f097a0ee262184",
+  "pagination": {
+    "offset": 0,
+    "limit": 20,
+    "total": 5252,
+    "returned": 20,
+    "nextOffset": 20
+  },
+  "detailsFile": "D:\\dsy\\drivergame\\artifacts\\city-diagnose-baseline\\diagnosis-full.json"
+}

@@ -1,0 +1,306 @@
+[
+  {
+    "scope": "access-mingyuan-scope",
+    "issues": []
+  },
+  {
+    "scope": "access-north-radials-scope",
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v8-gongren-street-split-split-2-m91",
+          "v8-gongren-street-split-split-3-m91",
+          "v8-gongren-street-split-split-3-split-m91",
+          "v8-gongren-street-split-split-2-m91-section-2",
+          "access-shifu-north",
+          "access-finance-north",
+          "access-central-north",
+          "access-shifu-north-section",
+          "access-finance-north-section",
+          "access-finance-north-section-section",
+          "access-central-north-section",
+          "access-central-north-section-section"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      }
+    ]
+  },
+  {
+    "scope": "access-frontage-ramps-scope",
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v91-ew-0-a-1-section",
+          "v91-ew-0-b-1-section",
+          "v91-ew-1-a-3-section",
+          "v91-ew-east-eb-off",
+          "v91-ew-1-a-4-section",
+          "v91-ew-1-b-4-section",
+          "v91-ew-1-b-3-section",
+          "v91-ew-east-wb-on",
+          "v91-ns-1-a-1-section",
+          "v91-ns-1-a-3-section",
+          "v91-ns-sb-on",
+          "v91-ns-1-b-3-section",
+          "v91-ns-nb-off",
+          "v91-ns-1-b-1-section",
+          "v91-ew-1-a-3-section-2-section",
+          "v91-ew-1-b-3-section-2-section",
+          "v91-ns-0-a-4-section",
+          "v91-ns-0-b-4-section",
+          "v91-ew-west-eb-off",
+          "v91-ew-west-wb-on",
+          "v91-ew-east-eb-on",
+          "v91-ew-east-wb-off",
+          "v91-ns-sb-off",
+          "v91-ns-nb-on",
+          "v91-ew-0-a-6-section",
+          "access-ew-west-eb-on",
+          "v91-ew-0-b-6-section",
+          "access-ew-west-wb-off",
+          "v91-ns-0-a-3-section",
+          "access-ns-north-sb-off",
+          "v91-ns-0-b-3-section",
+          "access-ns-north-nb-on",
+          "access-ns-north-sb-on",
+          "access-ns-north-nb-off"
+        ],
+        "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ew-east-eb-off",
+          "ew-eb-split-split-4-split-2-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-1-a-4-section",
+          "v91-ew-east-eb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-1-b-4-section",
+          "v91-ew-east-wb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ew-east-wb-on",
+          "ew-wb-split-3-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-1-a-3-section",
+          "v91-ns-sb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ns-sb-on",
+          "ns-sb-split-split-split-split-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-1-b-3-section",
+          "v91-ns-nb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ns-nb-off",
+          "ns-nb-split-3-split-split-split-2-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-1-a-3-section-2-section",
+          "v91-ew-east-eb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-1-b-3-section-2-section",
+          "v91-ew-east-wb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ew-west-eb-off",
+          "ew-eb-split-5-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ew-west-eb-off",
+          "ew-eb-split-5-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ew-west-eb-off",
+          "ew-eb-split-5-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-west-eb-off",
+          "v91-ew-0-a-1-section-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ew-west-wb-on",
+          "ew-wb-split-split-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-west-wb-on",
+          "v91-ew-0-b-1-section-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ew-east-eb-on",
+          "ew-eb-split-split-3-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ew-east-wb-off",
+          "ew-wb-split-3-split-split-3-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-sb-off",
+          "system-central:E-to-S-semi"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-sb-off",
+          "v91-ns-1-a-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ns-sb-off",
+          "ns-sb-split-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-nb-on",
+          "system-central:S-to-W-semi"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ns-nb-on",
+          "ns-nb-split-3-split-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-nb-on",
+          "v91-ns-1-b-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  },
+  {
+    "scope": "access-west-gateway-scope",
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v91-ring-west-inner-off",
+          "v91-ring-west-inner-on"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      }
+    ]
+  }
+]

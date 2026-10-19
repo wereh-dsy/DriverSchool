@@ -1,0 +1,294 @@
+{
+  "id": "preview-1",
+  "revision": 0,
+  "label": "Edit map",
+  "created": [],
+  "modified": [
+    "system-central:S-to-E-right",
+    "system-central:E-to-N-right",
+    "system-central:N-to-E-semi",
+    "system-central:N-to-W-right",
+    "system-central:W-to-N-semi",
+    "system-central:W-to-S-right",
+    "road-safety:system-central:N-to-W-right:false:guide:430",
+    "road-safety:system-central:S-to-E-right:false:guide:430",
+    "road-safety:system-central:W-to-S-right:false:guide:130",
+    "road-safety:system-central:E-to-N-right:false:guide:130",
+    "road-safety:system-central:E-to-N-right:false:guide:205",
+    "road-safety:system-central:E-to-N-right:false:guide:280",
+    "road-safety:system-central:E-to-N-right:false:guide:355",
+    "road-safety:system-central:E-to-N-right:false:speed:65",
+    "road-safety:system-central:N-to-E-semi:false:guide:505",
+    "road-safety:system-central:N-to-E-semi:false:guide:580",
+    "road-safety:system-central:N-to-E-semi:false:guide:655",
+    "road-safety:system-central:N-to-E-semi:false:guide:730",
+    "road-safety:system-central:N-to-E-semi:false:speed:65",
+    "road-safety:system-central:N-to-W-right:false:guide:205",
+    "road-safety:system-central:N-to-W-right:false:guide:280",
+    "road-safety:system-central:N-to-W-right:false:speed:65",
+    "road-safety:system-central:S-to-E-right:false:guide:205",
+    "road-safety:system-central:S-to-E-right:false:guide:280",
+    "road-safety:system-central:S-to-E-right:false:speed:65",
+    "road-safety:system-central:W-to-N-semi:false:guide:130",
+    "road-safety:system-central:W-to-N-semi:false:guide:505",
+    "road-safety:system-central:W-to-N-semi:false:guide:580",
+    "road-safety:system-central:W-to-N-semi:false:guide:655",
+    "road-safety:system-central:W-to-N-semi:false:speed:65",
+    "road-safety:system-central:W-to-S-right:false:guide:280",
+    "road-safety:system-central:W-to-S-right:false:guide:355",
+    "road-safety:system-central:W-to-S-right:false:speed:65"
+  ],
+  "deleted": [],
+  "area": {
+    "minX": -583.3785714285715,
+    "maxX": 636.95,
+    "minZ": -797.95,
+    "maxZ": 199.33095238095234
+  },
+  "warnings": [
+    {
+      "severity": "warning",
+      "code": "network.sparse",
+      "ids": [
+        "system-central:S-to-E-right",
+        "system-central:E-to-N-right",
+        "system-central:N-to-E-semi",
+        "system-central:N-to-W-right",
+        "system-central:W-to-N-semi",
+        "system-central:W-to-S-right",
+        "road-safety:system-central:N-to-W-right:false:guide:430",
+        "road-safety:system-central:S-to-E-right:false:guide:430",
+        "road-safety:system-central:W-to-S-right:false:guide:130",
+        "road-safety:system-central:E-to-N-right:false:guide:130",
+        "road-safety:system-central:E-to-N-right:false:guide:205",
+        "road-safety:system-central:E-to-N-right:false:guide:280",
+        "road-safety:system-central:E-to-N-right:false:guide:355",
+        "road-safety:system-central:E-to-N-right:false:speed:65",
+        "road-safety:system-central:N-to-E-semi:false:guide:505",
+        "road-safety:system-central:N-to-E-semi:false:guide:580",
+        "road-safety:system-central:N-to-E-semi:false:guide:655",
+        "road-safety:system-central:N-to-E-semi:false:guide:730",
+        "road-safety:system-central:N-to-E-semi:false:speed:65",
+        "road-safety:system-central:N-to-W-right:false:guide:205",
+        "road-safety:system-central:N-to-W-right:false:guide:280",
+        "road-safety:system-central:N-to-W-right:false:speed:65",
+        "road-safety:system-central:S-to-E-right:false:guide:205",
+        "road-safety:system-central:S-to-E-right:false:guide:280",
+        "road-safety:system-central:S-to-E-right:false:speed:65",
+        "road-safety:system-central:W-to-N-semi:false:guide:130",
+        "road-safety:system-central:W-to-N-semi:false:guide:505",
+        "road-safety:system-central:W-to-N-semi:false:guide:580",
+        "road-safety:system-central:W-to-N-semi:false:guide:655",
+        "road-safety:system-central:W-to-N-semi:false:speed:65",
+        "road-safety:system-central:W-to-S-right:false:guide:280",
+        "road-safety:system-central:W-to-S-right:false:guide:355",
+        "road-safety:system-central:W-to-S-right:false:speed:65"
+      ],
+      "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:S-to-E-right",
+        "ew-eb-split-2-split-split"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:S-to-E-right",
+        "ns-nb-split-2-split-2-split-2"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:E-to-N-right",
+        "ns-nb-split-split-2"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:E-to-N-right",
+        "ew-wb-split-2-split-split-2"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:N-to-E-semi",
+        "ew-eb-split"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:N-to-E-semi",
+        "ns-sb-split-3-split-split-split-split"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:N-to-W-right",
+        "ew-wb-split-split-split-3"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:N-to-W-right",
+        "ns-sb-split-2-split-split-2"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:W-to-N-semi",
+        "ns-nb-split-split"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "structure.clearance",
+      "ids": [
+        "system-central:W-to-N-semi",
+        "system-central:S-to-W-semi"
+      ],
+      "message": "Crossing clearance 5.2m is below 5.5m"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:W-to-N-semi",
+        "ew-eb-split-4-split-split-split"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:W-to-S-right",
+        "ns-sb-split-split-split-3"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "system-central:W-to-S-right",
+        "ew-eb-split-3-split-split-4"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    }
+  ],
+  "valid": true,
+  "metrics": {
+    "system-central:S-to-E-right": {
+      "elevation": {
+        "beforeMaxGrade": 10.3,
+        "afterMaxGrade": 10.3,
+        "beforeGradeReversals": 3,
+        "afterGradeReversals": 3,
+        "removedControlPoints": 99,
+        "affectedStart": 0,
+        "affectedEnd": 517.61,
+        "maxDeviation": 0,
+        "maxHeightDelta": 0.209,
+        "monotonic": false
+      }
+    },
+    "system-central:E-to-N-right": {
+      "elevation": {
+        "beforeMaxGrade": 11.3,
+        "afterMaxGrade": 11.3,
+        "beforeGradeReversals": 2,
+        "afterGradeReversals": 2,
+        "removedControlPoints": 98,
+        "affectedStart": 0,
+        "affectedEnd": 505.36,
+        "maxDeviation": 0,
+        "maxHeightDelta": 0.091,
+        "monotonic": false
+      }
+    },
+    "system-central:N-to-E-semi": {
+      "elevation": {
+        "beforeMaxGrade": 12.4,
+        "afterMaxGrade": 11.5,
+        "beforeGradeReversals": 9,
+        "afterGradeReversals": 9,
+        "removedControlPoints": 237,
+        "affectedStart": 0,
+        "affectedEnd": 1289.87,
+        "maxDeviation": 0,
+        "maxHeightDelta": 0.15,
+        "monotonic": false
+      }
+    },
+    "system-central:N-to-W-right": {
+      "elevation": {
+        "beforeMaxGrade": 11.7,
+        "afterMaxGrade": 11.5,
+        "beforeGradeReversals": 1,
+        "afterGradeReversals": 1,
+        "removedControlPoints": 101,
+        "affectedStart": 0,
+        "affectedEnd": 488.23,
+        "maxDeviation": 0,
+        "maxHeightDelta": 0.099,
+        "monotonic": false
+      }
+    },
+    "system-central:W-to-N-semi": {
+      "elevation": {
+        "beforeMaxGrade": 24.3,
+        "afterMaxGrade": 11.5,
+        "beforeGradeReversals": 9,
+        "afterGradeReversals": 9,
+        "removedControlPoints": 224,
+        "affectedStart": 0,
+        "affectedEnd": 1236.59,
+        "maxDeviation": 0,
+        "maxHeightDelta": 0.993,
+        "monotonic": false
+      }
+    },
+    "system-central:W-to-S-right": {
+      "elevation": {
+        "beforeMaxGrade": 9.9,
+        "afterMaxGrade": 9.9,
+        "beforeGradeReversals": 3,
+        "afterGradeReversals": 3,
+        "removedControlPoints": 108,
+        "affectedStart": 0,
+        "affectedEnd": 548.8,
+        "maxDeviation": 0,
+        "maxHeightDelta": 0.15,
+        "monotonic": false
+      }
+    }
+  }
+}

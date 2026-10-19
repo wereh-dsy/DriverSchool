@@ -1,0 +1,53 @@
+{
+  "valid": true,
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "network.sparse",
+      "ids": [
+        "regional:v3:G38-extension200:out:1:revision447:revision465",
+        "regional:v3:G38-extension200:in:4:lane4562",
+        "regional:v3:north-river:E-to-S-turbine:deceleration",
+        "regional:v3:north-river:N-to-E-turbine:acceleration",
+        "regional:v3:G38-extension200:out:1:revision447:revision465:lane4578",
+        "regional:v3:G38-extension200:in:4-split",
+        "regional:v3:G38-extension200:out:2-split",
+        "regional:v3:G38-extension200:in:3:revision669:lane4794-split",
+        "regional:v3:G38-extension200:in:4",
+        "regional:v3:G38-extension200:out:2",
+        "regional:v3:G38-extension200:in:3:revision669:lane4794",
+        "regional:v3:G38-extension200:out:2-split-split",
+        "regional:v3:G38-extension200:in:3:revision669",
+        "regional:v3:northeast-north:W-to-N-turbine:acceleration"
+      ],
+      "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "regional:v3:G38-extension200:out:1:revision447:revision465",
+        "regional:v3:north-river:N-to-E-turbine:acceleration"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "regional:v3:G38-extension200:in:3:revision669",
+        "regional:v3:northeast-north:W-to-N-turbine:acceleration"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "regional:v3:G38-extension200:in:4:lane4562",
+        "regional:v3:north-river:E-to-S-turbine:deceleration"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    }
+  ]
+}

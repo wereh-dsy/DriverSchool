@@ -1,0 +1,163 @@
+{
+  "operations": [
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-south-industrial-tie",
+      "position": {
+        "x": 841.0881242068647,
+        "y": 0,
+        "z": 2200
+      },
+      "roadIds": [
+        "v91-ring-south-inner-cd",
+        "v6-logistics-one-split-3-split-2-m91"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "v91-ring-south-industrial-tie",
+      "properties": {
+        "approaches": {}
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-2",
+    "revision": 1,
+    "label": "Edit map",
+    "created": [
+      "v91-ring-south-inner-cd-section-3",
+      "v6-logistics-one-split-3-split-2-m91-section",
+      "v91-ring-south-industrial-tie"
+    ],
+    "modified": [
+      "v91-ring-south-inner-cd",
+      "v6-logistics-one-split-3-split-2-m91",
+      "urban-junction-227",
+      "topology-sign:urban-junction-227|v6-logistics-one-split-3-split-2|end:URBAN_DIRECTION",
+      "v8-port-south-m91",
+      "v6-logistics-one-split-2-m91",
+      "urban-junction-232",
+      "v8-port-works-split-2-c91",
+      "v6-logistics-one-split-2-split-2-m91",
+      "urban-junction-233",
+      "v6-logistics-one-split-2-split-2-split-m91",
+      "v8-port-works-split-split-c91",
+      "urban-junction-234",
+      "v6-logistics-one-split-3-m91",
+      "v8-port-works-c91",
+      "urban-junction-235",
+      "v8-port-south-split-2-m91",
+      "urban-junction-236",
+      "v8-port-south-split-split-2-m91",
+      "v8-port-south-split-split-2-split-2-m91"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 689.0325032556143,
+      "maxX": 1903.9858030048197,
+      "minZ": 1978.9619204990795,
+      "maxZ": 2926.5381892782325
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v91-ring-south-industrial-tie",
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-inner-cd-section-3",
+          "v6-logistics-one-split-3-split-2-m91",
+          "urban-junction-227",
+          "v6-logistics-one-split-3-split-2-m91-section",
+          "topology-sign:urban-junction-227|v6-logistics-one-split-3-split-2|end:URBAN_DIRECTION",
+          "v8-port-south-m91",
+          "v6-logistics-one-split-2-m91",
+          "urban-junction-232",
+          "v8-port-works-split-2-c91",
+          "v6-logistics-one-split-2-split-2-m91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-234",
+          "v6-logistics-one-split-3-m91",
+          "v8-port-works-c91",
+          "urban-junction-235",
+          "v8-port-south-split-2-m91",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91"
+        ],
+        "message": "intersections[6]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v91-ring-south-industrial-tie",
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-inner-cd-section-3",
+          "v6-logistics-one-split-3-split-2-m91",
+          "urban-junction-227",
+          "v6-logistics-one-split-3-split-2-m91-section",
+          "topology-sign:urban-junction-227|v6-logistics-one-split-3-split-2|end:URBAN_DIRECTION",
+          "v8-port-south-m91",
+          "v6-logistics-one-split-2-m91",
+          "urban-junction-232",
+          "v8-port-works-split-2-c91",
+          "v6-logistics-one-split-2-split-2-m91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-234",
+          "v6-logistics-one-split-3-m91",
+          "v8-port-works-c91",
+          "urban-junction-235",
+          "v8-port-south-split-2-m91",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91"
+        ],
+        "message": "intersections[7]: urban-junction-233: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-port-south-split-split-2-m91",
+          "v8-port-yard-split-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "v8-port-works-split-split-c91",
+          "v6-logistics-yard-c91"
+        ],
+        "message": "Crossing clearance 2.8m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "v8-port-works-split-split-c91",
+          "v4-industrial-split-c91"
+        ],
+        "message": "Crossing clearance 3.4m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-cd-section-3",
+          "v91-ring-south-inner-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

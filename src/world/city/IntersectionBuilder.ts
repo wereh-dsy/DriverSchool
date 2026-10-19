@@ -3,9 +3,9 @@ import { makeBox, makeDirectionArrow, makeMarkingRectangle } from '../subject3/g
 import type { Subject3Materials } from '../subject3/materials';
 import { armControlKind, Subject3TrafficSignals } from '../subject3/trafficSignals';
 import { INTERSECTION_LANES, type CityIntersection, type CityMapData } from './CityMapData';
-import { junctionExtent, polylineLength, portsFor, portDirection, roadPoints, rotatePoint, sampleAt } from './geometry';
+import { junctionExtent, polylineLength, portsFor, roadPoints, rotatePoint, sampleAt } from './geometry';
 import { insideIntersectionMarkingFootprint } from './MarkingOwnership';
-import {junctionSurfaceHeight,junctionApproachExtent} from './JunctionSurface';
+import {junctionSurfaceHeight,junctionApproachExtent,junctionSurfaceContains} from './JunctionSurface';
 import {CityTrafficSignals} from './CityTrafficSignals';
 
 export class IntersectionBuilder {
@@ -25,25 +25,54 @@ export class IntersectionBuilder {
       const mesh = makeMarkingRectangle(role,{x,z},yaw,width,depth,this.materials.whitePaint,paintHeight,0.008);
       if(mesh){mesh.userData.markingOwner='intersection';mesh.userData.markingSource=j.id;mesh.userData.markingRole=role;mesh.userData.approachPort=port;root.add(mesh);}
     };
+    // Adjacent crosswalks can overlap on very acute or kinked approaches.
+    // Paint only the first one; the other approach still gets its stop line.
+    const crosswalkBoxes: { x: number; z: number; right: { x: number; z: number }; width: number }[] = [];
+    const crosswalkOverlaps = (a: { x: number; z: number; right: { x: number; z: number }; width: number }, b: { x: number; z: number; right: { x: number; z: number }; width: number }): boolean => {
+      const axes = [a.right, { x: -a.right.z, z: a.right.x }, b.right, { x: -b.right.z, z: b.right.x }];
+      const dx = b.x - a.x, dz = b.z - a.z;
+      for (const axis of axes) {
+        const ra = Math.abs(axis.x * a.right.x + axis.z * a.right.z) * a.width / 2 + Math.abs(axis.x * -a.right.z + axis.z * a.right.x) * 1.5;
+        const rb = Math.abs(axis.x * b.right.x + axis.z * b.right.z) * b.width / 2 + Math.abs(axis.x * -b.right.z + axis.z * b.right.x) * 1.5;
+        if (Math.abs(dx * axis.x + dz * axis.z) > ra + rb) return false;
+      }
+      return true;
+    };
     for (const port of portsFor(j)) {
-      // `d` points outwards along the arm; the served approach travels along -d.
-      // `right` is the approach's right-hand normal so approach lanes stay on one side.
-      const d = portDirection(j,port), right = { x: d.z, z: -d.x }, yaw = Math.atan2(d.x, d.z);
       const c = j.connections.find(c => c.port === port), r = this.map.roads.find(r => r.id === c?.roadId);
       if(!c||!r)continue;
+      // Approach heading comes from the actual road tangent at its mouth, not
+      // the nominal port. Skewed/edited approaches must not get cardinal paint.
+      const path=roadPoints(r), start=c.end==='start', endpoint=start?path[0]!:path.at(-1)!, neighbour=start?path[1]??path[0]!:path.at(-2)??path.at(-1)!;
+      const ox=neighbour.x-endpoint.x, oz=neighbour.z-endpoint.z, ol=Math.hypot(ox,oz)||1;
+      // `d` points outwards along the arm; the served approach travels along -d.
+      // `right` is the approach's right-hand normal so approach lanes stay on one side.
+      const d = rotatePoint({x:ox/ol,z:oz/ol},-j.rotation), right = { x: d.z, z: -d.x }, yaw = Math.atan2(d.x, d.z);
       const h=junctionApproachExtent(j,this.map,port);
-      const mouth=j.approachOffsets?.[port],anchor=mouth?{x:mouth.x-d.x*h,z:mouth.z-d.z*h}:{x:0,z:0};
+      // Paint must follow the authoritative pavement boundary. The actual
+      // approach mouth is the road endpoint, not a fixed offset from center.
+      const localMouth=j.approachOffsets?.[port]??rotatePoint({x:endpoint.x-j.position.x,z:endpoint.z-j.position.z},-j.rotation);
+      const toWorld=(x:number,z:number)=>rotatePoint({x,z},j.rotation);
+      const insidePavement=(x:number,z:number)=>{const w=toWorld(x,z);return junctionSurfaceContains(j,this.map,{x:j.position.x+w.x,y:j.position.y??0,z:j.position.z+w.z},0.15);};
+      // Walk just outside the final footprint before placing stop line/crosswalk.
+      let boundaryOffset=0.8;
+      while(boundaryOffset<30&&insidePavement(localMouth.x+d.x*boundaryOffset,localMouth.z+d.z*boundaryOffset))boundaryOffset+=0.4;
+      const paintApproach=boundaryOffset<30;
+      const crossOffset=boundaryOffset+2.2, stopOffset=crossOffset+2.2;
       const width = r ? r.laneCount * r.laneWidth : INTERSECTION_LANES[j.type] * 3.5;
       const laneWidth = r?.laneWidth ?? 3.5;
       const laneCount = r?.laneCount ?? INTERSECTION_LANES[j.type];
       const incoming = !r || r.travelDirection === 'two-way' || (r.travelDirection === 'forward') === (c?.end === 'end');
-      // Junction paint runs outside-in along the arm: approach arrows, then the
-      // stop line, then the pedestrian crossing, then the conflict box.
-      if(j.signalized)for (let offset = -width / 2 + 0.6; offset < width / 2; offset += 1.15) paint(anchor.x+d.x * (h - 4.6) + right.x * offset, anchor.z+d.z * (h - 4.6) + right.z * offset, yaw, 0.55, 3,'crosswalk',port);
+      // Entering traffic moves along -d: stop line, zebra, then pavement.
+      // Arrows stay farther out. Nothing is placed inside the conflict box.
+      const crosswalk = { x: localMouth.x + d.x * crossOffset, z: localMouth.z + d.z * crossOffset, right, width };
+      const drawCrosswalk = j.signalized && paintApproach && !crosswalkBoxes.some(box => crosswalkOverlaps(crosswalk, box));
+      if(drawCrosswalk)crosswalkBoxes.push(crosswalk);
+      if(drawCrosswalk)for (let offset = -width / 2 + 0.6; offset < width / 2; offset += 1.15) paint(crosswalk.x + right.x * offset, crosswalk.z + right.z * offset, yaw, 0.55, 3,'crosswalk',port);
       if (incoming&&r&&c) {
         const twoWay = !r || r.travelDirection === 'two-way', approachWidth = twoWay ? width / 2 : width;
         const lateral = twoWay ? width / 4 : 0;
-        if(j.signalized)paint(anchor.x+d.x * (h - 1) + right.x * lateral,anchor.z+d.z * (h - 1) + right.z * lateral,yaw,approachWidth-0.25,0.35,'stop line',port);
+        if(j.signalized&&paintApproach)paint(localMouth.x+d.x * stopOffset + right.x * lateral,localMouth.z+d.z * stopOffset + right.z * lateral,yaw,approachWidth-0.25,0.35,'stop line',port);
         const count = twoWay ? laneCount / 2 : laneCount;
         const approach=j.approaches?.[port];
         for (let lane = 0; lane < Math.min(count,approach?.lanes.length??0); lane++) {
@@ -70,8 +99,9 @@ export class IntersectionBuilder {
         // Far-side pole: beyond the conflict box and the opposite crossing, on the
         // served approach's right, with its arm reaching back over the approach lanes.
         const headHeight=signals instanceof CityTrafficSignals&&j.signals?.profile?Math.max(7.2,j.signals.headHeight??7.2):j.signals?.headHeight??5.8;
-        const base=rotatePoint(anchor,j.rotation),poleOrigin={x:j.position.x+base.x,z:j.position.z+base.z};
-        const center = signals instanceof CityTrafficSignals&&j.signals?.profile?signals.placePole(index,outward,worldRight,h,width,headHeight,poleOrigin):{ x: poleOrigin.x - outward.x * (h + 1) + worldRight.x * lateral, z: poleOrigin.z - outward.z * (h + 1) + worldRight.z * lateral };
+        const reach=Math.max(h,Math.hypot(localMouth.x,localMouth.z));
+        const base=rotatePoint(localMouth,j.rotation),poleOrigin={x:j.position.x+base.x,z:j.position.z+base.z};
+        const center = signals instanceof CityTrafficSignals&&j.signals?.profile?signals.placePole(index,outward,worldRight,reach,width,headHeight,poleOrigin):{ x: poleOrigin.x - outward.x * (reach + 1) + worldRight.x * lateral, z: poleOrigin.z - outward.z * (reach + 1) + worldRight.z * lateral };
         signals.addHead(index, { segmentId: r?.id ?? `${j.id}:${port}`, outward, right: worldRight,
           approachYawRadians: yaw + j.rotation, approachLaneCount: r?.travelDirection === 'two-way' ? laneCount / 2 : laneCount, approachLaneWidth: laneWidth, roadWidth: width, controlKind: armControlKind(d) },
           center, Math.atan2(-outward.x, -outward.z), this.materials, true, headHeight);

@@ -1,0 +1,1173 @@
+{
+  "definitions": [
+    {
+      "id": "access-ew-west-eb-on",
+      "from": {
+        "name": "v9-chengjing-road",
+        "x": -760,
+        "z": -102,
+        "kind": "frontage"
+      },
+      "to": {
+        "name": "east-west-expressway",
+        "x": -610,
+        "z": -127,
+        "kind": "expressway"
+      },
+      "kind": "on"
+    },
+    {
+      "id": "access-ew-west-wb-off",
+      "from": {
+        "name": "east-west-expressway",
+        "x": -610,
+        "z": -149,
+        "kind": "expressway"
+      },
+      "to": {
+        "name": "v9-chengjing-road",
+        "x": -760,
+        "z": -198,
+        "kind": "frontage"
+      },
+      "kind": "off"
+    },
+    {
+      "id": "access-ns-north-sb-off",
+      "from": {
+        "name": "north-south-expressway",
+        "x": -8,
+        "z": -1800,
+        "kind": "expressway"
+      },
+      "to": {
+        "name": "v9-wangchuan-road",
+        "x": -48,
+        "z": -1620,
+        "kind": "frontage"
+      },
+      "kind": "off"
+    },
+    {
+      "id": "access-ns-north-nb-on",
+      "from": {
+        "name": "v9-wangchuan-road",
+        "x": 48,
+        "z": -1620,
+        "kind": "frontage"
+      },
+      "to": {
+        "name": "north-south-expressway",
+        "x": 8,
+        "z": -1800,
+        "kind": "expressway"
+      },
+      "kind": "on"
+    },
+    {
+      "id": "access-ns-north-sb-on",
+      "from": {
+        "name": "v9-wangchuan-road",
+        "x": -48,
+        "z": -1220,
+        "kind": "frontage"
+      },
+      "to": {
+        "name": "north-south-expressway",
+        "x": 8,
+        "z": -985,
+        "kind": "expressway"
+      },
+      "kind": "on"
+    },
+    {
+      "id": "access-ns-north-nb-off",
+      "from": {
+        "name": "north-south-expressway",
+        "x": 25,
+        "z": -985,
+        "kind": "expressway"
+      },
+      "to": {
+        "name": "v9-wangchuan-road",
+        "x": 48,
+        "z": -1220,
+        "kind": "frontage"
+      },
+      "kind": "off"
+    }
+  ],
+  "operations": [
+    {
+      "op": "createRamp",
+      "id": "access-ew-west-eb-on",
+      "fromRoadId": "v91-ew-0-a-6",
+      "toRoadId": "ew-eb-split-4-split-split",
+      "fromDistance": 35,
+      "toDistance": 265.19447753837,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "access-ew-west-wb-off",
+      "fromRoadId": "ew-wb-split-split-split-split-4",
+      "toRoadId": "v91-ew-0-b-6",
+      "fromDistance": 38.46889038498476,
+      "toDistance": 35,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "access-ns-north-sb-off",
+      "fromRoadId": "ns-sb-split-3-split-split",
+      "toRoadId": "v91-ns-0-a-3",
+      "fromDistance": 114.99782398980103,
+      "toDistance": 585.8333333333335,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "access-ns-north-nb-on",
+      "fromRoadId": "v91-ns-0-b-3",
+      "toRoadId": "ns-nb-split-split-split-split-split-split-2",
+      "fromDistance": 585.8333333333335,
+      "toDistance": 129.93824062822452,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "access-ns-north-sb-on",
+      "fromRoadId": "v91-ns-0-a-4",
+      "toRoadId": "ns-sb-split-3-split-split-split",
+      "fromDistance": 237.77777777777783,
+      "toDistance": 296.33560298068403,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "access-ns-north-nb-off",
+      "fromRoadId": "system-north:feeder-1",
+      "toRoadId": "v91-ns-0-b-4",
+      "fromDistance": 28.826494958064227,
+      "toDistance": 237.77777777777783,
+      "kind": "off",
+      "lanes": 1
+    }
+  ],
+  "receipts": [
+    {
+      "id": "preview-1",
+      "revision": 0,
+      "label": "Edit map",
+      "created": [
+        "v91-ew-0-a-6-section",
+        "ew-eb-split-4-split-split-section",
+        "access-ew-west-eb-on"
+      ],
+      "modified": [
+        "v91-ew-0-a-6",
+        "ew-eb-split-4-split-split",
+        "urban-junction-4",
+        "topology-sign:endpoint:ew-eb-split-4-split-split:end|ew-eb-split-4-split-split|end:EXPRESSWAY_ADVANCE",
+        "topology-sign:endpoint:ew-eb-split-4-split-split:end|ew-eb-split-4-split-split|end:EXPRESSWAY_DIVERGE",
+        "v5-civic-avenue-split-split-3-v91-m91",
+        "v5-civic-avenue-split-split-3-split-2-v91-m91",
+        "v91-ew-0-a-7",
+        "v91-ew-0-b-6",
+        "v91-ew-0-b-7",
+        "urban-junction-5",
+        "v4-civic-collector-split-split-split-2-v91-m91",
+        "v4-civic-collector-split-split-split-2-split-2-v91-m91",
+        "v91-ew-0-a-8",
+        "v91-ew-0-b-8",
+        "urban-junction-6",
+        "v5-civic-west-split-split-2-split-2-v91-m91",
+        "v5-civic-west-split-split-2-split-2-split-2-v91-m91",
+        "v91-ew-0-a-5",
+        "v91-ew-0-b-5",
+        "urban-junction-7",
+        "v5-civic-block-road-split-2-split-2-v91-m91",
+        "v5-civic-block-road-split-2-split-2-split-2-v91-m91",
+        "v911-plaza-west-eb",
+        "v911-plaza-west-wb",
+        "urban-junction-182",
+        "v8-gongren-street-split-split-2-split-2-v91-m91",
+        "v8-gongren-street-split-split-2-split-v91-m91",
+        "v91-ew-0-a-4",
+        "v91-ew-0-b-4",
+        "urban-junction-238",
+        "v8-gongren-street-split-split-2-m91-section",
+        "v8-chengan-road-c91",
+        "v91-local-junction-3",
+        "v5-civic-north-m91",
+        "v5-civic-north-m91-section",
+        "v8-gongren-street-split-split-2-m91-section-2",
+        "v91-local-junction-5",
+        "v4-inner-0-split-split-m91-section",
+        "v8-gongren-street-split-split-2-m91",
+        "direction-inner-nw",
+        "v91-local-junction-9",
+        "v5-civic-middle-c91",
+        "v5-civic-middle-c91-section",
+        "v8-gongren-street-split-split-2-split-v91-m91-section",
+        "v911-plaza-axis-north",
+        "v911-plaza-east-wb",
+        "v911-plaza-north-sb",
+        "v911-plaza-middle-sb",
+        "v911-plaza-north-nb",
+        "v911-plaza-middle-nb",
+        "v911-plaza-axis-south",
+        "v911-plaza-east-eb",
+        "v911-plaza-south-sb",
+        "v911-plaza-south-nb"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1259.236712567339,
+        "maxX": 473.6,
+        "minZ": -998.95,
+        "maxZ": 500.95
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "v91-ew-0-a-6",
+            "ew-eb-split-4-split-split",
+            "urban-junction-4",
+            "v91-ew-0-a-6-section",
+            "ew-eb-split-4-split-split-section",
+            "topology-sign:endpoint:ew-eb-split-4-split-split:end|ew-eb-split-4-split-split|end:EXPRESSWAY_ADVANCE",
+            "topology-sign:endpoint:ew-eb-split-4-split-split:end|ew-eb-split-4-split-split|end:EXPRESSWAY_DIVERGE",
+            "access-ew-west-eb-on",
+            "v5-civic-avenue-split-split-3-v91-m91",
+            "v5-civic-avenue-split-split-3-split-2-v91-m91",
+            "v91-ew-0-a-7",
+            "v91-ew-0-b-6",
+            "v91-ew-0-b-7",
+            "urban-junction-5",
+            "v4-civic-collector-split-split-split-2-v91-m91",
+            "v4-civic-collector-split-split-split-2-split-2-v91-m91",
+            "v91-ew-0-a-8",
+            "v91-ew-0-b-8",
+            "urban-junction-6",
+            "v5-civic-west-split-split-2-split-2-v91-m91",
+            "v5-civic-west-split-split-2-split-2-split-2-v91-m91",
+            "v91-ew-0-a-5",
+            "v91-ew-0-b-5",
+            "urban-junction-7",
+            "v5-civic-block-road-split-2-split-2-v91-m91",
+            "v5-civic-block-road-split-2-split-2-split-2-v91-m91",
+            "v911-plaza-west-eb",
+            "v911-plaza-west-wb",
+            "urban-junction-182",
+            "v8-gongren-street-split-split-2-split-2-v91-m91",
+            "v8-gongren-street-split-split-2-split-v91-m91",
+            "v91-ew-0-a-4",
+            "v91-ew-0-b-4",
+            "urban-junction-238",
+            "v8-gongren-street-split-split-2-m91-section",
+            "v8-chengan-road-c91",
+            "v91-local-junction-3",
+            "v5-civic-north-m91",
+            "v5-civic-north-m91-section",
+            "v8-gongren-street-split-split-2-m91-section-2",
+            "v91-local-junction-5",
+            "v4-inner-0-split-split-m91-section",
+            "v8-gongren-street-split-split-2-m91",
+            "direction-inner-nw",
+            "v91-local-junction-9",
+            "v5-civic-middle-c91",
+            "v5-civic-middle-c91-section",
+            "v8-gongren-street-split-split-2-split-v91-m91-section",
+            "v911-plaza-axis-north",
+            "v911-plaza-east-wb",
+            "v911-plaza-north-sb",
+            "v911-plaza-middle-sb",
+            "v911-plaza-north-nb",
+            "v911-plaza-middle-nb",
+            "v911-plaza-axis-south",
+            "v911-plaza-east-eb",
+            "v911-plaza-south-sb",
+            "v911-plaza-south-nb"
+          ],
+          "message": "intersections[3]: urban-junction-140: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "expressway.unconnected-crossing",
+          "ids": [
+            "access-ew-west-eb-on",
+            "ew-eb-split-4-split-split"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "access-ew-west-eb-on",
+            "v91-ew-0-a-6-section"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-2",
+      "revision": 1,
+      "label": "Edit map",
+      "created": [
+        "ew-wb-split-split-split-split-4-section",
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "modified": [
+        "ew-wb-split-split-split-split-4",
+        "v91-ew-0-b-6",
+        "urban-junction-4",
+        "v5-civic-avenue-split-split-3-v91-m91",
+        "v5-civic-avenue-split-split-3-split-2-v91-m91",
+        "v91-ew-0-a-6-section",
+        "v91-ew-0-a-7",
+        "v91-ew-0-b-7",
+        "urban-junction-5",
+        "v4-civic-collector-split-split-split-2-v91-m91",
+        "v4-civic-collector-split-split-split-2-split-2-v91-m91",
+        "v91-ew-0-a-8",
+        "v91-ew-0-b-8",
+        "urban-junction-6",
+        "v5-civic-west-split-split-2-split-2-v91-m91",
+        "v5-civic-west-split-split-2-split-2-split-2-v91-m91",
+        "v91-ew-0-a-5",
+        "v91-ew-0-a-6",
+        "v91-ew-0-b-5",
+        "urban-junction-7",
+        "v5-civic-block-road-split-2-split-2-v91-m91",
+        "v5-civic-block-road-split-2-split-2-split-2-v91-m91",
+        "v911-plaza-west-eb",
+        "v911-plaza-west-wb",
+        "urban-junction-182",
+        "v8-gongren-street-split-split-2-split-2-v91-m91",
+        "v8-gongren-street-split-split-2-split-v91-m91",
+        "v91-ew-0-a-4",
+        "v91-ew-0-b-4",
+        "urban-junction-238",
+        "v8-gongren-street-split-split-2-m91-section",
+        "v8-chengan-road-c91",
+        "v91-local-junction-3",
+        "v5-civic-north-m91",
+        "v5-civic-north-m91-section",
+        "v8-gongren-street-split-split-2-m91-section-2",
+        "v91-local-junction-5",
+        "v4-inner-0-split-split-m91-section",
+        "v8-gongren-street-split-split-2-m91",
+        "direction-inner-nw",
+        "v91-local-junction-9",
+        "v5-civic-middle-c91",
+        "v5-civic-middle-c91-section",
+        "v8-gongren-street-split-split-2-split-v91-m91-section",
+        "v911-plaza-axis-north",
+        "v911-plaza-east-wb",
+        "v911-plaza-north-sb",
+        "v911-plaza-middle-sb",
+        "v911-plaza-north-nb",
+        "v911-plaza-middle-nb",
+        "v911-plaza-axis-south",
+        "v911-plaza-east-eb",
+        "v911-plaza-south-sb",
+        "v911-plaza-south-nb"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1259.236712567339,
+        "maxX": 473.6,
+        "minZ": -998.95,
+        "maxZ": 500.95
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "ew-wb-split-split-split-split-4",
+            "v91-ew-0-b-6",
+            "ew-wb-split-split-split-split-4-section",
+            "urban-junction-4",
+            "v91-ew-0-b-6-section",
+            "access-ew-west-wb-off",
+            "v5-civic-avenue-split-split-3-v91-m91",
+            "v5-civic-avenue-split-split-3-split-2-v91-m91",
+            "v91-ew-0-a-6-section",
+            "v91-ew-0-a-7",
+            "v91-ew-0-b-7",
+            "urban-junction-5",
+            "v4-civic-collector-split-split-split-2-v91-m91",
+            "v4-civic-collector-split-split-split-2-split-2-v91-m91",
+            "v91-ew-0-a-8",
+            "v91-ew-0-b-8",
+            "urban-junction-6",
+            "v5-civic-west-split-split-2-split-2-v91-m91",
+            "v5-civic-west-split-split-2-split-2-split-2-v91-m91",
+            "v91-ew-0-a-5",
+            "v91-ew-0-a-6",
+            "v91-ew-0-b-5",
+            "urban-junction-7",
+            "v5-civic-block-road-split-2-split-2-v91-m91",
+            "v5-civic-block-road-split-2-split-2-split-2-v91-m91",
+            "v911-plaza-west-eb",
+            "v911-plaza-west-wb",
+            "urban-junction-182",
+            "v8-gongren-street-split-split-2-split-2-v91-m91",
+            "v8-gongren-street-split-split-2-split-v91-m91",
+            "v91-ew-0-a-4",
+            "v91-ew-0-b-4",
+            "urban-junction-238",
+            "v8-gongren-street-split-split-2-m91-section",
+            "v8-chengan-road-c91",
+            "v91-local-junction-3",
+            "v5-civic-north-m91",
+            "v5-civic-north-m91-section",
+            "v8-gongren-street-split-split-2-m91-section-2",
+            "v91-local-junction-5",
+            "v4-inner-0-split-split-m91-section",
+            "v8-gongren-street-split-split-2-m91",
+            "direction-inner-nw",
+            "v91-local-junction-9",
+            "v5-civic-middle-c91",
+            "v5-civic-middle-c91-section",
+            "v8-gongren-street-split-split-2-split-v91-m91-section",
+            "v911-plaza-axis-north",
+            "v911-plaza-east-wb",
+            "v911-plaza-north-sb",
+            "v911-plaza-middle-sb",
+            "v911-plaza-north-nb",
+            "v911-plaza-middle-nb",
+            "v911-plaza-axis-south",
+            "v911-plaza-east-eb",
+            "v911-plaza-south-sb",
+            "v911-plaza-south-nb"
+          ],
+          "message": "intersections[3]: urban-junction-140: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "v91-ew-0-a-6-section",
+            "access-ew-west-eb-on"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "expressway.unconnected-crossing",
+          "ids": [
+            "access-ew-west-wb-off",
+            "ew-wb-split-split-split-split-4-section"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "access-ew-west-wb-off",
+            "v91-ew-0-b-6-section"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-3",
+      "revision": 2,
+      "label": "Edit map",
+      "created": [
+        "ns-sb-split-3-split-split-section",
+        "v91-ns-0-a-3-section",
+        "access-ns-north-sb-off"
+      ],
+      "modified": [
+        "ns-sb-split-3-split-split",
+        "v91-ns-0-a-3",
+        "urban-junction-32",
+        "v6-campus-west-split-v91",
+        "v91-ns-0-a-4",
+        "v91-ns-0-b-3",
+        "v91-ns-0-b-4",
+        "urban-junction-214",
+        "v8-campus-south-v91-section",
+        "v8-campus-south-split-v91",
+        "v91-ns-0-a-2",
+        "v91-ns-0-b-2",
+        "v91-shared-north-avenue-ns",
+        "v4-north-split-3-split-split-2-split-2-split-m91",
+        "v4-north-split-3-split-split-2-split-2-split-m91-section",
+        "v91-ns-0-a-4-section-2",
+        "v91-ns-0-b-4-section-2",
+        "direction-north-campus-t",
+        "direction-north-avenue-section",
+        "v8-campus-south-split-v91-section",
+        "direction-campus-south-t",
+        "direction-campus-west-north",
+        "direction-north-avenue",
+        "access-finance-north-source",
+        "access-finance-north",
+        "v8-campus-south-v91",
+        "access-finance-north-cross-1",
+        "access-finance-north-section",
+        "v5-north-campus-split",
+        "v5-north-campus-split-section",
+        "access-finance-north-cross-2",
+        "access-finance-north-section-section",
+        "v4-north-split-3-split-split-2-split-m91",
+        "v4-north-split-3-split-split-2-split-m91-section",
+        "access-central-north-source",
+        "access-central-north",
+        "v5-north-campus-split-section-section",
+        "access-central-north-cross-1",
+        "access-central-north-section",
+        "v4-north-split-3-split-split-2-split-m91-section-section",
+        "access-central-north-cross-2",
+        "access-central-north-section-section",
+        "v4-inner-1-split-2-m91",
+        "v4-inner-1-split-2-m91-section"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1756.7730062672488,
+        "maxX": 1197.0263597689254,
+        "minZ": -2806.8378038512787,
+        "maxZ": -540.2436059618942
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "ns-sb-split-3-split-split",
+            "v91-ns-0-a-3",
+            "ns-sb-split-3-split-split-section",
+            "urban-junction-32",
+            "v91-ns-0-a-3-section",
+            "access-ns-north-sb-off",
+            "v6-campus-west-split-v91",
+            "v91-ns-0-a-4",
+            "v91-ns-0-b-3",
+            "v91-ns-0-b-4",
+            "urban-junction-214",
+            "v8-campus-south-v91-section",
+            "v8-campus-south-split-v91",
+            "v91-ns-0-a-2",
+            "v91-ns-0-b-2",
+            "v91-shared-north-avenue-ns",
+            "v4-north-split-3-split-split-2-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-2-split-m91-section",
+            "v91-ns-0-a-4-section-2",
+            "v91-ns-0-b-4-section-2",
+            "direction-north-campus-t",
+            "direction-north-avenue-section",
+            "v8-campus-south-split-v91-section",
+            "direction-campus-south-t",
+            "direction-campus-west-north",
+            "direction-north-avenue",
+            "access-finance-north-source",
+            "access-finance-north",
+            "v8-campus-south-v91",
+            "access-finance-north-cross-1",
+            "access-finance-north-section",
+            "v5-north-campus-split",
+            "v5-north-campus-split-section",
+            "access-finance-north-cross-2",
+            "access-finance-north-section-section",
+            "v4-north-split-3-split-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-m91-section",
+            "access-central-north-source",
+            "access-central-north",
+            "v5-north-campus-split-section-section",
+            "access-central-north-cross-1",
+            "access-central-north-section",
+            "v4-north-split-3-split-split-2-split-m91-section-section",
+            "access-central-north-cross-2",
+            "access-central-north-section-section",
+            "v4-inner-1-split-2-m91",
+            "v4-inner-1-split-2-m91-section"
+          ],
+          "message": "intersections[15]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "ns-sb-split-3-split-split",
+            "v91-ns-0-a-3",
+            "ns-sb-split-3-split-split-section",
+            "urban-junction-32",
+            "v91-ns-0-a-3-section",
+            "access-ns-north-sb-off",
+            "v6-campus-west-split-v91",
+            "v91-ns-0-a-4",
+            "v91-ns-0-b-3",
+            "v91-ns-0-b-4",
+            "urban-junction-214",
+            "v8-campus-south-v91-section",
+            "v8-campus-south-split-v91",
+            "v91-ns-0-a-2",
+            "v91-ns-0-b-2",
+            "v91-shared-north-avenue-ns",
+            "v4-north-split-3-split-split-2-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-2-split-m91-section",
+            "v91-ns-0-a-4-section-2",
+            "v91-ns-0-b-4-section-2",
+            "direction-north-campus-t",
+            "direction-north-avenue-section",
+            "v8-campus-south-split-v91-section",
+            "direction-campus-south-t",
+            "direction-campus-west-north",
+            "direction-north-avenue",
+            "access-finance-north-source",
+            "access-finance-north",
+            "v8-campus-south-v91",
+            "access-finance-north-cross-1",
+            "access-finance-north-section",
+            "v5-north-campus-split",
+            "v5-north-campus-split-section",
+            "access-finance-north-cross-2",
+            "access-finance-north-section-section",
+            "v4-north-split-3-split-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-m91-section",
+            "access-central-north-source",
+            "access-central-north",
+            "v5-north-campus-split-section-section",
+            "access-central-north-cross-1",
+            "access-central-north-section",
+            "v4-north-split-3-split-split-2-split-m91-section-section",
+            "access-central-north-cross-2",
+            "access-central-north-section-section",
+            "v4-inner-1-split-2-m91",
+            "v4-inner-1-split-2-m91-section"
+          ],
+          "message": "intersections[17]: direction-campus-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "v4-inner-1-split-2-m91-section",
+            "v4-access-16-m91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "access-ns-north-sb-off",
+            "v91-ns-0-a-3"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "expressway.unconnected-crossing",
+          "ids": [
+            "access-ns-north-sb-off",
+            "ns-sb-split-3-split-split-section"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-4",
+      "revision": 3,
+      "label": "Edit map",
+      "created": [
+        "v91-ns-0-b-3-section",
+        "ns-nb-split-split-split-split-split-split-2-section",
+        "access-ns-north-nb-on"
+      ],
+      "modified": [
+        "v91-ns-0-b-3",
+        "ns-nb-split-split-split-split-split-split-2",
+        "urban-junction-32",
+        "v6-campus-west-split-v91",
+        "v91-ns-0-a-3-section",
+        "v91-ns-0-a-4",
+        "v91-ns-0-b-4",
+        "urban-junction-214",
+        "v8-campus-south-v91-section",
+        "v8-campus-south-split-v91",
+        "v91-ns-0-a-2",
+        "v91-ns-0-a-3",
+        "v91-ns-0-b-2",
+        "v91-shared-north-avenue-ns",
+        "v4-north-split-3-split-split-2-split-2-split-m91",
+        "v4-north-split-3-split-split-2-split-2-split-m91-section",
+        "v91-ns-0-a-4-section-2",
+        "v91-ns-0-b-4-section-2",
+        "direction-north-campus-t",
+        "direction-north-avenue-section",
+        "v8-campus-south-split-v91-section",
+        "direction-campus-south-t",
+        "direction-campus-west-north",
+        "direction-north-avenue",
+        "access-finance-north-source",
+        "access-finance-north",
+        "v8-campus-south-v91",
+        "access-finance-north-cross-1",
+        "access-finance-north-section",
+        "v5-north-campus-split",
+        "v5-north-campus-split-section",
+        "access-finance-north-cross-2",
+        "access-finance-north-section-section",
+        "v4-north-split-3-split-split-2-split-m91",
+        "v4-north-split-3-split-split-2-split-m91-section",
+        "access-central-north-source",
+        "access-central-north",
+        "v5-north-campus-split-section-section",
+        "access-central-north-cross-1",
+        "access-central-north-section",
+        "v4-north-split-3-split-split-2-split-m91-section-section",
+        "access-central-north-cross-2",
+        "access-central-north-section-section",
+        "v4-inner-1-split-2-m91",
+        "v4-inner-1-split-2-m91-section"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1756.7730062672488,
+        "maxX": 1197.0263597689254,
+        "minZ": -2806.8378038512787,
+        "maxZ": -540.2436059618942
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "v91-ns-0-b-3",
+            "ns-nb-split-split-split-split-split-split-2",
+            "urban-junction-32",
+            "v91-ns-0-b-3-section",
+            "ns-nb-split-split-split-split-split-split-2-section",
+            "access-ns-north-nb-on",
+            "v6-campus-west-split-v91",
+            "v91-ns-0-a-3-section",
+            "v91-ns-0-a-4",
+            "v91-ns-0-b-4",
+            "urban-junction-214",
+            "v8-campus-south-v91-section",
+            "v8-campus-south-split-v91",
+            "v91-ns-0-a-2",
+            "v91-ns-0-a-3",
+            "v91-ns-0-b-2",
+            "v91-shared-north-avenue-ns",
+            "v4-north-split-3-split-split-2-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-2-split-m91-section",
+            "v91-ns-0-a-4-section-2",
+            "v91-ns-0-b-4-section-2",
+            "direction-north-campus-t",
+            "direction-north-avenue-section",
+            "v8-campus-south-split-v91-section",
+            "direction-campus-south-t",
+            "direction-campus-west-north",
+            "direction-north-avenue",
+            "access-finance-north-source",
+            "access-finance-north",
+            "v8-campus-south-v91",
+            "access-finance-north-cross-1",
+            "access-finance-north-section",
+            "v5-north-campus-split",
+            "v5-north-campus-split-section",
+            "access-finance-north-cross-2",
+            "access-finance-north-section-section",
+            "v4-north-split-3-split-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-m91-section",
+            "access-central-north-source",
+            "access-central-north",
+            "v5-north-campus-split-section-section",
+            "access-central-north-cross-1",
+            "access-central-north-section",
+            "v4-north-split-3-split-split-2-split-m91-section-section",
+            "access-central-north-cross-2",
+            "access-central-north-section-section",
+            "v4-inner-1-split-2-m91",
+            "v4-inner-1-split-2-m91-section"
+          ],
+          "message": "intersections[15]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "v91-ns-0-b-3",
+            "ns-nb-split-split-split-split-split-split-2",
+            "urban-junction-32",
+            "v91-ns-0-b-3-section",
+            "ns-nb-split-split-split-split-split-split-2-section",
+            "access-ns-north-nb-on",
+            "v6-campus-west-split-v91",
+            "v91-ns-0-a-3-section",
+            "v91-ns-0-a-4",
+            "v91-ns-0-b-4",
+            "urban-junction-214",
+            "v8-campus-south-v91-section",
+            "v8-campus-south-split-v91",
+            "v91-ns-0-a-2",
+            "v91-ns-0-a-3",
+            "v91-ns-0-b-2",
+            "v91-shared-north-avenue-ns",
+            "v4-north-split-3-split-split-2-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-2-split-m91-section",
+            "v91-ns-0-a-4-section-2",
+            "v91-ns-0-b-4-section-2",
+            "direction-north-campus-t",
+            "direction-north-avenue-section",
+            "v8-campus-south-split-v91-section",
+            "direction-campus-south-t",
+            "direction-campus-west-north",
+            "direction-north-avenue",
+            "access-finance-north-source",
+            "access-finance-north",
+            "v8-campus-south-v91",
+            "access-finance-north-cross-1",
+            "access-finance-north-section",
+            "v5-north-campus-split",
+            "v5-north-campus-split-section",
+            "access-finance-north-cross-2",
+            "access-finance-north-section-section",
+            "v4-north-split-3-split-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-m91-section",
+            "access-central-north-source",
+            "access-central-north",
+            "v5-north-campus-split-section-section",
+            "access-central-north-cross-1",
+            "access-central-north-section",
+            "v4-north-split-3-split-split-2-split-m91-section-section",
+            "access-central-north-cross-2",
+            "access-central-north-section-section",
+            "v4-inner-1-split-2-m91",
+            "v4-inner-1-split-2-m91-section"
+          ],
+          "message": "intersections[17]: direction-campus-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "v91-ns-0-a-3",
+            "access-ns-north-sb-off"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "v4-inner-1-split-2-m91-section",
+            "v4-access-16-m91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "expressway.unconnected-crossing",
+          "ids": [
+            "ns-nb-split-split-split-split-split-split-2-section",
+            "system-north:E-to-N-right"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "expressway.unconnected-crossing",
+          "ids": [
+            "access-ns-north-nb-on",
+            "ns-nb-split-split-split-split-split-split-2"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "access-ns-north-nb-on",
+            "v91-ns-0-b-3"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-5",
+      "revision": 4,
+      "label": "Edit map",
+      "created": [
+        "v91-ns-0-a-4-section-3",
+        "ns-sb-split-3-split-split-split-section",
+        "access-ns-north-sb-on"
+      ],
+      "modified": [
+        "v91-ns-0-a-4",
+        "ns-sb-split-3-split-split-split",
+        "v91-shared-north-avenue-ns",
+        "topology-sign:endpoint:ns-sb-split-3-split-split-split:end|ns-sb-split-3-split-split-split|end:EXPRESSWAY_ADVANCE",
+        "topology-sign:endpoint:ns-sb-split-3-split-split-split:end|ns-sb-split-3-split-split-split|end:EXPRESSWAY_DIVERGE",
+        "urban-junction-32",
+        "v6-campus-west-split-v91",
+        "v91-ns-0-a-3-section",
+        "v91-ns-0-b-3-section",
+        "v91-ns-0-b-4",
+        "v4-north-split-3-split-split-2-split-2-split-m91",
+        "v4-north-split-3-split-split-2-split-2-split-m91-section",
+        "v91-ns-0-a-4-section-2",
+        "v91-ns-0-b-4-section-2"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -241.29003329734897,
+        "maxX": 491.9021069760407,
+        "minZ": -1633.6,
+        "maxZ": -770.375
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "access-ns-north-sb-on",
+            "v91-ns-0-a-4-section-3"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-6",
+      "revision": 5,
+      "label": "Edit map",
+      "created": [
+        "system-north:feeder-1-section",
+        "v91-ns-0-b-4-section-3",
+        "access-ns-north-nb-off"
+      ],
+      "modified": [
+        "system-north:feeder-1",
+        "v91-ns-0-b-4",
+        "road-safety:system-north:feeder-1:false:speed:35",
+        "topology-sign:endpoint:ns-nb-split-split-split-split-split-v6:end|ns-nb-split-split-split-split-split-v6|end:EXPRESSWAY_ADVANCE",
+        "v91-shared-north-avenue-ns",
+        "urban-junction-32",
+        "v6-campus-west-split-v91",
+        "v91-ns-0-a-3-section",
+        "v91-ns-0-a-4",
+        "v91-ns-0-b-3-section",
+        "v4-north-split-3-split-split-2-split-2-split-m91",
+        "v4-north-split-3-split-split-2-split-2-split-m91-section",
+        "v91-ns-0-a-4-section-3",
+        "v91-ns-0-a-4-section-2",
+        "v91-ns-0-b-4-section-2"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -241.29003329734897,
+        "maxX": 491.9021069760407,
+        "minZ": -1633.6,
+        "maxZ": -847.0846021846452
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "network.sparse",
+          "ids": [
+            "system-north:feeder-1",
+            "v91-ns-0-b-4",
+            "system-north:feeder-1-section",
+            "road-safety:system-north:feeder-1:false:speed:35",
+            "topology-sign:endpoint:ns-nb-split-split-split-split-split-v6:end|ns-nb-split-split-split-split-split-v6|end:EXPRESSWAY_ADVANCE",
+            "v91-shared-north-avenue-ns",
+            "v91-ns-0-b-4-section-3",
+            "access-ns-north-nb-off",
+            "urban-junction-32",
+            "v6-campus-west-split-v91",
+            "v91-ns-0-a-3-section",
+            "v91-ns-0-a-4",
+            "v91-ns-0-b-3-section",
+            "v4-north-split-3-split-split-2-split-2-split-m91",
+            "v4-north-split-3-split-split-2-split-2-split-m91-section",
+            "v91-ns-0-a-4-section-3",
+            "v91-ns-0-a-4-section-2",
+            "v91-ns-0-b-4-section-2"
+          ],
+          "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "v91-ns-0-a-4-section-3",
+            "access-ns-north-sb-on"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "access-ns-north-nb-off",
+            "v91-ns-0-b-4-section-3"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    }
+  ],
+  "crossingDetails": [
+    {
+      "ramp": "access-ew-west-eb-on",
+      "other": "ew-eb-split-4-split-split",
+      "p": {
+        "x": -609.8786335592478,
+        "y": 8,
+        "z": -125.06003039035414
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ew-west-eb-on",
+      "other": "v91-ew-0-a-6-section",
+      "p": {
+        "x": -760,
+        "y": 0,
+        "z": -102
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ew-west-wb-off",
+      "other": "ew-wb-split-split-split-split-4-section",
+      "p": {
+        "x": -609.8270122291422,
+        "y": 8,
+        "z": -146.13563130714738
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ew-west-wb-off",
+      "other": "v91-ew-0-b-6-section",
+      "p": {
+        "x": -760,
+        "y": 0,
+        "z": -198
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ns-north-sb-off",
+      "other": "v91-ns-0-a-3",
+      "p": {
+        "x": -48,
+        "y": -6,
+        "z": -1620
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ns-north-sb-off",
+      "other": "ns-sb-split-3-split-split-section",
+      "p": {
+        "x": -7.21625093420966,
+        "y": -1.2843695702009692e-16,
+        "z": -1800.005201914803
+      },
+      "gap": -1.2843695702009692e-16,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ns-north-nb-on",
+      "other": "ns-nb-split-split-split-split-split-split-2",
+      "p": {
+        "x": 9.044607359615435,
+        "y": -2.7582103268031233e-16,
+        "z": -1800.0070698946204
+      },
+      "gap": -2.7582103268031233e-16,
+      "distanceToRampEnd": 2.2737367544323206e-13
+    },
+    {
+      "ramp": "access-ns-north-nb-on",
+      "other": "v91-ns-0-b-3",
+      "p": {
+        "x": 48,
+        "y": -6,
+        "z": -1620
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ns-north-sb-on",
+      "other": "ns-sb-split-3-split-split-split",
+      "p": {
+        "x": 9.323154877567237,
+        "y": -8,
+        "z": -985.0086326956578
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ns-north-sb-on",
+      "other": "v91-ns-0-a-4-section-3",
+      "p": {
+        "x": -48,
+        "y": -3.230769230769231,
+        "z": -1220
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ns-north-nb-off",
+      "other": "system-north:feeder-1-section",
+      "p": {
+        "x": 25.56474199331104,
+        "y": -8,
+        "z": -985.0041705006035
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    },
+    {
+      "ramp": "access-ns-north-nb-off",
+      "other": "v91-ns-0-b-4-section-3",
+      "p": {
+        "x": 48,
+        "y": -3.230769230769231,
+        "z": -1220
+      },
+      "gap": 0,
+      "distanceToRampEnd": 0
+    }
+  ]
+}

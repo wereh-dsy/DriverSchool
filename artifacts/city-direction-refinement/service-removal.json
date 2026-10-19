@@ -1,0 +1,431 @@
+{
+  "removedServices": [
+    "regional:chenjiang-service",
+    "regional:beiling-parking"
+  ],
+  "metadataCleanup": "Matching regional structures/services registration removed; geometry/sign deletion uses existing Kernel.",
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "highway:G17:in:mileage:0",
+      "properties": {
+        "destinations": [
+          {
+            "roadNameId": "regional:v3:northeast-donglin",
+            "arrow": "straight",
+            "distanceMetres": 2000
+          },
+          {
+            "roadNameId": "regional:v3:chenjiang-east",
+            "arrow": "straight",
+            "distanceMetres": 4500
+          }
+        ]
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "highway:G17:out:mileage:10013",
+      "properties": {
+        "destinations": [
+          {
+            "roadNameId": "regional:v3:chenjiang-east",
+            "arrow": "straight",
+            "distanceMetres": 1300
+          },
+          {
+            "roadNameId": "regional:v3:northeast-donglin",
+            "arrow": "straight",
+            "distanceMetres": 4000
+          }
+        ]
+      }
+    },
+    {
+      "op": "deleteSign",
+      "id": "highway:G17:out:mileage:14719"
+    },
+    {
+      "op": "modifySign",
+      "id": "highway:G38:in:mileage:0",
+      "properties": {
+        "destinations": [
+          {
+            "roadNameId": "regional:v3:northeast-north",
+            "arrow": "straight",
+            "distanceMetres": 2600
+          },
+          {
+            "roadNameId": "regional:v3:north-river",
+            "arrow": "straight",
+            "distanceMetres": 6600
+          }
+        ]
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "highway:G38:in:mileage:4599",
+      "properties": {
+        "destinations": [
+          {
+            "roadNameId": "regional:v3:north-river",
+            "arrow": "straight",
+            "distanceMetres": 2000
+          },
+          {
+            "roadNameId": "regional:yunling-exit",
+            "arrow": "straight",
+            "distanceMetres": 4800
+          }
+        ]
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "highway:G38:out:mileage:9617",
+      "properties": {
+        "destinations": [
+          {
+            "roadNameId": "regional:v3:north-river",
+            "arrow": "straight",
+            "distanceMetres": 700
+          },
+          {
+            "roadNameId": "regional:v3:northeast-north",
+            "arrow": "straight",
+            "distanceMetres": 4200
+          }
+        ]
+      }
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:-1:confirm"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:-1:sign:1000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:-1:sign:2000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:-1:sign:35"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:-1:sign:500"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:1:confirm"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:1:sign:1000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:1:sign:2000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:1:sign:35"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:off:1:sign:500"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:on:-1:entry"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beiling-parking:on:1:entry"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:-1:confirm"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:-1:sign:1000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:-1:sign:35"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:-1:sign:500"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:1:confirm"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:1:sign:1000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:1:sign:2000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:1:sign:35"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:off:1:sign:500"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:on:-1:entry"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:chenjiang-service:on:1:entry"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:local:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:local:1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:off:-1:false:guide:130"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:off:-1:false:guide:205"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:off:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:off:1:false:guide:205"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:off:1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:on:-1:false:guide:205"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:on:-1:false:guide:55"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:on:1:false:guide:130"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beiling-parking:on:1:false:guide:55"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:local:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:local:1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:off:-1:false:guide:130"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:off:-1:false:guide:205"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:off:-1:false:guide:280"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:off:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:off:1:false:guide:130"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:off:1:false:guide:205"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:off:1:false:guide:280"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:off:1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:on:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:chenjiang-service:on:1:false:speed:65"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:chenjiang-service:off:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:chenjiang-service:local:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:chenjiang-service:on:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:chenjiang-service:off:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:chenjiang-service:local:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:chenjiang-service:on:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beiling-parking:off:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beiling-parking:local:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beiling-parking:on:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beiling-parking:off:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beiling-parking:local:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beiling-parking:on:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:parking:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:building:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:fuel:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:toilet:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:charger:1:0"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:charger:1:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:charger:1:2"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:charger:1:3"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:parking:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:building:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:fuel:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:toilet:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:charger:-1:0"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:charger:-1:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:charger:-1:2"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:chenjiang-service:charger:-1:3"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beiling-parking:parking:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beiling-parking:building:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beiling-parking:lamp:1:-65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beiling-parking:lamp:1:65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beiling-parking:parking:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beiling-parking:building:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beiling-parking:lamp:-1:-65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beiling-parking:lamp:-1:65"
+    }
+  ]
+}

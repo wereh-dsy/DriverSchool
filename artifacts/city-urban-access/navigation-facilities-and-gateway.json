@@ -1,0 +1,120 @@
+{
+  "checks": 8,
+  "passed": 8,
+  "results": [
+    {
+      "label": "删除近城停车区后主线连续 regional:dongjiao 1",
+      "from": "regional:G17:out",
+      "to": "regional:G17:out:split58:split308",
+      "reachable": true,
+      "passed": true,
+      "distance": 649,
+      "roads": [
+        "regional:G17:out",
+        "regional:G17:out:lane272",
+        "regional:G17:out:split306",
+        "regional:G17:out:split306:lane64",
+        "regional:G17:out:split58",
+        "regional:G17:out:split58:split308"
+      ]
+    },
+    {
+      "label": "删除近城停车区后主线连续 regional:dongjiao -1",
+      "from": "regional:G17:in:split34:split40:split54:lane60",
+      "to": "regional:G17:in:split34:split40:split54:split72:split316:lane276",
+      "reachable": true,
+      "passed": true,
+      "distance": 650,
+      "roads": [
+        "regional:G17:in:split34:split40:split54:lane60",
+        "regional:G17:in:split34:split40:split54:split314",
+        "regional:G17:in:split34:split40:split54:split72",
+        "regional:G17:in:split34:split40:split54:split72:lane84",
+        "regional:G17:in:split34:split40:split54:split72:split316",
+        "regional:G17:in:split34:split40:split54:split72:split316:lane276"
+      ]
+    },
+    {
+      "label": "删除近城停车区后主线连续 regional:beilu 1",
+      "from": "regional:G38:out",
+      "to": "regional:G38:out:split338:split340:lane300",
+      "reachable": true,
+      "passed": true,
+      "distance": 1219,
+      "roads": [
+        "regional:G38:out",
+        "regional:G38:out:lane296",
+        "regional:G38:out:split338",
+        "regional:G38:out:split338:split340",
+        "regional:G38:out:split338:split340:lane300"
+      ]
+    },
+    {
+      "label": "删除近城停车区后主线连续 regional:beilu -1",
+      "from": "regional:G38:in:split18:split278:split472",
+      "to": "regional:G38:in:split18:split278:split346:split348:lane308",
+      "reachable": true,
+      "passed": true,
+      "distance": 1110,
+      "roads": [
+        "regional:G38:in:split18:split278:split472",
+        "regional:G38:in:split18:split278:split472:lane304",
+        "regional:G38:in:split18:split278:split346",
+        "regional:G38:in:split18:split278:split346:split348",
+        "regional:G38:in:split18:split278:split346:split348:lane308"
+      ]
+    },
+    {
+      "label": "环城西门户转换 v91-ring-west-inner-off",
+      "from": "ring-cw-3-split-2-split-split-2",
+      "to": "v8-beijing-road-split-split-split-section",
+      "reachable": true,
+      "passed": true,
+      "distance": 377,
+      "roads": [
+        "ring-cw-3-split-2-split-split-2",
+        "v91-ring-west-inner-off",
+        "v8-beijing-road-split-split-split-section"
+      ]
+    },
+    {
+      "label": "环城西门户转换 v91-ring-west-inner-on",
+      "from": "v8-beijing-road-split-split",
+      "to": "ring-cw-3-split-2-split-split-split-split-section",
+      "reachable": true,
+      "passed": true,
+      "distance": 438,
+      "roads": [
+        "v8-beijing-road-split-split",
+        "v91-ring-west-inner-on",
+        "ring-cw-3-split-2-split-split-split-split-section"
+      ]
+    },
+    {
+      "label": "环城西门户转换 v91-ring-west-outer-off",
+      "from": "ring-ccw-0-split-split",
+      "to": "v91-ring-west-distributor-section-2",
+      "reachable": true,
+      "passed": true,
+      "distance": 454,
+      "roads": [
+        "ring-ccw-0-split-split",
+        "v91-ring-west-outer-off",
+        "v91-ring-west-distributor-section-2"
+      ]
+    },
+    {
+      "label": "环城西门户转换 v91-ring-west-outer-on",
+      "from": "v91-ring-west-distributor-section",
+      "to": "ring-ccw-0-split-split-split-3-split-section",
+      "reachable": true,
+      "passed": true,
+      "distance": 1451,
+      "roads": [
+        "v91-ring-west-distributor-section",
+        "v91-ring-west-outer-on",
+        "ring-ccw-0-split-split-split-3-split-section"
+      ]
+    }
+  ]
+}

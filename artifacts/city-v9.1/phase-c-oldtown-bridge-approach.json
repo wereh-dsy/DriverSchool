@@ -1,0 +1,172 @@
+{
+  "operations": [
+    {
+      "op": "setElevationProfile",
+      "id": "v4-west-market-split-split-3-c91",
+      "height": 6.4,
+      "profile": [
+        {
+          "distance": 0,
+          "height": 0
+        },
+        {
+          "distance": 60,
+          "height": 6.4
+        },
+        {
+          "distance": 118.01879759411958,
+          "height": 6.4
+        }
+      ]
+    },
+    {
+      "op": "simplifyRoad",
+      "id": "v4-west-market-split-split-3-c91",
+      "tolerance": 0.02
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "Edit map",
+    "created": [],
+    "modified": [
+      "v4-west-market-split-split-3-c91",
+      "urban-junction-77",
+      "v4-access-18-c91",
+      "v4-west-market-split-split-2-c91",
+      "urban-junction-96",
+      "v5-west-lane-split-split-m91",
+      "v5-west-south-lane-m91",
+      "urban-junction-119",
+      "v4-west-market-split-c91",
+      "v5-west-lane-split-2-split-split-m91",
+      "v5-west-lane-split-m91",
+      "urban-junction-132",
+      "v4-west-split-split-3-m91",
+      "v4-west-split-split-3-split-2-m91",
+      "v5-west-south-lane-split-m91",
+      "urban-junction-150",
+      "v5-south-west-c91",
+      "v5-south-west-split-2-c91",
+      "v5-west-south-lane-split-split-m91",
+      "urban-junction-172",
+      "v5-west-lane-split-2-split-m91",
+      "v6-west-market-street-c91",
+      "urban-junction-167",
+      "v8-hankou-road-split-2-c91",
+      "v8-hankou-road-split-c91",
+      "urban-junction-174",
+      "v4-west-split-split-4-m91",
+      "v4-west-split-split-4-split-m91",
+      "urban-junction-176",
+      "v8-shanghai-road-split-2-split-v91-m91",
+      "v8-hankou-road-c91",
+      "v8-shanghai-road-split-2-split-split-m91",
+      "urban-junction-117",
+      "regional:v8:airport-city-road-split-c91",
+      "v8-shanghai-road-split-2-split-split-split-m91",
+      "urban-junction-123",
+      "v8-beijing-road-split-split-split-section",
+      "regional:v8:airport-city-road",
+      "v8-beijing-road-split-split-split-split",
+      "v8-airport-gateway",
+      "regional:v8:airport-city-out",
+      "regional:v8:airport-city-in",
+      "v91-local-junction-8",
+      "v4-south-c91",
+      "v4-south-c91-section",
+      "v8-beijing-road-split-split-split-split-section"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -4723.75,
+      "maxX": -929.6008481870565,
+      "minZ": -97.2,
+      "maxZ": 1691.7009280589502
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v4-west-market-split-split-3-c91",
+          "urban-junction-77",
+          "v4-access-18-c91",
+          "v4-west-market-split-split-2-c91",
+          "urban-junction-96",
+          "v5-west-lane-split-split-m91",
+          "v5-west-south-lane-m91",
+          "urban-junction-119",
+          "v4-west-market-split-c91",
+          "v5-west-lane-split-2-split-split-m91",
+          "v5-west-lane-split-m91",
+          "urban-junction-132",
+          "v4-west-split-split-3-m91",
+          "v4-west-split-split-3-split-2-m91",
+          "v5-west-south-lane-split-m91",
+          "urban-junction-150",
+          "v5-south-west-c91",
+          "v5-south-west-split-2-c91",
+          "v5-west-south-lane-split-split-m91",
+          "urban-junction-172",
+          "v5-west-lane-split-2-split-m91",
+          "v6-west-market-street-c91",
+          "urban-junction-167",
+          "v8-hankou-road-split-2-c91",
+          "v8-hankou-road-split-c91",
+          "urban-junction-174",
+          "v4-west-split-split-4-m91",
+          "v4-west-split-split-4-split-m91",
+          "urban-junction-176",
+          "v8-shanghai-road-split-2-split-v91-m91",
+          "v8-hankou-road-c91",
+          "v8-shanghai-road-split-2-split-split-m91",
+          "urban-junction-117",
+          "regional:v8:airport-city-road-split-c91",
+          "v8-shanghai-road-split-2-split-split-split-m91",
+          "urban-junction-123",
+          "v8-beijing-road-split-split-split-section",
+          "regional:v8:airport-city-road",
+          "v8-beijing-road-split-split-split-split",
+          "v8-airport-gateway",
+          "regional:v8:airport-city-out",
+          "regional:v8:airport-city-in",
+          "v91-local-junction-8",
+          "v4-south-c91",
+          "v4-south-c91-section",
+          "v8-beijing-road-split-split-split-split-section"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v5-south-west-split-2-c91",
+          "v4-diagonal-split-3-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v5-south-west-split-2-c91",
+          "v4-diagonal-split-3-split-2-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true,
+    "metrics": {
+      "v4-west-market-split-split-3-c91": {
+        "simplify": {
+          "beforePoints": 25,
+          "afterPoints": 3,
+          "removedControlPoints": 22
+        }
+      }
+    }
+  }
+}

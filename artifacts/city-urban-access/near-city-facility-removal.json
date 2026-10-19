@@ -1,0 +1,716 @@
+{
+  "finding": "East Dongjiao and north Beilu were registered as exits, but actual topology was mainline -> dedicated parking/building -> mainline only, without urban connections. These are the remaining near-city service-like facilities missed by the earlier registry-only review.",
+  "removedRegistrations": {
+    "regionalExits": [
+      {
+        "id": "regional:dongjiao",
+        "name": "东郊互通",
+        "route": "G17",
+        "roadIds": [
+          "regional:dongjiao:off:1",
+          "regional:dongjiao:local:1",
+          "regional:dongjiao:on:1",
+          "regional:dongjiao:off:-1",
+          "regional:dongjiao:local:-1",
+          "regional:dongjiao:on:-1",
+          "regional:dongjiao:off:1:deceleration",
+          "regional:dongjiao:on:-1:acceleration"
+        ]
+      },
+      {
+        "id": "regional:beilu",
+        "name": "北麓互通",
+        "route": "G38",
+        "roadIds": [
+          "regional:beilu:off:1",
+          "regional:beilu:local:1",
+          "regional:beilu:on:1",
+          "regional:beilu:off:-1",
+          "regional:beilu:local:-1",
+          "regional:beilu:on:-1",
+          "regional:beilu:off:1:deceleration",
+          "regional:beilu:on:1:acceleration",
+          "regional:beilu:off:-1:deceleration",
+          "regional:beilu:on:-1:acceleration"
+        ]
+      }
+    ],
+    "highwayExits": [
+      {
+        "id": "regional:dongjiao",
+        "highway": "G17",
+        "exitNumber": "01",
+        "name": "东郊互通",
+        "destinations": [
+          "东郊城区",
+          "工业园"
+        ],
+        "position": {
+          "x": 3156.4886923082445,
+          "y": 0,
+          "z": -245.00000000000023
+        },
+        "roadIds": [
+          "regional:dongjiao:off:1",
+          "regional:dongjiao:local:1",
+          "regional:dongjiao:on:1",
+          "regional:dongjiao:off:-1",
+          "regional:dongjiao:local:-1",
+          "regional:dongjiao:on:-1",
+          "regional:dongjiao:off:1:deceleration",
+          "regional:dongjiao:on:-1:acceleration"
+        ]
+      },
+      {
+        "id": "regional:beilu",
+        "highway": "G38",
+        "exitNumber": "03",
+        "name": "北麓互通",
+        "destinations": [
+          "北麓城区",
+          "工业园"
+        ],
+        "position": {
+          "x": 429.5067730209859,
+          "y": 4.250912320726939,
+          "z": -2577.2788902597886
+        },
+        "roadIds": [
+          "regional:beilu:off:1",
+          "regional:beilu:local:1",
+          "regional:beilu:on:1",
+          "regional:beilu:off:-1",
+          "regional:beilu:local:-1",
+          "regional:beilu:on:-1",
+          "regional:beilu:off:1:deceleration",
+          "regional:beilu:on:1:acceleration",
+          "regional:beilu:off:-1:deceleration",
+          "regional:beilu:on:-1:acceleration"
+        ]
+      }
+    ]
+  },
+  "roads": [
+    "regional:dongjiao:off:1",
+    "regional:dongjiao:local:1",
+    "regional:dongjiao:on:1",
+    "regional:dongjiao:off:-1",
+    "regional:dongjiao:local:-1",
+    "regional:dongjiao:on:-1",
+    "regional:beilu:off:1",
+    "regional:beilu:local:1",
+    "regional:beilu:on:1",
+    "regional:beilu:off:-1",
+    "regional:beilu:local:-1",
+    "regional:beilu:on:-1",
+    "regional:dongjiao:off:1:deceleration",
+    "regional:dongjiao:on:-1:acceleration",
+    "regional:beilu:off:1:deceleration",
+    "regional:beilu:on:1:acceleration",
+    "regional:beilu:off:-1:deceleration",
+    "regional:beilu:on:-1:acceleration"
+  ],
+  "objects": [
+    "regional:dongjiao:parking:1",
+    "regional:dongjiao:building:1",
+    "regional:dongjiao:lamp:1:-65",
+    "regional:dongjiao:lamp:1:65",
+    "regional:dongjiao:parking:-1",
+    "regional:dongjiao:building:-1",
+    "regional:dongjiao:lamp:-1:-65",
+    "regional:dongjiao:lamp:-1:65",
+    "regional:beilu:parking:1",
+    "regional:beilu:building:1",
+    "regional:beilu:lamp:1:-65",
+    "regional:beilu:lamp:1:65",
+    "regional:beilu:parking:-1",
+    "regional:beilu:building:-1",
+    "regional:beilu:lamp:-1:-65",
+    "regional:beilu:lamp:-1:65"
+  ],
+  "hosts": [
+    {
+      "id": "regional:link:313",
+      "from": {
+        "roadId": "regional:dongjiao:on:1",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "regional:G17:out:split58:split308",
+        "end": "start"
+      }
+    },
+    {
+      "id": "regional:link:318",
+      "from": {
+        "roadId": "regional:G17:in:split34:split40:split54:lane60",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "regional:dongjiao:off:-1",
+        "end": "start"
+      }
+    },
+    {
+      "id": "regional:lane:entry:274",
+      "from": {
+        "roadId": "regional:G17:out",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "regional:dongjiao:off:1:deceleration",
+        "end": "start"
+      }
+    },
+    {
+      "id": "regional:lane:exit:279",
+      "from": {
+        "roadId": "regional:dongjiao:on:-1:acceleration",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "regional:G17:in:split34:split40:split54:split72:split316:lane276",
+        "end": "start"
+      }
+    },
+    {
+      "id": "regional:lane:entry:298",
+      "from": {
+        "roadId": "regional:G38:out",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "regional:beilu:off:1:deceleration",
+        "end": "start"
+      }
+    },
+    {
+      "id": "regional:lane:exit:303",
+      "from": {
+        "roadId": "regional:beilu:on:1:acceleration",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "regional:G38:out:split338:split340:lane300",
+        "end": "start"
+      }
+    },
+    {
+      "id": "regional:lane:entry:306",
+      "from": {
+        "roadId": "regional:G38:in:split18:split278:split472",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "regional:beilu:off:-1:deceleration",
+        "end": "start"
+      }
+    },
+    {
+      "id": "regional:lane:exit:311",
+      "from": {
+        "roadId": "regional:beilu:on:-1:acceleration",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "regional:G38:in:split18:split278:split346:split348:lane308",
+        "end": "start"
+      }
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifySign",
+      "id": "highway:G17:in:mileage:13925",
+      "properties": {
+        "destinations": [
+          {
+            "roadNameId": "regional:dongyuan",
+            "arrow": "straight",
+            "distanceMetres": 2600
+          }
+        ]
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "highway:G17:in:mileage:9265",
+      "properties": {
+        "destinations": [
+          {
+            "roadNameId": "regional:binhe",
+            "arrow": "straight",
+            "distanceMetres": 4500
+          },
+          {
+            "roadNameId": "regional:dongyuan",
+            "arrow": "straight",
+            "distanceMetres": 7300
+          }
+        ]
+      }
+    },
+    {
+      "op": "modifySign",
+      "id": "highway:G38:in:mileage:13683",
+      "properties": {
+        "destinations": [
+          {
+            "roadNameId": "regional:shangu",
+            "arrow": "straight",
+            "distanceMetres": 1100
+          },
+          {
+            "roadNameId": "regional:qingling",
+            "arrow": "straight",
+            "distanceMetres": 1700
+          }
+        ]
+      }
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:off:-1:confirm"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:off:-1:sign:1000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:off:-1:sign:2000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:off:-1:sign:35"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:off:-1:sign:500"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:off:1:confirm"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:off:1:sign:2000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:on:-1:entry"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:beilu:on:1:entry"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:off:-1:confirm"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:off:-1:sign:1000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:off:-1:sign:2000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:off:-1:sign:35"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:off:-1:sign:500"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:off:1:confirm"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:off:1:sign:2000"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:off:1:sign:35"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:on:-1:entry"
+    },
+    {
+      "op": "deleteSign",
+      "id": "regional:dongjiao:on:1:entry"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beilu:local:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beilu:local:1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beilu:off:-1:false:guide:130"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beilu:off:-1:false:guide:205"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beilu:off:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beilu:off:1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:beilu:on:-1:false:guide:55"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:dongjiao:local:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:dongjiao:local:1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:dongjiao:off:-1:false:guide:205"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:dongjiao:off:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:dongjiao:off:1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:dongjiao:on:-1:false:speed:65"
+    },
+    {
+      "op": "deleteSign",
+      "id": "road-safety:regional:dongjiao:on:1:false:guide:55"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:dongjiao:off:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:dongjiao:local:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:dongjiao:on:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:dongjiao:off:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:dongjiao:local:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:dongjiao:on:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:off:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:local:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:on:1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:off:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:local:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:on:-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:dongjiao:off:1:deceleration"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:dongjiao:on:-1:acceleration"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:off:1:deceleration"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:on:1:acceleration"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:off:-1:deceleration"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "regional:beilu:on:-1:acceleration"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:dongjiao:parking:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:dongjiao:building:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:dongjiao:lamp:1:-65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:dongjiao:lamp:1:65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:dongjiao:parking:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:dongjiao:building:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:dongjiao:lamp:-1:-65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:dongjiao:lamp:-1:65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beilu:parking:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beilu:building:1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beilu:lamp:1:-65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beilu:lamp:1:65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beilu:parking:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beilu:building:-1"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beilu:lamp:-1:-65"
+    },
+    {
+      "op": "deleteObject",
+      "id": "regional:beilu:lamp:-1:65"
+    }
+  ],
+  "metadataChanges": [
+    {
+      "key": "rampMouthRepairRoads",
+      "removed": 3
+    },
+    {
+      "key": "v7ChangedRoads",
+      "removed": 14
+    }
+  ],
+  "result": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "Edit map",
+    "created": [],
+    "modified": [
+      "highway:G17:in:mileage:13925",
+      "highway:G17:in:mileage:9265",
+      "highway:G38:in:mileage:13683"
+    ],
+    "deleted": [
+      "regional:dongjiao:off:1",
+      "regional:dongjiao:local:1",
+      "regional:dongjiao:on:1",
+      "regional:dongjiao:off:-1",
+      "regional:dongjiao:local:-1",
+      "regional:dongjiao:on:-1",
+      "regional:beilu:off:1",
+      "regional:beilu:local:1",
+      "regional:beilu:on:1",
+      "regional:beilu:off:-1",
+      "regional:beilu:local:-1",
+      "regional:beilu:on:-1",
+      "regional:dongjiao:off:1:deceleration",
+      "regional:dongjiao:on:-1:acceleration",
+      "regional:beilu:off:1:deceleration",
+      "regional:beilu:on:1:acceleration",
+      "regional:beilu:off:-1:deceleration",
+      "regional:beilu:on:-1:acceleration",
+      "regional:dongjiao:parking:1",
+      "regional:dongjiao:building:1",
+      "regional:dongjiao:lamp:1:-65",
+      "regional:dongjiao:lamp:1:65",
+      "regional:dongjiao:parking:-1",
+      "regional:dongjiao:building:-1",
+      "regional:dongjiao:lamp:-1:-65",
+      "regional:dongjiao:lamp:-1:65",
+      "regional:beilu:parking:1",
+      "regional:beilu:building:1",
+      "regional:beilu:lamp:1:-65",
+      "regional:beilu:lamp:1:65",
+      "regional:beilu:parking:-1",
+      "regional:beilu:building:-1",
+      "regional:beilu:lamp:-1:-65",
+      "regional:beilu:lamp:-1:65",
+      "regional:beilu:off:-1:confirm",
+      "regional:beilu:off:-1:sign:1000",
+      "regional:beilu:off:-1:sign:2000",
+      "regional:beilu:off:-1:sign:35",
+      "regional:beilu:off:-1:sign:500",
+      "regional:beilu:off:1:confirm",
+      "regional:beilu:off:1:sign:2000",
+      "regional:beilu:on:-1:entry",
+      "regional:beilu:on:1:entry",
+      "regional:dongjiao:off:-1:confirm",
+      "regional:dongjiao:off:-1:sign:1000",
+      "regional:dongjiao:off:-1:sign:2000",
+      "regional:dongjiao:off:-1:sign:35",
+      "regional:dongjiao:off:-1:sign:500",
+      "regional:dongjiao:off:1:confirm",
+      "regional:dongjiao:off:1:sign:2000",
+      "regional:dongjiao:off:1:sign:35",
+      "regional:dongjiao:on:-1:entry",
+      "regional:dongjiao:on:1:entry",
+      "road-safety:regional:beilu:local:-1:false:speed:65",
+      "road-safety:regional:beilu:local:1:false:speed:65",
+      "road-safety:regional:beilu:off:-1:false:guide:130",
+      "road-safety:regional:beilu:off:-1:false:guide:205",
+      "road-safety:regional:beilu:off:-1:false:speed:65",
+      "road-safety:regional:beilu:off:1:false:speed:65",
+      "road-safety:regional:beilu:on:-1:false:guide:55",
+      "road-safety:regional:dongjiao:local:-1:false:speed:65",
+      "road-safety:regional:dongjiao:local:1:false:speed:65",
+      "road-safety:regional:dongjiao:off:-1:false:guide:205",
+      "road-safety:regional:dongjiao:off:-1:false:speed:65",
+      "road-safety:regional:dongjiao:off:1:false:speed:65",
+      "road-safety:regional:dongjiao:on:-1:false:speed:65",
+      "road-safety:regional:dongjiao:on:1:false:guide:55"
+    ],
+    "area": {
+      "minX": -31.875,
+      "maxX": 10624.522970128808,
+      "minZ": -5051.995617049054,
+      "maxZ": 2631.3750000000005
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "highway:G17:in:mileage:13925",
+          "highway:G17:in:mileage:9265",
+          "highway:G38:in:mileage:13683",
+          "regional:beilu:off:-1:confirm",
+          "regional:beilu:off:-1:sign:1000",
+          "regional:beilu:off:-1:sign:2000",
+          "regional:beilu:off:-1:sign:35",
+          "regional:beilu:off:-1:sign:500",
+          "regional:beilu:off:1:confirm",
+          "regional:beilu:off:1:sign:2000",
+          "regional:beilu:on:-1:entry",
+          "regional:beilu:on:1:entry",
+          "regional:dongjiao:off:-1:confirm",
+          "regional:dongjiao:off:-1:sign:1000",
+          "regional:dongjiao:off:-1:sign:2000",
+          "regional:dongjiao:off:-1:sign:35",
+          "regional:dongjiao:off:-1:sign:500",
+          "regional:dongjiao:off:1:confirm",
+          "regional:dongjiao:off:1:sign:2000",
+          "regional:dongjiao:off:1:sign:35",
+          "regional:dongjiao:on:-1:entry",
+          "regional:dongjiao:on:1:entry",
+          "road-safety:regional:beilu:local:-1:false:speed:65",
+          "road-safety:regional:beilu:local:1:false:speed:65",
+          "road-safety:regional:beilu:off:-1:false:guide:130",
+          "road-safety:regional:beilu:off:-1:false:guide:205",
+          "road-safety:regional:beilu:off:-1:false:speed:65",
+          "road-safety:regional:beilu:off:1:false:speed:65",
+          "road-safety:regional:beilu:on:-1:false:guide:55",
+          "road-safety:regional:dongjiao:local:-1:false:speed:65",
+          "road-safety:regional:dongjiao:local:1:false:speed:65",
+          "road-safety:regional:dongjiao:off:-1:false:guide:205",
+          "road-safety:regional:dongjiao:off:-1:false:speed:65",
+          "road-safety:regional:dongjiao:off:1:false:speed:65",
+          "road-safety:regional:dongjiao:on:-1:false:speed:65",
+          "road-safety:regional:dongjiao:on:1:false:guide:55",
+          "regional:dongjiao:off:1",
+          "regional:dongjiao:local:1",
+          "regional:dongjiao:on:1",
+          "regional:dongjiao:off:-1",
+          "regional:dongjiao:local:-1",
+          "regional:dongjiao:on:-1",
+          "regional:beilu:off:1",
+          "regional:beilu:local:1",
+          "regional:beilu:on:1",
+          "regional:beilu:off:-1",
+          "regional:beilu:local:-1",
+          "regional:beilu:on:-1",
+          "regional:dongjiao:off:1:deceleration",
+          "regional:dongjiao:on:-1:acceleration",
+          "regional:beilu:off:1:deceleration",
+          "regional:beilu:on:1:acceleration",
+          "regional:beilu:off:-1:deceleration",
+          "regional:beilu:on:-1:acceleration",
+          "regional:dongjiao:parking:1",
+          "regional:dongjiao:building:1",
+          "regional:dongjiao:lamp:1:-65",
+          "regional:dongjiao:lamp:1:65",
+          "regional:dongjiao:parking:-1",
+          "regional:dongjiao:building:-1",
+          "regional:dongjiao:lamp:-1:-65",
+          "regional:dongjiao:lamp:-1:65",
+          "regional:beilu:parking:1",
+          "regional:beilu:building:1",
+          "regional:beilu:lamp:1:-65",
+          "regional:beilu:lamp:1:65",
+          "regional:beilu:parking:-1",
+          "regional:beilu:building:-1",
+          "regional:beilu:lamp:-1:-65",
+          "regional:beilu:lamp:-1:65"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

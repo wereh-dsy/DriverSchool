@@ -1,0 +1,133 @@
+{
+  "label": "V9.1 C: urban streets pass beneath the closed ring and retained diagonal",
+  "operations": [
+    {
+      "op": "setElevationProfile",
+      "id": "v5-south-logistics-c91",
+      "height": -6,
+      "start": 0,
+      "end": 438.3062595814764,
+      "transition": 120,
+      "profile": [
+        {
+          "distance": 0,
+          "height": -0.024
+        },
+        {
+          "distance": 215.3263478154738,
+          "height": 0
+        },
+        {
+          "distance": 330.3263478154738,
+          "height": -6
+        },
+        {
+          "distance": 393.5132686324435,
+          "height": -6
+        },
+        {
+          "distance": 438.3062595814764,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "op": "simplifyRoad",
+      "id": "v5-south-logistics-c91",
+      "tolerance": 0.08
+    },
+    {
+      "op": "setElevationProfile",
+      "id": "v4-access-3-split-c91",
+      "height": -6,
+      "start": 0,
+      "end": 432.6185877489436,
+      "transition": 120,
+      "profile": [
+        {
+          "distance": 0,
+          "height": 0
+        },
+        {
+          "distance": 26.30622652234171,
+          "height": -6
+        },
+        {
+          "distance": 88.7365998236449,
+          "height": -6
+        },
+        {
+          "distance": 203.7365998236449,
+          "height": 0
+        },
+        {
+          "distance": 432.6185877489436,
+          "height": -0.024
+        }
+      ]
+    },
+    {
+      "op": "simplifyRoad",
+      "id": "v4-access-3-split-c91",
+      "tolerance": 0.08
+    },
+    {
+      "op": "setElevationProfile",
+      "id": "diamond-east:west-local-split-v91",
+      "height": -6,
+      "start": 0,
+      "end": 411.66666666666674,
+      "transition": 120,
+      "profile": [
+        {
+          "distance": 0,
+          "height": 0
+        },
+        {
+          "distance": 124,
+          "height": 0
+        },
+        {
+          "distance": 194,
+          "height": -6
+        },
+        {
+          "distance": 254,
+          "height": -6
+        },
+        {
+          "distance": 309,
+          "height": 0
+        },
+        {
+          "distance": 411.66666666666674,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "op": "simplifyRoad",
+      "id": "diamond-east:west-local-split-v91",
+      "tolerance": 0.08
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v4-access-16-m91",
+      "properties": {
+        "elevationMode": "ground",
+        "elevation": 0
+      }
+    },
+    {
+      "op": "connectRoads",
+      "from": {
+        "roadId": "v4-access-16-m91",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "diamond-east:west-local-split-v91",
+        "end": "end"
+      }
+    }
+  ]
+}

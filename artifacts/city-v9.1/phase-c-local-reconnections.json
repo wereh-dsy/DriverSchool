@@ -1,0 +1,663 @@
+[
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-1",
+        "position": {
+          "x": 1950,
+          "y": 0,
+          "z": 502
+        },
+        "roadIds": [
+          "v4-central-split-m91",
+          "v9-newcity-two-split-split-split-split"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "network.sparse",
+        "ids": [],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-2",
+        "position": {
+          "x": -520,
+          "y": 0,
+          "z": -550
+        },
+        "roadIds": [
+          "v5-civic-avenue-m91",
+          "v5-civic-north-split-m91"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[0]: urban-junction-88: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[1]: urban-junction-89: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[2]: urban-junction-91: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-a-4",
+          "v4-inner-1-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-a-4",
+          "v4-north-split-3-split-split-2-split-2-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-b-4",
+          "v4-inner-1-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-b-4",
+          "v4-north-split-3-split-split-2-split-2-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v91-ns-0-b-6",
+          "system-central:W-to-N-semi"
+        ],
+        "message": "Crossing clearance 5.4m is below 5.5m"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v4-inner-0-split-split-m91",
+          "v8-gongren-street-split-split-2-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-3",
+        "position": {
+          "x": -1000,
+          "y": 0,
+          "z": -550
+        },
+        "roadIds": [
+          "v5-civic-north-m91",
+          "v8-gongren-street-split-split-2-m91"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[1]: urban-junction-88: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[7]: urban-junction-140: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-gongren-street-split-split-2-m91",
+          "v4-inner-0-split-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-4",
+        "position": {
+          "x": -1633.4969960125054,
+          "y": 0,
+          "z": -987.9435660524133
+        },
+        "roadIds": [
+          "v5-west-lane-m91",
+          "v8-beijing-road-c91"
+        ],
+        "signalized": false
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-beijing-road-split-split-split-split",
+          "v4-south-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-a-1",
+          "v91-ew-west-eb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-a-1",
+          "v5-west-lane-split-2-split-2-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-b-1",
+          "v91-ew-west-wb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-b-1",
+          "v5-west-lane-split-2-split-2-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-nanjing-road-m91",
+          "v5-west-lane-split-2-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-nanjing-road-m91",
+          "v6-west-inner-lane-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-nanjing-road-m91",
+          "v8-shanghai-road-split-2-v91-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v8-beijing-road-split-2-v91-c91",
+          "system-west:E-to-N-right"
+        ],
+        "message": "Crossing clearance 5.3m is below 5.5m"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-5",
+        "position": {
+          "x": -1000,
+          "y": 0,
+          "z": -849.9650313324554
+        },
+        "roadIds": [
+          "v4-inner-0-split-split-m91",
+          "v8-gongren-street-split-split-2-m91"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[1]: urban-junction-88: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[2]: urban-junction-89: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[3]: urban-junction-91: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[11]: urban-junction-140: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-a-4",
+          "v4-inner-1-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-a-4",
+          "v4-north-split-3-split-split-2-split-2-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-b-4",
+          "v4-inner-1-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-b-4",
+          "v4-north-split-3-split-split-2-split-2-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v91-ns-0-b-6",
+          "system-central:W-to-N-semi"
+        ],
+        "message": "Crossing clearance 5.4m is below 5.5m"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-6",
+        "position": {
+          "x": -1601.4595224014818,
+          "y": 0,
+          "z": -547.1375497124352
+        },
+        "roadIds": [
+          "v5-west-lane-split-2-m91",
+          "v8-nanjing-road-m91"
+        ],
+        "signalized": false
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-beijing-road-split-split-split-split",
+          "v4-south-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-a-1",
+          "v91-ew-west-eb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-b-1",
+          "v91-ew-west-wb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v5-west-lane-split-2-split-2-m91",
+          "v91-ew-0-a-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v5-west-lane-split-2-split-2-m91",
+          "v91-ew-0-b-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v8-beijing-road-split-2-v91-c91",
+          "system-west:E-to-N-right"
+        ],
+        "message": "Crossing clearance 5.3m is below 5.5m"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-nanjing-road-m91-section",
+          "v6-west-inner-lane-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-7",
+        "position": {
+          "x": 480,
+          "y": 0,
+          "z": -550
+        },
+        "roadIds": [
+          "v5-civic-north-split-split-2-split-m91",
+          "v5-finance-road-m91"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[2]: urban-junction-93: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-a-4",
+          "v4-north-split-3-split-split-2-split-2-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-0-b-4",
+          "v4-north-split-3-split-split-2-split-2-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v91-ns-0-b-6",
+          "system-central:W-to-N-semi"
+        ],
+        "message": "Crossing clearance 5.4m is below 5.5m"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v4-inner-1-m91",
+          "v91-ns-0-a-4"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v4-inner-1-m91",
+          "v91-ns-0-b-4"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v4-inner-1-split-2-m91",
+          "v4-access-16-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v5-civic-north-split-split-m91",
+          "diamond-east:west-local-split-v91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-8",
+        "position": {
+          "x": -1522.8099960356042,
+          "y": 0,
+          "z": 1630.812406687155
+        },
+        "roadIds": [
+          "v4-south-c91",
+          "v8-beijing-road-split-split-split-split"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v4-south-split-3-split-c91",
+          "v4-west-split-split-2-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-9",
+        "position": {
+          "x": -1000,
+          "y": 0,
+          "z": 237.29946766651977
+        },
+        "roadIds": [
+          "v5-civic-middle-c91",
+          "v8-gongren-street-split-split-2-split-v91-m91"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[2]: urban-junction-88: 2/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[9]: urban-junction-140: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-0-b-4",
+          "v4-west-residential-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-10",
+        "position": {
+          "x": 594.1363810689851,
+          "y": 0,
+          "z": 1229.4471736099692
+        },
+        "roadIds": [
+          "v5-south-east-c91",
+          "v8-tonggang-avenue-m91"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "junction.weak",
+        "ids": [],
+        "message": "intersections[10]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v8-port-south-m91",
+          "ring-ccw-1-split-split"
+        ],
+        "message": "Crossing clearance 3.0m is below 5.5m"
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v8-port-south-m91",
+          "ring-cw-2-split-3-split"
+        ],
+        "message": "Crossing clearance 2.9m is below 5.5m"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-port-south-m91",
+          "v8-ring-south:on-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v8-port-works-c91",
+          "ring-ccw-1-split-split"
+        ],
+        "message": "Crossing clearance 2.5m is below 5.5m"
+      },
+      {
+        "code": "structure.clearance",
+        "ids": [
+          "v8-port-works-c91",
+          "ring-cw-2-split-3-split"
+        ],
+        "message": "Crossing clearance 2.2m is below 5.5m"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-port-works-c91",
+          "v8-ring-south:on-1"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  },
+  {
+    "operations": [
+      {
+        "op": "createIntersection",
+        "id": "v91-local-junction-11",
+        "position": {
+          "x": -1405.140783793618,
+          "y": 0,
+          "z": 1717.966822237133
+        },
+        "roadIds": [
+          "v4-south-split-3-split-c91",
+          "v4-west-split-split-2-m91"
+        ],
+        "signalized": true
+      }
+    ],
+    "valid": true,
+    "warnings": [
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v4-diagonal-split-3-split-2-m91",
+          "v5-south-west-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "code": "unconnected.crossing",
+        "ids": [
+          "v4-diagonal-split-3-split-2-m91",
+          "v5-south-west-split-2-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ]
+  }
+]

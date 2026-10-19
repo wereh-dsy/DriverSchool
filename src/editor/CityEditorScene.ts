@@ -15,7 +15,9 @@ import type { EditSummary } from './EditorCommands';
 export class CityEditorScene {
   readonly root = new THREE.Group();
   readonly ghost = new THREE.Group();
+  readonly compare = new THREE.Group();
   readonly overlay = new THREE.Group();
+  readonly gizmo = new THREE.Group();
   private readonly materials = createSubject3Materials();
   private readonly prefabs = new PrefabRegistry(this.materials);
   private readonly entries = new Map<string,{root:THREE.Group;signals?:CityTrafficSignals;object:boolean}>();
@@ -27,7 +29,8 @@ export class CityEditorScene {
   private overviewVersions=new Map<string,CityRoad>();
   private signs:RoadSignRenderer;
   get pickTargets():THREE.Object3D[]{return[...this.entries.values()].map(e=>e.root);}
-  constructor(private readonly kernel:CityEditingKernel) {this.signs=new RoadSignRenderer(kernel.data.roadNames??{}); this.root.add(this.overview,this.ghost,this.overlay); this.reset(); }
+  get gizmoTargets():THREE.Object3D[]{return this.gizmo.children;}
+  constructor(private readonly kernel:CityEditingKernel) {this.signs=new RoadSignRenderer(kernel.data.roadNames??{}); this.root.add(this.overview,this.ghost,this.compare,this.overlay,this.gizmo); this.reset(); }
   private disposeEntry(id:string):void {
     const entry=this.entries.get(id);if(!entry)return;
     entry.signals?.dispose(); const geometries=new Set<THREE.BufferGeometry>();
@@ -36,12 +39,52 @@ export class CityEditorScene {
     this.versions.delete(id);
   }
   static clear(group:THREE.Group):void {group.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.Line){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material])m.dispose();}});group.clear();}
+  private offsetPath(points:readonly CityPoint[],offset:number):CityPoint[] {
+    return points.map((p,i)=>{const a=points[Math.max(0,i-1)]!,b=points[Math.min(points.length-1,i+1)]!,before=Math.hypot(p.x-a.x,p.z-a.z),after=Math.hypot(b.x-p.x,b.z-p.z);
+      const n1=before?{x:-(p.z-a.z)/before,z:(p.x-a.x)/before}:undefined,n2=after?{x:-(b.z-p.z)/after,z:(b.x-p.x)/after}:undefined,n=n1&&n2?{x:(n1.x+n2.x),z:(n1.z+n2.z)}:n1??n2??{x:0,z:0};
+      const scale=offset/Math.max(0.25,1+(n1?.x??0)*(n2?.x??0)+(n1?.z??0)*(n2?.z??0));return{x:p.x+n.x*scale,y:p.y,z:p.z+n.z*scale};});
+  }
+  /** Translucent pavement ribbon used for hover/selection, not a pick target. */
+  ribbon(points:readonly CityPoint[],width:number,color:number,opacity=0.2,lift=0.16):THREE.Mesh {
+    const left=this.offsetPath(points,-width/2),right=this.offsetPath(points,width/2),vertices:number[]=[];
+    for(let i=1;i<left.length;i++)for(const p of [left[i-1]!,right[i-1]!,left[i]!,right[i-1]!,right[i]!,left[i]!])vertices.push(p.x,(p.y??0)+lift,p.z);
+    const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geometry.computeVertexNormals();
+    const mesh=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color,transparent:true,opacity,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));
+    mesh.renderOrder=24;return mesh;
+  }
+  clearCompare():void {CityEditorScene.clear(this.compare);}
+  /** Orange "before" geometry for a repair preview. */
+  showBefore(data:{roads:CityRoad[];intersections:CityIntersection[];objects?:CityObject[];signs?:RoadSignDefinition[]}):void {
+    this.clearCompare();const color=0xff8a54;
+    for(const r of data.roads){const points=roadPoints(r);this.compare.add(this.ribbon(points,r.laneCount*r.laneWidth,color,0.22),this.line(points,color,0.7));}
+    for(const j of data.intersections){const outline=j.pavementFootprint?.map(p=>{const q=new THREE.Vector3(p.x,0,p.z).applyAxisAngle(new THREE.Vector3(0,1,0),j.rotation);return{x:j.position.x+q.x,y:(p.y??0)+(j.position.y??0),z:j.position.z+q.z};});
+      if(outline)this.compare.add(this.line([...outline,outline[0]!],color,0.7));else this.compare.add(this.marker(j.position,color,4));}
+    for(const o of data.objects??[])this.compare.add(this.marker(o.position,color,4));
+    for(const s of data.signs??[])this.compare.add(this.marker(s.position,color,2.5));
+  }
+  clearGizmo():void {CityEditorScene.clear(this.gizmo);}
+  /** Small explicit X/Y/Z/normal transform handles. */
+  showGizmo(origin:CityPoint,normal?:CityPoint,activeAxis?:string,length=22):void {
+    this.clearGizmo();
+    const axes:[string,THREE.Vector3,number][]=[['x',new THREE.Vector3(1,0,0),0xff5b5b],['y',new THREE.Vector3(0,1,0),0x6ce08b],['z',new THREE.Vector3(0,0,1),0x69a7ff]];
+    if(normal&&Math.hypot(normal.x,normal.z)>0.01)axes.push(['n',new THREE.Vector3(normal.x,0,normal.z).normalize(),0xff8ae0]);
+    const up=new THREE.Vector3(0,1,0),base=new THREE.Vector3(origin.x,origin.y??0,origin.z);
+    for(const [axis,direction,color] of axes){
+      const active=activeAxis===axis,group=new THREE.Group();group.userData.gizmoAxis=axis;
+      const shaft=new THREE.Mesh(new THREE.CylinderGeometry(length*0.016,length*0.016,length,6),new THREE.MeshBasicMaterial({color,depthTest:false,transparent:true,opacity:active?1:0.8}));
+      shaft.quaternion.setFromUnitVectors(up,direction);shaft.position.copy(base).addScaledVector(direction,length/2);shaft.userData.gizmoAxis=axis;shaft.renderOrder=40;
+      const head=new THREE.Mesh(new THREE.ConeGeometry(length*0.055,length*0.16,8),new THREE.MeshBasicMaterial({color,depthTest:false}));
+      head.quaternion.setFromUnitVectors(up,direction);head.position.copy(base).addScaledVector(direction,length);head.userData.gizmoAxis=axis;head.renderOrder=41;
+      group.add(shaft,head);this.gizmo.add(group);
+    }
+    const center=new THREE.Mesh(new THREE.SphereGeometry(length*0.05,8,6),new THREE.MeshBasicMaterial({color:0xf5f5f5,depthTest:false}));center.position.copy(base);center.renderOrder=42;this.gizmo.add(center);
+  }
   private retainGeometry(root:THREE.Group):void {const geometries=new Set<THREE.BufferGeometry>();root.traverse(o=>{if(o instanceof THREE.Mesh)geometries.add(o.geometry);});for(const geometry of geometries)this.geometryRefs.set(geometry,(this.geometryRefs.get(geometry)??0)+1);}
   private updateOverview(id:string):void {
     const old=this.overviewEntries.get(id);if(old){old.geometry.dispose();(old.material as THREE.Material).dispose();old.removeFromParent();this.overviewEntries.delete(id);}
     const road=this.kernel.data.roads.find(r=>r.id===id);this.overviewVersions.delete(id);if(road){const line=this.line(roadPoints(road),0x5a7682,0.07);this.overview.add(line);this.overviewEntries.set(id,line);this.overviewVersions.set(id,road);}
   }
-  reset():void {for(const id of [...this.entries.keys()])this.disposeEntry(id);CityEditorScene.clear(this.overview);this.overviewEntries.clear();for(const r of this.kernel.data.roads)this.updateOverview(r.id);}
+  reset():void {for(const id of [...this.entries.keys()])this.disposeEntry(id);CityEditorScene.clear(this.overview);this.overviewEntries.clear();this.clearCompare();this.clearGizmo();for(const r of this.kernel.data.roads)this.updateOverview(r.id);}
   reconcile():void {
     const map=this.kernel.data,next=new Map([...map.roads,...map.intersections,...map.objects,...map.signs??[]].map(e=>[e.id,e]));
     const changed=new Set([...this.versions].filter(([id,e])=>next.get(id)!==e).map(([id])=>id));
@@ -111,5 +154,5 @@ export class CityEditorScene {
     for(const s of data.signs??[]){this.ghost.add(this.marker(s.position,color,3));const h={x:s.position.x-Math.sin(s.heading)*12,y:s.position.y,z:s.position.z-Math.cos(s.heading)*12};this.ghost.add(this.line([s.position,h],color));}
   }
   updateSignals(dt:number):void {for(const e of this.entries.values())e.signals?.update(dt);}
-  dispose():void {for(const id of [...this.entries.keys()])this.disposeEntry(id);CityEditorScene.clear(this.overview);CityEditorScene.clear(this.overlay);CityEditorScene.clear(this.ghost);this.signs.dispose();this.prefabs.dispose();for(const m of Object.values(this.materials))m.dispose();this.root.clear();}
+  dispose():void {for(const id of [...this.entries.keys()])this.disposeEntry(id);CityEditorScene.clear(this.overview);CityEditorScene.clear(this.overlay);CityEditorScene.clear(this.ghost);this.clearCompare();this.clearGizmo();this.signs.dispose();this.prefabs.dispose();for(const m of Object.values(this.materials))m.dispose();this.root.clear();}
 }

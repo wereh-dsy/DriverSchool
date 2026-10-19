@@ -1,0 +1,404 @@
+{
+  "operations": [
+    {
+      "op": "modifyRoad",
+      "id": "system-central:S-to-W-semi",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "system-central:S-to-E-right",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "system-central:E-to-S-semi",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "system-central:E-to-N-right",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "system-central:N-to-E-semi",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "system-central:N-to-W-right",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "system-central:W-to-N-semi",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "system-central:W-to-S-right",
+      "properties": {
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        }
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "Retain interchange structures with adjusted clearance",
+    "created": [],
+    "modified": [
+      "system-central:S-to-W-semi",
+      "system-central:S-to-E-right",
+      "system-central:E-to-S-semi",
+      "system-central:E-to-N-right",
+      "system-central:N-to-E-semi",
+      "system-central:N-to-W-right",
+      "system-central:W-to-N-semi",
+      "system-central:W-to-S-right"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -583.3785714285715,
+      "maxX": 636.95,
+      "minZ": -797.95,
+      "maxZ": 513.6166666666668
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "slope.recommended",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "system-central:S-to-E-right",
+          "system-central:E-to-S-semi",
+          "system-central:E-to-N-right",
+          "system-central:N-to-E-semi",
+          "system-central:N-to-W-right",
+          "system-central:W-to-N-semi",
+          "system-central:W-to-S-right"
+        ],
+        "message": "roads[12]: Grade 14.3% exceeds recommended 12%."
+      },
+      {
+        "severity": "warning",
+        "code": "slope.recommended",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "system-central:S-to-E-right",
+          "system-central:E-to-S-semi",
+          "system-central:E-to-N-right",
+          "system-central:N-to-E-semi",
+          "system-central:N-to-W-right",
+          "system-central:W-to-N-semi",
+          "system-central:W-to-S-right"
+        ],
+        "message": "roads[16]: Grade 14.3% exceeds recommended 12%."
+      },
+      {
+        "severity": "warning",
+        "code": "slope.recommended",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "system-central:S-to-E-right",
+          "system-central:E-to-S-semi",
+          "system-central:E-to-N-right",
+          "system-central:N-to-E-semi",
+          "system-central:N-to-W-right",
+          "system-central:W-to-N-semi",
+          "system-central:W-to-S-right"
+        ],
+        "message": "roads[20]: Grade 13.8% exceeds recommended 12%."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "system-central:S-to-E-right",
+          "system-central:E-to-S-semi",
+          "system-central:E-to-N-right",
+          "system-central:N-to-E-semi",
+          "system-central:N-to-W-right",
+          "system-central:W-to-N-semi",
+          "system-central:W-to-S-right"
+        ],
+        "message": "roads: 8 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ew-wb-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "v91-ns-nb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-E-right",
+          "ew-eb-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-E-right",
+          "ns-nb-split-2-split-2-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "extreme.grade",
+        "ids": [
+          "system-central:E-to-S-semi"
+        ],
+        "message": "Maximum grade 14.3%"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ew-wb-split-3-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "ns-sb-split-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "system-central:E-to-S-semi",
+          "v91-ns-sb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-N-right",
+          "ns-nb-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:E-to-N-right",
+          "ew-wb-split-2-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "extreme.grade",
+        "ids": [
+          "system-central:N-to-E-semi"
+        ],
+        "message": "Maximum grade 14.3%"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ew-eb-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ns-sb-split-3-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-W-right",
+          "ew-wb-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-W-right",
+          "ns-sb-split-2-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "extreme.grade",
+        "ids": [
+          "system-central:W-to-N-semi"
+        ],
+        "message": "Maximum grade 13.8%"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ns-nb-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-S-right",
+          "ns-sb-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-S-right",
+          "ew-eb-split-3-split-split-4"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

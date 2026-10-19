@@ -1,0 +1,63 @@
+{
+  "eastHighwayMergeHints": [
+    {
+      "issue": {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G17:in:split34:split40:split54",
+          "regional:dongyuan:E-to-N-right:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      "existedBefore": true
+    },
+    {
+      "issue": {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G17:in:split34:split40:split54:split72",
+          "regional:dongyuan:W-to-N-turbine:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      "existedBefore": true
+    },
+    {
+      "issue": {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G17:out:split306:lane64",
+          "regional:dongyuan:N-to-E-turbine:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      "existedBefore": true
+    },
+    {
+      "issue": {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:G17:out:split58:split308:lane72",
+          "regional:dongyuan:N-to-W-right:deceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      "existedBefore": true
+    }
+  ],
+  "westLakeJunctionValidation": [
+    {
+      "id": "urban-junction-57",
+      "issues": []
+    },
+    {
+      "id": "urban-junction-84",
+      "issues": []
+    }
+  ],
+  "note": "network.sparse in corridor-only selections omits surrounding connecting streets; the acceptance routes prove continuity. The unused north highway connection port is retained with its existing mainline."
+}

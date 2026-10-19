@@ -1,0 +1,29 @@
+{
+  "command": "node scripts/mapctl.mjs diagnose src/world/regional/regional-main.json --full --request @artifacts/city-diagnose-baseline/request.json --out artifacts/city-diagnose-baseline/diagnosis-full.json",
+  "request": {
+    "full": true,
+    "limit": 20
+  },
+  "sourceMapVersion": 266,
+  "rawReceipt": "diagnosis-full.json",
+  "fullIssueCount": 5252,
+  "sourceFilesRead": [
+    "scripts/mapctl.ts",
+    "src/editor/RoadDiagnostics.ts",
+    "src/editor/CityEditingKernel.ts",
+    "src/world/city/geometry.ts",
+    "src/world/city/JunctionSurface.ts"
+  ],
+  "mutations": [],
+  "productionBuild": false,
+  "testsRun": [],
+  "readOnlyFollowups": [
+    "Current road-link/junction reference graph components",
+    "Active road/port/sign/name/corridor references",
+    "8 crossing pairs: shared XYZ endpoints, transitive link chains, crossing coordinates, nearby pavement ownership",
+    "4 low-clearance pairs: interpolated centerline heights",
+    "16 existing main/frontage ramps: legal directed incoming and outgoing routing connections",
+    "4 frontage-only RoutePlanner routes through current plaza"
+  ],
+  "note": "No project test runner, full core/vehicle/physics tests, game build, repair, apply or source write was run. Existing tooling loads TypeScript in memory using installed esbuild."
+}

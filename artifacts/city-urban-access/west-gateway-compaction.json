@@ -1,0 +1,205 @@
+{
+  "before": [
+    {
+      "id": "v91-ring-west-inner-off",
+      "length": 315.0504857409183,
+      "bounds": {
+        "minX": -1975.2152707251817,
+        "maxX": -1843,
+        "minZ": 943.541528634312,
+        "maxZ": 1190
+      }
+    },
+    {
+      "id": "v91-ring-west-inner-on",
+      "length": 389.355260991015,
+      "bounds": {
+        "minX": -1975.2152707251817,
+        "maxX": -1856.1156766132644,
+        "minZ": 530,
+        "maxZ": 861.3104001176422
+      }
+    }
+  ],
+  "operations": [
+    {
+      "op": "modifyRamp",
+      "id": "v91-ring-west-inner-off",
+      "points": [
+        {
+          "x": -1975.2152707251817,
+          "y": 0,
+          "z": 1190
+        },
+        {
+          "x": -1975.2152707251817,
+          "y": 0,
+          "z": 1110
+        },
+        {
+          "x": -1843,
+          "y": -0.024,
+          "z": 1050
+        },
+        {
+          "x": -1843,
+          "y": -0.024,
+          "z": 970
+        }
+      ]
+    },
+    {
+      "op": "modifyRamp",
+      "id": "v91-ring-west-inner-on",
+      "points": [
+        {
+          "x": -1857,
+          "y": -0.024,
+          "z": 830
+        },
+        {
+          "x": -1857,
+          "y": -0.024,
+          "z": 740
+        },
+        {
+          "x": -1975.2152707251817,
+          "y": 0,
+          "z": 620
+        },
+        {
+          "x": -1975.2152707251817,
+          "y": 0,
+          "z": 530
+        }
+      ]
+    }
+  ],
+  "result": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "Edit map",
+    "created": [],
+    "modified": [
+      "v91-ring-west-inner-off",
+      "v91-ring-west-inner-on"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1987.0902707251817,
+      "maxX": -1831.125,
+      "minZ": 518.125,
+      "maxZ": 1201.875
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v91-ring-west-inner-off",
+          "v91-ring-west-inner-on"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-west-inner-off",
+          "v8-beijing-road-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ring-west-inner-off",
+          "ring-cw-3-split-2-split-split-2-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v91-ring-west-inner-on",
+          "ring-cw-3-split-2-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-west-inner-on",
+          "v8-beijing-road-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  },
+  "after": [
+    {
+      "id": "v91-ring-west-inner-off",
+      "length": 262.86684480779206,
+      "bounds": {
+        "minX": -1975.2152707251817,
+        "maxX": -1843,
+        "minZ": 970,
+        "maxZ": 1190
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "v91-ring-west-inner-off",
+            "v8-beijing-road-split-split-split"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "expressway.unconnected-crossing",
+          "ids": [
+            "v91-ring-west-inner-off",
+            "ring-cw-3-split-2-split-split-2-section"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ]
+    },
+    {
+      "id": "v91-ring-west-inner-on",
+      "length": 325.70520357830145,
+      "bounds": {
+        "minX": -1975.2152707251817,
+        "maxX": -1857,
+        "minZ": 530,
+        "maxZ": 830
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "expressway.unconnected-crossing",
+          "ids": [
+            "v91-ring-west-inner-on",
+            "ring-cw-3-split-2-split-split-split-split"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "v91-ring-west-inner-on",
+            "v8-beijing-road-split-split-section"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ]
+    }
+  ]
+}

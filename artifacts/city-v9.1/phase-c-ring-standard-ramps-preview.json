@@ -1,0 +1,435 @@
+{
+  "mapDigest": "76ffc878d020fa703e94a4f61fdc55e2d5a7bb1bba60a2ac4112998fd1ab15dd",
+  "operations": [
+    {
+      "op": "createRamp",
+      "id": "v91-ring-north-outer-off",
+      "fromRoadId": "ring-ccw-2-split-split-split",
+      "toRoadId": "v91-ring-north-outer-cd-section",
+      "fromDistance": 1399.4688348985449,
+      "toDistance": 137.86942750388238,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-north-outer-on",
+      "fromRoadId": "v91-ring-north-outer-cd",
+      "toRoadId": "ring-ccw-2-split-split-split-split-2-split",
+      "fromDistance": 145.64728753066876,
+      "toDistance": 75.01174167727888,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-south-inner-off",
+      "fromRoadId": "ring-cw-2-split-4-split",
+      "toRoadId": "v91-ring-south-inner-cd-section",
+      "fromDistance": 2311.8972234679054,
+      "toDistance": 89.59999999999991,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-south-inner-on",
+      "fromRoadId": "v91-ring-south-inner-cd",
+      "toRoadId": "ring-cw-2-split-3-split-split",
+      "fromDistance": 200,
+      "toDistance": 30,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-south-outer-off",
+      "fromRoadId": "ring-ccw-1-split-split",
+      "toRoadId": "v91-ring-south-outer-cd",
+      "fromDistance": 132.5435954275223,
+      "toDistance": 200,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-south-outer-on",
+      "fromRoadId": "v91-ring-south-outer-cd-section",
+      "toRoadId": "ring-ccw-1-split-split-split-split",
+      "fromDistance": 89.59999999999991,
+      "toDistance": 71.43458765432092,
+      "kind": "on",
+      "lanes": 1
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "V9.1: complete both-direction north/south ring gateway ramp pairs",
+    "created": [
+      "ring-ccw-2-split-split-split-section",
+      "v91-ring-north-outer-cd-section-section",
+      "v91-ring-north-outer-off",
+      "v91-ring-north-outer-cd-section-2",
+      "ring-ccw-2-split-split-split-split-2-split-section",
+      "v91-ring-north-outer-on",
+      "ring-cw-2-split-4-split-section",
+      "v91-ring-south-inner-cd-section-section",
+      "v91-ring-south-inner-off",
+      "v91-ring-south-inner-cd-section-2",
+      "ring-cw-2-split-3-split-split-section",
+      "v91-ring-south-inner-on",
+      "ring-ccw-1-split-split-section",
+      "v91-ring-south-outer-cd-section-2",
+      "v91-ring-south-outer-off",
+      "v91-ring-south-outer-cd-section-section",
+      "ring-ccw-1-split-split-split-split-section",
+      "v91-ring-south-outer-on"
+    ],
+    "modified": [
+      "ring-ccw-2-split-split-split",
+      "v91-ring-north-outer-cd-section",
+      "road-safety:ring-ccw-2-split-split-split:false:speed:1550",
+      "v91-ring-north-outer-cd",
+      "ring-ccw-2-split-split-split-split-2-split",
+      "v91-ring-north-outer-junction",
+      "topology-sign:endpoint:ring-ccw-2-split-split-split-split:end|ring-ccw-2-split-split-split-split|end:EXPRESSWAY_ADVANCE",
+      "ring-cw-2-split-4-split",
+      "v91-ring-south-inner-cd-section",
+      "road-safety:ring-cw-2-split-4-split:false:guide:1480",
+      "road-safety:ring-cw-2-split-4-split:false:guide:1555",
+      "road-safety:ring-cw-2-split-4-split:false:guide:1630",
+      "road-safety:ring-cw-2-split-4-split:false:speed:157",
+      "road-safety:ring-cw-2-split-4-split:false:speed:2157",
+      "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_ADVANCE",
+      "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_DIVERGE",
+      "v91-ring-south-inner-cd",
+      "ring-cw-2-split-3-split-split",
+      "v91-ring-south-inner-junction",
+      "topology-sign:endpoint:ring-cw-2-split:end|ring-cw-2-split|end:EXPRESSWAY_ADVANCE",
+      "ring-ccw-1-split-split",
+      "v91-ring-south-outer-cd",
+      "road-safety:ring-ccw-1-split-split:false:speed:35",
+      "v91-ring-south-outer-junction",
+      "v91-ring-south-outer-cd-section",
+      "ring-ccw-1-split-split-split-split",
+      "road-safety:ring-ccw-1-split-split-split-split:false:guide:805",
+      "road-safety:ring-ccw-1-split-split-split-split:false:guide:880",
+      "road-safety:ring-ccw-1-split-split-split-split:false:speed:1314",
+      "topology-sign:endpoint:ring-ccw-1-split-split-split-split-split:end|ring-ccw-1-split-split-split-split-split|end:EXPRESSWAY_ADVANCE",
+      "v91-ring-south-cross",
+      "v91-ring-south-cross-section",
+      "v8-ring-north-cross",
+      "v91-ring-north-inner-junction",
+      "v8-ring-north:off--1",
+      "v8-ring-north:on--1",
+      "v8-ring-north-cross-split-2"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 488.3169799459489,
+      "maxX": 2471.0076305862085,
+      "minZ": -1925.7216480618026,
+      "maxZ": 2570
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-ccw-2-split-split-split",
+          "v91-ring-north-outer-cd-section",
+          "ring-ccw-2-split-split-split-section",
+          "road-safety:ring-ccw-2-split-split-split:false:speed:1550",
+          "v91-ring-north-outer-cd-section-section",
+          "v91-ring-north-outer-off",
+          "v91-ring-north-outer-cd",
+          "ring-ccw-2-split-split-split-split-2-split",
+          "v91-ring-north-outer-junction",
+          "v91-ring-north-outer-cd-section-2",
+          "ring-ccw-2-split-split-split-split-2-split-section",
+          "topology-sign:endpoint:ring-ccw-2-split-split-split-split:end|ring-ccw-2-split-split-split-split|end:EXPRESSWAY_ADVANCE",
+          "v91-ring-north-outer-on",
+          "ring-cw-2-split-4-split",
+          "v91-ring-south-inner-cd-section",
+          "ring-cw-2-split-4-split-section",
+          "road-safety:ring-cw-2-split-4-split:false:guide:1480",
+          "road-safety:ring-cw-2-split-4-split:false:guide:1555",
+          "road-safety:ring-cw-2-split-4-split:false:guide:1630",
+          "road-safety:ring-cw-2-split-4-split:false:speed:157",
+          "road-safety:ring-cw-2-split-4-split:false:speed:2157",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_DIVERGE",
+          "v91-ring-south-inner-cd-section-section",
+          "v91-ring-south-inner-off",
+          "v91-ring-south-inner-cd",
+          "ring-cw-2-split-3-split-split",
+          "v91-ring-south-inner-junction",
+          "v91-ring-south-inner-cd-section-2",
+          "ring-cw-2-split-3-split-split-section",
+          "topology-sign:endpoint:ring-cw-2-split:end|ring-cw-2-split|end:EXPRESSWAY_ADVANCE",
+          "v91-ring-south-inner-on",
+          "ring-ccw-1-split-split",
+          "v91-ring-south-outer-cd",
+          "ring-ccw-1-split-split-section",
+          "road-safety:ring-ccw-1-split-split:false:speed:35",
+          "v91-ring-south-outer-junction",
+          "v91-ring-south-outer-cd-section-2",
+          "v91-ring-south-outer-off",
+          "v91-ring-south-outer-cd-section",
+          "ring-ccw-1-split-split-split-split",
+          "v91-ring-south-outer-cd-section-section",
+          "ring-ccw-1-split-split-split-split-section",
+          "road-safety:ring-ccw-1-split-split-split-split:false:guide:805",
+          "road-safety:ring-ccw-1-split-split-split-split:false:guide:880",
+          "road-safety:ring-ccw-1-split-split-split-split:false:speed:1314",
+          "topology-sign:endpoint:ring-ccw-1-split-split-split-split-split:end|ring-ccw-1-split-split-split-split-split|end:EXPRESSWAY_ADVANCE",
+          "v91-ring-south-outer-on",
+          "v91-ring-south-cross",
+          "v91-ring-south-cross-section",
+          "v8-ring-north-cross",
+          "v91-ring-north-inner-junction",
+          "v8-ring-north:off--1",
+          "v8-ring-north:on--1",
+          "v8-ring-north-cross-split-2"
+        ],
+        "message": "roads: 9 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-split-split-split-2-split",
+          "v91-ring-north-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-split-split-split",
+          "v91-ring-south-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:off--1",
+          "ring-cw-1-split-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:off--1",
+          "ring-cw-1-split-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:on--1",
+          "ring-cw-1-split-3-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-2-split-3-split-split",
+          "v91-ring-south-inner-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-cd",
+          "v6-logistics-one-split-3-split-2-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-cd",
+          "v8-port-works-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-inner-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "v91-ring-south-outer-cd",
+          "v4-access-5"
+        ],
+        "message": "Crossing clearance 4.8m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-cd",
+          "v91-ring-south-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-split-split-section",
+          "v91-ring-north-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-north-outer-cd-section-section",
+          "v91-ring-north-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-2-split-4-split-section",
+          "v91-ring-south-inner-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-cd-section-section",
+          "v91-ring-south-inner-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-on",
+          "v8-port-works-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "ring-ccw-1-split-split-section",
+          "v8-port-south-m91"
+        ],
+        "message": "Crossing clearance 3.0m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "ring-ccw-1-split-split-section",
+          "v8-port-works-c91"
+        ],
+        "message": "Crossing clearance 2.5m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-split-section",
+          "v91-ring-south-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-off",
+          "v4-access-5"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "v91-ring-south-outer-cd-section-section",
+          "v6-logistics-yard-c91"
+        ],
+        "message": "Crossing clearance 0.7m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-cd-section-section",
+          "v8-port-works-split-split-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-cd-section-section",
+          "v91-ring-south-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-on",
+          "v6-logistics-one-split-2-split-2-split-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-on",
+          "v8-port-works-split-split-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

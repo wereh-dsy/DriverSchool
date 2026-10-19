@@ -1,0 +1,854 @@
+{
+  "mapDigest": "6ccb2881bfe7c17ba76f590ec6f59ceefb65715ca055e72cae23745ce97ec750",
+  "operations": [
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-south-cross"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-south-cross-split-2"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-south:off-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-south:on-1"
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-south-cross",
+      "preset": "arterial4",
+      "crossing": "none",
+      "points": [
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 2530
+        },
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 2500
+        },
+        {
+          "x": 1050,
+          "y": -6,
+          "z": 2405
+        },
+        {
+          "x": 1050,
+          "y": -6,
+          "z": 2340
+        },
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 2240
+        },
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 2200
+        },
+        {
+          "x": 1050,
+          "y": -0.024,
+          "z": 1997.8584161572207
+        }
+      ],
+      "properties": {
+        "curve": "polyline",
+        "structure": {
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 5.5
+          },
+          "piersEnabled": false,
+          "barrierEnabled": true
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-south-cross",
+      "properties": {
+        "roadNameId": "v8-ring-south-cross"
+      }
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-south-inner-cd",
+      "preset": "frontage2",
+      "crossing": "none",
+      "points": [
+        {
+          "x": 750,
+          "y": 0,
+          "z": 2200
+        },
+        {
+          "x": 1350,
+          "y": 0,
+          "z": 2200
+        }
+      ],
+      "properties": {
+        "travelDirection": "reverse"
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-south-inner-cd",
+      "properties": {
+        "roadNameId": "v8-ring-south-cross"
+      }
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-south-outer-cd",
+      "preset": "frontage2",
+      "crossing": "none",
+      "points": [
+        {
+          "x": 750,
+          "y": 0,
+          "z": 2530
+        },
+        {
+          "x": 1350,
+          "y": 0,
+          "z": 2530
+        }
+      ],
+      "properties": {
+        "travelDirection": "forward"
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-south-outer-cd",
+      "properties": {
+        "roadNameId": "v8-ring-south-cross"
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-south-inner-junction",
+      "position": {
+        "x": 1050,
+        "y": 0,
+        "z": 2200
+      },
+      "roadIds": [
+        "v91-ring-south-cross",
+        "v91-ring-south-inner-cd"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-south-outer-junction",
+      "position": {
+        "x": 1050,
+        "y": 0,
+        "z": 2530
+      },
+      "roadIds": [
+        "v91-ring-south-cross",
+        "v91-ring-south-outer-cd"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-116",
+      "properties": {
+        "connections": [
+          {
+            "roadId": "v4-south-split",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v91-ring-south-cross-section",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v4-south-split-split-2",
+            "end": "start",
+            "port": "south"
+          },
+          {
+            "roadId": "v8-ring-south-cross-split",
+            "end": "start",
+            "port": "west"
+          }
+        ]
+      }
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-north-outer-cd",
+      "preset": "frontage2",
+      "crossing": "none",
+      "points": [
+        {
+          "x": 983.8657490055778,
+          "y": 0,
+          "z": -1912.1216480618027
+        },
+        {
+          "x": 1503.4809912855778,
+          "y": 0,
+          "z": -1612.1216480618027
+        }
+      ],
+      "properties": {
+        "travelDirection": "reverse"
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-north-outer-cd",
+      "properties": {
+        "roadNameId": "v8-ring-north-cross"
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-north-outer-junction",
+      "position": {
+        "x": 1243.6733701455778,
+        "y": 0,
+        "z": -1762.1216480618027
+      },
+      "roadIds": [
+        "v8-ring-north-cross",
+        "v91-ring-north-outer-cd"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-north-inner-junction",
+      "position": {
+        "x": 1165.4059723495843,
+        "y": -0.024,
+        "z": -1664.6577345232847
+      },
+      "roadIds": [
+        "v8-ring-north:off--1",
+        "v8-ring-north:on--1",
+        "v8-ring-north-cross",
+        "v8-ring-north-cross-split-2"
+      ],
+      "signalized": true
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "V9.1: standard north/south urban gateways, local distributors and separated arterial crossings",
+    "created": [
+      "v91-ring-south-cross",
+      "v91-ring-south-inner-cd",
+      "v91-ring-south-outer-cd",
+      "v91-ring-south-cross-section",
+      "v91-ring-south-inner-cd-section",
+      "v91-ring-south-outer-cd-section",
+      "v91-ring-north-outer-cd",
+      "v91-ring-north-outer-cd-section",
+      "v91-ring-south-inner-junction",
+      "v91-ring-south-outer-junction",
+      "v91-ring-north-outer-junction",
+      "v91-ring-north-inner-junction"
+    ],
+    "modified": [
+      "urban-junction-116",
+      "topology-sign:urban-junction-116|v4-south-split-split-2|start:ROAD_NAME",
+      "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_ADVANCE",
+      "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_DIVERGE",
+      "v4-south-split",
+      "v4-south-split-split-2",
+      "v8-ring-south-cross-split",
+      "v8-ring-north-cross",
+      "v8-ring-north:off--1",
+      "v8-ring-north:on--1",
+      "v8-ring-north-cross-split-2",
+      "urban-junction-73",
+      "v4-access-3-split-c91",
+      "v4-south-split-split",
+      "urban-junction-95",
+      "v4-south-logistics-east",
+      "v5-south-logistics-c91",
+      "urban-junction-67",
+      "v4-access-3-c91",
+      "v6-logistics-one-split-2-split-m91",
+      "v6-logistics-one-split-m91",
+      "urban-junction-160",
+      "v5-south-logistics-split-c91",
+      "urban-junction-173",
+      "v6-logistics-yard-c91",
+      "v6-logistics-one-split-2-split-2-split-m91",
+      "urban-junction-210",
+      "v61-sports-road-split-c91",
+      "v4-south-logistics-east-split",
+      "urban-junction-50",
+      "v61-sports-road-c91",
+      "v8-tonggang-avenue-m91-section",
+      "v8-tonggang-avenue-split-m91",
+      "urban-junction-226",
+      "v8-port-south-split-split-m91",
+      "v5-south-logistics-split-split-c91",
+      "urban-junction-233",
+      "v6-logistics-one-split-2-split-2-m91",
+      "v8-port-works-split-split-c91",
+      "urban-junction-236",
+      "v8-port-south-split-split-2-m91",
+      "v8-port-south-split-split-2-split-2-m91",
+      "urban-junction-114",
+      "urban-roundabout-West",
+      "urban-roundabout-West-split",
+      "v91-local-junction-10",
+      "v5-south-east-c91",
+      "v5-south-east-c91-section",
+      "v8-tonggang-avenue-m91",
+      "road-safety:v8-ring-north:off--1:false:guide:130",
+      "road-safety:v8-ring-north:off--1:false:speed:65",
+      "road-safety:v8-ring-north:on--1:false:guide:130",
+      "road-safety:v8-ring-north:on--1:false:speed:65",
+      "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+      "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_DIVERGE"
+    ],
+    "deleted": [
+      "v8-ring-south-cross",
+      "v8-ring-south:off-1",
+      "v8-ring-south-cross-split-2",
+      "v8-ring-south:on-1",
+      "road-safety:v8-ring-south:off-1:false:speed:65",
+      "road-safety:v8-ring-south:on-1:false:guide:130",
+      "road-safety:v8-ring-south:on-1:false:speed:65",
+      "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_ADVANCE",
+      "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_DIVERGE"
+    ],
+    "area": {
+      "minX": 382.8,
+      "maxX": 3267.2,
+      "minZ": -1925.7216480618026,
+      "maxZ": 2926.5381892782325
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "slope.recommended",
+        "ids": [
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south-cross",
+          "urban-junction-116",
+          "topology-sign:urban-junction-116|v4-south-split-split-2|start:ROAD_NAME",
+          "v8-ring-south-cross-split-2",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south:off-1",
+          "v8-ring-south:on-1",
+          "v91-ring-south-cross",
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-outer-cd",
+          "v91-ring-south-inner-junction",
+          "v91-ring-south-cross-section",
+          "v91-ring-south-inner-cd-section",
+          "v91-ring-south-outer-junction",
+          "v91-ring-south-outer-cd-section",
+          "v4-south-split",
+          "v4-south-split-split-2",
+          "v8-ring-south-cross-split",
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-junction",
+          "v8-ring-north-cross",
+          "v91-ring-north-outer-cd-section",
+          "v91-ring-north-inner-junction",
+          "v8-ring-north:off--1",
+          "v8-ring-north:on--1",
+          "v8-ring-north-cross-split-2",
+          "urban-junction-73",
+          "v4-access-3-split-c91",
+          "v4-south-split-split",
+          "urban-junction-95",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91",
+          "urban-junction-67",
+          "v4-access-3-c91",
+          "v6-logistics-one-split-2-split-m91",
+          "v6-logistics-one-split-m91",
+          "urban-junction-160",
+          "v5-south-logistics-split-c91",
+          "urban-junction-173",
+          "v6-logistics-yard-c91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "urban-junction-210",
+          "v61-sports-road-split-c91",
+          "v4-south-logistics-east-split",
+          "urban-junction-50",
+          "v61-sports-road-c91",
+          "v8-tonggang-avenue-m91-section",
+          "v8-tonggang-avenue-split-m91",
+          "urban-junction-226",
+          "v8-port-south-split-split-m91",
+          "v5-south-logistics-split-split-c91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-114",
+          "urban-roundabout-West",
+          "urban-roundabout-West-split",
+          "v91-local-junction-10",
+          "v5-south-east-c91",
+          "v5-south-east-c91-section",
+          "v8-tonggang-avenue-m91",
+          "road-safety:v8-ring-north:off--1:false:guide:130",
+          "road-safety:v8-ring-north:off--1:false:speed:65",
+          "road-safety:v8-ring-north:on--1:false:guide:130",
+          "road-safety:v8-ring-north:on--1:false:speed:65",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_DIVERGE"
+        ],
+        "message": "roads[37]: Grade 13.4% exceeds recommended 12%."
+      },
+      {
+        "severity": "warning",
+        "code": "slope.recommended",
+        "ids": [
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south-cross",
+          "urban-junction-116",
+          "topology-sign:urban-junction-116|v4-south-split-split-2|start:ROAD_NAME",
+          "v8-ring-south-cross-split-2",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south:off-1",
+          "v8-ring-south:on-1",
+          "v91-ring-south-cross",
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-outer-cd",
+          "v91-ring-south-inner-junction",
+          "v91-ring-south-cross-section",
+          "v91-ring-south-inner-cd-section",
+          "v91-ring-south-outer-junction",
+          "v91-ring-south-outer-cd-section",
+          "v4-south-split",
+          "v4-south-split-split-2",
+          "v8-ring-south-cross-split",
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-junction",
+          "v8-ring-north-cross",
+          "v91-ring-north-outer-cd-section",
+          "v91-ring-north-inner-junction",
+          "v8-ring-north:off--1",
+          "v8-ring-north:on--1",
+          "v8-ring-north-cross-split-2",
+          "urban-junction-73",
+          "v4-access-3-split-c91",
+          "v4-south-split-split",
+          "urban-junction-95",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91",
+          "urban-junction-67",
+          "v4-access-3-c91",
+          "v6-logistics-one-split-2-split-m91",
+          "v6-logistics-one-split-m91",
+          "urban-junction-160",
+          "v5-south-logistics-split-c91",
+          "urban-junction-173",
+          "v6-logistics-yard-c91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "urban-junction-210",
+          "v61-sports-road-split-c91",
+          "v4-south-logistics-east-split",
+          "urban-junction-50",
+          "v61-sports-road-c91",
+          "v8-tonggang-avenue-m91-section",
+          "v8-tonggang-avenue-split-m91",
+          "urban-junction-226",
+          "v8-port-south-split-split-m91",
+          "v5-south-logistics-split-split-c91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-114",
+          "urban-roundabout-West",
+          "urban-roundabout-West-split",
+          "v91-local-junction-10",
+          "v5-south-east-c91",
+          "v5-south-east-c91-section",
+          "v8-tonggang-avenue-m91",
+          "road-safety:v8-ring-north:off--1:false:guide:130",
+          "road-safety:v8-ring-north:off--1:false:speed:65",
+          "road-safety:v8-ring-north:on--1:false:guide:130",
+          "road-safety:v8-ring-north:on--1:false:speed:65",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_DIVERGE"
+        ],
+        "message": "roads[40]: Grade 22.8% exceeds recommended 12%."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south-cross",
+          "urban-junction-116",
+          "topology-sign:urban-junction-116|v4-south-split-split-2|start:ROAD_NAME",
+          "v8-ring-south-cross-split-2",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south:off-1",
+          "v8-ring-south:on-1",
+          "v91-ring-south-cross",
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-outer-cd",
+          "v91-ring-south-inner-junction",
+          "v91-ring-south-cross-section",
+          "v91-ring-south-inner-cd-section",
+          "v91-ring-south-outer-junction",
+          "v91-ring-south-outer-cd-section",
+          "v4-south-split",
+          "v4-south-split-split-2",
+          "v8-ring-south-cross-split",
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-junction",
+          "v8-ring-north-cross",
+          "v91-ring-north-outer-cd-section",
+          "v91-ring-north-inner-junction",
+          "v8-ring-north:off--1",
+          "v8-ring-north:on--1",
+          "v8-ring-north-cross-split-2",
+          "urban-junction-73",
+          "v4-access-3-split-c91",
+          "v4-south-split-split",
+          "urban-junction-95",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91",
+          "urban-junction-67",
+          "v4-access-3-c91",
+          "v6-logistics-one-split-2-split-m91",
+          "v6-logistics-one-split-m91",
+          "urban-junction-160",
+          "v5-south-logistics-split-c91",
+          "urban-junction-173",
+          "v6-logistics-yard-c91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "urban-junction-210",
+          "v61-sports-road-split-c91",
+          "v4-south-logistics-east-split",
+          "urban-junction-50",
+          "v61-sports-road-c91",
+          "v8-tonggang-avenue-m91-section",
+          "v8-tonggang-avenue-split-m91",
+          "urban-junction-226",
+          "v8-port-south-split-split-m91",
+          "v5-south-logistics-split-split-c91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-114",
+          "urban-roundabout-West",
+          "urban-roundabout-West-split",
+          "v91-local-junction-10",
+          "v5-south-east-c91",
+          "v5-south-east-c91-section",
+          "v8-tonggang-avenue-m91",
+          "road-safety:v8-ring-north:off--1:false:guide:130",
+          "road-safety:v8-ring-north:off--1:false:speed:65",
+          "road-safety:v8-ring-north:on--1:false:guide:130",
+          "road-safety:v8-ring-north:on--1:false:speed:65",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_DIVERGE"
+        ],
+        "message": "intersections[16]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south-cross",
+          "urban-junction-116",
+          "topology-sign:urban-junction-116|v4-south-split-split-2|start:ROAD_NAME",
+          "v8-ring-south-cross-split-2",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south:off-1",
+          "v8-ring-south:on-1",
+          "v91-ring-south-cross",
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-outer-cd",
+          "v91-ring-south-inner-junction",
+          "v91-ring-south-cross-section",
+          "v91-ring-south-inner-cd-section",
+          "v91-ring-south-outer-junction",
+          "v91-ring-south-outer-cd-section",
+          "v4-south-split",
+          "v4-south-split-split-2",
+          "v8-ring-south-cross-split",
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-junction",
+          "v8-ring-north-cross",
+          "v91-ring-north-outer-cd-section",
+          "v91-ring-north-inner-junction",
+          "v8-ring-north:off--1",
+          "v8-ring-north:on--1",
+          "v8-ring-north-cross-split-2",
+          "urban-junction-73",
+          "v4-access-3-split-c91",
+          "v4-south-split-split",
+          "urban-junction-95",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91",
+          "urban-junction-67",
+          "v4-access-3-c91",
+          "v6-logistics-one-split-2-split-m91",
+          "v6-logistics-one-split-m91",
+          "urban-junction-160",
+          "v5-south-logistics-split-c91",
+          "urban-junction-173",
+          "v6-logistics-yard-c91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "urban-junction-210",
+          "v61-sports-road-split-c91",
+          "v4-south-logistics-east-split",
+          "urban-junction-50",
+          "v61-sports-road-c91",
+          "v8-tonggang-avenue-m91-section",
+          "v8-tonggang-avenue-split-m91",
+          "urban-junction-226",
+          "v8-port-south-split-split-m91",
+          "v5-south-logistics-split-split-c91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-114",
+          "urban-roundabout-West",
+          "urban-roundabout-West-split",
+          "v91-local-junction-10",
+          "v5-south-east-c91",
+          "v5-south-east-c91-section",
+          "v8-tonggang-avenue-m91",
+          "road-safety:v8-ring-north:off--1:false:guide:130",
+          "road-safety:v8-ring-north:off--1:false:speed:65",
+          "road-safety:v8-ring-north:on--1:false:guide:130",
+          "road-safety:v8-ring-north:on--1:false:speed:65",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_DIVERGE"
+        ],
+        "message": "intersections[17]: urban-junction-233: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-south:off-1:end|v8-ring-south:off-1|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south-cross",
+          "urban-junction-116",
+          "topology-sign:urban-junction-116|v4-south-split-split-2|start:ROAD_NAME",
+          "v8-ring-south-cross-split-2",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:ring-cw-2-split-4-split:end|ring-cw-2-split-4-split|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-south:off-1",
+          "v8-ring-south:on-1",
+          "v91-ring-south-cross",
+          "v91-ring-south-inner-cd",
+          "v91-ring-south-outer-cd",
+          "v91-ring-south-inner-junction",
+          "v91-ring-south-cross-section",
+          "v91-ring-south-inner-cd-section",
+          "v91-ring-south-outer-junction",
+          "v91-ring-south-outer-cd-section",
+          "v4-south-split",
+          "v4-south-split-split-2",
+          "v8-ring-south-cross-split",
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-junction",
+          "v8-ring-north-cross",
+          "v91-ring-north-outer-cd-section",
+          "v91-ring-north-inner-junction",
+          "v8-ring-north:off--1",
+          "v8-ring-north:on--1",
+          "v8-ring-north-cross-split-2",
+          "urban-junction-73",
+          "v4-access-3-split-c91",
+          "v4-south-split-split",
+          "urban-junction-95",
+          "v4-south-logistics-east",
+          "v5-south-logistics-c91",
+          "urban-junction-67",
+          "v4-access-3-c91",
+          "v6-logistics-one-split-2-split-m91",
+          "v6-logistics-one-split-m91",
+          "urban-junction-160",
+          "v5-south-logistics-split-c91",
+          "urban-junction-173",
+          "v6-logistics-yard-c91",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "urban-junction-210",
+          "v61-sports-road-split-c91",
+          "v4-south-logistics-east-split",
+          "urban-junction-50",
+          "v61-sports-road-c91",
+          "v8-tonggang-avenue-m91-section",
+          "v8-tonggang-avenue-split-m91",
+          "urban-junction-226",
+          "v8-port-south-split-split-m91",
+          "v5-south-logistics-split-split-c91",
+          "urban-junction-233",
+          "v6-logistics-one-split-2-split-2-m91",
+          "v8-port-works-split-split-c91",
+          "urban-junction-236",
+          "v8-port-south-split-split-2-m91",
+          "v8-port-south-split-split-2-split-2-m91",
+          "urban-junction-114",
+          "urban-roundabout-West",
+          "urban-roundabout-West-split",
+          "v91-local-junction-10",
+          "v5-south-east-c91",
+          "v5-south-east-c91-section",
+          "v8-tonggang-avenue-m91",
+          "road-safety:v8-ring-north:off--1:false:guide:130",
+          "road-safety:v8-ring-north:off--1:false:speed:65",
+          "road-safety:v8-ring-north:on--1:false:guide:130",
+          "road-safety:v8-ring-north:on--1:false:speed:65",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_DIVERGE"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:off--1",
+          "ring-cw-1-split-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:off--1",
+          "ring-cw-1-split-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "v8-ring-north:on--1",
+          "ring-cw-1-split-3-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "extreme.grade",
+        "ids": [
+          "v5-south-logistics-c91"
+        ],
+        "message": "Maximum grade 13.4%"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "v6-logistics-yard-c91",
+          "v8-port-works-split-split-c91"
+        ],
+        "message": "Crossing clearance 2.8m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "v6-logistics-yard-c91",
+          "v91-ring-south-outer-cd-section"
+        ],
+        "message": "Crossing clearance 0.7m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "extreme.grade",
+        "ids": [
+          "v4-access-3-split-c91"
+        ],
+        "message": "Maximum grade 22.8%"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "v8-port-works-split-split-c91",
+          "v4-industrial-split-c91"
+        ],
+        "message": "Crossing clearance 3.4m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-port-works-split-split-c91",
+          "v91-ring-south-outer-cd-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-cd",
+          "v6-logistics-one-split-3-split-2-m91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-inner-cd",
+          "v8-port-works-c91"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "v91-ring-south-outer-cd",
+          "v4-access-5"
+        ],
+        "message": "Crossing clearance 4.8m is below 5.5m"
+      }
+    ],
+    "valid": true
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "operations": [
+    {
+      "op": "connectRoads",
+      "from": {
+        "roadId": "v91-ring-west-inner-off",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "v8-beijing-road-split-split-split",
+        "end": "end"
+      }
+    },
+    {
+      "op": "connectRoads",
+      "from": {
+        "roadId": "v91-ring-west-inner-off",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "ring-cw-3-split-2-split-split-2-section",
+        "end": "start"
+      }
+    },
+    {
+      "op": "connectRoads",
+      "from": {
+        "roadId": "v91-ring-west-inner-on",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ring-cw-3-split-2-split-split-split-split",
+        "end": "end"
+      }
+    },
+    {
+      "op": "connectRoads",
+      "from": {
+        "roadId": "v91-ring-west-inner-on",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "v8-beijing-road-split-split-section",
+        "end": "start"
+      }
+    }
+  ],
+  "linkResult": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "Edit map",
+    "created": [],
+    "modified": [
+      "v91-ring-west-inner-off",
+      "v8-beijing-road-split-split-split",
+      "ring-cw-3-split-2-split-split-2-section",
+      "v91-ring-west-inner-on",
+      "ring-cw-3-split-2-split-split-split-split",
+      "v8-beijing-road-split-split-section",
+      "urban-junction-21",
+      "v91-ring-west-underpass",
+      "v8-ring-west-cross-split",
+      "v91-ring-west-outer-junction",
+      "v91-ring-west-distributor-section-2",
+      "v91-ring-west-distributor-section"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -2180,
+      "maxX": -1716.8,
+      "minZ": 514.375,
+      "maxZ": 1205.625
+    },
+    "warnings": [],
+    "valid": true
+  },
+  "scopes": [
+    {
+      "id": "access-mingyuan-scope",
+      "name": "明远地面节点与纵坡",
+      "roadIds": [
+        "direction-mingyuan-main",
+        "direction-mingyuan-main-section",
+        "direction-mingyuan-main-section-section",
+        "direction-mingyuan-main-section-section-section",
+        "direction-mingyuan-main-section-section-section-section",
+        "access-inner-mingyuan",
+        "direction-mingyuan-main-section-section-2",
+        "access-inner-mingyuan-section",
+        "direction-mingyuan-main-section-section-section-section-2"
+      ]
+    },
+    {
+      "id": "access-north-radials-scope",
+      "name": "北部四条径向通道",
+      "roadIds": [
+        "v8-gongren-street-split-split-2-m91",
+        "v8-gongren-street-split-split-3-m91",
+        "v8-gongren-street-split-split-3-split-m91",
+        "v8-gongren-street-split-split-2-m91-section-2",
+        "access-shifu-north",
+        "access-finance-north",
+        "access-central-north",
+        "access-shifu-north-section",
+        "access-finance-north-section",
+        "access-finance-north-section-section",
+        "access-central-north-section",
+        "access-central-north-section-section"
+      ]
+    },
+    {
+      "id": "access-frontage-ramps-scope",
+      "name": "穿城快速路完整转换组",
+      "roadIds": [
+        "v91-ew-0-a-1-section",
+        "v91-ew-0-b-1-section",
+        "v91-ew-1-a-3-section",
+        "v91-ew-east-eb-off",
+        "v91-ew-1-a-4-section",
+        "v91-ew-1-b-4-section",
+        "v91-ew-1-b-3-section",
+        "v91-ew-east-wb-on",
+        "v91-ns-1-a-1-section",
+        "v91-ns-1-a-3-section",
+        "v91-ns-sb-on",
+        "v91-ns-1-b-3-section",
+        "v91-ns-nb-off",
+        "v91-ns-1-b-1-section",
+        "v91-ew-1-a-3-section-2-section",
+        "v91-ew-1-b-3-section-2-section",
+        "v91-ns-0-a-4-section",
+        "v91-ns-0-b-4-section",
+        "v91-ew-west-eb-off",
+        "v91-ew-west-wb-on",
+        "v91-ew-east-eb-on",
+        "v91-ew-east-wb-off",
+        "v91-ns-sb-off",
+        "v91-ns-nb-on",
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on",
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off",
+        "v91-ns-0-a-3-section",
+        "access-ns-north-sb-off",
+        "v91-ns-0-b-3-section",
+        "access-ns-north-nb-on",
+        "access-ns-north-sb-on",
+        "access-ns-north-nb-off"
+      ]
+    },
+    {
+      "id": "access-west-gateway-scope",
+      "name": "环城西侧门户收紧",
+      "roadIds": [
+        "v91-ring-west-inner-off",
+        "v91-ring-west-inner-on"
+      ]
+    }
+  ]
+}

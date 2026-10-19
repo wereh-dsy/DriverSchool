@@ -113,7 +113,10 @@ export class MarkingOwnership {
     const len=polylineLength(path),count=Math.max(1,Math.ceil(len/0.75)),sections:CityPoint[][]=[];let section:CityPoint[]=[];
     const flush=()=>{if(section.length>1)sections.push(section);section=[];};
     const permitted=(d:number)=>{
-      const s=sampleAt(path,d),p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset},mask=this.ownerAt(p,0.4);
+      // Stop lines and zebra crossings now sit just outside the pavement
+      // boundary; suppress longitudinal road paint through that terminal strip
+      // so lane markings never run through the crossing.
+      const s=sampleAt(path,d),p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset},mask=this.ownerAt(p,5.5);
       const owned=owner==='road'?!mask:mask?.kind==='merge'&&mask.id===road.id;
       return owned&&this.permitsLongitudinal(p,s.tangent,road,boundary);
     };

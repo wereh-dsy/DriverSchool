@@ -1,0 +1,65 @@
+{
+  "label": "V9.1: complete both-direction north/south ring gateway ramp pairs",
+  "operations": [
+    {
+      "op": "createRamp",
+      "id": "v91-ring-north-outer-off",
+      "fromRoadId": "ring-ccw-2-split-split-split",
+      "toRoadId": "v91-ring-north-outer-cd-section",
+      "fromDistance": 1399.4688348985449,
+      "toDistance": 137.86942750388238,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-north-outer-on",
+      "fromRoadId": "v91-ring-north-outer-cd",
+      "toRoadId": "ring-ccw-2-split-split-split-split-2-split",
+      "fromDistance": 145.64728753066876,
+      "toDistance": 75.01174167727888,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-south-inner-off",
+      "fromRoadId": "ring-cw-2-split-4-split",
+      "toRoadId": "v91-ring-south-inner-cd-section",
+      "fromDistance": 2311.8972234679054,
+      "toDistance": 89.59999999999991,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-south-inner-on",
+      "fromRoadId": "v91-ring-south-inner-cd",
+      "toRoadId": "ring-cw-2-split-3-split-split",
+      "fromDistance": 200,
+      "toDistance": 30,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-south-outer-off",
+      "fromRoadId": "ring-ccw-1-split-split",
+      "toRoadId": "v91-ring-south-outer-cd",
+      "fromDistance": 132.5435954275223,
+      "toDistance": 200,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-south-outer-on",
+      "fromRoadId": "v91-ring-south-outer-cd-section",
+      "toRoadId": "ring-ccw-1-split-split-split-split",
+      "fromDistance": 89.59999999999991,
+      "toDistance": 71.43458765432092,
+      "kind": "on",
+      "lanes": 1
+    }
+  ]
+}

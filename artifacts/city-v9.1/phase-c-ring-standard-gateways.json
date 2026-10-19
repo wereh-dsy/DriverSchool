@@ -1,0 +1,252 @@
+{
+  "label": "V9.1: standard north/south urban gateways, local distributors and separated arterial crossings",
+  "operations": [
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-south-cross"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-south-cross-split-2"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-south:off-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-south:on-1"
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-south-cross",
+      "preset": "arterial4",
+      "crossing": "none",
+      "points": [
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 2530
+        },
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 2500
+        },
+        {
+          "x": 1050,
+          "y": -6,
+          "z": 2405
+        },
+        {
+          "x": 1050,
+          "y": -6,
+          "z": 2340
+        },
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 2240
+        },
+        {
+          "x": 1050,
+          "y": 0,
+          "z": 2200
+        },
+        {
+          "x": 1050,
+          "y": -0.024,
+          "z": 1997.8584161572207
+        }
+      ],
+      "properties": {
+        "curve": "polyline",
+        "structure": {
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 5.5
+          },
+          "piersEnabled": false,
+          "barrierEnabled": true
+        }
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-south-cross",
+      "properties": {
+        "roadNameId": "v8-ring-south-cross"
+      }
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-south-inner-cd",
+      "preset": "frontage2",
+      "crossing": "none",
+      "points": [
+        {
+          "x": 750,
+          "y": 0,
+          "z": 2200
+        },
+        {
+          "x": 1350,
+          "y": 0,
+          "z": 2200
+        }
+      ],
+      "properties": {
+        "travelDirection": "reverse"
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-south-inner-cd",
+      "properties": {
+        "roadNameId": "v8-ring-south-cross"
+      }
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-south-outer-cd",
+      "preset": "frontage2",
+      "crossing": "none",
+      "points": [
+        {
+          "x": 750,
+          "y": 0,
+          "z": 2530
+        },
+        {
+          "x": 1350,
+          "y": 0,
+          "z": 2530
+        }
+      ],
+      "properties": {
+        "travelDirection": "forward"
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-south-outer-cd",
+      "properties": {
+        "roadNameId": "v8-ring-south-cross"
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-south-inner-junction",
+      "position": {
+        "x": 1050,
+        "y": 0,
+        "z": 2200
+      },
+      "roadIds": [
+        "v91-ring-south-cross",
+        "v91-ring-south-inner-cd"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-south-outer-junction",
+      "position": {
+        "x": 1050,
+        "y": 0,
+        "z": 2530
+      },
+      "roadIds": [
+        "v91-ring-south-cross",
+        "v91-ring-south-outer-cd"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-116",
+      "properties": {
+        "connections": [
+          {
+            "roadId": "v4-south-split",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v91-ring-south-cross-section",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v4-south-split-split-2",
+            "end": "start",
+            "port": "south"
+          },
+          {
+            "roadId": "v8-ring-south-cross-split",
+            "end": "start",
+            "port": "west"
+          }
+        ]
+      }
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-north-outer-cd",
+      "preset": "frontage2",
+      "crossing": "none",
+      "points": [
+        {
+          "x": 983.8657490055778,
+          "y": 0,
+          "z": -1912.1216480618027
+        },
+        {
+          "x": 1503.4809912855778,
+          "y": 0,
+          "z": -1612.1216480618027
+        }
+      ],
+      "properties": {
+        "travelDirection": "reverse"
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-north-outer-cd",
+      "properties": {
+        "roadNameId": "v8-ring-north-cross"
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-north-outer-junction",
+      "position": {
+        "x": 1243.6733701455778,
+        "y": 0,
+        "z": -1762.1216480618027
+      },
+      "roadIds": [
+        "v8-ring-north-cross",
+        "v91-ring-north-outer-cd"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-north-inner-junction",
+      "position": {
+        "x": 1165.4059723495843,
+        "y": -0.024,
+        "z": -1664.6577345232847
+      },
+      "roadIds": [
+        "v8-ring-north:off--1",
+        "v8-ring-north:on--1",
+        "v8-ring-north-cross",
+        "v8-ring-north-cross-split-2"
+      ],
+      "signalized": true
+    }
+  ]
+}

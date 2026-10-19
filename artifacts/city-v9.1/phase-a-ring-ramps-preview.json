@@ -1,0 +1,233 @@
+{
+  "mapDigest": "51d07a3a9d7220192b2c77d1b5ebdef68bd6decc532a907cf56c242cf6aa6ec5",
+  "operations": [
+    {
+      "op": "createRamp",
+      "id": "v91-ring-west-inner-off",
+      "fromRoadId": "ring-cw-3-split-2-split-split-2",
+      "toRoadId": "v8-beijing-road-split-split-split",
+      "fromDistance": 9.999999999973625,
+      "toDistance": 52.849129347861904,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-west-inner-on",
+      "fromRoadId": "v8-beijing-road-split-split",
+      "toRoadId": "ring-cw-3-split-2-split-split-split-split",
+      "fromDistance": 78.76957716090284,
+      "toDistance": 69.99999999997226,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-west-outer-off",
+      "fromRoadId": "ring-ccw-0-split-split",
+      "toRoadId": "v91-ring-west-distributor",
+      "fromDistance": 149.65301850421156,
+      "toDistance": 229.99999999999997,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-west-outer-on",
+      "fromRoadId": "v91-ring-west-distributor-section",
+      "toRoadId": "ring-ccw-0-split-split-split-3-split",
+      "fromDistance": 59.60000000000002,
+      "toDistance": 56.777066515488286,
+      "kind": "on",
+      "lanes": 1
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "V9.1 A: four simple west ring gateway ramps",
+    "created": [
+      "ring-cw-3-split-2-split-split-2-section",
+      "v8-beijing-road-split-split-split-section",
+      "v91-ring-west-inner-off",
+      "v8-beijing-road-split-split-section",
+      "ring-cw-3-split-2-split-split-split-split-section",
+      "v91-ring-west-inner-on",
+      "ring-ccw-0-split-split-section",
+      "v91-ring-west-distributor-section-2",
+      "v91-ring-west-outer-off",
+      "v91-ring-west-distributor-section-section",
+      "ring-ccw-0-split-split-split-3-split-section",
+      "v91-ring-west-outer-on"
+    ],
+    "modified": [
+      "ring-cw-3-split-2-split-split-2",
+      "v8-beijing-road-split-split-split",
+      "urban-junction-123",
+      "v8-beijing-road-split-split",
+      "ring-cw-3-split-2-split-split-split-split",
+      "urban-junction-21",
+      "topology-sign:endpoint:ring-cw-3-split:end|ring-cw-3-split|end:EXPRESSWAY_ADVANCE",
+      "ring-ccw-0-split-split",
+      "v91-ring-west-distributor",
+      "v91-ring-west-outer-junction",
+      "v91-ring-west-distributor-section",
+      "ring-ccw-0-split-split-split-3-split",
+      "road-safety:ring-ccw-0-split-split-split-3-split:false:guide:880",
+      "road-safety:ring-ccw-0-split-split-split-3-split:false:guide:955",
+      "road-safety:ring-ccw-0-split-split-split-3-split:false:speed:779",
+      "topology-sign:endpoint:ring-ccw-0-split-split-split:end|ring-ccw-0-split-split-split|end:EXPRESSWAY_ADVANCE",
+      "urban-junction-175",
+      "v8-beijing-road-split-v91",
+      "v8-hankou-road",
+      "urban-junction-176",
+      "v8-shanghai-road-split-2-split-v91",
+      "v8-shanghai-road-split-2-split-split",
+      "v8-hankou-road-split-2",
+      "v91-ring-west-underpass",
+      "v8-ring-west-cross-split",
+      "urban-junction-117",
+      "regional:v8:airport-city-road-split",
+      "v8-shanghai-road-split-2-split-split-split",
+      "regional:v8:airport-city-road",
+      "v8-beijing-road-split-split-split-split",
+      "v8-airport-gateway",
+      "regional:v8:airport-city-out",
+      "regional:v8:airport-city-in"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -4723.75,
+      "maxX": -464.375,
+      "minZ": -97.2,
+      "maxZ": 2170.3308823529414
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-cw-3-split-2-split-split-2",
+          "v8-beijing-road-split-split-split",
+          "ring-cw-3-split-2-split-split-2-section",
+          "urban-junction-123",
+          "v8-beijing-road-split-split-split-section",
+          "v91-ring-west-inner-off",
+          "v8-beijing-road-split-split",
+          "ring-cw-3-split-2-split-split-split-split",
+          "urban-junction-21",
+          "v8-beijing-road-split-split-section",
+          "ring-cw-3-split-2-split-split-split-split-section",
+          "topology-sign:endpoint:ring-cw-3-split:end|ring-cw-3-split|end:EXPRESSWAY_ADVANCE",
+          "v91-ring-west-inner-on",
+          "ring-ccw-0-split-split",
+          "v91-ring-west-distributor",
+          "ring-ccw-0-split-split-section",
+          "v91-ring-west-outer-junction",
+          "v91-ring-west-distributor-section-2",
+          "v91-ring-west-outer-off",
+          "v91-ring-west-distributor-section",
+          "ring-ccw-0-split-split-split-3-split",
+          "v91-ring-west-distributor-section-section",
+          "ring-ccw-0-split-split-split-3-split-section",
+          "road-safety:ring-ccw-0-split-split-split-3-split:false:guide:880",
+          "road-safety:ring-ccw-0-split-split-split-3-split:false:guide:955",
+          "road-safety:ring-ccw-0-split-split-split-3-split:false:speed:779",
+          "topology-sign:endpoint:ring-ccw-0-split-split-split:end|ring-ccw-0-split-split-split|end:EXPRESSWAY_ADVANCE",
+          "v91-ring-west-outer-on",
+          "urban-junction-175",
+          "v8-beijing-road-split-v91",
+          "v8-hankou-road",
+          "urban-junction-176",
+          "v8-shanghai-road-split-2-split-v91",
+          "v8-shanghai-road-split-2-split-split",
+          "v8-hankou-road-split-2",
+          "v91-ring-west-underpass",
+          "v8-ring-west-cross-split",
+          "urban-junction-117",
+          "regional:v8:airport-city-road-split",
+          "v8-shanghai-road-split-2-split-split-split",
+          "regional:v8:airport-city-road",
+          "v8-beijing-road-split-split-split-split",
+          "v8-airport-gateway",
+          "regional:v8:airport-city-out",
+          "regional:v8:airport-city-in"
+        ],
+        "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-0-split-split-split-3-split",
+          "v91-ring-west-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-beijing-road-split-split-split",
+          "v91-ring-west-inner-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-3-split-2-split-split-split-split",
+          "v91-ring-west-inner-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-west-distributor",
+          "v91-ring-west-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-cw-3-split-2-split-split-2-section",
+          "v91-ring-west-inner-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v8-beijing-road-split-split-section",
+          "v91-ring-west-inner-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-0-split-split-section",
+          "v91-ring-west-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-west-distributor-section-section",
+          "v91-ring-west-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  }
+}

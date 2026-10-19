@@ -44,9 +44,12 @@ Use `@file` requests on Windows. `regional-main` is the playable Qingjiang sourc
 pnpm mapctl presets
 pnpm mapctl inspect regional-main --request '@area.json'
 pnpm mapctl query regional-main --request '@query.json'
+pnpm mapctl diagnose regional-main --request '@diagnose.json' --out diagnosis.json
 pnpm mapctl preview regional-main --request '@operations.json' --out preview.json
-pnpm mapctl apply regional-main --request '@preview.json' --out edited-city.json
+pnpm mapctl repair regional-main --request '@diagnosis.json' --out repair-preview.json
+pnpm mapctl apply regional-main --request '@repair-preview.json' --out edited-city.json
 pnpm mapctl validate edited-city.json --request '@selection.json'
+pnpm mapctl validate edited-city.json --full
 ```
 
 `area.json`: `{"center":{"x":0,"z":0},"radius":150,"limit":20}`
@@ -54,6 +57,14 @@ pnpm mapctl validate edited-city.json --request '@selection.json'
 `query.json`: `{"name":"人民","roadClass":"arterial","limit":10}`. Use `{"kind":"corridors","name":"快速路"}`, `{"kind":"corridor","id":"…"}`, `{"kind":"group","id":"…"}`, `{"kind":"signs","roadId":"…"}` or `{"kind":"sign","id":"…"}` for those entities.
 
 `selection.json`: `{"roadId":"existing-road-id"}`, `{"corridorId":"existing-corridor-id"}`, `{"intersectionId":"existing-junction-id"}` or `{"bbox":{"minX":-100,"maxX":100,"minZ":-100,"maxZ":100}}`.
+
+`diagnose.json` uses the same local scopes plus `{"full":true}`. Add `limit` (default 100), `codes` (e.g. `["vertical.","geometry.sharp"]`) and `minSeverity` when narrowing a receipt.
+
+```json
+{"roadId":"v8-nanjing-road","limit":30}
+{"corridorId":"corridor:...","codes":["geometry.","vertical."]}
+{"bbox":{"minX":1200,"maxX":2400,"minZ":-1600,"maxZ":-600},"limit":100}
+```
 
 Example `operations.json` for the small fixture:
 
@@ -74,8 +85,51 @@ Example Qingjiang operations after querying real IDs:
 
 Preview outputs a receipt containing commands, a source SHA-256 digest and the compact edit summary. Applying that receipt refuses a changed source. `apply` always previews/locally validates before an atomic temporary-file rename. Without `--out`, it replaces the explicitly selected input source. An invalid operation or stale receipt does not write the map. Import an output JSON in the UI to inspect it; apply to `regional-main` and run the normal build to publish it into the playable game.
 
+## Road quality diagnose and repair (CLI-first)
+
+`diagnose` is quality advice, not legality. `validate` remains the structural gate (broken references, topology, impossible connections). A wave in an elevation profile therefore appears in `diagnose` without blocking `preview`/`commit`.
+
+Detected groups:
+
+- Horizontal: consecutive short segments, sharp/angular bends, tight S curves, zigzag/sway, redundant or collinear control points, self-intersection.
+- Vertical: high-frequency waves and grade reversals (not only absolute grade), abrupt grade changes, excessive/recommended grade, redundant elevation points, local reverse on a mostly monotonic ramp.
+- Topology/intersection: open endpoints, tiny fragments, endpoint gaps, controlled-access crossings, duplicate/close junctions, short approaches, stale port bearings, tangential (kinked) approaches.
+- Marking: stop line displaced or inside pavement, overlapping zebra crossings, generic marking footprint, fragments that still carry markings.
+
+Each issue carries compact `code`, `severity`, `roadId`/`intersectionId`, `station`, `metrics`, a short `message` and a `repair` suggestion. Centerlines are never dumped; `limit`, `codes` and `minSeverity` keep an Agent receipt small.
+
+Explicit `{"full":true}` checks every road and intersection, independently of map bounds and local spatial/cap filters. Local scope selection retains its 600-road cap and default 100 returned details (maximum 1,000). Every report includes `coverage` (`roadsChecked`, `roadsTotal`, `intersectionsChecked`, `intersectionsTotal`) and `counts.total`, `counts.bySeverity`, `counts.byCode`; the existing flat severity counts remain available.
+
+CLI `diagnose --out <receipt.json>` saves **all computed issues matching the requested scope/code/severity filters**, while stdout returns only the requested compact page plus `detailsFile` and `pagination`. Full CLI diagnosis requires `--out` so no computed details are lost. A complete saved receipt has `truncated:false` and `issues.length === counts.total`; stdout can have `truncated:true` without truncating that file. Existing diagnostic rules, thresholds and issue deduplication are unchanged.
+
+Page the saved receipt with `pnpm mapctl query <receipt.json> --request @page.json`, where `page.json` is `{"kind":"diagnosis","offset":0,"limit":100}`. Follow `pagination.nextOffset` until null. This reads the receipt only and never loads or diagnoses a map. Optional `codes` and `minSeverity` filter the detail pages (for example `{"kind":"diagnosis","minSeverity":"warning","limit":1000}`); `counts` remains the complete receipt's totals, while `pagination.total` is the number matching the page filters. Page size is at most 1,000. Truncated legacy receipts are rejected rather than presenting missing details as retrievable.
+
+`node scripts/validate-diagnose-coverage.mjs` runs only isolated coverage/counting/pagination fixtures and read-only CLI checks; it does not load regional-main, repair roads or run the broader editor/vehicle/core suites.
+
+Repair commands (all use preview → local validation → commit, and support `--out` receipts):
+
+```json
+{"op":"smoothRoad","id":"road-or-corridor","strength":1.2,"preserveEndpoints":true}
+{"op":"repairElevation","id":"road-or-corridor","strength":2,"maxGrade":0.06,"monotonic":false}
+{"op":"simplifyRoad","id":"road-or-corridor","tolerance":0.2}
+{"op":"repairRamp","id":"ramp-road-or-ramp-metadata","strength":1.5,"monotonic":true}
+{"op":"repairIntersection","id":"junction-id"}
+{"op":"repairIntersections","bbox":{"minX":0,"maxX":500,"minZ":-500,"maxZ":0},"codes":["marking.","intersection."]}
+{"op":"setCorridorName","id":"corridor-id","name":"人民大道"}
+```
+
+`smoothRoad` keeps the two range endpoints exact, rounds sharp interior corners with tangent arcs, low-pass filters the remaining control points and writes back a small natural polylines. `repairElevation` pins endpoints and bridge/ground connections, smooths short-wavelength height control points, optionally enforces a monotonic grade and limits the target grade while reporting `beforeMaxGrade`, `afterMaxGrade`, `beforeGradeReversals`, `afterGradeReversals`, `removedControlPoints` and the affected station range. `repairRamp` applies both to a ramp while keeping its merge endpoints. `repairIntersection` trims each mouth until it clears every non-parallel approach ribbon, rebuilds the pavement outline from the actual mouths, refreshes port bearings/marking metadata and never deletes the junction.
+
+`repair` can derive operations from a diagnosis receipt (`--request @diagnosis.json`) or a local scope (`{"scope":{"corridorId":"..."}}`). It previews by default; `--apply` commits and writes the map. Unknown or unfixable issues are not invented; an empty result means there is no suggested repair for that scope.
+
+Stop lines and zebra crossings are generated from the final pavement boundary and actual approach heading. Road lane paint is suppressed through the terminal strip, overlapping crosswalks are not double-painted, and median/lane lines stop before the junction. `repairIntersection` triggers the same rebuild on commit.
+
+Road names use `RoadNameRegistry` + `roadNameId` as the single source of truth. `setCorridorName` applies one name ID to every segment, split roads inherit it, merge keeps the surviving name, and parallel/frontage/ramp roads stay unnamed unless explicitly assigned. Editor, navigation, minimap road network and signs all resolve the same registry entry.
+
+In the 3D editor, selecting a road/corridor/junction shows a small axis gizmo (red X, green Y, blue Z, magenta road normal). Dragging an axis moves predictably; the previous screen-drag remains for quick adjustments. Repair previews show the original geometry in orange and the repaired ghost in green, with a **修复前 ghost** toggle. The editor shell is in Chinese; IDs, preset keys and CLI commands remain English.
+
 ## Validation entry points
 
-`pnpm run selftest:editor` checks the small fixture and operation contracts. `node scripts/run-editor-selftests.mjs --city-main` checks one ordinary junction, one frontage area and one ramp against current Qingjiang data, without writing that map. `node scripts/validate-editor-cli.mjs` checks receipts, atomic saves, stale-write refusal, compact queries and reload. The required final playable build is `pnpm run build`.
+`pnpm run selftest:editor` checks the small fixture and operation contracts. `node scripts/run-editor-selftests.mjs --city-main` checks one ordinary junction, one frontage area and one ramp against current Qingjiang data, without writing that map. `pnpm run selftest:road-quality` runs 53 focused checks: synthetic sharp bend, elevation wave, ramp, ordinary/skew/divided junctions, naming registry, save/reload and gizmo/before-ghost, plus real `v8-nanjing-road`, `v4-west`, `system-east:S-to-W-turbine` and `urban-junction-19`. `node scripts/validate-editor-cli.mjs` checks receipts, atomic saves, stale-write refusal, compact local inspect, explicit full validation, real-map diagnose and repair-preview source safety. The required final playable build is `pnpm run build`.
 
 Foundation limits: no automated lane-level merge design, terrain excavation or clearance optimizer. Existing regional terrain, services and highway semantics are retained; newly authored depressed roads use the existing cutting geometry. The editor ground is translucent so below-ground geometry remains visible. Large interchange stamps require explicit connection to existing road ports; geometry warnings must be reviewed before replacing a live junction. Frontage relationships follow translations, not arbitrary reshape constraints. Parallel/frontage commands inherit source elevations unless `elevation` is supplied; the UI exposes this as Parallel height.

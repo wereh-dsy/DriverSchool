@@ -19,4 +19,27 @@ const inspect=invoke('inspect',destination,'--request','@'+query);
 if(inspect.status!==0||!inspect.body.intersections.length||JSON.stringify(inspect.body).includes('centerline'))throw new Error('CLI local inspect must be compact and reloadable');
 const local=resolve(directory,'validate.json');writeFileSync(local,JSON.stringify({roadId:'cli-cross'}));
 const validation=invoke('validate',destination,'--request','@'+local);if(validation.status!==0||!validation.body.valid)throw new Error('CLI affected road validation');
-console.log(JSON.stringify({passed:true,checks:['preview source unchanged','receipt apply','portable reload','stale receipt refuses writes','compact local inspect','affected road validation']},null,2));
+const full=invoke('validate',destination,'--full');if(full.status!==0||!full.body.full||!full.body.valid)throw new Error('CLI explicit full-map validation');
+const realSource=readFileSync('src/world/regional/regional-main.json','utf8');
+const diagnoseRequest=resolve(directory,'diagnose.json'),diagnosis=resolve(directory,'diagnosis.json'),repairReceipt=resolve(directory,'repair-receipt.json');
+writeFileSync(diagnoseRequest,JSON.stringify({roadId:'v8-nanjing-road',limit:30}));
+const diagnose=invoke('diagnose','regional-main','--request','@'+diagnoseRequest,'--out',diagnosis);
+if(diagnose.status!==0||!diagnose.body.issues.some(issue=>issue.code==='vertical.wave')||JSON.stringify(diagnose.body).includes('"centerline":'))throw new Error('CLI diagnose must report the real wave compactly');
+const repair=invoke('repair','regional-main','--request','@'+diagnosis,'--out',repairReceipt);
+if(repair.status!==0||!repair.body.operations.some(operation=>operation.op==='repairElevation')||!repair.body.summary.valid)throw new Error('CLI repair must preview a suggested elevation repair');
+if(readFileSync('src/world/regional/regional-main.json','utf8')!==realSource)throw new Error('Repair preview must not write the source map');
+if(!diagnose.body.mapDigest)throw new Error('Diagnosis receipt must carry the source digest');
+const repairSource=resolve(directory,'repair-source.json'),localRepairRequest=resolve(directory,'local-repair.json'),localRepairReceipt=resolve(directory,'local-repair-receipt.json');
+writeFileSync(repairSource,source);
+writeFileSync(localRepairRequest,JSON.stringify({operations:[{op:'repairElevation',id:'avenue'}]}));
+const localRepair=invoke('repair',repairSource,'--request','@'+localRepairRequest,'--out',localRepairReceipt);
+if(localRepair.status!==0||!localRepair.body.summary.valid||readFileSync(repairSource,'utf8')!==source)throw new Error('Local repair preview must leave source unchanged');
+const changedSource=source+'\n';writeFileSync(repairSource,changedSource);
+const staleRepair=invoke('repair',repairSource,'--request','@'+localRepairReceipt,'--apply');
+if(staleRepair.status===0||!staleRepair.body.error?.includes('Map changed')||readFileSync(repairSource,'utf8')!==changedSource)throw new Error('Stale repair preview receipt must refuse to write changed source');
+for(const requestBody of [diagnose.body,{diagnosis:diagnose.body}]){
+  writeFileSync(localRepairRequest,JSON.stringify(requestBody));
+  const staleDiagnosis=invoke('repair',repairSource,'--request','@'+localRepairRequest,'--apply');
+  if(staleDiagnosis.status===0||!staleDiagnosis.body.error?.includes('Map changed')||readFileSync(repairSource,'utf8')!==changedSource)throw new Error('Stale direct/wrapped diagnosis receipt must refuse writes');
+}
+console.log(JSON.stringify({passed:true,checks:['preview source unchanged','receipt apply','portable reload','stale receipt refuses writes','compact local inspect','affected road validation','explicit full validation','diagnose real wave','repair preview from diagnosis','repair preview source unchanged','diagnosis source digest','stale repair preview refuses writes','stale direct/wrapped diagnosis refuses writes']},null,2));

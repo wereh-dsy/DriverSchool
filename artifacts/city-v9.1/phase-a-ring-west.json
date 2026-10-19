@@ -1,0 +1,137 @@
+{
+  "label": "V9.1 A: west ring urban gateway, cross street underpass and outer distributor",
+  "operations": [
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-west-cross"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-west-cross-split-2"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-west:off-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-west:on-1"
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-west-distributor",
+      "preset": "frontage2",
+      "crossing": "none",
+      "points": [
+        {
+          "x": -2140,
+          "y": 0,
+          "z": 600
+        },
+        {
+          "x": -2140,
+          "y": 0,
+          "z": 1200
+        }
+      ]
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-west-distributor",
+      "properties": {
+        "roadNameId": "v8-ring-west-cross"
+      }
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-west-underpass",
+      "preset": "arterial4",
+      "crossing": "none",
+      "points": [
+        {
+          "x": -2140,
+          "y": 0,
+          "z": 900
+        },
+        {
+          "x": -2110,
+          "y": 0,
+          "z": 900
+        },
+        {
+          "x": -2025,
+          "y": -6,
+          "z": 900
+        },
+        {
+          "x": -1940,
+          "y": -6,
+          "z": 900
+        },
+        {
+          "x": -1875,
+          "y": 0,
+          "z": 900
+        },
+        {
+          "x": -1867.5,
+          "y": -0.024,
+          "z": 900
+        }
+      ],
+      "properties": {
+        "curve": "polyline"
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-west-underpass",
+      "properties": {
+        "roadNameId": "v8-ring-west-cross"
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-west-outer-junction",
+      "position": {
+        "x": -2140,
+        "y": 0,
+        "z": 900
+      },
+      "roadIds": [
+        "v91-ring-west-distributor",
+        "v91-ring-west-underpass"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-21",
+      "properties": {
+        "connections": [
+          {
+            "roadId": "v8-beijing-road-split-split",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v91-ring-west-underpass",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v8-beijing-road-split-split-split",
+            "end": "start",
+            "port": "south"
+          },
+          {
+            "roadId": "v8-ring-west-cross-split",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "signalized": true
+      }
+    }
+  ]
+}

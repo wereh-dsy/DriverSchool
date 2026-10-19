@@ -1,0 +1,145 @@
+{
+  "id": "preview-1",
+  "revision": 0,
+  "label": "Keep three gateway layouts; ease outer ramp curves within 3m",
+  "created": [],
+  "modified": [
+    "v91-ring-west-outer-off",
+    "v91-ring-west-outer-on",
+    "v91-ring-north-outer-off",
+    "v91-ring-north-outer-on",
+    "v91-ring-south-outer-off",
+    "v91-ring-south-outer-on"
+  ],
+  "deleted": [],
+  "area": {
+    "minX": -2151.875,
+    "maxX": 1641.8749999999998,
+    "minZ": -1878.6426809921663,
+    "maxZ": 2541.875
+  },
+  "warnings": [
+    {
+      "severity": "warning",
+      "code": "network.sparse",
+      "ids": [
+        "v91-ring-west-outer-off",
+        "v91-ring-west-outer-on",
+        "v91-ring-north-outer-off",
+        "v91-ring-north-outer-on",
+        "v91-ring-south-outer-off",
+        "v91-ring-south-outer-on"
+      ],
+      "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "v91-ring-west-outer-off",
+        "v91-ring-west-distributor"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "v91-ring-west-outer-off",
+        "ring-ccw-0-split-split-section"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "v91-ring-west-outer-on",
+        "ring-ccw-0-split-split-split-3-split"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "v91-ring-west-outer-on",
+        "v91-ring-west-distributor-section-section"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "v91-ring-north-outer-off",
+        "ring-ccw-2-split-split-split-section"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "v91-ring-north-outer-off",
+        "v91-ring-north-outer-cd-section-section"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "v91-ring-north-outer-on",
+        "ring-ccw-2-split-split-split-split-2-split"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "v91-ring-north-outer-on",
+        "v91-ring-north-outer-cd"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "v91-ring-south-outer-off",
+        "v91-ring-south-outer-cd"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "v91-ring-south-outer-off",
+        "ring-ccw-1-split-split-section"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "expressway.unconnected-crossing",
+      "ids": [
+        "v91-ring-south-outer-on",
+        "ring-ccw-1-split-split-split-split"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    },
+    {
+      "severity": "warning",
+      "code": "unconnected.crossing",
+      "ids": [
+        "v91-ring-south-outer-on",
+        "v91-ring-south-outer-cd-section-section"
+      ],
+      "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+    }
+  ],
+  "valid": true
+}

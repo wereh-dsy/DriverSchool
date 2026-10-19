@@ -1,0 +1,96 @@
+{
+  "operations": [
+    {
+      "op": "setElevationProfile",
+      "id": "v91-ns-0-a-1",
+      "height": -6,
+      "start": 0,
+      "end": 212,
+      "transition": 120,
+      "profile": [
+        {
+          "distance": 0,
+          "height": 0
+        },
+        {
+          "distance": 92,
+          "height": -6
+        },
+        {
+          "distance": 212,
+          "height": -6
+        }
+      ]
+    },
+    {
+      "op": "simplifyRoad",
+      "id": "v91-ns-0-a-1",
+      "tolerance": 0.08
+    },
+    {
+      "op": "setElevationProfile",
+      "id": "v91-ns-0-b-1",
+      "height": -6,
+      "start": 0,
+      "end": 212,
+      "transition": 120,
+      "profile": [
+        {
+          "distance": 0,
+          "height": 0
+        },
+        {
+          "distance": 92,
+          "height": -6
+        },
+        {
+          "distance": 212,
+          "height": -6
+        }
+      ]
+    },
+    {
+      "op": "simplifyRoad",
+      "id": "v91-ns-0-b-1",
+      "tolerance": 0.08
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-209",
+      "properties": {
+        "connections": [
+          {
+            "roadId": "v8-campus-avenue-v91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-campus-avenue-split-v91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v91-ns-0-a-0",
+            "end": "end",
+            "port": "south"
+          },
+          {
+            "roadId": "v91-ns-0-b-0",
+            "end": "end",
+            "port": "extra"
+          },
+          {
+            "roadId": "v91-ns-0-a-1",
+            "end": "start",
+            "port": "west"
+          },
+          {
+            "roadId": "v91-ns-0-b-1",
+            "end": "start",
+            "port": "extra2"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "mapDigest": "ad0a4645c1d88a5a9bc7f232ef4f63b7772ac2e3fc31fb224a4e7eaa59f4c347",
+  "operations": [
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-west-cross"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-west-cross-split-2"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-west:off-1"
+    },
+    {
+      "op": "deleteRoad",
+      "id": "v8-ring-west:on-1"
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-west-distributor",
+      "preset": "frontage2",
+      "crossing": "none",
+      "points": [
+        {
+          "x": -2140,
+          "y": 0,
+          "z": 600
+        },
+        {
+          "x": -2140,
+          "y": 0,
+          "z": 1200
+        }
+      ]
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-west-distributor",
+      "properties": {
+        "roadNameId": "v8-ring-west-cross"
+      }
+    },
+    {
+      "op": "createRoad",
+      "id": "v91-ring-west-underpass",
+      "preset": "arterial4",
+      "crossing": "none",
+      "points": [
+        {
+          "x": -2140,
+          "y": 0,
+          "z": 900
+        },
+        {
+          "x": -2110,
+          "y": 0,
+          "z": 900
+        },
+        {
+          "x": -2025,
+          "y": -6,
+          "z": 900
+        },
+        {
+          "x": -1940,
+          "y": -6,
+          "z": 900
+        },
+        {
+          "x": -1875,
+          "y": 0,
+          "z": 900
+        },
+        {
+          "x": -1867.5,
+          "y": -0.024,
+          "z": 900
+        }
+      ],
+      "properties": {
+        "curve": "polyline"
+      }
+    },
+    {
+      "op": "modifyRoad",
+      "id": "v91-ring-west-underpass",
+      "properties": {
+        "roadNameId": "v8-ring-west-cross"
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "v91-ring-west-outer-junction",
+      "position": {
+        "x": -2140,
+        "y": 0,
+        "z": 900
+      },
+      "roadIds": [
+        "v91-ring-west-distributor",
+        "v91-ring-west-underpass"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-21",
+      "properties": {
+        "connections": [
+          {
+            "roadId": "v8-beijing-road-split-split",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v91-ring-west-underpass",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v8-beijing-road-split-split-split",
+            "end": "start",
+            "port": "south"
+          },
+          {
+            "roadId": "v8-ring-west-cross-split",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "signalized": true
+      }
+    }
+  ],
+  "summary": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "V9.1 A: west ring urban gateway, cross street underpass and outer distributor",
+    "created": [
+      "v91-ring-west-distributor",
+      "v91-ring-west-underpass",
+      "v91-ring-west-distributor-section",
+      "v91-ring-west-outer-junction"
+    ],
+    "modified": [
+      "urban-junction-21",
+      "topology-sign:endpoint:ring-cw-3-split-2-split:end|ring-cw-3-split-2-split|end:EXPRESSWAY_ADVANCE",
+      "topology-sign:endpoint:ring-cw-3-split-2-split:end|ring-cw-3-split-2-split|end:EXPRESSWAY_DIVERGE",
+      "v8-beijing-road-split-split",
+      "v8-beijing-road-split-split-split",
+      "v8-ring-west-cross-split",
+      "urban-junction-175",
+      "v8-beijing-road-split-v91",
+      "v8-hankou-road",
+      "urban-junction-176",
+      "v8-shanghai-road-split-2-split-v91",
+      "v8-shanghai-road-split-2-split-split",
+      "v8-hankou-road-split-2",
+      "urban-junction-117",
+      "regional:v8:airport-city-road-split",
+      "v8-shanghai-road-split-2-split-split-split",
+      "urban-junction-123",
+      "regional:v8:airport-city-road",
+      "v8-beijing-road-split-split-split-split",
+      "v8-airport-gateway",
+      "regional:v8:airport-city-out",
+      "regional:v8:airport-city-in"
+    ],
+    "deleted": [
+      "v8-ring-west-cross",
+      "v8-ring-west:off-1",
+      "v8-ring-west-cross-split-2",
+      "v8-ring-west:on-1",
+      "road-safety:v8-ring-west:off-1:false:speed:65",
+      "road-safety:v8-ring-west:on-1:false:guide:130",
+      "road-safety:v8-ring-west:on-1:false:speed:65",
+      "topology-sign:endpoint:v8-ring-west:off-1:end|v8-ring-west:off-1|end:EXPRESSWAY_ADVANCE",
+      "topology-sign:endpoint:v8-ring-west:off-1:end|v8-ring-west:off-1|end:EXPRESSWAY_DIVERGE"
+    ],
+    "area": {
+      "minX": -4723.75,
+      "maxX": -1452.3393249402634,
+      "minZ": -97.2,
+      "maxZ": 1691.7009280589502
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "topology-sign:endpoint:v8-ring-west:off-1:end|v8-ring-west:off-1|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:v8-ring-west:off-1:end|v8-ring-west:off-1|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-west-cross",
+          "urban-junction-21",
+          "v8-ring-west-cross-split-2",
+          "topology-sign:endpoint:ring-cw-3-split-2-split:end|ring-cw-3-split-2-split|end:EXPRESSWAY_ADVANCE",
+          "topology-sign:endpoint:ring-cw-3-split-2-split:end|ring-cw-3-split-2-split|end:EXPRESSWAY_DIVERGE",
+          "v8-ring-west:off-1",
+          "v8-ring-west:on-1",
+          "v91-ring-west-distributor",
+          "v91-ring-west-underpass",
+          "v91-ring-west-outer-junction",
+          "v91-ring-west-distributor-section",
+          "v8-beijing-road-split-split",
+          "v8-beijing-road-split-split-split",
+          "v8-ring-west-cross-split",
+          "urban-junction-175",
+          "v8-beijing-road-split-v91",
+          "v8-hankou-road",
+          "urban-junction-176",
+          "v8-shanghai-road-split-2-split-v91",
+          "v8-shanghai-road-split-2-split-split",
+          "v8-hankou-road-split-2",
+          "urban-junction-117",
+          "regional:v8:airport-city-road-split",
+          "v8-shanghai-road-split-2-split-split-split",
+          "urban-junction-123",
+          "regional:v8:airport-city-road",
+          "v8-beijing-road-split-split-split-split",
+          "v8-airport-gateway",
+          "regional:v8:airport-city-out",
+          "regional:v8:airport-city-in"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  }
+}

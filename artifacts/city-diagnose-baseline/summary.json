@@ -1,0 +1,685 @@
+{
+  "map": "src/world/regional/regional-main.json",
+  "version": 266,
+  "generatedAt": "2026-10-19T08:04:26.451Z",
+  "mapDigest": "41c433895b210548093e116b4455d62cbefd02be02be2963d4f097a0ee262184",
+  "coverage": {
+    "map": "src/world/regional/regional-main.json",
+    "version": 266,
+    "roadsChecked": 2943,
+    "roadsTotal": 2943,
+    "intersectionsChecked": 308,
+    "intersectionsTotal": 308,
+    "roadPercent": 100,
+    "intersectionPercent": 100,
+    "actualSourceTotals": {
+      "roads": 2943,
+      "intersections": 308
+    },
+    "full": true,
+    "outputOnlyLimit": 20,
+    "retainedIssues": 5252,
+    "countsTotal": 5252,
+    "completeReceipt": true,
+    "sourceStatUnchanged": true,
+    "sourceStatBefore": {
+      "Length": 15426685,
+      "LastWriteTimeUtc": "2026-10-19T07:35:10.3114281Z"
+    },
+    "sourceStatAfter": {
+      "length": 15426685,
+      "lastWriteTimeUtc": "2026-10-19T07:35:10.311Z"
+    },
+    "valid": true
+  },
+  "issueTotals": {
+    "error": 17,
+    "warning": 414,
+    "info": 4821,
+    "total": 5252,
+    "bySeverity": {
+      "error": 17,
+      "warning": 414,
+      "info": 4821
+    },
+    "byCode": {
+      "geometry.sharpBend": 11,
+      "topology.expresswayCrossing": 8,
+      "geometry.awkwardS": 2,
+      "geometry.shortSegments": 30,
+      "intersection.acuteApproach": 55,
+      "intersection.approachKink": 38,
+      "intersection.shortApproach": 14,
+      "intersection.stalePortAngle": 59,
+      "marking.crosswalkOverlap": 10,
+      "marking.stopLineDisplaced": 44,
+      "topology.deadEnd": 100,
+      "topology.lowClearance": 4,
+      "topology.tinyFragment": 9,
+      "vertical.abruptGradeChange": 77,
+      "vertical.elevationPointOscillation": 17,
+      "vertical.rampReversal": 62,
+      "vertical.wave": 4,
+      "geometry.redundantControlPoints": 2288,
+      "topology.shortConnector": 37,
+      "vertical.gradeReversals": 16,
+      "vertical.redundantElevationPoints": 2367
+    }
+  },
+  "priorities": {
+    "P0": 12,
+    "P1": 132,
+    "P2": 299,
+    "P3": 4809
+  },
+  "p0": {
+    "confirmedDataCrossings": 3,
+    "requiresManualConfirmation": 9,
+    "physicalCollisionConfirmedByDriving": 0
+  },
+  "severityRows": [
+    {
+      "severity": "error",
+      "count": 17,
+      "affectedRoads": 23,
+      "affectedIntersections": 0
+    },
+    {
+      "severity": "warning",
+      "count": 414,
+      "affectedRoads": 507,
+      "affectedIntersections": 111
+    },
+    {
+      "severity": "info",
+      "count": 4821,
+      "affectedRoads": 2451,
+      "affectedIntersections": 0
+    }
+  ],
+  "codeRows": [
+    {
+      "code": "geometry.awkwardS",
+      "count": 2,
+      "affectedRoads": 2,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 2,
+        "info": 0
+      }
+    },
+    {
+      "code": "geometry.redundantControlPoints",
+      "count": 2288,
+      "affectedRoads": 2288,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 0,
+        "info": 2288
+      }
+    },
+    {
+      "code": "geometry.sharpBend",
+      "count": 11,
+      "affectedRoads": 11,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 9,
+        "warning": 2,
+        "info": 0
+      }
+    },
+    {
+      "code": "geometry.shortSegments",
+      "count": 30,
+      "affectedRoads": 30,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 8,
+        "info": 22
+      }
+    },
+    {
+      "code": "intersection.acuteApproach",
+      "count": 55,
+      "affectedRoads": 190,
+      "affectedIntersections": 55,
+      "bySeverity": {
+        "error": 0,
+        "warning": 55,
+        "info": 0
+      }
+    },
+    {
+      "code": "intersection.approachKink",
+      "count": 38,
+      "affectedRoads": 132,
+      "affectedIntersections": 38,
+      "bySeverity": {
+        "error": 0,
+        "warning": 38,
+        "info": 0
+      }
+    },
+    {
+      "code": "intersection.shortApproach",
+      "count": 14,
+      "affectedRoads": 45,
+      "affectedIntersections": 14,
+      "bySeverity": {
+        "error": 0,
+        "warning": 14,
+        "info": 0
+      }
+    },
+    {
+      "code": "intersection.stalePortAngle",
+      "count": 59,
+      "affectedRoads": 226,
+      "affectedIntersections": 59,
+      "bySeverity": {
+        "error": 0,
+        "warning": 59,
+        "info": 0
+      }
+    },
+    {
+      "code": "marking.crosswalkOverlap",
+      "count": 10,
+      "affectedRoads": 35,
+      "affectedIntersections": 10,
+      "bySeverity": {
+        "error": 0,
+        "warning": 10,
+        "info": 0
+      }
+    },
+    {
+      "code": "marking.stopLineDisplaced",
+      "count": 44,
+      "affectedRoads": 143,
+      "affectedIntersections": 44,
+      "bySeverity": {
+        "error": 0,
+        "warning": 44,
+        "info": 0
+      }
+    },
+    {
+      "code": "topology.deadEnd",
+      "count": 100,
+      "affectedRoads": 100,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 55,
+        "info": 45
+      }
+    },
+    {
+      "code": "topology.expresswayCrossing",
+      "count": 8,
+      "affectedRoads": 16,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 8,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    {
+      "code": "topology.lowClearance",
+      "count": 4,
+      "affectedRoads": 7,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 4,
+        "info": 0
+      }
+    },
+    {
+      "code": "topology.shortConnector",
+      "count": 37,
+      "affectedRoads": 37,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 0,
+        "info": 37
+      }
+    },
+    {
+      "code": "topology.tinyFragment",
+      "count": 9,
+      "affectedRoads": 9,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 9,
+        "info": 0
+      }
+    },
+    {
+      "code": "vertical.abruptGradeChange",
+      "count": 77,
+      "affectedRoads": 77,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 77,
+        "info": 0
+      }
+    },
+    {
+      "code": "vertical.elevationPointOscillation",
+      "count": 17,
+      "affectedRoads": 17,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 17,
+        "info": 0
+      }
+    },
+    {
+      "code": "vertical.gradeReversals",
+      "count": 16,
+      "affectedRoads": 16,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 0,
+        "info": 16
+      }
+    },
+    {
+      "code": "vertical.rampReversal",
+      "count": 62,
+      "affectedRoads": 62,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 16,
+        "info": 46
+      }
+    },
+    {
+      "code": "vertical.redundantElevationPoints",
+      "count": 2367,
+      "affectedRoads": 2367,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 0,
+        "info": 2367
+      }
+    },
+    {
+      "code": "vertical.wave",
+      "count": 4,
+      "affectedRoads": 4,
+      "affectedIntersections": 0,
+      "bySeverity": {
+        "error": 0,
+        "warning": 4,
+        "info": 0
+      }
+    }
+  ],
+  "regions": [
+    {
+      "region": "central",
+      "name": "新世纪广场 / 中央互通",
+      "count": 69,
+      "affectedRoads": 36,
+      "affectedIntersections": 4,
+      "priorities": {
+        "P0": 0,
+        "P1": 18,
+        "P2": 7,
+        "P3": 44
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "ew",
+      "name": "承景路东西快速路走廊",
+      "count": 224,
+      "affectedRoads": 156,
+      "affectedIntersections": 12,
+      "priorities": {
+        "P0": 0,
+        "P1": 20,
+        "P2": 14,
+        "P3": 190
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "ns",
+      "name": "望川路南北快速路走廊",
+      "count": 154,
+      "affectedRoads": 104,
+      "affectedIntersections": 8,
+      "priorities": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 18,
+        "P3": 136
+      },
+      "status": "no P0/P1 issue found"
+    },
+    {
+      "region": "mingyuan",
+      "name": "明远快速路",
+      "count": 15,
+      "affectedRoads": 11,
+      "affectedIntersections": 2,
+      "priorities": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 2,
+        "P3": 13
+      },
+      "status": "no P0/P1 issue found"
+    },
+    {
+      "region": "inner",
+      "name": "内环大道",
+      "count": 30,
+      "affectedRoads": 43,
+      "affectedIntersections": 10,
+      "priorities": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 14,
+        "P3": 16
+      },
+      "status": "no P0/P1 issue found"
+    },
+    {
+      "region": "north",
+      "name": "星湖 / 北城 / 大学片区",
+      "count": 106,
+      "affectedRoads": 56,
+      "affectedIntersections": 4,
+      "priorities": {
+        "P0": 1,
+        "P1": 0,
+        "P2": 13,
+        "P3": 92
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "xixing",
+      "name": "西兴",
+      "count": 122,
+      "affectedRoads": 97,
+      "affectedIntersections": 19,
+      "priorities": {
+        "P0": 0,
+        "P1": 2,
+        "P2": 48,
+        "P3": 72
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "qinghe",
+      "name": "清和",
+      "count": 10,
+      "affectedRoads": 13,
+      "affectedIntersections": 3,
+      "priorities": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 5,
+        "P3": 5
+      },
+      "status": "no P0/P1 issue found"
+    },
+    {
+      "region": "jincheng",
+      "name": "锦城",
+      "count": 10,
+      "affectedRoads": 10,
+      "affectedIntersections": 1,
+      "priorities": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 5,
+        "P3": 5
+      },
+      "status": "no P0/P1 issue found"
+    },
+    {
+      "region": "chunhui",
+      "name": "春晖",
+      "count": 351,
+      "affectedRoads": 157,
+      "affectedIntersections": 28,
+      "priorities": {
+        "P0": 4,
+        "P1": 9,
+        "P2": 107,
+        "P3": 231
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "tonggang",
+      "name": "通港",
+      "count": 219,
+      "affectedRoads": 123,
+      "affectedIntersections": 10,
+      "priorities": {
+        "P0": 2,
+        "P1": 3,
+        "P2": 28,
+        "P3": 186
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "nancheng",
+      "name": "南城",
+      "count": 331,
+      "affectedRoads": 170,
+      "affectedIntersections": 8,
+      "priorities": {
+        "P0": 3,
+        "P1": 7,
+        "P2": 18,
+        "P3": 303
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "west",
+      "name": "西环门户",
+      "count": 87,
+      "affectedRoads": 42,
+      "affectedIntersections": 0,
+      "priorities": {
+        "P0": 0,
+        "P1": 8,
+        "P2": 3,
+        "P3": 76
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "northGate",
+      "name": "北环门户",
+      "count": 100,
+      "affectedRoads": 44,
+      "affectedIntersections": 1,
+      "priorities": {
+        "P0": 0,
+        "P1": 13,
+        "P2": 3,
+        "P3": 84
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "south",
+      "name": "南环门户",
+      "count": 104,
+      "affectedRoads": 51,
+      "affectedIntersections": 0,
+      "priorities": {
+        "P0": 0,
+        "P1": 8,
+        "P2": 6,
+        "P3": 90
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "east",
+      "name": "东部外围 / G17",
+      "count": 266,
+      "affectedRoads": 134,
+      "affectedIntersections": 0,
+      "priorities": {
+        "P0": 0,
+        "P1": 1,
+        "P2": 0,
+        "P3": 265
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "airport",
+      "name": "机场方向",
+      "count": 566,
+      "affectedRoads": 266,
+      "affectedIntersections": 1,
+      "priorities": {
+        "P0": 0,
+        "P1": 31,
+        "P2": 1,
+        "P3": 534
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "chenjiang",
+      "name": "晨江外围",
+      "count": 691,
+      "affectedRoads": 332,
+      "affectedIntersections": 0,
+      "priorities": {
+        "P0": 0,
+        "P1": 7,
+        "P2": 0,
+        "P3": 684
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "beiling",
+      "name": "北岭外围",
+      "count": 517,
+      "affectedRoads": 260,
+      "affectedIntersections": 0,
+      "priorities": {
+        "P0": 2,
+        "P1": 5,
+        "P2": 2,
+        "P3": 508
+      },
+      "status": "P0/P1 review queued"
+    },
+    {
+      "region": "other",
+      "name": "其他外围干线",
+      "count": 1280,
+      "affectedRoads": 637,
+      "affectedIntersections": 0,
+      "priorities": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 5,
+        "P3": 1275
+      },
+      "status": "no P0/P1 issue found"
+    }
+  ],
+  "assessments": {
+    "geometry defect candidate": 13,
+    "likely benign / shared endpoint": 5,
+    "confirmed data-level unjunctioned crossing": 3,
+    "likely benign / dense sampling": 27,
+    "needs review": 12,
+    "junction/marking review required": 220,
+    "manual confirmation required / possible navigation cutoff": 9,
+    "possibly intentional outer terminus": 37,
+    "unconfirmed urban terminus": 54,
+    "borderline / 临界": 2,
+    "critical / 临界": 1,
+    "possibly reasonable / 可能合理": 1,
+    "engineering review required": 77,
+    "suspicious vertical oscillation": 51,
+    "likely intentional": 48,
+    "data redundancy": 4655,
+    "possibly intentional short connector": 37
+  },
+  "checks": {
+    "allRoadsBelowSelfIntersectionPointCap": true,
+    "graph": {
+      "kind": "undirected authored road-link / junction graph; not lane-level route proof",
+      "components": [
+        {
+          "roadCount": 2943
+        }
+      ],
+      "isolatedComponents": 0
+    },
+    "missingReferences": {
+      "roadLinks": [],
+      "intersections": [],
+      "roadNames": [],
+      "connectionPorts": [],
+      "signRoads": [],
+      "corridorRoads": []
+    },
+    "deletedServiceAreas": {
+      "patterns": [
+        "regional:dongjiao",
+        "regional:beilu",
+        "regional:chenjiang-service",
+        "regional:beiling-parking"
+      ],
+      "activeRoadObjectSignReferences": []
+    },
+    "note": "Supplemental read-only receipt interpretation; no diagnose logic changed, no repair executed."
+  },
+  "limitations": [
+    "Existing diagnose reports one crossing per road pair and deduplicates by code/road/intersection/station. Counts are unique diagnostic records, not every physical occurrence.",
+    "Intentional horizontal-loop self-intersection exemption remains; every object was visited, not every collision/route scenario proven.",
+    "Centerline separation is not structural underside clearance. No physical driving or exhaustive lane-level navigation regression.",
+    "P0 requires manual confirmation first; only three unjunctioned crossings confirmed at authored-data level."
+  ],
+  "highValueChecks": {
+    "file": "high-value-access-review.json",
+    "rampsChecked": 16,
+    "legalDirectedRampAccess": 16,
+    "frontageRoutesChecked": 4,
+    "frontageRoutesReachable": 4,
+    "plazaMainlineParticipation": false,
+    "maximumMainFrontageRampGradePercent": 10.802032035688827
+  },
+  "priorityAffectedRoads": {
+    "P0": 15,
+    "P1": 82,
+    "P2": 409,
+    "P3": 2419
+  }
+}

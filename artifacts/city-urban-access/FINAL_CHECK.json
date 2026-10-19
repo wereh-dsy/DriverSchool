@@ -1,0 +1,175 @@
+{
+  "map": "src/world/regional/regional-main.json",
+  "sha256": "41c433895b210548093e116b4455d62cbefd02be02be2963d4f097a0ee262184",
+  "version": 266,
+  "roads": 2943,
+  "intersections": 308,
+  "mingyuanNodes": [
+    {
+      "id": "urban-junction-56",
+      "position": {
+        "x": -1289.316405283898,
+        "y": 0,
+        "z": 1702.0409267367
+      },
+      "signalized": true,
+      "groups": [
+        {
+          "road": "v4-diagonal-split-3-m91",
+          "group": "east-west"
+        },
+        {
+          "road": "v8-shanghai-road-split-split-2-m91",
+          "group": "north-south"
+        },
+        {
+          "road": "v8-shanghai-road-split-split-m91",
+          "group": "north-south"
+        },
+        {
+          "road": "direction-mingyuan-main",
+          "group": "east-west"
+        }
+      ],
+      "type": "cross_6lane"
+    },
+    {
+      "id": "direction-mingyuan-ne-terminal",
+      "position": {
+        "x": 1450.0727058980797,
+        "y": 0,
+        "z": -1143.0873581574901
+      },
+      "signalized": true,
+      "groups": [
+        {
+          "road": "direction-mingyuan-main-section-section-section-section",
+          "group": "north-south"
+        },
+        {
+          "road": "urban-diagonal-split-split-split-split-c91",
+          "group": "east-west"
+        },
+        {
+          "road": "urban-diagonal-split-split-split-split-c91-section",
+          "group": "east-west"
+        }
+      ],
+      "type": "t_4lane"
+    },
+    {
+      "id": "access-mingyuan-inner-signal",
+      "position": {
+        "x": -218.81368917167808,
+        "y": 0,
+        "z": 949.8463974166718
+      },
+      "signalized": true,
+      "groups": [
+        {
+          "road": "direction-mingyuan-main-section",
+          "group": "north-south"
+        },
+        {
+          "road": "direction-mingyuan-main-section-section-2",
+          "group": "north-south"
+        },
+        {
+          "road": "access-inner-mingyuan",
+          "group": "east-west"
+        },
+        {
+          "road": "access-inner-mingyuan-section",
+          "group": "east-west"
+        }
+      ],
+      "type": "cross_6lane"
+    },
+    {
+      "id": "access-mingyuan-zhongshan-signal",
+      "position": {
+        "x": 261.3405116445441,
+        "y": 0,
+        "z": 502
+      },
+      "signalized": true,
+      "groups": [
+        {
+          "road": "direction-mingyuan-main-section-section-section",
+          "group": "north-south"
+        },
+        {
+          "road": "direction-mingyuan-main-section-section-section-section-2",
+          "group": "north-south"
+        },
+        {
+          "road": "v4-central-split-3-split-m91",
+          "group": "east-west"
+        },
+        {
+          "road": "v4-central-split-3-split-m91-section",
+          "group": "east-west"
+        }
+      ],
+      "type": "cross_6lane"
+    }
+  ],
+  "mainFrontageRampCount": 16,
+  "rampIds": [
+    "v91-ew-east-eb-off",
+    "v91-ew-east-wb-on",
+    "v91-ns-sb-on",
+    "v91-ns-nb-off",
+    "v91-ew-west-eb-off",
+    "v91-ew-west-wb-on",
+    "access-ew-west-eb-on",
+    "access-ew-west-wb-off",
+    "access-ns-north-sb-off",
+    "access-ns-north-nb-on",
+    "access-ns-north-sb-on",
+    "access-ns-north-nb-off",
+    "v91-ew-east-eb-on",
+    "v91-ns-sb-off",
+    "v91-ns-nb-on",
+    "v91-ew-east-wb-off"
+  ],
+  "removedFacilityReferenceResidues": [],
+  "registeredServices": [
+    "机场服务区"
+  ],
+  "navigation": 49,
+  "buildExecuted": false,
+  "navigationPassed": 49,
+  "finalMingyuanValidation": {
+    "valid": true,
+    "issues": []
+  },
+  "finalConversionValidation": {
+    "valid": true,
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v91-ew-east-eb-off",
+          "v91-ew-east-wb-on",
+          "v91-ns-sb-on",
+          "v91-ns-nb-off",
+          "v91-ew-west-eb-off",
+          "v91-ew-west-wb-on",
+          "access-ew-west-eb-on",
+          "access-ew-west-wb-off",
+          "access-ns-north-sb-off",
+          "access-ns-north-nb-on",
+          "access-ns-north-sb-on",
+          "access-ns-north-nb-off",
+          "v91-ew-east-eb-on",
+          "v91-ns-sb-off",
+          "v91-ns-nb-on",
+          "v91-ew-east-wb-off"
+        ],
+        "message": "roads: 16 separate road components; projected crossings do not imply connectivity."
+      }
+    ]
+  }
+}

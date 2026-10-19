@@ -1,0 +1,287 @@
+{
+  "record": {
+    "oldMeta": {
+      "id": "v91-ew-east-wb-off-ramp",
+      "roadId": "v91-ew-east-wb-off",
+      "kind": "off",
+      "from": {
+        "roadId": "ew-wb-split-3-split-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "v91-ew-1-b-4-section",
+        "end": "start"
+      }
+    },
+    "newTo": {
+      "roadId": "v91-ew-1-b-4",
+      "end": "end"
+    }
+  },
+  "command": {
+    "op": "createRamp",
+    "id": "v91-ew-east-wb-off",
+    "fromRoadId": "ew-wb-split-3-split-split-2",
+    "toRoadId": "v91-ew-1-b-4",
+    "fromDistance": 30.9322590943864,
+    "toDistance": 100.14681511480762,
+    "kind": "off",
+    "lanes": 1
+  },
+  "created": {
+    "id": "preview-1",
+    "revision": 0,
+    "label": "Edit map",
+    "created": [
+      "v91-ew-east-wb-off"
+    ],
+    "modified": [
+      "ew-wb-split-3-split-split-2",
+      "v91-ew-1-b-4",
+      "urban-junction-10",
+      "urban-east-arterial-split-split-3-split-split-3-v91",
+      "urban-east-arterial-split-split-3-split-split-2-v91",
+      "v91-ew-1-a-3-section",
+      "v91-ew-1-a-4",
+      "v91-ew-1-b-3-section",
+      "urban-junction-100",
+      "urban-east-arterial-split-split-3-split",
+      "v9-newcity-three",
+      "urban-junction-191",
+      "v9-newcity-two-split",
+      "v9-newcity-three-split",
+      "v9-newcity-two-split-split-2-v91",
+      "urban-junction-196",
+      "v9-newcity-six-north-split",
+      "v9-newcity-three-split-split",
+      "v9-newcity-six-north-split-split",
+      "urban-junction-206",
+      "v9-newcity-five-north-split",
+      "v9-newcity-three-split-split-split",
+      "v9-newcity-five-north-split-split",
+      "urban-junction-242",
+      "v9-newcity-nine-north",
+      "v9-newcity-three-split-split-split-split",
+      "v9-newcity-nine-north-split",
+      "urban-junction-247",
+      "v9-newcity-ten",
+      "v9-newcity-three-split-split-split-split-split",
+      "v9-newcity-ten-split",
+      "urban-junction-250",
+      "v9-newcity-four-split-split-split-split",
+      "v9-newcity-four-split-split-split-split-split",
+      "v9-newcity-ten-split-split-2"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": 1436.4,
+      "maxX": 3433.000000076287,
+      "minZ": -733.2,
+      "maxZ": 345.7
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ew-wb-split-3-split-split-2",
+          "v91-ew-1-b-4",
+          "v91-ew-east-wb-off",
+          "urban-junction-10",
+          "urban-east-arterial-split-split-3-split-split-3-v91",
+          "urban-east-arterial-split-split-3-split-split-2-v91",
+          "v91-ew-1-a-3-section",
+          "v91-ew-1-a-4",
+          "v91-ew-1-b-3-section",
+          "urban-junction-100",
+          "urban-east-arterial-split-split-3-split",
+          "v9-newcity-three",
+          "urban-junction-191",
+          "v9-newcity-two-split",
+          "v9-newcity-three-split",
+          "v9-newcity-two-split-split-2-v91",
+          "urban-junction-196",
+          "v9-newcity-six-north-split",
+          "v9-newcity-three-split-split",
+          "v9-newcity-six-north-split-split",
+          "urban-junction-206",
+          "v9-newcity-five-north-split",
+          "v9-newcity-three-split-split-split",
+          "v9-newcity-five-north-split-split",
+          "urban-junction-242",
+          "v9-newcity-nine-north",
+          "v9-newcity-three-split-split-split-split",
+          "v9-newcity-nine-north-split",
+          "urban-junction-247",
+          "v9-newcity-ten",
+          "v9-newcity-three-split-split-split-split-split",
+          "v9-newcity-ten-split",
+          "urban-junction-250",
+          "v9-newcity-four-split-split-split-split",
+          "v9-newcity-four-split-split-split-split-split",
+          "v9-newcity-ten-split-split-2"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-east-wb-off",
+          "v91-ew-1-b-4-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      }
+    ],
+    "valid": true
+  },
+  "mergeOps": [
+    {
+      "op": "connectRoads",
+      "from": {
+        "roadId": "v91-ew-east-wb-off",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "v91-ew-1-b-4-section",
+        "end": "start"
+      }
+    },
+    {
+      "op": "connectRoads",
+      "from": {
+        "roadId": "v91-ew-east-wb-off",
+        "end": "start"
+      },
+      "to": {
+        "roadId": "ew-wb-split-3-split-split-2-section",
+        "end": "start"
+      }
+    }
+  ],
+  "turns": [
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-57",
+      "properties": {
+        "approaches": {
+          "north": {
+            "lanes": [
+              "straight-left",
+              "straight"
+            ],
+            "arrowDistance": 30
+          },
+          "east": {
+            "lanes": [
+              "left-right"
+            ],
+            "arrowDistance": 30
+          },
+          "west": {
+            "lanes": [
+              "straight",
+              "straight-right"
+            ],
+            "arrowDistance": 30
+          }
+        }
+      }
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "urban-junction-84",
+      "properties": {
+        "approaches": {}
+      }
+    }
+  ],
+  "turnResult": {
+    "id": "preview-3",
+    "revision": 2,
+    "label": "Edit map",
+    "created": [],
+    "modified": [
+      "urban-junction-57",
+      "v4-north-split-3-split-3-m91",
+      "v9-lake-west-c91-section",
+      "v4-north-split-3-split-3-split-m91",
+      "urban-junction-84",
+      "v9-lake-loop-north",
+      "v9-lake-west-c91",
+      "v9-lake-loop-north-split-c91",
+      "urban-junction-128",
+      "v4-north-split-3-m91",
+      "v5-west-east-road-m91",
+      "urban-junction-148",
+      "v5-west-workshop-split-m91",
+      "v5-west-east-road-split-3-m91",
+      "v5-west-workshop-split-split-m91",
+      "urban-junction-198",
+      "v8-gongren-street-split-split-3-m91",
+      "v9-lake-loop-north-split-split-c91",
+      "direction-lake-access-t",
+      "direction-lake-west-link-section",
+      "direction-lake-cross-1",
+      "direction-lake-west-link",
+      "v8-beijing-road-c91",
+      "v8-beijing-road-c91-section-2",
+      "access-shifu-north-source",
+      "access-shifu-north",
+      "v9-lake-loop-north-split-split-c91-section",
+      "access-shifu-north-cross-1",
+      "access-shifu-north-section",
+      "v4-north-split-3-split-m91",
+      "v4-north-split-3-split-m91-section"
+    ],
+    "deleted": [],
+    "area": {
+      "minX": -1802.942975744855,
+      "maxX": -346.80000000000024,
+      "minZ": -1600.5184340512067,
+      "maxZ": -505.01168964856606
+    },
+    "warnings": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "urban-junction-57",
+          "v4-north-split-3-split-3-m91",
+          "v9-lake-west-c91-section",
+          "v4-north-split-3-split-3-split-m91",
+          "urban-junction-84",
+          "v9-lake-loop-north",
+          "v9-lake-west-c91",
+          "v9-lake-loop-north-split-c91",
+          "urban-junction-128",
+          "v4-north-split-3-m91",
+          "v5-west-east-road-m91",
+          "urban-junction-148",
+          "v5-west-workshop-split-m91",
+          "v5-west-east-road-split-3-m91",
+          "v5-west-workshop-split-split-m91",
+          "urban-junction-198",
+          "v8-gongren-street-split-split-3-m91",
+          "v9-lake-loop-north-split-split-c91",
+          "direction-lake-access-t",
+          "direction-lake-west-link-section",
+          "direction-lake-cross-1",
+          "direction-lake-west-link",
+          "v8-beijing-road-c91",
+          "v8-beijing-road-c91-section-2",
+          "access-shifu-north-source",
+          "access-shifu-north",
+          "v9-lake-loop-north-split-split-c91-section",
+          "access-shifu-north-cross-1",
+          "access-shifu-north-section",
+          "v4-north-split-3-split-m91",
+          "v4-north-split-3-split-m91-section"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      }
+    ],
+    "valid": true
+  },
+  "reason": "The west lake T approach had a straight-only arrow with no straight exit, forcing a long one-way detour. Restore both legal turns. For the east westbound off-ramp, select the outgoing reverse frontage half in ramp metadata as well as explicit endpoint links."
+}

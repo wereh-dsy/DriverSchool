@@ -1,0 +1,953 @@
+{
+  "operations": [
+    {
+      "op": "createIntersection",
+      "id": "direction-north-west-corner",
+      "position": {
+        "x": -1750,
+        "y": 0,
+        "z": -2260
+      },
+      "roadIds": [
+        "direction-north-avenue",
+        "direction-north-west"
+      ],
+      "signalized": false
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "direction-north-west-corner",
+      "properties": {
+        "approaches": {}
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "direction-north-campus-t",
+      "position": {
+        "x": -148.98253403710487,
+        "y": -0.0103378354395601,
+        "z": -2410.4409520638515
+      },
+      "roadIds": [
+        "direction-north-avenue",
+        "v8-campus-south-split-v91"
+      ],
+      "signalized": true
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "direction-north-campus-t",
+      "properties": {
+        "approaches": {}
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "direction-campus-north-t",
+      "position": {
+        "x": -120.63274182243708,
+        "y": -0.008984748919951782,
+        "z": -2835.335295296644
+      },
+      "roadIds": [
+        "direction-campus-west-east",
+        "v8-campus-north-split-v91"
+      ],
+      "signalized": false
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "direction-campus-north-t",
+      "properties": {
+        "approaches": {}
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "direction-campus-west-corner",
+      "position": {
+        "x": -1200,
+        "y": 0,
+        "z": -2800
+      },
+      "roadIds": [
+        "direction-campus-west-east",
+        "direction-campus-west-north"
+      ],
+      "signalized": false
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "direction-campus-west-corner",
+      "properties": {
+        "approaches": {}
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "direction-campus-south-t",
+      "position": {
+        "x": -1149.6627746437487,
+        "y": -0.0038764020854965904,
+        "z": -2316.4111920463324
+      },
+      "roadIds": [
+        "direction-campus-west-north",
+        "direction-north-avenue"
+      ],
+      "signalized": false
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "direction-campus-south-t",
+      "properties": {
+        "approaches": {}
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "direction-lake-west-t",
+      "position": {
+        "x": -1796.1511853150078,
+        "y": 0,
+        "z": -1300.055345447837
+      },
+      "roadIds": [
+        "direction-lake-west-link",
+        "direction-north-west"
+      ],
+      "signalized": false
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "direction-lake-west-t",
+      "properties": {
+        "approaches": {}
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "direction-lake-access-t",
+      "position": {
+        "x": -1285.5381444316681,
+        "y": -0.016679576401273655,
+        "z": -1299.898452310386
+      },
+      "roadIds": [
+        "direction-lake-west-link",
+        "v9-lake-west-c91"
+      ],
+      "signalized": false
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "direction-lake-access-t",
+      "properties": {
+        "approaches": {}
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "direction-north-city-access",
+      "position": {
+        "x": -1633.4969960125054,
+        "y": 0,
+        "z": -987.9435660524133
+      },
+      "roadIds": [
+        "direction-north-west-section"
+      ],
+      "signalized": false
+    },
+    {
+      "op": "modifyIntersection",
+      "id": "v91-local-junction-4",
+      "properties": {
+        "approaches": {}
+      }
+    },
+    {
+      "op": "createIntersection",
+      "id": "direction-lake-cross-1",
+      "position": {
+        "x": -1446.4559978327336,
+        "y": -0.011423068213608212,
+        "z": -1299.9478966153106
+      },
+      "roadIds": [
+        "direction-lake-west-link",
+        "v8-beijing-road-c91"
+      ],
+      "signalized": false
+    },
+    {
+      "op": "modifyRoad",
+      "id": "direction-north-west",
+      "properties": {
+        "structure": {
+          "piersEnabled": false,
+          "barrierEnabled": true,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 5.5
+          }
+        }
+      }
+    }
+  ],
+  "summaries": [
+    {
+      "id": "preview-1",
+      "revision": 0,
+      "label": "Edit map",
+      "created": [
+        "direction-north-avenue",
+        "direction-north-west",
+        "direction-lake-west-link",
+        "direction-campus-west-east",
+        "direction-campus-west-north"
+      ],
+      "modified": [],
+      "deleted": [],
+      "area": {
+        "minX": -1818.1453953511386,
+        "maxX": -103.43274182243708,
+        "minZ": -2852.5352952966437,
+        "maxZ": -970.7435660524133
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "network.sparse",
+          "ids": [
+            "direction-north-avenue",
+            "direction-north-west",
+            "direction-lake-west-link",
+            "direction-campus-west-east",
+            "direction-campus-west-north"
+          ],
+          "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-north-avenue",
+            "v8-campus-south-split-v91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "disconnected.road",
+          "ids": [
+            "direction-lake-west-link"
+          ],
+          "message": "No explicit road or intersection connections"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "urban-underpass-west-link"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v4-west-split-3-split-m91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v8-beijing-road-c91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v9-lake-west-c91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "direction-north-west"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-campus-west-east",
+            "v8-campus-north-split-v91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-campus-west-north",
+            "direction-north-avenue"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-2",
+      "revision": 1,
+      "label": "Edit map",
+      "created": [
+        "direction-north-west-corner"
+      ],
+      "modified": [
+        "direction-north-avenue",
+        "direction-north-west"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1818.1453953511386,
+        "maxX": -131.78253403710488,
+        "minZ": -2427.6409520638513,
+        "maxZ": -970.7435660524133
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-north-west-corner",
+            "direction-north-avenue",
+            "direction-north-west"
+          ],
+          "message": "intersections[0]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-north-avenue",
+            "v8-campus-south-split-v91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-north-avenue",
+            "direction-campus-west-north"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-north-west",
+            "direction-lake-west-link"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-4",
+      "revision": 3,
+      "label": "Edit map",
+      "created": [
+        "v8-campus-south-split-v91-section",
+        "direction-north-campus-t"
+      ],
+      "modified": [
+        "direction-north-avenue",
+        "v8-campus-south-split-v91",
+        "urban-junction-213",
+        "v8-campus-avenue-split-split-2",
+        "v8-campus-avenue-split-split-v91",
+        "urban-junction-214",
+        "v8-campus-south-v91",
+        "v91-ns-0-a-2",
+        "v91-ns-0-a-3",
+        "v91-ns-0-b-2",
+        "v91-ns-0-b-3",
+        "urban-junction-217",
+        "v8-campus-avenue-split-v91",
+        "v8-campus-north-split-v91",
+        "direction-north-west-corner",
+        "direction-north-west"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1818.1453953511386,
+        "maxX": 942.5478892829433,
+        "minZ": -2940.3110225402797,
+        "maxZ": -970.7435660524133
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-north-campus-t",
+            "direction-north-avenue",
+            "v8-campus-south-split-v91",
+            "urban-junction-213",
+            "v8-campus-south-split-v91-section",
+            "v8-campus-avenue-split-split-2",
+            "v8-campus-avenue-split-split-v91",
+            "urban-junction-214",
+            "v8-campus-south-v91",
+            "v91-ns-0-a-2",
+            "v91-ns-0-a-3",
+            "v91-ns-0-b-2",
+            "v91-ns-0-b-3",
+            "urban-junction-217",
+            "v8-campus-avenue-split-v91",
+            "v8-campus-north-split-v91",
+            "direction-north-west-corner",
+            "direction-north-west"
+          ],
+          "message": "intersections[8]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "v8-campus-north-split-v91",
+            "direction-campus-west-east"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-north-avenue",
+            "direction-campus-west-north"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-north-west",
+            "direction-lake-west-link"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-6",
+      "revision": 5,
+      "label": "Edit map",
+      "created": [
+        "v8-campus-north-split-v91-section",
+        "direction-campus-north-t"
+      ],
+      "modified": [
+        "direction-campus-west-east",
+        "v8-campus-north-split-v91",
+        "urban-junction-217",
+        "urban-junction-215",
+        "v8-campus-north-v91",
+        "v91-ns-0-a-0",
+        "v91-ns-0-b-0",
+        "urban-junction-216",
+        "v61-university-north-split",
+        "v61-university-north-split-split",
+        "v8-campus-avenue-split-v91",
+        "v8-campus-avenue-split-split-2"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1217.2,
+        "maxX": 1368.417696448729,
+        "minZ": -2990.3626990005196,
+        "maxZ": -2606.4562607708963
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "port.unused",
+          "ids": [
+            "direction-campus-north-t",
+            "direction-campus-west-east",
+            "v8-campus-north-split-v91",
+            "urban-junction-217",
+            "v8-campus-north-split-v91-section",
+            "urban-junction-215",
+            "v8-campus-north-v91",
+            "v91-ns-0-a-0",
+            "v91-ns-0-b-0",
+            "urban-junction-216",
+            "v61-university-north-split",
+            "v61-university-north-split-split",
+            "v8-campus-avenue-split-v91",
+            "v8-campus-avenue-split-split-2"
+          ],
+          "message": "connectionPorts.v61-research-end: 科研园尽端（封闭）: external endpoint reserved for future continuation."
+        },
+        {
+          "severity": "warning",
+          "code": "network.sparse",
+          "ids": [
+            "direction-campus-north-t",
+            "direction-campus-west-east",
+            "v8-campus-north-split-v91",
+            "urban-junction-217",
+            "v8-campus-north-split-v91-section",
+            "urban-junction-215",
+            "v8-campus-north-v91",
+            "v91-ns-0-a-0",
+            "v91-ns-0-b-0",
+            "urban-junction-216",
+            "v61-university-north-split",
+            "v61-university-north-split-split",
+            "v8-campus-avenue-split-v91",
+            "v8-campus-avenue-split-split-2"
+          ],
+          "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-8",
+      "revision": 7,
+      "label": "Edit map",
+      "created": [
+        "direction-campus-west-corner"
+      ],
+      "modified": [
+        "direction-campus-west-east",
+        "direction-campus-west-north",
+        "direction-campus-north-t",
+        "v8-campus-north-split-v91",
+        "v8-campus-north-split-v91-section"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1240,
+        "maxX": -58.8,
+        "minZ": -2940.3110225402797,
+        "maxZ": -2299.2111920463326
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-campus-west-corner",
+            "direction-campus-west-east",
+            "direction-campus-west-north",
+            "direction-campus-north-t",
+            "v8-campus-north-split-v91",
+            "v8-campus-north-split-v91-section"
+          ],
+          "message": "intersections[3]: direction-campus-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-campus-west-north",
+            "direction-north-avenue"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-10",
+      "revision": 9,
+      "label": "Edit map",
+      "created": [
+        "direction-north-avenue-section",
+        "direction-campus-south-t"
+      ],
+      "modified": [
+        "direction-campus-west-north",
+        "direction-north-avenue",
+        "direction-north-campus-t",
+        "direction-north-west-corner",
+        "direction-north-west",
+        "v8-campus-south-split-v91",
+        "v8-campus-south-split-v91-section",
+        "direction-campus-west-corner",
+        "direction-campus-west-east"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1818.1453953511386,
+        "maxX": -58.8,
+        "minZ": -2852.273539157078,
+        "maxZ": -970.7435660524133
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-campus-south-t",
+            "direction-campus-west-north",
+            "direction-north-avenue",
+            "direction-north-campus-t",
+            "direction-north-avenue-section",
+            "direction-north-west-corner",
+            "direction-north-west",
+            "v8-campus-south-split-v91",
+            "v8-campus-south-split-v91-section",
+            "direction-campus-west-corner",
+            "direction-campus-west-east"
+          ],
+          "message": "intersections[2]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-campus-south-t",
+            "direction-campus-west-north",
+            "direction-north-avenue",
+            "direction-north-campus-t",
+            "direction-north-avenue-section",
+            "direction-north-west-corner",
+            "direction-north-west",
+            "v8-campus-south-split-v91",
+            "v8-campus-south-split-v91-section",
+            "direction-campus-west-corner",
+            "direction-campus-west-east"
+          ],
+          "message": "intersections[5]: direction-campus-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-north-west",
+            "direction-lake-west-link"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-12",
+      "revision": 11,
+      "label": "Edit map",
+      "created": [
+        "direction-north-west-section",
+        "direction-lake-west-t"
+      ],
+      "modified": [
+        "direction-lake-west-link",
+        "direction-north-west",
+        "direction-north-west-corner",
+        "direction-north-avenue",
+        "direction-campus-south-t",
+        "direction-campus-west-north",
+        "direction-north-avenue-section"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1836.1511853150078,
+        "maxX": -139.74744789695896,
+        "minZ": -2806.8378038512787,
+        "maxZ": -970.7435660524133
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-lake-west-t",
+            "direction-lake-west-link",
+            "direction-north-west",
+            "direction-north-west-section",
+            "direction-north-west-corner",
+            "direction-north-avenue",
+            "direction-campus-south-t",
+            "direction-campus-west-north",
+            "direction-north-avenue-section"
+          ],
+          "message": "intersections[0]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-lake-west-t",
+            "direction-lake-west-link",
+            "direction-north-west",
+            "direction-north-west-section",
+            "direction-north-west-corner",
+            "direction-north-avenue",
+            "direction-campus-south-t",
+            "direction-campus-west-north",
+            "direction-north-avenue-section"
+          ],
+          "message": "intersections[2]: direction-campus-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v4-west-split-3-split-m91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v8-beijing-road-c91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v9-lake-west-c91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-14",
+      "revision": 13,
+      "label": "Edit map",
+      "created": [
+        "v9-lake-west-c91-section",
+        "direction-lake-access-t"
+      ],
+      "modified": [
+        "direction-lake-west-link",
+        "v9-lake-west-c91",
+        "urban-junction-57",
+        "v4-north-split-3-split-3-m91",
+        "v4-north-split-3-split-3-split-m91",
+        "urban-junction-84",
+        "v9-lake-loop-north",
+        "v9-lake-loop-north-split-c91",
+        "urban-junction-198",
+        "v8-gongren-street-split-split-3-m91",
+        "v9-lake-loop-north-split-split-c91",
+        "direction-lake-west-t",
+        "direction-north-west",
+        "direction-north-west-section"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1836.1511853150078,
+        "maxX": -346.8,
+        "minZ": -2266.7391570194122,
+        "maxZ": -960
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-lake-access-t",
+            "direction-lake-west-link",
+            "v9-lake-west-c91",
+            "urban-junction-57",
+            "v9-lake-west-c91-section",
+            "v4-north-split-3-split-3-m91",
+            "v4-north-split-3-split-3-split-m91",
+            "urban-junction-84",
+            "v9-lake-loop-north",
+            "v9-lake-loop-north-split-c91",
+            "urban-junction-198",
+            "v8-gongren-street-split-split-3-m91",
+            "v9-lake-loop-north-split-split-c91",
+            "direction-lake-west-t",
+            "direction-north-west",
+            "direction-north-west-section"
+          ],
+          "message": "intersections[5]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v4-west-split-3-split-m91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v8-beijing-road-c91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-16",
+      "revision": 15,
+      "label": "Edit map",
+      "created": [],
+      "modified": [
+        "v91-local-junction-4",
+        "direction-north-west-section",
+        "v5-west-lane-m91",
+        "v5-west-lane-m91-section",
+        "v8-beijing-road-c91",
+        "v8-beijing-road-c91-section",
+        "direction-lake-west-t",
+        "direction-lake-west-link",
+        "direction-north-west",
+        "direction-lake-access-t",
+        "v9-lake-west-c91",
+        "v9-lake-west-c91-section"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1902.2658923135132,
+        "maxX": -1218.5260007469153,
+        "minZ": -2266.7391570194122,
+        "maxZ": -548.427393774212
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "v91-local-junction-4",
+            "direction-north-west-section",
+            "v5-west-lane-m91",
+            "v5-west-lane-m91-section",
+            "v8-beijing-road-c91",
+            "v8-beijing-road-c91-section",
+            "direction-lake-west-t",
+            "direction-lake-west-link",
+            "direction-north-west",
+            "direction-lake-access-t",
+            "v9-lake-west-c91",
+            "v9-lake-west-c91-section"
+          ],
+          "message": "intersections[6]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v4-west-split-3-split-m91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        },
+        {
+          "severity": "warning",
+          "code": "unconnected.crossing",
+          "ids": [
+            "direction-lake-west-link",
+            "v8-beijing-road-c91"
+          ],
+          "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+        }
+      ],
+      "valid": true
+    },
+    {
+      "id": "preview-18",
+      "revision": 17,
+      "label": "Edit map",
+      "created": [
+        "direction-lake-west-link-section",
+        "v8-beijing-road-c91-section-2",
+        "direction-lake-cross-1"
+      ],
+      "modified": [
+        "direction-lake-west-link",
+        "direction-lake-access-t",
+        "v8-beijing-road-c91",
+        "v91-local-junction-4",
+        "urban-junction-52",
+        "v4-west-split-3-m91",
+        "v4-west-split-3-split-m91",
+        "v5-west-lane-m91",
+        "v5-west-lane-m91-section",
+        "v8-beijing-road-c91-section",
+        "direction-north-west-section",
+        "direction-lake-west-t",
+        "direction-north-west",
+        "v9-lake-west-c91",
+        "v9-lake-west-c91-section"
+      ],
+      "deleted": [],
+      "area": {
+        "minX": -1902.2658923135132,
+        "maxX": -1218.5260007469153,
+        "minZ": -2266.7391570194122,
+        "maxZ": -548.427393774212
+      },
+      "warnings": [
+        {
+          "severity": "warning",
+          "code": "junction.weak",
+          "ids": [
+            "direction-lake-cross-1",
+            "direction-lake-west-link",
+            "direction-lake-access-t",
+            "direction-lake-west-link-section",
+            "v8-beijing-road-c91",
+            "v91-local-junction-4",
+            "v8-beijing-road-c91-section-2",
+            "urban-junction-52",
+            "v4-west-split-3-m91",
+            "v4-west-split-3-split-m91",
+            "v5-west-lane-m91",
+            "v5-west-lane-m91-section",
+            "v8-beijing-road-c91-section",
+            "direction-north-west-section",
+            "direction-lake-west-t",
+            "direction-north-west",
+            "v9-lake-west-c91",
+            "v9-lake-west-c91-section"
+          ],
+          "message": "intersections[6]: direction-north-west-corner: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+        }
+      ],
+      "valid": true
+    }
+  ]
+}

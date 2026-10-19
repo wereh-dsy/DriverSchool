@@ -1,0 +1,45 @@
+{
+  "label": "V9.1 A: four simple west ring gateway ramps",
+  "operations": [
+    {
+      "op": "createRamp",
+      "id": "v91-ring-west-inner-off",
+      "fromRoadId": "ring-cw-3-split-2-split-split-2",
+      "toRoadId": "v8-beijing-road-split-split-split",
+      "fromDistance": 9.999999999973625,
+      "toDistance": 52.849129347861904,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-west-inner-on",
+      "fromRoadId": "v8-beijing-road-split-split",
+      "toRoadId": "ring-cw-3-split-2-split-split-split-split",
+      "fromDistance": 78.76957716090284,
+      "toDistance": 69.99999999997226,
+      "kind": "on",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-west-outer-off",
+      "fromRoadId": "ring-ccw-0-split-split",
+      "toRoadId": "v91-ring-west-distributor",
+      "fromDistance": 149.65301850421156,
+      "toDistance": 229.99999999999997,
+      "kind": "off",
+      "lanes": 1
+    },
+    {
+      "op": "createRamp",
+      "id": "v91-ring-west-outer-on",
+      "fromRoadId": "v91-ring-west-distributor-section",
+      "toRoadId": "ring-ccw-0-split-split-split-3-split",
+      "fromDistance": 59.60000000000002,
+      "toDistance": 56.777066515488286,
+      "kind": "on",
+      "lanes": 1
+    }
+  ]
+}
