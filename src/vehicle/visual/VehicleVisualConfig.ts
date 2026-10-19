@@ -41,6 +41,48 @@ export interface MirrorVisualConfig extends VisualTransformConfig {
   readonly housingDepth: number;
 }
 
+/**
+ * Authored driver-door access geometry. Omitted vehicles keep their one-piece
+ * body and do not expose the V1 driver-door interaction.
+ */
+export interface DriverAccessVisualConfig {
+  /** Only the driver-side front door is authored in V1. */
+  readonly side: 'left' | 'right';
+  /** Longitudinal shut lines in vehicle-local metres. */
+  readonly doorFrontZ: number;
+  readonly doorRearZ: number;
+  /** Negative for the left-hand door (opens outward, -X). */
+  readonly openAngleRadians: number;
+  readonly openSeconds: number;
+  readonly closeSeconds: number;
+  /** Seconds for the glass to travel from closed to fully open. */
+  readonly windowTravelSeconds: number;
+  /** Unit direction of the glass travel in the door's local frame. */
+  readonly windowTravelDirection: Vector3Tuple;
+  /** Full glass travel distance in metres. */
+  readonly windowTravelDistance: number;
+  /** Authored ground anchors in the vehicle-local frame. */
+  readonly driverEntryPoint: Vector3Tuple;
+  readonly driverExitPoint: Vector3Tuple;
+  /** Ground-plane zone in vehicle-local X/Z. */
+  readonly driverInteractionZone: {
+    readonly centerLocal: readonly [x: number, z: number];
+    readonly radius: number;
+    readonly minLocalZ: number;
+    readonly maxLocalZ: number;
+    /** Signed local X limit; the left side uses a negative value. */
+    readonly sideLimitLocalX: number;
+  };
+  /** Exact cockpit node names that belong to the driver door. */
+  readonly doorMountedPartNames?: readonly string[];
+  /** Exact cockpit node name of the driver-door ambient ribbon. */
+  readonly doorAmbientTrimName?: string;
+  /** A6L uses the same ribbon name on all doors; select by local position. */
+  readonly doorAmbientTrimByPosition?: boolean;
+  /** Optional per-vehicle override; shared default is 0.25 m/s. */
+  readonly stationarySpeedEpsilon?: number;
+}
+
 export interface VehicleVisualConfig {
   /** Reflection policy only; optical geometry and static housings remain intact. */
   readonly mirrorSystem?: { readonly left?: boolean; readonly right?: boolean; readonly interior?: 'planar' | 'static' };
@@ -58,6 +100,8 @@ export interface VehicleVisualConfig {
   readonly parkingCamera?: { readonly surroundView: boolean };
   readonly windowGlass?: { readonly color: number; readonly windshieldOpacity: number; readonly windowOpacity: number };
   readonly automaticMirrorFold?: { readonly angleRadians: number; readonly response: number };
+  /** Driver door / window disassembly and on-foot access. Only authored vehicles support it. */
+  readonly driverAccess?: DriverAccessVisualConfig;
   readonly exteriorLighting?: ExteriorLightingVisualProfile;
   readonly interiorAmbientLighting?: InteriorAmbientLightingProfile;
   readonly name: string;
@@ -415,8 +459,23 @@ export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG,
   ...automaticEnvelope(EXECUTIVE_LWB_DIMENSIONS), ...automaticMirrors(EXECUTIVE_LWB_DIMENSIONS, .995, -.95),
   name: 'A6L-inspired long-wheelbase executive sedan',
-  windowGlass: { color: 0x3b4854, windshieldOpacity: .24, windowOpacity: .38 },
+  // Slightly deeper privacy tint than the original saloon calibration; the
+  // glass remains visibly transparent rather than an opaque overlay.
+  windowGlass: { color: 0x2c3742, windshieldOpacity: .24, windowOpacity: .44 },
   automaticMirrorFold: { angleRadians: degrees(60), response: 4.8 },
+  driverAccess: {
+    side: 'left', doorFrontZ: -.95, doorRearZ: .22,
+    openAngleRadians: degrees(-40), openSeconds: .55, closeSeconds: .65,
+    windowTravelSeconds: 2.4, windowTravelDirection: [0, -1, 0], windowTravelDistance: .505,
+    driverEntryPoint: [-1.565, 0, -.365], driverExitPoint: [-1.565, 0, -.365],
+    driverInteractionZone: {
+      centerLocal: [-1.565, -.365], radius: 1.5,
+      minLocalZ: -1.85, maxLocalZ: 1.12, sideLimitLocalX: -.4725,
+    },
+    doorMountedPartNames: ['Left door card', 'Left door upper rail', 'Left door armrest', 'Left door handle'],
+    doorAmbientTrimName: 'Ambient door upper trim', doorAmbientTrimByPosition: true,
+    stationarySpeedEpsilon: .25,
+  },
   exteriorLighting: EXECUTIVE_LIGHTING_PROFILE,
   interiorAmbientLighting: EXECUTIVE_AMBIENT_PROFILE,
   driverEyePosition: [-.40, 1.235, .30],

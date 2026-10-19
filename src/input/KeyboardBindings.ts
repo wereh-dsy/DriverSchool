@@ -33,14 +33,18 @@ export type KeyboardDrivingAction =
   | 'engineStart'
   | 'cruiseToggle'
   | 'lccToggle'
-  | 'cycleDriveMode';
+  | 'cycleDriveMode'
+  | 'enterExitVehicle'
+  | 'toggleDriverDoor'
+  | 'driverWindowUp'
+  | 'driverWindowDown';
 
 export type KeyboardBindings = Record<KeyboardDrivingAction, string>;
 
 export interface KeyboardBindingDefinition {
   readonly action: KeyboardDrivingAction;
   readonly label: string;
-  readonly group: '驾驶' | '变速箱' | '离合器' | '车辆附件';
+  readonly group: '驾驶' | '变速箱' | '离合器' | '车辆附件' | '上下车';
 }
 
 export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] = [
@@ -79,6 +83,10 @@ export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] 
   { action: 'cycleDriveMode', label: '驾驶模式 ECO→NORMAL→SPORT（支持车型）', group: '车辆附件' },
   { action: 'cruiseToggle', label: '定速巡航开关', group: '车辆附件' },
   { action: 'lccToggle', label: '车道居中 SET / CANCEL', group: '车辆附件' },
+  { action: 'enterExitVehicle', label: '上车 / 下车', group: '上下车' },
+  { action: 'toggleDriverDoor', label: '主驾驶车门开 / 关', group: '上下车' },
+  { action: 'driverWindowUp', label: '主驾驶车窗上升（按住）', group: '上下车' },
+  { action: 'driverWindowDown', label: '主驾驶车窗下降（按住）', group: '上下车' },
 ] as const;
 
 export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.freeze({
@@ -117,6 +125,11 @@ export const DEFAULT_KEYBOARD_BINDINGS: Readonly<KeyboardBindings> = Object.free
   cruiseToggle: 'KeyV',
   lccToggle: 'KeyG',
   cycleDriveMode: 'KeyT',
+  // Tab avoids the existing driving/accessory keys and the start-menu Enter.
+  enterExitVehicle: 'Tab',
+  toggleDriverDoor: 'Digit0',
+  driverWindowUp: 'Digit8',
+  driverWindowDown: 'Digit9',
 });
 
 /** Keys owned by the game shell rather than the keyboard driving adapter. */
@@ -175,6 +188,8 @@ export function formatKeyboardCode(code: string): string {
     Backslash: '\\',
     Minus: '-',
     Equal: '=',
+    Tab: 'Tab',
+    CapsLock: 'Caps Lock',
   };
   return labels[code] ?? code;
 }

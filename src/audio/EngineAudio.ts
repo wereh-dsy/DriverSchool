@@ -4,6 +4,7 @@ import { calculateElectricAudioMix, TurnSignalClickTracker, type ElectricAudioOp
 import type { VehicleLightingState } from '../vehicle/control/VehicleLightingController';
 import { playLaneDepartureWarningSound } from './LaneDepartureWarningSound';
 import { calculateWeatherAudioMix, createWeatherAudioMix } from './WeatherAudioMix';
+import type { CabinAcousticState } from './VehicleCabinAcoustics';
 
 /** Additional telemetry used by the synthesized vehicle and road-noise layers. */
 export interface EngineAudioUpdateOptions {
@@ -24,6 +25,8 @@ export interface EngineAudioUpdateOptions {
   engineCharacter?: EngineConfig;
   profile?: VehicleAudioProfile;
   cockpit?: boolean;
+  /** Continuous driver-door/window isolation; omitted keeps legacy audio. */
+  cabinAcoustics?: CabinAcousticState;
   driveMode?: string;
   ignitionPhase?: 'OFF' | 'CRANKING' | 'CATCH' | 'RUNNING' | 'STOPPING';
   cruiseActive?: boolean;
@@ -41,6 +44,8 @@ interface EngineMix {
   turbo: number;
   road: number;
   wind: number;
+  /** Cabin low-pass cutoff; 20 kHz means no additional filtering. */
+  cabinLowpassHz: number;
   load: number;
   speed: number;
 }
@@ -83,8 +88,11 @@ export const calculateEngineAudioMix = (
     : 1;
   const cabin = profile && cockpit
     ? profile.cabinIdle + (profile.cabinLoad - profile.cabinIdle) * smoothStep(load) : 1;
+  const cabinAcoustics = cockpit ? options.cabinAcoustics : undefined;
   const presence = profile
-    ? cockpit ? cabin * modePresence : (profile.exteriorPresence ?? 1) * modePresence
+    ? cockpit
+      ? cabin * modePresence * (cabinAcoustics?.engineScale ?? 1)
+      : (profile.exteriorPresence ?? 1) * modePresence
     : 1;
   // Idle/low/mid/high partition of the rpm range; weights sum to one so the
   // layer crossfade never changes overall level at a constant load.
@@ -139,8 +147,11 @@ export const calculateEngineAudioMix = (
       ? (.0008 + rpmNormal * .0031 * (profile.highPresence ?? 1)) * presence * layerPresence
       : 0.0025 + rpmNormal * 0.010 + (1 - load) * rpmNormal * 0.002,
     turbo,
-    road: speedNormal * (0.011 + roadRoughness * 0.021) * (profile && cockpit ? profile.cabinRoad : 1),
-    wind: Math.pow(clamp(speed / 50), 1.7) * 0.020 * (profile && cockpit ? profile.cabinWind : 1),
+    road: speedNormal * (0.011 + roadRoughness * 0.021) *
+      (profile && cockpit ? profile.cabinRoad * (cabinAcoustics?.roadScale ?? 1) : 1),
+    wind: Math.pow(clamp(speed / 50), 1.7) * 0.020 *
+      (profile && cockpit ? profile.cabinWind * (cabinAcoustics?.windScale ?? 1) : 1),
+    cabinLowpassHz: cabinAcoustics !== undefined ? cabinAcoustics.lowpassHz : 20_000,
     load,
     speed,
   };
@@ -172,6 +183,7 @@ export class EngineAudio {
   private intakeGain: GainNode | null = null;
   private roadGain: GainNode | null = null;
   private windGain: GainNode | null = null;
+  private cabinLowpass: BiquadFilterNode | null = null;
 
   private exhaustFilter: BiquadFilterNode | null = null;
   private intakeFilter: BiquadFilterNode | null = null;
@@ -376,7 +388,8 @@ export class EngineAudio {
    * AudioContext and no per-drop sound.
    */
   public updateWeather(dt: number, rainIntensity: number, windIntensity: number,
-    stormIntensity: number, cockpit: boolean, speedMetersPerSecond: number): void {
+    stormIntensity: number, cockpit: boolean, speedMetersPerSecond: number,
+    cabinAcoustics?: CabinAcousticState): void {
     const context = this.context;
     if (!context || !this.weatherBus) return;
     this.weatherElapsed += Number.isFinite(dt) ? Math.min(.1, Math.max(0, dt)) : 0;
@@ -384,7 +397,8 @@ export class EngineAudio {
     this.weatherElapsed = 0;
     const now = context.currentTime;
     const mix = calculateWeatherAudioMix(this.weatherMix, rainIntensity, windIntensity,
-      stormIntensity, cockpit !== false, speedMetersPerSecond, this.profile);
+      stormIntensity, cockpit !== false, speedMetersPerSecond, this.profile,
+      cockpit ? cabinAcoustics : undefined);
     this.rainGain?.gain.setTargetAtTime(mix.rainAmbient, now, .35);
     this.rainBodyGain?.gain.setTargetAtTime(mix.rainBody, now, .45);
     this.glassRainGain?.gain.setTargetAtTime(mix.glassRain, now, .3);
@@ -501,6 +515,7 @@ export class EngineAudio {
     this.engineBus = null;
     this.roadBus = null;
     this.transientBus = null;
+    this.cabinLowpass = null;
     this.lastRunning = false;
   }
 
@@ -525,8 +540,12 @@ export class EngineAudio {
     this.roadBus.gain.setValueAtTime(1, now);
     this.transientBus = context.createGain();
     this.transientBus.gain.setValueAtTime(0.72, now);
+    this.cabinLowpass = context.createBiquadFilter();
+    this.cabinLowpass.type = 'lowpass';
+    this.cabinLowpass.frequency.value = 20_000;
+    this.cabinLowpass.Q.value = 0.42;
     this.engineBus.connect(this.master);
-    this.roadBus.connect(this.master);
+    this.roadBus.connect(this.cabinLowpass).connect(this.master);
     this.transientBus.connect(this.master);
 
     this.createEngineLayers(context, now);
@@ -678,12 +697,13 @@ export class EngineAudio {
     rain.start(); body.start(); glass.start(); wind.start();
   }
 
-  private updateRoadNoise(mix: Pick<EngineMix, 'road' | 'wind' | 'speed'>, now: number): void {
+  private updateRoadNoise(mix: Pick<EngineMix, 'road' | 'wind' | 'speed'> & { cabinLowpassHz?: number }, now: number): void {
     this.roadGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.road), now, 0.20);
     this.windGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.wind), now, 0.28);
     this.roadFilter?.frequency.setTargetAtTime(245 + mix.speed * 12, now, 0.22);
     this.windHighpass?.frequency.setTargetAtTime(620 + mix.speed * 15, now, 0.28);
     this.windLowpass?.frequency.setTargetAtTime(2_600 + mix.speed * 31, now, 0.30);
+    this.cabinLowpass?.frequency.setTargetAtTime(Math.max(600, mix.cabinLowpassHz ?? 20_000), now, 0.26);
   }
 
   private playStarterTransient(): void {

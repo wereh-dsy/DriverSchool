@@ -179,9 +179,15 @@ export function runMercedesE300LSelfTest() {
       `bounded budget: ${materials.size} materials, ${meshes} meshes`);
 
     const ray = new T.Raycaster(); ray.layers.enableAll();
+    const doorInterior = visual.interactionDefinition?.driverDoor.doorNode.children
+      .filter(object => object.userData.vehicleInteractionInterior === true) ?? [];
     for (const direction of MERCEDES_CABIN_CLOSURE_RAYS) {
       ray.set(new T.Vector3(...config.driverEyePosition), new T.Vector3(...direction).normalize());
-      const hit = ray.intersectObjects(visual.cockpitRoot.children, true).find(entry =>
+      const hits = [
+        ...ray.intersectObjects(visual.cockpitRoot.children, true),
+        ...ray.intersectObjects(doorInterior, true),
+      ];
+      const hit = hits.find(entry =>
         entry.object instanceof T.Mesh && !((entry.object as T.Mesh).material instanceof T.MeshBasicMaterial));
       assert(!!hit && hit.distance < 3, 'closed interior ray ' + direction.join(','));
     }

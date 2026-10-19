@@ -23,10 +23,12 @@ import {
   BackSide,
   Color,
   DirectionalLight,
+  Euler,
   Fog,
   HemisphereLight,
   MathUtils,
   Mesh,
+  Quaternion,
   Texture,
   PCFSoftShadowMap,
   Raycaster,
@@ -34,11 +36,22 @@ import {
   ShaderMaterial,
   SphereGeometry,
   SRGBColorSpace,
+  Vector3,
   WebGLRenderer,
   type Camera,
   Vector2,
 } from 'three';
 import { EngineAudio } from '../audio/EngineAudio';
+import type { VehicleAudioProfile } from '../audio/VehicleAudioProfile';
+import { evaluateCabinAcoustics, type CabinAcousticState } from '../audio/VehicleCabinAcoustics';
+import {
+  applyVehicleInteractionVisual,
+  type VehicleInteractionDefinition,
+} from '../vehicle/interaction/VehicleInteractionDefinition';
+import { VehicleInteractionController } from '../vehicle/interaction/VehicleInteractionController';
+import { OnFootController } from '../player/OnFootController';
+import { PlayerModeController, smoothPlayerTransition } from '../player/PlayerModeController';
+import { vehicleControlsForPlayerMode } from '../player/PlayerInput';
 import {
   DEFAULT_DRIVER_FOV_DEGREES,
   DEFAULT_DRIVER_HEAD_LOOK,
@@ -187,6 +200,18 @@ export class DrivingGame {
   private latestInput: VehicleInputState;
   private gameStarted = false;
   private settingsOpen = false;
+  private readonly playerMode = new PlayerModeController();
+  private readonly walker = new OnFootController();
+  private readonly vehicleInteraction = new VehicleInteractionController();
+  private interactionDefinition: VehicleInteractionDefinition | null = null;
+  private cabinAcoustics: CabinAcousticState | null = null;
+  private nearDriverEntry = false;
+  private readonly cameraTransitionStartPosition = new Vector3();
+  private readonly cameraTransitionStartQuaternion = new Quaternion();
+  private readonly cameraTargetPosition = new Vector3();
+  private readonly cameraTargetQuaternion = new Quaternion();
+  private readonly walkerEye = new Vector3();
+  private readonly walkerEuler = new Euler(0, 0, 0, 'YXZ');
   private readonly navigation = new NavigationController();
   private selectedMirror: AdjustableMirrorSide = 'left';
   private fuelLevel = 0.78;
@@ -288,6 +313,7 @@ export class DrivingGame {
     this.driverCamera.update(this.vehicleVisual.root, 0);
     // WORLD, EXTERIOR, INTERIOR, MIRROR_SURFACE, and optional DEBUG overlays.
     this.driverCamera.camera.layers.enableAll();
+    this.configureVehicleInteraction(this.vehicleVisual, initialVehicle.audioProfile);
 
     this.mirrors = this.createMirrorSystem(this.vehicleVisual);
     this.mirrorOverlay = new MirrorOverlayRenderer(this.mirrors.getHudTexture('right'));
@@ -377,6 +403,198 @@ export class DrivingGame {
     };
   }
 
+  private get drivingInputActive(): boolean {
+    return this.playerMode.mode === 'Driving' && !this.playerMode.transitioning;
+  }
+
+  /** Binds the vehicle-authored interaction contract into the shared runtime. */
+  private configureVehicleInteraction(visual: VehicleVisual, audioProfile?: VehicleAudioProfile): void {
+    const base = visual.interactionDefinition;
+    this.interactionDefinition = base === null
+      ? null
+      : { ...base, cabinAcoustics: audioProfile?.cabinAcoustics };
+    this.vehicleInteraction.configure(this.interactionDefinition);
+    this.playerMode.reset('Driving');
+    this.walker.reset();
+    this.nearDriverEntry = false;
+    this.cabinAcoustics = null;
+  }
+
+  private isNearDriverEntry(): boolean {
+    return this.vehicleInteraction.isInsideInteractionZone(
+      { x: this.walker.position.x, z: this.walker.position.z },
+      { x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw },
+    );
+  }
+
+  /** Handles latched access commands inside the fixed step that consumed them. */
+  private processVehicleInteractionCommands(input: VehicleInputState, dt: number): void {
+    if (this.settingsOpen || !this.gameStarted || this.playerMode.transitioning) {
+      this.vehicleInteraction.update(dt);
+      this.vehicleInteraction.stopDriverWindow();
+      return;
+    }
+    if (this.interactionDefinition === null) {
+      this.vehicleInteraction.update(dt);
+      if (input.enterExitVehicle || input.toggleDriverDoor) {
+        this.hud.showMessage('当前车型暂未启用车门 / 上下车交互', 2);
+      }
+      return;
+    }
+    if (input.toggleDriverDoor) {
+      if (this.playerMode.mode === 'OnFoot' && !this.isNearDriverEntry()) {
+        this.hud.showMessage('请靠近主驾驶门再操作车门', 1.8);
+      } else {
+        const result = this.vehicleInteraction.toggleDriverDoor(this.snapshot.speed);
+        if (!result.accepted) {
+          this.hud.showMessage('车辆未停稳 · 无法操作主驾驶车门', 2);
+        } else {
+          this.hud.showMessage(this.vehicleInteraction.door.wantsOpen ? '主驾驶门正在打开' : '主驾驶门正在关闭', 1.4);
+        }
+      }
+    }
+    if (input.enterExitVehicle) this.requestPlayerModeChange();
+
+    this.vehicleInteraction.update(dt);
+    const driveWindow = this.drivingInputActive;
+    const up = driveWindow && input.driverWindowUp === true;
+    const down = driveWindow && input.driverWindowDown === true;
+    if (up && !down) this.vehicleInteraction.driverWindowUp(dt);
+    else if (down && !up) this.vehicleInteraction.driverWindowDown(dt);
+    else this.vehicleInteraction.stopDriverWindow();
+  }
+
+  private requestPlayerModeChange(): void {
+    if (this.playerMode.transitioning || this.interactionDefinition === null) return;
+    if (this.playerMode.mode === 'Driving') {
+      if (!this.vehicleInteraction.requestExitVehicle(this.snapshot.speed).accepted) {
+        this.hud.showMessage('车辆未停稳 · 无法下车', 2.2);
+        return;
+      }
+      // A closed door opens first; the camera transition starts immediately.
+      this.vehicleInteraction.openDriverDoor();
+      this.driverCamera.update(this.vehicleVisual.root, 0);
+      this.cameraTransitionStartPosition.copy(this.driverCamera.camera.position);
+      this.cameraTransitionStartQuaternion.copy(this.driverCamera.camera.quaternion);
+      if (!this.playerMode.beginExit()) return;
+      this.hud.showMessage('正在下车 · 主驾驶门已打开', 1.8);
+      return;
+    }
+    const result = this.vehicleInteraction.requestEnterVehicle(
+      this.snapshot.speed,
+      { x: this.walker.position.x, z: this.walker.position.z },
+      { x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw },
+    );
+    if (!result.accepted) {
+      this.hud.showMessage(result.reason === 'vehicle-moving'
+        ? '车辆未停稳 · 无法上车'
+        : '请靠近主驾驶门再上车', 2.2);
+      return;
+    }
+    this.vehicleInteraction.openDriverDoor();
+    this.applyOnFootCamera();
+    this.cameraTransitionStartPosition.copy(this.driverCamera.camera.position);
+    this.cameraTransitionStartQuaternion.copy(this.driverCamera.camera.quaternion);
+    if (!this.playerMode.beginEnter()) return;
+    this.hud.showMessage('正在上车', 1.6);
+  }
+
+  private placeWalkerAtExit(): void {
+    const pose = { x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw };
+    const exit = this.vehicleInteraction.driverExitPoint(pose);
+    if (exit === null) return;
+    const groundY = this.ground.getRoadHeightAt(exit.x, exit.z);
+    this.walker.placeAt(exit.x, exit.z, groundY, this.snapshot.yaw);
+    this.nearDriverEntry = this.isNearDriverEntry();
+  }
+
+  private applyOnFootCamera(): void {
+    this.walker.getEyePosition(this.walkerEye);
+    this.driverCamera.camera.position.copy(this.walkerEye);
+    this.walkerEuler.set(this.walker.pitch, this.walker.yaw, 0, 'YXZ');
+    this.driverCamera.camera.quaternion.setFromEuler(this.walkerEuler);
+    this.driverCamera.camera.updateMatrixWorld(true);
+  }
+
+  /**
+   * Advances the Driving/OnFoot transition and owns the single first-person
+   * camera. The transition ends exactly on the destination pose, so entering
+   * or leaving cannot produce a camera jump.
+   */
+  private updatePlayerCamera(dt: number): void {
+    const transition = this.playerMode.update(dt);
+    if (transition !== null) {
+      const kind = transition.kind;
+      if (kind === 'exit') {
+        const exit = this.vehicleInteraction.driverExitPoint(
+          { x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw });
+        if (exit !== null) {
+          this.cameraTargetPosition.set(exit.x,
+            this.ground.getRoadHeightAt(exit.x, exit.z) + this.walker.eyeHeight, exit.z);
+        } else {
+          this.cameraTargetPosition.copy(this.driverCamera.camera.position);
+        }
+        this.cameraTargetQuaternion.setFromEuler(this.walkerEuler.set(0, this.snapshot.yaw, 0, 'YXZ'));
+      } else {
+        this.vehicleVisual.root.updateWorldMatrix(true, false);
+        const eye = this.interactionDefinition?.driverEyePoint;
+        if (eye !== undefined) this.cameraTargetPosition.set(eye[0], eye[1], eye[2]);
+        else this.cameraTargetPosition.copy(this.driverCamera.driverEyePosition);
+        this.cameraTargetPosition.applyMatrix4(this.vehicleVisual.root.matrixWorld);
+        this.vehicleVisual.root.getWorldQuaternion(this.cameraTargetQuaternion)
+          .multiply(this.driverCamera.localRotation).normalize();
+      }
+      if (!transition.completed) {
+        const t = smoothPlayerTransition(transition.progress);
+        this.driverCamera.camera.position.lerpVectors(
+          this.cameraTransitionStartPosition, this.cameraTargetPosition, t);
+        this.driverCamera.camera.quaternion.slerpQuaternions(
+          this.cameraTransitionStartQuaternion, this.cameraTargetQuaternion, t);
+        this.driverCamera.camera.updateMatrixWorld(true);
+        return;
+      }
+      if (kind === 'exit') {
+        this.driverCamera.resetHeadLook(true);
+        this.placeWalkerAtExit();
+        this.hud.showMessage('已下车 · 可绕车步行', 2);
+      } else {
+        this.driverCamera.resetHeadLook(true);
+        this.vehicleInteraction.closeDriverDoor();
+        this.hud.showMessage('已上车 · 主驾驶门将自动关闭', 2);
+      }
+    }
+
+    if (this.playerMode.mode === 'Driving') {
+      this.driverCamera.update(this.vehicleVisual.root, dt);
+    } else {
+      this.applyOnFootCamera();
+    }
+  }
+
+  private updateOnFootWalk(dt: number): void {
+    if (this.playerMode.mode !== 'OnFoot' || this.playerMode.transitioning) {
+      this.nearDriverEntry = false;
+      return;
+    }
+    const input = this.input.peekState();
+    const active = this.gameStarted && !this.settingsOpen && !this.hud.isMapOpen;
+    const forward = active ? input.throttle - input.brake : 0;
+    const strafe = active ? input.steering : 0;
+    this.walker.update(dt, forward, strafe, {
+      groundHeightAt: (x, z) => this.ground.getRoadHeightAt(x, z),
+      worldBounds: this.ground.worldBounds,
+      nearbyColliders: (x, z, radius) =>
+        this.contacts.collisionSystem.getNearbyColliders({ x, z }, radius),
+      vehicle: {
+        x: this.snapshot.x, z: this.snapshot.z, yaw: this.snapshot.yaw,
+        dimensions: this.vehicleVisual.config.collisionDimensions,
+      },
+    });
+    const near = this.isNearDriverEntry();
+    if (near && !this.nearDriverEntry) this.hud.showMessage('按 Tab 上车 · 主驾驶门', 1.8);
+    this.nearDriverEntry = near;
+  }
+
   private readonly frame = (time: number): void => {
     if (!this.running) return;
     const frameDt = Math.min(MAX_FRAME_TIME, Math.max(0, (time - this.lastFrameTime) / 1_000));
@@ -423,13 +641,20 @@ export class DrivingGame {
     if (this.snapshot.transmission.type !== 'MANUAL' && this.input.controlMode !== 'normal') {
       this.input.setControlMode('normal', this.snapshot.clutchEngagement ?? 0);
     }
-    this.latestInput = this.filterSettingsInput(this.input.peekState());
-    this.updateHeadLookFromInput(frameDt, this.latestInput);
+    const frameInput = this.input.peekState();
+    this.latestInput = this.drivingInputActive
+      ? this.filterSettingsInput(frameInput)
+      : vehicleControlsForPlayerMode(frameInput, 'OnFoot');
+    if (this.drivingInputActive) this.updateHeadLookFromInput(frameDt, this.latestInput);
     this.reportInputChanges(this.latestInput);
 
     let stepIndex = 0;
     while (this.accumulator >= FIXED_STEP && stepIndex < MAX_STEPS_PER_FRAME) {
-      const driverControls = this.filterSettingsInput(this.input.consumeState());
+      const rawControls = this.input.consumeState();
+      this.processVehicleInteractionCommands(rawControls, FIXED_STEP);
+      const driverControls = this.drivingInputActive
+        ? this.filterSettingsInput(rawControls)
+        : vehicleControlsForPlayerMode(rawControls, 'OnFoot');
       this.processAccessoryCommands(driverControls);
       if (driverControls.cycleWipers) {
         const mode = this.wiperController.cycle();
@@ -546,12 +771,21 @@ export class DrivingGame {
     this.updateGroundVisuals(this.snapshot.speed);
     this.hud.updateMinimap(this.snapshot.x, this.snapshot.z, this.snapshot.yaw, frameDt);
     this.updateSun();
-    this.driverCamera.update(this.vehicleVisual.root, frameDt);
+    this.updateOnFootWalk(frameDt);
+    this.updatePlayerCamera(frameDt);
     this.wiperController.update(frameDt, this.environment.rainIntensity);
     if (this.wiperController.sweepStarted) this.engineAudio.playWiperSweep(this.wiperController.effectiveMode);
     this.windshieldRain.update(frameDt, this.environment.rainIntensity, this.wiperController, this.snapshot.speed);
     this.environmentVisual.update(frameDt, this.driverCamera.camera.position);
     this.updateWorldVisibility();
+    const acousticsProfile = this.vehicleInteraction.cabinAcoustics;
+    this.cabinAcoustics = acousticsProfile !== undefined && this.playerMode.mode === 'Driving'
+      ? evaluateCabinAcoustics(acousticsProfile, {
+        windowPosition: this.vehicleInteraction.driverWindowOpenFraction,
+        doorOpenAmount: this.vehicleInteraction.driverDoorOpenFraction,
+        speedMetersPerSecond: this.snapshot.speed,
+      })
+      : null;
     const combustionEngine = this.dynamics.engine;
     if (combustionEngine) this.engineAudio.update(
       this.snapshot.rpm ?? 0,
@@ -565,7 +799,8 @@ export class DrivingGame {
           : Math.abs(this.snapshot.transmission.engineLoadTorque ?? 0)) / Math.max(1, combustionEngine.getTorqueAtRPM(this.snapshot.rpm ?? 0)), 0, 1),
         clutchEngagement: this.snapshot.clutchEngagement ?? 0,
         roadRoughness: this.latestRoadRoughness,
-        cockpit: this.visualDebug.renderCamera === null,
+        cockpit: this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
+        cabinAcoustics: this.cabinAcoustics ?? undefined,
         driveMode: this.snapshot.driveMode,
         gear: this.snapshot.gear ?? undefined,
         acceleration: this.snapshot.acceleration,
@@ -581,7 +816,8 @@ export class DrivingGame {
       const powertrain = this.dynamics.powertrain;
       this.engineAudio.updateElectric(ev.motorRPM, ev.motorTorque, {
         vehicleSpeed: this.snapshot.speed, roadRoughness: this.latestRoadRoughness,
-        cockpit: this.visualDebug.renderCamera === null, operational: this.snapshot.vehicleOperational,
+        cockpit: this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
+        operational: this.snapshot.vehicleOperational,
         driving: this.snapshot.transmission.selectedMode === 'D' || this.snapshot.transmission.selectedMode === 'R',
         regenerativePowerKw: ev.regenPowerKw,
         maximumTorque: powertrain instanceof ElectricPowertrain ? powertrain.config.motor.maxDriveTorque : undefined,
@@ -592,7 +828,8 @@ export class DrivingGame {
     this.engineAudio.updateTurnSignal(this.lightController.state);
     this.engineAudio.updateWeather(frameDt, this.environment.rainIntensity,
       this.environment.windIntensity, this.environment.stormIntensity,
-      this.visualDebug.renderCamera === null, Math.abs(this.snapshot.speed));
+      this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
+      Math.abs(this.snapshot.speed), this.cabinAcoustics ?? undefined);
     this.hud.updateLap(this.ground.lapCourse ? this.lapTimer.state : null);
     this.hud.update({
       ...this.snapshot,
@@ -625,10 +862,12 @@ export class DrivingGame {
     mirror.junction = this.sharedVehicleData?.laneObservation.isIntersection ?? false;
     mirror.preview = this.settingsOpen ? this.selectedMirror : null;
     this.mirrors.renderAdaptive(frameDt, mirror);
-    const showMirrorOverlay = this.mirrors.adaptive.showRightOverlay && !this.hud.immersiveMode;
+    const showMirrorOverlay = this.playerMode.mode === 'Driving' &&
+      this.mirrors.adaptive.showRightOverlay && !this.hud.immersiveMode;
     this.hud.setMirrorOverlayVisible(showMirrorOverlay);
     this.visualDebug.update(this.vehicleVisual, this.contacts, this.driverCamera, this.mirrors);
-    this.windshieldRain.root.visible = this.visualDebug.renderCamera === null;
+    this.windshieldRain.root.visible = this.visualDebug.renderCamera === null &&
+      this.playerMode.mode === 'Driving';
     this.renderer.setRenderTarget(null);
     this.renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     this.renderer.setScissorTest(false);
@@ -779,6 +1018,13 @@ export class DrivingGame {
       },
     }, dt);
     this.vehicleVisual.setWheelAlignment(this.snapshot.wheels);
+    if (this.interactionDefinition !== null) {
+      applyVehicleInteractionVisual(
+        this.interactionDefinition,
+        this.vehicleInteraction.driverDoorOpenFraction,
+        this.vehicleInteraction.driverWindowOpenFraction,
+      );
+    }
     this.vehicleVisual.root.updateMatrixWorld(true);
   }
 
@@ -1059,6 +1305,10 @@ export class DrivingGame {
     this.contacts.reset();
     this.cruiseControl.reset();
     this.lateralAssist.reset(); this.sharedVehicleData?.resetLanes();
+    this.vehicleInteraction.reset();
+    this.playerMode.reset('Driving');
+    this.walker.reset();
+    this.nearDriverEntry = false;
     const spawn = this.ground.spawnPose;
     const controlMode = this.input.controlMode;
     const engineRunning = this.snapshot.engineRunning;
@@ -1157,6 +1407,9 @@ export class DrivingGame {
 
   private installVehicle(vehicleId: VehicleId, nextVisual: VehicleVisual): void {
     if (vehicleId === this.activeVehicleId) return;
+    this.playerMode.reset('Driving');
+    this.vehicleInteraction.reset();
+    this.walker.reset();
     this.laneAssistSelection.reset();
     this.laneDepartureWarning.reset();
     this.storeCurrentFuel();
@@ -1192,6 +1445,7 @@ export class DrivingGame {
     this.vehicleVisual.dispose();
 
     this.vehicleVisual = nextVisual;
+    this.configureVehicleInteraction(nextVisual, descriptor.audioProfile);
     this.vehicleLighting = new VehicleLighting(nextVisual);
     this.windshieldRain = new WindshieldRain(nextVisual);
     this.vehicleLighting.applyState(this.lightController.state);
@@ -1465,6 +1719,8 @@ export class DrivingGame {
     });
     renderer.domElement.className = 'webgl';
     renderer.domElement.tabIndex = 0;
+    // The driver glass uses a belt-plane clip to stay inside the door slot.
+    renderer.localClippingEnabled = true;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputColorSpace = SRGBColorSpace;
@@ -1706,7 +1962,10 @@ export class DrivingGame {
       if (this.executiveDisplay) { event.preventDefault(); this.executiveDisplay.cyclePage(); }
       else if (this.vehicleVisual.cockpitRoot.cycleCenterDisplayPage()) event.preventDefault();
     }
-    if (event.code === 'KeyC') this.driverCamera.resetHeadLook();
+    if (event.code === 'KeyC') {
+      if (this.playerMode.mode === 'OnFoot') this.walker.resetLook();
+      else this.driverCamera.resetHeadLook();
+    }
     if (event.code === 'F7' && !event.repeat) {
       event.preventDefault();
       const shown = this.visualDebug.toggle();
@@ -1742,6 +2001,13 @@ export class DrivingGame {
   private readonly onPointerDown = (event: PointerEvent): void => {
     if(this.hud.isMapOpen)return;
     if (event.button !== 0) return;
+    if (this.playerMode.mode === 'OnFoot') {
+      this.draggingLook = true;
+      this.pointerX = event.clientX;
+      this.pointerY = event.clientY;
+      this.renderer.domElement.setPointerCapture(event.pointerId);
+      return;
+    }
     if (this.gameStarted && !this.settingsOpen && !this.visualDebug.enabled && this.drivingSceneDisplay) {
       const bounds = this.renderer.domElement.getBoundingClientRect(), ray = new Raycaster();
       ray.layers.enableAll(); ray.setFromCamera(new Vector2(
@@ -1760,6 +2026,10 @@ export class DrivingGame {
     const deltaY = event.clientY - this.pointerY;
     this.pointerX = event.clientX;
     this.pointerY = event.clientY;
+    if (this.playerMode.mode === 'OnFoot' && !this.playerMode.transitioning) {
+      this.walker.addLook(-deltaX * 0.0026, -deltaY * 0.0022);
+      return;
+    }
     this.driverCamera.addHeadLook(-deltaX * 0.0026, -deltaY * 0.0022);
   };
 

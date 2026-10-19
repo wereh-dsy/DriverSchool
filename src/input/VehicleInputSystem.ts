@@ -45,6 +45,8 @@ interface DiscreteInputFrame {
   fogToggle: boolean;
   cycleWipers: boolean;
   cycleDriveMode: boolean;
+  enterExitVehicle: boolean;
+  toggleDriverDoor: boolean;
   directGear?: RequestedGear;
   driveSelector?: DriveSelector;
 }
@@ -249,6 +251,8 @@ export class VehicleInputSystem {
       cycleDriveMode: false,
       highBeamFlash: samples.some((sample) => sample.highBeamFlash === true),
       hornPressed: samples.some((sample) => sample.hornPressed === true),
+      driverWindowUp: samples.some((sample) => sample.driverWindowUp === true),
+      driverWindowDown: samples.some((sample) => sample.driverWindowDown === true),
       controlMode: this.mode,
       source,
       sourceMetadata,
@@ -319,6 +323,8 @@ export class VehicleInputSystem {
     let fogToggle = false;
     let cycleWipers = false;
     let cycleDriveMode = false;
+    let enterExitVehicle = false;
+    let toggleDriverDoor = false;
     let directGear: RequestedGear | undefined;
     let driveSelector: DriveSelector | undefined;
     for (const sample of samples) {
@@ -336,6 +342,8 @@ export class VehicleInputSystem {
       fogToggle ||= sample.fogToggle === true;
       cycleWipers ||= sample.cycleWipers === true;
       cycleDriveMode ||= sample.cycleDriveMode === true;
+      enterExitVehicle ||= sample.enterExitVehicle === true;
+      toggleDriverDoor ||= sample.toggleDriverDoor === true;
       // Samples are priority-sorted, so the first direct request wins a tie.
       if (directGear === undefined && sample.directGear !== undefined) {
         directGear = sample.directGear;
@@ -344,7 +352,8 @@ export class VehicleInputSystem {
     }
     if (
       !returnToAuto && !shiftUp && !shiftDown && !leftIndicator && !rightIndicator && !hazard &&
-      !cycleLights && !engineStart && !cruiseToggle && !lccToggle && !cycleLaneAssist && !fogToggle && !cycleWipers && !cycleDriveMode && directGear === undefined && driveSelector === undefined
+      !cycleLights && !engineStart && !cruiseToggle && !lccToggle && !cycleLaneAssist && !fogToggle && !cycleWipers && !cycleDriveMode &&
+      !enterExitVehicle && !toggleDriverDoor && directGear === undefined && driveSelector === undefined
     ) return;
     const frame: DiscreteInputFrame = {
       returnToAuto,
@@ -361,6 +370,8 @@ export class VehicleInputSystem {
       fogToggle,
       cycleWipers,
       cycleDriveMode,
+      enterExitVehicle,
+      toggleDriverDoor,
     };
     if (directGear !== undefined) frame.directGear = directGear;
     if (driveSelector !== undefined) frame.driveSelector = driveSelector;
@@ -427,6 +438,8 @@ export class VehicleInputSystem {
       fogToggle: discrete?.fogToggle ?? false,
       cycleWipers: discrete?.cycleWipers ?? false,
       cycleDriveMode: discrete?.cycleDriveMode ?? false,
+      enterExitVehicle: discrete?.enterExitVehicle ?? false,
+      toggleDriverDoor: discrete?.toggleDriverDoor ?? false,
     };
     if (discrete?.directGear !== undefined) state.directGear = discrete.directGear;
     else delete state.directGear;

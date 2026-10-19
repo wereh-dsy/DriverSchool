@@ -7,6 +7,23 @@ export const BMW_530LI_VISUAL_CONFIG: VehicleVisualConfig = {
   dimensions: d, collisionDimensions: d, vehicleWidth: d.width, vehicleLength: d.length,
   wheelBase: d.wheelBase, trackWidth: d.frontTrackWidth, wheelRadius: d.wheelRadius,
   windowGlass: { color: 0x899398, windshieldOpacity: .24, windowOpacity: .34 },
+  driverAccess: {
+    side: 'left', doorFrontZ: -.895, doorRearZ: .422,
+    openAngleRadians: rad(-40), openSeconds: .55, closeSeconds: .65,
+    windowTravelSeconds: 2.4, windowTravelDirection: [0, -1, 0], windowTravelDistance: .502,
+    driverEntryPoint: [-1.555, 0, -.237], driverExitPoint: [-1.555, 0, -.237],
+    driverInteractionZone: {
+      centerLocal: [-1.555, -.237], radius: 1.5,
+      minLocalZ: -1.795, maxLocalZ: 1.322, sideLimitLocalX: -.467,
+    },
+    doorMountedPartNames: [
+      'Left front closed door trim surface', 'Left front leather door insert', 'Left front wood door trim',
+      'Left front armrest', 'Left front satin door release', 'Left front window control surface',
+      'Left front upper belt seal', 'Left front window lower inner frame', 'Left front door mirror sail closure',
+    ],
+    doorAmbientTrimName: 'Left front ambient door trim',
+    stationarySpeedEpsilon: .25,
+  },
   driverEyePosition: [-.40, 1.225, .30],
   drivingSceneDisplay: { lanes: true, proximity: true },
   instrumentCluster: { displayStyle: 'bmw-live', maximumSpeedKmh: 260, maximumRPM: 7000,

@@ -1,4 +1,5 @@
 import type { VehicleAudioProfile } from './VehicleAudioProfile';
+import type { CabinAcousticState } from './VehicleCabinAcoustics';
 
 /** Reusable cockpit/exterior weather bus targets. */
 export interface WeatherAudioMix {
@@ -41,6 +42,7 @@ export function calculateWeatherAudioMix(
   inside: boolean,
   speedMetersPerSecond: number,
   profile?: VehicleAudioProfile,
+  cabinAcoustics?: CabinAcousticState,
 ): WeatherAudioMix {
   const rain = clamp(rainIntensity), wind = clamp(windIntensity), storm = clamp(stormIntensity);
   const speed = clamp(speedMetersPerSecond / 45, 0, 1.4);
@@ -49,16 +51,19 @@ export function calculateWeatherAudioMix(
   const windAttenuation = profile?.windCabinAttenuation ?? .4;
   if (inside) {
     const rainCurve = Math.pow(rain, 1.35);
-    target.rainAmbient = (.0002 + rainCurve * .075) * Math.max(0, rainAttenuation);
-    target.rainBody = rain * rain * (.037 + storm * .045) * (.42 + Math.max(0, rainAttenuation) * .35);
-    target.glassRain = rain * rain * .03 * (1 - isolation * .2);
-    target.thunder = .16 * (.45 - isolation * .15);
-    target.thunderBody = .055 * (.72 + (1 - isolation) * .1);
-    target.thunderLowpassHz = 330 - isolation * 125;
-    target.rainFilterHz = 820 + rain * 260 - isolation * 140;
-    target.rainLowpassHz = 2_400 - isolation * 900;
+    const ambienceScale = cabinAcoustics?.ambienceScale ?? 1;
+    const openness = cabinAcoustics?.openness ?? 0;
+    target.rainAmbient = (.0002 + rainCurve * .075) * Math.max(0, rainAttenuation) * ambienceScale;
+    target.rainBody = rain * rain * (.037 + storm * .045) * (.42 + Math.max(0, rainAttenuation) * .35) * ambienceScale;
+    target.glassRain = rain * rain * .03 * (1 - isolation * .2) *
+      (1 - (cabinAcoustics?.windowPosition ?? 0) * .45);
+    target.thunder = .16 * (.45 - isolation * .15) * Math.max(1, ambienceScale * .85);
+    target.thunderBody = .055 * (.72 + (1 - isolation) * .1) * Math.max(1, ambienceScale * .8);
+    target.thunderLowpassHz = (330 - isolation * 125) + openness * 80;
+    target.rainFilterHz = (820 + rain * 260 - isolation * 140) * (1 + openness * .55);
+    target.rainLowpassHz = (2_400 - isolation * 900) * (1 + openness * 1.35);
     target.rainQ = .42;
-    target.glassFilterHz = 2_600 + isolation * 500;
+    target.glassFilterHz = (2_600 + isolation * 500) * (1 - (cabinAcoustics?.windowPosition ?? 0) * .18);
   } else {
     const rainCurve = Math.pow(rain, .95);
     target.rainAmbient = .0003 + rainCurve * .075;
@@ -72,7 +77,11 @@ export function calculateWeatherAudioMix(
     target.rainQ = .58;
     target.glassFilterHz = 3_600;
   }
-  target.wind = (.0003 + wind * .035) * (1 + speed * .7) * (inside ? Math.max(0, windAttenuation) : 1);
-  target.windFilterHz = inside ? 420 + speed * 220 : 720 + speed * 260;
+  const ambienceScale = inside ? (cabinAcoustics?.ambienceScale ?? 1) : 1;
+  target.wind = (.0003 + wind * .035) * (1 + speed * .7) *
+    (inside ? Math.max(0, windAttenuation) * ambienceScale : 1);
+  target.windFilterHz = inside
+    ? (420 + speed * 220) * (1 + (cabinAcoustics?.openness ?? 0) * .9)
+    : 720 + speed * 260;
   return target;
 }

@@ -70,6 +70,8 @@ export class KeyboardInput implements VehicleInputDevice {
   private pendingFogToggle = false;
   private pendingCycleWipers = false;
   private pendingCycleDriveMode = false;
+  private pendingEnterExitVehicle = false;
+  private pendingToggleDriverDoor = false;
   private pendingDriveSelector: DriveSelector | undefined;
   private lastInputAt: number | null = null;
   private context: VehicleInputDeviceContext = {
@@ -160,13 +162,18 @@ export class KeyboardInput implements VehicleInputDevice {
     const cycleDriveMode = this.enabled && this.pendingCycleDriveMode;
     const highBeamFlash = this.enabled && this.held.has('highBeamFlash');
     const hornPressed = this.enabled && this.held.has('horn');
+    const enterExitVehicle = this.enabled && this.pendingEnterExitVehicle;
+    const toggleDriverDoor = this.enabled && this.pendingToggleDriverDoor;
+    const driverWindowUp = this.enabled && this.held.has('driverWindowUp');
+    const driverWindowDown = this.enabled && this.held.has('driverWindowDown');
     const driveSelector = this.enabled ? this.pendingDriveSelector : undefined;
     const deviceActive =
       throttle > 0 || brake > 0 || handbrake > 0 || left || right ||
       Math.abs(this.steeringValue) > 1e-4 ||
       clutchPedalRate !== 0 || shiftUp || shiftDown || directGear !== undefined ||
       toggleControlMode || toggleHandbrake || leftIndicator || rightIndicator ||
-      hazard || cycleLights || engineStart || cruiseToggle || lccToggle || fogToggle || cycleWipers || cycleDriveMode || highBeamFlash || hornPressed || driveSelector !== undefined;
+      hazard || cycleLights || engineStart || cruiseToggle || lccToggle || fogToggle || cycleWipers || cycleDriveMode || highBeamFlash || hornPressed || driveSelector !== undefined ||
+      enterExitVehicle || toggleDriverDoor || driverWindowUp || driverWindowDown;
 
     const state: VehicleInputDeviceState = {
       throttle,
@@ -190,6 +197,10 @@ export class KeyboardInput implements VehicleInputDevice {
       cycleDriveMode,
       highBeamFlash,
       hornPressed,
+      enterExitVehicle,
+      toggleDriverDoor,
+      driverWindowUp,
+      driverWindowDown,
       controlMode: this.context.controlMode,
       source: 'keyboard',
       sourceMetadata: {
@@ -222,6 +233,8 @@ export class KeyboardInput implements VehicleInputDevice {
     this.pendingFogToggle = false;
     this.pendingCycleWipers = false;
     this.pendingCycleDriveMode = false;
+    this.pendingEnterExitVehicle = false;
+    this.pendingToggleDriverDoor = false;
     this.pendingDriveSelector = undefined;
     return state;
   }
@@ -300,6 +313,8 @@ export class KeyboardInput implements VehicleInputDevice {
     if (action === 'fogToggle') this.pendingFogToggle = true;
     if (action === 'cycleWipers') this.pendingCycleWipers = true;
     if (action === 'cycleDriveMode') this.pendingCycleDriveMode = true;
+    if (action === 'enterExitVehicle') this.pendingEnterExitVehicle = true;
+    if (action === 'toggleDriverDoor') this.pendingToggleDriverDoor = true;
     const selectorByAction: Partial<Record<KeyboardDrivingAction, DriveSelector>> = {
       selectorPark: 'P', selectorReverse: 'R', selectorNeutral: 'N', selectorDrive: 'D',
     };
@@ -346,6 +361,8 @@ export class KeyboardInput implements VehicleInputDevice {
     this.pendingFogToggle = false;
     this.pendingCycleWipers = false;
     this.pendingCycleDriveMode = false;
+    this.pendingEnterExitVehicle = false;
+    this.pendingToggleDriverDoor = false;
     this.pendingDriveSelector = undefined;
   }
 

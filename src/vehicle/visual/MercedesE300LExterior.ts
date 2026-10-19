@@ -5,6 +5,7 @@ import {
   polygon, rounded, starEmblem, sweep, threePointedStar,
 } from './MercedesE300LGeometry';
 import { createMercedesE300LAtlas, mercedesExteriorUV } from './MercedesE300LExteriorDetails';
+import { splitSideBodyForDoor } from './DoorSideSplit';
 import type { MirrorVisualConfig, VehicleVisualConfig, Vector3Tuple as P } from './VehicleVisualConfig';
 import type { MirrorSurfaceMesh } from './VehicleVisual';
 
@@ -61,16 +62,39 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
 
   for (const sign of [-1, 1]) {
     const side = sign < 0 ? 'Left' : 'Right';
-    const body = grid(side + ' sculpted body side with open arches', 264, 12, (u, v) => {
-      const z = mix(-2.546, 2.546, u), s = sample(z), bottom = archBottom(z);
-      const y = mix(bottom, s.y, v), f = (y - rockerY) / Math.max(.001, s.y - rockerY);
-      // A soft shoulder crease and a fuller lower flank, not a slab side.
+    const access = sign < 0 ? config.driverAccess : undefined;
+    const sidePoint = (z: number, y: number): P => {
+      const s = sample(z);
+      const f = (y - rockerY) / Math.max(.001, s.y - rockerY);
       const crease = .014 * Math.exp(-(((f - .46) / .13) ** 2)) * Math.exp(-((z / 1.6) ** 6));
       const width = (f < .80 ? s.width - .036 * (1 - f / .80) : mix(s.width, s.belt, (f - .80) / .20)) - crease;
       return [sign * width, y, cornerZ(width, z)];
-    }, sidePaint);
-    mercedesExteriorUV(body.geometry, 'side', (_x, y, z) => [(z + 2.546) / 5.092, (y - rockerY) / .714]);
-    root.add(body);
+    };
+    let driverHingePosition: T.Vector3 | null = null;
+    let driverDoor: T.Group | null = null;
+    if (access !== undefined) {
+      const split = splitSideBodyForDoor(root, {
+        fullFrontZ: -2.546, fullRearZ: 2.546,
+        doorFrontZ: access.doorFrontZ, doorRearZ: access.doorRearZ,
+        sillY: config.body.sillY, bottomY: archBottom, topY: z => sample(z).y,
+        point: sidePoint, material: sidePaint,
+        fullBodyName: side + ' sculpted body side with open arches',
+        assignUV: geometry => mercedesExteriorUV(geometry, 'side', (_x, y, z) => [(z + 2.546) / 5.092,
+          (y - rockerY) / .714]),
+      });
+      driverHingePosition = split.hingePosition;
+      const hinge = new T.Group(); hinge.name = 'Driver door hinge'; hinge.position.copy(split.hingePosition);
+      driverDoor = new T.Group(); driverDoor.name = 'Driver door';
+      split.doorMesh.position.sub(split.hingePosition); driverDoor.add(split.doorMesh);
+      hinge.add(driverDoor); root.add(hinge);
+    } else {
+      const body = grid(side + ' sculpted body side with open arches', 264, 12, (u, v) => {
+        const z = mix(-2.546, 2.546, u), s = sample(z), bottom = archBottom(z);
+        return sidePoint(z, mix(bottom, s.y, v));
+      }, sidePaint);
+      mercedesExteriorUV(body.geometry, 'side', (_x, y, z) => [(z + 2.546) / 5.092, (y - rockerY) / .714]);
+      root.add(body);
+    }
 
     for (const centerZ of [-config.wheelBase / 2, config.wheelBase / 2]) {
       // Thin rolled arch lip keeps the opening crisp without a dense tube.
@@ -92,14 +116,48 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
       return [sign * (.914 + .008 * Math.sin(Math.PI * v)), mix(rockerY - .004, .312, v), z];
     }, bright));
 
+    const windowBottomY = Math.min(...mercedesFrontWindowCorners(sign).map(point => point[1]));
     for (const [name, points] of [
       ['Front side window', mercedesFrontWindowCorners(sign)],
       ['Rear door window', mercedesRearWindowCorners(sign)],
     ] as const) {
-      root.add(polygon(side + ' ' + name, points, glass));
-      root.add(path(side + ' ' + name + ' rubber seal', points, .009, seal, true));
-      root.add(path(side + ' ' + name + ' satin surround',
-        points.map(([x, y, z]) => [x + sign * .006, y, z] as P), .0045, bright, true));
+      const driverWindow = name === 'Front side window' && access !== undefined;
+      if (driverWindow) {
+        const hinge = driverHingePosition!;
+        const clipPlaneLocal = new T.Plane(new T.Vector3(0, 1, 0), -((windowBottomY + .0016) - hinge.y));
+        const clipPlane = clipPlaneLocal.clone();
+        const driverGlass = glass.clone();
+        driverGlass.clippingPlanes = [clipPlane];
+        driverGlass.clipShadows = false;
+        const pane = polygon(side + ' ' + name, points, driverGlass);
+        pane.position.sub(hinge);
+        const mount = new T.Group();
+        mount.name = 'Driver window glass mount';
+        mount.userData.driverWindowClipPlane = clipPlane;
+        mount.userData.driverWindowClipPlaneLocal = clipPlaneLocal;
+        mount.userData.driverWindowTravel = access!.windowTravelDistance;
+        mount.add(pane);
+        driverDoor!.add(mount);
+        const windowSeal = path(side + ' ' + name + ' rubber seal', points, .009, seal, true);
+        const surround = path(side + ' ' + name + ' satin surround',
+          points.map(([x, y, z]) => [x + sign * .006, y, z] as P), .0045, bright, true);
+        windowSeal.position.sub(hinge); surround.position.sub(hinge);
+        driverDoor!.add(windowSeal, surround);
+      } else {
+        root.add(polygon(side + ' ' + name, points, glass));
+        root.add(path(side + ' ' + name + ' rubber seal', points, .009, seal, true));
+        root.add(path(side + ' ' + name + ' satin surround',
+          points.map(([x, y, z]) => [x + sign * .006, y, z] as P), .0045, bright, true));
+      }
+    }
+    if (access !== undefined && driverDoor !== null && driverHingePosition !== null) {
+      const hinge = driverHingePosition;
+      const filler = grid('Driver door belt filler', 40, 1, (u, v) => {
+        const z = mix(access.doorFrontZ, access.doorRearZ, u), s = sample(z);
+        const top = sidePoint(z, s.y), upper: P = [sign * mercedesSideGlassX(windowBottomY), windowBottomY, z];
+        return [mix(top[0], upper[0], v), mix(top[1], upper[1], v), z] as P;
+      }, paint);
+      filler.position.sub(hinge); driverDoor.add(filler);
     }
     // Closed wedge between the windshield edge and the front side glass.
     root.add(sweep(side + ' sculpted A pillar outer', Array.from({ length: 29 }, (_, j) =>
@@ -121,12 +179,23 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
     root.add(path(side + ' continuous roof rail', [[sign * .706, mercedesRoofHeight(-.330, .706) + .007, -.330],
       [sign * .706, mercedesRoofHeight(.400, .706) + .007, .400],
       [sign * .706, mercedesRoofHeight(1.048, .706) + .007, 1.048]], .014, paint));
-    root.add(path(side + ' beltline satin moulding', [[sign * .862, .955, -.874], [sign * .864, .957, .436],
-      [sign * .862, .953, 1.262], [sign * .850, .986, 1.446]], .0045, bright));
-    root.add(grid(side + ' flush door handle bezel', 6, 1, (u, v) => {
+    if (access !== undefined && driverDoor !== null && driverHingePosition !== null) {
+      const frontBelt = path(side + ' front door beltline', [[sign * .862, .955, access.doorFrontZ],
+        [sign * .864, .957, access.doorRearZ]], .0045, bright);
+      frontBelt.position.sub(driverHingePosition); driverDoor.add(frontBelt);
+      root.add(path(side + ' rear beltline', [[sign * .864, .957, access.doorRearZ],
+        [sign * .862, .953, 1.262], [sign * .850, .986, 1.446]], .0045, bright));
+    } else {
+      root.add(path(side + ' beltline satin moulding', [[sign * .862, .955, -.874], [sign * .864, .957, .436],
+        [sign * .862, .953, 1.262], [sign * .850, .986, 1.446]], .0045, bright));
+    }
+    const handle = grid(side + ' flush door handle bezel', 6, 1, (u, v) => {
       const z = mix(sign < 0 ? -.726 : -.700, sign < 0 ? -.626 : -.600, u);
       return [sign * (sample(z).width - .004), mix(.884, .896, v), z];
-    }, satin));
+    }, satin);
+    if (access !== undefined && driverDoor !== null && driverHingePosition !== null) {
+      handle.position.sub(driverHingePosition); driverDoor.add(handle);
+    } else root.add(handle);
     root.add(grid(side + ' rear flush door handle bezel', 6, 1, (u, v) => {
       const z = mix(.774, .874, u);
       return [sign * (sample(z).width - .004), mix(.888, .900, v), z];

@@ -196,6 +196,14 @@ const createBodyGeometry = (
   for (const z of [cabinFrontZ, cabinRearZ]) {
     if (!dense.some(station => Math.abs(station.z - z) < 1e-8)) dense.push(sampleStation(stations, z));
   }
+  // A driver door needs exact shut-line stations so the shell opening follows
+  // the hinged skin instead of a nearby interpolated quad.
+  const driverAccess = config.driverAccess?.side === 'left' ? config.driverAccess : undefined;
+  if (driverAccess !== undefined) {
+    for (const z of [driverAccess.doorFrontZ, driverAccess.doorRearZ]) {
+      if (!dense.some(station => Math.abs(station.z - z) < 1e-8)) dense.push(sampleStation(stations, z));
+    }
+  }
   dense.sort((a, b) => a.z - b.z);
   const positions: number[] = [];
   const indices: number[] = [];
@@ -238,10 +246,14 @@ const createBodyGeometry = (
   for (let stationIndex = 0; stationIndex < dense.length - 1; stationIndex += 1) {
     const current = stationIndex * ringSize;
     const next = current + ringSize;
-    // The lateral wheel-opening faces are deliberately absent between the
-    // underfloor (0/1) and clipped flank (2/7). No invisible visual wheel cover.
+    const inDriverDoor = driverAccess !== undefined &&
+      dense[stationIndex]!.z >= driverAccess.doorFrontZ - 1e-8 &&
+      dense[stationIndex + 1]!.z <= driverAccess.doorRearZ + 1e-8;
+    // The left flank's top/shoulder strips are replaced by the hinged skin.
+    // Only those two edges are removed; the sill, floor and roof stay closed.
     const edges = executive ? [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] : [0, 2, 3, 4, 5, 6];
     for (const edge of edges) {
+      if (inDriverDoor && (edge === 12 || edge === 13)) continue;
       if ((executive ? edge >= 4 && edge <= 11 : edge === 4) && dense[stationIndex]!.z >= cabinFrontZ - 1e-8 &&
         dense[stationIndex + 1]!.z <= cabinRearZ + 1e-8) continue;
       const following = edge + 1;
@@ -517,7 +529,9 @@ const addCabinGlazingAndPillars = (
     frontMiddleHigh.z -= 0.022;
     rearMiddleLow.z += 0.022;
     rearMiddleHigh.z += 0.022;
-    const frontWindow = createMesh(
+    // The driver window is owned by the hinged door on authored vehicles.
+    const driverDoorWindow = config.driverAccess?.side === 'left' && direction < 0;
+    const frontWindow = driverDoorWindow ? null : createMesh(
       `${direction < 0 ? 'Left' : 'Right'} front side window`,
       createQuadGeometry([frontLow, frontHigh, frontMiddleHigh, frontMiddleLow], direction < 0),
       materials.glass, 'glass',
@@ -528,10 +542,12 @@ const addCabinGlazingAndPillars = (
       materials.glass, 'glass',
     );
     for (const window of [frontWindow, rearSideWindow]) {
+      if (window === null) continue;
       window.castShadow = false;
       window.renderOrder = 2;
-      root.add(window);
     }
+    if (frontWindow !== null) root.add(frontWindow);
+    root.add(rearSideWindow);
 
     root.add(
       createMesh(
@@ -565,14 +581,23 @@ const addCabinGlazingAndPillars = (
       ),
     );
 
-    const beltline = createBeam(
-      `${direction < 0 ? 'Left' : 'Right'} window beltline`,
-      new THREE.Vector3(outwardX, frontLow.y - 0.015, frontLow.z),
-      new THREE.Vector3(outwardX, rearLow.y - 0.015, rearLow.z),
-      0.018,
-      body.design === 'executive' ? materials.chrome : materials.trim,
-      'window-trim',
-    );
+    const beltline = driverDoorWindow
+      ? createBeam(
+        `${direction < 0 ? 'Left' : 'Right'} rear window beltline`,
+        new THREE.Vector3(middleLow.x, middleLow.y - 0.015, middleLow.z),
+        new THREE.Vector3(rearLow.x, rearLow.y - 0.015, rearLow.z),
+        0.018,
+        materials.chrome,
+        'window-trim',
+      )
+      : createBeam(
+        `${direction < 0 ? 'Left' : 'Right'} window beltline`,
+        new THREE.Vector3(outwardX, frontLow.y - 0.015, frontLow.z),
+        new THREE.Vector3(outwardX, rearLow.y - 0.015, rearLow.z),
+        0.018,
+        body.design === 'executive' ? materials.chrome : materials.trim,
+        'window-trim',
+      );
     root.add(beltline);
 
     const bPillarZ = pillarBZ(config);
@@ -588,7 +613,7 @@ const addCabinGlazingAndPillars = (
       // Join every window sill to the real tapered door skin, rather than
       // leaving the raised window belt hovering above the open body deck.
       const anchors = [frontLow, frontMiddleLow, rearMiddleLow, rearLow];
-      for (let i = 1; i < anchors.length; i++) {
+      for (let i = driverDoorWindow ? 2 : 1; i < anchors.length; i++) {
         const a = anchors[i - 1]!, b = anchors[i]!;
         const sa = frontDoorSkinAnchor(config, a.z), sb = frontDoorSkinAnchor(config, b.z);
         root.add(createMesh(`${direction < 0 ? 'Left' : 'Right'} sealed window sill ${i}`,
@@ -914,21 +939,36 @@ const stationHalfWidthAtY = (station: BodyStation, y: number): number => y <= st
 const addFlankPanels = (root: THREE.Group, config: VehicleVisualConfig, materials: ExteriorMaterials): void => {
   const sport = config.body.profile === 'sport-coupe';
   const stations = sport ? createSportsStations(config) : createSedanStations(config);
-  const panels = sport
-    ? [
-      ['front fender', -bodyHalfLength(config) + 0.23, -0.79, 'front-fender'],
-      ['coupe door', -0.79, 0.64, 'door'],
-      ['rear quarter panel and tail corner', 0.64, bodyHalfLength(config) - 0.12, 'rear-quarter'],
-    ] as const
-    : [
-      ['front fender', -bodyHalfLength(config) + 0.23, -0.79, 'front-fender'],
-      ['front door', -0.79, config.body.design === undefined ? .3 : pillarBZ(config), 'door'],
-      ['rear door', config.body.design === undefined ? .3 : pillarBZ(config),
-        config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055, 'door'],
-      ['rear quarter panel and tail corner', config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055,
-        bodyHalfLength(config) - 0.12, 'rear-quarter'],
-    ] as const;
+  const sportPanels = [
+    ['front fender', -bodyHalfLength(config) + 0.23, -0.79, 'front-fender'],
+    ['coupe door', -0.79, 0.64, 'door'],
+    ['rear quarter panel and tail corner', 0.64, bodyHalfLength(config) - 0.12, 'rear-quarter'],
+  ] as const;
+  const sedanPanels = [
+    ['front fender', -bodyHalfLength(config) + 0.23, -0.79, 'front-fender'],
+    ['front door', -0.79, config.body.design === undefined ? .3 : pillarBZ(config), 'door'],
+    ['rear door', config.body.design === undefined ? .3 : pillarBZ(config),
+      config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055, 'door'],
+    ['rear quarter panel and tail corner', config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055,
+      bodyHalfLength(config) - 0.12, 'rear-quarter'],
+  ] as const;
   for (const direction of [-1, 1] as const) {
+    const driverAccess = direction < 0 && config.driverAccess?.side === 'left'
+      ? config.driverAccess : undefined;
+    // The driver door's front shut line follows the window/glass anchor, and
+    // its skin is built with the hinge instead of this static overlay.
+    const panels = sport
+      ? sportPanels
+      : driverAccess !== undefined
+        ? [
+          ['front fender', -bodyHalfLength(config) + 0.23, driverAccess.doorFrontZ, 'front-fender'],
+          ['rear door', driverAccess.doorRearZ,
+            config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055, 'door'],
+          ['rear quarter panel and tail corner',
+            config.body.design === undefined ? 1.015 : rearGlassBottomZ(config) - .055,
+            bodyHalfLength(config) - 0.12, 'rear-quarter'],
+        ] as const
+        : sedanPanels;
     for (const [name, frontZ, rearZ, category] of panels) {
       const positions: number[] = [];
       const indices: number[] = [];
@@ -960,6 +1000,8 @@ const addFlankPanels = (root: THREE.Group, config: VehicleVisualConfig, material
       root.add(createMesh(`${direction < 0 ? 'Left' : 'Right'} ${name}`, geometry, materials.paint, category));
     }
     for (const handleZ of sport ? [0.43] : [0.13, 0.82]) {
+      // The exterior driver handle is parented to the hinged door.
+      if (driverAccess !== undefined && handleZ === 0.13) continue;
       const station = sampleStation(stations, handleZ);
       const handle = createMesh(`${direction < 0 ? 'Left' : 'Right'} door handle`,
         new THREE.BoxGeometry(0.018, 0.022, 0.115), config.body.design === 'executive' ? materials.chrome : materials.trim, 'door-handle');
@@ -1361,6 +1403,128 @@ const addSUVDetails = (root: THREE.Group, config: VehicleVisualConfig, materials
   face('SUV rear lower bumper', config.body.groundClearance + .14, .25, 1.79, false, materials.trim, 'bumper');
 };
 
+/**
+ * Splits the authored driver door out of the executive shell. The lower skin,
+ * exterior handle, front beltline, sill return and window glass share one
+ * A-pillar hinge; the glass mount is a child so it can slide into the door.
+ */
+const addAuthoredDriverDoor = (
+  root: THREE.Group,
+  config: VehicleVisualConfig,
+  materials: ExteriorMaterials,
+): void => {
+  const access = config.driverAccess;
+  if (access === undefined || access.side !== 'left') return;
+  const { doorFrontZ, doorRearZ } = access;
+  const stations = createSedanStations(config);
+  const hingeSkin = frontDoorSkinAnchor(config, doorFrontZ);
+  const hingePosition = new THREE.Vector3(-hingeSkin.x, hingeSkin.y, doorFrontZ);
+
+  const hinge = new THREE.Group();
+  hinge.name = 'Driver door hinge';
+  hinge.position.copy(hingePosition);
+  hinge.userData.vehiclePart = 'driver-door-hinge';
+  hinge.userData.driverDoorOpenAngle = access.openAngleRadians;
+  const door = new THREE.Group();
+  door.name = 'Driver door';
+  door.userData.vehiclePart = 'driver-door';
+  hinge.add(door);
+
+  // Outer skin: same station loft as the static flank panel, but with the
+  // complete sill-to-beltline height so it closes the shell opening.
+  const positions: number[] = [];
+  const indices: number[] = [];
+  const steps = Math.max(1, Math.ceil((doorRearZ - doorFrontZ) / 0.085));
+  for (let step = 0; step <= steps; step += 1) {
+    const z = THREE.MathUtils.lerp(doorFrontZ, doorRearZ, step / steps);
+    const station = fitWheelArchStation(config, sampleStation(stations, z));
+    const archBottom = wheelArchBottom(config, z);
+    const bottomY = Math.min(station.topY - 0.012, Math.max(station.bottomY, archBottom));
+    const middleY = Math.max(bottomY, station.shoulderY);
+    for (const y of [bottomY, middleY, station.topY - 0.008]) {
+      positions.push(-(stationHalfWidthAtY(station, y) + 0.001) - hingePosition.x,
+        y - hingePosition.y, z - hingePosition.z);
+    }
+  }
+  for (let step = 0; step < steps; step += 1) {
+    for (let strip = 0; strip < 2; strip += 1) {
+      const a = step * 3 + strip;
+      const b = a + 1;
+      const c = b + 3;
+      const d = a + 3;
+      indices.push(a, c, b, a, d, c);
+    }
+  }
+  const skinGeometry = new THREE.BufferGeometry();
+  skinGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  skinGeometry.setIndex(indices);
+  skinGeometry.computeVertexNormals();
+  skinGeometry.computeBoundingBox();
+  door.add(createMesh('Driver door outer skin', skinGeometry, materials.paint, 'door'));
+
+  // One continuous glass pane. The lower edge sits slightly outboard in the
+  // door slot and the upper edge follows the roof tumblehome; the belt clip
+  // hides the portion inside the door so it cannot intersect the card/armrest.
+  const opening = frontWindowAnchors(config);
+  const side = config.cabin.width * .5 + .018;
+  const topHalfWidth = config.body.roofWidth * .5 - .045;
+  const glassOutboard = .028;
+  const glassLowerX = -(side + glassOutboard);
+  const frontLow = new THREE.Vector3(glassLowerX, opening.frontBottomY, opening.frontBottomZ);
+  const frontHigh = new THREE.Vector3(-topHalfWidth, opening.frontTopY, opening.frontTopZ);
+  const frontMiddleHigh = new THREE.Vector3(-topHalfWidth, opening.rearTopY, opening.rearTopZ - .022);
+  const frontMiddleLow = new THREE.Vector3(glassLowerX, opening.rearBottomY, opening.rearZ - .022);
+  const local = (point: THREE.Vector3): QuadPoint => ({
+    x: point.x - hingePosition.x, y: point.y - hingePosition.y, z: point.z - hingePosition.z,
+  });
+  const glassMaterial = materials.glass.clone();
+  glassMaterial.name = 'Driver window belt-clipped glass';
+  glassMaterial.clipShadows = false;
+  const clipPlaneLocal = new THREE.Plane(new THREE.Vector3(0, 1, 0),
+    -((opening.frontBottomY + .0016) - hingePosition.y));
+  const clipPlane = clipPlaneLocal.clone();
+  glassMaterial.clippingPlanes = [clipPlane];
+  const glass = createMesh('Driver window glass', createQuadGeometry([
+    local(frontLow), local(frontHigh), local(frontMiddleHigh), local(frontMiddleLow),
+  ], true), glassMaterial, 'glass');
+  glass.castShadow = false;
+  glass.renderOrder = 2;
+  const windowMount = new THREE.Group();
+  windowMount.name = 'Driver window glass mount';
+  windowMount.userData.vehiclePart = 'driver-window';
+  windowMount.userData.driverWindowClipPlane = clipPlane;
+  windowMount.userData.driverWindowClipPlaneLocal = clipPlaneLocal;
+  windowMount.userData.driverWindowTravel = access.windowTravelDistance;
+  windowMount.add(glass);
+  door.add(windowMount);
+
+  // Front half of the chrome beltline and the sill return travel with the door.
+  door.add(createBeam('Driver door beltline',
+    new THREE.Vector3(-side, frontLow.y - .015, frontLow.z).sub(hingePosition),
+    new THREE.Vector3(-side, frontMiddleLow.y - .015, frontMiddleLow.z).sub(hingePosition),
+    .018, materials.chrome, 'window-trim'));
+  const sillA = frontDoorSkinAnchor(config, frontLow.z);
+  const sillB = frontDoorSkinAnchor(config, frontMiddleLow.z);
+  door.add(createMesh('Driver door sealed window sill', createQuadGeometry([
+    { x: -sillA.x - hingePosition.x, y: sillA.y - hingePosition.y, z: frontLow.z - hingePosition.z },
+    { x: -sillB.x - hingePosition.x, y: sillB.y - hingePosition.y, z: frontMiddleLow.z - hingePosition.z },
+    { x: -side - hingePosition.x, y: opening.frontBottomY - hingePosition.y, z: frontMiddleLow.z - hingePosition.z },
+    { x: -side - hingePosition.x, y: opening.frontBottomY - hingePosition.y, z: frontLow.z - hingePosition.z },
+  ], false), materials.paintDark, 'window-trim'));
+
+  const handleZ = 0.13;
+  const handleY = config.cabin.windshieldBottomY - .075;
+  const handleStation = sampleStation(stations, handleZ);
+  const handle = createMesh('Driver door handle',
+    new THREE.BoxGeometry(0.018, 0.022, 0.115), materials.chrome, 'door-handle');
+  handle.position.set(-(stationHalfWidthAtY(handleStation, handleY) + 0.004) - hingePosition.x,
+    handleY - hingePosition.y, handleZ - hingePosition.z);
+  door.add(handle);
+
+  root.add(hinge);
+  root.userData.driverDoorHinge = hinge;
+};
+
 /** Lightweight complete exterior, authored from the shared SI vehicle envelope. */
 export function buildVehicleExterior(
   root: THREE.Group,
@@ -1375,6 +1539,8 @@ export function buildVehicleExterior(
     materials.paint.roughness = .23; materials.paint.metalness = .62;
     materials.paintDark.color.copy(materials.paint.color).multiplyScalar(.87);
     materials.paintDark.roughness = .28;
+    // Deep privacy tint with a little specular sheen; still transparent.
+    materials.glass.roughness = .08; materials.glass.metalness = .12;
     materials.lamp.color.set(0x141b23); materials.lamp.emissiveIntensity = 0;
     materials.rearLamp.color.set(0x3b1018); materials.rearLamp.emissiveIntensity = 0;
   }
@@ -1431,6 +1597,7 @@ export function buildVehicleExterior(
   addCabinGlazingAndPillars(root, config, materials);
   addWheelArchFlares(root, config, materials.paintDark);
   addFlankPanels(root, config, materials);
+  addAuthoredDriverDoor(root, config, materials);
 
   if (config.body.design === 'mid-supercar') addMidSupercarDetails(root, config, materials);
   else if (sport) addSportsDetails(root, config, materials);

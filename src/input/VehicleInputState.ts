@@ -81,6 +81,12 @@ export interface VehicleInputState {
   /** Momentary controls, independent from persistent light/gear modes. */
   highBeamFlash?: boolean;
   hornPressed?: boolean;
+  /** Driver access commands. Enter/exit and the door are latched edges. */
+  enterExitVehicle?: boolean;
+  toggleDriverDoor?: boolean;
+  /** Held window switches; 0 = closed and 1 = fully open is owned by the game. */
+  driverWindowUp?: boolean;
+  driverWindowDown?: boolean;
   driveSelector?: DriveSelector;
   directGear?: RequestedGear;
   controlMode: VehicleControlMode;
@@ -117,6 +123,10 @@ export function createNeutralVehicleInputState(
     cycleDriveMode: false,
     highBeamFlash: false,
     hornPressed: false,
+    enterExitVehicle: false,
+    toggleDriverDoor: false,
+    driverWindowUp: false,
+    driverWindowDown: false,
     controlMode,
     source: 'keyboard',
     sourceMetadata: {

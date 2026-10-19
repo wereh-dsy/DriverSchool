@@ -29,6 +29,7 @@ import { runSurfaceInteractionSelfTest } from '../src/vehicle/physics/SurfaceInt
 import { runAccelerationTestSelfTest } from '../src/experimental/acceleration/AccelerationTest.selftest';
 import { runAccelerationRunDiagnosticsSelfTest } from '../src/experimental/acceleration/AccelerationRunDiagnostics.selftest';
 import { runTrajectoryPredictionSelfTest } from '../src/experimental/trajectory/TrajectoryPrediction.selftest';
+import { runVehicleInteractionSelfTest } from '../src/vehicle/interaction/VehicleInteraction.selftest';
 
 // Read-only integration runner: historical artifacts and map sources are inputs.
 const results = {
@@ -59,5 +60,6 @@ const results = {
   acceleration: runAccelerationTestSelfTest(),
   accelerationDiagnostics: runAccelerationRunDiagnosticsSelfTest(),
   trajectory: runTrajectoryPredictionSelfTest(),
+  vehicleInteraction: runVehicleInteractionSelfTest(),
 };
 console.log(JSON.stringify(results, null, 2));

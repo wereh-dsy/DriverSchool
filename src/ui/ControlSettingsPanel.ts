@@ -244,7 +244,7 @@ export class ControlSettingsPanel {
               <div class="settings-group-title"><span>键盘键位</span><button type="button" data-bindings-reset>恢复默认</button></div>
               <div class="binding-grid" data-binding-grid></div>
               <p class="settings-note">点击一个键位，再按新的按键；若已有占用，将自动交换。</p>
-              <p class="settings-note"><kbd>F1</kbd> 沉浸模式 · <kbd>F2</kbd> 车辆数据 · <kbd>F3</kbd> 设置 · <kbd>F4</kbd> 切换场地 · <kbd>F5</kbd> 切换车辆<br><kbd>C</kbd> 视角回正 · <kbd>U</kbd> 车载屏幕切页（支持车型） · <kbd>Backspace</kbd> 回到起点</p>
+              <p class="settings-note"><kbd>F1</kbd> 沉浸模式 · <kbd>F2</kbd> 车辆数据 · <kbd>F3</kbd> 设置 · <kbd>F4</kbd> 切换场地 · <kbd>F5</kbd> 切换车辆<br><kbd>C</kbd> 视角回正 · <kbd>U</kbd> 车载屏幕切页（支持车型） · <kbd>Backspace</kbd> 回到起点<br><kbd>Tab</kbd> 上车 / 下车 · <kbd>0</kbd> 主驾驶门 · <kbd>8</kbd> / <kbd>9</kbd> 车窗上升 / 下降（按住）</p>
             </section>
           </div>
           <div id="settings-page-experimental" class="settings-page" data-settings-page="experimental" role="tabpanel" aria-labelledby="settings-tab-experimental" tabindex="0" hidden>

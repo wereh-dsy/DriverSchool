@@ -2,6 +2,7 @@ import * as T from 'three';
 import { beam, grid, label, loft, path, polygon, rounded, roundel, roofHeight, sideGlassX, sweep } from './BMW530Geometry';
 import { bmwWindshieldPoint, bmwAPillarRing, bmwFrontWindowCorners } from './BMW530FrontFrame';
 import { bmwExteriorUV, createBMW530ExteriorAtlas } from './BMW530ExteriorDetails';
+import { splitSideBodyForDoor } from './DoorSideSplit';
 import type { MirrorVisualConfig, VehicleVisualConfig, Vector3Tuple as P } from './VehicleVisualConfig';
 import type { MirrorSurfaceMesh } from './VehicleVisual';
 
@@ -59,14 +60,38 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
   };
   for (const sign of [-1, 1]) {
     const side = sign < 0 ? 'Left' : 'Right';
-    const body = grid(side + ' sculpted body and open wheel arches', 256, 12, (u, v) => {
-      const z = mix(-2.553, 2.553, u), s = sample(z), bottom = archBottom(z);
-      const y = mix(bottom, s.y, v), f = (y - .24) / (s.y - .24);
+    const access = sign < 0 ? config.driverAccess : undefined;
+    const sidePoint = (z: number, y: number): P => {
+      const s = sample(z);
+      const f = (y - .24) / (s.y - .24);
       const waist = .018 * Math.exp(-(((f - .40) / .15) ** 2)) * Math.exp(-((z / 1.4) ** 6));
       const width = (f < .80 ? s.width - .040 * (1 - f / .80) : mix(s.width, s.belt, (f - .80) / .20)) - waist;
       return [sign * width, y, cornerZ(width, z)];
-    }, sidePaint);
-    bmwExteriorUV(body.geometry, 'side', (_x, y, z) => [(z + 2.553) / 5.106, (y - .24) / .72]); root.add(body);
+    };
+    let driverHingePosition: T.Vector3 | null = null;
+    let driverDoor: T.Group | null = null;
+    if (access !== undefined) {
+      const split = splitSideBodyForDoor(root, {
+        fullFrontZ: -2.553, fullRearZ: 2.553,
+        doorFrontZ: access.doorFrontZ, doorRearZ: access.doorRearZ,
+        sillY: config.body.sillY, bottomY: archBottom, topY: z => sample(z).y,
+        point: sidePoint, material: sidePaint,
+        fullBodyName: side + ' sculpted body and open wheel arches',
+        assignUV: geometry => bmwExteriorUV(geometry, 'side', (_x, y, z) => [(z + 2.553) / 5.106,
+          (y - .24) / .72]),
+      });
+      driverHingePosition = split.hingePosition;
+      const hinge = new T.Group(); hinge.name = 'Driver door hinge'; hinge.position.copy(split.hingePosition);
+      driverDoor = new T.Group(); driverDoor.name = 'Driver door';
+      split.doorMesh.position.sub(split.hingePosition); driverDoor.add(split.doorMesh);
+      hinge.add(driverDoor); root.add(hinge);
+    } else {
+      const body = grid(side + ' sculpted body and open wheel arches', 256, 12, (u, v) => {
+        const z = mix(-2.553, 2.553, u), s = sample(z), bottom = archBottom(z);
+        return sidePoint(z, mix(bottom, s.y, v));
+      }, sidePaint);
+      bmwExteriorUV(body.geometry, 'side', (_x, y, z) => [(z + 2.553) / 5.106, (y - .24) / .72]); root.add(body);
+    }
     for (const centerZ of [-config.wheelBase / 2, config.wheelBase / 2]) {
       // A thin ruled lip retains the wheel opening without a dense tubular trim.
       root.add(grid(side + ' rolled fender arch lip', 48, 1, (u, v) => {
@@ -87,11 +112,45 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
     }, paint));
     const frontPoints = [[-.875, .948], [-.32, 1.411], [.39, 1.45], [.412, .947]];
     const rearPoints = [[.475, .947], [.46, 1.45], [1.015, 1.402], [1.446, 1.063], [1.315, .952]];
+    const windowBottomY = Math.min(...bmwFrontWindowCorners(sign).map(point => point[1]));
     for (const [name, list] of [['Front side window', frontPoints], ['Long rear door window', rearPoints]] as const) {
       const points = name === 'Front side window' ? bmwFrontWindowCorners(sign) : list.map(([z, y]) => [sign * sideGlassX(y!), y!, z!] as P);
-      root.add(polygon(side + ' ' + name, points, glass));
-      root.add(path(side + ' ' + name + ' rubber seal', points, .010, seal, true));
-      root.add(path(side + ' ' + name + ' satin surround', points.map(([x, y, z]) => [x + sign * .007, y, z]), .005, chrome, true));
+      const driverWindow = name === 'Front side window' && access !== undefined;
+      if (driverWindow) {
+        const hinge = driverHingePosition!;
+        const clipPlaneLocal = new T.Plane(new T.Vector3(0, 1, 0), -((windowBottomY + .0016) - hinge.y));
+        const clipPlane = clipPlaneLocal.clone();
+        const driverGlass = glass.clone();
+        driverGlass.clippingPlanes = [clipPlane];
+        driverGlass.clipShadows = false;
+        const pane = polygon(side + ' ' + name, points, driverGlass);
+        pane.position.sub(hinge);
+        const mount = new T.Group();
+        mount.name = 'Driver window glass mount';
+        mount.userData.driverWindowClipPlane = clipPlane;
+        mount.userData.driverWindowClipPlaneLocal = clipPlaneLocal;
+        mount.userData.driverWindowTravel = access!.windowTravelDistance;
+        mount.add(pane);
+        driverDoor!.add(mount);
+        const windowSeal = path(side + ' ' + name + ' rubber seal', points, .010, seal, true);
+        const surround = path(side + ' ' + name + ' satin surround',
+          points.map(([x, y, z]) => [x + sign * .007, y, z]), .005, chrome, true);
+        windowSeal.position.sub(hinge); surround.position.sub(hinge);
+        driverDoor!.add(windowSeal, surround);
+      } else {
+        root.add(polygon(side + ' ' + name, points, glass));
+        root.add(path(side + ' ' + name + ' rubber seal', points, .010, seal, true));
+        root.add(path(side + ' ' + name + ' satin surround', points.map(([x, y, z]) => [x + sign * .007, y, z]), .005, chrome, true));
+      }
+    }
+    if (access !== undefined && driverDoor !== null && driverHingePosition !== null) {
+      const hinge = driverHingePosition;
+      const filler = grid('Driver door belt filler', 40, 1, (u, v) => {
+        const z = mix(access.doorFrontZ, access.doorRearZ, u), s = sample(z);
+        const top = sidePoint(z, s.y), upper: P = [sign * sideGlassX(windowBottomY), windowBottomY, z];
+        return [mix(top[0], upper[0], v), mix(top[1], upper[1], v), z] as P;
+      }, paint);
+      filler.position.sub(hinge); driverDoor.add(filler);
     }
     const quarter: P[] = [[sign * .848, .954, 1.348], [sign * .819, 1.05, 1.47], [sign * .831, 1.018, 1.53]];
     root.add(polygon(side + ' Hofmeister quarter glass', quarter, glass));
@@ -110,8 +169,16 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
     }, paint));
     root.add(path(side + ' continuous roof rail', [[sign * .70, 1.426, -.315], [sign * .70, 1.469, .35],
       [sign * .70, 1.416, 1.035]], .018, paint));
-    root.add(path(side + ' beltline chrome', [[sign * .861, .951, -.88], [sign * .865, .953, .43],
-      [sign * .865, .948, 1.32], [sign * .854, .98, 1.52]], .005, chrome));
+    if (access !== undefined && driverDoor !== null && driverHingePosition !== null) {
+      const frontBelt = path(side + ' front door beltline', [[sign * .861, .951, access.doorFrontZ],
+        [sign * .865, .953, access.doorRearZ]], .005, chrome);
+      frontBelt.position.sub(driverHingePosition); driverDoor.add(frontBelt);
+      root.add(path(side + ' rear beltline', [[sign * .865, .953, access.doorRearZ],
+        [sign * .865, .948, 1.32], [sign * .854, .98, 1.52]], .005, chrome));
+    } else {
+      root.add(path(side + ' beltline chrome', [[sign * .861, .951, -.88], [sign * .865, .953, .43],
+        [sign * .865, .948, 1.32], [sign * .854, .98, 1.52]], .005, chrome));
+    }
   }
   root.add(grid('Crowned multi-section hood', 40, 32, (u, v) => {
     const z = mix(-2.54, -.935, u), s = sample(z), x = (v * 2 - 1) * s.belt;

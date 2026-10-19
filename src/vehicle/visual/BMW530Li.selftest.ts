@@ -134,9 +134,15 @@ export function runBMW530LiSelfTest() {
       const seatHit = ray.intersectObject(headrest)[0];
       assert(!!glassHit && !!seatHit && glassHit.distance < seatHit.distance, side + ' rear headrest enclosed by exterior glazing');
     }
+    const doorInterior = visual.interactionDefinition?.driverDoor.doorNode.children
+      .filter(object => object.userData.vehicleInteractionInterior === true) ?? [];
     for (const direction of BMW_CABIN_CLOSURE_RAYS) {
       ray.set(new T.Vector3(...v.driverEyePosition), new T.Vector3(...direction).normalize());
-      const hit = ray.intersectObjects(visual.cockpitRoot.children, true).find(h => h.object instanceof T.Mesh &&
+      const hits = [
+        ...ray.intersectObjects(visual.cockpitRoot.children, true),
+        ...ray.intersectObjects(doorInterior, true),
+      ];
+      const hit = hits.find(h => h.object instanceof T.Mesh &&
         !((h.object as T.Mesh).material instanceof T.MeshBasicMaterial));
       assert(!!hit && hit.distance < 3, 'closed interior ray ' + direction.join(','));
     }

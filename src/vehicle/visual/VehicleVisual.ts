@@ -4,8 +4,7 @@ import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
 
 import { Cockpit } from './Cockpit';
-import { buildBMW530Exterior, buildBMW530SideMirror } from './BMW530Exterior';
-import { buildBMW530Wheels } from './BMW530Wheels';
+import { buildBMW530Exterior, buildBMW530SideMirror } from './BMW530Exterior';import { buildBMW530Wheels } from './BMW530Wheels';
 import { buildMercedesE300LExterior, buildMercedesE300LSideMirror } from './MercedesE300LExterior';
 import { buildMercedesE300LWheels } from './MercedesE300LWheels';
 import { buildGolfGTIWheels } from './GolfGTIWheels';
@@ -13,6 +12,7 @@ import { buildExecutiveWheels } from './ExecutiveWheels';
 import { buildVehicleExterior, frontDoorSkinAnchor } from './VehicleExterior';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
+import type { VehicleInteractionDefinition } from '../interaction/VehicleInteractionDefinition';
 import {
   DEFAULT_SEDAN_VISUAL_CONFIG,
   type MirrorVisualConfig,
@@ -108,6 +108,10 @@ export class VehicleVisual {
   public readonly frontWheelPivots: readonly [THREE.Group, THREE.Group];
   private mirrorFold = 0;
   private readonly foldingMirrorPivots: { side: number; body: THREE.Group; glass: THREE.Group }[] = [];
+  private driverDoorHinge: THREE.Group | null = null;
+  private driverDoorGroup: THREE.Group | null = null;
+  private driverWindowMount: THREE.Group | null = null;
+  public readonly interactionDefinition: VehicleInteractionDefinition | null;
 
   private readonly wheelMeshes: THREE.Mesh[] = [];
   private disposed = false;
@@ -173,6 +177,13 @@ export class VehicleVisual {
     this.exteriorRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.EXTERIOR));
     this.cockpitRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR));
     this.mirrorSurfaceRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.MIRROR));
+
+    const hinge = this.exteriorRoot.getObjectByName('Driver door hinge');
+    const windowMount = this.exteriorRoot.getObjectByName('Driver window glass mount');
+    this.driverDoorHinge = hinge instanceof THREE.Group ? hinge : null;
+    this.driverWindowMount = windowMount instanceof THREE.Group ? windowMount : null;
+    this.attachCockpitDriverDoor();
+    this.interactionDefinition = this.createInteractionDefinition();
   }
 
   public setPose(
@@ -213,6 +224,11 @@ export class VehicleVisual {
 
   public setSteeringWheelAngle(angleRadians: number): void {
     this.cockpitRoot.setSteeringWheelAngle(angleRadians);
+  }
+
+  /** True when this vehicle authored a separate driver door and glass. */
+  public get hasDriverAccessVisual(): boolean {
+    return this.interactionDefinition !== null;
   }
 
   /** Feeds the physical cockpit cluster without exposing its mesh internals. */
@@ -389,6 +405,90 @@ export class VehicleVisual {
     materials.forEach((material) => { if (!this.assets?.owns(material)) material.dispose(); });
     geometries.forEach((geometry) => { if (!this.assets?.owns(geometry)) geometry.dispose(); });
     this.assets?.release();
+  }
+
+  /** Moves the driver-side cockpit trim and light ribbon onto the exterior hinge. */
+  private attachCockpitDriverDoor(): void {
+    const hinge = this.driverDoorHinge;
+    if (hinge === null) return;
+    const door = hinge.getObjectByName('Driver door');
+    const target = door instanceof THREE.Group ? door : hinge;
+    this.driverDoorGroup = target;
+    const access = this.config.driverAccess;
+    if (access === null || access === undefined) return;
+    const move = (part: THREE.Object3D): void => {
+      // Cockpit sections carry vehicle-local geometry; offsetting by the hinge
+      // keeps the closed pose identical while letting the trim swing open.
+      part.position.sub(hinge.position);
+      target.add(part);
+      part.traverse(object => {
+        object.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR);
+        object.userData.vehicleInteractionInterior = true;
+      });
+    };
+    for (const name of access.doorMountedPartNames ?? []) {
+      const part = this.cockpitRoot.getObjectByName(name);
+      if (part !== undefined) move(part);
+    }
+
+    const ambientName = access.doorAmbientTrimName;
+    if (ambientName === undefined) return;
+    const candidates: THREE.Mesh[] = [];
+    this.cockpitRoot.traverse(object => {
+      if (object instanceof THREE.Mesh && object.name === ambientName) candidates.push(object);
+    });
+    const selected = access.doorAmbientTrimByPosition === true
+      ? candidates.filter(object => object.position.x < 0 &&
+        object.position.z >= access.doorFrontZ && object.position.z <= access.doorRearZ)
+      : candidates;
+    for (const light of selected) move(light);
+  }
+
+  /**
+   * Assembles the standard interaction contract from this vehicle's authored
+   * nodes and transforms. Vehicles without a driver door simply return null.
+   */
+  private createInteractionDefinition(): VehicleInteractionDefinition | null {
+    const access = this.config.driverAccess;
+    const hinge = this.driverDoorHinge;
+    const door = this.driverDoorGroup;
+    const windowMount = this.driverWindowMount;
+    if (access === undefined || hinge === null || door === null || windowMount === null) return null;
+    const clipPlane = windowMount.userData.driverWindowClipPlane;
+    const clipPlaneLocal = windowMount.userData.driverWindowClipPlaneLocal;
+    const hingeClosedPosition = [hinge.position.x, hinge.position.y, hinge.position.z] as const;
+    const hingeClosedRotation = [hinge.rotation.x, hinge.rotation.y, hinge.rotation.z] as const;
+    const windowClosedPosition = [windowMount.position.x, windowMount.position.y, windowMount.position.z] as const;
+    const windowClosedRotation = [windowMount.rotation.x, windowMount.rotation.y, windowMount.rotation.z] as const;
+    return {
+      id: this.config.name,
+      driverDoor: {
+        doorNode: door,
+        hingeNode: hinge,
+        closedTransform: { position: hingeClosedPosition, rotation: hingeClosedRotation },
+        openTransform: {
+          position: hingeClosedPosition,
+          rotation: [hingeClosedRotation[0], hingeClosedRotation[1] + access.openAngleRadians,
+            hingeClosedRotation[2]] as const,
+        },
+        openSeconds: access.openSeconds,
+        closeSeconds: access.closeSeconds,
+      },
+      driverWindow: {
+        node: windowMount,
+        closedTransform: { position: windowClosedPosition, rotation: windowClosedRotation },
+        localTravelDirection: access.windowTravelDirection,
+        travelDistance: access.windowTravelDistance,
+        movementSeconds: access.windowTravelSeconds,
+        ...(clipPlane instanceof THREE.Plane ? { beltClipPlane: clipPlane } : {}),
+        ...(clipPlaneLocal instanceof THREE.Plane ? { beltClipPlaneLocal: clipPlaneLocal } : {}),
+      },
+      driverEyePoint: this.config.driverEyePosition,
+      driverEntryPoint: access.driverEntryPoint,
+      driverExitPoint: access.driverExitPoint,
+      driverInteractionZone: access.driverInteractionZone,
+      stationarySpeedEpsilon: access.stationarySpeedEpsilon,
+    };
   }
 
   private buildExterior(): void {

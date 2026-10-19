@@ -1,3 +1,5 @@
+import type { VehicleCabinAcousticsProfile } from './VehicleCabinAcoustics';
+
 /** Opt-in timbre and cabin calibration; legacy cars keep their existing sound. */
 export interface VehicleAudioProfile {
   readonly loadSource?: 'transmission' | 'combustion-and-transmission';
@@ -33,7 +35,31 @@ export interface VehicleAudioProfile {
   readonly windCabinAttenuation?: number;
   /** 0..1 isolation strength; lowers cockpit weather cutoffs and thunder level. */
   readonly weatherIsolation?: number;
+  /** Optional continuous door/window cabin-isolation calibration. */
+  readonly cabinAcoustics?: VehicleCabinAcousticsProfile;
 }
+
+/**
+ * A6L calibration: a heavily insulated executive cabin. Closing the door and
+ * window is clearly the quiet state; a half-open window adds wind/road noise
+ * progressively; an open door removes the cabin boundary far more strongly.
+ */
+export const A6L_CABIN_ACOUSTICS_PROFILE: VehicleCabinAcousticsProfile = Object.freeze({
+  closedIsolation: .92,
+  windowOpenLoss: .55,
+  doorOpenLoss: .86,
+  windowWindScale: 2.10,
+  windowRoadScale: 1.75,
+  windowEngineScale: 2.20,
+  windowAmbienceScale: 3.20,
+  doorWindScale: 1.80,
+  doorRoadScale: 1.60,
+  doorEngineScale: 1.70,
+  doorAmbienceScale: 2.00,
+  closedLowpassHz: 2_200,
+  openLowpassHz: 15_000,
+  speedExposure: .35,
+});
 
 /**
  * A6L 45 TFSI: quiet idle, a restrained low-rpm floor, a deep four-cylinder
@@ -50,10 +76,47 @@ export const AUDI_A6L_AUDIO_PROFILE: VehicleAudioProfile = Object.freeze({
   exteriorPresence: 1.10, ecoPresence: .72, engineBusLevel: .95, turnSignalLevel: .020,
   gearPresence: .035, accelerationPresence: .07,
   rainCabinAttenuation: .30, windCabinAttenuation: .28, weatherIsolation: .78,
+  cabinAcoustics: A6L_CABIN_ACOUSTICS_PROFILE,
 });
 
 /** Backward-compatible name for the A6L executive calibration. */
 export const EXECUTIVE_AUDIO_PROFILE = AUDI_A6L_AUDIO_PROFILE;
+
+/** E 300 L: strongest cabin isolation of the three executive saloons. */
+export const MERCEDES_E300L_CABIN_ACOUSTICS_PROFILE: VehicleCabinAcousticsProfile = Object.freeze({
+  closedIsolation: .96,
+  windowOpenLoss: .52,
+  doorOpenLoss: .88,
+  windowWindScale: 2.50,
+  windowRoadScale: 2.33,
+  windowEngineScale: 2.40,
+  windowAmbienceScale: 3.40,
+  doorWindScale: 1.80,
+  doorRoadScale: 1.60,
+  doorEngineScale: 1.70,
+  doorAmbienceScale: 2.00,
+  closedLowpassHz: 1_900,
+  openLowpassHz: 15_000,
+  speedExposure: .32,
+});
+
+/** 530Li: clear four-cylinder presence, but still an insulated executive cabin. */
+export const BMW_530LI_CABIN_ACOUSTICS_PROFILE: VehicleCabinAcousticsProfile = Object.freeze({
+  closedIsolation: .88,
+  windowOpenLoss: .58,
+  doorOpenLoss: .86,
+  windowWindScale: 2.04,
+  windowRoadScale: 1.52,
+  windowEngineScale: 2.20,
+  windowAmbienceScale: 3.00,
+  doorWindScale: 1.70,
+  doorRoadScale: 1.50,
+  doorEngineScale: 1.60,
+  doorAmbienceScale: 1.90,
+  closedLowpassHz: 2_600,
+  openLowpassHz: 15_000,
+  speedExposure: .35,
+});
 
 /**
  * E 300 L: the most heavily insulated cabin of the three. Idle and cruise are
@@ -70,6 +133,7 @@ export const MERCEDES_EXECUTIVE_AUDIO_PROFILE: VehicleAudioProfile = Object.free
   exteriorPresence: 1.06, ecoPresence: .76, engineBusLevel: .90, turnSignalLevel: .018,
   gearPresence: .025, accelerationPresence: .05,
   rainCabinAttenuation: .24, windCabinAttenuation: .22, weatherIsolation: .88,
+  cabinAcoustics: MERCEDES_E300L_CABIN_ACOUSTICS_PROFILE,
 });
 
 /**
@@ -87,4 +151,5 @@ export const BMW_530LI_AUDIO_PROFILE: VehicleAudioProfile = Object.freeze({
   exteriorPresence: 1.22, ecoPresence: .82, engineBusLevel: 1, turnSignalLevel: .022,
   gearPresence: .05, accelerationPresence: .09,
   rainCabinAttenuation: .36, windCabinAttenuation: .34, weatherIsolation: .70,
+  cabinAcoustics: BMW_530LI_CABIN_ACOUSTICS_PROFILE,
 });
