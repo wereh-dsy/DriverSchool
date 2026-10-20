@@ -22,6 +22,7 @@ export type ShiftRejectionReason = 'clutch-not-disengaged' | 'engine-over-speed'
 /** Optional ICE compatibility telemetry, not required source components. */
 export interface ICEVehicleTelemetry {
   startStop?: { supported: boolean; enabled: boolean; state: 'DISABLED' | 'READY' | 'AUTO_STOPPED' | 'RESTARTING' };
+  mildHybrid?: ReturnType<import('./MildHybridSystem').MildHybridSystem['getSnapshot']>;
   fuel: FuelSnapshot;
   rpm: number;
   engineRunning: boolean;
@@ -57,6 +58,7 @@ export interface PowertrainSnapshot {
   ev?: EVTelemetry;
 }
 export interface EVTelemetry {
+  packVoltage?: number; packCurrent?: number; maxDischargeCurrent?: number; maxChargeCurrent?: number;
   instantPowerKW?: number; instantConsumption?: number | null; tripKWhPer100Km?: number | null;
   energyUsedKWh?: number; energyRecoveredKWh?: number;
   batteryTemperature?: number; frontMotorTemperature?: number; rearMotorTemperature?: number;
@@ -82,7 +84,7 @@ export interface PowertrainInitialState {
   gear?: Gear;
   driveSelector?: DriveSelector;
   controlMode?: VehicleControlMode;
-  ice?: { engineRPM?: number; engineRunning?: boolean; clutchEngagement?: number; currentFuelL?: number };
+  ice?: { mildHybridSOC?: number; engineRPM?: number; engineRunning?: boolean; clutchEngagement?: number; currentFuelL?: number };
   ev?: { stateOfCharge?: number; batteryTemperature?: number; frontMotorTemperature?: number; rearMotorTemperature?: number;
     frontInverterTemperature?: number; rearInverterTemperature?: number };
 }
@@ -93,6 +95,8 @@ export interface PowertrainUpdateContext {
   frontAxleBrakeTorque?: number; rearAxleBrakeTorque?: number;
   frontWheelAngularVelocity?: number; rearWheelAngularVelocity?: number;
   frontTorqueLimitFactor?: number; rearTorqueLimitFactor?: number;
+  /** Shared AWD allocation, normalized wheel-side ratios; absent on single-axle vehicles. */
+  frontAxleTorqueRatio?: number; rearAxleTorqueRatio?: number;
   yawRate?: number; expectedYawRate?: number; escActive?: boolean; escMode?: 'inactive' | 'oversteer' | 'understeer';
   totalServiceBrakeTorque?: number;
   autoHoldHolding?: boolean;
@@ -121,6 +125,8 @@ export interface Powertrain {
   /** Rotor inertia reflected to EACH driven wheel, kg m². */
   readonly drivenWheelInertia?: number;
   /** Final same-step ABS/traction authority; provider updates its persistent output. */
+  readonly shaftRegenerating?: boolean;
+  cancelShaftRegeneration?(): number;
   limitRegeneration?(maximumWheelTorque: number): number;
   limitAxleRegeneration?(front: number, rear: number): void;
   readonly axleOutput?: PowertrainOutput;

@@ -1,5 +1,6 @@
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { calibrateTyres } from './TyreCalibration';
 import { createTyreThermalPressureConfig } from './TyreThermalPressureConfig';
@@ -19,6 +20,7 @@ const shiftMap = (up: readonly number[], down: readonly number[], kickdown: numb
 /** A6L-inspired 2.0T executive calibration; no vehicle-name branches in physics. */
 export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
+  config.controlCalibration = VehicleControlPresets.executiveAWD;
   config.lateralAssist = createLateralAssistConfig();
   config.fuel = { tankCapacityL: 73, defaultFuelL: 51, fuelDensity: 0.745,
     peakThermalEfficiency: 0.34, referenceConsumptionLPer100km: 8.2 };

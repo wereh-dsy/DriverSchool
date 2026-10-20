@@ -1,5 +1,6 @@
 import type { ElectricVehiclePhysicsConfig } from './ElectricVehiclePhysicsConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { TESLA_MODEL_3_DIMENSIONS } from '../VehicleDimensions';
 import { createExecutiveSedanPhysicsConfig } from './executiveSedanPhysicsConfig';
@@ -11,6 +12,7 @@ export function createTeslaModel3PhysicsConfig(): ElectricVehiclePhysicsConfig {
     transmission: _transmission, ...chassis } = createDefaultVehiclePhysicsConfig();
   const controls = createExecutiveSedanPhysicsConfig();
   const config: ElectricVehiclePhysicsConfig = { ...chassis, ...TESLA_MODEL_3_DIMENSIONS,
+    controlCalibration: VehicleControlPresets.electric,
     lateralAssist: createLateralAssistConfig(),
     mass: 1765, trackWidth: 1.584, frontWeightBias: .49, centerOfMassHeight: .43,
     yawInertia: 2950, enginePlacement: 'REAR', layoutCalibrationNote: 'Underfloor battery, single rear motor; axle mass share is the authoritative layout.',
@@ -20,13 +22,14 @@ export function createTeslaModel3PhysicsConfig(): ElectricVehiclePhysicsConfig {
     parkingBrake: { ...controls.parkingBrake! }, autoHold: { ...controls.autoHold! },
     cruiseControl: { ...controls.cruiseControl! },
     battery: { usableCapacityKWh: 60, grossEnergyKWh: 62, defaultStateOfCharge: .80, nominalVoltage: 355,
+      electrical: { internalResistance: 0.045, maxDischargeCurrent: 720, maxChargeCurrent: 250 },
       maxDischargePower: 230000, maxChargePower: 85000, dischargeEfficiency: .98, chargeEfficiency: .96,
       lowSOCStart: .08, lowSOCEnd: 0, highSOCRegenStart: .92, highSOCRegenEnd: 1,
       coldDischargeFullTemperature: 15, coldDischargeZeroTemperature: -30,
       coldChargeFullTemperature: 20, coldChargeZeroTemperature: -15,
       thermal: { thermalCapacity: 480000, coolingRate: 60, airflowCooling: 1.5,
         derateStartTemperature: 48, criticalTemperature: 65, minimumCapability: .25, initialTemperatureOffset: 5 } },
-    motor: { maxDriveTorque: 350, maxDrivePower: 210000, maxRPM: 14500, rotationalInertia: .025,
+    motor: { nominalVoltage: 355, copperLossAtMaxTorque: 2200, maxDriveTorque: 350, maxDrivePower: 210000, maxRPM: 14500, rotationalInertia: .025,
       driveResponseRate: 10, motoringEfficiency: .955, maxRegenTorque: 180, maxRegenPower: 75000, regenEfficiency: .90,
       continuousPower: 110000, baseSpeedRPM: 5730, highSpeedRollOffRPM: 13900,
       efficiencyMap: { lightLoadPenalty: .012, highLoadPenalty: .020, highSpeedPenalty: .008 },

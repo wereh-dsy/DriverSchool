@@ -96,6 +96,7 @@ export class ContactDebugView {
         rows.push(`   load ${state.normalLoad.toFixed(0)}N · drive ${state.driveTorque.toFixed(0)}Nm · brake ${state.appliedBrakeTorque.toFixed(0)}Nm`);
         rows.push(`   wheel ${state.angularVelocity.toFixed(1)}rad/s · slip ${(state.slipRatio * 100).toFixed(1)}% · Fx ${state.longitudinalForce.toFixed(0)}N`);
         rows.push(`   lateral ${state.lateralForce.toFixed(0)}N · spring ${(state.suspensionCompression * 1_000).toFixed(1)}mm · v ${state.suspensionVelocity.toFixed(3)}m/s`);
+        rows.push(`   K ${state.springForce.toFixed(0)} · C ${state.damperForce.toFixed(0)} · bump ${(state.bumpStopForce ?? 0).toFixed(0)} · ARB ${(state.antiRollForce ?? 0).toFixed(0)} · stop ${(state.contactForce ?? 0).toFixed(0)}N`);
       }
     }
     const collision = contacts.collision;
@@ -118,6 +119,8 @@ export class ContactDebugView {
     rows.push(`附近障碍 ${collision.nearbyColliders.length} · 碰撞 ${collision.collided ? '接触中' : '无'}`);
     if (physics !== undefined) {
       rows.push(`pitch ${(physics.chassis.pitch * 180 / Math.PI).toFixed(2)}° · roll ${(physics.chassis.roll * 180 / Math.PI).toFixed(2)}° · heave ${((physics.chassis.chassisY - physics.chassis.groundHeight) * 1_000).toFixed(1)}mm · grounded ${physics.chassis.groundedWheels}/4`);
+      rows.push(`ω pitch ${(physics.chassis.pitchAngularVelocity ?? 0).toFixed(3)} · roll ${(physics.chassis.rollAngularVelocity ?? 0).toFixed(3)}rad/s · net Fy ${(physics.chassis.totalVerticalForce ?? 0).toFixed(0)}N`);
+      rows.push(`torque P ${(physics.chassis.pitchTorque ?? 0).toFixed(0)} · R ${(physics.chassis.rollTorque ?? 0).toFixed(0)}Nm · micro ${physics.chassis.contactMicrosteps ?? 1} · safety ${physics.chassis.safetyInterventions ?? 0}`);
     }
     if (this.lastContactSeconds > 0) rows.push(this.lastContactText);
     this.panel.textContent = rows.join('\n');

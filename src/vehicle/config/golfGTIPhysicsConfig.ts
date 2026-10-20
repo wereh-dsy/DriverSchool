@@ -4,6 +4,7 @@ import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './Vehicl
 import { createTyreThermalPressureConfig } from './TyreThermalPressureConfig';
 import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { calibrateTyres } from './TyreCalibration';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 import type { AutomaticShiftConfig, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 
 const rad = (n: number) => n * Math.PI / 180;
@@ -18,6 +19,7 @@ const schedule = (up: number[], down: number[], kickdown: number, target: number
 /** 2.0T / wet 7DCT / front-wheel drive. Game calibration, not OEM certification. */
 export function createGolfGTIPhysicsConfig(): VehiclePhysicsConfig {
   const c = createTest7DCTVehiclePhysicsConfig();
+  c.controlCalibration = VehicleControlPresets.hotHatch;
   Object.assign(c, GOLF_GTI_DIMENSIONS, { mass: 1400, trackWidth: 1.527, frontWeightBias: .61,
     centerOfMassHeight: .49, yawInertia: 2320, enginePlacement: 'FRONT',
     drivetrainType: 'FWD', drivetrainLayout: 'FWD', frontTorqueSplit: 1, rearTorqueSplit: 0 });

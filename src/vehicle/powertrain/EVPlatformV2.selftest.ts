@@ -99,9 +99,9 @@ export function runEVPlatformV2SelfTest() {
   const t0 = b.temperature; b.thermal!.integrate(10, 0, 0);
   assert(b.temperature < t0 && b.temperature > t0 - 2, 'stationary cooldown has thermal inertia');
   b.thermal!.temperature = 27; b.setStateOfCharge(.5); const energy = b.remainingEnergyKWh;
-  b.integrate(60, 60000); assert(close(energy - b.remainingEnergyKWh, 1 / taycan.battery.dischargeEfficiency), 'stored discharge accounts for losses');
+  b.integrate(60, 60000); assert(close(energy - b.remainingEnergyKWh, (60000 + b.resistiveLoss) * 60 / 3600000 / taycan.battery.dischargeEfficiency), 'stored discharge accounts for electrical and conversion losses');
   const energy2 = b.remainingEnergyKWh; b.integrate(60, -30000);
-  assert(close(b.remainingEnergyKWh - energy2, .5 * taycan.battery.chargeEfficiency), 'charge energy accounting');
+  assert(close(b.remainingEnergyKWh - energy2, (30000 - b.resistiveLoss) * 60 / 3600000 * taycan.battery.chargeEfficiency), 'charge energy accounting');
   b.setStateOfCharge(.03); const p1 = b.availableDischargePower; b.setStateOfCharge(.030001);
   assert(Math.abs(b.availableDischargePower - p1) < 20, 'SOC limits continuous');
 

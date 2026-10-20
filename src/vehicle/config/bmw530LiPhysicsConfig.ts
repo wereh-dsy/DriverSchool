@@ -1,4 +1,5 @@
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { FAMILY_CONVERTER_CONFIG } from './transmissionTestVehicleConfigs';
@@ -19,6 +20,7 @@ const shift = (up: number[], down: number[], kickdown: number, target: number): 
 /** G38 LCI, 2.0T / longitudinal 8AT / RWD. Simulation calibration, not an M car. */
 export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
   const c = createDefaultVehiclePhysicsConfig();
+  c.controlCalibration = VehicleControlPresets.executiveRWD;
   c.lateralAssist = createLateralAssistConfig();
   Object.assign(c, BMW_530LI_DIMENSIONS, { mass: 1745, trackWidth: 1.6175,
     frontWeightBias: .51, centerOfMassHeight: .50, enginePlacement: 'FRONT_MID',

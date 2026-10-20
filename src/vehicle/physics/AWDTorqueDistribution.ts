@@ -1,6 +1,8 @@
 import type { VehicleChassisConfig } from '../config';
 import type { WheelPhysicsStateSet } from './WheelPhysicsState';
-import { clamp, damp } from './math';
+import { AWDController } from '../control/AWDController';
+import { VehicleStateEstimator } from '../control/VehicleStateEstimator';
+import { resolveControlCalibration } from '../control/VehicleControlCalibration';
 
 export interface AWDTorqueDistributionSnapshot {
   readonly mode: 'full-time' | 'on-demand';
@@ -9,47 +11,25 @@ export interface AWDTorqueDistributionSnapshot {
   readonly carrierAngularVelocity: number;
 }
 
-/** Massless axle torque allocation; no wheel locking or extra drivetrain losses. */
+/** Compatibility/shaft adapter. Runtime borrows the shared controller; no second allocation strategy. */
 export class AWDTorqueDistribution {
-  public rearTorqueSplit = 0;
-  public carrierAngularVelocity = 0;
-  private readonly nominalRear: number;
-  public constructor(private readonly config: VehicleChassisConfig) {
-    const front = Math.max(0, config.frontTorqueSplit);
-    const rear = Math.max(0, config.rearTorqueSplit);
-    this.nominalRear = front + rear > 0 ? rear / (front + rear) : .5;
-    this.reset();
+  public readonly controller: AWDController;
+  private estimator?: VehicleStateEstimator;
+  public constructor(private readonly config: VehicleChassisConfig, controller?: AWDController) {
+    this.controller = controller ?? new AWDController(config, resolveControlCalibration(config).drivetrain);
   }
-  public reset(): void { this.rearTorqueSplit = this.nominalRear; this.carrierAngularVelocity = 0; }
+  public get rearTorqueSplit(): number { return this.controller.rearTorqueSplit; }
+  public get carrierAngularVelocity(): number { return this.controller.carrierAngularVelocity; }
+  public reset(): void { this.controller.reset(); this.estimator?.reset(); }
+  /** Legacy direct callers only. Runtime updates from VehicleControlSystem's shared sample. */
   public update(dt: number, throttle: number, wheels: WheelPhysicsStateSet, driving: boolean, frontAuthority = 1, rearAuthority = 1): void {
-    let target = this.nominalRear;
-    if (this.config.awd?.mode === 'on-demand' && driving) {
-      const maximum = clamp(this.config.awd.maximumRearTorqueSplit ?? .5, this.nominalRear, 1);
-      const acceleration = clamp(this.config.awd.accelerationRearTorqueSplit ?? .3, this.nominalRear, maximum);
-      const demand = clamp((throttle - .25) / .55, 0, 1);
-      const left = wheels.frontLeft, right = wheels.frontRight;
-      const slip = Math.max(left.slipRatio * Math.sign(left.longitudinalSpeed || left.angularVelocity),
-        right.slipRatio * Math.sign(right.longitudinalSpeed || right.angularVelocity));
-      const slipDemand = throttle > .05
-        ? clamp((slip - this.config.tires.peakSlipRatio * 1.2) / .3, 0, 1) : 0;
-      target = Math.max(this.nominalRear + (acceleration - this.nominalRear) * demand,
-        this.nominalRear + (maximum - this.nominalRear) * slipDemand);
-    }
-    if (driving && throttle > .05) {
-      const rear = target * rearAuthority, front = (1 - target) * frontAuthority;
-      const maximum = this.config.awd?.mode === 'on-demand' ? this.config.awd.maximumRearTorqueSplit ?? .5 : 1;
-      target = clamp(rear / Math.max(.001, rear + front), 0, maximum);
-    }
-    this.rearTorqueSplit = this.config.awd?.mode === 'on-demand' || frontAuthority < .999 || rearAuthority < .999
-      ? damp(this.rearTorqueSplit, target, Math.max(.1, this.config.awd?.response ?? 3), dt) : target;
+    this.estimator ??= new VehicleStateEstimator(this.config);
+    const speed = (wheels.frontLeft.longitudinalSpeed + wheels.frontRight.longitudinalSpeed +
+      wheels.rearLeft.longitudinalSpeed + wheels.rearRight.longitudinalSpeed) * .25;
+    const steering = (wheels.frontLeft.steeringAngle + wheels.frontRight.steeringAngle) * .5;
+    const state = this.estimator.update(dt, speed, 0, 0, 0, 0, steering, wheels);
+    this.controller.update(dt, state, throttle, driving, frontAuthority, rearAuthority);
   }
-  public updateSpeeds(front: number, rear: number): number {
-    // Torque-weighted speed also preserves input/output power across both axles.
-    this.carrierAngularVelocity = front * (1 - this.rearTorqueSplit) + rear * this.rearTorqueSplit;
-    return this.carrierAngularVelocity;
-  }
-  public getSnapshot(): AWDTorqueDistributionSnapshot {
-    return { mode: this.config.awd?.mode ?? 'full-time', frontTorqueSplit: 1 - this.rearTorqueSplit,
-      rearTorqueSplit: this.rearTorqueSplit, carrierAngularVelocity: this.carrierAngularVelocity };
-  }
+  public updateSpeeds(front: number, rear: number): number { return this.controller.updateSpeeds(front, rear); }
+  public getSnapshot(): AWDTorqueDistributionSnapshot { return this.controller.getSnapshot(); }
 }

@@ -3,7 +3,8 @@ import { WHEEL_IDS } from './WheelContact';
 import type { WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, damp } from './math';
 import { VehicleStateEstimator, type VehicleControlState } from '../control/VehicleStateEstimator';
-import { BaseControlCalibration } from '../control/BaseControlCalibration';
+import { BaseControlCalibration, type ControlCalibration } from '../control/BaseControlCalibration';
+import { HardSafetyEnvelope } from '../control/VehicleControlCalibration';
 
 /** Lightweight yaw/slip observer which only requests hydraulic wheel torque. */
 export class ESCController {
@@ -16,7 +17,8 @@ export class ESCController {
   private confirmation = 0;
   private candidateWheel = -1;
   private legacyEstimator?: VehicleStateEstimator;
-  public constructor(private readonly config: VehicleChassisConfig) {}
+  public constructor(private readonly config: VehicleChassisConfig, private calibration: ControlCalibration['esc'] = BaseControlCalibration.esc) {}
+  public setCalibration(calibration: ControlCalibration['esc']): void { this.calibration = calibration; }
   public get active(): boolean {
     return this.brakeTorques[0]! > 5 || this.brakeTorques[1]! > 5 ||
       this.brakeTorques[2]! > 5 || this.brakeTorques[3]! > 5;
@@ -36,7 +38,7 @@ export class ESCController {
   }
   public updateState(dt: number, enabled: boolean, state: VehicleControlState,
     longitudinalLimits: readonly number[], lateralLimits: readonly number[]): void {
-    const tune = BaseControlCalibration.esc;
+    const tune = this.calibration;
     const speed = state.longitudinalVelocity, steering = state.steeringAngle, yawRate = state.yawRate;
     const wheels = state.wheels;
     let totalLateral = 0;
@@ -55,17 +57,21 @@ export class ESCController {
       const threshold = (tune?.yawErrorThreshold ?? .16) + Math.abs(expected) * .35;
       const hysteresis = this.selectedWheel >= 0 ? .6 : 1;
       const slipThreshold = (tune?.sideslipThreshold ?? .14) * hysteresis;
+      const hardIntervention = Math.abs(beta) > HardSafetyEnvelope.maximumSideslip ||
+        Math.abs(expected - yawRate) > HardSafetyEnvelope.maximumYawError;
       const over = Math.abs(yawRate) > Math.abs(expected) + threshold * hysteresis ||
         (yawRate * expected < 0 && Math.abs(yawRate) > threshold * hysteresis) ||
-        (Math.abs(beta) > slipThreshold && Math.abs(yawRate) > .1);
+        (Math.abs(beta) > slipThreshold && Math.abs(yawRate) > .1) ||
+        Math.abs(beta) > HardSafetyEnvelope.maximumSideslip;
       const under = Math.abs(expected) > .22 &&
         Math.abs(expected) - yawRate * Math.sign(expected) > threshold * hysteresis;
       if (over || under) {
         mode = over ? 'oversteer' : 'understeer';
         const correction = expected - yawRate - (over ? beta * 1.2 : 0);
-        requestedMoment = clamp(correction * this.config.yawInertia * .9,
+        requestedMoment = clamp(correction * this.config.yawInertia * (hardIntervention ? 1.2 : tune.interventionGain),
           -this.config.yawInertia, this.config.yawInertia);
-        torqueTarget = 1 - clamp((Math.abs(correction) - threshold) * .5, 0, .4);
+        torqueTarget = 1 - clamp((Math.abs(correction) - threshold) * tune.torqueReductionGain, 0,
+          hardIntervention ? .65 : tune.maximumTorqueReduction);
         const first = over ? 0 : 2;
         // Evaluate the actual brake lever including front steering. Choose the
         // outside front for excess yaw, inside rear for insufficient yaw.

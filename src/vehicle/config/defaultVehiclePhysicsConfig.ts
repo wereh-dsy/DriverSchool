@@ -1,6 +1,7 @@
 import type { DriveModeCalibration, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 import { FAMILY_SEDAN_DIMENSIONS } from '../VehicleDimensions';
 import { calibrateTyres } from './TyreCalibration';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 
 const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
 
@@ -9,6 +10,7 @@ const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
  * deliberately ordinary: about 175 Nm, a five-speed manual, and road tyres.
  */
 export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
+  controlCalibration: VehicleControlPresets.family,
   ...FAMILY_SEDAN_DIMENSIONS,
   mass: 1_380,
   fuel: { tankCapacityL: 50, defaultFuelL: 35, fuelDensity: 0.745,
@@ -234,6 +236,7 @@ export function cloneVehiclePhysicsConfig(
 ): VehiclePhysicsConfig {
   return {
     ...config,
+    controlCalibration: config.controlCalibration ? structuredClone(config.controlCalibration) : undefined,
     capabilities: config.capabilities === undefined ? undefined : { ...config.capabilities },
     lateralAssist: config.lateralAssist === undefined ? undefined : structuredClone(config.lateralAssist),
     frontDiff: config.frontDiff === undefined ? undefined : { ...config.frontDiff },
@@ -241,6 +244,7 @@ export function cloneVehiclePhysicsConfig(
     electronicDifferential: config.electronicDifferential === undefined ? undefined : { ...config.electronicDifferential },
     parkingBrake: config.parkingBrake === undefined ? undefined : { ...config.parkingBrake },
     autoHold: config.autoHold === undefined ? undefined : { ...config.autoHold },
+    mildHybrid: config.mildHybrid ? structuredClone(config.mildHybrid) : undefined,
     fuel: { ...config.fuel },
     driveModeOrder: config.driveModeOrder?.slice(),
     driveModes: config.driveModes === undefined ? undefined : Object.fromEntries(

@@ -9,9 +9,10 @@ import {
 import { BrakeSystem } from './BrakeSystem';
 import { DriverAssistSystem, type DriverAssistOptions, type DriverAssistSnapshot } from './DriverAssistSystem';
 import { SteeringSystem } from './SteeringSystem';
-import { WHEEL_IDS, averageWheelGroundGeometry, type GroundNormal, type WheelContactSet, type WheelId } from './WheelContact';
+import { WHEEL_IDS, createWheelContactBuffer, averageWheelGroundGeometry, type GroundNormal, type WheelContactDimensions, type WheelContactSet, type WheelId } from './WheelContact';
 import { centerOfMassOffsetZ, wheelLocalPosition } from '../VehicleDimensions';
-import { SuspensionSystem } from './SuspensionSystem';
+import { SuspensionSystem, type SuspensionVerticalSnapshot } from './SuspensionSystem';
+import { ChassisDynamics } from './ChassisDynamics';
 import { SurfaceInteraction, softSurfaceResistance } from './SurfaceInteraction';
 import { WheelRotationSystem } from './WheelRotationSystem';
 import type { Differential, DifferentialSnapshot } from './Differential';
@@ -21,7 +22,7 @@ import type { DriveTorqueSource } from './DriveTorqueSource';
 import { ElectronicParkingBrake, type ParkingBrakeSnapshot } from '../control/ElectronicParkingBrake';
 import { AutoHoldController, type AutoHoldSnapshot } from '../control/AutoHoldController';
 import { AWDTorqueDistribution, type AWDTorqueDistributionSnapshot } from './AWDTorqueDistribution';
-import type { ChassisPhysicsState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
+import type { ChassisPhysicsState, WheelGeometryState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, clamp01, wrapAngle } from './math';
 import { ICEPowertrain } from '../powertrain/ICEPowertrain';
 import { ElectricPowertrain } from '../powertrain/ElectricPowertrain';
@@ -44,6 +45,11 @@ export interface VehicleEnvironment {
   ambientTemperatureC?: number;
   /** Four independently queried tyre contacts; material coefficients are relative to asphalt. */
   wheelContacts?: WheelContactSet;
+  /** Reusable scene query for the heave-only sweep; never advances planar physics. */
+  sampleVerticalContacts?: (x: number, z: number, yaw: number, chassisY: number,
+    geometry: SuspensionVerticalSnapshot, dimensions: WheelContactDimensions) => WheelContactSet;
+  /** Solver refinement diagnostic; production uses adaptive 1..4. */
+  contactMicrosteps?: 2 | 4;
   /** Upward unit surface normal. Wheel-contact normals take priority when present. */
   groundNormal?: { x: number; y: number; z: number };
   /** Positive means uphill in the vehicle's local forward direction. */
@@ -202,6 +208,10 @@ interface ValidCoreState {
   lateralVelocity: number;
   chassisY: number;
   verticalVelocity: number;
+  pitch: number;
+  roll: number;
+  pitchAngularVelocity: number;
+  rollAngularVelocity: number;
   contactSlipRecovery: boolean;
   contactSlipHoldTime: number;
   yawRate: number;
@@ -234,6 +244,7 @@ export type VehicleRuntimeSnapshot = Omit<VehicleSnapshot, keyof ICEVehicleTelem
 export type VehicleSnapshotFor<P extends Powertrain> = P extends ICEPowertrain ? VehicleSnapshot : VehicleRuntimeSnapshot;
 
 export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
+  public diagnosticRecoveryObserver?: (kind: 'contact' | 'non-finite', dynamics: Readonly<VehicleDynamics<Powertrain>>, correction: number) => void;
   public readonly powertrain: TPowertrain;
   public readonly tripComputer = new TripComputer();
   private frontAeroVerticalForce = 0;
@@ -303,11 +314,18 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public lateralVelocity = 0;
   public lateralAcceleration = 0;
   public rearLateralGripFactor = 1;
-  /** Authoritative body-origin height, integrated from gravity and suspension support, m. */
-  public chassisY = 0;
-  public verticalVelocity = 0;
-  public verticalAcceleration = 0;
+  /** Authoritative CG heave datum; body origin also accounts for pitch/roll about CG. */
+  public readonly chassisMotion: ChassisDynamics;
+  public get chassisY(): number { return this.chassisMotion.y; }
+  public set chassisY(value: number) { this.chassisMotion.y = value; }
+  public get verticalVelocity(): number { return this.chassisMotion.velocity; }
+  public set verticalVelocity(value: number) { this.chassisMotion.velocity = value; }
+  public get verticalAcceleration(): number { return this.chassisMotion.acceleration; }
+  public set verticalAcceleration(value: number) { this.chassisMotion.acceleration = value; }
+  private readonly fallbackContacts = createWheelContactBuffer();
+  private readonly verticalSurfaceHeights = [0, 0, 0, 0];
   private verticalInitialized = false;
+  private wheelContacts?: WheelContactSet;
   private groundedWheels = 4;
 
   private readonly powertrainContext: PowertrainUpdateContext = {
@@ -328,7 +346,6 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   private readonly controlGrounded = [true, true, true, true];
   /** Preserve an oblique collision's tangent velocity while contact settles. */
   public driveMode: import('../config').VehicleDriveMode | undefined;
-  private driveModeThrottleExponent = 1;
   private contactSlipRecovery = false;
   private contactSlipHoldTime = 0;
 
@@ -352,18 +369,19 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.autoHold = this.capabilities.autoHold && config.autoHold && this.powertrain.transmission.type !== 'MANUAL'
       ? new AutoHoldController(config.autoHold) : undefined;
     this.runtimeConfig = { ...config, mass: config.mass + this.powertrain.variableMassKg };
+    this.chassisMotion = new ChassisDynamics(this.runtimeConfig);
     const axle = config.drivetrainType === 'RWD' ? 'rear' : 'front';
     this.differential = createDifferential(axle, axle === 'rear' ? config.rearDiff : config.frontDiff);
     this.rearDifferential = this.capabilities.awd ? createDifferential('rear', config.rearDiff) : undefined;
-    this.awd = this.capabilities.awd && !this.powertrain.axleOutput ? new AWDTorqueDistribution(config) : undefined;
     this.brakes = new BrakeSystem(config.brakes, config.wheelRadius);
     this.driverAssists = new DriverAssistSystem(this.runtimeConfig);
+    this.awd = this.capabilities.awd && !this.powertrain.axleOutput ? new AWDTorqueDistribution(config, this.vehicleControl.awd) : undefined;
     this.steering = new SteeringSystem(
       config.steering,
       config.wheelBase,
       config.frontTrackWidth,
     );
-    this.suspension = new SuspensionSystem(this.runtimeConfig);
+    this.suspension = new SuspensionSystem(this.runtimeConfig, config.mass);
     this.tyreAmbientTemperatureC = this.finiteOr(initialState.ambientTemperatureC, this.finiteOr(config.ambientTemperature, 20));
     this.wheelRotation = new WheelRotationSystem(config.tires, config.wheelRadius, config.tires.wheelInertia, this.tyreAmbientTemperatureC);
     this.tpms = new TPMSSensor(this.wheelRotation.tyres, this.capabilities.tpms);
@@ -378,6 +396,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       lateralVelocity: 0,
       chassisY: 0,
       verticalVelocity: 0,
+      pitch: 0, roll: 0, pitchAngularVelocity: 0, rollAngularVelocity: 0,
       contactSlipRecovery: false,
       contactSlipHoldTime: 0,
       yawRate: 0,
@@ -419,6 +438,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.chassisY = 0;
     this.verticalVelocity = 0;
     this.verticalAcceleration = 0;
+    this.chassisMotion.reset();
     this.verticalInitialized = false;
     this.groundedWheels = 4;
     this.suspension.reset();
@@ -512,6 +532,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     // An impact is an explicit velocity constraint. Remove stored wheel spin
     // energy with it so tyres cannot immediately shove the car into the wall.
     this.constrainWheelRotation(this.speed);
+    this.refreshWheelGeometry(this.wheelContacts);
     this.storeLastValidState();
     return this.getSnapshot();
   }
@@ -576,14 +597,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     if (!this.capabilities.driveModes || calibration === undefined) return;
     this.driveMode = mode;
     this.suspension.setDriveMode(mode);
-    this.driveModeThrottleExponent = calibration.throttleExponent;
-    if (calibration.tcs) Object.assign(this.config.driverAids.tcs ??= { ...calibration.tcs }, calibration.tcs);
-    if (calibration.esc) Object.assign(this.config.driverAids.esc ??= { ...calibration.esc }, calibration.esc);
+    this.vehicleControl.setDriveMode(mode);
     this.powertrain.applyDriveMode?.(calibration);
     this.config.steering.steeringResponse = calibration.steeringResponse;
     this.config.steering.steeringDamping = calibration.steeringDamping;
-    if (this.config.awd !== undefined && calibration.accelerationRearTorqueSplit !== undefined)
-      this.config.awd.accelerationRearTorqueSplit = calibration.accelerationRearTorqueSplit;
   }
 
   public cycleDriveMode(): void {
@@ -638,7 +655,6 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   }
 
   public getSnapshot(): VehicleSnapshotFor<TPowertrain> {
-    this.synchronizeWheelPositions();
     const powertrain = this.powertrain.getSnapshot();
     const transmission = powertrain.transmission;
     return {
@@ -678,6 +694,13 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         rearLeft: this.copyWheelSnapshot('rearLeft'), rearRight: this.copyWheelSnapshot('rearRight') },
       chassis: { ...this.suspension.getChassisSnapshot(), chassisY: this.chassisY,
         verticalVelocity: this.verticalVelocity, verticalAcceleration: this.verticalAcceleration,
+        dynamicAttitude: true, pitch: this.chassisMotion.pitch, roll: this.chassisMotion.roll,
+        pitchAngularVelocity: this.chassisMotion.pitchAngularVelocity, rollAngularVelocity: this.chassisMotion.rollAngularVelocity,
+        pitchAngularAcceleration: this.chassisMotion.pitchAngularAcceleration, rollAngularAcceleration: this.chassisMotion.rollAngularAcceleration,
+        pitchTorque: this.chassisMotion.pitchTorque, rollTorque: this.chassisMotion.rollTorque,
+        totalVerticalForce: this.chassisMotion.totalVerticalForce, contactMicrosteps: this.chassisMotion.microsteps,
+        safetyInterventions: this.chassisMotion.safetyInterventions,
+        pitchInertia: this.chassisMotion.pitchInertia, rollInertia: this.chassisMotion.rollInertia,
         groundedWheels: this.groundedWheels },
       transmission,
       differential: this.getDifferentialSnapshot(),
@@ -696,12 +719,14 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
   private copyWheelSnapshot(id: WheelId): WheelPhysicsState {
     const wheel = this.wheels[id];
-    return { ...wheel, worldPosition: { ...wheel.worldPosition }, groundNormal: { ...wheel.groundNormal } };
+    const geometry = wheel.geometry ? this.copyWheelGeometry(wheel.geometry) : undefined;
+    return { ...wheel, geometry, worldPosition: geometry?.wheelCenterWorld ?? { ...wheel.worldPosition },
+      groundNormal: { ...wheel.groundNormal } };
   }
 
   /** Drive modes shape the pedal, before arbitration with assistance demand. */
   public driverThrottleCommand(throttle: number): number {
-    return this.vehicleControl.previewThrottleDemand(Math.pow(this.safeUnitInput(throttle), this.driveModeThrottleExponent));
+    return this.vehicleControl.previewThrottleDemand(this.safeUnitInput(throttle));
   }
 
   private integrateStep(
@@ -709,6 +734,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     input: VehicleInputState,
     environment: VehicleEnvironment,
   ): void {
+    const startX = this.x, startZ = this.z, startYaw = this.yaw;
+    if (!environment.wheelContacts) environment = { ...environment, wheelContacts: this.flatContacts(environment) };
     const control = this.vehicleControl;
     control.estimator.update(dt, this.speed, this.lateralVelocity, this.acceleration,
       this.lateralAcceleration, this.yawRate, this.steering.steeringAngle, this.wheels, environment.wheelContacts);
@@ -716,7 +743,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const steerCommand = clamp(this.finiteOr(input.steering, 0), -1, 1);
     control.updateDriverIntent(dt, rawThrottle, rawBrake, steerCommand, this.powertrain.vehicleOperational,
       (input.cruiseThrottle ?? 0) > 0 || (input.cruiseBrake ?? 0) > 0);
-    const demand = control.mapDriverDemand(dt, Math.pow(rawThrottle, this.driveModeThrottleExponent), rawBrake,
+    const demand = control.mapDriverDemand(dt, rawThrottle, rawBrake,
       this.safeUnitInput(input.cruiseThrottle ?? 0));
     const throttleCommand = demand.throttle, brakeCommand = demand.brake;
     const handbrakeCommand = this.safeUnitInput(input.handbrake);
@@ -724,8 +751,6 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
     this.driverAssists.updateTraction(dt, this.wheels, throttleCommand, this.powertrain.vehicleOperational,
       this.powertrain.driving, this.powertrain.driveAvailable, environment.wheelContacts);
-    this.awd?.update(dt, throttleCommand, this.wheels, this.powertrain.driveAvailable && this.powertrain.driving,
-      this.driverAssists.frontTorqueFactor, this.driverAssists.rearTorqueFactor);
     const context = this.powertrainContext;
     context.dt = dt; context.throttle = throttleCommand; context.brake = brakeCommand;
     context.vehicleSpeed = this.speed; context.vehicleLateralSpeed = this.lateralVelocity;
@@ -748,6 +773,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     context.drivenWheelReactionTorque = reactionAcceleration * context.drivenWheelInertia;
     context.frontTorqueLimitFactor = control.arbitrator.request.frontTorqueFactor;
     context.rearTorqueLimitFactor = control.arbitrator.request.rearTorqueFactor;
+    context.frontAxleTorqueRatio = control.arbitrator.request.frontAxleTorqueRatio;
+    context.rearAxleTorqueRatio = control.arbitrator.request.rearAxleTorqueRatio;
     context.yawRate = this.yawRate; context.expectedYawRate = this.driverAssists.esc.expectedYawRate;
     context.escActive = this.driverAssists.esc.active; context.escMode = this.driverAssists.esc.mode;
     context.torqueLimitFactor = control.arbitrator.request.powertrainTorqueFactor;
@@ -874,7 +901,15 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     };
 
     this.applyWorldBounds(environment.bounds);
+    if (environment.wheelContacts) {
+      this.integrateVerticalPath(dt, startX, startZ, startYaw, environment.wheelContacts,
+        environment.sampleVerticalContacts, environment.contactMicrosteps);
+    }
     this.validateOrRecover();
+    // Publish body and wheels from the same final pose, including yaw/attitude
+    // changes and the scene adapter's subsequent final-surface refresh.
+    if (environment.wheelContacts) this.refreshWheelGeometry(this.wheelContacts);
+    else this.refreshWheelGeometry();
     this.powertrain.finishStep(this.speed, this.getDrivenWheelAngularVelocity(),
       (this.wheelRotation.getAngularVelocity('frontLeft') + this.wheelRotation.getAngularVelocity('frontRight')) * .5,
       (this.wheelRotation.getAngularVelocity('rearLeft') + this.wheelRotation.getAngularVelocity('rearRight')) * .5);
@@ -928,44 +963,69 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
   /** Refresh contact metadata after the scene adapter's final pose/collision query. */
   public syncWheelContacts(contacts: WheelContactSet): void {
-    const vertical = this.suspension.getVerticalSnapshot();
-    this.suspension.synchronizeGroundGeometry(contacts, vertical.active ? vertical : undefined);
+    this.wheelContacts = contacts;
     if (!this.verticalInitialized) {
+      this.suspension.synchronizeGroundGeometry(contacts);
       // Spawn/respawn is the one legitimate ground snap: initialise the heave
       // state from the sampled support plane, then never re-seat it per frame.
       const geometry = averageWheelGroundGeometry(contacts);
+      const reference = this.suspension.getChassisSnapshot();
+      const safetyInterventions = this.chassisMotion.safetyInterventions;
+      this.chassisMotion.reset(reference.terrainPitch, reference.terrainRoll);
+      this.chassisMotion.safetyInterventions = safetyInterventions;
       this.chassisY = Number.isFinite(geometry.height) ? geometry.height : 0;
       this.verticalVelocity = 0;
       this.verticalAcceleration = 0;
       this.verticalInitialized = true;
+      this.suspension.setDynamicPose(this.chassisMotion.pitch, this.chassisMotion.roll);
+      this.suspension.updateVertical(0, { x: this.x, z: this.z, yaw: this.yaw,
+        chassisY: this.chassisY, verticalVelocity: this.verticalVelocity, contacts });
+    } else {
+      // Diagnostic support plane only; neither this fit nor its mask owns body rotation.
+      const vertical = this.suspension.refreshVerticalGeometry({ x: this.x, z: this.z, yaw: this.yaw,
+        chassisY: this.chassisY, verticalVelocity: this.verticalVelocity, contacts });
+      this.suspension.synchronizeGroundGeometry(contacts, vertical);
     }
+    this.refreshWheelGeometry(contacts);
+  }
+
+  private refreshWheelGeometry(contacts?: WheelContactSet, publish = true): void {
+    this.suspension.setDynamicPose(this.chassisMotion.pitch, this.chassisMotion.roll);
+    const step = { x: this.x, z: this.z, yaw: this.yaw, chassisY: this.chassisY,
+      verticalVelocity: this.verticalVelocity, contacts };
+    this.suspension.refreshVerticalGeometry(step);
+    if (contacts && this.resolvePenetration()) {
+      step.chassisY = this.chassisY;
+      this.suspension.refreshVerticalGeometry(step);
+    }
+    const vertical = this.suspension.getVerticalSnapshot();
+    this.groundedWheels = vertical.groundedWheels;
+    if (!publish) return;
     for (const id of WHEEL_IDS) {
-      const requirement = this.suspension.contactRequirement(id, this.chassisY, contacts[id].height);
-      const compression = this.suspension.clampContactCompression(id, requirement);
-      const y = this.chassisY + this.suspension.contactWheelOffsetY(id, compression);
+      const corner = vertical.wheels[id];
+      const geometry = this.copyWheelGeometry(corner);
+      const wheel = this.wheels[id];
       this.wheels[id] = {
-        ...this.wheels[id],
-        worldPosition: { x: contacts[id].x, y, z: contacts[id].z },
-        surfaceType: contacts[id].surfaceType,
-        groundNormal: { ...contacts[id].normal },
+        ...wheel, geometry, worldPosition: geometry.wheelCenterWorld,
+        surfaceType: contacts?.[id].surfaceType ?? wheel.surfaceType,
+        groundNormal: { ...corner.surfaceNormal }, grounded: corner.grounded,
+        suspensionLength: corner.suspensionLength, suspensionCompression: corner.compression,
+        suspensionVelocity: corner.compressionVelocity, supportForce: corner.supportForce,
+        springForce: corner.springForce, damperForce: corner.damperForce,
+        bumpStopForce: corner.bumpStopForce, antiRollForce: corner.antiRollForce, contactForce: corner.contactForce,
+        normalLoad: corner.grounded ? corner.normalLoad : 0,
+        longitudinalForce: corner.grounded ? wheel.longitudinalForce : 0,
+        lateralForce: corner.grounded ? wheel.lateralForce : 0,
+        rollingResistanceForce: corner.grounded ? wheel.rollingResistanceForce : 0,
+        softSurfaceResistanceForce: corner.grounded ? wheel.softSurfaceResistanceForce : 0,
       };
     }
   }
 
-  private synchronizeWheelPositions(): void {
-    const bodyOriginX = this.x, bodyOriginZ = this.z;
-    const sine = Math.sin(this.yaw), cosine = Math.cos(this.yaw);
-    for (const id of WHEEL_IDS) {
-      const local = wheelLocalPosition(this.config, id);
-      this.wheels[id] = {
-        ...this.wheels[id],
-        worldPosition: {
-          x: bodyOriginX + local.x * cosine + local.z * sine,
-          y: this.wheels[id].worldPosition.y,
-          z: bodyOriginZ - local.x * sine + local.z * cosine,
-        },
-      };
-    }
+  private copyWheelGeometry(geometry: WheelGeometryState): WheelGeometryState {
+    return { ...geometry, attachmentWorldPosition: { ...geometry.attachmentWorldPosition },
+      suspensionAxis: { ...geometry.suspensionAxis }, wheelCenterWorld: { ...geometry.wheelCenterWorld },
+      surfacePoint: { ...geometry.surfacePoint }, surfaceNormal: { ...geometry.surfaceNormal } };
   }
 
   /** Contact normals provide longitudinal slope, including heading across a ramp. */
@@ -1001,9 +1061,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   }
 
   /**
-   * Static axle load is divided across four contacts. Each tyre gets its own
-   * drive, brake and resistance budget, so straddling a boundary changes only
-   * the contacting side instead of switching the entire car's material.
+   * Each tyre consumes the last physical suspension/contact reaction. Contact
+   * geometry gates that load before the once-per-tick tyre/control pass.
    */
   private calculateTyreContactForces(
     dt: number,
@@ -1015,17 +1074,19 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const dynamicPressureArea = .5 * this.config.aero.airDensity * this.config.aero.frontalArea * this.speed * this.speed;
     this.frontAeroVerticalForce = dynamicPressureArea * this.config.aero.liftCoefficientFront;
     this.rearAeroVerticalForce = dynamicPressureArea * this.config.aero.liftCoefficientRear;
-    // Vertical dynamics runs before the load model so contact state can gate
-    // both the 8% floor and supported-weight normalization in the same step.
-    const vertical = environment.wheelContacts === undefined
-      ? undefined : this.integrateVerticalDynamics(dt, environment.wheelContacts);
+    // Gate tyre loads at the current pose. Scene-backed heave is integrated
+    // once, after planar motion, along its actual path rather than stale samples.
+    if (environment.wheelContacts && !this.verticalInitialized) this.syncWheelContacts(environment.wheelContacts);
+    this.suspension.setDynamicPose(this.chassisMotion.pitch, this.chassisMotion.roll);
+    const vertical = environment.wheelContacts === undefined ? undefined
+      : this.suspension.refreshVerticalGeometry({ x: this.x, z: this.z, yaw: this.yaw,
+        chassisY: this.chassisY, verticalVelocity: this.verticalVelocity, contacts: environment.wheelContacts });
     const suspension = this.suspension.update(dt, {
       frontAeroVerticalForce: this.frontAeroVerticalForce, rearAeroVerticalForce: this.rearAeroVerticalForce, speed: this.speed,
       contacts: environment.wheelContacts,
       vertical,
       normal: environment.groundNormal ?? { x: 0, y: Math.cos(grade), z: Math.sin(grade) },
-      // Coordinate-speed derivative also contains -v_lateral*yawRate; load
-      // transfer must use the actual body-forward force acceleration instead.
+      // Compatibility fields; SuspensionSystem no longer turns these into loads.
       longitudinalAcceleration: this.forces.netForce / Math.max(1, this.effectiveVehicleMass),
       lateralAcceleration: this.lateralAcceleration,
     });
@@ -1073,7 +1134,12 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const regenerating = this.powertrain.limitRegeneration !== undefined && (requestedDriveTorque * this.speed < 0 ||
       evAxles !== undefined && ((evAxles.frontWheelTorque ?? 0) * this.speed < 0 || (evAxles.rearWheelTorque ?? 0) * this.speed < 0));
     control.resolveServiceBrakes(dt, this.brakes, limits,
-      regenerating ? this.config.drivetrainType === 'AWD' ? 'both' : this.config.drivetrainType === 'FWD' ? 'front' : 'rear' : undefined);
+      (regenerating || this.powertrain.shaftRegenerating) ? this.config.drivetrainType === 'AWD' ? 'both' : this.config.drivetrainType === 'FWD' ? 'front' : 'rear' : undefined);
+    if (this.powertrain.cancelShaftRegeneration &&
+      (this.config.drivetrainType === 'FWD'
+        ? this.driverAssists.pressures[0]! < .98 || this.driverAssists.pressures[1]! < .98
+        : this.driverAssists.pressures[2]! < .98 || this.driverAssists.pressures[3]! < .98))
+      requestedDriveTorque = this.powertrain.cancelShaftRegeneration();
     if (regenerating && this.powertrain.limitAxleRegeneration) {
       let frontLimit = Infinity, rearLimit = Infinity;
       for (let i = 0; i < 4; i++) {
@@ -1202,8 +1268,6 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const frontWheelLeverArmZ = -this.config.wheelBase * 0.5 - this.centerOfMassLocalZ;
     const rearWheelLeverArmZ = this.config.wheelBase * 0.5 - this.centerOfMassLocalZ;
     const wheelLeverArmsZ: FourWheelValues = [frontWheelLeverArmZ, frontWheelLeverArmZ, rearWheelLeverArmZ, rearWheelLeverArmZ];
-    const bodyOriginX = this.x, bodyOriginZ = this.z;
-    const bodySine = Math.sin(this.yaw), bodyCosine = Math.cos(this.yaw);
     let staticSupported = staticForces !== undefined;
     for (const i of [0, 1, 2, 3] as const) {
       const id = WHEEL_IDS[i];
@@ -1269,17 +1333,13 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         asymmetricLongitudinalMoment += localX[i] * (tyreForce + rollingForces[i] + softLong[i]);
         totalYawMoment += localX[i] * longitudinal + wheelLeverArmsZ[i] * lateral[i];
       }
-      const localWheel = wheelLocalPosition(this.config, id);
-      const worldX = bodyOriginX + localWheel.x * bodyCosine + localWheel.z * bodySine;
-      const worldZ = bodyOriginZ - localWheel.x * bodySine + localWheel.z * bodyCosine;
       const spring = suspension.wheels[id];
-      const wheelY = verticalCorner === undefined
-        ? (contacts?.[i]?.height ?? 0) + this.config.wheelRadius
-        : this.chassisY + verticalCorner.wheelLocalY;
+      const geometry = verticalCorner ?? this.wheels[id].geometry;
       this.wheels[id] = {
         id,
         tyre: this.wheelRotation.tyres.states[id],
-        worldPosition: { x: contacts?.[i]?.x ?? worldX, y: wheelY, z: contacts?.[i]?.z ?? worldZ },
+        geometry,
+        worldPosition: geometry?.wheelCenterWorld ?? this.wheels[id].worldPosition,
         surfaceType: contacts?.[i]?.surfaceType ?? 'asphalt',
         surfaceDepth: this.surfaceInteraction.get(id).depth,
         estimatedFriction: loads[i] > 1 ? limits[i] / loads[i] : 0,
@@ -1331,72 +1391,110 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     };
   }
 
-  /**
-   * Real heave integration. Road geometry supplies contact height only; the
-   * chassis keeps its own Y and vertical velocity. No path here assigns a
-   * ground target to chassisY.
-   */
-  private integrateVerticalDynamics(dt: number, contacts: WheelContactSet) {
-    if (!this.verticalInitialized) {
-      // Direct stepFixed callers may not use the scene adapter. Seed the same
-      // spawn support plane and attitude that a scene contact sync would.
-      this.suspension.synchronizeGroundGeometry(contacts);
-      const geometry = averageWheelGroundGeometry(contacts);
-      this.chassisY = Number.isFinite(geometry.height) ? geometry.height : 0;
-      this.verticalVelocity = 0;
-      this.verticalAcceleration = 0;
-      this.verticalInitialized = true;
-      this.suspension.resetVerticalContact();
+  /** Scene-less callers still use physical contact, on the supplied plane. */
+  private flatContacts(environment: VehicleEnvironment): WheelContactSet {
+    const grade = environment.gradeRadians ?? 0, sy = Math.sin(this.yaw), cy = Math.cos(this.yaw);
+    const normal = environment.groundNormal ?? { x: -sy * Math.sin(grade), y: Math.cos(grade), z: -cy * Math.sin(grade) };
+    for (const id of WHEEL_IDS) {
+      const p = wheelLocalPosition(this.config, id), contact = this.fallbackContacts[id] as { -readonly [K in keyof typeof this.fallbackContacts[typeof id]]: typeof this.fallbackContacts[typeof id][K] };
+      const x = this.x + cy * p.x + sy * p.z, z = this.z - sy * p.x + cy * p.z;
+      contact.x = x; contact.z = z;
+      contact.height = -(normal.x * x + normal.z * z) / Math.max(.1, normal.y);
+      contact.normal = normal;
+      contact.longitudinalGrip = environment.surfaceLongitudinalGripMultiplier ?? environment.surfaceGripMultiplier ?? 1;
+      contact.lateralGrip = environment.surfaceLateralGripMultiplier ?? environment.surfaceGripMultiplier ?? 1;
+      contact.rollingResistance = environment.rollingResistanceMultiplier ?? 1;
     }
-    const vertical = this.suspension.updateVertical(dt, {
-      chassisY: this.chassisY,
-      verticalVelocity: this.verticalVelocity,
-      contacts,
-    });
-    const mass = Math.max(1, this.effectiveVehicleMass);
-    const verticalForce = vertical.supportForce + this.frontAeroVerticalForce +
-      this.rearAeroVerticalForce - mass * this.config.gravity;
-    this.verticalAcceleration = Number.isFinite(verticalForce) ? verticalForce / mass : 0;
-    this.verticalVelocity += this.verticalAcceleration * dt;
-    this.verticalVelocity = clamp(this.verticalVelocity, -60, 60);
-    this.chassisY += this.verticalVelocity * dt;
-    this.groundedWheels = vertical.groundedWheels;
-    this.resolvePenetration(contacts);
-    if (!Number.isFinite(this.chassisY) || !Number.isFinite(this.verticalVelocity)) {
-      // Numerical safety only; normal landings never take this path.
-      this.chassisY = averageWheelGroundGeometry(contacts).height;
-      this.verticalVelocity = 0;
-      this.verticalAcceleration = 0;
-    }
-    return vertical;
+    return this.fallbackContacts;
   }
 
-  /**
-   * Last-resort anti-tunnelling correction. It only moves the chassis when the
-   * bump stop has actually been overrun, and removes only downward velocity.
-   */
-  private resolvePenetration(contacts: WheelContactSet): void {
+  /** Only contact/heave/pitch/roll are microstepped along the planar path. */
+  private integrateVerticalPath(dt: number, startX: number, startZ: number, startYaw: number,
+    contacts: WheelContactSet, query?: VehicleEnvironment['sampleVerticalContacts'], override?: number): void {
+    const endX = this.x, endZ = this.z, yawDelta = wrapAngle(this.yaw - startYaw), motion = this.chassisMotion;
+    const heights = this.verticalSurfaceHeights;
+    for (let i = 0; i < 4; i++) heights[i] = contacts[WHEEL_IDS[i]!].height;
+    const sample = (fraction: number): WheelContactSet => {
+      this.suspension.setDynamicPose(motion.pitch, motion.roll);
+      const x = startX + (endX - startX) * fraction, z = startZ + (endZ - startZ) * fraction;
+      const yaw = startYaw + yawDelta * fraction;
+      const geometry = this.suspension.refreshVerticalGeometry({ x, z, yaw,
+        chassisY: this.chassisY, verticalVelocity: this.verticalVelocity, contacts });
+      return query?.(x, z, yaw, this.chassisY, geometry, this.config) ?? contacts;
+    };
+    let next = sample(1), change = 0;
+    this.suspension.refreshVerticalGeometry({ x: endX, z: endZ, yaw: this.yaw,
+      chassisY: this.chassisY, verticalVelocity: this.verticalVelocity, contacts: next });
+    for (let i = 0; i < 4; i++) {
+      const id = WHEEL_IDS[i]!, corner = this.suspension.getVerticalSnapshot().wheels[id];
+      change = Math.max(change, Math.abs(next[id].height - heights[i]!),
+        -this.fullBumpClearance(corner) - this.verticalVelocity * dt);
+    }
+    change = Math.max(change, Math.abs(motion.pitchAngularVelocity) * this.config.wheelBase * dt * .5,
+      Math.abs(motion.rollAngularVelocity) * this.config.trackWidth * dt * .5);
+    const slice = Math.max(.01, this.config.suspension.suspensionTravel * .25);
+    const count = override ?? Math.min(4, Math.max(1, Math.ceil(change / slice)));
+    const h = dt / count;
+    const cgZ = centerOfMassOffsetZ(this.config);
+    const velocityX = (endX - startX + (Math.sin(this.yaw) - Math.sin(startYaw)) * cgZ) / dt;
+    const velocityZ = (endZ - startZ + (Math.cos(this.yaw) - Math.cos(startYaw)) * cgZ) / dt;
+    motion.beginStep(count);
+    for (let i = 1; i <= count; i++) {
+      if (count > 1) next = sample(i / count);
+      const x = startX + (endX - startX) * i / count, z = startZ + (endZ - startZ) * i / count;
+      const yaw = startYaw + yawDelta * i / count;
+      this.suspension.setDynamicPose(motion.pitch, motion.roll);
+      const vertical = this.suspension.updateVertical(h, { x, z, yaw,
+        chassisY: this.chassisY, verticalVelocity: this.verticalVelocity, contacts: next,
+        velocityX, velocityZ, yawRate: this.yawRate,
+        pitchAngularVelocity: motion.pitchAngularVelocity, rollAngularVelocity: motion.rollAngularVelocity });
+      motion.integrate(h, x, z, yaw, vertical, this.wheels, this.frontAeroVerticalForce, this.rearAeroVerticalForce);
+    }
+    motion.finishStep(dt);
+    this.wheelContacts = next;
+    this.suspension.setDynamicPose(motion.pitch, motion.roll);
+    this.suspension.refreshVerticalGeometry({ x: endX, z: endZ, yaw: this.yaw,
+      chassisY: this.chassisY, verticalVelocity: this.verticalVelocity, contacts: next });
+    this.suspension.publishContactImpulses(motion.contactImpulses, dt);
+    this.syncWheelContacts(next);
+  }
+
+  private fullBumpClearance(corner: WheelGeometryState): number {
+    const n = corner.surfaceNormal, a = corner.attachmentWorldPosition, axis = corner.suspensionAxis;
+    if (n.y <= 1e-4) return Infinity;
+    const length = corner.minSuspensionLength, p = corner.surfacePoint;
+    return ((a.x + axis.x * length - p.x) * n.x + (a.y + axis.y * length - p.y) * n.y +
+      (a.z + axis.z * length - p.z) * n.z - this.config.wheelRadius) / n.y;
+  }
+
+  /** Last safety net; neither normal spring support nor attitude authority. */
+  private resolvePenetration(): boolean {
     let correction = 0;
     for (const id of WHEEL_IDS) {
-      const limit = this.suspension.minimumChassisY(id, contacts[id].height);
-      if (this.chassisY < limit) correction = Math.max(correction, limit - this.chassisY);
+      const corner = this.suspension.getVerticalSnapshot().wheels[id];
+      if (corner.grounded && corner.penetration > 1e-6 && corner.surfaceNormal.y > .1)
+        correction = Math.max(correction, corner.penetration / corner.surfaceNormal.y);
     }
-    if (correction <= 1e-6) return;
+    if (correction <= 1e-6) return false;
+    if (this.diagnosticRecoveryObserver) {
+      try { this.diagnosticRecoveryObserver('contact', this, correction); } catch { this.diagnosticRecoveryObserver = undefined; }
+    }
     this.chassisY += correction;
-    if (this.verticalVelocity < 0) this.verticalVelocity = 0;
+    if (correction > .02 && this.verticalVelocity < 0) this.verticalVelocity *= .2;
+    return true;
   }
 
   private initializeWheelStates(): void {
+    this.wheelContacts = undefined;
     const springs = this.suspension.getSnapshot();
-    const bodyOriginX = this.x, bodyOriginZ = this.z;
-    const sine = Math.sin(this.yaw), cosine = Math.cos(this.yaw);
+    this.suspension.refreshVerticalGeometry({ x: this.x, z: this.z, yaw: this.yaw,
+      chassisY: this.chassisY, verticalVelocity: this.verticalVelocity });
     for (const id of WHEEL_IDS) {
-      const local = wheelLocalPosition(this.config, id);
+      const geometry = this.copyWheelGeometry(this.suspension.getVerticalSnapshot().wheels[id]);
       const spring = springs.wheels[id];
       const rotation = this.wheelRotation.getSnapshot(id);
       this.wheels[id] = {
-        id, worldPosition: { x: bodyOriginX + local.x * cosine + local.z * sine, y: this.chassisY + this.config.wheelRadius,
-          z: bodyOriginZ - local.x * sine + local.z * cosine },
+        id, geometry, worldPosition: geometry.wheelCenterWorld,
         tyre: this.wheelRotation.tyres.states[id],
         surfaceType: 'asphalt', groundNormal: { x: 0, y: 1, z: 0 }, normalLoad: spring.normalLoad,
         steeringAngle: spring.toeAngle * (id.endsWith('Left') ? 1 : -1),
@@ -1413,6 +1511,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         longitudinalUsage: 0, lateralUsage: 0, gripUsage: 0,
       };
     }
+    this.refreshWheelGeometry();
   }
 
   /** Only a discontinuous contact/pawl constraint may synchronise wheel spin. */
@@ -1541,6 +1640,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       this.chassisY,
       this.verticalVelocity,
       this.verticalAcceleration,
+      this.chassisMotion.pitch, this.chassisMotion.roll,
+      this.chassisMotion.pitchAngularVelocity, this.chassisMotion.rollAngularVelocity,
       this.torqueSource.shaftAngularVelocity,
       this.powertrain.variableMassKg,
       this.brakes.brakeInput,
@@ -1556,6 +1657,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       return;
     }
 
+    if (this.diagnosticRecoveryObserver) {
+      try { this.diagnosticRecoveryObserver('non-finite', this, 0); } catch { this.diagnosticRecoveryObserver = undefined; }
+    }
     this.centerOfMassX = this.lastValidState.centerOfMassX;
     this.centerOfMassZ = this.lastValidState.centerOfMassZ;
     this.yaw = this.lastValidState.yaw;
@@ -1571,6 +1675,11 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.chassisY = this.lastValidState.chassisY;
     this.verticalVelocity = this.lastValidState.verticalVelocity;
     this.verticalAcceleration = 0;
+    this.chassisMotion.pitch = this.lastValidState.pitch;
+    this.chassisMotion.roll = this.lastValidState.roll;
+    this.chassisMotion.pitchAngularVelocity = this.lastValidState.pitchAngularVelocity;
+    this.chassisMotion.rollAngularVelocity = this.lastValidState.rollAngularVelocity;
+    this.chassisMotion.safetyInterventions++;
     this.groundedWheels = 4;
     this.verticalInitialized = false;
     this.powertrain.reset(this.lastValidState.powertrain, true);
@@ -1600,6 +1709,9 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     state.controlMode = this.controlMode; state.bodySlipAngle = this.bodySlipAngle;
     state.lateralVelocity = this.lateralVelocity;
     state.chassisY = this.chassisY; state.verticalVelocity = this.verticalVelocity;
+    state.pitch = this.chassisMotion.pitch; state.roll = this.chassisMotion.roll;
+    state.pitchAngularVelocity = this.chassisMotion.pitchAngularVelocity;
+    state.rollAngularVelocity = this.chassisMotion.rollAngularVelocity;
     state.contactSlipRecovery = this.contactSlipRecovery;
     state.contactSlipHoldTime = this.contactSlipHoldTime; state.yawRate = this.yawRate;
     state.powertrain = this.powertrain.captureState(state.powertrain);

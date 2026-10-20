@@ -1,4 +1,9 @@
 import { AccelerationRunDiagnostics } from '../experimental/acceleration/AccelerationRunDiagnostics';
+import { VehiclePhysicsBlackBox, blackBoxFilename } from '../vehicle/diagnostics/VehiclePhysicsBlackBox';
+import type { BlackBoxStatus } from '../vehicle/diagnostics/BlackBoxSchema';
+
+declare const __DRIVERGAME_BUILD_VERSION__: string;
+declare const __CITY_MAIN_RUNTIME_URL__: string;
 import { AdaptiveDriverLayer } from '../vehicle/control/adaptive/AdaptiveDriverLayer';
 import { DriverProfileStore } from '../vehicle/control/adaptive/DriverProfileStore';
 import { LaneAssistMode, LaneAssistStateController, LANE_ASSIST_LABELS } from '../vehicle/control/LaneAssistState';
@@ -121,6 +126,10 @@ const GAMEPAD_LOOK_YAW_RATE = MathUtils.degToRad(84);
 const GAMEPAD_LOOK_PITCH_RATE = MathUtils.degToRad(62);
 
 export class DrivingGame {
+  private blackBox?: VehiclePhysicsBlackBox;
+  private blackBoxStatus: BlackBoxStatus = 'OFF';
+  private readonly blackBoxExportTasks = new Map<VehiclePhysicsBlackBox, ReturnType<typeof setTimeout>>();
+  private blackBoxExportError?: VehiclePhysicsBlackBox;
   private readonly scene = new Scene();
   private readonly renderer: WebGLRenderer;
   private ground: DrivingGround;
@@ -290,7 +299,7 @@ export class DrivingGame {
       engineRunning: 'engine' in initialVehicle.physicsConfig && initialVehicle.physicsConfig.engine.ignitionSequence === undefined,
       stateOfCharge: this.readStoredSOC(this.activeVehicleId),
     });
-    this.snapshot = this.dynamics.getSnapshot();
+    this.snapshot = this.contacts.synchronize(this.dynamics);
     this.configureVehicleDisplays();
     this.lapTimer.configure(this.ground.lapCourse, this.activeVehicleId, this.snapshot);
     this.ignitionOn = this.snapshot.vehicleOperational;
@@ -361,6 +370,13 @@ export class DrivingGame {
   }
 
   dispose(): void {
+    for (const timer of this.blackBoxExportTasks.values()) clearTimeout(timer);
+    this.blackBoxExportTasks.clear();
+    this.contacts.blackBox = undefined;
+    this.dynamics.chassisMotion.diagnosticObserver = undefined;
+    this.dynamics.chassisMotion.safetyObserver = undefined;
+    this.dynamics.diagnosticRecoveryObserver = undefined;
+    this.blackBox?.disable();
     this.vehicleLoading.dispose();
     this.pendingVehicleVisual?.dispose(); this.pendingVehicleVisual = null;
     this.storeCurrentFuel();
@@ -600,6 +616,7 @@ export class DrivingGame {
 
   private readonly frame = (time: number): void => {
     if (!this.running) return;
+    this.updateBlackBoxUI();
     const frameDt = Math.min(MAX_FRAME_TIME, Math.max(0, (time - this.lastFrameTime) / 1_000));
     this.lastFrameTime = time;
     // Presets only move targets; all consumers below read the smoothed values.
@@ -889,47 +906,23 @@ export class DrivingGame {
     // Suspension owns chassis pitch/roll. Only millimetre cabin vibration is
     // added here; the driver eye and physical mirror planes stay untouched.
     this.vehicleVisual.cockpitRoot.position.set(feedbackOffset.x, feedbackOffset.y, feedbackOffset.z);
-    const contacts = this.contacts.wheelContacts;
     const chassis = this.snapshot.chassis;
-    const roadHeight = contacts === null
-      ? this.ground.getRoadHeightAt(this.snapshot.x, this.snapshot.z) : chassis.groundHeight;
-    const roadPitch = contacts === null ? this.ground.getRoadPitchAt(
-      this.snapshot.x,
-      this.snapshot.z,
-      this.snapshot.yaw,
-    ) : chassis.terrainPitch;
-    // Support heights capture a flat-topped curb even when all normals are up.
-    // Never add the averaged normal's slope again to this fitted terrain plane.
-    const roadRoll = contacts === null ? 0 : chassis.terrainRoll;
-    // Physics chassisY owns the body height. roadHeight is only the pre-step
-    // spawn fallback and the terrain-plane input for pitch/roll.
-    const body = chassisBodyPose({ ...chassis, chassisY: contacts === null ? roadHeight : chassis.chassisY,
-      terrainPitch: roadPitch, terrainRoll: roadRoll }, this.vehicleVisual.config.staticBodyOffsetY);
+    const roadHeight = chassis.groundHeight;
+    const body = chassisBodyPose(chassis, this.vehicleVisual.config.staticBodyOffsetY, this.snapshot.yaw);
     this.vehicleVisual.setWorldPose(
-      this.snapshot.x,
+      this.snapshot.x + body.offsetX,
       body.y,
-      this.snapshot.z,
+      this.snapshot.z + body.offsetZ,
       this.snapshot.yaw,
       body.pitch,
       body.roll,
     );
-    if (contacts !== null) {
-      this.vehicleVisual.setWheelWorldPositions({
-        frontLeft: this.snapshot.wheels.frontLeft.worldPosition,
-        frontRight: this.snapshot.wheels.frontRight.worldPosition,
-        rearLeft: this.snapshot.wheels.rearLeft.worldPosition,
-        rearRight: this.snapshot.wheels.rearRight.worldPosition,
-      });
-    } else {
-      // Initial spawn has not performed a physical step yet. Use the same
-      // dimension anchors and terrain height until the first contact state.
-      this.vehicleVisual.setWheelGroundHeights({
-        frontLeft: this.ground.getRoadHeightAt(this.snapshot.wheels.frontLeft.worldPosition.x, this.snapshot.wheels.frontLeft.worldPosition.z),
-        frontRight: this.ground.getRoadHeightAt(this.snapshot.wheels.frontRight.worldPosition.x, this.snapshot.wheels.frontRight.worldPosition.z),
-        rearLeft: this.ground.getRoadHeightAt(this.snapshot.wheels.rearLeft.worldPosition.x, this.snapshot.wheels.rearLeft.worldPosition.z),
-        rearRight: this.ground.getRoadHeightAt(this.snapshot.wheels.rearRight.worldPosition.x, this.snapshot.wheels.rearRight.worldPosition.z),
-      });
-    }
+    this.vehicleVisual.setWheelWorldPositions({
+      frontLeft: this.snapshot.wheels.frontLeft.worldPosition,
+      frontRight: this.snapshot.wheels.frontRight.worldPosition,
+      rearLeft: this.snapshot.wheels.rearLeft.worldPosition,
+      rearRight: this.snapshot.wheels.rearRight.worldPosition,
+    });
     // Physics uses positive=right. Three's local Y/Z rotations are positive
     // counter-clockwise from the driver's view, hence the visual sign change.
     this.vehicleVisual.setFrontWheelSteeringAngles(
@@ -1041,6 +1034,7 @@ export class DrivingGame {
   private configureVehicleDisplays(): void {
     const descriptor = getVehicleDescriptor(this.activeVehicleId);
     const settings = this.hud.settings;
+    this.driverAdaptive.selectVehicle(this.activeVehicleId);
     this.driverAdaptive.resetTransient();
     this.driverAdaptive.setEnabled(settings.adaptiveLearningPreference);
     this.dynamics.vehicleControl.adaptive = this.driverAdaptive;
@@ -1083,8 +1077,82 @@ export class DrivingGame {
     this.parkingCamera = descriptor.capabilities.parkingCamera ? new ParkingCamera(this.renderer, this.scene, this.vehicleVisual, descriptor.capabilities.surroundView) : null;
   }
 
+  private restartBlackBox(reason: string): void {
+    this.blackBoxExportError = undefined;
+    const old = this.blackBox;
+    if (old?.highDetail) old.freezeInterrupted(reason);
+    if (old?.status === 'FROZEN') this.scheduleBlackBoxExport(old);
+    this.dynamics.chassisMotion.diagnosticObserver = undefined;
+    this.dynamics.chassisMotion.safetyObserver = undefined;
+    this.dynamics.diagnosticRecoveryObserver = undefined;
+    const descriptor = getVehicleDescriptor(this.activeVehicleId);
+    // Only on enable/context change, never in the physics loop. Captures local config edits too.
+    const config = JSON.stringify(this.dynamics.config);
+    let hash = 2166136261;
+    for (let i = 0; i < config.length; i++) hash = Math.imul(hash ^ config.charCodeAt(i), 16777619);
+    this.blackBox = new VehiclePhysicsBlackBox({ mapId: this.ground.metadata.id,
+      mapName: this.ground.metadata.displayName, mapVersion: this.ground.metadata.version,
+      mapContentVersion: this.activeGroundId === 'city-main' && typeof __CITY_MAIN_RUNTIME_URL__ !== 'undefined'
+        ? __CITY_MAIN_RUNTIME_URL__ : null,
+      vehicleId: this.activeVehicleId, vehicleConfigVersion: descriptor.version,
+      vehicleConfigHash: `fnv1a32:${(hash >>> 0).toString(16).padStart(8, '0')}`,
+      buildVersion: typeof __DRIVERGAME_BUILD_VERSION__ === 'undefined' ? 'development' : __DRIVERGAME_BUILD_VERSION__ });
+    this.blackBox.arm(); this.contacts.blackBox = this.blackBox;
+  }
+
+  private updateBlackBoxUI(): void {
+    const recorder = this.blackBox;
+    if (recorder?.status === 'FROZEN' && this.blackBoxExportError !== recorder) this.scheduleBlackBoxExport(recorder);
+    const status = recorder && recorder === this.blackBoxExportError ? 'ERROR' : recorder?.status ?? 'OFF';
+    if (status === this.blackBoxStatus) return;
+    this.blackBoxStatus = status; this.hud.settings.setBlackBoxStatus(status);
+  }
+
+  private scheduleBlackBoxExport(recorder: VehiclePhysicsBlackBox): void {
+    if (this.blackBoxExportTasks.has(recorder)) return;
+    // A later browser task; never serialize from ContactSystem.step or its observers.
+    const timer = setTimeout(() => {
+      this.blackBoxExportTasks.delete(recorder);
+      try {
+        const json = JSON.stringify(recorder.createExport(), (_key, value: unknown) =>
+          typeof value === 'number' && !Number.isFinite(value) ? String(value) : value, 2);
+        const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
+        const anchor = document.createElement('a');
+        anchor.href = url; anchor.download = blackBoxFilename(); document.body.appendChild(anchor);
+        try { anchor.click(); } finally { anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 30_000); }
+        recorder.markSaved();
+        if (this.blackBoxExportError === recorder) this.blackBoxExportError = undefined;
+        if (this.blackBox === recorder) this.hud.showMessage('车辆物理黑匣子已保存 · 已继续缓存', 3);
+      } catch {
+        this.blackBoxExportError = recorder;
+        this.hud.showMessage('黑匣子导出失败 · 记录仍保留，可点击保存按钮重试', 5);
+      }
+      this.updateBlackBoxUI();
+    }, 0);
+    this.blackBoxExportTasks.set(recorder, timer);
+  }
+
   private configureVehicleSettings(): void {
     const settings = this.hud.settings;
+    settings.onBlackBoxChange = enabled => {
+      if (enabled) this.restartBlackBox('enabled');
+      else {
+        this.contacts.blackBox = undefined;
+        this.dynamics.chassisMotion.diagnosticObserver = undefined;
+        this.dynamics.chassisMotion.safetyObserver = undefined;
+        this.dynamics.diagnosticRecoveryObserver = undefined;
+        const timer = this.blackBox && this.blackBoxExportTasks.get(this.blackBox);
+        if (timer !== undefined) clearTimeout(timer);
+        if (this.blackBox) this.blackBoxExportTasks.delete(this.blackBox);
+        this.blackBox?.disable(); this.blackBox = undefined; this.blackBoxExportError = undefined;
+      }
+      this.updateBlackBoxUI();
+    };
+    settings.onBlackBoxSave = () => {
+      if (this.blackBox?.status === 'FROZEN') {
+        this.blackBoxExportError = undefined; this.scheduleBlackBoxExport(this.blackBox);
+      } else this.blackBox?.requestManualTrigger();
+    };
     this.hud.onImmersiveModeChange = enabled => {
       if (!enabled) return;
       if (this.contactDebug.root.visible) this.contactDebug.toggle();
@@ -1168,7 +1236,7 @@ export class DrivingGame {
     settings.onAdaptiveLearningChange = enabled => this.driverAdaptive.setEnabled(enabled);
     settings.onDriverProfileReset = () => {
       this.driverAdaptive.resetProfile();
-      this.hud.showMessage('已重置驾驶习惯 · 自适应开关保持不变', 2);
+      this.hud.showMessage('已重置当前车型驾驶习惯 · 自适应开关保持不变', 2);
     };
     settings.onAutoHoldChange = enabled => {
       this.dynamics.setAutoHoldEnabled(enabled);
@@ -1314,6 +1382,7 @@ export class DrivingGame {
   }
 
   private resetVehicleToGroundStart(): void {
+    if (this.blackBox) this.restartBlackBox('vehicle/map reset');
     this.accelerationTest?.interrupt('车辆已重置');
     this.laneAssistSelection.reset();
     this.laneDepartureWarning.reset();
@@ -1341,6 +1410,7 @@ export class DrivingGame {
       vehicleOperational: this.snapshot.vehicleOperational,
       engineRPM: engineRunning ? this.dynamics.engine?.config.idleRPM : undefined,
     });
+    this.snapshot = this.contacts.synchronize(this.dynamics);
     this.feedback.reset(this.snapshot);
     this.haptics.stop();
     this.lapTimer.reset(this.snapshot);
@@ -1468,7 +1538,7 @@ export class DrivingGame {
     this.dynamics = nextDynamics;
     this.dynamics.setDriverAssistOptions(this.hud.settings.driverAssistOptions);
     this.contacts.setCollisionDimensions(descriptor.visualConfig.collisionDimensions);
-    this.snapshot = nextDynamics.getSnapshot();
+    this.snapshot = this.contacts.synchronize(nextDynamics);
     this.feedback.setVehicleConfig(nextPhysicsConfig);
     this.feedback.reset(this.snapshot);
     this.haptics.stop();
@@ -1481,6 +1551,7 @@ export class DrivingGame {
     this.mirrorOverlay.setView(this.mirrors.getView(this.settingsOpen ? this.selectedMirror : 'right'));
 
     this.activeVehicleId = vehicleId;
+    if (this.blackBox) this.restartBlackBox('vehicle changed');
     this.ignitionOn = this.snapshot.vehicleOperational;
     this.configureVehicleDisplays();
     this.lapTimer.configure(this.ground.lapCourse, vehicleId, this.snapshot);
@@ -1963,6 +2034,11 @@ export class DrivingGame {
   }
 
   private readonly onGlobalKeyDown = (event: KeyboardEvent): void => {
+    if (event.code === 'F11' && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
+      event.preventDefault();
+      if (!event.repeat) this.blackBox?.requestManualTrigger();
+      return;
+    }
     if(this.hud.isMapOpen)return;
     if (this.hud.immersiveMode && (event.code === 'F6' || event.code === 'F7' || event.code === 'F8' || event.code === 'F9')) {
       event.preventDefault();

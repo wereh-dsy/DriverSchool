@@ -47,6 +47,7 @@ export interface DrivingGround {
     travelDirection?: THREE.Vector2Like,
   ): RoadSurfaceSample;
   getRoadHeightAt(x: number, z: number): number;
+  sampleRoadSurfaceForSupport?(x: number, z: number, hint: import('./SurfaceMaterial').SurfaceSupportHint): RoadSurfaceSample;
   getRoadPitchAt(x: number, z: number, yawRadians: number): number;
   /** Optional per-frame hook for maps with authored ambient animation. */
   update?(deltaSeconds: number): void;
@@ -63,6 +64,8 @@ export interface DrivingGround {
   updateVisualVisibility?(eye: THREE.Vector3, fogFar: number, cameras: readonly THREE.Camera[]): void;
   /** Multi-level worlds select support near this height. Existing height-field maps ignore it. */
   setSurfaceReferenceHeight?(height: number): void;
+  /** Read-only, bounded local query, used only by sparse incident diagnostics. */
+  debugSurfaceCandidates?(x: number, z: number, referenceHeight: number): import('./SurfaceMaterial').SurfaceCandidateDebug;
   dispose(): void;
 }
 

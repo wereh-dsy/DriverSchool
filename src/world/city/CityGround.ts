@@ -18,7 +18,12 @@ import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
 import { RegionalDebug } from '../regional/RegionalDebug';
 import type { CityResourceTiming, CityRuntimeData } from './CityRuntimeData';
 
-interface SurfaceArea { contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number }
+interface SurfaceArea { reference?: import('../SurfaceMaterial').SurfaceReference; contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number; roadId?: string; segmentIndex?: number }
+export interface SurfaceQueryDebug {
+  x: number; z: number; referenceHeight: number; chosen: string | null;
+  candidates: { id: string; roadId?: string; segmentIndex?: number; segmentId?: string; height: number; normal: {x:number;y:number;z:number};
+    distance: number; score: number; accepted: boolean; reason?: string }[];
+}
 export class CityGround implements DrivingGround {
   readonly root = new Group();
   readonly data: CityMapData;
@@ -34,6 +39,10 @@ export class CityGround implements DrivingGround {
   private readonly surfaces = new Map<string, SurfaceArea[]>();
   private readonly editor: boolean;
   private referenceHeight = 0;
+  private surfaceSequence = 0;
+  private readonly terrainReference = { surfaceId: 'terrain' };
+  /** Optional diagnostics only; normal sampling allocates no candidate records. */
+  public surfaceQueryObserver?: (query: SurfaceQueryDebug) => void;
   private readonly regionalDebug?:RegionalDebug;
   private readonly loadStarted=performance.now();
   readonly initializationMs: Record<string, number> = {};
@@ -102,8 +111,8 @@ export class CityGround implements DrivingGround {
         };
         const margin = Math.max(-edges.left, edges.right) + sidewalk;
         const bounds = { minX: Math.min(a.x, c.x) - margin, maxX: Math.max(a.x, c.x) + margin, minZ: Math.min(a.z, c.z) - margin, maxZ: Math.max(a.z, c.z) + margin };
-        this.addArea(bounds, { contains: contains(0), pavement: false, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
-        if (sidewalk) this.addArea(bounds, { contains: contains(sidewalk), pavement: true, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
+        this.addArea(bounds, { roadId: road.id, segmentIndex: i - 1, contains: contains(0), pavement: false, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
+        if (sidewalk) this.addArea(bounds, { roadId: road.id, segmentIndex: i - 1, contains: contains(sidewalk), pavement: true, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
       }
     }
     for (const j of this.data.intersections) {
@@ -143,27 +152,63 @@ export class CityGround implements DrivingGround {
     measured('spawnPreparation');
   }
   private addArea(b: DrivingGround['worldBounds'], area: SurfaceArea): void {
+    const segmentId = area.roadId === undefined ? undefined : `${area.roadId}:${area.segmentIndex ?? 0}`;
+    area.reference = { roadId: area.roadId, segmentId,
+      surfaceId: `${segmentId ?? `junction:${this.surfaceSequence++}`}:${area.pavement ? 'sidewalk' : 'road'}` };
     const size = this.data.sectorSize;
     for (let x = Math.floor(b.minX / size); x <= Math.floor(b.maxX / size); x++) for (let z = Math.floor(b.minZ / size); z <= Math.floor(b.maxZ / size); z++) {
       const key = `${x},${z}`, bucket = this.surfaces.get(key) ?? []; bucket.push(area); this.surfaces.set(key, bucket);
     }
   }
-  sampleRoadSurface(x: number, z: number, direction: { x: number; y: number } = { x: 0, y: -1 }, referenceHeight = this.referenceHeight): RoadSurfaceSample {
+  sampleRoadSurface(x: number, z: number, direction: { x: number; y: number } = { x: 0, y: -1 }, referenceHeight = this.referenceHeight,
+    observer = this.surfaceQueryObserver, support?: import('../SurfaceMaterial').SurfaceSupportHint): RoadSurfaceSample {
     const areas = this.surfaces.get(`${Math.floor(x / this.data.sectorSize)},${Math.floor(z / this.data.sectorSize)}`);
     let selected: SurfaceArea | undefined, best = Infinity, height = 0;
+    const candidates: SurfaceQueryDebug['candidates'] | undefined = observer ? [] : undefined;
     if (areas) for (const area of areas) if (area.contains(x, z)) {
       const y = area.heightAt(x, z), delta = Math.abs(y - referenceHeight);
+      const extension = area.extensionAt?.(x, z) ?? 0;
+      const length = Math.hypot(area.gx, 1, area.gz);
+      const normalDot = support ? (-area.gx * support.normal.x + support.normal.y - area.gz * support.normal.z) / length : 1;
+      // End caps still fill seams, but cannot keep an old segment after its
+      // centreline ends. Adjacent segments on the same road share preference.
+      const continuous = support?.reference && support.previousReachable && extension < .02 &&
+        delta <= support.heightTolerance && normalDot > .85;
+      const preferred = continuous && (area.reference?.surfaceId === support.reference?.surfaceId ||
+        area.roadId !== undefined && area.roadId === support.reference?.roadId);
+      const score = delta + extension * 10 + (area.pavement ? 0.2 : 0) -
+        (preferred ? support!.withinTick ? support!.heightTolerance : .04 : 0) +
+        (area.reference?.surfaceId === support?.transientSurface ? support!.heightTolerance : 0);
+      if (candidates) { const length = Math.hypot(area.gx, 1, area.gz);
+        candidates.push({id: area.reference!.surfaceId,
+          roadId:area.roadId,segmentIndex:area.segmentIndex,segmentId:area.reference?.segmentId,height:y,normal:{x:-area.gx/length,y:1/length,z:-area.gz/length},
+          distance:area.extensionAt?.(x,z) ?? 0,score,accepted:delta<=1.75,
+          reason:delta>1.75 ? 'outside-support-height-envelope' : 'eligible-score-ranked'}); }
       // A nearby support plane follows continuous ramps; a distant upper deck cannot capture a ground vehicle.
       if (delta > 1.75) continue;
       // Segment end caps fill bend seams but must not hold a car at the previous ramp sample's height.
-      const score = delta + (area.extensionAt?.(x, z) ?? 0) * 10 + (area.pavement ? 0.2 : 0);
       if (score < best) { best = score; selected = area; height = y; }
+    }
+    if (candidates) {
+      for (const candidate of candidates) if (candidate.accepted) {
+        candidate.reason = candidate.id === selected?.reference?.surfaceId ? 'selected-lowest-score' : 'higher-score';
+      }
+      observer!({x,z,referenceHeight,candidates,chosen:selected?.reference?.surfaceId ?? null});
     }
     const terrain=this.sectors.terrain?.sampler;
     if(!selected&&terrain)height=terrain.heightAt(x,z);
     const gx = selected?.gx ?? (terrain?(terrain.heightAt(x+.5,z)-terrain.heightAt(x-.5,z)):0), gz = selected?.gz ?? (terrain?(terrain.heightAt(x,z+.5)-terrain.heightAt(x,z-.5)):0), length = Math.hypot(direction.x, direction.y) || 1;
-    return { height, gradient: new Vector2(gx, gz), normal: new Vector3(-gx, 1, -gz).normalize(), grade: (gx * direction.x + gz * direction.y) / length,
+    return { reference: selected?.reference ?? this.terrainReference, referenceHeight,
+      height, gradient: new Vector2(gx, gz), normal: new Vector3(-gx, 1, -gz).normalize(), grade: (gx * direction.x + gz * direction.y) / length,
       ...surfaceResponseAliases(SURFACE_MATERIALS[selected ? selected.pavement ? 'concrete' : 'asphalt' : 'grass']) };
+  }
+  sampleRoadSurfaceForSupport(x: number, z: number, hint: import('../SurfaceMaterial').SurfaceSupportHint): RoadSurfaceSample {
+    return this.sampleRoadSurface(x, z, undefined, hint.height, this.surfaceQueryObserver, hint);
+  }
+  debugSurfaceCandidates(x: number, z: number, referenceHeight: number): SurfaceQueryDebug {
+    let result!: SurfaceQueryDebug;
+    this.sampleRoadSurface(x, z, undefined, referenceHeight, query => { result = query; });
+    return result;
   }
   getRoadHeightAt(x: number, z: number): number { return this.sampleRoadSurface(x, z).height; }
   getRoadPitchAt(x: number, z: number, yaw: number): number { return Math.atan(this.sampleRoadSurface(x, z, { x: -Math.sin(yaw), y: -Math.cos(yaw) }).grade); }

@@ -9,6 +9,7 @@ export class ElectricMotor implements DriveTorqueSource {
   public deliveredDriveTorque = 0;
   public requestedDrive = 0;
   private targetTorque = 0;
+  public voltageFactor = 1;
   public responseRate: number;
   public readonly thermal?: EVThermalState;
   public constructor(public readonly config: ElectricMotorConfig, ambient = 20) {
@@ -27,20 +28,20 @@ export class ElectricMotor implements DriveTorqueSource {
     if (!map) return base;
     const load = clamp01(Math.abs(torque) / this.config.maxDriveTorque);
     const rpm = clamp01(Math.abs(this.shaftAngularVelocity) * 30 / Math.PI / this.config.maxRPM);
-    return clamp(base - map.lightLoadPenalty * (1 - load) ** 2 - map.highLoadPenalty * load ** 2 -
+    return clamp(base - map.lightLoadPenalty * (1 - load) ** 2 - map.highLoadPenalty * load ** 2 * (1 - .65 * rpm) -
       map.highSpeedPenalty * rpm ** 2, .65, .98);
   }
   public get rotationalInertia(): number { return this.config.rotationalInertia; }
   public get availableDriveTorque(): number { return this.deliveredDriveTorque; }
   public get canDeliverTorque(): boolean { return Math.abs(this.shaftAngularVelocity) < this.config.maxRPM * Math.PI / 30; }
   public setShaftSpeed(omega: number): void { this.shaftAngularVelocity = Number.isFinite(omega) ? omega : 0; }
-  public driveLimit(electricalPower: number): number {
-    const omega = Math.abs(this.shaftAngularVelocity), maximum = this.config.maxRPM * Math.PI / 30;
-    const rollOff = (this.config.highSpeedRollOffRPM ?? this.config.maxRPM * .975) * Math.PI / 30;
+  public driveLimit(electricalPower: number, availablePower = this.availablePower): number {
+    const omega = Math.abs(this.shaftAngularVelocity), maximum = this.config.maxRPM * Math.PI / 30 * Math.min(1, this.voltageFactor);
+    const rollOff = (this.config.highSpeedRollOffRPM ?? this.config.maxRPM * .975) * Math.PI / 30 * Math.min(1, this.voltageFactor);
     const taper = 1 - smoothLimit((omega - rollOff) / Math.max(1, maximum - rollOff));
-    const baseOmega = (this.config.baseSpeedRPM ?? this.config.maxDrivePower / this.config.maxDriveTorque * 30 / Math.PI) * Math.PI / 30;
+    const baseOmega = (this.config.baseSpeedRPM ?? this.config.maxDrivePower / this.config.maxDriveTorque * 30 / Math.PI) * Math.PI / 30 * Math.min(1, this.voltageFactor);
     const curve = this.config.maxDriveTorque * Math.min(1, baseOmega / Math.max(1, omega));
-    return Math.min(curve * this.availablePower / this.config.maxDrivePower, this.availablePower / Math.max(1, omega),
+    return Math.min(curve * availablePower / this.config.maxDrivePower, availablePower / Math.max(1, omega),
       electricalPower * this.efficiency(this.config.maxDriveTorque) / Math.max(1, omega)) * taper;
   }
   public regenLimit(electricalPower: number): number {

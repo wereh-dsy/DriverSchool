@@ -1,7 +1,7 @@
 import type { VehicleChassisConfig } from '../config';
 import { wheelLocalPosition } from '../VehicleDimensions';
 import { WHEEL_IDS, type GroundNormal, type WheelContactSet, type WheelId } from './WheelContact';
-import type { ChassisPhysicsState } from './WheelPhysicsState';
+import { chassisBodyPose, type ChassisPhysicsState, type WheelGeometryState } from './WheelPhysicsState';
 import { clamp } from './math';
 
 export interface SuspensionWheelState {
@@ -19,7 +19,9 @@ export interface SuspensionWheelState {
 }
 
 /** One wheel's geometric contact and real spring support. */
-export interface SuspensionVerticalCorner {
+export interface SuspensionVerticalCorner extends WheelGeometryState {
+  readonly supportValid?: boolean;
+  readonly requiredLength: number;
   readonly grounded: boolean;
   readonly surfaceHeight: number;
   readonly compression: number;
@@ -28,9 +30,10 @@ export interface SuspensionVerticalCorner {
   readonly damperForce: number;
   readonly bumpStopForce: number;
   readonly supportForce: number;
+  readonly normalLoad: number;
+  readonly antiRollForce: number;
+  readonly contactForce: number;
   readonly suspensionLength: number;
-  /** Wheel-centre offset from the chassis datum; includes static geometry. */
-  readonly wheelLocalY: number;
 }
 
 export interface SuspensionVerticalSnapshot {
@@ -64,13 +67,20 @@ export interface SuspensionStep {
 }
 
 export interface SuspensionVerticalStep {
+  readonly x?: number;
+  readonly z?: number;
+  readonly yaw?: number;
   readonly chassisY: number;
   readonly verticalVelocity: number;
+  readonly velocityX?: number;
+  readonly velocityZ?: number;
+  readonly yawRate?: number;
+  readonly pitchAngularVelocity?: number;
+  readonly rollAngularVelocity?: number;
   readonly contacts?: WheelContactSet;
 }
 
 interface CornerState {
-  geometryForce: number;
   compression: number;
   velocity: number;
   load: number;
@@ -81,6 +91,8 @@ interface CornerState {
 }
 
 interface MutableVerticalCorner {
+  supportValid?: boolean;
+  requiredLength: number;
   grounded: boolean;
   surfaceHeight: number;
   compression: number;
@@ -89,8 +101,19 @@ interface MutableVerticalCorner {
   damperForce: number;
   bumpStopForce: number;
   supportForce: number;
+  normalLoad: number;
+  antiRollForce: number;
+  contactForce: number;
   suspensionLength: number;
-  wheelLocalY: number;
+  attachmentWorldPosition: { x: number; y: number; z: number };
+  suspensionAxis: { x: number; y: number; z: number };
+  minSuspensionLength: number;
+  restSuspensionLength: number;
+  maxSuspensionLength: number;
+  wheelCenterWorld: { x: number; y: number; z: number };
+  surfacePoint: { x: number; y: number; z: number };
+  surfaceNormal: { x: number; y: number; z: number };
+  penetration: number;
 }
 
 interface MutableVerticalFrame {
@@ -101,9 +124,8 @@ interface MutableVerticalFrame {
 }
 
 /**
- * Four supported corner masses, not a 6-DOF chassis. Spring and damper motion
- * responds to load transfer and the non-planar part of sampled wheel heights.
- * The load normalization conserves the current supported vehicle weight.
+ * Sprung-body suspension geometry and reactions. Compression follows the
+ * authoritative chassis pose; no corner load floor or weight normalization.
  */
 export class SuspensionSystem {
   private mode: import('../config').VehicleDriveMode = 'NORMAL';
@@ -119,47 +141,40 @@ export class SuspensionSystem {
   }
   public setDriveMode(mode: import('../config').VehicleDriveMode): void { this.mode = mode; }
   private corners = {} as Record<WheelId, CornerState>;
-  private longitudinalAcceleration = 0;
-  private lateralAcceleration = 0;
-  private previousRideOffset = 0;
   private chassis: ChassisPhysicsState = { groundHeight: 0, chassisY: 0, terrainPitch: 0, terrainRoll: 0,
     rideOffset: 0, pitch: 0, roll: 0, verticalVelocity: 0, verticalAcceleration: 0, groundedWheels: 4 };
   private readonly verticalFrame: MutableVerticalFrame = { active: false, groundedWheels: 0, supportForce: 0,
     wheels: {} as Record<WheelId, MutableVerticalCorner> };
   private readonly groundedWheels: Record<WheelId, boolean> = {
     frontLeft: true, frontRight: true, rearLeft: true, rearRight: true };
-  private readonly previousSurfaceHeights: Record<WheelId, number> = {
-    frontLeft: 0, frontRight: 0, rearLeft: 0, rearRight: 0 };
-  private hasPreviousSurface = false;
-  private previousVerticalRideOffset = 0;
 
-  public constructor(private readonly config: VehicleChassisConfig) {
+  public constructor(private readonly config: VehicleChassisConfig, private readonly geometryMass = config.mass) {
     this.reset();
   }
 
   public reset(): void {
     this.mode = 'NORMAL'; this.dampingMultiplier = 1; this.rideHeightOffset = 0;
     this.highSpeedTimer = 0; this.lowered = false;
-    this.longitudinalAcceleration = 0;
-    this.lateralAcceleration = 0;
-    this.previousRideOffset = 0;
-    this.chassis = { groundHeight: 0, chassisY: 0, terrainPitch: 0, terrainRoll: 0, rideOffset: 0,
+    this.chassis = { dynamicAttitude: true, centerOfMassHeight: this.config.centerOfMassHeight,
+      centerOfMassOffsetZ: this.config.wheelBase * (.5 - this.config.frontWeightBias),
+      groundHeight: 0, chassisY: 0, terrainPitch: 0, terrainRoll: 0, rideOffset: 0,
       pitch: 0, roll: 0, verticalVelocity: 0, verticalAcceleration: 0, groundedWheels: 4 };
     this.verticalFrame.active = false; this.verticalFrame.groundedWheels = 0; this.verticalFrame.supportForce = 0;
-    this.hasPreviousSurface = false;
-    this.previousVerticalRideOffset = 0;
     for (const id of WHEEL_IDS) {
       const load = this.staticLoad(id);
-      this.corners[id] = { geometryForce: 0, compression: load / this.springRate(id), velocity: 0, load, spring: load, damper: 0, bumpStop: 0, antiRoll: 0 };
+      this.corners[id] = { compression: load / this.springRate(id), velocity: 0, load, spring: load, damper: 0, bumpStop: 0, antiRoll: 0 };
       const corner: MutableVerticalCorner = { grounded: false, surfaceHeight: 0,
         compression: load / this.springRate(id), compressionVelocity: 0, springForce: load,
-        damperForce: 0, bumpStopForce: 0, supportForce: 0,
+        damperForce: 0, bumpStopForce: 0, supportForce: 0, normalLoad: load, antiRollForce: 0, contactForce: 0,
         suspensionLength: this.config.suspension.restLength - load / this.springRate(id),
-        wheelLocalY: this.config.wheelRadius };
+        attachmentWorldPosition: { x: 0, y: 0, z: 0 }, suspensionAxis: { x: 0, y: -1, z: 0 },
+        minSuspensionLength: 0, restSuspensionLength: 0, maxSuspensionLength: 0,
+        wheelCenterWorld: { x: 0, y: 0, z: 0 }, surfacePoint: { x: 0, y: 0, z: 0 },
+        surfaceNormal: { x: 0, y: 1, z: 0 }, penetration: 0, requiredLength: 0 };
       this.verticalFrame.wheels[id] = corner;
       this.groundedWheels[id] = true;
-      this.previousSurfaceHeights[id] = 0;
     }
+    this.refreshVerticalGeometry({ chassisY: 0, verticalVelocity: 0 });
   }
 
   public update(dt: number, step: SuspensionStep): SuspensionSnapshot {
@@ -189,111 +204,28 @@ export class SuspensionSystem {
       // extends. This keeps body/wheel geometry continuous during adjustment.
       for (const id of WHEEL_IDS) this.corners[id].compression += this.rideHeightOffset - previous;
     }
-    const accelerationBlend = 1 - Math.exp(-10 * safeDt);
-    this.longitudinalAcceleration += (clamp(this.finite(step.longitudinalAcceleration), -12, 12) - this.longitudinalAcceleration) * accelerationBlend;
-    this.lateralAcceleration += (clamp(this.finite(step.lateralAcceleration), -12, 12) - this.lateralAcceleration) * accelerationBlend;
-    let normalY = step.normal?.y ?? 1;
-    if (step.contacts !== undefined) normalY = WHEEL_IDS.reduce((sum, id) => sum + step.contacts![id].normal.y * 0.25, 0);
-    const weight = this.config.mass * this.config.gravity * clamp(this.finite(normalY, 1), 0.3, 1);
-    const frontShare = clamp(this.config.frontWeightBias, 0.05, 0.95);
-    const frontLoad = Math.max(weight * frontShare * .08, weight * frontShare - this.finite(step.frontAeroVerticalForce));
-    const rearLoad = Math.max(weight * (1 - frontShare) * .08, weight * (1 - frontShare) - this.finite(step.rearAeroVerticalForce));
-    const supportedWeight = frontLoad + rearLoad;
-    const longitudinalTransfer = this.config.mass * this.longitudinalAcceleration * this.config.centerOfMassHeight / Math.max(0.5, this.config.wheelBase);
-    const frontLateralTransfer = this.config.mass * frontShare * this.lateralAcceleration * this.config.centerOfMassHeight / Math.max(0.5, this.config.frontTrackWidth);
-    const rearLateralTransfer = this.config.mass * (1 - frontShare) * this.lateralAcceleration * this.config.centerOfMassHeight / Math.max(0.5, this.config.rearTrackWidth);
-    const targetLoads: Record<WheelId, number> = {
-      frontLeft: frontLoad * 0.5 - longitudinalTransfer * 0.5 + frontLateralTransfer,
-      frontRight: frontLoad * 0.5 - longitudinalTransfer * 0.5 - frontLateralTransfer,
-      rearLeft: rearLoad * 0.5 + longitudinalTransfer * 0.5 + rearLateralTransfer,
-      rearRight: rearLoad * 0.5 + longitudinalTransfer * 0.5 - rearLateralTransfer,
-    };
-    for (const id of WHEEL_IDS) targetLoads[id] = Math.max(this.staticLoad(id) * 0.08, targetLoads[id]);
-    const targetTotal = WHEEL_IDS.reduce((sum, id) => sum + targetLoads[id], 0);
-    const { heights, groundHeight, forwardSlope, rightSlope } = this.groundGeometry(step.contacts, step.vertical);
-    const antiRoll = this.antiRollForces();
+    // Chassis motion and physical contact own compression and loads. This
+    // pass only advances adaptive hardware; no acceleration-to-Fz shortcut.
+    this.publishCorners();
+  }
+
+  public setDynamicPose(pitch: number, roll: number): void {
+    this.chassis = { ...this.chassis, pitch, roll, dynamicAttitude: true, rideOffset: this.rideHeightOffset,
+      centerOfMassHeight: this.config.centerOfMassHeight,
+      centerOfMassOffsetZ: this.config.wheelBase * (.5 - this.config.frontWeightBias) };
+  }
+
+  private publishCorners(): void {
     for (const id of WHEEL_IDS) {
-      const corner = this.corners[id];
-      const front = id.startsWith('front');
-      const springRate = this.springRate(id);
-      const wheel = wheelLocalPosition(this.config, id);
-      const grounded = step.vertical === undefined || step.vertical.wheels[id].grounded;
-      const groundResidual = grounded
-        ? clamp(heights[id] - groundHeight + wheel.z * forwardSlope - wheel.x * rightSlope, -0.05, 0.05)
-        : 0;
-      const targetLoad = grounded ? targetLoads[id] * supportedWeight / Math.max(1, targetTotal) : 0;
-      const kinematics = front ? this.config.suspension.kinematics?.front : this.config.suspension.kinematics?.rear;
-      const driven = this.config.drivetrainType === 'AWD' || (front ? this.config.drivetrainType === 'FWD' : this.config.drivetrainType === 'RWD');
-      // Geometry routes longitudinal support around the spring, not around the tyre.
-      const antiRatio = this.longitudinalAcceleration < 0 && front ? kinematics?.antiDiveRatio ?? 0
-        : this.longitudinalAcceleration > 0 && driven ? kinematics?.antiSquatRatio ?? 0 : 0;
-      corner.geometryForce = grounded ? (front ? -1 : 1) * longitudinalTransfer * .5 * clamp(antiRatio, 0, 1) : 0;
-      const baselineDamping = corner.velocity >= 0
-        ? (front ? this.config.suspension.damperCompressionFront : this.config.suspension.damperCompressionRear)
-        : (front ? this.config.suspension.damperReboundFront : this.config.suspension.damperReboundRear);
-      const damping = baselineDamping * this.dampingMultiplier;
-      const cornerMass = this.staticLoad(id) / this.config.gravity;
-      const bumpStop = this.bumpStopForce(id, corner.compression);
-      const acceleration = (targetLoad - corner.geometryForce + springRate * groundResidual - springRate * corner.compression -
-        damping * corner.velocity - bumpStop - antiRoll[id]) / Math.max(20, cornerMass);
-      corner.velocity += acceleration * safeDt;
-      corner.compression += corner.velocity * safeDt;
-      const { minimumCompression, maximumCompression } = this.travelLimits(id);
-      const limited = clamp(corner.compression, minimumCompression, maximumCompression);
-      if (limited !== corner.compression) corner.velocity = 0;
-      corner.compression = limited;
-      corner.spring = springRate * corner.compression;
-      corner.damper = damping * corner.velocity;
-      corner.bumpStop = this.bumpStopForce(id, corner.compression);
+      const source = this.verticalFrame.wheels[id], corner = this.corners[id];
+      corner.compression = source.compression;
+      corner.velocity = source.compressionVelocity;
+      corner.spring = source.springForce;
+      corner.damper = source.damperForce;
+      corner.bumpStop = source.bumpStopForce;
+      corner.antiRoll = source.antiRollForce;
+      corner.load = source.grounded ? source.normalLoad : 0;
     }
-    // Equal and opposite axle forces conserve weight. They also resist spring
-    // displacement in the integrator above: this is not a visual roll scale.
-    const updatedAntiRoll = this.antiRollForces();
-    for (const id of WHEEL_IDS) {
-      const corner = this.corners[id];
-      corner.antiRoll = updatedAntiRoll[id];
-      corner.load = Math.max(this.staticLoad(id) * 0.08,
-        corner.spring + corner.damper + corner.bumpStop + corner.antiRoll + corner.geometryForce);
-    }
-    const actualTotal = WHEEL_IDS.reduce((sum, id) => sum + this.corners[id].load, 0);
-    const hasAero = this.finite(step.frontAeroVerticalForce) !== 0 || this.finite(step.rearAeroVerticalForce) !== 0;
-    if (hasAero) {
-      // Preserve the separate axle aerodynamic loads instead of distributing
-      // total downforce according to the static weight bias.
-      const frontTarget = (targetLoads.frontLeft + targetLoads.frontRight) * supportedWeight / Math.max(1, targetTotal);
-      const rearTarget = (targetLoads.rearLeft + targetLoads.rearRight) * supportedWeight / Math.max(1, targetTotal);
-      const frontActual = this.corners.frontLeft.load + this.corners.frontRight.load;
-      const rearActual = this.corners.rearLeft.load + this.corners.rearRight.load;
-      for (const id of WHEEL_IDS) this.corners[id].load *= id.startsWith('front')
-        ? frontTarget / Math.max(1, frontActual) : rearTarget / Math.max(1, rearActual);
-    } else for (const id of WHEEL_IDS) this.corners[id].load *= supportedWeight / Math.max(1, actualTotal);
-    // Contact state outranks both the 8% stability floor and normalization.
-    // An airborne wheel keeps no stored tyre load for a later frame.
-    if (step.vertical !== undefined) for (const id of WHEEL_IDS) {
-      if (!step.vertical.wheels[id].grounded) this.corners[id].load = 0;
-    }
-    const displacement = (id: WheelId): number => this.corners[id].compression - this.staticLoad(id) / this.springRate(id);
-    const frontDisplacement = (displacement('frontLeft') + displacement('frontRight')) * 0.5;
-    const rearDisplacement = (displacement('rearLeft') + displacement('rearRight')) * 0.5;
-    const leftDisplacement = (displacement('frontLeft') + displacement('rearLeft')) * 0.5;
-    const rightDisplacement = (displacement('frontRight') + displacement('rearRight')) * 0.5;
-    const rideOffset = this.rideHeightOffset - (frontDisplacement + rearDisplacement) * 0.5;
-    this.chassis = {
-      groundHeight,
-      // Direct SuspensionSystem users do not own a heave state; the support
-      // plane is a compatible datum for them. VehicleDynamics overrides it.
-      chassisY: groundHeight,
-      terrainPitch: Math.atan(forwardSlope),
-      terrainRoll: Math.atan(rightSlope),
-      rideOffset,
-      pitch: clamp(Math.atan2(rearDisplacement - frontDisplacement, this.config.wheelBase), -0.065, 0.065),
-      roll: clamp(Math.atan2(leftDisplacement - rightDisplacement,
-        (this.config.frontTrackWidth + this.config.rearTrackWidth) * 0.5), -0.075, 0.075),
-      verticalVelocity: safeDt > 0 ? (rideOffset - this.previousRideOffset) / safeDt : 0,
-      verticalAcceleration: 0,
-      groundedWheels: step.vertical?.groundedWheels ?? 4,
-    };
-    this.previousRideOffset = rideOffset;
   }
 
   /**
@@ -301,27 +233,34 @@ export class SuspensionSystem {
    * height and the sampled surface, so a wheel can fail to reach the ground.
    * Spring, damper and bump stop then push the chassis; they never pull it down.
    */
-  public updateVertical(dt: number, step: SuspensionVerticalStep): SuspensionVerticalSnapshot {
-    const duration = clamp(Number.isFinite(dt) ? dt : 0, 0, this.config.safety.maxFrameTime);
+  public updateVertical(_dt: number, step: SuspensionVerticalStep): SuspensionVerticalSnapshot {
+    this.refreshVerticalGeometry(step);
     const frame = this.verticalFrame;
-    const chassisY = this.finite(step.chassisY);
-    const verticalVelocity = clamp(this.finite(step.verticalVelocity), -50, 50);
-    const rideRate = duration > 0
-      ? clamp((this.rideHeightOffset - this.previousVerticalRideOffset) / duration, -2, 2) : 0;
+    const verticalVelocity = this.finite(step.verticalVelocity);
+    const yaw = step.yaw ?? 0, sy = Math.sin(yaw), cy = Math.cos(yaw);
+    const pitch = this.chassis.pitch, sp = Math.sin(pitch), cp = Math.cos(pitch);
+    const pitchRate = step.pitchAngularVelocity ?? 0, rollRate = step.rollAngularVelocity ?? 0;
+    const wx = cy * pitchRate + sy * cp * rollRate;
+    const wy = (step.yawRate ?? 0) - sp * rollRate;
+    const wz = -sy * pitchRate + cy * cp * rollRate;
+    const cgZ = this.config.wheelBase * (.5 - this.config.frontWeightBias);
+    const bars = this.antiRollForces();
     let supportTotal = 0;
     let groundedCount = 0;
     for (const id of WHEEL_IDS) {
       const corner = frame.wheels[id];
       const front = id.startsWith('front');
-      const surfaceHeight = this.finite(step.contacts?.[id]?.height, this.chassis.groundHeight);
-      const surfaceRate = duration > 0 && this.hasPreviousSurface
-        ? clamp((surfaceHeight - this.previousSurfaceHeights[id]) / duration, -8, 8) : 0;
-      this.previousSurfaceHeights[id] = surfaceHeight;
-      const requirement = this.contactRequirement(id, chassisY, surfaceHeight);
-      const { minimumCompression, maximumCompression } = this.travelLimits(id);
-      const grounded = requirement >= minimumCompression - 1e-6;
-      const compression = clamp(requirement, minimumCompression, maximumCompression);
-      const compressionVelocity = clamp(rideRate + surfaceRate - verticalVelocity, -4, 4);
+      const { grounded, compression } = corner;
+      const point = corner.wheelCenterWorld, n = corner.surfaceNormal;
+      const rx = point.x - ((step.x ?? 0) + sy * cgZ);
+      const ry = point.y - (step.chassisY + this.config.centerOfMassHeight);
+      const rz = point.z - ((step.z ?? 0) + cy * cgZ);
+      const vx = (step.velocityX ?? 0) + wy * rz - wz * ry;
+      const vy = verticalVelocity + wz * rx - wx * rz;
+      const vz = (step.velocityZ ?? 0) + wx * ry - wy * rx;
+      const projection = Math.max(.1, -(corner.suspensionAxis.x * n.x + corner.suspensionAxis.y * n.y + corner.suspensionAxis.z * n.z));
+      // Static road, moving sprung point: no frame-history / microDt aliasing.
+      const compressionVelocity = grounded ? -(vx * n.x + vy * n.y + vz * n.z) / projection : 0;
       const springRate = this.springRate(id);
       const springForce = springRate * compression;
       const baselineDamping = compressionVelocity >= 0
@@ -329,71 +268,116 @@ export class SuspensionSystem {
         : (front ? this.config.suspension.damperReboundFront : this.config.suspension.damperReboundRear);
       const damperForce = baselineDamping * this.dampingMultiplier * compressionVelocity;
       const bumpStopForce = this.bumpStopForce(id, compression);
-      const supportForce = grounded ? Math.max(0, springForce + damperForce + bumpStopForce) : 0;
-      corner.grounded = grounded;
-      corner.surfaceHeight = surfaceHeight;
-      corner.compression = compression;
+      const antiRollForce = bars[id];
+      corner.normalLoad = grounded ? Math.max(0, springForce + damperForce + bumpStopForce + antiRollForce) / projection : 0;
+      const supportForce = corner.normalLoad * corner.surfaceNormal.y;
       corner.compressionVelocity = compressionVelocity;
       corner.springForce = springForce;
       corner.damperForce = damperForce;
       corner.bumpStopForce = bumpStopForce;
       corner.supportForce = supportForce;
-      corner.suspensionLength = this.config.suspension.restLength + this.rideHeightOffset - compression;
-      corner.wheelLocalY = this.contactWheelOffsetY(id, compression);
+      corner.antiRollForce = antiRollForce;
+      corner.contactForce = 0;
       this.groundedWheels[id] = grounded;
       supportTotal += supportForce;
       if (grounded) groundedCount++;
     }
-    this.hasPreviousSurface = true;
-    this.previousVerticalRideOffset = this.rideHeightOffset;
     frame.active = true;
     frame.groundedWheels = groundedCount;
     frame.supportForce = supportTotal;
+    this.publishCorners();
     return frame;
   }
 
   public getVerticalSnapshot(): SuspensionVerticalSnapshot { return this.verticalFrame; }
+  /** Mechanical-stop impulse is a physical reaction, averaged for tyre input. */
+  public publishContactImpulses(impulses: readonly number[], dt: number): void {
+    let total = 0;
+    for (let i = 0; i < WHEEL_IDS.length; i++) {
+      const corner = this.verticalFrame.wheels[WHEEL_IDS[i]!]!;
+      corner.contactForce = corner.grounded ? impulses[i]! / dt : 0;
+      corner.normalLoad = corner.grounded ? corner.normalLoad + corner.contactForce : 0;
+      corner.supportForce = corner.normalLoad * corner.surfaceNormal.y;
+      total += corner.supportForce;
+    }
+    this.verticalFrame.supportForce = total;
+    this.publishCorners();
+  }
   public getGroundedWheels(): Readonly<Record<WheelId, boolean>> { return this.groundedWheels; }
 
   /** Explicit teleport/respawn: do not differentiate the previous surface sample. */
   public resetVerticalContact(): void {
-    this.hasPreviousSurface = false;
-    this.previousVerticalRideOffset = this.rideHeightOffset;
+    // Rates are analytic; no frame compression history needs resetting.
   }
 
-  /** Compression required to keep this wheel on the supplied surface. */
-  public contactRequirement(id: WheelId, chassisY: number, surfaceHeight: number): number {
-    return this.staticLoad(id) / this.springRate(id) + this.rideHeightOffset +
-      this.finite(surfaceHeight) - this.finite(chassisY) + this.attitudeOffset(id);
-  }
-
-  public contactIsGrounded(id: WheelId, requirement: number): boolean {
-    return requirement >= this.travelLimits(id).minimumCompression - 1e-6;
-  }
-
-  public clampContactCompression(id: WheelId, requirement: number): number {
-    const { minimumCompression, maximumCompression } = this.travelLimits(id);
-    return clamp(requirement, minimumCompression, maximumCompression);
-  }
-
-  /** Body-local wheel-centre height including the current authored attitude. */
-  public contactWheelOffsetY(id: WheelId, compression: number): number {
-    return this.config.wheelRadius + compression - this.staticLoad(id) / this.springRate(id) -
-      this.rideHeightOffset - this.attitudeOffset(id);
-  }
-
-  /** Lowest legal chassis datum before the bump stop is physically overrun. */
-  public minimumChassisY(id: WheelId, surfaceHeight: number): number {
-    return this.finite(surfaceHeight) + this.staticLoad(id) / this.springRate(id) +
-      this.rideHeightOffset + this.attitudeOffset(id) - this.travelLimits(id).maximumCompression;
-  }
-
-  /** Rotation-induced vertical offset of this wheel anchor, metres. */
-  private attitudeOffset(id: WheelId): number {
-    const wheel = wheelLocalPosition(this.config, id);
-    const pitch = this.chassis.terrainPitch + this.chassis.pitch;
-    const roll = this.chassis.terrainRoll + this.chassis.roll;
-    return wheel.z * pitch - wheel.x * roll;
+  /** Geometry-only refresh: never integrate forces or differentiate a sample twice. */
+  public refreshVerticalGeometry(step: SuspensionVerticalStep): SuspensionVerticalSnapshot {
+    const pitch = this.chassis.pitch + (this.chassis.dynamicAttitude ? 0 : this.chassis.terrainPitch);
+    const roll = this.chassis.roll + (this.chassis.dynamicAttitude ? 0 : this.chassis.terrainRoll);
+    const cp = Math.cos(pitch), sp = Math.sin(pitch), cr = Math.cos(roll), sr = Math.sin(roll);
+    const cy = Math.cos(step.yaw ?? 0), sy = Math.sin(step.yaw ?? 0);
+    const body = chassisBodyPose({ ...this.chassis, chassisY: step.chassisY }, 0, step.yaw);
+    let groundedCount = 0;
+    let supportForce = 0;
+    for (const id of WHEEL_IDS) {
+      const corner = this.verticalFrame.wheels[id];
+      const wheel = wheelLocalPosition(this.config, id);
+      const restCompression = this.staticLoad(id) / this.springRate(id);
+      const restLength = this.config.suspension.restLength + this.rideHeightOffset;
+      const { minimumCompression, maximumCompression } = this.travelLimits(id);
+      corner.minSuspensionLength = restLength - maximumCompression;
+      corner.maxSuspensionLength = restLength - minimumCompression;
+      corner.restSuspensionLength = clamp(restLength - restCompression,
+        corner.minSuspensionLength, corner.maxSuspensionLength);
+      // Fixed chassis mount. Rotate Z, X, Y, exactly as the visual's YXZ Euler.
+      const mountY = this.config.wheelRadius + this.config.suspension.restLength - restCompression;
+      const rx = cr * wheel.x - sr * mountY, ry = sr * wheel.x + cr * mountY;
+      const py = cp * ry - sp * wheel.z, pz = sp * ry + cp * wheel.z;
+      const mount = corner.attachmentWorldPosition, axis = corner.suspensionAxis;
+      mount.x = (step.x ?? 0) + body.offsetX + cy * rx + sy * pz;
+      mount.y = body.y + py;
+      mount.z = (step.z ?? 0) + body.offsetZ - sy * rx + cy * pz;
+      axis.x = cy * sr - sy * sp * cr;
+      axis.y = -cp * cr;
+      axis.z = -sy * sr - cy * sp * cr;
+      const contact = step.contacts?.[id], normal = corner.surfaceNormal;
+      corner.supportValid = contact?.supportValid !== false;
+      const n = contact?.normal;
+      const norm = n ? Math.hypot(n.x, n.y, n.z) : 0;
+      normal.x = norm > 1e-7 && n!.y > 0 ? n!.x / norm : 0;
+      normal.y = norm > 1e-7 && n!.y > 0 ? n!.y / norm : 1;
+      normal.z = norm > 1e-7 && n!.y > 0 ? n!.z / norm : 0;
+      const point = corner.surfacePoint;
+      point.x = contact?.x ?? mount.x;
+      point.y = this.finite(contact?.height, this.chassis.groundHeight);
+      point.z = contact?.z ?? mount.z;
+      const alongNormal = -(axis.x * normal.x + axis.y * normal.y + axis.z * normal.z);
+      const distance = (mount.x - point.x) * normal.x + (mount.y - point.y) * normal.y +
+        (mount.z - point.z) * normal.z;
+      const requiredLength = contact === undefined ? corner.restSuspensionLength
+        : alongNormal > 1e-4 ? (distance - this.config.wheelRadius) / alongNormal : Infinity;
+      corner.suspensionLength = contact?.supportValid === false ? corner.maxSuspensionLength
+        : clamp(requiredLength, corner.minSuspensionLength, corner.maxSuspensionLength);
+      corner.requiredLength = requiredLength;
+      corner.compression = restLength - corner.suspensionLength;
+      corner.surfaceHeight = point.y;
+      corner.grounded = contact?.supportValid !== false && requiredLength <= corner.maxSuspensionLength + 1e-6;
+      const center = corner.wheelCenterWorld;
+      center.x = mount.x + axis.x * corner.suspensionLength;
+      center.y = mount.y + axis.y * corner.suspensionLength;
+      center.z = mount.z + axis.z * corner.suspensionLength;
+      corner.penetration = contact !== undefined && corner.grounded &&
+        requiredLength < corner.minSuspensionLength
+        ? Math.max(0, this.config.wheelRadius - ((center.x - point.x) * normal.x +
+          (center.y - point.y) * normal.y + (center.z - point.z) * normal.z)) : 0;
+      this.groundedWheels[id] = corner.grounded;
+      if (corner.grounded) groundedCount++;
+      else { corner.supportForce = 0; corner.normalLoad = 0; corner.contactForce = 0; }
+      supportForce += corner.supportForce;
+    }
+    this.verticalFrame.groundedWheels = groundedCount;
+    this.verticalFrame.supportForce = supportForce;
+    return this.verticalFrame;
   }
 
   public synchronizeGroundGeometry(contacts: WheelContactSet, vertical?: SuspensionVerticalSnapshot): void {
@@ -415,16 +399,29 @@ export class SuspensionSystem {
     }
     const mean = (ids: readonly WheelId[]): number =>
       ids.reduce((sum, id) => sum + heights[id], 0) / Math.max(1, ids.length);
-    const front = active.filter(id => id.startsWith('front'));
-    const rear = active.filter(id => id.startsWith('rear'));
-    const left = active.filter(id => id.endsWith('Left'));
-    const right = active.filter(id => id.endsWith('Right'));
     const groundHeight = mean(active);
-    const forwardSlope = front.length > 0 && rear.length > 0
-      ? (mean(front) - mean(rear)) / Math.max(.5, this.config.wheelBase) : previousForwardSlope;
-    const rightSlope = left.length > 0 && right.length > 0
-      ? (mean(right) - mean(left)) / Math.max(.5, (this.config.frontTrackWidth + this.config.rearTrackWidth) * .5)
-      : previousRightSlope;
+    // Compare matched wheel tracks/axles. With three contacts, comparing a
+    // single front wheel to the rear mean aliases crossfall into pitch (and
+    // longitudinal grade into roll), rotating mounts into the bump stops.
+    let forwardSum = 0, forwardPairs = 0, rightSum = 0, rightPairs = 0;
+    if (active.includes('frontLeft') && active.includes('rearLeft')) {
+      forwardSum += (heights.frontLeft - heights.rearLeft) / Math.max(.5, this.config.wheelBase);
+      forwardPairs++;
+    }
+    if (active.includes('frontRight') && active.includes('rearRight')) {
+      forwardSum += (heights.frontRight - heights.rearRight) / Math.max(.5, this.config.wheelBase);
+      forwardPairs++;
+    }
+    if (active.includes('frontLeft') && active.includes('frontRight')) {
+      rightSum += (heights.frontRight - heights.frontLeft) / Math.max(.5, this.config.frontTrackWidth);
+      rightPairs++;
+    }
+    if (active.includes('rearLeft') && active.includes('rearRight')) {
+      rightSum += (heights.rearRight - heights.rearLeft) / Math.max(.5, this.config.rearTrackWidth);
+      rightPairs++;
+    }
+    const forwardSlope = forwardPairs > 0 ? forwardSum / forwardPairs : previousForwardSlope;
+    const rightSlope = rightPairs > 0 ? rightSum / rightPairs : previousRightSlope;
     return { heights, groundHeight, forwardSlope, rightSlope };
   }
 
@@ -451,7 +448,7 @@ export class SuspensionSystem {
 
   private staticLoad(id: WheelId): number {
     const frontShare = clamp(this.config.frontWeightBias, 0.05, 0.95);
-    return this.config.mass * this.config.gravity * (id.startsWith('front') ? frontShare : 1 - frontShare) * 0.5;
+    return this.geometryMass * this.config.gravity * (id.startsWith('front') ? frontShare : 1 - frontShare) * 0.5;
   }
 
   /** Zero travel relative to loaded rest geometry gives the authored static alignment. */
@@ -481,10 +478,11 @@ export class SuspensionSystem {
   }
 
   private antiRollForces(): Record<WheelId, number> {
-    const front = (this.corners.frontLeft.compression - this.corners.frontRight.compression) *
-      Math.max(0, this.config.suspension.antiRollStiffnessFront);
-    const rear = (this.corners.rearLeft.compression - this.corners.rearRight.compression) *
-      Math.max(0, this.config.suspension.antiRollStiffnessRear);
+    const wheels = this.verticalFrame.wheels;
+    const front = wheels.frontLeft.grounded && wheels.frontRight.grounded ? (wheels.frontLeft.compression - wheels.frontRight.compression) *
+      Math.max(0, this.config.suspension.antiRollStiffnessFront) : 0;
+    const rear = wheels.rearLeft.grounded && wheels.rearRight.grounded ? (wheels.rearLeft.compression - wheels.rearRight.compression) *
+      Math.max(0, this.config.suspension.antiRollStiffnessRear) : 0;
     return { frontLeft: front, frontRight: -front, rearLeft: rear, rearRight: -rear };
   }
 

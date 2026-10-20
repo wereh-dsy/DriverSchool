@@ -5,6 +5,7 @@ import {
 import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 import { SPORT_COUPE_DIMENSIONS } from '../VehicleDimensions';
 import { calibrateTyres } from './TyreCalibration';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 
 const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
 
@@ -17,6 +18,7 @@ const degreesToRadians = (degrees: number): number => (degrees * Math.PI) / 180;
  */
 export const SPORTS_COUPE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
   ...DEFAULT_VEHICLE_PHYSICS_CONFIG,
+  controlCalibration: VehicleControlPresets.grandTourer,
   ...SPORT_COUPE_DIMENSIONS,
   mass: 1_490,
   fuel: { tankCapacityL: 65, defaultFuelL: 45, fuelDensity: 0.745,

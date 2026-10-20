@@ -471,6 +471,8 @@ export interface DriveModeCalibration {
 }
 
 export interface VehicleChassisConfig {
+  /** Calibration data only; never determines installed drivetrain topology. */
+  controlCalibration?: import('../control/VehicleControlCalibration').VehicleControlCalibration;
   lateralAssist?: import('../control/LateralAssistController').LateralAssistConfig;
   cruiseControl?: Partial<import('../control/CruiseControlController').CruiseControlConfig>;
   /** Optional declarations cannot override installed topology. */
@@ -537,6 +539,7 @@ export interface VehicleChassisConfig {
 
 /** Compatibility configuration for every currently authored ICE vehicle. */
 export interface VehiclePhysicsConfig extends VehicleChassisConfig {
+  mildHybrid?: import('./MildHybridConfig').MildHybridConfig;
   startStop?: StartStopConfig;
   fuel: FuelConfig;
   engine: EngineConfig;

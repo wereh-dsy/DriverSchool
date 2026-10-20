@@ -12,6 +12,11 @@ export function validateEVPlatformConfig(config: ElectricVehiclePhysicsConfig): 
     require(t.minimumCapability >= 0 && t.minimumCapability <= 1 && Number.isFinite(t.initialTemperatureOffset), 'thermal calibration');
   };
   thermal(config.battery.thermal);
+  if (config.battery.electrical) {
+    positive(config.battery.electrical.internalResistance, 'pack resistance');
+    positive(config.battery.electrical.maxDischargeCurrent, 'pack discharge current');
+    positive(config.battery.electrical.maxChargeCurrent, 'pack charge current');
+  }
   require((config.battery.grossEnergyKWh ?? config.battery.usableCapacityKWh) >= config.battery.usableCapacityKWh, 'gross versus usable energy');
   const units = config.driveUnits;
   if (!units) { require(config.drivetrainType !== 'AWD', 'legacy motor needs one driven axle'); return; }
@@ -24,6 +29,12 @@ export function validateEVPlatformConfig(config: ElectricVehiclePhysicsConfig): 
     require(i.efficiency > 0 && i.efficiency <= 1 && m.motoringEfficiency > 0 && m.motoringEfficiency <= 1 && m.regenEfficiency > 0 && m.regenEfficiency <= 1 && t.efficiency <= 1, 'efficiencies');
     require((m.continuousPower ?? m.maxDrivePower) > 0 && (m.continuousPower ?? m.maxDrivePower) <= m.maxDrivePower, 'continuous power');
     require((m.highSpeedRollOffRPM ?? m.maxRPM * .975) < m.maxRPM && (m.baseSpeedRPM ?? 1) > 0, 'motor speed envelope');
+    if (m.nominalVoltage !== undefined) positive(m.nominalVoltage, 'motor reference voltage');
+    if (m.copperLossAtMaxTorque !== undefined) positive(m.copperLossAtMaxTorque, 'motor copper loss');
+    if (unit.disconnect) {
+      require(unit.axle === 'front' && rear, 'disconnect requires a supporting rear drive unit');
+      positive(unit.disconnect.engagementTime, 'disconnect engagement'); positive(unit.disconnect.disconnectDelay, 'disconnect dwell');
+    }
     thermal(m.thermal); thermal(i.thermal);
     if ('type' in t && t.type === 'TWO_SPEED') {
       require(t.ratio > t.secondRatio && t.secondRatio > 0, 'two-speed ratios');

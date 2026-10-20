@@ -1,4 +1,5 @@
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { FAMILY_CONVERTER_CONFIG } from './transmissionTestVehicleConfigs';
@@ -30,13 +31,12 @@ const shift = (up: readonly number[], down: readonly number[], kickdown: number,
  * 2026 Mercedes-Benz E 300 L 尊贵型 (V214, China long wheelbase).
  *
  * Modelled as a 2.0-litre turbocharged inline four, longitudinal nine-speed
- * torque-converter automatic and rear-wheel drive. The real car's 48 V mild
- * hybrid is deliberately not simulated: this configuration produces no electric
- * telemetry, state of charge or motor torque, and the combustion curve, inertia,
- * converter, ratios and shift schedule carry the whole driving character.
+ * torque-converter automatic and rear-wheel drive, with a small crank-mounted
+ * 48 V ISG. Combustion remains the primary source; no independent EV drive.
  */
 export function createMercedesE300LPhysicsConfig(): VehiclePhysicsConfig {
   const c = createDefaultVehiclePhysicsConfig();
+  c.controlCalibration = VehicleControlPresets.luxuryExecutive;
   c.lateralAssist = createLateralAssistConfig();
   Object.assign(c, MERCEDES_E300L_DIMENSIONS, {
     mass: 1950, trackWidth: 1.613, frontWeightBias: .52,
@@ -154,8 +154,20 @@ export function createMercedesE300LPhysicsConfig(): VehiclePhysicsConfig {
   c.frontDiff = { type: 'open' }; c.rearDiff = { type: 'open' };
   c.parkingBrake = createRoadParkingBrakeConfig(c.brakes.handbrakeTorque);
   c.autoHold = createRoadAutoHoldConfig();
+  c.mildHybrid = {
+    battery: { usableCapacityKWh: .7, defaultSOC: .65, nominalVoltage: 48, internalResistance: .012,
+      maxDischargeCurrent: 420, maxChargeCurrent: 260, maxAssistPower: 17000, maxRegenPower: 12000 },
+    motor: { maxDriveTorque: 205, maxDrivePower: 17000, continuousPower: 8000,
+      maxRPM: 7000, rotationalInertia: .012, driveResponseRate: 24, motoringEfficiency: .88,
+      maxRegenTorque: 45, maxRegenPower: 12000, regenEfficiency: .84,
+      efficiencyMap: { lightLoadPenalty: .035, highLoadPenalty: .05, highSpeedPenalty: .025 },
+      thermal: { thermalCapacity: 12000, coolingRate: 22, airflowCooling: .35,
+        derateStartTemperature: 100, criticalTemperature: 145, minimumCapability: .2, initialTemperatureOffset: 0 } },
+    restartTorque: 150, burstDuration: 6, recoveryTime: 8, liftOffTorque: 8, brakeRegenTorque: 30,
+    modeAssist: { ECO: .72, NORMAL: .9, SPORT: 1 },
+  };
   c.startStop = { enabledByDefault: false, minimumStopDelay: 1.8, stopSpeedThreshold: .06, brakeThreshold: .24,
-    restartThrottleThreshold: .1, restartBrakeReleaseThreshold: .08, restartDelay: .22 };
+    restartThrottleThreshold: .1, restartBrakeReleaseThreshold: .08, restartDelay: .04 };
   c.capabilities = { ...c.capabilities, tpms: true };
   c.tires.thermalPressureFront = createTyreThermalPressureConfig(250, { thermalCapacity: 34000 });
   c.tires.thermalPressureRear = createTyreThermalPressureConfig(270, { thermalCapacity: 36000 });

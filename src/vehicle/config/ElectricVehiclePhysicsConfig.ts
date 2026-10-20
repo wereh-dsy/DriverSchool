@@ -6,6 +6,8 @@ export interface ElectricMotorConfig {
   driveResponseRate: number; motoringEfficiency: number;
   maxRegenTorque: number; maxRegenPower: number; regenEfficiency: number;
   continuousPower?: number; baseSpeedRPM?: number; highSpeedRollOffRPM?: number;
+  /** Reference DC bus voltage for the high-speed voltage envelope. */
+  nominalVoltage?: number; copperLossAtMaxTorque?: number;
   thermal?: EVThermalConfig;
   efficiencyMap?: { lightLoadPenalty: number; highLoadPenalty: number; highSpeedPenalty: number };
 }
@@ -23,6 +25,7 @@ export interface BatteryPackConfig {
   maxDischargePower: number; maxChargePower: number;
   dischargeEfficiency: number; chargeEfficiency: number;
   lowSOCStart: number; lowSOCEnd: number; highSOCRegenStart: number; highSOCRegenEnd: number;
+  electrical?: { internalResistance: number; maxDischargeCurrent: number; maxChargeCurrent: number };
   grossEnergyKWh?: number; thermal?: EVThermalConfig;
   coldDischargeFullTemperature?: number; coldDischargeZeroTemperature?: number;
   coldChargeFullTemperature?: number; coldChargeZeroTemperature?: number;
@@ -48,6 +51,7 @@ export interface EVTwoSpeedConfig extends FixedReductionConfig {
   sportPlusUpshiftSpeed: number; sportPlusDownshiftSpeed: number;
 }
 export interface ElectricDriveUnitConfig {
+  disconnect?: { engagementTime: number; disconnectDelay: number };
   axle: 'front' | 'rear'; motor: ElectricMotorConfig; inverter: InverterConfig;
   transmission: FixedReductionConfig | EVTwoSpeedConfig;
 }

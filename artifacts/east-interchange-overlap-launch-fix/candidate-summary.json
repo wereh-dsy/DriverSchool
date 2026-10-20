@@ -1,0 +1,669 @@
+[
+  {
+    "speed": 80,
+    "steps": 2880,
+    "roadCounts": {
+      "ew-wb-split-4": 767,
+      "system-east:E-to-S-turbine": 21,
+      "ew-wb-split-4-split": 4046,
+      "ew-wb-split-4-split-split": 2078,
+      "ew-wb-split-3": 2906,
+      "ew-wb-split-3-split": 1714
+    },
+    "conflictQueries": 1050,
+    "maxCandidateGap": 0.8484520075756388,
+    "firstRampQuery": {
+      "step": 184,
+      "wheel": "frontLeft",
+      "x": 2639.982163096235,
+      "z": -161.1,
+      "referenceHeight": 6.943809075093373,
+      "candidate": "system-east:E-to-S-turbine:0:road",
+      "candidates": [
+        {
+          "id": "ew-wb-split-4:8:road",
+          "roadId": "ew-wb-split-4",
+          "segmentIndex": 8,
+          "height": 6.968624845545821,
+          "normal": {
+            "x": 0.022551684800540157,
+            "y": 0.9997456784165947,
+            "z": 0
+          },
+          "distance": 0.017836903764874013,
+          "score": 0.203184808101188,
+          "accepted": true
+        },
+        {
+          "id": "ew-wb-split-4-split:0:road",
+          "roadId": "ew-wb-split-4-split",
+          "segmentIndex": 0,
+          "height": 6.968987380890341,
+          "normal": {
+            "x": 0.020320818550210923,
+            "y": 0.9997935108478397,
+            "z": 0
+          },
+          "distance": 0,
+          "score": 0.02517830579696767,
+          "accepted": true
+        },
+        {
+          "id": "system-east:E-to-S-turbine:0:road",
+          "roadId": "system-east:E-to-S-turbine",
+          "segmentIndex": 0,
+          "height": 6.968624845545821,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": 0,
+          "score": 0.02481577045244787,
+          "accepted": true
+        }
+      ],
+      "previousHeight": 6.964990062020403,
+      "height": 6.968624845545821,
+      "previousNormal": {
+        "x": 0.022551684800540157,
+        "y": 0.9997456784165947,
+        "z": 0
+      },
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "previousRequiredLength": 0.22563569670383218,
+      "requiredLength": 0.22580854606622663,
+      "minLength": 0.15462199999999995,
+      "impulses": [
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "aY": -1.3090809774813694,
+      "pitchRate": -0.006367297953720021,
+      "rollRate": 0.01497081172186797
+    },
+    "switches": [
+      {
+        "step": 184,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4",
+        "to": "system-east:E-to-S-turbine",
+        "x": 2639.982163096235
+      },
+      {
+        "step": 184,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.982163096235
+      },
+      {
+        "step": 199,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4",
+        "to": "system-east:E-to-S-turbine",
+        "x": 2640.0015453368383
+      },
+      {
+        "step": 200,
+        "wheel": "rearLeft",
+        "from": "system-east:E-to-S-turbine",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.823097545069
+      },
+      {
+        "step": 200,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.8231495456303
+      },
+      {
+        "step": 204,
+        "wheel": "frontLeft",
+        "from": "system-east:E-to-S-turbine",
+        "to": "ew-wb-split-4-split",
+        "x": 2636.4095680705736
+      },
+      {
+        "step": 1197,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.9628804006516
+      },
+      {
+        "step": 1197,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.962635059045
+      },
+      {
+        "step": 1214,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.955297688894
+      },
+      {
+        "step": 1214,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.955053929969
+      },
+      {
+        "step": 1716,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.1885953093956
+      },
+      {
+        "step": 1716,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.188349962544
+      },
+      {
+        "step": 1734,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.15616630811
+      },
+      {
+        "step": 1734,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.155922543964
+      },
+      {
+        "step": 2442,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.5283201558245
+      },
+      {
+        "step": 2442,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.528074801894
+      },
+      {
+        "step": 2461,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.5327908462555
+      },
+      {
+        "step": 2461,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.5325470750686
+      }
+    ],
+    "maxPenetration": 0,
+    "minBumpMargin": 0.021797900522300684,
+    "maxFz": 6995.855490332389,
+    "maxImpulse": 0,
+    "maxAY": 5.484636064859519,
+    "maxPitchRate": 0.08851047019616033,
+    "maxRollRate": 0.2127594901610191
+  },
+  {
+    "speed": 120,
+    "steps": 1907,
+    "roadCounts": {
+      "ew-wb-split-4": 512,
+      "system-east:E-to-S-turbine": 9,
+      "ew-wb-split-4-split": 2597,
+      "ew-wb-split-4-split-split": 1297,
+      "ew-wb-split-3": 1785,
+      "ew-wb-split-3-split": 1436
+    },
+    "conflictQueries": 680,
+    "maxCandidateGap": 0.8487415803745302,
+    "firstRampQuery": {
+      "step": 122,
+      "wheel": "frontLeft",
+      "x": 2639.83438001029,
+      "z": -161.1,
+      "referenceHeight": 6.948634293384721,
+      "candidate": "system-east:E-to-S-turbine:0:road",
+      "candidates": [
+        {
+          "id": "ew-wb-split-4:8:road",
+          "roadId": "ew-wb-split-4",
+          "segmentIndex": 8,
+          "height": 6.968624845545821,
+          "normal": {
+            "x": 0.022551684800540157,
+            "y": 0.9997456784165947,
+            "z": 0
+          },
+          "distance": 0.1656199897101951,
+          "score": 1.6761904492630508,
+          "accepted": true
+        },
+        {
+          "id": "ew-wb-split-4-split:0:road",
+          "roadId": "ew-wb-split-4-split",
+          "segmentIndex": 0,
+          "height": 6.971991074394751,
+          "normal": {
+            "x": 0.020320818550210923,
+            "y": 0.9997935108478397,
+            "z": 0
+          },
+          "distance": 0,
+          "score": 0.023356781010029692,
+          "accepted": true
+        },
+        {
+          "id": "system-east:E-to-S-turbine:0:road",
+          "roadId": "system-east:E-to-S-turbine",
+          "segmentIndex": 0,
+          "height": 6.968624845545821,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": 0,
+          "score": 0.019990552161099906,
+          "accepted": true
+        }
+      ],
+      "previousHeight": 6.966219983222783,
+      "height": 6.968624845545821,
+      "previousNormal": {
+        "x": 0.022551684800540157,
+        "y": 0.9997456784165947,
+        "z": 0
+      },
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "previousRequiredLength": 0.2285038979007405,
+      "requiredLength": 0.23196032705585287,
+      "minLength": 0.15462199999999995,
+      "impulses": [
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "aY": -2.238634175084546,
+      "pitchRate": -0.0032035532873279284,
+      "rollRate": 0.024117414015220384
+    },
+    "switches": [
+      {
+        "step": 122,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4",
+        "to": "system-east:E-to-S-turbine",
+        "x": 2639.83438001029
+      },
+      {
+        "step": 122,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.83438001029
+      },
+      {
+        "step": 131,
+        "wheel": "frontLeft",
+        "from": "system-east:E-to-S-turbine",
+        "to": "ew-wb-split-4-split",
+        "x": 2637.385858457703
+      },
+      {
+        "step": 132,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.8145321152438
+      },
+      {
+        "step": 132,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.81454057061
+      },
+      {
+        "step": 772,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.8558172605967
+      },
+      {
+        "step": 772,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.8557494057827
+      },
+      {
+        "step": 783,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.778194410574
+      },
+      {
+        "step": 783,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.778126993453
+      },
+      {
+        "step": 1096,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.2902101446753
+      },
+      {
+        "step": 1096,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.2901422872483
+      },
+      {
+        "step": 1107,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.299594461173
+      },
+      {
+        "step": 1108,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.0552099405877
+      },
+      {
+        "step": 1542,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.476725761231
+      },
+      {
+        "step": 1542,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.476657900131
+      },
+      {
+        "step": 1554,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.3660790300723
+      },
+      {
+        "step": 1554,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.366011606681
+      }
+    ],
+    "maxPenetration": 0,
+    "minBumpMargin": 0.010135621264913464,
+    "maxFz": 10795.50148429018,
+    "maxImpulse": 0,
+    "maxAY": 14.350705704694168,
+    "maxPitchRate": 0.07584959195415553,
+    "maxRollRate": 0.2057830977235013
+  },
+  {
+    "speed": 140,
+    "steps": 1615,
+    "roadCounts": {
+      "ew-wb-split-4": 438,
+      "system-east:E-to-S-turbine": 8,
+      "ew-wb-split-4-split": 2208,
+      "ew-wb-split-4-split-split": 1100,
+      "ew-wb-split-3": 1506,
+      "ew-wb-split-3-split": 1208
+    },
+    "conflictQueries": 580,
+    "maxCandidateGap": 0.8478299503158926,
+    "firstRampQuery": {
+      "step": 104,
+      "wheel": "frontLeft",
+      "x": 2639.9207982286653,
+      "z": -161.1,
+      "referenceHeight": 6.9453581649107585,
+      "candidate": "system-east:E-to-S-turbine:0:road",
+      "candidates": [
+        {
+          "id": "ew-wb-split-4:8:road",
+          "roadId": "ew-wb-split-4",
+          "segmentIndex": 8,
+          "height": 6.968624845545821,
+          "normal": {
+            "x": 0.022551684800540157,
+            "y": 0.9997456784165947,
+            "z": 0
+          },
+          "distance": 0.07920177133473816,
+          "score": 0.8152843939824441,
+          "accepted": true
+        },
+        {
+          "id": "ew-wb-split-4-split:0:road",
+          "roadId": "ew-wb-split-4-split",
+          "segmentIndex": 0,
+          "height": 6.970234622771504,
+          "normal": {
+            "x": 0.020320818550210923,
+            "y": 0.9997935108478397,
+            "z": 0
+          },
+          "distance": 0,
+          "score": 0.02487645786074566,
+          "accepted": true
+        },
+        {
+          "id": "system-east:E-to-S-turbine:0:road",
+          "roadId": "system-east:E-to-S-turbine",
+          "segmentIndex": 0,
+          "height": 6.968624845545821,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": 0,
+          "score": 0.023266680635062542,
+          "accepted": true
+        }
+      ],
+      "previousHeight": 6.963226162257182,
+      "height": 6.968624845545821,
+      "previousNormal": {
+        "x": 0.022551684800540157,
+        "y": 0.9997456784165947,
+        "z": 0
+      },
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "previousRequiredLength": 0.227026179761659,
+      "requiredLength": 0.2284061727285604,
+      "minLength": 0.15462199999999995,
+      "impulses": [
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "aY": -2.394722593103915,
+      "pitchRate": -0.011363282637121145,
+      "rollRate": 0.027091704250087636
+    },
+    "switches": [
+      {
+        "step": 104,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4",
+        "to": "system-east:E-to-S-turbine",
+        "x": 2639.9207982286653
+      },
+      {
+        "step": 104,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.9207982286653
+      },
+      {
+        "step": 112,
+        "wheel": "frontLeft",
+        "from": "system-east:E-to-S-turbine",
+        "to": "ew-wb-split-4-split",
+        "x": 2637.3739229115513
+      },
+      {
+        "step": 113,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.756266768071
+      },
+      {
+        "step": 113,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4",
+        "to": "ew-wb-split-4-split",
+        "x": 2639.7562759687908
+      },
+      {
+        "step": 657,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.8959350465984
+      },
+      {
+        "step": 657,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.895887307991
+      },
+      {
+        "step": 666,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.915008049541
+      },
+      {
+        "step": 666,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4-split",
+        "to": "ew-wb-split-4-split-split",
+        "x": 2469.9149606188657
+      },
+      {
+        "step": 932,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.1198301378354
+      },
+      {
+        "step": 932,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.1197823970497
+      },
+      {
+        "step": 941,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.215552863039
+      },
+      {
+        "step": 941,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-4-split-split",
+        "to": "ew-wb-split-3",
+        "x": 2389.215505430173
+      },
+      {
+        "step": 1308,
+        "wheel": "frontLeft",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.3708545706772
+      },
+      {
+        "step": 1308,
+        "wheel": "frontRight",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.370806826398
+      },
+      {
+        "step": 1318,
+        "wheel": "rearLeft",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.288101411935
+      },
+      {
+        "step": 1318,
+        "wheel": "rearRight",
+        "from": "ew-wb-split-3",
+        "to": "ew-wb-split-3-split",
+        "x": 2282.288053975595
+      }
+    ],
+    "maxPenetration": 0,
+    "minBumpMargin": 0.005576526204550097,
+    "maxFz": 12395.090890470141,
+    "maxImpulse": 0,
+    "maxAY": 19.0400537502493,
+    "maxPitchRate": 0.07852345619258368,
+    "maxRollRate": 0.21152373301091418
+  }
+]

@@ -7,6 +7,7 @@ export class AdaptiveCalibration {
   public throttleExponent = 1;
   public brakeExponent = 1;
   public torqueSmoothingSeconds = 0;
+  public reset(): void { this.throttleExponent = this.brakeExponent = 1; this.torqueSmoothingSeconds = 0; }
   public update(dt: number, enabled: boolean, profile: DriverProfile): void {
     const tune = BaseControlCalibration.adaptive;
     const alpha = -Math.expm1(-3 * Math.max(0, dt) / tune.blendSeconds);

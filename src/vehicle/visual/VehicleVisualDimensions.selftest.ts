@@ -6,8 +6,59 @@ import { createVehicleOBB } from '../physics/CollisionSystem';
 import { sampleWheelContacts } from '../physics/WheelContact';
 import type { RoadSurfaceSample } from '../../world/SurfaceMaterial';
 import { VehicleVisual } from './VehicleVisual';
+import { VehicleAssetRegistry } from './VehicleAssetRegistry';
+import { VehicleDynamics } from '../physics/VehicleDynamics';
+import { chassisBodyPose } from '../physics/WheelPhysicsState';
+import { createWheelContactBuffer } from '../physics/WheelContact';
+import { wheelLocalPosition } from '../VehicleDimensions';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import { DEFAULT_SEDAN_VISUAL_CONFIG, SPORTS_COUPE_VISUAL_CONFIG } from './VehicleVisualConfig';
+import { withSuspensionStance } from './VehicleVisualConfig';
+
+/** Targeted pose regression; does not execute dimensions/catalog validation. */
+export function runVehiclePoseConsistencySelfTest() {
+  const needsDocument = typeof document === 'undefined';
+  if (needsDocument) Object.defineProperty(globalThis, 'document', {
+    configurable: true, value: { createElement: () => ({ width: 1, height: 1, getContext: () => null }) } });
+  let maximumRenderError = 0, maximumMountError = 0, assertions = 0;
+  const assets = new VehicleAssetRegistry();
+  try {
+    const config = DEFAULT_VEHICLE_PHYSICS_CONFIG;
+    const calibrated = withSuspensionStance(DEFAULT_SEDAN_VISUAL_CONFIG, config.suspension);
+    // Both constructor paths used by spawn/switch: ordinary and cached wheels.
+    for (const cached of [false, true]) {
+      const visual = new VehicleVisual({ ...calibrated, assetCache: cached }, cached ? assets : undefined);
+      try {
+        const car = new VehicleDynamics(config), contacts = createWheelContactBuffer();
+        car.syncWheelContacts(contacts);
+        car.chassisY = 6; car.setPose(15, -20, 1.1);
+        // setPose invalidates heave initialization; seed it before the stress pose.
+        car.syncWheelContacts(contacts);
+        car.chassisMotion.pitch = .72; car.chassisMotion.roll = .68; car.chassisY = 6;
+        for (const id of VEHICLE_WHEEL_IDS) Object.assign(contacts[id], { height: -100 });
+        car.syncWheelContacts(contacts);
+        const snapshot = car.getSnapshot(), body = chassisBodyPose(snapshot.chassis, calibrated.staticBodyOffsetY, snapshot.yaw);
+        visual.setWorldPose(snapshot.x + body.offsetX, body.y, snapshot.z + body.offsetZ, snapshot.yaw, body.pitch, body.roll);
+        visual.setWheelWorldPositions(Object.fromEntries(VEHICLE_WHEEL_IDS.map(id => [id, snapshot.wheels[id].worldPosition])) as Record<typeof VEHICLE_WHEEL_IDS[number], THREE.Vector3Like>);
+        visual.root.updateMatrixWorld(true);
+        for (const id of VEHICLE_WHEEL_IDS) {
+          const wheel = snapshot.wheels[id], geometry = wheel.geometry!, local = wheelLocalPosition(config, id);
+          const expectedMount = new THREE.Vector3(local.x, config.wheelRadius + config.suspension.restLength -
+            wheel.suspensionRestCompression - (calibrated.staticBodyOffsetY ?? 0), local.z).applyMatrix4(visual.root.matrixWorld);
+          maximumMountError = Math.max(maximumMountError, expectedMount.distanceTo(geometry.attachmentWorldPosition));
+          maximumRenderError = Math.max(maximumRenderError,
+            visual.wheelPivots[id].children[0]!.getWorldPosition(new THREE.Vector3()).distanceTo(geometry.wheelCenterWorld));
+        }
+        assertions++;
+        if (maximumMountError > 1e-10 || maximumRenderError > 1e-10) throw Error('Vehicle pose: rotated model origin, body mounts and rendered wheel centres must share one world transform');
+      } finally { visual.dispose(); }
+    }
+    return { assertions, maximumRenderError, maximumMountError };
+  } finally {
+    assets.dispose();
+    if (needsDocument) Reflect.deleteProperty(globalThis, 'document');
+  }
+}
 
 export interface VehicleVisualDimensionsSelfTestResult {
   readonly assertions: number;

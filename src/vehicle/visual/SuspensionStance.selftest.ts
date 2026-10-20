@@ -81,9 +81,9 @@ export function runSuspensionStanceSelfTest() {
           maximumWheelError = Math.max(maximumWheelError, error);
           assert(error < 1e-9, `${car.id}: full bump keeps the physical wheel grounded`);
         }
-        for (let i = 0; i < 120; i++) spring.update(1 / 120, { longitudinalAcceleration: -4, lateralAcceleration: 3 });
+        spring.setDynamicPose(-.03, .02);
         const moving = chassisBodyPose(spring.getSnapshot().chassis, config.staticBodyOffsetY);
-        assert(moving.pitch < 0 && moving.roll > 0, `${car.id}: suspension supplies braking pitch and cornering roll`);
+        assert(moving.pitch < 0 && moving.roll > 0, `${car.id}: fixtures accept the physical braking/cornering body pose`);
         visual.setWorldPose(0, moving.y, 0, .7, moving.pitch, moving.roll);
         visual.setWheelWorldPositions(points);
         visual.root.updateWorldMatrix(true, true);

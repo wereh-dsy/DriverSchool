@@ -82,6 +82,10 @@ export class DriverCamera {
   private readonly vehicleQuaternion = new Quaternion();
   private readonly worldQuaternion = new Quaternion();
   private readonly parentWorldQuaternion = new Quaternion();
+  private readonly mountEuler = new Euler(0, 0, 0, 'YXZ');
+  private readonly mount = new Vector3(); // pitch, roll, eye Y
+  private readonly mountVelocity = new Vector3();
+  private mountInitialized = false;
 
   private yaw = 0;
   private pitch = 0;
@@ -213,8 +217,8 @@ export class DriverCamera {
   }
 
   /**
-   * Updates the eye from a vehicle pose. deltaSeconds is only used for the
-   * optional smoothed head-look target and is safe to omit.
+   * Updates the eye from a vehicle pose. A light critically damped seat mount
+   * filters high-frequency heave/pitch/roll; omitted dt retains exact geometry.
    */
   update(vehicle: Object3D | VehiclePose, deltaSeconds = 0): PerspectiveCamera {
     this.updateHeadLook(deltaSeconds);
@@ -235,6 +239,7 @@ export class DriverCamera {
         .add(this.vehiclePosition);
     }
 
+    this.updateSeatMount(deltaSeconds);
     this.headEuler.set(this.pitch, this.yaw, 0, 'YXZ');
     this.headQuaternion.setFromEuler(this.headEuler);
     this.worldQuaternion
@@ -250,6 +255,29 @@ export class DriverCamera {
   getWorldEyePosition(target = new Vector3()): Vector3 {
     this.camera.updateWorldMatrix(true, false);
     return this.camera.getWorldPosition(target);
+  }
+
+  private updateSeatMount(dt: number): void {
+    const target = this.mountEuler.setFromQuaternion(this.vehicleQuaternion, 'YXZ');
+    if (!(dt > 0) || !this.mountInitialized || Math.abs(this.worldPosition.y - this.mount.z) > 4) {
+      this.mount.set(target.x, target.z, this.worldPosition.y);
+      this.mountVelocity.set(0, 0, 0);
+      this.mountInitialized = true;
+    } else {
+      const h = Math.min(dt, .1), frequency = 45, decay = Math.exp(-frequency * h);
+      // Exact critical spring for a held input: independent of rendering rate.
+      for (let axis = 0; axis < 3; axis++) {
+        const desired = axis === 0 ? target.x : axis === 1 ? target.z : this.worldPosition.y;
+        let error = this.mount.getComponent(axis) - desired;
+        if (axis < 2) error = Math.atan2(Math.sin(error), Math.cos(error));
+        const velocity = this.mountVelocity.getComponent(axis), coefficient = velocity + frequency * error;
+        this.mount.setComponent(axis, desired + (error + coefficient * h) * decay);
+        this.mountVelocity.setComponent(axis, (velocity - frequency * coefficient * h) * decay);
+      }
+    }
+    this.worldPosition.y = this.mount.z;
+    target.set(this.mount.x, target.y, this.mount.y, 'YXZ');
+    this.vehicleQuaternion.setFromEuler(target);
   }
 
   private updateHeadLook(deltaSeconds: number): void {

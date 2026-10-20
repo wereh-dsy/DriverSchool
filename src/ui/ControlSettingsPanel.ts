@@ -46,6 +46,8 @@ export class ControlSettingsPanel {
   public onVibrationChange?: (enabled: boolean) => void;
   public onTrajectoryPredictionChange?: (enabled: boolean) => void;
   public onAccelerationTestChange?: (enabled: boolean) => void;
+  public onBlackBoxChange?: (enabled: boolean) => void;
+  public onBlackBoxSave?: () => void;
   public onDriverAssistsChange?: (options: DriverAssistOptions) => void;
   public onAdaptiveLearningChange?: (enabled: boolean) => void;
   public onDriverProfileReset?: () => void;
@@ -147,7 +149,7 @@ export class ControlSettingsPanel {
                 <button type="button" data-aid="tractionControlEnabled">TCS: ON</button>
                 <button type="button" data-aid="stabilityControlEnabled">ESC: ON</button>
                 <button type="button" data-adaptive-learning>驾驶习惯自适应: OFF</button>
-                <button type="button" data-driver-profile-reset>重置已学习驾驶习惯</button>
+                <button type="button" data-driver-profile-reset>重置当前车型驾驶习惯</button>
                 <button type="button" data-auto-hold hidden aria-pressed="false">AUTO HOLD: OFF</button>
                 <button type="button" data-start-stop aria-pressed="false">START/STOP: OFF</button>
                 <button type="button" data-lka> LKA: ON</button>
@@ -254,6 +256,13 @@ export class ControlSettingsPanel {
           </div>
           <div id="settings-page-experimental" class="settings-page" data-settings-page="experimental" role="tabpanel" aria-labelledby="settings-tab-experimental" tabindex="0" hidden>
             <section class="settings-group">
+              <div class="settings-group-title"><span>Vehicle Physics Black Box / 车辆物理黑匣子</span></div>
+              <label class="settings-switch"><span>启用车辆物理黑匣子</span><input type="checkbox" data-black-box aria-label="车辆物理黑匣子"></label>
+              <p class="settings-note" data-black-box-status role="status">OFF</p>
+              <button type="button" data-black-box-save disabled>保存当前黑匣子</button>
+              <p class="settings-note">默认关闭。开启后按 F11 或点击保存，继续记录约 1.5 秒后下载事故 JSON。</p>
+            </section>
+            <section class="settings-group">
               <div class="settings-group-title"><span>实验功能</span><small>按需开启</small></div>
               <label class="settings-switch"><span>轨迹预测</span><input type="checkbox" data-trajectory-prediction aria-label="轨迹预测"></label>
               <p class="settings-note">按当前转向、运动与加减速趋势外推未来 2 秒。单条加粗轨迹由青色经黄色渐变至橙色，表示由近及远的预测时间。默认关闭；不预测碰撞或未来操作。</p>
@@ -332,6 +341,10 @@ export class ControlSettingsPanel {
     this.require<HTMLInputElement>(shell, '[data-acceleration-test]').addEventListener('change', event => {
       this.onAccelerationTestChange?.((event.currentTarget as HTMLInputElement).checked);
     });
+    this.require<HTMLInputElement>(shell, '[data-black-box]').addEventListener('change', event => {
+      this.onBlackBoxChange?.((event.currentTarget as HTMLInputElement).checked);
+    });
+    this.require<HTMLButtonElement>(shell, '[data-black-box-save]').addEventListener('click', () => this.onBlackBoxSave?.());
     this.require<HTMLButtonElement>(shell, '[data-auto-hold]').addEventListener('click', event => {
       const button = event.currentTarget as HTMLButtonElement;
       this.autoHoldPreference = button.getAttribute('aria-pressed') !== 'true';
@@ -541,6 +554,15 @@ export class ControlSettingsPanel {
     }
     this.require(this.panel, '[data-current-map]').textContent =
       this.mapButtons.get(mapId)?.querySelector('strong')?.textContent ?? '选择场地';
+  }
+
+  public setBlackBoxStatus(status: import('../vehicle/diagnostics/BlackBoxSchema').BlackBoxStatus): void {
+    this.require(this.panel, '[data-black-box-status]').textContent =
+      status === 'ARMED' ? 'ARMED · 缓存约 5 秒 · F11 保存事故' :
+      status === 'SAVED' ? 'SAVED · 已继续缓存 · F11 保存下一次事故' :
+      status === 'FROZEN' ? '正在保存…' : status === 'ERROR' ? '记录或保存失败 · 保存按钮重试导出，或重新启用' : status;
+    this.require<HTMLButtonElement>(this.panel, '[data-black-box-save]').disabled =
+      status === 'OFF' || status === 'CAPTURING POST-EVENT' || status === 'FROZEN';
   }
 
   public setBattery(ev: import('../vehicle/powertrain/Powertrain').EVTelemetry | undefined): void {

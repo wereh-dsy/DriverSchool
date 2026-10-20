@@ -1,5 +1,6 @@
 import { createRoadAutoHoldConfig, createRoadParkingBrakeConfig } from './VehiclePlatformConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 import { createLateralAssistConfig } from '../control/LateralAssistController';
 import { calibrateTyres } from './TyreCalibration';
 import { createTyreThermalPressureConfig } from './TyreThermalPressureConfig';
@@ -10,6 +11,7 @@ import type { VehiclePhysicsConfig } from './VehiclePhysicsConfig';
 /** Touareg-like road SUV: V6, hydrodynamic eight-speed and existing dynamic AWD. */
 export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
   const config = createDefaultVehiclePhysicsConfig();
+  config.controlCalibration = VehicleControlPresets.roadSUV;
   config.lateralAssist = createLateralAssistConfig();
   Object.assign(config, ROAD_SUV_DIMENSIONS, { mass: 2100, trackWidth: 1.67,
     frontWeightBias: .54, centerOfMassHeight: .70, enginePlacement: 'FRONT',

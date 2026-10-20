@@ -50,11 +50,13 @@ export interface RevHangContext {
  * wheels: the clutch supplies the load torque applied to the crankshaft.
  */
 export class Engine implements DriveTorqueSource {
+  public externalShaftTorque = 0;
+  private externalStarter = false;
   public requestedDrive = 0;
   public deliveredDriveTorque = 0;
   public lastTorqueSample: EngineTorqueSample | undefined;
   public get shaftAngularVelocity(): number { return this.angularVelocity; }
-  public get availableDriveTorque(): number { return this.getTorqueSample().netCrankTorque; }
+  public get availableDriveTorque(): number { return this.getTorqueSample().netCrankTorque + this.externalShaftTorque; }
   public get canDeliverTorque(): boolean { return this.isRunning && this.fuelAvailable; }
   private revHangContext: RevHangContext | undefined;
   public setRevHangContext(context: RevHangContext): void { this.revHangContext = context; }
@@ -127,6 +129,7 @@ export class Engine implements DriveTorqueSource {
   }
 
   public reset(rpm = this.config.idleRPM, running = true): void {
+    this.externalShaftTorque = 0; this.externalStarter = false;
     this.ignitionOn = running;
     this.requestedDrive = 0; this.deliveredDriveTorque = 0;
     this.lastTorqueSample = undefined; this.revHangContext = undefined;
@@ -145,8 +148,9 @@ export class Engine implements DriveTorqueSource {
     this.turbo?.reset();
   }
 
-  /** Starter abstraction; ignition timing and battery state can be added later. */
-  public start(): void {
+  /** External ISG replaces the starter torque while preserving catch/settling. */
+  public start(externalStarter = false): void {
+    this.externalStarter = externalStarter;
     if (!this.fuelAvailable) return;
     this.ignitionOn = true;
     this.fuelStarvedCoasting = false;
@@ -359,10 +363,10 @@ export class Engine implements DriveTorqueSource {
       }
       this.ignitionElapsed += dt;
       // Starter torque approaches cranking speed against inertia, with no combustion.
-      const starterTorque = Math.min(this.config.starterTorque,
+      const starterTorque = this.externalStarter ? this.externalShaftTorque : Math.min(this.config.starterTorque,
         Math.max(0, rpmToRadiansPerSecond(sequence.crankingRPM) - this.angularVelocity) * this.rotationalInertia * 8);
       this.currentRPM += radiansPerSecondToRPM(starterTorque / this.rotationalInertia * dt);
-      if (this.ignitionElapsed >= sequence.crankingDuration) {
+      if (this.externalStarter ? this.currentRPM >= sequence.crankingRPM : this.ignitionElapsed >= sequence.crankingDuration) {
         this.ignitionPhase = 'CATCH'; this.ignitionElapsed = 0; this.isRunning = true;
       }
       return;
@@ -393,7 +397,7 @@ export class Engine implements DriveTorqueSource {
       (halfStep > 1e-6 ? Math.sin(halfStep) / halfStep : 1) * band * (1 - smoothness);
     this.firingPhase = (this.firingPhase + phaseStep) % (Math.PI * 2);
     const sample = this.getTorqueSample();
-    const torque = sample.netCrankTorque - clutchLoadTorque;
+    const torque = sample.netCrankTorque + this.externalShaftTorque - clutchLoadTorque;
     const angularAcceleration = torque / Math.max(0.01, this.rotationalInertia);
     const nextAngularVelocity =
       rpmToRadiansPerSecond(this.currentRPM) + angularAcceleration * dt;

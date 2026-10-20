@@ -7,10 +7,16 @@ import { compileCityRuntimeData } from './src/world/city/CityRuntimeData';
 // not on the player's main thread. Content hashing covers compiler output too.
 const cityRuntime = JSON.stringify(compileCityRuntimeData(JSON.parse(readFileSync(new URL('./src/world/regional/regional-main.json', import.meta.url), 'utf8'))));
 const cityRuntimeName = `assets/city-main.runtime-${createHash('sha256').update(cityRuntime).digest('hex').slice(0, 12)}.json`;
+const packageVersion = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version;
+const physicsHash = createHash('sha256');
+for (const source of ['VehicleDynamics', 'ChassisDynamics', 'SuspensionSystem', 'VehicleContactSystem', 'CollisionSystem'])
+  physicsHash.update(readFileSync(new URL(`./src/vehicle/physics/${source}.ts`, import.meta.url)));
+const buildVersion = `${packageVersion}+physics.${physicsHash.digest('hex').slice(0, 12)}`;
 
 // Only the editor Reload endpoint is public. Map recipes/selftests are source,
 // and small built-in maps travel in the runtime bundle. City Main is fetched on selection.
-export default defineConfig({ publicDir: false, define: { __CITY_MAIN_RUNTIME_URL__: JSON.stringify(`./${cityRuntimeName}`) }, plugins: [{
+export default defineConfig({ publicDir: false, define: { __CITY_MAIN_RUNTIME_URL__: JSON.stringify(`./${cityRuntimeName}`),
+  __DRIVERGAME_BUILD_VERSION__: JSON.stringify(buildVersion) }, plugins: [{
   name: 'editor-reload-map',
   configureServer(server) {
     server.middlewares.use((req, res, next) => {

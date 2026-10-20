@@ -12,6 +12,11 @@ export interface GroundNormal {
 }
 
 export interface WheelContact extends SurfaceMaterial {
+  /** Rejected layer candidates are airborne, including at the mechanical stop. */
+  readonly supportValid?: boolean;
+  readonly supportHeightTolerance?: number;
+  readonly reference?: import('../../world/SurfaceMaterial').SurfaceReference;
+  readonly referenceHeight?: number;
   readonly wetness?: number;
   readonly id: WheelId;
   readonly x: number;
@@ -35,10 +40,13 @@ export interface WheelContactPose {
   readonly z: number;
   /** Rotation around +Y: zero faces world -Z. */
   readonly yaw: number;
+  /** Production snapshots sample at their authoritative, attitude-aware wheel centres. */
+  readonly wheels?: Readonly<Record<WheelId, { readonly worldPosition: { readonly x: number; readonly z: number } }>>;
 }
 
 export interface WheelSurfaceQuery {
   sampleRoadSurface(x: number, z: number): RoadSurfaceSample;
+  sampleRoadSurfaceForSupport?(x: number, z: number, hint: import('../../world/SurfaceMaterial').SurfaceSupportHint): RoadSurfaceSample;
 }
 
 /** Four independent samples; local forward is -Z and local right is +X.
@@ -53,6 +61,7 @@ export function sampleWheelContacts(
   wetness = 0,
   roadGripMultiplier = 1,
   target?: WheelContactSet,
+  support?: import('./WheelSupportContinuity').WheelSupportContinuity,
 ): WheelContactSet {
   const sine = Math.sin(pose.yaw);
   const cosine = Math.cos(pose.yaw);
@@ -63,12 +72,15 @@ export function sampleWheelContacts(
     const left = id === 'frontLeft' || id === 'rearLeft';
     const localX = (front ? dimensions.frontTrackWidth : dimensions.rearTrackWidth) * (left ? -.5 : .5);
     const localZ = dimensions.wheelBase * (front ? -.5 : .5);
-    const x = pose.x + localX * cosine + localZ * sine;
-    const z = pose.z - localX * sine + localZ * cosine;
-    const surface = ground.sampleRoadSurface(x, z);
+    const x = pose.wheels?.[id].worldPosition.x ?? pose.x + localX * cosine + localZ * sine;
+    const z = pose.wheels?.[id].worldPosition.z ?? pose.z - localX * sine + localZ * cosine;
+    const surface = support ? support.sample(ground, id, x, z) : ground.sampleRoadSurface(x, z);
     const wetGrip = wetGripScale(surface, wetness) * weatherGrip;
     const wheel = result[id] as MutableContact;
     wheel.x = x; wheel.z = z; wheel.height = surface.height;
+    wheel.supportValid = support?.valid(id) ?? true;
+    wheel.supportHeightTolerance = support?.heightTolerance(id);
+    wheel.reference = surface.reference; wheel.referenceHeight = surface.referenceHeight;
     wheel.wetness = Math.max(wetness, surface.wetness ?? 0);
     wheel.normal.x = surface.normal.x; wheel.normal.y = surface.normal.y; wheel.normal.z = surface.normal.z;
     wheel.surfaceType = surface.surfaceType;

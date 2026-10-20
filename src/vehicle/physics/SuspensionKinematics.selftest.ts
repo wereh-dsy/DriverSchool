@@ -5,6 +5,7 @@ import { WheelRotationSystem, type WheelRotationInput } from './WheelRotationSys
 import { VehicleDynamics } from './VehicleDynamics';
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
 import { WHEEL_IDS } from './WheelContact';
+import { chassisForceFixture } from './ChassisDynamics.selftest';
 
 export function runSuspensionKinematicsSelfTest() {
   let assertions = 0;
@@ -16,11 +17,13 @@ export function runSuspensionKinematicsSelfTest() {
     const axle = id.startsWith('front') ? k.front : k.rear;
     assert(close(rest.wheels[id].camberAngle, axle.staticCamber) && close(rest.wheels[id].toeAngle, axle.staticToe), `${id}: static alignment is relative to loaded rest`);
   }
-  const settle = (system: SuspensionSystem, step: SuspensionStep) => {
-    for (let i = 0; i < 600; i++) system.update(1 / 120, step);
-    return system.getSnapshot();
+  const settle = (calibration: typeof config, step: SuspensionStep) => {
+    const car = chassisForceFixture(calibration, calibration.mass * step.longitudinalAcceleration / 4,
+      calibration.mass * step.lateralAcceleration / 4);
+    for (let i = 0; i < 720; i++) car.stepFixed(1 / 120, createNeutralVehicleInputState());
+    return car.suspension.getSnapshot();
   };
-  const corner = settle(suspension, { longitudinalAcceleration: -4, lateralAcceleration: 4 });
+  const corner = settle(config, { longitudinalAcceleration: -4, lateralAcceleration: 4 });
   for (const id of WHEEL_IDS) {
     const wheel = corner.wheels[id], axle = id.startsWith('front') ? k.front : k.rear;
     const delta = wheel.compression - wheel.restCompression;
@@ -33,23 +36,23 @@ export function runSuspensionKinematicsSelfTest() {
   const absent = createDefaultVehiclePhysicsConfig(); absent.suspension.kinematics = undefined;
   const zero = createDefaultVehiclePhysicsConfig();
   for (const axle of Object.values(zero.suspension.kinematics!)) Object.assign(axle, { staticCamber: 0, camberGainPerMeter: 0, staticToe: 0, bumpToeGainPerMeter: 0, antiDiveRatio: 0, antiSquatRatio: 0 });
-  const legacy = settle(new SuspensionSystem(absent), { longitudinalAcceleration: -3, lateralAcceleration: 2 });
-  const neutral = settle(new SuspensionSystem(zero), { longitudinalAcceleration: -3, lateralAcceleration: 2 });
+  const legacy = settle(absent, { longitudinalAcceleration: -3, lateralAcceleration: 2 });
+  const neutral = settle(zero, { longitudinalAcceleration: -3, lateralAcceleration: 2 });
   assert(JSON.stringify(legacy) === JSON.stringify(neutral), 'all-zero alignment exactly preserves legacy suspension');
   const metadata = structuredClone(zero); metadata.suspension.kinematics!.front.topology = 'DOUBLE_WISHBONE';
-  assert(JSON.stringify(settle(new SuspensionSystem(metadata), { longitudinalAcceleration: -3, lateralAcceleration: 2 })) === JSON.stringify(neutral), 'topology name alone never injects a physics bonus');
+  assert(JSON.stringify(settle(metadata, { longitudinalAcceleration: -3, lateralAcceleration: 2 })) === JSON.stringify(neutral), 'topology name alone never injects a physics bonus');
   const anti = structuredClone(zero); anti.suspension.kinematics!.front.antiDiveRatio = .75;
-  const dive0 = settle(new SuspensionSystem(zero), { longitudinalAcceleration: -5, lateralAcceleration: 0 });
-  const dive1 = settle(new SuspensionSystem(anti), { longitudinalAcceleration: -5, lateralAcceleration: 0 });
-  assert(Math.abs(dive1.chassis.pitch) < Math.abs(dive0.chassis.pitch), 'anti dive reduces actual spring-driven pitch');
+  const dive0 = settle(zero, { longitudinalAcceleration: -5, lateralAcceleration: 0 });
+  const dive1 = settle(anti, { longitudinalAcceleration: -5, lateralAcceleration: 0 });
+  assert(dive1.chassis.pitch === dive0.chassis.pitch, 'legacy anti-dive load shortcut cannot double count physical pitch torque');
   assert(close(dive0.wheels.frontLeft.normalLoad, dive1.wheels.frontLeft.normalLoad, .01), 'anti dive retains physical front axle load transfer');
   const squat0 = structuredClone(zero); squat0.drivetrainType = squat0.drivetrainLayout = 'RWD'; squat0.frontTorqueSplit = 0; squat0.rearTorqueSplit = 1;
   const squat1 = structuredClone(squat0); squat1.suspension.kinematics!.rear.antiSquatRatio = .75;
-  const s0 = settle(new SuspensionSystem(squat0), { longitudinalAcceleration: 4, lateralAcceleration: 0 });
-  const s1 = settle(new SuspensionSystem(squat1), { longitudinalAcceleration: 4, lateralAcceleration: 0 });
-  assert(Math.abs(s1.chassis.pitch) < Math.abs(s0.chassis.pitch), 'anti squat reduces driven rear spring travel');
+  const s0 = settle(squat0, { longitudinalAcceleration: 4, lateralAcceleration: 0 });
+  const s1 = settle(squat1, { longitudinalAcceleration: 4, lateralAcceleration: 0 });
+  assert(s1.chassis.pitch === s0.chassis.pitch, 'legacy anti-squat load shortcut cannot double count physical tyre torque');
   assert(close(s1.wheels.rearLeft.normalLoad, s0.wheels.rearLeft.normalLoad, .01), 'anti squat retains m ax h/L rear transfer');
-  assert(close(Object.values(s1.wheels).reduce((sum, w) => sum + w.normalLoad, 0), squat1.mass * squat1.gravity), 'anti geometry conserves total support');
+  assert(close(Object.values(s1.wheels).reduce((sum, w) => sum + w.normalLoad, 0), Object.values(s0.wheels).reduce((sum, w) => sum + w.normalLoad, 0)), 'retired geometry shortcut cannot add support');
   const input: WheelRotationInput = { longitudinalSpeed: 15, lateralSpeed: 0, driveTorque: 0, brakeTorque: 0,
     handbrakeTorque: 0, normalLoad: 3500, staticNormalLoad: 3500, surfaceLongitudinalGrip: 1, surfaceLateralGrip: 1 };
   const tyre = new WheelRotationSystem(config.tires, config.wheelRadius); tyre.reset(15);

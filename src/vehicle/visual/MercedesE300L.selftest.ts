@@ -72,8 +72,8 @@ export function runMercedesE300LSelfTest() {
       point.torque * point.rpm * Math.PI / 30000));
     assert(peakTorque === 400 && peakPowerKW > 182 && peakPowerKW < 196,
       `190 kW / 400 Nm class curve (${peakPowerKW.toFixed(1)} kW)`);
-    assert(!('battery' in physics) && !('driveUnits' in physics),
-      'no simulated 48 V battery, ISG or electric drive unit');
+    assert(physics.mildHybrid?.battery.nominalVoltage === 48 && !('driveUnits' in physics),
+      '48 V crank ISG without independent electric axle');
     assert(Object.keys(physics.transmission.gearRatios).length === 9 &&
       physics.transmission.type === 'TORQUE_CONVERTER_AT', 'nine physical automatic ratios');
     const gearbox = new VehicleDynamics(createVehiclePhysicsConfig(descriptor.id)).gearbox;

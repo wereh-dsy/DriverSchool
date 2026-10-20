@@ -1,0 +1,4961 @@
+[
+  {
+    "file": "003406",
+    "metadata": {
+      "mapId": "city-main",
+      "mapName": "清江市 · City Main",
+      "mapVersion": 478,
+      "mapContentVersion": "./assets/city-main.runtime-a8b11369d9aa.json",
+      "vehicleId": "tesla-model-3-rwd",
+      "vehicleConfigVersion": 2,
+      "vehicleConfigHash": "fnv1a32:93c5e118",
+      "buildVersion": "0.1.0+physics.7638550c6ae8",
+      "physicsHz": 120,
+      "settings": {
+        "physicsHz": 120,
+        "preSteps": 600,
+        "postSteps": 180,
+        "frameCapacity": 960,
+        "eventCapacity": 1024,
+        "dictionaryCapacity": 16384,
+        "maxEventsPerStep": 24,
+        "maxCandidatesPerQuery": 32,
+        "maxDetailQueriesPerStep": 24
+      },
+      "thresholds": {
+        "verticalVelocityDelta": 5,
+        "angularVelocityDelta": 2.5,
+        "mechanicalImpulse": 6000,
+        "contactRecoveryDistance": 0.5,
+        "surfaceHeightDelta": 0.85,
+        "normalDot": 0.6,
+        "supportReturnSteps": 18,
+        "supportReturnHeightDelta": 0.2,
+        "severeCollisionSpeed": 8,
+        "severeCollisionAttitude": 0.45,
+        "fullBumpTolerance": 0.001,
+        "automaticCooldownSteps": 600
+      },
+      "allocatedFrameBytes": 633600,
+      "coordinates": "+X right, +Y up, -Z forward; SI; yaw/pitch/roll YXZ; world Y is chassis heave datum",
+      "numericEncoding": "unavailable ICE RPM: null; non-finite numeric data: NaN/Infinity/-Infinity strings",
+      "collisionContactY": "unavailable (planar collision solver); null",
+      "droppedEvents": 0,
+      "dictionaryOverflow": 0
+    },
+    "incident": {
+      "triggerStep": 4299,
+      "triggerTime": 35.82499999999861,
+      "reason": "support-A-B-A",
+      "interrupted": null,
+      "firstStep": 3699,
+      "lastStep": 4479,
+      "preSteps": 600,
+      "postSteps": 180,
+      "location": {
+        "map": {
+          "id": "city-main",
+          "name": "清江市 · City Main",
+          "version": 478
+        },
+        "x": 2627.985991654043,
+        "y": 7.077683570830399,
+        "z": -159.115619704594,
+        "yaw": 1.55081186476069,
+        "planarForwardX": -0.9998003172844867,
+        "planarForwardZ": -0.01998313183261567,
+        "road": 133,
+        "segment": 147,
+        "sector": null,
+        "previousRoad": 133,
+        "previousSegment": 145,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "grounded": true,
+            "road": 133,
+            "segment": 147,
+            "surface": 146
+          },
+          {
+            "id": "frontRight",
+            "grounded": true,
+            "road": 133,
+            "segment": 147,
+            "surface": 146
+          },
+          {
+            "id": "rearLeft",
+            "grounded": true,
+            "road": 136,
+            "segment": 141,
+            "surface": 140
+          },
+          {
+            "id": "rearRight",
+            "grounded": true,
+            "road": 136,
+            "segment": 141,
+            "surface": 140
+          }
+        ],
+        "lastSurfaceSwitch": {
+          "step": 4299,
+          "time": 35.82499999999861,
+          "sequence": 207,
+          "type": "support-surface-changed",
+          "detail": {
+            "wheel": 2,
+            "contactSample": 3,
+            "previousSurface": 144,
+            "surface": 140,
+            "previousRoad": 133,
+            "previousSegment": 145,
+            "road": 136,
+            "segment": 141,
+            "heightDelta": 0.20985677513986367,
+            "normalDot": 0.9998379703172732,
+            "heightJump": false,
+            "normalJump": false,
+            "returnedToPreviousSurface": true,
+            "candidates": {
+              "x": 2629.6330437383826,
+              "z": -158.29084814344634,
+              "referenceHeight": 7.075286812014772,
+              "chosen": 140,
+              "shortlistLimit": 32,
+              "candidateCount": 4,
+              "truncated": false,
+              "candidates": [
+                {
+                  "surface": 135,
+                  "road": 136,
+                  "segment": 137,
+                  "segmentIndex": 0,
+                  "height": 7.171875,
+                  "normal": {
+                    "x": 0.020320818550210923,
+                    "y": 0.9997935108478397,
+                    "z": 0
+                  },
+                  "distance": 0.3669562616173616,
+                  "score": 3.766150804158844,
+                  "accepted": true,
+                  "reason": "higher-score"
+                },
+                {
+                  "surface": 140,
+                  "road": 136,
+                  "segment": 141,
+                  "segmentIndex": 1,
+                  "height": 7.178481620685685,
+                  "normal": {
+                    "x": 0.01800091974971899,
+                    "y": 0.9998379703172732,
+                    "z": 0
+                  },
+                  "distance": 0,
+                  "score": 0.10319480867091269,
+                  "accepted": true,
+                  "reason": "selected-lowest-score"
+                },
+                {
+                  "surface": 142,
+                  "road": 133,
+                  "segment": 143,
+                  "segmentIndex": 2,
+                  "height": 6.968624845545821,
+                  "normal": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "distance": 0.5508533259518087,
+                  "score": 5.615195225987038,
+                  "accepted": true,
+                  "reason": "higher-score"
+                },
+                {
+                  "surface": 144,
+                  "road": 133,
+                  "segment": 145,
+                  "segmentIndex": 3,
+                  "height": 6.968624845545821,
+                  "normal": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "distance": 0,
+                  "score": 0.10666196646895099,
+                  "accepted": true,
+                  "reason": "higher-score"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "identities": {
+      "133": "system-east:E-to-S-turbine",
+      "136": "ew-wb-split-4-split",
+      "156": "ew-wb-split-4-split:3:road",
+      "157": "ew-wb-split-4-split:3",
+      "166": "system-east:E-to-S-turbine:11:road",
+      "167": "system-east:E-to-S-turbine:11"
+    },
+    "firstLargeImpulseStep": 4382,
+    "events": [
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 369,
+        "type": "support-surface-changed",
+        "detail": {
+          "wheel": 0,
+          "contactSample": 2,
+          "previousSurface": 166,
+          "surface": 156,
+          "previousRoad": 133,
+          "previousSegment": 167,
+          "road": 136,
+          "segment": 157,
+          "heightDelta": 0.6496595864059538,
+          "normalDot": 0.9999121993931769,
+          "heightJump": false,
+          "normalJump": false,
+          "returnedToPreviousSurface": false,
+          "candidates": {
+            "x": 2601.6959524433346,
+            "z": -158.88179864509138,
+            "referenceHeight": 6.975581184041686,
+            "chosen": 156,
+            "shortlistLimit": 32,
+            "candidateCount": 2,
+            "truncated": false,
+            "candidates": [
+              {
+                "surface": 156,
+                "road": 136,
+                "segment": 157,
+                "segmentIndex": 3,
+                "height": 7.618284431951775,
+                "normal": {
+                  "x": 0.013251169937024137,
+                  "y": 0.9999121993931769,
+                  "z": 0
+                },
+                "distance": 0,
+                "score": 0.6427032479100889,
+                "accepted": true,
+                "reason": "selected-lowest-score"
+              },
+              {
+                "surface": 164,
+                "road": 136,
+                "segment": 165,
+                "segmentIndex": 4,
+                "height": 7.640759759330895,
+                "normal": {
+                  "x": 0.01090867657500504,
+                  "y": 0.9999404986174837,
+                  "z": 0
+                },
+                "distance": 1.6959524433345905,
+                "score": 17.624703008635116,
+                "accepted": true,
+                "reason": "higher-score"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 370,
+        "type": "support-surface-changed",
+        "detail": {
+          "wheel": 0,
+          "contactSample": 3,
+          "previousSurface": 156,
+          "surface": 166,
+          "previousRoad": 136,
+          "previousSegment": 157,
+          "road": 133,
+          "segment": 167,
+          "heightDelta": -0.6496595864059538,
+          "normalDot": 0.9999122023582458,
+          "heightJump": false,
+          "normalJump": false,
+          "returnedToPreviousSurface": true,
+          "candidates": {
+            "x": 2601.923344863146,
+            "z": -158.8756855727232,
+            "referenceHeight": 6.975581184041686,
+            "chosen": 166,
+            "shortlistLimit": 32,
+            "candidateCount": 4,
+            "truncated": false,
+            "candidates": [
+              {
+                "surface": 156,
+                "road": 136,
+                "segment": 157,
+                "segmentIndex": 3,
+                "height": 7.615270951769071,
+                "normal": {
+                  "x": 0.013251169937024137,
+                  "y": 0.9999121993931769,
+                  "z": 0
+                },
+                "distance": 0,
+                "score": 0.6396897677273854,
+                "accepted": true,
+                "reason": "higher-score"
+              },
+              {
+                "surface": 164,
+                "road": 136,
+                "segment": 165,
+                "segmentIndex": 4,
+                "height": 7.640759759330895,
+                "normal": {
+                  "x": 0.01090867657500504,
+                  "y": 0.9999404986174837,
+                  "z": 0
+                },
+                "distance": 1.9233448631462124,
+                "score": 19.898627206751335,
+                "accepted": true,
+                "reason": "higher-score"
+              },
+              {
+                "surface": 162,
+                "road": 133,
+                "segment": 163,
+                "segmentIndex": 10,
+                "height": 6.968624845545821,
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "distance": 0.19102313155555514,
+                "score": 1.9171876540514163,
+                "accepted": true,
+                "reason": "higher-score"
+              },
+              {
+                "surface": 166,
+                "road": 133,
+                "segment": 167,
+                "segmentIndex": 11,
+                "height": 6.968624845545821,
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "distance": 0,
+                "score": 0.0069563384958648555,
+                "accepted": true,
+                "reason": "selected-lowest-score"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 371,
+        "type": "support-surface-changed",
+        "detail": {
+          "wheel": 0,
+          "contactSample": 5,
+          "previousSurface": 166,
+          "surface": 156,
+          "previousRoad": 133,
+          "previousSegment": 167,
+          "road": 136,
+          "segment": 157,
+          "heightDelta": 0.6486549245189881,
+          "normalDot": 0.9999121993931769,
+          "heightJump": false,
+          "normalJump": false,
+          "returnedToPreviousSurface": true,
+          "candidates": {
+            "x": 2601.7717626307985,
+            "z": -158.87976734646125,
+            "referenceHeight": 6.975757484200044,
+            "chosen": 156,
+            "shortlistLimit": 32,
+            "candidateCount": 2,
+            "truncated": false,
+            "candidates": [
+              {
+                "surface": 156,
+                "road": 136,
+                "segment": 157,
+                "segmentIndex": 3,
+                "height": 7.617279770064809,
+                "normal": {
+                  "x": 0.013251169937024137,
+                  "y": 0.9999121993931769,
+                  "z": 0
+                },
+                "distance": 0,
+                "score": 0.6415222858647649,
+                "accepted": true,
+                "reason": "selected-lowest-score"
+              },
+              {
+                "surface": 164,
+                "road": 136,
+                "segment": 165,
+                "segmentIndex": 4,
+                "height": 7.640759759330895,
+                "normal": {
+                  "x": 0.01090867657500504,
+                  "y": 0.9999404986174837,
+                  "z": 0
+                },
+                "distance": 1.7717626307985483,
+                "score": 18.382628583116336,
+                "accepted": true,
+                "reason": "higher-score"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 372,
+        "type": "contact-safety-before-recovery",
+        "detail": {
+          "y": 6.975757484200044,
+          "verticalVelocity": 117.31770224209956,
+          "pitch": -0.0004127397937387846,
+          "roll": 0.003934199740532792,
+          "pitchRate": 47.653265241934896,
+          "rollRate": -112.34073674350698
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 373,
+        "type": "contact-safety-before-recovery",
+        "detail": {
+          "y": 6.975757484200044,
+          "verticalVelocity": 117.5563391865825,
+          "pitch": -0.0004127397937387846,
+          "roll": 0.003934199740532792,
+          "pitchRate": 47.73939577753895,
+          "rollRate": -112.48882530065785
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 374,
+        "type": "contact-recovery",
+        "detail": {
+          "correction": 0.5762775655956198,
+          "x": 2603.155054930641,
+          "y": 6.975757484200044,
+          "z": -159.63279349042105,
+          "yaw": 1.542752192199508,
+          "signedSpeed": 36.370729066094185,
+          "lateralVelocity": -0.09766719099526341,
+          "verticalVelocity": 0,
+          "pitch": -0.0004127397937387846,
+          "roll": 0.003934199740532792,
+          "pitchRate": 0,
+          "rollRate": 0
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 375,
+        "type": "full-bump",
+        "detail": {
+          "wheel": 0,
+          "requiredLength": 0.18122848076923334,
+          "length": 0.18122848076923334,
+          "penetration": 0
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 376,
+        "type": "large-mechanical-impulse",
+        "detail": {
+          "wheel": 0,
+          "impulse": 322007.8781011237,
+          "candidates": {
+            "x": 2601.695965169246,
+            "z": -158.88180504188276,
+            "referenceHeight": 6.975757484200044,
+            "chosen": 156,
+            "shortlistLimit": 32,
+            "candidateCount": 2,
+            "truncated": false,
+            "candidates": [
+              {
+                "surface": 156,
+                "road": 136,
+                "segment": 157,
+                "segmentIndex": 3,
+                "height": 7.618284263303753,
+                "normal": {
+                  "x": 0.013251169937024137,
+                  "y": 0.9999121993931769,
+                  "z": 0
+                },
+                "distance": 0,
+                "score": 0.6425267791037088,
+                "accepted": true,
+                "reason": "selected-lowest-score"
+              },
+              {
+                "surface": 164,
+                "road": 136,
+                "segment": 165,
+                "segmentIndex": 4,
+                "height": 7.640759759330895,
+                "normal": {
+                  "x": 0.01090867657500504,
+                  "y": 0.9999404986174837,
+                  "z": 0
+                },
+                "distance": 1.6959651692459374,
+                "score": 17.624653967590227,
+                "accepted": true,
+                "reason": "higher-score"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 377,
+        "type": "grounded-transition",
+        "detail": {
+          "wheel": 1,
+          "grounded": false
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 378,
+        "type": "grounded-transition",
+        "detail": {
+          "wheel": 2,
+          "grounded": false
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 379,
+        "type": "grounded-transition",
+        "detail": {
+          "wheel": 3,
+          "grounded": false
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 380,
+        "type": "large-mechanical-impulse",
+        "detail": {
+          "wheel": 3,
+          "impulse": 92467.85839336077,
+          "candidates": {
+            "x": 2604.6142514937874,
+            "z": -160.38458279033935,
+            "referenceHeight": 6.975757484200044,
+            "chosen": 162,
+            "shortlistLimit": 32,
+            "candidateCount": 6,
+            "truncated": false,
+            "candidates": [
+              {
+                "surface": 148,
+                "road": 136,
+                "segment": 149,
+                "segmentIndex": 2,
+                "height": 7.508236424331423,
+                "normal": {
+                  "x": 0.015630395852185543,
+                  "y": 0.9998778379009627,
+                  "z": 0
+                },
+                "distance": 5.385748506212622,
+                "score": 54.38996400225759,
+                "accepted": true,
+                "reason": "higher-score"
+              },
+              {
+                "surface": 156,
+                "road": 136,
+                "segment": 157,
+                "segmentIndex": 3,
+                "height": 7.579610159682595,
+                "normal": {
+                  "x": 0.013251169937024137,
+                  "y": 0.9999121993931769,
+                  "z": 0
+                },
+                "distance": 0,
+                "score": 0.6038526754825506,
+                "accepted": true,
+                "reason": "higher-score"
+              },
+              {
+                "surface": 164,
+                "road": 136,
+                "segment": 165,
+                "segmentIndex": 4,
+                "height": 7.640759759330895,
+                "normal": {
+                  "x": 0.01090867657500504,
+                  "y": 0.9999404986174837,
+                  "z": 0
+                },
+                "distance": 4.614251493787378,
+                "score": 46.80751721300464,
+                "accepted": true,
+                "reason": "higher-score"
+              },
+              {
+                "surface": 160,
+                "road": 133,
+                "segment": 161,
+                "segmentIndex": 9,
+                "height": 6.968624845545821,
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "distance": 1.3862320991872574,
+                "score": 13.869453630526797,
+                "accepted": true,
+                "reason": "higher-score"
+              },
+              {
+                "surface": 162,
+                "road": 133,
+                "segment": 163,
+                "segmentIndex": 10,
+                "height": 6.968624845545821,
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "distance": 0,
+                "score": 0.0071326386542232,
+                "accepted": true,
+                "reason": "selected-lowest-score"
+              },
+              {
+                "surface": 166,
+                "road": 133,
+                "segment": 167,
+                "segmentIndex": 11,
+                "height": 6.968624845545821,
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "distance": 2.2408711978084135,
+                "score": 22.415844616738358,
+                "accepted": true,
+                "reason": "higher-score"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 381,
+        "type": "contact-safety-recovery",
+        "detail": {
+          "previous": 0,
+          "current": 2
+        }
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "sequence": 382,
+        "type": "post-event-detail",
+        "detail": {
+          "queries": [
+            {
+              "wheel": 0,
+              "contactSample": 1,
+              "query": {
+                "x": 2601.9991148386775,
+                "z": -158.87363500145773,
+                "referenceHeight": 6.975200931350673,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 4,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.614266822784047,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6390658914333738,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.9991148386775421,
+                    "score": 20.65670721475564,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.11585637079433016,
+                    "score": 1.1651397937481536,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.006576085804852028,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 1,
+              "query": {
+                "x": 2602.0429773392625,
+                "z": -160.4570385900778,
+                "referenceHeight": 6.975200931350673,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 4,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.613685542298153,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6384846109474802,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 2.0429773392625066,
+                    "score": 21.095332220605286,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.3188117892847051,
+                    "score": 3.194693978651903,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.006576085804852028,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 1,
+              "query": {
+                "x": 2604.8730123896185,
+                "z": -158.79402425427568,
+                "referenceHeight": 6.975200931350673,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 5,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.126987610381548,
+                    "score": 51.80291159679623,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.576180973994297,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6009800426436236,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.873012389618452,
+                    "score": 49.39568272416474,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.9010194277192557,
+                    "score": 9.01677036299741,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.006576085804852028,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 1,
+              "query": {
+                "x": 2604.916874890203,
+                "z": -160.3774278428957,
+                "referenceHeight": 6.975200931350673,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 6,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.083125109797038,
+                    "score": 51.36428659095113,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.575599693508409,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6003987621577362,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.916874890202962,
+                    "score": 49.83430773000984,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.085734997221764,
+                    "score": 10.863926058022493,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.006576085804852028,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 2.5404653113595588,
+                    "score": 25.411229199400438,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 2,
+              "query": {
+                "x": 2601.6959524433346,
+                "z": -158.88179864509138,
+                "referenceHeight": 6.975581184041686,
+                "chosen": 156,
+                "shortlistLimit": 32,
+                "candidateCount": 2,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.618284431951775,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6427032479100889,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.6959524433345905,
+                    "score": 17.624703008635116,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 2,
+              "query": {
+                "x": 2601.7403688618174,
+                "z": -160.465187628255,
+                "referenceHeight": 6.975581184041686,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 4,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.617695810761168,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6421146267194819,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.7403688618173874,
+                    "score": 18.068867193463085,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.6190048630781271,
+                    "score": 6.197004969277136,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0069563384958648555,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 2,
+              "query": {
+                "x": 2604.569822172808,
+                "z": -158.80118554243418,
+                "referenceHeight": 6.975581184041686,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 5,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.430177827191982,
+                    "score": 54.83443351220956,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.58019895186139,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.604617767819704,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.569822172808017,
+                    "score": 46.36340030336938,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.202078350255087,
+                    "score": 12.027739841046735,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0069563384958648555,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 2,
+              "query": {
+                "x": 2604.614238591291,
+                "z": -160.38457452559774,
+                "referenceHeight": 6.975581184041686,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 6,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.385761408709186,
+                    "score": 54.390269327381596,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.579610330670782,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6040291466290961,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.614238591290814,
+                    "score": 46.80756448819735,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.3862436763802568,
+                    "score": 13.869393102298433,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0069563384958648555,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 2.2408598506354784,
+                    "score": 22.41555484485065,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 3,
+              "query": {
+                "x": 2601.923344863146,
+                "z": -158.8756855727232,
+                "referenceHeight": 6.975581184041686,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 4,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.615270951769071,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6396897677273854,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.9233448631462124,
+                    "score": 19.898627206751335,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.19102313155555514,
+                    "score": 1.9171876540514163,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0069563384958648555,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 3,
+              "query": {
+                "x": 2601.9673458610623,
+                "z": -160.45908615451447,
+                "referenceHeight": 6.975581184041686,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 4,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.614687835870356,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6391066518286701,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.967345861062313,
+                    "score": 20.33863718591234,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.39384127061901825,
+                    "score": 3.945369044686047,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0069563384958648555,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 3,
+              "query": {
+                "x": 2604.7972356434207,
+                "z": -158.79582646330715,
+                "referenceHeight": 6.975581184041686,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 5,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.202764356579337,
+                    "score": 52.560298806083104,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.577185192706451,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6016040086647649,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.797235643420663,
+                    "score": 48.63753500949584,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.9762652799823315,
+                    "score": 9.76960913831918,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0069563384958648555,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 3,
+              "query": {
+                "x": 2604.8412366413368,
+                "z": -160.37922704509847,
+                "referenceHeight": 6.975581184041686,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 6,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.158763358663236,
+                    "score": 52.1202888269221,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.576602076807736,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6010208927660496,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.841236641336764,
+                    "score": 49.07754498865685,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.1608433638278008,
+                    "score": 11.615389976773873,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0069563384958648555,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 2.465582396157635,
+                    "score": 24.662780300072217,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 4,
+              "query": {
+                "x": 2601.8475539155993,
+                "z": -158.87772646478652,
+                "referenceHeight": 6.975671618129324,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 3,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.61627535868224,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6406037405529164,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.847553915599292,
+                    "score": 19.14062729719449,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.007046772583502836,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 4,
+              "query": {
+                "x": 2601.8916933932883,
+                "z": -160.46112340456835,
+                "referenceHeight": 6.975671618129324,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 4,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.615690407603392,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6400187894740679,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.8916933932882785,
+                    "score": 19.582022074084357,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.4688898817636045,
+                    "score": 4.695945590219548,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.007046772583502836,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 4,
+              "query": {
+                "x": 2604.721437779837,
+                "z": -158.7976167590471,
+                "referenceHeight": 6.975671618129324,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 5,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.278562220163168,
+                    "score": 53.31818700783377,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.578189691273247,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6025180731439228,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.721437779836833,
+                    "score": 47.879465939569904,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.0515303129809157,
+                    "score": 10.522349902392659,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.007046772583502836,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 4,
+              "query": {
+                "x": 2604.765577257526,
+                "z": -160.3810136988289,
+                "referenceHeight": 6.975671618129324,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 6,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.23442274247418,
+                    "score": 52.8767922309439,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.577604740194399,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6019331220650752,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.76557725752582,
+                    "score": 48.32086071645977,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.235970837034563,
+                    "score": 12.366755142929133,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.007046772583502836,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 2.3906807290237477,
+                    "score": 23.91385406282098,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 5,
+              "query": {
+                "x": 2601.7717626307985,
+                "z": -158.87976734646125,
+                "referenceHeight": 6.975757484200044,
+                "chosen": 156,
+                "shortlistLimit": 32,
+                "candidateCount": 2,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.617279770064809,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6415222858647649,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.7717626307985483,
+                    "score": 18.382628583116336,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 5,
+              "query": {
+                "x": 2601.8160405879667,
+                "z": -160.4631606323814,
+                "referenceHeight": 6.975757484200044,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 4,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.61669298380972,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6409354996096761,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.8160405879666541,
+                    "score": 18.825408154797394,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.5439388228882782,
+                    "score": 5.446520867537005,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0071326386542232,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 5,
+              "query": {
+                "x": 2604.645639563738,
+                "z": -158.79940701779884,
+                "referenceHeight": 6.975757484200044,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 5,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.35436043626214,
+                    "score": 54.07608330275278,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.579194194511691,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6034367103116471,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.645639563737859,
+                    "score": 47.121397912509444,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.126795689488169,
+                    "score": 11.275089533535914,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0071326386542232,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 5,
+              "query": {
+                "x": 2604.689917520906,
+                "z": -160.3828003037189,
+                "referenceHeight": 6.975757484200044,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 6,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.310082479094036,
+                    "score": 53.633303731071734,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.5786074082566035,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6028499240565592,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.689917520905965,
+                    "score": 47.5641774841905,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.3110986523331492,
+                    "score": 13.118119161985714,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0071326386542232,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 2.3157787221286914,
+                    "score": 23.164919859941136,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 6,
+              "query": {
+                "x": 2601.695965169246,
+                "z": -158.88180504188276,
+                "referenceHeight": 6.975757484200044,
+                "chosen": 156,
+                "shortlistLimit": 32,
+                "candidateCount": 2,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.618284263303753,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6425267791037088,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.6959651692459374,
+                    "score": 17.624653967590227,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 6,
+              "query": {
+                "x": 2601.740381599635,
+                "z": -160.4651944494826,
+                "referenceHeight": 6.975757484200044,
+                "chosen": 166,
+                "shortlistLimit": 32,
+                "candidateCount": 4,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.617695641955361,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6419381577553169,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 1.7403815996349294,
+                    "score": 18.068818271480147,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0.6189933412670557,
+                    "score": 6.19706605132478,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0071326386542232,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 6,
+              "query": {
+                "x": 2604.5698350633984,
+                "z": -158.80119338273954,
+                "referenceHeight": 6.975757484200044,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 5,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.430164936601614,
+                    "score": 54.83412830614751,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.580198781030987,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6044412968309425,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.569835063398386,
+                    "score": 46.36335290911472,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.2020667236956704,
+                    "score": 12.027799875610928,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0071326386542232,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  }
+                ]
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 6,
+              "query": {
+                "x": 2604.6142514937874,
+                "z": -160.38458279033935,
+                "referenceHeight": 6.975757484200044,
+                "chosen": 162,
+                "shortlistLimit": 32,
+                "candidateCount": 6,
+                "truncated": false,
+                "candidates": [
+                  {
+                    "surface": 148,
+                    "road": 136,
+                    "segment": 149,
+                    "segmentIndex": 2,
+                    "height": 7.508236424331423,
+                    "normal": {
+                      "x": 0.015630395852185543,
+                      "y": 0.9998778379009627,
+                      "z": 0
+                    },
+                    "distance": 5.385748506212622,
+                    "score": 54.38996400225759,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 156,
+                    "road": 136,
+                    "segment": 157,
+                    "segmentIndex": 3,
+                    "height": 7.579610159682595,
+                    "normal": {
+                      "x": 0.013251169937024137,
+                      "y": 0.9999121993931769,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.6038526754825506,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 164,
+                    "road": 136,
+                    "segment": 165,
+                    "segmentIndex": 4,
+                    "height": 7.640759759330895,
+                    "normal": {
+                      "x": 0.01090867657500504,
+                      "y": 0.9999404986174837,
+                      "z": 0
+                    },
+                    "distance": 4.614251493787378,
+                    "score": 46.80751721300464,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 160,
+                    "road": 133,
+                    "segment": 161,
+                    "segmentIndex": 9,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 1.3862320991872574,
+                    "score": 13.869453630526797,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  },
+                  {
+                    "surface": 162,
+                    "road": 133,
+                    "segment": 163,
+                    "segmentIndex": 10,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 0,
+                    "score": 0.0071326386542232,
+                    "accepted": true,
+                    "reason": "selected-lowest-score"
+                  },
+                  {
+                    "surface": 166,
+                    "road": 133,
+                    "segment": 167,
+                    "segmentIndex": 11,
+                    "height": 6.968624845545821,
+                    "normal": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    },
+                    "distance": 2.2408711978084135,
+                    "score": 22.415844616738358,
+                    "accepted": true,
+                    "reason": "higher-score"
+                  }
+                ]
+              }
+            }
+          ],
+          "microsteps": [
+            {
+              "microstep": 1,
+              "microstepCount": 4,
+              "phase": "after-constraint-solve-before-safety-and-pose-integration",
+              "y": 6.975581184041686,
+              "verticalVelocity": 0.04340836206633863,
+              "pitch": -0.0002898236367980278,
+              "roll": 0.0038654649471702753,
+              "pitchRate": -0.030332205312986006,
+              "rollRate": 0.016558976914141654,
+              "constraints": [
+                {
+                  "y": 1,
+                  "p": 1.466241805605141,
+                  "r": -0.7918974134051302,
+                  "gap": 0.07347013193117741,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": 1.4662435801606728,
+                  "r": 0.7920906861630169,
+                  "gap": 0.0795930129024835,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -1.408758073648173,
+                  "r": -0.7918974134051339,
+                  "gap": 0.0743033748753063,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -1.408756299092186,
+                  "r": 0.7920906861630289,
+                  "gap": 0.0804262558466124,
+                  "impulse": 0
+                }
+              ],
+              "wheels": [
+                {
+                  "requiredLength": 0.25469916467822734,
+                  "length": 0.25469916467822734,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 4106.732577549134,
+                  "damper": 40.64655965907648,
+                  "bumpStop": 0,
+                  "ARB": 64.29073320849128,
+                  "normalLoad": 4211.701512504289
+                },
+                {
+                  "requiredLength": 0.2608220916504646,
+                  "length": 0.2608220916504646,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 3867.93842563188,
+                  "damper": -51.14814034240932,
+                  "bumpStop": 0,
+                  "ARB": -64.29073320849128,
+                  "normalLoad": 3752.5277444424773
+                },
+                {
+                  "requiredLength": 0.25917927239895694,
+                  "length": 0.25917927239895694,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 4234.470559243808,
+                  "damper": -348.9314009485445,
+                  "bumpStop": 0,
+                  "ARB": 45.921952291779895,
+                  "normalLoad": 3931.490647478736
+                },
+                {
+                  "requiredLength": 0.26530219937119426,
+                  "length": 0.26530219937119426,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 3977.3076264098404,
+                  "damper": -467.78335258621354,
+                  "bumpStop": 0,
+                  "ARB": -45.921952291779895,
+                  "normalLoad": 3463.6283434213587
+                }
+              ]
+            },
+            {
+              "microstep": 2,
+              "microstepCount": 4,
+              "phase": "after-constraint-solve-before-safety-and-pose-integration",
+              "y": 6.975671618129324,
+              "verticalVelocity": 0.041215713945851176,
+              "pitch": -0.00035301573120008196,
+              "roll": 0.0038999628157414036,
+              "pitchRate": -0.028667550018577292,
+              "rollRate": 0.016433723899866658,
+              "constraints": [
+                {
+                  "y": 1,
+                  "p": 1.4662399929302028,
+                  "r": -0.7918964287961617,
+                  "gap": 0.07344059242952644,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": 1.4662421736939018,
+                  "r": 0.7920914264304629,
+                  "gap": 0.07961811748498343,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -1.4087598279282325,
+                  "r": -0.7918964287961577,
+                  "gap": 0.07445551263564715,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -1.4087576471645336,
+                  "r": 0.7920914264304669,
+                  "gap": 0.08063303769110325,
+                  "impulse": 0
+                }
+              ],
+              "wheels": [
+                {
+                  "requiredLength": 0.25466963628347383,
+                  "length": 0.25466963628347383,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 4107.88418494452,
+                  "damper": 39.685812976274704,
+                  "bumpStop": 0,
+                  "ARB": 64.86451040854865,
+                  "normalLoad": 4212.466805964948
+                },
+                {
+                  "requiredLength": 0.2608472087033356,
+                  "length": 0.2608472087033356,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 3866.958860569911,
+                  "damper": -51.84214909717402,
+                  "bumpStop": 0,
+                  "ARB": -64.86451040854865,
+                  "normalLoad": 3750.280955049271
+                },
+                {
+                  "requiredLength": 0.25933142278768834,
+                  "length": 0.25933142278768834,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 4228.080242917089,
+                  "damper": -328.645463571344,
+                  "bumpStop": 0,
+                  "ARB": 46.33179314895666,
+                  "normalLoad": 3945.7968255302535
+                },
+                {
+                  "requiredLength": 0.2655089952075492,
+                  "length": 0.2655089952075492,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 3968.622201282932,
+                  "damper": -446.679646271949,
+                  "bumpStop": 0,
+                  "ARB": -46.33179314895666,
+                  "normalLoad": 3475.6374101125016
+                }
+              ]
+            },
+            {
+              "microstep": 3,
+              "microstepCount": 4,
+              "phase": "after-constraint-solve-before-safety-and-pose-integration",
+              "y": 6.975757484200044,
+              "verticalVelocity": 117.31770224209956,
+              "pitch": -0.0004127397937387846,
+              "roll": 0.003934199740532792,
+              "pitchRate": 47.653265241934896,
+              "rollRate": -112.34073674350698,
+              "constraints": [
+                {
+                  "y": 0.9999121993931769,
+                  "p": 1.4657290977330997,
+                  "r": -0.7918111759025658,
+                  "gap": -0.5752225626982502,
+                  "impulse": 160847.1080272524
+                },
+                {
+                  "y": 1,
+                  "p": 1.466240842741437,
+                  "r": 0.792092158020285,
+                  "gap": 0.07964353244328842,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -1.4087614844681964,
+                  "r": -0.7918954485574533,
+                  "gap": 0.07459840353420238,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -1.4087589123744058,
+                  "r": 0.7920921580202424,
+                  "gap": 0.08083015931659604,
+                  "impulse": 46144.5559340303
+                }
+              ],
+              "wheels": [
+                {
+                  "requiredLength": -0.3940530761440876,
+                  "length": 0.18122848076923076,
+                  "penetration": 0.5752225626982502,
+                  "grounded": true,
+                  "spring": 6972.08925,
+                  "damper": 1388.7570227416456,
+                  "bumpStop": 5039.9999999999945,
+                  "ARB": 836.2636336901003,
+                  "normalLoad": 14238.57004930211
+                },
+                {
+                  "requiredLength": 0.2608726363587641,
+                  "length": 0.2608726363587641,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 3865.967182008199,
+                  "damper": -52.483186448044634,
+                  "bumpStop": 0,
+                  "ARB": -836.2636336901003,
+                  "normalLoad": 2977.243656212134
+                },
+                {
+                  "requiredLength": 0.2594743264921075,
+                  "length": 0.2594743264921075,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 4222.078287331485,
+                  "damper": -308.6725749183859,
+                  "bumpStop": 0,
+                  "ARB": 46.73853405632949,
+                  "normalLoad": 3960.175231396155
+                },
+                {
+                  "requiredLength": 0.26570613103295143,
+                  "length": 0.26570613103295143,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 3960.342496616039,
+                  "damper": -425.8139719733448,
+                  "bumpStop": 0,
+                  "ARB": -46.73853405632949,
+                  "normalLoad": 3487.8172797229645
+                }
+              ]
+            },
+            {
+              "microstep": 4,
+              "microstepCount": 4,
+              "phase": "after-constraint-solve-before-safety-and-pose-integration",
+              "y": 6.975757484200044,
+              "verticalVelocity": 117.5563391865825,
+              "pitch": -0.0004127397937387846,
+              "roll": 0.003934199740532792,
+              "pitchRate": 47.73939577753895,
+              "rollRate": -112.48882530065785,
+              "constraints": [
+                {
+                  "y": 0.9999121993931769,
+                  "p": 1.465729098664996,
+                  "r": -0.7918111433437558,
+                  "gap": -0.576226968075662,
+                  "impulse": 161160.77007387127
+                },
+                {
+                  "y": 1,
+                  "p": 1.4662408427415703,
+                  "r": 0.7920921580202528,
+                  "gap": 0.07964353244328842,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -1.4087614844684342,
+                  "r": -0.7918954485574345,
+                  "gap": 0.07459840353420238,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -1.4087589123745758,
+                  "r": 0.7920921580202718,
+                  "gap": 0.08083015931659604,
+                  "impulse": 46323.302459330465
+                }
+              ],
+              "wheels": [
+                {
+                  "requiredLength": -0.3950575871511643,
+                  "length": 0.18122848076923076,
+                  "penetration": 0.576226968075662,
+                  "grounded": true,
+                  "spring": 6972.08925,
+                  "damper": 1350.059172610516,
+                  "bumpStop": 5039.9999999999945,
+                  "ARB": 836.2636336901003,
+                  "normalLoad": 14199.868294891463
+                },
+                {
+                  "requiredLength": 0.2608726363587641,
+                  "length": 0.2608726363587641,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 3865.967182008199,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": -836.2636336901003,
+                  "normalLoad": 3029.727253298677
+                },
+                {
+                  "requiredLength": 0.2594743264921075,
+                  "length": 0.2594743264921075,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 4222.078287331485,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 46.73853405632949,
+                  "normalLoad": 4268.850221427861
+                },
+                {
+                  "requiredLength": 0.26570613103295143,
+                  "length": 0.26570613103295143,
+                  "penetration": 0,
+                  "grounded": true,
+                  "spring": 3960.342496616039,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": -46.73853405632949,
+                  "normalLoad": 3913.6345833463456
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "frames": [
+      {
+        "step": 4381,
+        "time": 36.508333333331905,
+        "worldPositionX": 2603.4579820480585,
+        "worldPositionY": 6.975581184041686,
+        "worldPositionZ": -159.62515310766295,
+        "velocityX": -36.34326171875,
+        "velocityY": 0.0456303246319294,
+        "velocityZ": -0.9143854379653931,
+        "speed": 36.35476303100586,
+        "signedSpeed": 36.354644775390625,
+        "chassisY": 6.975581169128418,
+        "verticalVelocity": 0.0456303246319294,
+        "verticalAcceleration": -1.1261069774627686,
+        "yaw": 1.5431020259857178,
+        "pitch": -0.0002898236270993948,
+        "roll": 0.0038654650561511517,
+        "yawRate": -0.040821515023708344,
+        "pitchRate": -0.03201954439282417,
+        "rollRate": 0.016673706471920013,
+        "totalVerticalForce": -1987.578857421875,
+        "pitchTorque": 3048.294189453125,
+        "rollTorque": -46.586666107177734,
+        "throttle": 1,
+        "brake": 0,
+        "steering": 0.11221886426210403,
+        "clutch": 1,
+        "engineRPM": null,
+        "planarForwardX": -0.9996165633201599,
+        "planarForwardZ": -0.02769077941775322,
+        "longitudinalDriveForce": 4055.226318359375,
+        "groundedMask": 15,
+        "microstepCount": 1,
+        "selector": 8,
+        "gear": 0,
+        "safetyInterventions": 0,
+        "nonFiniteRecovery": 0,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "wheelCenterX": 2601.9990234375,
+            "wheelCenterY": 7.303624629974365,
+            "wheelCenterZ": -158.87364196777344,
+            "attachmentX": 2601.9990234375,
+            "attachmentY": 7.558321952819824,
+            "attachmentZ": -158.87266540527344,
+            "suspensionLength": 0.254699170589447,
+            "compression": 0.10530083626508713,
+            "compressionVelocity": 0.01591251604259014,
+            "requiredLength": 0.254699170589447,
+            "penetration": 0,
+            "surfaceHeight": 6.968625068664551,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 4102.0146484375,
+            "damperForce": 44.55504608154297,
+            "bumpStopForce": 0,
+            "ARBForce": 61.9797248840332,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 4208.57861328125,
+            "Fx": -26.14072036743164,
+            "Fy": 654.2334594726562,
+            "angularVelocity": 108.51651000976562,
+            "slipRatio": -0.00034452599356882274,
+            "slipAngle": -0.015859397128224373,
+            "grounded": 1,
+            "surface": 166,
+            "road": 133,
+            "segment": 167,
+            "surfaceType": 4
+          },
+          {
+            "id": "frontRight",
+            "wheelCenterX": 2602.04296875,
+            "wheelCenterY": 7.303624629974365,
+            "wheelCenterZ": -160.45704650878906,
+            "attachmentX": 2602.04296875,
+            "attachmentY": 7.5644450187683105,
+            "attachmentZ": -160.45603942871094,
+            "suspensionLength": 0.2608220875263214,
+            "compression": 0.09917791187763214,
+            "compressionVelocity": -0.011259717866778374,
+            "requiredLength": 0.2608220875263214,
+            "penetration": 0,
+            "surfaceHeight": 6.968625068664551,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 3871.80419921875,
+            "damperForce": -48.416786193847656,
+            "bumpStopForce": 0,
+            "ARBForce": -61.9797248840332,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 3761.43359375,
+            "Fx": -23.04991912841797,
+            "Fy": 584.5767822265625,
+            "angularVelocity": 108.3283920288086,
+            "slipRatio": -0.00034742787829600275,
+            "slipAngle": -0.016074134036898613,
+            "grounded": 1,
+            "surface": 166,
+            "road": 133,
+            "segment": 167,
+            "surfaceType": 4
+          },
+          {
+            "id": "rearLeft",
+            "wheelCenterX": 2604.873046875,
+            "wheelCenterY": 7.303624629974365,
+            "wheelCenterZ": -158.79403686523438,
+            "attachmentX": 2604.873046875,
+            "attachmentY": 7.562802314758301,
+            "attachmentZ": -158.7930450439453,
+            "suspensionLength": 0.2591792643070221,
+            "compression": 0.10082072764635086,
+            "compressionVelocity": -0.0965343713760376,
+            "requiredLength": 0.2591792643070221,
+            "penetration": 0,
+            "surfaceHeight": 6.968625068664551,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 4261.609375,
+            "damperForce": -434.4046936035156,
+            "bumpStopForce": 0,
+            "ARBForce": 44.27123260498047,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 3871.5029296875,
+            "Fx": 2001.462646484375,
+            "Fy": 173.5316619873047,
+            "angularVelocity": 113.42841339111328,
+            "slipRatio": 0.04285543039441109,
+            "slipAngle": -0.004366965964436531,
+            "grounded": 1,
+            "surface": 162,
+            "road": 133,
+            "segment": 163,
+            "surfaceType": 4
+          },
+          {
+            "id": "rearRight",
+            "wheelCenterX": 2604.9169921875,
+            "wheelCenterY": 7.303624629974365,
+            "wheelCenterZ": -160.37744140625,
+            "attachmentX": 2604.916748046875,
+            "attachmentY": 7.568924903869629,
+            "attachmentZ": -160.3764190673828,
+            "suspensionLength": 0.26530221104621887,
+            "compression": 0.09469780325889587,
+            "compressionVelocity": -0.12370660901069641,
+            "requiredLength": 0.26530221104621887,
+            "penetration": 0,
+            "surfaceHeight": 6.968625068664551,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 4013.690673828125,
+            "damperForce": -556.6797485351562,
+            "bumpStopForce": 0,
+            "ARBForce": -44.27123260498047,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 3412.76318359375,
+            "Fx": 1992.989013671875,
+            "Fy": 113.07559967041016,
+            "angularVelocity": 113.9398422241211,
+            "slipRatio": 0.04879457876086235,
+            "slipAngle": -0.00361170107498765,
+            "grounded": 1,
+            "surface": 162,
+            "road": 133,
+            "segment": 163,
+            "surfaceType": 4
+          }
+        ]
+      },
+      {
+        "step": 4382,
+        "time": 36.51666666666524,
+        "worldPositionX": 2603.155054930641,
+        "worldPositionY": 7.5520350497956645,
+        "worldPositionZ": -159.63279349042105,
+        "velocityX": -36.35916519165039,
+        "velocityY": 0,
+        "velocityZ": -0.9222231507301331,
+        "speed": 36.3708610534668,
+        "signedSpeed": 36.3707275390625,
+        "chassisY": 7.552034854888916,
+        "verticalVelocity": 0,
+        "verticalAcceleration": -5.4756388664245605,
+        "yaw": 1.5427521467208862,
+        "pitch": -0.00041273978422395885,
+        "roll": 0.003934199921786785,
+        "yawRate": -0.04197771102190018,
+        "pitchRate": 0,
+        "rollRate": 0,
+        "totalVerticalForce": -9664.501953125,
+        "pitchTorque": 13762.41015625,
+        "rollTorque": -1617.4522705078125,
+        "throttle": 1,
+        "brake": 0,
+        "steering": 0.11257088929414749,
+        "clutch": 1,
+        "engineRPM": null,
+        "planarForwardX": -0.9996067881584167,
+        "planarForwardZ": -0.028040459379553795,
+        "longitudinalDriveForce": 4075.65234375,
+        "groundedMask": 1,
+        "microstepCount": 4,
+        "selector": 8,
+        "gear": 0,
+        "safetyInterventions": 2,
+        "nonFiniteRecovery": 0,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "wheelCenterX": 2601.696044921875,
+            "wheelCenterY": 7.953314304351807,
+            "wheelCenterZ": -158.8815155029297,
+            "attachmentX": 2601.69580078125,
+            "attachmentY": 8.134541511535645,
+            "attachmentZ": -158.8808135986328,
+            "suspensionLength": 0.18122847378253937,
+            "compression": 0.17877152562141418,
+            "compressionVelocity": 0.4821639955043793,
+            "requiredLength": 0.18122847378253937,
+            "penetration": 0,
+            "surfaceHeight": 7.618284225463867,
+            "surfaceNormalX": 0.013251169584691525,
+            "surfaceNormalY": 0.9999122023582458,
+            "surfaceNormalZ": 0,
+            "springForce": 6972.08935546875,
+            "damperForce": 1350.0592041015625,
+            "bumpStopForce": 5040,
+            "ARBForce": 836.2636108398438,
+            "mechanicalLimitImpulse": 322007.875,
+            "Fz": 38655144,
+            "Fx": -26.46198844909668,
+            "Fy": 667.9692993164062,
+            "angularVelocity": 108.56575775146484,
+            "slipRatio": -0.0003484359185677022,
+            "slipAngle": -0.016181325539946556,
+            "grounded": 1,
+            "surface": 156,
+            "road": 136,
+            "segment": 157,
+            "surfaceType": 4
+          },
+          {
+            "id": "frontRight",
+            "wheelCenterX": 2601.740478515625,
+            "wheelCenterY": 7.819547176361084,
+            "wheelCenterZ": -160.46542358398438,
+            "attachmentX": 2601.740234375,
+            "attachmentY": 8.140772819519043,
+            "attachmentZ": -160.46417236328125,
+            "suspensionLength": 0.3212284743785858,
+            "compression": 0.03877151757478714,
+            "compressionVelocity": 0,
+            "requiredLength": 0.8371546864509583,
+            "penetration": 0,
+            "surfaceHeight": 6.968625068664551,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 3865.96728515625,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": -836.2636108398438,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 108.37190246582031,
+            "slipRatio": -0.00035345496144145727,
+            "slipAngle": -0.016399387270212173,
+            "grounded": 0,
+            "surface": 166,
+            "road": 133,
+            "segment": 167,
+            "surfaceType": 4
+          },
+          {
+            "id": "rearLeft",
+            "wheelCenterX": 2604.56982421875,
+            "wheelCenterY": 7.814501762390137,
+            "wheelCenterZ": -158.80145263671875,
+            "attachmentX": 2604.569580078125,
+            "attachmentY": 8.139374732971191,
+            "attachmentZ": -158.8001708984375,
+            "suspensionLength": 0.3248753249645233,
+            "compression": 0.03512465953826904,
+            "compressionVelocity": 0,
+            "requiredLength": 0.8357564210891724,
+            "penetration": 0,
+            "surfaceHeight": 6.968625068664551,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 4222.078125,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 46.73853302001953,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 113.44883728027344,
+            "slipRatio": 0.042584870010614395,
+            "slipAngle": -0.0045406208373606205,
+            "grounded": 0,
+            "surface": 162,
+            "road": 133,
+            "segment": 163,
+            "surfaceType": 4
+          },
+          {
+            "id": "rearRight",
+            "wheelCenterX": 2604.6142578125,
+            "wheelCenterY": 7.820733547210693,
+            "wheelCenterZ": -160.3848114013672,
+            "attachmentX": 2604.614013671875,
+            "attachmentY": 8.14560604095459,
+            "attachmentZ": -160.383544921875,
+            "suspensionLength": 0.3248753249645233,
+            "compression": 0.03512465953826904,
+            "compressionVelocity": 0,
+            "requiredLength": 0.841988205909729,
+            "penetration": 0,
+            "surfaceHeight": 6.968625068664551,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 3960.342529296875,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": -46.73853302001953,
+            "mechanicalLimitImpulse": 92467.859375,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 113.96546173095703,
+            "slipRatio": 0.0486157201230526,
+            "slipAngle": -0.0038131061010062695,
+            "grounded": 0,
+            "surface": 162,
+            "road": 133,
+            "segment": 163,
+            "surfaceType": 4
+          }
+        ]
+      },
+      {
+        "step": 4383,
+        "time": 36.52499999999857,
+        "worldPositionX": 2602.8682778073908,
+        "worldPositionY": 7.588699752190595,
+        "worldPositionZ": -159.87028251556504,
+        "velocityX": -33.24156951904297,
+        "velocityY": 8.317520141601562,
+        "velocityZ": -28.474870681762695,
+        "speed": 43.770084381103516,
+        "signedSpeed": 34.0461311340332,
+        "chassisY": 7.588699817657471,
+        "verticalVelocity": 8.317520141601562,
+        "verticalAcceleration": 998.1024169921875,
+        "yaw": 1.5420551300048828,
+        "pitch": 0.013246086426079273,
+        "roll": 0.070816770195961,
+        "yawRate": -0.08364437520503998,
+        "pitchRate": 0.5504604578018188,
+        "rollRate": 10.9808988571167,
+        "totalVerticalForce": 1761650.75,
+        "pitchTorque": 236594.953125,
+        "rollTorque": 1065214.875,
+        "throttle": 1,
+        "brake": 0,
+        "steering": 0.11290699243545532,
+        "clutch": 1,
+        "engineRPM": null,
+        "planarForwardX": -0.9995869994163513,
+        "planarForwardZ": -0.02873721346259117,
+        "longitudinalDriveForce": 4094.50830078125,
+        "groundedMask": 15,
+        "microstepCount": 4,
+        "selector": 8,
+        "gear": 0,
+        "safetyInterventions": 2,
+        "nonFiniteRecovery": 0,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "wheelCenterX": 2601.40771484375,
+            "wheelCenterY": 7.957132816314697,
+            "wheelCenterZ": -159.1237030029297,
+            "attachmentX": 2601.409912109375,
+            "attachmentY": 8.137908935546875,
+            "attachmentZ": -159.11080932617188,
+            "suspensionLength": 0.18124668300151825,
+            "compression": 0.1787533164024353,
+            "compressionVelocity": -0.011816971935331821,
+            "requiredLength": 0.18124668300151825,
+            "penetration": 0,
+            "surfaceHeight": 7.622100353240967,
+            "surfaceNormalX": 0.013251169584691525,
+            "surfaceNormalY": 0.9999122023582458,
+            "surfaceNormalZ": 0,
+            "springForce": 6972.08935546875,
+            "damperForce": -50.81298065185547,
+            "bumpStopForce": 5040,
+            "ARBForce": 794.4317626953125,
+            "mechanicalLimitImpulse": 8425.7353515625,
+            "Fz": 1023858.875,
+            "Fx": -44.869781494140625,
+            "Fy": 6542144,
+            "angularVelocity": 108.65276336669922,
+            "slipRatio": 1.4382648405586451e-9,
+            "slipAngle": -0.01709066703915596,
+            "grounded": 1,
+            "surface": 156,
+            "road": 136,
+            "segment": 157,
+            "surfaceType": 4
+          },
+          {
+            "id": "frontRight",
+            "wheelCenterX": 2601.453369140625,
+            "wheelCenterY": 7.956528186798096,
+            "wheelCenterZ": -160.71107482910156,
+            "attachmentX": 2601.456787109375,
+            "attachmentY": 8.249979972839355,
+            "attachmentZ": -160.6901397705078,
+            "suspensionLength": 0.2942145764827728,
+            "compression": 0.06578543037176132,
+            "compressionVelocity": -17.05792999267578,
+            "requiredLength": 0.2942145764827728,
+            "penetration": 0,
+            "surfaceHeight": 7.621505260467529,
+            "surfaceNormalX": 0.013251169584691525,
+            "surfaceNormalY": 0.9999122023582458,
+            "surfaceNormalZ": 0,
+            "springForce": 4021.3427734375,
+            "damperForce": -73349.1015625,
+            "bumpStopForce": 0,
+            "ARBForce": -794.4317626953125,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 108.37190246582031,
+            "slipRatio": -0.0007566724088974297,
+            "slipAngle": -0.01720772497355938,
+            "grounded": 1,
+            "surface": 156,
+            "road": 136,
+            "segment": 157,
+            "surfaceType": 4
+          },
+          {
+            "id": "rearLeft",
+            "wheelCenterX": 2604.28125,
+            "wheelCenterY": 7.919051647186279,
+            "wheelCenterZ": -159.0410919189453,
+            "attachmentX": 2604.283447265625,
+            "attachmentY": 8.10346508026123,
+            "attachmentZ": -159.02793884277344,
+            "suspensionLength": 0.18489353358745575,
+            "compression": 0.1751064658164978,
+            "compressionVelocity": 8.521513938903809,
+            "requiredLength": 0.18489353358745575,
+            "penetration": 0,
+            "surfaceHeight": 7.584038257598877,
+            "surfaceNormalX": 0.013251169584691525,
+            "surfaceNormalY": 0.9999122023582458,
+            "surfaceNormalZ": 0,
+            "springForce": 7256.0556640625,
+            "damperForce": 24712.390625,
+            "bumpStopForce": 4225.73095703125,
+            "ARBForce": 574.4970703125,
+            "mechanicalLimitImpulse": 6159.48193359375,
+            "Fz": 775949.5,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 115.71746063232422,
+            "slipRatio": 0.06091177091002464,
+            "slipAngle": -0.003547285683453083,
+            "grounded": 1,
+            "surface": 156,
+            "road": 136,
+            "segment": 157,
+            "surfaceType": 4
+          },
+          {
+            "id": "rearRight",
+            "wheelCenterX": 2604.326904296875,
+            "wheelCenterY": 7.918447017669678,
+            "wheelCenterZ": -160.62844848632812,
+            "attachmentX": 2604.330322265625,
+            "attachmentY": 8.215535163879395,
+            "attachmentZ": -160.60726928710938,
+            "suspensionLength": 0.2978614270687103,
+            "compression": 0.06213856860995293,
+            "compressionVelocity": -8.525084495544434,
+            "requiredLength": 0.2978614270687103,
+            "penetration": 0,
+            "surfaceHeight": 7.583423614501953,
+            "surfaceNormalX": 0.013251169584691525,
+            "surfaceNormalY": 0.9999122023582458,
+            "surfaceNormalZ": 0,
+            "springForce": 4038.871826171875,
+            "damperForce": -38362.8828125,
+            "bumpStopForce": 0,
+            "ARBForce": -574.4970703125,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 116.23408508300781,
+            "slipRatio": 0.06679947674274445,
+            "slipAngle": -0.005075167398899794,
+            "grounded": 1,
+            "surface": 156,
+            "road": 136,
+            "segment": 157,
+            "surfaceType": 4
+          }
+        ]
+      }
+    ],
+    "maxImpulse": 322007.875,
+    "maxFz": 38655144,
+    "maxAY": 998.1024169921875,
+    "maxRollRate": 10.9808988571167,
+    "maxPreSafetyVY": 117.5563391865825,
+    "maxPreSafetyRollRate": 112.48882530065785
+  },
+  {
+    "file": "003408",
+    "metadata": {
+      "mapId": "city-main",
+      "mapName": "清江市 · City Main",
+      "mapVersion": 478,
+      "mapContentVersion": "./assets/city-main.runtime-a8b11369d9aa.json",
+      "vehicleId": "tesla-model-3-rwd",
+      "vehicleConfigVersion": 2,
+      "vehicleConfigHash": "fnv1a32:93c5e118",
+      "buildVersion": "0.1.0+physics.7638550c6ae8",
+      "physicsHz": 120,
+      "settings": {
+        "physicsHz": 120,
+        "preSteps": 600,
+        "postSteps": 180,
+        "frameCapacity": 960,
+        "eventCapacity": 1024,
+        "dictionaryCapacity": 16384,
+        "maxEventsPerStep": 24,
+        "maxCandidatesPerQuery": 32,
+        "maxDetailQueriesPerStep": 24
+      },
+      "thresholds": {
+        "verticalVelocityDelta": 5,
+        "angularVelocityDelta": 2.5,
+        "mechanicalImpulse": 6000,
+        "contactRecoveryDistance": 0.5,
+        "surfaceHeightDelta": 0.85,
+        "normalDot": 0.6,
+        "supportReturnSteps": 18,
+        "supportReturnHeightDelta": 0.2,
+        "severeCollisionSpeed": 8,
+        "severeCollisionAttitude": 0.45,
+        "fullBumpTolerance": 0.001,
+        "automaticCooldownSteps": 600
+      },
+      "allocatedFrameBytes": 633600,
+      "coordinates": "+X right, +Y up, -Z forward; SI; yaw/pitch/roll YXZ; world Y is chassis heave datum",
+      "numericEncoding": "unavailable ICE RPM: null; non-finite numeric data: NaN/Infinity/-Infinity strings",
+      "collisionContactY": "unavailable (planar collision solver); null",
+      "droppedEvents": 0,
+      "dictionaryOverflow": 0
+    },
+    "incident": {
+      "triggerStep": 4529,
+      "triggerTime": 37.74166666666517,
+      "reason": "manual",
+      "interrupted": null,
+      "firstStep": 4480,
+      "lastStep": 4709,
+      "preSteps": 49,
+      "postSteps": 180,
+      "location": {
+        "map": {
+          "id": "city-main",
+          "name": "清江市 · City Main",
+          "version": 478
+        },
+        "x": 2561.113003850788,
+        "y": 10.394290554754912,
+        "z": -186.44330867479397,
+        "yaw": 1.5178138436724442,
+        "planarForwardX": -0.998596756545982,
+        "planarForwardZ": -0.0529576983624179,
+        "road": 0,
+        "segment": 0,
+        "sector": null,
+        "previousRoad": 136,
+        "previousSegment": 165,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 176
+          },
+          {
+            "id": "frontRight",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 176
+          },
+          {
+            "id": "rearLeft",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 176
+          },
+          {
+            "id": "rearRight",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 176
+          }
+        ],
+        "lastSurfaceSwitch": null
+      }
+    },
+    "identities": {
+      "133": "system-east:E-to-S-turbine",
+      "136": "ew-wb-split-4-split",
+      "156": "ew-wb-split-4-split:3:road",
+      "157": "ew-wb-split-4-split:3",
+      "166": "system-east:E-to-S-turbine:11:road",
+      "167": "system-east:E-to-S-turbine:11"
+    },
+    "firstLargeImpulseStep": 4653,
+    "events": [
+      {
+        "step": 4653,
+        "time": 38.77499999999844,
+        "sequence": 760,
+        "type": "large-mechanical-impulse",
+        "detail": {
+          "wheel": 2,
+          "impulse": 20031.73995541772,
+          "candidates": {
+            "x": 2527.291656647065,
+            "z": -209.182313958718,
+            "referenceHeight": 1.2630133110385087,
+            "chosen": 0,
+            "shortlistLimit": 32,
+            "candidateCount": 0,
+            "truncated": false,
+            "candidates": []
+          }
+        }
+      },
+      {
+        "step": 4653,
+        "time": 38.77499999999844,
+        "sequence": 761,
+        "type": "non-finite-frame",
+        "detail": {}
+      },
+      {
+        "step": 4653,
+        "time": 38.77499999999844,
+        "sequence": 762,
+        "type": "post-event-detail",
+        "detail": {
+          "queries": [
+            {
+              "wheel": 0,
+              "contactSample": 1,
+              "query": {
+                "x": 2526.599626658151,
+                "z": -209.0529309436302,
+                "referenceHeight": 1.4145600835056367,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 1,
+              "query": {
+                "x": 2527.0370874914215,
+                "z": -207.5406343331475,
+                "referenceHeight": 1.4145600835056367,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 1,
+              "query": {
+                "x": 2527.5125543836016,
+                "z": -209.0015053883546,
+                "referenceHeight": 1.4145600835056367,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 1,
+              "query": {
+                "x": 2527.9500152168716,
+                "z": -207.48920877787188,
+                "referenceHeight": 1.4145600835056367,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 2,
+              "query": {
+                "x": 2526.355357243526,
+                "z": -209.2317428781188,
+                "referenceHeight": 1.2992155443873612,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 2,
+              "query": {
+                "x": 2526.7458452006804,
+                "z": -207.70470248106759,
+                "referenceHeight": 1.2992155443873612,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 2,
+              "query": {
+                "x": 2527.2560844460263,
+                "z": -209.18099473455052,
+                "referenceHeight": 1.2992155443873612,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 2,
+              "query": {
+                "x": 2527.6465724031805,
+                "z": -207.6539543374993,
+                "referenceHeight": 1.2992155443873612,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 3,
+              "query": {
+                "x": 2526.5390993497804,
+                "z": -209.11372207006445,
+                "referenceHeight": 1.2992155443873612,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 3,
+              "query": {
+                "x": 2526.929598402473,
+                "z": -207.5866845103578,
+                "referenceHeight": 1.2992155443873612,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 3,
+              "query": {
+                "x": 2527.439826920996,
+                "z": -209.06298047122465,
+                "referenceHeight": 1.2992155443873612,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 3,
+              "query": {
+                "x": 2527.8303259736886,
+                "z": -207.53594291151802,
+                "referenceHeight": 1.2992155443873612,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 4,
+              "query": {
+                "x": 2526.460027210139,
+                "z": -209.17340600841115,
+                "referenceHeight": 1.270086127142961,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 4,
+              "query": {
+                "x": 2526.8274548313407,
+                "z": -207.63988187358188,
+                "referenceHeight": 1.270086127142961,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 4,
+              "query": {
+                "x": 2527.359545035478,
+                "z": -209.12272928106998,
+                "referenceHeight": 1.270086127142961,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 4,
+              "query": {
+                "x": 2527.726972656679,
+                "z": -207.58920514624072,
+                "referenceHeight": 1.270086127142961,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 5,
+              "query": {
+                "x": 2526.3862886635,
+                "z": -209.23332356993495,
+                "referenceHeight": 1.2630133110385087,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 5,
+              "query": {
+                "x": 2526.713250318194,
+                "z": -207.68953516789165,
+                "referenceHeight": 1.2630133110385087,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 5,
+              "query": {
+                "x": 2527.291656647065,
+                "z": -209.182313958718,
+                "referenceHeight": 1.2630133110385087,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 5,
+              "query": {
+                "x": 2527.618618301759,
+                "z": -207.6385255566747,
+                "referenceHeight": 1.2630133110385087,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 0,
+              "contactSample": 6,
+              "query": {
+                "x": 2526.3862886635,
+                "z": -209.23332356993495,
+                "referenceHeight": 1.2630133110385087,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 1,
+              "contactSample": 6,
+              "query": {
+                "x": 2526.713250318194,
+                "z": -207.68953516789165,
+                "referenceHeight": 1.2630133110385087,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 2,
+              "contactSample": 6,
+              "query": {
+                "x": 2527.291656647065,
+                "z": -209.182313958718,
+                "referenceHeight": 1.2630133110385087,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            },
+            {
+              "wheel": 3,
+              "contactSample": 6,
+              "query": {
+                "x": 2527.618618301759,
+                "z": -207.6385255566747,
+                "referenceHeight": 1.2630133110385087,
+                "chosen": 0,
+                "shortlistLimit": 32,
+                "candidateCount": 0,
+                "truncated": false,
+                "candidates": []
+              }
+            }
+          ],
+          "microsteps": [
+            {
+              "microstep": 1,
+              "microstepCount": 3,
+              "phase": "after-constraint-solve-before-safety-and-pose-integration",
+              "y": 1.2992155443873612,
+              "verticalVelocity": -10.486590207984047,
+              "pitch": 1.2516108529095735,
+              "roll": 9.102912372789172,
+              "pitchRate": 0.15975626638945195,
+              "rollRate": 5.720567132491219,
+              "constraints": [
+                {
+                  "y": 1,
+                  "p": 0.6754655320656613,
+                  "r": 0.2382433986611334,
+                  "gap": 2.7552317785392746,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": 0.19969665867207217,
+                  "r": -0.23328017908860366,
+                  "gap": 2.912466574597018,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -0.22669014596379866,
+                  "r": 0.23824339866112762,
+                  "gap": 0.025444216731712932,
+                  "impulse": 5969.058629626891
+                },
+                {
+                  "y": 1,
+                  "p": -0.702459019357386,
+                  "r": -0.2332801790886005,
+                  "gap": 0.1826790127894568,
+                  "impulse": 0
+                }
+              ],
+              "wheels": [
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.3212284807692308,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1512.0892499999993,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.3212284807692308,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1512.0892499999993,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.32487533928571427,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1475.23575,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.32487533928571427,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1475.23575,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                }
+              ]
+            },
+            {
+              "microstep": 2,
+              "microstepCount": 3,
+              "phase": "after-constraint-solve-before-safety-and-pose-integration",
+              "y": 1.270086127142961,
+              "verticalVelocity": -2.5462137976028467,
+              "pitch": 1.2520546203162108,
+              "roll": 9.118802837046092,
+              "pitchRate": -0.7729184982162709,
+              "rollRate": 9.878615247607641,
+              "constraints": [
+                {
+                  "y": 1,
+                  "p": 0.6633955940772038,
+                  "r": 0.23902287443645245,
+                  "gap": 2.730191509945212,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": 0.21029130645531166,
+                  "r": -0.2343031309508647,
+                  "gap": 2.879712983568387,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -0.23754860441445524,
+                  "r": 0.23902287443645306,
+                  "gap": 0.000003869653029175968,
+                  "impulse": 14062.68132579083
+                },
+                {
+                  "y": 1,
+                  "p": -0.6906528920358933,
+                  "r": -0.2343031309508721,
+                  "gap": 0.1495253432762041,
+                  "impulse": 0
+                }
+              ],
+              "wheels": [
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.3212284807692308,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1512.0892499999993,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.3212284807692308,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1512.0892499999993,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.32487533928571427,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1475.23575,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.32487533928571427,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1475.23575,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                }
+              ]
+            },
+            {
+              "microstep": 3,
+              "microstepCount": 3,
+              "phase": "after-constraint-solve-before-safety-and-pose-integration",
+              "y": 1.2630133110385087,
+              "verticalVelocity": -2.5733622176980377,
+              "pitch": 1.2499076244878322,
+              "roll": 9.146243434956112,
+              "pitchRate": -0.7729350479153646,
+              "rollRate": 9.878615247607641,
+              "constraints": [
+                {
+                  "y": 1,
+                  "p": 0.6463030278538683,
+                  "r": 0.2423451396436726,
+                  "gap": 2.72831759132545,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": 0.2330177589104822,
+                  "r": -0.23800908843291615,
+                  "gap": 2.865683693681909,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -0.2605007911172027,
+                  "r": 0.24234513964366183,
+                  "gap": 0.00007056550484679791,
+                  "impulse": 0
+                },
+                {
+                  "y": 1,
+                  "p": -0.6737860600610428,
+                  "r": -0.2380090884329188,
+                  "gap": 0.13743666786130554,
+                  "impulse": 0
+                }
+              ],
+              "wheels": [
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.3212284807692308,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1512.0892499999993,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.3212284807692308,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1512.0892499999993,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.32487533928571427,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1475.23575,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                },
+                {
+                  "requiredLength": "Infinity",
+                  "length": 0.32487533928571427,
+                  "penetration": 0,
+                  "grounded": false,
+                  "spring": 1475.23575,
+                  "damper": 0,
+                  "bumpStop": 0,
+                  "ARB": 0,
+                  "normalLoad": 0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "frames": [
+      {
+        "step": 4652,
+        "time": 38.76666666666511,
+        "worldPositionX": 2527.1055682732904,
+        "worldPositionY": 1.2992155443873612,
+        "worldPositionZ": -208.22317962342356,
+        "velocityX": -33.07548904418945,
+        "velocityY": -13.841344833374023,
+        "velocityZ": -21.24332046508789,
+        "speed": 39.309879302978516,
+        "signedSpeed": 34.21788787841797,
+        "chassisY": 1.29921555519104,
+        "verticalVelocity": -13.841344833374023,
+        "verticalAcceleration": -9.773427963256836,
+        "yaw": 1.5145254135131836,
+        "pitch": 1.2516108751296997,
+        "roll": 9.102911949157715,
+        "yawRate": -0.001324779586866498,
+        "pitchRate": 0.5375540852546692,
+        "rollRate": 3.9613938331604004,
+        "totalVerticalForce": -17250.1015625,
+        "pitchTorque": -21.341629028320312,
+        "rollTorque": 0,
+        "throttle": 0,
+        "brake": 0,
+        "steering": 0,
+        "clutch": 1,
+        "engineRPM": null,
+        "planarForwardX": -0.9984171986579895,
+        "planarForwardZ": -0.05624121055006981,
+        "longitudinalDriveForce": 0,
+        "groundedMask": 0,
+        "microstepCount": 1,
+        "selector": 8,
+        "gear": 0,
+        "safetyInterventions": 2,
+        "nonFiniteRecovery": 0,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "wheelCenterX": 2526.630859375,
+            "wheelCenterY": 3.091906785964966,
+            "wheelCenterZ": -209.05471801757812,
+            "attachmentX": 2526.33642578125,
+            "attachmentY": 2.996283769607544,
+            "attachmentZ": -208.9695281982422,
+            "suspensionLength": 0.3212284743785858,
+            "compression": 0.03877151757478714,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1512.0892333984375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 103.16644287109375,
+            "slipRatio": 0.010019291192293167,
+            "slipAngle": 0.5149756669998169,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "frontRight",
+            "wheelCenterX": 2527.021484375,
+            "wheelCenterY": 3.2491416931152344,
+            "wheelCenterZ": -207.52767944335938,
+            "attachmentX": 2526.726806640625,
+            "attachmentY": 3.1535186767578125,
+            "attachmentZ": -207.44248962402344,
+            "suspensionLength": 0.3212284743785858,
+            "compression": 0.03877151757478714,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1512.0892333984375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 108.37190246582031,
+            "slipRatio": 0.05703314393758774,
+            "slipAngle": 0.5138822793960571,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "rearLeft",
+            "wheelCenterX": 2527.53173828125,
+            "wheelCenterY": 0.36211928725242615,
+            "wheelCenterZ": -209.00396728515625,
+            "attachmentX": 2527.233642578125,
+            "attachmentY": 0.2654106914997101,
+            "attachmentZ": -208.91781616210938,
+            "suspensionLength": 0.3248753249645233,
+            "compression": 0.03512465953826904,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1475.2357177734375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 140.75799560546875,
+            "slipRatio": 0.27459514141082764,
+            "slipAngle": 0.5153444409370422,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "rearRight",
+            "wheelCenterX": 2527.922119140625,
+            "wheelCenterY": 0.5193541049957275,
+            "wheelCenterZ": -207.47694396972656,
+            "attachmentX": 2527.624267578125,
+            "attachmentY": 0.4226455092430115,
+            "attachmentZ": -207.3907928466797,
+            "suspensionLength": 0.3248753249645233,
+            "compression": 0.03512465953826904,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1475.2357177734375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 157.42176818847656,
+            "slipRatio": 0.35086503624916077,
+            "slipAngle": 0.5138510465621948,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          }
+        ]
+      },
+      {
+        "step": 4653,
+        "time": 38.77499999999844,
+        "worldPositionX": 2526.829946050944,
+        "worldPositionY": 1.255865082656014,
+        "worldPositionZ": -208.4002056628945,
+        "velocityX": -33.07382583618164,
+        "velocityY": -2.573362112045288,
+        "velocityZ": -21.243227005004883,
+        "speed": 39.30842971801758,
+        "signedSpeed": 34.216434478759766,
+        "chassisY": 1.2558650970458984,
+        "verticalVelocity": -2.573362112045288,
+        "verticalAcceleration": 1352.1578369140625,
+        "yaw": 1.5145145654678345,
+        "pitch": 1.247760534286499,
+        "roll": 9.173684120178223,
+        "yawRate": -0.0013078886549919844,
+        "pitchRate": -0.7729350328445435,
+        "rollRate": 9.878615379333496,
+        "totalVerticalForce": 2386558.75,
+        "pitchTorque": -563265,
+        "rollTorque": 574006.9375,
+        "throttle": 0,
+        "brake": 0,
+        "steering": 0,
+        "clutch": 1,
+        "engineRPM": null,
+        "planarForwardX": -0.9984166026115417,
+        "planarForwardZ": -0.056252092123031616,
+        "longitudinalDriveForce": 0,
+        "groundedMask": 0,
+        "microstepCount": 3,
+        "selector": 8,
+        "gear": 0,
+        "safetyInterventions": 2,
+        "nonFiniteRecovery": 0,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "wheelCenterX": 2526.404296875,
+            "wheelCenterY": 3.064542770385742,
+            "wheelCenterZ": -209.23362731933594,
+            "attachmentX": 2526.105224609375,
+            "attachmentY": 2.9657676219940186,
+            "attachmentZ": -209.1705322265625,
+            "suspensionLength": 0.3212284743785858,
+            "compression": 0.03877151757478714,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1512.0892333984375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 103.16644287109375,
+            "slipRatio": 0.010063894093036652,
+            "slipAngle": 0.5149890184402466,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "frontRight",
+            "wheelCenterX": 2526.690673828125,
+            "wheelCenterY": 3.189479351043701,
+            "wheelCenterZ": -207.68072509765625,
+            "attachmentX": 2526.3916015625,
+            "attachmentY": 3.0907042026519775,
+            "attachmentZ": -207.61764526367188,
+            "suspensionLength": 0.3212284743785858,
+            "compression": 0.03877151757478714,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1512.0892333984375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 108.37190246582031,
+            "slipRatio": 0.05707486346364021,
+            "slipAngle": 0.5138952732086182,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "rearLeft",
+            "wheelCenterX": 2527.315673828125,
+            "wheelCenterY": 0.3382490873336792,
+            "wheelCenterZ": -209.18228149414062,
+            "attachmentX": 2527.01318359375,
+            "attachmentY": 0.23835252225399017,
+            "attachmentZ": -209.1184844970703,
+            "suspensionLength": 0.3248753249645233,
+            "compression": 0.03512465953826904,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1475.2357177734375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 20031.740234375,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 140.75799560546875,
+            "slipRatio": 0.274626225233078,
+            "slipAngle": 0.5153549313545227,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "rearRight",
+            "wheelCenterX": 2527.601806640625,
+            "wheelCenterY": 0.46318551898002625,
+            "wheelCenterZ": -207.62939453125,
+            "attachmentX": 2527.299560546875,
+            "attachmentY": 0.363288938999176,
+            "attachmentZ": -207.56558227539062,
+            "suspensionLength": 0.3248753249645233,
+            "compression": 0.03512465953826904,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1475.2357177734375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 157.42176818847656,
+            "slipRatio": 0.3508923053741455,
+            "slipAngle": 0.5138612389564514,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          }
+        ]
+      },
+      {
+        "step": 4654,
+        "time": 38.783333333331775,
+        "worldPositionX": 2526.5543376880887,
+        "worldPositionY": 1.2339113644697919,
+        "worldPositionZ": -208.57723093741123,
+        "velocityX": -33.07216262817383,
+        "velocityY": -2.6548075675964355,
+        "velocityZ": -21.243133544921875,
+        "speed": 39.30698013305664,
+        "signedSpeed": 34.2149772644043,
+        "chassisY": 1.233911395072937,
+        "verticalVelocity": -2.6548075675964355,
+        "verticalAcceleration": -9.77343463897705,
+        "yaw": 1.5145037174224854,
+        "pitch": 1.241319179534912,
+        "roll": 9.256006240844727,
+        "yawRate": -0.0012912130914628506,
+        "pitchRate": -0.7729846835136414,
+        "rollRate": 9.878615379333496,
+        "totalVerticalForce": -17250.111328125,
+        "pitchTorque": -21.338003158569336,
+        "rollTorque": 0,
+        "throttle": 0,
+        "brake": 0,
+        "steering": 0,
+        "clutch": 1,
+        "engineRPM": null,
+        "planarForwardX": -0.998416006565094,
+        "planarForwardZ": -0.05626283586025238,
+        "longitudinalDriveForce": 0,
+        "groundedMask": 0,
+        "microstepCount": 2,
+        "selector": 8,
+        "gear": 0,
+        "safetyInterventions": 2,
+        "nonFiniteRecovery": 0,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "wheelCenterX": 2526.182861328125,
+            "wheelCenterY": 3.060878276824951,
+            "wheelCenterZ": -209.4079132080078,
+            "attachmentX": 2525.880615234375,
+            "attachmentY": 2.9584219455718994,
+            "attachmentZ": -209.3708953857422,
+            "suspensionLength": 0.3212284743785858,
+            "compression": 0.03877151757478714,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1512.0892333984375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 103.16644287109375,
+            "slipRatio": 0.01010853424668312,
+            "slipAngle": 0.5150024890899658,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "frontRight",
+            "wheelCenterX": 2526.346435546875,
+            "wheelCenterY": 3.1469640731811523,
+            "wheelCenterZ": -207.834716796875,
+            "attachmentX": 2526.044189453125,
+            "attachmentY": 3.0445077419281006,
+            "attachmentZ": -207.79771423339844,
+            "suspensionLength": 0.3212284743785858,
+            "compression": 0.03877151757478714,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1512.0892333984375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 108.37190246582031,
+            "slipRatio": 0.05711663141846657,
+            "slipAngle": 0.5139083862304688,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "rearLeft",
+            "wheelCenterX": 2527.111572265625,
+            "wheelCenterY": 0.34051981568336487,
+            "wheelCenterZ": -209.35557556152344,
+            "attachmentX": 2526.805908203125,
+            "attachmentY": 0.23690038919448853,
+            "attachmentZ": -209.31814575195312,
+            "suspensionLength": 0.3248753249645233,
+            "compression": 0.03512465953826904,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1475.2357177734375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 140.75799560546875,
+            "slipRatio": 0.27465736865997314,
+            "slipAngle": 0.5153656005859375,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          },
+          {
+            "id": "rearRight",
+            "wheelCenterX": 2527.275146484375,
+            "wheelCenterY": 0.42660558223724365,
+            "wheelCenterZ": -207.7823944091797,
+            "attachmentX": 2526.969482421875,
+            "attachmentY": 0.3229861855506897,
+            "attachmentZ": -207.7449493408203,
+            "suspensionLength": 0.3248753249645233,
+            "compression": 0.03512465953826904,
+            "compressionVelocity": 0,
+            "requiredLength": "Infinity",
+            "penetration": 0,
+            "surfaceHeight": -0.03999999910593033,
+            "surfaceNormalX": 0,
+            "surfaceNormalY": 1,
+            "surfaceNormalZ": 0,
+            "springForce": 1475.2357177734375,
+            "damperForce": 0,
+            "bumpStopForce": 0,
+            "ARBForce": 0,
+            "mechanicalLimitImpulse": 0,
+            "Fz": 0,
+            "Fx": 0,
+            "Fy": 0,
+            "angularVelocity": 157.42176818847656,
+            "slipRatio": 0.350919634103775,
+            "slipAngle": 0.5138715505599976,
+            "grounded": 0,
+            "surface": 176,
+            "road": 0,
+            "segment": 0,
+            "surfaceType": 177
+          }
+        ]
+      }
+    ],
+    "maxImpulse": 20031.740234375,
+    "maxFz": 0,
+    "maxAY": 1352.1578369140625,
+    "maxRollRate": 9.878615379333496,
+    "maxPreSafetyVY": 0,
+    "maxPreSafetyRollRate": 0
+  }
+]

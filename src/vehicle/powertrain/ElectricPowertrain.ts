@@ -147,7 +147,16 @@ export class ElectricPowertrain implements Powertrain {
   private prepareUnit(unit: ElectricDriveUnit | undefined, c: PowertrainUpdateContext): void {
     if (!unit) return;
     unit.transmission.advance(c.dt, c.vehicleSpeed, c.throttle, this.mode.shiftStrategy, this.launchControl?.preselectFirst ?? false);
-    unit.motor.setShaftSpeed(this.wheelOmega(unit, c) * unit.transmission.ratio);
+    // Brake requests reconnect the front for pedal regeneration; demand/traction/heat
+    // reconnect it for propulsion. Hysteresis prevents cruising chatter.
+    const rear = this.rearDriveUnit;
+    const needed = !this.driving || Math.abs(c.vehicleSpeed) < 10 || c.throttle > .23 || c.brake > .01 ||
+      (c.totalServiceBrakeTorque ?? 0) > 1 || this.launchControl?.preselectFirst === true ||
+      (c.rearTorqueLimitFactor ?? 1) < .8 || (rear?.motor.thermalCapability ?? 1) < .8 ||
+      (rear?.inverter.thermal.capability ?? 1) < .8 || c.escActive === true || this.mode.frontParticipation > .5;
+    if (this.operational) unit.advanceDisconnect(c.dt, this.wheelOmega(unit, c), needed, this.battery.availableDischargePower * .2);
+    else unit.synchronizationPower = 0;
+    if (unit.disconnectState === 'connected') unit.motor.setShaftSpeed(this.wheelOmega(unit, c) * unit.transmission.ratio);
     unit.motor.requestDrive(c.throttle, c.dt);
   }
   public update(context: PowertrainUpdateContext): PowertrainOutput {
@@ -182,7 +191,7 @@ export class ElectricPowertrain implements Powertrain {
       this.deliverRegen(f, demandF, context, direction, allowed, service);
       this.deliverRegen(r, demandR, context, direction, allowed, service);
     }
-    this.coordinator.constrainPower(this.frontDriveUnit, this.rearDriveUnit, this.systemPowerLimit, discharge, this.auxiliaryPower);
+    this.coordinator.constrainPower(this.frontDriveUnit, this.rearDriveUnit, this.systemPowerLimit, discharge, this.auxiliaryPower + (this.frontDriveUnit?.synchronizationPower ?? 0));
     this.coordinator.constrainCharge(this.frontDriveUnit, this.rearDriveUnit, charge);
     this.updateOutput();
     this.axleOutput.stopBrakeDemand = this.stopBrakeRequest(context);
@@ -194,7 +203,7 @@ export class ElectricPowertrain implements Powertrain {
   private limitUnit(unit: ElectricDriveUnit | undefined, c: PowertrainUpdateContext, discharge: number, charge: number, factor: number, fade: number): void {
     if (!unit) return;
     const traction = (unit.config.axle === 'front' ? c.frontTorqueLimitFactor : c.rearTorqueLimitFactor) ?? c.torqueLimitFactor;
-    unit.prepare(this.wheelOmega(unit, c), discharge, charge, traction, factor, fade);
+    unit.prepare(this.wheelOmega(unit, c), discharge, charge, traction, factor, fade, this.battery.voltage);
   }
   private deliverUnit(unit: ElectricDriveUnit | undefined, torque: number, c: PowertrainUpdateContext, direction: number, allowed: boolean): void {
     unit?.deliver(torque, c.dt, unit ? this.wheelOmega(unit, c) : 0, direction, allowed);
@@ -238,7 +247,8 @@ export class ElectricPowertrain implements Powertrain {
     const terminal = (f?.account(dt, frontWheelAngularVelocity ?? drivenWheelAngularVelocity) ?? 0) +
       (r?.account(dt, rearWheelAngularVelocity ?? drivenWheelAngularVelocity) ?? 0) + this.auxiliaryPower;
     this.batteryPower = this.battery.integrate(dt, terminal);
-    const stored = this.batteryPower >= 0 ? this.batteryPower / this.config.battery.dischargeEfficiency : this.batteryPower * this.config.battery.chargeEfficiency;
+    const chemical = this.batteryPower + this.battery.resistiveLoss;
+    const stored = chemical >= 0 ? chemical / this.config.battery.dischargeEfficiency : chemical * this.config.battery.chargeEfficiency;
     const energy = stored * dt / 3_600_000;
     this.consumed += Math.max(0, energy); this.recovered += Math.max(0, -energy);
     const distance = Math.abs(speed) * dt / 1000;
@@ -266,6 +276,8 @@ export class ElectricPowertrain implements Powertrain {
     const thermalFactor = Math.min(this.battery.thermal?.capability ?? 1, f?.motor.thermalCapability ?? 1,
       r?.motor.thermalCapability ?? 1, f?.inverter.thermal.capability ?? 1, r?.inverter.thermal.capability ?? 1);
     const ev: EVTelemetry = {
+      packVoltage: this.battery.voltage, packCurrent: this.battery.current,
+      maxDischargeCurrent: this.battery.dischargeCurrentLimit, maxChargeCurrent: this.battery.chargeCurrentLimit,
       instantPowerKW: this.batteryPower / 1000,
       instantConsumption: Math.abs(this.context?.vehicleSpeed ?? 0) > 1 ? this.batteryPower / 1000 / (Math.abs(this.context!.vehicleSpeed) * 3.6) * 100 : null,
       tripKWhPer100Km: average, energyUsedKWh: this.consumed, energyRecoveredKWh: this.recovered,

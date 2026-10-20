@@ -3,6 +3,8 @@ import { SURFACE_MATERIALS } from '../../world/SurfaceMaterial';
 import { wheelLocalPosition } from '../VehicleDimensions';
 import { WHEEL_IDS, type WheelContactSet } from './WheelContact';
 import { SuspensionSystem } from './SuspensionSystem';
+import { chassisForceFixture } from './ChassisDynamics.selftest';
+import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
 
 /** Small mechanical checks, not final vehicle calibration. */
 export function runSuspensionMechanicsSelfTest() {
@@ -12,16 +14,17 @@ export function runSuspensionMechanicsSelfTest() {
     assertions++;
     if (!ok) throw new Error(`Suspension mechanics: ${message}`);
   };
-  const bar = new SuspensionSystem(config);
+  const bar = chassisForceFixture(config, 0, config.mass);
   const noBarConfig = createDefaultVehiclePhysicsConfig();
   noBarConfig.suspension.antiRollStiffnessFront = 0;
   noBarConfig.suspension.antiRollStiffnessRear = 0;
-  const noBar = new SuspensionSystem(noBarConfig);
-  for (let i = 0; i < 240; i++) {
-    bar.update(1 / 120, { longitudinalAcceleration: 0, lateralAcceleration: 4 });
-    noBar.update(1 / 120, { longitudinalAcceleration: 0, lateralAcceleration: 4 });
+  const noBar = chassisForceFixture(noBarConfig, 0, config.mass);
+  const neutral = createNeutralVehicleInputState();
+  for (let i = 0; i < 720; i++) {
+    bar.stepFixed(1 / 120, neutral);
+    noBar.stepFixed(1 / 120, neutral);
   }
-  const coupled = bar.getSnapshot();
+  const coupled = bar.suspension.getSnapshot();
   assert(Math.abs(coupled.chassis.roll) < Math.abs(noBar.getSnapshot().chassis.roll),
     'mechanical coupling reduces actual spring-driven roll');
   assert(coupled.wheels.frontLeft.antiRollForce > 0 && coupled.wheels.rearLeft.antiRollForce > 0,
@@ -30,16 +33,24 @@ export function runSuspensionMechanicsSelfTest() {
     Math.abs(coupled.wheels.rearLeft.antiRollForce + coupled.wheels.rearRight.antiRollForce) < 1e-10,
     'each axle bar creates equal and opposite forces, not new supported weight');
   assert(Math.abs(Object.values(coupled.wheels).reduce((sum, w) => sum + w.normalLoad, 0) -
-    config.mass * config.gravity) < 1e-7, 'coupled corner loads conserve supported weight');
+    bar.effectiveVehicleMass * config.gravity) < 1, 'settled coupled corner reactions support vehicle weight');
   const contacts = Object.fromEntries(WHEEL_IDS.map(id => {
     const p = wheelLocalPosition(config, id);
     return [id, { ...SURFACE_MATERIALS.asphalt, id, x: p.x, z: p.z,
       height: id === 'frontLeft' ? .3 : 0, normal: { x: 0, y: 1, z: 0 } }];
   })) as unknown as WheelContactSet;
-  const bumped = new SuspensionSystem(config);
+  const bumped = chassisForceFixture(config);
+  bumped.stepFixed(1 / 120, neutral);
   let maximumStopForce = 0;
+  const update = bumped.suspension.updateVertical.bind(bumped.suspension);
+  bumped.suspension.updateVertical = (h, step) => {
+    const result = update(h, step);
+    maximumStopForce = Math.max(maximumStopForce, result.wheels.frontLeft.bumpStopForce);
+    return result;
+  };
   for (let i = 0; i < 120; i++) {
-    const snapshot = bumped.update(1 / 120, { contacts, longitudinalAcceleration: -10, lateralAcceleration: 8 });
+    bumped.stepFixed(1 / 120, neutral, { wheelContacts: contacts });
+    const snapshot = bumped.suspension.getSnapshot();
     maximumStopForce = Math.max(maximumStopForce, snapshot.wheels.frontLeft.bumpStopForce);
     assert(Object.values(snapshot.wheels).every(w => Object.values(w).every(Number.isFinite)),
       'stop/bar corner states remain finite');

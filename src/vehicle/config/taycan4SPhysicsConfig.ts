@@ -1,6 +1,7 @@
 import type { ElectricVehiclePhysicsConfig, ElectricMotorConfig, EVTwoSpeedConfig, EVModeCalibration } from './ElectricVehiclePhysicsConfig';
 import type { DriveModeCalibration } from './VehiclePhysicsConfig';
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 import { createExecutiveSedanPhysicsConfig } from './executiveSedanPhysicsConfig';
 import { TAYCAN_4S_DIMENSIONS as dimensions } from '../VehicleDimensions';
 import { createLateralAssistConfig } from '../control/LateralAssistController';
@@ -10,13 +11,13 @@ import { createTyreThermalPressureConfig } from './TyreThermalPressureConfig';
 export function createTaycan4SPhysicsConfig(): ElectricVehiclePhysicsConfig {
   const { engine: _engine, fuel: _fuel, clutch: _clutch, autoClutch: _autoClutch, transmission: _transmission, ...chassis } = createDefaultVehiclePhysicsConfig();
   const controls = createExecutiveSedanPhysicsConfig();
-  const rearMotor: ElectricMotorConfig = { maxDriveTorque: 400, maxDrivePower: 280000, continuousPower: 200000,
+  const rearMotor: ElectricMotorConfig = { nominalVoltage: 800, copperLossAtMaxTorque: 4000, maxDriveTorque: 400, maxDrivePower: 280000, continuousPower: 200000,
     maxRPM: 15700, baseSpeedRPM: 6685, highSpeedRollOffRPM: 14900, rotationalInertia: .032,
     driveResponseRate: 18, motoringEfficiency: .952, maxRegenTorque: 290, maxRegenPower: 190000, regenEfficiency: .91,
     efficiencyMap: { lightLoadPenalty: .030, highLoadPenalty: .036, highSpeedPenalty: .012 },
     thermal: { thermalCapacity: 75000, coolingRate: 105, airflowCooling: 2.4,
       derateStartTemperature: 82, criticalTemperature: 115, minimumCapability: 0, initialTemperatureOffset: 5 } };
-  const frontMotor: ElectricMotorConfig = { maxDriveTorque: 310, maxDrivePower: 160000, continuousPower: 110000,
+  const frontMotor: ElectricMotorConfig = { nominalVoltage: 800, copperLossAtMaxTorque: 3000, maxDriveTorque: 310, maxDrivePower: 160000, continuousPower: 110000,
     maxRPM: 15700, baseSpeedRPM: 4930, highSpeedRollOffRPM: 14750, rotationalInertia: .022,
     driveResponseRate: 20, motoringEfficiency: .949, maxRegenTorque: 210, maxRegenPower: 120000, regenEfficiency: .90,
     efficiencyMap: { lightLoadPenalty: .035, highLoadPenalty: .032, highSpeedPenalty: .010 },
@@ -34,6 +35,7 @@ export function createTaycan4SPhysicsConfig(): ElectricVehiclePhysicsConfig {
     throttleResponse: response, steeringResponse: 3.1, steeringDamping: 13,
     ev: { coolingMultiplier: cooling, powerFraction: power, frontParticipation: front, shiftStrategy: shift, liftOffMultiplier: lift } });
   return { ...chassis, ...dimensions, mass: 2250, trackWidth: dimensions.frontTrackWidth,
+    controlCalibration: VehicleControlPresets.performanceEV,
     lateralAssist: createLateralAssistConfig(),
     frontWeightBias: .49, centerOfMassHeight: .41, yawInertia: 3850,
     enginePlacement: 'REAR', layoutCalibrationNote: 'Underfloor battery and independent front/rear PSM drive units.',
@@ -43,6 +45,7 @@ export function createTaycan4SPhysicsConfig(): ElectricVehiclePhysicsConfig {
     capabilities: { cruiseControl: true, advancedInstrument: true, tpms: true },
     parkingBrake: { ...controls.parkingBrake! }, autoHold: { ...controls.autoHold! }, cruiseControl: { ...controls.cruiseControl! },
     battery: { grossEnergyKWh: 105, usableCapacityKWh: 97, defaultStateOfCharge: .8, nominalVoltage: 800,
+      electrical: { internalResistance: 0.065, maxDischargeCurrent: 720, maxChargeCurrent: 420 },
       maxDischargePower: 510000, maxChargePower: 320000, dischargeEfficiency: .98, chargeEfficiency: .97,
       lowSOCStart: .12, lowSOCEnd: 0, highSOCRegenStart: .88, highSOCRegenEnd: 1,
       coldDischargeFullTemperature: 18, coldDischargeZeroTemperature: -30,
@@ -50,7 +53,7 @@ export function createTaycan4SPhysicsConfig(): ElectricVehiclePhysicsConfig {
       thermal: { thermalCapacity: 850000, coolingRate: 140, airflowCooling: 3,
         derateStartTemperature: 52, criticalTemperature: 70, minimumCapability: .3, initialTemperatureOffset: 7 } },
     motor: rearMotor, fixedReduction: rearTransmission,
-    driveUnits: [{ axle: 'front', motor: frontMotor, transmission: { ratio: 8.05, efficiency: .972,
+    driveUnits: [{ axle: 'front', disconnect: { engagementTime: .22, disconnectDelay: 1.2 }, motor: frontMotor, transmission: { ratio: 8.05, efficiency: .972,
       reverseSpeedLimit: 8, parkMaximumSpeed: .6, directionLockoutSpeed: 1.5,
       creepEnabled: false, creepTorque: 0, creepSpeed: 1.5 },
       inverter: { maxPower: 195000, efficiency: .976,

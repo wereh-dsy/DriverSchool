@@ -21,7 +21,35 @@ export interface SurfaceMaterial {
   readonly roughness: number;
 }
 
+/** Stable authored identity, allocated once by the map, borrowed by contacts. */
+export interface SurfaceReference {
+  readonly surfaceId: string;
+  readonly roadId?: string;
+  readonly segmentId?: string;
+}
+
+/** Per-wheel support hint. Maps revalidate footprint on every query. */
+export interface SurfaceSupportHint {
+  reference?: SurfaceReference;
+  height: number;
+  normal: { x: number; y: number; z: number };
+  heightTolerance: number;
+  withinTick: boolean;
+  previousReachable: boolean;
+  transientSurface?: string;
+}
+
+export interface SurfaceCandidateDebug {
+  readonly x: number; readonly z: number; readonly referenceHeight: number;
+  readonly chosen: string | null;
+  readonly candidates: readonly { readonly id: string; readonly roadId?: string; readonly segmentIndex?: number; readonly segmentId?: string;
+    readonly height: number; readonly normal: { readonly x: number; readonly y: number; readonly z: number };
+    readonly distance: number; readonly score: number; readonly accepted: boolean; readonly reason?: string }[];
+}
+
 export interface RoadSurfaceSample extends SurfaceMaterial {
+  readonly reference?: SurfaceReference;
+  readonly referenceHeight?: number;
   readonly height: number;
   /** dh/dx and dh/dz (rise divided by horizontal run). */
   readonly gradient: THREE.Vector2;

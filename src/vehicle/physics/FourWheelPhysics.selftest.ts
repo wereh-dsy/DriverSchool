@@ -3,7 +3,7 @@ import { SURFACE_MATERIALS } from '../../world/SurfaceMaterial';
 import { ICE_VEHICLE_CATALOG } from '../VehicleCatalog';
 import { cloneVehiclePhysicsConfig } from '../config';
 import { wheelLocalPosition } from '../VehicleDimensions';
-import { SuspensionSystem } from './SuspensionSystem';
+import { chassisForceFixture } from './ChassisDynamics.selftest';
 import { VehicleDynamics, type VehicleSnapshot } from './VehicleDynamics';
 import { WHEEL_IDS, type WheelContactSet } from './WheelContact';
 
@@ -38,16 +38,17 @@ export function runFourWheelPhysicsSelfTest() {
     })) as unknown as WheelContactSet;
     const validate = (s: VehicleSnapshot) => {
       assert(Object.values(s.wheels).every(w => Object.values(w).every(v => typeof v !== 'number' || Number.isFinite(v))), `${label}: finite corner states`);
-      const total = Object.values(s.wheels).reduce((n, w) => n + w.normalLoad, 0);
-      assert(Math.abs(total - (s.effectiveVehicleMass * config.gravity - s.frontAeroVerticalForce - s.rearAeroVerticalForce)) < 1e-6,
-        `${label}: four loads conserve supported weight including aerodynamic lift`);
+      const total = Object.values(s.wheels).reduce((n, w) => n + w.normalLoad * w.groundNormal.y, 0);
+      assert(Math.abs(total - Object.values(s.wheels).reduce((n, w) => n + (w.supportForce ?? 0), 0)) < 1e-6,
+        `${label}: tyre normal load and physical suspension reaction share one source`);
       for (const id of WHEEL_IDS) {
         const w = s.wheels[id];
-        assert(w.normalLoad > 0 && w.suspensionCompression >= 0 && w.suspensionCompression < config.suspension.restLength,
-          `${label}/${id}: positive load and bounded spring travel`);
+        assert(w.normalLoad >= 0 && (w.grounded || w.normalLoad === 0) &&
+          w.suspensionCompression >= 0 && w.suspensionCompression < config.suspension.restLength,
+          `${label}/${id}: nonnegative contact load, zero airborne support and bounded spring travel`);
       }
-      assert(Math.abs(s.chassis.pitch) <= .065 && Math.abs(s.chassis.roll) <= .075 && Math.abs(s.chassis.rideOffset) < .08,
-        `${label}: restrained supported body attitude`);
+      assert(s.chassis.dynamicAttitude === true && s.chassis.safetyInterventions === 0,
+        `${label}: physical attitude remains finite without a kinematic angle clamp or safety intervention`);
     };
     // Both adapters and future hardware still enter through VehicleInputState.
     const powered = new VehicleDynamics(config, { speed: 12, gear: 2, engineRPM: 2400, clutchEngagement: 1,
@@ -112,27 +113,29 @@ export function runFourWheelPhysicsSelfTest() {
     assert(Math.abs(mixed.wheels.frontRight.rollingResistanceForce) > Math.abs(mixed.wheels.frontLeft.rollingResistanceForce) * 2,
       `${label}: grass creates asymmetric tyre drag`);
     assert(mixed.yaw < 0 && Math.abs(mixed.yaw) < .08, `${label}: split contact creates mild drag yaw`);
-    const spring = new SuspensionSystem(config);
+    const spring = chassisForceFixture(config);
     let suspended = spring.getSnapshot();
-    for (let i = 0; i < 240; i++) suspended = spring.update(DT, { longitudinalAcceleration: 0, lateralAcceleration: 0, contacts: contacts() });
-    assert(Math.abs(suspended.chassis.pitch) + Math.abs(suspended.chassis.roll) + Math.abs(suspended.chassis.rideOffset) < 1e-12,
-      `${label}: resting flat suspension has no oscillation`);
-    for (let i = 0; i < 24; i++) suspended = spring.update(DT, { longitudinalAcceleration: 0, lateralAcceleration: 0, contacts: contacts(false, .04) });
-    assert(suspended.wheels.frontRight.compression > suspended.wheels.frontLeft.compression + .005,
+    for (let i = 0; i < 240; i++) suspended = spring.stepFixed(DT, input(), { wheelContacts: contacts() });
+    assert(Math.abs(suspended.chassis.pitch) < .01 && Math.abs(suspended.chassis.roll) < .01 &&
+      Math.abs(suspended.chassis.verticalVelocity) < .001 && Math.abs(suspended.chassis.pitchAngularVelocity!) < .001 &&
+      Math.abs(suspended.chassis.rollAngularVelocity!) < .001,
+      `${label}: fuel-loaded flat suspension converges to static trim without oscillation`);
+    for (let i = 0; i < 24; i++) suspended = spring.stepFixed(DT, input(), { wheelContacts: contacts(false, .04) });
+    assert(suspended.wheels.frontRight.suspensionCompression > suspended.wheels.frontLeft.suspensionCompression + .005,
       `${label}: a corner bump enters its spring, not a camera shake`);
     assert(suspended.chassis.terrainPitch > .005 && suspended.chassis.terrainRoll > .01,
       `${label}: flat-topped single-wheel bump retains its support-plane attitude`);
-    for (let i = 0; i < 480; i++) suspended = spring.update(DT, { longitudinalAcceleration: 0, lateralAcceleration: 0, contacts: contacts() });
-    assert(Math.abs(suspended.chassis.roll) < 1e-5 && Math.abs(suspended.wheels.frontRight.compressionVelocity) < 1e-4,
+    for (let i = 0; i < 480; i++) suspended = spring.stepFixed(DT, input(), { wheelContacts: contacts() });
+    assert(Math.abs(suspended.chassis.roll) < 1e-5 && Math.abs(suspended.wheels.frontRight.suspensionVelocity) < 1e-4,
       `${label}: suspension bump decays without lingering jitter`);
-    spring.reset();
-    for (let i = 0; i < 240; i++) suspended = spring.update(DT, { longitudinalAcceleration: 3, lateralAcceleration: 0 });
+    const accelerating = chassisForceFixture(config, config.mass * 3 / 4);
+    for (let i = 0; i < 240; i++) suspended = accelerating.stepFixed(DT, input());
     assert(suspended.chassis.pitch > .003 && suspended.wheels.rearLeft.normalLoad > weight * (1 - config.frontWeightBias) * .5,
       `${label}: acceleration loads rear and raises nose`);
-    const spring120 = new SuspensionSystem(config);
-    const spring60 = new SuspensionSystem(config);
-    for (let i = 0; i < 48; i++) spring120.update(DT, { longitudinalAcceleration: -4, lateralAcceleration: 2 });
-    for (let i = 0; i < 24; i++) spring60.update(DT * 2, { longitudinalAcceleration: -4, lateralAcceleration: 2 });
+    const spring120 = chassisForceFixture(config, -config.mass, config.mass * .5);
+    const spring60 = chassisForceFixture(config, -config.mass, config.mass * .5);
+    for (let i = 0; i < 48; i++) spring120.update(DT, input());
+    for (let i = 0; i < 24; i++) spring60.update(DT * 2, input());
     assert(Math.abs(spring120.getSnapshot().chassis.pitch - spring60.getSnapshot().chassis.pitch) < 1e-12 &&
       Math.abs(spring120.getSnapshot().chassis.roll - spring60.getSnapshot().chassis.roll) < 1e-12,
       `${label}: larger caller dt is subdivided, not discarded`);

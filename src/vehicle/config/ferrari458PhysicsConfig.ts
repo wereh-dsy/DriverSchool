@@ -1,4 +1,5 @@
 import { createDefaultVehiclePhysicsConfig } from './defaultVehiclePhysicsConfig';
+import { VehicleControlPresets } from '../control/VehicleControlPresets';
 import { FERRARI_458_DIMENSIONS } from '../VehicleDimensions';
 import { calibrateTyres } from './TyreCalibration';
 import type { AutomaticShiftConfig, DriveModeCalibration, VehiclePhysicsConfig } from './VehiclePhysicsConfig';
@@ -6,6 +7,7 @@ import type { AutomaticShiftConfig, DriveModeCalibration, VehiclePhysicsConfig }
 /** First-pass road calibration, not proprietary Ferrari suspension/E-Diff data. */
 export function createFerrari458PhysicsConfig(): VehiclePhysicsConfig {
   const c = createDefaultVehiclePhysicsConfig();
+  c.controlCalibration = VehicleControlPresets.supercar;
   Object.assign(c, FERRARI_458_DIMENSIONS, { mass: 1435, trackWidth: 1.615,
     enginePlacement: 'MID', frontWeightBias: .42,
     centerOfMassHeight: .40, yawInertia: 1850, drivetrainType: 'RWD', drivetrainLayout: 'RWD',

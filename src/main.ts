@@ -15,6 +15,9 @@ if (new URLSearchParams(location.search).get('editor') === 'city') {
 } else void (async () => { try {
   host.textContent = '正在加载驾驶场景…';
   const game = await DrivingGame.create(host);
+  if (import.meta.env.DEV && new URLSearchParams(location.search).has('eastProbe')) {
+    const { installEastProbe } = await import('../.tmp-east-browser'); installEastProbe(game);
+  }
   game.start();
   window.addEventListener('beforeunload', () => game.dispose(), { once: true });
 } catch (error) {
