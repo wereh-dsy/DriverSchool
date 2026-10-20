@@ -26,10 +26,10 @@ export class BrakeTorqueCoordinator {
     return Math.max(this.service[index]!, this.esc[index]!, this.traction[index]!, this.cruise[index]!) > 1;
   }
   public resolve(index: number, maximum: number, absPressure: number): WheelBrakeTorques {
-    // Driver/hold/emergency and assists request the same caliper. Max avoids
-    // double counting overlapping requests; ABS modulates the complete result.
+    // Base/hold/emergency overlap. ESC and traction add wheel demand before
+    // hardware saturation and final ABS modulation of the complete request.
     const requestedBrakeTorque = Math.min(maximum,
-      Math.max(this.service[index]!, this.esc[index]!, this.traction[index]!, this.cruise[index]!));
+      Math.max(this.service[index]!, this.cruise[index]!) + this.esc[index]! + this.traction[index]!);
     const out = this.wheelTorques[index]! as { -readonly [K in keyof WheelBrakeTorques]: number };
     out.requestedBrakeTorque = requestedBrakeTorque;
     out.appliedBrakeTorque = requestedBrakeTorque * Math.min(1, Math.max(0, absPressure));

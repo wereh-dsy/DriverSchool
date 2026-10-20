@@ -71,7 +71,9 @@ export class VehicleContactSystem {
       dynamics.syncWheelContacts(this.wheelContacts);
       before = dynamics.getSnapshot();
     }
-    const { normal } = averageWheelGroundGeometry(this.wheelContacts);
+    const vertical = dynamics.suspension.getVerticalSnapshot();
+    const { normal } = averageWheelGroundGeometry(this.wheelContacts,
+      vertical.active ? dynamics.suspension.getGroundedWheels() : undefined);
     const previousBody = chassisBodyPose(before.chassis, this.collisionDimensions.bodyOffsetY);
     let after = dynamics.stepFixed(dt, controls, {
       wheelContacts: this.wheelContacts,

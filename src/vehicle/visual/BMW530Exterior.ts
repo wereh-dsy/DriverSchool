@@ -75,7 +75,9 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
         fullFrontZ: -2.553, fullRearZ: 2.553,
         doorFrontZ: access.doorFrontZ, doorRearZ: access.doorRearZ,
         sillY: config.body.sillY, bottomY: archBottom, topY: z => sample(z).y,
-        point: sidePoint, material: sidePaint,
+        // The door split inserts a sill row below the arch crown. Clamp that
+        // row to the opening so its triangles cannot fold back across the tyre.
+        point: (z, y) => sidePoint(z, Math.max(archBottom(z), y)), material: sidePaint,
         fullBodyName: side + ' sculpted body and open wheel arches',
         assignUV: geometry => bmwExteriorUV(geometry, 'side', (_x, y, z) => [(z + 2.553) / 5.106,
           (y - .24) / .72]),

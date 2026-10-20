@@ -310,9 +310,11 @@ export function runVehicleLightingSelfTest(): VehicleLightingSelfTestResult {
             visual.updateInstruments(frame, 3);
             assert(Math.abs(hinge.rotation.y) < .00001, `${side}: ignition restores the original mirror optics`);
           }
-          assert(visual.cockpitRoot.getObjectsByProperty('name', 'Ambient door upper trim').length === 4 &&
+          assert(visual.root.getObjectsByProperty('name', 'Ambient door upper trim').length === 4 &&
             !!visual.cockpitRoot.getObjectByName('Executive upper centre display glass') && !!visual.cockpitRoot.getObjectByName('Executive front cabin bulkhead'),
             'front cabin and door ambient trim are complete');
+          assert(visual.exteriorRoot.getObjectByName('Driver door')?.getObjectsByProperty('name', 'Ambient door upper trim').length === 1,
+            'driver-door ambient trim follows the hinged door');
         }
       } finally { lamps.dispose(); visual.dispose(); }
     }

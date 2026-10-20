@@ -1,4 +1,6 @@
 import { AccelerationRunDiagnostics } from '../experimental/acceleration/AccelerationRunDiagnostics';
+import { AdaptiveDriverLayer } from '../vehicle/control/adaptive/AdaptiveDriverLayer';
+import { DriverProfileStore } from '../vehicle/control/adaptive/DriverProfileStore';
 import { LaneAssistMode, LaneAssistStateController, LANE_ASSIST_LABELS } from '../vehicle/control/LaneAssistState';
 import { LaneDepartureWarningController } from '../vehicle/control/LaneDepartureWarningController';
 import { ElectricPowertrain } from '../vehicle/powertrain/ElectricPowertrain';
@@ -200,6 +202,7 @@ export class DrivingGame {
   private latestInput: VehicleInputState;
   private gameStarted = false;
   private settingsOpen = false;
+  private readonly driverAdaptive = new AdaptiveDriverLayer(new DriverProfileStore());
   private readonly playerMode = new PlayerModeController();
   private readonly walker = new OnFootController();
   private readonly vehicleInteraction = new VehicleInteractionController();
@@ -702,6 +705,8 @@ export class DrivingGame {
       controls.steering = arbitrateLateralSteering(driverControls.steering, lateralOutput);
 
       const beforeStep = this.snapshot;
+      this.dynamics.vehicleControl.learningAllowed = this.gameStarted && !this.settingsOpen && !document.hidden &&
+        this.playerMode.mode === 'Driving' && !this.playerMode.transitioning && !lateralOutput.active && !this.cruiseControl.isActive;
       this.snapshot = this.contacts.step(FIXED_STEP, controls, this.dynamics);
       this.accelerationTest?.update(FIXED_STEP, beforeStep, this.snapshot, driverControls.throttle,
         this.gameStarted && !this.settingsOpen && !document.hidden, this.contacts.collision?.collided ?? false);
@@ -896,7 +901,9 @@ export class DrivingGame {
     // Support heights capture a flat-topped curb even when all normals are up.
     // Never add the averaged normal's slope again to this fitted terrain plane.
     const roadRoll = contacts === null ? 0 : chassis.terrainRoll;
-    const body = chassisBodyPose({ ...chassis, groundHeight: roadHeight,
+    // Physics chassisY owns the body height. roadHeight is only the pre-step
+    // spawn fallback and the terrain-plane input for pitch/roll.
+    const body = chassisBodyPose({ ...chassis, chassisY: contacts === null ? roadHeight : chassis.chassisY,
       terrainPitch: roadPitch, terrainRoll: roadRoll }, this.vehicleVisual.config.staticBodyOffsetY);
     this.vehicleVisual.setWorldPose(
       this.snapshot.x,
@@ -1034,6 +1041,9 @@ export class DrivingGame {
   private configureVehicleDisplays(): void {
     const descriptor = getVehicleDescriptor(this.activeVehicleId);
     const settings = this.hud.settings;
+    this.driverAdaptive.resetTransient();
+    this.driverAdaptive.setEnabled(settings.adaptiveLearningPreference);
+    this.dynamics.vehicleControl.adaptive = this.driverAdaptive;
     this.dynamics.setDriverAssistOptions(settings.driverAssistOptions);
     this.dynamics.setAutoHoldEnabled(settings.autoHoldPreference ?? this.dynamics.config.autoHold?.enabledByDefault ?? false);
     this.dynamics.setStartStopEnabled(settings.startStopPreference);
@@ -1155,6 +1165,11 @@ export class DrivingGame {
     settings.onWiperModeChange = mode => { this.wiperController.setMode(mode); settings.setWiperMode(mode); };
     this.dynamics.setDriverAssistOptions(settings.driverAssistOptions);
     settings.onDriverAssistsChange = options => this.dynamics.setDriverAssistOptions(options);
+    settings.onAdaptiveLearningChange = enabled => this.driverAdaptive.setEnabled(enabled);
+    settings.onDriverProfileReset = () => {
+      this.driverAdaptive.resetProfile();
+      this.hud.showMessage('已重置驾驶习惯 · 自适应开关保持不变', 2);
+    };
     settings.onAutoHoldChange = enabled => {
       this.dynamics.setAutoHoldEnabled(enabled);
       this.snapshot = this.dynamics.getSnapshot();
@@ -1592,6 +1607,7 @@ export class DrivingGame {
   }
 
   private readonly storeCurrentFuel = (): void => {
+    this.driverAdaptive.persist();
     try {
       localStorage.setItem(`drivergame.trip.${this.activeVehicleId}.v1`, JSON.stringify(this.dynamics.tripComputer.getSnapshot()));
       if (this.dynamics.fuel) localStorage.setItem(`drivergame.fuel.${this.activeVehicleId}.v1`, String(this.dynamics.fuel.currentFuelL));

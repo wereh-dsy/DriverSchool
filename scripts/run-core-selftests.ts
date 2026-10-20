@@ -45,6 +45,7 @@ import { runWheelContactSelfTest } from '../src/vehicle/physics/WheelContact.sel
 import { runCollisionSystemSelfTest } from '../src/vehicle/physics/CollisionSystem.selftest';
 import { runContactDynamicsSelfTest } from '../src/vehicle/physics/ContactDynamics.selftest';
 import { runFourWheelPhysicsSelfTest } from '../src/vehicle/physics/FourWheelPhysics.selftest';
+import { runVerticalDynamicsSelfTest } from '../src/vehicle/physics/VerticalDynamics.selftest';
 import { runVehicleContactSystemSelfTest } from '../src/vehicle/physics/VehicleContactSystem.selftest';
 import { runInstrumentClusterLayoutSelfTest } from '../src/vehicle/visual/InstrumentCluster.selftest';
 import { runDriverViewSelfTest } from '../src/vehicle/visual/DriverView.selftest';
@@ -128,6 +129,7 @@ const results = {
   staticCollision: runCollisionSystemSelfTest(),
   contactDynamics: runContactDynamicsSelfTest(),
   fourWheelPhysics: runFourWheelPhysicsSelfTest(),
+  verticalDynamics: runVerticalDynamicsSelfTest(),
   mapContactAcceptance: runVehicleContactSystemSelfTest(),
   vehicleCatalog: runVehicleCatalogSelfTest(),
   cruiseControl: runCruiseControlControllerSelfTest(),

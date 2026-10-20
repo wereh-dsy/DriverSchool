@@ -77,7 +77,9 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
         fullFrontZ: -2.546, fullRearZ: 2.546,
         doorFrontZ: access.doorFrontZ, doorRearZ: access.doorRearZ,
         sillY: config.body.sillY, bottomY: archBottom, topY: z => sample(z).y,
-        point: sidePoint, material: sidePaint,
+        // Keep the inserted sill row above the wheel opening instead of
+        // folding the split side-body triangles back across the tyre.
+        point: (z, y) => sidePoint(z, Math.max(archBottom(z), y)), material: sidePaint,
         fullBodyName: side + ' sculpted body side with open arches',
         assignUV: geometry => mercedesExteriorUV(geometry, 'side', (_x, y, z) => [(z + 2.546) / 5.092,
           (y - rockerY) / .714]),

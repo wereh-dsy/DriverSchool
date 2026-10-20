@@ -117,7 +117,7 @@ export class ContactDebugView {
     this.lastContactSeconds = Math.max(0, this.lastContactSeconds - dt);
     rows.push(`附近障碍 ${collision.nearbyColliders.length} · 碰撞 ${collision.collided ? '接触中' : '无'}`);
     if (physics !== undefined) {
-      rows.push(`pitch ${(physics.chassis.pitch * 180 / Math.PI).toFixed(2)}° · roll ${(physics.chassis.roll * 180 / Math.PI).toFixed(2)}° · heave ${(physics.chassis.rideOffset * 1_000).toFixed(1)}mm`);
+      rows.push(`pitch ${(physics.chassis.pitch * 180 / Math.PI).toFixed(2)}° · roll ${(physics.chassis.roll * 180 / Math.PI).toFixed(2)}° · heave ${((physics.chassis.chassisY - physics.chassis.groundHeight) * 1_000).toFixed(1)}mm · grounded ${physics.chassis.groundedWheels}/4`);
     }
     if (this.lastContactSeconds > 0) rows.push(this.lastContactText);
     this.panel.textContent = rows.join('\n');

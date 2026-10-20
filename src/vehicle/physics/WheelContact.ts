@@ -98,18 +98,26 @@ export function wheelContactsAsArray(contacts: WheelContactSet): readonly WheelC
   return WHEEL_IDS.map((id) => contacts[id]);
 }
 
-/** Geometry only; per-wheel/axle physics must retain individual material values. */
-export function averageWheelGroundGeometry(contacts: WheelContactSet): {
+/**
+ * Geometry only; per-wheel/axle physics must retain individual material values.
+ * `grounded` excludes wheels outside suspension reach from the support plane.
+ */
+export function averageWheelGroundGeometry(
+  contacts: WheelContactSet,
+  grounded?: Readonly<Record<WheelId, boolean>>,
+): {
   readonly height: number;
   readonly normal: GroundNormal;
 } {
+  const active = WHEEL_IDS.filter(id => grounded?.[id] ?? true);
+  const ids = active.length > 0 ? active : WHEEL_IDS;
   let height = 0;
   let normalX = 0;
   let normalY = 0;
   let normalZ = 0;
-  for (const id of WHEEL_IDS) {
+  for (const id of ids) {
     const wheel = contacts[id];
-    height += wheel.height * 0.25;
+    height += wheel.height / ids.length;
     normalX += wheel.normal.x;
     normalY += wheel.normal.y;
     normalZ += wheel.normal.z;

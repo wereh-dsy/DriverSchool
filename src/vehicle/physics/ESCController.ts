@@ -2,15 +2,20 @@ import type { VehicleChassisConfig } from '../config';
 import { WHEEL_IDS } from './WheelContact';
 import type { WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, damp } from './math';
+import { VehicleStateEstimator, type VehicleControlState } from '../control/VehicleStateEstimator';
+import { BaseControlCalibration } from '../control/BaseControlCalibration';
 
 /** Lightweight yaw/slip observer which only requests hydraulic wheel torque. */
 export class ESCController {
   public readonly brakeTorques = [0, 0, 0, 0];
   public expectedYawRate = 0;
+  public yawMomentRequest = 0;
+  public torqueFactor = 1;
   public mode: 'inactive' | 'oversteer' | 'understeer' = 'inactive';
   private selectedWheel = -1;
   private confirmation = 0;
   private candidateWheel = -1;
+  private legacyEstimator?: VehicleStateEstimator;
   public constructor(private readonly config: VehicleChassisConfig) {}
   public get active(): boolean {
     return this.brakeTorques[0]! > 5 || this.brakeTorques[1]! > 5 ||
@@ -19,23 +24,34 @@ export class ESCController {
   public reset(): void {
     this.brakeTorques.fill(0); this.expectedYawRate = 0; this.mode = 'inactive';
     this.selectedWheel = -1; this.candidateWheel = -1; this.confirmation = 0;
+    this.yawMomentRequest = 0; this.torqueFactor = 1; this.legacyEstimator?.reset();
   }
   public update(dt: number, enabled: boolean, speed: number, steering: number, yawRate: number,
     lateralVelocity: number, wheels: WheelPhysicsStateSet, longitudinalLimits: readonly number[],
     lateralLimits: readonly number[]): void {
-    const tune = this.config.driverAids.esc;
+    // Compatibility adapter for callers outside the shared runtime control loop.
+    this.legacyEstimator ??= new VehicleStateEstimator(this.config);
+    const state = this.legacyEstimator.update(dt, speed, lateralVelocity, 0, 0, yawRate, steering, wheels);
+    this.updateState(dt, enabled, state, longitudinalLimits, lateralLimits);
+  }
+  public updateState(dt: number, enabled: boolean, state: VehicleControlState,
+    longitudinalLimits: readonly number[], lateralLimits: readonly number[]): void {
+    const tune = BaseControlCalibration.esc;
+    const speed = state.longitudinalVelocity, steering = state.steeringAngle, yawRate = state.yawRate;
+    const wheels = state.wheels;
     let totalLateral = 0;
-    for (let i = 0; i < 4; i++) totalLateral += lateralLimits[i]!;
+    for (let i = 0; i < 4; i++) if (wheels[WHEEL_IDS[i]!].grounded) totalLateral += lateralLimits[i]!;
     const yawLimit = totalLateral / Math.max(1, this.config.mass * Math.abs(speed));
     // + steering is right, whereas + body yaw is left in the existing solver.
     const reference = clamp(-speed * Math.tan(steering) / this.config.wheelBase, -yawLimit, yawLimit);
     this.expectedYawRate = damp(this.expectedYawRate, reference, 5, dt);
     if (!enabled) { this.reset(); return; }
     let wheel = -1, target = 0;
+    let requestedMoment = 0, torqueTarget = 1;
     let mode: typeof this.mode = 'inactive';
     if (speed > (tune?.minimumSpeed ?? 5) && totalLateral > 1) {
       const expected = this.expectedYawRate;
-      const beta = Math.atan2(lateralVelocity, speed);
+      const beta = state.estimatedSideslipAngle;
       const threshold = (tune?.yawErrorThreshold ?? .16) + Math.abs(expected) * .35;
       const hysteresis = this.selectedWheel >= 0 ? .6 : 1;
       const slipThreshold = (tune?.sideslipThreshold ?? .14) * hysteresis;
@@ -47,6 +63,9 @@ export class ESCController {
       if (over || under) {
         mode = over ? 'oversteer' : 'understeer';
         const correction = expected - yawRate - (over ? beta * 1.2 : 0);
+        requestedMoment = clamp(correction * this.config.yawInertia * .9,
+          -this.config.yawInertia, this.config.yawInertia);
+        torqueTarget = 1 - clamp((Math.abs(correction) - threshold) * .5, 0, .4);
         const first = over ? 0 : 2;
         // Evaluate the actual brake lever including front steering. Choose the
         // outside front for excess yaw, inside rear for insufficient yaw.
@@ -59,12 +78,13 @@ export class ESCController {
           const lever = -x * Math.cos(angle) + position * Math.sin(angle);
           if (lever * correction <= 0 || Math.abs(lever) < .1) continue;
           const w = wheels[WHEEL_IDS[i]!];
+          if (!w.grounded) continue;
           const lateralUsage = Math.min(.98, Math.abs(w.lateralForce) / Math.max(1, lateralLimits[i]!));
           const available = longitudinalLimits[i]! * Math.sqrt(1 - lateralUsage * lateralUsage);
           const hardware = (over ? this.config.brakes.maxBrakeTorqueFront : this.config.brakes.maxBrakeTorqueRear) * .5;
           const gripFraction = clamp(tune?.maximumBrakeGripFraction ?? .45, 0, .8);
           target = Math.min(hardware, available * this.config.wheelRadius * gripFraction,
-            Math.abs(correction) * this.config.yawInertia * .9 * this.config.wheelRadius / Math.abs(lever));
+            Math.abs(requestedMoment) * this.config.wheelRadius / Math.abs(lever));
           wheel = target > 5 ? i : -1;
           break;
         }
@@ -75,18 +95,20 @@ export class ESCController {
     // Require sustained deviation and release the old wheel before switching
     // sides/axles, so a sign change cannot alternate brake pulses each tick.
     if (wheel !== this.selectedWheel && this.active) { wheel = -1; target = 0; }
-    else if (this.confirmation < .1) { wheel = -1; target = 0; }
+    else if (this.confirmation < tune.confirmationTime) { wheel = -1; target = 0; }
     else this.selectedWheel = wheel;
     for (let i = 0; i < 4; i++) {
       const request = i === wheel ? target : 0;
       const lateralUsage = Math.min(.98, Math.abs(wheels[WHEEL_IDS[i]!].lateralForce) / Math.max(1, lateralLimits[i]!));
-      const availableTorque = Math.max(0, longitudinalLimits[i]!) * this.config.wheelRadius *
+      const availableTorque = (wheels[WHEEL_IDS[i]!].grounded ? Math.max(0, longitudinalLimits[i]!) : 0) * this.config.wheelRadius *
         Math.sqrt(1 - lateralUsage * lateralUsage) * clamp(tune?.maximumBrakeGripFraction ?? .45, 0, .8);
       this.brakeTorques[i] = Math.min(availableTorque,
         damp(this.brakeTorques[i]!, request, request > this.brakeTorques[i]! ? (tune?.response ?? 6) : 10, dt));
       if (this.brakeTorques[i]! < .5 && request === 0) this.brakeTorques[i] = 0;
     }
     this.mode = this.active ? mode : 'inactive';
+    this.yawMomentRequest = damp(this.yawMomentRequest, wheel >= 0 ? requestedMoment : 0, 6, dt);
+    this.torqueFactor = damp(this.torqueFactor, this.active && wheel >= 0 ? torqueTarget : 1, torqueTarget < this.torqueFactor ? 6 : 3, dt);
     if (!this.active && wheel < 0) this.selectedWheel = -1;
   }
 }

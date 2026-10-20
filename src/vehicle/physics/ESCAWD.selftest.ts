@@ -69,8 +69,9 @@ export function runESCAWDSelfTest() {
   brakes.brakeInput = .8;
   const merged = brakes.getWheelTorques('frontLeft');
   brakes.setDriverAidState(aids.frontBrakeBias, aids.pressures);
-  assert(merged.requestedBrakeTorque === Math.max(delivery.requestedBrakeTorque, brakes.getWheelTorques('frontLeft').requestedBrakeTorque),
-    'service and ESC hydraulic requests are not added twice');
+  assert(merged.requestedBrakeTorque === Math.min(config.brakes.maxBrakeTorqueFront * .5,
+    delivery.requestedBrakeTorque + brakes.getWheelTorques('frontLeft').requestedBrakeTorque),
+    'ESC adds wheel demand to base braking before hardware saturation and ABS');
   aids.setOptions({ absEnabled: true, ebdEnabled: true, tractionControlEnabled: true, stabilityControlEnabled: false });
   assert(aids.getSnapshot().escOff && !aids.getSnapshot().tcsOff && aids.getSnapshot().absEnabled && aids.getSnapshot().ebdEnabled,
     'ESC switch and warning are independent');

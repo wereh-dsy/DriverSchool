@@ -47,6 +47,9 @@ export class ControlSettingsPanel {
   public onTrajectoryPredictionChange?: (enabled: boolean) => void;
   public onAccelerationTestChange?: (enabled: boolean) => void;
   public onDriverAssistsChange?: (options: DriverAssistOptions) => void;
+  public onAdaptiveLearningChange?: (enabled: boolean) => void;
+  public onDriverProfileReset?: () => void;
+  public adaptiveLearningPreference = this.readAssistancePreference('adaptiveLearningEnabled') ?? false;
   public onAutoHoldChange?: (enabled: boolean) => void;
   public onStartStopChange?: (enabled: boolean) => void;
   public onLateralPreferencesChange?: () => void;
@@ -143,6 +146,8 @@ export class ControlSettingsPanel {
                 <button type="button" data-aid="absEnabled">ABS: ON</button>
                 <button type="button" data-aid="tractionControlEnabled">TCS: ON</button>
                 <button type="button" data-aid="stabilityControlEnabled">ESC: ON</button>
+                <button type="button" data-adaptive-learning>驾驶习惯自适应: OFF</button>
+                <button type="button" data-driver-profile-reset>重置已学习驾驶习惯</button>
                 <button type="button" data-auto-hold hidden aria-pressed="false">AUTO HOLD: OFF</button>
                 <button type="button" data-start-stop aria-pressed="false">START/STOP: OFF</button>
                 <button type="button" data-lka> LKA: ON</button>
@@ -345,6 +350,19 @@ export class ControlSettingsPanel {
       this.lccPreference = !this.lccPreference; this.saveAssistancePreferences(); this.onLateralPreferencesChange?.();
     });
     this.require<HTMLButtonElement>(shell, '[data-lcc-toggle]').addEventListener('click', () => this.onLCCToggle?.());
+    const adaptiveButton = this.require<HTMLButtonElement>(shell, '[data-adaptive-learning]');
+    const refreshAdaptive = () => {
+      adaptiveButton.textContent = `驾驶习惯自适应: ${this.adaptiveLearningPreference ? 'ON' : 'OFF'}`;
+      adaptiveButton.classList.toggle('active', this.adaptiveLearningPreference);
+      adaptiveButton.setAttribute('aria-pressed', String(this.adaptiveLearningPreference));
+    };
+    refreshAdaptive();
+    adaptiveButton.addEventListener('click', () => {
+      this.adaptiveLearningPreference = !this.adaptiveLearningPreference;
+      refreshAdaptive(); this.saveAssistancePreferences();
+      this.onAdaptiveLearningChange?.(this.adaptiveLearningPreference);
+    });
+    this.require<HTMLButtonElement>(shell, '[data-driver-profile-reset]').addEventListener('click', () => this.onDriverProfileReset?.());
     shell.querySelectorAll<HTMLButtonElement>('[data-aid]').forEach(button => {
       const key = button.dataset.aid as keyof DriverAssistOptions;
       const label = key === 'absEnabled' ? 'ABS' : key === 'ebdEnabled' ? 'EBD' : key === 'stabilityControlEnabled' ? 'ESC' : 'TCS';
@@ -626,6 +644,7 @@ export class ControlSettingsPanel {
   private saveAssistancePreferences(): void {
     try { localStorage.setItem('drivergame.driver-assists.v1', JSON.stringify({ ...this.driverAssistOptions,
       autoHoldEnabled: this.autoHoldPreference, startStopEnabled: this.startStopPreference,
+      adaptiveLearningEnabled: this.adaptiveLearningPreference,
       lkaEnabled: this.lkaPreference, lccEnabled: this.lccPreference })); } catch { /* Optional storage. */ }
   }
 

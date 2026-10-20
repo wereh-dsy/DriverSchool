@@ -96,6 +96,8 @@ export class CruiseControlController {
   public readonly config: CruiseControlConfig;
 
   private active = false;
+  /** Allocation-free gate for driver learning; cruise commands are not driver samples. */
+  public get isActive(): boolean { return this.active; }
   private available = false;
   private targetSpeedMetersPerSecond: number | null = null;
   private speedErrorIntegral = 0;

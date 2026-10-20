@@ -1505,7 +1505,8 @@ const addAuthoredDriverDoor = (
     .018, materials.chrome, 'window-trim'));
   const sillA = frontDoorSkinAnchor(config, frontLow.z);
   const sillB = frontDoorSkinAnchor(config, frontMiddleLow.z);
-  door.add(createMesh('Driver door sealed window sill', createQuadGeometry([
+  // Preserve the side/window identity when this return moves onto the door.
+  door.add(createMesh('Left sealed window sill 1', createQuadGeometry([
     { x: -sillA.x - hingePosition.x, y: sillA.y - hingePosition.y, z: frontLow.z - hingePosition.z },
     { x: -sillB.x - hingePosition.x, y: sillB.y - hingePosition.y, z: frontMiddleLow.z - hingePosition.z },
     { x: -side - hingePosition.x, y: opening.frontBottomY - hingePosition.y, z: frontMiddleLow.z - hingePosition.z },

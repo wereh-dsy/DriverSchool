@@ -459,9 +459,8 @@ export const EXECUTIVE_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
   ...DEFAULT_SEDAN_VISUAL_CONFIG,
   ...automaticEnvelope(EXECUTIVE_LWB_DIMENSIONS), ...automaticMirrors(EXECUTIVE_LWB_DIMENSIONS, .995, -.95),
   name: 'A6L-inspired long-wheelbase executive sedan',
-  // Slightly deeper privacy tint than the original saloon calibration; the
-  // glass remains visibly transparent rather than an opaque overlay.
-  windowGlass: { color: 0x2c3742, windshieldOpacity: .24, windowOpacity: .44 },
+  // Moderate side/rear tint with a lighter windshield for forward visibility.
+  windowGlass: { color: 0x2c3742, windshieldOpacity: .24, windowOpacity: .34 },
   automaticMirrorFold: { angleRadians: degrees(60), response: 4.8 },
   driverAccess: {
     side: 'left', doorFrontZ: -.95, doorRearZ: .22,
