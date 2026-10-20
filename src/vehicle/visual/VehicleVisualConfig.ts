@@ -155,6 +155,8 @@ export interface VehicleVisualConfig {
     readonly roofY: number;
   };
   readonly body: {
+    /** Optional independent exterior builder; presentation only. */
+    readonly exterior?: 'tesla-model-3';
     /** Underfloor Y in the authored frame, before the shared chassis transform. */
     readonly groundClearance: number;
     /** Loaded tyre-to-arch gap; stance integration reserves compression travel. */

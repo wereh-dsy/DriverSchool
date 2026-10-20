@@ -4,6 +4,7 @@ import type { VehicleVisualConfig } from './VehicleVisualConfig';
 import { buildGolfGTIExterior } from './GolfGTIExterior';
 import { addExecutiveFascia, executiveSurfaceMap, executiveNoseZ } from './ExecutiveExteriorSurfaces';
 import { executiveLampHousing } from './ExecutiveLampGeometry';
+import { teslaModel3DoorSkinAnchor } from './TeslaModel3Exterior';
 import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 
@@ -44,6 +45,7 @@ export const frontWindowAnchors = (config: VehicleVisualConfig) => ({
 
 /** Actual top of the door skin, interpolated rather than snapped to mesh vertices. */
 export const frontDoorSkinAnchor = (config: VehicleVisualConfig, z: number): THREE.Vector3 => {
+  if (config.body.exterior === 'tesla-model-3') return teslaModel3DoorSkinAnchor(z);
   const stations = config.body.profile === 'sport-coupe' ? createSportsStations(config) : createSedanStations(config);
   const station = sampleStation(stations, z);
   const y = station.topY - .008;

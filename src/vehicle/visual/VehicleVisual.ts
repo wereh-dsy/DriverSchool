@@ -10,6 +10,8 @@ import { buildMercedesE300LWheels } from './MercedesE300LWheels';
 import { buildGolfGTIWheels } from './GolfGTIWheels';
 import { buildExecutiveWheels } from './ExecutiveWheels';
 import { buildVehicleExterior, frontDoorSkinAnchor } from './VehicleExterior';
+import { buildTeslaModel3Exterior, buildTeslaModel3SideMirror } from './TeslaModel3Exterior';
+import { buildTeslaModel3Wheels } from './TeslaModel3Wheels';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import type { VehicleInteractionDefinition } from '../interaction/VehicleInteractionDefinition';
@@ -94,7 +96,8 @@ export class VehicleVisual {
     if (!config.assetCache) return;
     // Registry templates never enter the live scene or carry dynamic state.
     assets.prepareSection(config, 'exterior', root => {
-      if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
+      if (config.body.exterior === 'tesla-model-3') buildTeslaModel3Exterior(root, config);
+      else if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
       else if (config.body.design === 'mercedes-v214') buildMercedesE300LExterior(root, config);
       else buildVehicleExterior(root, config, assets);
     });
@@ -137,7 +140,8 @@ export class VehicleVisual {
 
     if (assets && config.assetCache) {
       this.exteriorRoot.add(assets.section(config, 'exterior', root => {
-        if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
+        if (config.body.exterior === 'tesla-model-3') buildTeslaModel3Exterior(root, config);
+        else if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
         else if (config.body.design === 'mercedes-v214') buildMercedesE300LExterior(root, config);
         else buildVehicleExterior(root, config, assets);
       }));
@@ -492,12 +496,18 @@ export class VehicleVisual {
   }
 
   private buildExterior(): void {
+    if (this.config.body.exterior === 'tesla-model-3') { buildTeslaModel3Exterior(this.exteriorRoot, this.config); return; }
     if (this.config.body.design === 'bmw-g38') { buildBMW530Exterior(this.exteriorRoot, this.config); return; }
     if (this.config.body.design === 'mercedes-v214') { buildMercedesE300LExterior(this.exteriorRoot, this.config); return; }
     buildVehicleExterior(this.exteriorRoot, this.config, this.assets);
   }
 
   private buildWheels(): readonly [THREE.Group, THREE.Group] {
+    if (this.config.body.exterior === 'tesla-model-3') {
+      const { pivots, wheels } = buildTeslaModel3Wheels(this.exteriorRoot, this.config);
+      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
+      return [pivots.frontLeft, pivots.frontRight];
+    }
     if (this.config.body.design === 'executive') {
       const fascia = this.exteriorRoot.getObjectByName('Executive single-frame textured grille and intakes') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
       const { pivots, wheels } = buildExecutiveWheels(this.exteriorRoot, this.config, fascia.material.map!);
@@ -637,6 +647,9 @@ export class VehicleVisual {
   }
 
   private buildMirror(side: MirrorSide, mirrorConfig: MirrorVisualConfig): MirrorSurfaceMesh {
+    if (this.config.body.exterior === 'tesla-model-3' && this.config.automaticMirrorFold === undefined) {
+      return buildTeslaModel3SideMirror(this.exteriorRoot, this.mirrorSurfaceRoot, side, mirrorConfig, this.config);
+    }
     if (this.config.body.design === 'bmw-g38') return buildBMW530SideMirror(this.exteriorRoot,
       this.mirrorSurfaceRoot, side, mirrorConfig, this.config.body.color);
     if (this.config.body.design === 'mercedes-v214') return buildMercedesE300LSideMirror(this.exteriorRoot,
