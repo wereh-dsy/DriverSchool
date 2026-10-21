@@ -11,8 +11,10 @@ import { runWheelContactSelfTest } from '../src/vehicle/physics/WheelContact.sel
 import { runVerticalDynamicsSelfTest } from '../src/vehicle/physics/VerticalDynamics.selftest';
 import { runSuspensionMechanicsSelfTest } from '../src/vehicle/physics/SuspensionMechanics.selftest';
 
-const dir = 'artifacts/east-interchange-contact-stability-fix';
-const original = JSON.parse(fs.readFileSync(`${dir}/original-local-map.json`, 'utf8'));
+const fixtureDir = 'artifacts/east-interchange-contact-stability-fix';
+const dir = process.env.EAST_INTERCHANGE_ARTIFACT_DIR ?? fixtureDir;
+fs.mkdirSync(dir, { recursive: true });
+const original = JSON.parse(fs.readFileSync(`${fixtureDir}/original-local-map.json`, 'utf8'));
 const source = JSON.parse(fs.readFileSync('src/world/regional/regional-main.json', 'utf8'));
 const ids = new Set(original.roads.map((r: any) => r.id));
 const local = { ...original, version: source.version,
@@ -54,6 +56,10 @@ function badCandidateRegression() {
     box.requestManualTrigger(); adapter.step(dt, neutral, car); box.freezeInterrupted('bad-candidate fixture complete');
     const trace = box.createExport();
     assert(trace.events.some(e => e.type === 'support-candidate-rejected'), 'Black Box records rejection');
+    const rejected = trace.events.filter(e => e.type === 'support-candidate-rejected');
+    assert(rejected.every(e => (e.detail as any).rejectionReason === 'unreachable-layer-switch'), 'bad layers report the actual rejection reason');
+    assert(new Set(rejected.map(e => `${e.step}:${(e.detail as any).wheel}`)).size === rejected.length &&
+      rejected.some(e => (e.detail as any).count > 1), 'same-wheel same-tick rejection events are merged without losing sample counts');
     assert(!trace.events.some(e => e.type === 'support-surface-changed' && (e.detail as any).returnedToPreviousSurface),
       'rejected candidates never become support A-B-A');
     assert(car.chassisMotion.safetyInterventions === 0, 'rejection needs no safety recovery');
@@ -173,7 +179,10 @@ function drive(map: any, speed: number, name: string, protectedContact = true, r
 }
 
 const baselineOnly = process.argv.includes('--baseline');
-if (baselineOnly) {
+if (process.argv.includes('--targeted-only')) {
+  console.log(JSON.stringify({ wheelContact: runWheelContactSelfTest().assertions,
+    vertical: runVerticalDynamicsSelfTest().assertions, suspension: runSuspensionMechanicsSelfTest().assertions }));
+} else if (baselineOnly) {
   const rows = [80, 120, 140].map(speed => drive(original, speed, `before-${speed}`, false));
   fs.writeFileSync(`${dir}/before-summary.json`, JSON.stringify(rows, null, 2));
 } else if (process.argv.includes('--geometry-only')) {

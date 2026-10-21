@@ -14,6 +14,19 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
   const positive = (value: number, field: string): void => require(Number.isFinite(value) && value > 0, field);
   const fraction = (value: number, field: string): void => require(Number.isFinite(value) && value >= 0 && value <= 1, field);
   positive(config.mass, 'mass'); positive(config.wheelBase, 'wheelBase');
+  const radial = config.tires.verticalCompliance, hubs = config.suspension.unsprungMass;
+  if (radial) {
+    positive(radial.stiffness, 'tyre radial stiffness'); nonnegative(radial.damping, 'tyre radial damping');
+    positive(radial.maximumCompression, 'tyre radial travel');
+  }
+  if (hubs) {
+    require(!!radial, 'unsprung mass requires radial tyre compliance');
+    positive(hubs.front, 'front unsprung mass'); positive(hubs.rear, 'rear unsprung mass');
+    require(2 * hubs.front < config.mass * config.frontWeightBias &&
+      2 * hubs.rear < config.mass * (1 - config.frontWeightBias), 'positive sprung axle masses');
+    require(!!radial && config.mass * config.gravity * Math.max(config.frontWeightBias, 1 - config.frontWeightBias) * .5 /
+      radial.stiffness < radial.maximumCompression, 'radial travel exceeds static preload');
+  }
   for (const tyre of [config.tires.thermalPressureFront, config.tires.thermalPressureRear]) {
     if (!tyre) continue;
     positive(tyre.referenceColdPressureKPa, 'tyre cold pressure');

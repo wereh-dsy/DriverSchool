@@ -170,6 +170,7 @@ export const DEFAULT_VEHICLE_PHYSICS_CONFIG: VehiclePhysicsConfig = {
     liftCoefficientRear: 0.06,
   },
   tires: calibrateTyres({
+    verticalCompliance: { stiffness: 400000, damping: 1200, maximumCompression: .055 },
     loadSensitivity: 0.06,
     wheelInertia: 1.2,
     rollingResistance: 0.012,
@@ -299,6 +300,7 @@ export function cloneVehiclePhysicsConfig(
     steering: { ...config.steering, returnProfile: config.steering.returnProfile === undefined ? undefined : { ...config.steering.returnProfile } },
     aero: { ...config.aero },
     tires: { ...config.tires,
+      verticalCompliance: config.tires.verticalCompliance && { ...config.tires.verticalCompliance },
       thermalPressureFront: config.tires.thermalPressureFront && { ...config.tires.thermalPressureFront },
       thermalPressureRear: config.tires.thermalPressureRear && { ...config.tires.thermalPressureRear } },
     startStop: config.startStop === undefined ? undefined : { ...config.startStop },

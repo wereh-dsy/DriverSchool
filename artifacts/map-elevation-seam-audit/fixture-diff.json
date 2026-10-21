@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "signs": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "roads": {
+    "added": [],
+    "removed": [],
+    "modified": [
+      {
+        "id": "ring-cw-2-split-4-split",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": false,
+        "elevationOnly": true,
+        "maxDisplacement": 0,
+        "elevationDelta": 0.06558920089162279,
+        "controlPointsChanged": 38,
+        "endpointsChanged": false,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": 2399.1453883204845,
+              "y": 8.108433465865168,
+              "z": 778.6127352996817
+            },
+            "after": {
+              "x": 2399.1453883204845,
+              "y": 8.108433465865168,
+              "z": 778.6127352996817
+            }
+          },
+          "end": {
+            "before": {
+              "x": 1380.0000000000018,
+              "y": 0,
+              "z": 2367.900988321155
+            },
+            "after": {
+              "x": 1380.0000000000018,
+              "y": 0,
+              "z": 2367.900988321155
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.026129443456540002,
+        "afterMaxHeadingDelta": 0.026129443456540002,
+        "crossingElevationsPreserved": true
+      },
+      {
+        "id": "ring-ccw-1-split-split-split-split-section",
+        "approximate": true,
+        "metricMethod": "symmetric path projection; 100 normalized elevation samples",
+        "horizontalGeometryChanged": false,
+        "elevationOnly": true,
+        "maxDisplacement": 0,
+        "elevationDelta": 0.06480797413192418,
+        "controlPointsChanged": 38,
+        "endpointsChanged": false,
+        "endpointChanges": {
+          "start": {
+            "before": {
+              "x": 1380,
+              "y": 0,
+              "z": 2380.3308823529414
+            },
+            "after": {
+              "x": 1380,
+              "y": 0,
+              "z": 2380.3308823529414
+            }
+          },
+          "end": {
+            "before": {
+              "x": 2428.514632147814,
+              "y": 7.771781315564793,
+              "z": 1125.213476271732
+            },
+            "after": {
+              "x": 2428.514632147814,
+              "y": 7.771781315564793,
+              "z": 1125.213476271732
+            }
+          }
+        },
+        "beforeMaxHeadingDelta": 0.02713547356048185,
+        "afterMaxHeadingDelta": 0.02713547356048185,
+        "crossingElevationsPreserved": true
+      }
+    ]
+  },
+  "intersections": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "objects": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "structures": [
+    {
+      "roadId": "ring-cw-2-split-4-split",
+      "before": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      },
+      "after": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      },
+      "beforeType": "elevated",
+      "afterType": "elevated"
+    },
+    {
+      "roadId": "ring-ccw-1-split-split-split-split-section",
+      "before": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      },
+      "after": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 60,
+        "barrierOffset": 0,
+        "barrierStyle": "metal",
+        "medianBarrierStyle": "concrete"
+      },
+      "beforeType": "elevated",
+      "afterType": "elevated"
+    }
+  ],
+  "roadLinks": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "affectedBbox": {
+    "minX": 1372.625,
+    "maxX": 2438.390651022093,
+    "minZ": 771.2377352996817,
+    "maxZ": 2387.7058823529414
+  },
+  "maxRoadDisplacement": 0,
+  "maxElevationDelta": 0.06558920089162279,
+  "topology": {
+    "changed": false,
+    "scope": "localDependency",
+    "componentDelta": 0,
+    "newDeadEnds": [],
+    "before": {
+      "components": 2,
+      "deadEnds": [
+        "ring-ccw-1-split-split-split-split-split",
+        "ring-cw-2-split-4",
+        "ring-cw-2-split-4-split-section",
+        "v91-ring-south-inner-off",
+        "ring-ccw-1-split-split-split-split",
+        "v91-ring-south-outer-on"
+      ],
+      "adjacency": [
+        {
+          "id": "ring-cw-2-split-4-split",
+          "links": [
+            "ring-cw-2-split-4",
+            "ring-cw-2-split-4-split-section",
+            "v91-ring-south-inner-off"
+          ]
+        },
+        {
+          "id": "ring-ccw-1-split-split-split-split-section",
+          "links": [
+            "ring-ccw-1-split-split-split-split-split",
+            "ring-ccw-1-split-split-split-split",
+            "v91-ring-south-outer-on"
+          ]
+        },
+        {
+          "id": "ring-ccw-1-split-split-split-split-split",
+          "links": [
+            "ring-ccw-1-split-split-split-split-section"
+          ]
+        },
+        {
+          "id": "ring-cw-2-split-4",
+          "links": [
+            "ring-cw-2-split-4-split"
+          ]
+        },
+        {
+          "id": "ring-cw-2-split-4-split-section",
+          "links": [
+            "ring-cw-2-split-4-split"
+          ]
+        },
+        {
+          "id": "v91-ring-south-inner-off",
+          "links": [
+            "ring-cw-2-split-4-split"
+          ]
+        },
+        {
+          "id": "ring-ccw-1-split-split-split-split",
+          "links": [
+            "ring-ccw-1-split-split-split-split-section"
+          ]
+        },
+        {
+          "id": "v91-ring-south-outer-on",
+          "links": [
+            "ring-ccw-1-split-split-split-split-section"
+          ]
+        }
+      ]
+    },
+    "after": {
+      "components": 2,
+      "deadEnds": [
+        "ring-ccw-1-split-split-split-split-split",
+        "ring-cw-2-split-4",
+        "ring-cw-2-split-4-split-section",
+        "v91-ring-south-inner-off",
+        "ring-ccw-1-split-split-split-split",
+        "v91-ring-south-outer-on"
+      ],
+      "adjacency": [
+        {
+          "id": "ring-cw-2-split-4-split",
+          "links": [
+            "ring-cw-2-split-4",
+            "ring-cw-2-split-4-split-section",
+            "v91-ring-south-inner-off"
+          ]
+        },
+        {
+          "id": "ring-ccw-1-split-split-split-split-section",
+          "links": [
+            "ring-ccw-1-split-split-split-split-split",
+            "ring-ccw-1-split-split-split-split",
+            "v91-ring-south-outer-on"
+          ]
+        },
+        {
+          "id": "ring-ccw-1-split-split-split-split-split",
+          "links": [
+            "ring-ccw-1-split-split-split-split-section"
+          ]
+        },
+        {
+          "id": "ring-cw-2-split-4",
+          "links": [
+            "ring-cw-2-split-4-split"
+          ]
+        },
+        {
+          "id": "ring-cw-2-split-4-split-section",
+          "links": [
+            "ring-cw-2-split-4-split"
+          ]
+        },
+        {
+          "id": "v91-ring-south-inner-off",
+          "links": [
+            "ring-cw-2-split-4-split"
+          ]
+        },
+        {
+          "id": "ring-ccw-1-split-split-split-split",
+          "links": [
+            "ring-ccw-1-split-split-split-split-section"
+          ]
+        },
+        {
+          "id": "v91-ring-south-outer-on",
+          "links": [
+            "ring-ccw-1-split-split-split-split-section"
+          ]
+        }
+      ]
+    },
+    "routeChecks": [],
+    "laneConnectionsAdded": [],
+    "laneConnectionsRemoved": [],
+    "directedLaneRouteVerified": true
+  }
+}

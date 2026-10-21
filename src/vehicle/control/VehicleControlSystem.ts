@@ -83,6 +83,8 @@ export class VehicleControlSystem {
   private readonly safetyTorqueFactors = [1, 1];
   private readonly safetyTorqueTargets = [1, 1];
   private readonly edlActive = [false, false, false, false];
+  private readonly airborneTorqueFactors = [1, 1];
+  private readonly airborneOverspeedDuration = [0, 0];
   private options: DriverAssistOptions;
   private absActive = false;
   private selfCheck = 0;
@@ -125,6 +127,7 @@ export class VehicleControlSystem {
       this.frontTraction.reset(); this.rearTraction.reset(); this.tractionBrakeTorques.fill(0);
       this.tractionActive.fill(false); this.axleSlipDuration.fill(0);
       this.safetyTorqueFactors.fill(1);
+      this.airborneTorqueFactors.fill(1); this.airborneOverspeedDuration.fill(0);
     }
     this.resolveTorque();
   }
@@ -135,7 +138,8 @@ export class VehicleControlSystem {
     this.interventions.tcsActive = this.tractionIsActive;
     this.interventions.escActive = this.esc.active;
     this.adaptive.update(dt, this.intent, this.estimator.state, this.interventions,
-      this.learningAllowed && operational && !automated && this.estimator.state.speed > .5);
+      this.learningAllowed && operational && !automated && this.estimator.state.speed > .5 &&
+      !this.estimator.state.contactTransient);
   }
   public previewThrottleDemand(baselineThrottle: number): number {
     return this.adaptive.previewThrottle(baselineThrottle, this.calibration.throttle);
@@ -154,8 +158,8 @@ export class VehicleControlSystem {
   private resolveTorque(): void {
     const share = this.awd?.frontAxleTorqueRatio ?? (this.config.drivetrainType === 'FWD' ? 1 : 0);
     const traction = this.options.tractionControlEnabled;
-    this.arbitrator.limitTorque(traction ? Math.min(this.frontTraction.factor, this.safetyTorqueFactors[0]!) : 1,
-      traction ? Math.min(this.rearTraction.factor, this.safetyTorqueFactors[1]!) : 1, this.esc.torqueFactor, share);
+    this.arbitrator.limitTorque(traction ? Math.min(this.frontTraction.factor, this.safetyTorqueFactors[0]!, this.airborneTorqueFactors[0]!) : 1,
+      traction ? Math.min(this.rearTraction.factor, this.safetyTorqueFactors[1]!, this.airborneTorqueFactors[1]!) : 1, this.esc.torqueFactor, share);
     const request = this.arbitrator.request;
     request.frontAxleTorqueRatio = this.awd?.frontAxleTorqueRatio;
     request.rearAxleTorqueRatio = this.awd?.rearAxleTorqueRatio;
@@ -172,19 +176,30 @@ export class VehicleControlSystem {
       this.combinedTractionBrakes[i] = Math.max(this.tractionBrakeTorques[i]!, this.differentialBrakeTorques[i]!);
     }
     brakes.setDriverAidState(this.frontBrakeBias, this.pressures);
-    this.arbitrator.submitBrakes(brakes.coordinator, this.esc.brakeTorques, this.combinedTractionBrakes);
+    this.arbitrator.submitBrakes(brakes.coordinator, this.esc.brakeTorques, this.combinedTractionBrakes, this.estimator.state);
   }
   /** Current Fz/contact state is refreshed by the solver before this call.
    * ABS sees every service source plus motor braking before either is delivered. */
   public resolveServiceBrakes(dt: number, brakes: BrakeSystem, capacities: readonly number[],
     regenerativeAxle?: 'front' | 'rear' | 'both'): void {
+    this.estimator.setPhysicalCapacities(capacities);
     this.frontBrakeBias = this.ebd.update(dt, this.options.ebdEnabled, this.estimator.state, capacities);
     this.stageBrakeRequests(brakes);
     brakes.prepareRequests();
     this.modulateABS(dt, brakes.brakeInput, brakes.coordinator, regenerativeAxle);
     this.stageBrakeRequests(brakes);
   }
+  /** Axle-equivalent Nm from the weaker wheel; shared motor cannot release one
+   * wheel independently. Raw load/lock protection remains immediate during filtering. */
+  public regenerativeTorqueLimit(index: number): number {
+    const w = this.estimator.state.wheels[WHEEL_IDS[index]!];
+    const brakingSlip = -w.rawLongitudinalSlip * Math.sign(w.longitudinalVelocity || this.estimator.state.longitudinalVelocity);
+    if (!w.roadContactReady || !w.grounded || this.pressures[index]! < .98 ||
+      brakingSlip > HardSafetyEnvelope.maximumABSLockSlip) return 0;
+    return w.safeLongitudinalCapacity * w.rollingRadius * 2 * this.pressures[index]!;
+  }
   public updateStabilityState(dt: number, limits: readonly number[], lateralLimits: readonly number[]): void {
+    this.estimator.setPhysicalCapacities(limits, lateralLimits);
     this.esc.updateState(dt, this.options.stabilityControlEnabled === true && this.vehicleOperational,
       this.estimator.state, limits, lateralLimits);
     this.resolveTorque();
@@ -192,11 +207,7 @@ export class VehicleControlSystem {
   public updateStability(dt: number, speed: number, steering: number, yawRate: number,
     lateralVelocity: number, wheels: WheelPhysicsStateSet, limits: readonly number[], lateralLimits: readonly number[]): void {
     // Legacy call shape retained for external callers. Runtime reads the shared sample.
-    const state = this.estimator.state;
-    state.longitudinalVelocity = speed; state.speed = Math.hypot(speed, lateralVelocity);
-    state.steeringAngle = steering; state.yawRate = yawRate; state.lateralVelocity = lateralVelocity;
-    state.estimatedSideslipAngle = Math.atan(lateralVelocity / Math.max(2, Math.abs(speed)));
-    this.estimator.refreshWheels(wheels);
+    this.estimator.update(dt, speed, lateralVelocity, 0, 0, yawRate, steering, wheels);
     this.updateStabilityState(dt, limits, lateralLimits);
   }
   public reset(running: boolean): void {
@@ -204,6 +215,7 @@ export class VehicleControlSystem {
     this.estimator.reset(); this.ebd.reset(); this.abs.reset(); this.adaptive.resetTransient();
     this.tractionBrakeTorques.fill(0); this.tractionActive.fill(false); this.axleSlipDuration.fill(0);
     this.safetyTorqueFactors.fill(1); this.edlActive.fill(false); this.awd?.reset();
+    this.airborneTorqueFactors.fill(1); this.airborneOverspeedDuration.fill(0);
     this.differentialBrakeTorques.fill(0);
     this.esc.reset();
     this.pressures.fill(1); this.engineTorqueFactor = this.frontTorqueFactor = this.rearTorqueFactor = 1; this.absActive = false;
@@ -211,11 +223,13 @@ export class VehicleControlSystem {
     this.vehicleOperational = running; this.selfCheck = running ? 1.2 : 0; this.time = 0;
     this.resolveTorque();
   }
-  public updateTraction(dt: number, wheels: WheelPhysicsStateSet, throttle: number, running: boolean, driving: boolean, driveAvailable = running, contacts?: WheelContactSet): void {
+  public updateTraction(dt: number, wheels: WheelPhysicsStateSet, throttle: number, running: boolean, driving: boolean, driveAvailable = running,
+    contacts?: WheelContactSet, statePrepared = false): void {
     if (running && !this.vehicleOperational) this.selfCheck = 1.2;
     this.vehicleOperational = running; this.selfCheck = Math.max(0, this.selfCheck - dt); this.time += dt;
     let frontError = -1, rearError = -1;
-    this.estimator.refreshWheels(wheels, contacts);
+    // Runtime already sampled once; direct/legacy callers advance the same estimator here.
+    this.estimator.refreshWheels(wheels, contacts, undefined, undefined, undefined, statePrepared ? 0 : dt);
     // First reallocate axles; remaining wheel slip goes to the common EDL/TCS path.
     this.awd?.update(dt, this.estimator.state, throttle, running && driveAvailable && driving,
       this.frontTraction.factor, this.rearTraction.factor, this.esc.mode);
@@ -225,20 +239,28 @@ export class VehicleControlSystem {
       for (const id of WHEEL_IDS) {
         const front = id === 'frontLeft' || id === 'frontRight';
         const w = this.estimator.state.wheels[id];
-        if (!w.driven) continue;
+        if (!w.driven || !w.roadContactReady || w.driveSlipDuration + 1e-9 < (w.wheelHop ? .04 : .025)) continue;
         const direction = Math.sign(w.longitudinalVelocity || w.angularVelocity);
         const target = Math.min(w.usefulSlipRatio * this.calibration.tcs.slipMultiplier, HardSafetyEnvelope.maximumDriveSlip);
         // Airborne overspeed may limit propulsion, but cannot produce road-brake intervention.
-        const error = w.longitudinalSlipRatio * direction - target;
+        const error = w.estimatedLongitudinalSlip * direction - target;
         const axle = front ? 0 : 1;
         this.safetyTorqueTargets[axle] = Math.min(this.safetyTorqueTargets[axle]!,
-          clamp(1 - Math.max(0, w.longitudinalSlipRatio * direction - HardSafetyEnvelope.maximumDriveSlip) * 2.5, .05, 1));
+          clamp(1 - Math.max(0, w.estimatedLongitudinalSlip * direction - HardSafetyEnvelope.maximumDriveSlip) * 2.5, .05, 1));
         if (front) frontError = Math.max(frontError, error);
         else rearError = Math.max(rearError, error);
       }
     }
     const tune = this.calibration.tcs;
     for (let axle = 0; axle < 2; axle++) {
+      const left = this.estimator.state.wheels[WHEEL_IDS[axle * 2]!], right = this.estimator.state.wheels[WHEEL_IDS[axle * 2 + 1]!];
+      const overspeed = (!left.grounded && Math.abs(left.linearSurfaceSpeed) > Math.max(6, Math.abs(left.longitudinalVelocity) + 6)) ||
+        (!right.grounded && Math.abs(right.linearSurfaceSpeed) > Math.max(6, Math.abs(right.longitudinalVelocity) + 6));
+      const unloadedAxle = !left.grounded && !right.grounded;
+      this.airborneOverspeedDuration[axle] = enabled && (overspeed || unloadedAxle) ? this.airborneOverspeedDuration[axle]! + dt : 0;
+      // Free-wheel protection is separate from road TCS evidence and its learning counter.
+      this.airborneTorqueFactors[axle] = damp(this.airborneTorqueFactors[axle]!,
+        this.airborneOverspeedDuration[axle]! >= .04 ? unloadedAxle ? .15 : .35 : 1, 8, dt);
       const hardTarget = this.safetyTorqueTargets[axle]!;
       this.safetyTorqueFactors[axle] = Math.min(hardTarget, this.safetyTorqueFactors[axle]! +
         Math.min(2.5, tune.recoveryResponse * .8) * dt);
@@ -250,14 +272,15 @@ export class VehicleControlSystem {
     }
     for (let i = 0; i < 4; i++) {
       const w = this.estimator.state.wheels[WHEEL_IDS[i]!];
-      const error = w.longitudinalSlipRatio * Math.sign(w.longitudinalVelocity || w.angularVelocity) -
+      const error = w.estimatedLongitudinalSlip * Math.sign(w.longitudinalVelocity || w.angularVelocity) -
         Math.min(w.usefulSlipRatio * tune.slipMultiplier, HardSafetyEnvelope.maximumDriveSlip);
-      const usable = enabled && w.driven && w.grounded && Math.abs(w.linearSurfaceSpeed - w.longitudinalVelocity) > .35;
+      const usable = enabled && w.driven && w.roadContactReady && w.driveSlipDuration + 1e-9 >= (w.wheelHop ? .04 : .025) &&
+        Math.abs(w.linearSurfaceSpeed - w.longitudinalVelocity) > .35;
       if (!usable || error < -tune.hysteresis) this.tractionActive[i] = false;
       else if (error > tune.hysteresis) this.tractionActive[i] = true;
       const hardware = (i < 2 ? this.config.brakes.maxBrakeTorqueFront : this.config.brakes.maxBrakeTorqueRear) * .5;
       const target = usable && this.tractionActive[i] ? Math.min(hardware * tune.brakeFraction,
-        w.normalLoad * this.config.wheelRadius * tune.brakeFraction) * clamp(error / .15, 0, 1) : 0;
+        w.safeLongitudinalCapacity * w.rollingRadius * tune.brakeFraction) * clamp(error / .15, 0, 1) : 0;
       this.tractionBrakeTorques[i] = usable ? damp(this.tractionBrakeTorques[i]!, target, tune.brakeResponse, dt) : 0;
     }
     this.resolveTorque();
@@ -267,17 +290,18 @@ export class VehicleControlSystem {
       const driven = this.config.drivetrainType === 'AWD' || (i < 2) === (this.config.drivetrainType === 'FWD');
       const wheel = this.estimator.state.wheels[WHEEL_IDS[i]!], other = this.estimator.state.wheels[WHEEL_IDS[i ^ 1]!];
       const direction = Math.sign(wheel.longitudinalVelocity || wheel.angularVelocity);
-      const slip = wheel.longitudinalSlipRatio * direction;
+      const slip = wheel.estimatedLongitudinalSlip * direction;
       // Wheel-relative slip speed excludes the normal outside-wheel speed in a turn.
-      const excessSpeed = direction * ((wheel.angularVelocity - other.angularVelocity) * this.config.wheelRadius -
+      const excessSpeed = direction * (wheel.wheelLinearSurfaceSpeed - other.wheelLinearSurfaceSpeed -
         (wheel.longitudinalVelocity - other.longitudinalVelocity));
-      const otherSlip = other.longitudinalSlipRatio * direction;
-      const usable = driven && wheel.grounded && other.grounded && running && driveAvailable && driving && throttle > .05 &&
+      const otherSlip = other.estimatedLongitudinalSlip * direction;
+      const usable = driven && wheel.roadContactReady && other.roadContactReady && wheel.driveSlipDuration + 1e-9 >= .025 &&
+        running && driveAvailable && driving && throttle > .05 &&
         (enabled || differential !== undefined);
       if (!usable || slip - otherSlip < edl.edlSlipDifference * .6) this.edlActive[i] = false;
       else if (slip - otherSlip > edl.edlSlipDifference) this.edlActive[i] = true;
       const hardware = (i < 2 ? this.config.brakes.maxBrakeTorqueFront : this.config.brakes.maxBrakeTorqueRear) * .5;
-      const maximum = Math.min(hardware * edl.edlBrakeFraction, wheel.normalLoad * this.config.wheelRadius * edl.edlBrakeFraction,
+      const maximum = Math.min(hardware * edl.edlBrakeFraction, wheel.safeLongitudinalCapacity * wheel.rollingRadius * edl.edlBrakeFraction,
         differential?.maximumBrakeTorque ?? Infinity);
       const onset = differential ? Math.max(wheel.usefulSlipRatio,
         differential.slipThreshold * wheel.usefulSlipRatio / Math.max(.015, this.config.tires.peakSlipRatio)) : wheel.usefulSlipRatio;
@@ -291,7 +315,8 @@ export class VehicleControlSystem {
   public updateBrakes(dt: number, speed: number, brake: number, wheels: WheelPhysicsStateSet,
     capacities: readonly number[], coordinator?: BrakeTorqueCoordinator, regenerativeAxle?: 'front' | 'rear' | 'both', contacts?: WheelContactSet): void {
     this.estimator.state.longitudinalVelocity = speed;
-    this.estimator.refreshWheels(wheels, contacts);
+    this.estimator.refreshWheels(wheels, contacts, undefined, undefined, undefined, dt);
+    this.estimator.setPhysicalCapacities(capacities);
     this.frontBrakeBias = this.ebd.update(dt, this.options.ebdEnabled, this.estimator.state, capacities);
     this.modulateABS(dt, brake, coordinator, regenerativeAxle);
   }

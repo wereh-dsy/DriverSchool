@@ -20,6 +20,16 @@ export interface SuspensionWheelState {
 
 /** One wheel's geometric contact and real spring support. */
 export interface SuspensionVerticalCorner extends WheelGeometryState {
+  readonly unsprungMass: number;
+  readonly unsprungPosition: number;
+  readonly unsprungVelocity: number;
+  readonly unsprungAcceleration: number;
+  readonly tyreNormalForce: number;
+  readonly springStiffness: number;
+  readonly suspensionDamping: number;
+  readonly unloadedLength: number;
+  readonly mountNormalVelocity: number;
+  readonly freeTyreRadius: number;
   readonly supportValid?: boolean;
   readonly requiredLength: number;
   readonly grounded: boolean;
@@ -91,6 +101,19 @@ interface CornerState {
 }
 
 interface MutableVerticalCorner {
+  unsprungMass: number;
+  unsprungPosition: number;
+  unsprungVelocity: number;
+  unsprungAcceleration: number;
+  tyreNormalForce: number;
+  springStiffness: number;
+  suspensionDamping: number;
+  unloadedLength: number;
+  mountNormalVelocity: number;
+  freeTyreRadius: number;
+  tyreCompression: number;
+  tyreCompressionVelocity: number;
+  effectiveRadius: number;
   supportValid?: boolean;
   requiredLength: number;
   grounded: boolean;
@@ -162,11 +185,21 @@ export class SuspensionSystem {
     this.verticalFrame.active = false; this.verticalFrame.groundedWheels = 0; this.verticalFrame.supportForce = 0;
     for (const id of WHEEL_IDS) {
       const load = this.staticLoad(id);
-      this.corners[id] = { compression: load / this.springRate(id), velocity: 0, load, spring: load, damper: 0, bumpStop: 0, antiRoll: 0 };
+      const sprungLoad = this.sprungStaticLoad(id);
+      this.corners[id] = { compression: sprungLoad / this.springRate(id), velocity: 0, load, spring: sprungLoad, damper: 0, bumpStop: 0, antiRoll: 0 };
+      const radial = this.config.tires.verticalCompliance;
+      const tyreCompression = radial ? load / radial.stiffness : 0;
       const corner: MutableVerticalCorner = { grounded: false, surfaceHeight: 0,
-        compression: load / this.springRate(id), compressionVelocity: 0, springForce: load,
+        unsprungMass: this.unsprungMass(id),
+        unsprungPosition: this.config.suspension.restLength - sprungLoad / this.springRate(id),
+        unsprungVelocity: 0, unsprungAcceleration: 0, tyreNormalForce: load,
+        springStiffness: this.springRate(id), suspensionDamping: 0,
+        unloadedLength: this.config.suspension.restLength, mountNormalVelocity: 0,
+        freeTyreRadius: this.config.wheelRadius + tyreCompression,
+        tyreCompression, tyreCompressionVelocity: 0, effectiveRadius: this.config.wheelRadius,
+        compression: sprungLoad / this.springRate(id), compressionVelocity: 0, springForce: sprungLoad,
         damperForce: 0, bumpStopForce: 0, supportForce: 0, normalLoad: load, antiRollForce: 0, contactForce: 0,
-        suspensionLength: this.config.suspension.restLength - load / this.springRate(id),
+        suspensionLength: this.config.suspension.restLength - sprungLoad / this.springRate(id),
         attachmentWorldPosition: { x: 0, y: 0, z: 0 }, suspensionAxis: { x: 0, y: -1, z: 0 },
         minSuspensionLength: 0, restSuspensionLength: 0, maxSuspensionLength: 0,
         wheelCenterWorld: { x: 0, y: 0, z: 0 }, surfacePoint: { x: 0, y: 0, z: 0 },
@@ -231,9 +264,10 @@ export class SuspensionSystem {
   /**
    * Production vertical contact pass. Compression comes from the real chassis
    * height and the sampled surface, so a wheel can fail to reach the ground.
-   * Spring, damper and bump stop then push the chassis; they never pull it down.
+   * Legacy massless contacts publish unilateral support. With a hub DOF the
+   * suspension is an internal force pair; only the tyre/road force is unilateral.
    */
-  public updateVertical(_dt: number, step: SuspensionVerticalStep): SuspensionVerticalSnapshot {
+  public updateVertical(dt: number, step: SuspensionVerticalStep): SuspensionVerticalSnapshot {
     this.refreshVerticalGeometry(step);
     const frame = this.verticalFrame;
     const verticalVelocity = this.finite(step.verticalVelocity);
@@ -250,7 +284,7 @@ export class SuspensionSystem {
     for (const id of WHEEL_IDS) {
       const corner = frame.wheels[id];
       const front = id.startsWith('front');
-      const { grounded, compression } = corner;
+      let { grounded, compression } = corner;
       const point = corner.wheelCenterWorld, n = corner.surfaceNormal;
       const rx = point.x - ((step.x ?? 0) + sy * cgZ);
       const ry = point.y - (step.chassisY + this.config.centerOfMassHeight);
@@ -260,16 +294,73 @@ export class SuspensionSystem {
       const vz = (step.velocityZ ?? 0) + wx * ry - wy * rx;
       const projection = Math.max(.1, -(corner.suspensionAxis.x * n.x + corner.suspensionAxis.y * n.y + corner.suspensionAxis.z * n.z));
       // Static road, moving sprung point: no frame-history / microDt aliasing.
-      const compressionVelocity = grounded ? -(vx * n.x + vy * n.y + vz * n.z) / projection : 0;
+      let compressionVelocity = grounded ? -(vx * n.x + vy * n.y + vz * n.z) / projection : 0;
       const springRate = this.springRate(id);
-      const springForce = springRate * compression;
       const baselineDamping = compressionVelocity >= 0
         ? (front ? this.config.suspension.damperCompressionFront : this.config.suspension.damperCompressionRear)
         : (front ? this.config.suspension.damperReboundFront : this.config.suspension.damperReboundRear);
-      const damperForce = baselineDamping * this.dampingMultiplier * compressionVelocity;
-      const bumpStopForce = this.bumpStopForce(id, compression);
+      const damping = baselineDamping * this.dampingMultiplier;
       const antiRollForce = bars[id];
-      corner.normalLoad = grounded ? Math.max(0, springForce + damperForce + bumpStopForce + antiRollForce) / projection : 0;
+      const radial = this.config.tires.verticalCompliance;
+      if (corner.unsprungMass > 0 && radial) {
+        // The coupled hub/body advance occurs once in ChassisDynamics, after
+        // tangential/aerodynamic loads are known. Refreshes never advance it.
+        corner.springStiffness = springRate;
+        corner.suspensionDamping = (corner.unsprungVelocity <= 0
+          ? (front ? this.config.suspension.damperCompressionFront : this.config.suspension.damperCompressionRear)
+          : (front ? this.config.suspension.damperReboundFront : this.config.suspension.damperReboundRear)) * this.dampingMultiplier;
+        corner.unloadedLength = this.config.suspension.restLength + this.rideHeightOffset;
+        corner.mountNormalVelocity = vx * n.x + vy * n.y + vz * n.z;
+        corner.antiRollForce = antiRollForce;
+        corner.bumpStopForce = this.bumpStopForce(id, compression);
+        supportTotal += corner.supportForce;
+        if (corner.grounded) groundedCount++;
+        continue;
+      }
+      if (radial && dt > 0) {
+        const previous = corner.tyreCompression;
+        // Analytic Kelvin-Voigt series relaxation. No unsprung mass and no
+        // second Fz: the one series reaction is delivered through suspension.
+        const free = previous * Math.exp(-radial.stiffness * dt / Math.max(1, radial.damping));
+        const force = springRate * compression + damping * compressionVelocity +
+          this.bumpStopForce(id, compression) + antiRollForce;
+        const stiffness = projection * radial.stiffness + springRate / projection;
+        const response = -Math.expm1(-stiffness * dt / (projection * radial.damping + damping / projection));
+        const change = (force - projection * radial.stiffness * previous) / stiffness * response;
+        // Resolve finite radial closure before the existing strut-stop solver.
+        const closure = previous + (corner.minSuspensionLength - corner.requiredLength) * projection;
+        const next = grounded ? clamp(Math.max(free, previous + change, closure), 0, radial.maximumCompression) : free;
+        corner.tyreCompression = next;
+        corner.tyreCompressionVelocity = (next - previous) / dt;
+        const delta = (next - previous) / projection;
+        corner.requiredLength += delta;
+        corner.suspensionLength = corner.supportValid === false ? corner.maxSuspensionLength
+          : clamp(corner.requiredLength, corner.minSuspensionLength, corner.maxSuspensionLength);
+        compression = this.config.suspension.restLength + this.rideHeightOffset - corner.suspensionLength;
+        corner.compression = compression;
+        grounded = corner.supportValid !== false && corner.requiredLength <= corner.maxSuspensionLength + 1e-6;
+        corner.grounded = grounded;
+        compressionVelocity = grounded ? compressionVelocity - corner.tyreCompressionVelocity / projection : 0;
+        corner.effectiveRadius = this.config.wheelRadius + this.staticLoad(id) / radial.stiffness - next;
+        const mount = corner.attachmentWorldPosition, axis = corner.suspensionAxis;
+        point.x = mount.x + axis.x * corner.suspensionLength;
+        point.y = mount.y + axis.y * corner.suspensionLength;
+        point.z = mount.z + axis.z * corner.suspensionLength;
+        const road = corner.surfacePoint;
+        corner.penetration = grounded && corner.requiredLength < corner.minSuspensionLength
+          ? Math.max(0, corner.effectiveRadius - ((point.x - road.x) * n.x +
+            (point.y - road.y) * n.y + (point.z - road.z) * n.z)) : 0;
+        // The massless series reaction is transmitted through the suspension
+        // once. A bottomed strut retains its existing mechanical reaction path.
+        corner.normalLoad = grounded ? Math.max(0, springRate * compression + damping * compressionVelocity +
+          this.bumpStopForce(id, compression) + antiRollForce) / projection : 0;
+      } else {
+        corner.normalLoad = grounded ? Math.max(0, springRate * compression + damping * compressionVelocity +
+          this.bumpStopForce(id, compression) + antiRollForce) / projection : 0;
+      }
+      const springForce = springRate * compression;
+      const damperForce = damping * compressionVelocity;
+      const bumpStopForce = this.bumpStopForce(id, compression);
       const supportForce = corner.normalLoad * corner.surfaceNormal.y;
       corner.compressionVelocity = compressionVelocity;
       corner.springForce = springForce;
@@ -278,6 +369,7 @@ export class SuspensionSystem {
       corner.supportForce = supportForce;
       corner.antiRollForce = antiRollForce;
       corner.contactForce = 0;
+      corner.tyreNormalForce = corner.normalLoad;
       this.groundedWheels[id] = grounded;
       supportTotal += supportForce;
       if (grounded) groundedCount++;
@@ -297,7 +389,9 @@ export class SuspensionSystem {
       const corner = this.verticalFrame.wheels[WHEEL_IDS[i]!]!;
       corner.contactForce = corner.grounded ? impulses[i]! / dt : 0;
       corner.normalLoad = corner.grounded ? corner.normalLoad + corner.contactForce : 0;
-      corner.supportForce = corner.normalLoad * corner.surfaceNormal.y;
+      corner.tyreNormalForce = corner.normalLoad;
+      if (corner.unsprungMass) corner.supportForce += corner.contactForce * corner.surfaceNormal.y;
+      else corner.supportForce = corner.normalLoad * corner.surfaceNormal.y;
       total += corner.supportForce;
     }
     this.verticalFrame.supportForce = total;
@@ -307,7 +401,15 @@ export class SuspensionSystem {
 
   /** Explicit teleport/respawn: do not differentiate the previous surface sample. */
   public resetVerticalContact(): void {
-    // Rates are analytic; no frame compression history needs resetting.
+    const radial = this.config.tires.verticalCompliance;
+    for (const id of WHEEL_IDS) {
+      const corner = this.verticalFrame.wheels[id];
+      corner.tyreCompression = radial ? this.staticLoad(id) / radial.stiffness : 0;
+      corner.tyreCompressionVelocity = 0;
+      corner.effectiveRadius = this.config.wheelRadius;
+      corner.unsprungPosition = this.config.suspension.restLength - this.sprungStaticLoad(id) / this.springRate(id);
+      corner.unsprungVelocity = corner.unsprungAcceleration = 0;
+    }
   }
 
   /** Geometry-only refresh: never integrate forces or differentiate a sample twice. */
@@ -322,7 +424,7 @@ export class SuspensionSystem {
     for (const id of WHEEL_IDS) {
       const corner = this.verticalFrame.wheels[id];
       const wheel = wheelLocalPosition(this.config, id);
-      const restCompression = this.staticLoad(id) / this.springRate(id);
+      const restCompression = this.sprungStaticLoad(id) / this.springRate(id);
       const restLength = this.config.suspension.restLength + this.rideHeightOffset;
       const { minimumCompression, maximumCompression } = this.travelLimits(id);
       corner.minSuspensionLength = restLength - maximumCompression;
@@ -354,8 +456,32 @@ export class SuspensionSystem {
       const alongNormal = -(axis.x * normal.x + axis.y * normal.y + axis.z * normal.z);
       const distance = (mount.x - point.x) * normal.x + (mount.y - point.y) * normal.y +
         (mount.z - point.z) * normal.z;
+      const radial = this.config.tires.verticalCompliance;
+      if (corner.unsprungMass > 0 && radial) {
+        corner.suspensionLength = clamp(corner.unsprungPosition, corner.minSuspensionLength, corner.maxSuspensionLength);
+        corner.compression = restLength - corner.suspensionLength;
+        const raw = this.config.wheelRadius + this.staticLoad(id) / radial.stiffness - distance + alongNormal * corner.suspensionLength;
+        corner.tyreCompression = contact?.supportValid !== false && alongNormal > .1 ? clamp(raw, 0, radial.maximumCompression) : 0;
+        corner.effectiveRadius = this.config.wheelRadius + this.staticLoad(id) / radial.stiffness - corner.tyreCompression;
+        corner.requiredLength = alongNormal > .1 ? (distance - corner.effectiveRadius) / alongNormal : Infinity;
+        corner.surfaceHeight = point.y;
+        corner.grounded = contact?.supportValid !== false && alongNormal > .1 && raw > 0 && corner.tyreNormalForce > 0;
+        const center = corner.wheelCenterWorld;
+        center.x = mount.x + axis.x * corner.suspensionLength;
+        center.y = mount.y + axis.y * corner.suspensionLength;
+        center.z = mount.z + axis.z * corner.suspensionLength;
+        // Only finite tyre closure at a fully bottomed strut is a body/road stop.
+        corner.penetration = contact?.supportValid !== false && corner.suspensionLength <= corner.minSuspensionLength + 1e-6
+          ? Math.max(0, raw - radial.maximumCompression) : 0;
+        if (!corner.grounded) corner.normalLoad = corner.tyreNormalForce = 0;
+        this.groundedWheels[id] = corner.grounded;
+        if (corner.grounded) groundedCount++;
+        supportForce += corner.supportForce;
+        continue;
+      }
+      corner.effectiveRadius = this.config.wheelRadius + (radial ? this.staticLoad(id) / radial.stiffness - corner.tyreCompression : 0);
       const requiredLength = contact === undefined ? corner.restSuspensionLength
-        : alongNormal > 1e-4 ? (distance - this.config.wheelRadius) / alongNormal : Infinity;
+        : alongNormal > 1e-4 ? (distance - corner.effectiveRadius) / alongNormal : Infinity;
       corner.suspensionLength = contact?.supportValid === false ? corner.maxSuspensionLength
         : clamp(requiredLength, corner.minSuspensionLength, corner.maxSuspensionLength);
       corner.requiredLength = requiredLength;
@@ -368,7 +494,7 @@ export class SuspensionSystem {
       center.z = mount.z + axis.z * corner.suspensionLength;
       corner.penetration = contact !== undefined && corner.grounded &&
         requiredLength < corner.minSuspensionLength
-        ? Math.max(0, this.config.wheelRadius - ((center.x - point.x) * normal.x +
+        ? Math.max(0, corner.effectiveRadius - ((center.x - point.x) * normal.x +
           (center.y - point.y) * normal.y + (center.z - point.z) * normal.z)) : 0;
       this.groundedWheels[id] = corner.grounded;
       if (corner.grounded) groundedCount++;
@@ -435,7 +561,7 @@ export class SuspensionSystem {
       staticLoad: this.staticLoad(id),
       compression: this.corners[id].compression,
       compressionVelocity: this.corners[id].velocity,
-      restCompression: this.staticLoad(id) / this.springRate(id),
+      restCompression: this.sprungStaticLoad(id) / this.springRate(id),
       springForce: this.corners[id].spring,
       damperForce: this.corners[id].damper,
       bumpStopForce: this.corners[id].bumpStop,
@@ -451,16 +577,25 @@ export class SuspensionSystem {
     return this.geometryMass * this.config.gravity * (id.startsWith('front') ? frontShare : 1 - frontShare) * 0.5;
   }
 
+  private unsprungMass(id: WheelId): number {
+    const masses = this.config.suspension.unsprungMass;
+    return masses && this.config.tires.verticalCompliance ? (id.startsWith('front') ? masses.front : masses.rear) : 0;
+  }
+
+  private sprungStaticLoad(id: WheelId): number {
+    return this.staticLoad(id) - this.unsprungMass(id) * this.config.gravity;
+  }
+
   /** Zero travel relative to loaded rest geometry gives the authored static alignment. */
   private kinematicAngle(id: WheelId, toe: boolean): number {
     const axle = id.startsWith('front') ? this.config.suspension.kinematics?.front : this.config.suspension.kinematics?.rear;
     if (!axle) return 0;
-    const delta = this.corners[id].compression - this.staticLoad(id) / this.springRate(id);
+    const delta = this.corners[id].compression - this.sprungStaticLoad(id) / this.springRate(id);
     return toe ? axle.staticToe + delta * axle.bumpToeGainPerMeter : axle.staticCamber + delta * axle.camberGainPerMeter;
   }
 
   private travelLimits(id: WheelId) {
-    const restCompression = this.staticLoad(id) / this.springRate(id);
+    const restCompression = this.sprungStaticLoad(id) / this.springRate(id);
     const halfTravel = Math.max(0.001, this.config.suspension.suspensionTravel) * 0.5;
     return {
       minimumCompression: Math.max(0, restCompression - halfTravel),

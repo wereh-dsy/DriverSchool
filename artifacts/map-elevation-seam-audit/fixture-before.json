@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "mapId": "city-main",
+  "mapVersion": 479,
+  "scope": {
+    "bbox": {
+      "minX": 2181,
+      "maxX": 2251,
+      "minZ": 2105,
+      "maxZ": 2175
+    }
+  },
+  "limits": {
+    "height": 0.04,
+    "normalDot": 0.995,
+    "gradeBreak": 0.04,
+    "sampleStep": 1,
+    "safeHeight": 0.25,
+    "safeLength": 80
+  },
+  "coverage": {
+    "roads": 2944,
+    "segments": 111711,
+    "broadPhasePairs": 102,
+    "samples": 712
+  },
+  "elapsedMs": 412.6929,
+  "counts": {
+    "total": 1,
+    "SAFE_AUTO_FIX": 0,
+    "LIKELY_FIX": 1,
+    "MANUAL_REVIEW": 0,
+    "IGNORE_GRADE_SEPARATED": 0
+  },
+  "maxHeightDelta": 0.14252488675917663,
+  "issues": [
+    {
+      "id": "seam:ring-cw-2-split-4-split|ring-ccw-1-split-split-split-split-section:1352.5:896.9",
+      "category": "LIKELY_FIX",
+      "roadIds": [
+        "ring-cw-2-split-4-split",
+        "ring-ccw-1-split-split-split-split-section"
+      ],
+      "segmentIds": [
+        "ring-cw-2-split-4-split:150",
+        "ring-ccw-1-split-split-split-split-section:133",
+        "ring-cw-2-split-4-split:151",
+        "ring-ccw-1-split-split-split-split-section:132",
+        "ring-cw-2-split-4-split:152",
+        "ring-ccw-1-split-split-split-split-section:131",
+        "ring-cw-2-split-4-split:153",
+        "ring-ccw-1-split-split-split-split-section:130",
+        "ring-cw-2-split-4-split:154",
+        "ring-ccw-1-split-split-split-split-section:129",
+        "ring-cw-2-split-4-split:155",
+        "ring-ccw-1-split-split-split-split-section:128",
+        "ring-cw-2-split-4-split:156",
+        "ring-ccw-1-split-split-split-split-section:127",
+        "ring-cw-2-split-4-split:157",
+        "ring-ccw-1-split-split-split-split-section:126",
+        "ring-cw-2-split-4-split:158",
+        "ring-ccw-1-split-split-split-split-section:125",
+        "ring-cw-2-split-4-split:159",
+        "ring-ccw-1-split-split-split-split-section:124",
+        "ring-cw-2-split-4-split:160",
+        "ring-ccw-1-split-split-split-split-section:123",
+        "ring-cw-2-split-4-split:161",
+        "ring-ccw-1-split-split-split-split-section:122",
+        "ring-cw-2-split-4-split:162",
+        "ring-ccw-1-split-split-split-split-section:121",
+        "ring-cw-2-split-4-split:163",
+        "ring-ccw-1-split-split-split-split-section:120"
+      ],
+      "bbox": {
+        "minX": 2196.5939982390432,
+        "maxX": 2231.432327374138,
+        "minZ": 2105.2946185676924,
+        "maxZ": 2174.7830115811867
+      },
+      "location": {
+        "x": 2231.432327374138,
+        "z": 2105.5785338207,
+        "y": 0.7420283309291655
+      },
+      "maxHeightDelta": 0.14252488675917663,
+      "minHeightDelta": 0.11903250703570945,
+      "normalDot": 0.9999998859730727,
+      "localGrade": [
+        -0.0033645715930162895,
+        0.003133637043301481
+      ],
+      "gradeDiscontinuity": 0.0004769794078736721,
+      "overlapLength": 77.41254226670242,
+      "overlapArea": 285.1499863769859,
+      "footprintOverlap": true,
+      "horizontalGap": 0,
+      "topologyRelation": "unlinked-overlap",
+      "stationRanges": [
+        [
+          1352.5353610536358,
+          1429.299984648433
+        ],
+        [
+          896.8947819126803,
+          974.3073241793827
+        ]
+      ],
+      "reasons": [
+        "Shared pavement has no direct topology; reference profile requires review"
+      ]
+    }
+  ]
+}

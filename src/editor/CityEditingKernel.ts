@@ -20,6 +20,7 @@ import { inspectObject, queryObjects, objectRecord, reanchorCommands } from './O
 import { planBrush, placementIssues, type PlacementBrushRequest } from './PlacementBrush';
 import { inspectStructure } from './StructureAnalysis';
 import { diagnoseEngineering, reviewMaps, semanticDiff } from './MapReview';
+import { applySeamElevations,applyReviewedPavementProfile } from './ElevationSeams';
 
 const editing = (map: CityMapData): NonNullable<CityMapData['editing']> => map.editing ?? { corridors: [], groups: [], attachments: [], ramps: [] };
 const endpoint = (map: CityMapData, e: RoadEndpoint): CityPoint => { const r = map.roads.find(r => r.id === e.roadId); if (!r) throw new Error(`Missing road ${e.roadId}`); return roadPoints({ ...r, curve: 'polyline' })[e.end === 'start' ? 0 : r.centerline.length - 1]!; };
@@ -33,6 +34,8 @@ class EditTransaction {
   readonly notes: EditorIssue[] = [];
   readonly metrics: Record<string, unknown> = {};
   private used: Set<string>;
+  private onlyElevationSeams = true;
+  private landingJunctions=new Set<string>();
   constructor(readonly before: CityMapData, private readonly index: EditorSpatialIndex) {
     this.map = { ...before, bounds: { ...before.bounds }, roads: [...before.roads], intersections: [...before.intersections], objects: [...before.objects],
       signs: [...before.signs ?? []],roadLinks: structuredClone(before.roadLinks ?? []), connectionPorts: structuredClone(before.connectionPorts ?? []), editing: structuredClone(editing(before)) };
@@ -355,7 +358,24 @@ class EditTransaction {
   }
 
   execute(c: EditorCommand): void {
+    if(!['adjustElevationSeam','repairPavementProfile','setJunctionLanding','setPavementSurface','setJunctionHeightDatum'].includes(c.op))this.onlyElevationSeams=false;
     invalidateAnalysis(this.map);
+    if(c.op==='adjustElevationSeam'){applySeamElevations(this.road(c.id),c.elevations);return;}
+    if(c.op==='setPavementSurface'){this.road(c.id).pavementSurface=c.surface;return;}
+    if(c.op==='setJunctionHeightDatum'){const j=this.junction(c.id);if(!Number.isFinite(c.height)||Math.abs(c.height-c.before)>.05||Math.abs((j.position.y??0)-c.before)>1e-8)throw new Error('Invalid/stale local junction datum');j.position.y=c.height;this.landingJunctions.add(c.id);return;}
+    if(c.op==='setJunctionLanding'){const j=this.junction(c.id);if(c.enabled===false)delete j.pavementProfile;else j.pavementProfile='local-landing';this.landingJunctions.add(c.id);return;}
+    if(c.op==='repairPavementProfile'){
+      const r=this.road(c.id);
+      const datums=c.junctionDatums??(c.junctionDatum?[c.junctionDatum]:[]);
+      for(const datum of datums){const j=this.junction(datum.id),connection=j.connections.find(e=>e.roadId===r.id);if(!connection)throw new Error('Junction does not own this approach');
+        const endpoint=connection.end==='start'?c.profile[0]!:c.profile.at(-1)!;
+        if(Math.abs(endpoint.after-datum.height)>1e-8||Math.abs(datum.height-(j.position.y??0))>.001)throw new Error('Junction datum must match its hub height');
+        (j.pavementHeights??={})[connection.port]=datum.height;this.landingJunctions.add(j.id);
+      }
+      for(const [end,p]of [['start',c.profile[0]!],['end',c.profile.at(-1)!]] as const)if(Math.abs(p.after-p.before)>1e-8){const owned=datums.some(d=>this.map.intersections.find(j=>j.id===d.id)?.connections.some(e=>e.roadId===r.id&&e.end===end));if(!owned&&!c.linkedEndpoints)throw new Error('Changed endpoint needs its owned junction datum or explicit linked-endpoint review');}
+      if(c.linkedEndpoints)for(const [end,p]of [['start',c.profile[0]!],['end',c.profile.at(-1)!]] as const)if(Math.abs(p.after-p.before)>1e-8&&!datums.some(d=>this.map.intersections.find(j=>j.id===d.id)?.connections.some(e=>e.roadId===r.id&&e.end===end))&&!(this.map.roadLinks??[]).some(l=>[l.from,l.to].some(e=>e.roadId===r.id&&e.end===end)))throw new Error('Changed endpoint needs explicit link ownership');
+      applyReviewedPavementProfile(r,c.profile,c.maxYChange,datums.length>0||!!c.linkedEndpoints);return;
+    }
     switch (c.op) {
       case 'modifyMap': {Object.assign(this.map,structuredClone(c.properties));if(c.spawn)this.map.environment={...this.map.environment,spawnPoints:[{...this.map.environment.spawnPoints[0]!,...structuredClone(c.spawn)},...this.map.environment.spawnPoints.slice(1)]};break;}
       case 'createRoad': { const r = this.addRoad(c); this.autoConnect(r.id, c.crossing ?? 'intersection'); break; }
@@ -629,6 +649,19 @@ class EditTransaction {
   }
   finish(): void {
     invalidateAnalysis(this.map);
+    // Seam patches retain every XZ and endpoint. Avoid unrelated junction/port/sign
+    // normalization: safe-only means exactly the reviewed interior Y edits.
+    if(this.onlyElevationSeams){
+      for(const link of this.map.roadLinks??[])if(this.changed.has(link.from.roadId)||this.changed.has(link.to.roadId)){
+        const a=endpoint(this.map,link.from),b=endpoint(this.map,link.to),oldA=endpoint(this.before,link.from),oldB=endpoint(this.before,link.to);
+        if(Math.abs((a.y??0)-(oldA.y??0))>1e-7||Math.abs((b.y??0)-(oldB.y??0))>1e-7)if(Math.abs((a.y??0)-(b.y??0))>1e-6)throw new Error('Profile edit must retain exact linked endpoint continuity');
+      }
+      for(const id of this.landingJunctions){const j=this.map.intersections.find(j=>j.id===id)!;setJunctionPavementFootprint(j,this.map);}
+      if(this.before.signs===undefined)delete this.map.signs;
+      if(this.before.roadLinks===undefined)delete this.map.roadLinks;
+      if(this.before.connectionPorts===undefined)delete this.map.connectionPorts;
+      this.map.version=this.before.version+1;return;
+    }
     // Reconcile only changed junctions and their immediate approaches.
     for (const j of this.map.intersections) if (this.changed.has(j.id) || j.connections.some(c => this.changed.has(c.roadId))) {
       const w = this.junction(j.id); for (const e of w.connections) this.road(e.roadId);

@@ -1,0 +1,4201 @@
+[
+  {
+    "id": "cluster:regional:v3:G17-extension185:out:1|regional:v3:chenjiang-foldback:817.2:4827.0",
+    "roadIds": [
+      "regional:v3:G17-extension185:out:1",
+      "regional:v3:chenjiang-foldback"
+    ],
+    "members": [
+      {
+        "id": "seam:regional:v3:G17-extension185:out:1|regional:v3:chenjiang-foldback:817.2:4827.0",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "regional:v3:G17-extension185:out:1",
+          "regional:v3:chenjiang-foldback"
+        ],
+        "segmentIds": [
+          "regional:v3:G17-extension185:out:1:68",
+          "regional:v3:chenjiang-foldback:351",
+          "regional:v3:chenjiang-foldback:352",
+          "regional:v3:G17-extension185:out:1:69"
+        ],
+        "bbox": {
+          "minX": 14617.16046562151,
+          "maxX": 14625.786690187953,
+          "minZ": 2617.313839406993,
+          "maxZ": 2617.3499999999995
+        },
+        "location": {
+          "x": 14617.16046562151,
+          "z": 2617.3499999999995,
+          "y": 0
+        },
+        "maxHeightDelta": 11.95844488814859,
+        "minHeightDelta": 11.446592993045208,
+        "normalDot": 0.9982048454657785,
+        "localGrade": [
+          0,
+          -0.06000000000000021
+        ],
+        "gradeDiscontinuity": 0.060000000000002184,
+        "overlapLength": 8.626224566443852,
+        "overlapArea": 0,
+        "footprintOverlap": false,
+        "horizontalGap": 0.15864214139583055,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            817.1604656215186,
+            825.7866901879624
+          ],
+          [
+            4827.038952575534,
+            4835.5698174939225
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:chenjiang-east:S-to-E-right"
+        ],
+        "layerCount": 1
+      }
+    ],
+    "bbox": {
+      "minX": 14617.16046562151,
+      "maxX": 14625.786690187953,
+      "minZ": 2617.313839406993,
+      "maxZ": 2617.3499999999995
+    },
+    "location": {
+      "x": 14617.16046562151,
+      "z": 2617.3499999999995,
+      "y": 0
+    },
+    "maxHeightDelta": 11.95844488814859,
+    "minHeightDelta": 11.446592993045208,
+    "normalDot": 0.9982048454657785,
+    "overlapLength": 8.626224566443852,
+    "stationRanges": [
+      [
+        817.1604656215186,
+        825.7866901879624
+      ],
+      [
+        4827.038952575534,
+        4835.5698174939225
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": false,
+    "supportSwitchPossible": false,
+    "risk": "structure",
+    "conclusion": "FIXED",
+    "reason": "Reviewed landing/profile removes the contested core footprint; source geometry remains continuous",
+    "beforeDelta": 11.95844488814859,
+    "afterDelta": 0,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 0,
+    "roadEvidence": [
+      {
+        "id": "regional:v3:G17-extension185:out:1",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": false,
+          "pierSpacing": 60,
+          "medianBarrierStyle": "concrete"
+        },
+        "section": "GROUND",
+        "sourceYRange": [
+          0,
+          0
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "regional:v3:chenjiang-foldback",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60
+        },
+        "section": "RAMP",
+        "sourceYRange": [
+          0,
+          64
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:ew-eb-split-3|system-central:W-to-N-semi:0.0:91.6",
+    "roadIds": [
+      "ew-eb-split-3",
+      "system-central:W-to-N-semi"
+    ],
+    "members": [
+      {
+        "id": "seam:ew-eb-split-3|system-central:W-to-N-semi:0.0:91.6",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ew-eb-split-3",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "ew-eb-split-3:0",
+          "system-central:W-to-N-semi:10"
+        ],
+        "bbox": {
+          "minX": -479.72577096507484,
+          "maxX": -468.15925446959767,
+          "minZ": -128.08460701822787,
+          "maxZ": -125.62022413200684
+        },
+        "location": {
+          "x": -468.15925446959767,
+          "z": -126.25994414433366,
+          "y": 8
+        },
+        "maxHeightDelta": 6.879147438491961,
+        "minHeightDelta": 5.95733716685368,
+        "normalDot": 0.9968948492230985,
+        "localGrade": [
+          0,
+          -0.07898954148110758
+        ],
+        "gradeDiscontinuity": 0.07898954148110758,
+        "overlapLength": 11.670029403307225,
+        "overlapArea": 19.67505588021959,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            0,
+            11.446461749909053
+          ],
+          [
+            91.58831693877633,
+            103.25834634208356
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split-3",
+          "system-central:W-to-N-semi"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:ew-eb-split-3|system-central:W-to-N-semi:11.4:103.1",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ew-eb-split-3",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "ew-eb-split-3:1",
+          "system-central:W-to-N-semi:10",
+          "system-central:W-to-N-semi:11"
+        ],
+        "bbox": {
+          "minX": -468.22230836943066,
+          "maxX": -462.0449456446836,
+          "minZ": -127.22860153299234,
+          "maxZ": -126.25938354674109
+        },
+        "location": {
+          "x": -462.0449456446836,
+          "z": -126.59374327395558,
+          "y": 8
+        },
+        "maxHeightDelta": 7.312946648912734,
+        "minHeightDelta": 6.868502660223451,
+        "normalDot": 0.9968948492230985,
+        "localGrade": [
+          0,
+          -0.06889143380875144
+        ],
+        "gradeDiscontinuity": 0.07898954148110758,
+        "overlapLength": 6.176327739190185,
+        "overlapArea": 3.437224726185377,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            11.446461749909053,
+            17.580031010470172
+          ],
+          [
+            103.12358447274094,
+            109.29991221193113
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split-3",
+          "system-central:W-to-N-semi"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": -479.72577096507484,
+      "maxX": -462.0449456446836,
+      "minZ": -128.08460701822787,
+      "maxZ": -125.62022413200684
+    },
+    "location": {
+      "x": -462.0449456446836,
+      "z": -126.59374327395558,
+      "y": 8
+    },
+    "maxHeightDelta": 7.312946648912734,
+    "minHeightDelta": 5.95733716685368,
+    "normalDot": 0.9968948492230985,
+    "overlapLength": 17.7115952731548,
+    "stationRanges": [
+      [
+        0,
+        17.580031010470172
+      ],
+      [
+        91.58831693877633,
+        109.29991221193113
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": false,
+    "risk": "structure",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 7.312946648912734,
+    "afterDelta": 0.0065436388388038225,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 79,
+    "roadEvidence": [
+      {
+        "id": "ew-eb-split-3",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "section": "elevated-mainline",
+        "sourceYRange": [
+          8,
+          8
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-central:W-to-N-semi",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        },
+        "sourceYRange": [
+          -6.411623449579057,
+          14.068000000000001
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:regional:v3:S36-extension54:in:21:revision411|regional:v3:airport-distributor:W-to-N-turbine:63.9:1512.7",
+    "roadIds": [
+      "regional:v3:S36-extension54:in:21:revision411",
+      "regional:v3:airport-distributor:W-to-N-turbine"
+    ],
+    "members": [
+      {
+        "id": "seam:regional:v3:S36-extension54:in:21:revision411|regional:v3:airport-distributor:W-to-N-turbine:63.9:1512.7",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:in:21:revision411:5",
+          "regional:v3:airport-distributor:W-to-N-turbine:291",
+          "regional:v3:airport-distributor:W-to-N-turbine:292",
+          "regional:v3:S36-extension54:in:21:revision411:6",
+          "regional:v3:airport-distributor:W-to-N-turbine:293",
+          "regional:v3:airport-distributor:W-to-N-turbine:294",
+          "regional:v3:S36-extension54:in:21:revision411:7",
+          "regional:v3:airport-distributor:W-to-N-turbine:295",
+          "regional:v3:airport-distributor:W-to-N-turbine:296",
+          "regional:v3:S36-extension54:in:21:revision411:8",
+          "regional:v3:airport-distributor:W-to-N-turbine:297",
+          "regional:v3:airport-distributor:W-to-N-turbine:298",
+          "regional:v3:S36-extension54:in:21:revision411:9"
+        ],
+        "bbox": {
+          "minX": -8148.20957458448,
+          "maxX": -8112.593250059622,
+          "minZ": -1092.0201863400266,
+          "maxZ": -1057.9462883514911
+        },
+        "location": {
+          "x": -8112.593250059622,
+          "z": -1057.9462883514911,
+          "y": 45.86513264106117
+        },
+        "maxHeightDelta": 7.214330945169721,
+        "minHeightDelta": 3.4060130385362655,
+        "normalDot": 0.9966975709789639,
+        "localGrade": [
+          -0.001609169146464386,
+          0.07950000000000008
+        ],
+        "gradeDiscontinuity": 0.0814761299244596,
+        "overlapLength": 47.049876681866735,
+        "overlapArea": 170.2596498625353,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            63.90921274218043,
+            110.95908942404716
+          ],
+          [
+            1512.7283307715888,
+            1559.564522708876
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:S36-extension54:in:21:revision411|regional:v3:airport-distributor:W-to-N-turbine:110.3:1559.6",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:in:21:revision411:9",
+          "regional:v3:airport-distributor:W-to-N-turbine:299"
+        ],
+        "bbox": {
+          "minX": -8153.566025138743,
+          "maxX": -8145.2454515687605,
+          "minZ": -1095.934849327925,
+          "maxZ": -1087.7479441387645
+        },
+        "location": {
+          "x": -8148.813437839142,
+          "z": -1087.7479441387645,
+          "y": 45.78167608355826
+        },
+        "maxHeightDelta": 3.4073971286524696,
+        "minHeightDelta": 2.896730356296878,
+        "normalDot": 0.99669743581843,
+        "localGrade": [
+          -0.0019761299244588264,
+          0.07950000000000065
+        ],
+        "gradeDiscontinuity": 0.08147612992445948,
+        "overlapLength": 6.703041707616563,
+        "overlapArea": 39.67738207988441,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            110.25868501284113,
+            116.96172672045769
+          ],
+          [
+            1559.564522708876,
+            1565.8213867472698
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:S36-extension54:in:21:revision411|regional:v3:airport-distributor:W-to-N-turbine:116.6:1565.6",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:in:21:revision411:9",
+          "regional:v3:airport-distributor:W-to-N-turbine:300",
+          "regional:v3:S36-extension54:in:21:revision411:10",
+          "regional:v3:airport-distributor:W-to-N-turbine:299"
+        ],
+        "bbox": {
+          "minX": -8153.33730180845,
+          "maxX": -8149.76478839513,
+          "minZ": -1096.0861696583672,
+          "maxZ": -1092.4431404661802
+        },
+        "location": {
+          "x": -8149.76478839513,
+          "z": -1095.9611088248398,
+          "y": 45.768430002254945
+        },
+        "maxHeightDelta": 2.9120165182805806,
+        "minHeightDelta": 2.866296645766603,
+        "normalDot": 0.996690704328423,
+        "localGrade": [
+          -0.002059102455926674,
+          0.07950000000000065
+        ],
+        "gradeDiscontinuity": 0.08155910245592733,
+        "overlapLength": 0.5750927360249989,
+        "overlapArea": 1.3087986949831247,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            116.58154498845335,
+            117.15256217505431
+          ],
+          [
+            1565.6291079801788,
+            1566.2042007162038
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:S36-extension54:in:21:revision411|regional:v3:airport-distributor:W-to-N-turbine:117.0:1565.8",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:in:21:revision411:10",
+          "regional:v3:airport-distributor:W-to-N-turbine:300",
+          "regional:v3:airport-distributor:W-to-N-turbine:301",
+          "regional:v3:airport-distributor:W-to-N-turbine:302",
+          "regional:v3:S36-extension54:in:21:revision411:11",
+          "regional:v3:airport-distributor:W-to-N-turbine:303",
+          "regional:v3:airport-distributor:W-to-N-turbine:304",
+          "regional:v3:S36-extension54:in:21:revision411:12"
+        ],
+        "bbox": {
+          "minX": -8174.952567144759,
+          "maxX": -8149.876184100106,
+          "minZ": -1116.3352007199796,
+          "maxZ": -1092.7079385427999
+        },
+        "location": {
+          "x": -8150.862470838523,
+          "z": -1094.9586983827762,
+          "y": 45.768430002254945
+        },
+        "maxHeightDelta": 2.8967303562968496,
+        "minHeightDelta": 0.48720902508785,
+        "normalDot": 0.9966772742862959,
+        "localGrade": [
+          -0.002059102455926674,
+          0.07949999999999945
+        ],
+        "gradeDiscontinuity": 0.08171451451279904,
+        "overlapLength": 29.52269233726588,
+        "overlapArea": 187.89356787782162,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            116.96172672045769,
+            146.43680160076693
+          ],
+          [
+            1565.8213867472698,
+            1595.3440790845357
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:S36-extension54:in:21:revision411|regional:v3:airport-distributor:W-to-N-turbine:146.0:1595.3",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:in:21:revision411:12",
+          "regional:v3:airport-distributor:W-to-N-turbine:305",
+          "regional:v3:airport-distributor:W-to-N-turbine:306",
+          "regional:v3:S36-extension54:in:21:revision411:13",
+          "regional:v3:airport-distributor:W-to-N-turbine:307"
+        ],
+        "bbox": {
+          "minX": -8187.1392506641805,
+          "maxX": -8171.793089631953,
+          "minZ": -1126.9943866999247,
+          "maxZ": -1111.699956835811
+        },
+        "location": {
+          "x": -8175.60310246309,
+          "z": -1111.699956835811,
+          "y": 45.706896489297684
+        },
+        "maxHeightDelta": 0.4881428025269514,
+        "minHeightDelta": 0.011670858410454343,
+        "normalDot": 0.9966771372662203,
+        "localGrade": [
+          -0.002214514512798732,
+          0.07950000000000068
+        ],
+        "gradeDiscontinuity": 0.08171451451279942,
+        "overlapLength": 16.40367316164972,
+        "overlapArea": 103.56349416077137,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            146.01513923020863,
+            162.41881239185835
+          ],
+          [
+            1595.3440790845357,
+            1611.5275837156134
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:in:21:revision411",
+          "regional:v3:airport-distributor:W-to-N-turbine"
+        ],
+        "layerCount": 1
+      }
+    ],
+    "bbox": {
+      "minX": -8187.1392506641805,
+      "maxX": -8112.593250059622,
+      "minZ": -1126.9943866999247,
+      "maxZ": -1057.9462883514911
+    },
+    "location": {
+      "x": -8112.593250059622,
+      "z": -1057.9462883514911,
+      "y": 45.86513264106117
+    },
+    "maxHeightDelta": 7.214330945169721,
+    "minHeightDelta": 0.011670858410454343,
+    "normalDot": 0.9966771372662203,
+    "overlapLength": 98.7992529440246,
+    "stationRanges": [
+      [
+        63.90921274218043,
+        162.41881239185835
+      ],
+      [
+        1512.7283307715888,
+        1611.5275837156134
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 7.214330945169721,
+    "afterDelta": 0.0009576766550836169,
+    "afterMinimum": 0.0000017600695656483367,
+    "overlapProbeSamples": 391,
+    "roadEvidence": [
+      {
+        "id": "regional:v3:S36-extension54:in:21:revision411",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "medianBarrierStyle": "concrete",
+          "barrierStyle": "concrete"
+        },
+        "section": "BRIDGE",
+        "sourceYRange": [
+          45.66979027578901,
+          45.9511150802775
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "regional:v3:airport-distributor:W-to-N-turbine",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 50,
+          "barrierOffset": 0.25
+        },
+        "section": "RAMP",
+        "sourceYRange": [
+          32.14075990761959,
+          54.75053583725349
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:regional:v3:S36-extension54:out:8:revision415:lane4522-split|regional:v3:airport-distributor:N-to-E-turbine:5.6:5.6",
+    "roadIds": [
+      "regional:v3:S36-extension54:out:8:revision415:lane4522-split",
+      "regional:v3:airport-distributor:N-to-E-turbine"
+    ],
+    "members": [
+      {
+        "id": "seam:regional:v3:airport-distributor:N-to-E-turbine|regional:v3:S36-extension54:out:8:revision415:lane4522-split:5.6:5.6",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split",
+          "regional:v3:airport-distributor:N-to-E-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-distributor:N-to-E-turbine:1",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:1",
+          "regional:v3:airport-distributor:N-to-E-turbine:2",
+          "regional:v3:airport-distributor:N-to-E-turbine:3",
+          "regional:v3:airport-distributor:N-to-E-turbine:4",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:2"
+        ],
+        "bbox": {
+          "minX": -8210.363325326878,
+          "maxX": -8195.926700166363,
+          "minZ": -1125.6327714984911,
+          "maxZ": -1109.9261087232953
+        },
+        "location": {
+          "x": -8195.926700166363,
+          "z": -1113.9831810497176,
+          "y": 45.26807469344085
+        },
+        "maxHeightDelta": 0.4061369734159399,
+        "minHeightDelta": 0.013598219793898636,
+        "normalDot": 0.9966658201617401,
+        "localGrade": [
+          0.0022846977385821607,
+          -0.0795000000000004
+        ],
+        "gradeDiscontinuity": 0.08185389854711643,
+        "overlapLength": 16.07552625992584,
+        "overlapArea": 101.90232132934034,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            5.620057147869065,
+            21.695583407794906
+          ],
+          [
+            5.582073488297457,
+            21.551413364506754
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:airport-distributor:N-to-E-turbine",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split"
+        ],
+        "layerCount": 1
+      },
+      {
+        "id": "seam:regional:v3:airport-distributor:N-to-E-turbine|regional:v3:S36-extension54:out:8:revision415:lane4522-split:21.6:21.3",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split",
+          "regional:v3:airport-distributor:N-to-E-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-distributor:N-to-E-turbine:5",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:2",
+          "regional:v3:airport-distributor:N-to-E-turbine:6",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:3",
+          "regional:v3:airport-distributor:N-to-E-turbine:7",
+          "regional:v3:airport-distributor:N-to-E-turbine:8",
+          "regional:v3:airport-distributor:N-to-E-turbine:9"
+        ],
+        "bbox": {
+          "minX": -8200.192307437963,
+          "maxX": -8184.222767761822,
+          "minZ": -1113.9556744068163,
+          "maxZ": -1093.5279662040648
+        },
+        "location": {
+          "x": -8188.283630349326,
+          "z": -1093.5279662040648,
+          "y": 43.608580150935815
+        },
+        "maxHeightDelta": 2.110953714284989,
+        "minHeightDelta": 0.4053094911242212,
+        "normalDot": 0.996671588628687,
+        "localGrade": [
+          0.0022119864675673342,
+          -0.07949999999999954
+        ],
+        "gradeDiscontinuity": 0.0817846977385815,
+        "overlapLength": 20.87414518874255,
+        "overlapArea": 131.34443396143615,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            21.33339882741509,
+            41.91785085239167
+          ],
+          [
+            21.551413364506754,
+            42.4255585532493
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:airport-distributor:N-to-E-turbine",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:airport-distributor:N-to-E-turbine|regional:v3:S36-extension54:out:8:revision415:lane4522-split:41.8:41.9",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split",
+          "regional:v3:airport-distributor:N-to-E-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-distributor:N-to-E-turbine:9",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:4",
+          "regional:v3:airport-distributor:N-to-E-turbine:10",
+          "regional:v3:airport-distributor:N-to-E-turbine:11",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:5",
+          "regional:v3:airport-distributor:N-to-E-turbine:12",
+          "regional:v3:airport-distributor:N-to-E-turbine:13",
+          "regional:v3:airport-distributor:N-to-E-turbine:14",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:6",
+          "regional:v3:airport-distributor:N-to-E-turbine:15",
+          "regional:v3:airport-distributor:N-to-E-turbine:16",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:7",
+          "regional:v3:airport-distributor:N-to-E-turbine:17",
+          "regional:v3:airport-distributor:N-to-E-turbine:18",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:8",
+          "regional:v3:airport-distributor:N-to-E-turbine:19",
+          "regional:v3:airport-distributor:N-to-E-turbine:20",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split:9",
+          "regional:v3:airport-distributor:N-to-E-turbine:21"
+        ],
+        "bbox": {
+          "minX": -8187.61321625107,
+          "maxX": -8149.179491610327,
+          "minZ": -1097.2673961255905,
+          "maxZ": -1046.9637356609828
+        },
+        "location": {
+          "x": -8149.179491610327,
+          "z": -1046.9637356609828,
+          "y": 38.794467453710396
+        },
+        "maxHeightDelta": 7.0447900978458335,
+        "minHeightDelta": 2.0623905544341596,
+        "normalDot": 0.9966842410652046,
+        "localGrade": [
+          0.0017020864693602785,
+          -0.07950000000000072
+        ],
+        "gradeDiscontinuity": 0.0816357662229837,
+        "overlapLength": 61.16573405127357,
+        "overlapArea": 258.26901888102293,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            41.91785085239167,
+            102.76644962563104
+          ],
+          [
+            41.81470119663506,
+            102.98043524790863
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [],
+        "layerCount": 0
+      }
+    ],
+    "bbox": {
+      "minX": -8210.363325326878,
+      "maxX": -8149.179491610327,
+      "minZ": -1125.6327714984911,
+      "maxZ": -1046.9637356609828
+    },
+    "location": {
+      "x": -8149.179491610327,
+      "z": -1046.9637356609828,
+      "y": 38.794467453710396
+    },
+    "maxHeightDelta": 7.0447900978458335,
+    "minHeightDelta": 0.013598219793898636,
+    "normalDot": 0.9966658201617401,
+    "overlapLength": 97.39836175961118,
+    "stationRanges": [
+      [
+        5.620057147869065,
+        102.76644962563104
+      ],
+      [
+        5.582073488297457,
+        102.98043524790863
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed profile/landing has continuous directed wheel support (<2cm); remaining plane differences are outside a problematic lane support switch",
+    "beforeDelta": 7.0447900978458335,
+    "afterDelta": 0.029089811023382595,
+    "afterMinimum": 0.000005793938143483501,
+    "overlapProbeSamples": 358,
+    "supportSweep": {
+      "maxResidual": 0.0015123454751773124,
+      "roadSwitches": 0,
+      "samples": 5312,
+      "offRoad": 0,
+      "offRoadTransitions": 0,
+      "offRoadPoints": [],
+      "worst": {
+        "road": "regional:v3:airport-distributor:N-to-E-turbine",
+        "station": 104.10092592592817,
+        "point": {
+          "x": -8150.196680533863,
+          "z": -1044.99018189904
+        },
+        "from": {
+          "roadId": "regional:v3:airport-distributor:N-to-E-turbine",
+          "segmentId": "regional:v3:airport-distributor:N-to-E-turbine:121",
+          "surfaceId": "regional:v3:airport-distributor:N-to-E-turbine:121:road"
+        },
+        "to": {
+          "roadId": "regional:v3:airport-distributor:N-to-E-turbine",
+          "segmentId": "regional:v3:airport-distributor:N-to-E-turbine:122",
+          "surfaceId": "regional:v3:airport-distributor:N-to-E-turbine:122:road"
+        },
+        "residual": 0.0015123454751773124
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "regional:v3:S36-extension54:out:8:revision415:lane4522-split",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "medianBarrierStyle": "concrete",
+          "barrierStyle": "concrete"
+        },
+        "section": "BRIDGE",
+        "sourceYRange": [
+          45.62304827622359,
+          45.91574545256529
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "regional:v3:airport-distributor:N-to-E-turbine",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 50,
+          "barrierOffset": 0.25
+        },
+        "section": "RAMP",
+        "sourceYRange": [
+          31.999999999999986,
+          51.989
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:regional:v3:S89-extension2:out:10-split-2|regional:v3:airport-south:N-to-E-turbine:18.6:18.8",
+    "roadIds": [
+      "regional:v3:S89-extension2:out:10-split-2",
+      "regional:v3:airport-south:N-to-E-turbine"
+    ],
+    "members": [
+      {
+        "id": "seam:regional:v3:airport-south:N-to-E-turbine|regional:v3:S89-extension2:out:10-split-2:18.8:18.6",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "regional:v3:S89-extension2:out:10-split-2",
+          "regional:v3:airport-south:N-to-E-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-south:N-to-E-turbine:5",
+          "regional:v3:S89-extension2:out:10-split-2:1",
+          "regional:v3:S89-extension2:out:10-split-2:2",
+          "regional:v3:airport-south:N-to-E-turbine:6"
+        ],
+        "bbox": {
+          "minX": -5995.913713390123,
+          "maxX": -5991.489313455316,
+          "minZ": -806.8540387397883,
+          "maxZ": -800.1917224530252
+        },
+        "location": {
+          "x": -5991.489313455316,
+          "z": -805.7149102324678,
+          "y": 31.726933805823357
+        },
+        "maxHeightDelta": 0.3293425740395435,
+        "minHeightDelta": 0.0017306066053350833,
+        "normalDot": 0.9968474419321489,
+        "localGrade": [
+          0.00009225149742852465,
+          -0.07949999999999963
+        ],
+        "gradeDiscontinuity": 0.07959271652159108,
+        "overlapLength": 4.42439993480729,
+        "overlapArea": 26.340793109033257,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            18.63618466238771,
+            23.060584597195
+          ],
+          [
+            18.845156068291605,
+            22.960904991690356
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:airport-south:N-to-E-turbine",
+          "regional:v3:S89-extension2:out:10-split-2"
+        ],
+        "layerCount": 1
+      },
+      {
+        "id": "seam:regional:v3:airport-south:N-to-E-turbine|regional:v3:S89-extension2:out:10-split-2:23.0:22.6",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "regional:v3:S89-extension2:out:10-split-2",
+          "regional:v3:airport-south:N-to-E-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-south:N-to-E-turbine:6",
+          "regional:v3:S89-extension2:out:10-split-2:2",
+          "regional:v3:airport-south:N-to-E-turbine:7",
+          "regional:v3:airport-south:N-to-E-turbine:8",
+          "regional:v3:S89-extension2:out:10-split-2:3",
+          "regional:v3:airport-south:N-to-E-turbine:9",
+          "regional:v3:airport-south:N-to-E-turbine:10"
+        ],
+        "bbox": {
+          "minX": -5991.907939797604,
+          "maxX": -5969.21254654754,
+          "minZ": -806.3561625357518,
+          "maxZ": -798.6271287694307
+        },
+        "location": {
+          "x": -5969.21254654754,
+          "z": -804.4701120184985,
+          "y": 29.96164119878368
+        },
+        "maxHeightDelta": 2.0966829632888704,
+        "minHeightDelta": 0.3293039551326693,
+        "normalDot": 0.9968474840943817,
+        "localGrade": [
+          0.00009158315523464042,
+          -0.07950000000000021
+        ],
+        "gradeDiscontinuity": 0.0795922514974288,
+        "overlapLength": 22.695393250063848,
+        "overlapArea": 142.11160610057414,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            22.641958254906836,
+            45.337351504970684
+          ],
+          [
+            22.960904991690356,
+            45.16584344501917
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:airport-south:N-to-E-turbine",
+          "regional:v3:S89-extension2:out:10-split-2"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:airport-south:N-to-E-turbine|regional:v3:S89-extension2:out:10-split-2:45.2:44.6",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "regional:v3:S89-extension2:out:10-split-2",
+          "regional:v3:airport-south:N-to-E-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-south:N-to-E-turbine:11",
+          "regional:v3:S89-extension2:out:10-split-2:3",
+          "regional:v3:S89-extension2:out:10-split-2:4",
+          "regional:v3:airport-south:N-to-E-turbine:12",
+          "regional:v3:airport-south:N-to-E-turbine:13",
+          "regional:v3:S89-extension2:out:10-split-2:5",
+          "regional:v3:airport-south:N-to-E-turbine:14",
+          "regional:v3:airport-south:N-to-E-turbine:15",
+          "regional:v3:airport-south:N-to-E-turbine:16",
+          "regional:v3:S89-extension2:out:10-split-2:6",
+          "regional:v3:airport-south:N-to-E-turbine:17",
+          "regional:v3:airport-south:N-to-E-turbine:18",
+          "regional:v3:S89-extension2:out:10-split-2:7",
+          "regional:v3:airport-south:N-to-E-turbine:19",
+          "regional:v3:airport-south:N-to-E-turbine:20",
+          "regional:v3:S89-extension2:out:10-split-2:8",
+          "regional:v3:airport-south:N-to-E-turbine:21",
+          "regional:v3:airport-south:N-to-E-turbine:22"
+        ],
+        "bbox": {
+          "minX": -5969.951928205672,
+          "maxX": -5912.133470524972,
+          "minZ": -804.4036165200083,
+          "maxZ": -796.258645693274
+        },
+        "location": {
+          "x": -5912.133470524972,
+          "z": -796.3045951256366,
+          "y": 25.38677289610579
+        },
+        "maxHeightDelta": 6.676599380605879,
+        "minHeightDelta": 2.096615248383717,
+        "normalDot": 0.9968475649272768,
+        "localGrade": [
+          0.00008522569603737521,
+          -0.07949999999999983
+        ],
+        "gradeDiscontinuity": 0.07959158315523472,
+        "overlapLength": 57.818457680699815,
+        "overlapArea": 237.56258077500388,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            44.59796984683914,
+            102.41642752753896
+          ],
+          [
+            45.16584344501917,
+            102.71135668625018
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:airport-south:N-to-E-turbine",
+          "regional:v3:S89-extension2:out:10-split-2"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": -5995.913713390123,
+      "maxX": -5912.133470524972,
+      "minZ": -806.8540387397883,
+      "maxZ": -796.258645693274
+    },
+    "location": {
+      "x": -5912.133470524972,
+      "z": -796.3045951256366,
+      "y": 25.38677289610579
+    },
+    "maxHeightDelta": 6.676599380605879,
+    "minHeightDelta": 0.0017306066053350833,
+    "normalDot": 0.9968474419321489,
+    "overlapLength": 83.86620061795858,
+    "stationRanges": [
+      [
+        18.63618466238771,
+        102.41642752753896
+      ],
+      [
+        18.845156068291605,
+        102.71135668625018
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 6.676599380605879,
+    "afterDelta": 0.000044600611410317015,
+    "afterMinimum": 6.313401001989405e-8,
+    "overlapProbeSamples": 310,
+    "roadEvidence": [
+      {
+        "id": "regional:v3:S89-extension2:out:10-split-2",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "medianBarrierStyle": "concrete",
+          "barrierStyle": "concrete"
+        },
+        "section": "BRIDGE",
+        "sourceYRange": [
+          30.927809349000114,
+          32.09814402374447
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "regional:v3:airport-south:N-to-E-turbine",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 50,
+          "barrierOffset": 0.25
+        },
+        "section": "RAMP",
+        "sourceYRange": [
+          18.98236589122609,
+          38.086
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:ring-ccw-2-split-split-split-split-split|system-north:E-to-S-star:14.6:15.0",
+    "roadIds": [
+      "ring-ccw-2-split-split-split-split-split",
+      "system-north:E-to-S-star"
+    ],
+    "members": [
+      {
+        "id": "seam:system-north:E-to-S-star|ring-ccw-2-split-split-split-split-split:15.0:14.6",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-ccw-2-split-split-split-split-split",
+          "system-north:E-to-S-star"
+        ],
+        "segmentIds": [
+          "system-north:E-to-S-star:2",
+          "ring-ccw-2-split-split-split-split-split:2",
+          "ring-ccw-2-split-split-split-split-split:3",
+          "ring-ccw-2-split-split-split-split-split:4",
+          "system-north:E-to-S-star:3",
+          "ring-ccw-2-split-split-split-split-split:5"
+        ],
+        "bbox": {
+          "minX": 427.28799206857354,
+          "maxX": 447.90882043771643,
+          "minZ": -1856.2096438264425,
+          "maxZ": -1847.678918751923
+        },
+        "location": {
+          "x": 427.5566093774723,
+          "z": -1852.0243928743344,
+          "y": 5.7839563633579285
+        },
+        "maxHeightDelta": 2.2160436366420715,
+        "minHeightDelta": 0,
+        "normalDot": 0.9929346363866596,
+        "localGrade": [
+          0,
+          -0.11950693986409767
+        ],
+        "gradeDiscontinuity": 0.11950693986409767,
+        "overlapLength": 20.620828369142885,
+        "overlapArea": 127.99029499734752,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            14.591179562283571,
+            35.212007931426456
+          ],
+          [
+            14.998233807605484,
+            34.99671740093333
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-north:E-to-S-star",
+          "ring-ccw-2-split-split-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:E-to-S-star|ring-ccw-2-split-split-split-split-split:35.0:34.1",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-ccw-2-split-split-split-split-split",
+          "system-north:E-to-S-star"
+        ],
+        "segmentIds": [
+          "system-north:E-to-S-star:4",
+          "ring-ccw-2-split-split-split-split-split:5"
+        ],
+        "bbox": {
+          "minX": 425,
+          "maxX": 428.36784806785465,
+          "minZ": -1857.0781006774769,
+          "maxZ": -1850.232798727196
+        },
+        "location": {
+          "x": 425,
+          "z": -1857.0781006774769,
+          "y": 5.3761332651695515
+        },
+        "maxHeightDelta": 2.6238667348304485,
+        "minHeightDelta": 2.2160436366420715,
+        "normalDot": 0.9929343711125787,
+        "localGrade": [
+          0,
+          -0.11950920730389895
+        ],
+        "gradeDiscontinuity": 0.11950920730389895,
+        "overlapLength": 3.4124826646312485,
+        "overlapArea": 18.067508982145227,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            34.13215193214535,
+            37.5
+          ],
+          [
+            34.99671740093333,
+            38.409200065564576
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "system-north:E-to-S-star",
+          "ring-ccw-2-split-split-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:E-to-S-star|ring-ccw-2-split-split-split-split-split:37.4:37.5",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-ccw-2-split-split-split-split-split",
+          "system-north:E-to-S-star"
+        ],
+        "segmentIds": [
+          "system-north:E-to-S-star:4",
+          "ring-ccw-2-split-split-split-split-split:6",
+          "ring-ccw-2-split-split-split-split-split:7"
+        ],
+        "bbox": {
+          "minX": 412.5,
+          "maxX": 425,
+          "minZ": -1857.0781006774769,
+          "maxZ": -1850.8112846569027
+        },
+        "location": {
+          "x": 412.67772616125717,
+          "z": -1854.2403338206054,
+          "y": 3.991456363357929
+        },
+        "maxHeightDelta": 4.008543636642071,
+        "minHeightDelta": 2.5021537978663426,
+        "normalDot": 0.9929343711125787,
+        "localGrade": [
+          0,
+          -0.11950920730389895
+        ],
+        "gradeDiscontinuity": 0.11950920730389895,
+        "overlapLength": 12.604801527510283,
+        "overlapArea": 64.40858442825265,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            37.5,
+            50
+          ],
+          [
+            37.390760233940526,
+            49.99556176145081
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-north:E-to-S-star",
+          "ring-ccw-2-split-split-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:E-to-S-star|ring-ccw-2-split-split-split-split-split:50.0:49.2",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-ccw-2-split-split-split-split-split",
+          "system-north:E-to-S-star"
+        ],
+        "segmentIds": [
+          "system-north:E-to-S-star:4",
+          "ring-ccw-2-split-split-split-split-split:8",
+          "system-north:E-to-S-star:5",
+          "ring-ccw-2-split-split-split-split-split:7"
+        ],
+        "bbox": {
+          "minX": 412.4451385916312,
+          "maxX": 413.2535737048171,
+          "minZ": -1857.0781006774769,
+          "maxZ": -1853.0024194701684
+        },
+        "location": {
+          "x": 412.5,
+          "z": -1857.0781006774769,
+          "y": 3.9034671330010005
+        },
+        "maxHeightDelta": 4.0965328669989995,
+        "minHeightDelta": 4.006319914799545,
+        "normalDot": 0.9929343711125787,
+        "localGrade": [
+          0,
+          -0.11950219778567074
+        ],
+        "gradeDiscontinuity": 0.11950920730389895,
+        "overlapLength": 0.808435113185908,
+        "overlapArea": 1.3114077536738478,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            49.246426295182914,
+            50.05486140836882
+          ],
+          [
+            49.97695464411908,
+            50.73185977092122
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "system-north:E-to-S-star",
+          "ring-ccw-2-split-split-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:E-to-S-star|ring-ccw-2-split-split-split-split-split:50.0:50.0",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-ccw-2-split-split-split-split-split",
+          "system-north:E-to-S-star"
+        ],
+        "segmentIds": [
+          "system-north:E-to-S-star:5",
+          "ring-ccw-2-split-split-split-split-split:8"
+        ],
+        "bbox": {
+          "minX": 406.25,
+          "maxX": 412.5,
+          "minZ": -1857.0781006774769,
+          "maxZ": -1853.6196056443855
+        },
+        "location": {
+          "x": 406.25,
+          "z": -1857.0781006774769,
+          "y": 3.173700839119644
+        },
+        "maxHeightDelta": 4.826299160880356,
+        "minHeightDelta": 4.008543636642071,
+        "normalDot": 0.9929351911600048,
+        "localGrade": [
+          0,
+          -0.11950219778567074
+        ],
+        "gradeDiscontinuity": 0.11950219778567074,
+        "overlapLength": 6.843016608823746,
+        "overlapArea": 21.257893985020928,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            50,
+            56.25
+          ],
+          [
+            49.99556176145081,
+            56.838578370274554
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-north:E-to-S-star",
+          "ring-ccw-2-split-split-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:E-to-S-star|ring-ccw-2-split-split-split-split-split:56.3:56.3",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-ccw-2-split-split-split-split-split",
+          "system-north:E-to-S-star"
+        ],
+        "segmentIds": [
+          "system-north:E-to-S-star:5",
+          "ring-ccw-2-split-split-split-split-split:9",
+          "system-north:E-to-S-star:6",
+          "ring-ccw-2-split-split-split-split-split:10",
+          "ring-ccw-2-split-split-split-split-split:11"
+        ],
+        "bbox": {
+          "minX": 393.52361033445055,
+          "maxX": 406.25,
+          "minZ": -1857.1781006774768,
+          "maxZ": -1854.3511349870605
+        },
+        "location": {
+          "x": 393.52361033445055,
+          "z": -1857.1781006774768,
+          "y": 1.6905616665675722
+        },
+        "maxHeightDelta": 6.3094383334324275,
+        "minHeightDelta": 4.756921119271597,
+        "normalDot": 0.9929351911600048,
+        "localGrade": [
+          0,
+          -0.11950095334332309
+        ],
+        "gradeDiscontinuity": 0.11950219778567074,
+        "overlapLength": 12.991633286587309,
+        "overlapArea": 16.38175169279566,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            56.25,
+            68.97638966554945
+          ],
+          [
+            56.25801966177959,
+            69.2496529483669
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [],
+        "layerCount": 0
+      }
+    ],
+    "bbox": {
+      "minX": 393.52361033445055,
+      "maxX": 447.90882043771643,
+      "minZ": -1857.1781006774768,
+      "maxZ": -1847.678918751923
+    },
+    "location": {
+      "x": 393.52361033445055,
+      "z": -1857.1781006774768,
+      "y": 1.6905616665675722
+    },
+    "maxHeightDelta": 6.3094383334324275,
+    "minHeightDelta": 0,
+    "normalDot": 0.9929343711125787,
+    "overlapLength": 54.38521010326588,
+    "stationRanges": [
+      [
+        14.591179562283571,
+        68.97638966554945
+      ],
+      [
+        14.998233807605484,
+        69.2496529483669
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 6.3094383334324275,
+    "afterDelta": 3.552713678800501e-15,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 601,
+    "roadEvidence": [
+      {
+        "id": "ring-ccw-2-split-split-split-split-split",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "sourceYRange": [
+          8,
+          8
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-north:E-to-S-star",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0
+        },
+        "sourceYRange": [
+          0,
+          14.026335147798706
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:regional:v3:S36-extension54:in:20:revision391:lane4494-split|regional:v3:airport-distributor:S-to-W-turbine:4.1:4.2",
+    "roadIds": [
+      "regional:v3:S36-extension54:in:20:revision391:lane4494-split",
+      "regional:v3:airport-distributor:S-to-W-turbine"
+    ],
+    "members": [
+      {
+        "id": "seam:regional:v3:airport-distributor:S-to-W-turbine|regional:v3:S36-extension54:in:20:revision391:lane4494-split:4.2:4.1",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split",
+          "regional:v3:airport-distributor:S-to-W-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-distributor:S-to-W-turbine:1",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:0",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:1",
+          "regional:v3:airport-distributor:S-to-W-turbine:2",
+          "regional:v3:airport-distributor:S-to-W-turbine:3",
+          "regional:v3:airport-distributor:S-to-W-turbine:4",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:2"
+        ],
+        "bbox": {
+          "minX": -7421.029935714972,
+          "maxX": -7407.916433724529,
+          "minZ": -60.74120503205488,
+          "maxZ": -42.87190407355909
+        },
+        "location": {
+          "x": -7421.029935714972,
+          "z": -58.57336026558865,
+          "y": 44.37550461160634
+        },
+        "maxHeightDelta": 0.4607466545972514,
+        "minHeightDelta": 0.01887432014786583,
+        "normalDot": 0.9964847972009467,
+        "localGrade": [
+          0.004454378580487457,
+          -0.07949999999999949
+        ],
+        "gradeDiscontinuity": 0.08405149620342804,
+        "overlapLength": 17.858734041916122,
+        "overlapArea": 112.47952567061293,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            4.063482691951498,
+            21.92221673386762
+          ],
+          [
+            4.161399028826835,
+            21.740913564865796
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:airport-distributor:S-to-W-turbine",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split"
+        ],
+        "layerCount": 1
+      },
+      {
+        "id": "seam:regional:v3:airport-distributor:S-to-W-turbine|regional:v3:S36-extension54:in:20:revision391:lane4494-split:21.7:21.5",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split",
+          "regional:v3:airport-distributor:S-to-W-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-distributor:S-to-W-turbine:5",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:2",
+          "regional:v3:airport-distributor:S-to-W-turbine:6",
+          "regional:v3:airport-distributor:S-to-W-turbine:7",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:3",
+          "regional:v3:airport-distributor:S-to-W-turbine:8"
+        ],
+        "bbox": {
+          "minX": -7428.037294868421,
+          "maxX": -7415.975062420932,
+          "minZ": -78.64614198629704,
+          "maxZ": -58.95850000922202
+        },
+        "location": {
+          "x": -7428.037294868421,
+          "z": -76.40296506368043,
+          "y": 42.86272357504392
+        },
+        "maxHeightDelta": 2.057426756435852,
+        "minHeightDelta": 0.4586494175351916,
+        "normalDot": 0.9964934085190104,
+        "localGrade": [
+          0.004353509532146699,
+          -0.07949999999999985
+        ],
+        "gradeDiscontinuity": 0.08395437858048821,
+        "overlapLength": 19.510501352278013,
+        "overlapArea": 121.74596561709768,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            21.45139077595158,
+            40.96189212822959
+          ],
+          [
+            21.740913564865796,
+            40.76960584866961
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:airport-distributor:S-to-W-turbine",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:airport-distributor:S-to-W-turbine|regional:v3:S36-extension54:in:20:revision391:lane4494-split:40.8:40.2",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split",
+          "regional:v3:airport-distributor:S-to-W-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:airport-distributor:S-to-W-turbine:9",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:3",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:4",
+          "regional:v3:airport-distributor:S-to-W-turbine:10",
+          "regional:v3:airport-distributor:S-to-W-turbine:11",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:5",
+          "regional:v3:airport-distributor:S-to-W-turbine:12",
+          "regional:v3:airport-distributor:S-to-W-turbine:13",
+          "regional:v3:airport-distributor:S-to-W-turbine:14",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:6",
+          "regional:v3:airport-distributor:S-to-W-turbine:15",
+          "regional:v3:airport-distributor:S-to-W-turbine:16",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split:7",
+          "regional:v3:airport-distributor:S-to-W-turbine:17",
+          "regional:v3:airport-distributor:S-to-W-turbine:18"
+        ],
+        "bbox": {
+          "minX": -7443.43253369993,
+          "maxX": -7422.8907021568975,
+          "minZ": -122.24039063205288,
+          "maxZ": -76.73882730846513
+        },
+        "location": {
+          "x": -7443.43253369993,
+          "z": -122.20345837814016,
+          "y": 39.031390913219326
+        },
+        "maxHeightDelta": 6.084421819198184,
+        "minHeightDelta": 2.0542422820648127,
+        "normalDot": 0.9965036101061172,
+        "localGrade": [
+          0.0039125080473647956,
+          -0.07949999999999956
+        ],
+        "gradeDiscontinuity": 0.08385350953214678,
+        "overlapLength": 48.330999270523876,
+        "overlapArea": 200.42813689360628,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            40.23041919873816,
+            88.56141846926204
+          ],
+          [
+            40.76960584866961,
+            88.9624695194195
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:airport-distributor:S-to-W-turbine",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": -7443.43253369993,
+      "maxX": -7407.916433724529,
+      "minZ": -122.24039063205288,
+      "maxZ": -42.87190407355909
+    },
+    "location": {
+      "x": -7443.43253369993,
+      "z": -122.20345837814016,
+      "y": 39.031390913219326
+    },
+    "maxHeightDelta": 6.084421819198184,
+    "minHeightDelta": 0.01887432014786583,
+    "normalDot": 0.9964847972009467,
+    "overlapLength": 84.80107049059266,
+    "stationRanges": [
+      [
+        4.063482691951498,
+        88.56141846926204
+      ],
+      [
+        4.161399028826835,
+        88.9624695194195
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 6.084421819198184,
+    "afterDelta": 0.0024421596451347227,
+    "afterMinimum": 0.000013413834203390707,
+    "overlapProbeSamples": 367,
+    "roadEvidence": [
+      {
+        "id": "regional:v3:S36-extension54:in:20:revision391:lane4494-split",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "medianBarrierStyle": "concrete",
+          "barrierStyle": "concrete"
+        },
+        "section": "BRIDGE",
+        "sourceYRange": [
+          44.73591470475113,
+          45.34989878363366
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "regional:v3:airport-distributor:S-to-W-turbine",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 50,
+          "barrierOffset": 0.25
+        },
+        "section": "RAMP",
+        "sourceYRange": [
+          32.175217154840716,
+          52.00900000000005
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:regional:v3:S36-extension54:out:9:revision435|regional:v3:airport-distributor:E-to-S-turbine:77.2:1501.2",
+    "roadIds": [
+      "regional:v3:S36-extension54:out:9:revision435",
+      "regional:v3:airport-distributor:E-to-S-turbine"
+    ],
+    "members": [
+      {
+        "id": "seam:regional:v3:S36-extension54:out:9:revision435|regional:v3:airport-distributor:E-to-S-turbine:77.2:1501.2",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:out:9:revision435:7",
+          "regional:v3:airport-distributor:E-to-S-turbine:293",
+          "regional:v3:airport-distributor:E-to-S-turbine:294",
+          "regional:v3:airport-distributor:E-to-S-turbine:295",
+          "regional:v3:S36-extension54:out:9:revision435:8",
+          "regional:v3:airport-distributor:E-to-S-turbine:296",
+          "regional:v3:S36-extension54:out:9:revision435:9",
+          "regional:v3:airport-distributor:E-to-S-turbine:297",
+          "regional:v3:airport-distributor:E-to-S-turbine:298",
+          "regional:v3:S36-extension54:out:9:revision435:10"
+        ],
+        "bbox": {
+          "minX": -7478.265093759128,
+          "maxX": -7458.8324539531695,
+          "minZ": -114.33290702258888,
+          "maxZ": -85.54962075275098
+        },
+        "location": {
+          "x": -7478.265093759128,
+          "z": -114.33290702258888,
+          "y": 45.155067254079206
+        },
+        "maxHeightDelta": 6.16066562372712,
+        "minHeightDelta": 3.4721394907104113,
+        "normalDot": 0.9965225440736082,
+        "localGrade": [
+          -0.003794816336166198,
+          0.07950000000000053
+        ],
+        "gradeDiscontinuity": 0.08364364993617368,
+        "overlapLength": 32.774847613110666,
+        "overlapArea": 98.27213028224651,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            77.23716916413368,
+            110.01201677724434
+          ],
+          [
+            1501.208878519165,
+            1533.3984468722815
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:S36-extension54:out:9:revision435|regional:v3:airport-distributor:E-to-S-turbine:109.0:1533.4",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:out:9:revision435:10",
+          "regional:v3:airport-distributor:E-to-S-turbine:299"
+        ],
+        "bbox": {
+          "minX": -7462.734463501942,
+          "maxX": -7454.321348482759,
+          "minZ": -89.15847103639607,
+          "maxZ": -80.95685975022249
+        },
+        "location": {
+          "x": -7458.038692005535,
+          "z": -89.15847103639607,
+          "y": 45.02963350619726
+        },
+        "maxHeightDelta": 3.4761611917723982,
+        "minHeightDelta": 2.9600514715571578,
+        "normalDot": 0.9965220080509405,
+        "localGrade": [
+          -0.0041436499361740455,
+          0.0794999999999985
+        ],
+        "gradeDiscontinuity": 0.08364364993617254,
+        "overlapLength": 6.92470204550672,
+        "overlapArea": 38.47713894722983,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            109.04144708049635,
+            115.96614912600307
+          ],
+          [
+            1533.3984468722815,
+            1539.52946799211
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:S36-extension54:out:9:revision435|regional:v3:airport-distributor:E-to-S-turbine:115.1:1539.5",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:out:9:revision435:10",
+          "regional:v3:airport-distributor:E-to-S-turbine:300",
+          "regional:v3:S36-extension54:out:9:revision435:11"
+        ],
+        "bbox": {
+          "minX": -7458.703519534392,
+          "maxX": -7450.704759051954,
+          "minZ": -84.25745488812859,
+          "maxZ": -76.14747959000292
+        },
+        "location": {
+          "x": -7454.302152449681,
+          "z": -84.25745488812859,
+          "y": 45.00442072627874
+        },
+        "maxHeightDelta": 2.963532232827511,
+        "minHeightDelta": 2.4560162036635376,
+        "normalDot": 0.9965125504621611,
+        "localGrade": [
+          -0.0041436499361740455,
+          0.0794999999999995
+        ],
+        "gradeDiscontinuity": 0.08375242432866536,
+        "overlapLength": 6.783820061348109,
+        "overlapArea": 38.63993906241376,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            115.1261261211684,
+            121.9099461825165
+          ],
+          [
+            1539.52946799211,
+            1545.5564914532458
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:S36-extension54:out:9:revision435|regional:v3:airport-distributor:E-to-S-turbine:121.1:1545.6",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:out:9:revision435:11",
+          "regional:v3:airport-distributor:E-to-S-turbine:301",
+          "regional:v3:airport-distributor:E-to-S-turbine:302",
+          "regional:v3:S36-extension54:out:9:revision435:12",
+          "regional:v3:airport-distributor:E-to-S-turbine:303",
+          "regional:v3:airport-distributor:E-to-S-turbine:304",
+          "regional:v3:S36-extension54:out:9:revision435:13",
+          "regional:v3:airport-distributor:E-to-S-turbine:305"
+        ],
+        "bbox": {
+          "minX": -7455.867395605138,
+          "maxX": -7435.38869005675,
+          "minZ": -79.39423617514322,
+          "maxZ": -52.27556884887497
+        },
+        "location": {
+          "x": -7450.684539490669,
+          "z": -79.39423617514322,
+          "y": 44.97939738839637
+        },
+        "maxHeightDelta": 2.4593605297848526,
+        "minHeightDelta": 0.06966038387369622,
+        "normalDot": 0.9964925262003655,
+        "localGrade": [
+          -0.004252424328665859,
+          0.07949999999999974
+        ],
+        "gradeDiscontinuity": 0.08395872096153449,
+        "overlapLength": 28.96093193175483,
+        "overlapArea": 182.31687026194413,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            121.12349453450207,
+            150.0844264662569
+          ],
+          [
+            1545.5564914532458,
+            1574.0333593332439
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:regional:v3:S36-extension54:out:9:revision435|regional:v3:airport-distributor:E-to-S-turbine:149.7:1574.0",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "segmentIds": [
+          "regional:v3:S36-extension54:out:9:revision435:13",
+          "regional:v3:airport-distributor:E-to-S-turbine:306",
+          "regional:v3:airport-distributor:E-to-S-turbine:307",
+          "regional:v3:S36-extension54:out:9:revision435:14",
+          "regional:v3:airport-distributor:E-to-S-turbine:308"
+        ],
+        "bbox": {
+          "minX": -7439.292365757818,
+          "maxX": -7427.564755377656,
+          "minZ": -55.62755039424152,
+          "maxZ": -38.88574596813203
+        },
+        "location": {
+          "x": -7434.583697710856,
+          "z": -55.62755039424152,
+          "y": 44.855502503168836
+        },
+        "maxHeightDelta": 0.07155464809746803,
+        "minHeightDelta": 0,
+        "normalDot": 0.9999896204810123,
+        "localGrade": [
+          -0.004458720961532748,
+          0
+        ],
+        "gradeDiscontinuity": 0.004556244197043288,
+        "overlapLength": 15.825551825398065,
+        "overlapArea": 100.36597594927298,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            149.65958170918134,
+            165.4851335345794
+          ],
+          [
+            1574.0333593332439,
+            1589.7241220433302
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "regional:v3:S36-extension54:out:9:revision435",
+          "regional:v3:airport-distributor:E-to-S-turbine"
+        ],
+        "layerCount": 1
+      }
+    ],
+    "bbox": {
+      "minX": -7478.265093759128,
+      "maxX": -7427.564755377656,
+      "minZ": -114.33290702258888,
+      "maxZ": -38.88574596813203
+    },
+    "location": {
+      "x": -7478.265093759128,
+      "z": -114.33290702258888,
+      "y": 45.155067254079206
+    },
+    "maxHeightDelta": 6.16066562372712,
+    "minHeightDelta": 0,
+    "normalDot": 0.9964925262003655,
+    "overlapLength": 88.51524352416527,
+    "stationRanges": [
+      [
+        77.23716916413368,
+        165.4851335345794
+      ],
+      [
+        1501.208878519165,
+        1589.7241220433302
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed profile/landing has continuous directed wheel support (<2cm); remaining plane differences are outside a problematic lane support switch",
+    "beforeDelta": 6.16066562372712,
+    "afterDelta": 0.08652046379881995,
+    "afterMinimum": 7.105427357601002e-15,
+    "overlapProbeSamples": 318,
+    "supportSweep": {
+      "maxResidual": 0.0014273994017415248,
+      "roadSwitches": 0,
+      "samples": 4684,
+      "offRoad": 0,
+      "offRoadTransitions": 0,
+      "offRoadPoints": [],
+      "worst": {
+        "road": "regional:v3:airport-distributor:E-to-S-turbine",
+        "station": 1498.107026667299,
+        "point": {
+          "x": -7482.92168848975,
+          "z": -114.50931040295691
+        },
+        "from": {
+          "roadId": "regional:v3:airport-distributor:E-to-S-turbine",
+          "segmentId": "regional:v3:airport-distributor:E-to-S-turbine:403",
+          "surfaceId": "regional:v3:airport-distributor:E-to-S-turbine:403:road"
+        },
+        "to": {
+          "roadId": "regional:v3:airport-distributor:E-to-S-turbine",
+          "segmentId": "regional:v3:airport-distributor:E-to-S-turbine:404",
+          "surfaceId": "regional:v3:airport-distributor:E-to-S-turbine:404:road"
+        },
+        "residual": 0.0014273994017415248
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "regional:v3:S36-extension54:out:9:revision435",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "medianBarrierStyle": "concrete",
+          "barrierStyle": "concrete"
+        },
+        "section": "BRIDGE",
+        "sourceYRange": [
+          44.78394785507137,
+          45.41526339265082
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "regional:v3:airport-distributor:E-to-S-turbine",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 50,
+          "barrierOffset": 0.25
+        },
+        "section": "RAMP",
+        "sourceYRange": [
+          32,
+          54.77900000000005
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:ew-eb-split|system-central:N-to-E-semi:0.0:1189.6",
+    "roadIds": [
+      "ew-eb-split",
+      "system-central:N-to-E-semi"
+    ],
+    "members": [
+      {
+        "id": "seam:ew-eb-split|system-central:N-to-E-semi:0.0:1189.6",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "segmentIds": [
+          "ew-eb-split:0",
+          "system-central:N-to-E-semi:130",
+          "system-central:N-to-E-semi:131",
+          "ew-eb-split:1",
+          "ew-eb-split:2",
+          "ew-eb-split:3",
+          "system-central:N-to-E-semi:132",
+          "system-central:N-to-E-semi:133",
+          "ew-eb-split:4",
+          "ew-eb-split:5",
+          "system-central:N-to-E-semi:134",
+          "ew-eb-split:6",
+          "system-central:N-to-E-semi:135"
+        ],
+        "bbox": {
+          "minX": 525,
+          "maxX": 568.75,
+          "minZ": -141.49245439765048,
+          "maxZ": -135
+        },
+        "location": {
+          "x": 529.6391449310947,
+          "z": -135,
+          "y": 8
+        },
+        "maxHeightDelta": 6.063353256296019,
+        "minHeightDelta": 3.1508135541377538,
+        "normalDot": 0.9968702683923637,
+        "localGrade": [
+          0,
+          -0.012344401343103054
+        ],
+        "gradeDiscontinuity": 0.07930303892196021,
+        "overlapLength": 44.09470357807345,
+        "overlapArea": 198.82811750976543,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            0,
+            43.75
+          ],
+          [
+            1189.5754525975087,
+            1233.6701561755822
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:ew-eb-split|system-central:N-to-E-semi:43.8:1233.2",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "segmentIds": [
+          "ew-eb-split:7",
+          "system-central:N-to-E-semi:135",
+          "ew-eb-split:8"
+        ],
+        "bbox": {
+          "minX": 568.75,
+          "maxX": 581.25,
+          "minZ": -142.4853249653449,
+          "maxZ": -135.4179798640664
+        },
+        "location": {
+          "x": 568.75,
+          "z": -135.4179798640664,
+          "y": 8
+        },
+        "maxHeightDelta": 3.18951453785065,
+        "minHeightDelta": 2.185036469694828,
+        "normalDot": 0.9968708288198461,
+        "localGrade": [
+          0,
+          0.07929590492643417
+        ],
+        "gradeDiscontinuity": 0.07929590492643417,
+        "overlapLength": 12.667464594643434,
+        "overlapArea": 79.17131885794515,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            43.75,
+            56.25
+          ],
+          [
+            1233.1820983906462,
+            1245.8495629852896
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:ew-eb-split|system-central:N-to-E-semi:55.9:1245.8",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "segmentIds": [
+          "ew-eb-split:8",
+          "system-central:N-to-E-semi:136",
+          "ew-eb-split:9",
+          "system-central:N-to-E-semi:135"
+        ],
+        "bbox": {
+          "minX": 580.9136888558738,
+          "maxX": 581.3088129361472,
+          "minZ": -142.00615373794452,
+          "maxZ": -136.97776789481642
+        },
+        "location": {
+          "x": 581.25,
+          "z": -137.19637397085955,
+          "y": 8
+        },
+        "maxHeightDelta": 2.189718515674123,
+        "minHeightDelta": 2.1591520035320926,
+        "normalDot": 0.9968708288198461,
+        "localGrade": [
+          0,
+          0.07929590492643417
+        ],
+        "gradeDiscontinuity": 0.07929590492643417,
+        "overlapLength": 0.3962216819149944,
+        "overlapArea": 1.218730550397595,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            55.91368885587383,
+            56.308812936147206
+          ],
+          [
+            1245.7905177422392,
+            1246.1867394241542
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:ew-eb-split|system-central:N-to-E-semi:56.3:1245.8",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "segmentIds": [
+          "ew-eb-split:9",
+          "system-central:N-to-E-semi:136",
+          "ew-eb-split:10",
+          "ew-eb-split:11",
+          "system-central:N-to-E-semi:137",
+          "ew-eb-split:12"
+        ],
+        "bbox": {
+          "minX": 581.25,
+          "maxX": 605.2843187017826,
+          "minZ": -144.5032929575467,
+          "maxZ": -137.2967317090174
+        },
+        "location": {
+          "x": 581.25,
+          "z": -137.2967317090174,
+          "y": 8
+        },
+        "maxHeightDelta": 2.1850364696948255,
+        "minHeightDelta": 0.4058496018982618,
+        "normalDot": 0.997066273921037,
+        "localGrade": [
+          0,
+          0.07676831231118117
+        ],
+        "gradeDiscontinuity": 0.07676831231118117,
+        "overlapLength": 24.15030851081565,
+        "overlapArea": 153.42161606949958,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            56.25,
+            80.28431870178258
+          ],
+          [
+            1245.8495629852896,
+            1269.9998714961052
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:ew-eb-split|system-central:N-to-E-semi:80.0:1270.0",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "segmentIds": [
+          "ew-eb-split:12",
+          "system-central:N-to-E-semi:138",
+          "ew-eb-split:13",
+          "system-central:N-to-E-semi:139",
+          "system-central:N-to-E-semi:140",
+          "ew-eb-split:14",
+          "system-central:N-to-E-semi:141",
+          "ew-eb-split:15"
+        ],
+        "bbox": {
+          "minX": 604.9947864423482,
+          "maxX": 625,
+          "minZ": -145.06580132780417,
+          "maxZ": -138.2031125395896
+        },
+        "location": {
+          "x": 605.2843187017826,
+          "z": -139.02522465793263,
+          "y": 8
+        },
+        "maxHeightDelta": 0.4058496018982618,
+        "minHeightDelta": 0,
+        "normalDot": 0.9985755329391965,
+        "localGrade": [
+          0,
+          0.05343250904675325
+        ],
+        "gradeDiscontinuity": 0.05343250904675325,
+        "overlapLength": 20.005213557651814,
+        "overlapArea": 127.11698243394494,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            79.99478644234819,
+            100
+          ],
+          [
+            1269.9998714961052,
+            1289.8727989222737
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split",
+          "system-central:N-to-E-semi"
+        ],
+        "layerCount": 1
+      }
+    ],
+    "bbox": {
+      "minX": 525,
+      "maxX": 625,
+      "minZ": -145.06580132780417,
+      "maxZ": -135
+    },
+    "location": {
+      "x": 529.6391449310947,
+      "z": -135,
+      "y": 8
+    },
+    "maxHeightDelta": 6.063353256296019,
+    "minHeightDelta": 0,
+    "normalDot": 0.9968702683923637,
+    "overlapLength": 100.29734632476493,
+    "stationRanges": [
+      [
+        0,
+        100
+      ],
+      [
+        1189.5754525975087,
+        1289.8727989222737
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 6.063353256296019,
+    "afterDelta": 1.0658141036401503e-13,
+    "afterMinimum": 1.7763568394002505e-15,
+    "overlapProbeSamples": 429,
+    "roadEvidence": [
+      {
+        "id": "ew-eb-split",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "section": "elevated-mainline",
+        "sourceYRange": [
+          8,
+          8
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-central:N-to-E-semi",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        },
+        "sourceYRange": [
+          -9.537800703286672,
+          20.262
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:ew-eb-split-2-split-split-split|system-central:N-to-E-semi:93.8:1171.0",
+    "roadIds": [
+      "ew-eb-split-2-split-split-split",
+      "system-central:N-to-E-semi"
+    ],
+    "members": [
+      {
+        "id": "seam:ew-eb-split-2-split-split-split|system-central:N-to-E-semi:93.8:1171.0",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ew-eb-split-2-split-split-split",
+          "system-central:N-to-E-semi"
+        ],
+        "segmentIds": [
+          "ew-eb-split-2-split-split-split:14",
+          "system-central:N-to-E-semi:128",
+          "ew-eb-split-2-split-split-split:15",
+          "ew-eb-split-2-split-split-split:16",
+          "ew-eb-split-2-split-split-split:17",
+          "system-central:N-to-E-semi:129",
+          "system-central:N-to-E-semi:130"
+        ],
+        "bbox": {
+          "minX": 506.26437676592326,
+          "maxX": 525,
+          "minZ": -137.03108738522516,
+          "maxZ": -134.9105304605694
+        },
+        "location": {
+          "x": 525,
+          "z": -136.41393596221744,
+          "y": 8
+        },
+        "maxHeightDelta": 6.008531811519387,
+        "minHeightDelta": 4.806781680405405,
+        "normalDot": 0.9976359904028951,
+        "localGrade": [
+          0,
+          -0.012344401343103054
+        ],
+        "gradeDiscontinuity": 0.06888278319290052,
+        "overlapLength": 18.769722313313423,
+        "overlapArea": 18.33273133599141,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            93.75,
+            112.5
+          ],
+          [
+            1170.971777652942,
+            1189.7414999662553
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split",
+          "ew-eb-split-2-split-split-split",
+          "system-central:N-to-E-semi"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": 506.26437676592326,
+      "maxX": 525,
+      "minZ": -137.03108738522516,
+      "maxZ": -134.9105304605694
+    },
+    "location": {
+      "x": 525,
+      "z": -136.41393596221744,
+      "y": 8
+    },
+    "maxHeightDelta": 6.008531811519387,
+    "minHeightDelta": 4.806781680405405,
+    "normalDot": 0.9976359904028951,
+    "overlapLength": 18.769722313313423,
+    "stationRanges": [
+      [
+        93.75,
+        112.5
+      ],
+      [
+        1170.971777652942,
+        1189.7414999662553
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": false,
+    "risk": "structure",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 6.008531811519387,
+    "afterDelta": 8.704148513061227e-14,
+    "afterMinimum": 2.4868995751603507e-14,
+    "overlapProbeSamples": 82,
+    "roadEvidence": [
+      {
+        "id": "ew-eb-split-2-split-split-split",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "section": "elevated-mainline",
+        "sourceYRange": [
+          8,
+          8
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-central:N-to-E-semi",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        },
+        "sourceYRange": [
+          -9.537800703286672,
+          20.262
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:ew-eb-split-4-split-split-split|system-central:W-to-N-semi:0.0:0.0",
+    "roadIds": [
+      "ew-eb-split-4-split-split-split",
+      "system-central:W-to-N-semi"
+    ],
+    "members": [
+      {
+        "id": "seam:system-central:W-to-N-semi|ew-eb-split-4-split-split-split:0.0:0.0",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "ew-eb-split-4-split-split-split",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "system-central:W-to-N-semi:0",
+          "ew-eb-split-4-split-split-split:0",
+          "system-central:W-to-N-semi:1",
+          "ew-eb-split-4-split-split-split:1",
+          "system-central:W-to-N-semi:2",
+          "system-central:W-to-N-semi:3"
+        ],
+        "bbox": {
+          "minX": -571.5225403840903,
+          "maxX": -551.4144592608443,
+          "minZ": -130.83659549404993,
+          "maxZ": -123.77627896404394
+        },
+        "location": {
+          "x": -551.4414506009387,
+          "z": -128.09387115980078,
+          "y": 7.599668601810622
+        },
+        "maxHeightDelta": 0.4003313981893779,
+        "minHeightDelta": 0,
+        "normalDot": 0.9986916169228578,
+        "localGrade": [
+          0,
+          -0.051204596736008405
+        ],
+        "gradeDiscontinuity": 0.051204596736008405,
+        "overlapLength": 20.130499405429234,
+        "overlapArea": 127.9321201925195,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            0,
+            20.130499405429234
+          ],
+          [
+            0,
+            19.999999999999922
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "layerCount": 1
+      },
+      {
+        "id": "seam:system-central:W-to-N-semi|ew-eb-split-4-split-split-split:20.0:19.8",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ew-eb-split-4-split-split-split",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "system-central:W-to-N-semi:4",
+          "ew-eb-split-4-split-split-split:1",
+          "ew-eb-split-4-split-split-split:2",
+          "system-central:W-to-N-semi:5",
+          "system-central:W-to-N-semi:6",
+          "ew-eb-split-4-split-split-split:3",
+          "system-central:W-to-N-semi:7"
+        ],
+        "bbox": {
+          "minX": -551.468441941033,
+          "maxX": -525.3370756695398,
+          "minZ": -130.87401913458467,
+          "maxZ": -124.11331212963198
+        },
+        "location": {
+          "x": -525.3370756695398,
+          "z": -124.11331212963198,
+          "y": 5.6443058228893
+        },
+        "maxHeightDelta": 2.3556941771107,
+        "minHeightDelta": 0.4003313981893797,
+        "normalDot": 0.9968800251567995,
+        "localGrade": [
+          0,
+          -0.07917874950640964
+        ],
+        "gradeDiscontinuity": 0.07917874950640964,
+        "overlapLength": 26.217442770675657,
+        "overlapArea": 165.95031794300303,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            19.84429183685209,
+            45.801531966701035
+          ],
+          [
+            19.99999999999996,
+            46.21744277067562
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-central:W-to-N-semi|ew-eb-split-4-split-split-split:45.7:45.8",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ew-eb-split-4-split-split-split",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "system-central:W-to-N-semi:7",
+          "ew-eb-split-4-split-split-split:4"
+        ],
+        "bbox": {
+          "minX": -525.673083070865,
+          "maxX": -520.2878669613359,
+          "minZ": -130.50082580410708,
+          "maxZ": -123.97010845862576
+        },
+        "location": {
+          "x": -520.2878669613359,
+          "z": -129.45347058728512,
+          "y": 5.257067986551831
+        },
+        "maxHeightDelta": 2.7429320134481694,
+        "minHeightDelta": 2.316354428721602,
+        "normalDot": 0.9968800251567995,
+        "localGrade": [
+          0,
+          -0.07917874950640964
+        ],
+        "gradeDiscontinuity": 0.07917874950640964,
+        "overlapLength": 5.387526165616379,
+        "overlapArea": 33.167637097758416,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            45.801531966701035,
+            51.167502451771355
+          ],
+          [
+            45.72059546462018,
+            51.10812163023656
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-central:W-to-N-semi|ew-eb-split-4-split-split-split:51.1:50.7",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ew-eb-split-4-split-split-split",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "system-central:W-to-N-semi:8",
+          "ew-eb-split-4-split-split-split:4",
+          "ew-eb-split-4-split-split-split:5"
+        ],
+        "bbox": {
+          "minX": -520.466610700851,
+          "maxX": -503.2497647658976,
+          "minZ": -130.32040694288781,
+          "maxZ": -123.66954926092558
+        },
+        "location": {
+          "x": -503.2497647658976,
+          "z": -129.59469643784888,
+          "y": 3.907108808792832
+        },
+        "maxHeightDelta": 4.092891191207168,
+        "minHeightDelta": 2.7429320134481694,
+        "normalDot": 0.9968565139156604,
+        "localGrade": [
+          0,
+          -0.07947793041169586
+        ],
+        "gradeDiscontinuity": 0.07947793041169586,
+        "overlapLength": 17.47076530813974,
+        "overlapArea": 103.6201505112258,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            50.71427200234762,
+            68.18503731048736
+          ],
+          [
+            51.10812163023656,
+            68.09345543002485
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-central:W-to-N-semi|ew-eb-split-4-split-split-split:68.1:67.7",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ew-eb-split-4-split-split-split",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "system-central:W-to-N-semi:9",
+          "ew-eb-split-4-split-split-split:5"
+        ],
+        "bbox": {
+          "minX": -503.4802952632676,
+          "maxX": -502.472013578151,
+          "minZ": -128.69941904510296,
+          "maxZ": -125.12720562732162
+        },
+        "location": {
+          "x": -502.472013578151,
+          "z": -125.17754717498075,
+          "y": 3.8273717557219378
+        },
+        "maxHeightDelta": 4.172628244278062,
+        "minHeightDelta": 4.092891191207168,
+        "normalDot": 0.996857055887005,
+        "localGrade": [
+          0,
+          -0.07947104626245571
+        ],
+        "gradeDiscontinuity": 0.07947104626245571,
+        "overlapLength": 1.0094927175946111,
+        "overlapArea": 4.222738895092334,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            67.69005849378884,
+            68.69955121138345
+          ],
+          [
+            68.09345543002485,
+            69.09680264666473
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-central:W-to-N-semi|ew-eb-split-4-split-split-split:68.6:68.7",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ew-eb-split-4-split-split-split",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "system-central:W-to-N-semi:9",
+          "ew-eb-split-4-split-split-split:6"
+        ],
+        "bbox": {
+          "minX": -502.73462260581306,
+          "maxX": -490.9987747964735,
+          "minZ": -129.56360407818596,
+          "maxZ": -124.29992442798273
+        },
+        "location": {
+          "x": -490.9987747964735,
+          "z": -124.96708700232092,
+          "y": 2.9162542979540085
+        },
+        "maxHeightDelta": 5.0837457020459915,
+        "minHeightDelta": 4.13057837834892,
+        "normalDot": 0.996857055887005,
+        "localGrade": [
+          0,
+          -0.07947104626245571
+        ],
+        "gradeDiscontinuity": 0.07947104626245571,
+        "overlapLength": 11.9938942360115,
+        "overlapArea": 52.51159616292716,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            68.69955121138345,
+            80.14757946076145
+          ],
+          [
+            68.56768081038902,
+            80.56157504640052
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-central:W-to-N-semi|ew-eb-split-4-split-split-split:80.1:80.1",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ew-eb-split-4-split-split-split",
+          "system-central:W-to-N-semi"
+        ],
+        "segmentIds": [
+          "system-central:W-to-N-semi:9",
+          "ew-eb-split-4-split-split-split:7",
+          "system-central:W-to-N-semi:10"
+        ],
+        "bbox": {
+          "minX": -491.23009500894506,
+          "maxX": -479.57856202046935,
+          "minZ": -128.86196832527207,
+          "maxZ": -124.96660381222699
+        },
+        "location": {
+          "x": -479.57856202046935,
+          "z": -125.62074852825006,
+          "y": 2.0166246975447906
+        },
+        "maxHeightDelta": 5.98337530245521,
+        "minHeightDelta": 5.046553976429021,
+        "normalDot": 0.996857055887005,
+        "localGrade": [
+          0,
+          -0.07898954148110758
+        ],
+        "gradeDiscontinuity": 0.07947104626245571,
+        "overlapLength": 11.824373074761212,
+        "overlapArea": 36.63028047444095,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            80.14757946076146,
+            91.59485643860467
+          ],
+          [
+            80.09358415706274,
+            91.91795723182395
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "ew-eb-split-3",
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": -571.5225403840903,
+      "maxX": -479.57856202046935,
+      "minZ": -130.87401913458467,
+      "maxZ": -123.66954926092558
+    },
+    "location": {
+      "x": -479.57856202046935,
+      "z": -125.62074852825006,
+      "y": 2.0166246975447906
+    },
+    "maxHeightDelta": 5.98337530245521,
+    "minHeightDelta": 0,
+    "normalDot": 0.9968565139156604,
+    "overlapLength": 91.91795723182395,
+    "stationRanges": [
+      [
+        0,
+        91.59485643860467
+      ],
+      [
+        0,
+        91.91795723182395
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 5.98337530245521,
+    "afterDelta": 3.552713678800501e-15,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 329,
+    "roadEvidence": [
+      {
+        "id": "ew-eb-split-4-split-split-split",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "section": "elevated-mainline",
+        "sourceYRange": [
+          8,
+          8
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-central:W-to-N-semi",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        },
+        "sourceYRange": [
+          -6.411623449579057,
+          14.068000000000001
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:ring-ccw-3-split-3-split-3|system-north:S-to-W-star:160.8:872.5",
+    "roadIds": [
+      "ring-ccw-3-split-3-split-3",
+      "system-north:S-to-W-star"
+    ],
+    "members": [
+      {
+        "id": "seam:system-north:S-to-W-star|ring-ccw-3-split-3-split-3:872.5:160.8",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-ccw-3-split-3-split-3",
+          "system-north:S-to-W-star"
+        ],
+        "segmentIds": [
+          "system-north:S-to-W-star:68",
+          "ring-ccw-3-split-3-split-3:13",
+          "ring-ccw-3-split-3-split-3:14",
+          "system-north:S-to-W-star:69",
+          "ring-ccw-3-split-3-split-3:15",
+          "system-north:S-to-W-star:70",
+          "ring-ccw-3-split-3-split-3:16"
+        ],
+        "bbox": {
+          "minX": -369.72619071979256,
+          "maxX": -341.9648819027293,
+          "minZ": -1881.247875169042,
+          "maxZ": -1876.2726485472374
+        },
+        "location": {
+          "x": -341.9648819027293,
+          "z": -1878.2314336466707,
+          "y": 2.538693351758771
+        },
+        "maxHeightDelta": 5.461306648241229,
+        "minHeightDelta": 3.604790742627647,
+        "normalDot": 0.9977215754970769,
+        "localGrade": [
+          0,
+          0.06762004219756938
+        ],
+        "gradeDiscontinuity": 0.0676200421975694,
+        "overlapLength": 27.865973147675476,
+        "overlapArea": 77.17722122417763,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            160.82902509059156,
+            188.69499823826703
+          ],
+          [
+            872.5054399868254,
+            899.9605530757716
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:S-to-W-star|ring-ccw-3-split-3-split-3:900.0:188.0",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-ccw-3-split-3-split-3",
+          "system-north:S-to-W-star"
+        ],
+        "segmentIds": [
+          "system-north:S-to-W-star:71",
+          "ring-ccw-3-split-3-split-3:16"
+        ],
+        "bbox": {
+          "minX": -377.0339189153731,
+          "maxX": -369.53630764177024,
+          "minZ": -1881.7151402708494,
+          "maxZ": -1875.9712192836985
+        },
+        "location": {
+          "x": -369.53630764177024,
+          "z": -1876.224890243311,
+          "y": 4.395209257372353
+        },
+        "maxHeightDelta": 3.604790742627647,
+        "minHeightDelta": 3.097511857226287,
+        "normalDot": 0.9977215754970769,
+        "localGrade": [
+          0,
+          0.06762004219756937
+        ],
+        "gradeDiscontinuity": 0.06762004219756937,
+        "overlapLength": 7.501901343380041,
+        "overlapArea": 41.482187111570965,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            187.96543091960666,
+            195.37773994404708
+          ],
+          [
+            899.9605530757716,
+            907.4624544191516
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:S-to-W-star|ring-ccw-3-split-3-split-3:906.6:195.4",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-ccw-3-split-3-split-3",
+          "system-north:S-to-W-star"
+        ],
+        "segmentIds": [
+          "system-north:S-to-W-star:71",
+          "ring-ccw-3-split-3-split-3:17"
+        ],
+        "bbox": {
+          "minX": -378.34276419785175,
+          "maxX": -376.367488178071,
+          "minZ": -1881.478124944732,
+          "maxZ": -1875.9332123382094
+        },
+        "location": {
+          "x": -376.367488178071,
+          "z": -1881.478124944732,
+          "y": 4.844858193547049
+        },
+        "maxHeightDelta": 3.155141806452951,
+        "minHeightDelta": 3.021507410463129,
+        "normalDot": 0.9977215754970769,
+        "localGrade": [
+          0,
+          0.06762004219756937
+        ],
+        "gradeDiscontinuity": 0.06762004219756937,
+        "overlapLength": 1.976254253130719,
+        "overlapArea": 10.376904567179736,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            195.37773994404708,
+            197.33120088631108
+          ],
+          [
+            906.6101930576712,
+            908.5864473108019
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:S-to-W-star|ring-ccw-3-split-3-split-3:908.6:196.7",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-ccw-3-split-3-split-3",
+          "system-north:S-to-W-star"
+        ],
+        "segmentIds": [
+          "system-north:S-to-W-star:72",
+          "ring-ccw-3-split-3-split-3:17"
+        ],
+        "bbox": {
+          "minX": -388.52869372305685,
+          "maxX": -378.24252326234785,
+          "minZ": -1882.3316471100368,
+          "maxZ": -1875.8996823935502
+        },
+        "location": {
+          "x": -378.261090963076,
+          "z": -1882.3316471100368,
+          "y": 4.978492589536871
+        },
+        "maxHeightDelta": 3.021507410463129,
+        "minHeightDelta": 2.3259521455517547,
+        "normalDot": 0.9977215754970769,
+        "localGrade": [
+          0,
+          0.06762004219756937
+        ],
+        "gradeDiscontinuity": 0.06762004219756937,
+        "overlapLength": 10.286229382689953,
+        "overlapArea": 64.01036124414532,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            196.682378440764,
+            206.8897818449893
+          ],
+          [
+            908.5864473108019,
+            918.8726766934918
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:S-to-W-star|ring-ccw-3-split-3-split-3:918.2:206.9",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-ccw-3-split-3-split-3",
+          "system-north:S-to-W-star"
+        ],
+        "segmentIds": [
+          "system-north:S-to-W-star:72",
+          "ring-ccw-3-split-3-split-3:18"
+        ],
+        "bbox": {
+          "minX": -393.1553913365004,
+          "maxX": -387.8685008402582,
+          "minZ": -1882.299128367001,
+          "maxZ": -1875.8934409627186
+        },
+        "location": {
+          "x": -387.8685008402582,
+          "z": -1882.299128367001,
+          "y": 5.628149772232927
+        },
+        "maxHeightDelta": 2.371850227767073,
+        "minHeightDelta": 2.0143484214614356,
+        "normalDot": 0.9977215754970769,
+        "localGrade": [
+          0,
+          0.06762004219756937
+        ],
+        "gradeDiscontinuity": 0.06762004219756937,
+        "overlapLength": 5.2869207809882255,
+        "overlapArea": 31.301268804178108,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            206.8897818449893,
+            212.13666011892178
+          ],
+          [
+            918.1939122218399,
+            923.4808330028281
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:system-north:S-to-W-star|ring-ccw-3-split-3-split-3:923.5:211.5",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-ccw-3-split-3-split-3",
+          "system-north:S-to-W-star"
+        ],
+        "segmentIds": [
+          "system-north:S-to-W-star:73",
+          "ring-ccw-3-split-3-split-3:18",
+          "ring-ccw-3-split-3-split-3:19",
+          "system-north:S-to-W-star:74",
+          "system-north:S-to-W-star:75",
+          "ring-ccw-3-split-3-split-3:20"
+        ],
+        "bbox": {
+          "minX": -423.1084431998908,
+          "maxX": -393.0622725145238,
+          "minZ": -1883.3017514456194,
+          "maxZ": -1875.9627103562016
+        },
+        "location": {
+          "x": -393.0887243035412,
+          "z": -1880.4518999016502,
+          "y": 5.985651578538564
+        },
+        "maxHeightDelta": 2.0143484214614356,
+        "minHeightDelta": 0,
+        "normalDot": 0.9977215754970766,
+        "localGrade": [
+          0,
+          0.06762004219756922
+        ],
+        "gradeDiscontinuity": 0.06762004219757024,
+        "overlapLength": 29.8980672518789,
+        "overlapArea": 190.4657643417595,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            211.52016114160753,
+            241.41822839348643
+          ],
+          [
+            923.4808330028281,
+            953.2700546004128
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": -423.1084431998908,
+      "maxX": -341.9648819027293,
+      "minZ": -1883.3017514456194,
+      "maxZ": -1875.8934409627186
+    },
+    "location": {
+      "x": -341.9648819027293,
+      "z": -1878.2314336466707,
+      "y": 2.538693351758771
+    },
+    "maxHeightDelta": 5.461306648241229,
+    "minHeightDelta": 0,
+    "normalDot": 0.9977215754970766,
+    "overlapLength": 80.76461461358736,
+    "stationRanges": [
+      [
+        160.82902509059156,
+        241.41822839348643
+      ],
+      [
+        872.5054399868254,
+        953.2700546004128
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 5.461306648241229,
+    "afterDelta": 1.1723955140041653e-13,
+    "afterMinimum": 1.4210854715202004e-14,
+    "overlapProbeSamples": 248,
+    "roadEvidence": [
+      {
+        "id": "ring-ccw-3-split-3-split-3",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "sourceYRange": [
+          8,
+          8
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-north:S-to-W-star",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0
+        },
+        "sourceYRange": [
+          -2.886579864025404e-14,
+          19.940522095758627
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:junction:urban-junction-235|v8-port-works-c91:0.0:279.8",
+    "roadIds": [
+      "junction:urban-junction-235",
+      "v8-port-works-c91"
+    ],
+    "members": [
+      {
+        "id": "junction-seam:v8-port-works-c91|urban-junction-235",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "junction:urban-junction-235",
+          "v8-port-works-c91"
+        ],
+        "segmentIds": [
+          "v8-port-works-c91:2"
+        ],
+        "bbox": {
+          "minX": 885.8926754681036,
+          "maxX": 890.9053675494422,
+          "minZ": 2375.4890840113835,
+          "maxZ": 2377.538305480681
+        },
+        "location": {
+          "x": 890.9053675494422,
+          "z": 2375.4890840113835,
+          "y": -5.408643335079481
+        },
+        "maxHeightDelta": 5.408643335079481,
+        "minHeightDelta": 5.408643335079461,
+        "normalDot": 0.996815278536125,
+        "localGrade": [
+          0,
+          0.07999999999999982
+        ],
+        "gradeDiscontinuity": 0.07999999999999982,
+        "overlapLength": 2.8421709430404007e-13,
+        "overlapArea": 0,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "junction-boundary-connected",
+        "stationRanges": [
+          [
+            0,
+            0
+          ],
+          [
+            279.75951368762435,
+            279.75951368762463
+          ]
+        ],
+        "reasons": [
+          "Physical road-to-junction ownership boundary height mismatch; includes actual outside approach support"
+        ]
+      }
+    ],
+    "bbox": {
+      "minX": 885.8926754681036,
+      "maxX": 890.9053675494422,
+      "minZ": 2375.4890840113835,
+      "maxZ": 2377.538305480681
+    },
+    "location": {
+      "x": 890.9053675494422,
+      "z": 2375.4890840113835,
+      "y": -5.408643335079481
+    },
+    "maxHeightDelta": 5.408643335079481,
+    "minHeightDelta": 5.408643335079461,
+    "normalDot": 0.996815278536125,
+    "overlapLength": 2.8421709430404007e-13,
+    "stationRanges": [
+      [
+        0,
+        0
+      ],
+      [
+        279.75951368762435,
+        279.75951368762463
+      ]
+    ],
+    "topologyRelations": [
+      "junction-boundary-connected"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": false,
+    "risk": "structure",
+    "junctionId": "urban-junction-235",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 5.408643335079481,
+    "afterDelta": 0,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 0,
+    "roadEvidence": [
+      {
+        "id": "v8-port-works-c91",
+        "role": "collector",
+        "structure": {
+          "barrierEnabled": true,
+          "barrierOffset": 0,
+          "piersEnabled": false,
+          "pierSpacing": 45,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 5.5
+          }
+        },
+        "sourceYRange": [
+          -6,
+          1.0949227635670411e-13
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:junction:urban-junction-235|v8-port-south-m91:0.0:131.2",
+    "roadIds": [
+      "junction:urban-junction-235",
+      "v8-port-south-m91"
+    ],
+    "members": [
+      {
+        "id": "junction-seam:v8-port-south-m91|urban-junction-235",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "junction:urban-junction-235",
+          "v8-port-south-m91"
+        ],
+        "segmentIds": [
+          "v8-port-south-m91:2"
+        ],
+        "bbox": {
+          "minX": 892.7254152778792,
+          "maxX": 906.1796377023284,
+          "minZ": 2371.3775580285974,
+          "maxZ": 2374.883235268878
+        },
+        "location": {
+          "x": 893.6864311653399,
+          "z": 2374.632829751715,
+          "y": -5.387303070273151
+        },
+        "maxHeightDelta": 5.387303070273151,
+        "minHeightDelta": 5.387303070273104,
+        "normalDot": 0.996815278536125,
+        "localGrade": [
+          0,
+          0.0799999999999998
+        ],
+        "gradeDiscontinuity": 0.0799999999999998,
+        "overlapLength": 5.968558980384842e-13,
+        "overlapArea": 0,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "junction-boundary-connected",
+        "stationRanges": [
+          [
+            0,
+            0
+          ],
+          [
+            131.15345778303615,
+            131.15345778303674
+          ]
+        ],
+        "reasons": [
+          "Physical road-to-junction ownership boundary height mismatch; includes actual outside approach support"
+        ]
+      }
+    ],
+    "bbox": {
+      "minX": 892.7254152778792,
+      "maxX": 906.1796377023284,
+      "minZ": 2371.3775580285974,
+      "maxZ": 2374.883235268878
+    },
+    "location": {
+      "x": 893.6864311653399,
+      "z": 2374.632829751715,
+      "y": -5.387303070273151
+    },
+    "maxHeightDelta": 5.387303070273151,
+    "minHeightDelta": 5.387303070273104,
+    "normalDot": 0.996815278536125,
+    "overlapLength": 5.968558980384842e-13,
+    "stationRanges": [
+      [
+        0,
+        0
+      ],
+      [
+        131.15345778303615,
+        131.15345778303674
+      ]
+    ],
+    "topologyRelations": [
+      "junction-boundary-connected"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": false,
+    "risk": "structure",
+    "junctionId": "urban-junction-235",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 5.387303070273151,
+    "afterDelta": 0,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 0,
+    "roadEvidence": [
+      {
+        "id": "v8-port-south-m91",
+        "role": "arterial",
+        "structure": {
+          "barrierEnabled": true,
+          "barrierOffset": 0,
+          "piersEnabled": false,
+          "pierSpacing": 45,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 5.5
+          }
+        },
+        "sourceYRange": [
+          -5.99975364786025,
+          4.3520742565306136e-14
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  },
+  {
+    "id": "cluster:ring-ccw-2-split|system-east:S-to-W-turbine:0.0:30.1",
+    "roadIds": [
+      "ring-ccw-2-split",
+      "system-east:S-to-W-turbine"
+    ],
+    "members": [
+      {
+        "id": "seam:ring-ccw-2-split|system-east:S-to-W-turbine:0.0:30.1",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-ccw-2-split",
+          "system-east:S-to-W-turbine"
+        ],
+        "segmentIds": [
+          "ring-ccw-2-split:0",
+          "system-east:S-to-W-turbine:8",
+          "system-east:S-to-W-turbine:9",
+          "system-east:S-to-W-turbine:10",
+          "ring-ccw-2-split:1",
+          "system-east:S-to-W-turbine:11",
+          "system-east:S-to-W-turbine:12",
+          "ring-ccw-2-split:2",
+          "system-east:S-to-W-turbine:13"
+        ],
+        "bbox": {
+          "minX": 2343.042982400027,
+          "maxX": 2350.19620706144,
+          "minZ": 135.95491507895642,
+          "maxZ": 155.33885388385087
+        },
+        "location": {
+          "x": 2346.0242304097774,
+          "z": 135.95491507895642,
+          "y": 14.4
+        },
+        "maxHeightDelta": 2.2814827245620766,
+        "minHeightDelta": 0.769925242444442,
+        "normalDot": 0.996991260323517,
+        "localGrade": [
+          0,
+          -0.07774796623803495
+        ],
+        "gradeDiscontinuity": 0.07774796623803501,
+        "overlapLength": 19.441762341278693,
+        "overlapArea": 121.50631864732713,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            0,
+            19.309233697813525
+          ],
+          [
+            30.10311029456702,
+            49.544872635845714
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ring-ccw-2-split",
+          "system-east:S-to-W-turbine"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:ring-ccw-2-split|system-east:S-to-W-turbine:18.7:49.5",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-ccw-2-split",
+          "system-east:S-to-W-turbine"
+        ],
+        "segmentIds": [
+          "ring-ccw-2-split:2",
+          "system-east:S-to-W-turbine:14",
+          "ring-ccw-2-split:3",
+          "system-east:S-to-W-turbine:15",
+          "system-east:S-to-W-turbine:16",
+          "system-east:S-to-W-turbine:17",
+          "ring-ccw-2-split:4",
+          "system-east:S-to-W-turbine:18",
+          "system-east:S-to-W-turbine:19",
+          "ring-ccw-2-split:5",
+          "system-east:S-to-W-turbine:20",
+          "system-east:S-to-W-turbine:21",
+          "system-east:S-to-W-turbine:22",
+          "ring-ccw-2-split:6"
+        ],
+        "bbox": {
+          "minX": 2345.070447551349,
+          "maxX": 2350.77288948238,
+          "minZ": 103.9038632591897,
+          "maxZ": 136.47735903940787
+        },
+        "location": {
+          "x": 2350.6190476190477,
+          "z": 103.9038632591897,
+          "y": 14.4
+        },
+        "maxHeightDelta": 4.786147735987157,
+        "minHeightDelta": 2.2814827245620766,
+        "normalDot": 0.996991260323517,
+        "localGrade": [
+          0,
+          -0.07774796623803515
+        ],
+        "gradeDiscontinuity": 0.07774796623803522,
+        "overlapLength": 32.697931990311325,
+        "overlapArea": 98.27699798883987,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            18.71321837565464,
+            51.411150365965966
+          ],
+          [
+            49.544872635845714,
+            81.76005629424193
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "ring-ccw-2-split",
+          "system-east:S-to-W-turbine"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": 2343.042982400027,
+      "maxX": 2350.77288948238,
+      "minZ": 103.9038632591897,
+      "maxZ": 155.33885388385087
+    },
+    "location": {
+      "x": 2350.6190476190477,
+      "z": 103.9038632591897,
+      "y": 14.4
+    },
+    "maxHeightDelta": 4.786147735987157,
+    "minHeightDelta": 0.769925242444442,
+    "normalDot": 0.996991260323517,
+    "overlapLength": 51.65694599967492,
+    "stationRanges": [
+      [
+        0,
+        51.411150365965966
+      ],
+      [
+        30.10311029456702,
+        81.76005629424193
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "medium",
+    "conclusion": "FIXED",
+    "reason": "Reviewed source profile/landing; measured shared core below the 2cm review threshold",
+    "beforeDelta": 4.786147735987157,
+    "afterDelta": 3.552713678800501e-15,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 226,
+    "roadEvidence": [
+      {
+        "id": "ring-ccw-2-split",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "section": "vertical-transition",
+        "sourceYRange": [
+          14.4,
+          14.4
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-east:S-to-W-turbine",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25
+        },
+        "sourceYRange": [
+          7.999999999999977,
+          20.45
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true
+  }
+]

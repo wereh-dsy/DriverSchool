@@ -3,6 +3,15 @@ import type { GroundNormal, WheelId } from './WheelContact';
 
 /** Final, bounded suspension geometry in the same world frame as the chassis. */
 export interface WheelGeometryState {
+  /** Strut-axis length (m), relative velocity (m/s) and acceleration (m/s²). */
+  readonly unsprungPosition?: number;
+  readonly unsprungVelocity?: number;
+  readonly unsprungAcceleration?: number;
+  readonly unsprungMass?: number;
+  readonly tyreNormalForce?: number;
+  readonly tyreCompression?: number;
+  readonly tyreCompressionVelocity?: number;
+  readonly effectiveRadius?: number;
   readonly attachmentWorldPosition: GroundNormal;
   readonly suspensionAxis: GroundNormal;
   readonly minSuspensionLength: number;

@@ -738,7 +738,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     if (!environment.wheelContacts) environment = { ...environment, wheelContacts: this.flatContacts(environment) };
     const control = this.vehicleControl;
     control.estimator.update(dt, this.speed, this.lateralVelocity, this.acceleration,
-      this.lateralAcceleration, this.yawRate, this.steering.steeringAngle, this.wheels, environment.wheelContacts);
+      this.lateralAcceleration, this.yawRate, this.steering.steeringAngle, this.wheels, environment.wheelContacts, this.chassisMotion);
     const rawThrottle = this.safeUnitInput(input.throttle), rawBrake = this.safeUnitInput(input.brake);
     const steerCommand = clamp(this.finiteOr(input.steering, 0), -1, 1);
     control.updateDriverIntent(dt, rawThrottle, rawBrake, steerCommand, this.powertrain.vehicleOperational,
@@ -750,7 +750,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
 
 
     this.driverAssists.updateTraction(dt, this.wheels, throttleCommand, this.powertrain.vehicleOperational,
-      this.powertrain.driving, this.powertrain.driveAvailable, environment.wheelContacts);
+      this.powertrain.driving, this.powertrain.driveAvailable, environment.wheelContacts, true);
     const context = this.powertrainContext;
     context.dt = dt; context.throttle = throttleCommand; context.brake = brakeCommand;
     context.vehicleSpeed = this.speed; context.vehicleLateralSpeed = this.lateralVelocity;
@@ -1126,9 +1126,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     for (let i = 0; i < 4; i++) this.escLateralLimits[i] = this.config.tires.lateralGrip * loads[i]! *
       this.wheelRotation.gripModel.loadFactor(loads[i]!, tyreReferenceLoad) * gripLat[i]!;
     const control = this.vehicleControl;
-    for (let i = 0; i < 4; i++) this.controlGrounded[i] = vertical?.wheels[WHEEL_IDS[i]!].grounded ?? true;
+    for (let i = 0; i < 4; i++) this.controlGrounded[i] = vertical?.wheels[WHEEL_IDS[i]!].grounded ??
+      this.wheels[WHEEL_IDS[i]!].grounded ?? loads[i]! > 1;
     control.estimator.state.steeringAngle = this.steering.steeringAngle;
-    control.estimator.refreshWheels(this.wheels, wheelContacts, loads, this.controlGrounded);
+    control.estimator.refreshWheels(this.wheels, wheelContacts, loads, this.controlGrounded, vertical?.wheels);
     control.updateStabilityState(dt, limits, this.escLateralLimits);
     const evAxles = this.powertrain.axleOutput;
     const regenerating = this.powertrain.limitRegeneration !== undefined && (requestedDriveTorque * this.speed < 0 ||
@@ -1137,16 +1138,14 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       (regenerating || this.powertrain.shaftRegenerating) ? this.config.drivetrainType === 'AWD' ? 'both' : this.config.drivetrainType === 'FWD' ? 'front' : 'rear' : undefined);
     if (this.powertrain.cancelShaftRegeneration &&
       (this.config.drivetrainType === 'FWD'
-        ? this.driverAssists.pressures[0]! < .98 || this.driverAssists.pressures[1]! < .98
-        : this.driverAssists.pressures[2]! < .98 || this.driverAssists.pressures[3]! < .98))
+        ? control.regenerativeTorqueLimit(0) <= 0 || control.regenerativeTorqueLimit(1) <= 0
+        : control.regenerativeTorqueLimit(2) <= 0 || control.regenerativeTorqueLimit(3) <= 0 ||
+          this.config.drivetrainType === 'AWD' && (control.regenerativeTorqueLimit(0) <= 0 || control.regenerativeTorqueLimit(1) <= 0)))
       requestedDriveTorque = this.powertrain.cancelShaftRegeneration();
     if (regenerating && this.powertrain.limitAxleRegeneration) {
       let frontLimit = Infinity, rearLimit = Infinity;
       for (let i = 0; i < 4; i++) {
-        const wheel = this.wheels[WHEEL_IDS[i]!];
-        const cornering = Math.sqrt(Math.max(0, 1 - Math.min(1, wheel.lateralUsage) ** 2));
-        let limit = limits[i]! * cornering * this.config.wheelRadius * 2 * this.driverAssists.pressures[i]!;
-        if (this.driverAssists.pressures[i]! < .98) limit = 0;
+        const limit = control.regenerativeTorqueLimit(i);
         if (i < 2) frontLimit = Math.min(frontLimit, limit);
         else rearLimit = Math.min(rearLimit, limit);
       }
@@ -1163,9 +1162,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       const first = this.config.drivetrainType === 'FWD' ? 0 : 2;
       let maximumRegen = Infinity;
       for (let i = first; i < first + 2; i++) {
-        const wheel = this.wheels[WHEEL_IDS[i]!];
-        const corneringAvailability = Math.sqrt(Math.max(0, 1 - Math.min(1, wheel.lateralUsage) ** 2));
-        maximumRegen = Math.min(maximumRegen, limits[i]! * corneringAvailability * this.config.wheelRadius * 2 * this.driverAssists.pressures[i]!);
+        maximumRegen = Math.min(maximumRegen, control.regenerativeTorqueLimit(i));
         // Rigid single-motor axle cannot release just one wheel. Cut the whole
         // motor immediately while either driven-wheel ABS channel is releasing.
         if (this.driverAssists.pressures[i]! < .98) maximumRegen = 0;
@@ -1464,7 +1461,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     if (n.y <= 1e-4) return Infinity;
     const length = corner.minSuspensionLength, p = corner.surfacePoint;
     return ((a.x + axis.x * length - p.x) * n.x + (a.y + axis.y * length - p.y) * n.y +
-      (a.z + axis.z * length - p.z) * n.z - this.config.wheelRadius) / n.y;
+      (a.z + axis.z * length - p.z) * n.z - (corner.effectiveRadius ?? this.config.wheelRadius)) / n.y;
   }
 
   /** Last safety net; neither normal spring support nor attitude authority. */

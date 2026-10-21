@@ -12,11 +12,15 @@ import { BLACK_BOX_SETTINGS as S, FRAME_DOUBLE_FIELDS, FRAME_FLOAT_FIELDS, FRAME
 import { BlackBoxTriggerThresholds as T } from './BlackBoxTriggerThresholds';
 
 type Detail = { queries: unknown[]; microsteps: unknown[] };
+type RejectedContactDetail = { wheel: number; contactSample: number; lastContactSample: number; count: number;
+  rejectionReason?: string; lastRejectionReason?: string; heightDelta: number; heightThreshold?: number;
+  surface: number; road: number; segment: number; supportValid: false; candidates: unknown };
 
 /** Read-only telemetry sink. No snapshots, strings, arrays or objects are created on an ordinary armed step.
  * The scene adapter passes snapshots it already owns. All JSON work is explicitly outside the fixed loop.
  */
 export class VehiclePhysicsBlackBox {
+  private readonly rejectedInStep: (RejectedContactDetail | undefined)[] = [undefined, undefined, undefined, undefined];
   public status: BlackBoxStatus = 'OFF';
   private readonly doubles = new Float64Array(S.frameCapacity * FRAME_DOUBLE_FIELDS.length);
   private readonly floats = new Float32Array(S.frameCapacity * FRAME_FLOAT_FIELDS.length);
@@ -91,6 +95,7 @@ export class VehiclePhysicsBlackBox {
   public beginStep(dt: number): void {
     if (!this.recording) return;
     this.step++; this.time += dt; this.eventsThisStep = 0; this.contactSample = 0; this.pendingReason = undefined;
+    this.rejectedInStep.fill(undefined);
     this.detail = this.highDetail ? { queries: [], microsteps: [] } : undefined;
   }
   public intern(value: string | undefined): number {
@@ -142,10 +147,20 @@ export class VehiclePhysicsBlackBox {
       for (let i = 0; i < 4; i++) {
         const contact = contacts[WHEEL_IDS[i]!], ref = contact.reference;
         if (contact.supportValid === false) {
-          this.event('support-candidate-rejected', { wheel: i, contactSample: this.contactSample,
+          const previous = this.rejectedInStep[i];
+          if (previous) {
+            previous.count++; previous.lastContactSample = this.contactSample;
+            previous.lastRejectionReason = contact.rejectionReason;
+            continue;
+          }
+          const rejected: RejectedContactDetail = { wheel: i, contactSample: this.contactSample,
+            lastContactSample: this.contactSample, count: 1, rejectionReason: contact.rejectionReason,
+            lastRejectionReason: contact.rejectionReason,
             surface: this.intern(ref?.surfaceId), road: this.intern(ref?.roadId), segment: this.intern(ref?.segmentId),
             heightDelta: contact.height - this.heights[i]!, heightThreshold: contact.supportHeightTolerance,
-            supportValid: false, candidates: this.candidates(ground, contacts, i) });
+            supportValid: false, candidates: this.candidates(ground, contacts, i) };
+          this.rejectedInStep[i] = rejected;
+          this.event('support-candidate-rejected', rejected);
           this.anomaly('support-candidate-rejected');
           // This candidate never became physical support. Retain the last real
           // support identity so rejection cannot manufacture an A-B-A event.
@@ -301,6 +316,11 @@ export class VehiclePhysicsBlackBox {
       this.w(corner.springForce); this.w(corner.damperForce); this.w(corner.bumpStopForce); this.w(corner.antiRollForce);
       this.w(impulse); this.w(wheel.normalLoad); this.w(wheel.longitudinalForce); this.w(wheel.lateralForce);
       this.w(wheel.angularVelocity); this.w(wheel.slipRatio); this.w(wheel.slipAngle);
+      this.w(corner.tyreCompression ?? 0); this.w(corner.tyreCompressionVelocity ?? 0);
+      this.w(corner.effectiveRadius ?? 0);
+      this.w(corner.unsprungPosition ?? 0); this.w(corner.unsprungVelocity ?? 0);
+      this.w(corner.unsprungAcceleration ?? 0); this.w(corner.tyreNormalForce ?? corner.normalLoad);
+      this.w(corner.unsprungMass ?? 0);
       const base = slot + i * WHEEL_INT_FIELDS.length * cap;
       this.wheelInts[base] = +corner.grounded; this.wheelInts[base + cap] = this.surfaces[i]!;
       this.wheelInts[base + cap * 2] = this.roads[i]!; this.wheelInts[base + cap * 3] = this.segments[i]!;

@@ -31,6 +31,8 @@ export function writeReviewPackage(directory:string,request:unknown,receipt:Retu
 export const MAPCTL_HELP={
   schemaVersion:2,usage:'node scripts/mapctl.mjs <command> <map.json|regional-main|editor-test> --request @request.json [--out result.json]',
   commands:{
+    'diagnose-elevation-seams':{scope:'whole map by default; --road, --bbox or --near x,z --radius metres',flags:'--height-threshold 0.02 --clusters includes junction ownership boundaries and category-independent connected runs',output:'--out full-report.json; stdout paginated',readOnly:true},
+    'repair-elevation-seams':{required:'--safe-only',behavior:'isolated interior Y fixes only; preview/semantic diff/local validation; --apply explicitly writes; --out saves receipt'},
     inspect:{kinds:['profile','geometry','ramp','object','structure','region','issue'],examples:[{kind:'profile',roadId:'road-id',step:10},{kind:'object',objectId:'object-id'},{kind:'region',center:{x:0,z:0},radius:300}]},
     query:{kinds:['road','corridor','corridors','group','sign','signs','intersection','connected','objects','accessWindows','diagnosis'],examples:[{kind:'objects',roadId:'road-id',radius:30,limit:100,offset:0},{kind:'accessWindows',mainline:'main-id',frontage:'frontage-id',start:0,end:1000,minLength:100,buffer:80}]},
     diagnose:{domains:['legacy (default)','profile','ramps','objects','structures','all'],scope:'roadId | intersectionId | corridorId | objectId | bbox | center+radius | full:true',filters:['codes (prefix[])','minSeverity','limit','offset']},
@@ -43,6 +45,10 @@ export const MAPCTL_HELP={
     diff:{syntax:'diff <before.json> --after <after.json> [--full]',readOnly:true},
   },
   operations:{
+    adjustElevationSeam:{id:'road id',elevations:[{index:3,before:.12,after:.10}],contract:'custom polyline, interior Y only, stale-value and grade guards; keeps all other fields'},
+    repairPavementProfile:{id:'road id',profile:[{station:0,before:0,after:0},{station:30,before:.1,after:.08},{station:60,before:0,after:0}],contract:'reviewed vertical stations on the original XZ polyline; preserves original nodes; endpoint edits require complete explicit ownership'},
+    setJunctionLanding:{id:'junction id',contract:'reviewed local pavement ownership (8m approach reach) for a ground landing beside graded roads'},
+    setPavementSurface:{id:'road id',surface:'ribbon',contract:'use existing visual pavement triangles for confirmed graded-bend contact seams'},
     moveObject:{id:'editable id',delta:{x:0,y:0,z:1}},rotateObject:{id:'editable id',rotation:'radians'},removeObject:{id:'authored prefab/sign id'},
     reanchorObject:{id:'editable id',roadId:'optional',station:'optional metres',lateralOffset:'signed metres',verticalOffset:'metres',strategy:['reanchorRoadside','reanchorToApproach','moveOppositeSide','fixFacing','moveToRoadside','moveOutsideCarriageway','moveOutward']},
     repairElevation:{id:'road/corridor id',start:'metres',end:'metres',strategy:['smoothLocalExtremum','smoothWave','smoothGradeBreak','fitBetweenConstraints'],anchors:[{station:100,elevation:'optional existing elevation'}],maxGrade:.08},

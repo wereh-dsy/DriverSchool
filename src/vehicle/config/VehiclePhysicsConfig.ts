@@ -344,6 +344,8 @@ export interface AeroConfig {
 }
 
 export interface TireConfig {
+  /** Massless radial spring/damper in series with suspension; SI units. */
+  verticalCompliance?: { stiffness: number; damping: number; maximumCompression: number };
   thermalPressureFront?: import('./TyreThermalPressureConfig').TyreThermalPressureConfig;
   thermalPressureRear?: import('./TyreThermalPressureConfig').TyreThermalPressureConfig;
   /** Per-wheel camber-thrust stiffness, N/rad; omitted preserves legacy tyres. */
@@ -392,6 +394,8 @@ export interface SuspensionAxleKinematicsConfig {
   antiSquatRatio: number;
 }
 export interface SuspensionConfig {
+  /** Per-corner hub/wheel mass, kg. Included in vehicle mass, not added to it. */
+  unsprungMass?: { front: number; rear: number };
   kinematics?: { front: SuspensionAxleKinematicsConfig; rear: SuspensionAxleKinematicsConfig };
   adaptiveDamping?: { responseRate: number; modeMultipliers: Readonly<Partial<Record<VehicleDriveMode, number>>> };
   airSuspension?: { nominalRideHeight: number; minimumOffset: number; maximumOffset: number;

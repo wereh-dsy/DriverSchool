@@ -10,6 +10,7 @@ import { VehicleDynamics, type VehicleSnapshot } from './VehicleDynamics';
 import { SuspensionSystem } from './SuspensionSystem';
 import { chassisGeometryValid, runChassisDynamicsSelfTest } from './ChassisDynamics.selftest';
 import { chassisBodyPose } from './WheelPhysicsState';
+import { WheelSupportContinuity } from './WheelSupportContinuity';
 
 /** Phase 1 heave/contact regression: gravity, reach, landing and partial contact. */
 export function runVerticalDynamicsSelfTest() {
@@ -50,6 +51,29 @@ export function runVerticalDynamicsSelfTest() {
     `flat rest does not oscillate (v ${maximumRestSpeed.toFixed(4)}, dy ${maximumRestDeviation.toFixed(4)})`);
   assert(WHEEL_IDS.every(id => restState.wheels[id].normalLoad > 0), 'flat rest keeps normal load');
   assert(geometryValid(restState), 'flat-rest geometry shares the chassis attachment and bounded strut');
+  const legacyConfig = createDefaultVehiclePhysicsConfig();
+  legacyConfig.tires.verticalCompliance = undefined;
+  const legacyRest = new VehicleDynamics(legacyConfig, { gear: 'N', engineRunning: false, driveSelector: 'N' });
+  legacyRest.syncWheelContacts(contactsAt());
+  for (let i = 0; i < 600; i++) legacyRest.stepFixed(dt, neutral, { wheelContacts: contactsAt() });
+  assert(Math.abs(restState.chassis.chassisY - legacyRest.chassisY) < .002, 'radial preload retains static height within 2 mm of the rigid tyre');
+  assert(WHEEL_IDS.every(id => {
+    const g = restState.wheels[id].geometry!;
+    return Number.isFinite(g.tyreCompressionVelocity) && g.tyreCompression! > 0 &&
+      g.tyreCompression! <= config.tires.verticalCompliance!.maximumCompression &&
+      Math.abs(g.effectiveRadius! - config.wheelRadius) < .002;
+  }), 'static radial compression is finite and uses the existing loaded-radius datum');
+  const continuity = new WheelSupportContinuity(); continuity.seed(contactsAt());
+  continuity.beginStep(); continuity.prepare(resting.suspension.getVerticalSnapshot(), config.wheelRadius);
+  const smoothField = { sampleRoadSurface: (x: number, z: number) => ({
+    ...sampleGroundGeometry((sx, _sz) => 2 * sx, x, z), ...surfaceResponseAliases(SURFACE_MATERIALS.asphalt) }) };
+  continuity.sample(smoothField, 'frontLeft', 0, 0);
+  assert(continuity.valid('frontLeft'), 'a continuous heightfield can change its normal without a discrete layer rejection');
+  const badField = { sampleRoadSurface: (x: number, z: number) => ({
+    ...sampleGroundGeometry(() => .65, x, z), ...surfaceResponseAliases(SURFACE_MATERIALS.asphalt) }) };
+  continuity.sample(badField, 'frontLeft', 0, 0);
+  assert(!continuity.valid('frontLeft') && continuity.rejectionReason('frontLeft') === 'unreachable-heightfield-discontinuity',
+    'an impossible flat-normal 0.65 m jump is rejected before radial compliance even on an unlabelled heightfield');
 
   // B: surface far below suspension reach -> full free fall, zero tyre load.
   const fallingCar = createCar();
@@ -67,6 +91,8 @@ export function runVerticalDynamicsSelfTest() {
     'gravity integrates heave velocity and position');
   assert(Math.abs(falling.chassis.verticalAcceleration + config.gravity) < 0.1,
     'free-fall acceleration is gravity');
+  assert(WHEEL_IDS.every(id => falling.wheels[id].geometry!.tyreCompression! >= 0 && falling.wheels[id].normalLoad === 0),
+    'airborne radial unloading cannot pull the tyre onto the road');
   assert(falling.wheels.frontLeft.worldPosition.y > -20 + config.wheelRadius,
     'airborne wheel hangs near full extension instead of the road');
   assert(geometryValid(falling) && WHEEL_IDS.every(id => {
@@ -165,7 +191,8 @@ export function runVerticalDynamicsSelfTest() {
     { wheelContacts: sampleWheelContacts(slope, sloped, config) });
   assert(geometryValid(sloped) && sloped.chassis.groundedWheels > 0 && WHEEL_IDS.every(id => {
     const g = sloped.wheels[id].geometry!;
-    return new Vector3().copy(g.wheelCenterWorld).sub(g.surfacePoint).dot(g.surfaceNormal) >= config.wheelRadius - 1e-7;
+    return new Vector3().copy(g.wheelCenterWorld).sub(g.surfacePoint).dot(g.surfaceNormal) >=
+      (g.effectiveRadius ?? config.wheelRadius) - 1e-7;
   }), 'banked slope contact uses normal distance and the actual yaw/pitch/roll attachment transform');
 
   // Contact-only two-deck fixture, without loading a map or its validation suites.

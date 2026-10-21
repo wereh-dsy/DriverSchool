@@ -69,8 +69,9 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
       rear: { topology: 'MULTI_LINK', staticCamber: -.012, camberGainPerMeter: -.26, staticToe: .0005, bumpToeGainPerMeter: .018, antiDiveRatio: 0, antiSquatRatio: .15 },
     },
     springRateFront: 39000, springRateRear: 35500,
-    damperCompressionFront: 3050, damperCompressionRear: 2800,
-    damperReboundFront: 4600, damperReboundRear: 4250, suspensionTravel: .17,
+    unsprungMass: { front: 48, rear: 46 },
+    damperCompressionFront: 2592.5, damperCompressionRear: 2380,
+    damperReboundFront: 3910, damperReboundRear: 3612.5, suspensionTravel: .17,
     antiRollStiffnessFront: 14500, antiRollStiffnessRear: 11500, antiRollStiffness: 26000 };
   config.tires = { ...config.tires, wheelInertia: 1.65, longitudinalGrip: 1.03, lateralGrip: 1.04,
     gripCoefficient: 1.03, corneringStiffnessFront: 103000, corneringStiffnessRear: 108000,
@@ -78,6 +79,7 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
   config.tires = calibrateTyres(config.tires, 'PREMIUM_TOURING');
   config.capabilities = { ...config.capabilities, tpms: true };
   config.tires.thermalPressureFront = createTyreThermalPressureConfig(250, { thermalCapacity: 32000 });
+  config.tires.verticalCompliance = { stiffness: 240000, damping: 2400, maximumCompression: .055 };
   config.tires.thermalPressureRear = createTyreThermalPressureConfig(260, { thermalCapacity: 32000 });
   config.aero = { ...config.aero, dragCoefficient: .28, frontalArea: 2.30, liftCoefficientFront: .008, liftCoefficientRear: .012 };
   config.suspension.adaptiveDamping = { responseRate: 2.5, modeMultipliers: { ECO: .95, NORMAL: 1, SPORT: 1.35 } };

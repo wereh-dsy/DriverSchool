@@ -26,8 +26,11 @@ export function runVehicleControlCalibrationSelfTest(): { assertions: number } {
   entries.set('drivergame.driver-profile.v1', JSON.stringify({ version: 1, profile: old }));
   assert(store.load(a).sampleDuration === 0 && store.load(b).sampleDuration === 0, 'v1 global data cannot seed v2 vehicles');
   store.save(old, a);
-  const layer = new AdaptiveDriverLayer(store, a), vehicle = new VehicleControlSystem(createExecutiveSedanPhysicsConfig());
-  const source = new VehicleDynamics().getSnapshot().wheels;
+  const vehicleConfig = createExecutiveSedanPhysicsConfig();
+  const layer = new AdaptiveDriverLayer(store, a), vehicle = new VehicleControlSystem(vehicleConfig);
+  const physical = new VehicleDynamics().getSnapshot().wheels;
+  const source = Object.fromEntries(WHEEL_IDS.map(id => [id, { ...physical[id], grounded: true,
+    normalLoad: 3500, estimatedFriction: 1, longitudinalSpeed: 10, angularVelocity: 10 / vehicleConfig.wheelRadius }])) as typeof physical;
   const state = vehicle.estimator.update(dt, 15, 0, 1, 0, 0, 0, source);
   const input = { throttle: .7, brake: 0, steering: .1 }, flags = { absActive: false, tcsActive: false, escActive: false };
   layer.setEnabled(true); layer.update(dt, input, state, flags, true);
@@ -62,9 +65,11 @@ export function runVehicleControlCalibrationSelfTest(): { assertions: number } {
     'hard guardrails constrain authored calibration');
   const awd = vehicle.awd!;
   for (const id of WHEEL_IDS) Object.assign(state.wheels[id], { grounded: true, normalLoad: 3500,
-    longitudinalVelocity: 15, linearSurfaceSpeed: 15, longitudinalSlipRatio: 0 });
+    rawNormalLoad: 3500, estimatedControlNormalLoad: 3500, estimatedLongitudinalCapacity: 3500,
+    roadContactReady: true, driveSlipDuration: .1,
+    longitudinalVelocity: 15, linearSurfaceSpeed: 15, estimatedLongitudinalSlip: 0 });
   const start = awd.rearTorqueSplit;
-  state.wheels.frontLeft.longitudinalSlipRatio = .8;
+  state.wheels.frontLeft.estimatedLongitudinalSlip = .8;
   let smooth = true, finite = true;
   for (let i = 0; i < 60; i++) {
     const previous = awd.rearTorqueSplit;
@@ -73,12 +78,14 @@ export function runVehicleControlCalibrationSelfTest(): { assertions: number } {
     finite &&= Number.isFinite(awd.rearTorqueSplit) && Math.abs(awd.frontAxleTorqueRatio + awd.rearAxleTorqueRatio - 1) < 1e-12;
   }
   assert(finite && smooth && awd.rearTorqueSplit > start && awd.rearTorqueSplit <= audi.awd!.maximumRearTorqueSplit!, 'front slip moves bounded, rate-limited torque rearward');
-  awd.reset(); state.wheels.frontLeft.longitudinalSlipRatio = 0; state.wheels.rearLeft.longitudinalSlipRatio = .8;
+  awd.reset(); state.wheels.frontLeft.estimatedLongitudinalSlip = 0; state.wheels.rearLeft.estimatedLongitudinalSlip = .8;
   for (let i = 0; i < 60; i++) awd.update(dt, state, .4, true);
   assert(awd.rearTorqueSplit < start && awd.rearTorqueSplit >= vehicle.calibration.drivetrain.minimumRearRatio, 'rear slip moves torque forward');
   const wheelSpin = { ...source, frontLeft: { ...source.frontLeft, grounded: true, normalLoad: 3500,
     longitudinalSpeed: 10, angularVelocity: 20 / audi.wheelRadius, slipRatio: .7 } };
   vehicle.reset(true); vehicle.updateTraction(dt, wheelSpin, 1, true, true);
+  assert(vehicle.differentialBrakeTorques[0] === 0 && vehicle.engineTorqueFactor === 1, 'one unconfirmed spin sample cannot trigger EDL/strong TCS');
+  for (let i = 0; i < 24; i++) vehicle.updateTraction(dt, wheelSpin, 1, true, true);
   assert(vehicle.differentialBrakeTorques[0]! > 0 && vehicle.differentialBrakeTorques[1] === 0 && vehicle.engineTorqueFactor < 1,
     'generic EDL brakes the overspeed wheel; severe TCS retains final torque authority');
   const beforeSwitch = vehicle.awd!.rearTorqueSplit;

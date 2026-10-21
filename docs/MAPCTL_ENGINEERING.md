@@ -216,3 +216,82 @@ engineering/brush suite. The default also runs the existing synthetic road-quali
 scenarios. `node scripts/smoke-mapctl-engineering.mjs` performs six read-only queries
 on live City Main and verifies byte equality without a standalone SHA command.
 Existing editor tests remain at `node scripts/run-editor-selftests.mjs`.
+
+## Pavement elevation seams
+
+```powershell
+node scripts/mapctl.mjs diagnose-elevation-seams regional-main --near 2216,2140 --radius 35 --out artifacts/local-seams.json
+node scripts/mapctl.mjs diagnose-elevation-seams regional-main --out artifacts/all-seams.json --limit 0
+node scripts/mapctl.mjs diagnose-elevation-seams regional-main --height-threshold 0.02 --clusters --out artifacts/seam-clusters.json --limit 0
+node scripts/mapctl.mjs repair-elevation-seams regional-main --safe-only --out artifacts/seam-preview.json
+# Explicit application; --out is the receipt, not another map destination.
+node scripts/mapctl.mjs repair-elevation-seams regional-main --safe-only --apply --out artifacts/seam-applied.json
+```
+
+The read-only scan defaults to the whole map; `--road`, `--bbox` and
+`--near x,z --radius metres` narrow it. `--out` retains all candidates;
+stdout is paginated with `--offset`/`--limit`. Measurements use SI units and
+runtime `roadPoints`, physical shoulder widths, clamped support planes and
+junction masks. A 64m segment AABB grid shortlists pairs, convex footprint
+intersection supplies probes (vertices, centroid, edges at <=1m); footprints
+within 0.2m are also checked. Nearby pavement is a candidate, not proof of a
+drivable connection. `--clusters` also probes road/junction pavement ownership
+boundaries and groups continuous station/spatial runs independently of category.
+
+Reports include road/segment IDs (runtime sampled segment indices), station
+ranges, bbox, worst point, height range, normal dot, local grades and grade
+break, overlap area/length, horizontal gap, topology relation and local layers.
+The 4cm height and 4% adjacent-grade-break thresholds are diagnostic thresholds,
+not a requirement to remove every crest/sag. A report maximum of zero means no
+*reportable* seam remains; use a runtime overlap probe for sub-threshold values.
+Automatic grade-separation exclusion requires explicit structure, at least 2m
+separation, a stable gap and distance from local connections. A large gap alone
+does not establish separation. Cluster length is projected coverage, not a
+drivable route. `--height-threshold 0.02` enables the broader 2cm review without
+relaxing the safe repair policy.
+
+`SAFE_AUTO_FIX` is restricted to an isolated interior wrinkle on a custom
+polyline: <=80m span, <=25cm Y correction, normal dot >=0.995, matching exterior
+grades, no enclosed road, piers, bridge section or overlapping neighbouring road.
+It fits a compact C1 least-squares profile over multiple nodes while preserving
+interval endpoints and tangent intent. The kernel's `adjustElevationSeam`
+primitive checks source Y values, interior indices, finite deltas, grade and
+grade-break limits. Safe CLI repairs additionally check exact non-Y equality,
+semantic diff, local validation, follow-up seam metrics and source-byte digest.
+They preserve authored optional metadata and save atomically. No eligible safe
+candidate means no map write/version change. Source values in receipts allow
+reviewed restoration; the kernel intentionally rejects recreating a bad spike.
+
+`LIKELY_FIX` (shared/split/merge/ramp pavement) and `MANUAL_REVIEW` (uncertain
+reference, changing layer, complex overlap, grade-only crest/sag) are never
+batch-repaired. Inspect their profiles/structures, submit local Y operations via
+the usual kernel preview/diff/apply, then revalidate support. A scan is a
+sampled geometric audit, not an exhaustive vehicle driving proof or clearance
+repairer. `node scripts/run-elevation-seam-selftests.mjs` is the focused CLI and
+kernel selftest; `node scripts/run-elevation-seam-fixture.mjs` replays the saved
+City Main incident using the current runtime/contact system.
+
+For individually reviewed profiles, `repairPavementProfile` accepts a complete
+station/before/after receipt, inserts vertical knots along the original XZ
+polyline and checks stale values, correction bounds, grade and grade breaks.
+It retains every original XZ node. Changed endpoints require exact linked-end
+agreement or explicit junction datum ownership. This command does not expand
+the automatic safe-only eligibility.
+
+Two opt-in corrections address proved pavement representation problems:
+`setPavementSurface` selects the existing visual edge-chain ribbon as physical
+support on graded bends; `setJunctionLanding` limits a selected junction's
+ownership reach to 8m. The latter rebuilds that junction's derived footprint
+and requires a compatible reviewed approach landing. `setJunctionHeightDatum`
+allows a separately reviewed hub correction of at most 5cm. These are explicit
+structural exceptions, never blanket conversions of ordinary roads/junctions.
+
+`setJunctionLanding` accepts `enabled:false` to restore legacy ownership when a
+constrained landing fails actual contact validation.
+
+`node scripts/run-pavement-profile-regression.mjs` runs five short actual
+contact regressions against the saved v481 baseline and current source. Cropped
+fixtures retain full-map compiled junction footprints through `CityRuntimeData`;
+reloading a crop would otherwise derive different junction approach reaches.
+The complete v484 review, per-region profiles, conclusions and remaining
+uncertainties are in `artifacts/map-elevation-seam-audit/REPORT.md`.

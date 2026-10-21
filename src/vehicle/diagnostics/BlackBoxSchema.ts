@@ -13,6 +13,8 @@ export const WHEEL_FLOAT_FIELDS = [
   'surfaceHeight', 'surfaceNormalX', 'surfaceNormalY', 'surfaceNormalZ',
   'springForce', 'damperForce', 'bumpStopForce', 'ARBForce', 'mechanicalLimitImpulse',
   'Fz', 'Fx', 'Fy', 'angularVelocity', 'slipRatio', 'slipAngle',
+  'tyreCompression', 'tyreCompressionVelocity', 'effectiveRadius',
+  'unsprungPosition', 'unsprungVelocity', 'unsprungAcceleration', 'tyreNormalForce', 'unsprungMass',
 ] as const;
 export const WHEEL_INT_FIELDS = ['grounded', 'surface', 'road', 'segment', 'surfaceType'] as const;
 export const BLACK_BOX_SETTINGS = Object.freeze({ physicsHz: 120, preSteps: 600, postSteps: 180,

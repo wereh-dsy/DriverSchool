@@ -137,7 +137,9 @@ export function runChassisDynamicsSelfTest() {
   const two = runHighSpeedChassisRamp(140, 2), four = runHighSpeedChassisRamp(140, 4);
   assert(Math.abs(two.finalY - four.finalY) < .15 && Math.abs(two.finalVelocity - four.finalVelocity) < .8 &&
     Math.abs(two.finalPitchRate - four.finalPitchRate) < .1 && Math.max(two.maxForce, four.maxForce) / Math.min(two.maxForce, four.maxForce) < 1.4,
-  '2-to-4 refinement converges in displacement, launch velocity, pitch rate and step-averaged peak reaction');
+  `2-to-4 refinement converges in displacement, launch velocity, pitch rate and step-averaged peak reaction: ${
+    JSON.stringify({ y: two.finalY - four.finalY, v: two.finalVelocity - four.finalVelocity,
+      pitch: two.finalPitchRate - four.finalPitchRate, forceRatio: Math.max(two.maxForce, four.maxForce) / Math.min(two.maxForce, four.maxForce) })}`);
   const mountResponse = (hz: number) => {
     const camera = new DriverCamera({ driverEyePosition: { x: 0, y: 1, z: 0 } }), root = new Group();
     camera.update(root, 0);

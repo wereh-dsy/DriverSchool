@@ -21,9 +21,12 @@ export class ABSController {
         // A free wheel is not a locked road contact; do not freeze ABS memory in flight.
         this.pressures[i] = 1; this.activeWheels[i] = this.releasing[i] = false; continue;
       }
-      const slip = -w.longitudinalSlipRatio * Math.sign(w.longitudinalVelocity || state.longitudinalVelocity);
+      const direction = Math.sign(w.longitudinalVelocity || state.longitudinalVelocity);
+      const slip = -w.estimatedLongitudinalSlip * direction;
+      const rawSlip = -w.rawLongitudinalSlip * direction;
       const error = slip - Math.min(w.usefulSlipRatio * tune.slipMultiplier, HardSafetyEnvelope.maximumABSLockSlip);
-      if (error > tune.hysteresis) this.releasing[i] = true;
+      const confirmed = w.roadContactReady && w.brakeSlipDuration + 1e-9 >= (w.wheelHop ? .025 : .016);
+      if (error > tune.hysteresis && rawSlip > w.usefulSlipRatio && confirmed) this.releasing[i] = true;
       else if (error < -tune.hysteresis) this.releasing[i] = false;
       const target = this.releasing[i] ? 1 - authority * clamp(error / .2, 0, .96) : 1;
       // Hold within the Schmitt window instead of alternating pressure each tick.

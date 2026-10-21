@@ -114,8 +114,9 @@ export function createMercedesE300LPhysicsConfig(): VehiclePhysicsConfig {
     highSpeedReferenceSpeed: 20, highSpeedMinimumAuthority: .20, ackermannFactor: .92 };
   c.suspension = { ...c.suspension, rideHeight: .148, restLength: .368,
     springRateFront: 37200, springRateRear: 35800,
-    damperCompressionFront: 2720, damperCompressionRear: 2640,
-    damperReboundFront: 4080, damperReboundRear: 3980, suspensionTravel: .165,
+    unsprungMass: { front: 47, rear: 49 },
+    damperCompressionFront: 2312, damperCompressionRear: 2244,
+    damperReboundFront: 3468, damperReboundRear: 3383, suspensionTravel: .165,
     antiRollStiffnessFront: 14800, antiRollStiffnessRear: 11800, antiRollStiffness: 26600,
     // Comfort-biased adaptive dampers: ECO relaxes them, SPORT tightens body
     // control without turning the car into a sports saloon.
@@ -170,6 +171,7 @@ export function createMercedesE300LPhysicsConfig(): VehiclePhysicsConfig {
     restartThrottleThreshold: .1, restartBrakeReleaseThreshold: .08, restartDelay: .04 };
   c.capabilities = { ...c.capabilities, tpms: true };
   c.tires.thermalPressureFront = createTyreThermalPressureConfig(250, { thermalCapacity: 34000 });
+  c.tires.verticalCompliance = { stiffness: 200000, damping: 2400, maximumCompression: .055 };
   c.tires.thermalPressureRear = createTyreThermalPressureConfig(270, { thermalCapacity: 36000 });
   return c;
 }

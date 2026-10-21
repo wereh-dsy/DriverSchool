@@ -1,0 +1,187 @@
+{
+  "scope": "road:v8-port-works-c91",
+  "revision": 0,
+  "coverage": {
+    "roadsChecked": 1,
+    "roadsTotal": 2944,
+    "intersectionsChecked": 2,
+    "intersectionsTotal": 302
+  },
+  "counts": {
+    "total": 10,
+    "error": 0,
+    "warning": 8,
+    "info": 2,
+    "bySeverity": {
+      "error": 0,
+      "warning": 8,
+      "info": 2
+    },
+    "byCode": {
+      "geometry.shortSegments": 1,
+      "intersection.acuteApproach": 2,
+      "marking.crosswalkOverlap": 2,
+      "marking.stopLineDisplaced": 2,
+      "topology.lowClearance": 1,
+      "geometry.redundantControlPoints": 1,
+      "vertical.redundantElevationPoints": 1
+    }
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "geometry.shortSegments",
+      "roadId": "v8-port-works-c91",
+      "message": "230 road segments shorter than 1.5 m",
+      "metrics": {
+        "shortSegments": 230
+      },
+      "repair": {
+        "op": "smoothRoad",
+        "id": "v8-port-works-c91",
+        "strength": 1,
+        "preserveEndpoints": true
+      },
+      "corridorId": "corridor:v8-port-works:collector-3",
+      "id": "geometry.shortSegments:v8-port-works-c91::::"
+    },
+    {
+      "severity": "warning",
+      "code": "intersection.acuteApproach",
+      "intersectionId": "urban-junction-234",
+      "message": "Arms east and west meet at 11°",
+      "metrics": {
+        "angleDegrees": 11,
+        "portA": "east",
+        "portB": "west"
+      },
+      "repair": {
+        "op": "repairIntersection",
+        "id": "urban-junction-234"
+      },
+      "id": "intersection.acuteApproach::urban-junction-234:::"
+    },
+    {
+      "severity": "warning",
+      "code": "intersection.acuteApproach",
+      "intersectionId": "urban-junction-235",
+      "message": "Arms north and east meet at 8°",
+      "metrics": {
+        "angleDegrees": 8,
+        "portA": "north",
+        "portB": "east"
+      },
+      "repair": {
+        "op": "repairIntersection",
+        "id": "urban-junction-235"
+      },
+      "id": "intersection.acuteApproach::urban-junction-235:::"
+    },
+    {
+      "severity": "warning",
+      "code": "marking.crosswalkOverlap",
+      "intersectionId": "urban-junction-234",
+      "message": "Crosswalks on east and west overlap",
+      "metrics": {
+        "portA": "east",
+        "portB": "west"
+      },
+      "repair": {
+        "op": "repairIntersection",
+        "id": "urban-junction-234"
+      },
+      "id": "marking.crosswalkOverlap::urban-junction-234:::"
+    },
+    {
+      "severity": "warning",
+      "code": "marking.crosswalkOverlap",
+      "intersectionId": "urban-junction-235",
+      "message": "Crosswalks on north and east overlap",
+      "metrics": {
+        "portA": "north",
+        "portB": "east"
+      },
+      "repair": {
+        "op": "repairIntersection",
+        "id": "urban-junction-235"
+      },
+      "id": "marking.crosswalkOverlap::urban-junction-235:::"
+    },
+    {
+      "severity": "warning",
+      "code": "marking.stopLineDisplaced",
+      "intersectionId": "urban-junction-234",
+      "message": "Stop line on east is 8.8 m from the mouth because the approach is tangential",
+      "metrics": {
+        "port": "east",
+        "offset": 8.8
+      },
+      "repair": {
+        "op": "repairIntersection",
+        "id": "urban-junction-234"
+      },
+      "id": "marking.stopLineDisplaced::urban-junction-234:::east"
+    },
+    {
+      "severity": "warning",
+      "code": "marking.stopLineDisplaced",
+      "intersectionId": "urban-junction-235",
+      "message": "Stop line on north is 8.4 m from the mouth because the approach is tangential",
+      "metrics": {
+        "port": "north",
+        "offset": 8.4
+      },
+      "repair": {
+        "op": "repairIntersection",
+        "id": "urban-junction-235"
+      },
+      "id": "marking.stopLineDisplaced::urban-junction-235:::north"
+    },
+    {
+      "severity": "warning",
+      "code": "topology.lowClearance",
+      "roadId": "v8-port-works-c91",
+      "message": "Crossing clearance with v91-ring-south-inner-cd is 2.27 m",
+      "metrics": {
+        "otherRoadId": "v91-ring-south-inner-cd",
+        "clearance": 2.27
+      },
+      "corridorId": "corridor:v8-port-works:collector-3",
+      "id": "topology.lowClearance:v8-port-works-c91:::v91-ring-south-inner-cd:"
+    },
+    {
+      "severity": "info",
+      "code": "geometry.redundantControlPoints",
+      "roadId": "v8-port-works-c91",
+      "message": "227 redundant centerline points",
+      "metrics": {
+        "redundantPoints": 227
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "v8-port-works-c91",
+        "tolerance": 0.2
+      },
+      "corridorId": "corridor:v8-port-works:collector-3",
+      "id": "geometry.redundantControlPoints:v8-port-works-c91::::"
+    },
+    {
+      "severity": "info",
+      "code": "vertical.redundantElevationPoints",
+      "roadId": "v8-port-works-c91",
+      "message": "230 redundant elevation points",
+      "metrics": {
+        "redundantPoints": 230
+      },
+      "repair": {
+        "op": "simplifyRoad",
+        "id": "v8-port-works-c91",
+        "tolerance": 0.1
+      },
+      "corridorId": "corridor:v8-port-works:collector-3",
+      "id": "vertical.redundantElevationPoints:v8-port-works-c91::::"
+    }
+  ],
+  "truncated": false,
+  "mapDigest": "23dbc11a8d456c48a9b4480e3ec0aeed787dd739142cdb4bd0262e7820616c9f"
+}

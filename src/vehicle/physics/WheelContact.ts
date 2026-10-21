@@ -15,6 +15,7 @@ export interface WheelContact extends SurfaceMaterial {
   /** Rejected layer candidates are airborne, including at the mechanical stop. */
   readonly supportValid?: boolean;
   readonly supportHeightTolerance?: number;
+  readonly rejectionReason?: import('./WheelSupportContinuity').SupportRejectionReason;
   readonly reference?: import('../../world/SurfaceMaterial').SurfaceReference;
   readonly referenceHeight?: number;
   readonly wetness?: number;
@@ -80,6 +81,7 @@ export function sampleWheelContacts(
     wheel.x = x; wheel.z = z; wheel.height = surface.height;
     wheel.supportValid = support?.valid(id) ?? true;
     wheel.supportHeightTolerance = support?.heightTolerance(id);
+    wheel.rejectionReason = support?.rejectionReason(id);
     wheel.reference = surface.reference; wheel.referenceHeight = surface.referenceHeight;
     wheel.wetness = Math.max(wetness, surface.wetness ?? 0);
     wheel.normal.x = surface.normal.x; wheel.normal.y = surface.normal.y; wheel.normal.z = surface.normal.z;

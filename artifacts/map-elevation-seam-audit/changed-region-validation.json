@@ -1,0 +1,4132 @@
+{
+  "mapVersion": 484,
+  "mapDigest": "c86b9dfeb9b9fe381bc8c4c51fd0dc9e2a009e5285fe7297905a9f487202e596",
+  "modifiedRoads": 126,
+  "changedOriginalNodes": 3167,
+  "addedVerticalKnots": 13229,
+  "maxYChange": 7.703495370767548,
+  "localValidation": {
+    "errors": 0,
+    "warnings": 149,
+    "scope": "Every changed road and changed junction; repeated identical messages deduplicated",
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:G38:out:split338"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:hewan:off:1",
+          "regional:S37:out:split290:split292:split386"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:hewan:on:1",
+          "regional:S37:out:split290:split292:split386"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:hewan:on:-1",
+          "regional:S37:in:split108:split126:split302:split394"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:S68:in:split84:split102:split240:split550:split558"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:S68:out:split12:split30:split36:split232:split546:split554:split562"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570:split578"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:airport-exit:off:-1",
+          "regional:S18:in:5:upgrade258"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:airport-service:on:1",
+          "regional:S18:out:6"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:westgate:W-to-N-loop",
+          "regional:v2:G65:in:14:revision114"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:westgate:W-to-N-loop",
+          "regional:v2:G42:out:3:revision134:revision144"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:airport-north:S-to-E-right",
+          "regional:S18:out:12:revision162"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:airport-north:N-to-W-right",
+          "regional:v2:G42:in:20:revision158:revision168"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:airport-north:N-to-W-right",
+          "regional:S18:in:1:revision186"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:northwest:N-to-E-loop",
+          "regional:G65:out:1:revision218:revision228"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:northwest:W-to-N-loop",
+          "regional:G65:in:9"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v2:northwest:W-to-N-loop",
+          "regional:v2:G42:in:9:revision230:revision240"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:north-river:W-to-N-turbine",
+          "regional:G65:out:9:revision475"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:chenjiang-east:W-to-S-right",
+          "regional:v3:S31-extension130:out:15:revision517"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:northeast-west:E-to-S-loop",
+          "regional:v3:S29:in:41:revision547"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:northeast-west:W-to-N-loop",
+          "regional:v2:G65:in:17"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:northeast-west:W-to-N-loop",
+          "regional:v3:S29:out:6:revision561:revision571"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:northeast-chenjiang:W-to-N-turbine",
+          "regional:v3:S29:in:15:revision699:lane4830"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:river-newcity:S-to-E-right",
+          "regional:v3:S31-extension130:in:5:revision829"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "regional:v3:chenjiang-foldback",
+          "regional:v3:chenjiang-east:S-to-W-turbine"
+        ],
+        "message": "Crossing clearance 5.4m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:chenjiang-foldback",
+          "regional:v3:G17-extension185:out:1:revision495"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "regional:v3:chenjiang-foldback",
+          "regional:v3:chenjiang-east:S-to-E-right:acceleration"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:S-to-E-right",
+          "regional:S18:out:4"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:S-to-E-right",
+          "regional:v3:S89-extension2:in:2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:E-to-S-turbine",
+          "regional:S18:in:11-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:E-to-S-turbine",
+          "regional:v3:S89-extension2:out:10-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:E-to-N-right",
+          "regional:v3:S89-extension2:in:2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:E-to-N-right",
+          "regional:S18:in:11:revision379-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:N-to-E-turbine",
+          "regional:S18:out:4-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-south:N-to-E-turbine",
+          "regional:v3:S89-extension2:out:10-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:S-to-W-turbine",
+          "regional:v3:S89-extension2:in:4:revision423"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:S-to-W-turbine",
+          "regional:v3:S36-extension54:in:20:revision391:lane4494-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:E-to-S-turbine",
+          "regional:v3:S36-extension54:out:9:revision435"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:E-to-S-turbine",
+          "regional:v3:S89-extension2:in:3:revision403:lane4506-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:N-to-E-turbine",
+          "regional:v3:S89-extension2:out:9"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:N-to-E-turbine",
+          "regional:v3:S36-extension54:out:8:revision415:lane4522-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:W-to-N-turbine",
+          "regional:v3:S36-extension54:in:21:revision411:lane4510"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "regional:v3:airport-distributor:W-to-N-turbine",
+          "regional:v3:S89-extension2:out:7:revision427-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-cw-0-split-split"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-ccw-3-split-3-split"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-cw-2-split-4-split"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-north:S-to-W-star",
+          "system-north:S-to-E-right"
+        ],
+        "message": "Crossing clearance 4.8m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:S-to-W-star",
+          "ns-nb-split-split-split-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:S-to-W-star",
+          "ring-ccw-3-split-3-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:S-to-E-right",
+          "ring-cw-0-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-north:S-to-E-right",
+          "system-north:S-to-W-star"
+        ],
+        "message": "Crossing clearance 4.8m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:S-to-E-right",
+          "ns-nb-split-split-split-split-split-split-3-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:E-to-S-star",
+          "ring-ccw-2-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "structure.clearance",
+        "ids": [
+          "system-north:E-to-S-star",
+          "ring-cw-0-split-split-split-2-split-split"
+        ],
+        "message": "Crossing clearance 5.4m is below 5.5m"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:E-to-S-star",
+          "ns-sb-split-3-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:E-to-N-right",
+          "ring-ccw-3-split-4"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:E-to-N-right",
+          "ns-nb-split-split-split-split-split-split-2-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:W-to-N-star",
+          "ns-nb-split-split-split-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:W-to-N-star",
+          "ring-cw-0-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:W-to-S-right",
+          "ring-cw-0-split-split-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-north:W-to-S-right",
+          "ns-sb-split-3-split-split-section-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:S-to-W-loop",
+          "ew-wb-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:S-to-W-loop",
+          "ring-cw-0-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:S-to-E-right",
+          "ew-eb-split-5-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:S-to-E-right",
+          "ring-cw-3-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:E-to-S-loop",
+          "ring-ccw-3-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:E-to-S-loop",
+          "ew-wb-split-split-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:E-to-N-right",
+          "ring-cw-0-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:E-to-N-right",
+          "ew-wb-split-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:N-to-E-loop",
+          "ew-eb-split-5"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:N-to-E-loop",
+          "ring-ccw-0-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:N-to-W-right",
+          "ew-wb-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:N-to-W-right",
+          "ring-ccw-3-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:W-to-N-loop",
+          "ring-cw-3-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:W-to-N-loop",
+          "ew-eb-split-5-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:W-to-S-right",
+          "ring-ccw-0-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-west:W-to-S-right",
+          "ew-eb-split-6-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ring-cw-3-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-E-right",
+          "ns-nb-split-3-split-split-split-3-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:S-to-E-right",
+          "ring-ccw-1-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-E-semi",
+          "ring-ccw-1-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-E-semi",
+          "ns-sb-split-split-split-split-split-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-W-right",
+          "ring-cw-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:N-to-W-right",
+          "ns-sb-split-split-split-split-split-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:W-to-N-loop",
+          "ns-nb-split-3-split-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:W-to-N-loop",
+          "ring-ccw-1-split-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:W-to-S-right",
+          "ns-sb-split-split-split-split-split-split-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-south:W-to-S-right",
+          "ring-ccw-0-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ew-wb-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-W-semi",
+          "ns-nb-split-3-split-split-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-E-right",
+          "ew-eb-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:S-to-E-right",
+          "ns-nb-split-2-split-2-split-2"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ew-eb-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:N-to-E-semi",
+          "ns-sb-split-3-split-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ns-nb-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-central:W-to-N-semi",
+          "ew-eb-split-4-split-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ring-ccw-2-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:S-to-W-turbine",
+          "ew-wb-split-3-split-split-3-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:E-to-S-turbine",
+          "ring-cw-1-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:E-to-S-turbine",
+          "ew-wb-split-4-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:N-to-E-turbine",
+          "ew-eb-split-split-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:N-to-E-turbine",
+          "ring-cw-1-split-2-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:W-to-N-turbine",
+          "ring-ccw-2-split-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "system-east:W-to-N-turbine",
+          "ew-eb-split-split-3-split"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-ccw-1-split-split-split-split-split-split-2"
+        ],
+        "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-cw-1-split-3-split-split-split-split"
+        ],
+        "message": "roads: 6 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "slope.recommended",
+        "ids": [
+          "v91-ew-east-eb-off",
+          "ew-eb-split-split-4-split",
+          "v91-ew-1-a-3-section",
+          "v91-ew-1-a-3-section-2-section",
+          "ew-eb-split-split-4-split-section"
+        ],
+        "message": "roads[8]: Grade 12.1% exceeds recommended 12%."
+      },
+      {
+        "severity": "warning",
+        "code": "extreme.grade",
+        "ids": [
+          "v91-ew-east-eb-off"
+        ],
+        "message": "Maximum grade 12.1%"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-1-a-3-section-2-section",
+          "v91-ew-east-eb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ew-1-b-3-section-2-section",
+          "v91-ew-east-wb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "slope.recommended",
+        "ids": [
+          "v91-ns-nb-off",
+          "ns-nb-split-3-split-split-split",
+          "v91-ns-1-b-3",
+          "v91-ns-1-b-3-section",
+          "direction-south-avenue-section-section",
+          "ns-nb-split-3-split-split-split-section"
+        ],
+        "message": "roads[11]: Grade 12.1% exceeds recommended 12%."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v91-ns-nb-off",
+          "ns-nb-split-3-split-split-split",
+          "v91-ns-1-b-3",
+          "v91-ns-1-b-3-section",
+          "direction-south-avenue-section-section",
+          "ns-nb-split-3-split-split-split-section"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-1-b-3-section",
+          "v91-ns-nb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "extreme.grade",
+        "ids": [
+          "v91-ns-nb-off"
+        ],
+        "message": "Maximum grade 12.1%"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ns-nb-split-3-split-split-split-section",
+          "v91-ns-nb-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-0-split-split-section",
+          "v91-ring-west-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-ccw-0-split-split-split-3-split-section"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v4-industrial-split-c91"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v4-industrial-split-2-split-split-2-c91"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-split-split-section",
+          "v91-ring-north-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-north-outer-cd-section-section",
+          "v91-ring-north-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v91-ring-north-outer-on",
+          "v91-ring-north-outer-cd-section-2",
+          "ring-ccw-2-split-split-split-split-2-split-section",
+          "ring-ccw-2-split-split-split-split-2-split",
+          "v91-ring-north-outer-cd"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-2-split-split-split-split-2-split",
+          "v91-ring-north-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-north-outer-cd",
+          "v91-ring-north-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-split-section",
+          "v91-ring-south-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v91-ring-south-outer-off",
+          "ring-ccw-1-split-split",
+          "v91-ring-south-outer-cd-section-2",
+          "ring-ccw-1-split-split-section",
+          "v91-ring-south-outer-cd",
+          "v4-access-5"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-cd",
+          "v91-ring-south-outer-off"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "ring-ccw-1-split-split-split-split-section"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v91-ring-south-outer-on",
+          "v91-ring-south-outer-cd-section",
+          "ring-ccw-1-split-split-split-split-section",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v8-port-works-split-split-c91",
+          "v91-ring-south-outer-cd-section-section",
+          "ring-ccw-1-split-split-split-split"
+        ],
+        "message": "intersections[0]: urban-junction-173: 2/3 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "v91-ring-south-outer-on",
+          "v91-ring-south-outer-cd-section",
+          "ring-ccw-1-split-split-split-split-section",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v8-port-works-split-split-c91",
+          "v91-ring-south-outer-cd-section-section",
+          "ring-ccw-1-split-split-split-split"
+        ],
+        "message": "intersections[1]: urban-junction-233: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "v91-ring-south-outer-on",
+          "v91-ring-south-outer-cd-section",
+          "ring-ccw-1-split-split-split-split-section",
+          "v6-logistics-one-split-2-split-2-split-m91",
+          "v8-port-works-split-split-c91",
+          "v91-ring-south-outer-cd-section-section",
+          "ring-ccw-1-split-split-split-split"
+        ],
+        "message": "roads: 7 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "ring-ccw-1-split-split-split-split",
+          "v91-ring-south-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ring-south-outer-cd-section-section",
+          "v91-ring-south-outer-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "access-ew-west-wb-off",
+          "v91-ew-0-b-6-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "access-ew-west-wb-off",
+          "ew-wb-split-split-split-split-4-section-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "access-ns-north-sb-off",
+          "ns-sb-split-3-split-split-section",
+          "v91-ns-0-a-3-section",
+          "system-north:E-to-S-star",
+          "system-north:W-to-S-right",
+          "v91-ns-0-a-3",
+          "ns-sb-split-3-split-split-section-section"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "access-ns-north-sb-off",
+          "v91-ns-0-a-3"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "access-ns-north-sb-off",
+          "ns-sb-split-3-split-split-section-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "access-ns-north-nb-off",
+          "ns-nb-split-split-split-split",
+          "v91-ns-0-b-4",
+          "ns-nb-split-split-split-split-section",
+          "v91-ns-0-b-4-section-4"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "expressway.unconnected-crossing",
+        "ids": [
+          "access-ns-north-nb-off",
+          "ns-nb-split-split-split-split-section"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "access-ns-north-nb-off",
+          "v91-ns-0-b-4-section-4"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "unconnected.crossing",
+        "ids": [
+          "v91-ns-1-a-3-section",
+          "v91-ns-sb-on"
+        ],
+        "message": "Same-level crossing has no junction; verify the chosen no-connection intent"
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "urban-junction-225",
+          "v4-industrial-split-c91",
+          "v8-port-south-split-split-2-split-m91",
+          "v4-industrial-split-split-c91",
+          "v8-port-south-split-split-m91"
+        ],
+        "message": "roads: 4 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "urban-junction-227",
+          "v6-logistics-one-split-3-split-2-m91-section",
+          "v8-port-south-m91",
+          "v6-logistics-one-split-2-m91"
+        ],
+        "message": "intersections[1]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "urban-junction-227",
+          "v6-logistics-one-split-3-split-2-m91-section",
+          "v8-port-south-m91",
+          "v6-logistics-one-split-2-m91"
+        ],
+        "message": "roads: 3 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "network.sparse",
+        "ids": [
+          "urban-junction-234",
+          "v6-logistics-one-split-3-m91",
+          "v8-port-works-c91",
+          "v6-logistics-one-split-3-split-2-m91"
+        ],
+        "message": "roads: 2 separate road components; projected crossings do not imply connectivity."
+      },
+      {
+        "severity": "warning",
+        "code": "junction.weak",
+        "ids": [
+          "urban-junction-235",
+          "v8-port-south-m91",
+          "v8-port-works-c91",
+          "v8-port-south-split-2-m91",
+          "v8-port-works-split-2-c91"
+        ],
+        "message": "intersections[2]: urban-junction-232: 3/4 arms. Preserve the authored junction; inspect missing approaches."
+      }
+    ]
+  },
+  "invariants": {
+    "roadIdsLanesWidthsSignalsSignsLinksConnectionSemanticsObjectsUnchanged": true,
+    "horizontalCenterlinesUnchanged": true,
+    "allOriginalXZNodesRetained": true,
+    "linkedEndpointsExact": true
+  },
+  "junctions": [
+    {
+      "id": "urban-junction-96",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-119",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-49",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-181",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-224",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-225",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-227",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-228",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-234",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "legacy"
+    },
+    {
+      "id": "urban-junction-235",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    },
+    {
+      "id": "urban-junction-200",
+      "beforeDatum": -0.024,
+      "afterDatum": 0,
+      "pavementProfile": "legacy"
+    },
+    {
+      "id": "urban-junction-202",
+      "beforeDatum": -0.024,
+      "afterDatum": 0,
+      "pavementProfile": "legacy"
+    },
+    {
+      "id": "v91-shared-inner-ew",
+      "beforeDatum": 0,
+      "afterDatum": 0,
+      "pavementProfile": "local-landing"
+    }
+  ],
+  "regions": [
+    {
+      "id": "regional:S68:in:split84:split102:split240",
+      "originalNodesChanged": 19,
+      "addedVerticalKnots": 18,
+      "maxYChange": 0.01216816166691359,
+      "before": {
+        "maxGrade": 0.00308061781771232,
+        "maxGradeBreak": 0.0007253281774421911
+      },
+      "after": {
+        "maxGrade": 0.003496802884919355,
+        "maxGradeBreak": 0.0006696587500896007
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        394.53608293105304,
+        496.6765874014173
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:G38:out:split338",
+      "originalNodesChanged": 29,
+      "addedVerticalKnots": 68,
+      "maxYChange": 0.022198073698754373,
+      "before": {
+        "maxGrade": 0.013782884961112052,
+        "maxGradeBreak": 0.0001521328308965661
+      },
+      "after": {
+        "maxGrade": 0.013782884961111904,
+        "maxGradeBreak": 0.0003658220461419774
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        282.3036284944631
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:G38:out:split338:split340",
+      "originalNodesChanged": 63,
+      "addedVerticalKnots": 62,
+      "maxYChange": 0.03035275319019526,
+      "before": {
+        "maxGrade": 0.013806288892493341,
+        "maxGradeBreak": 0.000060640252303631806
+      },
+      "after": {
+        "maxGrade": 0.013991985059284019,
+        "maxGradeBreak": 0.00104050371729268
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        4.075876406217183,
+        290.9872335860972
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:G38:in:split18:split278:split346",
+      "originalNodesChanged": 29,
+      "addedVerticalKnots": 69,
+      "maxYChange": 0.022508198565615922,
+      "before": {
+        "maxGrade": 0.013736834722795325,
+        "maxGradeBreak": 0.00015986489970901477
+      },
+      "after": {
+        "maxGrade": 0.013736834722795325,
+        "maxGradeBreak": 0.00020755798151304676
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        270.96317229896204,
+        558.0384514000613
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:G38:in:split18:split278:split346:split348",
+      "originalNodesChanged": 37,
+      "addedVerticalKnots": 53,
+      "maxYChange": 0.026255119159770635,
+      "before": {
+        "maxGrade": 0.008628989367251504,
+        "maxGradeBreak": 0.0002458521401751553
+      },
+      "after": {
+        "maxGrade": 0.008784896978924145,
+        "maxGradeBreak": 0.003744729782550726
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        223.92617848522727
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:hewan:off:1",
+      "originalNodesChanged": 14,
+      "addedVerticalKnots": 56,
+      "maxYChange": 0.028521531404765543,
+      "before": {
+        "maxGrade": 0.004918855853912241,
+        "maxGradeBreak": 0.0020580022391152733
+      },
+      "after": {
+        "maxGrade": 0.00531210874090279,
+        "maxGradeBreak": 0.0016562244182684233
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999998596,
+        57.00000000000019
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:hewan:on:1",
+      "originalNodesChanged": 14,
+      "addedVerticalKnots": 58,
+      "maxYChange": 0.04483853113539826,
+      "before": {
+        "maxGrade": 0.001616381844527162,
+        "maxGradeBreak": 0.0006792003047636933
+      },
+      "after": {
+        "maxGrade": 0.004429283679068438,
+        "maxGradeBreak": 0.0010615530581159715
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        205.99999999999994,
+        263.00000000000006
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:hewan:on:-1",
+      "originalNodesChanged": 24,
+      "addedVerticalKnots": 78,
+      "maxYChange": 0.0209704213482369,
+      "before": {
+        "maxGrade": 0.005511558876308403,
+        "maxGradeBreak": 0.0024368962936813375
+      },
+      "after": {
+        "maxGrade": 0.005682245566665962,
+        "maxGradeBreak": 0.002106457794692474
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        150.00000000000009,
+        231.0000000000001
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:G38:in:split18:split278:split472",
+      "originalNodesChanged": 6,
+      "addedVerticalKnots": 11,
+      "maxYChange": 0.03415539767870612,
+      "before": {
+        "maxGrade": 0.012495471171185471,
+        "maxGradeBreak": 0.000041296905652001004
+      },
+      "after": {
+        "maxGrade": 0.013968745837829147,
+        "maxGradeBreak": 0.0014732746666436761
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        22.934976326441273,
+        73.37765965653763
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:S68:in:split84:split102:split240:split550",
+      "originalNodesChanged": 28,
+      "addedVerticalKnots": 62,
+      "maxYChange": 0.011993925101837277,
+      "before": {
+        "maxGrade": 0.00424105027503813,
+        "maxGradeBreak": 0.00008507173332483568
+      },
+      "after": {
+        "maxGrade": 0.004211055432200555,
+        "maxGradeBreak": 0.0002727397373507752
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        601.1420112667275
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:S68:in:split84:split102:split240:split550:split558",
+      "originalNodesChanged": 61,
+      "addedVerticalKnots": 108,
+      "maxYChange": 0.049535626567793756,
+      "before": {
+        "maxGrade": 0.008839811760903482,
+        "maxGradeBreak": 0.0001422616360675236
+      },
+      "after": {
+        "maxGrade": 0.008807283769930936,
+        "maxGradeBreak": 0.0002731515315576166
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        441.03388609760907
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:S68:out:split12:split30:split36:split232:split546:split554:split562",
+      "originalNodesChanged": 43,
+      "addedVerticalKnots": 159,
+      "maxYChange": 0.27326871103539574,
+      "before": {
+        "maxGrade": 0.009081224563018549,
+        "maxGradeBreak": 0.0025183585293075
+      },
+      "after": {
+        "maxGrade": 0.022218317993667427,
+        "maxGradeBreak": 0.0014361591336994693
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        106.38168520249256,
+        414.5012155968533
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "regional:S68:in:split84:split102:split240:split550:split558:split566",
+      "originalNodesChanged": 17,
+      "addedVerticalKnots": 118,
+      "maxYChange": 0.1991992826404676,
+      "before": {
+        "maxGrade": 0.00905916594111807,
+        "maxGradeBreak": 0.0025479417446640064
+      },
+      "after": {
+        "maxGrade": 0.021168730832393096,
+        "maxGradeBreak": 0.0013631172956014206
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        159.0372322198549
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570",
+      "originalNodesChanged": 46,
+      "addedVerticalKnots": 100,
+      "maxYChange": 0.03698653717235345,
+      "before": {
+        "maxGrade": 0.00742665827447109,
+        "maxGradeBreak": 0.0001513831893582892
+      },
+      "after": {
+        "maxGrade": 0.0076091708409330655,
+        "maxGradeBreak": 0.00032175437975599883
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        412.6527593124309
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:S68:out:split12:split30:split36:split232:split546:split554:split562:split570:split578",
+      "originalNodesChanged": 34,
+      "addedVerticalKnots": 58,
+      "maxYChange": 0.012031448918598642,
+      "before": {
+        "maxGrade": 0.003093457448754222,
+        "maxGradeBreak": 0.0008271912874634624
+      },
+      "after": {
+        "maxGrade": 0.0032270207674648613,
+        "maxGradeBreak": 0.0007149817772464971
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        174.45492346003797,
+        451.18196078192517
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:airport-exit:off:-1",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 22,
+      "maxYChange": 0.005809438670070222,
+      "before": {
+        "maxGrade": 0.002511000648936423,
+        "maxGradeBreak": 0.000479447601497082
+      },
+      "after": {
+        "maxGrade": 0.002511000648936423,
+        "maxGradeBreak": 0.0006730975092772525
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000000726,
+        22.00000000000027
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:airport-service:on:1",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 22,
+      "maxYChange": 0.003125213364736368,
+      "before": {
+        "maxGrade": 0.004386184906342771,
+        "maxGradeBreak": 3.4954678040932663e-16
+      },
+      "after": {
+        "maxGrade": 0.00459191929054631,
+        "maxGradeBreak": 0.0004317227083260899
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        288.0000000000002,
+        308.0000000000002
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:G38:out:lane296",
+      "originalNodesChanged": 38,
+      "addedVerticalKnots": 50,
+      "maxYChange": 0.026326063430856417,
+      "before": {
+        "maxGrade": 0.00903572057058138,
+        "maxGradeBreak": 0.0002644881494561573
+      },
+      "after": {
+        "maxGrade": 0.00884831473438843,
+        "maxGradeBreak": 0.0019239906005493889
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        2.29257788186961,
+        214.829099797137
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:G38:in:split18:split278:split472:lane304",
+      "originalNodesChanged": 61,
+      "addedVerticalKnots": 61,
+      "maxYChange": 0.031828819686120724,
+      "before": {
+        "maxGrade": 0.013774525472222122,
+        "maxGradeBreak": 0.00006187318006272043
+      },
+      "after": {
+        "maxGrade": 0.013722581062673553,
+        "maxGradeBreak": 0.00009682063505293305
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        272.0215981305183
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v2:westgate:W-to-N-loop",
+      "originalNodesChanged": 6,
+      "addedVerticalKnots": 30,
+      "maxYChange": 0.12895273412145158,
+      "before": {
+        "maxGrade": 0.030611693012658925,
+        "maxGradeBreak": 0.012062812522586541
+      },
+      "after": {
+        "maxGrade": 0.037929049297915796,
+        "maxGradeBreak": 0.014254452508823255
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        382.00000000000017,
+        412.0000000000001
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v2:airport-north:S-to-E-right",
+      "originalNodesChanged": 3,
+      "addedVerticalKnots": 31,
+      "maxYChange": 0.16984366897668934,
+      "before": {
+        "maxGrade": 0.011588375292459182,
+        "maxGradeBreak": 6.746339598073803e-15
+      },
+      "after": {
+        "maxGrade": 0.022459936404196412,
+        "maxGradeBreak": 0.009643948028465509
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999996386,
+        31.000000000000146
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v2:airport-north:N-to-W-right",
+      "originalNodesChanged": 15,
+      "addedVerticalKnots": 159,
+      "maxYChange": 1.8744967982728227,
+      "before": {
+        "maxGrade": 0.013180566224232297,
+        "maxGradeBreak": 0.012108417586128378
+      },
+      "after": {
+        "maxGrade": 0.07988517336686289,
+        "maxGradeBreak": 0.019710592171437023
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999996386,
+        997.0000000000036
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v2:northwest:N-to-E-loop",
+      "originalNodesChanged": 12,
+      "addedVerticalKnots": 58,
+      "maxYChange": 0.44750409652080236,
+      "before": {
+        "maxGrade": 0.024579645951749777,
+        "maxGradeBreak": 0.024579645951745582
+      },
+      "after": {
+        "maxGrade": 0.05257659707990613,
+        "maxGradeBreak": 0.024579645951745582
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.000000000000339,
+        58.99999999999961
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v2:northwest:W-to-N-loop",
+      "originalNodesChanged": 12,
+      "addedVerticalKnots": 57,
+      "maxYChange": 0.5890398938486072,
+      "before": {
+        "maxGrade": 0.028390952138381793,
+        "maxGradeBreak": 0.02839095213838077
+      },
+      "after": {
+        "maxGrade": 0.06526264293063185,
+        "maxGradeBreak": 0.02839095213838077
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        367.99999999999994,
+        426.00000000000017
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:G38-extension200:in:5:revision457:revision471",
+      "originalNodesChanged": 4,
+      "addedVerticalKnots": 9,
+      "maxYChange": 0.0000016439317960248445,
+      "before": {
+        "maxGrade": 0.00023365707664347617,
+        "maxGradeBreak": 0.000014334764863724103
+      },
+      "after": {
+        "maxGrade": 0.0002336552508282945,
+        "maxGradeBreak": 0.000014334764863724103
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        44.00000000000049,
+        74.81433294869848
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:north-river:W-to-N-turbine",
+      "originalNodesChanged": 7,
+      "addedVerticalKnots": 77,
+      "maxYChange": 0.08005252290330134,
+      "before": {
+        "maxGrade": 0.02424249571223961,
+        "maxGradeBreak": 0.020181453757898076
+      },
+      "after": {
+        "maxGrade": 0.02424249571223961,
+        "maxGradeBreak": 0.020181453757898076
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000002125,
+        77.00000000000023
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:chenjiang-east:W-to-S-right",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 22,
+      "maxYChange": 0.05052486859610994,
+      "before": {
+        "maxGrade": 0.03129101011808661,
+        "maxGradeBreak": 0.028408645320119115
+      },
+      "after": {
+        "maxGrade": 0.03129101011808676,
+        "maxGradeBreak": 0.02840864532011949
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        815.9999999999998,
+        835.9999999999999
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:northeast-west:E-to-S-loop",
+      "originalNodesChanged": 12,
+      "addedVerticalKnots": 80,
+      "maxYChange": 1.2935426355966655,
+      "before": {
+        "maxGrade": 0.0300262525506986,
+        "maxGradeBreak": 0.0300262525506986
+      },
+      "after": {
+        "maxGrade": 0.07651989543901425,
+        "maxGradeBreak": 0.03002625255069948
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000002867,
+        81.0000000000004
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:northeast-west:W-to-N-loop",
+      "originalNodesChanged": 17,
+      "addedVerticalKnots": 114,
+      "maxYChange": 1.700869094335303,
+      "before": {
+        "maxGrade": 0.03185115414048843,
+        "maxGradeBreak": 0.03185115414048738
+      },
+      "after": {
+        "maxGrade": 0.09297203613325257,
+        "maxGradeBreak": 0.021996010580539616
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000003113,
+        585.9999999999992
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:northeast-chenjiang:W-to-N-turbine",
+      "originalNodesChanged": 3,
+      "addedVerticalKnots": 42,
+      "maxYChange": 0.36422581673721055,
+      "before": {
+        "maxGrade": 0.03422987340858932,
+        "maxGradeBreak": 0.031271350358017654
+      },
+      "after": {
+        "maxGrade": 0.03422987340858992,
+        "maxGradeBreak": 0.031271350358017654
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        2520.9999999999977,
+        2562.0000000000045
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:river-newcity:S-to-E-right",
+      "originalNodesChanged": 4,
+      "addedVerticalKnots": 59,
+      "maxYChange": 0.6406243315461175,
+      "before": {
+        "maxGrade": 0.029659681821058426,
+        "maxGradeBreak": 0.016138295626388
+      },
+      "after": {
+        "maxGrade": 0.05277531868908658,
+        "maxGradeBreak": 0.021827196404147795
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000008027,
+        60.000000000000405
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:chenjiang-foldback",
+      "originalNodesChanged": 3,
+      "addedVerticalKnots": 33,
+      "maxYChange": 0.7917093231537154,
+      "before": {
+        "maxGrade": 0.060000000000005466,
+        "maxGradeBreak": 0.11999999999998384
+      },
+      "after": {
+        "maxGrade": 0.10745570875549595,
+        "maxGradeBreak": 0.12000000000002167
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        5004.921822631854,
+        5037.000000000006
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:airport-south:S-to-E-right",
+      "originalNodesChanged": 17,
+      "addedVerticalKnots": 96,
+      "maxYChange": 0.13800712300425388,
+      "before": {
+        "maxGrade": 0.07950000000000028,
+        "maxGradeBreak": 0.07949999999999978
+      },
+      "after": {
+        "maxGrade": 0.07950000000000089,
+        "maxGradeBreak": 0.07949999999999978
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        283.9999999999995,
+        380.99999999999955
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:airport-south:E-to-S-turbine",
+      "originalNodesChanged": 40,
+      "addedVerticalKnots": 380,
+      "maxYChange": 0.24431707317064877,
+      "before": {
+        "maxGrade": 0.07950000000000114,
+        "maxGradeBreak": 0.15900000000000147
+      },
+      "after": {
+        "maxGrade": 0.07950000000018619,
+        "maxGradeBreak": 0.04828172842844483
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        274.29145667942504,
+        1181.9999999999955
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:airport-south:E-to-N-right",
+      "originalNodesChanged": 19,
+      "addedVerticalKnots": 84,
+      "maxYChange": 0.12528410739099272,
+      "before": {
+        "maxGrade": 0.07950000000000046,
+        "maxGradeBreak": 0.07949999999999985
+      },
+      "after": {
+        "maxGrade": 0.07950000000000114,
+        "maxGradeBreak": 0.07950000000000054
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999996803,
+        87.00000000000001
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:airport-south:N-to-E-turbine",
+      "originalNodesChanged": 63,
+      "addedVerticalKnots": 336,
+      "maxYChange": 7.113868932785369,
+      "before": {
+        "maxGrade": 0.07950000000000196,
+        "maxGradeBreak": 0.07949999999999965
+      },
+      "after": {
+        "maxGrade": 0.11604494287046845,
+        "maxGradeBreak": 0.0685890631811041
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999998607,
+        1346.9999999999968
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:airport-distributor:S-to-W-turbine",
+      "originalNodesChanged": 58,
+      "addedVerticalKnots": 313,
+      "maxYChange": 6.512640596531945,
+      "before": {
+        "maxGrade": 0.07950000000000113,
+        "maxGradeBreak": 0.15900000000000092
+      },
+      "after": {
+        "maxGrade": 0.11695581728730556,
+        "maxGradeBreak": 0.15900000000000483
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.00000000000008,
+        1465.0000000000052
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:airport-distributor:E-to-S-turbine",
+      "originalNodesChanged": 31,
+      "addedVerticalKnots": 200,
+      "maxYChange": 6.104178972822957,
+      "before": {
+        "maxGrade": 0.0795000000000015,
+        "maxGradeBreak": 0.15900000000000142
+      },
+      "after": {
+        "maxGrade": 0.11959425899891404,
+        "maxGradeBreak": 0.15900000000005915
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1386.0000000000018,
+        1589.0000000000018
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:airport-distributor:N-to-E-turbine",
+      "originalNodesChanged": 45,
+      "addedVerticalKnots": 242,
+      "maxYChange": 7.055323500812129,
+      "before": {
+        "maxGrade": 0.07950000000000113,
+        "maxGradeBreak": 0.15900000000000003
+      },
+      "after": {
+        "maxGrade": 0.09885741361216245,
+        "maxGradeBreak": 0.15900000000001474
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000008191,
+        247.9999999999998
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v3:airport-distributor:W-to-N-turbine",
+      "originalNodesChanged": 60,
+      "addedVerticalKnots": 383,
+      "maxYChange": 7.703495370767548,
+      "before": {
+        "maxGrade": 0.07950000000000129,
+        "maxGradeBreak": 0.1590000000000017
+      },
+      "after": {
+        "maxGrade": 0.09728214007963815,
+        "maxGradeBreak": 0.15900000000001427
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000001144,
+        1615.999999999995
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-cw-0-split-split",
+      "originalNodesChanged": 85,
+      "addedVerticalKnots": 118,
+      "maxYChange": 0.06800888034063046,
+      "before": {
+        "maxGrade": 0.02907848399271896,
+        "maxGradeBreak": 0.011031596860039636
+      },
+      "after": {
+        "maxGrade": 0.029263828527541034,
+        "maxGradeBreak": 0.011014978410893345
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        43.172722435032284,
+        637.0243795508142
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-2-split-split-split",
+      "originalNodesChanged": 36,
+      "addedVerticalKnots": 38,
+      "maxYChange": 0.016558429546913445,
+      "before": {
+        "maxGrade": 0.020266549182585306,
+        "maxGradeBreak": 0.0012923180598119737
+      },
+      "after": {
+        "maxGrade": 0.020266549182585306,
+        "maxGradeBreak": 0.0012923180598119737
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        399.55721224402964,
+        577.9166366135958
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-3-split-3-split",
+      "originalNodesChanged": 80,
+      "addedVerticalKnots": 118,
+      "maxYChange": 0.06935935905957802,
+      "before": {
+        "maxGrade": 0.028941304555990085,
+        "maxGradeBreak": 0.010584742973051751
+      },
+      "after": {
+        "maxGrade": 0.028821664925245495,
+        "maxGradeBreak": 0.010575505202640292
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1741.3538958285678,
+        2338.4082543773156
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-cw-3-split-2-split",
+      "originalNodesChanged": 141,
+      "addedVerticalKnots": 249,
+      "maxYChange": 0.09334288069286156,
+      "before": {
+        "maxGrade": 0.023231691433435914,
+        "maxGradeBreak": 0.004298288012207323
+      },
+      "after": {
+        "maxGrade": 0.023231691433435047,
+        "maxGradeBreak": 0.004298288012204433
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        809.8220115978836,
+        2061.162217863728
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-cw-3-split-2-split-split",
+      "originalNodesChanged": 41,
+      "addedVerticalKnots": 64,
+      "maxYChange": 0.022485986024511462,
+      "before": {
+        "maxGrade": 0.049999972150959124,
+        "maxGradeBreak": 0.04621094083233045
+      },
+      "after": {
+        "maxGrade": 0.0506320590791669,
+        "maxGradeBreak": 0.04606783937636628
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        10.557463377444947,
+        379.15074220065037
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-cw-3-split-2-split-split-split",
+      "originalNodesChanged": 6,
+      "addedVerticalKnots": 3,
+      "maxYChange": 0.023189666716850077,
+      "before": {
+        "maxGrade": 0.04999997275515892,
+        "maxGradeBreak": 0.04554501166855236
+      },
+      "after": {
+        "maxGrade": 0.05189575382057599,
+        "maxGradeBreak": 0.04554501166855236
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        31.94497558189721
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-0-split-split-split-3",
+      "originalNodesChanged": 42,
+      "addedVerticalKnots": 65,
+      "maxYChange": 0.021949213258811717,
+      "before": {
+        "maxGrade": 0.04992781382578525,
+        "maxGradeBreak": 0.04246675303802154
+      },
+      "after": {
+        "maxGrade": 0.05000583120465707,
+        "maxGradeBreak": 0.04253882311666238
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        374.9402315236417
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-cw-2-split-3",
+      "originalNodesChanged": 35,
+      "addedVerticalKnots": 62,
+      "maxYChange": 0.029906877211774763,
+      "before": {
+        "maxGrade": 0.04999999396055191,
+        "maxGradeBreak": 0.04999893252937909
+      },
+      "after": {
+        "maxGrade": 0.050694184547527645,
+        "maxGradeBreak": 0.04985867883602943
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        34.93410688657423,
+        383.5654123456791
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-cw-2-split-3-split",
+      "originalNodesChanged": 17,
+      "addedVerticalKnots": 21,
+      "maxYChange": 0.015167273481313082,
+      "before": {
+        "maxGrade": 0.049999994058599666,
+        "maxGradeBreak": 0.02999980987516139
+      },
+      "after": {
+        "maxGrade": 0.04994662440319875,
+        "maxGradeBreak": 0.030059653756006527
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        100
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-1-split-split-split",
+      "originalNodesChanged": 35,
+      "addedVerticalKnots": 61,
+      "maxYChange": 0.03026793996464594,
+      "before": {
+        "maxGrade": 0.04990821962453873,
+        "maxGradeBreak": 0.04196714513545202
+      },
+      "after": {
+        "maxGrade": 0.050012529618576496,
+        "maxGradeBreak": 0.041893686669326295
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        350.5472017559173
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "intercity-wb",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 0,
+      "maxYChange": 2.220446049250313e-15,
+      "before": {
+        "maxGrade": 0.013129445408936506,
+        "maxGradeBreak": 0.003970694552938837
+      },
+      "after": {
+        "maxGrade": 0.013129445408936506,
+        "maxGradeBreak": 0.003970694552938837
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        0
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "ring-ccw-1-split-split-split-split-split",
+      "originalNodesChanged": 4,
+      "addedVerticalKnots": 9,
+      "maxYChange": 0.0000010528610516757908,
+      "before": {
+        "maxGrade": 0.0030808061758319525,
+        "maxGradeBreak": 0.0002903786765351454
+      },
+      "after": {
+        "maxGrade": 0.0030808061758319525,
+        "maxGradeBreak": 0.0002903786765351454
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        96,
+        124.5952768682057
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-1-split-split-split-split-split-split",
+      "originalNodesChanged": 2,
+      "addedVerticalKnots": 15,
+      "maxYChange": 9.625035026772366e-7,
+      "before": {
+        "maxGrade": 0.0015350356026890967,
+        "maxGradeBreak": 0.0004413518149376733
+      },
+      "after": {
+        "maxGrade": 0.0015350330723416857,
+        "maxGradeBreak": 0.00044134168016599367
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        10.999999999999993
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-cw-2-split-4-split",
+      "originalNodesChanged": 154,
+      "addedVerticalKnots": 262,
+      "maxYChange": 0.08418715845928681,
+      "before": {
+        "maxGrade": 0.009908237503082246,
+        "maxGradeBreak": 0.0007809129791655958
+      },
+      "after": {
+        "maxGrade": 0.010112616606249892,
+        "maxGradeBreak": 0.0008344596406342267
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        531.339863266794,
+        1623.5280474773315
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-north:S-to-W-star",
+      "originalNodesChanged": 9,
+      "addedVerticalKnots": 166,
+      "maxYChange": 5.850320518538968,
+      "before": {
+        "maxGrade": 0.1195198834234412,
+        "maxGradeBreak": 0.1825095451050339
+      },
+      "after": {
+        "maxGrade": 0.11951988342344155,
+        "maxGradeBreak": 0.182509545105038
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        780.9999999999995,
+        952.9999999999986
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-north:S-to-E-right",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 18,
+      "maxYChange": 0.005367973114361695,
+      "before": {
+        "maxGrade": 0.0393144443618555,
+        "maxGradeBreak": 0.021992200274806174
+      },
+      "after": {
+        "maxGrade": 0.03931444436185533,
+        "maxGradeBreak": 0.021992200274806202
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        37.999999999999915,
+        55.99999999999989
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-north:E-to-S-star",
+      "originalNodesChanged": 28,
+      "addedVerticalKnots": 373,
+      "maxYChange": 6.488189852924452,
+      "before": {
+        "maxGrade": 0.11953818481678327,
+        "maxGradeBreak": 0.22953665757708525
+      },
+      "after": {
+        "maxGrade": 0.11953818481678737,
+        "maxGradeBreak": 0.2295366575770934
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        16.00000000000002,
+        954.9999999999984
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "system-north:E-to-N-right",
+      "originalNodesChanged": 3,
+      "addedVerticalKnots": 27,
+      "maxYChange": 0.2997938502541971,
+      "before": {
+        "maxGrade": 0.0662014595007387,
+        "maxGradeBreak": 0.04600646621610523
+      },
+      "after": {
+        "maxGrade": 0.08275344224729676,
+        "maxGradeBreak": 0.031640099438094885
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        201.00000000000009,
+        229.00000000000003
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-north:W-to-N-star",
+      "originalNodesChanged": 3,
+      "addedVerticalKnots": 49,
+      "maxYChange": 0.09955142393955764,
+      "before": {
+        "maxGrade": 0.11718104921370504,
+        "maxGradeBreak": 0.0787882576196752
+      },
+      "after": {
+        "maxGrade": 0.11718104921370484,
+        "maxGradeBreak": 0.07878887264627585
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        828.9999999999998,
+        877.9999999999982
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-north:W-to-S-right",
+      "originalNodesChanged": 2,
+      "addedVerticalKnots": 47,
+      "maxYChange": 0.09706396026746822,
+      "before": {
+        "maxGrade": 0.04146421076438922,
+        "maxGradeBreak": 0.01769406997141075
+      },
+      "after": {
+        "maxGrade": 0.04146421076438922,
+        "maxGradeBreak": 0.0176940699714111
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        319.0000000000001,
+        367.0000000000017
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-west:S-to-W-loop",
+      "originalNodesChanged": 41,
+      "addedVerticalKnots": 67,
+      "maxYChange": 0.701789775778197,
+      "before": {
+        "maxGrade": 0.08553285407442465,
+        "maxGradeBreak": 0.05753302692553651
+      },
+      "after": {
+        "maxGrade": 0.11433080091115765,
+        "maxGradeBreak": 0.033375995752012146
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        28.99999999999999,
+        177.99999999999986
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-west:S-to-E-right",
+      "originalNodesChanged": 8,
+      "addedVerticalKnots": 34,
+      "maxYChange": 0.9516948937691131,
+      "before": {
+        "maxGrade": 0.11829433838380289,
+        "maxGradeBreak": 0.11823706928794088
+      },
+      "after": {
+        "maxGrade": 0.11829433838380703,
+        "maxGradeBreak": 0.11823706928794502
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        103,
+        137.0753938964803
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-west:E-to-S-loop",
+      "originalNodesChanged": 43,
+      "addedVerticalKnots": 95,
+      "maxYChange": 2.610245319226525,
+      "before": {
+        "maxGrade": 0.11950000000000009,
+        "maxGradeBreak": 0.11949999999999993
+      },
+      "after": {
+        "maxGrade": 0.10000000000007278,
+        "maxGradeBreak": 0.014670698911204066
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        19.000000000000068,
+        116.0000000000001
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-west:E-to-N-right",
+      "originalNodesChanged": 22,
+      "addedVerticalKnots": 131,
+      "maxYChange": 0.6820492463280837,
+      "before": {
+        "maxGrade": 0.09311893829852429,
+        "maxGradeBreak": 0.09311893829852429
+      },
+      "after": {
+        "maxGrade": 0.07999999999999995,
+        "maxGradeBreak": 0.06049530896133578
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        48.99999999999992,
+        427.0000000000003
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-west:N-to-E-loop",
+      "originalNodesChanged": 37,
+      "addedVerticalKnots": 72,
+      "maxYChange": 0.6610613470926596,
+      "before": {
+        "maxGrade": 0.08000000000000046,
+        "maxGradeBreak": 0.07720283251948275
+      },
+      "after": {
+        "maxGrade": 0.10283118053252112,
+        "maxGradeBreak": 0.03386537121086068
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        28.99999999999993,
+        192.9999999999997
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-west:N-to-W-right",
+      "originalNodesChanged": 44,
+      "addedVerticalKnots": 158,
+      "maxYChange": 4.965003121517102,
+      "before": {
+        "maxGrade": 0.0619753683890199,
+        "maxGradeBreak": 0.06197536838901941
+      },
+      "after": {
+        "maxGrade": 0.10000000000006755,
+        "maxGradeBreak": 0.014774583949651601
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        300.88033428340873,
+        463.9999999999998
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-west:W-to-N-loop",
+      "originalNodesChanged": 52,
+      "addedVerticalKnots": 103,
+      "maxYChange": 1.7827975295725147,
+      "before": {
+        "maxGrade": 0.11950000000000464,
+        "maxGradeBreak": 0.08801331445399273
+      },
+      "after": {
+        "maxGrade": 0.10000000000008918,
+        "maxGradeBreak": 0.014858072830555805
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000000195,
+        109.00734705277787
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-west:W-to-S-right",
+      "originalNodesChanged": 43,
+      "addedVerticalKnots": 157,
+      "maxYChange": 4.936955515955809,
+      "before": {
+        "maxGrade": 0.06208806426168789,
+        "maxGradeBreak": 0.06208806426168789
+      },
+      "after": {
+        "maxGrade": 0.10000000000006153,
+        "maxGradeBreak": 0.014841206865094152
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000000286,
+        162.99999999999997
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-south:S-to-W-semi",
+      "originalNodesChanged": 24,
+      "addedVerticalKnots": 94,
+      "maxYChange": 0.8936663622329897,
+      "before": {
+        "maxGrade": 0.11215185991851466,
+        "maxGradeBreak": 0.10687316879919273
+      },
+      "after": {
+        "maxGrade": 0.1121518599185138,
+        "maxGradeBreak": 0.06627761398215734
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999998325,
+        572.0000000000003
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-south:S-to-E-right",
+      "originalNodesChanged": 33,
+      "addedVerticalKnots": 111,
+      "maxYChange": 0.611052844084834,
+      "before": {
+        "maxGrade": 0.10047355001113191,
+        "maxGradeBreak": 0.10047355001113191
+      },
+      "after": {
+        "maxGrade": 0.06365541557744603,
+        "maxGradeBreak": 0.0826790495983088
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999998237,
+        337
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-south:N-to-E-semi",
+      "originalNodesChanged": 19,
+      "addedVerticalKnots": 119,
+      "maxYChange": 0.40177641404542724,
+      "before": {
+        "maxGrade": 0.09570107415919203,
+        "maxGradeBreak": 0.08951351013851319
+      },
+      "after": {
+        "maxGrade": 0.09570107415919152,
+        "maxGradeBreak": 0.08951351013851319
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        707,
+        826.0000000000009
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-south:N-to-W-right",
+      "originalNodesChanged": 6,
+      "addedVerticalKnots": 26,
+      "maxYChange": 0.7633382457300795,
+      "before": {
+        "maxGrade": 0.10756609237276543,
+        "maxGradeBreak": 0.10756609237276543
+      },
+      "after": {
+        "maxGrade": 0.102965882365376,
+        "maxGradeBreak": 0.102965882365376
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        352,
+        377.00000000000017
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-south:W-to-N-loop",
+      "originalNodesChanged": 40,
+      "addedVerticalKnots": 64,
+      "maxYChange": 0.35132037251914705,
+      "before": {
+        "maxGrade": 0.08000000000000031,
+        "maxGradeBreak": 0.039909773471286464
+      },
+      "after": {
+        "maxGrade": 0.09229525712302467,
+        "maxGradeBreak": 0.02986499297954489
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        23.999999999999865,
+        161.00000000000014
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-south:W-to-S-right",
+      "originalNodesChanged": 34,
+      "addedVerticalKnots": 108,
+      "maxYChange": 0.6465450674894604,
+      "before": {
+        "maxGrade": 0.10761283719119455,
+        "maxGradeBreak": 0.10761283719119455
+      },
+      "after": {
+        "maxGrade": 0.0800000000000044,
+        "maxGradeBreak": 0.10324084439477231
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        94.0000000000001,
+        411.0000000000001
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-south-logistics-east",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 0,
+      "maxYChange": 7.216449660063518e-14,
+      "before": {
+        "maxGrade": 0.10000000000000173,
+        "maxGradeBreak": 0.1000000000000003
+      },
+      "after": {
+        "maxGrade": 0.10000000000000173,
+        "maxGradeBreak": 0.1000000000000003
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        0
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "v4-access-5",
+      "originalNodesChanged": 11,
+      "addedVerticalKnots": 97,
+      "maxYChange": 2.159131040568789,
+      "before": {
+        "maxGrade": 0.10118897541504643,
+        "maxGradeBreak": 0.10000000000000003
+      },
+      "after": {
+        "maxGrade": 0.11816244236212693,
+        "maxGradeBreak": 0.10000000000000057
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        6.000000000000219,
+        102.00000000000003
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "v4-south-split-2-split-split-2",
+      "originalNodesChanged": 5,
+      "addedVerticalKnots": 240,
+      "maxYChange": 0.024,
+      "before": {
+        "maxGrade": 0.1,
+        "maxGradeBreak": 0.1
+      },
+      "after": {
+        "maxGrade": 0.10000000000002829,
+        "maxGradeBreak": 0.10000000000002829
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        204.00000000000045,
+        243.07536855205535
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-south-logistics-east-split",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 0,
+      "maxYChange": 1.509903313490213e-14,
+      "before": {
+        "maxGrade": 0.10000000000000096,
+        "maxGradeBreak": 0.09999999999999988
+      },
+      "after": {
+        "maxGrade": 0.10000000000000096,
+        "maxGradeBreak": 0.09999999999999988
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        0
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "system-central:S-to-W-semi",
+      "originalNodesChanged": 9,
+      "addedVerticalKnots": 121,
+      "maxYChange": 0.9056618002160484,
+      "before": {
+        "maxGrade": 0.08612702205793468,
+        "maxGradeBreak": 0.15810407674206095
+      },
+      "after": {
+        "maxGrade": 0.11303677434672697,
+        "maxGradeBreak": 0.1581040767420649
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999999799,
+        1240
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-central:S-to-E-right",
+      "originalNodesChanged": 16,
+      "addedVerticalKnots": 117,
+      "maxYChange": 1.8479770215314577,
+      "before": {
+        "maxGrade": 0.10314527705922175,
+        "maxGradeBreak": 0.07615719313335406
+      },
+      "after": {
+        "maxGrade": 0.103145277059222,
+        "maxGradeBreak": 0.0638064131649682
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.000000000000012,
+        517.0000000000002
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-central:N-to-E-semi",
+      "originalNodesChanged": 19,
+      "addedVerticalKnots": 199,
+      "maxYChange": 6.063353256295993,
+      "before": {
+        "maxGrade": 0.11069567610591531,
+        "maxGradeBreak": 0.08649023939204448
+      },
+      "after": {
+        "maxGrade": 0.11069567610591566,
+        "maxGradeBreak": 0.0859319085525513
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999999565,
+        1288.9999999999986
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-central:W-to-N-semi",
+      "originalNodesChanged": 19,
+      "addedVerticalKnots": 191,
+      "maxYChange": 7.43412409852121,
+      "before": {
+        "maxGrade": 0.11500000000000003,
+        "maxGradeBreak": 0.10311183944891175
+      },
+      "after": {
+        "maxGrade": 0.11500000000000175,
+        "maxGradeBreak": 0.08770305899003296
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999999541,
+        1235.9999999999995
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-east:S-to-W-turbine",
+      "originalNodesChanged": 25,
+      "addedVerticalKnots": 133,
+      "maxYChange": 5.109382139026511,
+      "before": {
+        "maxGrade": 0.09775197850558952,
+        "maxGradeBreak": 0.09923355728606528
+      },
+      "after": {
+        "maxGrade": 0.10666666666673387,
+        "maxGradeBreak": 0.0992335572860666
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        16.999999999999993,
+        152.99999999999991
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-east:E-to-S-turbine",
+      "originalNodesChanged": 22,
+      "addedVerticalKnots": 93,
+      "maxYChange": 3.97561709596736,
+      "before": {
+        "maxGrade": 0.098311415335406,
+        "maxGradeBreak": 0.18007726605107685
+      },
+      "after": {
+        "maxGrade": 0.0983114153354082,
+        "maxGradeBreak": 0.18007726605108287
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        649.0000000000005,
+        742.9999999999999
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-east:N-to-E-turbine",
+      "originalNodesChanged": 47,
+      "addedVerticalKnots": 226,
+      "maxYChange": 5.2531141341265535,
+      "before": {
+        "maxGrade": 0.09820587276967054,
+        "maxGradeBreak": 0.09658317559102327
+      },
+      "after": {
+        "maxGrade": 0.09820587276967,
+        "maxGradeBreak": 0.09658317559102746
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        20.99999999999999,
+        759.0000000000013
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "system-east:W-to-N-turbine",
+      "originalNodesChanged": 23,
+      "addedVerticalKnots": 95,
+      "maxYChange": 4.048879147297264,
+      "before": {
+        "maxGrade": 0.09763089756582585,
+        "maxGradeBreak": 0.17833088581392334
+      },
+      "after": {
+        "maxGrade": 0.09763089756582805,
+        "maxGradeBreak": 0.1783308858139273
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        721,
+        817.9999999999997
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-1-split-split-split-split-split-split-2",
+      "originalNodesChanged": 6,
+      "addedVerticalKnots": 676,
+      "maxYChange": 0.0000010528610516757908,
+      "before": {
+        "maxGrade": 0.01996394720904202,
+        "maxGradeBreak": 0.0011125706112995997
+      },
+      "after": {
+        "maxGrade": 0.019963947209047025,
+        "maxGradeBreak": 0.001112570611309897
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        700.8399000226765
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v61-exhibition-road-split-split-split",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 0,
+      "maxYChange": 2.5757174171303632e-14,
+      "before": {
+        "maxGrade": 0.10000000007447547,
+        "maxGradeBreak": 0.10000000000029773
+      },
+      "after": {
+        "maxGrade": 0.10000000007447547,
+        "maxGradeBreak": 0.10000000000029773
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        0
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "ring-cw-1-split-3-split-split-split-split",
+      "originalNodesChanged": 37,
+      "addedVerticalKnots": 37,
+      "maxYChange": 0.01634691360805185,
+      "before": {
+        "maxGrade": 0.020379991685827197,
+        "maxGradeBreak": 0.0011499769926784434
+      },
+      "after": {
+        "maxGrade": 0.020379991685827017,
+        "maxGradeBreak": 0.0011499769926787938
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1002.6625598615278,
+        1184.622218997364
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "regional:v8:airport-city-out",
+      "originalNodesChanged": 12,
+      "addedVerticalKnots": 9,
+      "maxYChange": 0.0000017246238730450614,
+      "before": {
+        "maxGrade": 0.03017401744912151,
+        "maxGradeBreak": 0.004677156912048198
+      },
+      "after": {
+        "maxGrade": 0.03017401744912151,
+        "maxGradeBreak": 0.0046771569120482035
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        644.0000000000005,
+        674.2153567420404
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v9-newcity-eight-split",
+      "originalNodesChanged": 5,
+      "addedVerticalKnots": 311,
+      "maxYChange": 0.023999999999999997,
+      "before": {
+        "maxGrade": 0,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0011231265206111877,
+        "maxGradeBreak": 0.0000865321340413563
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        275.99999999999994,
+        315.0000203567384
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v9-newcity-seven-split-split",
+      "originalNodesChanged": 4,
+      "addedVerticalKnots": 184,
+      "maxYChange": 0.024,
+      "before": {
+        "maxGrade": 0,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0011231264062500587,
+        "maxGradeBreak": 0.00008623125000020021
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        38.999999999999886
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v9-newcity-six-south-split-split",
+      "originalNodesChanged": 22,
+      "addedVerticalKnots": 234,
+      "maxYChange": 0.024,
+      "before": {
+        "maxGrade": 0,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0,
+        "maxGradeBreak": 0
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        234.4974665427943
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v9-newcity-eight-split-split",
+      "originalNodesChanged": 4,
+      "addedVerticalKnots": 184,
+      "maxYChange": 0.024,
+      "before": {
+        "maxGrade": 0,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0011231264062500927,
+        "maxGradeBreak": 0.00008623125000000977
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        38.99999999999994
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v9-newcity-six-south-split-split-split",
+      "originalNodesChanged": 2,
+      "addedVerticalKnots": 17,
+      "maxYChange": 0.024,
+      "before": {
+        "maxGrade": 0,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0026231210211678634,
+        "maxGradeBreak": 0.0004644320494429019
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        16
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-south-split-2-split-split-2-split-v91",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 39,
+      "maxYChange": 0.024,
+      "before": {
+        "maxGrade": 0.00019060295920568393,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 4.544143479547771e-17,
+        "maxGradeBreak": 4.544143479547771e-17
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        124.99999999999956
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-south-split-2-split-split-2-split-split-v91",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 39,
+      "maxYChange": 0.0007174464025844407,
+      "before": {
+        "maxGrade": 0.00004131193769428194,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.00007943311597316396,
+        "maxGradeBreak": 0.00002644434839966618
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.000000000000011,
+        38.99999999999993
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v91-ew-east-eb-off",
+      "originalNodesChanged": 33,
+      "addedVerticalKnots": 118,
+      "maxYChange": 2.3115834888946347,
+      "before": {
+        "maxGrade": 0.07609264609534752,
+        "maxGradeBreak": 0.005027482138181668
+      },
+      "after": {
+        "maxGrade": 0.12086637883743419,
+        "maxGradeBreak": 0.017596279050831554
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999998969,
+        118.99999999999983
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v91-ew-east-wb-on",
+      "originalNodesChanged": 32,
+      "addedVerticalKnots": 115,
+      "maxYChange": 1.898912282573864,
+      "before": {
+        "maxGrade": 0.07713647368471675,
+        "maxGradeBreak": 0.005166673710271949
+      },
+      "after": {
+        "maxGrade": 0.10874265171894518,
+        "maxGradeBreak": 0.014821037519404903
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000000588,
+        118.00000000000001
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v91-ns-nb-off",
+      "originalNodesChanged": 26,
+      "addedVerticalKnots": 92,
+      "maxYChange": 1.6169113823130652,
+      "before": {
+        "maxGrade": 0.08285283462102544,
+        "maxGradeBreak": 0.0060200156258163225
+      },
+      "after": {
+        "maxGrade": 0.12094974575321366,
+        "maxGradeBreak": 0.018321603831559445
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        63.000000000000114,
+        156.0000000000001
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-0-split-split-section",
+      "originalNodesChanged": 13,
+      "addedVerticalKnots": 15,
+      "maxYChange": 0.009984832744231564,
+      "before": {
+        "maxGrade": 0.0499313423761345,
+        "maxGradeBreak": 0.041990834333854726
+      },
+      "after": {
+        "maxGrade": 0.050340019629845696,
+        "maxGradeBreak": 0.041903402860701454
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        148.5946416214233,
+        224.74298037690448
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-0-split-split-split-3-split-section",
+      "originalNodesChanged": 136,
+      "addedVerticalKnots": 250,
+      "maxYChange": 0.09263904494224784,
+      "before": {
+        "maxGrade": 0.023135503352780713,
+        "maxGradeBreak": 0.003918712453846524
+      },
+      "after": {
+        "maxGrade": 0.023135503352781053,
+        "maxGradeBreak": 0.003918712453846802
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        135.76861301481472,
+        1410.0460210753909
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-inner-1-split-m91",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 40,
+      "maxYChange": 0.398711043595703,
+      "before": {
+        "maxGrade": 0.0012109126596073245,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.017931407955091613,
+        "maxGradeBreak": 0.006151998765214387
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        290,
+        329.264906459065
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v8-port-south-m91",
+      "originalNodesChanged": 2,
+      "addedVerticalKnots": 159,
+      "maxYChange": 1.7386563692041361,
+      "before": {
+        "maxGrade": 0.08636428658375472,
+        "maxGradeBreak": 0.08636428658375472
+      },
+      "after": {
+        "maxGrade": 0.11111111111116462,
+        "maxGradeBreak": 0.01655555555555461
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999999528,
+        197.99999999999977
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-access-4-c91",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 40,
+      "maxYChange": 0.6054726891475207,
+      "before": {
+        "maxGrade": 0.03494608476232747,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.06719308167716298,
+        "maxGradeBreak": 0.02138651796706669
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        30.99999999999978,
+        70.00000000000021
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-access-18-c91",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 59,
+      "maxYChange": 1.2861514963301979,
+      "before": {
+        "maxGrade": 0.0681159084969862,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.10579865610231644,
+        "maxGradeBreak": 0.01982261659405228
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999999822,
+        58.99999999999997
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-west-market-split-split-3-c91",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 78,
+      "maxYChange": 0.10926829268292781,
+      "before": {
+        "maxGrade": 0.10666666666666659,
+        "maxGradeBreak": 0.10666666666666659
+      },
+      "after": {
+        "maxGrade": 0.10666666666666937,
+        "maxGradeBreak": 0.013008130081305434
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        56.99999999999983,
+        62.9999999999998
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-industrial-split-c91",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 39,
+      "maxYChange": 0.08559589585941667,
+      "before": {
+        "maxGrade": 0.004927719693891117,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.009474843151264362,
+        "maxGradeBreak": 0.003159942182481834
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        687.0000000000001,
+        724.9999999999983
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-access-4-split-c91",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 39,
+      "maxYChange": 0.007425318721546665,
+      "before": {
+        "maxGrade": 0.00042756407068138806,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0008221049001315466,
+        "maxGradeBreak": 0.0002736897342349239
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.0000000000002165,
+        38.99999999999995
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-industrial-split-split-c91",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 39,
+      "maxYChange": 0.005226877037337144,
+      "before": {
+        "maxGrade": 0.0003009735887228591,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0005787012498615344,
+        "maxGradeBreak": 0.00019265739840589773
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999998733,
+        39.00000000000017
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-industrial-split-2-split-split-c91",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 59,
+      "maxYChange": 1.0725696953916393,
+      "before": {
+        "maxGrade": 0.0568043962444535,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.08822944472115435,
+        "maxGradeBreak": 0.016530819194177482
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999999791,
+        59.00000000000004
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-industrial-split-2-split-split-2-c91",
+      "originalNodesChanged": 0,
+      "addedVerticalKnots": 40,
+      "maxYChange": 0.0031064700981433078,
+      "before": {
+        "maxGrade": 0.00017942065029442317,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0003449836080864418,
+        "maxGradeBreak": 0.00011147808148307902
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        94.00000000000011,
+        132.99999999999955
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v8-port-works-c91",
+      "originalNodesChanged": 2,
+      "addedVerticalKnots": 228,
+      "maxYChange": 1.5938717159081535,
+      "before": {
+        "maxGrade": 0.07999999999999982,
+        "maxGradeBreak": 0.07999999999999982
+      },
+      "after": {
+        "maxGrade": 0.11111111111115782,
+        "maxGradeBreak": 0.01646549091924089
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        82.00000000000001,
+        346.99999999999926
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v9-newcity-seven-split-c91",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 107,
+      "maxYChange": 0.02399999999999995,
+      "before": {
+        "maxGrade": 0.0002226220590890331,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0009013828698313877,
+        "maxGradeBreak": 0.0000863706621909958
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        69.00000000000007,
+        107.80602828941431
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v9-newcity-six-south-split-c91",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 107,
+      "maxYChange": 0.024,
+      "before": {
+        "maxGrade": 0.0002229802142635125,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.0009014518844535271,
+        "maxGradeBreak": 0.00008643175258239363
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        68,
+        107.63286814155356
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v4-inner-1-split-m91-section",
+      "originalNodesChanged": 1,
+      "addedVerticalKnots": 39,
+      "maxYChange": 0.273047399391636,
+      "before": {
+        "maxGrade": 0.0011394373221382177,
+        "maxGradeBreak": 0
+      },
+      "after": {
+        "maxGrade": 0.011683490402537243,
+        "maxGradeBreak": 0.00426892441648188
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0,
+        39.000000000000014
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v91-ring-north-outer-off",
+      "originalNodesChanged": 63,
+      "addedVerticalKnots": 213,
+      "maxYChange": 1.1492817476052135,
+      "before": {
+        "maxGrade": 0.036874440924541146,
+        "maxGradeBreak": 0.0012926070108932094
+      },
+      "after": {
+        "maxGrade": 0.0729029733949114,
+        "maxGradeBreak": 0.015247506435778435
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999999232,
+        340.00000000000085
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v91-ring-north-outer-on",
+      "originalNodesChanged": 85,
+      "addedVerticalKnots": 229,
+      "maxYChange": 2.0992759701624077,
+      "before": {
+        "maxGrade": 0.048097064497073086,
+        "maxGradeBreak": 0.0020987732451685417
+      },
+      "after": {
+        "maxGrade": 0.0977382309735442,
+        "maxGradeBreak": 0.017086993216397818
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        0.9999999999998928,
+        265.9999999999999
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-1-split-split-section",
+      "originalNodesChanged": 17,
+      "addedVerticalKnots": 21,
+      "maxYChange": 0.015167273481313082,
+      "before": {
+        "maxGrade": 0.04990810214399616,
+        "maxGradeBreak": 0.02705376910967459
+      },
+      "after": {
+        "maxGrade": 0.050403540817614,
+        "maxGradeBreak": 0.02701000322283315
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        105,
+        205
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v91-ring-south-outer-off",
+      "originalNodesChanged": 40,
+      "addedVerticalKnots": 118,
+      "maxYChange": 3.0591952894769854,
+      "before": {
+        "maxGrade": 0.056315551849444916,
+        "maxGradeBreak": 0.05043944507389136
+      },
+      "after": {
+        "maxGrade": 0.10000000000010287,
+        "maxGradeBreak": 0.01484499626592349
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        1.000000000000051,
+        121.00000000000014
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "ring-ccw-1-split-split-split-split-section",
+      "originalNodesChanged": 156,
+      "addedVerticalKnots": 268,
+      "maxYChange": 0.08418499015882275,
+      "before": {
+        "maxGrade": 0.0102095750283501,
+        "maxGradeBreak": 0.0008026360971999666
+      },
+      "after": {
+        "maxGrade": 0.010022839358598573,
+        "maxGradeBreak": 0.0007876800992969629
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        684.1765665716102,
+        1797.6837285130184
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "v91-ring-south-outer-on",
+      "originalNodesChanged": 40,
+      "addedVerticalKnots": 111,
+      "maxYChange": 2.9112732018890766,
+      "before": {
+        "maxGrade": 0.05355507623786817,
+        "maxGradeBreak": 0.04288530135810565
+      },
+      "after": {
+        "maxGrade": 0.10000000000004798,
+        "maxGradeBreak": 0.014887720058392888
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        167.00000000000014,
+        287
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "direction-inner-sw-section-section",
+      "originalNodesChanged": 16,
+      "addedVerticalKnots": 64,
+      "maxYChange": 1.7093942888587548,
+      "before": {
+        "maxGrade": 0.10561508585532955,
+        "maxGradeBreak": 0.06792142011874462
+      },
+      "after": {
+        "maxGrade": 0.11766740872588137,
+        "maxGradeBreak": 0.050003414232131387
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        128.00000000000009,
+        207.00000000000009
+      ],
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "access-ew-west-wb-off",
+      "originalNodesChanged": 28,
+      "addedVerticalKnots": 86,
+      "maxYChange": 1.208584166122722,
+      "before": {
+        "maxGrade": 0.09677444822104637,
+        "maxGradeBreak": 0.008435063927736419
+      },
+      "after": {
+        "maxGrade": 0.11788012246964338,
+        "maxGradeBreak": 0.01688886252083069
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        38.335408984340916,
+        125.99999999999993
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "access-ns-north-sb-off",
+      "originalNodesChanged": 5,
+      "addedVerticalKnots": 21,
+      "maxYChange": 0.03871151570784637,
+      "before": {
+        "maxGrade": 0.06554195500682233,
+        "maxGradeBreak": 0.0049261912515537794
+      },
+      "after": {
+        "maxGrade": 0.06554195500682233,
+        "maxGradeBreak": 0.004926191251553776
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        126.00000000000007,
+        147.00000000000009
+      ],
+      "pavementSurface": "capsule"
+    },
+    {
+      "id": "access-ns-north-nb-off",
+      "originalNodesChanged": 12,
+      "addedVerticalKnots": 51,
+      "maxYChange": 0.1446674651423736,
+      "before": {
+        "maxGrade": 0.01753402224444844,
+        "maxGradeBreak": 0.0011832178711555356
+      },
+      "after": {
+        "maxGrade": 0.0204272144604177,
+        "maxGradeBreak": 0.005686375519094899
+      },
+      "horizontalDisplacement": 0,
+      "allOriginalXZRetained": true,
+      "stationRange": [
+        120.99999999999999,
+        172
+      ],
+      "pavementSurface": "capsule"
+    }
+  ],
+  "localValidationBefore": {
+    "errors": 0,
+    "warnings": 145,
+    "scope": "Every changed road and changed junction; repeated identical messages deduplicated"
+  }
+}

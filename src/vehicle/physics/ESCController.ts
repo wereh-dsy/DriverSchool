@@ -34,6 +34,7 @@ export class ESCController {
     // Compatibility adapter for callers outside the shared runtime control loop.
     this.legacyEstimator ??= new VehicleStateEstimator(this.config);
     const state = this.legacyEstimator.update(dt, speed, lateralVelocity, 0, 0, yawRate, steering, wheels);
+    this.legacyEstimator.setPhysicalCapacities(longitudinalLimits, lateralLimits);
     this.updateState(dt, enabled, state, longitudinalLimits, lateralLimits);
   }
   public updateState(dt: number, enabled: boolean, state: VehicleControlState,
@@ -42,7 +43,10 @@ export class ESCController {
     const speed = state.longitudinalVelocity, steering = state.steeringAngle, yawRate = state.yawRate;
     const wheels = state.wheels;
     let totalLateral = 0;
-    for (let i = 0; i < 4; i++) if (wheels[WHEEL_IDS[i]!].grounded) totalLateral += lateralLimits[i]!;
+    for (let i = 0; i < 4; i++) {
+      const w = wheels[WHEEL_IDS[i]!];
+      if (w.grounded) totalLateral += w.estimatedLateralCapacity;
+    }
     const yawLimit = totalLateral / Math.max(1, this.config.mass * Math.abs(speed));
     // + steering is right, whereas + body yaw is left in the existing solver.
     const reference = clamp(-speed * Math.tan(steering) / this.config.wheelBase, -yawLimit, yawLimit);
@@ -76,23 +80,22 @@ export class ESCController {
         // Evaluate the actual brake lever including front steering. Choose the
         // outside front for excess yaw, inside rear for insufficient yaw.
         const distanceFront = clamp(this.config.wheelBase * (1 - this.config.frontWeightBias), this.config.wheelBase * .1, this.config.wheelBase * .9);
-        const position = over ? distanceFront : distanceFront - this.config.wheelBase;
-        const track = over ? this.config.frontTrackWidth : this.config.rearTrackWidth;
-        for (let i = first; i < first + 2; i++) {
-          const angle = over ? wheels[WHEEL_IDS[i]!].steeringAngle : 0;
+        let bestAuthority = 0;
+        for (let offset = 0; offset < 4; offset++) {
+          const i = (first + offset) % 4;
+          const w = wheels[WHEEL_IDS[i]!];
+          const angle = i < 2 ? w.steeringAngle : 0;
+          const position = i < 2 ? distanceFront : distanceFront - this.config.wheelBase;
+          const track = i < 2 ? this.config.frontTrackWidth : this.config.rearTrackWidth;
           const x = (i % 2 === 0 ? -1 : 1) * track * .5;
           const lever = -x * Math.cos(angle) + position * Math.sin(angle);
           if (lever * correction <= 0 || Math.abs(lever) < .1) continue;
-          const w = wheels[WHEEL_IDS[i]!];
-          if (!w.grounded) continue;
-          const lateralUsage = Math.min(.98, Math.abs(w.lateralForce) / Math.max(1, lateralLimits[i]!));
-          const available = longitudinalLimits[i]! * Math.sqrt(1 - lateralUsage * lateralUsage);
-          const hardware = (over ? this.config.brakes.maxBrakeTorqueFront : this.config.brakes.maxBrakeTorqueRear) * .5;
-          const gripFraction = clamp(tune?.maximumBrakeGripFraction ?? .45, 0, .8);
-          target = Math.min(hardware, available * this.config.wheelRadius * gripFraction,
-            Math.abs(requestedMoment) * this.config.wheelRadius / Math.abs(lever));
-          wheel = target > 5 ? i : -1;
-          break;
+          const candidate = Math.min(this.wheelAuthority(state, i, longitudinalLimits[i]!, lateralLimits[i]!),
+            Math.abs(requestedMoment) * w.rollingRadius / Math.abs(lever));
+          // Prefer the conventional axle, but use a loaded alternative if that
+          // wheel cannot deliver the requested moment. Never boost beyond its capacity.
+          const score = candidate * Math.abs(lever) * (offset < 2 ? 1 : .75);
+          if (candidate > 5 && score > bestAuthority) { bestAuthority = score; target = candidate; wheel = i; }
         }
       }
     }
@@ -105,9 +108,7 @@ export class ESCController {
     else this.selectedWheel = wheel;
     for (let i = 0; i < 4; i++) {
       const request = i === wheel ? target : 0;
-      const lateralUsage = Math.min(.98, Math.abs(wheels[WHEEL_IDS[i]!].lateralForce) / Math.max(1, lateralLimits[i]!));
-      const availableTorque = (wheels[WHEEL_IDS[i]!].grounded ? Math.max(0, longitudinalLimits[i]!) : 0) * this.config.wheelRadius *
-        Math.sqrt(1 - lateralUsage * lateralUsage) * clamp(tune?.maximumBrakeGripFraction ?? .45, 0, .8);
+      const availableTorque = this.wheelAuthority(state, i, longitudinalLimits[i]!, lateralLimits[i]!);
       this.brakeTorques[i] = Math.min(availableTorque,
         damp(this.brakeTorques[i]!, request, request > this.brakeTorques[i]! ? (tune?.response ?? 6) : 10, dt));
       if (this.brakeTorques[i]! < .5 && request === 0) this.brakeTorques[i] = 0;
@@ -116,5 +117,17 @@ export class ESCController {
     this.yawMomentRequest = damp(this.yawMomentRequest, wheel >= 0 ? requestedMoment : 0, 6, dt);
     this.torqueFactor = damp(this.torqueFactor, this.active && wheel >= 0 ? torqueTarget : 1, torqueTarget < this.torqueFactor ? 6 : 3, dt);
     if (!this.active && wheel < 0) this.selectedWheel = -1;
+  }
+  private wheelAuthority(state: VehicleControlState, index: number, longitudinal: number, lateral: number): number {
+    const w = state.wheels[WHEEL_IDS[index]!];
+    if (!w.roadContactReady || !w.grounded) return 0;
+    const usage = Math.min(.98, Math.abs(w.lateralForce) / Math.max(1, lateral));
+    // Real attitude/rates reduce actuator confidence during rapid body motion;
+    // Fz remains the only axle/wheel load source, with no inferred load transfer.
+    const attitude = clamp(Math.abs(Math.cos(state.pitch) * Math.cos(state.roll)), .4, 1) /
+      (1 + .1 * Math.abs(state.pitchRate) + .1 * Math.abs(state.rollRate));
+    const available = Math.min(Math.max(0, longitudinal), w.estimatedLongitudinalCapacity) * Math.sqrt(1 - usage * usage);
+    const hardware = (index < 2 ? this.config.brakes.maxBrakeTorqueFront : this.config.brakes.maxBrakeTorqueRear) * .5;
+    return Math.min(hardware, available * w.rollingRadius * this.calibration.maximumBrakeGripFraction * attitude);
   }
 }

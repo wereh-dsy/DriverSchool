@@ -1,6 +1,8 @@
 import { clamp } from '../physics/math';
 import type { VehicleActuatorRequest } from './VehicleActuatorRequest';
 import type { BrakeTorqueCoordinator } from '../physics/BrakeTorqueCoordinator';
+import type { VehicleControlState } from './VehicleStateEstimator';
+import { WHEEL_IDS } from '../physics/WheelContact';
 
 /** All propulsion limits compose by minimum. The hydraulic coordinator owns
  * base + additive wheel requests, hardware saturation, then final ABS authority. */
@@ -14,8 +16,15 @@ export class ControlArbitrator {
     out.powertrainTorqueFactor = out.frontTorqueFactor * frontShare + out.rearTorqueFactor * (1 - frontShare);
   }
   public submitBrakes(coordinator: BrakeTorqueCoordinator, stability: readonly number[],
-    traction: readonly number[]): void {
+    traction: readonly number[], state?: VehicleControlState): void {
     for (let i = 0; i < 4; i++) {
+      if (state) {
+        const w = state.wheels[WHEEL_IDS[i]!];
+        // A 2x demand reserve preserves real slip/ABS operation and allows tyre
+        // force tradeoff in a corner. Airborne/rejected service authority is zero.
+        coordinator.setWheelServiceCapacity(i, w.grounded ? 2 * w.rollingRadius *
+          Math.min(w.rawLongitudinalCapacity, w.estimatedLongitudinalCapacity) : 0);
+      }
       coordinator.requestWheel(i, 'esc', stability[i] ?? 0);
       coordinator.requestWheel(i, 'traction', traction[i] ?? 0);
     }

@@ -1,0 +1,217 @@
+[
+  {
+    "id": "system-central:W-to-S-right",
+    "decision": "Restore original Y and support model",
+    "reason": "Proposed flattening was worse in the actual lane support sweep; preserve the original structural/longitudinal profile"
+  },
+  {
+    "id": "system-central:E-to-S-semi",
+    "decision": "Restore original Y and support model",
+    "reason": "Proposed flattening was worse in the actual lane support sweep; preserve the original structural/longitudinal profile"
+  },
+  {
+    "id": "system-south:E-to-S-loop",
+    "decision": "Restore original Y and support model",
+    "evidence": {
+      "id": "cluster:ring-cw-2-split-split|system-south:E-to-S-loop:17.8:19.5",
+      "roadIds": [
+        "ring-cw-2-split-split",
+        "system-south:E-to-S-loop"
+      ],
+      "members": [
+        {
+          "id": "seam:system-south:E-to-S-loop|ring-cw-2-split-split:19.5:17.8",
+          "category": "MANUAL_REVIEW",
+          "roadIds": [
+            "ring-cw-2-split-split",
+            "system-south:E-to-S-loop"
+          ],
+          "segmentIds": [
+            "system-south:E-to-S-loop:10",
+            "ring-cw-2-split-split:1",
+            "ring-cw-2-split-split:2",
+            "system-south:E-to-S-loop:11",
+            "system-south:E-to-S-loop:12",
+            "system-south:E-to-S-loop:13",
+            "system-south:E-to-S-loop:14",
+            "system-south:E-to-S-loop:15"
+          ],
+          "bbox": {
+            "minX": -75.08163964662907,
+            "maxX": -63.958951793642264,
+            "minZ": 2110.525988321155,
+            "maxZ": 2116.443546907087
+          },
+          "location": {
+            "x": -75.08163964662907,
+            "z": 2110.525988321155,
+            "y": -1.205441595176925
+          },
+          "maxHeightDelta": 1.205441595176925,
+          "minHeightDelta": 0,
+          "normalDot": 0.9929354482706831,
+          "localGrade": [
+            0,
+            -0.11950000000000009
+          ],
+          "gradeDiscontinuity": 0.1195000000000001,
+          "overlapLength": 11.122687852986807,
+          "overlapArea": 39.44766841382079,
+          "footprintOverlap": true,
+          "horizontalGap": 0,
+          "topologyRelation": "unlinked-overlap",
+          "stationRanges": [
+            [
+              17.83395179364227,
+              28.95663964662908
+            ],
+            [
+              19.546145577136688,
+              29.633522942633967
+            ]
+          ],
+          "reasons": [
+            "Shared pavement has no direct topology; reference profile requires review"
+          ],
+          "overlappingRoadIds": [
+            "system-south:E-to-S-loop",
+            "ring-cw-2-split-split"
+          ],
+          "layerCount": 1
+        }
+      ],
+      "bbox": {
+        "minX": -75.08163964662907,
+        "maxX": -63.958951793642264,
+        "minZ": 2110.525988321155,
+        "maxZ": 2116.443546907087
+      },
+      "location": {
+        "x": -75.08163964662907,
+        "z": 2110.525988321155,
+        "y": -1.205441595176925
+      },
+      "maxHeightDelta": 1.205441595176925,
+      "minHeightDelta": 0,
+      "normalDot": 0.9929354482706831,
+      "overlapLength": 11.122687852986807,
+      "stationRanges": [
+        [
+          17.83395179364227,
+          28.95663964662908
+        ],
+        [
+          19.546145577136688,
+          29.633522942633967
+        ]
+      ],
+      "topologyRelations": [
+        "unlinked-overlap"
+      ],
+      "footprintOverlap": true,
+      "supportSwitchPossible": true,
+      "risk": "high",
+      "conclusion": "DEFER_UNCERTAIN",
+      "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+      "beforeDelta": 1.205441595176925,
+      "afterDelta": 1.174457282400728,
+      "afterMinimum": 0,
+      "overlapProbeSamples": 41,
+      "supportSweep": {
+        "maxResidual": 0.22970196825129172,
+        "roadSwitches": 3,
+        "samples": 2498,
+        "offRoad": 0,
+        "offRoadTransitions": 0,
+        "offRoadPoints": [],
+        "worst": {
+          "road": "ring-cw-2-split-split",
+          "station": 21.577777777777754,
+          "point": {
+            "x": -67.70277777777775,
+            "z": 2114.9509883211554
+          },
+          "from": {
+            "roadId": "system-south:E-to-S-loop",
+            "segmentId": "system-south:E-to-S-loop:10",
+            "surfaceId": "system-south:E-to-S-loop:10:road"
+          },
+          "to": {
+            "roadId": "ring-cw-2-split-split",
+            "segmentId": "ring-cw-2-split-split:2",
+            "surfaceId": "ring-cw-2-split-split:2:road"
+          },
+          "residual": 0.22970196825129172
+        }
+      },
+      "roadEvidence": [
+        {
+          "id": "ring-cw-2-split-split",
+          "role": "expressway",
+          "structure": {
+            "barrierEnabled": true,
+            "piersEnabled": true,
+            "pierSpacing": 60,
+            "barrierOffset": 0,
+            "barrierStyle": "metal",
+            "medianBarrierStyle": "concrete"
+          },
+          "sourceYRange": [
+            0,
+            0
+          ],
+          "sharedEndpointContinuity": true
+        },
+        {
+          "id": "system-south:E-to-S-loop",
+          "role": "ramp",
+          "structure": {
+            "barrierEnabled": false,
+            "piersEnabled": true,
+            "pierSpacing": 45,
+            "barrierOffset": 0.25,
+            "enclosure": {
+              "kind": "cutting",
+              "clearance": 6
+            }
+          },
+          "sourceYRange": [
+            -7.992520903576106,
+            0
+          ],
+          "sharedEndpointContinuity": true
+        }
+      ],
+      "modified": false,
+      "beforeSupportSweep": {
+        "maxResidual": 0.22970196825129172,
+        "roadSwitches": 3,
+        "samples": 2498,
+        "offRoad": 0,
+        "offRoadTransitions": 0,
+        "offRoadPoints": [],
+        "worst": {
+          "road": "ring-cw-2-split-split",
+          "station": 21.577777777777754,
+          "point": {
+            "x": -67.70277777777775,
+            "z": 2114.9509883211554
+          },
+          "from": {
+            "roadId": "system-south:E-to-S-loop",
+            "segmentId": "system-south:E-to-S-loop:10",
+            "surfaceId": "system-south:E-to-S-loop:10:road"
+          },
+          "to": {
+            "roadId": "ring-cw-2-split-split",
+            "segmentId": "ring-cw-2-split-split:2",
+            "surfaceId": "ring-cw-2-split-split:2:road"
+          },
+          "residual": 0.22970196825129172
+        }
+      },
+      "supportWorsened": false
+    },
+    "reason": "Proposed flattening was worse in the actual lane support sweep; preserve the original structural/longitudinal profile"
+  }
+]

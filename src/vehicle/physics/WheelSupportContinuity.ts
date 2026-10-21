@@ -8,6 +8,9 @@ const makeState = () => ({ reference: undefined as SurfaceReference | undefined,
   acceptedTick: -1, switchTick: -100, transient: undefined as string | undefined, transientUntil: -1,
   tolerance: .1 });
 
+export type SupportRejectionReason = 'invalid-normal' | 'invalid-suspension-projection' | 'non-finite-surface' |
+  'normal-discontinuity' | 'unreachable-layer-switch' | 'transient-layer-return' | 'unreachable-heightfield-discontinuity';
+
 /** Four reusable wheel anchors. Never extrapolate an old footprint: the map
  * revalidates it, and rejected new layers explicitly lose contact before forces. */
 export class WheelSupportContinuity {
@@ -19,10 +22,12 @@ export class WheelSupportContinuity {
   private radius = 0;
   private tick = 0;
   public rejectedSamples = 0;
+  private readonly reasons: Partial<Record<WheelId, SupportRejectionReason>> = {};
 
   public reset(): void {
     for (const id of WHEEL_IDS) Object.assign(this.states[id], makeState());
     this.geometry = undefined; this.tick = 0; this.rejectedSamples = 0;
+    for (const id of WHEEL_IDS) this.reasons[id] = undefined;
   }
   public seed(contacts: WheelContactSet): void {
     for (const id of WHEEL_IDS) {
@@ -38,6 +43,7 @@ export class WheelSupportContinuity {
   }
   public valid(id: WheelId): boolean { return this.states[id].valid; }
   public heightTolerance(id: WheelId): number { return this.states[id].tolerance; }
+  public rejectionReason(id: WheelId): SupportRejectionReason | undefined { return this.reasons[id]; }
 
   public sample(ground: WheelSurfaceQuery, id: WheelId, x: number, z: number): RoadSurfaceSample {
     const s = this.states[id], g = this.geometry!.wheels[id], h = this.hint;
@@ -72,12 +78,23 @@ export class WheelSupportContinuity {
       this.tick - s.switchTick <= 3 && Math.abs(candidate.height - s.previousHeight) < tolerance;
     // Ordinary landing on a trusted continuous plane keeps the real limit solver.
     // A new plane far above full bump cannot create a mechanical collision.
-    const suspicious = !Number.isFinite(required) || n.y < .1 ||
-      s.initialized && (dot < .6 || jump > tolerance && required < g.minSuspensionLength - tolerance ||
-        returned && Math.abs(jump) > tolerance) ||
-      !s.initialized && required < g.minSuspensionLength - travel;
-    s.valid = !suspicious;
-    if (suspicious) {
+    // A single-valued heightfield has no competing road layers. Its changing
+    // terrain normal and real bump/landing must reach the physical force path.
+    const layered = ground.sampleRoadSurfaceForSupport !== undefined || candidate.reference?.roadId !== undefined;
+    const fieldResidual = candidate.height - s.height + .5 * ((s.nx * dx + s.nz * dz) / Math.max(.1, s.ny) +
+      (n.x * dx + n.z * dz) / Math.max(.1, n.y));
+    const reason: SupportRejectionReason | undefined = !Number.isFinite(n.x + n.y + n.z) || n.y < .1 ? 'invalid-normal'
+      : !Number.isFinite(projection) || projection <= .1 ? 'invalid-suspension-projection'
+      : !Number.isFinite(required) ? 'non-finite-surface'
+      : !layered ? s.initialized && fieldResidual > Math.max(tolerance * 3, travel * 2) &&
+        required < g.minSuspensionLength - travel ? 'unreachable-heightfield-discontinuity' : undefined
+      : s.initialized && dot < .6 ? 'normal-discontinuity'
+      : s.initialized && returned && Math.abs(jump) > tolerance ? 'transient-layer-return'
+      : s.initialized && jump > tolerance && required < g.minSuspensionLength - tolerance ||
+        !s.initialized && required < g.minSuspensionLength - travel ? 'unreachable-layer-switch' : undefined;
+    this.reasons[id] = reason;
+    s.valid = reason === undefined;
+    if (reason) {
       s.transient = candidate.reference?.surfaceId; s.transientUntil = this.tick + 3;
       this.rejectedSamples++;
       return candidate;

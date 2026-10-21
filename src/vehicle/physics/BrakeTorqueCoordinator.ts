@@ -11,8 +11,14 @@ export class BrakeTorqueCoordinator {
   private readonly cruise = [0, 0, 0, 0];
   private readonly service = [0, 0, 0, 0];
   private readonly parking = [0, 0, 0, 0];
+  private readonly serviceCapacity = [Infinity, Infinity, Infinity, Infinity];
+  /** Control-side upper demand only; never modifies tyre loads or mechanical parking. */
+  public setWheelServiceCapacity(index: number, torque: number): void {
+    this.serviceCapacity[index] = Number.isFinite(torque) ? Math.max(0, torque) : 0;
+  }
   public reset(): void {
     this.esc.fill(0); this.traction.fill(0); this.cruise.fill(0); this.service.fill(0); this.parking.fill(0);
+    this.serviceCapacity.fill(Infinity);
     for (const t of this.wheelTorques) Object.assign(t, {
       requestedBrakeTorque: 0, appliedBrakeTorque: 0, requestedHandbrakeTorque: 0, appliedHandbrakeTorque: 0 });
   }
@@ -28,7 +34,7 @@ export class BrakeTorqueCoordinator {
   public resolve(index: number, maximum: number, absPressure: number): WheelBrakeTorques {
     // Base/hold/emergency overlap. ESC and traction add wheel demand before
     // hardware saturation and final ABS modulation of the complete request.
-    const requestedBrakeTorque = Math.min(maximum,
+    const requestedBrakeTorque = Math.min(maximum, this.serviceCapacity[index]!,
       Math.max(this.service[index]!, this.cruise[index]!) + this.esc[index]! + this.traction[index]!);
     const out = this.wheelTorques[index]! as { -readonly [K in keyof WheelBrakeTorques]: number };
     out.requestedBrakeTorque = requestedBrakeTorque;

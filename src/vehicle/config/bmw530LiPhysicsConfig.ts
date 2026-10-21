@@ -68,8 +68,9 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
     highSpeedReferenceSpeed: 19, highSpeedMinimumAuthority: .21, ackermannFactor: .9 };
   c.suspension = { ...c.suspension, rideHeight: .145, restLength: .36,
     springRateFront: 38500, springRateRear: 37500,
-    damperCompressionFront: 3000, damperCompressionRear: 2900,
-    damperReboundFront: 4450, damperReboundRear: 4350, suspensionTravel: .16,
+    unsprungMass: { front: 44, rear: 46 },
+    damperCompressionFront: 2250, damperCompressionRear: 2175,
+    damperReboundFront: 3337.5, damperReboundRear: 3262.5, suspensionTravel: .16,
     antiRollStiffnessFront: 14500, antiRollStiffnessRear: 12500, antiRollStiffness: 27000,
     kinematics: {
       front: { topology: 'DOUBLE_WISHBONE', staticCamber: -.009, camberGainPerMeter: -.38,
@@ -101,6 +102,7 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
     restartThrottleThreshold: .1, restartBrakeReleaseThreshold: .08, restartDelay: .2 };
   c.capabilities = { ...c.capabilities, tpms: true };
   c.tires.thermalPressureFront = createTyreThermalPressureConfig(250, { thermalCapacity: 32000 });
+  c.tires.verticalCompliance = { stiffness: 220000, damping: 2400, maximumCompression: .055 };
   c.tires.thermalPressureRear = createTyreThermalPressureConfig(270, { thermalCapacity: 33000 });
   return c;
 }

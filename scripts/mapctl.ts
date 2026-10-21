@@ -8,6 +8,7 @@ import { snapCandidates } from '../src/editor/EditorSnap';
 import { pageDiagnosticReport, repairCommandsFromDiagnosis, type DiagnosticReport, type DiagnosticScope } from '../src/editor/RoadDiagnostics';
 import { assertReceipt, makeReceipt, MAPCTL_HELP } from './mapctl-support';
 import { runEngineeringCommand, requestFlags } from './mapctl-engineering';
+import { runElevationSeamCommand } from './mapctl-elevation-seams';
 
 const [command, mapArg, ...args] = process.argv.slice(2), flags = new Map<string,string>();
 const json = (value:string) => JSON.parse(value.startsWith('@') ? readFileSync(resolve(value.slice(1)),'utf8').replace(/^\uFEFF/,'') : value);
@@ -38,7 +39,8 @@ try {
     if(command==='preview'||command==='apply'||command==='repair'||command==='review'||command==='brush')assertReceipt(request,digest);
     const writesMap=command==='apply'||['repair','brush'].includes(command??'')&&flags.get('apply')==='true';
     if(flags.has('out')&&resolve(flags.get('out')!).toLowerCase()===source.toLowerCase()&&!writesMap)throw new Error('Read-only output cannot overwrite source map');
-    if(await runEngineeringCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
+    if(await runElevationSeamCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
+    else if(await runEngineeringCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
     else if(command==='inspect'){output(kernel.inspectArea(request??{center:{x:0,z:0},radius:200}));}
     else if(command==='query'){
       if(request?.kind==='road')output(kernel.getRoad(request.id));else if(request?.kind==='corridor')output(kernel.getCorridor(request.id));else if(request?.kind==='corridors')output(kernel.listCorridors(request.name));else if(request?.kind==='group')output(kernel.getGroup(request.id));else if(request?.kind==='sign')output(kernel.getSign(request.id));else if(request?.kind==='signs')output(kernel.findSigns(request));else if(request?.kind==='intersection')output(kernel.getIntersection(request.id));else if(request?.kind==='connected')output(kernel.getConnectedRoads(request.id));else output(kernel.findRoads(request as RoadQuery));

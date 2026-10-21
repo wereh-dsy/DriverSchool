@@ -12,6 +12,8 @@ export type CityRoadClass = RoadFunction | 'avenue' | 'alley' | 'industrial';
 export type RoadCrossSectionId = 'street' | 'boulevard' | 'shouldered';
 export type CityFacade = 'residential' | 'office' | 'old-town' | 'industrial' | 'campus';
 export interface CityRoad extends CityElementMetadata {
+  /** Reviewed graded bends may use the exact rendered ribbon support triangles. */
+  pavementSurface?: 'ribbon';
   /** Player label override. Empty means unnamed; IDs/name IDs remain logical keys. */
   displayName?: string;
   /** Legacy cross-section discriminator, retained for old maps/editor recipes. */
@@ -42,6 +44,8 @@ export type IntersectionType = 't_2lane' | 't_4lane' | 'cross_4lane' | 'cross_6l
 export type IntersectionPort = 'north' | 'east' | 'south' | 'west' | 'extra' | 'extra2';
 export interface RoadConnection { roadId: string; end: 'start' | 'end'; port: IntersectionPort }
 export interface CityIntersection extends CityElementMetadata {
+  /** Explicit local pavement ownership for a reviewed landing beside graded approaches. */
+  pavementProfile?: 'local-landing';
   id: string; type: IntersectionType; position: CityPoint; rotation: number;
   connections: RoadConnection[]; signalized: boolean;
   signals?: { offsetSeconds?: number; headHeight?: number; profile?: 'standard' | 'lane-countdown';

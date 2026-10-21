@@ -2,6 +2,7 @@ import type { VehicleChassisConfig } from '../config';
 import { WHEEL_IDS } from './WheelContact';
 import type { SuspensionVerticalSnapshot } from './SuspensionSystem';
 import type { WheelPhysicsStateSet } from './WheelPhysicsState';
+import { sprungMass, sprungOffsetZ, UnsprungWheelDynamics } from './UnsprungWheelDynamics';
 
 /** Three sprung-body DOFs. Planar CG translation/yaw stay in VehicleDynamics.
  * y is CG heave relative to its authored height, keeping the flat-rest datum 0.
@@ -27,8 +28,9 @@ export class ChassisDynamics {
   public diagnosticObserver?: (motion: Readonly<ChassisDynamics>, frame: SuspensionVerticalSnapshot,
     constraints: readonly Readonly<{ y: number; p: number; r: number; gap: number; impulse: number }>[]) => void;
   public safetyObserver?: (motion: Readonly<ChassisDynamics>) => void;
-  public get pitchInertia(): number { return this.config.mass * (this.config.length ** 2 + this.config.height ** 2) / 12; }
-  public get rollInertia(): number { return this.config.mass * (this.config.width ** 2 + this.config.height ** 2) / 12; }
+  public get pitchInertia(): number { return sprungMass(this.config) * (this.config.length ** 2 + this.config.height ** 2) / 12; }
+  public get rollInertia(): number { return sprungMass(this.config) * (this.config.width ** 2 + this.config.height ** 2) / 12; }
+  private readonly hubs = new UnsprungWheelDynamics();
   private readonly constraints = WHEEL_IDS.map(() => ({ y: 0, p: 0, r: 0, gap: 0, impulse: 0 }));
   private initialVelocity = 0;
   private initialPitchVelocity = 0;
@@ -58,16 +60,16 @@ export class ChassisDynamics {
     this.acceleration = (this.velocity - this.initialVelocity) / dt;
     this.pitchAngularAcceleration = (this.pitchAngularVelocity - this.initialPitchVelocity) / dt;
     this.rollAngularAcceleration = (this.rollAngularVelocity - this.initialRollVelocity) / dt;
-    this.totalVerticalForce = this.config.mass * this.acceleration;
+    this.totalVerticalForce = sprungMass(this.config) * this.acceleration;
     this.pitchTorque = this.pitchInertia * this.pitchAngularAcceleration;
     this.rollTorque = this.rollInertia * this.rollAngularAcceleration;
   }
 
   public integrate(dt: number, x: number, z: number, yaw: number, frame: SuspensionVerticalSnapshot,
     tyres: WheelPhysicsStateSet, frontAero = 0, rearAero = 0): void {
-    const mass = this.config.mass;
+    const mass = sprungMass(this.config), unsprung = mass !== this.config.mass;
     const sy = Math.sin(yaw), cy = Math.cos(yaw), sp = Math.sin(this.pitch), cp = Math.cos(this.pitch);
-    const cgZ = this.config.wheelBase * (.5 - this.config.frontWeightBias);
+    const cgZ = sprungOffsetZ(this.config);
     const cgX = x + sy * cgZ, cgY = this.y + this.config.centerOfMassHeight, cgWorldZ = z + cy * cgZ;
     const pitchX = cy, pitchZ = -sy, rollX = sy * cp, rollY = -sp, rollZ = cy * cp;
     let forceY = frontAero + rearAero - mass * this.config.gravity, torqueP = 0, torqueR = 0;
@@ -76,9 +78,10 @@ export class ChassisDynamics {
       const n = corner.surfaceNormal, point = corner.surfacePoint, center = corner.wheelCenterWorld;
       // The query point defines a plane; the force acts at the tyre's actual
       // patch, not at an arbitrary/stale point elsewhere on that plane.
-      const rx = center.x - n.x * this.config.wheelRadius - cgX;
-      const ry = center.y - n.y * this.config.wheelRadius - cgY;
-      const rz = center.z - n.z * this.config.wheelRadius - cgWorldZ;
+      const radius = corner.effectiveRadius ?? this.config.wheelRadius;
+      const rx = center.x - n.x * radius - cgX;
+      const ry = center.y - n.y * radius - cgY;
+      const rz = center.z - n.z * radius - cgWorldZ;
       // Contact force directions lie in the sampled tangent plane.
       const angle = tyre.steeringAngle, ca = Math.cos(angle), sa = Math.sin(angle);
       let fx = -sy * ca + cy * sa, fy = 0, fz = -cy * ca - sy * sa;
@@ -89,7 +92,7 @@ export class ChassisDynamics {
       const tx = fy * n.z - fz * n.y, ty = fz * n.x - fx * n.z, tz = fx * n.y - fy * n.x;
       const longitudinal = corner.grounded ? tyre.longitudinalForce + tyre.rollingResistanceForce : 0;
       const lateral = corner.grounded ? tyre.lateralForce : 0;
-      const load = corner.grounded ? corner.normalLoad : 0;
+      const load = !unsprung && corner.grounded ? corner.normalLoad : 0;
       const forceX = n.x * load + fx * longitudinal + tx * lateral;
       const vertical = n.y * load + fy * longitudinal + ty * lateral;
       const forceZ = n.z * load + fz * longitudinal + tz * lateral;
@@ -112,16 +115,20 @@ export class ChassisDynamics {
       constraint.y = corner.supportValid === false ? 0 : n.y;
       constraint.p = jx * pitchX + jz * pitchZ;
       constraint.r = jx * rollX + jy * rollY + jz * rollZ;
+      const stopRadius = unsprung ? corner.freeTyreRadius - this.config.tires.verticalCompliance!.maximumCompression : radius;
       constraint.gap = (stopX - point.x) * n.x + (stopY - point.y) * n.y +
-        (stopZ - point.z) * n.z - this.config.wheelRadius;
+        (stopZ - point.z) * n.z - stopRadius;
       constraint.impulse = 0;
     }
     // Existing separate axle aero enters the same force/moment balance.
     torqueP += (this.config.wheelBase * .5 + cgZ) * frontAero -
       (this.config.wheelBase * .5 - cgZ) * rearAero;
-    this.velocity += forceY / mass * dt;
-    this.pitchAngularVelocity += torqueP / this.pitchInertia * dt;
-    this.rollAngularVelocity += torqueR / this.rollInertia * dt;
+    if (unsprung) this.hubs.advance(dt, x, z, yaw, this.config, frame, this, forceY, torqueP, torqueR);
+    else {
+      this.velocity += forceY / mass * dt;
+      this.pitchAngularVelocity += torqueP / this.pitchInertia * dt;
+      this.rollAngularVelocity += torqueR / this.rollInertia * dt;
+    }
 
     // Inelastic mechanical-stop reactions. One coupled mass/Jacobian solve,
     // rather than lifting the whole mass for whichever wheel overran first.

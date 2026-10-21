@@ -1,0 +1,2248 @@
+[
+  {
+    "id": "cluster:direction-inner-sw-section-section|v8-gongren-street-split-split-split-m91:159.9:11.4",
+    "roadIds": [
+      "direction-inner-sw-section-section",
+      "v8-gongren-street-split-split-split-m91"
+    ],
+    "members": [
+      {
+        "id": "seam:v8-gongren-street-split-split-split-m91|direction-inner-sw-section-section:11.4:159.9",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "direction-inner-sw-section-section",
+          "v8-gongren-street-split-split-split-m91"
+        ],
+        "segmentIds": [
+          "v8-gongren-street-split-split-split-m91:0",
+          "direction-inner-sw-section-section:38",
+          "direction-inner-sw-section-section:37",
+          "direction-inner-sw-section-section:36",
+          "direction-inner-sw-section-section:35",
+          "direction-inner-sw-section-section:34",
+          "direction-inner-sw-section-section:33",
+          "direction-inner-sw-section-section:32",
+          "direction-inner-sw-section-section:31"
+        ],
+        "bbox": {
+          "minX": -996.7897926004048,
+          "maxX": -992.8300133043308,
+          "minZ": 698.192223454136,
+          "maxZ": 732.0490058615584
+        },
+        "location": {
+          "x": -992.8300133043308,
+          "z": 732.0490058615584,
+          "y": 0
+        },
+        "maxHeightDelta": 4.4733737438909,
+        "minHeightDelta": 1.2573549179868004,
+        "normalDot": 0.9948279464240096,
+        "localGrade": [
+          -0.08016004465495813,
+          0
+        ],
+        "gradeDiscontinuity": 0.10210247097568795,
+        "overlapLength": 33.85678240742243,
+        "overlapArea": 95.03824128111592,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "junction:urban-junction-181",
+        "stationRanges": [
+          [
+            159.85729957488854,
+            192.48722517280743
+          ],
+          [
+            11.356850975426255,
+            45.213633382848684
+          ]
+        ],
+        "reasons": [
+          "Connected pavement height mismatch; preserve endpoint constraints"
+        ],
+        "overlappingRoadIds": [
+          "v8-gongren-street-split-split-split-m91",
+          "direction-inner-sw-section-section"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": -996.7897926004048,
+      "maxX": -992.8300133043308,
+      "minZ": 698.192223454136,
+      "maxZ": 732.0490058615584
+    },
+    "location": {
+      "x": -992.8300133043308,
+      "z": 732.0490058615584,
+      "y": 0
+    },
+    "maxHeightDelta": 4.4733737438909,
+    "minHeightDelta": 1.2573549179868004,
+    "normalDot": 0.9948279464240096,
+    "overlapLength": 33.85678240742243,
+    "stationRanges": [
+      [
+        159.85729957488854,
+        192.48722517280743
+      ],
+      [
+        11.356850975426255,
+        45.213633382848684
+      ]
+    ],
+    "topologyRelations": [
+      "junction:urban-junction-181"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "medium",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+    "beforeDelta": 4.4733737438909,
+    "afterDelta": 3.14921882223409,
+    "afterMinimum": 2.220446049250313e-15,
+    "overlapProbeSamples": 166,
+    "supportSweep": {
+      "maxResidual": 0.002744273254736196,
+      "roadSwitches": 16,
+      "samples": 10374,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "direction-inner-sw-section-section",
+          "station": 164.2158564975037,
+          "point": {
+            "x": -992.7824315760193,
+            "z": 727.3774335886123
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "direction-inner-sw-section-section",
+          "station": 173.9380787197247,
+          "point": {
+            "x": -992.787566007661,
+            "z": 717.1957038257036
+          },
+          "height": 0,
+          "surface": "concrete"
+        }
+      ],
+      "worst": {
+        "road": "direction-inner-sw-section-section",
+        "station": 185.13507735266035,
+        "point": {
+          "x": -984.728809337134,
+          "z": 705.1878402361147
+        },
+        "from": {
+          "roadId": "direction-inner-sw-section-section",
+          "segmentId": "direction-inner-sw-section-section:165",
+          "surfaceId": "direction-inner-sw-section-section:165:road"
+        },
+        "to": {
+          "roadId": "direction-inner-sw-section-section",
+          "segmentId": "direction-inner-sw-section-section:166",
+          "surfaceId": "direction-inner-sw-section-section:166:road"
+        },
+        "residual": 0.002744273254736196
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "direction-inner-sw-section-section",
+        "role": "arterial",
+        "structure": {
+          "piersEnabled": true,
+          "pierSpacing": 30,
+          "barrierEnabled": true
+        },
+        "sourceYRange": [
+          -3.9968028886505635e-15,
+          6.398585686120823
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "v8-gongren-street-split-split-split-m91",
+        "role": "arterial",
+        "structure": {
+          "barrierEnabled": false,
+          "barrierOffset": 0,
+          "piersEnabled": true,
+          "pierSpacing": 45
+        },
+        "sourceYRange": [
+          0,
+          0
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true,
+    "beforeSupportSweep": {
+      "maxResidual": 0.4973078648642648,
+      "roadSwitches": 14,
+      "samples": 10372,
+      "offRoad": 4,
+      "offRoadTransitions": 4,
+      "offRoadPoints": [
+        {
+          "road": "direction-inner-sw-section-section",
+          "station": 164.21585649750364,
+          "point": {
+            "x": -992.7824315760193,
+            "z": 727.3774335886121
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "direction-inner-sw-section-section",
+          "station": 173.93807871972464,
+          "point": {
+            "x": -992.7875660076609,
+            "z": 717.1957038257036
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "direction-inner-sw-section-section",
+          "station": 192.7343750160186,
+          "point": {
+            "x": -992.2300501551786,
+            "z": 697.8872095341104
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "direction-inner-sw-section-section",
+          "station": 192.7343750160186,
+          "point": {
+            "x": -990.6304510455933,
+            "z": 697.8513948916567
+          },
+          "height": 0,
+          "surface": "concrete"
+        }
+      ],
+      "worst": {
+        "road": "direction-inner-sw-section-section",
+        "station": 202.26470698228815,
+        "point": {
+          "x": -984.9803636656858,
+          "z": 688.452702186382
+        },
+        "from": {
+          "roadId": "direction-inner-sw-section-section",
+          "segmentId": "direction-inner-sw-section-section:40",
+          "surfaceId": "direction-inner-sw-section-section:40:road"
+        },
+        "to": {
+          "surfaceId": "junction:38:road"
+        },
+        "residual": 0.4973078648642648
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "剩余是名义车道轮迹进入既有 concrete/grass 归属区；当前 asphalt 切换残差低于 2cm。修复涉及铺装边界/横向几何，不能仅靠抬压 Y 保证正确。"
+  },
+  {
+    "id": "cluster:junction:urban-junction-119|v4-west-market-split-split-3-c91:0.0:11.8",
+    "roadIds": [
+      "junction:urban-junction-119",
+      "v4-west-market-split-split-3-c91"
+    ],
+    "members": [
+      {
+        "id": "junction-seam:v4-west-market-split-split-3-c91|urban-junction-119",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "junction:urban-junction-119",
+          "v4-west-market-split-split-3-c91"
+        ],
+        "segmentIds": [
+          "v4-west-market-split-split-3-c91:0"
+        ],
+        "bbox": {
+          "minX": -1582.2642356558988,
+          "maxX": -1575.0664279811651,
+          "minZ": 739.0882978325275,
+          "maxZ": 741.1957998319434
+        },
+        "location": {
+          "x": -1580.824674120952,
+          "z": 740.7742994320603,
+          "y": 1.262668459415598
+        },
+        "maxHeightDelta": 1.262668459415598,
+        "minHeightDelta": 1.262668459415587,
+        "normalDot": 0.9943592005519288,
+        "localGrade": [
+          0,
+          0.1066666666666666
+        ],
+        "gradeDiscontinuity": 0.1066666666666666,
+        "overlapLength": 1.0480505352461478e-13,
+        "overlapArea": 0,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "junction-boundary-connected",
+        "stationRanges": [
+          [
+            0,
+            0
+          ],
+          [
+            11.837516807021133,
+            11.837516807021238
+          ]
+        ],
+        "reasons": [
+          "Physical road-to-junction ownership boundary height mismatch; includes actual outside approach support"
+        ]
+      }
+    ],
+    "bbox": {
+      "minX": -1582.2642356558988,
+      "maxX": -1575.0664279811651,
+      "minZ": 739.0882978325275,
+      "maxZ": 741.1957998319434
+    },
+    "location": {
+      "x": -1580.824674120952,
+      "z": 740.7742994320603,
+      "y": 1.262668459415598
+    },
+    "maxHeightDelta": 1.262668459415598,
+    "minHeightDelta": 1.262668459415587,
+    "normalDot": 0.9943592005519288,
+    "overlapLength": 1.0480505352461478e-13,
+    "stationRanges": [
+      [
+        0,
+        0
+      ],
+      [
+        11.837516807021133,
+        11.837516807021238
+      ]
+    ],
+    "topologyRelations": [
+      "junction-boundary-connected"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "medium",
+    "junctionId": "urban-junction-119",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+    "beforeDelta": 1.262668459415598,
+    "afterDelta": 0.8533333333333396,
+    "afterMinimum": 0.8533333333333333,
+    "overlapProbeSamples": 1,
+    "supportSweep": {
+      "maxResidual": 0.8586666666666752,
+      "roadSwitches": 4,
+      "samples": 1592,
+      "offRoad": 0,
+      "offRoadTransitions": 0,
+      "offRoadPoints": [],
+      "worst": {
+        "road": "v4-west-market-split-split-3-c91",
+        "station": 8.050000000000006,
+        "point": {
+          "x": -1580.7613108177263,
+          "z": 736.8092151132504
+        },
+        "from": {
+          "surfaceId": "junction:16:road"
+        },
+        "to": {
+          "roadId": "v4-west-market-split-split-3-c91",
+          "segmentId": "v4-west-market-split-split-3-c91:8",
+          "surfaceId": "v4-west-market-split-split-3-c91:8:road"
+        },
+        "residual": 0.8586666666666752
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "v4-west-market-split-split-3-c91",
+        "role": "local",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 50
+        },
+        "sourceYRange": [
+          0,
+          6.400000000000005
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true,
+    "beforeSupportSweep": {
+      "maxResidual": 1.2682666666666722,
+      "roadSwitches": 4,
+      "samples": 1592,
+      "offRoad": 0,
+      "offRoadTransitions": 0,
+      "offRoadPoints": [],
+      "worst": {
+        "road": "v4-west-market-split-split-3-c91",
+        "station": 11.89000000000001,
+        "point": {
+          "x": -1579.6822697940254,
+          "z": 740.4944926427141
+        },
+        "from": {
+          "surfaceId": "junction:15:road"
+        },
+        "to": {
+          "roadId": "v4-west-market-split-split-3-c91",
+          "segmentId": "v4-west-market-split-split-3-c91:0",
+          "surfaceId": "v4-west-market-split-split-3-c91:0:road"
+        },
+        "residual": 1.2682666666666722
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "距地面路口约 55.8m 就必须保住跨路约 5.95m 高差；16m 平台方案会把高差降到 4.13m，已撤回。保留桥坡，路口接缝仍需结构方案。"
+  },
+  {
+    "id": "cluster:junction:urban-junction-234|v8-port-works-c91:0.0:12.8",
+    "roadIds": [
+      "junction:urban-junction-234",
+      "v8-port-works-c91"
+    ],
+    "members": [
+      {
+        "id": "junction-seam:v8-port-works-c91|urban-junction-234",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "junction:urban-junction-234",
+          "v8-port-works-c91"
+        ],
+        "segmentIds": [
+          "v8-port-works-c91:0"
+        ],
+        "bbox": {
+          "minX": 784.7300214371389,
+          "maxX": 790.2794961030403,
+          "minZ": 2128.247298480658,
+          "maxZ": 2131.223735980876
+        },
+        "location": {
+          "x": 785.8188654237197,
+          "z": 2131.223735980876,
+          "y": -0.9806424126469768
+        },
+        "maxHeightDelta": 0.9806424126469768,
+        "minHeightDelta": 0.9053126543590231,
+        "normalDot": 0.9975179222617702,
+        "localGrade": [
+          0,
+          -0.07058823529411769
+        ],
+        "gradeDiscontinuity": 0.07058823529411769,
+        "overlapLength": 1.0671715757460092,
+        "overlapArea": 0,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "junction-boundary-connected",
+        "stationRanges": [
+          [
+            0,
+            0
+          ],
+          [
+            12.825262603419489,
+            13.892434179165498
+          ]
+        ],
+        "reasons": [
+          "Physical road-to-junction ownership boundary height mismatch; includes actual outside approach support"
+        ]
+      }
+    ],
+    "bbox": {
+      "minX": 784.7300214371389,
+      "maxX": 790.2794961030403,
+      "minZ": 2128.247298480658,
+      "maxZ": 2131.223735980876
+    },
+    "location": {
+      "x": 785.8188654237197,
+      "z": 2131.223735980876,
+      "y": -0.9806424126469768
+    },
+    "maxHeightDelta": 0.9806424126469768,
+    "minHeightDelta": 0.9053126543590231,
+    "normalDot": 0.9975179222617702,
+    "overlapLength": 1.0671715757460092,
+    "stationRanges": [
+      [
+        0,
+        0
+      ],
+      [
+        12.825262603419489,
+        13.892434179165498
+      ]
+    ],
+    "topologyRelations": [
+      "junction-boundary-connected"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "medium",
+    "junctionId": "urban-junction-234",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+    "beforeDelta": 0.9806424126469768,
+    "afterDelta": 1.071032668730548,
+    "afterMinimum": 1.002551070286954,
+    "overlapProbeSamples": 1,
+    "supportSweep": {
+      "maxResidual": 0.4949953538234657,
+      "roadSwitches": 3,
+      "samples": 1694,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "v8-port-works-c91",
+          "station": 20.529999999999916,
+          "point": {
+            "x": 789.5641507465493,
+            "z": 2136.8634306357317
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "v8-port-works-c91",
+          "station": 14.770000000000012,
+          "point": {
+            "x": 785.9035016142648,
+            "z": 2132.1372008560547
+          },
+          "height": 0,
+          "surface": "concrete"
+        }
+      ],
+      "worst": {
+        "road": "v8-port-works-c91",
+        "station": 7.01243417916587,
+        "point": {
+          "x": 787.4110494877236,
+          "z": 2123.140138731461
+        },
+        "from": {
+          "roadId": "v8-port-works-c91",
+          "segmentId": "v8-port-works-c91:7",
+          "surfaceId": "v8-port-works-c91:7:road"
+        },
+        "to": {
+          "surfaceId": "junction:2:road"
+        },
+        "residual": 0.4949953538234657
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "v8-port-works-c91",
+        "role": "collector",
+        "structure": {
+          "barrierEnabled": true,
+          "barrierOffset": 0,
+          "piersEnabled": false,
+          "pierSpacing": 45,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 5.5
+          }
+        },
+        "sourceYRange": [
+          -6,
+          1.0949227635670411e-13
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true,
+    "beforeSupportSweep": {
+      "maxResidual": 0.49499535382347526,
+      "roadSwitches": 3,
+      "samples": 1694,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "v8-port-works-c91",
+          "station": 20.529999999999916,
+          "point": {
+            "x": 789.5641507465493,
+            "z": 2136.8634306357317
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "v8-port-works-c91",
+          "station": 13.650000000000011,
+          "point": {
+            "x": 785.4796853558419,
+            "z": 2131.100484993778
+          },
+          "height": 0,
+          "surface": "concrete"
+        }
+      ],
+      "worst": {
+        "road": "v8-port-works-c91",
+        "station": 7.01243417916587,
+        "point": {
+          "x": 787.4110494877235,
+          "z": 2123.140138731461
+        },
+        "from": {
+          "roadId": "v8-port-works-c91",
+          "segmentId": "v8-port-works-c91:0",
+          "surfaceId": "v8-port-works-c91:0:road"
+        },
+        "to": {
+          "surfaceId": "junction:2:road"
+        },
+        "residual": 0.49499535382347526
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "入口急角路口、下穿纵坡、原有 6m 跨路高差同时约束；短落地方案在新增入口回放中产生跳动，已撤回该入口方案。保留其旧铺装归属，出口修复独立保留。"
+  },
+  {
+    "id": "cluster:ring-ccw-2-split-split-2|system-east:S-to-E-right:19.3:19.7",
+    "roadIds": [
+      "ring-ccw-2-split-split-2",
+      "system-east:S-to-E-right"
+    ],
+    "members": [
+      {
+        "id": "seam:ring-ccw-2-split-split-2|system-east:S-to-E-right:19.3:19.7",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "ring-ccw-2-split-split-2",
+          "system-east:S-to-E-right"
+        ],
+        "segmentIds": [
+          "ring-ccw-2-split-split-2:1",
+          "system-east:S-to-E-right:5",
+          "ring-ccw-2-split-split-2:2"
+        ],
+        "bbox": {
+          "minX": 2341.4070596487695,
+          "maxX": 2348.1478924860776,
+          "minZ": -10.99871748114548,
+          "maxZ": -6.543672735447839
+        },
+        "location": {
+          "x": 2341.777447213064,
+          "z": -10.99871748114548,
+          "y": 14.4
+        },
+        "maxHeightDelta": 0.30040852609004176,
+        "minHeightDelta": 0,
+        "normalDot": 0.9969829267813846,
+        "localGrade": [
+          0,
+          -0.07785605242930933
+        ],
+        "gradeDiscontinuity": 0.07785605242930933,
+        "overlapLength": 4.455044745697638,
+        "overlapArea": 24.694477911295508,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            19.33678578970222,
+            23.791830535399857
+          ],
+          [
+            19.716319718594285,
+            23.574831892234254
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ring-ccw-2-split-split-2",
+          "system-east:S-to-E-right"
+        ],
+        "layerCount": 1
+      },
+      {
+        "id": "seam:ring-ccw-2-split-split-2|system-east:S-to-E-right:23.2:23.6",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-ccw-2-split-split-2",
+          "system-east:S-to-E-right"
+        ],
+        "segmentIds": [
+          "ring-ccw-2-split-split-2:2",
+          "system-east:S-to-E-right:6",
+          "system-east:S-to-E-right:7",
+          "system-east:S-to-E-right:8",
+          "ring-ccw-2-split-split-2:3",
+          "system-east:S-to-E-right:9",
+          "system-east:S-to-E-right:10",
+          "ring-ccw-2-split-split-2:4",
+          "system-east:S-to-E-right:11"
+        ],
+        "bbox": {
+          "minX": 2342.1092380562595,
+          "maxX": 2350.6190476190477,
+          "minZ": -33.549179186964935,
+          "maxZ": -10.422684404065953
+        },
+        "location": {
+          "x": 2350.6190476190477,
+          "z": -32.460006497050436,
+          "y": 14.4
+        },
+        "maxHeightDelta": 2.062230665810329,
+        "minHeightDelta": 0.30040852609004176,
+        "normalDot": 0.9969395203696266,
+        "localGrade": [
+          0,
+          -0.07841666896835596
+        ],
+        "gradeDiscontinuity": 0.07841666896835596,
+        "overlapLength": 23.12649478289898,
+        "overlapArea": 141.60706849082817,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            23.21579745832033,
+            46.34229224121931
+          ],
+          [
+            23.574831892234254,
+            46.129208892582014
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ring-ccw-2-split-split-2",
+          "system-east:S-to-E-right"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:ring-ccw-2-split-split-2|system-east:S-to-E-right:45.2:46.1",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-ccw-2-split-split-2",
+          "system-east:S-to-E-right"
+        ],
+        "segmentIds": [
+          "ring-ccw-2-split-split-2:4",
+          "system-east:S-to-E-right:12",
+          "system-east:S-to-E-right:13",
+          "ring-ccw-2-split-split-2:5",
+          "system-east:S-to-E-right:14",
+          "system-east:S-to-E-right:15",
+          "system-east:S-to-E-right:16",
+          "ring-ccw-2-split-split-2:6",
+          "system-east:S-to-E-right:17"
+        ],
+        "bbox": {
+          "minX": 2345.6063616531765,
+          "maxX": 2350.6190476190477,
+          "minZ": -51.87997681958819,
+          "maxZ": -32.40913368923434
+        },
+        "location": {
+          "x": 2350.6190476190477,
+          "z": -51.87997681958819,
+          "y": 14.4
+        },
+        "maxHeightDelta": 3.546002093841194,
+        "minHeightDelta": 2.062230665810329,
+        "normalDot": 0.9968321156223667,
+        "localGrade": [
+          0,
+          -0.07978723519548578
+        ],
+        "gradeDiscontinuity": 0.07978723519548578,
+        "overlapLength": 19.470843130353856,
+        "overlapArea": 55.9863973156389,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            45.202246743488715,
+            64.67308987384257
+          ],
+          [
+            46.129208892582014,
+            64.89871831504244
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "ring-ccw-2-split-split-2",
+          "system-east:S-to-E-right"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": 2341.4070596487695,
+      "maxX": 2350.6190476190477,
+      "minZ": -51.87997681958819,
+      "maxZ": -6.543672735447839
+    },
+    "location": {
+      "x": 2350.6190476190477,
+      "z": -51.87997681958819,
+      "y": 14.4
+    },
+    "maxHeightDelta": 3.546002093841194,
+    "minHeightDelta": 0,
+    "normalDot": 0.9968321156223667,
+    "overlapLength": 45.33630408414035,
+    "stationRanges": [
+      [
+        19.33678578970222,
+        64.67308987384257
+      ],
+      [
+        19.716319718594285,
+        64.89871831504244
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+    "beforeDelta": 3.546002093841194,
+    "afterDelta": 3.5259678738552918,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 68,
+    "supportSweep": {
+      "maxResidual": 0.001387184758854687,
+      "roadSwitches": 0,
+      "samples": 3824,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "system-east:S-to-E-right",
+          "station": 59.737499999999514,
+          "point": {
+            "x": 2350.6445229196706,
+            "z": -46.40026944268557
+          },
+          "height": 0,
+          "surface": "grass"
+        },
+        {
+          "road": "system-east:S-to-E-right",
+          "station": 53.90416666666631,
+          "point": {
+            "x": 2350.6217551179325,
+            "z": -40.35077412999474
+          },
+          "height": 0,
+          "surface": "grass"
+        }
+      ],
+      "worst": {
+        "road": "system-east:S-to-E-right",
+        "station": 78.17500000000007,
+        "point": {
+          "x": 2358.2739686475843,
+          "z": -63.24518685159468
+        },
+        "from": {
+          "roadId": "system-east:S-to-E-right",
+          "segmentId": "system-east:S-to-E-right:20",
+          "surfaceId": "system-east:S-to-E-right:20:road"
+        },
+        "to": {
+          "roadId": "system-east:S-to-E-right",
+          "segmentId": "system-east:S-to-E-right:21",
+          "surfaceId": "system-east:S-to-E-right:21:road"
+        },
+        "residual": 0.001387184758854687
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "ring-ccw-2-split-split-2",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "section": "vertical-transition",
+        "sourceYRange": [
+          14.4,
+          14.4
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-east:S-to-E-right",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25
+        },
+        "sourceYRange": [
+          8,
+          14.4
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": false,
+    "beforeSupportSweep": {
+      "maxResidual": 0.001387184758854687,
+      "roadSwitches": 0,
+      "samples": 3824,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "system-east:S-to-E-right",
+          "station": 59.737499999999514,
+          "point": {
+            "x": 2350.6445229196706,
+            "z": -46.40026944268557
+          },
+          "height": 0,
+          "surface": "grass"
+        },
+        {
+          "road": "system-east:S-to-E-right",
+          "station": 53.90416666666631,
+          "point": {
+            "x": 2350.6217551179325,
+            "z": -40.35077412999474
+          },
+          "height": 0,
+          "surface": "grass"
+        }
+      ],
+      "worst": {
+        "road": "system-east:S-to-E-right",
+        "station": 78.17500000000007,
+        "point": {
+          "x": 2358.2739686475843,
+          "z": -63.24518685159468
+        },
+        "from": {
+          "roadId": "system-east:S-to-E-right",
+          "segmentId": "system-east:S-to-E-right:20",
+          "surfaceId": "system-east:S-to-E-right:20:road"
+        },
+        "to": {
+          "roadId": "system-east:S-to-E-right",
+          "segmentId": "system-east:S-to-E-right:21",
+          "surfaceId": "system-east:S-to-E-right:21:road"
+        },
+        "residual": 0.001387184758854687
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "剩余是名义车道轮迹进入既有 concrete/grass 归属区；当前 asphalt 切换残差低于 2cm。修复涉及铺装边界/横向几何，不能仅靠抬压 Y 保证正确。"
+  },
+  {
+    "id": "cluster:ring-cw-1-split-split-2|system-east:N-to-W-right:19.3:19.7",
+    "roadIds": [
+      "ring-cw-1-split-split-2",
+      "system-east:N-to-W-right"
+    ],
+    "members": [
+      {
+        "id": "seam:ring-cw-1-split-split-2|system-east:N-to-W-right:19.3:19.7",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "ring-cw-1-split-split-2",
+          "system-east:N-to-W-right"
+        ],
+        "segmentIds": [
+          "ring-cw-1-split-split-2:1",
+          "system-east:N-to-W-right:5",
+          "ring-cw-1-split-split-2:2"
+        ],
+        "bbox": {
+          "minX": 2325.180331724579,
+          "maxX": 2331.921279346774,
+          "minZ": -294.41671725966023,
+          "maxZ": -289.9878741669459
+        },
+        "location": {
+          "x": 2331.5501524119436,
+          "z": -289.9878741669459,
+          "y": 14.4
+        },
+        "maxHeightDelta": 0.30040852609004,
+        "minHeightDelta": 0,
+        "normalDot": 0.9969318157902951,
+        "localGrade": [
+          0,
+          -0.07851576694973167
+        ],
+        "gradeDiscontinuity": 0.07851576694973167,
+        "overlapLength": 4.428843092714317,
+        "overlapArea": 24.486987030366436,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            19.281751717328973,
+            23.71059481004329
+          ],
+          [
+            19.665222386146436,
+            23.491314109639006
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ring-cw-1-split-split-2",
+          "system-east:N-to-W-right"
+        ],
+        "layerCount": 1
+      },
+      {
+        "id": "seam:ring-cw-1-split-split-2|system-east:N-to-W-right:23.1:23.5",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-cw-1-split-split-2",
+          "system-east:N-to-W-right"
+        ],
+        "segmentIds": [
+          "ring-cw-1-split-split-2:2",
+          "system-east:N-to-W-right:6",
+          "system-east:N-to-W-right:7",
+          "system-east:N-to-W-right:8",
+          "ring-cw-1-split-split-2:3",
+          "system-east:N-to-W-right:9",
+          "system-east:N-to-W-right:10",
+          "ring-cw-1-split-split-2:4",
+          "system-east:N-to-W-right:11"
+        ],
+        "bbox": {
+          "minX": 2322.710995224792,
+          "maxX": 2330.998582232963,
+          "minZ": -290.57050703022554,
+          "maxZ": -267.72159628729605
+        },
+        "location": {
+          "x": 2327.922159504525,
+          "z": -267.72159628729605,
+          "y": 14.4
+        },
+        "maxHeightDelta": 2.0622306658103273,
+        "minHeightDelta": 0.30040852609004,
+        "normalDot": 0.9968465277373723,
+        "localGrade": [
+          0,
+          -0.07960467084863544
+        ],
+        "gradeDiscontinuity": 0.07960467084863544,
+        "overlapLength": 22.84891074292949,
+        "overlapArea": 139.76938841067022,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            23.127961946763662,
+            45.97687268969315
+          ],
+          [
+            23.491314109639006,
+            45.759630068341366
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "ring-cw-1-split-split-2",
+          "system-east:N-to-W-right"
+        ],
+        "layerCount": 2
+      },
+      {
+        "id": "seam:ring-cw-1-split-split-2|system-east:N-to-W-right:44.8:45.8",
+        "category": "IGNORE_GRADE_SEPARATED",
+        "roadIds": [
+          "ring-cw-1-split-split-2",
+          "system-east:N-to-W-right"
+        ],
+        "segmentIds": [
+          "ring-cw-1-split-split-2:4",
+          "system-east:N-to-W-right:12",
+          "system-east:N-to-W-right:13",
+          "ring-cw-1-split-split-2:5",
+          "system-east:N-to-W-right:14",
+          "system-east:N-to-W-right:15",
+          "system-east:N-to-W-right:16",
+          "ring-cw-1-split-split-2:6",
+          "system-east:N-to-W-right:17"
+        ],
+        "bbox": {
+          "minX": 2322.710995224792,
+          "maxX": 2327.706356956197,
+          "minZ": -268.8818396910837,
+          "maxZ": -249.76962530516772
+        },
+        "location": {
+          "x": 2322.710995224792,
+          "z": -249.76962530516772,
+          "y": 14.4
+        },
+        "maxHeightDelta": 3.5391048574327773,
+        "minHeightDelta": 2.0622306658103273,
+        "normalDot": 0.9967327051949374,
+        "localGrade": [
+          0,
+          -0.08103551903024533
+        ],
+        "gradeDiscontinuity": 0.08103551903024533,
+        "overlapLength": 19.11221438591599,
+        "overlapArea": 54.55028597044293,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            44.81662928590549,
+            63.92884367182148
+          ],
+          [
+            45.759630068341366,
+            64.14879660092187
+          ]
+        ],
+        "reasons": [
+          "Stable separated profiles, explicit structure, and no local connection"
+        ],
+        "overlappingRoadIds": [
+          "ring-cw-1-split-split-2",
+          "system-east:N-to-W-right"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": 2322.710995224792,
+      "maxX": 2331.921279346774,
+      "minZ": -294.41671725966023,
+      "maxZ": -249.76962530516772
+    },
+    "location": {
+      "x": 2322.710995224792,
+      "z": -249.76962530516772,
+      "y": 14.4
+    },
+    "maxHeightDelta": 3.5391048574327773,
+    "minHeightDelta": 0,
+    "normalDot": 0.9967327051949374,
+    "overlapLength": 44.64709195449251,
+    "stationRanges": [
+      [
+        19.281751717328973,
+        63.92884367182148
+      ],
+      [
+        19.665222386146436,
+        64.14879660092187
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+    "beforeDelta": 3.5391048574327773,
+    "afterDelta": 3.521369716249689,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 69,
+    "supportSweep": {
+      "maxResidual": 0.0015035453165417323,
+      "roadSwitches": 0,
+      "samples": 3792,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "system-east:N-to-W-right",
+          "station": 59.008333333332864,
+          "point": {
+            "x": 2322.6921429035956,
+            "z": -255.24189608265675
+          },
+          "height": 0,
+          "surface": "grass"
+        },
+        {
+          "road": "system-east:N-to-W-right",
+          "station": 53.38333333333299,
+          "point": {
+            "x": 2322.6946135467306,
+            "z": -261.0913116926587
+          },
+          "height": 0,
+          "surface": "grass"
+        }
+      ],
+      "worst": {
+        "road": "system-east:N-to-W-right",
+        "station": 84.00833333333367,
+        "point": {
+          "x": 2312.2089534348256,
+          "z": -232.5273711414724
+        },
+        "from": {
+          "roadId": "system-east:N-to-W-right",
+          "segmentId": "system-east:N-to-W-right:22",
+          "surfaceId": "system-east:N-to-W-right:22:road"
+        },
+        "to": {
+          "roadId": "system-east:N-to-W-right",
+          "segmentId": "system-east:N-to-W-right:23",
+          "surfaceId": "system-east:N-to-W-right:23:road"
+        },
+        "residual": 0.0015035453165417323
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "ring-cw-1-split-split-2",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "section": "vertical-transition",
+        "sourceYRange": [
+          14.4,
+          14.4
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-east:N-to-W-right",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25
+        },
+        "sourceYRange": [
+          8,
+          14.4
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": false,
+    "beforeSupportSweep": {
+      "maxResidual": 0.0015035453165417323,
+      "roadSwitches": 0,
+      "samples": 3792,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "system-east:N-to-W-right",
+          "station": 59.008333333332864,
+          "point": {
+            "x": 2322.6921429035956,
+            "z": -255.24189608265675
+          },
+          "height": 0,
+          "surface": "grass"
+        },
+        {
+          "road": "system-east:N-to-W-right",
+          "station": 53.38333333333299,
+          "point": {
+            "x": 2322.6946135467306,
+            "z": -261.0913116926587
+          },
+          "height": 0,
+          "surface": "grass"
+        }
+      ],
+      "worst": {
+        "road": "system-east:N-to-W-right",
+        "station": 84.00833333333367,
+        "point": {
+          "x": 2312.2089534348256,
+          "z": -232.5273711414724
+        },
+        "from": {
+          "roadId": "system-east:N-to-W-right",
+          "segmentId": "system-east:N-to-W-right:22",
+          "surfaceId": "system-east:N-to-W-right:22:road"
+        },
+        "to": {
+          "roadId": "system-east:N-to-W-right",
+          "segmentId": "system-east:N-to-W-right:23",
+          "surfaceId": "system-east:N-to-W-right:23:road"
+        },
+        "residual": 0.0015035453165417323
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "剩余是名义车道轮迹进入既有 concrete/grass 归属区；当前 asphalt 切换残差低于 2cm。修复涉及铺装边界/横向几何，不能仅靠抬压 Y 保证正确。"
+  },
+  {
+    "id": "cluster:ring-cw-2-split-split|system-south:E-to-S-loop:17.8:19.5",
+    "roadIds": [
+      "ring-cw-2-split-split",
+      "system-south:E-to-S-loop"
+    ],
+    "members": [
+      {
+        "id": "seam:system-south:E-to-S-loop|ring-cw-2-split-split:19.5:17.8",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "ring-cw-2-split-split",
+          "system-south:E-to-S-loop"
+        ],
+        "segmentIds": [
+          "system-south:E-to-S-loop:10",
+          "ring-cw-2-split-split:1",
+          "ring-cw-2-split-split:2",
+          "system-south:E-to-S-loop:11",
+          "system-south:E-to-S-loop:12",
+          "system-south:E-to-S-loop:13",
+          "system-south:E-to-S-loop:14",
+          "system-south:E-to-S-loop:15"
+        ],
+        "bbox": {
+          "minX": -75.08163964662907,
+          "maxX": -63.958951793642264,
+          "minZ": 2110.525988321155,
+          "maxZ": 2116.443546907087
+        },
+        "location": {
+          "x": -75.08163964662907,
+          "z": 2110.525988321155,
+          "y": -1.205441595176925
+        },
+        "maxHeightDelta": 1.205441595176925,
+        "minHeightDelta": 0,
+        "normalDot": 0.9929354482706831,
+        "localGrade": [
+          0,
+          -0.11950000000000009
+        ],
+        "gradeDiscontinuity": 0.1195000000000001,
+        "overlapLength": 11.122687852986807,
+        "overlapArea": 39.44766841382079,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "unlinked-overlap",
+        "stationRanges": [
+          [
+            17.83395179364227,
+            28.95663964662908
+          ],
+          [
+            19.546145577136688,
+            29.633522942633967
+          ]
+        ],
+        "reasons": [
+          "Shared pavement has no direct topology; reference profile requires review"
+        ],
+        "overlappingRoadIds": [
+          "system-south:E-to-S-loop",
+          "ring-cw-2-split-split"
+        ],
+        "layerCount": 1
+      }
+    ],
+    "bbox": {
+      "minX": -75.08163964662907,
+      "maxX": -63.958951793642264,
+      "minZ": 2110.525988321155,
+      "maxZ": 2116.443546907087
+    },
+    "location": {
+      "x": -75.08163964662907,
+      "z": 2110.525988321155,
+      "y": -1.205441595176925
+    },
+    "maxHeightDelta": 1.205441595176925,
+    "minHeightDelta": 0,
+    "normalDot": 0.9929354482706831,
+    "overlapLength": 11.122687852986807,
+    "stationRanges": [
+      [
+        17.83395179364227,
+        28.95663964662908
+      ],
+      [
+        19.546145577136688,
+        29.633522942633967
+      ]
+    ],
+    "topologyRelations": [
+      "unlinked-overlap"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+    "beforeDelta": 1.205441595176925,
+    "afterDelta": 1.174457282400728,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 41,
+    "supportSweep": {
+      "maxResidual": 0.22970196825129172,
+      "roadSwitches": 3,
+      "samples": 2498,
+      "offRoad": 0,
+      "offRoadTransitions": 0,
+      "offRoadPoints": [],
+      "worst": {
+        "road": "ring-cw-2-split-split",
+        "station": 21.577777777777754,
+        "point": {
+          "x": -67.70277777777775,
+          "z": 2114.9509883211554
+        },
+        "from": {
+          "roadId": "system-south:E-to-S-loop",
+          "segmentId": "system-south:E-to-S-loop:10",
+          "surfaceId": "system-south:E-to-S-loop:10:road"
+        },
+        "to": {
+          "roadId": "ring-cw-2-split-split",
+          "segmentId": "ring-cw-2-split-split:2",
+          "surfaceId": "ring-cw-2-split-split:2:road"
+        },
+        "residual": 0.22970196825129172
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "ring-cw-2-split-split",
+        "role": "expressway",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 60,
+          "barrierOffset": 0,
+          "barrierStyle": "metal",
+          "medianBarrierStyle": "concrete"
+        },
+        "sourceYRange": [
+          0,
+          0
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "system-south:E-to-S-loop",
+        "role": "ramp",
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": true,
+          "pierSpacing": 45,
+          "barrierOffset": 0.25,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 6
+          }
+        },
+        "sourceYRange": [
+          -7.992520903576106,
+          0
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": false,
+    "beforeSupportSweep": {
+      "maxResidual": 0.22970196825129172,
+      "roadSwitches": 3,
+      "samples": 2498,
+      "offRoad": 0,
+      "offRoadTransitions": 0,
+      "offRoadPoints": [],
+      "worst": {
+        "road": "ring-cw-2-split-split",
+        "station": 21.577777777777754,
+        "point": {
+          "x": -67.70277777777775,
+          "z": 2114.9509883211554
+        },
+        "from": {
+          "roadId": "system-south:E-to-S-loop",
+          "segmentId": "system-south:E-to-S-loop:10",
+          "surfaceId": "system-south:E-to-S-loop:10:road"
+        },
+        "to": {
+          "roadId": "ring-cw-2-split-split",
+          "segmentId": "ring-cw-2-split-split:2",
+          "surfaceId": "ring-cw-2-split-split:2:road"
+        },
+        "residual": 0.22970196825129172
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "既有环线/南互通连接处仍有约 23cm 支撑残差；候选拟合把残差增至约 41cm，已恢复原纵断面。"
+  },
+  {
+    "id": "cluster:v4-access-5|v4-access-5:10.9:12.4",
+    "roadIds": [
+      "v4-access-5",
+      "v4-access-5"
+    ],
+    "members": [
+      {
+        "id": "seam:v4-access-5|v4-access-5:10.9:12.4",
+        "category": "LIKELY_FIX",
+        "roadIds": [
+          "v4-access-5",
+          "v4-access-5"
+        ],
+        "segmentIds": [
+          "v4-access-5:1",
+          "v4-access-5:2",
+          "v4-access-5:3"
+        ],
+        "bbox": {
+          "minX": 875.2735708324052,
+          "maxX": 884.6578969318949,
+          "minZ": 2494.327968362769,
+          "maxZ": 2504.595805943155
+        },
+        "location": {
+          "x": 884.6578969318949,
+          "z": 2502.7821628516745,
+          "y": 0.685776718466909
+        },
+        "maxHeightDelta": 0.2771296548175206,
+        "minHeightDelta": 0,
+        "normalDot": 0.9989881607005435,
+        "localGrade": [
+          0.061329362786389174,
+          0.09486117398544637
+        ],
+        "gradeDiscontinuity": 0.03772953622536032,
+        "overlapLength": 11.63420134149607,
+        "overlapArea": 17.260720565915108,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "same-road-adjacent",
+        "stationRanges": [
+          [
+            10.888842039228695,
+            21.14620544202638
+          ],
+          [
+            12.433427515130212,
+            24.067628856626282
+          ]
+        ],
+        "reasons": [
+          "Connected pavement height mismatch; preserve endpoint constraints"
+        ],
+        "overlappingRoadIds": [
+          "v4-access-5"
+        ],
+        "layerCount": 1
+      },
+      {
+        "id": "seam:v4-access-5|v4-access-5:33.8:36.2",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "v4-access-5",
+          "v4-access-5"
+        ],
+        "segmentIds": [
+          "v4-access-5:3",
+          "v4-access-5:4"
+        ],
+        "bbox": {
+          "minX": 886.4410082985139,
+          "maxX": 892.4371685802042,
+          "minZ": 2511.0307365777016,
+          "maxZ": 2516.6550626760245
+        },
+        "location": {
+          "x": 892.4371685802042,
+          "z": 2512.1499475968862,
+          "y": 2.116636465368229
+        },
+        "maxHeightDelta": 0.2851193122293578,
+        "minHeightDelta": 0,
+        "normalDot": 0.9992838855691898,
+        "localGrade": [
+          0.09486117398544637,
+          0.10118897541504641
+        ],
+        "gradeDiscontinuity": 0.006327801429600044,
+        "overlapLength": 2.8176914635204398,
+        "overlapArea": 10.968079026555642,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "same-road-adjacent",
+        "stationRanges": [
+          [
+            33.764449202602314,
+            36.22992923318294
+          ],
+          [
+            36.22992923318294,
+            39.04762069670338
+          ]
+        ],
+        "reasons": [
+          "Connected pavement height mismatch; preserve endpoint constraints",
+          "Multiple roads or vertical layers at the worst overlap; reference is ambiguous"
+        ],
+        "overlappingRoadIds": [
+          "v4-access-5",
+          "v91-ring-south-outer-off"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": 875.2735708324052,
+      "maxX": 892.4371685802042,
+      "minZ": 2494.327968362769,
+      "maxZ": 2516.6550626760245
+    },
+    "location": {
+      "x": 892.4371685802042,
+      "z": 2512.1499475968862,
+      "y": 2.116636465368229
+    },
+    "maxHeightDelta": 0.2851193122293578,
+    "minHeightDelta": 0,
+    "normalDot": 0.9989881607005435,
+    "overlapLength": 26.61419318157317,
+    "stationRanges": [
+      [
+        10.888842039228695,
+        36.22992923318294
+      ],
+      [
+        12.433427515130212,
+        39.04762069670338
+      ]
+    ],
+    "topologyRelations": [
+      "same-road-adjacent"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "high",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Lane sampler finds a real same-road support discontinuity on a graded bend; Y-only flattening has not been proved compatible with the surrounding profile.",
+    "beforeDelta": 0.2851193122293578,
+    "afterDelta": 0.18891561889361108,
+    "afterMinimum": 0,
+    "overlapProbeSamples": 697,
+    "supportSweep": {
+      "maxResidual": 0.20121819048133796,
+      "roadSwitches": 0,
+      "samples": 8160,
+      "offRoad": 0,
+      "offRoadTransitions": 0,
+      "offRoadPoints": [],
+      "worst": {
+        "road": "v4-access-5",
+        "station": 36.130954030036435,
+        "point": {
+          "x": 891.5182663158079,
+          "z": 2512.716551267299
+        },
+        "from": {
+          "roadId": "v4-access-5",
+          "segmentId": "v4-access-5:62",
+          "surfaceId": "v4-access-5:62:road"
+        },
+        "to": {
+          "roadId": "v4-access-5",
+          "segmentId": "v4-access-5:74",
+          "surfaceId": "v4-access-5:74:road"
+        },
+        "residual": 0.20121819048133796
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "v4-access-5",
+        "role": "arterial",
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": true,
+          "pierSpacing": 50
+        },
+        "sourceYRange": [
+          -0.024000000000000243,
+          7.183908984078269
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "v4-access-5",
+        "role": "arterial",
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": true,
+          "pierSpacing": 50
+        },
+        "sourceYRange": [
+          -0.024000000000000243,
+          7.183908984078269
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true,
+    "beforeSupportSweep": {
+      "maxResidual": 0.2471219262384261,
+      "roadSwitches": 0,
+      "samples": 8160,
+      "offRoad": 0,
+      "offRoadTransitions": 0,
+      "offRoadPoints": [],
+      "worst": {
+        "road": "v4-access-5",
+        "station": 33.58465773374048,
+        "point": {
+          "x": 889.9887519370882,
+          "z": 2510.6808178383303
+        },
+        "from": {
+          "roadId": "v4-access-5",
+          "segmentId": "v4-access-5:4",
+          "surfaceId": "v4-access-5:4:road"
+        },
+        "to": {
+          "roadId": "v4-access-5",
+          "segmentId": "v4-access-5:3",
+          "surfaceId": "v4-access-5:3:road"
+        },
+        "residual": 0.2471219262384261
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "纵坡弯道自身铺装重叠，局部平台和共享 ribbon 后仍约 20cm 支撑残差；继续压平会影响桥段及过渡纵坡，保留待定。"
+  },
+  {
+    "id": "cluster:v4-industrial-split-2-split-split-c91|v8-port-south-split-split-2-m91:19.2:18.8",
+    "roadIds": [
+      "v4-industrial-split-2-split-split-c91",
+      "v8-port-south-split-split-2-m91"
+    ],
+    "members": [
+      {
+        "id": "seam:v8-port-south-split-split-2-m91|v4-industrial-split-2-split-split-c91:18.8:19.2",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "v4-industrial-split-2-split-split-c91",
+          "v8-port-south-split-split-2-m91"
+        ],
+        "segmentIds": [
+          "v8-port-south-split-split-2-m91:0",
+          "v4-industrial-split-2-split-split-c91:0"
+        ],
+        "bbox": {
+          "minX": 1235.331092667754,
+          "maxX": 1240.963679549543,
+          "minZ": 2831.9483149388257,
+          "maxZ": 2834.233589495153
+        },
+        "location": {
+          "x": 1240.963679549543,
+          "z": 2833.8522879692896,
+          "y": 0
+        },
+        "maxHeightDelta": 1.4075187980677124,
+        "minHeightDelta": 1.088747688416425,
+        "normalDot": 0.9983905242571212,
+        "localGrade": [
+          0.0568043962444535,
+          0
+        ],
+        "gradeDiscontinuity": 0.0568043962444535,
+        "overlapLength": 5.945683163576312,
+        "overlapArea": 112.6116579293739,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "junction:urban-junction-228",
+        "stationRanges": [
+          [
+            19.166609635829595,
+            24.778342718591006
+          ],
+          [
+            18.827996684658967,
+            24.77367984823528
+          ]
+        ],
+        "reasons": [
+          "Connected pavement height mismatch; preserve endpoint constraints"
+        ],
+        "overlappingRoadIds": [
+          "v8-port-south-split-split-2-m91",
+          "v4-industrial-split-2-split-split-c91"
+        ],
+        "layerCount": 1
+      }
+    ],
+    "bbox": {
+      "minX": 1235.331092667754,
+      "maxX": 1240.963679549543,
+      "minZ": 2831.9483149388257,
+      "maxZ": 2834.233589495153
+    },
+    "location": {
+      "x": 1240.963679549543,
+      "z": 2833.8522879692896,
+      "y": 0
+    },
+    "maxHeightDelta": 1.4075187980677124,
+    "minHeightDelta": 1.088747688416425,
+    "normalDot": 0.9983905242571212,
+    "overlapLength": 5.945683163576312,
+    "stationRanges": [
+      [
+        19.166609635829595,
+        24.778342718591006
+      ],
+      [
+        18.827996684658967,
+        24.77367984823528
+      ]
+    ],
+    "topologyRelations": [
+      "junction:urban-junction-228"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "medium",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+    "beforeDelta": 1.4075187980677124,
+    "afterDelta": 0.40056167903402795,
+    "afterMinimum": 0.049036575931497434,
+    "overlapProbeSamples": 20,
+    "supportSweep": {
+      "maxResidual": 0.012043530178831072,
+      "roadSwitches": 18,
+      "samples": 6535,
+      "offRoad": 1,
+      "offRoadTransitions": 1,
+      "offRoadPoints": [
+        {
+          "road": "v4-industrial-split-2-split-split-c91",
+          "station": 22.73518518518515,
+          "point": {
+            "x": 1238.9125813210655,
+            "z": 2833.1267894852867
+          },
+          "height": 0,
+          "surface": "concrete"
+        }
+      ],
+      "worst": {
+        "road": "v4-industrial-split-2-split-split-c91",
+        "station": 18.10555555555553,
+        "point": {
+          "x": 1234.265971372105,
+          "z": 2831.576793843425
+        },
+        "from": {
+          "roadId": "v8-port-south-split-split-2-m91",
+          "segmentId": "v8-port-south-split-split-2-m91:0",
+          "surfaceId": "v8-port-south-split-split-2-m91:0:road"
+        },
+        "to": {
+          "roadId": "v4-industrial-split-2-split-split-c91",
+          "segmentId": "v4-industrial-split-2-split-split-c91:18",
+          "surfaceId": "v4-industrial-split-2-split-split-c91:18:road"
+        },
+        "residual": 0.012043530178831072
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "v4-industrial-split-2-split-split-c91",
+        "role": "arterial",
+        "structure": {
+          "barrierEnabled": true,
+          "piersEnabled": true,
+          "pierSpacing": 30,
+          "barrierOffset": 0
+        },
+        "sourceYRange": [
+          -1.1102230246251565e-16,
+          3.5776591679133363
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "v8-port-south-split-split-2-m91",
+        "role": "arterial",
+        "structure": {
+          "barrierEnabled": false,
+          "barrierOffset": 0,
+          "piersEnabled": true,
+          "pierSpacing": 45
+        },
+        "sourceYRange": [
+          0,
+          0
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true,
+    "beforeSupportSweep": {
+      "maxResidual": 1.0481989006997297,
+      "roadSwitches": 14,
+      "samples": 6533,
+      "offRoad": 3,
+      "offRoadTransitions": 3,
+      "offRoadPoints": [
+        {
+          "road": "v4-industrial-split-2-split-split-c91",
+          "station": 18.56851851851849,
+          "point": {
+            "x": 1234.7057285878616,
+            "z": 2829.42192765355
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "v4-industrial-split-2-split-split-c91",
+          "station": 18.799999999999972,
+          "point": {
+            "x": 1234.9603754588247,
+            "z": 2831.569307137335
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "v4-industrial-split-2-split-split-c91",
+          "station": 22.73518518518515,
+          "point": {
+            "x": 1238.912581321064,
+            "z": 2833.1267894852867
+          },
+          "height": 0,
+          "surface": "concrete"
+        }
+      ],
+      "worst": {
+        "road": "v4-industrial-split-2-split-split-c91",
+        "station": 18.45277777777775,
+        "point": {
+          "x": 1234.5727452025753,
+          "z": 2827.823268422099
+        },
+        "from": {
+          "surfaceId": "junction:25:road"
+        },
+        "to": {
+          "roadId": "v4-industrial-split-2-split-split-c91",
+          "segmentId": "v4-industrial-split-2-split-split-c91:0",
+          "surfaceId": "v4-industrial-split-2-split-split-c91:0:road"
+        },
+        "residual": 1.0481989006997297
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "剩余是名义车道轮迹进入既有 concrete/grass 归属区；当前 asphalt 切换残差低于 2cm。修复涉及铺装边界/横向几何，不能仅靠抬压 Y 保证正确。"
+  },
+  {
+    "id": "cluster:v6-logistics-one-split-3-split-2-m91|v8-port-works-c91:13.8:13.7",
+    "roadIds": [
+      "v6-logistics-one-split-3-split-2-m91",
+      "v8-port-works-c91"
+    ],
+    "members": [
+      {
+        "id": "seam:v6-logistics-one-split-3-split-2-m91|v8-port-works-c91:13.8:13.7",
+        "category": "MANUAL_REVIEW",
+        "roadIds": [
+          "v6-logistics-one-split-3-split-2-m91",
+          "v8-port-works-c91"
+        ],
+        "segmentIds": [
+          "v6-logistics-one-split-3-split-2-m91:0",
+          "v8-port-works-c91:0"
+        ],
+        "bbox": {
+          "minX": 790.6862631806821,
+          "maxX": 799.2098318055854,
+          "minZ": 2129.0376613917233,
+          "maxZ": 2149.887542964284
+        },
+        "location": {
+          "x": 799.2098318055854,
+          "z": 2149.887542964284,
+          "y": 0
+        },
+        "maxHeightDelta": 2.5578088424033645,
+        "minHeightDelta": 0.9678195619904697,
+        "normalDot": 0.9975179222617702,
+        "localGrade": [
+          0,
+          -0.07058823529411769
+        ],
+        "gradeDiscontinuity": 0.07058823529411769,
+        "overlapLength": 22.524848139182666,
+        "overlapArea": 153.89526631461922,
+        "footprintOverlap": true,
+        "horizontalGap": 0,
+        "topologyRelation": "junction:urban-junction-234",
+        "stationRanges": [
+          [
+            13.777330584256335,
+            35.851641203111214
+          ],
+          [
+            13.710777128198314,
+            36.23562526738098
+          ]
+        ],
+        "reasons": [
+          "Connected pavement height mismatch; preserve endpoint constraints"
+        ],
+        "overlappingRoadIds": [
+          "v6-logistics-one-split-3-split-2-m91",
+          "v8-port-works-c91"
+        ],
+        "layerCount": 2
+      }
+    ],
+    "bbox": {
+      "minX": 790.6862631806821,
+      "maxX": 799.2098318055854,
+      "minZ": 2129.0376613917233,
+      "maxZ": 2149.887542964284
+    },
+    "location": {
+      "x": 799.2098318055854,
+      "z": 2149.887542964284,
+      "y": 0
+    },
+    "maxHeightDelta": 2.5578088424033645,
+    "minHeightDelta": 0.9678195619904697,
+    "normalDot": 0.9975179222617702,
+    "overlapLength": 22.524848139182666,
+    "stationRanges": [
+      [
+        13.777330584256335,
+        35.851641203111214
+      ],
+      [
+        13.710777128198314,
+        36.23562526738098
+      ]
+    ],
+    "topologyRelations": [
+      "junction:urban-junction-234"
+    ],
+    "footprintOverlap": true,
+    "supportSwitchPossible": true,
+    "risk": "medium",
+    "conclusion": "DEFER_UNCERTAIN",
+    "reason": "Runtime lane sampler still finds >=2cm support switching. Local Y fits were reviewed against grade, endpoint and crossing constraints; retained for explicit unresolved review.",
+    "beforeDelta": 2.5578088424033645,
+    "afterDelta": 2.541176470588236,
+    "afterMinimum": 1.058823529411754,
+    "overlapProbeSamples": 58,
+    "supportSweep": {
+      "maxResidual": 0.49663237181516806,
+      "roadSwitches": 11,
+      "samples": 6674,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "v8-port-works-c91",
+          "station": 20.529999999999916,
+          "point": {
+            "x": 789.5641507465493,
+            "z": 2136.8634306357317
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "v8-port-works-c91",
+          "station": 14.770000000000012,
+          "point": {
+            "x": 785.9035016142648,
+            "z": 2132.1372008560547
+          },
+          "height": 0,
+          "surface": "concrete"
+        }
+      ],
+      "worst": {
+        "road": "v8-port-works-c91",
+        "station": 7.03562526738183,
+        "point": {
+          "x": 787.4198251665061,
+          "z": 2123.16160531094
+        },
+        "from": {
+          "roadId": "v8-port-works-c91",
+          "segmentId": "v8-port-works-c91:7",
+          "surfaceId": "v8-port-works-c91:7:road"
+        },
+        "to": {
+          "surfaceId": "junction:2:road"
+        },
+        "residual": 0.49663237181516806
+      }
+    },
+    "roadEvidence": [
+      {
+        "id": "v6-logistics-one-split-3-split-2-m91",
+        "role": "arterial",
+        "structure": {
+          "barrierEnabled": false,
+          "piersEnabled": true,
+          "pierSpacing": 55
+        },
+        "sourceYRange": [
+          0,
+          0
+        ],
+        "sharedEndpointContinuity": true
+      },
+      {
+        "id": "v8-port-works-c91",
+        "role": "collector",
+        "structure": {
+          "barrierEnabled": true,
+          "barrierOffset": 0,
+          "piersEnabled": false,
+          "pierSpacing": 45,
+          "enclosure": {
+            "kind": "cutting",
+            "clearance": 5.5
+          }
+        },
+        "sourceYRange": [
+          -6,
+          1.0949227635670411e-13
+        ],
+        "sharedEndpointContinuity": true
+      }
+    ],
+    "modified": true,
+    "beforeSupportSweep": {
+      "maxResidual": 0.4966323718151776,
+      "roadSwitches": 11,
+      "samples": 6674,
+      "offRoad": 2,
+      "offRoadTransitions": 2,
+      "offRoadPoints": [
+        {
+          "road": "v8-port-works-c91",
+          "station": 20.529999999999916,
+          "point": {
+            "x": 789.5641507465493,
+            "z": 2136.8634306357317
+          },
+          "height": 0,
+          "surface": "concrete"
+        },
+        {
+          "road": "v8-port-works-c91",
+          "station": 13.650000000000011,
+          "point": {
+            "x": 785.4796853558419,
+            "z": 2131.100484993778
+          },
+          "height": 0,
+          "surface": "concrete"
+        }
+      ],
+      "worst": {
+        "road": "v8-port-works-c91",
+        "station": 7.03562526738183,
+        "point": {
+          "x": 787.419825166506,
+          "z": 2123.16160531094
+        },
+        "from": {
+          "roadId": "v8-port-works-c91",
+          "segmentId": "v8-port-works-c91:0",
+          "surfaceId": "v8-port-works-c91:0:road"
+        },
+        "to": {
+          "surfaceId": "junction:2:road"
+        },
+        "residual": 0.4966323718151776
+      }
+    },
+    "supportWorsened": false,
+    "semanticReview": "入口急角路口、下穿纵坡、原有 6m 跨路高差同时约束；短落地方案在新增入口回放中产生跳动，已撤回该入口方案。保留其旧铺装归属，出口修复独立保留。"
+  }
+]

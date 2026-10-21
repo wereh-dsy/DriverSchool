@@ -1,0 +1,566 @@
+{
+  "methodology": "120 Hz production VehicleDynamics/contact continuity. B/C/D use real throttle/brake/steering. E/F/G prescribe only planar 60 km/h. H releases body from +0.18 m; vertical dynamics always integrated.",
+  "vehicles": {
+    "taycan": {
+      "parameters": {
+        "mass": 2250,
+        "frontWeightBias": 0.49,
+        "centerOfMassHeight": 0.41,
+        "suspension": {
+          "kinematics": {
+            "front": {
+              "topology": "DOUBLE_WISHBONE",
+              "staticCamber": -0.015,
+              "camberGainPerMeter": -0.42,
+              "staticToe": 0,
+              "bumpToeGainPerMeter": 0.006,
+              "antiDiveRatio": 0.2,
+              "antiSquatRatio": 0
+            },
+            "rear": {
+              "topology": "MULTI_LINK",
+              "staticCamber": -0.023,
+              "camberGainPerMeter": -0.36,
+              "staticToe": 0.001,
+              "bumpToeGainPerMeter": 0.014,
+              "antiDiveRatio": 0,
+              "antiSquatRatio": 0.2
+            }
+          },
+          "rideHeight": 0.128,
+          "restLength": 0.36,
+          "springRateFront": 52000,
+          "springRateRear": 56000,
+          "damperCompressionFront": 3300,
+          "damperCompressionRear": 3500,
+          "damperReboundFront": 5000,
+          "damperReboundRear": 5300,
+          "suspensionTravel": 0.14,
+          "bumpStopStartRatio": 0.8,
+          "bumpStopStiffness": 180000,
+          "antiRollStiffnessFront": 31000,
+          "antiRollStiffnessRear": 27000,
+          "antiRollStiffness": 18000,
+          "adaptiveDamping": {
+            "responseRate": 2.5,
+            "modeMultipliers": {
+              "RANGE": 0.95,
+              "NORMAL": 1,
+              "SPORT": 1.3,
+              "SPORT_PLUS": 1.5
+            }
+          },
+          "airSuspension": {
+            "nominalRideHeight": 0.128,
+            "minimumOffset": -0.025,
+            "maximumOffset": 0,
+            "adjustmentRate": 0.004,
+            "modeOffsets": {
+              "RANGE": -0.005,
+              "NORMAL": 0,
+              "SPORT": -0.015,
+              "SPORT_PLUS": -0.022
+            },
+            "highSpeedLowering": {
+              "activateSpeed": 33,
+              "restoreSpeed": 27,
+              "delay": 4,
+              "offset": -0.02
+            }
+          },
+          "unsprungMass": {
+            "front": 55,
+            "rear": 58
+          }
+        },
+        "tyreRadial": {
+          "stiffness": 400000,
+          "damping": 1200,
+          "maximumCompression": 0.055
+        }
+      },
+      "metrics": {
+        "A-static": {
+          "duration": 4,
+          "samples": 420,
+          "rmsAY": 2.8574284611258563e-8,
+          "peakAY": 1.5505215222079404e-7,
+          "pitchRate": 8.054790844767756e-8,
+          "rollRate": 0,
+          "peakPitch": 5.2641192932454946e-8,
+          "peakRoll": 0,
+          "finalPitch": -4.81362751230345e-8,
+          "finalY": -8.820487097254388e-10,
+          "finalSpeed": 0,
+          "peakAcceleration": 0.00002085328956764154,
+          "peakLateralAcceleration": 0,
+          "frontFzMean": 10815.531590450331,
+          "rearFzMean": 11256.968396067374,
+          "frontFzPeak": 10815.531865636383,
+          "frontFzMin": 10815.530774469085,
+          "frontSquat": 7.269980414892352e-8,
+          "rearSquat": 6.381121801790623e-8,
+          "fzCv": [
+            4.069432623351404e-8,
+            4.069432623351404e-8,
+            0,
+            0
+          ],
+          "wheelHopRms": 1.7960171182329703e-8,
+          "peakHubVelocity": 1.2630694991174414e-7,
+          "peakHubAcceleration": 7.122606031353394e-7,
+          "peakTyreCompression": 0.01407121128590072,
+          "settlingTime": null,
+          "maxRestVelocity": 2.1982471859011855e-8,
+          "minGrounded": 4,
+          "transitions": 0,
+          "fullBump": 0,
+          "rejections": 0,
+          "maxImpulse": 0,
+          "totalImpulse": 0,
+          "safety": 0,
+          "recovery": 0,
+          "mapQueries": 1924,
+          "contactPasses": 480,
+          "finalSuspensionCompression": [
+            0.09361953493756592,
+            0.09361953493756592,
+            0.09034828898656622,
+            0.09034828898656622
+          ],
+          "finalTyreCompression": [
+            0.01351941454187977,
+            0.01351941454187977,
+            0.014071210458121208,
+            0.014071210458121208
+          ],
+          "finalControl": {
+            "throttle": 0,
+            "brake": 0,
+            "steering": 0
+          }
+        },
+        "B-acceleration": {
+          "duration": 4,
+          "samples": 420,
+          "rmsAY": 0.017372113998195382,
+          "peakAY": 0.0689201945820112,
+          "pitchRate": 0.05318340333107846,
+          "rollRate": 0,
+          "peakPitch": 0.012260632087398683,
+          "peakRoll": 0,
+          "finalPitch": 0.009895724431460516,
+          "finalY": 0.00008065597261675298,
+          "finalSpeed": 18.489997546385432,
+          "peakAcceleration": 4.270425240158906,
+          "peakLateralAcceleration": 0,
+          "frontFzMean": 9485.964405397566,
+          "rearFzMean": 12595.641895361785,
+          "frontFzPeak": 10881.011928191832,
+          "frontFzMin": 9049.370075949377,
+          "frontSquat": 0.015327855406415708,
+          "rearSquat": 0.01598166371957828,
+          "fzCv": [
+            0.02609344315114417,
+            0.02609344315114417,
+            0.02132258305292151,
+            0.02132258305292151
+          ],
+          "wheelHopRms": 0.016014763550865188,
+          "peakHubVelocity": 0.07003187113136838,
+          "peakHubAcceleration": 0.5437372815463969,
+          "peakTyreCompression": 0.016449671706243618,
+          "settlingTime": null,
+          "maxRestVelocity": 0.006315187305020064,
+          "minGrounded": 4,
+          "transitions": 0,
+          "fullBump": 0,
+          "rejections": 0,
+          "maxImpulse": 0,
+          "totalImpulse": 0,
+          "safety": 0,
+          "recovery": 0,
+          "mapQueries": 1924,
+          "contactPasses": 480,
+          "finalSuspensionCompression": [
+            0.08059249907785065,
+            0.08059249907785065,
+            0.10260930022187037,
+            0.10260930022187037
+          ],
+          "finalTyreCompression": [
+            0.011826609219869333,
+            0.011826609219869333,
+            0.01578886827378234,
+            0.01578886827378234
+          ],
+          "finalControl": {
+            "throttle": 0.65,
+            "brake": 0,
+            "steering": 0
+          }
+        },
+        "C-braking": {
+          "duration": 4,
+          "samples": 420,
+          "rmsAY": 0.03227342196431614,
+          "peakAY": 0.11832162404020533,
+          "pitchRate": 0.08775603631660761,
+          "rollRate": 0,
+          "peakPitch": 0.017898227066762907,
+          "peakRoll": 0,
+          "finalPitch": 0.0040895510114002205,
+          "finalY": -0.0017370330062610679,
+          "finalSpeed": 0,
+          "peakAcceleration": 6.437477172626276,
+          "peakLateralAcceleration": 0,
+          "frontFzMean": 12623.976139187438,
+          "rearFzMean": 9460.451921451291,
+          "frontFzPeak": 13559.818806151108,
+          "frontFzMin": 10095.86837850893,
+          "frontSquat": 0.024958064297333882,
+          "rearSquat": 0.020739022796663162,
+          "fzCv": [
+            0.05741606707375546,
+            0.05741606707375546,
+            0.0767530748933011,
+            0.0767530748933011
+          ],
+          "wheelHopRms": 0.032520811240756016,
+          "peakHubVelocity": 0.1152369180813699,
+          "peakHubAcceleration": 1.205696771294879,
+          "peakTyreCompression": 0.016948918164999882,
+          "settlingTime": null,
+          "maxRestVelocity": 0.008869248912841677,
+          "minGrounded": 4,
+          "transitions": 0,
+          "fullBump": 0,
+          "rejections": 0,
+          "maxImpulse": 0,
+          "totalImpulse": 0,
+          "safety": 0,
+          "recovery": 0,
+          "mapQueries": 1924,
+          "contactPasses": 480,
+          "finalSuspensionCompression": [
+            0.09008616913440537,
+            0.09008616913440537,
+            0.09681281918678636,
+            0.09681281918678636
+          ],
+          "finalTyreCompression": [
+            0.012740780910982241,
+            0.012740780910982241,
+            0.01515456889775102,
+            0.01515456889775102
+          ],
+          "finalControl": {
+            "throttle": 0,
+            "brake": 0.65,
+            "steering": 0
+          }
+        },
+        "D-steer": {
+          "duration": 4,
+          "samples": 420,
+          "rmsAY": 0.0028175278576310337,
+          "peakAY": 0.011480578815616859,
+          "pitchRate": 0.0004033797461629626,
+          "rollRate": 0.018656600225834177,
+          "peakPitch": 0.0004913631966784626,
+          "peakRoll": 0.010774936648675423,
+          "finalPitch": -0.0004909701014057986,
+          "finalY": -0.00007692013887873574,
+          "finalSpeed": 14.154615701100267,
+          "peakAcceleration": 0.24875724574897917,
+          "peakLateralAcceleration": 2.9623859911739823,
+          "frontFzMean": 10881.080957724083,
+          "rearFzMean": 11204.147761423192,
+          "frontFzPeak": 10889.649877353466,
+          "frontFzMin": 10846.087801167874,
+          "frontSquat": 0.007876644902670565,
+          "rearSquat": 0.006611155496660873,
+          "fzCv": [
+            0.04537219570822659,
+            0.05461575754729916,
+            0.04060878650132302,
+            0.05306938070877857
+          ],
+          "wheelHopRms": 0.0036515711824762374,
+          "peakHubVelocity": 0.013456347368666454,
+          "peakHubAcceleration": 0.10282833062355665,
+          "peakTyreCompression": 0.01596393535899082,
+          "settlingTime": null,
+          "maxRestVelocity": 0.001083252696937981,
+          "minGrounded": 4,
+          "transitions": 0,
+          "fullBump": 0,
+          "rejections": 0,
+          "maxImpulse": 0,
+          "totalImpulse": 0,
+          "safety": 0,
+          "recovery": 0,
+          "mapQueries": 1924,
+          "contactPasses": 480,
+          "finalSuspensionCompression": [
+            0.10137744066999377,
+            0.08727629310355994,
+            0.09683997760830798,
+            0.0827610167572363
+          ],
+          "finalTyreCompression": [
+            0.015620138415510687,
+            0.011603342304384201,
+            0.01592964797363866,
+            0.012060183593001539
+          ],
+          "finalControl": {
+            "throttle": 0,
+            "brake": 0,
+            "steering": 0.16
+          }
+        },
+        "E-rough": {
+          "duration": 4,
+          "samples": 420,
+          "rmsAY": 1.098913510834508,
+          "peakAY": 2.2845775274281035,
+          "pitchRate": 0.009063953768137095,
+          "rollRate": 0.010406874256944296,
+          "peakPitch": 0.0005955352262475627,
+          "peakRoll": 0.00025773848591000443,
+          "finalPitch": -0.00008552351050934529,
+          "finalY": -0.0022504606051643827,
+          "finalSpeed": 16.664508056917146,
+          "peakAcceleration": 0.36546659750678884,
+          "peakLateralAcceleration": 0.01328083333278946,
+          "frontFzMean": 10885.361418001634,
+          "rearFzMean": 11244.027449073634,
+          "frontFzPeak": 14597.854392476107,
+          "frontFzMin": 7315.385291485976,
+          "frontSquat": 0.007576348398976612,
+          "rearSquat": 0.00643603499710417,
+          "fzCv": [
+            0.17682644331562508,
+            0.17592395511317194,
+            0.17599043016922528,
+            0.1736952895650971
+          ],
+          "wheelHopRms": 0.13452002130943033,
+          "peakHubVelocity": 0.3165966458643992,
+          "peakHubAcceleration": 24.806123247694345,
+          "peakTyreCompression": 0.01678067009878853,
+          "settlingTime": null,
+          "maxRestVelocity": 0.04326776118741024,
+          "minGrounded": 4,
+          "transitions": 0,
+          "fullBump": 0,
+          "rejections": 0,
+          "maxImpulse": 0,
+          "totalImpulse": 0,
+          "safety": 0,
+          "recovery": 0,
+          "mapQueries": 1924,
+          "contactPasses": 480,
+          "finalSuspensionCompression": [
+            0.09891241726871214,
+            0.10010936872899778,
+            0.09406588427503554,
+            0.09455264863014523
+          ],
+          "finalTyreCompression": [
+            0.014879095424811528,
+            0.014552584222054799,
+            0.013661388352157744,
+            0.014229659787473037
+          ],
+          "finalControl": {
+            "throttle": 0,
+            "brake": 0,
+            "steering": 0
+          }
+        },
+        "F-bump": {
+          "duration": 4,
+          "samples": 420,
+          "rmsAY": 0.5576352657979039,
+          "peakAY": 3.5697593972945385,
+          "pitchRate": 0.0802888389176596,
+          "rollRate": 0,
+          "peakPitch": 0.0036943118103660967,
+          "peakRoll": 0,
+          "finalPitch": -0.0002436244737993042,
+          "finalY": -0.00008132388493050769,
+          "finalSpeed": 16.66538767404105,
+          "peakAcceleration": 0.43368789300012084,
+          "peakLateralAcceleration": 0,
+          "frontFzMean": 10856.131469189051,
+          "rearFzMean": 11231.327697519586,
+          "frontFzPeak": 18711.306026524824,
+          "frontFzMin": 1077.3333841367667,
+          "frontSquat": 0.019754654624166673,
+          "rearSquat": 0.018947147025374103,
+          "fzCv": [
+            0.09580138357329714,
+            0.09580138357329714,
+            0.09562516129968301,
+            0.09562516129968301
+          ],
+          "wheelHopRms": 0.08359892595604049,
+          "peakHubVelocity": 0.7353960288010034,
+          "peakHubAcceleration": 49.77122251429836,
+          "peakTyreCompression": 0.017858803385428224,
+          "settlingTime": 0.5266666666666668,
+          "maxRestVelocity": 0.09157695078724942,
+          "minGrounded": 4,
+          "transitions": 0,
+          "fullBump": 0,
+          "rejections": 0,
+          "maxImpulse": 0,
+          "totalImpulse": 0,
+          "safety": 0,
+          "recovery": 0,
+          "mapQueries": 1924,
+          "contactPasses": 480,
+          "finalSuspensionCompression": [
+            0.09401029051674242,
+            0.09401029051674242,
+            0.09011604907616083,
+            0.09011604907616083
+          ],
+          "finalTyreCompression": [
+            0.013570229596230665,
+            0.013570229596230665,
+            0.014038649611730847,
+            0.014038649611730847
+          ],
+          "finalControl": {
+            "throttle": 0,
+            "brake": 0,
+            "steering": 0
+          }
+        },
+        "G-grade": {
+          "duration": 8,
+          "samples": 900,
+          "rmsAY": 0.12995188457963328,
+          "peakAY": 0.2571426633544599,
+          "pitchRate": 0.015451873121711038,
+          "rollRate": 0,
+          "peakPitch": 0.023412242740636746,
+          "peakRoll": 0,
+          "finalPitch": -0.0002437125984965461,
+          "finalY": 1.1999184251353994,
+          "finalSpeed": 16.665387714938234,
+          "peakAcceleration": 0.3842630646914754,
+          "peakLateralAcceleration": 0,
+          "frontFzMean": 10835.33008177902,
+          "rearFzMean": 11216.337439646413,
+          "frontFzPeak": 11105.669318412203,
+          "frontFzMin": 10570.999259162001,
+          "frontSquat": 0.0026820850334193513,
+          "rearSquat": 0.002726644824760441,
+          "fzCv": [
+            0.013042386745472723,
+            0.013042386745472723,
+            0.01369994956473451,
+            0.01369994956473451
+          ],
+          "wheelHopRms": 0.0026877968258076836,
+          "peakHubVelocity": 0.016172533070047623,
+          "peakHubAcceleration": 0.2153429132033353,
+          "peakTyreCompression": 0.014189905018981985,
+          "settlingTime": null,
+          "maxRestVelocity": 0.393880749791565,
+          "minGrounded": 4,
+          "transitions": 0,
+          "fullBump": 0,
+          "rejections": 0,
+          "maxImpulse": 0,
+          "totalImpulse": 0,
+          "safety": 0,
+          "recovery": 0,
+          "mapQueries": 3844,
+          "contactPasses": 960,
+          "finalSuspensionCompression": [
+            0.0940106454476905,
+            0.0940106454476905,
+            0.0901161169456916,
+            0.0901161169456916
+          ],
+          "finalTyreCompression": [
+            0.013570255980106527,
+            0.013570255980106527,
+            0.014038707495387603,
+            0.014038707495387603
+          ],
+          "finalControl": {
+            "throttle": 0,
+            "brake": 0,
+            "steering": 0
+          }
+        },
+        "H-landing": {
+          "duration": 5,
+          "samples": 492,
+          "rmsAY": 2.8246434217882075,
+          "peakAY": 11.61524353359878,
+          "pitchRate": 0.005382732686601408,
+          "rollRate": 0,
+          "peakPitch": 0.00036065649145451375,
+          "peakRoll": 0,
+          "finalPitch": -6.409016068096156e-8,
+          "finalY": 1.5534636360961456e-8,
+          "finalSpeed": 0,
+          "peakAcceleration": 0.00018749510265156087,
+          "peakLateralAcceleration": 0,
+          "frontFzMean": 10815.532957864556,
+          "rearFzMean": 11256.967498152631,
+          "frontFzPeak": 22750.37949113863,
+          "frontFzMin": 0,
+          "frontSquat": 0.07000000000000003,
+          "rearSquat": 0.06965886059455988,
+          "fzCv": [
+            0.2735897343282383,
+            0.2735897343282383,
+            0.2774489280337472,
+            0.2774489280337472
+          ],
+          "wheelHopRms": 0.21494801371074837,
+          "peakHubVelocity": 1.2794512973827945,
+          "peakHubAcceleration": 60.36776605985501,
+          "peakTyreCompression": 0.029402135785400713,
+          "settlingTime": 0.5666666666666667,
+          "maxRestVelocity": 1.4178772353792564,
+          "minGrounded": 0,
+          "transitions": 8,
+          "fullBump": 0,
+          "rejections": 0,
+          "maxImpulse": 0,
+          "totalImpulse": 0,
+          "safety": 0,
+          "recovery": 0,
+          "mapQueries": 2404,
+          "contactPasses": 600,
+          "finalSuspensionCompression": [
+            0.09361954760070845,
+            0.09361954760070845,
+            0.09034825947165387,
+            0.09034825947165387
+          ],
+          "finalTyreCompression": [
+            0.013519409057848819,
+            0.013519409057848819,
+            0.014071200885876989,
+            0.014071200885876989
+          ],
+          "finalControl": {
+            "throttle": 0,
+            "brake": 0,
+            "steering": 0
+          }
+        }
+      }
+    }
+  }
+}

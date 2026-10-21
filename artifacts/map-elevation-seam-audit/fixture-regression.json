@@ -1,0 +1,98 @@
+{
+  "valid": true,
+  "scope": "local physical CityGround overlap probe and two 16m contact replays at 20km/h; solid barriers disabled to isolate pavement support",
+  "before": {
+    "samples": 2176,
+    "maxOverlapHeightMismatch": 0.1426512417542778,
+    "minNormalDot": 0.9999998859730724,
+    "grades": [
+      {
+        "roadId": "ring-cw-2-split-4-split",
+        "maxGrade": 0.00990823750308225,
+        "maxGradeBreak": 0.0006637913526278947
+      },
+      {
+        "roadId": "ring-ccw-1-split-split-split-split-section",
+        "maxGrade": 0.01020957502835008,
+        "maxGradeBreak": 0.00024251509489266014
+      }
+    ]
+  },
+  "after": {
+    "samples": 2176,
+    "maxOverlapHeightMismatch": 0.0004658951512604981,
+    "minNormalDot": 0.999999978546243,
+    "grades": [
+      {
+        "roadId": "ring-cw-2-split-4-split",
+        "maxGrade": 0.010112616606249862,
+        "maxGradeBreak": 0.0008344596406342236
+      },
+      {
+        "roadId": "ring-ccw-1-split-split-split-split-section",
+        "maxGrade": 0.010022839358598806,
+        "maxGradeBreak": 0.000787680099296976
+      }
+    ]
+  },
+  "beforeReplay": [
+    {
+      "direction": "east",
+      "steps": 346,
+      "durationSeconds": 2.8833333333333333,
+      "fromX": 2207,
+      "toX": 2223.017131982674,
+      "z": 2140.000624847156,
+      "surfaceSwitches": 4,
+      "maxSurfaceStep": 0.132317082625226,
+      "heightJumpEvents": 4,
+      "airborneTransitions": 4,
+      "minGrounded": 3,
+      "rejectedSamples": 0
+    },
+    {
+      "direction": "west",
+      "steps": 346,
+      "durationSeconds": 2.8833333333333333,
+      "fromX": 2223,
+      "toX": 2206.9921087153875,
+      "z": 2140.6801364768444,
+      "surfaceSwitches": 24,
+      "maxSurfaceStep": 0.6171554300469181,
+      "heightJumpEvents": 5,
+      "airborneTransitions": 6,
+      "minGrounded": 0,
+      "rejectedSamples": 1180
+    }
+  ],
+  "afterReplay": [
+    {
+      "direction": "east",
+      "steps": 346,
+      "durationSeconds": 2.8833333333333333,
+      "fromX": 2207,
+      "toX": 2223.0171333763997,
+      "z": 2139.9999986263297,
+      "surfaceSwitches": 4,
+      "maxSurfaceStep": 0.00005380136087429488,
+      "heightJumpEvents": 0,
+      "airborneTransitions": 0,
+      "minGrounded": 4,
+      "rejectedSamples": 0
+    },
+    {
+      "direction": "west",
+      "steps": 346,
+      "durationSeconds": 2.8833333333333333,
+      "fromX": 2223,
+      "toX": 2206.9825810088623,
+      "z": 2140.0000027351434,
+      "surfaceSwitches": 4,
+      "maxSurfaceStep": 0.00010903005299700563,
+      "heightJumpEvents": 0,
+      "airborneTransitions": 0,
+      "minGrounded": 4,
+      "rejectedSamples": 0
+    }
+  ]
+}

@@ -42,6 +42,7 @@ export function validateMap(value: unknown): MapValidation {
     const r = m.roads[index], path = `roads[${index}]`; if (!r) continue;
     if (r.type !== undefined && !Object.hasOwn(ROAD_LANES, r.type) || !Number.isInteger(r.laneCount) || (r.crossSection || r.type === 'highway' ? r.laneCount < 1 || r.laneCount > (r.crossSection ? 8 : 6) : r.type === undefined || r.laneCount !== ROAD_LANES[r.type])) issue('lanes.invalid', path, 'Cross sections support 1–8 lanes; legacy highway supports 1–6 and urban/ramp types fix count.');
     if (r.type === undefined && r.roadClass === undefined) issue('road.class', path, 'New roads require an explicit traffic function.');
+    if(r.pavementSurface!==undefined&&r.pavementSurface!=='ribbon')issue('road.pavementSurface',path,'Unknown pavement support geometry.');
     if (r.crossSection !== undefined && !Object.hasOwn(ROAD_CROSS_SECTIONS, r.crossSection)) issue('road.crossSection', path, 'Unknown geometric cross-section preset.');
     if (!finite(r.laneWidth) || r.laneWidth < 2 || r.laneWidth > 6 || !finite(r.speedLimit) || r.speedLimit <= 0 || r.speedLimit > 200) issue('road.properties', path, 'Lane width 2–6m, speed 1–200km/h required.');
     if (!['two-way', 'forward', 'reverse'].includes(r.travelDirection) || r.travelDirection === 'two-way' && r.laneCount % 2 !== 0) issue('direction.invalid', path, 'Two-way roads require an even lane count.');
@@ -89,6 +90,7 @@ export function validateMap(value: unknown): MapValidation {
     const ports = new Set<string>();
     if(j.pavementFootprint&&(!Array.isArray(j.pavementFootprint)||j.pavementFootprint.length<3||!j.pavementFootprint.every(point)))issue('junction.pavement',path,'Pavement outline needs at least three finite local points.');
     if(j.pavementHeights&&Object.values(j.pavementHeights).some(y=>!finite(y)||y<-50||y>100))issue('junction.pavementHeight',path,'Approach heights must be finite metres.');
+    if(j.pavementProfile!==undefined&&j.pavementProfile!=='local-landing')issue('junction.pavementProfile',path,'Unknown pavement profile policy.');
     const expected = j.type==='divided_cross'?6:j.type==='irregular'?5:j.type.startsWith('t_') ? 3 : 4;
     if(j.approachOffsets&&Object.entries(j.approachOffsets).some(([port,p])=>!portsFor(j).includes(port as never)||!point(p)))issue('junction.offset',path,'Finite approach offsets on valid ports required.');
     if(j.portAngles!==undefined && (!j.portAngles||typeof j.portAngles!=='object'||Object.entries(j.portAngles).some(([port,angle])=>!portsFor(j).includes(port as typeof j.connections[number]['port'])||!finite(angle))))issue('junction.angles',path,'Finite local bearings on valid ports required.');

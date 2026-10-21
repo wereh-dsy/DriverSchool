@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "baselineDigest": "06962886c086018e4e0713541967cad64d0bede2326f29d99a3291f4d81e1bc3",
+  "mapDigest": "b17b2dfd832a3db69001839050adf440c0f87790d4233ae4fcb7d29c7336bf59",
+  "mapVersions": {
+    "before": 479,
+    "after": 481
+  },
+  "coverage": {
+    "roads": 2944,
+    "segments": 111711,
+    "broadPhasePairs": 176974,
+    "samples": 2347951
+  },
+  "before": {
+    "total": 2124,
+    "SAFE_AUTO_FIX": 0,
+    "LIKELY_FIX": 200,
+    "MANUAL_REVIEW": 800,
+    "IGNORE_GRADE_SEPARATED": 1124
+  },
+  "after": {
+    "total": 2125,
+    "SAFE_AUTO_FIX": 0,
+    "LIKELY_FIX": 201,
+    "MANUAL_REVIEW": 800,
+    "IGNORE_GRADE_SEPARATED": 1124
+  },
+  "automaticFixes": 0,
+  "reviewedLocalFixes": 1,
+  "modifiedRoads": [
+    {
+      "id": "ring-cw-2-split-4-split",
+      "changedNodes": 38,
+      "maxYChange": 0.07203220761356655,
+      "modifiedZRange": [
+        2045.3903972742141,
+        2237.1983416003536
+      ]
+    },
+    {
+      "id": "ring-ccw-1-split-split-split-split-section",
+      "changedNodes": 38,
+      "maxYChange": 0.07207133352237094,
+      "modifiedZRange": [
+        2040.1942350074835,
+        2237.9637894028933
+      ]
+    }
+  ],
+  "remainingByDisposition": {
+    "DEFER_LAYER_OR_LONG_PROFILE": 171,
+    "DEFER_STRUCTURE_OR_MERGE": 201,
+    "RETAIN_GRADE_INTENT": 610,
+    "DEFER_CONNECTION_CONSTRAINT": 18,
+    "DEFER_BEND_PROFILE": 1
+  },
+  "maxRemainingHeightDelta": 5.004126390699386,
+  "largestRemaining": {
+    "id": "seam:v4-access-5|v4-access-4-c91:131.6:19.9",
+    "category": "MANUAL_REVIEW",
+    "roadIds": [
+      "v4-access-5",
+      "v4-access-4-c91"
+    ],
+    "segmentIds": [
+      "v4-access-5:16",
+      "v4-access-4-c91:0",
+      "v4-access-5:17"
+    ],
+    "bbox": {
+      "minX": 971.276822364278,
+      "maxX": 986.4770411683069,
+      "minZ": 2559.2458648904526,
+      "maxZ": 2572.314215204804
+    },
+    "location": {
+      "x": 972.3041942983125,
+      "z": 2559.2458648904526,
+      "y": 6.164536634147997
+    },
+    "maxHeightDelta": 5.004126390699386,
+    "minHeightDelta": 2.7052999699260516,
+    "normalDot": 0.9910361888757696,
+    "localGrade": [
+      -0.10000000000000002,
+      -0.03494608476232747
+    ],
+    "gradeDiscontinuity": 0.1349460847623275,
+    "overlapLength": 17.47728999018954,
+    "overlapArea": 79.43432127428241,
+    "footprintOverlap": true,
+    "horizontalGap": 0,
+    "topologyRelation": "linked-away-from-endpoint",
+    "stationRanges": [
+      [
+        131.63307239304723,
+        148.51370802665116
+      ],
+      [
+        19.948326408210214,
+        37.425616398399754
+      ]
+    ],
+    "reasons": [
+      "Connected pavement height mismatch; preserve endpoint constraints"
+    ],
+    "overlappingRoadIds": [
+      "v4-access-5",
+      "v4-access-4-c91"
+    ],
+    "layerCount": 2
+  },
+  "newSeamRoadPairs": 0,
+  "worsenedSeamRoadPairs": 0,
+  "countChangeReason": "The original continuous Inner Ring candidate becomes two retained flanks separated by the repaired window; one extra run, no new road pair or higher pair maximum.",
+  "fixture": {
+    "category": "LIKELY_FIX",
+    "before": 0.1426512417542778,
+    "after": 0.00021558557952583435,
+    "afterReplay": [
+      {
+        "direction": "east",
+        "steps": 346,
+        "durationSeconds": 2.8833333333333333,
+        "fromX": 2207,
+        "toX": 2223.0171333705803,
+        "z": 2139.999998845711,
+        "surfaceSwitches": 4,
+        "maxSurfaceStep": 0.00004246336098190362,
+        "heightJumpEvents": 0,
+        "airborneTransitions": 0,
+        "minGrounded": 4,
+        "rejectedSamples": 0
+      },
+      {
+        "direction": "west",
+        "steps": 346,
+        "durationSeconds": 2.8833333333333333,
+        "fromX": 2223,
+        "toX": 2206.9825809967797,
+        "z": 2140.000002881199,
+        "surfaceSwitches": 4,
+        "maxSurfaceStep": 0.00009628435142772229,
+        "heightJumpEvents": 0,
+        "airborneTransitions": 0,
+        "minGrounded": 4,
+        "rejectedSamples": 0
+      }
+    ]
+  },
+  "invariants": {
+    "authoredFieldsBeyondYUnchanged": true,
+    "endpointsUnchanged": true,
+    "roadIdsUnchanged": true,
+    "topologyUnchanged": true,
+    "objectsSignalsLanesWidthsConnectionsUnchanged": true
+  },
+  "localValidation": {
+    "beforeErrors": 0,
+    "afterErrors": 0,
+    "beforeWarnings": 2,
+    "afterWarnings": 2
+  },
+  "targetedDiagnosis": {
+    "before": {
+      "total": 13,
+      "error": 0,
+      "warning": 5,
+      "info": 8,
+      "bySeverity": {
+        "error": 0,
+        "warning": 5,
+        "info": 8
+      },
+      "byCode": {
+        "intersection.acuteApproach": 1,
+        "intersection.stalePortAngle": 2,
+        "vertical.abruptGradeChange": 2,
+        "geometry.redundantControlPoints": 4,
+        "vertical.redundantElevationPoints": 4
+      }
+    },
+    "after": {
+      "total": 13,
+      "error": 0,
+      "warning": 5,
+      "info": 8,
+      "bySeverity": {
+        "error": 0,
+        "warning": 5,
+        "info": 8
+      },
+      "byCode": {
+        "intersection.acuteApproach": 1,
+        "intersection.stalePortAngle": 2,
+        "vertical.abruptGradeChange": 2,
+        "geometry.redundantControlPoints": 4,
+        "vertical.redundantElevationPoints": 4
+      }
+    },
+    "new": 0,
+    "resolved": 0,
+    "profileBefore": {
+      "total": 0,
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "profileAfter": {
+      "total": 0,
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    }
+  },
+  "validationScope": "Only seam selftest, fixture contact replay, local validate and targeted diagnose; no full core/vehicle/editor/navigation suite",
+  "build": {
+    "passed": true,
+    "command": "pnpm run build -BasicValidation",
+    "runs": 1,
+    "typecheck": true,
+    "productionBuild": true,
+    "coreSelftestsRun": false,
+    "published": true,
+    "distEntry": "assets/index-qlDMqEye.js",
+    "distRuntime": "assets/city-main.runtime-55cb852e62f0.json",
+    "mapVersion": 481,
+    "roads": 2944,
+    "fixtureRoadsMatchSource": true
+  },
+  "seamSelftestChecks": 33
+}

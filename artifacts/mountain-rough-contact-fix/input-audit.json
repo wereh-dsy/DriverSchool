@@ -1,0 +1,286 @@
+[
+  {
+    "file": "153050",
+    "metadata": {
+      "mapId": "mountain-proving-ground",
+      "mapName": "山地综合试验场",
+      "mapVersion": 1,
+      "mapContentVersion": null,
+      "vehicleId": "porsche-taycan-4s",
+      "vehicleConfigVersion": 1,
+      "vehicleConfigHash": "fnv1a32:e8f2556c",
+      "buildVersion": "0.1.0+physics.10147d45fc81",
+      "physicsHz": 120,
+      "settings": {
+        "physicsHz": 120,
+        "preSteps": 600,
+        "postSteps": 180,
+        "frameCapacity": 960,
+        "eventCapacity": 1024,
+        "dictionaryCapacity": 16384,
+        "maxEventsPerStep": 24,
+        "maxCandidatesPerQuery": 32,
+        "maxDetailQueriesPerStep": 24
+      },
+      "thresholds": {
+        "verticalVelocityDelta": 5,
+        "angularVelocityDelta": 2.5,
+        "mechanicalImpulse": 6000,
+        "contactRecoveryDistance": 0.5,
+        "surfaceHeightDelta": 0.12,
+        "normalDot": 0.6,
+        "supportReturnSteps": 18,
+        "supportReturnHeightDelta": 0.2,
+        "severeCollisionSpeed": 8,
+        "severeCollisionAttitude": 0.45,
+        "fullBumpTolerance": 0.001,
+        "automaticCooldownSteps": 600
+      },
+      "allocatedFrameBytes": 633600,
+      "coordinates": "+X right, +Y up, -Z forward; SI; yaw/pitch/roll YXZ; world Y is chassis heave datum",
+      "numericEncoding": "unavailable ICE RPM: null; non-finite numeric data: NaN/Infinity/-Infinity strings",
+      "collisionContactY": "unavailable (planar collision solver); null",
+      "droppedEvents": 0,
+      "dictionaryOverflow": 0
+    },
+    "incident": {
+      "triggerStep": 4997,
+      "triggerTime": 41.641666666664946,
+      "reason": "attitude-rate-jump",
+      "interrupted": null,
+      "firstStep": 4397,
+      "lastStep": 5177,
+      "preSteps": 600,
+      "postSteps": 180,
+      "location": {
+        "map": {
+          "id": "mountain-proving-ground",
+          "name": "山地综合试验场",
+          "version": 1
+        },
+        "x": -852.2093933829946,
+        "y": 23.532879314109117,
+        "z": 120.44402478690102,
+        "yaw": -0.6740971462154617,
+        "planarForwardX": 0.624192197907085,
+        "planarForwardZ": -0.7812708237685076,
+        "road": 0,
+        "segment": 0,
+        "sector": null,
+        "previousRoad": 0,
+        "previousSegment": 0,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "grounded": true,
+            "road": 0,
+            "segment": 0,
+            "surface": 0
+          },
+          {
+            "id": "frontRight",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 0
+          },
+          {
+            "id": "rearLeft",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 0
+          },
+          {
+            "id": "rearRight",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 0
+          }
+        ],
+        "lastSurfaceSwitch": null
+      }
+    },
+    "frames": 781,
+    "counts": {
+      "full-bump": 33,
+      "grounded-transition": 20,
+      "automatic-trigger": 1,
+      "post-event-detail": 180,
+      "contact-recovery": 1
+    },
+    "rejectionReasonInference": {},
+    "firstRetainedRejection": null,
+    "firstRetainedRejectionFrame": null,
+    "peakFrame": {
+      "step": 4997,
+      "x": -852.2093933829946,
+      "z": 120.44402478690102,
+      "y": 23.532878875732422,
+      "roll": 0.46158015727996826,
+      "pitch": -0.010715687647461891,
+      "speed": 22.93742561340332,
+      "groundedMask": 1,
+      "aY": 281.7872009277344
+    },
+    "rmsAY": 21.40113345323186,
+    "peakAY": 281.7872009277344,
+    "peakPitchRate": 2.431173801422119,
+    "peakRollRate": 6.457487106323242,
+    "frameGroundTransitions": 20,
+    "retainedFullBumpEvents": 33,
+    "maxMechanicalImpulse": 5140.23486328125,
+    "safety": 0
+  },
+  {
+    "file": "153057",
+    "metadata": {
+      "mapId": "mountain-proving-ground",
+      "mapName": "山地综合试验场",
+      "mapVersion": 1,
+      "mapContentVersion": null,
+      "vehicleId": "porsche-taycan-4s",
+      "vehicleConfigVersion": 1,
+      "vehicleConfigHash": "fnv1a32:e8f2556c",
+      "buildVersion": "0.1.0+physics.10147d45fc81",
+      "physicsHz": 120,
+      "settings": {
+        "physicsHz": 120,
+        "preSteps": 600,
+        "postSteps": 180,
+        "frameCapacity": 960,
+        "eventCapacity": 1024,
+        "dictionaryCapacity": 16384,
+        "maxEventsPerStep": 24,
+        "maxCandidatesPerQuery": 32,
+        "maxDetailQueriesPerStep": 24
+      },
+      "thresholds": {
+        "verticalVelocityDelta": 5,
+        "angularVelocityDelta": 2.5,
+        "mechanicalImpulse": 6000,
+        "contactRecoveryDistance": 0.5,
+        "surfaceHeightDelta": 0.12,
+        "normalDot": 0.6,
+        "supportReturnSteps": 18,
+        "supportReturnHeightDelta": 0.2,
+        "severeCollisionSpeed": 8,
+        "severeCollisionAttitude": 0.45,
+        "fullBumpTolerance": 0.001,
+        "automaticCooldownSteps": 600
+      },
+      "allocatedFrameBytes": 633600,
+      "coordinates": "+X right, +Y up, -Z forward; SI; yaw/pitch/roll YXZ; world Y is chassis heave datum",
+      "numericEncoding": "unavailable ICE RPM: null; non-finite numeric data: NaN/Infinity/-Infinity strings",
+      "collisionContactY": "unavailable (planar collision solver); null",
+      "droppedEvents": 2194,
+      "dictionaryOverflow": 0
+    },
+    "incident": {
+      "triggerStep": 5933,
+      "triggerTime": 49.4416666666645,
+      "reason": "mechanical-impulse",
+      "interrupted": null,
+      "firstStep": 5333,
+      "lastStep": 6113,
+      "preSteps": 600,
+      "postSteps": 180,
+      "location": {
+        "map": {
+          "id": "mountain-proving-ground",
+          "name": "山地综合试验场",
+          "version": 1
+        },
+        "x": -853.7433131442027,
+        "y": 10.731626871231402,
+        "z": -3.3632722130793478,
+        "yaw": 0.2828496240342684,
+        "planarForwardX": -0.27909316948040286,
+        "planarForwardZ": -0.9602640276243732,
+        "road": 0,
+        "segment": 0,
+        "sector": null,
+        "previousRoad": 0,
+        "previousSegment": 0,
+        "wheels": [
+          {
+            "id": "frontLeft",
+            "grounded": true,
+            "road": 0,
+            "segment": 0,
+            "surface": 0
+          },
+          {
+            "id": "frontRight",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 0
+          },
+          {
+            "id": "rearLeft",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 0
+          },
+          {
+            "id": "rearRight",
+            "grounded": false,
+            "road": 0,
+            "segment": 0,
+            "surface": 0
+          }
+        ],
+        "lastSurfaceSwitch": null
+      }
+    },
+    "frames": 781,
+    "counts": {
+      "support-candidate-rejected": 986,
+      "contact-safety-before-recovery": 5,
+      "contact-recovery": 1,
+      "grounded-transition": 2,
+      "full-bump": 1,
+      "large-mechanical-impulse": 2,
+      "contact-safety-recovery": 3,
+      "post-event-detail": 24
+    },
+    "rejectionReasonInference": {
+      "invalid/inverted suspension projection": 974,
+      "not inferable from final frame": 12
+    },
+    "firstRetainedRejection": 6060,
+    "firstRetainedRejectionFrame": {
+      "step": 6060,
+      "x": -852.7361832728662,
+      "z": -19.77386060762344,
+      "y": 8.708471298217773,
+      "roll": 4.680477619171143,
+      "pitch": -0.14843565225601196,
+      "speed": 15.507579803466797,
+      "groundedMask": 0,
+      "aY": -9.815033912658691
+    },
+    "peakFrame": {
+      "step": 5933,
+      "x": -853.7433131442027,
+      "z": -3.3632722130793478,
+      "y": 10.731626510620117,
+      "roll": 0.959886372089386,
+      "pitch": -0.9776450395584106,
+      "speed": 15.644535064697266,
+      "groundedMask": 1,
+      "aY": 1916.615966796875
+    },
+    "rmsAY": 79.51104646992238,
+    "peakAY": 1916.615966796875,
+    "peakPitchRate": 0.9207582473754883,
+    "peakRollRate": 11.281729698181152,
+    "frameGroundTransitions": 12,
+    "retainedFullBumpEvents": 1,
+    "maxMechanicalImpulse": 3175932.5,
+    "safety": 5
+  }
+]

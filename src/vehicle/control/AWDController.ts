@@ -29,23 +29,35 @@ export class AWDController {
     if (driving && throttle > .03) {
       const demand = clamp((throttle - .15) / .75 + Math.max(0, state.longitudinalAcceleration) / 12, 0, 1);
       target += (tune.accelerationRearRatio - target) * demand;
-      let frontSlip = 0, rearSlip = 0;
+      let frontSlip = 0, rearSlip = 0, frontCapacity = 0, rearCapacity = 0;
       for (let i = 0; i < 4; i++) {
         const w = state.wheels[WHEEL_IDS[i]!];
         const direction = Math.sign(w.longitudinalVelocity || w.linearSurfaceSpeed);
-        const excess = Math.max(0, w.longitudinalSlipRatio * direction - w.usefulSlipRatio) +
-          (!w.grounded && Math.abs(w.linearSurfaceSpeed) > 2 ? .2 : 0);
-        if (i < 2) frontSlip = Math.max(frontSlip, excess); else rearSlip = Math.max(rearSlip, excess);
+        const capacity = w.grounded ? w.estimatedLongitudinalCapacity : 0;
+        const excess = w.roadContactReady && w.driveSlipDuration >= .04
+          ? Math.max(0, w.estimatedLongitudinalSlip * direction - w.usefulSlipRatio) : 0;
+        // A single hopping wheel is not evidence that the whole axle has lost grip.
+        if (i < 2) { frontSlip += excess * capacity; frontCapacity += capacity; }
+        else { rearSlip += excess * capacity; rearCapacity += capacity; }
+      }
+      frontSlip /= Math.max(1, frontCapacity); rearSlip /= Math.max(1, rearCapacity);
+      const totalCapacity = frontCapacity + rearCapacity;
+      if (totalCapacity > 1) {
+        const capacityShare = rearCapacity / totalCapacity;
+        target += (capacityShare - target) * .5 * clamp(throttle + .2, 0, 1);
+        if (frontCapacity < 1) target = tune.maximumRearRatio;
+        else if (rearCapacity < 1) target = tune.minimumRearRatio;
       }
       const delta = frontSlip - rearSlip;
       if (Math.abs(delta) > tune.slipHysteresis) this.slipDirection = Math.sign(delta);
       else if (Math.abs(delta) < tune.slipHysteresis * .5) this.slipDirection = 0;
-      if (this.slipDirection * delta > 0) target += clamp(delta, -.6, .6) * tune.slipGain;
+      const attitudeConfidence = 1 / (1 + .25 * Math.abs(state.pitchRate) + .1 * Math.abs(state.pitch));
+      if (this.slipDirection * delta > 0) target += clamp(delta, -.6, .6) * tune.slipGain * attitudeConfidence;
       target += clamp(rearAuthority - frontAuthority, -.6, .6) * .15;
       const turnDemand = clamp(state.speed / 30, 0, 1) * clamp(Math.abs(state.steeringAngle) * state.speed / 3, 0, 1);
       target += tune.corneringBias * turnDemand * clamp(Math.abs(state.lateralAcceleration) / 4, .15, 1);
-      // Forward acceleration gives the loaded rear axle a small generic preference.
-      target += clamp(state.longitudinalAcceleration / 5, -.5, 1) * .02;
+      // Actual measured Fz above already contains pitch/load transfer. Do not add
+      // a second ax-based rear-load estimate on top of the physical reaction.
       const kinematicYaw = -state.longitudinalVelocity * Math.tan(state.steeringAngle) / this.config.wheelBase;
       const yawExcess = Math.abs(state.yawRate) - Math.abs(kinematicYaw);
       const severity = clamp((Math.abs(yawExcess) - .15) / .6, 0, 1) * clamp(state.speed / 25, 0, 1);

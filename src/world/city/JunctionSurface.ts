@@ -78,7 +78,7 @@ export function setJunctionPavementFootprint(j: CityIntersection, map: CityMapDa
         // Include actual approach overlap, bounded by the next junction's shared road.
         const outward=start?path:[...path].reverse(),total=polylineLength(outward);
         const otherJunction=map.intersections.some(other=>other!==j&&other.connections.some(q=>q.roadId===r.id));
-        const reach=Math.min(180,otherJunction?total/2:total),near:CityPoint[]=[];
+        const reach=Math.min(j.pavementProfile==='local-landing'?8:180,otherJunction?total/2:total),near:CityPoint[]=[];
         let distance=0;
         for(let i=0;i<outward.length;i++){
             if(i)distance+=Math.hypot(outward[i]!.x-outward[i-1]!.x,outward[i]!.z-outward[i-1]!.z);

@@ -12,7 +12,9 @@ export function runVehicleControlSystemSelfTest(): { assertions: number } {
   let assertions = 0;
   const assert = (ok: boolean, label: string): void => { assertions++; if (!ok) throw new Error(`Vehicle control: ${label}`); };
   const dt = 1 / 120, config = createDefaultVehiclePhysicsConfig();
-  const wheels = new VehicleDynamics(config).getSnapshot().wheels;
+  const physical = new VehicleDynamics(config).getSnapshot().wheels;
+  const wheels = Object.fromEntries(WHEEL_IDS.map(id => [id, { ...physical[id], grounded: true,
+    normalLoad: 3500, estimatedFriction: 1 }])) as typeof physical;
   const control = new VehicleControlSystem(config);
   control.setOptions({ absEnabled: true, ebdEnabled: true, tractionControlEnabled: true, stabilityControlEnabled: true });
   control.reset(true);
@@ -53,10 +55,10 @@ export function runVehicleControlSystemSelfTest(): { assertions: number } {
   assert(coordinator.resolve(0, 300, .2).appliedBrakeTorque === 60, 'late service request cannot overwrite ABS authority');
   for (const sign of [-1, 1]) {
     control.reset(true);
-    for (const id of WHEEL_IDS) Object.assign(state.wheels[id], { grounded: true, normalLoad: 3500, lateralForce: 0 });
-    state.longitudinalVelocity = 20; state.steeringAngle = sign * .03; state.yawRate = -sign * .9;
-    state.estimatedSideslipAngle = -sign * .2;
-    for (let i = 0; i < 60; i++) control.updateStabilityState(dt, [4000, 4000, 3000, 3000], [4000, 4000, 3000, 3000]);
+    for (let i = 0; i < 60; i++) {
+      control.estimator.update(dt, 20, -sign * 4, 0, 0, -sign * .9, sign * .03, wheels);
+      control.updateStabilityState(dt, [4000, 4000, 3000, 3000], [4000, 4000, 3000, 3000]);
+    }
     assert(control.esc.brakeTorques[sign > 0 ? 0 : 1]! > 0 && control.esc.yawMomentRequest * sign > 0 && control.esc.torqueFactor < 1,
       'ESC brake lever opposes excess yaw in both directions');
   }

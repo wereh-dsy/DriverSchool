@@ -1,0 +1,170 @@
+{
+  "file": "artifacts/map-elevation-seam-audit/continuation-before-map.json",
+  "a": {
+    "id": "v8-port-works-c91",
+    "links": [],
+    "junctions": [
+      {
+        "id": "urban-junction-234",
+        "connections": [
+          {
+            "roadId": "v6-logistics-one-split-3-m91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-port-works-c91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v6-logistics-one-split-3-split-2-m91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "position": {
+          "x": 776.935529567747,
+          "y": 0,
+          "z": 2103.857873117
+        }
+      },
+      {
+        "id": "urban-junction-235",
+        "connections": [
+          {
+            "roadId": "v8-port-south-m91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-port-works-c91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v8-port-south-split-2-m91",
+            "end": "start",
+            "port": "south"
+          },
+          {
+            "roadId": "v8-port-works-split-2-c91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "position": {
+          "x": 920.6045320356611,
+          "y": 0,
+          "z": 2455.2930311976224
+        }
+      }
+    ]
+  },
+  "b": {
+    "id": "v91-ring-south-inner-cd",
+    "structure": {
+      "barrierEnabled": false,
+      "pierSpacing": 30,
+      "pierStyle": "round",
+      "piersEnabled": true,
+      "barrierOffset": 0
+    }
+  },
+  "hits": [
+    {
+      "point": {
+        "x": 816.2390629417628,
+        "y": -6,
+        "z": 2200
+      },
+      "otherY": 0,
+      "station": 89.06566466965512
+    }
+  ]
+}
+{
+  "file": "src/world/regional/regional-main.json",
+  "a": {
+    "id": "v8-port-works-c91",
+    "links": [],
+    "junctions": [
+      {
+        "id": "urban-junction-234",
+        "connections": [
+          {
+            "roadId": "v6-logistics-one-split-3-m91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-port-works-c91",
+            "end": "start",
+            "port": "east"
+          },
+          {
+            "roadId": "v6-logistics-one-split-3-split-2-m91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "position": {
+          "x": 776.935529567747,
+          "y": 0,
+          "z": 2103.857873117
+        }
+      },
+      {
+        "id": "urban-junction-235",
+        "connections": [
+          {
+            "roadId": "v8-port-south-m91",
+            "end": "end",
+            "port": "north"
+          },
+          {
+            "roadId": "v8-port-works-c91",
+            "end": "end",
+            "port": "east"
+          },
+          {
+            "roadId": "v8-port-south-split-2-m91",
+            "end": "start",
+            "port": "south"
+          },
+          {
+            "roadId": "v8-port-works-split-2-c91",
+            "end": "start",
+            "port": "west"
+          }
+        ],
+        "position": {
+          "x": 920.6045320356611,
+          "y": 0,
+          "z": 2455.2930311976224
+        }
+      }
+    ]
+  },
+  "b": {
+    "id": "v91-ring-south-inner-cd",
+    "structure": {
+      "barrierEnabled": false,
+      "pierSpacing": 30,
+      "pierStyle": "round",
+      "piersEnabled": true,
+      "barrierOffset": 0
+    }
+  },
+  "hits": [
+    {
+      "point": {
+        "x": 816.2390629417628,
+        "y": -2.2710077176004084,
+        "z": 2200
+      },
+      "otherY": 0,
+      "station": 89.06566466965506
+    }
+  ]
+}

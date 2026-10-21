@@ -14,6 +14,8 @@ import { roadSignColliders } from './RoadSignTemplates';
 import { runtimeRoadClearance } from './RoadClearance';
 import { cityGroundGeometry } from './CityGroundGeometry';
 import {junctionSurfaceContains,junctionSurfaceHeight,compileJunctionSurface} from './JunctionSurface';
+import { roadPavementSurface,roadPavementTriangle } from './RoadPavementSurface';
+import {roadEdgeChains} from './RoadEdgeChain';
 import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
 import { RegionalDebug } from '../regional/RegionalDebug';
 import type { CityResourceTiming, CityRuntimeData } from './CityRuntimeData';
@@ -95,24 +97,26 @@ export class CityGround implements DrivingGround {
       const edges = roadEdges(source);
       const sidewalk = source.sidewalk?.enabled ? source.sidewalk.width : 0;
       const masks=[road.startIntersectionId,road.endIntersectionId].flatMap(id=>id&&junctionMasks.has(id)?[junctionMasks.get(id)!]:[]);
+      if(source.pavementSurface==='ribbon'){
+        const chain=roadEdgeChains(this.data);
+        for(const extra of sidewalk?[0,sidewalk]:[0]){
+        const left=chain.edge(source,edges.left-extra),right=chain.edge(source,edges.right+extra);
+        for(let i=1;i<left.length;i++)for(const [k,triangle]of [[left[i-1]!,right[i-1]!,left[i]!],[right[i-1]!,right[i]!,left[i]!]].entries()){
+          const [a,b,c]=triangle as [CityPoint,CityPoint,CityPoint];if(Math.abs((b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x))<1e-8)continue;
+          const plane=roadPavementTriangle(a,b,c,Math.hypot(left[i]!.x-left[i-1]!.x,left[i]!.z-left[i-1]!.z),masks);
+          this.addArea({minX:Math.min(a.x,b.x,c.x),maxX:Math.max(a.x,b.x,c.x),minZ:Math.min(a.z,b.z,c.z),maxZ:Math.max(a.z,b.z,c.z)},
+            {roadId:road.id,segmentIndex:(i-1)*2+k,pavement:extra>0,...plane,contains:plane.contains(0)});
+        }}
+        continue;
+      }
       for (let i = 1; i < road.centerline.length; i++) {
-        const a = road.centerline[i - 1]!, c = road.centerline[i]!, dx = c.x - a.x, dz = c.z - a.z, squared = dx * dx + dz * dz;
-        const dy = (c.y ?? 0) - (a.y ?? 0);
-        const extensionAt = (x: number, z: number) => { const t = ((x - a.x) * dx + (z - a.z) * dz) / squared; return Math.max(0, -t, t - 1) * Math.sqrt(squared); };
-        const heightAt = (x: number, z: number) => (a.y ?? 0) + dy * Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / squared));
-        const contains = (extra: number) => (x: number, z: number) => {
-          const along=((x-a.x)*dx+(z-a.z)*dz)/squared;
-          if(i===1&&road.startIntersectionId&&along<0||i===road.centerline.length-1&&road.endIntersectionId&&along>1)return false;
-          for(const mask of masks)if(mask.contains(x,z)&&Math.abs(mask.heightAt(x,z)-heightAt(x,z))<=.5)return false;
-          const t = Math.max(0, Math.min(1, along));
-          const offset = (-(x - a.x) * dz + (z - a.z) * dx) / Math.sqrt(squared);
-          const radius = (offset < 0 ? -edges.left : edges.right) + extra;
-          return (x - a.x - dx * t) ** 2 + (z - a.z - dz * t) ** 2 <= radius * radius;
-        };
+        const a = road.centerline[i - 1]!, c = road.centerline[i]!;
+        const {heightAt,extensionAt,contains,gx,gz}=roadPavementSurface(a,c,edges,
+          i===1&&!!road.startIntersectionId,i===road.centerline.length-1&&!!road.endIntersectionId,masks);
         const margin = Math.max(-edges.left, edges.right) + sidewalk;
         const bounds = { minX: Math.min(a.x, c.x) - margin, maxX: Math.max(a.x, c.x) + margin, minZ: Math.min(a.z, c.z) - margin, maxZ: Math.max(a.z, c.z) + margin };
-        this.addArea(bounds, { roadId: road.id, segmentIndex: i - 1, contains: contains(0), pavement: false, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
-        if (sidewalk) this.addArea(bounds, { roadId: road.id, segmentIndex: i - 1, contains: contains(sidewalk), pavement: true, heightAt, extensionAt, gx: dy * dx / squared, gz: dy * dz / squared });
+        this.addArea(bounds, { roadId: road.id, segmentIndex: i - 1, contains: contains(0), pavement: false, heightAt, extensionAt, gx, gz });
+        if (sidewalk) this.addArea(bounds, { roadId: road.id, segmentIndex: i - 1, contains: contains(sidewalk), pavement: true, heightAt, extensionAt, gx, gz });
       }
     }
     for (const j of this.data.intersections) {

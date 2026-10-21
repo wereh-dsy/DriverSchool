@@ -1,0 +1,3660 @@
+{
+  "bmw": {
+    "controlCalibration": {
+      "throttle": {
+        "pedalExponent": 1.035,
+        "torqueSmoothingSeconds": 0.025
+      },
+      "tcs": {
+        "slipMultiplier": 1.2,
+        "recoveryResponse": 2
+      },
+      "esc": {
+        "yawErrorThreshold": 0.15,
+        "sideslipThreshold": 0.1,
+        "response": 9
+      }
+    },
+    "length": 5.106,
+    "width": 1.868,
+    "height": 1.5,
+    "wheelBase": 3.105,
+    "frontTrackWidth": 1.605,
+    "rearTrackWidth": 1.63,
+    "wheelRadius": 0.339,
+    "wheelWidth": 0.245,
+    "mass": 1745,
+    "fuel": {
+      "tankCapacityL": 68,
+      "defaultFuelL": 47.6,
+      "fuelDensity": 0.745,
+      "peakThermalEfficiency": 0.34,
+      "referenceConsumptionLPer100km": 8
+    },
+    "trackWidth": 1.6175,
+    "frontWeightBias": 0.51,
+    "centerOfMassHeight": 0.5,
+    "enginePlacement": "FRONT_MID",
+    "yawInertia": 3820,
+    "drivetrainType": "RWD",
+    "differentialType": "open",
+    "frontDiff": {
+      "type": "open"
+    },
+    "rearDiff": {
+      "type": "open"
+    },
+    "frontTorqueSplit": 0,
+    "rearTorqueSplit": 1,
+    "drivetrainLayout": "RWD",
+    "gravity": 9.81,
+    "engine": {
+      "layout": "INLINE",
+      "cylinderCount": 4,
+      "torqueRipple": 0.012,
+      "soundProfile": "balanced",
+      "displacementL": 2,
+      "partThrottleExponent": 1,
+      "revHang": {
+        "enabled": false,
+        "holdTime": 0.12,
+        "decayTime": 0.28,
+        "strength": 0.88
+      },
+      "idleRPM": 750,
+      "stallRPM": 430,
+      "idleControlMaxTorque": 90,
+      "idleControlBandRPM": 260,
+      "idleControlStrength": 90,
+      "shiftRecommendation": {
+        "lightLoadRPM": 1700,
+        "highLoadRPM": 2500,
+        "throttleCurveExponent": 0.65,
+        "firstGearOffsetRPM": 120,
+        "minimumSpeedKmh": 8,
+        "hysteresisRPM": 140
+      },
+      "redlineWarningRPM": 6200,
+      "redlineRPM": 6500,
+      "revLimiterRPM": 6500,
+      "revLimiterType": "hard",
+      "maxRPM": 6700,
+      "engineInertia": 0.39,
+      "engineFrictionTorque": 15,
+      "engineBrakingStrength": 65,
+      "engineBraking": 80,
+      "throttleResponse": 3.4,
+      "throttleResponseRate": 3.4,
+      "throttleReleaseResponse": 7,
+      "starterTorque": 105,
+      "torqueCurve": [
+        {
+          "rpm": 750,
+          "torque": 115
+        },
+        {
+          "rpm": 1200,
+          "torque": 235
+        },
+        {
+          "rpm": 1600,
+          "torque": 325
+        },
+        {
+          "rpm": 2000,
+          "torque": 350
+        },
+        {
+          "rpm": 4500,
+          "torque": 350
+        },
+        {
+          "rpm": 5200,
+          "torque": 330
+        },
+        {
+          "rpm": 6000,
+          "torque": 285
+        },
+        {
+          "rpm": 6500,
+          "torque": 245
+        },
+        {
+          "rpm": 6700,
+          "torque": 195
+        }
+      ],
+      "ignitionSequence": {
+        "crankingDuration": 0.55,
+        "crankingRPM": 260,
+        "flareRPM": 1100,
+        "settlingDuration": 0.9,
+        "shutdownFriction": 30
+      },
+      "turbo": {
+        "enabled": true,
+        "inertia": 0.43,
+        "pressureGain": 1.25,
+        "maxPressureRatio": 2.1,
+        "turbineDriveStrength": 1.9,
+        "compressorLoadStrength": 0.18,
+        "friction": 0.15,
+        "wastegateGain": 5,
+        "baseTorqueCurve": [
+          {
+            "rpm": 750,
+            "torque": 95
+          },
+          {
+            "rpm": 1200,
+            "torque": 125
+          },
+          {
+            "rpm": 1600,
+            "torque": 155
+          },
+          {
+            "rpm": 2000,
+            "torque": 170
+          },
+          {
+            "rpm": 4500,
+            "torque": 172
+          },
+          {
+            "rpm": 5200,
+            "torque": 162
+          },
+          {
+            "rpm": 6000,
+            "torque": 140
+          },
+          {
+            "rpm": 6500,
+            "torque": 120
+          },
+          {
+            "rpm": 6700,
+            "torque": 96
+          }
+        ]
+      }
+    },
+    "transmission": {
+      "drivetrainLash": {
+        "reversalTime": 0.12,
+        "torqueDeadzone": 5
+      },
+      "reverseRatio": -3.456,
+      "gearRatios": {
+        "1": 5,
+        "2": 3.2,
+        "3": 2.143,
+        "4": 1.72,
+        "5": 1.314,
+        "6": 1,
+        "7": 0.822,
+        "8": 0.64
+      },
+      "finalDrive": 2.929,
+      "finalDriveRatio": 2.929,
+      "efficiency": 0.92,
+      "drivetrainEfficiency": 0.92,
+      "shiftTime": 0.25,
+      "reverseLockoutSpeed": 1,
+      "minimumClutchDisengagementForShift": 0.88,
+      "synchroStrength": 1,
+      "automatic": {
+        "parkMaximumSpeed": 0.35,
+        "shiftTorqueFactor": 0.8,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1550,
+              "downshiftRPM": 850
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1850,
+              "downshiftRPM": 950
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2600,
+              "downshiftRPM": 1200
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3900,
+              "downshiftRPM": 1650
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 5300,
+              "downshiftRPM": 2200
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 6250,
+              "downshiftRPM": 2600
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.6,
+            4.5,
+            6.8,
+            9,
+            12,
+            15,
+            18
+          ],
+          "hysteresisRPM": 170,
+          "minimumTimeInGear": 1.2,
+          "kickdownThrottle": 0.92,
+          "kickdownTargetRPM": 4400,
+          "kickdownMaximumRPM": 6100,
+          "gearRPMCorrections": [
+            100,
+            40,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6400,
+          "minimumPostShiftRPM": 850,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.94
+        },
+        "converter": {
+          "pumpTorqueCoefficient": 0.0058,
+          "torqueRatioCurve": [
+            {
+              "speedRatio": 0,
+              "torqueRatio": 2.05
+            },
+            {
+              "speedRatio": 0.5,
+              "torqueRatio": 1.5
+            },
+            {
+              "speedRatio": 0.8,
+              "torqueRatio": 1.13
+            },
+            {
+              "speedRatio": 1,
+              "torqueRatio": 1
+            }
+          ],
+          "maximumPumpTorque": 450,
+          "backdriveCoupling": 0.35,
+          "lockupCapacity": 460,
+          "lockupStiffness": 11,
+          "lockupApplyRate": 0.8,
+          "lockupReleaseRate": 4.5,
+          "lockupMinimumSpeed": 9,
+          "lockupMinimumSpeedRatio": 0.78,
+          "lockupMaximumThrottle": 1
+        }
+      },
+      "type": "TORQUE_CONVERTER_AT",
+      "supportsManualSelection": true,
+      "manualAutoUpshiftAtRedline": true,
+      "manualSelectionTimeout": 8
+    },
+    "clutch": {
+      "maxClutchTorque": 285,
+      "maxTorque": 285,
+      "bitePointStart": 0.98,
+      "bitePointEnd": 0.02,
+      "engagementCurve": "progressive",
+      "engagementCurveExponent": 1.62,
+      "torqueCapacityExponent": 1.7,
+      "couplingStiffness": 10.5,
+      "disengagementRate": 7.5,
+      "engagementRate": 2.15,
+      "manualShiftMaxEngagement": 0.12
+    },
+    "autoClutch": {
+      "gearChangeDelay": 0.11,
+      "shiftDisengagedThreshold": 0.015,
+      "launchFullyEngagedSpeed": 4.5,
+      "launchMinimumEngagement": 0.18,
+      "antiStallRPMFraction": 0.72,
+      "takeoverRate": 1.35
+    },
+    "brakes": {
+      "pedalCurveExponent": 1.17,
+      "applyResponse": 10.5,
+      "releaseResponse": 17,
+      "maxBrakeTorqueFront": 4057.83,
+      "maxBrakeTorqueRear": 2383.17,
+      "frontBrakeBias": 0.63,
+      "maxBrakeForce": 19000,
+      "handbrakeTorque": 2644.2000000000003,
+      "handbrakeAxle": "rear",
+      "maxHandbrakeForce": 7800,
+      "response": 10.5,
+      "handbrakeResponse": 18
+    },
+    "steering": {
+      "maxRoadWheelAngle": 0.5759586531581288,
+      "maxSteeringAngle": 0.5759586531581288,
+      "steeringWheelLock": 18.661060362323372,
+      "steeringRatio": 16.2,
+      "steeringResponse": 3.3,
+      "steeringReturnRate": 5.1,
+      "steeringDamping": 10,
+      "highSpeedSteeringReduction": 0.003,
+      "highSpeedReduction": 0.003,
+      "highSpeedReferenceSpeed": 19,
+      "highSpeedMinimumAuthority": 0.21,
+      "ackermannFactor": 0.9,
+      "yawResponseScale": 0.42,
+      "minimumYawResponseRate": 1.8,
+      "maximumYawResponseRate": 7.5,
+      "handbrakeOversteerGain": 1.25,
+      "maximumYawRate": 1.35,
+      "returnProfile": {
+        "lowSpeedRate": 0.55,
+        "highSpeedRate": 5.1,
+        "speedReference": 14
+      }
+    },
+    "aero": {
+      "dragCoefficient": 0.27,
+      "frontalArea": 2.28,
+      "airDensity": 1.225,
+      "liftCoefficientFront": 0.01,
+      "liftCoefficientRear": 0.013
+    },
+    "tires": {
+      "verticalCompliance": {
+        "stiffness": 400000,
+        "damping": 1200,
+        "maximumCompression": 0.055
+      },
+      "loadSensitivity": 0.06,
+      "wheelInertia": 1.65,
+      "rollingResistance": 0.0115,
+      "longitudinalGrip": 1.03,
+      "lateralGrip": 1.04,
+      "gripCoefficient": 1.03,
+      "corneringStiffnessFront": 103000,
+      "corneringStiffnessRear": 108000,
+      "lateralSlipRecoveryRate": 8.5,
+      "handbrakeRearGripFactor": 0.12,
+      "maximumBodySlipAngle": 0.6632251157578452,
+      "combinedGripLateralReduction": 0.28,
+      "contactYawInfluence": 0.65,
+      "peakSlipRatio": 0.105,
+      "peakSlipAngle": 0.131,
+      "gripFalloff": 0.3,
+      "camberStiffness": 800,
+      "wetLongitudinalGripRetention": 0.98,
+      "wetLateralGripRetention": 0.97,
+      "thermalPressureFront": {
+        "referenceColdPressureKPa": 250,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 32000,
+        "heatingEfficiency": 0.65,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      },
+      "thermalPressureRear": {
+        "referenceColdPressureKPa": 270,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 33000,
+        "heatingEfficiency": 0.65,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      }
+    },
+    "suspension": {
+      "kinematics": {
+        "front": {
+          "topology": "DOUBLE_WISHBONE",
+          "staticCamber": -0.009,
+          "camberGainPerMeter": -0.38,
+          "staticToe": 0,
+          "bumpToeGainPerMeter": 0.007,
+          "antiDiveRatio": 0.18,
+          "antiSquatRatio": 0.05
+        },
+        "rear": {
+          "topology": "MULTI_LINK",
+          "staticCamber": -0.016,
+          "camberGainPerMeter": -0.32,
+          "staticToe": 0.0007,
+          "bumpToeGainPerMeter": 0.017,
+          "antiDiveRatio": 0,
+          "antiSquatRatio": 0.18
+        }
+      },
+      "rideHeight": 0.145,
+      "restLength": 0.36,
+      "springRateFront": 38500,
+      "springRateRear": 37500,
+      "damperCompressionFront": 3000,
+      "damperCompressionRear": 2900,
+      "damperReboundFront": 4450,
+      "damperReboundRear": 4350,
+      "suspensionTravel": 0.16,
+      "bumpStopStartRatio": 0.8,
+      "bumpStopStiffness": 180000,
+      "antiRollStiffnessFront": 14500,
+      "antiRollStiffnessRear": 12500,
+      "antiRollStiffness": 27000
+    },
+    "driverAids": {
+      "hillHoldEnabled": false,
+      "hillHoldDuration": 1.8,
+      "antiStallStrength": 0.55,
+      "absEnabled": true,
+      "tractionControlEnabled": true,
+      "stabilityControlEnabled": true,
+      "autoBlipEnabled": false,
+      "esc": {
+        "yawErrorThreshold": 0.15,
+        "sideslipThreshold": 0.08,
+        "response": 10
+      },
+      "tcs": {
+        "slipThresholdMultiplier": 1.12,
+        "maximumTorqueReduction": 0.95,
+        "response": 8,
+        "recoveryResponse": 2
+      },
+      "ebdEnabled": true
+    },
+    "safety": {
+      "maxSubstep": 0.008333333333333333,
+      "maxFrameTime": 0.1,
+      "maxForwardSpeed": 90,
+      "maxReverseSpeed": 25,
+      "maxAbsPosition": 100000
+    },
+    "capabilities": {
+      "tpms": true
+    },
+    "lateralAssist": {
+      "minimumConfidence": 0.8,
+      "driverReduceStart": 0.08,
+      "driverOverride": 0.38,
+      "lka": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxAuthority": 0.12,
+        "activationMargin": 1.1,
+        "strongMargin": 0.65,
+        "predictionSeconds": 0.85,
+        "boundaryGain": 0.045,
+        "headingGain": 0.25,
+        "yawRateGain": 1.2,
+        "inwardSpeedTolerance": 0.1,
+        "outwardSpeedFull": 0.4,
+        "lateralVelocityGain": 0.065,
+        "trendSmoothing": 12,
+        "recoveryMargin": 0.15,
+        "recoveryOffsetTolerance": 0.1,
+        "recoverySpeedTolerance": 0.1,
+        "recoveryHeadingTolerance": 0.015,
+        "recoveryYawRateTolerance": 0.015,
+        "rateLimit": 0.22,
+        "smoothing": 6,
+        "activationSeconds": 0.18,
+        "deactivationSeconds": 0.16
+      },
+      "lcc": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxSpeed": 50,
+        "maxAuthority": 0.2,
+        "centerTolerance": 0.025,
+        "lateralGain": 0.01,
+        "headingGain": 0.3,
+        "lookAheadGain": 0.0035,
+        "lateralVelocityGain": 0.006,
+        "previewHeadingWeight": 0.35,
+        "trendSmoothing": 12,
+        "lowSpeedGain": 0.85,
+        "highSpeedGain": 1.2,
+        "gainReferenceSpeed": 16.666666666666668,
+        "gainFullSpeed": 33.333333333333336,
+        "curvatureFeedForward": 2,
+        "understeerFeedForward": 0.00025,
+        "yawRateGain": 0.22,
+        "rateLimit": 0.18,
+        "highSpeedRateLimit": 0.1,
+        "smoothing": 5,
+        "reengagementSeconds": 1,
+        "releaseDelay": 0.7,
+        "laneStableSeconds": 0.65,
+        "activationStableSeconds": 0.15,
+        "reacquireMargin": 0.3,
+        "reacquireHeading": 0.12,
+        "laneChangeIntent": 0.1
+      }
+    },
+    "parkingBrake": {
+      "axle": "rear",
+      "maximumTorque": 2644.2000000000003,
+      "applyRate": 2,
+      "releaseRate": 4,
+      "maximumStaticApplySpeed": 0.5,
+      "emergencyBrakeDemand": 0.65,
+      "emergencyResponse": 5,
+      "autoApplyOnIgnitionOff": true,
+      "autoApplyInPark": true,
+      "autoReleaseOnDrive": true,
+      "releaseThrottle": 0.16
+    },
+    "autoHold": {
+      "enabledByDefault": true,
+      "maximumCaptureSpeed": 0.06,
+      "captureBrake": 0.25,
+      "minimumHoldPressure": 0.55,
+      "releaseThrottle": 0.16,
+      "releaseThrottleHysteresis": 0.04,
+      "releaseDelay": 0.08,
+      "applyRate": 8,
+      "releaseRate": 4
+    },
+    "driveModes": {
+      "ECO": {
+        "throttleExponent": 1.3,
+        "throttleResponse": 2.5,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1300,
+              "downshiftRPM": 800
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1500,
+              "downshiftRPM": 850
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2150,
+              "downshiftRPM": 1000
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3200,
+              "downshiftRPM": 1300
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 4500,
+              "downshiftRPM": 1800
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 6050,
+              "downshiftRPM": 2200
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.6,
+            4.5,
+            6.8,
+            9,
+            12,
+            15,
+            18
+          ],
+          "hysteresisRPM": 170,
+          "minimumTimeInGear": 1.2,
+          "kickdownThrottle": 0.95,
+          "kickdownTargetRPM": 4200,
+          "kickdownMaximumRPM": 6100,
+          "gearRPMCorrections": [
+            100,
+            40,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6400,
+          "minimumPostShiftRPM": 850,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.94
+        },
+        "steeringResponse": 3,
+        "steeringDamping": 9.5
+      },
+      "NORMAL": {
+        "throttleExponent": 1,
+        "throttleResponse": 3.4,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1550,
+              "downshiftRPM": 850
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1850,
+              "downshiftRPM": 950
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2600,
+              "downshiftRPM": 1200
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3900,
+              "downshiftRPM": 1650
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 5300,
+              "downshiftRPM": 2200
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 6250,
+              "downshiftRPM": 2600
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.6,
+            4.5,
+            6.8,
+            9,
+            12,
+            15,
+            18
+          ],
+          "hysteresisRPM": 170,
+          "minimumTimeInGear": 1.2,
+          "kickdownThrottle": 0.92,
+          "kickdownTargetRPM": 4400,
+          "kickdownMaximumRPM": 6100,
+          "gearRPMCorrections": [
+            100,
+            40,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6400,
+          "minimumPostShiftRPM": 850,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.94
+        },
+        "steeringResponse": 3.3,
+        "steeringDamping": 10
+      },
+      "SPORT": {
+        "throttleExponent": 0.88,
+        "throttleResponse": 4.5,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 2200,
+              "downshiftRPM": 1200
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 2700,
+              "downshiftRPM": 1400
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 3800,
+              "downshiftRPM": 1850
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 5200,
+              "downshiftRPM": 2300
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 6000,
+              "downshiftRPM": 2800
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 6350,
+              "downshiftRPM": 3100
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.6,
+            4.5,
+            6.8,
+            9,
+            12,
+            15,
+            18
+          ],
+          "hysteresisRPM": 170,
+          "minimumTimeInGear": 1.2,
+          "kickdownThrottle": 0.88,
+          "kickdownTargetRPM": 4800,
+          "kickdownMaximumRPM": 6100,
+          "gearRPMCorrections": [
+            100,
+            40,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6400,
+          "minimumPostShiftRPM": 850,
+          "liftHoldTime": 1.4,
+          "economicalShiftFactor": 1
+        },
+        "steeringResponse": 3.7,
+        "steeringDamping": 11.5
+      }
+    },
+    "startStop": {
+      "enabledByDefault": false,
+      "minimumStopDelay": 2,
+      "stopSpeedThreshold": 0.06,
+      "brakeThreshold": 0.25,
+      "restartThrottleThreshold": 0.1,
+      "restartBrakeReleaseThreshold": 0.08,
+      "restartDelay": 0.2
+    }
+  },
+  "audi": {
+    "controlCalibration": {
+      "throttle": {
+        "pedalExponent": 1.04,
+        "torqueSmoothingSeconds": 0.025
+      },
+      "tcs": {
+        "slipMultiplier": 1.22,
+        "brakeFraction": 0.18,
+        "response": 6.5,
+        "recoveryResponse": 2.2,
+        "torqueDelay": 0.18
+      },
+      "esc": {
+        "yawErrorThreshold": 0.14,
+        "sideslipThreshold": 0.085,
+        "response": 8,
+        "interventionGain": 0.85
+      },
+      "drivetrain": {
+        "accelerationRearRatio": 0.4,
+        "corneringBias": -0.015,
+        "stabilityGain": 0.11,
+        "response": 3,
+        "rateLimit": 0.28
+      },
+      "modes": {
+        "ECO": {
+          "drivetrain": {
+            "accelerationRearRatio": 0.34
+          }
+        },
+        "NORMAL": {
+          "esc": {
+            "yawErrorThreshold": 0.14,
+            "sideslipThreshold": 0.085
+          }
+        },
+        "SPORT": {
+          "esc": {
+            "yawErrorThreshold": 0.19,
+            "sideslipThreshold": 0.12
+          },
+          "drivetrain": {
+            "accelerationRearRatio": 0.46,
+            "corneringBias": 0.01
+          },
+          "tcs": {
+            "slipMultiplier": 1.38
+          }
+        }
+      }
+    },
+    "length": 5.05,
+    "width": 1.89,
+    "height": 1.5,
+    "wheelBase": 3.025,
+    "frontTrackWidth": 1.63,
+    "rearTrackWidth": 1.62,
+    "wheelRadius": 0.345,
+    "wheelWidth": 0.245,
+    "mass": 1840,
+    "fuel": {
+      "tankCapacityL": 73,
+      "defaultFuelL": 51,
+      "fuelDensity": 0.745,
+      "peakThermalEfficiency": 0.34,
+      "referenceConsumptionLPer100km": 8.2
+    },
+    "trackWidth": 1.625,
+    "frontWeightBias": 0.56,
+    "centerOfMassHeight": 0.5,
+    "enginePlacement": "FRONT",
+    "yawInertia": 3950,
+    "drivetrainType": "AWD",
+    "differentialType": "open",
+    "frontDiff": {
+      "type": "open"
+    },
+    "rearDiff": {
+      "type": "open"
+    },
+    "frontTorqueSplit": 0.75,
+    "rearTorqueSplit": 0.25,
+    "drivetrainLayout": "AWD",
+    "gravity": 9.81,
+    "engine": {
+      "layout": "INLINE",
+      "cylinderCount": 4,
+      "torqueRipple": 0.018,
+      "soundProfile": "balanced",
+      "displacementL": 2,
+      "partThrottleExponent": 0.85,
+      "revHang": {
+        "enabled": false,
+        "holdTime": 0.12,
+        "decayTime": 0.28,
+        "strength": 0.88
+      },
+      "idleRPM": 780,
+      "stallRPM": 500,
+      "idleControlMaxTorque": 85,
+      "idleControlBandRPM": 280,
+      "idleControlStrength": 85,
+      "shiftRecommendation": {
+        "lightLoadRPM": 1700,
+        "highLoadRPM": 2500,
+        "throttleCurveExponent": 0.65,
+        "firstGearOffsetRPM": 120,
+        "minimumSpeedKmh": 8,
+        "hysteresisRPM": 140
+      },
+      "redlineWarningRPM": 6000,
+      "redlineRPM": 6400,
+      "revLimiterRPM": 6400,
+      "revLimiterType": "hard",
+      "maxRPM": 6600,
+      "engineInertia": 0.43,
+      "engineFrictionTorque": 16,
+      "engineBrakingStrength": 67,
+      "engineBraking": 83,
+      "throttleResponse": 3.2,
+      "throttleResponseRate": 3.2,
+      "throttleReleaseResponse": 7.5,
+      "starterTorque": 105,
+      "torqueCurve": [
+        {
+          "rpm": 780,
+          "torque": 140
+        },
+        {
+          "rpm": 1200,
+          "torque": 250
+        },
+        {
+          "rpm": 1600,
+          "torque": 335
+        },
+        {
+          "rpm": 2000,
+          "torque": 370
+        },
+        {
+          "rpm": 4200,
+          "torque": 370
+        },
+        {
+          "rpm": 5000,
+          "torque": 335
+        },
+        {
+          "rpm": 5800,
+          "torque": 292
+        },
+        {
+          "rpm": 6400,
+          "torque": 238
+        },
+        {
+          "rpm": 6600,
+          "torque": 180
+        }
+      ],
+      "ignitionSequence": {
+        "crankingDuration": 0.55,
+        "crankingRPM": 270,
+        "flareRPM": 1120,
+        "settlingDuration": 0.85,
+        "shutdownFriction": 30
+      },
+      "turbo": {
+        "enabled": true,
+        "inertia": 0.5,
+        "pressureGain": 1.3,
+        "maxPressureRatio": 2.15,
+        "turbineDriveStrength": 1.8,
+        "compressorLoadStrength": 0.18,
+        "friction": 0.16,
+        "wastegateGain": 5,
+        "baseTorqueCurve": [
+          {
+            "rpm": 780,
+            "torque": 100
+          },
+          {
+            "rpm": 1200,
+            "torque": 135
+          },
+          {
+            "rpm": 1600,
+            "torque": 160
+          },
+          {
+            "rpm": 2000,
+            "torque": 178
+          },
+          {
+            "rpm": 4200,
+            "torque": 180
+          },
+          {
+            "rpm": 5000,
+            "torque": 164
+          },
+          {
+            "rpm": 5800,
+            "torque": 144
+          },
+          {
+            "rpm": 6400,
+            "torque": 119
+          },
+          {
+            "rpm": 6600,
+            "torque": 90
+          }
+        ]
+      }
+    },
+    "transmission": {
+      "drivetrainLash": {
+        "reversalTime": 0.12,
+        "torqueDeadzone": 5
+      },
+      "reverseRatio": -3.1,
+      "gearRatios": {
+        "1": 3.45,
+        "2": 2.18,
+        "3": 1.52,
+        "4": 1.12,
+        "5": 0.87,
+        "6": 0.69,
+        "7": 0.56
+      },
+      "finalDrive": 3.85,
+      "finalDriveRatio": 3.85,
+      "efficiency": 0.9,
+      "drivetrainEfficiency": 0.9,
+      "shiftTime": 0.3,
+      "reverseLockoutSpeed": 1,
+      "minimumClutchDisengagementForShift": 0.88,
+      "synchroStrength": 1,
+      "dct": {
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1500,
+              "downshiftRPM": 850
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1800,
+              "downshiftRPM": 950
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2500,
+              "downshiftRPM": 1150
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3700,
+              "downshiftRPM": 1550
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 5000,
+              "downshiftRPM": 2100
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 5900,
+              "downshiftRPM": 2600
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.8,
+            4.8,
+            7,
+            9,
+            11.5,
+            14
+          ],
+          "hysteresisRPM": 160,
+          "minimumTimeInGear": 1.2,
+          "kickdownThrottle": 0.92,
+          "kickdownTargetRPM": 4000,
+          "kickdownMaximumRPM": 5700,
+          "gearRPMCorrections": [
+            100,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6150,
+          "minimumPostShiftRPM": 1000,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.94
+        },
+        "clutchCapacity": 440,
+        "couplingStiffness": 11,
+        "clutchApplyRate": 1.25,
+        "clutchReleaseRate": 7,
+        "creepEngagement": 0.1,
+        "launchFullyEngagedSpeed": 4.8,
+        "unexpectedShiftDelay": 0.14,
+        "parkMaximumSpeed": 0.35
+      },
+      "type": "DCT",
+      "supportsManualSelection": true,
+      "manualAutoUpshiftAtRedline": true,
+      "manualSelectionTimeout": 8
+    },
+    "clutch": {
+      "maxClutchTorque": 285,
+      "maxTorque": 285,
+      "bitePointStart": 0.98,
+      "bitePointEnd": 0.02,
+      "engagementCurve": "progressive",
+      "engagementCurveExponent": 1.62,
+      "torqueCapacityExponent": 1.7,
+      "couplingStiffness": 10.5,
+      "disengagementRate": 7.5,
+      "engagementRate": 2.15,
+      "manualShiftMaxEngagement": 0.12
+    },
+    "autoClutch": {
+      "gearChangeDelay": 0.11,
+      "shiftDisengagedThreshold": 0.015,
+      "launchFullyEngagedSpeed": 4.5,
+      "launchMinimumEngagement": 0.18,
+      "antiStallRPMFraction": 0.72,
+      "takeoverRate": 1.35
+    },
+    "brakes": {
+      "pedalCurveExponent": 1.18,
+      "applyResponse": 10,
+      "releaseResponse": 17,
+      "maxBrakeTorqueFront": 4148.625,
+      "maxBrakeTorqueRear": 2233.8749999999995,
+      "frontBrakeBias": 0.65,
+      "maxBrakeForce": 18500,
+      "handbrakeTorque": 2760,
+      "handbrakeAxle": "rear",
+      "maxHandbrakeForce": 8000,
+      "response": 10,
+      "handbrakeResponse": 18
+    },
+    "steering": {
+      "maxRoadWheelAngle": 0.5585053606381855,
+      "maxSteeringAngle": 0.5585053606381855,
+      "steeringWheelLock": 19.54768762233649,
+      "steeringRatio": 17.5,
+      "steeringResponse": 2.85,
+      "steeringReturnRate": 4.8,
+      "steeringDamping": 10,
+      "highSpeedSteeringReduction": 0.003,
+      "highSpeedReduction": 0.003,
+      "highSpeedReferenceSpeed": 17,
+      "highSpeedMinimumAuthority": 0.2,
+      "ackermannFactor": 0.88,
+      "yawResponseScale": 0.42,
+      "minimumYawResponseRate": 1.8,
+      "maximumYawResponseRate": 7.5,
+      "handbrakeOversteerGain": 1.25,
+      "maximumYawRate": 1.35,
+      "returnProfile": {
+        "lowSpeedRate": 0.5,
+        "highSpeedRate": 4.8,
+        "speedReference": 14
+      }
+    },
+    "aero": {
+      "dragCoefficient": 0.28,
+      "frontalArea": 2.3,
+      "airDensity": 1.225,
+      "liftCoefficientFront": 0.008,
+      "liftCoefficientRear": 0.012
+    },
+    "tires": {
+      "verticalCompliance": {
+        "stiffness": 400000,
+        "damping": 1200,
+        "maximumCompression": 0.055
+      },
+      "loadSensitivity": 0.06,
+      "wheelInertia": 1.65,
+      "rollingResistance": 0.0115,
+      "longitudinalGrip": 1.03,
+      "lateralGrip": 1.04,
+      "gripCoefficient": 1.03,
+      "corneringStiffnessFront": 103000,
+      "corneringStiffnessRear": 108000,
+      "lateralSlipRecoveryRate": 8.5,
+      "handbrakeRearGripFactor": 0.12,
+      "maximumBodySlipAngle": 0.6632251157578452,
+      "combinedGripLateralReduction": 0.28,
+      "contactYawInfluence": 0.65,
+      "peakSlipRatio": 0.105,
+      "peakSlipAngle": 0.131,
+      "gripFalloff": 0.3,
+      "camberStiffness": 800,
+      "wetLongitudinalGripRetention": 0.98,
+      "wetLateralGripRetention": 0.97,
+      "thermalPressureFront": {
+        "referenceColdPressureKPa": 250,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 32000,
+        "heatingEfficiency": 0.65,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      },
+      "thermalPressureRear": {
+        "referenceColdPressureKPa": 260,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 32000,
+        "heatingEfficiency": 0.65,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      }
+    },
+    "suspension": {
+      "kinematics": {
+        "front": {
+          "topology": "MULTI_LINK",
+          "staticCamber": -0.008,
+          "camberGainPerMeter": -0.28,
+          "staticToe": 0,
+          "bumpToeGainPerMeter": 0.008,
+          "antiDiveRatio": 0.15,
+          "antiSquatRatio": 0.08
+        },
+        "rear": {
+          "topology": "MULTI_LINK",
+          "staticCamber": -0.012,
+          "camberGainPerMeter": -0.26,
+          "staticToe": 0.0005,
+          "bumpToeGainPerMeter": 0.018,
+          "antiDiveRatio": 0,
+          "antiSquatRatio": 0.15
+        }
+      },
+      "rideHeight": 0.145,
+      "restLength": 0.37,
+      "springRateFront": 39000,
+      "springRateRear": 35500,
+      "damperCompressionFront": 3050,
+      "damperCompressionRear": 2800,
+      "damperReboundFront": 4600,
+      "damperReboundRear": 4250,
+      "suspensionTravel": 0.17,
+      "bumpStopStartRatio": 0.8,
+      "bumpStopStiffness": 180000,
+      "antiRollStiffnessFront": 14500,
+      "antiRollStiffnessRear": 11500,
+      "antiRollStiffness": 26000,
+      "adaptiveDamping": {
+        "responseRate": 2.5,
+        "modeMultipliers": {
+          "ECO": 0.95,
+          "NORMAL": 1,
+          "SPORT": 1.35
+        }
+      }
+    },
+    "driverAids": {
+      "hillHoldEnabled": false,
+      "hillHoldDuration": 1.8,
+      "antiStallStrength": 0.55,
+      "absEnabled": true,
+      "tractionControlEnabled": true,
+      "stabilityControlEnabled": true,
+      "autoBlipEnabled": false,
+      "esc": {
+        "yawErrorThreshold": 0.14,
+        "sideslipThreshold": 0.075,
+        "response": 10
+      },
+      "tcs": {
+        "slipThresholdMultiplier": 1.15,
+        "maximumTorqueReduction": 0.95,
+        "response": 7,
+        "recoveryResponse": 1.8
+      },
+      "ebdEnabled": true
+    },
+    "safety": {
+      "maxSubstep": 0.008333333333333333,
+      "maxFrameTime": 0.1,
+      "maxForwardSpeed": 90,
+      "maxReverseSpeed": 25,
+      "maxAbsPosition": 100000
+    },
+    "capabilities": {
+      "tpms": true
+    },
+    "lateralAssist": {
+      "minimumConfidence": 0.8,
+      "driverReduceStart": 0.08,
+      "driverOverride": 0.38,
+      "lka": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxAuthority": 0.12,
+        "activationMargin": 1.1,
+        "strongMargin": 0.65,
+        "predictionSeconds": 0.85,
+        "boundaryGain": 0.045,
+        "headingGain": 0.25,
+        "yawRateGain": 1.2,
+        "inwardSpeedTolerance": 0.1,
+        "outwardSpeedFull": 0.4,
+        "lateralVelocityGain": 0.065,
+        "trendSmoothing": 12,
+        "recoveryMargin": 0.15,
+        "recoveryOffsetTolerance": 0.1,
+        "recoverySpeedTolerance": 0.1,
+        "recoveryHeadingTolerance": 0.015,
+        "recoveryYawRateTolerance": 0.015,
+        "rateLimit": 0.22,
+        "smoothing": 6,
+        "activationSeconds": 0.18,
+        "deactivationSeconds": 0.16
+      },
+      "lcc": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxSpeed": 50,
+        "maxAuthority": 0.2,
+        "centerTolerance": 0.025,
+        "lateralGain": 0.01,
+        "headingGain": 0.3,
+        "lookAheadGain": 0.0035,
+        "lateralVelocityGain": 0.006,
+        "previewHeadingWeight": 0.35,
+        "trendSmoothing": 12,
+        "lowSpeedGain": 0.85,
+        "highSpeedGain": 1.2,
+        "gainReferenceSpeed": 16.666666666666668,
+        "gainFullSpeed": 33.333333333333336,
+        "curvatureFeedForward": 2,
+        "understeerFeedForward": 0.00025,
+        "yawRateGain": 0.22,
+        "rateLimit": 0.18,
+        "highSpeedRateLimit": 0.1,
+        "smoothing": 5,
+        "reengagementSeconds": 1,
+        "releaseDelay": 0.7,
+        "laneStableSeconds": 0.65,
+        "activationStableSeconds": 0.15,
+        "reacquireMargin": 0.3,
+        "reacquireHeading": 0.12,
+        "laneChangeIntent": 0.1
+      }
+    },
+    "electronicDifferential": {
+      "slipThreshold": 0.18,
+      "speedDifferenceThreshold": 0.65,
+      "maximumBrakeTorque": 380,
+      "response": 8
+    },
+    "parkingBrake": {
+      "axle": "rear",
+      "maximumTorque": 2760,
+      "applyRate": 2,
+      "releaseRate": 4,
+      "maximumStaticApplySpeed": 0.5,
+      "emergencyBrakeDemand": 0.65,
+      "emergencyResponse": 5,
+      "autoApplyOnIgnitionOff": true,
+      "autoApplyInPark": true,
+      "autoReleaseOnDrive": true,
+      "releaseThrottle": 0.16
+    },
+    "autoHold": {
+      "enabledByDefault": true,
+      "maximumCaptureSpeed": 0.06,
+      "captureBrake": 0.25,
+      "minimumHoldPressure": 0.55,
+      "releaseThrottle": 0.16,
+      "releaseThrottleHysteresis": 0.04,
+      "releaseDelay": 0.08,
+      "applyRate": 8,
+      "releaseRate": 4
+    },
+    "driveModes": {
+      "ECO": {
+        "throttleExponent": 1.32,
+        "throttleResponse": 2.4,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1350,
+              "downshiftRPM": 850
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1550,
+              "downshiftRPM": 900
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2150,
+              "downshiftRPM": 1050
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3100,
+              "downshiftRPM": 1300
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 4300,
+              "downshiftRPM": 1800
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 5700,
+              "downshiftRPM": 2200
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.8,
+            4.8,
+            7,
+            9,
+            11.5,
+            14
+          ],
+          "hysteresisRPM": 160,
+          "minimumTimeInGear": 1.4,
+          "kickdownThrottle": 0.95,
+          "kickdownTargetRPM": 3800,
+          "kickdownMaximumRPM": 5700,
+          "gearRPMCorrections": [
+            100,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6150,
+          "minimumPostShiftRPM": 1000,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.94
+        },
+        "steeringResponse": 2.65,
+        "steeringDamping": 9,
+        "accelerationRearTorqueSplit": 0.35
+      },
+      "NORMAL": {
+        "throttleExponent": 1,
+        "throttleResponse": 3.2,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1500,
+              "downshiftRPM": 850
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1800,
+              "downshiftRPM": 950
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2500,
+              "downshiftRPM": 1150
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3700,
+              "downshiftRPM": 1550
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 5000,
+              "downshiftRPM": 2100
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 5900,
+              "downshiftRPM": 2600
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.8,
+            4.8,
+            7,
+            9,
+            11.5,
+            14
+          ],
+          "hysteresisRPM": 160,
+          "minimumTimeInGear": 1.2,
+          "kickdownThrottle": 0.92,
+          "kickdownTargetRPM": 4000,
+          "kickdownMaximumRPM": 5700,
+          "gearRPMCorrections": [
+            100,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6150,
+          "minimumPostShiftRPM": 1000,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.94
+        },
+        "steeringResponse": 2.85,
+        "steeringDamping": 10,
+        "accelerationRearTorqueSplit": 0.4
+      },
+      "SPORT": {
+        "throttleExponent": 0.82,
+        "throttleResponse": 4.6,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 2250,
+              "downshiftRPM": 1200
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 2800,
+              "downshiftRPM": 1450
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 3700,
+              "downshiftRPM": 1850
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 4800,
+              "downshiftRPM": 2250
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 5600,
+              "downshiftRPM": 2800
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 6000,
+              "downshiftRPM": 3100
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.8,
+            4.8,
+            7,
+            9,
+            11.5,
+            14
+          ],
+          "hysteresisRPM": 160,
+          "minimumTimeInGear": 1,
+          "kickdownThrottle": 0.88,
+          "kickdownTargetRPM": 4800,
+          "kickdownMaximumRPM": 5700,
+          "gearRPMCorrections": [
+            100,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6150,
+          "minimumPostShiftRPM": 1000,
+          "liftHoldTime": 1.4,
+          "economicalShiftFactor": 1
+        },
+        "steeringResponse": 3.25,
+        "steeringDamping": 12,
+        "accelerationRearTorqueSplit": 0.46
+      }
+    },
+    "awd": {
+      "mode": "on-demand",
+      "accelerationRearTorqueSplit": 0.4,
+      "maximumRearTorqueSplit": 0.5,
+      "response": 2.4
+    },
+    "startStop": {
+      "enabledByDefault": false,
+      "minimumStopDelay": 2,
+      "stopSpeedThreshold": 0.06,
+      "brakeThreshold": 0.25,
+      "restartThrottleThreshold": 0.1,
+      "restartBrakeReleaseThreshold": 0.08,
+      "restartDelay": 0.2
+    }
+  },
+  "mercedes": {
+    "controlCalibration": {
+      "throttle": {
+        "pedalExponent": 1.1,
+        "brakeExponent": 1.04,
+        "torqueSmoothingSeconds": 0.045
+      },
+      "tcs": {
+        "slipMultiplier": 1.2,
+        "response": 6.4,
+        "recoveryResponse": 1.5,
+        "brakeResponse": 8,
+        "torqueDelay": 0.18
+      },
+      "esc": {
+        "yawErrorThreshold": 0.145,
+        "sideslipThreshold": 0.085,
+        "response": 7.5,
+        "interventionGain": 0.8,
+        "confirmationTime": 0.12
+      },
+      "modes": {
+        "SPORT": {
+          "esc": {
+            "yawErrorThreshold": 0.19,
+            "sideslipThreshold": 0.12
+          },
+          "tcs": {
+            "slipMultiplier": 1.35
+          },
+          "throttle": {
+            "torqueSmoothingSeconds": 0.025,
+            "adaptiveAuthority": 0.4
+          }
+        }
+      }
+    },
+    "length": 5.092,
+    "width": 1.88,
+    "height": 1.493,
+    "wheelBase": 3.094,
+    "frontTrackWidth": 1.622,
+    "rearTrackWidth": 1.604,
+    "wheelRadius": 0.351,
+    "wheelWidth": 0.245,
+    "mass": 1950,
+    "fuel": {
+      "tankCapacityL": 66,
+      "defaultFuelL": 46,
+      "fuelDensity": 0.745,
+      "peakThermalEfficiency": 0.345,
+      "referenceConsumptionLPer100km": 7.9
+    },
+    "trackWidth": 1.613,
+    "frontWeightBias": 0.52,
+    "centerOfMassHeight": 0.52,
+    "enginePlacement": "FRONT",
+    "yawInertia": 4380,
+    "drivetrainType": "RWD",
+    "differentialType": "open",
+    "frontDiff": {
+      "type": "open"
+    },
+    "rearDiff": {
+      "type": "open"
+    },
+    "frontTorqueSplit": 0,
+    "rearTorqueSplit": 1,
+    "drivetrainLayout": "RWD",
+    "gravity": 9.81,
+    "engine": {
+      "layout": "INLINE",
+      "cylinderCount": 4,
+      "torqueRipple": 0.01,
+      "soundProfile": "full-bodied",
+      "displacementL": 2,
+      "partThrottleExponent": 0.82,
+      "revHang": {
+        "enabled": false,
+        "holdTime": 0.12,
+        "decayTime": 0.28,
+        "strength": 0.88
+      },
+      "idleRPM": 700,
+      "stallRPM": 400,
+      "idleControlMaxTorque": 74,
+      "idleControlBandRPM": 230,
+      "idleControlStrength": 74,
+      "shiftRecommendation": {
+        "lightLoadRPM": 1700,
+        "highLoadRPM": 2500,
+        "throttleCurveExponent": 0.65,
+        "firstGearOffsetRPM": 120,
+        "minimumSpeedKmh": 8,
+        "hysteresisRPM": 140
+      },
+      "redlineWarningRPM": 5900,
+      "redlineRPM": 6250,
+      "revLimiterRPM": 6250,
+      "revLimiterType": "hard",
+      "maxRPM": 6450,
+      "engineInertia": 0.43,
+      "engineFrictionTorque": 17,
+      "engineBrakingStrength": 58,
+      "engineBraking": 75,
+      "throttleResponse": 2.7,
+      "throttleResponseRate": 2.7,
+      "throttleReleaseResponse": 6.2,
+      "starterTorque": 105,
+      "torqueCurve": [
+        {
+          "rpm": 700,
+          "torque": 128
+        },
+        {
+          "rpm": 1000,
+          "torque": 208
+        },
+        {
+          "rpm": 1250,
+          "torque": 292
+        },
+        {
+          "rpm": 1500,
+          "torque": 352
+        },
+        {
+          "rpm": 1800,
+          "torque": 390
+        },
+        {
+          "rpm": 2000,
+          "torque": 400
+        },
+        {
+          "rpm": 3200,
+          "torque": 400
+        },
+        {
+          "rpm": 3800,
+          "torque": 392
+        },
+        {
+          "rpm": 4500,
+          "torque": 375
+        },
+        {
+          "rpm": 5000,
+          "torque": 362
+        },
+        {
+          "rpm": 5500,
+          "torque": 336
+        },
+        {
+          "rpm": 5800,
+          "torque": 318
+        },
+        {
+          "rpm": 6000,
+          "torque": 302
+        },
+        {
+          "rpm": 6250,
+          "torque": 270
+        },
+        {
+          "rpm": 6450,
+          "torque": 234
+        }
+      ],
+      "ignitionSequence": {
+        "crankingDuration": 0.62,
+        "crankingRPM": 240,
+        "flareRPM": 1020,
+        "settlingDuration": 1.05,
+        "shutdownFriction": 26
+      },
+      "turbo": {
+        "enabled": true,
+        "inertia": 0.46,
+        "pressureGain": 1.2,
+        "maxPressureRatio": 2.06,
+        "turbineDriveStrength": 1.78,
+        "compressorLoadStrength": 0.17,
+        "friction": 0.16,
+        "wastegateGain": 5,
+        "baseTorqueCurve": [
+          {
+            "rpm": 700,
+            "torque": 106
+          },
+          {
+            "rpm": 1000,
+            "torque": 152
+          },
+          {
+            "rpm": 1250,
+            "torque": 190
+          },
+          {
+            "rpm": 1500,
+            "torque": 220
+          },
+          {
+            "rpm": 1800,
+            "torque": 235
+          },
+          {
+            "rpm": 2000,
+            "torque": 240
+          },
+          {
+            "rpm": 3200,
+            "torque": 240
+          },
+          {
+            "rpm": 3800,
+            "torque": 232
+          },
+          {
+            "rpm": 4500,
+            "torque": 218
+          },
+          {
+            "rpm": 5000,
+            "torque": 208
+          },
+          {
+            "rpm": 5500,
+            "torque": 188
+          },
+          {
+            "rpm": 5800,
+            "torque": 176
+          },
+          {
+            "rpm": 6000,
+            "torque": 166
+          },
+          {
+            "rpm": 6250,
+            "torque": 148
+          },
+          {
+            "rpm": 6450,
+            "torque": 126
+          }
+        ]
+      }
+    },
+    "transmission": {
+      "drivetrainLash": {
+        "reversalTime": 0.12,
+        "torqueDeadzone": 5
+      },
+      "reverseRatio": -4.13,
+      "gearRatios": {
+        "1": 5.354,
+        "2": 3.243,
+        "3": 2.252,
+        "4": 1.631,
+        "5": 1.211,
+        "6": 1,
+        "7": 0.865,
+        "8": 0.717,
+        "9": 0.601
+      },
+      "finalDrive": 3.07,
+      "finalDriveRatio": 3.07,
+      "efficiency": 0.91,
+      "drivetrainEfficiency": 0.91,
+      "shiftTime": 0.34,
+      "reverseLockoutSpeed": 1,
+      "minimumClutchDisengagementForShift": 0.88,
+      "synchroStrength": 1,
+      "automatic": {
+        "parkMaximumSpeed": 0.35,
+        "shiftTorqueFactor": 0.84,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1620,
+              "downshiftRPM": 820
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1850,
+              "downshiftRPM": 900
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2350,
+              "downshiftRPM": 1150
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3500,
+              "downshiftRPM": 1550
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 4800,
+              "downshiftRPM": 2050
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 6000,
+              "downshiftRPM": 2500
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.4,
+            4.2,
+            6.4,
+            8.8,
+            11.4,
+            14.2,
+            17.4,
+            20.6
+          ],
+          "hysteresisRPM": 150,
+          "minimumTimeInGear": 1.35,
+          "kickdownThrottle": 0.93,
+          "kickdownTargetRPM": 4300,
+          "kickdownMaximumRPM": 5900,
+          "gearRPMCorrections": [
+            90,
+            30,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6150,
+          "minimumPostShiftRPM": 900,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.93
+        },
+        "converter": {
+          "pumpTorqueCoefficient": 0.0106,
+          "torqueRatioCurve": [
+            {
+              "speedRatio": 0,
+              "torqueRatio": 2.02
+            },
+            {
+              "speedRatio": 0.5,
+              "torqueRatio": 1.48
+            },
+            {
+              "speedRatio": 0.8,
+              "torqueRatio": 1.12
+            },
+            {
+              "speedRatio": 1,
+              "torqueRatio": 1
+            }
+          ],
+          "maximumPumpTorque": 620,
+          "backdriveCoupling": 0.44,
+          "lockupCapacity": 620,
+          "lockupStiffness": 11.5,
+          "lockupApplyRate": 0.78,
+          "lockupReleaseRate": 4.2,
+          "lockupMinimumSpeed": 9,
+          "lockupMinimumSpeedRatio": 0.7,
+          "lockupMaximumThrottle": 1
+        }
+      },
+      "type": "TORQUE_CONVERTER_AT",
+      "supportsManualSelection": true,
+      "manualAutoUpshiftAtRedline": true,
+      "manualSelectionTimeout": 8
+    },
+    "clutch": {
+      "maxClutchTorque": 285,
+      "maxTorque": 285,
+      "bitePointStart": 0.98,
+      "bitePointEnd": 0.02,
+      "engagementCurve": "progressive",
+      "engagementCurveExponent": 1.62,
+      "torqueCapacityExponent": 1.7,
+      "couplingStiffness": 10.5,
+      "disengagementRate": 7.5,
+      "engagementRate": 2.15,
+      "manualShiftMaxEngagement": 0.12
+    },
+    "autoClutch": {
+      "gearChangeDelay": 0.11,
+      "shiftDisengagedThreshold": 0.015,
+      "launchFullyEngagedSpeed": 4.5,
+      "launchMinimumEngagement": 0.18,
+      "antiStallRPMFraction": 0.72,
+      "takeoverRate": 1.35
+    },
+    "brakes": {
+      "pedalCurveExponent": 1.14,
+      "applyResponse": 9.6,
+      "releaseResponse": 16.5,
+      "maxBrakeTorqueFront": 4380.4800000000005,
+      "maxBrakeTorqueRear": 2464.02,
+      "frontBrakeBias": 0.64,
+      "maxBrakeForce": 19500,
+      "handbrakeTorque": 2913.2999999999997,
+      "handbrakeAxle": "rear",
+      "maxHandbrakeForce": 8300,
+      "response": 9.6,
+      "handbrakeResponse": 18
+    },
+    "steering": {
+      "maxRoadWheelAngle": 0.5934119456780721,
+      "maxSteeringAngle": 0.5934119456780721,
+      "steeringWheelLock": 18.870499872562693,
+      "steeringRatio": 15.9,
+      "steeringResponse": 3.15,
+      "steeringReturnRate": 4.9,
+      "steeringDamping": 10.4,
+      "highSpeedSteeringReduction": 0.003,
+      "highSpeedReduction": 0.003,
+      "highSpeedReferenceSpeed": 20,
+      "highSpeedMinimumAuthority": 0.2,
+      "ackermannFactor": 0.92,
+      "yawResponseScale": 0.42,
+      "minimumYawResponseRate": 1.8,
+      "maximumYawResponseRate": 7.5,
+      "handbrakeOversteerGain": 1.25,
+      "maximumYawRate": 1.35,
+      "returnProfile": {
+        "lowSpeedRate": 0.6,
+        "highSpeedRate": 4.9,
+        "speedReference": 13
+      }
+    },
+    "aero": {
+      "dragCoefficient": 0.23,
+      "frontalArea": 2.3,
+      "airDensity": 1.225,
+      "liftCoefficientFront": 0.008,
+      "liftCoefficientRear": 0.012
+    },
+    "tires": {
+      "verticalCompliance": {
+        "stiffness": 400000,
+        "damping": 1200,
+        "maximumCompression": 0.055
+      },
+      "loadSensitivity": 0.05,
+      "wheelInertia": 1.65,
+      "rollingResistance": 0.0115,
+      "longitudinalGrip": 1.03,
+      "lateralGrip": 1.04,
+      "gripCoefficient": 1.03,
+      "corneringStiffnessFront": 96000,
+      "corneringStiffnessRear": 112000,
+      "lateralSlipRecoveryRate": 8.5,
+      "handbrakeRearGripFactor": 0.12,
+      "maximumBodySlipAngle": 0.6632251157578452,
+      "combinedGripLateralReduction": 0.28,
+      "contactYawInfluence": 0.65,
+      "peakSlipRatio": 0.105,
+      "peakSlipAngle": 0.131,
+      "gripFalloff": 0.3,
+      "camberStiffness": 800,
+      "wetLongitudinalGripRetention": 0.98,
+      "wetLateralGripRetention": 0.97,
+      "thermalPressureFront": {
+        "referenceColdPressureKPa": 250,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 34000,
+        "heatingEfficiency": 0.65,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      },
+      "thermalPressureRear": {
+        "referenceColdPressureKPa": 270,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 36000,
+        "heatingEfficiency": 0.65,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      }
+    },
+    "suspension": {
+      "kinematics": {
+        "front": {
+          "topology": "MULTI_LINK",
+          "staticCamber": -0.01,
+          "camberGainPerMeter": -0.34,
+          "staticToe": 0,
+          "bumpToeGainPerMeter": 0.008,
+          "antiDiveRatio": 0.16,
+          "antiSquatRatio": 0.06
+        },
+        "rear": {
+          "topology": "MULTI_LINK",
+          "staticCamber": -0.018,
+          "camberGainPerMeter": -0.3,
+          "staticToe": 0.001,
+          "bumpToeGainPerMeter": 0.016,
+          "antiDiveRatio": 0,
+          "antiSquatRatio": 0.16
+        }
+      },
+      "rideHeight": 0.148,
+      "restLength": 0.368,
+      "springRateFront": 37200,
+      "springRateRear": 35800,
+      "damperCompressionFront": 2720,
+      "damperCompressionRear": 2640,
+      "damperReboundFront": 4080,
+      "damperReboundRear": 3980,
+      "suspensionTravel": 0.165,
+      "bumpStopStartRatio": 0.8,
+      "bumpStopStiffness": 180000,
+      "antiRollStiffnessFront": 14800,
+      "antiRollStiffnessRear": 11800,
+      "antiRollStiffness": 26600,
+      "adaptiveDamping": {
+        "responseRate": 3.1,
+        "modeMultipliers": {
+          "ECO": 0.88,
+          "NORMAL": 1,
+          "SPORT": 1.34
+        }
+      }
+    },
+    "driverAids": {
+      "hillHoldEnabled": false,
+      "hillHoldDuration": 1.8,
+      "antiStallStrength": 0.55,
+      "absEnabled": true,
+      "tractionControlEnabled": true,
+      "stabilityControlEnabled": true,
+      "autoBlipEnabled": false,
+      "esc": {
+        "yawErrorThreshold": 0.16,
+        "sideslipThreshold": 0.085,
+        "response": 9
+      },
+      "tcs": {
+        "slipThresholdMultiplier": 1.32,
+        "maximumTorqueReduction": 0.88,
+        "response": 6.4,
+        "recoveryResponse": 2.4
+      },
+      "ebdEnabled": true
+    },
+    "safety": {
+      "maxSubstep": 0.008333333333333333,
+      "maxFrameTime": 0.1,
+      "maxForwardSpeed": 90,
+      "maxReverseSpeed": 25,
+      "maxAbsPosition": 100000
+    },
+    "capabilities": {
+      "tpms": true
+    },
+    "lateralAssist": {
+      "minimumConfidence": 0.8,
+      "driverReduceStart": 0.08,
+      "driverOverride": 0.38,
+      "lka": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxAuthority": 0.12,
+        "activationMargin": 1.1,
+        "strongMargin": 0.65,
+        "predictionSeconds": 0.85,
+        "boundaryGain": 0.045,
+        "headingGain": 0.25,
+        "yawRateGain": 1.2,
+        "inwardSpeedTolerance": 0.1,
+        "outwardSpeedFull": 0.4,
+        "lateralVelocityGain": 0.065,
+        "trendSmoothing": 12,
+        "recoveryMargin": 0.15,
+        "recoveryOffsetTolerance": 0.1,
+        "recoverySpeedTolerance": 0.1,
+        "recoveryHeadingTolerance": 0.015,
+        "recoveryYawRateTolerance": 0.015,
+        "rateLimit": 0.22,
+        "smoothing": 6,
+        "activationSeconds": 0.18,
+        "deactivationSeconds": 0.16
+      },
+      "lcc": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxSpeed": 50,
+        "maxAuthority": 0.2,
+        "centerTolerance": 0.025,
+        "lateralGain": 0.01,
+        "headingGain": 0.3,
+        "lookAheadGain": 0.0035,
+        "lateralVelocityGain": 0.006,
+        "previewHeadingWeight": 0.35,
+        "trendSmoothing": 12,
+        "lowSpeedGain": 0.85,
+        "highSpeedGain": 1.2,
+        "gainReferenceSpeed": 16.666666666666668,
+        "gainFullSpeed": 33.333333333333336,
+        "curvatureFeedForward": 2,
+        "understeerFeedForward": 0.00025,
+        "yawRateGain": 0.22,
+        "rateLimit": 0.18,
+        "highSpeedRateLimit": 0.1,
+        "smoothing": 5,
+        "reengagementSeconds": 1,
+        "releaseDelay": 0.7,
+        "laneStableSeconds": 0.65,
+        "activationStableSeconds": 0.15,
+        "reacquireMargin": 0.3,
+        "reacquireHeading": 0.12,
+        "laneChangeIntent": 0.1
+      }
+    },
+    "parkingBrake": {
+      "axle": "rear",
+      "maximumTorque": 2913.2999999999997,
+      "applyRate": 2,
+      "releaseRate": 4,
+      "maximumStaticApplySpeed": 0.5,
+      "emergencyBrakeDemand": 0.65,
+      "emergencyResponse": 5,
+      "autoApplyOnIgnitionOff": true,
+      "autoApplyInPark": true,
+      "autoReleaseOnDrive": true,
+      "releaseThrottle": 0.16
+    },
+    "autoHold": {
+      "enabledByDefault": true,
+      "maximumCaptureSpeed": 0.06,
+      "captureBrake": 0.25,
+      "minimumHoldPressure": 0.55,
+      "releaseThrottle": 0.16,
+      "releaseThrottleHysteresis": 0.04,
+      "releaseDelay": 0.08,
+      "applyRate": 8,
+      "releaseRate": 4
+    },
+    "mildHybrid": {
+      "battery": {
+        "usableCapacityKWh": 0.7,
+        "defaultSOC": 0.65,
+        "nominalVoltage": 48,
+        "internalResistance": 0.012,
+        "maxDischargeCurrent": 420,
+        "maxChargeCurrent": 260,
+        "maxAssistPower": 17000,
+        "maxRegenPower": 12000
+      },
+      "motor": {
+        "maxDriveTorque": 205,
+        "maxDrivePower": 17000,
+        "continuousPower": 8000,
+        "maxRPM": 7000,
+        "rotationalInertia": 0.012,
+        "driveResponseRate": 24,
+        "motoringEfficiency": 0.88,
+        "maxRegenTorque": 45,
+        "maxRegenPower": 12000,
+        "regenEfficiency": 0.84,
+        "efficiencyMap": {
+          "lightLoadPenalty": 0.035,
+          "highLoadPenalty": 0.05,
+          "highSpeedPenalty": 0.025
+        },
+        "thermal": {
+          "thermalCapacity": 12000,
+          "coolingRate": 22,
+          "airflowCooling": 0.35,
+          "derateStartTemperature": 100,
+          "criticalTemperature": 145,
+          "minimumCapability": 0.2,
+          "initialTemperatureOffset": 0
+        }
+      },
+      "restartTorque": 150,
+      "burstDuration": 6,
+      "recoveryTime": 8,
+      "liftOffTorque": 8,
+      "brakeRegenTorque": 30,
+      "modeAssist": {
+        "ECO": 0.72,
+        "NORMAL": 0.9,
+        "SPORT": 1
+      }
+    },
+    "driveModes": {
+      "ECO": {
+        "throttleExponent": 1.24,
+        "throttleResponse": 2.35,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1380,
+              "downshiftRPM": 760
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1560,
+              "downshiftRPM": 820
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2050,
+              "downshiftRPM": 980
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3000,
+              "downshiftRPM": 1250
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 4150,
+              "downshiftRPM": 1700
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 5750,
+              "downshiftRPM": 2150
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.4,
+            4.2,
+            6.4,
+            8.8,
+            11.4,
+            14.2,
+            17.4,
+            20.6
+          ],
+          "hysteresisRPM": 150,
+          "minimumTimeInGear": 1.35,
+          "kickdownThrottle": 0.96,
+          "kickdownTargetRPM": 4100,
+          "kickdownMaximumRPM": 5900,
+          "gearRPMCorrections": [
+            90,
+            30,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6150,
+          "minimumPostShiftRPM": 900,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.93
+        },
+        "steeringResponse": 2.9,
+        "steeringDamping": 9.8
+      },
+      "NORMAL": {
+        "throttleExponent": 1,
+        "throttleResponse": 2.7,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 1620,
+              "downshiftRPM": 820
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 1850,
+              "downshiftRPM": 900
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 2350,
+              "downshiftRPM": 1150
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 3500,
+              "downshiftRPM": 1550
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 4800,
+              "downshiftRPM": 2050
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 6000,
+              "downshiftRPM": 2500
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.4,
+            4.2,
+            6.4,
+            8.8,
+            11.4,
+            14.2,
+            17.4,
+            20.6
+          ],
+          "hysteresisRPM": 150,
+          "minimumTimeInGear": 1.35,
+          "kickdownThrottle": 0.93,
+          "kickdownTargetRPM": 4300,
+          "kickdownMaximumRPM": 5900,
+          "gearRPMCorrections": [
+            90,
+            30,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6150,
+          "minimumPostShiftRPM": 900,
+          "liftHoldTime": 0,
+          "economicalShiftFactor": 0.93
+        },
+        "steeringResponse": 3.15,
+        "steeringDamping": 10.4
+      },
+      "SPORT": {
+        "throttleExponent": 0.9,
+        "throttleResponse": 3.9,
+        "shiftStrategy": {
+          "map": [
+            {
+              "throttle": 0,
+              "upshiftRPM": 2250,
+              "downshiftRPM": 1150
+            },
+            {
+              "throttle": 0.2,
+              "upshiftRPM": 2750,
+              "downshiftRPM": 1350
+            },
+            {
+              "throttle": 0.45,
+              "upshiftRPM": 3800,
+              "downshiftRPM": 1750
+            },
+            {
+              "throttle": 0.7,
+              "upshiftRPM": 5050,
+              "downshiftRPM": 2250
+            },
+            {
+              "throttle": 0.9,
+              "upshiftRPM": 5850,
+              "downshiftRPM": 2700
+            },
+            {
+              "throttle": 1,
+              "upshiftRPM": 6200,
+              "downshiftRPM": 3050
+            }
+          ],
+          "minimumUpshiftSpeeds": [
+            2.4,
+            4.2,
+            6.4,
+            8.8,
+            11.4,
+            14.2,
+            17.4,
+            20.6
+          ],
+          "hysteresisRPM": 150,
+          "minimumTimeInGear": 1.35,
+          "kickdownThrottle": 0.89,
+          "kickdownTargetRPM": 4700,
+          "kickdownMaximumRPM": 5900,
+          "gearRPMCorrections": [
+            90,
+            30,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "maximumAutomaticRPM": 6150,
+          "minimumPostShiftRPM": 900,
+          "liftHoldTime": 1.3,
+          "economicalShiftFactor": 1
+        },
+        "steeringResponse": 3.6,
+        "steeringDamping": 11.6
+      }
+    },
+    "startStop": {
+      "enabledByDefault": false,
+      "minimumStopDelay": 1.8,
+      "stopSpeedThreshold": 0.06,
+      "brakeThreshold": 0.24,
+      "restartThrottleThreshold": 0.1,
+      "restartBrakeReleaseThreshold": 0.08,
+      "restartDelay": 0.04
+    },
+    "frontWheelWidth": 0.245,
+    "rearWheelWidth": 0.275
+  },
+  "tesla": {
+    "controlCalibration": {
+      "throttle": {
+        "pedalExponent": 1,
+        "torqueSmoothingSeconds": 0.004
+      },
+      "tcs": {
+        "slipMultiplier": 1.13,
+        "torqueDelay": 0.035,
+        "severeSlip": 0.12,
+        "response": 18,
+        "recoveryResponse": 4.5,
+        "brakeFraction": 0.1
+      },
+      "esc": {
+        "yawErrorThreshold": 0.15,
+        "sideslipThreshold": 0.09,
+        "response": 12
+      }
+    },
+    "length": 4.72,
+    "width": 1.85,
+    "height": 1.44,
+    "wheelBase": 2.875,
+    "frontTrackWidth": 1.584,
+    "rearTrackWidth": 1.584,
+    "wheelRadius": 0.335,
+    "wheelWidth": 0.235,
+    "mass": 1765,
+    "trackWidth": 1.584,
+    "frontWeightBias": 0.49,
+    "centerOfMassHeight": 0.43,
+    "enginePlacement": "REAR",
+    "yawInertia": 2950,
+    "drivetrainType": "RWD",
+    "differentialType": "open",
+    "frontDiff": {
+      "type": "open"
+    },
+    "rearDiff": {
+      "type": "open"
+    },
+    "frontTorqueSplit": 0,
+    "rearTorqueSplit": 1,
+    "drivetrainLayout": "RWD",
+    "gravity": 9.81,
+    "brakes": {
+      "pedalCurveExponent": 1.05,
+      "applyResponse": 12,
+      "releaseResponse": 18,
+      "maxBrakeTorqueFront": 3600,
+      "maxBrakeTorqueRear": 2100,
+      "frontBrakeBias": 0.63,
+      "maxBrakeForce": 17014.925373134327,
+      "handbrakeTorque": 1953,
+      "handbrakeAxle": "rear",
+      "maxHandbrakeForce": 6200,
+      "response": 12,
+      "handbrakeResponse": 18
+    },
+    "steering": {
+      "maxRoadWheelAngle": 0.5497787143782138,
+      "maxSteeringAngle": 0.5497787143782138,
+      "steeringWheelLock": 12.566370614359172,
+      "steeringRatio": 11.428571428571429,
+      "steeringResponse": 4,
+      "steeringReturnRate": 5.5,
+      "steeringDamping": 12,
+      "highSpeedSteeringReduction": 0.003,
+      "highSpeedReduction": 0.003,
+      "highSpeedReferenceSpeed": 18.25,
+      "highSpeedMinimumAuthority": 0.22,
+      "ackermannFactor": 0.86,
+      "yawResponseScale": 0.42,
+      "minimumYawResponseRate": 1.8,
+      "maximumYawResponseRate": 7.5,
+      "handbrakeOversteerGain": 1.25,
+      "maximumYawRate": 1.35
+    },
+    "aero": {
+      "dragCoefficient": 0.219,
+      "frontalArea": 2.25,
+      "airDensity": 1.225,
+      "liftCoefficientFront": 0.015,
+      "liftCoefficientRear": 0.025
+    },
+    "tires": {
+      "verticalCompliance": {
+        "stiffness": 400000,
+        "damping": 1200,
+        "maximumCompression": 0.055
+      },
+      "loadSensitivity": 0.06,
+      "wheelInertia": 1.5,
+      "rollingResistance": 0.01,
+      "longitudinalGrip": 0.98,
+      "lateralGrip": 0.97,
+      "gripCoefficient": 0.98,
+      "corneringStiffnessFront": 82000,
+      "corneringStiffnessRear": 87000,
+      "lateralSlipRecoveryRate": 8.5,
+      "handbrakeRearGripFactor": 0.12,
+      "maximumBodySlipAngle": 0.6632251157578452,
+      "combinedGripLateralReduction": 0.28,
+      "contactYawInfluence": 0.65,
+      "peakSlipRatio": 0.12,
+      "peakSlipAngle": 0.145,
+      "gripFalloff": 0.28,
+      "camberStiffness": 800,
+      "wetLongitudinalGripRetention": 0.96,
+      "wetLateralGripRetention": 0.95,
+      "thermalPressureFront": {
+        "referenceColdPressureKPa": 290,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 30000,
+        "heatingEfficiency": 0.55,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      },
+      "thermalPressureRear": {
+        "referenceColdPressureKPa": 290,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 31000,
+        "heatingEfficiency": 0.55,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      }
+    },
+    "suspension": {
+      "kinematics": {
+        "front": {
+          "topology": "DOUBLE_WISHBONE",
+          "staticCamber": -0.01,
+          "camberGainPerMeter": -0.35,
+          "staticToe": 0,
+          "bumpToeGainPerMeter": 0.008,
+          "antiDiveRatio": 0.16,
+          "antiSquatRatio": 0
+        },
+        "rear": {
+          "topology": "MULTI_LINK",
+          "staticCamber": -0.014,
+          "camberGainPerMeter": -0.3,
+          "staticToe": 0.0005,
+          "bumpToeGainPerMeter": 0.018,
+          "antiDiveRatio": 0,
+          "antiSquatRatio": 0.16
+        }
+      },
+      "rideHeight": 0.138,
+      "restLength": 0.36,
+      "springRateFront": 39000,
+      "springRateRear": 42000,
+      "damperCompressionFront": 2800,
+      "damperCompressionRear": 2900,
+      "damperReboundFront": 4300,
+      "damperReboundRear": 4500,
+      "suspensionTravel": 0.14,
+      "bumpStopStartRatio": 0.8,
+      "bumpStopStiffness": 180000,
+      "antiRollStiffnessFront": 10500,
+      "antiRollStiffnessRear": 7500,
+      "antiRollStiffness": 18000
+    },
+    "driverAids": {
+      "hillHoldEnabled": false,
+      "hillHoldDuration": 1.8,
+      "antiStallStrength": 0.55,
+      "absEnabled": true,
+      "tractionControlEnabled": true,
+      "stabilityControlEnabled": true,
+      "autoBlipEnabled": false
+    },
+    "safety": {
+      "maxSubstep": 0.008333333333333333,
+      "maxFrameTime": 0.1,
+      "maxForwardSpeed": 90,
+      "maxReverseSpeed": 25,
+      "maxAbsPosition": 100000
+    },
+    "capabilities": {
+      "cruiseControl": true,
+      "advancedInstrument": true,
+      "tpms": true
+    },
+    "lateralAssist": {
+      "minimumConfidence": 0.8,
+      "driverReduceStart": 0.08,
+      "driverOverride": 0.38,
+      "lka": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxAuthority": 0.12,
+        "activationMargin": 1.1,
+        "strongMargin": 0.65,
+        "predictionSeconds": 0.85,
+        "boundaryGain": 0.045,
+        "headingGain": 0.25,
+        "yawRateGain": 1.2,
+        "inwardSpeedTolerance": 0.1,
+        "outwardSpeedFull": 0.4,
+        "lateralVelocityGain": 0.065,
+        "trendSmoothing": 12,
+        "recoveryMargin": 0.15,
+        "recoveryOffsetTolerance": 0.1,
+        "recoverySpeedTolerance": 0.1,
+        "recoveryHeadingTolerance": 0.015,
+        "recoveryYawRateTolerance": 0.015,
+        "rateLimit": 0.22,
+        "smoothing": 6,
+        "activationSeconds": 0.18,
+        "deactivationSeconds": 0.16
+      },
+      "lcc": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxSpeed": 50,
+        "maxAuthority": 0.2,
+        "centerTolerance": 0.025,
+        "lateralGain": 0.01,
+        "headingGain": 0.3,
+        "lookAheadGain": 0.0035,
+        "lateralVelocityGain": 0.006,
+        "previewHeadingWeight": 0.35,
+        "trendSmoothing": 12,
+        "lowSpeedGain": 0.85,
+        "highSpeedGain": 1.2,
+        "gainReferenceSpeed": 16.666666666666668,
+        "gainFullSpeed": 33.333333333333336,
+        "curvatureFeedForward": 2,
+        "understeerFeedForward": 0.00025,
+        "yawRateGain": 0.22,
+        "rateLimit": 0.18,
+        "highSpeedRateLimit": 0.1,
+        "smoothing": 5,
+        "reengagementSeconds": 1,
+        "releaseDelay": 0.7,
+        "laneStableSeconds": 0.65,
+        "activationStableSeconds": 0.15,
+        "reacquireMargin": 0.3,
+        "reacquireHeading": 0.12,
+        "laneChangeIntent": 0.1
+      }
+    },
+    "parkingBrake": {
+      "axle": "rear",
+      "maximumTorque": 2760,
+      "applyRate": 2,
+      "releaseRate": 4,
+      "maximumStaticApplySpeed": 0.5,
+      "emergencyBrakeDemand": 0.65,
+      "emergencyResponse": 5,
+      "autoApplyOnIgnitionOff": true,
+      "autoApplyInPark": true,
+      "autoReleaseOnDrive": true,
+      "releaseThrottle": 0.16
+    },
+    "autoHold": {
+      "enabledByDefault": true,
+      "maximumCaptureSpeed": 0.06,
+      "captureBrake": 0.25,
+      "minimumHoldPressure": 0.55,
+      "releaseThrottle": 0.16,
+      "releaseThrottleHysteresis": 0.04,
+      "releaseDelay": 0.08,
+      "applyRate": 8,
+      "releaseRate": 4
+    },
+    "cruiseControl": {},
+    "layoutCalibrationNote": "Underfloor battery, single rear motor; axle mass share is the authoritative layout.",
+    "battery": {
+      "usableCapacityKWh": 60,
+      "grossEnergyKWh": 62,
+      "defaultStateOfCharge": 0.8,
+      "nominalVoltage": 355,
+      "electrical": {
+        "internalResistance": 0.045,
+        "maxDischargeCurrent": 720,
+        "maxChargeCurrent": 250
+      },
+      "maxDischargePower": 230000,
+      "maxChargePower": 85000,
+      "dischargeEfficiency": 0.98,
+      "chargeEfficiency": 0.96,
+      "lowSOCStart": 0.08,
+      "lowSOCEnd": 0,
+      "highSOCRegenStart": 0.92,
+      "highSOCRegenEnd": 1,
+      "coldDischargeFullTemperature": 15,
+      "coldDischargeZeroTemperature": -30,
+      "coldChargeFullTemperature": 20,
+      "coldChargeZeroTemperature": -15,
+      "thermal": {
+        "thermalCapacity": 480000,
+        "coolingRate": 60,
+        "airflowCooling": 1.5,
+        "derateStartTemperature": 48,
+        "criticalTemperature": 65,
+        "minimumCapability": 0.25,
+        "initialTemperatureOffset": 5
+      }
+    },
+    "motor": {
+      "nominalVoltage": 355,
+      "copperLossAtMaxTorque": 2200,
+      "maxDriveTorque": 350,
+      "maxDrivePower": 210000,
+      "maxRPM": 14500,
+      "rotationalInertia": 0.025,
+      "driveResponseRate": 10,
+      "motoringEfficiency": 0.955,
+      "maxRegenTorque": 180,
+      "maxRegenPower": 75000,
+      "regenEfficiency": 0.9,
+      "continuousPower": 110000,
+      "baseSpeedRPM": 5730,
+      "highSpeedRollOffRPM": 13900,
+      "efficiencyMap": {
+        "lightLoadPenalty": 0.012,
+        "highLoadPenalty": 0.02,
+        "highSpeedPenalty": 0.008
+      },
+      "thermal": {
+        "thermalCapacity": 36000,
+        "coolingRate": 42,
+        "airflowCooling": 1.4,
+        "derateStartTemperature": 90,
+        "criticalTemperature": 135,
+        "minimumCapability": 0,
+        "initialTemperatureOffset": 4
+      }
+    },
+    "fixedReduction": {
+      "ratio": 9.03,
+      "efficiency": 0.97,
+      "reverseSpeedLimit": 8,
+      "parkMaximumSpeed": 0.8,
+      "directionLockoutSpeed": 1.5,
+      "creepEnabled": false,
+      "creepTorque": 0,
+      "creepSpeed": 1.5
+    },
+    "regen": {
+      "strength": 0.9,
+      "maximumLiftOffDeceleration": 2.4,
+      "brakeRegenFraction": 1,
+      "brakeLightDeceleration": 1.3,
+      "fadeSpeed": 3,
+      "minimumSpeed": 0.25,
+      "stopBrakeSpeed": 1.1,
+      "stopBrakeDemand": 0.3,
+      "referenceConsumptionKWhPer100km": 15
+    },
+    "normalSystemPower": 210000,
+    "auxiliaryPower": 450,
+    "ambientTemperature": 20,
+    "audioPresence": 1,
+    "driveUnits": [
+      {
+        "axle": "rear",
+        "motor": {
+          "nominalVoltage": 355,
+          "copperLossAtMaxTorque": 2200,
+          "maxDriveTorque": 350,
+          "maxDrivePower": 210000,
+          "maxRPM": 14500,
+          "rotationalInertia": 0.025,
+          "driveResponseRate": 10,
+          "motoringEfficiency": 0.955,
+          "maxRegenTorque": 180,
+          "maxRegenPower": 75000,
+          "regenEfficiency": 0.9,
+          "continuousPower": 110000,
+          "baseSpeedRPM": 5730,
+          "highSpeedRollOffRPM": 13900,
+          "efficiencyMap": {
+            "lightLoadPenalty": 0.012,
+            "highLoadPenalty": 0.02,
+            "highSpeedPenalty": 0.008
+          },
+          "thermal": {
+            "thermalCapacity": 36000,
+            "coolingRate": 42,
+            "airflowCooling": 1.4,
+            "derateStartTemperature": 90,
+            "criticalTemperature": 135,
+            "minimumCapability": 0,
+            "initialTemperatureOffset": 4
+          }
+        },
+        "transmission": {
+          "ratio": 9.03,
+          "efficiency": 0.97,
+          "reverseSpeedLimit": 8,
+          "parkMaximumSpeed": 0.8,
+          "directionLockoutSpeed": 1.5,
+          "creepEnabled": false,
+          "creepTorque": 0,
+          "creepSpeed": 1.5
+        },
+        "inverter": {
+          "maxPower": 230000,
+          "efficiency": 0.975,
+          "thermal": {
+            "thermalCapacity": 16000,
+            "coolingRate": 32,
+            "airflowCooling": 0.65,
+            "derateStartTemperature": 82,
+            "criticalTemperature": 118,
+            "minimumCapability": 0.4,
+            "initialTemperatureOffset": 4
+          }
+        }
+      }
+    ]
+  },
+  "taycan": {
+    "controlCalibration": {
+      "throttle": {
+        "torqueSmoothingSeconds": 0.004
+      },
+      "tcs": {
+        "slipMultiplier": 1.16,
+        "torqueDelay": 0.04,
+        "response": 17,
+        "recoveryResponse": 4,
+        "brakeFraction": 0.12
+      },
+      "esc": {
+        "yawErrorThreshold": 0.15,
+        "sideslipThreshold": 0.1,
+        "response": 11
+      },
+      "drivetrain": {
+        "minimumRearRatio": 0.25,
+        "maximumRearRatio": 0.85,
+        "accelerationRearRatio": 0.65,
+        "response": 5,
+        "rateLimit": 0.5
+      },
+      "modes": {
+        "RANGE": {
+          "drivetrain": {
+            "nominalRearRatio": 0.78,
+            "accelerationRearRatio": 0.7
+          }
+        },
+        "SPORT": {
+          "drivetrain": {
+            "accelerationRearRatio": 0.68,
+            "corneringBias": 0.025
+          }
+        },
+        "SPORT_PLUS": {
+          "drivetrain": {
+            "accelerationRearRatio": 0.7,
+            "corneringBias": 0.035
+          }
+        }
+      }
+    },
+    "length": 4.963,
+    "width": 1.966,
+    "height": 1.379,
+    "wheelBase": 2.9,
+    "frontTrackWidth": 1.71,
+    "rearTrackWidth": 1.694,
+    "wheelRadius": 0.35,
+    "wheelWidth": 0.285,
+    "mass": 2250,
+    "trackWidth": 1.71,
+    "frontWeightBias": 0.49,
+    "centerOfMassHeight": 0.41,
+    "enginePlacement": "REAR",
+    "yawInertia": 3850,
+    "drivetrainType": "AWD",
+    "differentialType": "open",
+    "frontDiff": {
+      "type": "open"
+    },
+    "rearDiff": {
+      "type": "open"
+    },
+    "frontTorqueSplit": 0.35,
+    "rearTorqueSplit": 0.65,
+    "drivetrainLayout": "AWD",
+    "gravity": 9.81,
+    "brakes": {
+      "pedalCurveExponent": 1.05,
+      "applyResponse": 14,
+      "releaseResponse": 20,
+      "maxBrakeTorqueFront": 5100,
+      "maxBrakeTorqueRear": 3100,
+      "frontBrakeBias": 0.63,
+      "maxBrakeForce": 23142.857142857145,
+      "handbrakeTorque": 1953,
+      "handbrakeAxle": "rear",
+      "maxHandbrakeForce": 6200,
+      "response": 12,
+      "handbrakeResponse": 18
+    },
+    "steering": {
+      "maxRoadWheelAngle": 0.5410520681182421,
+      "maxSteeringAngle": 0.5410520681182421,
+      "steeringWheelLock": 16.231562043547264,
+      "steeringRatio": 15,
+      "steeringResponse": 3.1,
+      "steeringReturnRate": 5.5,
+      "steeringDamping": 13,
+      "highSpeedSteeringReduction": 0.003,
+      "highSpeedReduction": 0.003,
+      "highSpeedReferenceSpeed": 18.25,
+      "highSpeedMinimumAuthority": 0.22,
+      "ackermannFactor": 0.86,
+      "yawResponseScale": 0.42,
+      "minimumYawResponseRate": 1.8,
+      "maximumYawResponseRate": 7.5,
+      "handbrakeOversteerGain": 1.25,
+      "maximumYawRate": 1.35
+    },
+    "aero": {
+      "dragCoefficient": 0.23,
+      "frontalArea": 2.33,
+      "airDensity": 1.225,
+      "liftCoefficientFront": -0.012,
+      "liftCoefficientRear": -0.025
+    },
+    "tires": {
+      "verticalCompliance": {
+        "stiffness": 400000,
+        "damping": 1200,
+        "maximumCompression": 0.055
+      },
+      "loadSensitivity": 0.06,
+      "wheelInertia": 1.95,
+      "rollingResistance": 0.0115,
+      "longitudinalGrip": 1.1,
+      "lateralGrip": 1.08,
+      "gripCoefficient": 1.08,
+      "corneringStiffnessFront": 102000,
+      "corneringStiffnessRear": 115000,
+      "lateralSlipRecoveryRate": 8.5,
+      "handbrakeRearGripFactor": 0.12,
+      "maximumBodySlipAngle": 0.6632251157578452,
+      "combinedGripLateralReduction": 0.28,
+      "contactYawInfluence": 0.65,
+      "peakSlipRatio": 0.12,
+      "peakSlipAngle": 0.145,
+      "gripFalloff": 0.28,
+      "camberStiffness": 1000,
+      "wetLongitudinalGripRetention": 0.96,
+      "wetLateralGripRetention": 0.95,
+      "thermalPressureFront": {
+        "referenceColdPressureKPa": 260,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 33000,
+        "heatingEfficiency": 0.8,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      },
+      "thermalPressureRear": {
+        "referenceColdPressureKPa": 280,
+        "referenceTemperatureC": 20,
+        "thermalCapacity": 35000,
+        "heatingEfficiency": 0.8,
+        "baseCoolingRate": 12,
+        "speedCoolingGain": 0.8,
+        "minimumPhysicalPressureKPa": 40,
+        "maximumPhysicalPressureKPa": 550,
+        "rollingResistancePressureSensitivity": 0.25,
+        "longitudinalStiffnessPressureSensitivity": 0.1,
+        "lateralStiffnessPressureSensitivity": 0.12,
+        "lowPressureWarningRatio": 0.8,
+        "criticalLowPressureRatio": 0.65,
+        "highPressureWarningRatio": 1.45,
+        "displayPressureSmoothing": 1.5
+      }
+    },
+    "suspension": {
+      "kinematics": {
+        "front": {
+          "topology": "DOUBLE_WISHBONE",
+          "staticCamber": -0.015,
+          "camberGainPerMeter": -0.42,
+          "staticToe": 0,
+          "bumpToeGainPerMeter": 0.006,
+          "antiDiveRatio": 0.2,
+          "antiSquatRatio": 0
+        },
+        "rear": {
+          "topology": "MULTI_LINK",
+          "staticCamber": -0.023,
+          "camberGainPerMeter": -0.36,
+          "staticToe": 0.001,
+          "bumpToeGainPerMeter": 0.014,
+          "antiDiveRatio": 0,
+          "antiSquatRatio": 0.2
+        }
+      },
+      "rideHeight": 0.128,
+      "restLength": 0.36,
+      "springRateFront": 52000,
+      "springRateRear": 56000,
+      "damperCompressionFront": 3300,
+      "damperCompressionRear": 3500,
+      "damperReboundFront": 5000,
+      "damperReboundRear": 5300,
+      "suspensionTravel": 0.14,
+      "bumpStopStartRatio": 0.8,
+      "bumpStopStiffness": 180000,
+      "antiRollStiffnessFront": 31000,
+      "antiRollStiffnessRear": 27000,
+      "antiRollStiffness": 18000,
+      "adaptiveDamping": {
+        "responseRate": 2.5,
+        "modeMultipliers": {
+          "RANGE": 0.95,
+          "NORMAL": 1,
+          "SPORT": 1.3,
+          "SPORT_PLUS": 1.5
+        }
+      },
+      "airSuspension": {
+        "nominalRideHeight": 0.128,
+        "minimumOffset": -0.025,
+        "maximumOffset": 0,
+        "adjustmentRate": 0.004,
+        "modeOffsets": {
+          "RANGE": -0.005,
+          "NORMAL": 0,
+          "SPORT": -0.015,
+          "SPORT_PLUS": -0.022
+        },
+        "highSpeedLowering": {
+          "activateSpeed": 33,
+          "restoreSpeed": 27,
+          "delay": 4,
+          "offset": -0.02
+        }
+      }
+    },
+    "driverAids": {
+      "hillHoldEnabled": false,
+      "hillHoldDuration": 1.8,
+      "antiStallStrength": 0.55,
+      "absEnabled": true,
+      "tractionControlEnabled": true,
+      "stabilityControlEnabled": true,
+      "autoBlipEnabled": false,
+      "esc": {
+        "yawErrorThreshold": 0.14,
+        "sideslipThreshold": 0.09,
+        "response": 10,
+        "minimumSpeed": 4.5
+      },
+      "tcs": {
+        "slipThresholdMultiplier": 1.15,
+        "maximumTorqueReduction": 0.95,
+        "response": 16,
+        "recoveryResponse": 4
+      },
+      "ebdEnabled": true
+    },
+    "safety": {
+      "maxSubstep": 0.008333333333333333,
+      "maxFrameTime": 0.1,
+      "maxForwardSpeed": 90,
+      "maxReverseSpeed": 25,
+      "maxAbsPosition": 100000
+    },
+    "capabilities": {
+      "cruiseControl": true,
+      "advancedInstrument": true,
+      "tpms": true
+    },
+    "lateralAssist": {
+      "minimumConfidence": 0.8,
+      "driverReduceStart": 0.08,
+      "driverOverride": 0.38,
+      "lka": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxAuthority": 0.12,
+        "activationMargin": 1.1,
+        "strongMargin": 0.65,
+        "predictionSeconds": 0.85,
+        "boundaryGain": 0.045,
+        "headingGain": 0.25,
+        "yawRateGain": 1.2,
+        "inwardSpeedTolerance": 0.1,
+        "outwardSpeedFull": 0.4,
+        "lateralVelocityGain": 0.065,
+        "trendSmoothing": 12,
+        "recoveryMargin": 0.15,
+        "recoveryOffsetTolerance": 0.1,
+        "recoverySpeedTolerance": 0.1,
+        "recoveryHeadingTolerance": 0.015,
+        "recoveryYawRateTolerance": 0.015,
+        "rateLimit": 0.22,
+        "smoothing": 6,
+        "activationSeconds": 0.18,
+        "deactivationSeconds": 0.16
+      },
+      "lcc": {
+        "enabled": true,
+        "minSpeed": 13.88888888888889,
+        "fullSpeed": 16.666666666666668,
+        "maxSpeed": 50,
+        "maxAuthority": 0.2,
+        "centerTolerance": 0.025,
+        "lateralGain": 0.01,
+        "headingGain": 0.3,
+        "lookAheadGain": 0.0035,
+        "lateralVelocityGain": 0.006,
+        "previewHeadingWeight": 0.35,
+        "trendSmoothing": 12,
+        "lowSpeedGain": 0.85,
+        "highSpeedGain": 1.2,
+        "gainReferenceSpeed": 16.666666666666668,
+        "gainFullSpeed": 33.333333333333336,
+        "curvatureFeedForward": 2,
+        "understeerFeedForward": 0.00025,
+        "yawRateGain": 0.22,
+        "rateLimit": 0.18,
+        "highSpeedRateLimit": 0.1,
+        "smoothing": 5,
+        "reengagementSeconds": 1,
+        "releaseDelay": 0.7,
+        "laneStableSeconds": 0.65,
+        "activationStableSeconds": 0.15,
+        "reacquireMargin": 0.3,
+        "reacquireHeading": 0.12,
+        "laneChangeIntent": 0.1
+      }
+    },
+    "parkingBrake": {
+      "axle": "rear",
+      "maximumTorque": 2760,
+      "applyRate": 2,
+      "releaseRate": 4,
+      "maximumStaticApplySpeed": 0.5,
+      "emergencyBrakeDemand": 0.65,
+      "emergencyResponse": 5,
+      "autoApplyOnIgnitionOff": true,
+      "autoApplyInPark": true,
+      "autoReleaseOnDrive": true,
+      "releaseThrottle": 0.16
+    },
+    "autoHold": {
+      "enabledByDefault": true,
+      "maximumCaptureSpeed": 0.06,
+      "captureBrake": 0.25,
+      "minimumHoldPressure": 0.55,
+      "releaseThrottle": 0.16,
+      "releaseThrottleHysteresis": 0.04,
+      "releaseDelay": 0.08,
+      "applyRate": 8,
+      "releaseRate": 4
+    },
+    "driveModeOrder": [
+      "RANGE",
+      "NORMAL",
+      "SPORT",
+      "SPORT_PLUS"
+    ],
+    "driveModes": {
+      "RANGE": {
+        "throttleExponent": 1.35,
+        "throttleResponse": 9,
+        "steeringResponse": 3.1,
+        "steeringDamping": 13,
+        "ev": {
+          "coolingMultiplier": 0.85,
+          "powerFraction": 0.82,
+          "frontParticipation": 0.05,
+          "shiftStrategy": "range",
+          "liftOffMultiplier": 0.3
+        }
+      },
+      "NORMAL": {
+        "throttleExponent": 1,
+        "throttleResponse": 16,
+        "steeringResponse": 3.1,
+        "steeringDamping": 13,
+        "ev": {
+          "coolingMultiplier": 1,
+          "powerFraction": 1,
+          "frontParticipation": 0.25,
+          "shiftStrategy": "normal",
+          "liftOffMultiplier": 1
+        }
+      },
+      "SPORT": {
+        "throttleExponent": 0.85,
+        "throttleResponse": 20,
+        "steeringResponse": 3.1,
+        "steeringDamping": 13,
+        "ev": {
+          "coolingMultiplier": 1.5,
+          "powerFraction": 1,
+          "frontParticipation": 0.7,
+          "shiftStrategy": "sport",
+          "liftOffMultiplier": 1.3
+        }
+      },
+      "SPORT_PLUS": {
+        "throttleExponent": 0.72,
+        "throttleResponse": 24,
+        "steeringResponse": 3.1,
+        "steeringDamping": 13,
+        "ev": {
+          "coolingMultiplier": 1.85,
+          "powerFraction": 1,
+          "frontParticipation": 1,
+          "shiftStrategy": "sport-plus",
+          "liftOffMultiplier": 1.5
+        }
+      }
+    },
+    "awd": {
+      "mode": "full-time"
+    },
+    "cruiseControl": {},
+    "frontWheelWidth": 0.245,
+    "rearWheelWidth": 0.285,
+    "layoutCalibrationNote": "Underfloor battery and independent front/rear PSM drive units.",
+    "battery": {
+      "grossEnergyKWh": 105,
+      "usableCapacityKWh": 97,
+      "defaultStateOfCharge": 0.8,
+      "nominalVoltage": 800,
+      "electrical": {
+        "internalResistance": 0.065,
+        "maxDischargeCurrent": 720,
+        "maxChargeCurrent": 420
+      },
+      "maxDischargePower": 510000,
+      "maxChargePower": 320000,
+      "dischargeEfficiency": 0.98,
+      "chargeEfficiency": 0.97,
+      "lowSOCStart": 0.12,
+      "lowSOCEnd": 0,
+      "highSOCRegenStart": 0.88,
+      "highSOCRegenEnd": 1,
+      "coldDischargeFullTemperature": 18,
+      "coldDischargeZeroTemperature": -30,
+      "coldChargeFullTemperature": 22,
+      "coldChargeZeroTemperature": -12,
+      "thermal": {
+        "thermalCapacity": 850000,
+        "coolingRate": 140,
+        "airflowCooling": 3,
+        "derateStartTemperature": 52,
+        "criticalTemperature": 70,
+        "minimumCapability": 0.3,
+        "initialTemperatureOffset": 7
+      }
+    },
+    "motor": {
+      "nominalVoltage": 800,
+      "copperLossAtMaxTorque": 4000,
+      "maxDriveTorque": 400,
+      "maxDrivePower": 280000,
+      "continuousPower": 200000,
+      "maxRPM": 15700,
+      "baseSpeedRPM": 6685,
+      "highSpeedRollOffRPM": 14900,
+      "rotationalInertia": 0.032,
+      "driveResponseRate": 18,
+      "motoringEfficiency": 0.952,
+      "maxRegenTorque": 290,
+      "maxRegenPower": 190000,
+      "regenEfficiency": 0.91,
+      "efficiencyMap": {
+        "lightLoadPenalty": 0.03,
+        "highLoadPenalty": 0.036,
+        "highSpeedPenalty": 0.012
+      },
+      "thermal": {
+        "thermalCapacity": 75000,
+        "coolingRate": 105,
+        "airflowCooling": 2.4,
+        "derateStartTemperature": 82,
+        "criticalTemperature": 115,
+        "minimumCapability": 0,
+        "initialTemperatureOffset": 5
+      }
+    },
+    "fixedReduction": {
+      "type": "TWO_SPEED",
+      "ratio": 15.5,
+      "secondRatio": 8.05,
+      "efficiency": 0.966,
+      "shiftDuration": 0.2,
+      "minimumShiftInterval": 1.2,
+      "normalUpshiftSpeed": 14,
+      "normalDownshiftSpeed": 5,
+      "sportUpshiftSpeed": 22,
+      "sportDownshiftSpeed": 9,
+      "sportPlusUpshiftSpeed": 24,
+      "sportPlusDownshiftSpeed": 12,
+      "reverseSpeedLimit": 8,
+      "parkMaximumSpeed": 0.6,
+      "directionLockoutSpeed": 1.5,
+      "creepEnabled": false,
+      "creepTorque": 0,
+      "creepSpeed": 1.5
+    },
+    "driveUnits": [
+      {
+        "axle": "front",
+        "disconnect": {
+          "engagementTime": 0.22,
+          "disconnectDelay": 1.2
+        },
+        "motor": {
+          "nominalVoltage": 800,
+          "copperLossAtMaxTorque": 3000,
+          "maxDriveTorque": 310,
+          "maxDrivePower": 160000,
+          "continuousPower": 110000,
+          "maxRPM": 15700,
+          "baseSpeedRPM": 4930,
+          "highSpeedRollOffRPM": 14750,
+          "rotationalInertia": 0.022,
+          "driveResponseRate": 20,
+          "motoringEfficiency": 0.949,
+          "maxRegenTorque": 210,
+          "maxRegenPower": 120000,
+          "regenEfficiency": 0.9,
+          "efficiencyMap": {
+            "lightLoadPenalty": 0.035,
+            "highLoadPenalty": 0.032,
+            "highSpeedPenalty": 0.01
+          },
+          "thermal": {
+            "thermalCapacity": 48000,
+            "coolingRate": 80,
+            "airflowCooling": 1.8,
+            "derateStartTemperature": 80,
+            "criticalTemperature": 112,
+            "minimumCapability": 0,
+            "initialTemperatureOffset": 5
+          }
+        },
+        "transmission": {
+          "ratio": 8.05,
+          "efficiency": 0.972,
+          "reverseSpeedLimit": 8,
+          "parkMaximumSpeed": 0.6,
+          "directionLockoutSpeed": 1.5,
+          "creepEnabled": false,
+          "creepTorque": 0,
+          "creepSpeed": 1.5
+        },
+        "inverter": {
+          "maxPower": 195000,
+          "efficiency": 0.976,
+          "thermal": {
+            "thermalCapacity": 28000,
+            "coolingRate": 72,
+            "airflowCooling": 1.2,
+            "derateStartTemperature": 98,
+            "criticalTemperature": 140,
+            "minimumCapability": 0.45,
+            "initialTemperatureOffset": 5
+          }
+        }
+      },
+      {
+        "axle": "rear",
+        "motor": {
+          "nominalVoltage": 800,
+          "copperLossAtMaxTorque": 4000,
+          "maxDriveTorque": 400,
+          "maxDrivePower": 280000,
+          "continuousPower": 200000,
+          "maxRPM": 15700,
+          "baseSpeedRPM": 6685,
+          "highSpeedRollOffRPM": 14900,
+          "rotationalInertia": 0.032,
+          "driveResponseRate": 18,
+          "motoringEfficiency": 0.952,
+          "maxRegenTorque": 290,
+          "maxRegenPower": 190000,
+          "regenEfficiency": 0.91,
+          "efficiencyMap": {
+            "lightLoadPenalty": 0.03,
+            "highLoadPenalty": 0.036,
+            "highSpeedPenalty": 0.012
+          },
+          "thermal": {
+            "thermalCapacity": 75000,
+            "coolingRate": 105,
+            "airflowCooling": 2.4,
+            "derateStartTemperature": 82,
+            "criticalTemperature": 115,
+            "minimumCapability": 0,
+            "initialTemperatureOffset": 5
+          }
+        },
+        "transmission": {
+          "type": "TWO_SPEED",
+          "ratio": 15.5,
+          "secondRatio": 8.05,
+          "efficiency": 0.966,
+          "shiftDuration": 0.2,
+          "minimumShiftInterval": 1.2,
+          "normalUpshiftSpeed": 14,
+          "normalDownshiftSpeed": 5,
+          "sportUpshiftSpeed": 22,
+          "sportDownshiftSpeed": 9,
+          "sportPlusUpshiftSpeed": 24,
+          "sportPlusDownshiftSpeed": 12,
+          "reverseSpeedLimit": 8,
+          "parkMaximumSpeed": 0.6,
+          "directionLockoutSpeed": 1.5,
+          "creepEnabled": false,
+          "creepTorque": 0,
+          "creepSpeed": 1.5
+        },
+        "inverter": {
+          "maxPower": 325000,
+          "efficiency": 0.977,
+          "thermal": {
+            "thermalCapacity": 42000,
+            "coolingRate": 100,
+            "airflowCooling": 1.7,
+            "derateStartTemperature": 100,
+            "criticalTemperature": 145,
+            "minimumCapability": 0.45,
+            "initialTemperatureOffset": 5
+          }
+        }
+      }
+    ],
+    "normalSystemPower": 380000,
+    "auxiliaryPower": 700,
+    "ambientTemperature": 20,
+    "audioPresence": 1.7,
+    "launchControl": {
+      "normalPower": 380000,
+      "overboostPower": 440000,
+      "duration": 8,
+      "energyBudgetKJ": 430,
+      "cooldown": 30,
+      "armTime": 0.7,
+      "minimumSOC": 0.2,
+      "minimumBatteryTemperature": 10,
+      "maximumBatteryTemperature": 50,
+      "maximumMotorTemperature": 105,
+      "maximumInverterTemperature": 98
+    },
+    "regen": {
+      "strength": 0.1,
+      "maximumLiftOffDeceleration": 1,
+      "brakeRegenFraction": 1,
+      "brakeLightDeceleration": 1.3,
+      "fadeSpeed": 2.5,
+      "minimumSpeed": 0.25,
+      "stopBrakeSpeed": 0,
+      "stopBrakeDemand": 0,
+      "referenceConsumptionKWhPer100km": 19.5
+    },
+    "defaultDriveMode": "NORMAL"
+  }
+}

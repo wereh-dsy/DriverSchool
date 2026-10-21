@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 2,
+  "mapVersions": {
+    "before": 481,
+    "after": 484
+  },
+  "mapDigest": "c86b9dfeb9b9fe381bc8c4c51fd0dc9e2a009e5285fe7297905a9f487202e596",
+  "coverageBefore": {
+    "roads": 2944,
+    "segments": 111711,
+    "broadPhasePairs": 176974,
+    "samples": 2347951
+  },
+  "coverageAfter": {
+    "roads": 2944,
+    "segments": 126437,
+    "broadPhasePairs": 263666,
+    "samples": 2800260
+  },
+  "before": {
+    "total": 2261,
+    "SAFE_AUTO_FIX": 0,
+    "LIKELY_FIX": 236,
+    "MANUAL_REVIEW": 864,
+    "IGNORE_GRADE_SEPARATED": 1161,
+    "junctionBoundary": 140,
+    "clusterCount": 1972
+  },
+  "after": {
+    "total": 2077,
+    "SAFE_AUTO_FIX": 0,
+    "LIKELY_FIX": 225,
+    "MANUAL_REVIEW": 715,
+    "IGNORE_GRADE_SEPARATED": 1137,
+    "junctionBoundary": 125,
+    "clusterCount": 1831
+  },
+  "initialCandidates": 2401,
+  "initialClusters": 1972,
+  "reviewedClusters": 1990,
+  "newRegions": 18,
+  "conclusions": {
+    "FIXED": 185,
+    "INTENTIONAL_PROFILE": 599,
+    "GRADE_SEPARATED": 1192,
+    "NON_DRIVABLE_OVERLAP": 5,
+    "DEFER_UNCERTAIN": 9
+  },
+  "automaticFixes": 0,
+  "reviewedFixedRegions": 185,
+  "modifiedRoads": 126,
+  "changedOriginalNodes": 3167,
+  "addedVerticalKnots": 13229,
+  "maxYChange": 7.703495370767548,
+  "junctionLandings": 10,
+  "ribbonRoads": 9,
+  "junctionHubDatumCorrections": 2,
+  "validation": {
+    "before": {
+      "errors": 0,
+      "warnings": 145,
+      "scope": "Every changed road and changed junction; repeated identical messages deduplicated"
+    },
+    "after": {
+      "errors": 0,
+      "warnings": 149,
+      "scope": "Every changed road and changed junction; repeated identical messages deduplicated"
+    }
+  },
+  "topology": {
+    "before": [
+      2944
+    ],
+    "after": [
+      2944
+    ],
+    "unchanged": true,
+    "danglingTopologyReferences": 0
+  },
+  "contactRegression": {
+    "valid": true,
+    "scope": "Five short actual vehicle contact regressions, solid barriers excluded; preset longitudinal speed and normal steering path; no full suites",
+    "rows": [
+      {
+        "before": {
+          "name": "shared-ground-junction",
+          "road": "v91-ew-1-b-3",
+          "speedKph": 50,
+          "seconds": 3.966666666666667,
+          "minGrounded": 0,
+          "airborneTransitions": 4,
+          "heightJumpEvents": 1,
+          "maxSurfaceResidual": 0.37913467171097426,
+          "rejectedSamples": 308,
+          "maxMechanicalImpulse": 434744.051701625,
+          "safetyEvents": 4,
+          "maxTrackingError": 0
+        },
+        "after": {
+          "name": "shared-ground-junction",
+          "road": "v91-ew-1-b-3",
+          "speedKph": 50,
+          "seconds": 3.966666666666667,
+          "minGrounded": 4,
+          "airborneTransitions": 0,
+          "heightJumpEvents": 0,
+          "maxSurfaceResidual": 0,
+          "rejectedSamples": 0,
+          "maxMechanicalImpulse": 0,
+          "safetyEvents": 0,
+          "maxTrackingError": 0
+        }
+      },
+      {
+        "before": {
+          "name": "airport-ramp-terminal",
+          "road": "regional:v3:airport-distributor:S-to-W-turbine",
+          "speedKph": 40,
+          "seconds": 4.05,
+          "minGrounded": 4,
+          "airborneTransitions": 0,
+          "heightJumpEvents": 0,
+          "maxSurfaceResidual": 0.00754511865682872,
+          "rejectedSamples": 0,
+          "maxMechanicalImpulse": 0,
+          "safetyEvents": 0,
+          "maxTrackingError": 0.10684198234947632
+        },
+        "after": {
+          "name": "airport-ramp-terminal",
+          "road": "regional:v3:airport-distributor:S-to-W-turbine",
+          "speedKph": 40,
+          "seconds": 4.05,
+          "minGrounded": 4,
+          "airborneTransitions": 0,
+          "heightJumpEvents": 0,
+          "maxSurfaceResidual": 0.00006374377085194283,
+          "rejectedSamples": 0,
+          "maxMechanicalImpulse": 0,
+          "safetyEvents": 0,
+          "maxTrackingError": 0.09711711209839342
+        }
+      },
+      {
+        "before": {
+          "name": "depressed-junction-landing",
+          "road": "v8-port-works-c91",
+          "speedKph": 30,
+          "seconds": 5.041666666666667,
+          "minGrounded": 0,
+          "airborneTransitions": 4,
+          "heightJumpEvents": 4,
+          "maxSurfaceResidual": 0.4972089426431113,
+          "rejectedSamples": 722,
+          "maxMechanicalImpulse": 92600.68935043158,
+          "safetyEvents": 0,
+          "maxTrackingError": 1.3957577116151256e-11
+        },
+        "after": {
+          "name": "depressed-junction-landing",
+          "road": "v8-port-works-c91",
+          "speedKph": 30,
+          "seconds": 5.041666666666667,
+          "minGrounded": 4,
+          "airborneTransitions": 0,
+          "heightJumpEvents": 0,
+          "maxSurfaceResidual": 0.0009826230965643973,
+          "rejectedSamples": 0,
+          "maxMechanicalImpulse": 0,
+          "safetyEvents": 0,
+          "maxTrackingError": 1.4380373887290168e-12
+        }
+      },
+      {
+        "before": {
+          "name": "depressed-crossing-approach",
+          "road": "v8-port-works-c91",
+          "speedKph": 30,
+          "seconds": 12.6,
+          "minGrounded": 4,
+          "airborneTransitions": 0,
+          "heightJumpEvents": 0,
+          "maxSurfaceResidual": 0,
+          "rejectedSamples": 0,
+          "maxMechanicalImpulse": 0,
+          "safetyEvents": 0,
+          "maxTrackingError": 0.0037149725563869677
+        },
+        "after": {
+          "name": "depressed-crossing-approach",
+          "road": "v8-port-works-c91",
+          "speedKph": 30,
+          "seconds": 12.6,
+          "minGrounded": 4,
+          "airborneTransitions": 0,
+          "heightJumpEvents": 0,
+          "maxSurfaceResidual": 0,
+          "rejectedSamples": 0,
+          "maxMechanicalImpulse": 0,
+          "safetyEvents": 0,
+          "maxTrackingError": 0.0037149725557939564
+        }
+      },
+      {
+        "before": {
+          "name": "graded-ribbon-bend",
+          "road": "v4-south-logistics-east",
+          "speedKph": 20,
+          "seconds": 4.325,
+          "minGrounded": 4,
+          "airborneTransitions": 0,
+          "heightJumpEvents": 0,
+          "maxSurfaceResidual": 0.007335427705756459,
+          "rejectedSamples": 0,
+          "maxMechanicalImpulse": 0,
+          "safetyEvents": 0,
+          "maxTrackingError": 0.037063770141652
+        },
+        "after": {
+          "name": "graded-ribbon-bend",
+          "road": "v4-south-logistics-east",
+          "speedKph": 20,
+          "seconds": 4.325,
+          "minGrounded": 4,
+          "airborneTransitions": 0,
+          "heightJumpEvents": 0,
+          "maxSurfaceResidual": 0.00185358791616963,
+          "rejectedSamples": 0,
+          "maxMechanicalImpulse": 0,
+          "safetyEvents": 0,
+          "maxTrackingError": 0.03777143071913618
+        }
+      }
+    ]
+  },
+  "originalFixture": {
+    "valid": true,
+    "before": {
+      "samples": 2176,
+      "maxOverlapHeightMismatch": 0.1426512417542778,
+      "minNormalDot": 0.9999998859730724,
+      "grades": [
+        {
+          "roadId": "ring-cw-2-split-4-split",
+          "maxGrade": 0.00990823750308225,
+          "maxGradeBreak": 0.0006637913526278947
+        },
+        {
+          "roadId": "ring-ccw-1-split-split-split-split-section",
+          "maxGrade": 0.01020957502835008,
+          "maxGradeBreak": 0.00024251509489266014
+        }
+      ]
+    },
+    "after": {
+      "samples": 2176,
+      "maxOverlapHeightMismatch": 0.0004658951512604981,
+      "minNormalDot": 0.999999978546243,
+      "grades": [
+        {
+          "roadId": "ring-cw-2-split-4-split",
+          "maxGrade": 0.010112616606249862,
+          "maxGradeBreak": 0.0008344596406342236
+        },
+        {
+          "roadId": "ring-ccw-1-split-split-split-split-section",
+          "maxGrade": 0.010022839358598806,
+          "maxGradeBreak": 0.000787680099296976
+        }
+      ]
+    },
+    "afterReplay": [
+      {
+        "direction": "east",
+        "steps": 346,
+        "durationSeconds": 2.8833333333333333,
+        "fromX": 2207,
+        "toX": 2223.0171333763997,
+        "z": 2139.9999986263297,
+        "surfaceSwitches": 4,
+        "maxSurfaceStep": 0.00005380136087429488,
+        "heightJumpEvents": 0,
+        "airborneTransitions": 0,
+        "minGrounded": 4,
+        "rejectedSamples": 0
+      },
+      {
+        "direction": "west",
+        "steps": 346,
+        "durationSeconds": 2.8833333333333333,
+        "fromX": 2223,
+        "toX": 2206.9825810088623,
+        "z": 2140.0000027351434,
+        "surfaceSwitches": 4,
+        "maxSurfaceStep": 0.00010903005299700563,
+        "heightJumpEvents": 0,
+        "airborneTransitions": 0,
+        "minGrounded": 4,
+        "rejectedSamples": 0
+      }
+    ]
+  },
+  "newCrossingClearanceRegressions": 0,
+  "unreviewedFinalClusters": 0,
+  "supportRegressionsAmongDeferred": 0,
+  "build": {
+    "command": "pnpm run build -BasicValidation",
+    "runs": 1,
+    "passed": true,
+    "coreSelftests": "omitted by explicit user instruction",
+    "dist": {
+      "entry": "/assets/index-CK2tpgxl.js",
+      "asset": "city-main.runtime-c68a3384aaff.json",
+      "sourceVersion": 484,
+      "publishedVersion": 484,
+      "roads": 2944,
+      "roadProfilesMatch": true,
+      "junctionsMatch": true,
+      "roadComparison": {
+        "maxNumericDelta": 1.0949227635670411e-13,
+        "structuralDifferences": 0,
+        "match": true
+      },
+      "junctionComparison": {
+        "maxNumericDelta": 2.0961010704922955e-13,
+        "structuralDifferences": 0,
+        "match": true
+      },
+      "runtimeNetwork": true,
+      "sourceDigest": "c86b9dfeb9b9fe381bc8c4c51fd0dc9e2a009e5285fe7297905a9f487202e596",
+      "note": "The existing build loader re-normalizes constant road Y and recomputes footprints; only sub-1e-8 numeric roundoff is accepted, with exact structure and nonnumeric fields."
+    }
+  },
+  "remainingComplexCandidates": 9
+}

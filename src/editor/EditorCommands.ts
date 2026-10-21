@@ -17,6 +17,11 @@ export const EDITOR_ROAD_PRESETS = {
   ramp1: preset('Ramp 1 lane', 'ramp', 1, 40, true, true), ramp2: preset('Ramp 2 lane', 'ramp', 2, 40, true, true),
 };
 export type EditorCommand =
+  | {op:'setJunctionHeightDatum';id:string;before:number;height:number}
+  | {op:'setPavementSurface';id:string;surface:'ribbon'}
+  | { op:'repairPavementProfile';id:string;profile:{station:number;before:number;after:number}[];maxYChange?:number;linkedEndpoints?:boolean;junctionDatum?:{id:string;height:number};junctionDatums?:{id:string;height:number}[] }
+  | { op:'setJunctionLanding';id:string;enabled?:boolean }
+  | { op:'adjustElevationSeam'; id:string; elevations:{index:number;before:number;after:number}[] }
   | { op:'moveObject'; id:string; delta:CityPoint }
   | { op:'rotateObject'; id:string; rotation:number }
   | { op:'removeObject'; id:string }
