@@ -56,6 +56,31 @@ export function runNavigationSelfTest(regional?:CityMapData) {
   assert(controller.state.status==='navigating','authored junction connector does not trigger false rerouting');
   const inJunction=controller.planner!.locate({x:0,y:0,z:-125,yaw:-Math.PI/2});
   assert(inJunction?.roadId==='gap-b'&&inJunction.access?.length,'navigation can start inside junction pavement');
+  const through=planner.planThrough(location('a',25),location('b',75),[location('a',50),location('b',20)]);
+  assert(through?.distance===150&&through.waypoints.length===2,'multiple waypoints preserve the complete ordered route distance');
+  assert(through?.waypoints[0]?.distance===25&&through.waypoints[1]?.distance===95,'waypoint distances include all preceding legs');
+  assert(through?.maneuvers.filter(m=>m.text==='到达目的地').length===1&&through.maneuvers.filter(m=>m.text.includes('经过途经点')).length===2,'only the final endpoint is announced as the destination');
+  assert(!planner.planThrough(location('a',25),location('b',75),[location('top',50)]),'an unreachable intermediate layer rejects the entire itinerary');
+  assert(!planner.planThrough(location('a',25),location('b',75),[location('b',80),location('a',50)]),'waypoints cannot silently be reordered to manufacture a route');
+  const dl=(along:number):RouteLocation=>({roadId:'dual',along,point:dualPlanner.pointAt('dual',along),label:'dual'});
+  assert(!dualPlanner.planThrough({...dl(20),direction:'forward'},dl(40),[dl(60)]),'a two-way waypoint cannot invent a mid-road direction reversal');
+  controller.configure(network);controller.update(0,{x:0,y:0,z:-25,yaw:0},0);
+  assert(controller.start(location('b',75),[location('a',60),location('b',30)]),'navigation starts with an ordered itinerary');
+  controller.update(.2,{x:0,y:8,z:-60,yaw:0},12);
+  assert(controller.state.waypointIndex===0,'passing above a waypoint does not complete it');
+  controller.update(.2,{x:0,y:0,z:-60,yaw:0},12);
+  assert(controller.state.waypointIndex===1&&controller.state.status==='navigating','passing a waypoint advances without ending navigation or requiring a stop');
+  controller.update(.2,{x:30,y:0,z:-100,yaw:-Math.PI/2},12);
+  assert(controller.state.waypointIndex===2&&controller.state.status==='navigating','waypoints are completed in their configured order');
+  controller.update(.2,{x:75,y:0,z:-100,yaw:-Math.PI/2},0);
+  assert(controller.state.status==='arrived','the final destination arrives after every intermediate stop');
+  controller.configure(rerouteNetwork);controller.update(0,{x:0,y:0,z:-25,yaw:0},0);controller.start(location('b',75),[location('a',60),location('b',30)]);controller.update(.2,{x:0,y:0,z:-60,yaw:0},12);
+  for(let i=0;i<9;i++)controller.update(.2,{x:-80,y:0,z:-140,yaw:Math.atan2(100,50)},12);
+  assert(controller.state.route?.sections[0]?.road.id==='detour'&&controller.state.route.waypoints.length===1&&controller.state.route.waypoints[0]?.location.roadId==='b','rerouting retains unvisited stops and omits the already passed waypoint');
+  const loop=road('loop',[{x:100,y:0,z:-100},{x:100,y:0,z:0},{x:0,y:0,z:0}]),loopNetwork:RoadNetworkData={...network,segments:[a,b,loop],routing:{places:[],connections:[{fromRoadId:'a',fromEnd:'end',toRoadId:'b',toEnd:'start'},{fromRoadId:'b',fromEnd:'end',toRoadId:'loop',toEnd:'start'},{fromRoadId:'loop',fromEnd:'end',toRoadId:'a',toEnd:'start'}]}};
+  controller.configure(loopNetwork);controller.update(0,{x:0,y:0,z:-25,yaw:0},0);controller.start(location('a',30),[location('a',80)]);controller.update(.2,{x:0,y:0,z:-30,yaw:0},0);
+  assert(controller.state.status==='navigating'&&controller.state.waypointIndex===0&&controller.state.remainingDistance>300,'a repeated road near the destination cannot bypass an unvisited waypoint');
+  controller.clear();assert(controller.state.route===null&&controller.state.waypointIndex===0,'clearing navigation removes the waypoint itinerary');
   const prohibited=buildCityRoadNetwork({id:'junction',name:'junction',version:1,sectorSize:100,bounds:{minX:-200,maxX:200,minZ:-200,maxZ:200},
     roads:[{id:'in',type:'urban_2lane',centerline:[{x:0,y:0,z:100},{x:0,y:0,z:10}],laneCount:2,laneWidth:4,travelDirection:'two-way',speedLimit:40},
       {id:'out',type:'urban_2lane',centerline:[{x:10,y:0,z:0},{x:100,y:0,z:0}],laneCount:2,laneWidth:4,travelDirection:'two-way',speedLimit:40}],

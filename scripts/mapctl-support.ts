@@ -31,6 +31,9 @@ export function writeReviewPackage(directory:string,request:unknown,receipt:Retu
 export const MAPCTL_HELP={
   schemaVersion:2,usage:'node scripts/mapctl.mjs <command> <map.json|regional-main|editor-test> --request @request.json [--out result.json]',
   commands:{
+    'diagnose-ramps':{readOnly:true,output:'--out report.json; topology, full profiles and paved-footprint clearance for all A/B/C/D candidates'},
+    'diagnose-grade-branches':{readOnly:true,output:'Same complete inventory, including unnamed elevation branches'},
+    'inspect-ramp-profile':{readOnly:true,flags:'--road id --out profile.json; includes all nodes, grade/curvature metrics'},
     'diagnose-elevation-seams':{scope:'whole map by default; --road, --bbox or --near x,z --radius metres',flags:'--height-threshold 0.02 --clusters includes junction ownership boundaries and category-independent connected runs',output:'--out full-report.json; stdout paginated',readOnly:true},
     'repair-elevation-seams':{required:'--safe-only',behavior:'isolated interior Y fixes only; preview/semantic diff/local validation; --apply explicitly writes; --out saves receipt'},
     inspect:{kinds:['profile','geometry','ramp','object','structure','region','issue'],examples:[{kind:'profile',roadId:'road-id',step:10},{kind:'object',objectId:'object-id'},{kind:'region',center:{x:0,z:0},radius:300}]},

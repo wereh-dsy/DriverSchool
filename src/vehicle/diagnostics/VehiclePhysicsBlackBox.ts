@@ -13,6 +13,8 @@ import { BlackBoxTriggerThresholds as T } from './BlackBoxTriggerThresholds';
 
 type Detail = { queries: unknown[]; microsteps: unknown[] };
 type RejectedContactDetail = { wheel: number; contactSample: number; lastContactSample: number; count: number;
+  firstStep: number; lastStep: number; firstTime: number; lastTime: number; previousSurface: number;
+  peakHeightDelta: number; peakImpulse: number; peakVY: number; peakAngularRate: number;
   rejectionReason?: string; lastRejectionReason?: string; heightDelta: number; heightThreshold?: number;
   surface: number; road: number; segment: number; supportValid: false; candidates: unknown };
 
@@ -20,7 +22,8 @@ type RejectedContactDetail = { wheel: number; contactSample: number; lastContact
  * The scene adapter passes snapshots it already owns. All JSON work is explicitly outside the fixed loop.
  */
 export class VehiclePhysicsBlackBox {
-  private readonly rejectedInStep: (RejectedContactDetail | undefined)[] = [undefined, undefined, undefined, undefined];
+  private readonly rejectionEpisodes: (RejectedContactDetail | undefined)[] = [undefined, undefined, undefined, undefined];
+  private readonly roadLost = new Uint8Array(4);
   public status: BlackBoxStatus = 'OFF';
   private readonly doubles = new Float64Array(S.frameCapacity * FRAME_DOUBLE_FIELDS.length);
   private readonly floats = new Float32Array(S.frameCapacity * FRAME_FLOAT_FIELDS.length);
@@ -82,7 +85,7 @@ export class VehiclePhysicsBlackBox {
     return this.doubles.byteLength + this.floats.byteLength + this.ints.byteLength + this.wheelFloats.byteLength + this.wheelInts.byteLength;
   }
   public arm(): void { if (this.status === 'OFF') this.status = 'ARMED'; }
-  public disable(): void { this.status = 'OFF'; this.detail = undefined; this.manualPending = false; }
+  public disable(): void { this.status = 'OFF'; this.detail = undefined; this.manualPending = false; this.rejectionEpisodes.fill(undefined); }
   public fail(): void { this.status = 'ERROR'; this.detail = undefined; }
   public freezeInterrupted(reason: string): void {
     if (!this.highDetail) return;
@@ -95,7 +98,6 @@ export class VehiclePhysicsBlackBox {
   public beginStep(dt: number): void {
     if (!this.recording) return;
     this.step++; this.time += dt; this.eventsThisStep = 0; this.contactSample = 0; this.pendingReason = undefined;
-    this.rejectedInStep.fill(undefined);
     this.detail = this.highDetail ? { queries: [], microsteps: [] } : undefined;
   }
   public intern(value: string | undefined): number {
@@ -147,25 +149,36 @@ export class VehiclePhysicsBlackBox {
       for (let i = 0; i < 4; i++) {
         const contact = contacts[WHEEL_IDS[i]!], ref = contact.reference;
         if (contact.supportValid === false) {
-          const previous = this.rejectedInStep[i];
+          const episode = this.rejectionEpisodes[i];
+          const surface = this.intern(ref?.surfaceId);
+          const previous = episode && episode.surface === surface && episode.rejectionReason === contact.rejectionReason &&
+            episode.previousSurface === this.surfaces[i] && episode.lastStep >= this.step - 1 ? episode : undefined;
           if (previous) {
             previous.count++; previous.lastContactSample = this.contactSample;
             previous.lastRejectionReason = contact.rejectionReason;
+            previous.lastStep = this.step; previous.lastTime = this.time;
+            previous.peakHeightDelta = Math.max(previous.peakHeightDelta, Math.abs(contact.height - this.heights[i]!));
             continue;
           }
           const rejected: RejectedContactDetail = { wheel: i, contactSample: this.contactSample,
             lastContactSample: this.contactSample, count: 1, rejectionReason: contact.rejectionReason,
+            firstStep: this.step, lastStep: this.step, firstTime: this.time, lastTime: this.time,
+            previousSurface: this.surfaces[i]!, peakHeightDelta: Math.abs(contact.height - this.heights[i]!),
+            peakImpulse: 0, peakVY: 0, peakAngularRate: 0,
             lastRejectionReason: contact.rejectionReason,
             surface: this.intern(ref?.surfaceId), road: this.intern(ref?.roadId), segment: this.intern(ref?.segmentId),
             heightDelta: contact.height - this.heights[i]!, heightThreshold: contact.supportHeightTolerance,
             supportValid: false, candidates: this.candidates(ground, contacts, i) };
-          this.rejectedInStep[i] = rejected;
-          this.event('support-candidate-rejected', rejected);
-          this.anomaly('support-candidate-rejected');
+          this.rejectionEpisodes[i] = rejected;
+          const lost = contact.rejectionReason === 'road-support-lost';
+          if (lost) this.roadLost[i] = 1;
+          this.event(lost ? 'road-support-lost' : 'support-candidate-rejected', rejected);
+          if (!lost) this.anomaly('support-candidate-rejected');
           // This candidate never became physical support. Retain the last real
           // support identity so rejection cannot manufacture an A-B-A event.
           continue;
         }
+        this.rejectionEpisodes[i] = undefined;
         const oldSurface = this.surfaces[i]!, oldRoad = this.roads[i]!, oldSegment = this.segments[i]!;
         if (this.refs[i] !== ref) {
           this.refs[i] = ref;
@@ -178,12 +191,13 @@ export class VehiclePhysicsBlackBox {
         const n = contact.normal, j = i * 3;
         const dot = n.x * this.normals[j]! + n.y * this.normals[j + 1]! + n.z * this.normals[j + 2]!;
         const heightThreshold = contact.supportHeightTolerance ?? T.surfaceHeightDelta;
-        const jump = this.initialized[i] !== 0 && Math.abs(heightDelta) > heightThreshold;
+        const terrainAcquired = this.roadLost[i] !== 0 && (ref?.kind === 'terrain' || ref?.surfaceId === 'terrain');
+        const jump = !terrainAcquired && this.initialized[i] !== 0 && Math.abs(heightDelta) > heightThreshold;
         const normalJump = this.initialized[i] !== 0 && dot < T.normalDot;
-        if (changed || jump || normalJump) {
+        if (terrainAcquired || changed || jump || normalJump) {
           const returned = changed && this.surfaces[i] !== 0 && this.surfaces[i] === this.previousSurfaces[i] &&
             this.step - this.switchSteps[i]! <= T.supportReturnSteps;
-          const type = changed ? 'support-surface-changed' : jump ? 'surface-height-jump' : 'surface-normal-jump';
+          const type = terrainAcquired ? 'terrain-support-acquired' : changed ? 'support-surface-changed' : jump ? 'surface-height-jump' : 'surface-normal-jump';
           const event = this.event(type, { wheel: i, contactSample: this.contactSample, previousSurface: oldSurface, surface: this.surfaces[i],
             previousRoad: oldRoad, previousSegment: oldSegment, road: this.roads[i], segment: this.segments[i],
             heightDelta, heightThreshold, supportValid: true,
@@ -201,6 +215,7 @@ export class VehiclePhysicsBlackBox {
         this.heights[i] = contact.height;
         this.normals[j] = n.x; this.normals[j + 1] = n.y; this.normals[j + 2] = n.z;
         this.initialized[i] = 1;
+        this.roadLost[i] = 0;
         if (this.detail && this.detail.queries.length < S.maxDetailQueriesPerStep) {
           this.detail.queries.push({ wheel: i, contactSample: this.contactSample, query: this.candidates(ground, contacts, i) });
         }
@@ -239,6 +254,13 @@ export class VehiclePhysicsBlackBox {
   public readonly observeSafety: NonNullable<ChassisDynamics['safetyObserver']> = motion => {
     if (!this.recording) return;
     try {
+      for (let i = 0; i < 4; i++) {
+        const episode = this.rejectionEpisodes[i];
+        if (!episode) continue;
+        episode.peakImpulse = Math.max(episode.peakImpulse, motion.contactImpulses[i]!);
+        episode.peakVY = Math.max(episode.peakVY, Math.abs(motion.velocity));
+        episode.peakAngularRate = Math.max(episode.peakAngularRate, Math.abs(motion.pitchAngularVelocity), Math.abs(motion.rollAngularVelocity));
+      }
       this.event('contact-safety-before-recovery', { y: motion.y, verticalVelocity: motion.velocity,
         pitch: motion.pitch, roll: motion.roll, pitchRate: motion.pitchAngularVelocity, rollRate: motion.rollAngularVelocity });
       this.anomaly('contact-safety-recovery');
@@ -321,10 +343,24 @@ export class VehiclePhysicsBlackBox {
       this.w(corner.unsprungPosition ?? 0); this.w(corner.unsprungVelocity ?? 0);
       this.w(corner.unsprungAcceleration ?? 0); this.w(corner.tyreNormalForce ?? corner.normalLoad);
       this.w(corner.unsprungMass ?? 0);
+      this.w(contact.predictedSurfaceHeight ?? contact.height);
       const base = slot + i * WHEEL_INT_FIELDS.length * cap;
       this.wheelInts[base] = +corner.grounded; this.wheelInts[base + cap] = this.surfaces[i]!;
       this.wheelInts[base + cap * 2] = this.roads[i]!; this.wheelInts[base + cap * 3] = this.segments[i]!;
       this.wheelInts[base + cap * 4] = this.intern(contact.surfaceType);
+      this.wheelInts[base + cap * 5] = this.intern(contact.candidateLayerClass);
+      this.wheelInts[base + cap * 6] = this.intern(contact.previousLayerClass);
+      this.wheelInts[base + cap * 7] = this.intern(contact.supportSelectionReason);
+      this.wheelInts[base + cap * 8] = +(contact.rejectedThisOuterTick ?? false);
+      this.wheelInts[base + cap * 9] = this.intern(contact.layerSwitchConfirmationState);
+      this.wheelInts[base + cap * 10] = +(corner.mechanicalConstraintEligible ?? false);
+      this.wheelInts[base + cap * 11] = this.intern(corner.mechanicalConstraintRejectReason);
+      const episode = this.rejectionEpisodes[i];
+      if (episode) {
+        episode.peakImpulse = Math.max(episode.peakImpulse, impulse);
+        episode.peakVY = Math.max(episode.peakVY, Math.abs(motion.velocity));
+        episode.peakAngularRate = Math.max(episode.peakAngularRate, Math.abs(motion.pitchAngularVelocity), Math.abs(motion.rollAngularVelocity));
+      }
       if (+corner.grounded !== this.grounded[i] && this.havePreviousFrame) this.event('grounded-transition', { wheel: i, grounded: corner.grounded });
       this.grounded[i] = +corner.grounded;
       const bump = corner.grounded && corner.suspensionLength <= corner.minSuspensionLength + T.fullBumpTolerance;
@@ -406,7 +442,10 @@ export class VehiclePhysicsBlackBox {
       frame.wheels = WHEEL_IDS.map((id, i) => {
         const wheel: Record<string, unknown> = { id };
         WHEEL_FLOAT_FIELDS.forEach((name, j) => { wheel[name] = numeric(this.wheelFloats[(i * WHEEL_FLOAT_FIELDS.length + j) * cap + slot]!); });
-        WHEEL_INT_FIELDS.forEach((name, j) => { wheel[name] = this.wheelInts[(i * WHEEL_INT_FIELDS.length + j) * cap + slot]; });
+        WHEEL_INT_FIELDS.forEach((name, j) => {
+          const value = this.wheelInts[(i * WHEEL_INT_FIELDS.length + j) * cap + slot]!;
+          wheel[name] = j >= 5 && j !== 8 && j !== 10 ? this.strings[value] ?? null : value;
+        });
         return wheel;
       });
       frames.push(frame);
@@ -415,7 +454,8 @@ export class VehiclePhysicsBlackBox {
     const events: BlackBoxEvent[] = [];
     for (let n = 0; n < this.eventCount; n++) {
       const event = this.events[(this.eventCursor - this.eventCount + n + S.eventCapacity) % S.eventCapacity];
-      if (event && event.step >= firstStep && event.step <= lastStep) events.push(event);
+      if (event && event.step <= lastStep && (event.step >= firstStep ||
+        ((event.detail as Partial<RejectedContactDetail>).lastStep ?? -1) >= firstStep)) events.push(event);
     }
     events.sort((a, b) => a.step - b.step || a.sequence - b.sequence);
     return { schemaVersion: 1, metadata: { ...this.metadata, physicsHz: S.physicsHz,
@@ -433,6 +473,7 @@ export class VehiclePhysicsBlackBox {
   public markSaved(): void {
     if (this.status !== 'FROZEN') return;
     this.status = 'SAVED'; this.count = 0; this.eventCount = 0; this.events.fill(undefined);
+    this.rejectionEpisodes.fill(undefined);
     this.triggerStep = undefined; this.triggerLocation = undefined; this.lastSurfaceSwitch = undefined;
     this.interrupted = undefined;
     this.cooldownUntil = this.step + T.automaticCooldownSteps;

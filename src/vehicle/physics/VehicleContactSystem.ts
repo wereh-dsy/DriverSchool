@@ -86,14 +86,18 @@ export class VehicleContactSystem {
   }
 
   /** Spawn/reset contact initialization belongs to physics, never the renderer. */
-  public synchronize<P extends Powertrain>(dynamics: VehicleDynamics<P>): VehicleSnapshotFor<P> {
+  public synchronize<P extends Powertrain>(dynamics: VehicleDynamics<P>, reseed = true): VehicleSnapshotFor<P> {
     const before = dynamics.getSnapshot();
+    const anchored = !reseed && this.sampledPose !== null;
+    if (anchored) this.supportContinuity.prepare(dynamics.suspension.getVerticalSnapshot(), dynamics.config.wheelRadius);
     this.ground.setSurfaceReferenceHeight?.(this.sampledPose === null ? this.ground.spawnPose.position.y - 0.04 : before.chassis.chassisY);
     this.wheelContacts = sampleWheelContacts(this.ground, before, dynamics.config,
-      this.wetness, this.roadGripMultiplier, this.contactBuffer);
+      this.wetness, this.roadGripMultiplier, this.contactBuffer, anchored ? this.supportContinuity : undefined);
     dynamics.syncWheelContacts(this.wheelContacts);
-    this.supportContinuity.reset();
-    this.supportContinuity.seed(this.wheelContacts);
+    if (!anchored) {
+      this.supportContinuity.reset();
+      this.supportContinuity.seed(this.wheelContacts);
+    }
     this.wheelRadius = dynamics.config.wheelRadius;
     const after = dynamics.getSnapshot();
     this.sampledPose = { x: after.x, z: after.z, yaw: after.yaw, chassisY: after.chassis.chassisY };
@@ -109,15 +113,18 @@ export class VehicleContactSystem {
       dynamics.diagnosticRecoveryObserver = recorder.recording ? recorder.observeRecovery : undefined;
     }
     let before = dynamics.getSnapshot();
+    if (this.sampledPose === null) before = this.synchronize(dynamics);
+    // One epoch includes cache refresh, all adaptive samples and collision
+    // re-sampling. A refresh must not clear an earlier rejection in this tick.
+    this.supportContinuity.beginStep(dt, dynamics.chassisMotion.velocity);
     // The last final-pose samples become the next step's input. Re-query when
     // a spawn/reset/editor correction changed pose outside this adapter.
     if (this.wheelContacts === null || this.sampledPose?.x !== before.x ||
       this.sampledPose.z !== before.z || this.sampledPose.yaw !== before.yaw ||
       this.sampledPose.chassisY !== before.chassis.chassisY) {
-      before = this.synchronize(dynamics);
+      before = this.synchronize(dynamics, false);
     }
     const currentContacts = this.wheelContacts!;
-    this.supportContinuity.beginStep();
     recorder?.observeContacts(currentContacts, this.ground);
     const vertical = dynamics.suspension.getVerticalSnapshot();
     const { normal } = averageWheelGroundGeometry(currentContacts,

@@ -101,6 +101,10 @@ interface CornerState {
 }
 
 interface MutableVerticalCorner {
+  rejectedThisOuterTick?: boolean;
+  layerSwitchConfirmationState?: string;
+  mechanicalConstraintEligible?: boolean;
+  mechanicalConstraintRejectReason?: string;
   unsprungMass: number;
   unsprungPosition: number;
   unsprungVelocity: number;
@@ -444,6 +448,12 @@ export class SuspensionSystem {
       axis.z = -sy * sr - cy * sp * cr;
       const contact = step.contacts?.[id], normal = corner.surfaceNormal;
       corner.supportValid = contact?.supportValid !== false;
+      corner.rejectedThisOuterTick = contact?.rejectedThisOuterTick;
+      corner.layerSwitchConfirmationState = contact?.layerSwitchConfirmationState;
+      if (corner.supportValid === false || corner.rejectedThisOuterTick) {
+        corner.mechanicalConstraintEligible = false;
+        corner.mechanicalConstraintRejectReason = corner.rejectedThisOuterTick ? 'same-tick-rejection-latch' : 'rejected-support';
+      }
       const n = contact?.normal;
       const norm = n ? Math.hypot(n.x, n.y, n.z) : 0;
       normal.x = norm > 1e-7 && n!.y > 0 ? n!.x / norm : 0;

@@ -1,0 +1,24 @@
+{
+  "valid": true,
+  "checks": [
+    "irregular-station affine profile is preserved",
+    "hard height constraints are exact",
+    "duplicate/non-finite stations rejected",
+    "non-finite source heights rejected",
+    "non-integer hard constraint index rejected",
+    "clearance bounds preserve hard endpoints while permitting a smooth transition",
+    "incompatible clearance and hard height anchor rejected",
+    "contradictory clearance bounds rejected",
+    "curvature cue is invariant under Y-only collinear resampling",
+    "profile compaction retains authored corners and removes redundant samples",
+    "clearance examines pavement edges, not only centre crossing",
+    "unnamed grade branch is inventoried",
+    "local horizontal separation preserves both endpoint mouths",
+    "horizontal plateau preserves source heights and does not mutate the map",
+    "horizontal proposal cannot move an endpoint mouth",
+    "an overlap extending beyond the correction envelope cannot move either mouth",
+    "grade branch CLI emits complete inventory",
+    "profile CLI supports non-ramp elevation branches",
+    "read-only CLI cannot overwrite source"
+  ]
+}

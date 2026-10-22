@@ -12,12 +12,14 @@ export interface RouteSection {
   readonly from: number; readonly to: number; readonly startDistance: number;
   readonly distance: number; readonly seconds: number; readonly points: readonly RoadPoint[];
   readonly connector?: readonly RoadPoint[];
+  readonly legIndex?:number;
 }
 export interface RouteManeuver { readonly distance: number; readonly text: string; readonly symbol: string; readonly roadName: string }
 export interface PlannedRoute {
   readonly start: RouteLocation; readonly destination: RouteLocation;
   readonly sections: readonly RouteSection[]; readonly points: readonly RoadPoint[];
   readonly distance: number; readonly seconds: number; readonly maneuvers: readonly RouteManeuver[];
+  readonly waypoints: readonly {readonly location:RouteLocation; readonly distance:number}[];
 }
 interface Arc { id: string; road: RoadSegmentData; forward: boolean; length: number; next: { arc: Arc; via?: RoadPoint }[] }
 export interface RoadMatch { location: RouteLocation; distance: number; heightDifference: number; heading: number; score: number }
@@ -175,7 +177,30 @@ export class RoutePlanner {
       sections.push(section);points.push(...line);distance+=section.distance;
     }
     maneuvers.push({distance,text:'到达目的地',symbol:'●',roadName:destination.label});
-    return {start,destination,sections,points,distance,seconds:goalCost,maneuvers};
+    return {start,destination,sections,points,distance,seconds:goalCost,maneuvers,waypoints:[]};
+  }
+  /** Ordered stops share the arrival direction with the following leg. Keeping
+   * both directional candidates avoids inventing U-turns or greedily choosing
+   * an arrival direction from which a later stop cannot be reached. */
+  public planThrough(start:RouteLocation,destination:RouteLocation,waypoints:readonly RouteLocation[]=[]):PlannedRoute|null {
+    if(!waypoints.length)return this.plan(start,destination);
+    let candidates:{location:RouteLocation;legs:PlannedRoute[];seconds:number}[]=[{location:start,legs:[],seconds:0}];
+    for(const target of [...waypoints,destination]){
+      const next:typeof candidates=[];
+      for(const direction of target.direction?[target.direction]:['forward','reverse'] as const){
+        let best:typeof candidates[number]|undefined;
+        for(const previous of candidates){const leg=this.plan(previous.location,{...target,direction});if(!leg)continue;const seconds=previous.seconds+leg.seconds;if(!best||seconds<best.seconds)best={location:{...target,direction,access:undefined},legs:[...previous.legs,leg],seconds};}
+        if(best)next.push(best);
+      }
+      if(!next.length)return null;candidates=next;
+    }
+    const best=candidates.reduce((a,b)=>a.seconds<=b.seconds?a:b),sections:RouteSection[]=[],points:RoadPoint[]=[],maneuvers:RouteManeuver[]=[],stops:{location:RouteLocation;distance:number}[]=[];let distance=0;
+    for(const [i,leg]of best.legs.entries()){
+      sections.push(...leg.sections.map(s=>({...s,startDistance:s.startDistance+distance,legIndex:i})));points.push(...leg.points);
+      maneuvers.push(...leg.maneuvers.map((m,k)=>({...m,distance:m.distance+distance,...(i<waypoints.length&&k===leg.maneuvers.length-1?{text:`经过途经点 ${i+1}，继续行驶`,symbol:'◎',roadName:waypoints[i]!.label}:{})})));
+      distance+=leg.distance;if(i<waypoints.length)stops.push({location:waypoints[i]!,distance});
+    }
+    return {start,destination,sections,points,distance,seconds:best.seconds,maneuvers,waypoints:stops};
   }
 }
 

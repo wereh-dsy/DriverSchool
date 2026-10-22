@@ -1,0 +1,51 @@
+{
+  "rampProfiles": {
+    "exitCode": 0,
+    "valid": true,
+    "checks": 19
+  },
+  "navigationWaypoints": {
+    "exitCode": 0,
+    "assertions": 35,
+    "regionalRoutes": 0,
+    "scope": "Navigation fixtures only; no regional/service or vehicle suites"
+  },
+  "east": {
+    "exitCode": 0,
+    "row": {
+      "name": "ramp-80",
+      "speed": 80,
+      "prescribedLongitudinalSpeed": false,
+      "speedAtIncident": 73.17537116416257,
+      "steps": 617,
+      "x": 2569.918386421575,
+      "z": -169.9415019396314,
+      "maxImpulse": 0,
+      "maxFz": 6938.786097736811,
+      "maxAY": 5.059821220988311,
+      "maxRollRate": 0.12351244953259613,
+      "maxVY": 0.8828212325658981,
+      "safety": 0,
+      "recovery": 0,
+      "invalidABA": 0,
+      "rejectedSamples": 0,
+      "rampSeen": true,
+      "mainlineAfterRamp": 0
+    }
+  },
+  "typecheck": "passed in the final build",
+  "build": {
+    "passed": true,
+    "executions": 1,
+    "command": "pnpm run build -BasicValidation",
+    "exitCode": 0,
+    "distVersion": 486
+  },
+  "notRun": [
+    "full core",
+    "all vehicles",
+    "full editor",
+    "long driving"
+  ],
+  "computerUse": false
+}

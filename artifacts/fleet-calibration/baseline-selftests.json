@@ -1,0 +1,51 @@
+{
+  "evV2": {
+    "passed": false,
+    "error": "Error: EV V2: front ABS cancels front regen"
+  },
+  "model3": {
+    "passed": false,
+    "error": "Error: Electric powertrain: W seconds converted to kWh with discharge loss"
+  },
+  "electrified48V": {
+    "passed": true,
+    "assertions": 41,
+    "isgCatchSeconds": 0.10833333333333334
+  },
+  "absEbdTcs": {
+    "passed": true,
+    "assertions": 133,
+    "absSeen": true
+  },
+  "escAwd": {
+    "passed": false,
+    "error": "Error: ESC/AWD: fixed AWD split and both-axle speed feedback"
+  },
+  "executive": {
+    "passed": true,
+    "assertions": 37,
+    "throttleSamples": [
+      0.13435283214259308,
+      0.2111002777511366,
+      0.3088802660969764
+    ],
+    "steeringSamples": [
+      0.12341850909649345,
+      0.13034236839013907,
+      0.14338626697169524
+    ],
+    "rearSplits": [
+      0.3993192975335721,
+      0.43235594830527446,
+      0.4624757551238846
+    ]
+  },
+  "executivePolish": {
+    "passed": true,
+    "assertions": 749,
+    "peakRPM": 885.8655200534106,
+    "catchAtSeconds": 0.55,
+    "shutdownSeconds": 1.05,
+    "sportPresence": 1.17
+  }
+}

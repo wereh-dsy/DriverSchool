@@ -12,6 +12,12 @@ export interface GroundNormal {
 }
 
 export interface WheelContact extends SurfaceMaterial {
+  readonly predictedSurfaceHeight?: number;
+  readonly candidateLayerClass?: import('../../world/SurfaceMaterial').SupportLayerClass;
+  readonly previousLayerClass?: import('../../world/SurfaceMaterial').SupportLayerClass;
+  readonly supportSelectionReason?: string;
+  readonly rejectedThisOuterTick?: boolean;
+  readonly layerSwitchConfirmationState?: string;
   /** Rejected layer candidates are airborne, including at the mechanical stop. */
   readonly supportValid?: boolean;
   readonly supportHeightTolerance?: number;
@@ -82,6 +88,13 @@ export function sampleWheelContacts(
     wheel.supportValid = support?.valid(id) ?? true;
     wheel.supportHeightTolerance = support?.heightTolerance(id);
     wheel.rejectionReason = support?.rejectionReason(id);
+    const selection = support?.diagnostics(id);
+    wheel.predictedSurfaceHeight = selection?.predictedSurfaceHeight;
+    wheel.candidateLayerClass = selection?.candidateLayerClass;
+    wheel.previousLayerClass = selection?.previousLayerClass;
+    wheel.supportSelectionReason = selection?.supportSelectionReason;
+    wheel.rejectedThisOuterTick = selection?.rejectedThisOuterTick;
+    wheel.layerSwitchConfirmationState = selection?.layerSwitchConfirmationState;
     wheel.reference = surface.reference; wheel.referenceHeight = surface.referenceHeight;
     wheel.wetness = Math.max(wetness, surface.wetness ?? 0);
     wheel.normal.x = surface.normal.x; wheel.normal.y = surface.normal.y; wheel.normal.z = surface.normal.z;

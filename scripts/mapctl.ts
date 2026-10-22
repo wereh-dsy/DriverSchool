@@ -9,6 +9,7 @@ import { pageDiagnosticReport, repairCommandsFromDiagnosis, type DiagnosticRepor
 import { assertReceipt, makeReceipt, MAPCTL_HELP } from './mapctl-support';
 import { runEngineeringCommand, requestFlags } from './mapctl-engineering';
 import { runElevationSeamCommand } from './mapctl-elevation-seams';
+import { runRampProfileCommand } from './mapctl-ramp-profiles';
 
 const [command, mapArg, ...args] = process.argv.slice(2), flags = new Map<string,string>();
 const json = (value:string) => JSON.parse(value.startsWith('@') ? readFileSync(resolve(value.slice(1)),'utf8').replace(/^\uFEFF/,'') : value);
@@ -39,7 +40,8 @@ try {
     if(command==='preview'||command==='apply'||command==='repair'||command==='review'||command==='brush')assertReceipt(request,digest);
     const writesMap=command==='apply'||['repair','brush'].includes(command??'')&&flags.get('apply')==='true';
     if(flags.has('out')&&resolve(flags.get('out')!).toLowerCase()===source.toLowerCase()&&!writesMap)throw new Error('Read-only output cannot overwrite source map');
-    if(await runElevationSeamCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
+    if(runRampProfileCommand({command:command!,kernel,request,flags,source,digest,output})){}
+    else if(await runElevationSeamCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
     else if(await runEngineeringCommand({command:command!,kernel,request,flags,source,raw,digest,output})){}
     else if(command==='inspect'){output(kernel.inspectArea(request??{center:{x:0,z:0},radius:200}));}
     else if(command==='query'){

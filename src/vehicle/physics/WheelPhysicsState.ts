@@ -3,6 +3,10 @@ import type { GroundNormal, WheelId } from './WheelContact';
 
 /** Final, bounded suspension geometry in the same world frame as the chassis. */
 export interface WheelGeometryState {
+  readonly rejectedThisOuterTick?: boolean;
+  readonly layerSwitchConfirmationState?: string;
+  readonly mechanicalConstraintEligible?: boolean;
+  readonly mechanicalConstraintRejectReason?: string;
   /** Strut-axis length (m), relative velocity (m/s) and acceleration (m/s²). */
   readonly unsprungPosition?: number;
   readonly unsprungVelocity?: number;

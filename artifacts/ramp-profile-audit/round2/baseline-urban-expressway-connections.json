@@ -1,0 +1,3687 @@
+{
+  "summary": {
+    "category": "C",
+    "label": "城区道路与快速路连接",
+    "checked": 33,
+    "fixed": 6,
+    "pass": 8,
+    "intentional": 1,
+    "deferred": 18,
+    "modifiedRoads": 7,
+    "changedNodes": 695,
+    "insertedNodes": 180,
+    "maxYChange": 7.990109330455988,
+    "maxGradeBefore": 0.12094974575321366,
+    "maxGradeAfter": 0.12094974575321366,
+    "maxGradeBreakBefore": 0.07752923301770018,
+    "maxGradeBreakAfter": 0.029625241952736255,
+    "maxReviewedPavementMismatchBefore": 3.0813258319333485,
+    "maxReviewedPavementMismatchAfter": 3.0813258319333485,
+    "crossingRegions": 137,
+    "clearanceImprovedRegions": 5,
+    "clearanceWorsenedRegions": 0
+  },
+  "rows": [
+    {
+      "roadId": "regional:airport-terminal-access",
+      "corridor": "v8-airport-terminal-road",
+      "category": "C",
+      "isRamp": false,
+      "classification": "FIXED_PROFILE",
+      "modified": true,
+      "implemented": [
+        "local curvature fit preserves full crossing regions and endpoint heights"
+      ],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "regional:airport-exit:local:1"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "regional:airport-exit:local:1",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "topology/profile-reviewed",
+      "before": {
+        "length": 343.33052414042356,
+        "start": {
+          "x": -6154.999999999999,
+          "y": 24.356207536976996,
+          "z": -3901.289823177541
+        },
+        "end": {
+          "x": -5820,
+          "y": 0,
+          "z": -3830
+        },
+        "deltaY": -24.356207536976996,
+        "heightRange": 24.356207536976996,
+        "averageGrade": -0.0709409907492385,
+        "maxGrade": 0.08604489211114062,
+        "maxGradeBreak": 0.028618835787985394,
+        "maxGradeRate": 0.008381076248692226,
+        "minCurveRadiusCue": 163.74358110525287,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 89,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 343.3305241404237,
+        "start": {
+          "x": -6154.999999999999,
+          "y": 24.356207536976996,
+          "z": -3901.289823177541
+        },
+        "end": {
+          "x": -5820,
+          "y": 0,
+          "z": -3830
+        },
+        "deltaY": -24.356207536976996,
+        "heightRange": 24.356207536976996,
+        "averageGrade": -0.07094099074923849,
+        "maxGrade": 0.09059784832129461,
+        "maxGradeBreak": 0.008074898605744448,
+        "maxGradeRate": 0.0030620352573919097,
+        "minCurveRadiusCue": 163.74358110525287,
+        "shortSegments": 15,
+        "extremaStations": [],
+        "authoredNodes": 123,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        787,
+        788
+      ],
+      "maxYChange": 0.5144030629747798,
+      "runtime": {
+        "tested": true,
+        "regressions": [],
+        "mechanicalImpulse": 0,
+        "rejections": 0,
+        "groundedTransitions": 0
+      }
+    },
+    {
+      "roadId": "v8-ring-north:off--1",
+      "corridor": "v8-ring-north",
+      "category": "C",
+      "isRamp": true,
+      "classification": "FIXED_SHARED_PAVEMENT",
+      "modified": true,
+      "implemented": [
+        "shared pavement follows receiving/mainline height through physical overlap",
+        "local curvature fit preserves full crossing regions and endpoint heights",
+        "ribbon removes competing segment end-cap planes on graded bends"
+      ],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-cw-1-split-3-split"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ring-cw-1-split-3-split",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.00004418012169728054
+        }
+      ],
+      "mergeDiverge": "split-and-merge",
+      "before": {
+        "length": 286.26814767919274,
+        "start": {
+          "x": 923.4375,
+          "y": 8,
+          "z": -1817.436065335115
+        },
+        "end": {
+          "x": 1159.0102751470663,
+          "y": 0.0016760444585690072,
+          "z": -1669.8961054430322
+        },
+        "deltaY": -7.998323955541431,
+        "heightRange": 8.024,
+        "averageGrade": -0.027939971737633823,
+        "maxGrade": 0.07950000000000008,
+        "maxGradeBreak": 0.07694619959602865,
+        "maxGradeRate": 0.020834702777981554,
+        "minCurveRadiusCue": 82.45577793489933,
+        "shortSegments": 0,
+        "extremaStations": [
+          274.9450355313762
+        ],
+        "authoredNodes": 64,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 286.26814767919274,
+        "start": {
+          "x": 923.4375,
+          "y": 8,
+          "z": -1817.436065335115
+        },
+        "end": {
+          "x": 1159.0102751470663,
+          "y": 0.0016760444585690072,
+          "z": -1669.8961054430322
+        },
+        "deltaY": -7.998323955541431,
+        "heightRange": 8.0421498012607,
+        "averageGrade": -0.027939971737633823,
+        "maxGrade": 0.11362716641785162,
+        "maxGradeBreak": 0.02199852136416233,
+        "maxGradeRate": 0.0065842000249742684,
+        "minCurveRadiusCue": 82.45577793489933,
+        "shortSegments": 12,
+        "extremaStations": [
+          3.8894836523503393,
+          83.6237767535768,
+          91.2683477558056,
+          95.0405151874354,
+          98.8872299861605,
+          245.99999999999997,
+          274.9450355313762
+        ],
+        "authoredNodes": 104,
+        "pavementSurface": "ribbon"
+      },
+      "overlapRegionIndices": [
+        2710,
+        2800
+      ],
+      "maxYChange": 7.784658423747173,
+      "runtime": {
+        "tested": true,
+        "regressions": [],
+        "mechanicalImpulse": 0,
+        "rejections": 0,
+        "groundedTransitions": 0
+      }
+    },
+    {
+      "roadId": "v8-ring-north:on--1",
+      "corridor": "v8-ring-north",
+      "category": "C",
+      "isRamp": true,
+      "classification": "FIXED_SHARED_PAVEMENT",
+      "modified": true,
+      "implemented": [
+        "shared pavement follows receiving/mainline height through physical overlap",
+        "local curvature fit preserves full crossing regions and endpoint heights"
+      ],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-cw-1-split-3-split-split-split-split"
+      ],
+      "attachments": [
+        {
+          "end": "end",
+          "roadId": "ring-cw-1-split-3-split-split-split-split",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.00004410453352679308
+        }
+      ],
+      "mergeDiverge": "split-and-merge",
+      "before": {
+        "length": 296.56258663242284,
+        "start": {
+          "x": 1171.8532025425595,
+          "y": 0.0016099341205060595,
+          "z": -1659.5665105654114
+        },
+        "end": {
+          "x": 1435.6776099124697,
+          "y": 8,
+          "z": -1526.0711814524075
+        },
+        "deltaY": 7.9983900658794935,
+        "heightRange": 8.024,
+        "averageGrade": 0.026970327433086392,
+        "maxGrade": 0.07950016049922874,
+        "maxGradeBreak": 0.07752923301770018,
+        "maxGradeRate": 0.011607782498947582,
+        "minCurveRadiusCue": 327.74237246002224,
+        "shortSegments": 0,
+        "extremaStations": [
+          11.472661803202772
+        ],
+        "authoredNodes": 42,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 296.56258663242284,
+        "start": {
+          "x": 1171.8532025425595,
+          "y": 0.0016099341205060595,
+          "z": -1659.5665105654114
+        },
+        "end": {
+          "x": 1435.6776099124697,
+          "y": 8,
+          "z": -1526.0711814524075
+        },
+        "deltaY": 7.9983900658794935,
+        "heightRange": 8.061266384981765,
+        "averageGrade": 0.026970327433086392,
+        "maxGrade": 0.11386034282907927,
+        "maxGradeBreak": 0.01486387472274725,
+        "maxGradeRate": 0.0075527386657905544,
+        "minCurveRadiusCue": 327.74237246002224,
+        "shortSegments": 8,
+        "extremaStations": [
+          11.472661803202772,
+          44.99999999999998,
+          210.41774562189195,
+          222.23753653429728,
+          277.07503736128075,
+          292.6664370221636
+        ],
+        "authoredNodes": 83,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2803,
+        3276
+      ],
+      "maxYChange": 7.990109330455988,
+      "runtime": {
+        "tested": true,
+        "regressions": [],
+        "mechanicalImpulse": 0,
+        "rejections": 0,
+        "groundedTransitions": 0
+      }
+    },
+    {
+      "roadId": "v91-ew-east-eb-off",
+      "corridor": "v91-ew-east-eb-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade",
+        "Unresolved shared pavement/clearance region(s): 3322"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ew-eb-split-split-4-split"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ew-eb-split-split-4-split",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ew-1-a-3-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.00249931149992511
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 171.18754455957756,
+        "start": {
+          "x": 1285,
+          "y": 8,
+          "z": -142.375
+        },
+        "end": {
+          "x": 1450,
+          "y": 0,
+          "z": -102
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.046732371917489586,
+        "maxGrade": 0.12086637883743419,
+        "maxGradeBreak": 0.017596279050831554,
+        "maxGradeRate": 0.018072167831966232,
+        "minCurveRadiusCue": 149.88897702952445,
+        "shortSegments": 113,
+        "extremaStations": [
+          31.00000000000012,
+          31.90755407431195,
+          31.999999999999922,
+          42.81416282976492,
+          53.000000000000114,
+          53.366921718328356,
+          56.82572495703648
+        ],
+        "authoredNodes": 166,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 171.18754455957756,
+        "start": {
+          "x": 1285,
+          "y": 8,
+          "z": -142.375
+        },
+        "end": {
+          "x": 1450,
+          "y": 0,
+          "z": -102
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.046732371917489586,
+        "maxGrade": 0.12086637883743419,
+        "maxGradeBreak": 0.017596279050831554,
+        "maxGradeRate": 0.018072167831966232,
+        "minCurveRadiusCue": 149.88897702952445,
+        "shortSegments": 113,
+        "extremaStations": [
+          31.00000000000012,
+          31.90755407431195,
+          31.999999999999922,
+          42.81416282976492,
+          53.000000000000114,
+          53.366921718328356,
+          56.82572495703648
+        ],
+        "authoredNodes": 166,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2782,
+        3320,
+        3321,
+        3322
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ew-east-wb-on",
+      "corridor": "v91-ew-east-wb-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade",
+        "Unresolved shared pavement/clearance region(s): 3294"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ew-wb-split-3-split-split-split-2-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ew-1-b-3-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "ew-wb-split-3-split-split-split-2-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.0025705826848846287
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 169.68111959444602,
+        "start": {
+          "x": 1450,
+          "y": 0,
+          "z": -198
+        },
+        "end": {
+          "x": 1285,
+          "y": 8,
+          "z": -162.95833333333326
+        },
+        "deltaY": 8,
+        "heightRange": 8.000000000000002,
+        "averageGrade": 0.04714726080969267,
+        "maxGrade": 0.10874265171894518,
+        "maxGradeBreak": 0.014821037519404903,
+        "maxGradeRate": 0.016283628008810863,
+        "minCurveRadiusCue": 162.37205991824842,
+        "shortSegments": 101,
+        "extremaStations": [
+          4.348343283050533,
+          12.753720971151317,
+          16.823870430021902,
+          20.00000000000002,
+          20.814112968192845,
+          21.999999999999964,
+          23.000000000000046,
+          23.999999999999897,
+          24.73054682294249,
+          25.00000000000002,
+          25.999999999999968,
+          28.57906067406426,
+          46.993022423808505,
+          49.99999999999999,
+          50.54481455700716,
+          50.99999999999999,
+          52.000000000000064
+        ],
+        "authoredNodes": 162,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 169.68111959444602,
+        "start": {
+          "x": 1450,
+          "y": 0,
+          "z": -198
+        },
+        "end": {
+          "x": 1285,
+          "y": 8,
+          "z": -162.95833333333326
+        },
+        "deltaY": 8,
+        "heightRange": 8.000000000000002,
+        "averageGrade": 0.04714726080969267,
+        "maxGrade": 0.10874265171894518,
+        "maxGradeBreak": 0.014821037519404903,
+        "maxGradeRate": 0.016283628008810863,
+        "minCurveRadiusCue": 162.37205991824842,
+        "shortSegments": 101,
+        "extremaStations": [
+          4.348343283050533,
+          12.753720971151317,
+          16.823870430021902,
+          20.00000000000002,
+          20.814112968192845,
+          21.999999999999964,
+          23.000000000000046,
+          23.999999999999897,
+          24.73054682294249,
+          25.00000000000002,
+          25.999999999999968,
+          28.57906067406426,
+          46.993022423808505,
+          49.99999999999999,
+          50.54481455700716,
+          50.99999999999999,
+          52.000000000000064
+        ],
+        "authoredNodes": 162,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3294,
+        3325,
+        3326,
+        3327
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ns-sb-on",
+      "corridor": "v91-ns-sb-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Shared pavement constraints conflict with fixed structure/endpoint heights",
+        "Unresolved shared pavement/clearance region(s): 2743,3295,3330"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ns-sb-split-split-split-split-split-split-3-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ns-1-a-3",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.002989881264165518
+        },
+        {
+          "end": "end",
+          "roadId": "ns-sb-split-split-split-split-split-split-3-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.002989881264165525
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 156.6173682095651,
+        "start": {
+          "x": -48,
+          "y": 0,
+          "z": 1410
+        },
+        "end": {
+          "x": -8.125,
+          "y": -8,
+          "z": 1560
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.05107990315158045,
+        "maxGrade": 0.0828528346210208,
+        "maxGradeBreak": 0.006020015625816322,
+        "maxGradeRate": 0.001492868746351369,
+        "minCurveRadiusCue": 121.41802884723826,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 44,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 156.6173682095651,
+        "start": {
+          "x": -48,
+          "y": 0,
+          "z": 1410
+        },
+        "end": {
+          "x": -8.125,
+          "y": -8,
+          "z": 1560
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.05107990315158045,
+        "maxGrade": 0.0828528346210208,
+        "maxGradeBreak": 0.006020015625816322,
+        "maxGradeRate": 0.001492868746351369,
+        "minCurveRadiusCue": 121.41802884723826,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 44,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2743,
+        3295,
+        3314,
+        3330,
+        3332,
+        3333
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ns-nb-off",
+      "corridor": "v91-ns-nb-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Shared pavement constraints conflict with fixed structure/endpoint heights",
+        "Unresolved shared pavement/clearance region(s): 3296,3336"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ns-nb-split-3-split-split-split"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ns-nb-split-3-split-split-split",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.0029898812641655803
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ns-1-b-3",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 2.651958513899544e-16,
+          "gradeBreak": 4.2955864471354017e-16
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 156.6173682095651,
+        "start": {
+          "x": 8.125,
+          "y": -8,
+          "z": 1560
+        },
+        "end": {
+          "x": 48,
+          "y": 2.651958513899544e-16,
+          "z": 1410
+        },
+        "deltaY": 8,
+        "heightRange": 8.000000000000002,
+        "averageGrade": 0.05107990315158045,
+        "maxGrade": 0.12094974575321366,
+        "maxGradeBreak": 0.018321603831559445,
+        "maxGradeRate": 0.02002133060518154,
+        "minCurveRadiusCue": 121.41802884720472,
+        "shortSegments": 87,
+        "extremaStations": [
+          114.20447834130404,
+          116.00000000000001,
+          117.75426753348833,
+          117.99999999999991,
+          119.00000000000006,
+          119.99999999999997,
+          121.00000000000011,
+          121.34526625364121,
+          126.00000000000001,
+          128,
+          128.6744731919779,
+          132.42559775871644,
+          136.24375244826768,
+          140.13648149380438,
+          142,
+          143.00000000000014,
+          144.00000000000006,
+          144.1117283581351,
+          145.0000000000001,
+          146.00000000000014,
+          147.00000000000017,
+          148.17780710286675,
+          152.34336937418612
+        ],
+        "authoredNodes": 136,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 156.6173682095651,
+        "start": {
+          "x": 8.125,
+          "y": -8,
+          "z": 1560
+        },
+        "end": {
+          "x": 48,
+          "y": 2.651958513899544e-16,
+          "z": 1410
+        },
+        "deltaY": 8,
+        "heightRange": 8.000000000000002,
+        "averageGrade": 0.05107990315158045,
+        "maxGrade": 0.12094974575321366,
+        "maxGradeBreak": 0.018321603831559445,
+        "maxGradeRate": 0.02002133060518154,
+        "minCurveRadiusCue": 121.41802884720472,
+        "shortSegments": 87,
+        "extremaStations": [
+          114.20447834130404,
+          116.00000000000001,
+          117.75426753348833,
+          117.99999999999991,
+          119.00000000000006,
+          119.99999999999997,
+          121.00000000000011,
+          121.34526625364121,
+          126.00000000000001,
+          128,
+          128.6744731919779,
+          132.42559775871644,
+          136.24375244826768,
+          140.13648149380438,
+          142,
+          143.00000000000014,
+          144.00000000000006,
+          144.1117283581351,
+          145.0000000000001,
+          146.00000000000014,
+          147.00000000000017,
+          148.17780710286675,
+          152.34336937418612
+        ],
+        "authoredNodes": 136,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2769,
+        3296,
+        3316,
+        3334,
+        3336,
+        3337
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ring-west-outer-off",
+      "corridor": "v91-ring-west-outer-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "PASS",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-ccw-0-split-split"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ring-ccw-0-split-split",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ring-west-distributor-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 348.9326859179968,
+        "start": {
+          "x": -1985.78125,
+          "y": 0,
+          "z": 530
+        },
+        "end": {
+          "x": -2140,
+          "y": 0,
+          "z": 830
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minCurveRadiusCue": 127.85040245846827,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 97,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 348.9326859179968,
+        "start": {
+          "x": -1985.78125,
+          "y": 0,
+          "z": 530
+        },
+        "end": {
+          "x": -2140,
+          "y": 0,
+          "z": 830
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minCurveRadiusCue": 127.85040245846827,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 97,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2658,
+        3340,
+        3346,
+        3347
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ring-west-outer-on",
+      "corridor": "v91-ring-west-outer-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "PASS",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-ccw-0-split-split-split-3-split-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ring-west-distributor-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "ring-ccw-0-split-split-split-3-split-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 282.86945942283705,
+        "start": {
+          "x": -2140,
+          "y": 0,
+          "z": 970
+        },
+        "end": {
+          "x": -1985.78125,
+          "y": 0,
+          "z": 1190
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minCurveRadiusCue": 82.95603281265352,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 97,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 282.86945942283705,
+        "start": {
+          "x": -2140,
+          "y": 0,
+          "z": 970
+        },
+        "end": {
+          "x": -1985.78125,
+          "y": 0,
+          "z": 1190
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minCurveRadiusCue": 82.95603281265352,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 97,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2793,
+        3341,
+        3348,
+        3349
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ring-north-outer-off",
+      "corridor": "v91-ring-north-outer-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "FIXED_PROFILE",
+      "modified": true,
+      "implemented": [
+        "local curvature fit preserves full crossing regions and endpoint heights"
+      ],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-ccw-2-split-split-split"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ring-ccw-2-split-split-split",
+          "otherEnd": "end",
+          "horizontalGap": 5.084229945850415e-13,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ring-north-outer-cd-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 3.211406834902064e-16,
+          "gradeBreak": 3.0456746642275645e-16
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 340.8201801179716,
+        "start": {
+          "x": 1629.9999999999998,
+          "y": 8,
+          "z": -1479.4958239775565
+        },
+        "end": {
+          "x": 1370,
+          "y": -3.211406834902064e-16,
+          "z": -1689.1869343108444
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.023472788486969515,
+        "maxGrade": 0.0729029733949114,
+        "maxGradeBreak": 0.015247506435778435,
+        "maxGradeRate": 0.017126590396683388,
+        "minCurveRadiusCue": 162.57675307168077,
+        "shortSegments": 188,
+        "extremaStations": [
+          69.56523227683235,
+          73.02094832230546,
+          79.93999569948453,
+          79.99999999999991,
+          270.39905635211693,
+          273.9505040711174,
+          277.49646744593747,
+          281.03728844878185,
+          284.5733384558399,
+          288.1050124558916,
+          291.6327228868093,
+          295.1568931797955,
+          297.0000000000009,
+          298.6779511022335,
+          301.00000000000085,
+          302.19632200045845,
+          305.71242205334306,
+          309.2266516562115,
+          311.0000000000008,
+          312.73939214138636,
+          314.00000000000085,
+          315.0000000000008,
+          316.00000000000074,
+          316.2510297420257,
+          318.00000000000074,
+          319.76180126355314,
+          323.00000000000074,
+          323.2719763038791,
+          326.7817812491998,
+          330.00000000000085,
+          330.2913962700115,
+          333.8009534488423,
+          334.0000000000007,
+          337.3105361966319
+        ],
+        "authoredNodes": 310,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 340.82018011797174,
+        "start": {
+          "x": 1629.9999999999998,
+          "y": 8,
+          "z": -1479.4958239775565
+        },
+        "end": {
+          "x": 1370,
+          "y": -3.211406834902064e-16,
+          "z": -1689.1869343108444
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.023472788486969504,
+        "maxGrade": 0.06340137963883129,
+        "maxGradeBreak": 0.004566720711387438,
+        "maxGradeRate": 0.007702661201277549,
+        "minCurveRadiusCue": 162.57675307168077,
+        "shortSegments": 190,
+        "extremaStations": [
+          69.56523227683235,
+          73.02094832230546,
+          79.93999569948453,
+          79.99999999999991,
+          270.3990563521171,
+          273.95050407111756,
+          277.49646744593764,
+          281.037288448782,
+          284.5733384558401,
+          288.10501245589177,
+          291.63272288680946,
+          295.15689317979565,
+          297.0000000000011,
+          298.6779511022337,
+          301.000000000001,
+          302.1963220004586,
+          305.71242205334323,
+          309.2266516562117,
+          311.00000000000097,
+          312.73939214138653,
+          314.000000000001,
+          315.00000000000097,
+          316.0000000000009,
+          316.2510297420259,
+          318.0000000000009,
+          319.7618012635533,
+          323.0000000000009,
+          323.2719763038793,
+          326.7817812492,
+          330.000000000001,
+          330.29139627001166,
+          333.80095344884245,
+          334.00000000000085,
+          337.3105361966321
+        ],
+        "authoredNodes": 325,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2689,
+        3420,
+        3422,
+        3423,
+        3424
+      ],
+      "maxYChange": 0.6490300918999417,
+      "runtime": {
+        "tested": true,
+        "regressions": [],
+        "mechanicalImpulse": 0,
+        "rejections": 0,
+        "groundedTransitions": 0
+      }
+    },
+    {
+      "roadId": "v91-ring-north-outer-on",
+      "corridor": "v91-ring-north-outer-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "FIXED_PROFILE",
+      "modified": true,
+      "implemented": [
+        "local curvature fit preserves full crossing regions and endpoint heights"
+      ],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-ccw-2-split-split-split-split-2-split-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ring-north-outer-cd-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "ring-ccw-2-split-split-split-split-2-split-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 266.4167022740087,
+        "start": {
+          "x": 1110,
+          "y": 0,
+          "z": -1839.2980042974498
+        },
+        "end": {
+          "x": 850,
+          "y": 8,
+          "z": -1849.7031006774769
+        },
+        "deltaY": 8,
+        "heightRange": 8.000000000000012,
+        "averageGrade": 0.030028147378582993,
+        "maxGrade": 0.0977382309735442,
+        "maxGradeBreak": 0.017086993216397818,
+        "maxGradeRate": 0.019475491560102524,
+        "minCurveRadiusCue": 147.4322745397663,
+        "shortSegments": 218,
+        "extremaStations": [
+          2.99999999999995,
+          4.000000000000008,
+          13.63727402461138,
+          16.000000000000057,
+          16.357958151863315,
+          19.075227560610468,
+          19.999999999999964,
+          21.789063985721704,
+          24.499400193732324,
+          26.000000000000103,
+          27.2059096726458,
+          27.999999999999996,
+          29.908776684487748,
+          29.99999999999987,
+          30.999999999999893,
+          31.99999999999992,
+          32.60821084891901,
+          35.30435790467854,
+          37.997314933458334,
+          40.68760387237364,
+          43.375664463272045,
+          45.00000000000005,
+          46.06188316754445,
+          48.74665872437631,
+          50.00000000000004,
+          51.430662443381706,
+          51.99999999999987,
+          54.114499880942205,
+          56.000000000000014,
+          56.79879598012241,
+          56.99999999999995,
+          57.99999999999992,
+          58.99999999999995,
+          59.48399661282122,
+          179.9723986719851,
+          185.69639176500166,
+          188.5523853314126,
+          191.4038962163003,
+          192,
+          194.25060454306382,
+          197.09221856819045,
+          198.99999999999974,
+          199.92849075206476,
+          202.7592108393053,
+          203.99999999999974,
+          205.58420724790872,
+          207.99999999999966,
+          208.40334605067625,
+          208.99999999999955,
+          211.21652821255137,
+          214.0237010604611,
+          216.8248588367062,
+          219.62002370504948,
+          220.99999999999955,
+          222.4092487609196,
+          223.9999999999995,
+          225.192643449991,
+          226.99999999999955,
+          227.97037393090056,
+          230.742574570003,
+          233.50946176677576,
+          236.2713270268613,
+          239.02839431714594,
+          241.78096758941953,
+          244.52943620798186,
+          247.27411475696564,
+          250.0153809386978,
+          258.2231487212266
+        ],
+        "authoredNodes": 326,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 266.4167022740087,
+        "start": {
+          "x": 1110,
+          "y": 0,
+          "z": -1839.2980042974498
+        },
+        "end": {
+          "x": 850,
+          "y": 8,
+          "z": -1849.7031006774769
+        },
+        "deltaY": 8,
+        "heightRange": 8.000000000000012,
+        "averageGrade": 0.030028147378582993,
+        "maxGrade": 0.09773414679043166,
+        "maxGradeBreak": 0.00560864855494345,
+        "maxGradeRate": 0.009963207344853972,
+        "minCurveRadiusCue": 147.4322745397663,
+        "shortSegments": 218,
+        "extremaStations": [
+          2.99999999999995,
+          4.000000000000008,
+          13.63727402461138,
+          16.000000000000057,
+          16.357958151863315,
+          19.075227560610468,
+          19.999999999999964,
+          21.789063985721704,
+          24.499400193732324,
+          26.000000000000103,
+          27.2059096726458,
+          27.999999999999996,
+          29.908776684487748,
+          29.99999999999987,
+          30.999999999999893,
+          31.99999999999992,
+          32.60821084891901,
+          35.30435790467854,
+          37.997314933458334,
+          40.68760387237364,
+          43.375664463272045,
+          45.00000000000005,
+          46.06188316754445,
+          48.74665872437631,
+          50.00000000000004,
+          51.430662443381706,
+          51.99999999999987,
+          54.114499880942205,
+          56.000000000000014,
+          56.79879598012241,
+          56.99999999999995,
+          57.99999999999992,
+          58.99999999999995,
+          59.48399661282122,
+          179.9723986719851,
+          185.69639176500166,
+          188.5523853314126,
+          191.4038962163003,
+          192,
+          194.25060454306382,
+          197.09221856819045,
+          198.99999999999974,
+          199.92849075206476,
+          202.7592108393053,
+          203.99999999999974,
+          205.58420724790872,
+          207.99999999999966,
+          208.40334605067625,
+          208.99999999999955,
+          211.21652821255137,
+          214.0237010604611,
+          216.8248588367062,
+          219.62002370504948,
+          220.99999999999955,
+          222.4092487609196,
+          223.9999999999995,
+          225.192643449991,
+          226.99999999999955,
+          227.97037393090056,
+          230.742574570003,
+          233.50946176677576,
+          236.2713270268613,
+          239.02839431714594,
+          241.78096758941953,
+          244.52943620798186,
+          247.27411475696564,
+          250.0153809386978,
+          258.2231487212266
+        ],
+        "authoredNodes": 326,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2797,
+        2799,
+        3418,
+        3419,
+        3425,
+        3426
+      ],
+      "maxYChange": 0.6914932969767023,
+      "runtime": {
+        "tested": true,
+        "regressions": [],
+        "mechanicalImpulse": 0,
+        "rejections": 0,
+        "groundedTransitions": 0
+      }
+    },
+    {
+      "roadId": "v91-ring-south-inner-off",
+      "corridor": "v91-ring-south-inner-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "PASS",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-cw-2-split-4-split"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ring-cw-2-split-4-split",
+          "otherEnd": "end",
+          "horizontalGap": 9.094947017729282e-13,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ring-south-inner-cd-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 298.4431297132096,
+        "start": {
+          "x": 1380.000000000001,
+          "y": 0,
+          "z": 2367.900988321155
+        },
+        "end": {
+          "x": 1150,
+          "y": 0,
+          "z": 2200
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minCurveRadiusCue": 89.48175264117395,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 100,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 298.4431297132096,
+        "start": {
+          "x": 1380.000000000001,
+          "y": 0,
+          "z": 2367.900988321155
+        },
+        "end": {
+          "x": 1150,
+          "y": 0,
+          "z": 2200
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minCurveRadiusCue": 89.48175264117395,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 100,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2844,
+        3281,
+        3416,
+        3428,
+        3429,
+        3430
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ring-south-inner-on",
+      "corridor": "v91-ring-south-inner-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "INTENTIONAL_STRUCTURE",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-cw-2-split-3-split-split-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ring-south-inner-cd-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "ring-cw-2-split-3-split-split-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 298.44312971320903,
+        "start": {
+          "x": 950,
+          "y": 0,
+          "z": 2200
+        },
+        "end": {
+          "x": 720,
+          "y": 0,
+          "z": 2367.900988321155
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minCurveRadiusCue": 89.48175264149307,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 100,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 298.44312971320903,
+        "start": {
+          "x": 950,
+          "y": 0,
+          "z": 2200
+        },
+        "end": {
+          "x": 720,
+          "y": 0,
+          "z": 2367.900988321155
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minCurveRadiusCue": 89.48175264149307,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 100,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2811,
+        3282,
+        3404,
+        3431,
+        3432,
+        3433
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ring-south-outer-off",
+      "corridor": "v91-ring-south-outer-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": true,
+      "implemented": [
+        "local curvature fit preserves full crossing regions and endpoint heights"
+      ],
+      "remaining": [
+        "Unresolved shared pavement/clearance region(s): 3106"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-ccw-1-split-split"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ring-ccw-1-split-split",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ring-south-outer-cd-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 287.61993433812114,
+        "start": {
+          "x": 720,
+          "y": 0,
+          "z": 2380.3308823529414
+        },
+        "end": {
+          "x": 950,
+          "y": -6,
+          "z": 2530
+        },
+        "deltaY": -6,
+        "heightRange": 6.000000000000001,
+        "averageGrade": -0.020860862839035703,
+        "maxGrade": 0.10000000000010287,
+        "maxGradeBreak": 0.01484499626592349,
+        "maxGradeRate": 0.014892419099588782,
+        "minCurveRadiusCue": 90.3055851871197,
+        "shortSegments": 112,
+        "extremaStations": [
+          8.788836633551584,
+          11.712079511120294,
+          14.631997130254469,
+          15.000000000000025,
+          17.54611331536214,
+          18.00000000000005,
+          20.455459709881357,
+          23.359436528465444,
+          26.999999999999975,
+          27.999999999999986,
+          28.999999999999996,
+          29.153237739732617,
+          29.999999999999996,
+          34.92950758509714,
+          40.69597217755273,
+          43.579134335963666,
+          46.46159739331014
+        ],
+        "authoredNodes": 215,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 287.61993433812114,
+        "start": {
+          "x": 720,
+          "y": 0,
+          "z": 2380.3308823529414
+        },
+        "end": {
+          "x": 950,
+          "y": -6,
+          "z": 2530
+        },
+        "deltaY": -6,
+        "heightRange": 6.117757967577312,
+        "averageGrade": -0.020860862839035703,
+        "maxGrade": 0.107086801801916,
+        "maxGradeBreak": 0.0065336311592714465,
+        "maxGradeRate": 0.006781754338199072,
+        "minCurveRadiusCue": 90.3055851871197,
+        "shortSegments": 116,
+        "extremaStations": [
+          8.788836633551584,
+          11.712079511120294,
+          14.631997130254469,
+          15.000000000000025,
+          17.54611331536214,
+          18.00000000000005,
+          20.455459709881357,
+          23.359436528465444,
+          26.999999999999975,
+          27.999999999999986,
+          28.999999999999996,
+          29.153237739732617,
+          29.999999999999996,
+          34.92950758509714,
+          40.69597217755273,
+          43.579134335963666,
+          46.46159739331014,
+          153.35193059307534
+        ],
+        "authoredNodes": 223,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2741,
+        3106,
+        3415,
+        3434,
+        3435
+      ],
+      "maxYChange": 0.6774552067527644,
+      "runtime": {
+        "tested": true,
+        "regressions": [],
+        "mechanicalImpulse": 0,
+        "rejections": 0,
+        "groundedTransitions": 0
+      }
+    },
+    {
+      "roadId": "v91-ring-south-outer-on",
+      "corridor": "v91-ring-south-outer-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ring-ccw-1-split-split-split-split-section"
+      ],
+      "attachments": [
+        {
+          "end": "end",
+          "roadId": "ring-ccw-1-split-split-split-split-section",
+          "otherEnd": "start",
+          "horizontalGap": 2.2737367544323206e-13,
+          "heightGap": 0,
+          "gradeBreak": 4.83844948386511e-15
+        },
+        {
+          "end": "start",
+          "roadId": "v91-ring-south-outer-cd-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 287.6195377623522,
+        "start": {
+          "x": 1150,
+          "y": -6,
+          "z": 2530
+        },
+        "end": {
+          "x": 1379.9999999999998,
+          "y": 0,
+          "z": 2380.3308823529414
+        },
+        "deltaY": 6,
+        "heightRange": 6,
+        "averageGrade": 0.020860891602424953,
+        "maxGrade": 0.10000000000004798,
+        "maxGradeBreak": 0.014887720058392888,
+        "maxGradeRate": 0.014887720058390772,
+        "minCurveRadiusCue": 90.30551299398925,
+        "shortSegments": 103,
+        "extremaStations": [
+          238.2716224526498,
+          241.00000000000026,
+          241.15784496770604,
+          243.00000000000023,
+          244.04061533407696,
+          246.9231555805664,
+          248.00000000000017,
+          249.80579003287977,
+          252.68915884731484,
+          255.57701490130552,
+          258.4666692142544,
+          261.36123211845614,
+          264.2600646853839,
+          267.1636136096622,
+          270.0736572207733,
+          272.98767284597176,
+          275.90725118634276,
+          278.8306921159827,
+          281.7580146511523,
+          284.6881577983989
+        ],
+        "authoredNodes": 208,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 287.6195377623522,
+        "start": {
+          "x": 1150,
+          "y": -6,
+          "z": 2530
+        },
+        "end": {
+          "x": 1379.9999999999998,
+          "y": 0,
+          "z": 2380.3308823529414
+        },
+        "deltaY": 6,
+        "heightRange": 6,
+        "averageGrade": 0.020860891602424953,
+        "maxGrade": 0.10000000000004798,
+        "maxGradeBreak": 0.014887720058392888,
+        "maxGradeRate": 0.014887720058390772,
+        "minCurveRadiusCue": 90.30551299398925,
+        "shortSegments": 103,
+        "extremaStations": [
+          238.2716224526498,
+          241.00000000000026,
+          241.15784496770604,
+          243.00000000000023,
+          244.04061533407696,
+          246.9231555805664,
+          248.00000000000017,
+          249.80579003287977,
+          252.68915884731484,
+          255.57701490130552,
+          258.4666692142544,
+          261.36123211845614,
+          264.2600646853839,
+          267.1636136096622,
+          270.0736572207733,
+          272.98767284597176,
+          275.90725118634276,
+          278.8306921159827,
+          281.7580146511523,
+          284.6881577983989
+        ],
+        "authoredNodes": 208,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2815,
+        3392,
+        3407,
+        3417,
+        3436,
+        3437
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ew-west-eb-off",
+      "corridor": "v91-ew-west-eb-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade",
+        "Unresolved shared pavement/clearance region(s): 3410,3438"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ew-eb-split-5-split-split-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ew-eb-split-5-split-split-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.0054271167335246066
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ew-0-a-1-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005430329332117566
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 113.05186938748263,
+        "start": {
+          "x": -1620.011626656138,
+          "y": 8,
+          "z": -139.3325936229119
+        },
+        "end": {
+          "x": -1515,
+          "y": 0,
+          "z": -102
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.07076397801596883,
+        "maxGrade": 0.11303123845394354,
+        "maxGradeBreak": 0.010987461421049276,
+        "maxGradeRate": 0.0029384833241866497,
+        "minCurveRadiusCue": 69.4998840101922,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 34,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 113.05186938748263,
+        "start": {
+          "x": -1620.011626656138,
+          "y": 8,
+          "z": -139.3325936229119
+        },
+        "end": {
+          "x": -1515,
+          "y": 0,
+          "z": -102
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.07076397801596883,
+        "maxGrade": 0.11303123845394354,
+        "maxGradeBreak": 0.010987461421049276,
+        "maxGradeRate": 0.0029384833241866497,
+        "minCurveRadiusCue": 69.4998840101922,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 34,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3317,
+        3318,
+        3410,
+        3438
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ew-west-wb-on",
+      "corridor": "v91-ew-west-wb-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Shared pavement constraints conflict with fixed structure/endpoint heights",
+        "Unresolved shared pavement/clearance region(s): 2632,3411"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ew-wb-split-split-split-split-2-section-2"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ew-0-b-1-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005418952172357833
+        },
+        {
+          "end": "end",
+          "roadId": "ew-wb-split-split-split-split-2-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.00542246651125742
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 113.6000150850999,
+        "start": {
+          "x": -1515,
+          "y": 0,
+          "z": -198
+        },
+        "end": {
+          "x": -1620.0112812936395,
+          "y": 8,
+          "z": -159.93806469818938
+        },
+        "deltaY": 8,
+        "heightRange": 8,
+        "averageGrade": 0.07042252585976376,
+        "maxGrade": 0.11164042622333056,
+        "maxGradeBreak": 0.01099095333393946,
+        "maxGradeRate": 0.0029435305070901266,
+        "minCurveRadiusCue": 61.79396122693355,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 34,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 113.6000150850999,
+        "start": {
+          "x": -1515,
+          "y": 0,
+          "z": -198
+        },
+        "end": {
+          "x": -1620.0112812936395,
+          "y": 8,
+          "z": -159.93806469818938
+        },
+        "deltaY": 8,
+        "heightRange": 8,
+        "averageGrade": 0.07042252585976376,
+        "maxGrade": 0.11164042622333056,
+        "maxGradeBreak": 0.01099095333393946,
+        "maxGradeRate": 0.0029435305070901266,
+        "minCurveRadiusCue": 61.79396122693355,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 34,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2632,
+        3319,
+        3411,
+        3412,
+        3439
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "direction-mingyuan-main",
+      "corridor": "direction-mingyuan",
+      "category": "C",
+      "isRamp": false,
+      "classification": "FIXED_PROFILE",
+      "modified": true,
+      "implemented": [
+        "local curvature fit preserves full crossing regions and endpoint heights"
+      ],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "direction-mingyuan-main-section-2"
+      ],
+      "attachments": [
+        {
+          "end": "end",
+          "roadId": "direction-mingyuan-main-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.009701064489130103
+        }
+      ],
+      "mergeDiverge": "topology/profile-reviewed",
+      "before": {
+        "length": 180,
+        "start": {
+          "x": -1282.3882020536223,
+          "y": 0.007864979654339304,
+          "z": 1698.0409267367
+        },
+        "end": {
+          "x": -1126.5036293724233,
+          "y": 7.629409414771925,
+          "z": 1608.0409267367
+        },
+        "deltaY": 7.621544435117586,
+        "heightRange": 7.621544435117586,
+        "averageGrade": 0.04234191352843103,
+        "maxGrade": 0.06346421176703167,
+        "maxGradeBreak": 0.029625241952735713,
+        "maxGradeRate": 0.0016458467751519841,
+        "minCurveRadiusCue": null,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 9,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 180.00000000000003,
+        "start": {
+          "x": -1282.3882020536223,
+          "y": 0.007864979654339304,
+          "z": 1698.0409267367
+        },
+        "end": {
+          "x": -1126.5036293724233,
+          "y": 7.629409414771925,
+          "z": 1608.0409267367
+        },
+        "deltaY": 7.621544435117586,
+        "heightRange": 7.621544435117586,
+        "averageGrade": 0.04234191352843102,
+        "maxGrade": 0.06346421176703221,
+        "maxGradeBreak": 0.029625241952736255,
+        "maxGradeRate": 0.0028214516145463136,
+        "minCurveRadiusCue": null,
+        "shortSegments": 1,
+        "extremaStations": [],
+        "authoredNodes": 51,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3114
+      ],
+      "maxYChange": 0.08533311144459721,
+      "runtime": {
+        "tested": true,
+        "regressions": [],
+        "mechanicalImpulse": 0,
+        "rejections": 0,
+        "groundedTransitions": 0
+      }
+    },
+    {
+      "roadId": "direction-mingyuan-main-section",
+      "corridor": "direction-mingyuan",
+      "category": "C",
+      "isRamp": false,
+      "classification": "PASS",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "direction-mingyuan-main-section-2"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "direction-mingyuan-main-section-2",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 4.2319372140793956e-7
+        }
+      ],
+      "mergeDiverge": "topology/profile-reviewed",
+      "before": {
+        "length": 53.60750869190471,
+        "start": {
+          "x": -267.97144235545585,
+          "y": 0.031593845969255484,
+          "z": 995.6867438611762
+        },
+        "end": {
+          "x": -228.8762639344692,
+          "y": 0.019989872798526855,
+          "z": 959.2299001883626
+        },
+        "deltaY": -0.01160397317072863,
+        "heightRange": 0.01160397317072863,
+        "averageGrade": -0.00021646171317938804,
+        "maxGrade": 0.0002182705570500278,
+        "maxGradeBreak": 8.585214559323731e-7,
+        "maxGradeRate": 1.7643750944596e-7,
+        "minCurveRadiusCue": 83.37356392480439,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 12,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 53.60750869190471,
+        "start": {
+          "x": -267.97144235545585,
+          "y": 0.031593845969255484,
+          "z": 995.6867438611762
+        },
+        "end": {
+          "x": -228.8762639344692,
+          "y": 0.019989872798526855,
+          "z": 959.2299001883626
+        },
+        "deltaY": -0.01160397317072863,
+        "heightRange": 0.01160397317072863,
+        "averageGrade": -0.00021646171317938804,
+        "maxGrade": 0.0002182705570500278,
+        "maxGradeBreak": 8.585214559323731e-7,
+        "maxGradeRate": 1.7643750944596e-7,
+        "minCurveRadiusCue": 83.37356392480439,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 12,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3442
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "direction-mingyuan-main-section-section-section",
+      "corridor": "direction-mingyuan",
+      "category": "C",
+      "isRamp": false,
+      "classification": "PASS",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "direction-mingyuan-main-section-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "direction-mingyuan-main-section-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 3.3660940691821665e-7
+        }
+      ],
+      "mergeDiverge": "topology/profile-reviewed",
+      "before": {
+        "length": 49.253194388031915,
+        "start": {
+          "x": 211.06432745667016,
+          "y": 0.007876293092259333,
+          "z": 548.9768480543072
+        },
+        "end": {
+          "x": 246.97997034179056,
+          "y": 0.00013948556560972297,
+          "z": 515.47606154375
+        },
+        "deltaY": -0.00773680752664961,
+        "heightRange": 0.00773680752664961,
+        "averageGrade": -0.00015708235014558945,
+        "maxGrade": 0.00015839041690794275,
+        "maxGradeBreak": 6.663269906679377e-7,
+        "maxGradeRate": 1.3528896495272812e-7,
+        "minCurveRadiusCue": 80.98156083877157,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 11,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 49.253194388031915,
+        "start": {
+          "x": 211.06432745667016,
+          "y": 0.007876293092259333,
+          "z": 548.9768480543072
+        },
+        "end": {
+          "x": 246.97997034179056,
+          "y": 0.00013948556560972297,
+          "z": 515.47606154375
+        },
+        "deltaY": -0.00773680752664961,
+        "heightRange": 0.00773680752664961,
+        "averageGrade": -0.00015708235014558945,
+        "maxGrade": 0.00015839041690794275,
+        "maxGradeBreak": 6.663269906679377e-7,
+        "maxGradeRate": 1.3528896495272812e-7,
+        "minCurveRadiusCue": 80.98156083877157,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 11,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3446
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "direction-mingyuan-main-section-section-2",
+      "corridor": "direction-mingyuan",
+      "category": "C",
+      "isRamp": false,
+      "classification": "PASS",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "direction-mingyuan-main-section-section"
+      ],
+      "attachments": [
+        {
+          "end": "end",
+          "roadId": "direction-mingyuan-main-section-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 4.6385831128253376e-7
+        }
+      ],
+      "mergeDiverge": "topology/profile-reviewed",
+      "before": {
+        "length": 49.16484471664387,
+        "start": {
+          "x": -208.75111440888702,
+          "y": 0.014016458567313218,
+          "z": 940.462894644981
+        },
+        "end": {
+          "x": -172.89546114496352,
+          "y": 0.003374019901010373,
+          "z": 907.0269570530513
+        },
+        "deltaY": -0.010642438666302845,
+        "heightRange": 0.010642438666302845,
+        "averageGrade": -0.00021646440109064435,
+        "maxGrade": 0.0002182669580808917,
+        "maxGradeBreak": 9.182194742545868e-7,
+        "maxGradeRate": 1.867674541132882e-7,
+        "minCurveRadiusCue": 68.92821939801317,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 11,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 49.16484471664387,
+        "start": {
+          "x": -208.75111440888702,
+          "y": 0.014016458567313218,
+          "z": 940.462894644981
+        },
+        "end": {
+          "x": -172.89546114496352,
+          "y": 0.003374019901010373,
+          "z": 907.0269570530513
+        },
+        "deltaY": -0.010642438666302845,
+        "heightRange": 0.010642438666302845,
+        "averageGrade": -0.00021646440109064435,
+        "maxGrade": 0.0002182669580808917,
+        "maxGradeBreak": 9.182194742545868e-7,
+        "maxGradeRate": 1.867674541132882e-7,
+        "minCurveRadiusCue": 68.92821939801317,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 11,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3443
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "direction-mingyuan-main-section-section-section-section-2",
+      "corridor": "direction-mingyuan",
+      "category": "C",
+      "isRamp": false,
+      "classification": "PASS",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "direction-mingyuan-main-section-section-section-section"
+      ],
+      "attachments": [
+        {
+          "end": "end",
+          "roadId": "direction-mingyuan-main-section-section-section-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 2.168404344971009e-19,
+          "gradeBreak": 0.000015026738752401962
+        }
+      ],
+      "mergeDiverge": "topology/profile-reviewed",
+      "before": {
+        "length": 66.74178191004367,
+        "start": {
+          "x": 275.5636546280376,
+          "y": 0,
+          "z": 488.46380822279747
+        },
+        "end": {
+          "x": 322.71949779140255,
+          "y": 0.00008122675690228996,
+          "z": 441.5017724081137
+        },
+        "deltaY": 0.00008122675690228996,
+        "heightRange": 0.00008122675690228996,
+        "averageGrade": 0.0000012170300908622656,
+        "maxGrade": 0.0000012269209695748698,
+        "maxGradeBreak": 3.815105096118038e-9,
+        "maxGradeRate": 8.017381525247406e-10,
+        "minCurveRadiusCue": 89.74727147373542,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 15,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 66.74178191004367,
+        "start": {
+          "x": 275.5636546280376,
+          "y": 0,
+          "z": 488.46380822279747
+        },
+        "end": {
+          "x": 322.71949779140255,
+          "y": 0.00008122675690228996,
+          "z": 441.5017724081137
+        },
+        "deltaY": 0.00008122675690228996,
+        "heightRange": 0.00008122675690228996,
+        "averageGrade": 0.0000012170300908622656,
+        "maxGrade": 0.0000012269209695748698,
+        "maxGradeBreak": 3.815105096118038e-9,
+        "maxGradeRate": 8.017381525247406e-10,
+        "minCurveRadiusCue": 89.74727147373542,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 15,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3447
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "access-ew-west-eb-on",
+      "corridor": "access-ew-west-eb-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade",
+        "Unresolved shared pavement/clearance region(s): 2778,3449"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ew-eb-split-4-split-split-section-2"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ew-0-a-6",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005920939819169034
+        },
+        {
+          "end": "end",
+          "roadId": "ew-eb-split-4-split-split-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005916443594558871
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 112.44473878920873,
+        "start": {
+          "x": -760,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": -649.8505104064134,
+          "y": 8,
+          "z": -122.59323379605631
+        },
+        "deltaY": 8,
+        "heightRange": 8,
+        "averageGrade": 0.07114605882091975,
+        "maxGrade": 0.11722443450962276,
+        "maxGradeBreak": 0.01190184437505365,
+        "maxGradeRate": 0.0028472444597548137,
+        "minCurveRadiusCue": 150.09580428019245,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 31,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 112.44473878920873,
+        "start": {
+          "x": -760,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": -649.8505104064134,
+          "y": 8,
+          "z": -122.59323379605631
+        },
+        "deltaY": 8,
+        "heightRange": 8,
+        "averageGrade": 0.07114605882091975,
+        "maxGrade": 0.11722443450962276,
+        "maxGradeBreak": 0.01190184437505365,
+        "maxGradeRate": 0.0028472444597548137,
+        "minCurveRadiusCue": 150.09580428019245,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 31,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2778,
+        3299,
+        3449,
+        3450
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "access-ew-west-wb-off",
+      "corridor": "access-ew-west-wb-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade",
+        "Unresolved shared pavement/clearance region(s): 3453"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ew-wb-split-split-split-split-4-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ew-wb-split-split-split-split-4-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.004085564200889433
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ew-0-b-6",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 1.1579279202145187e-16,
+          "gradeBreak": 1.1745357647955962e-16
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 126.49108385887473,
+        "start": {
+          "x": -649.8590392284631,
+          "y": 8,
+          "z": -143.7452429475302
+        },
+        "end": {
+          "x": -760,
+          "y": -1.1579279202145187e-16,
+          "z": -198
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.06324556447729981,
+        "maxGrade": 0.11788012246964338,
+        "maxGradeBreak": 0.01688886252083069,
+        "maxGradeRate": 0.0175854430919521,
+        "minCurveRadiusCue": 49.50170617068547,
+        "shortSegments": 78,
+        "extremaStations": [
+          98.99999999999996,
+          100.99999999999994,
+          102.00000000000004,
+          103.00000000000001,
+          103.09544539449826,
+          104.00000000000001,
+          105.99999999999996,
+          106.2430958636862,
+          108,
+          108.99999999999994,
+          109.43138161761723,
+          110.00000000000001,
+          112.67333026442415,
+          115.98358053159959,
+          119.37822569872604,
+          119.99999999999994,
+          124.00000000000001,
+          125.00000000000003,
+          125.99999999999993
+        ],
+        "authoredNodes": 127,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 126.49108385887473,
+        "start": {
+          "x": -649.8590392284631,
+          "y": 8,
+          "z": -143.7452429475302
+        },
+        "end": {
+          "x": -760,
+          "y": -1.1579279202145187e-16,
+          "z": -198
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.06324556447729981,
+        "maxGrade": 0.11788012246964338,
+        "maxGradeBreak": 0.01688886252083069,
+        "maxGradeRate": 0.0175854430919521,
+        "minCurveRadiusCue": 49.50170617068547,
+        "shortSegments": 78,
+        "extremaStations": [
+          98.99999999999996,
+          100.99999999999994,
+          102.00000000000004,
+          103.00000000000001,
+          103.09544539449826,
+          104.00000000000001,
+          105.99999999999996,
+          106.2430958636862,
+          108,
+          108.99999999999994,
+          109.43138161761723,
+          110.00000000000001,
+          112.67333026442415,
+          115.98358053159959,
+          119.37822569872604,
+          119.99999999999994,
+          124.00000000000001,
+          125.00000000000003,
+          125.99999999999993
+        ],
+        "authoredNodes": 127,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3300,
+        3451,
+        3452,
+        3453
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "access-ns-north-sb-off",
+      "corridor": "access-ns-north-sb-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Shared pavement constraints conflict with fixed structure/endpoint heights",
+        "Unresolved shared pavement/clearance region(s): 2951,2952,3307,3456"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ns-sb-split-3-split-split-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ns-sb-split-3-split-split-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.002443409963436551
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ns-0-a-3-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 147.51858662994883,
+        "start": {
+          "x": -6.950739313218272,
+          "y": 0,
+          "z": -1760.001762258983
+        },
+        "end": {
+          "x": -48,
+          "y": -6,
+          "z": -1620
+        },
+        "deltaY": -6,
+        "heightRange": 6,
+        "averageGrade": -0.040672840874289504,
+        "maxGrade": 0.06554195500682233,
+        "maxGradeBreak": 0.004926191251553776,
+        "maxGradeRate": 0.006194590283363776,
+        "minCurveRadiusCue": 106.25207044518446,
+        "shortSegments": 19,
+        "extremaStations": [],
+        "authoredNodes": 64,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 147.51858662994883,
+        "start": {
+          "x": -6.950739313218272,
+          "y": 0,
+          "z": -1760.001762258983
+        },
+        "end": {
+          "x": -48,
+          "y": -6,
+          "z": -1620
+        },
+        "deltaY": -6,
+        "heightRange": 6,
+        "averageGrade": -0.040672840874289504,
+        "maxGrade": 0.06554195500682233,
+        "maxGradeBreak": 0.004926191251553776,
+        "maxGradeRate": 0.006194590283363776,
+        "minCurveRadiusCue": 106.25207044518446,
+        "shortSegments": 19,
+        "extremaStations": [],
+        "authoredNodes": 64,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2951,
+        2952,
+        2989,
+        3307,
+        3454,
+        3455,
+        3456
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "access-ns-north-nb-on",
+      "corridor": "access-ns-north-nb-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Shared pavement constraints conflict with fixed structure/endpoint heights",
+        "Unresolved shared pavement/clearance region(s): 2729,2730,3309,3310"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ns-nb-split-split-split-split-split-split-2-section-2"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ns-0-b-3-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.0025131367404199207
+        },
+        {
+          "end": "end",
+          "roadId": "ns-nb-split-split-split-split-split-split-2-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.002512867423780946
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 146.62941783115684,
+        "start": {
+          "x": 48,
+          "y": -6,
+          "z": -1620
+        },
+        "end": {
+          "x": 9.31536250055264,
+          "y": 0,
+          "z": -1760.001832468723
+        },
+        "deltaY": 6,
+        "heightRange": 6,
+        "averageGrade": 0.04091948320294755,
+        "maxGrade": 0.0662861908384184,
+        "maxGradeBreak": 0.0050629211214041165,
+        "maxGradeRate": 0.0012812431393542075,
+        "minCurveRadiusCue": 108.82939478222534,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 42,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 146.62941783115684,
+        "start": {
+          "x": 48,
+          "y": -6,
+          "z": -1620
+        },
+        "end": {
+          "x": 9.31536250055264,
+          "y": 0,
+          "z": -1760.001832468723
+        },
+        "deltaY": 6,
+        "heightRange": 6,
+        "averageGrade": 0.04091948320294755,
+        "maxGrade": 0.0662861908384184,
+        "maxGradeBreak": 0.0050629211214041165,
+        "maxGradeRate": 0.0012812431393542075,
+        "minCurveRadiusCue": 108.82939478222534,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 42,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2729,
+        2730,
+        2921,
+        2922,
+        2923,
+        2938,
+        3309,
+        3310,
+        3457,
+        3458
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "access-ns-north-sb-on",
+      "corridor": "access-ns-north-sb-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile creates a grade spike",
+        "Unresolved shared pavement/clearance region(s): 2735,3459"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ns-sb-split-3-split-split-split-section-2"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ns-0-a-4",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.000536704912316422
+        },
+        {
+          "end": "end",
+          "roadId": "ns-sb-split-3-split-split-split-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.0005366351537664994
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 181.2983882412242,
+        "start": {
+          "x": -48,
+          "y": -6,
+          "z": -1320
+        },
+        "end": {
+          "x": 7.887565296416997,
+          "y": -8,
+          "z": -1149.987289620767
+        },
+        "deltaY": -2,
+        "heightRange": 2,
+        "averageGrade": -0.011031537673346144,
+        "maxGrade": 0.017685302354269402,
+        "maxGradeBreak": 0.0010842338624615585,
+        "maxGradeRate": 0.0002835619961841859,
+        "minCurveRadiusCue": 119.31950640471229,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 53,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 181.2983882412242,
+        "start": {
+          "x": -48,
+          "y": -6,
+          "z": -1320
+        },
+        "end": {
+          "x": 7.887565296416997,
+          "y": -8,
+          "z": -1149.987289620767
+        },
+        "deltaY": -2,
+        "heightRange": 2,
+        "averageGrade": -0.011031537673346144,
+        "maxGrade": 0.017685302354269402,
+        "maxGradeBreak": 0.0010842338624615585,
+        "maxGradeRate": 0.0002835619961841859,
+        "minCurveRadiusCue": 119.31950640471229,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 53,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2735,
+        3308,
+        3459,
+        3460
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "access-ns-north-nb-off",
+      "corridor": "access-ns-north-nb-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Shared pavement constraints conflict with fixed structure/endpoint heights",
+        "Unresolved shared pavement/clearance region(s): 3461,3462"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ns-nb-split-split-split-split"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ns-nb-split-split-split-split",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.032476104624757335
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ns-0-b-4",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 172.17990993712132,
+        "start": {
+          "x": 24.13565826868988,
+          "y": -7.82760903778463,
+          "z": -1149.983300224395
+        },
+        "end": {
+          "x": 48,
+          "y": -6,
+          "z": -1320
+        },
+        "deltaY": 1.8276090377846304,
+        "heightRange": 1.8276090377846304,
+        "averageGrade": 0.010614531268206948,
+        "maxGrade": 0.0204272144604177,
+        "maxGradeBreak": 0.005686375519094899,
+        "maxGradeRate": 0.008361406740811135,
+        "minCurveRadiusCue": 246.06731373512622,
+        "shortSegments": 41,
+        "extremaStations": [
+          146.42275762060444
+        ],
+        "authoredNodes": 97,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 172.17990993712132,
+        "start": {
+          "x": 24.13565826868988,
+          "y": -7.82760903778463,
+          "z": -1149.983300224395
+        },
+        "end": {
+          "x": 48,
+          "y": -6,
+          "z": -1320
+        },
+        "deltaY": 1.8276090377846304,
+        "heightRange": 1.8276090377846304,
+        "averageGrade": 0.010614531268206948,
+        "maxGrade": 0.0204272144604177,
+        "maxGradeBreak": 0.005686375519094899,
+        "maxGradeRate": 0.008361406740811135,
+        "minCurveRadiusCue": 246.06731373512622,
+        "shortSegments": 41,
+        "extremaStations": [
+          146.42275762060444
+        ],
+        "authoredNodes": 97,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2707,
+        3311,
+        3461,
+        3462
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ew-east-eb-on",
+      "corridor": "v91-ew-east-eb-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade",
+        "Unresolved shared pavement/clearance region(s): 2701,3323"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ew-eb-split-split-3-section-2"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ew-1-a-4",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005225104132968984
+        },
+        {
+          "end": "end",
+          "roadId": "ew-eb-split-split-3-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005225104132968812
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 114.48188228924256,
+        "start": {
+          "x": 1770,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": 1875,
+          "y": 8,
+          "z": -142.375
+        },
+        "deltaY": 8,
+        "heightRange": 8,
+        "averageGrade": 0.06988005298329839,
+        "maxGrade": 0.11048565482676956,
+        "maxGradeBreak": 0.01058367984204616,
+        "maxGradeRate": 0.0028909854613815367,
+        "minCurveRadiusCue": 61.707303752840225,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 35,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 114.48188228924256,
+        "start": {
+          "x": 1770,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": 1875,
+          "y": 8,
+          "z": -142.375
+        },
+        "deltaY": 8,
+        "heightRange": 8,
+        "averageGrade": 0.06988005298329839,
+        "maxGrade": 0.11048565482676956,
+        "maxGradeBreak": 0.01058367984204616,
+        "maxGradeRate": 0.0028909854613815367,
+        "minCurveRadiusCue": 61.707303752840225,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 35,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2701,
+        3302,
+        3323,
+        3463
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ns-sb-off",
+      "corridor": "v91-ns-sb-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade",
+        "Unresolved shared pavement/clearance region(s): 2783,3329,3466,3467"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ns-sb-split-split-split-split-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ns-sb-split-split-split-split-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.0039595982164535295
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ns-1-a-1-section-section-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.003762833439687453
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 137.58347871259005,
+        "start": {
+          "x": -8.125,
+          "y": -7.997333043230484,
+          "z": 600
+        },
+        "end": {
+          "x": -48,
+          "y": 0,
+          "z": 730
+        },
+        "deltaY": 7.997333043230484,
+        "heightRange": 7.997333043230484,
+        "averageGrade": 0.058127132109639414,
+        "maxGrade": 0.09353565686173171,
+        "maxGradeBreak": 0.0075903063817979845,
+        "maxGradeRate": 0.0019544284120084267,
+        "minCurveRadiusCue": 96.89188190501018,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 40,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 137.58347871259005,
+        "start": {
+          "x": -8.125,
+          "y": -7.997333043230484,
+          "z": 600
+        },
+        "end": {
+          "x": -48,
+          "y": 0,
+          "z": 730
+        },
+        "deltaY": 7.997333043230484,
+        "heightRange": 7.997333043230484,
+        "averageGrade": 0.058127132109639414,
+        "maxGrade": 0.09353565686173171,
+        "maxGradeBreak": 0.0075903063817979845,
+        "maxGradeRate": 0.0019544284120084267,
+        "minCurveRadiusCue": 96.89188190501018,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 40,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2783,
+        3329,
+        3465,
+        3466,
+        3467,
+        3468
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ns-nb-on",
+      "corridor": "v91-ns-nb-on",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Shared pavement constraints conflict with fixed structure/endpoint heights",
+        "Unresolved shared pavement/clearance region(s): 2786,3293,3339,3469,3470"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ns-nb-split-3-split-split-split-split-split-section-2"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "v91-ns-1-b-1-section-section-section",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.0037628334396873444
+        },
+        {
+          "end": "end",
+          "roadId": "ns-nb-split-3-split-split-split-split-split-section-2",
+          "otherEnd": "start",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.003959598216453529
+        }
+      ],
+      "mergeDiverge": "on",
+      "before": {
+        "length": 137.58347871259005,
+        "start": {
+          "x": 48,
+          "y": 0,
+          "z": 730
+        },
+        "end": {
+          "x": 8.125,
+          "y": -7.997333043230484,
+          "z": 600
+        },
+        "deltaY": -7.997333043230484,
+        "heightRange": 7.997333043230484,
+        "averageGrade": -0.058127132109639414,
+        "maxGrade": 0.09353565686173777,
+        "maxGradeBreak": 0.007590306381797184,
+        "maxGradeRate": 0.001954428412007965,
+        "minCurveRadiusCue": 96.89188190501811,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 40,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 137.58347871259005,
+        "start": {
+          "x": 48,
+          "y": 0,
+          "z": 730
+        },
+        "end": {
+          "x": 8.125,
+          "y": -7.997333043230484,
+          "z": 600
+        },
+        "deltaY": -7.997333043230484,
+        "heightRange": 7.997333043230484,
+        "averageGrade": -0.058127132109639414,
+        "maxGrade": 0.09353565686173777,
+        "maxGradeBreak": 0.007590306381797184,
+        "maxGradeRate": 0.001954428412007965,
+        "minCurveRadiusCue": 96.89188190501811,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 40,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        2786,
+        3293,
+        3339,
+        3445,
+        3469,
+        3470,
+        3471,
+        3472
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "v91-ew-east-wb-off",
+      "corridor": "v91-ew-east-wb-off",
+      "category": "C",
+      "isRamp": true,
+      "classification": "DEFER_COMPLEX",
+      "modified": false,
+      "implemented": [],
+      "remaining": [
+        "Error: Reviewed profile increases excessive grade",
+        "Unresolved shared pavement/clearance region(s): 3324,3473"
+      ],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "ew-wb-split-3-split-split-2-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "ew-wb-split-3-split-split-2-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005635325324867703
+        },
+        {
+          "end": "end",
+          "roadId": "v91-ew-1-b-4",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005635325324867385
+        }
+      ],
+      "mergeDiverge": "off",
+      "before": {
+        "length": 112.21355704198366,
+        "start": {
+          "x": 1875,
+          "y": 8,
+          "z": -162.95833333333326
+        },
+        "end": {
+          "x": 1770,
+          "y": 0,
+          "z": -198
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.07129263353631037,
+        "maxGrade": 0.11394651286041371,
+        "maxGradeBreak": 0.01138963798887105,
+        "maxGradeRate": 0.00296161481671245,
+        "minCurveRadiusCue": 71.99428491297873,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 33,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 112.21355704198366,
+        "start": {
+          "x": 1875,
+          "y": 8,
+          "z": -162.95833333333326
+        },
+        "end": {
+          "x": 1770,
+          "y": 0,
+          "z": -198
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.07129263353631037,
+        "maxGrade": 0.11394651286041371,
+        "maxGradeBreak": 0.01138963798887105,
+        "maxGradeRate": 0.00296161481671245,
+        "minCurveRadiusCue": 71.99428491297873,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 33,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [
+        3305,
+        3324,
+        3464,
+        3473
+      ],
+      "maxYChange": 0,
+      "runtime": null
+    },
+    {
+      "roadId": "direction-mingyuan-main-section-section-section-section-section",
+      "corridor": "direction-mingyuan",
+      "category": "C",
+      "isRamp": false,
+      "classification": "PASS",
+      "modified": false,
+      "implemented": [],
+      "remaining": [],
+      "reviewed": {
+        "fullLongitudinalProfile": true,
+        "horizontalAlignment": true,
+        "explicitEndpointTopology": true,
+        "pavedFootprintOverlaps": true,
+        "crossingRegionEdges": true,
+        "supportGeometry": true
+      },
+      "parentMainlines": [
+        "direction-mingyuan-main-section-section-section-section"
+      ],
+      "attachments": [
+        {
+          "end": "start",
+          "roadId": "direction-mingyuan-main-section-section-section-section",
+          "otherEnd": "end",
+          "horizontalGap": 0,
+          "heightGap": 0,
+          "gradeBreak": 0.005537677605631841
+        }
+      ],
+      "mergeDiverge": "topology/profile-reviewed",
+      "before": {
+        "length": 180.00000000000043,
+        "start": {
+          "x": 1338.5183439797058,
+          "y": 11.005215637247021,
+          "z": -983.771218540376
+        },
+        "end": {
+          "x": 1441.7621025228943,
+          "y": 0.02528862929298864,
+          "z": -1131.218586512395
+        },
+        "deltaY": -10.979927007954032,
+        "heightRange": 10.979927007954032,
+        "averageGrade": -0.06099959448863337,
+        "maxGrade": 0.09220005930767379,
+        "maxGradeBreak": 0.021014215637676234,
+        "maxGradeRate": 0.0012361303316280028,
+        "minCurveRadiusCue": null,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 8,
+        "pavementSurface": "segment-plane"
+      },
+      "after": {
+        "length": 180.00000000000043,
+        "start": {
+          "x": 1338.5183439797058,
+          "y": 11.005215637247021,
+          "z": -983.771218540376
+        },
+        "end": {
+          "x": 1441.7621025228943,
+          "y": 0.02528862929298864,
+          "z": -1131.218586512395
+        },
+        "deltaY": -10.979927007954032,
+        "heightRange": 10.979927007954032,
+        "averageGrade": -0.06099959448863337,
+        "maxGrade": 0.09220005930767379,
+        "maxGradeBreak": 0.021014215637676234,
+        "maxGradeRate": 0.0012361303316280028,
+        "minCurveRadiusCue": null,
+        "shortSegments": 0,
+        "extremaStations": [],
+        "authoredNodes": 8,
+        "pavementSurface": "segment-plane"
+      },
+      "overlapRegionIndices": [],
+      "maxYChange": 0,
+      "runtime": null
+    }
+  ]
+}

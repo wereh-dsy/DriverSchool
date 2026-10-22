@@ -52,7 +52,7 @@ export function createMercedesE300LPhysicsConfig(): VehiclePhysicsConfig {
     // to pick up than a hot hatch, and settles to a quiet idle.
     engineInertia: .43, idleRPM: 700, stallRPM: 400, torqueRipple: .010,
     soundProfile: 'full-bodied',
-    partThrottleExponent: .82,
+    partThrottleExponent: .78,
     throttleResponse: 2.7, throttleResponseRate: 2.7, throttleReleaseResponse: 6.2,
     engineFrictionTorque: 17, engineBrakingStrength: 58, engineBraking: 75,
     idleControlStrength: 74, idleControlMaxTorque: 74, idleControlBandRPM: 230,
@@ -112,7 +112,7 @@ export function createMercedesE300LPhysicsConfig(): VehiclePhysicsConfig {
     steeringDamping: 10.4, steeringReturnRate: 4.9,
     returnProfile: { lowSpeedRate: .60, highSpeedRate: 4.9, speedReference: 13 },
     highSpeedReferenceSpeed: 20, highSpeedMinimumAuthority: .20, ackermannFactor: .92 };
-  c.suspension = { ...c.suspension, rideHeight: .148, restLength: .368,
+  c.suspension = { ...c.suspension, rideHeight: .148, restLength: .368, bumpStopStiffness: 200000,
     springRateFront: 37200, springRateRear: 35800,
     unsprungMass: { front: 47, rear: 49 },
     damperCompressionFront: 2312, damperCompressionRear: 2244,
@@ -127,9 +127,9 @@ export function createMercedesE300LPhysicsConfig(): VehiclePhysicsConfig {
       rear: { topology: 'MULTI_LINK', staticCamber: -.018, camberGainPerMeter: -.30,
         staticToe: .0010, bumpToeGainPerMeter: .016, antiDiveRatio: 0, antiSquatRatio: .16 },
     } };
-  c.tires = calibrateTyres({ ...c.tires, wheelInertia: 1.78, rollingResistance: .0115,
+  c.tires = { ...calibrateTyres(c.tires, 'PREMIUM_TOURING'), wheelInertia: 1.78, rollingResistance: .0115,
     loadSensitivity: .05, longitudinalGrip: 1.04, lateralGrip: 1.05, gripCoefficient: 1.04,
-    peakSlipRatio: .105, peakSlipAngle: rad(7.2), gripFalloff: .32 }, 'PREMIUM_TOURING');
+    peakSlipRatio: .105, peakSlipAngle: rad(7.2), gripFalloff: .32 };
   // The wider rear 275 section carries a little more cornering capacity through
   // the existing axle stiffness calibration, not a grip multiplier.
   c.tires.corneringStiffnessFront = 96000;

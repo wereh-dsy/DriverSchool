@@ -1,0 +1,69 @@
+{
+  "mapVersion": 486,
+  "reviewed": 275,
+  "counts": {
+    "FIXED": 120,
+    "PASS": 3,
+    "INTENTIONAL_STRUCTURE": 15,
+    "DEFER_UNRESOLVED": 137
+  },
+  "modified": 110,
+  "runtime": {
+    "before": {
+      "rmsAY": 0.6246447473327911,
+      "peakAY": 7.395407774313258,
+      "pitchRate": 0.6974651650058796,
+      "rollRate": 0.018367288720215043,
+      "fullBump": 0,
+      "groundedTransitions": 6,
+      "supportSwitches": 0,
+      "supportRejections": 0,
+      "mechanicalImpulse": 0,
+      "safety": 0
+    },
+    "after": {
+      "rmsAY": 0.37997399228512324,
+      "peakAY": 6.691239743035866,
+      "pitchRate": 0.6880551204519395,
+      "rollRate": 0.02836333254401119,
+      "fullBump": 0,
+      "groundedTransitions": 5,
+      "supportSwitches": 0,
+      "supportRejections": 0,
+      "mechanicalImpulse": 0,
+      "safety": 0
+    }
+  },
+  "clearance": {
+    "regions": 3372,
+    "worsened": 0,
+    "newSupportMismatches": 0,
+    "unresolved": 138,
+    "intentional": 1038,
+    "numericCues": 256
+  },
+  "build": {
+    "valid": true,
+    "buildCommand": "pnpm run build -BasicValidation",
+    "buildExecutions": 1,
+    "exitCode": 0,
+    "mapVersion": 486,
+    "distVersion": 486,
+    "distEntry": "/assets/index-B7THxyQj.js",
+    "runtimePayload": "dist/assets/city-main.runtime-1aac2465f77e.json",
+    "sourceSha256": "ad647d198bae65ac1e334cb40a56e0028f7fad453a27f8852d39fb57dbec6e76",
+    "roads": 2944,
+    "changedRoadsVerified": 110,
+    "maxPublishedNodeError": 9.28898690099936e-12,
+    "navigationWaypointControlsPublished": true,
+    "typecheck": "passed",
+    "coreTests": "not run by explicit request",
+    "warning": "Vite large chunk warning",
+    "builtModules": 394
+  },
+  "tests": {
+    "rampChecks": 19,
+    "navigationAssertions": 35,
+    "typecheck": "passed"
+  }
+}

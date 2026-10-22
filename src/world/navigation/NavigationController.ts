@@ -5,11 +5,12 @@ export interface NavigationState {
   version:number; status:'idle'|'preview'|'navigating'|'rerouting'|'arrived'|'unreachable';
   route:PlannedRoute|null; remainingDistance:number; remainingSeconds:number;
   maneuverDistance:number; instruction:string; symbol:string; nextRoad:string;
+  waypointIndex:number;
 }
 /** Game-owned route session. Displays borrow state; vehicle switches do not own it. */
 export class NavigationController {
   public planner:RoutePlanner|undefined;
-  public readonly state:NavigationState={version:0,status:'idle',route:null,remainingDistance:0,remainingSeconds:0,maneuverDistance:0,instruction:'请选择目的地',symbol:'↑',nextRoad:''};
+  public readonly state:NavigationState={version:0,status:'idle',route:null,remainingDistance:0,remainingSeconds:0,maneuverDistance:0,instruction:'请选择目的地',symbol:'↑',nextRoad:'',waypointIndex:0};
   public pose:NavigationPose={x:0,y:0,z:0,yaw:0};
   private elapsed=0;
   private offRoute=0;
@@ -20,18 +21,18 @@ export class NavigationController {
     if(this.network===network)return;this.network=network;this.planner=network?.routing?new RoutePlanner(network):undefined;this.clear();
   }
   public clear():void {
-    Object.assign(this.state,{status:'idle',route:null,remainingDistance:0,remainingSeconds:0,maneuverDistance:0,instruction:'请选择目的地',symbol:'↑',nextRoad:''});
+    Object.assign(this.state,{status:'idle',route:null,remainingDistance:0,remainingSeconds:0,maneuverDistance:0,instruction:'请选择目的地',symbol:'↑',nextRoad:'',waypointIndex:0});
     this.progress=this.offRoute=this.elapsed=this.retry=0;this.state.version++;
   }
   public currentLocation():RouteLocation|null{return this.planner?.locate(this.pose)??null;}
-  public preview(start:RouteLocation,destination:RouteLocation):boolean {
-    const route=this.planner?.plan(start,destination)??null;
-    Object.assign(this.state,{route,status:route?'preview':'unreachable',instruction:route?'路线预览':'暂无可达路线',remainingDistance:route?.distance??0,remainingSeconds:route?.seconds??0,nextRoad:destination.label,symbol:'↑'});
+  public preview(start:RouteLocation,destination:RouteLocation,waypoints:readonly RouteLocation[]=[]):boolean {
+    const route=this.planner?.planThrough(start,destination,waypoints)??null;
+    Object.assign(this.state,{route,status:route?'preview':'unreachable',instruction:route?'路线预览':waypoints.length?'途经点顺序或行驶方向不可达，请调整路线':'暂无可达路线',remainingDistance:route?.distance??0,remainingSeconds:route?.seconds??0,nextRoad:destination.label,symbol:'↑',waypointIndex:0});
     this.progress=this.offRoute=0;this.state.version++;return !!route;
   }
-  public start(destination:RouteLocation):boolean {
+  public start(destination:RouteLocation,waypoints:readonly RouteLocation[]=[]):boolean {
     const start=this.currentLocation();if(!start){this.state.status='unreachable';this.state.route=null;this.state.instruction='当前位置不在可导航道路上';this.state.version++;return false;}
-    if(!this.preview(start,destination))return false;
+    if(!this.preview(start,destination,waypoints))return false;
     this.state.status='navigating';this.elapsed=Infinity;this.update(0,this.pose,0);return true;
   }
   public update(dt:number,pose:NavigationPose,speed:number):void {
@@ -40,12 +41,14 @@ export class NavigationController {
     this.elapsed+=dt;this.retry=Math.max(0,this.retry-dt);if(this.elapsed<.2)return;
     const elapsed=this.elapsed===Infinity?.2:this.elapsed;this.elapsed=0;
     const route=this.state.route;
+    const stop=route.waypoints[this.state.waypointIndex],limit=stop?.distance??Infinity;
     const candidates=this.planner.matches(pose.x,pose.z,50,pose);
     let best:{distance:number;score:number;remaining:number}|undefined;
     const nearest=candidates.find(m=>m.heightDifference<2.5);
     for(const m of candidates) {
       if(m.heightDifference>2.5||m.distance>Math.max(8,this.planner.road(m.location.roadId)!.width/2+4))continue;
       for(const s of route.sections) {
+        if((s.legIndex??0)>this.state.waypointIndex||s.startDistance>limit+.001)continue;
         if(s.road.id!==m.location.roadId||s.forward!==(m.location.direction==='forward'))continue;
         const lo=Math.min(s.from,s.to),hi=Math.max(s.from,s.to);
         if(m.location.along<lo-12||m.location.along>hi+12)continue;
@@ -56,6 +59,7 @@ export class NavigationController {
       }
     }
     for(const s of route.sections) {
+      if((s.legIndex??0)>this.state.waypointIndex||s.startDistance>limit+.001)continue;
       const line=s.connector;if(!line||line.length<2)continue;
       const total=line.reduce((sum,p,i)=>sum+(i?Math.hypot(p.x-line[i-1]!.x,p.z-line[i-1]!.z):0),0);let along=0;
       for(let i=1;i<line.length;i++) {
@@ -75,17 +79,21 @@ export class NavigationController {
       this.offRoute+=elapsed;
       if(this.offRoute>=1.4&&this.retry===0) {
         this.state.status='rerouting';this.state.instruction='正在重新规划';this.state.version++;
-        const start=this.currentLocation(),next=start?this.planner.plan(start,route.destination):null;
+        const start=this.currentLocation(),next=start?this.planner.planThrough(start,route.destination,route.waypoints.slice(this.state.waypointIndex).map(s=>s.location)):null;
         this.retry=3;
-        if(next){this.state.route=next;this.progress=0;this.offRoute=0;this.state.status='navigating';}
+        if(next){this.state.route=next;this.state.waypointIndex=0;this.progress=0;this.offRoute=0;this.state.status='navigating';}
         else this.state.instruction=start?'暂无可达路线，等待重新规划':'请返回可行驶道路';
       }
       return;
     }
     this.offRoute=0;this.state.status='navigating';this.progress=best!.distance;
     this.state.remainingDistance=Math.max(0,route.distance-this.progress);this.state.remainingSeconds=Math.max(0,best!.remaining);
+    while(this.state.waypointIndex<route.waypoints.length){const next=route.waypoints[this.state.waypointIndex]!,p=next.location.point;
+      if(next.distance-this.progress>12||Math.hypot(pose.x-p.x,pose.z-p.z)>8||Math.abs(pose.y-(p.y??0))>=2.5||!candidates.some(m=>m.location.roadId===next.location.roadId&&m.heightDifference<2.5&&m.distance<8&&(next.location.direction===undefined||m.location.direction===next.location.direction)))break;
+      this.state.waypointIndex++;
+    }
     const destination=route.destination.point;
-    if(this.state.remainingDistance<18&&Math.hypot(pose.x-destination.x,pose.z-destination.z)<22&&Math.abs(pose.y-(destination.y??0))<2.5&&Math.abs(speed)<8) {
+    if(this.state.waypointIndex===route.waypoints.length&&this.state.remainingDistance<18&&Math.hypot(pose.x-destination.x,pose.z-destination.z)<22&&Math.abs(pose.y-(destination.y??0))<2.5&&Math.abs(speed)<8) {
       this.state.status='arrived';this.state.instruction='已到达目的地';this.state.symbol='●';this.state.remainingDistance=this.state.remainingSeconds=0;
     } else {
       const maneuver=route.maneuvers.find(m=>m.distance>this.progress+5)??route.maneuvers.at(-1)!;

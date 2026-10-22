@@ -20,7 +20,7 @@ import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
 import { RegionalDebug } from '../regional/RegionalDebug';
 import type { CityResourceTiming, CityRuntimeData } from './CityRuntimeData';
 
-interface SurfaceArea { reference?: import('../SurfaceMaterial').SurfaceReference; contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number; roadId?: string; segmentIndex?: number }
+interface SurfaceArea { junctionId?: string; reference?: import('../SurfaceMaterial').SurfaceReference; contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number; roadId?: string; segmentIndex?: number }
 export interface SurfaceQueryDebug {
   x: number; z: number; referenceHeight: number; chosen: string | null;
   candidates: { id: string; roadId?: string; segmentIndex?: number; segmentId?: string; height: number; normal: {x:number;y:number;z:number};
@@ -42,7 +42,9 @@ export class CityGround implements DrivingGround {
   private readonly editor: boolean;
   private referenceHeight = 0;
   private surfaceSequence = 0;
-  private readonly terrainReference = { surfaceId: 'terrain' };
+  private readonly terrainReference = { surfaceId: 'terrain', kind: 'terrain' as const };
+  private readonly supportLinks = new Map<string, Set<string>>();
+  private readonly supportStructures = new Map<string, string>();
   /** Optional diagnostics only; normal sampling allocates no candidate records. */
   public surfaceQueryObserver?: (query: SurfaceQueryDebug) => void;
   private readonly regionalDebug?:RegionalDebug;
@@ -75,6 +77,15 @@ export class CityGround implements DrivingGround {
     this.metadata = { id: this.data.id, version: this.data.version, displayName: this.data.name, description: 'Data-driven City Map' };
     this.roadNetwork = options.runtime?.roadNetwork ?? buildCityRoadNetwork(this.data);
     measured('roadNetwork');
+    const link = (a: string, b: string) => {
+      if (!this.supportLinks.has(a)) this.supportLinks.set(a, new Set());
+      this.supportLinks.get(a)!.add(b);
+    };
+    for (const edge of this.roadNetwork.routing?.connections ?? []) { link(edge.fromRoadId, edge.toRoadId); link(edge.toRoadId, edge.fromRoadId); }
+    for (const j of this.data.intersections) for (const a of j.connections) {
+      link('junction:' + j.id, a.roadId);
+      for (const b of j.connections) if (a !== b) link(a.roadId, b.roadId);
+    }
     this.root.name = this.data.name; this.root.userData.renderCategory = 'WORLD';
     const groundAreas=this.data.regional?[this.data.regional.cityBounds,...this.data.regional.cityExtensions??[]]:[this.data.bounds];
     for(const bounds of groundAreas){const base = new Mesh(cityGroundGeometry(this.data,bounds), this.materials.grass);base.receiveShadow = true;this.root.add(base);}
@@ -92,6 +103,8 @@ export class CityGround implements DrivingGround {
     measured('colliders');
     const junctionMasks=new Map(this.data.intersections.filter(j=>j.pavementFootprint).map(j=>[j.id,compileJunctionSurface(j)]));
     const sourceRoads = new Map(this.data.roads.map(r => [r.id, r]));
+    for (const road of this.data.roads) this.supportStructures.set(road.id,
+      road.structure?.enclosure?.kind ?? road.elevationMode ?? 'ground');
     for (const road of this.roadNetwork.segments) {
       const source = sourceRoads.get(road.id)!;
       const edges = roadEdges(source);
@@ -125,13 +138,13 @@ export class CityGround implements DrivingGround {
         for(let i=0;i<outline.length;i++){
           const a=outline[i]!,b=outline[(i+1)%outline.length]!,den=a.x*b.z-a.z*b.x;if(Math.abs(den)<1e-8)continue;
           const gx=((a.y??0)*b.z-(b.y??0)*a.z)/den,gz=(a.x*(b.y??0)-b.x*(a.y??0))/den;
-          this.addArea({minX:j.position.x+Math.min(0,a.x,b.x),maxX:j.position.x+Math.max(0,a.x,b.x),minZ:j.position.z+Math.min(0,a.z,b.z),maxZ:j.position.z+Math.max(0,a.z,b.z)},{pavement:false,gx,gz,heightAt:(x,z)=>base+gx*(x-j.position.x)+gz*(z-j.position.z),contains:(x,z)=>{const qx=x-j.position.x,qz=z-j.position.z,u=(qx*b.z-qz*b.x)/den,v=(a.x*qz-a.z*qx)/den;return u>=-1e-6&&v>=-1e-6&&u+v<=1+1e-6;}});
+          this.addArea({minX:j.position.x+Math.min(0,a.x,b.x),maxX:j.position.x+Math.max(0,a.x,b.x),minZ:j.position.z+Math.min(0,a.z,b.z),maxZ:j.position.z+Math.max(0,a.z,b.z)},{junctionId:j.id,pavement:false,gx,gz,heightAt:(x,z)=>base+gx*(x-j.position.x)+gz*(z-j.position.z),contains:(x,z)=>{const qx=x-j.position.x,qz=z-j.position.z,u=(qx*b.z-qz*b.x)/den,v=(a.x*qz-a.z*qx)/den;return u>=-1e-6&&v>=-1e-6&&u+v<=1+1e-6;}});
         }
         continue;
       }
       const h = junctionExtent(j, this.data), extent = h * (Math.abs(Math.cos(j.rotation)) + Math.abs(Math.sin(j.rotation)));
       this.addArea({ minX: j.position.x - extent, maxX: j.position.x + extent, minZ: j.position.z - extent, maxZ: j.position.z + extent }, {
-        pavement: false, heightAt: (x,z) => junctionSurfaceHeight(j,{x,z}), gx: 0, gz: 0, contains: (x, z) => junctionSurfaceContains(j,this.data,{x,z}),
+        junctionId: j.id, pavement: false, heightAt: (x,z) => junctionSurfaceHeight(j,{x,z}), gx: 0, gz: 0, contains: (x, z) => junctionSurfaceContains(j,this.data,{x,z}),
       });
     }
     for (const o of this.data.objects) if (o.prefabId === 'parking') {
@@ -157,7 +170,10 @@ export class CityGround implements DrivingGround {
   }
   private addArea(b: DrivingGround['worldBounds'], area: SurfaceArea): void {
     const segmentId = area.roadId === undefined ? undefined : `${area.roadId}:${area.segmentIndex ?? 0}`;
-    area.reference = { roadId: area.roadId, segmentId,
+    area.reference = { roadId: area.roadId, segmentId, segmentIndex: area.segmentIndex,
+      kind: area.roadId ? 'road' : 'junction',
+      connectedRoadIds: this.supportLinks.get(area.roadId ?? 'junction:' + area.junctionId),
+      structureKind: area.roadId ? this.supportStructures.get(area.roadId) : undefined,
       surfaceId: `${segmentId ?? `junction:${this.surfaceSequence++}`}:${area.pavement ? 'sidewalk' : 'road'}` };
     const size = this.data.sectorSize;
     for (let x = Math.floor(b.minX / size); x <= Math.floor(b.maxX / size); x++) for (let z = Math.floor(b.minZ / size); z <= Math.floor(b.maxZ / size); z++) {
@@ -167,31 +183,42 @@ export class CityGround implements DrivingGround {
   sampleRoadSurface(x: number, z: number, direction: { x: number; y: number } = { x: 0, y: -1 }, referenceHeight = this.referenceHeight,
     observer = this.surfaceQueryObserver, support?: import('../SurfaceMaterial').SurfaceSupportHint): RoadSurfaceSample {
     const areas = this.surfaces.get(`${Math.floor(x / this.data.sectorSize)},${Math.floor(z / this.data.sectorSize)}`);
-    let selected: SurfaceArea | undefined, best = Infinity, height = 0;
+    let selected: SurfaceArea | undefined, rejected: SurfaceArea | undefined, best = Infinity, rejectedError = Infinity, height = 0;
+    let bestPrediction = Infinity, bestTopology = Infinity, bestNormal = -Infinity, bestLayer: string | undefined;
     const candidates: SurfaceQueryDebug['candidates'] | undefined = observer ? [] : undefined;
     if (areas) for (const area of areas) if (area.contains(x, z)) {
       const y = area.heightAt(x, z), delta = Math.abs(y - referenceHeight);
       const extension = area.extensionAt?.(x, z) ?? 0;
       const length = Math.hypot(area.gx, 1, area.gz);
-      const normalDot = support ? (-area.gx * support.normal.x + support.normal.y - area.gz * support.normal.z) / length : 1;
-      // End caps still fill seams, but cannot keep an old segment after its
-      // centreline ends. Adjacent segments on the same road share preference.
-      const continuous = support?.reference && support.previousReachable && extension < .02 &&
-        delta <= support.heightTolerance && normalDot > .85;
-      const preferred = continuous && (area.reference?.surfaceId === support.reference?.surfaceId ||
-        area.roadId !== undefined && area.roadId === support.reference?.roadId);
-      const score = delta + extension * 10 + (area.pavement ? 0.2 : 0) -
-        (preferred ? support!.withinTick ? support!.heightTolerance : .04 : 0) +
-        (area.reference?.surfaceId === support?.transientSurface ? support!.heightTolerance : 0);
-      if (candidates) { const length = Math.hypot(area.gx, 1, area.gz);
-        candidates.push({id: area.reference!.surfaceId,
-          roadId:area.roadId,segmentIndex:area.segmentIndex,segmentId:area.reference?.segmentId,height:y,normal:{x:-area.gx/length,y:1/length,z:-area.gz/length},
-          distance:area.extensionAt?.(x,z) ?? 0,score,accepted:delta<=1.75,
-          reason:delta>1.75 ? 'outside-support-height-envelope' : 'eligible-score-ranked'}); }
-      // A nearby support plane follows continuous ramps; a distant upper deck cannot capture a ground vehicle.
-      if (delta > 1.75) continue;
-      // Segment end caps fill bend seams but must not hold a car at the previous ramp sample's height.
-      if (score < best) { best = score; selected = area; height = y; }
+      // Qualification precedes ranking; the callback uses the wheel's frozen
+      // outer-tick anchor and a bounded latch, not this candidate's old score.
+      const decision = support?.evaluateCandidate?.(y, -area.gx / length, 1 / length, -area.gz / length, area.reference);
+      const eligible = decision ? decision.eligible : delta <= 1.75;
+      const error = decision?.predictedError ?? delta;
+      const topology = decision?.topologyRank ?? 0, normal = decision?.normalDot ?? 1;
+      const score = error + extension * 10 + (area.pavement ? .2 : 0) +
+        (decision ? decision.continuityRank * .005 + topology * .002 + (1 - normal) * .01 : 0);
+      if (candidates) candidates.push({ id: area.reference!.surfaceId, roadId: area.roadId,
+        segmentIndex: area.segmentIndex, segmentId: area.reference?.segmentId, height: y,
+        normal: { x: -area.gx / length, y: 1 / length, z: -area.gz / length }, distance: extension, score,
+        accepted: eligible, reason: eligible ? 'eligible-score-ranked' : decision?.reason ?? 'outside-support-height-envelope' });
+      if (!eligible) { if (error < rejectedError) { rejectedError = error; rejected = area; } continue; }
+      const sameTie = decision?.layerClass === 'SAME_LAYER' && bestLayer === 'SAME_LAYER' &&
+        Math.abs(error - bestPrediction) < .001 && topology === bestTopology && Math.abs(normal - bestNormal) < .001;
+      const wins = score < best - 1e-6 || Math.abs(score - best) <= 1e-6 && sameTie && y > height;
+      if (wins) { best = score; selected = area; height = y; bestPrediction = error;
+        bestTopology = topology; bestNormal = normal; bestLayer = decision?.layerClass; }
+    }
+    const terrain=this.sectors.terrain?.sampler;
+    let fallbackGx = 0, fallbackGz = 0;
+    if (!selected) {
+      height = terrain?.heightAt(x, z) ?? 0;
+      const tx = terrain ? terrain.heightAt(x + .5, z) - terrain.heightAt(x - .5, z) : 0;
+      const tz = terrain ? terrain.heightAt(x, z + .5) - terrain.heightAt(x, z - .5) : 0;
+      fallbackGx = tx; fallbackGz = tz;
+      const length = Math.hypot(tx, 1, tz);
+      const fallback = support?.evaluateCandidate?.(height, -tx / length, 1 / length, -tz / length, this.terrainReference);
+      if (fallback && !fallback.eligible && rejected) { selected = rejected; height = rejected.heightAt(x, z); }
     }
     if (candidates) {
       for (const candidate of candidates) if (candidate.accepted) {
@@ -199,9 +226,7 @@ export class CityGround implements DrivingGround {
       }
       observer!({x,z,referenceHeight,candidates,chosen:selected?.reference?.surfaceId ?? null});
     }
-    const terrain=this.sectors.terrain?.sampler;
-    if(!selected&&terrain)height=terrain.heightAt(x,z);
-    const gx = selected?.gx ?? (terrain?(terrain.heightAt(x+.5,z)-terrain.heightAt(x-.5,z)):0), gz = selected?.gz ?? (terrain?(terrain.heightAt(x,z+.5)-terrain.heightAt(x,z-.5)):0), length = Math.hypot(direction.x, direction.y) || 1;
+    const gx = selected?.gx ?? fallbackGx, gz = selected?.gz ?? fallbackGz, length = Math.hypot(direction.x, direction.y) || 1;
     return { reference: selected?.reference ?? this.terrainReference, referenceHeight,
       height, gradient: new Vector2(gx, gz), normal: new Vector3(-gx, 1, -gz).normalize(), grade: (gx * direction.x + gz * direction.y) / length,
       ...surfaceResponseAliases(SURFACE_MATERIALS[selected ? selected.pavement ? 'concrete' : 'asphalt' : 'grass']) };

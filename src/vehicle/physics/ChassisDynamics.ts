@@ -3,6 +3,7 @@ import { WHEEL_IDS } from './WheelContact';
 import type { SuspensionVerticalSnapshot } from './SuspensionSystem';
 import type { WheelPhysicsStateSet } from './WheelPhysicsState';
 import { sprungMass, sprungOffsetZ, UnsprungWheelDynamics } from './UnsprungWheelDynamics';
+import { wheelMechanicalRejectReason } from './WheelMechanicalEligibility';
 
 /** Three sprung-body DOFs. Planar CG translation/yaw stay in VehicleDynamics.
  * y is CG heave relative to its authored height, keeping the flat-rest datum 0.
@@ -31,7 +32,8 @@ export class ChassisDynamics {
   public get pitchInertia(): number { return sprungMass(this.config) * (this.config.length ** 2 + this.config.height ** 2) / 12; }
   public get rollInertia(): number { return sprungMass(this.config) * (this.config.width ** 2 + this.config.height ** 2) / 12; }
   private readonly hubs = new UnsprungWheelDynamics();
-  private readonly constraints = WHEEL_IDS.map(() => ({ y: 0, p: 0, r: 0, gap: 0, impulse: 0 }));
+  private readonly constraints = WHEEL_IDS.map(() => ({ y: 0, p: 0, r: 0, gap: 0, impulse: 0,
+    eligible: false, rejectReason: undefined as string | undefined }));
   private initialVelocity = 0;
   private initialPitchVelocity = 0;
   private initialRollVelocity = 0;
@@ -118,6 +120,12 @@ export class ChassisDynamics {
       const stopRadius = unsprung ? corner.freeTyreRadius - this.config.tires.verticalCompliance!.maximumCompression : radius;
       constraint.gap = (stopX - point.x) * n.x + (stopY - point.y) * n.y +
         (stopZ - point.z) * n.z - stopRadius;
+      constraint.rejectReason = wheelMechanicalRejectReason(corner, constraint.gap, dt, this.velocity);
+      constraint.eligible = constraint.rejectReason === undefined;
+      if (!constraint.eligible) constraint.y = 0;
+      const diagnostic = corner as { mechanicalConstraintEligible?: boolean; mechanicalConstraintRejectReason?: string };
+      diagnostic.mechanicalConstraintEligible = constraint.eligible;
+      diagnostic.mechanicalConstraintRejectReason = constraint.rejectReason;
       constraint.impulse = 0;
     }
     // Existing separate axle aero enters the same force/moment balance.

@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "mapVersion": 1,
+  "coverage": {
+    "roads": 2,
+    "profiled": 2,
+    "inventory": 2,
+    "ramps": 0,
+    "pavementOverlapRuns": 1
+  },
+  "inventory": [
+    {
+      "roadId": "upper",
+      "category": "B",
+      "isRamp": false,
+      "roadName": null,
+      "roadFunction": "expressway",
+      "parentMainlines": [],
+      "attachments": [],
+      "profile": {
+        "roadId": "upper",
+        "length": 40,
+        "start": {
+          "x": -20,
+          "y": 6,
+          "z": 0
+        },
+        "end": {
+          "x": 20,
+          "y": 6,
+          "z": 0
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "segments": [
+          {
+            "station": 0,
+            "length": 40,
+            "grade": 0,
+            "heading": 1.5707963267948966
+          }
+        ],
+        "breaks": [],
+        "authoredNodes": 2,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "overlapIndices": [
+        0
+      ],
+      "reviewCues": [],
+      "bbox": {
+        "minX": -30,
+        "maxX": 30,
+        "minZ": -10,
+        "maxZ": 10
+      }
+    },
+    {
+      "roadId": "branch-without-ramp-name",
+      "category": "D",
+      "isRamp": false,
+      "roadName": null,
+      "roadFunction": "local",
+      "parentMainlines": [],
+      "attachments": [],
+      "profile": {
+        "roadId": "branch-without-ramp-name",
+        "length": 40,
+        "start": {
+          "x": 0,
+          "y": 0,
+          "z": -20
+        },
+        "end": {
+          "x": 0,
+          "y": 2,
+          "z": 20
+        },
+        "deltaY": 2,
+        "heightRange": 2,
+        "averageGrade": 0.05,
+        "maxGrade": 0.05,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "segments": [
+          {
+            "station": 0,
+            "length": 40,
+            "grade": 0.05,
+            "heading": 0
+          }
+        ],
+        "breaks": [],
+        "authoredNodes": 2,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "overlapIndices": [
+        0
+      ],
+      "reviewCues": [],
+      "bbox": {
+        "minX": -10,
+        "maxX": 10,
+        "minZ": -30,
+        "maxZ": 30
+      }
+    }
+  ],
+  "overlaps": [
+    {
+      "roadIds": [
+        "upper",
+        "branch-without-ramp-name"
+      ],
+      "stationRanges": [
+        [
+          18,
+          22
+        ],
+        [
+          18,
+          22
+        ]
+      ],
+      "minGap": 4.9,
+      "maxGap": 5.1,
+      "signedMin": 4.9,
+      "signedMax": 5.1,
+      "area": 16,
+      "alignment": 0,
+      "point": {
+        "x": 0,
+        "z": 0
+      },
+      "relation": "unlinked",
+      "minClearance": 4.25,
+      "segmentPairs": 1
+    }
+  ],
+  "mapDigest": "f49f93b275a7d726fee1194b412e9f9d71a4b032309aa7c289a9256cea1d9654"
+}

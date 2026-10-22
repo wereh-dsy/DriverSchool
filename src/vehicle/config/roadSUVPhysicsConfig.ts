@@ -24,7 +24,7 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
   config.engine = { ...config.engine, layout: 'V', cylinderCount: 6, bankAngle: Math.PI / 2,
     displacementL: 3.0, engineInertia: .49, idleRPM: 720, stallRPM: 440,
     torqueRipple: .010, firingCharacter: { smoothness: .91, inertiaScale: 1.10, brakingScale: 1.04 },
-    soundProfile: 'full-bodied', partThrottleExponent: .88,
+    soundProfile: 'full-bodied', partThrottleExponent: .65,
     throttleResponseRate: 2.9, throttleResponse: 2.9, throttleReleaseResponse: 6.5,
     engineFrictionTorque: 20, engineBrakingStrength: 82, engineBraking: 102,
     idleControlStrength: 110, idleControlMaxTorque: 110, idleControlBandRPM: 280,
@@ -76,16 +76,17 @@ export function createRoadSUVPhysicsConfig(): VehiclePhysicsConfig {
       front: { topology: 'MULTI_LINK', staticCamber: -.006, camberGainPerMeter: -.24, staticToe: 0, bumpToeGainPerMeter: .006, antiDiveRatio: .18, antiSquatRatio: .10 },
       rear: { topology: 'MULTI_LINK', staticCamber: -.008, camberGainPerMeter: -.22, staticToe: .0005, bumpToeGainPerMeter: .015, antiDiveRatio: 0, antiSquatRatio: .18 },
     },
-    springRateFront: 47000, springRateRear: 44000,
-    damperCompressionFront: 3400, damperCompressionRear: 3150,
-    damperReboundFront: 5050, damperReboundRear: 4700,
-    suspensionTravel: .21, bumpStopStiffness: 310000,
+    springRateFront: 43000, springRateRear: 40000,
+    unsprungMass: { front: 58, rear: 60 },
+    damperCompressionFront: 2900, damperCompressionRear: 2750,
+    damperReboundFront: 4350, damperReboundRear: 4100,
+    suspensionTravel: .23, bumpStopStiffness: 280000,
     antiRollStiffnessFront: 14500, antiRollStiffnessRear: 11500, antiRollStiffness: 26000 };
-  config.tires = { ...config.tires, wheelInertia: 2.25, rollingResistance: .013,
+  config.tires = { ...calibrateTyres(config.tires, 'SUV_ROAD'), wheelInertia: 2.25, rollingResistance: .013,
     longitudinalGrip: .98, lateralGrip: .99, gripCoefficient: .98, loadSensitivity: .07,
     corneringStiffnessFront: 102000, corneringStiffnessRear: 106000,
     peakSlipRatio: .11, peakSlipAngle: 8 * Math.PI / 180, gripFalloff: .35 };
-  config.tires = calibrateTyres(config.tires, 'SUV_ROAD');
+  config.tires.verticalCompliance = { stiffness: 260000, damping: 2400, maximumCompression: .055 };
   config.capabilities = { ...config.capabilities, tpms: true };
   config.tires.thermalPressureFront = createTyreThermalPressureConfig(260, { thermalCapacity: 40000, heatingEfficiency: .70 });
   config.tires.thermalPressureRear = createTyreThermalPressureConfig(280, { thermalCapacity: 42000, heatingEfficiency: .70 });

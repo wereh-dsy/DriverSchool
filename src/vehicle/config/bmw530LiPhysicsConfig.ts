@@ -30,7 +30,7 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
     peakThermalEfficiency: .34, referenceConsumptionLPer100km: 8 };
   c.engine = { ...c.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2,
     engineInertia: .39, idleRPM: 750, stallRPM: 430, torqueRipple: .012,
-    partThrottleExponent: 1, throttleResponse: 3.4, throttleResponseRate: 3.4, throttleReleaseResponse: 7,
+    partThrottleExponent: .65, throttleResponse: 3.7, throttleResponseRate: 3.7, throttleReleaseResponse: 7,
     engineFrictionTorque: 15, engineBrakingStrength: 65, engineBraking: 80,
     idleControlStrength: 90, idleControlMaxTorque: 90, idleControlBandRPM: 260,
     redlineWarningRPM: 6200, redlineRPM: 6500, revLimiterRPM: 6500, maxRPM: 6700,
@@ -66,7 +66,7 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
     steeringDamping: 10, steeringReturnRate: 5.1,
     returnProfile: { lowSpeedRate: .55, highSpeedRate: 5.1, speedReference: 14 },
     highSpeedReferenceSpeed: 19, highSpeedMinimumAuthority: .21, ackermannFactor: .9 };
-  c.suspension = { ...c.suspension, rideHeight: .145, restLength: .36,
+  c.suspension = { ...c.suspension, rideHeight: .145, restLength: .36, bumpStopStiffness: 210000,
     springRateFront: 38500, springRateRear: 37500,
     unsprungMass: { front: 44, rear: 46 },
     damperCompressionFront: 2250, damperCompressionRear: 2175,
@@ -78,10 +78,10 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
       rear: { topology: 'MULTI_LINK', staticCamber: -.016, camberGainPerMeter: -.32,
         staticToe: .0007, bumpToeGainPerMeter: .017, antiDiveRatio: 0, antiSquatRatio: .18 },
     } };
-  c.tires = calibrateTyres({ ...c.tires, wheelInertia: 1.6, rollingResistance: .0115,
+  c.tires = { ...calibrateTyres(c.tires, 'PREMIUM_TOURING'), wheelInertia: 1.6, rollingResistance: .0115,
     longitudinalGrip: 1.02, lateralGrip: 1.03, gripCoefficient: 1.02,
     corneringStiffnessFront: 99000, corneringStiffnessRear: 105000,
-    peakSlipRatio: .105, peakSlipAngle: rad(7.5), gripFalloff: .33 }, 'PREMIUM_TOURING');
+    peakSlipRatio: .105, peakSlipAngle: rad(7.5), gripFalloff: .33 };
   c.aero = { ...c.aero, dragCoefficient: .27, frontalArea: 2.28,
     liftCoefficientFront: .01, liftCoefficientRear: .013 };
   c.driverAids = { ...c.driverAids, absEnabled: true, ebdEnabled: true, tractionControlEnabled: true,
@@ -90,7 +90,7 @@ export function createBMW530LiPhysicsConfig(): VehiclePhysicsConfig {
   c.driveModes = {
     ECO: { throttleExponent: 1.3, throttleResponse: 2.5,
       shiftStrategy: shift([1300, 1500, 2150, 3200, 4500, 6050], [800, 850, 1000, 1300, 1800, 2200], .95, 4200), steeringResponse: 3, steeringDamping: 9.5 },
-    NORMAL: { throttleExponent: 1, throttleResponse: 3.4, shiftStrategy: normal, steeringResponse: 3.3, steeringDamping: 10 },
+    NORMAL: { throttleExponent: 1, throttleResponse: 3.7, shiftStrategy: normal, steeringResponse: 3.3, steeringDamping: 10 },
     SPORT: { throttleExponent: .88, throttleResponse: 4.5,
       shiftStrategy: { ...shift([2200, 2700, 3800, 5200, 6000, 6350], [1200, 1400, 1850, 2300, 2800, 3100], .88, 4800),
         liftHoldTime: 1.4, economicalShiftFactor: 1 }, steeringResponse: 3.7, steeringDamping: 11.5 },

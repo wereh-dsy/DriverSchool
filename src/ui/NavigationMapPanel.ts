@@ -12,13 +12,15 @@ export class NavigationMapPanel {
   private readonly hint=document.createElement('p');
   private readonly startValue=document.createElement('button');
   private readonly destinationValue=document.createElement('button');
+  private readonly waypointList=document.createElement('div');
   private readonly summary=document.createElement('p');
   private readonly go=document.createElement('button');
   private readonly candidates=document.createElement('div');
   private readonly hud=document.createElement('button');
   private origin:RouteLocation|null=null;
   private destination:RouteLocation|null=null;
-  private selecting:'start'|'destination'='destination';
+  private waypoints:RouteLocation[]=[];
+  private selecting:'start'|'destination'|number='destination';
   private center={x:0,z:0};
   private scale=1;
   private width=1;private height=1;
@@ -31,22 +33,24 @@ export class NavigationMapPanel {
   public get open():boolean{return !this.root.hidden;}
   public constructor(private readonly host:HTMLElement,private readonly navigation:NavigationController) {
     this.root.className='navigation-map';this.root.hidden=true;this.root.setAttribute('role','dialog');this.root.setAttribute('aria-modal','true');this.root.setAttribute('aria-label','区域地图与路线规划');
-    this.root.innerHTML=`<header><strong>区域地图</strong><span>拖动平移 · 滚轮缩放 · Esc 关闭</span><button type="button" data-close>返回驾驶 ×</button></header><div class="navigation-map-body"><aside><label>起点</label><div data-origin></div><label>终点</label><div data-destination></div><div class="navigation-map-actions"><button type="button" data-current>起点改为当前位置</button><button type="button" data-stop>结束导航 / 清除</button></div><div data-summary></div><div data-go></div><div data-hint></div><div data-candidates></div></aside><div class="navigation-map-view"><div class="navigation-map-tools"><button type="button" data-locate>定位车辆</button><button type="button" data-fit>全图</button><button type="button" data-plus aria-label="放大">＋</button><button type="button" data-minus aria-label="缩小">－</button></div><span class="navigation-map-north">N ↑</span></div></div>`;
+    this.root.innerHTML=`<header><strong>区域地图</strong><span>拖动平移 · 滚轮缩放 · Esc 关闭</span><button type="button" data-close>返回驾驶 ×</button></header><div class="navigation-map-body"><aside><label>起点</label><div data-origin></div><label>途经点 · 按顺序经过</label><div data-waypoints></div><button type="button" data-add-waypoint>＋ 添加途经点</button><label>终点</label><div data-destination></div><div class="navigation-map-actions"><button type="button" data-current>起点改为当前位置</button><button type="button" data-stop>结束导航 / 清除</button></div><div data-summary></div><div data-go></div><div data-hint></div><div data-candidates></div></aside><div class="navigation-map-view"><div class="navigation-map-tools"><button type="button" data-locate>定位车辆</button><button type="button" data-fit>全图</button><button type="button" data-plus aria-label="放大">＋</button><button type="button" data-minus aria-label="缩小">－</button></div><span class="navigation-map-north">N ↑</span></div></div>`;
     this.startValue.type=this.destinationValue.type=this.go.type='button';this.startValue.textContent='当前位置 · 点击选取';this.destinationValue.textContent='点击地图选择目的地';
     this.hint.setAttribute('aria-live','polite');this.summary.className='navigation-map-summary';
     this.root.querySelector('[data-origin]')!.append(this.startValue);this.root.querySelector('[data-destination]')!.append(this.destinationValue);
+    this.root.querySelector('[data-waypoints]')!.append(this.waypointList);
+    this.root.querySelector('[data-add-waypoint]')!.addEventListener('click',()=>this.select(this.waypoints.length));
     this.root.querySelector('[data-summary]')!.append(this.summary);this.root.querySelector('[data-go]')!.append(this.go);
     this.root.querySelector('[data-hint]')!.append(this.hint);this.root.querySelector('[data-candidates]')!.append(this.candidates);
     this.go.textContent='开始导航';this.go.disabled=true;
-    this.canvas.setAttribute('aria-label','可平移缩放的道路地图，选择道路作为起终点');this.root.querySelector('.navigation-map-view')!.prepend(this.canvas);
+    this.canvas.setAttribute('aria-label','可平移缩放的道路地图，选择起点、途经点或终点');this.root.querySelector('.navigation-map-view')!.prepend(this.canvas);
     this.hud.type='button';this.hud.className='navigation-hud';this.hud.hidden=true;this.hud.setAttribute('aria-label','导航提示，点击打开地图');
     host.append(this.root);host.querySelector('.game-ui')!.append(this.hud);
     this.hud.addEventListener('click',()=>this.show());
     this.root.querySelector('[data-close]')!.addEventListener('click',()=>this.close());
     this.startValue.onclick=()=>this.select('start');this.destinationValue.onclick=()=>this.select('destination');
     this.root.querySelector('[data-current]')!.addEventListener('click',()=>{this.origin=null;this.preview();});
-    this.root.querySelector('[data-stop]')!.addEventListener('click',()=>{this.origin=this.destination=null;this.navigation.clear();this.refresh();this.draw();});
-    this.go.onclick=()=>{if(this.destination&&this.navigation.start(this.destination)){this.origin=null;this.close();}else this.refresh();};
+    this.root.querySelector('[data-stop]')!.addEventListener('click',()=>{this.origin=this.destination=null;this.waypoints=[];this.selecting='destination';this.candidates.replaceChildren();this.navigation.clear();this.refresh();this.draw();});
+    this.go.onclick=()=>{if(this.destination&&this.navigation.start(this.destination,this.waypoints)){this.origin=null;this.close();}else this.refresh();};
     this.root.querySelector('[data-locate]')!.addEventListener('click',()=>{this.center={x:navigation.pose.x,z:navigation.pose.z};this.scale=Math.max(this.scale,.3);this.draw();});
     this.root.querySelector('[data-fit]')!.addEventListener('click',()=>this.fit());
     this.root.querySelector('[data-plus]')!.addEventListener('click',()=>this.zoom(1.35,this.width/2,this.height/2));
@@ -59,6 +63,7 @@ export class NavigationMapPanel {
     this.previousFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
     this.root.hidden=false;this.host.querySelector<HTMLElement>('.game-ui')!.inert=true;
     this.destination=this.navigation.state.route?.destination??this.destination;
+    if(this.navigation.state.route)this.waypoints=this.navigation.state.route.waypoints.slice(this.navigation.state.waypointIndex).map(s=>s.location);
     this.center={x:this.navigation.pose.x,z:this.navigation.pose.z};this.scale=.5;
     this.onVisibilityChange?.(true);this.refresh();this.draw();
     if(this.navigation.state.route)this.fit(this.navigation.state.route.points);
@@ -69,21 +74,28 @@ export class NavigationMapPanel {
     this.host.querySelector<HTMLElement>('.game-ui')!.inert=this.host.classList.contains('driving-immersive');
     this.onVisibilityChange?.(false);this.previousFocus?.focus();
   }
-  public reset():void {this.close();this.origin=this.destination=null;this.candidates.replaceChildren();this.hud.hidden=true;this.lastVersion=-1;}
-  private select(value:'start'|'destination'):void {this.selecting=value;this.hint.textContent=value==='start'?'点击道路选取起点':'点击道路选取终点';}
+  public reset():void {this.close();this.origin=this.destination=null;this.waypoints=[];this.waypointList.replaceChildren();this.selecting='destination';this.candidates.replaceChildren();this.hud.hidden=true;this.lastVersion=-1;}
+  private select(value:'start'|'destination'|number):void {this.selecting=value;this.candidates.replaceChildren();this.hint.textContent=value==='start'?'点击道路选取起点':value==='destination'?'点击道路选取终点':`点击道路选取途经点 ${value+1}`;}
   private preview():void {
     const start=this.origin??this.navigation.currentLocation();
-    if(start&&this.destination)this.navigation.preview(start,this.destination);
+    if(start&&this.destination)this.navigation.preview(start,this.destination,this.waypoints);
     this.refresh();this.draw();
     if(this.navigation.state.route)this.fit(this.navigation.state.route.points);
   }
   private refresh():void {
     this.startValue.textContent=this.origin?.label??'当前位置 · 点击选取';
     this.destinationValue.textContent=this.destination?.label??'点击地图选择目的地';
+    this.waypointList.replaceChildren();
+    for(const [index,waypoint]of this.waypoints.entries()){
+      const row=document.createElement('div');row.className='navigation-waypoint';
+      const edit=document.createElement('button');edit.type='button';edit.className='navigation-waypoint-name';edit.textContent=`${index+1}. ${waypoint.label}`;edit.title='点击地图更换此途经点';edit.onclick=()=>this.select(index);row.append(edit);
+      const controls=document.createElement('div');controls.className='navigation-waypoint-controls';
+      for(const [text,label,offset]of [['↑','上移',-1],['↓','下移',1],['×','删除',0]] as const){const button=document.createElement('button');button.type='button';button.textContent=text;button.setAttribute('aria-label',`${label}途经点 ${index+1}`);button.disabled=offset!==0&&(index+offset<0||index+offset>=this.waypoints.length);button.onclick=()=>{if(offset===0)this.waypoints.splice(index,1);else [this.waypoints[index],this.waypoints[index+offset]]=[this.waypoints[index+offset]!,this.waypoints[index]!];this.selecting='destination';this.candidates.replaceChildren();this.preview();};controls.append(button);}row.append(controls);this.waypointList.append(row);
+    }
     const state=this.navigation.state;
     this.summary.textContent=state.route?navigationSummary(state):state.status==='unreachable'?state.instruction:'选择目的地后自动规划路线';
     this.go.disabled=!this.destination;this.go.textContent=this.origin?'从当前位置重新规划并导航':'开始导航';
-    this.hint.textContent=this.origin?'自选起点用于路线预览；开始导航将改从当前位置出发。':state.status==='unreachable'?state.instruction:'点击道路选择终点，或先点击起点修改。';
+    this.hint.textContent=typeof this.selecting==='number'?`点击道路选取途经点 ${this.selecting+1}`:this.origin?'自选起点用于路线预览；开始导航将改从当前位置出发。':state.status==='unreachable'?state.instruction:'点击道路选择终点；添加途经点后按列表顺序规划。';
   }
   private pick(x:number,z:number):void {
     const planner=this.navigation.planner!;
@@ -101,10 +113,10 @@ export class NavigationMapPanel {
       const a=road.centerline[0]!,b=road.centerline.at(-1)!,reverse=road.travelDirection==='reverse',dx=(b.x-a.x)*(reverse?-1:1),dz=(b.z-a.z)*(reverse?-1:1);
       const direction=road.travelDirection==='two-way'?'双向':Math.abs(dx)>Math.abs(dz)?dx>0?'向东':'向西':dz>0?'向南':'向北';
       button.textContent=`${place?.name??roadLabel(road)} · ${layer} · ${direction}`;
-      button.onclick=()=>{const location=place?{...m.location,label:place.name}:m.location;if(this.selecting==='start')this.origin=location;else this.destination=location;this.selecting='destination';this.candidates.replaceChildren();this.preview();};
+      button.onclick=()=>{const location=place?{...m.location,label:place.name}:m.location;if(this.selecting==='start')this.origin=location;else if(typeof this.selecting==='number')this.waypoints[this.selecting]=location;else this.destination=location;this.selecting='destination';this.candidates.replaceChildren();this.preview();};
       this.candidates.append(button);
     }
-    this.hint.textContent=options.length>1?'此处有多条道路，请确认层级和行驶方向。':`设为${this.selecting==='start'?'起点':'终点'}：`;
+    this.hint.textContent=options.length>1?'此处有多条道路，请确认层级和行驶方向。':`设为${this.selecting==='start'?'起点':this.selecting==='destination'?'终点':`途经点 ${this.selecting+1}`}：`;
   }
   private world(px:number,py:number):{x:number;z:number} {return {x:this.center.x+(px-this.width/2)/this.scale,z:this.center.z+(py-this.height/2)/this.scale};}
   private zoom(factor:number,px:number,py:number):void {const before=this.world(px,py);this.scale=Math.max(.007,Math.min(8,this.scale*factor));const after=this.world(px,py);this.center.x+=before.x-after.x;this.center.z+=before.z-after.z;this.draw();}
@@ -151,6 +163,7 @@ export class NavigationMapPanel {
     for(const place of network.routing?.places??[]){const p=point(place.position);label(`${place.kind==='interchange'?'◇':'▣'} ${place.name}`,p.x,p.y);}
     const pin=(p:RoadPoint,text:string,color:string)=>{const q=point(p);c.fillStyle=color;c.beginPath();c.arc(q.x,q.y,10,0,Math.PI*2);c.fill();c.fillStyle='#fff';c.fillText(text,q.x,q.y);};
     if(this.origin??route?.start)pin((this.origin??route!.start).point,'起','#16765b');if(this.destination)pin(this.destination.point,'终','#b84540');
+    this.waypoints.forEach((s,i)=>pin(s.point,String(i+1),'#a96c13'));
     const pose=this.navigation.pose,p=point(pose);c.save();c.translate(p.x,p.y);c.rotate(-pose.yaw);c.beginPath();c.moveTo(0,-11);c.lineTo(8,8);c.lineTo(0,4);c.lineTo(-8,8);c.closePath();c.fillStyle='#146caa';c.strokeStyle='#fff';c.lineWidth=2;c.fill();c.stroke();c.restore();
     const raw=100/this.scale,power=10**Math.floor(Math.log10(raw)),metres=Math.max(1,Math.floor(raw/power)*power),pixels=metres*this.scale;
     c.fillStyle='#233d49';c.fillRect(22,this.height-24,pixels,3);c.textAlign='left';c.fillText(navigationDistance(metres),22,this.height-36);

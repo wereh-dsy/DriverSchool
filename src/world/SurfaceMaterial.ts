@@ -26,6 +26,22 @@ export interface SurfaceReference {
   readonly surfaceId: string;
   readonly roadId?: string;
   readonly segmentId?: string;
+  readonly kind?: 'road' | 'junction' | 'terrain';
+  readonly segmentIndex?: number;
+  /** Authored one-hop relations, prepared once by the map; never graph-searched. */
+  readonly connectedRoadIds?: ReadonlySet<string>;
+  readonly structureKind?: string;
+}
+
+export type SupportLayerClass = 'SAME_LAYER' | 'POSSIBLE_LAYER_SWITCH' | 'GRADE_SEPARATED';
+export interface SupportCandidateDecision {
+  eligible: boolean;
+  reason?: string;
+  layerClass: SupportLayerClass;
+  predictedError: number;
+  continuityRank: number;
+  topologyRank: number;
+  normalDot: number;
 }
 
 /** Per-wheel support hint. Maps revalidate footprint on every query. */
@@ -37,6 +53,9 @@ export interface SurfaceSupportHint {
   withinTick: boolean;
   previousReachable: boolean;
   transientSurface?: string;
+  /** Called inside the existing footprint query, before any score comparison. */
+  evaluateCandidate?: (height: number, nx: number, ny: number, nz: number,
+    reference: SurfaceReference | undefined) => SupportCandidateDecision;
 }
 
 export interface SurfaceCandidateDebug {

@@ -64,7 +64,14 @@ export function runVerticalDynamicsSelfTest() {
       Math.abs(g.effectiveRadius! - config.wheelRadius) < .002;
   }), 'static radial compression is finite and uses the existing loaded-radius datum');
   const continuity = new WheelSupportContinuity(); continuity.seed(contactsAt());
-  continuity.beginStep(); continuity.prepare(resting.suspension.getVerticalSnapshot(), config.wheelRadius);
+  const fieldFrame = resting.suspension.getVerticalSnapshot(), fieldCorner = fieldFrame.wheels.frontLeft;
+  // A steep test plane must still lie inside the test wheel's real sphere/ray
+  // reach. The old fixture queried (0,0) using a different wheel's flat mount.
+  const fieldMountY = config.wheelRadius * Math.sqrt(5) + fieldCorner.restSuspensionLength;
+  const fieldGeometry = { ...fieldFrame, wheels: { ...fieldFrame.wheels, frontLeft: { ...fieldCorner,
+    attachmentWorldPosition: { x: 0, y: fieldMountY, z: 0 },
+    wheelCenterWorld: { x: 0, y: config.wheelRadius * Math.sqrt(5), z: 0 } } } };
+  continuity.beginStep(); continuity.prepare(fieldGeometry, config.wheelRadius);
   const smoothField = { sampleRoadSurface: (x: number, z: number) => ({
     ...sampleGroundGeometry((sx, _sz) => 2 * sx, x, z), ...surfaceResponseAliases(SURFACE_MATERIALS.asphalt) }) };
   continuity.sample(smoothField, 'frontLeft', 0, 0);

@@ -15,8 +15,11 @@ export const WHEEL_FLOAT_FIELDS = [
   'Fz', 'Fx', 'Fy', 'angularVelocity', 'slipRatio', 'slipAngle',
   'tyreCompression', 'tyreCompressionVelocity', 'effectiveRadius',
   'unsprungPosition', 'unsprungVelocity', 'unsprungAcceleration', 'tyreNormalForce', 'unsprungMass',
+  'predictedSurfaceHeight',
 ] as const;
-export const WHEEL_INT_FIELDS = ['grounded', 'surface', 'road', 'segment', 'surfaceType'] as const;
+export const WHEEL_INT_FIELDS = ['grounded', 'surface', 'road', 'segment', 'surfaceType',
+  'candidateLayerClass', 'previousLayerClass', 'supportSelectionReason', 'rejectedThisOuterTick',
+  'layerSwitchConfirmationState', 'mechanicalConstraintEligible', 'mechanicalConstraintRejectReason'] as const;
 export const BLACK_BOX_SETTINGS = Object.freeze({ physicsHz: 120, preSteps: 600, postSteps: 180,
   frameCapacity: 960, eventCapacity: 1024, dictionaryCapacity: 16384, maxEventsPerStep: 24,
   maxCandidatesPerQuery: 32, maxDetailQueriesPerStep: 24 });

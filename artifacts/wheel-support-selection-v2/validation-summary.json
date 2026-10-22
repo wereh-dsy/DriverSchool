@@ -1,0 +1,101 @@
+{
+  "map": {
+    "version": 484,
+    "unchanged": true,
+    "sha256": "C86B9DFEB9B9FE381BC8C4C51FD0DC9E2A009E5285FE7297905A9F487202E596"
+  },
+  "targeted": {
+    "wheelContact": 3426,
+    "supportAndMechanical": 987,
+    "verticalDynamics": 107,
+    "runtimeFixtures": 11
+  },
+  "episodes": {
+    "before": {
+      "droppedEvents": 10977,
+      "retainedEvents": 5,
+      "firstOccurrenceRetained": false,
+      "peakCount": 5
+    },
+    "after": {
+      "droppedEvents": 0,
+      "retainedEvents": 5,
+      "firstOccurrenceRetained": true,
+      "peakCount": 12001
+    }
+  },
+  "mountain": [
+    {
+      "name": "rough",
+      "phase": "support-v2",
+      "startS": 4544.967786863768,
+      "endS": 4619.967786863768,
+      "speedKmh": 60,
+      "samples": 468,
+      "mapQueries": 2164,
+      "contactPasses": 541,
+      "rmsAY": 2.846648298790041,
+      "peakAY": 7.08161282473601,
+      "pitchRate": 0.18939136720203023,
+      "rollRate": 0.010205538294968973,
+      "fullBump": 0,
+      "transitions": 0,
+      "rejections": 0,
+      "reasons": {},
+      "maxImpulse": 0,
+      "totalImpulse": 0,
+      "safety": 0,
+      "recovery": 0
+    },
+    {
+      "name": "smooth",
+      "phase": "support-v2",
+      "startS": 150,
+      "endS": 225,
+      "speedKmh": 60,
+      "samples": 468,
+      "mapQueries": 2164,
+      "contactPasses": 541,
+      "rmsAY": 0.017169476336041302,
+      "peakAY": 0.03466054073487625,
+      "pitchRate": 0.0004886712875869268,
+      "rollRate": 4.973337180583091e-16,
+      "fullBump": 0,
+      "transitions": 0,
+      "rejections": 0,
+      "reasons": {},
+      "maxImpulse": 0,
+      "totalImpulse": 0,
+      "safety": 0,
+      "recovery": 0
+    }
+  ],
+  "east": {
+    "name": "ramp-80",
+    "speed": 80,
+    "prescribedLongitudinalSpeed": false,
+    "speedAtIncident": 73.17537116416257,
+    "steps": 617,
+    "x": 2569.918386421575,
+    "z": -169.9415019396314,
+    "maxImpulse": 0,
+    "maxFz": 6938.786097736811,
+    "maxAY": 5.059821220988311,
+    "maxRollRate": 0.12351244953259613,
+    "maxVY": 0.8828212325658981,
+    "safety": 0,
+    "recovery": 0,
+    "invalidABA": 0,
+    "rejectedSamples": 0,
+    "rampSeen": true,
+    "mainlineAfterRamp": 0
+  },
+  "typecheck": "passed",
+  "build": {
+    "command": "pnpm run build -BasicValidation",
+    "runs": 1,
+    "result": "passed",
+    "publishedEntry": "assets/index-Ch8EHwsW.js",
+    "coreSelftests": "skipped as requested"
+  }
+}

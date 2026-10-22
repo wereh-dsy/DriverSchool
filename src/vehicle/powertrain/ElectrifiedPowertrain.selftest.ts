@@ -23,6 +23,20 @@ export function runElectrifiedPowertrainSelfTest() {
   const tick = (p: ElectricPowertrain, steps = 120) => {
     for (let i = 0; i < steps; i++) { p.prepare(c); p.update(c); p.finishStep(c.vehicleSpeed); }
   };
+  // Tiny pedal changes across coast must not remove nearly full recovery or
+  // jump straight to positive torque. Exercise both installed EV topologies.
+  for (const config of [tesla, taycan]) {
+    let previous: number | undefined;
+    for (const throttle of [.0198, .0199, .02, .0201, .0202]) {
+      const crossing = new ElectricPowertrain(config); crossing.reset({ driveSelector: 'D' });
+      const context = { ...c, throttle, vehicleSpeed: 15, drivenWheelAngularVelocity: 15 / config.wheelRadius };
+      for (let i = 0; i < 240; i++) { crossing.prepare(context); crossing.update(context); crossing.finishStep(15); }
+      const torque = crossing.axleOutput.drivenWheelTorque;
+      if (previous !== undefined) assert(torque >= previous && torque - previous < 25,
+        'continuous monotonic coast/drive boundary for single and dual motors');
+      previous = torque;
+    }
+  }
   const b = new BatteryPack(tesla.battery), ocv = b.openCircuitVoltage, energy = b.remainingEnergyKWh;
   const power = b.integrate(dt, 150000);
   assert(b.voltage < ocv && b.current > 0 && Math.abs(b.current * b.voltage - power) < 1e-6, 'terminal voltage/current sag and power identity');

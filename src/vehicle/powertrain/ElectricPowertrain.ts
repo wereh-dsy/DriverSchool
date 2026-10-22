@@ -173,15 +173,19 @@ export class ElectricPowertrain implements Powertrain {
     // Ordinary pedal/hold/cruise blending keeps its existing propulsion interlock.
     const launchRelease = this.launchControl?.state === 'LAUNCHING' && context.brake < .01;
     const service = !launchRelease && ((context.totalServiceBrakeTorque ?? 0) > 1 || context.brake > .01);
+    // Fade to coast at the existing propulsion threshold. Previously 98% of
+    // lift-off recovery was still present immediately before positive drive.
+    const driveThreshold = .02;
     const lift = this.config.mass * regen.maximumLiftOffDeceleration * this.config.wheelRadius * regen.strength *
-      this.mode.liftOffMultiplier * (1 - clamp01(context.throttle));
+      this.mode.liftOffMultiplier * clamp01(1 - context.throttle / driveThreshold);
     this.regenRequested = this.operational && this.driving ? service ? (context.totalServiceBrakeTorque ?? context.drivenAxleBrakeTorque ?? 0) * (regen.brakeRegenFraction ?? 1) : lift : 0;
     const allowed = this.operational && this.driving && !context.autoHoldHolding && !context.parkingBrakeActive;
-    if (context.throttle > .02 && !service) {
+    if (context.throttle > driveThreshold && !service) {
       this.coordinator.allocate(context, this.frontDriveUnit, this.rearDriveUnit, this.mode, this.launchControl?.state === 'LAUNCHING');
+      const coastToDrive = clamp01((context.throttle - driveThreshold) / driveThreshold);
       const reverseTaper = direction < 0 ? clamp01((this.config.fixedReduction.reverseSpeedLimit - speed) / 1) : 1;
-      this.deliverUnit(this.frontDriveUnit, direction * this.coordinator.frontTorqueRequest * reverseTaper, context, direction, allowed);
-      this.deliverUnit(this.rearDriveUnit, direction * this.coordinator.rearTorqueRequest * reverseTaper, context, direction, allowed);
+      this.deliverUnit(this.frontDriveUnit, direction * this.coordinator.frontTorqueRequest * reverseTaper * coastToDrive, context, direction, allowed);
+      this.deliverUnit(this.rearDriveUnit, direction * this.coordinator.rearTorqueRequest * reverseTaper * coastToDrive, context, direction, allowed);
     } else {
       const f = this.frontDriveUnit, r = this.rearDriveUnit;
       const capacityF = f ? f.regenLimit * f.transmission.ratio / f.transmission.efficiency : 0;

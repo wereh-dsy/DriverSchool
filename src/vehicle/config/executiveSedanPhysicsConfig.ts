@@ -30,7 +30,7 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     drivetrainType: 'AWD', drivetrainLayout: 'AWD', frontTorqueSplit: .75, rearTorqueSplit: .25 });
   config.awd = { mode: 'on-demand', accelerationRearTorqueSplit: .40, maximumRearTorqueSplit: .50, response: 2.4 };
   config.engine = { ...config.engine, layout: 'INLINE', cylinderCount: 4, displacementL: 2.0, idleRPM: 780, engineInertia: .43,
-    partThrottleExponent: .85, throttleResponse: 3.2, throttleResponseRate: 3.2, throttleReleaseResponse: 7.5,
+    partThrottleExponent: .65, throttleResponse: 3.2, throttleResponseRate: 3.2, throttleReleaseResponse: 7.5,
     engineFrictionTorque: 16, engineBrakingStrength: 67, engineBraking: 83,
     idleControlBandRPM: 280, idleControlStrength: 85, idleControlMaxTorque: 85,
     redlineRPM: 6400, revLimiterRPM: 6400, maxRPM: 6600, redlineWarningRPM: 6000,
@@ -50,8 +50,8 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     gearRatios: { 1: 3.45, 2: 2.18, 3: 1.52, 4: 1.12, 5: .87, 6: .69, 7: .56 },
     reverseRatio: -3.1, finalDrive: 3.85, finalDriveRatio: 3.85, shiftTime: .30, reverseLockoutSpeed: 1,
     dct: { shiftStrategy: { ...normalShift }, clutchCapacity: 440, couplingStiffness: 11,
-      clutchApplyRate: 1.25, clutchReleaseRate: 7, creepEngagement: .10,
-      launchFullyEngagedSpeed: 4.8, unexpectedShiftDelay: .14, parkMaximumSpeed: .35 } };
+      clutchApplyRate: 1.4, clutchReleaseRate: 7, creepEngagement: .10,
+      launchFullyEngagedSpeed: 4.5, unexpectedShiftDelay: .14, parkMaximumSpeed: .35 } };
   const braking = 18500;
   config.brakes = { ...config.brakes, pedalCurveExponent: 1.18, applyResponse: 10, releaseResponse: 17,
     frontBrakeBias: .65, maxBrakeForce: braking, response: 10,
@@ -63,7 +63,7 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     steeringDamping: 10, steeringReturnRate: 4.8,
     returnProfile: { lowSpeedRate: .50, highSpeedRate: 4.8, speedReference: 14 },
     highSpeedReferenceSpeed: 17, highSpeedMinimumAuthority: .20, ackermannFactor: .88 };
-  config.suspension = { ...config.suspension, rideHeight: .145, restLength: .37,
+  config.suspension = { ...config.suspension, rideHeight: .145, restLength: .37, bumpStopStiffness: 220000,
     kinematics: {
       front: { topology: 'MULTI_LINK', staticCamber: -.008, camberGainPerMeter: -.28, staticToe: 0, bumpToeGainPerMeter: .008, antiDiveRatio: .15, antiSquatRatio: .08 },
       rear: { topology: 'MULTI_LINK', staticCamber: -.012, camberGainPerMeter: -.26, staticToe: .0005, bumpToeGainPerMeter: .018, antiDiveRatio: 0, antiSquatRatio: .15 },
@@ -73,10 +73,10 @@ export function createExecutiveSedanPhysicsConfig(): VehiclePhysicsConfig {
     damperCompressionFront: 2592.5, damperCompressionRear: 2380,
     damperReboundFront: 3910, damperReboundRear: 3612.5, suspensionTravel: .17,
     antiRollStiffnessFront: 14500, antiRollStiffnessRear: 11500, antiRollStiffness: 26000 };
-  config.tires = { ...config.tires, wheelInertia: 1.65, longitudinalGrip: 1.03, lateralGrip: 1.04,
+  // Apply the profile first so axle calibration is retained.
+  config.tires = { ...calibrateTyres(config.tires, 'PREMIUM_TOURING'), wheelInertia: 1.65, longitudinalGrip: 1.03, lateralGrip: 1.04,
     gripCoefficient: 1.03, corneringStiffnessFront: 103000, corneringStiffnessRear: 108000,
     rollingResistance: .0115, peakSlipRatio: .105, peakSlipAngle: radians(7.5), gripFalloff: .32 };
-  config.tires = calibrateTyres(config.tires, 'PREMIUM_TOURING');
   config.capabilities = { ...config.capabilities, tpms: true };
   config.tires.thermalPressureFront = createTyreThermalPressureConfig(250, { thermalCapacity: 32000 });
   config.tires.verticalCompliance = { stiffness: 240000, damping: 2400, maximumCompression: .055 };
