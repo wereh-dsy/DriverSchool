@@ -1,0 +1,6891 @@
+{
+  "mapVersion": 489,
+  "sourceHash": "94a9be105430175c0b95c416ec4ab9824da2c4b8a8851ef017478e39ade5ecdb",
+  "complete": true,
+  "passed": true,
+  "protocol": "Two original 36m fixtures plus 4 speeds × 5 lateral positions over runtime segments 16→17→18→19. Actual SUV config, 120Hz, static settling, prescribed longitudinal speed only. Real nearby colliders and support/classification code retained.",
+  "rows": [
+    {
+      "name": "fixture-1",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3410,
+        "z": -339.669472750593,
+        "y": 0,
+        "yaw": -1.5707268714904785,
+        "speed": 145.8198989868164,
+        "length": 36,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 107,
+      "seconds": 0.8916666666666666,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18
+        ],
+        "rearRight": [
+          16,
+          17,
+          18
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.30148663954080945,
+      "rmsAY": 0.14072793918481205,
+      "peakFz": 7575.17795778437,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3411.7846495019467,
+          "z": -340.50459670598167,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3411.7847654923053,
+          "z": -338.83459671000975,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3408.8896495043996,
+          "z": -340.50439563287523,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3408.889765494758,
+          "z": -338.8343956369033,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 6,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.806832265647,
+          "z": -340.50473715730135,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 6,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8069482560054,
+          "z": -338.83473716132943,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 15,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.942711847206,
+          "z": -340.5047465948591,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 15,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9428278375644,
+          "z": -338.8347465988872,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.9993886603866,
+          "z": -340.5058618162369,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.999504650745,
+          "z": -338.835861820265,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 62,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.8074136955374,
+          "z": -340.5058484825572,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 62,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.807529685896,
+          "z": -338.8358484865853,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8695304362413,
+          "z": -340.5069640817671,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8696464266,
+          "z": -338.83696408579516,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true
+    },
+    {
+      "name": "fixture-2",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3410,
+        "z": -340.709792444319,
+        "y": 0,
+        "yaw": -1.5765761137008667,
+        "speed": 148.99313507080078,
+        "length": 36,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 105,
+      "seconds": 0.875,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18
+        ],
+        "rearRight": [
+          16,
+          17,
+          18
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.3041340293809894,
+      "rmsAY": 0.1420858462670089,
+      "peakFz": 7595.32069580774,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3411.796848466744,
+          "z": -341.5344208746054,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3411.7871962763516,
+          "z": -339.86444876848486,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3408.901896817173,
+          "z": -341.55115326456377,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3408.8922446267807,
+          "z": -339.8811811584432,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 6,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.863065463868,
+          "z": -341.52247844767754,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 6,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.853413273476,
+          "z": -339.852506341557,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 15,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3414.0649820474464,
+          "z": -341.5213113998562,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 15,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3414.055329857054,
+          "z": -339.85133929373563,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 53,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3430.062464219352,
+          "z": -341.42884833226316,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 53,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3430.0528120289596,
+          "z": -339.7588762261426,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 61,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.929197830766,
+          "z": -341.42961859216797,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 61,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.9195456403736,
+          "z": -339.7596464860474,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 99,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.9333949707207,
+          "z": -341.3371167130582,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 99,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.923742780328,
+          "z": -339.6671446069377,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true
+    },
+    {
+      "name": "sweep-60-0",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -341.375,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 60,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 375,
+      "seconds": 3.125,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2263239659257408,
+      "rmsAY": 0.05865215090830879,
+      "peakFz": 7088.827167942878,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494744,
+          "z": -342.2099999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494735,
+          "z": -340.53999999999957,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805179,
+          "z": -342.20999999999975,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805178,
+          "z": -340.53999999999974,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-60--0.4",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -341.775,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 60,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 375,
+      "seconds": 3.125,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2263239659257408,
+      "rmsAY": 0.05865215090830879,
+      "peakFz": 7088.827167942878,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494744,
+          "z": -342.60999999999956,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494735,
+          "z": -340.93999999999954,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805179,
+          "z": -342.60999999999973,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805178,
+          "z": -340.9399999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-60-0.4",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -340.975,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 60,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 375,
+      "seconds": 3.125,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2263239659257408,
+      "rmsAY": 0.05865215090830879,
+      "peakFz": 7088.827167942878,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494744,
+          "z": -341.8099999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494735,
+          "z": -340.1399999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805179,
+          "z": -341.8099999999998,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805178,
+          "z": -340.13999999999976,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-60--0.8",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -342.175,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 60,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 375,
+      "seconds": 3.125,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2263239659257408,
+      "rmsAY": 0.05865215090830879,
+      "peakFz": 7088.827167942878,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494744,
+          "z": -343.0099999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494735,
+          "z": -341.3399999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805179,
+          "z": -343.00999999999976,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805178,
+          "z": -341.33999999999975,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-60-0.8",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -340.575,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 60,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 375,
+      "seconds": 3.125,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2263239659257408,
+      "rmsAY": 0.05865215090830879,
+      "peakFz": 7088.827167942878,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.586062624536,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.6910626200065,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 88,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.805420581993,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 109,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.825084063066,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 203,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.775121075427,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 224,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.796580126056,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494744,
+          "z": -341.40999999999957,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 318,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7465421494735,
+          "z": -339.73999999999955,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805179,
+          "z": -341.40999999999974,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 339,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.768066805178,
+          "z": -339.7399999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-90-0",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -341.375,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 90,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 250,
+      "seconds": 2.0833333333333335,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2562738925450623,
+      "rmsAY": 0.08108300495309916,
+      "peakFz": 7236.311399760724,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-90--0.4",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -341.775,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 90,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 250,
+      "seconds": 2.0833333333333335,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2562738925450623,
+      "rmsAY": 0.08108300495309916,
+      "peakFz": 7236.311399760724,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-90-0.4",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -340.975,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 90,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 250,
+      "seconds": 2.0833333333333335,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2562738925450623,
+      "rmsAY": 0.08108300495309916,
+      "peakFz": 7236.311399760724,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-90--0.8",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -342.175,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 90,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 250,
+      "seconds": 2.0833333333333335,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2562738925450623,
+      "rmsAY": 0.08108300495309916,
+      "peakFz": 7236.311399760724,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-90-0.8",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -340.575,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 90,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 250,
+      "seconds": 2.0833333333333335,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2562738925450623,
+      "rmsAY": 0.08108300495309916,
+      "peakFz": 7236.311399760724,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.6555039362343,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.7605039317045,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 59,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9406887588034,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 73,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9652062859236,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.773445867327,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 149,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7953935172445,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 212,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.814982433845,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 226,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8364779082085,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-120-0",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -341.375,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 120,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 188,
+      "seconds": 1.5666666666666667,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2811074130973875,
+      "rmsAY": 0.10322247512596174,
+      "peakFz": 7413.019884639597,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-120--0.4",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -341.775,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 120,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 188,
+      "seconds": 1.5666666666666667,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2811074130973875,
+      "rmsAY": 0.10322247512596174,
+      "peakFz": 7413.019884639597,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-120-0.4",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -340.975,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 120,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 188,
+      "seconds": 1.5666666666666667,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2811074130973875,
+      "rmsAY": 0.10322247512596174,
+      "peakFz": 7413.019884639597,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-120--0.8",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -342.175,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 120,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 188,
+      "seconds": 1.5666666666666667,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2811074130973875,
+      "rmsAY": 0.10322247512596174,
+      "peakFz": 7413.019884639597,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-120-0.8",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -340.575,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 120,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 188,
+      "seconds": 1.5666666666666667,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.2811074130973875,
+      "rmsAY": 0.10322247512596174,
+      "peakFz": 7413.019884639597,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7249439948337,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.829943990304,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 44,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.9335192300236,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 54,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.819141454305,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 101,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7742674191086,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 112,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.933450072778,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 159,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8832210490923,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 169,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7660794215803,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-150-0",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -341.375,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 150,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 150,
+      "seconds": 1.25,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.304955222980505,
+      "rmsAY": 0.12372834584307017,
+      "peakFz": 7601.71030677563,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -342.21,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -340.54,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-150--0.4",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -341.775,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 150,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 150,
+      "seconds": 1.25,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.304955222980505,
+      "rmsAY": 0.12372834584307017,
+      "peakFz": 7601.71030677563,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -342.60999999999996,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -340.94,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-150-0.4",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -340.975,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 150,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 150,
+      "seconds": 1.25,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.304955222980505,
+      "rmsAY": 0.12372834584307017,
+      "peakFz": 7601.71030677563,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -341.81,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -340.14000000000004,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-150--0.8",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -342.175,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 150,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 150,
+      "seconds": 1.25,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.304955222980505,
+      "rmsAY": 0.12372834584307017,
+      "peakFz": 7601.71030677563,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -343.01,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -341.34000000000003,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    },
+    {
+      "name": "sweep-150-0.8",
+      "mapVersion": 489,
+      "vehicleId": "road-suv-v6-8at",
+      "roadId": "regional:G17:out:split306:lane64",
+      "options": {
+        "x": 3400,
+        "z": -340.575,
+        "y": 0,
+        "yaw": -1.5707963267948966,
+        "speed": 150,
+        "length": 52,
+        "roadId": "regional:G17:out:split306:lane64"
+      },
+      "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+      "warmupRejections": 0,
+      "ticks": 150,
+      "seconds": 1.25,
+      "seam17to18": true,
+      "coveredSegments": {
+        "frontLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "frontRight": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearLeft": [
+          16,
+          17,
+          18,
+          19
+        ],
+        "rearRight": [
+          16,
+          17,
+          18,
+          19
+        ]
+      },
+      "minGrounded": 4,
+      "airborneTicks": 0,
+      "groundedTransitions": 0,
+      "rejection": 0,
+      "peakImpulse": 0,
+      "safety": 0,
+      "recovery": 0,
+      "nonFiniteRecovery": 0,
+      "peakAY": 0.304955222980505,
+      "rmsAY": 0.12372834584307017,
+      "peakFz": 7601.71030677563,
+      "seams": [
+        {
+          "tick": 0,
+          "wheel": "frontLeft",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "frontRight",
+          "to": 16,
+          "x": 3401.7943828003345,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearLeft",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 0,
+          "wheel": "rearRight",
+          "to": 16,
+          "x": 3398.8993827958047,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 35,
+          "wheel": "frontRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.931384267559,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearLeft",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 43,
+          "wheel": "rearRight",
+          "from": 16,
+          "to": 17,
+          "x": 3413.8134861514573,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 81,
+          "wheel": "frontRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.91312788322,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearLeft",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 89,
+          "wheel": "rearRight",
+          "from": 17,
+          "to": 18,
+          "x": 3429.7958841820514,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 127,
+          "wheel": "frontRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.8812746497783,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearLeft",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -341.40999999999997,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        },
+        {
+          "tick": 135,
+          "wheel": "rearRight",
+          "from": 18,
+          "to": 19,
+          "x": 3445.7637581269323,
+          "z": -339.74,
+          "height": 0,
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "grounded": true,
+          "rejected": false
+        }
+      ],
+      "rampSeen": false,
+      "mainlineAfterRamp": 0,
+      "invalidABA": 0,
+      "passed": true,
+      "covered16Through19": true
+    }
+  ]
+}

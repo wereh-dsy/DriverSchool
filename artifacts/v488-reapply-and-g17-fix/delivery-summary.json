@@ -1,0 +1,62 @@
+{
+  "restorationComplete": true,
+  "restoredFileCount": 67,
+  "mapVersion": 489,
+  "mapDifferences": [
+    {
+      "path": "version",
+      "before": 488,
+      "after": 489
+    }
+  ],
+  "runtimeChangedFiles": [
+    "src/vehicle/physics/WheelSupportContinuity.ts"
+  ],
+  "testChangedFiles": [
+    "src/vehicle/physics/WheelSupportContinuity.selftest.ts"
+  ],
+  "g17Passed": true,
+  "g17Cases": 22,
+  "adjacentAuditPassed": true,
+  "wrongUnreachableLayerSwitches": {
+    "before": 95,
+    "after": 0
+  },
+  "supportTests": 1132,
+  "navigationTests": 35,
+  "typecheck": {
+    "passed": true,
+    "earlierTestFixtureReadonlyErrorCorrected": true
+  },
+  "eastABAPassed": true,
+  "build": {
+    "passed": true,
+    "command": "pnpm run build -BasicValidation",
+    "invocationsThisTask": 1,
+    "exitCode": 0,
+    "typecheck": true,
+    "productionBuild": true,
+    "atomicDistPublished": true,
+    "mapVersion": 489,
+    "sourceHash": "94a9be105430175c0b95c416ec4ab9824da2c4b8a8851ef017478e39ade5ecdb",
+    "runtimePath": "dist/assets/city-main.runtime-75a531acbd55.json",
+    "runtimeHash": "75a531acbd5502ad5197015f02f82fa0cfb8c2c48d9ccaf713c58190de5ddbc6",
+    "runtimeEqualsSourceCompilation": true,
+    "originalV488RuntimeHash": "b0fb53b4186e24ee05b059452d66bcaa39e6d7037f311f437d37b88ed8984d0c",
+    "runtimeMatchesOriginalV488WithOnlyMapVersionChanged": true,
+    "activeEntry": "assets/index-BZtxB-BY.js",
+    "publishedEntryContainsContinuationFix": true,
+    "entryReferencesOldV486": false,
+    "entryReferencesOldV488": false,
+    "roads": 2944,
+    "objects": 7103,
+    "signs": 3057,
+    "indexUpdatedAt": "2026-10-22T15:01:20.520Z",
+    "restoredGeneratorHashesVerified": true,
+    "protectedFilesVerified": true,
+    "warnings": [
+      "Vite chunk size warning (>500kB); successful build"
+    ],
+    "scope": "No full core, all-vehicle, editor-wide tests or computer-use. Reopen/reload an already-open game to load the new hashed entry."
+  }
+}

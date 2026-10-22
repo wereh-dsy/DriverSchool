@@ -10,16 +10,25 @@ import { WHEEL_IDS } from '../src/vehicle/physics/WheelContact';
 import { runWheelContactSelfTest } from '../src/vehicle/physics/WheelContact.selftest';
 import { runVerticalDynamicsSelfTest } from '../src/vehicle/physics/VerticalDynamics.selftest';
 import { runSuspensionMechanicsSelfTest } from '../src/vehicle/physics/SuspensionMechanics.selftest';
+import {roadPoints} from '../src/world/city/geometry';
+import {bounds,overlaps} from '../src/editor/EditorGeometry';
 
 const fixtureDir = 'artifacts/east-interchange-contact-stability-fix';
 const dir = process.env.EAST_INTERCHANGE_ARTIFACT_DIR ?? fixtureDir;
 fs.mkdirSync(dir, { recursive: true });
 const original = JSON.parse(fs.readFileSync(`${fixtureDir}/original-local-map.json`, 'utf8'));
-const source = JSON.parse(fs.readFileSync('src/world/regional/regional-main.json', 'utf8'));
+const sourcePath=process.env.EAST_INTERCHANGE_MAP_SOURCE??'src/world/regional/regional-main.json';
+const source = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
 const ids = new Set(original.roads.map((r: any) => r.id));
-const local = { ...original, version: source.version,
+let local = { ...original, version: source.version,
   roads: source.roads.filter((r: any) => ids.has(r.id)).map((r: any) => r.id.includes('turbine')
     ? { ...r, centerline: r.centerline.filter((p: any) => p.x >= 2500 && p.z < 0) } : r) };
+if(process.env.EAST_INTERCHANGE_FULL_CONTEXT==='1'){
+  const area={minX:2500,maxX:2710,minZ:-250,maxZ:-75},actualIds=new Set<string>(source.roads.filter((r:any)=>overlaps(bounds(roadPoints(r),20),area)).map((r:any)=>r.id));
+  for(const j of source.intersections)if(j.connections.some((c:any)=>actualIds.has(c.roadId)))for(const c of j.connections)actualIds.add(c.roadId);
+  for(const l of source.roadLinks??[])if(actualIds.has(l.from.roadId)||actualIds.has(l.to.roadId)){actualIds.add(l.from.roadId);actualIds.add(l.to.roadId);}
+  local={...original,version:source.version,roadNames:source.roadNames,roads:source.roads.filter((r:any)=>actualIds.has(r.id)),roadLinks:source.roadLinks?.filter((l:any)=>actualIds.has(l.from.roadId)&&actualIds.has(l.to.roadId)),intersections:source.intersections.filter((j:any)=>j.connections.every((c:any)=>actualIds.has(c.roadId))),objects:source.objects.filter((o:any)=>o.position.x>area.minX-80&&o.position.x<area.maxX+80&&o.position.z>area.minZ-80&&o.position.z<area.maxZ+80),signs:source.signs?.filter((s:any)=>actualIds.has(s.roadId)&&s.position.x>area.minX-80&&s.position.x<area.maxX+80&&s.position.z>area.minZ-80&&s.position.z<area.maxZ+80),connectionPorts:source.connectionPorts?.filter((p:any)=>actualIds.has(p.endpoint.roadId))};
+}
 const config = createTeslaModel3PhysicsConfig(), dt = 1 / 120;
 let assertions = 0;
 function assert(value: boolean, message: string) { assertions++; if (!value) throw new Error(message); }
@@ -188,7 +197,11 @@ if (process.argv.includes('--targeted-only')) {
 } else if (process.argv.includes('--geometry-only')) {
   console.log(localGeometryRegression());
 } else if (process.argv.includes('--ramp-only')) {
-  drive(local, 80, 'ramp-80', true, true);
+  const row=drive(local, 80, 'ramp-80', true, true);
+  assert(row.invalidABA===0&&row.rejectedSamples===0,'incident has no A-B-A or support rejection');
+  assert(row.rampSeen&&row.mainlineAfterRamp===0,'legitimate ramp transition remains available');
+  assert(row.maxImpulse<1000&&row.safety===0&&row.recovery===0,'incident has bounded support without recovery');
+  fs.writeFileSync(`${dir}/ramp-summary.json`,JSON.stringify({sourcePath,mapVersion:source.version,fullSourceContext:process.env.EAST_INTERCHANGE_FULL_CONTEXT==='1',assertions,row},null,2));
 } else {
   const rows = [80, 120, 140].map(speed => drive(local, speed, `after-${speed}`));
   rows.push(drive(original, 140, 'original-map-protected-140'));

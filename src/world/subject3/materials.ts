@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { wetRoadMaterial } from '../environment/WetRoadMaterial';
+import { roadSurfaceDetail } from '../environment/RoadSurfaceDetail';
+import { VISUAL_ENVIRONMENT as V } from '../environment/VisualEnvironmentConfig';
 
 export interface Subject3Materials {
   readonly grass: THREE.MeshStandardMaterial;
@@ -36,7 +38,7 @@ export interface Subject3Materials {
 }
 
 const markingOptions = {
-  roughness: 0.8,
+  roughness: V.markingRoughness,
   polygonOffset: true,
   polygonOffsetFactor: -3,
   polygonOffsetUnits: -3,
@@ -44,23 +46,23 @@ const markingOptions = {
 
 export const createSubject3Materials = (): Subject3Materials => ({
   grass: new THREE.MeshStandardMaterial({ color: 0x6b7f52, roughness: 1 }),
-  asphalt: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x33383b, roughness: 0.96 })),
+  asphalt: wetRoadMaterial(roadSurfaceDetail(new THREE.MeshStandardMaterial({ color: 0x414548, roughness: V.roadRoughness }))),
   sidewalk: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0x9d9b93, roughness: 0.94 })),
   curb: wetRoadMaterial(new THREE.MeshStandardMaterial({ color: 0xc6c4b8, roughness: 0.9 })),
-  whitePaint: new THREE.MeshStandardMaterial({ color: 0xf2efe0, ...markingOptions }),
-  yellowPaint: new THREE.MeshStandardMaterial({ color: 0xe8c247, ...markingOptions }),
+  whitePaint: roadSurfaceDetail(new THREE.MeshStandardMaterial({ color: 0xdadbd4, ...markingOptions }), true),
+  yellowPaint: roadSurfaceDetail(new THREE.MeshStandardMaterial({ color: 0xd4ad45, ...markingOptions }), true),
   metal: new THREE.MeshStandardMaterial({ color: 0xa9afb0, roughness: 0.55, metalness: 0.5 }),
   darkMetal: new THREE.MeshStandardMaterial({ color: 0x353b3e, roughness: 0.62, metalness: 0.4 }),
   lampHead: new THREE.MeshStandardMaterial({ color: 0xd8d5c8, roughness: 0.7 }),
-  foliage: new THREE.MeshStandardMaterial({ color: 0x3f6a41, roughness: 0.96 }),
+  foliage: new THREE.MeshStandardMaterial({ color: 0x4e6549, roughness: 0.96 }),
   trunk: new THREE.MeshStandardMaterial({ color: 0x5b4631, roughness: 1 }),
   wall: new THREE.MeshStandardMaterial({ color: 0xbcb29a, roughness: 0.92 }),
   buildingLight: new THREE.MeshStandardMaterial({ color: 0xc9c2b4, roughness: 0.88 }),
-  buildingWarm: new THREE.MeshStandardMaterial({ color: 0xd8c1a4, roughness: 0.9 }),
+  buildingWarm: new THREE.MeshStandardMaterial({ color: 0xc6b7a3, roughness: 0.9 }),
   buildingCool: new THREE.MeshStandardMaterial({ color: 0xa9b3b8, roughness: 0.86 }),
   roof: new THREE.MeshStandardMaterial({ color: 0x4c5457, roughness: 0.82 }),
-  glass: new THREE.MeshStandardMaterial({ color: 0x6f95a5, roughness: 0.26, metalness: 0.12 }),
-  glassDark: new THREE.MeshStandardMaterial({ color: 0x3f5661, roughness: 0.3, metalness: 0.2 }),
+  glass: new THREE.MeshStandardMaterial({ color: 0x778b96, roughness: 0.3, metalness: 0.12 }),
+  glassDark: new THREE.MeshStandardMaterial({ color: 0x46555f, roughness: 0.32, metalness: 0.2 }),
   domeShell: new THREE.MeshStandardMaterial({ color: 0xd7dbe0, roughness: 0.42, metalness: 0.16 }),
   shelterRoof: new THREE.MeshStandardMaterial({ color: 0x3f7294, roughness: 0.75 }),
   signBlue: new THREE.MeshStandardMaterial({ color: 0x1f5ba6, roughness: 0.5 }),

@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { vehiclePaint, vehicleGlass } from './VehicleMaterials';
 import { surfaceGrid, surfaceLoft, surfaceQuad, surfaceRounded } from './SurfaceVehicleGeometry';
 import { gtiMaterial } from './GolfGTISurfaces';
 import type { VehicleVisualConfig, Vector3Tuple as P } from './VehicleVisualConfig';
@@ -28,10 +29,9 @@ export function gtiWindowFrame(c: VehicleVisualConfig, sign: number, material: T
 }
 
 export function buildGolfGTIExterior(root: T.Group, c: VehicleVisualConfig, assets?: VehicleAssetRegistry): void {
-  const paint = new T.MeshPhysicalMaterial({ color: c.body.color, roughness: .29, metalness: .25, clearcoat: .7, clearcoatRoughness: .25, side: T.DoubleSide });
+  const paint = vehiclePaint(c.body.color, { metalness: .25, side: T.DoubleSide });
   const trim = new T.MeshStandardMaterial({ color: c.body.trimColor, roughness: .55, side: T.DoubleSide });
-  const glass = new T.MeshPhysicalMaterial({ color: c.windowGlass!.color, transparent: true,
-    opacity: c.windowGlass!.windowOpacity, roughness: .12, metalness: .12, depthWrite: false, side: T.DoubleSide });
+  const glass = vehicleGlass(c.windowGlass!.color, c.windowGlass!.windowOpacity);
   const side = gtiMaterial('side', c, assets), front = gtiMaterial('front', c, assets), rear = gtiMaterial('rear', c, assets), badge = gtiMaterial('badge', c, assets);
   side.roughness = rear.roughness = .32; side.metalness = rear.metalness = .25;
   const h = c.vehicleLength / 2, w = c.vehicleWidth / 2;

@@ -1,0 +1,796 @@
+[
+  {
+    "file": "vehicle-blackbox-20261022-231949.json",
+    "sha256": "3e91a2aaacefefcd15016447ea8e8b3ae1030740a60fc5016f6735e4960a90ff",
+    "metadata": {
+      "mapId": "city-main",
+      "mapName": "清江市 · City Main",
+      "mapVersion": 488,
+      "mapContentVersion": "./assets/city-main.runtime-b0fb53b4186e.json",
+      "vehicleId": "road-suv-v6-8at",
+      "vehicleConfigVersion": 2,
+      "vehicleConfigHash": "fnv1a32:a5c7e566",
+      "buildVersion": "0.1.0+physics.4ca681649291",
+      "physicsHz": 120,
+      "settings": {
+        "physicsHz": 120,
+        "preSteps": 600,
+        "postSteps": 180,
+        "frameCapacity": 960,
+        "eventCapacity": 1024,
+        "dictionaryCapacity": 16384,
+        "maxEventsPerStep": 24,
+        "maxCandidatesPerQuery": 32,
+        "maxDetailQueriesPerStep": 24
+      },
+      "thresholds": {
+        "verticalVelocityDelta": 5,
+        "angularVelocityDelta": 2.5,
+        "mechanicalImpulse": 6000,
+        "contactRecoveryDistance": 0.5,
+        "surfaceHeightDelta": 0.12,
+        "normalDot": 0.6,
+        "supportReturnSteps": 18,
+        "supportReturnHeightDelta": 0.2,
+        "severeCollisionSpeed": 8,
+        "severeCollisionAttitude": 0.45,
+        "fullBumpTolerance": 0.001,
+        "automaticCooldownSteps": 600
+      },
+      "allocatedFrameBytes": 879360,
+      "coordinates": "+X right, +Y up, -Z forward; SI; yaw/pitch/roll YXZ; world Y is chassis heave datum",
+      "numericEncoding": "unavailable ICE RPM: null; non-finite numeric data: NaN/Infinity/-Infinity strings",
+      "collisionContactY": "unavailable (planar collision solver); null",
+      "droppedEvents": 0,
+      "dictionaryOverflow": 0
+    },
+    "incident": {
+      "step": 3438,
+      "time": 28.649999999999014,
+      "sequence": 317,
+      "type": "support-candidate-rejected",
+      "detail": {
+        "wheel": 0,
+        "contactSample": 2,
+        "lastContactSample": 1,
+        "count": 51,
+        "rejectionReason": "unreachable-layer-switch",
+        "firstStep": 3438,
+        "lastStep": 3455,
+        "firstTime": 28.649999999999014,
+        "lastTime": 28.791666666665673,
+        "previousSurface": 191,
+        "peakHeightDelta": 0,
+        "peakImpulse": 0,
+        "peakVY": 0.9580429402945195,
+        "peakAngularRate": 0.26358940155908506,
+        "lastRejectionReason": "unreachable-layer-switch",
+        "surface": 193,
+        "road": 142,
+        "segment": 194,
+        "heightDelta": 0,
+        "heightThreshold": 0.1725,
+        "supportValid": false,
+        "candidates": {
+          "x": 3429.759193291923,
+          "z": -340.50457675269905,
+          "referenceHeight": 4.965363736013493e-7,
+          "chosen": 193,
+          "shortlistLimit": 32,
+          "candidateCount": 18,
+          "truncated": false,
+          "candidates": [
+            {
+              "surface": 191,
+              "road": 142,
+              "segment": 192,
+              "segmentIndex": 17,
+              "height": 0,
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "distance": 0.0045920649286023425,
+              "score": 0.04592114582239702,
+              "accepted": true,
+              "reason": "higher-score"
+            },
+            {
+              "surface": 193,
+              "road": 142,
+              "segment": 194,
+              "segmentIndex": 18,
+              "height": 0,
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "distance": 0,
+              "score": 4.965363736013493e-7,
+              "accepted": true,
+              "reason": "selected-lowest-score"
+            },
+            {
+              "surface": 195,
+              "road": 196,
+              "segment": 197,
+              "segmentIndex": 30,
+              "height": 6.436505885927181,
+              "normal": {
+                "x": 0,
+                "y": 0.9999777408105037,
+                "z": -0.006672172323977659
+              },
+              "distance": 7.495423247301005,
+              "score": 81.59073786240086,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 198,
+              "road": 196,
+              "segment": 199,
+              "segmentIndex": 31,
+              "height": 6.446805399149148,
+              "normal": {
+                "x": 0,
+                "y": 0.9999948203540808,
+                "z": -0.003218581210667252
+              },
+              "distance": 4.29542324730096,
+              "score": 49.40103737562237,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 200,
+              "road": 196,
+              "segment": 199,
+              "segmentIndex": 31,
+              "height": 6.446805399149148,
+              "normal": {
+                "x": 0,
+                "y": 0.9999948203540808,
+                "z": -0.003218581210667252
+              },
+              "distance": 4.29542324730096,
+              "score": 49.601037375622376,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 201,
+              "road": 196,
+              "segment": 202,
+              "segmentIndex": 32,
+              "height": 6.4461933269046625,
+              "normal": {
+                "x": 0,
+                "y": 0.9999999791870877,
+                "z": 0.00020402407724877798
+              },
+              "distance": 1.2954232473009595,
+              "score": 19.400425303377883,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 203,
+              "road": 196,
+              "segment": 202,
+              "segmentIndex": 32,
+              "height": 6.4461933269046625,
+              "normal": {
+                "x": 0,
+                "y": 0.9999999791870877,
+                "z": 0.00020402407724877798
+              },
+              "distance": 1.2954232473009595,
+              "score": 19.600425303377882,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 204,
+              "road": 196,
+              "segment": 205,
+              "segmentIndex": 33,
+              "height": 6.442646381301036,
+              "normal": {
+                "x": 0,
+                "y": 0.999996251536851,
+                "z": 0.002738048985473633
+              },
+              "distance": 0,
+              "score": 6.442645884764662,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 206,
+              "road": 196,
+              "segment": 205,
+              "segmentIndex": 33,
+              "height": 6.442646381301036,
+              "normal": {
+                "x": 0,
+                "y": 0.999996251536851,
+                "z": 0.002738048985473633
+              },
+              "distance": 0,
+              "score": 6.642645884764662,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 207,
+              "road": 196,
+              "segment": 208,
+              "segmentIndex": 34,
+              "height": 6.441264820256484,
+              "normal": {
+                "x": 0,
+                "y": 0.9999908404504331,
+                "z": 0.004280071872810381
+              },
+              "distance": 0.5045767526990518,
+              "score": 11.487031850710629,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 209,
+              "road": 196,
+              "segment": 208,
+              "segmentIndex": 34,
+              "height": 6.441264820256484,
+              "normal": {
+                "x": 0,
+                "y": 0.9999908404504331,
+                "z": 0.004280071872810381
+              },
+              "distance": 0.5045767526990518,
+              "score": 11.687031850710628,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 210,
+              "road": 196,
+              "segment": 211,
+              "segmentIndex": 35,
+              "height": 6.4361286869644445,
+              "normal": {
+                "x": 0,
+                "y": 0.999980947095902,
+                "z": 0.006172960811697806
+              },
+              "distance": 1.70457675269904,
+              "score": 23.48189571741847,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 212,
+              "road": 196,
+              "segment": 211,
+              "segmentIndex": 35,
+              "height": 6.4361286869644445,
+              "normal": {
+                "x": 0,
+                "y": 0.999980947095902,
+                "z": 0.006172960811697806
+              },
+              "distance": 1.70457675269904,
+              "score": 23.68189571741847,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 213,
+              "road": 196,
+              "segment": 214,
+              "segmentIndex": 36,
+              "height": 6.420387336976184,
+              "normal": {
+                "x": 0,
+                "y": 0.9999709004094435,
+                "z": 0.0076287832795799175
+              },
+              "distance": 4.254576752698995,
+              "score": 48.96615436742976,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 215,
+              "road": 196,
+              "segment": 214,
+              "segmentIndex": 36,
+              "height": 6.420387336976184,
+              "normal": {
+                "x": 0,
+                "y": 0.9999709004094435,
+                "z": 0.0076287832795799175
+              },
+              "distance": 4.254576752698995,
+              "score": 49.16615436742976,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 216,
+              "road": 196,
+              "segment": 217,
+              "segmentIndex": 37,
+              "height": 6.416954284599954,
+              "normal": {
+                "x": 0,
+                "y": 0.9999568365974295,
+                "z": 0.009291121679418476
+              },
+              "distance": 4.70457675269904,
+              "score": 53.46272131505398,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 218,
+              "road": 196,
+              "segment": 217,
+              "segmentIndex": 37,
+              "height": 6.416954284599954,
+              "normal": {
+                "x": 0,
+                "y": 0.9999568365974295,
+                "z": 0.009291121679418476
+              },
+              "distance": 4.70457675269904,
+              "score": 53.662721315053986,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 219,
+              "road": 196,
+              "segment": 220,
+              "segmentIndex": 38,
+              "height": 6.38907971640049,
+              "normal": {
+                "x": 0,
+                "y": 0.9999280210309311,
+                "z": 0.011998031387087929
+              },
+              "distance": 7.704576752699041,
+              "score": 83.63484674685454,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            }
+          ]
+        }
+      }
+    },
+    "pose": {
+      "x": 3428.3083586904604,
+      "z": -339.669472750593,
+      "yaw": -1.5707268714904785,
+      "speedKph": 145.8198989868164
+    },
+    "groundedMin": 0
+  },
+  {
+    "file": "vehicle-blackbox-20261022-231858.json",
+    "sha256": "4bfc6577bb0ba7ac9cf1c31f1455c3d2ae489968f412f2a5d7f3c656a2860d91",
+    "metadata": {
+      "mapId": "city-main",
+      "mapName": "清江市 · City Main",
+      "mapVersion": 488,
+      "mapContentVersion": "./assets/city-main.runtime-b0fb53b4186e.json",
+      "vehicleId": "road-suv-v6-8at",
+      "vehicleConfigVersion": 2,
+      "vehicleConfigHash": "fnv1a32:a5c7e566",
+      "buildVersion": "0.1.0+physics.4ca681649291",
+      "physicsHz": 120,
+      "settings": {
+        "physicsHz": 120,
+        "preSteps": 600,
+        "postSteps": 180,
+        "frameCapacity": 960,
+        "eventCapacity": 1024,
+        "dictionaryCapacity": 16384,
+        "maxEventsPerStep": 24,
+        "maxCandidatesPerQuery": 32,
+        "maxDetailQueriesPerStep": 24
+      },
+      "thresholds": {
+        "verticalVelocityDelta": 5,
+        "angularVelocityDelta": 2.5,
+        "mechanicalImpulse": 6000,
+        "contactRecoveryDistance": 0.5,
+        "surfaceHeightDelta": 0.12,
+        "normalDot": 0.6,
+        "supportReturnSteps": 18,
+        "supportReturnHeightDelta": 0.2,
+        "severeCollisionSpeed": 8,
+        "severeCollisionAttitude": 0.45,
+        "fullBumpTolerance": 0.001,
+        "automaticCooldownSteps": 600
+      },
+      "allocatedFrameBytes": 879360,
+      "coordinates": "+X right, +Y up, -Z forward; SI; yaw/pitch/roll YXZ; world Y is chassis heave datum",
+      "numericEncoding": "unavailable ICE RPM: null; non-finite numeric data: NaN/Infinity/-Infinity strings",
+      "collisionContactY": "unavailable (planar collision solver); null",
+      "droppedEvents": 0,
+      "dictionaryOverflow": 0
+    },
+    "incident": {
+      "step": 2670,
+      "time": 22.24999999999938,
+      "sequence": 231,
+      "type": "support-candidate-rejected",
+      "detail": {
+        "wheel": 0,
+        "contactSample": 2,
+        "lastContactSample": 1,
+        "count": 39,
+        "rejectionReason": "unreachable-layer-switch",
+        "firstStep": 2670,
+        "lastStep": 2683,
+        "firstTime": 22.24999999999938,
+        "lastTime": 22.358333333332705,
+        "previousSurface": 145,
+        "peakHeightDelta": 0,
+        "peakImpulse": 0,
+        "peakVY": 0.6607895159096946,
+        "peakAngularRate": 0.2350166830824208,
+        "lastRejectionReason": "unreachable-layer-switch",
+        "surface": 147,
+        "road": 100,
+        "segment": 148,
+        "heightDelta": 0,
+        "heightThreshold": 0.1725,
+        "supportValid": false,
+        "candidates": {
+          "x": 3430.0450009211254,
+          "z": -341.53726686856214,
+          "referenceHeight": -0.0000206110894082136,
+          "chosen": 147,
+          "shortlistLimit": 32,
+          "candidateCount": 20,
+          "truncated": false,
+          "candidates": [
+            {
+              "surface": 145,
+              "road": 100,
+              "segment": 146,
+              "segmentIndex": 17,
+              "height": 0,
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "distance": 0.2903996941308819,
+              "score": 2.9040175523982272,
+              "accepted": true,
+              "reason": "higher-score"
+            },
+            {
+              "surface": 147,
+              "road": 100,
+              "segment": 148,
+              "segmentIndex": 18,
+              "height": 0,
+              "normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "distance": 0,
+              "score": 0.0000206110894082136,
+              "accepted": true,
+              "reason": "selected-lowest-score"
+            },
+            {
+              "surface": 149,
+              "road": 150,
+              "segment": 151,
+              "segmentIndex": 29,
+              "height": 6.417823387562772,
+              "normal": {
+                "x": 0,
+                "y": 0.9999589006105658,
+                "z": -0.009066261065524953
+              },
+              "distance": 9.262733131437871,
+              "score": 99.24517531303088,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 152,
+              "road": 150,
+              "segment": 153,
+              "segmentIndex": 30,
+              "height": 6.436505885927181,
+              "normal": {
+                "x": 0,
+                "y": 0.9999777408105037,
+                "z": -0.006672172323977659
+              },
+              "distance": 6.462733131437916,
+              "score": 71.06385781139575,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 154,
+              "road": 150,
+              "segment": 153,
+              "segmentIndex": 30,
+              "height": 6.436505885927181,
+              "normal": {
+                "x": 0,
+                "y": 0.9999777408105037,
+                "z": -0.006672172323977659
+              },
+              "distance": 6.462733131437916,
+              "score": 71.26385781139575,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 155,
+              "road": 150,
+              "segment": 156,
+              "segmentIndex": 31,
+              "height": 6.446805399149148,
+              "normal": {
+                "x": 0,
+                "y": 0.9999948203540808,
+                "z": -0.003218581210667252
+              },
+              "distance": 3.262733131437869,
+              "score": 39.074157324617246,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 157,
+              "road": 150,
+              "segment": 156,
+              "segmentIndex": 31,
+              "height": 6.446805399149148,
+              "normal": {
+                "x": 0,
+                "y": 0.9999948203540808,
+                "z": -0.003218581210667252
+              },
+              "distance": 3.262733131437869,
+              "score": 39.27415732461725,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 158,
+              "road": 150,
+              "segment": 159,
+              "segmentIndex": 32,
+              "height": 6.4461933269046625,
+              "normal": {
+                "x": 0,
+                "y": 0.9999999791870877,
+                "z": 0.00020402407724877798
+              },
+              "distance": 0.2627331314378696,
+              "score": 9.073545252372767,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 160,
+              "road": 150,
+              "segment": 159,
+              "segmentIndex": 32,
+              "height": 6.4461933269046625,
+              "normal": {
+                "x": 0,
+                "y": 0.9999999791870877,
+                "z": 0.00020402407724877798
+              },
+              "distance": 0.2627331314378696,
+              "score": 9.273545252372767,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 161,
+              "road": 150,
+              "segment": 162,
+              "segmentIndex": 33,
+              "height": 6.445473948024113,
+              "normal": {
+                "x": 0,
+                "y": 0.999996251536851,
+                "z": 0.002738048985473633
+              },
+              "distance": 0,
+              "score": 6.445494559113522,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 163,
+              "road": 150,
+              "segment": 162,
+              "segmentIndex": 33,
+              "height": 6.445473948024113,
+              "normal": {
+                "x": 0,
+                "y": 0.999996251536851,
+                "z": 0.002738048985473633
+              },
+              "distance": 0,
+              "score": 6.645494559113522,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 164,
+              "road": 150,
+              "segment": 165,
+              "segmentIndex": 34,
+              "height": 6.441264820256484,
+              "normal": {
+                "x": 0,
+                "y": 0.9999908404504331,
+                "z": 0.004280071872810381
+              },
+              "distance": 1.537266868562142,
+              "score": 21.813954116967313,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 166,
+              "road": 150,
+              "segment": 165,
+              "segmentIndex": 34,
+              "height": 6.441264820256484,
+              "normal": {
+                "x": 0,
+                "y": 0.9999908404504331,
+                "z": 0.004280071872810381
+              },
+              "distance": 1.537266868562142,
+              "score": 22.013954116967312,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 167,
+              "road": 150,
+              "segment": 168,
+              "segmentIndex": 35,
+              "height": 6.4361286869644445,
+              "normal": {
+                "x": 0,
+                "y": 0.999980947095902,
+                "z": 0.006172960811697806
+              },
+              "distance": 2.737266868562131,
+              "score": 33.80881798367516,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 169,
+              "road": 150,
+              "segment": 168,
+              "segmentIndex": 35,
+              "height": 6.4361286869644445,
+              "normal": {
+                "x": 0,
+                "y": 0.999980947095902,
+                "z": 0.006172960811697806
+              },
+              "distance": 2.737266868562131,
+              "score": 34.008817983675165,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 170,
+              "road": 150,
+              "segment": 171,
+              "segmentIndex": 36,
+              "height": 6.420387336976184,
+              "normal": {
+                "x": 0,
+                "y": 0.9999709004094435,
+                "z": 0.0076287832795799175
+              },
+              "distance": 5.287266868562085,
+              "score": 59.29307663368645,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 172,
+              "road": 150,
+              "segment": 171,
+              "segmentIndex": 36,
+              "height": 6.420387336976184,
+              "normal": {
+                "x": 0,
+                "y": 0.9999709004094435,
+                "z": 0.0076287832795799175
+              },
+              "distance": 5.287266868562085,
+              "score": 59.49307663368645,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 173,
+              "road": 150,
+              "segment": 174,
+              "segmentIndex": 37,
+              "height": 6.416954284599954,
+              "normal": {
+                "x": 0,
+                "y": 0.9999568365974295,
+                "z": 0.009291121679418476
+              },
+              "distance": 5.737266868562131,
+              "score": 63.78964358131067,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 175,
+              "road": 150,
+              "segment": 174,
+              "segmentIndex": 37,
+              "height": 6.416954284599954,
+              "normal": {
+                "x": 0,
+                "y": 0.9999568365974295,
+                "z": 0.009291121679418476
+              },
+              "distance": 5.737266868562131,
+              "score": 63.98964358131067,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            },
+            {
+              "surface": 176,
+              "road": 150,
+              "segment": 177,
+              "segmentIndex": 38,
+              "height": 6.38907971640049,
+              "normal": {
+                "x": 0,
+                "y": 0.9999280210309311,
+                "z": 0.011998031387087929
+              },
+              "distance": 8.73726686856213,
+              "score": 93.96176901311121,
+              "accepted": false,
+              "reason": "outside-support-height-envelope"
+            }
+          ]
+        }
+      }
+    },
+    "pose": {
+      "x": 3428.589377081441,
+      "z": -340.709792444319,
+      "yaw": -1.5765761137008667,
+      "speedKph": 148.99313507080078
+    },
+    "groundedMin": 0
+  }
+]

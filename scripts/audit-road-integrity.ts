@@ -1,0 +1,59 @@
+import fs from 'node:fs';
+import type {CityMapData,CityPoint} from '../src/world/city/CityMapData';
+import {roadPoints,polylineLength,sampleAt,roadEdges} from '../src/world/city/geometry';
+import {RoadClearance} from '../src/world/city/RoadClearance';
+import {roadFunction} from '../src/world/city/RoadClassification';
+import {roadCarriageways,innerRoadSide,hasCentralBarrier} from '../src/world/city/RoadCarriageway';
+import {barrierSections,centralBarrierSections,roadLampAnchors,roadPiers} from '../src/world/city/RoadInfrastructure';
+import {barrierSections as oldBarriers} from './audit-baselines/RoadInfrastructure-v487';
+import {MarkingOwnership} from '../src/world/city/MarkingOwnership';
+import {MarkingOwnership as OldMarkingOwnership} from './audit-baselines/MarkingOwnership-v487';
+import {RoadSignPlacement} from '../src/world/regional/FastRoadSignPlacement';
+import {roadSignColliders} from '../src/world/city/RoadSignTemplates';
+import {objectSize} from '../src/editor/MapObjectGeometry';
+import {EditorSpatialIndex,bounds,project} from '../src/editor/EditorGeometry';
+import {createStaticOBBCollider,type StaticCollider} from '../src/vehicle/physics/CollisionSystem';
+import {adaptInterchangeAssets} from './InterchangeAssets';
+const dir='artifacts/interchange-integrated-audit/',read=(p:string)=>JSON.parse(fs.readFileSync(dir+p,'utf8')),save=(p:string,v:unknown)=>fs.writeFileSync(dir+p,JSON.stringify(v,null,2)+'\n');
+const before:CityMapData=read('road-surface-baseline-map.json'),after:CityMapData=read('surface-candidate-map.json'),changes=read('surface-geometry-changes.json'),diagnostic=read('surface-root-cause-diagnostics.json'),ids=new Set<string>(diagnostic.inventory.map((r:any)=>r.roadId)),geometric=new Set<string>(changes.rows.filter((r:any)=>r.kind==='LOCAL_C1_STRIP_REPAIR').map((r:any)=>r.roadId));
+if(!process.argv.includes('--check-only')){
+ const changed=after.roads.filter(r=>geometric.has(r.id)),boxes=changed.map(r=>bounds(roadPoints(r),65)),objects=after.objects.filter(o=>boxes.some(b=>o.position.x>=b.minX&&o.position.x<=b.maxX&&o.position.z>=b.minZ&&o.position.z<=b.maxZ)),context=after.roads.filter(r=>geometric.has(r.id)||objects.some(o=>project(roadPoints(r),o.position).distance<25)).map(r=>r.id),signs=(after.signs??[]).filter(s=>geometric.has(s.roadId));
+ const adjusted=adaptInterchangeAssets(before,after,{id:'global-surface-repairs',roadIds:context,objectIds:objects.map(o=>o.id),signIds:signs.map(s=>s.id)},geometric);
+ save('surface-asset-adjustments.json',adjusted);
+ if(adjusted.newRoadBuildingConflicts.length)throw new Error('New building conflict after local repair');
+ save('surface-candidate-map.json',after);
+ console.log(JSON.stringify({assetAdjustments:adjusted.adjustments.length,unresolved:adjusted.unresolved.length,newBuildings:adjusted.newRoadBuildingConflicts.length}));
+}
+const clearance=new RoadClearance(after),oldClearance=new RoadClearance(before),carriageways=roadCarriageways(after),paint=new MarkingOwnership(after),oldPaint=new OldMarkingOwnership(before),oldRoads=new Map(before.roads.map(r=>[r.id,r])),medianRows:any[]=[],markingRows:any[]=[],assetRows:any[]=[],signPlacement=new RoadSignPlacement(after),assetIndex=new EditorSpatialIndex(64),assetBoxes:StaticCollider[]=[];
+for(const o of after.objects){
+ if(['parking','water','waterway','green_strip','hardscape','embankment','railway_track','sports_field','tree'].includes(o.prefabId))continue;
+ const s=objectSize(o),box=createStaticOBBCollider({id:o.id,x:o.position.x,z:o.position.z,width:s.width,length:s.depth,yaw:o.rotation,minHeight:o.position.y??0,maxHeight:(o.position.y??0)+s.height,type:'obstacle'});assetIndex.set(String(assetBoxes.length),bounds(box.corners));assetBoxes.push(box);
+}
+for(const s of after.signs??[])for(const box of roadSignColliders(s)){assetIndex.set(String(assetBoxes.length),bounds(box.corners));assetBoxes.push(box);}
+function overlap(a:StaticCollider,b:StaticCollider){
+ if(a.minHeight>=b.maxHeight-.02||b.minHeight>=a.maxHeight-.02)return false;
+ for(const box of [a,b])for(const axis of [{x:Math.cos(box.yaw),z:-Math.sin(box.yaw)},{x:Math.sin(box.yaw),z:Math.cos(box.yaw)}]){
+  const u=a.corners.map(p=>p.x*axis.x+p.z*axis.z),v=b.corners.map(p=>p.x*axis.x+p.z*axis.z);if(Math.max(...u)<=Math.min(...v)+.02||Math.max(...v)<=Math.min(...u)+.02)return false;
+ }return true;
+}
+for(const [ri,road]of after.roads.filter(r=>ids.has(r.id)).entries()){
+ const original=oldRoads.get(road.id)!,path=roadPoints(road),oldPath=roadPoints(original),length=polylineLength(path),half=road.laneCount*road.laneWidth/2,enabled=road.structure?.barrierEnabled===true||road.structure?.barrierEnabled!==false&&path.some(p=>(p.y??0)>2),oldEnabled=original.structure?.barrierEnabled===true||original.structure?.barrierEnabled!==false&&oldPath.some(p=>(p.y??0)>2),old=oldEnabled?oldBarriers(original,before,oldClearance):[],fresh=enabled?barrierSections(road,after,clearance):[],central=centralBarrierSections(road,after,clearance),inner=road.travelDirection==='two-way'?[]:fresh.filter(s=>s.side===innerRoadSide(road)),oldInner=original.travelDirection==='two-way'?[]:old.filter(s=>s.side===innerRoadSide(original));
+ const runs:any[]=[];let prior='';
+ for(let d=0;d<=length;d=Math.min(length,d+(d<50||length-d<50?2:10))){const f=sampleAt(path,d),pair=carriageways.opposing(road,f.point,f.tangent),kind=road.travelDirection==='two-way'?hasCentralBarrier(road)?'SHARED_SOLID_CENTRE':'SHARED_PAINTED_CENTRE':pair?pair.laneGap<.6?'INSUFFICIENT_MEDIAN_RESERVE':pair.sharedPavement?'PAIRED_SHARED_SHOULDERS':'SEPARATED_CARRIAGEWAYS':'ONE_WAY_UNPAIRED',key=kind+':'+(pair?.road.id??'');if(key!==prior){runs.push({start:d,end:d,kind,oppositeRoadId:pair?.road.id,minLaneGap:pair?.laneGap,maxLaneGap:pair?.laneGap,pavementGap:pair?.pavementGap});prior=key;}else {const r=runs.at(-1)!;r.end=d;if(pair){r.minLaneGap=Math.min(r.minLaneGap,pair.laneGap);r.maxLaneGap=Math.max(r.maxLaneGap,pair.laneGap);}}if(d===length)break;}
+ const beforeMedianLength=oldInner.reduce((v,s)=>v+polylineLength(s.points),0),afterMedianLength=inner.reduce((v,s)=>v+polylineLength(s.points),0)+central.reduce((v,s)=>v+polylineLength(s),0),newSections=[...inner.map(s=>s.points),...central].filter(points=>!oldInner.some(s=>project(s.points,points[Math.floor(points.length/2)]!).distance<.2)),conflicts:any[]=[];
+ for(const points of newSections)for(let i=1;i<points.length;i++){const a=points[i-1]!,b=points[i]!,l=Math.hypot(b.x-a.x,b.z-a.z),box=createStaticOBBCollider({id:road.id+':median',x:(a.x+b.x)/2,z:(a.z+b.z)/2,width:hasCentralBarrier(road)?.24:.28,length:l,yaw:Math.atan2(b.x-a.x,b.z-a.z),minHeight:Math.min(a.y??0,b.y??0)+.024,maxHeight:Math.max(a.y??0,b.y??0)+1.1,type:'guardrail'});for(const id of assetIndex.query(bounds(box.corners))){const asset=assetBoxes[+id]!;if(overlap(box,asset)&&!conflicts.some(c=>c.assetId===asset.id))conflicts.push({assetId:asset.id,position:{x:box.center.x,z:box.center.z}});}}
+ medianRows.push({roadId:road.id,roadFunction:roadFunction(road),laneCount:road.laneCount,travelDirection:road.travelDirection,explicitMedianIntent:road.structure?.medianBarrierStyle??null,length,runs,beforeMedianLength,afterMedianLength,newSections:newSections.length,assetConflicts:conflicts,status:conflicts.length?'DEFER_ASSET_CONFLICT':afterMedianLength>beforeMedianLength+.1?'FIXED':runs.some(r=>r.kind==='INSUFFICIENT_MEDIAN_RESERVE')?'DEFER_INSUFFICIENT_RESERVE':'PASS'});
+ if(!road.highwayTransition&&road.markings!==false){
+  const specs=[{offset:-half+.15,yellow:false,role:'outer-edge'},{offset:half-.15,yellow:false,role:'outer-edge'},...(road.travelDirection==='two-way'?(hasCentralBarrier(road)?[-.27,.27].map(offset=>({offset,yellow:false,role:'median-edge'})):[-.13,.13].map(offset=>({offset,yellow:true,role:'centre'}))):[])];
+  const lines=specs.map(spec=>{const boundary=spec.role==='outer-edge',fresh=paint.sections(path,spec.offset,road,'road',boundary,spec.yellow),oldOffset=road.travelDirection==='two-way'&&hasCentralBarrier(road)&&spec.role==='median-edge'?Math.sign(spec.offset)*.13:spec.offset,old=oldPaint.sections(oldPath,oldOffset,original,'road',boundary);return {...spec,beforeColour:road.travelDirection==='two-way'&&spec.role==='median-edge'?'yellow':spec.yellow?'yellow':'white',afterColour:spec.yellow?'yellow':'white',beforeLength:old.reduce((v,p)=>v+polylineLength(p),0),afterLength:fresh.reduce((v,p)=>v+polylineLength(p),0),sections:fresh.length};});
+  markingRows.push({roadId:road.id,structure:road.travelDirection==='two-way'?hasCentralBarrier(road)?'SOLID_MEDIAN':'UNDIVIDED_SHARED':'DIRECTED_CARRIAGEWAY',lines,laneDividerCount:road.laneCount-1-(road.travelDirection==='two-way'?1:0),laneDividerColour:'white',laneDividerPeriod:{paint:3,repeat:9},source:'Actual MarkingOwnership.sections used by RoadBuilder; terminal intersection/crossing openings retained.',status:lines.some(l=>Math.abs(l.afterLength-l.beforeLength)>.1||l.beforeColour!==l.afterColour)?'FIXED':'PASS'});
+ }else markingRows.push({roadId:road.id,status:road.highwayTransition?'TOPOLOGY_OWNED_HIGHWAY_TRANSITION':'INTENTIONALLY_UNMARKED',transition:road.highwayTransition??null});
+ const lamps=roadLampAnchors(road,after,clearance),piers=roadPiers(road,after,clearance);assetRows.push({roadId:road.id,generatedLampFootings:lamps,piers:piers.length,barrierSections:fresh.length,centralBarrierSections:central.length,newMedianAssetConflicts:conflicts});
+ if(ri%250===0)console.log(JSON.stringify({roadIntegrityDone:ri+1,total:ids.size}));
+}
+const signRows=(after.signs??[]).filter(s=>ids.has(s.roadId)).map(s=>{const r=after.roads.find(r=>r.id===s.roadId)!,f=sampleAt(roadPoints(r),s.stationMetres??project(roadPoints(r),s.position).along),expected=Math.atan2(-f.tangent.x,-f.tangent.z)+(s.laneDirection==='reverse'?Math.PI:0);return {id:s.id,roadId:s.roadId,safeEnvelope:signPlacement.safe(s),directionDot:Math.cos(s.heading-expected),laneDirection:s.laneDirection,station:s.stationMetres};});
+const structuralTransitions=(after.roadLinks??[]).flatMap(l=>{const a=after.roads.find(r=>r.id===l.from.roadId)!,b=after.roads.find(r=>r.id===l.to.roadId)!;return a.travelDirection==='two-way'&&b.travelDirection==='two-way'&&hasCentralBarrier(a)!==hasCentralBarrier(b)?[{linkId:l.id,from:l.from,to:l.to,fromSolid:hasCentralBarrier(a),toSolid:hasCentralBarrier(b)}]:[];});
+save('median-and-carriageway-audit.json',{mapVersion:after.version,complete:true,roads:medianRows.length,scope:'Every motorway/expressway plus every arterial; actual geometry, live lane widths, flow directions, paved shoulders and authored median intent. Station intervals retain both safe and insufficient gap evidence.',counts:medianRows.reduce((a,r)=>(a[r.status]=(a[r.status]??0)+1,a),{} as Record<string,number>),structuralTransitions,rows:medianRows});
+save('marking-continuity-audit.json',{mapVersion:after.version,complete:true,roads:markingRows.length,counts:markingRows.reduce((a,r)=>(a[r.status]=(a[r.status]??0)+1,a),{} as Record<string,number>),structuralTransitions,rows:markingRows});
+save('roadside-asset-validation.json',{mapVersion:after.version,complete:true,roads:assetRows.length,signs:signRows.length,scopedChanges:read('surface-asset-adjustments.json'),rows:assetRows,signRows,newMedianConflicts:medianRows.filter(r=>r.assetConflicts.length),limitations:'Existing unrelated sign envelope failures are retained individually. Local geometric repairs and newly emitted medians must introduce no additional asset collision.'});
+console.log(JSON.stringify({complete:true,medians:medianRows.length,medianFixes:medianRows.filter(r=>r.status==='FIXED').length,medianAssetConflicts:medianRows.filter(r=>r.assetConflicts.length).length,markingFixes:markingRows.filter(r=>r.status==='FIXED').length,signs:signRows.length,unsafeSigns:signRows.filter(r=>!r.safeEnvelope).length}));

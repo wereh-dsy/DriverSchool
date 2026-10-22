@@ -6,6 +6,7 @@ import {
 import type { DirectionalLight, HemisphereLight, Object3D, Scene, ShaderMaterial } from 'three';
 import type { EnvironmentTime, WeatherSystem } from './WeatherSystem';
 import type { DrivingGround } from '../DrivingGround';
+import { VISUAL_ENVIRONMENT as V } from './VisualEnvironmentConfig';
 
 interface SurfaceMaterialState {
   material: MeshStandardMaterial;
@@ -23,7 +24,7 @@ interface TimePalette {
 }
 
 const TIME_PALETTES: Readonly<Record<EnvironmentTime, TimePalette>> = {
-  DAY: { top: 0x6f9fb0, horizon: 0xd4d8cf, ground: 0x8e9c84, haze: 0xaebfc0, sun: 0xfff1cf, hemiSky: 0xd9edf2, hemiGround: 0x52613e },
+  DAY: { top: V.skyTop, horizon: V.skyHorizon, ground: V.skyGround, haze: V.fogColor, sun: V.sunColor, hemiSky: V.ambientSky, hemiGround: V.ambientGround },
   DUSK: { top: 0x354963, horizon: 0x946951, ground: 0x434741, haze: 0x625b5c, sun: 0xffad72, hemiSky: 0xd9edf2, hemiGround: 0x52613e },
   NIGHT: { top: 0x040913, horizon: 0x111b2b, ground: 0x080f16, haze: 0x0c1420, sun: 0x9cb5d5, hemiSky: 0x7d93b5, hemiGround: 0x52613e },
 };
@@ -225,9 +226,11 @@ export class EnvironmentVisual {
     const flash = clamp(state.lightningFlash);
     const daylight = time === 'DAY' ? 1 : time === 'DUSK' ? .32 : .025;
 
-    this.sun.intensity = 3.4 * daylight * (1 - .8 * cloud) * (1 - .35 * rain) * (1 - .35 * fog) * (1 - .12 * storm) + flash * 7.5;
-    this.hemisphere.intensity = 2.1 * daylight * (1 + .06 * cloud) *
+    this.sun.intensity = V.sunIntensity * daylight * (1 - .8 * cloud) * (1 - .35 * rain) * (1 - .35 * fog) * (1 - .12 * storm) + flash * 7.5;
+    this.hemisphere.intensity = V.ambientIntensity * daylight * (1 + .06 * cloud) *
       (1 - .22 * rain - .12 * fog - .08 * storm) + flash * 3;
+    this.scene.environmentIntensity = V.environmentIntensity * daylight *
+      (1 - .35 * cloud - .2 * rain - .1 * storm);
     this.sunColor.setHex(palette.sun).lerp(this.tint.setHex(tintSource.sun), Math.min(1, cloud * .6 + rain * .3));
     if (flash > 0) this.sunColor.lerp(FLASH_COLOR, flash * .55);
     this.sun.color.copy(this.sunColor);
@@ -265,8 +268,8 @@ export class EnvironmentVisual {
       // FOG drives near=0 so haze exists from the driver outward. Keeping the
       // existing linear Fog object (instead of swapping to FogExp2) avoids a
       // shader recompile while giving the same cheap near/mid visibility feel.
-      fogObject.near = Math.max(0, 180 - fog * 190 - rain * 46 - storm * 18);
-      fogObject.far = Math.max(60, 1_100 - fog * 870 - rain * 420 - storm * 90);
+      fogObject.near = Math.max(0, V.fogNear - fog * 190 - rain * 46 - storm * 18);
+      fogObject.far = Math.max(60, V.fogFar - fog * (V.fogFar - 230) - rain * 420 - storm * 90);
     }
     if (this.scene.background instanceof Color) this.scene.background.copy(this.haze);
 
@@ -274,7 +277,7 @@ export class EnvironmentVisual {
     const wetGlow = 1 + clamp(state.wetness) * .7;
     for (const material of this.lampMaterials) material.emissiveIntensity = glow * wetGlow;
     if (time === 'DAY') for (const lamp of this.lamps) lamp.intensity = 0;
-    this.setExposure?.((1.08 * (1 - .1 * cloud - .05 * rain - .04 * fog) + flash * .35));
+    this.setExposure?.((V.exposure * (1 - .1 * cloud - .05 * rain - .04 * fog) + flash * .35));
 
     this.lastCloud = cloud; this.lastRain = rain; this.lastFog = fog;
     this.lastStorm = storm; this.lastFlash = flash; this.lastTime = time;

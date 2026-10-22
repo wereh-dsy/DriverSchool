@@ -1,0 +1,4 @@
+import fs from 'node:fs';
+import {adaptInterchangeAssets} from './InterchangeAssets';
+const dir='artifacts/interchange-integrated-audit/',before=JSON.parse(fs.readFileSync(dir+'surface-candidate-map.json','utf8')),after=structuredClone(before),audit=JSON.parse(fs.readFileSync(dir+'roadside-asset-validation.json','utf8')),selected=audit.signRows.filter((s:any)=>!s.safeEnvelope||s.directionDot<.985),ids=[...new Set(selected.map((s:any)=>s.roadId))],result=adaptInterchangeAssets(before,after,{id:'global-road-signs',signsOnly:true,roadIds:ids,objectIds:after.objects.map((o:any)=>o.id),signIds:selected.map((s:any)=>s.id)},new Set());
+fs.writeFileSync(dir+'global-sign-adjustments.json',JSON.stringify(result,null,2));fs.writeFileSync(dir+'surface-candidate-map.json',JSON.stringify(after,null,2)+'\n');console.log(JSON.stringify({selected:selected.length,changes:result.adjustments.length,unresolved:result.unresolved.length}));

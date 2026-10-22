@@ -1,0 +1,55 @@
+{
+  "mapVersion": 486,
+  "sourceSha256": "ad647d198bae65ac1e334cb40a56e0028f7fad453a27f8852d39fb57dbec6e76",
+  "previousReportRead": 37630,
+  "previousAttempts": 14048,
+  "reusedLargeReviewKeys": [
+    "priorRoundRequiredReviews",
+    "currentRoundLargeChanges"
+  ],
+  "previousValidation": {
+    "valid": true,
+    "changedRoads": 110
+  },
+  "previousRuntime": {
+    "before": {
+      "rmsAY": 0.6246447473327911,
+      "peakAY": 7.395407774313258,
+      "pitchRate": 0.6974651650058796,
+      "rollRate": 0.018367288720215043,
+      "fullBump": 0,
+      "groundedTransitions": 6,
+      "supportSwitches": 0,
+      "supportRejections": 0,
+      "mechanicalImpulse": 0,
+      "safety": 0
+    },
+    "after": {
+      "rmsAY": 0.37997399228512324,
+      "peakAY": 6.691239743035866,
+      "pitchRate": 0.6880551204519395,
+      "rollRate": 0.02836333254401119,
+      "fullBump": 0,
+      "groundedTransitions": 5,
+      "supportSwitches": 0,
+      "supportRejections": 0,
+      "mechanicalImpulse": 0,
+      "safety": 0
+    }
+  },
+  "sourceFiles": [
+    "REPORT.md",
+    "deferred.json",
+    "round2/attempts.json",
+    "large-elevation-review.json",
+    "changed-region-validation.json",
+    "crossing-clearance-audit.json",
+    "runtime-regression.json"
+  ],
+  "physicsFrozen": {
+    "src/vehicle/physics/VehicleContactSystem.ts": "81ec6b27e6efb50f7c64637c9bdf0d8c2629dd5ebb543f58d218a7c3597e6fa4",
+    "src/vehicle/physics/WheelSupportContinuity.ts": "26d61039e61d0ce070e41cba3f5f656c227138a617add78d8b9c0bddaffecae1",
+    "src/vehicle/diagnostics/VehiclePhysicsBlackBox.ts": "8d49a61ff842e8a0c55b469215ccc0f2c92ae2ec2ed305ec8ace36615bf6e2f1",
+    "src/world/city/CityGround.ts": "770e3b0e1c0e69496f82dad3f616c98fe1abe3f1f72b27bd4d89f729e19eb821"
+  }
+}

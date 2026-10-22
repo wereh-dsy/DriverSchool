@@ -1,0 +1,5140 @@
+{
+  "name": "G17-17-18-1",
+  "mapVersion": 488,
+  "vehicleId": "road-suv-v6-8at",
+  "roadId": "regional:G17:out:split306:lane64",
+  "options": {
+    "x": 3410,
+    "z": -339.669472750593,
+    "y": 0,
+    "yaw": -1.5707268714904785,
+    "speed": 145.8198989868164,
+    "length": 36,
+    "roadId": "regional:G17:out:split306:lane64"
+  },
+  "protocol": "Production normalized complete local roads and real colliders; prescribed longitudinal speed, free vertical/pitch/roll dynamics; no support override; 120-tick static settling; GPU sector publication disabled in harness only.",
+  "warmupRejections": 0,
+  "ticks": 107,
+  "seconds": 0.8916666666666666,
+  "seam17to18": true,
+  "minGrounded": 0,
+  "airborneTicks": 45,
+  "groundedTransitions": 4,
+  "rejection": 62,
+  "peakImpulse": 651.8701170198366,
+  "safety": 0,
+  "recovery": 0,
+  "nonFiniteRecovery": 0,
+  "peakAY": 71.74176479233844,
+  "rmsAY": 10.180796076092268,
+  "peakFz": 7575.17795778437,
+  "seams": [
+    {
+      "tick": 0,
+      "wheel": "frontLeft",
+      "to": 16,
+      "x": 3411.7846495019467,
+      "z": -340.50459670598167,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": true,
+      "rejected": false
+    },
+    {
+      "tick": 0,
+      "wheel": "frontRight",
+      "to": 16,
+      "x": 3411.7847654923053,
+      "z": -338.83459671000975,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": true,
+      "rejected": false
+    },
+    {
+      "tick": 0,
+      "wheel": "rearLeft",
+      "to": 16,
+      "x": 3408.8896495043996,
+      "z": -340.50439563287523,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": true,
+      "rejected": false
+    },
+    {
+      "tick": 0,
+      "wheel": "rearRight",
+      "to": 16,
+      "x": 3408.889765494758,
+      "z": -338.8343956369033,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": true,
+      "rejected": false
+    },
+    {
+      "tick": 6,
+      "wheel": "frontLeft",
+      "from": 16,
+      "to": 17,
+      "x": 3413.806832265647,
+      "z": -340.50473715730135,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": true,
+      "rejected": false
+    },
+    {
+      "tick": 6,
+      "wheel": "frontRight",
+      "from": 16,
+      "to": 17,
+      "x": 3413.8069482560054,
+      "z": -338.83473716132943,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": true,
+      "rejected": false
+    },
+    {
+      "tick": 15,
+      "wheel": "rearLeft",
+      "from": 16,
+      "to": 17,
+      "x": 3413.942711847206,
+      "z": -340.5047465948591,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": true,
+      "rejected": false
+    },
+    {
+      "tick": 15,
+      "wheel": "rearRight",
+      "from": 16,
+      "to": 17,
+      "x": 3413.9428278375644,
+      "z": -338.8347465988872,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": true,
+      "rejected": false
+    },
+    {
+      "tick": 54,
+      "wheel": "frontLeft",
+      "from": 17,
+      "to": 18,
+      "x": 3429.9993886603866,
+      "z": -340.5058618162369,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": false,
+      "rejected": true,
+      "rejectionReason": "unreachable-layer-switch"
+    },
+    {
+      "tick": 54,
+      "wheel": "frontRight",
+      "from": 17,
+      "to": 18,
+      "x": 3429.999504650745,
+      "z": -338.835861820265,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": false,
+      "rejected": true,
+      "rejectionReason": "unreachable-layer-switch"
+    },
+    {
+      "tick": 62,
+      "wheel": "rearLeft",
+      "from": 17,
+      "to": 18,
+      "x": 3429.8054590168285,
+      "z": -340.5058483467944,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": false,
+      "rejected": true,
+      "rejectionReason": "unreachable-layer-switch"
+    },
+    {
+      "tick": 62,
+      "wheel": "rearRight",
+      "from": 17,
+      "to": 18,
+      "x": 3429.805575007187,
+      "z": -338.83584835082246,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": false,
+      "rejected": true,
+      "rejectionReason": "unreachable-layer-switch"
+    },
+    {
+      "tick": 101,
+      "wheel": "frontLeft",
+      "from": 18,
+      "to": 19,
+      "x": 3445.8688516297075,
+      "z": -340.5069640346204,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": false,
+      "rejected": false
+    },
+    {
+      "tick": 101,
+      "wheel": "frontRight",
+      "from": 18,
+      "to": 19,
+      "x": 3445.868967620066,
+      "z": -338.8369640386485,
+      "height": 0,
+      "normal": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "grounded": false,
+      "rejected": false
+    }
+  ],
+  "rampSeen": false,
+  "mainlineAfterRamp": 0,
+  "invalidABA": 0,
+  "passed": false,
+  "samples": [
+    {
+      "tick": 0,
+      "x": 3410.337234246464,
+      "z": -339.6694961733003,
+      "aY": 0.043482496216451574,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5721.4178381363445
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5721.417838136337
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4811.738481872867
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4811.738481872856
+        }
+      ]
+    },
+    {
+      "tick": 1,
+      "x": 3410.6744686163183,
+      "z": -339.66951959601613,
+      "aY": -0.021920993154713735,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5781.922922103539
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5781.922922103561
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4726.544834313873
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4726.54483431389
+        }
+      ]
+    },
+    {
+      "tick": 2,
+      "x": 3411.0117036591614,
+      "z": -339.6695430187787,
+      "aY": -0.045710384695136434,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5862.984023940255
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5862.984023940258
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4614.133126449555
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4614.133126449555
+        }
+      ]
+    },
+    {
+      "tick": 3,
+      "x": 3411.3489395641045,
+      "z": -339.6695664416012,
+      "aY": -0.071611977946271,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5958.972557150938
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5958.972557150918
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4483.336088487505
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4483.33608848749
+        }
+      ]
+    },
+    {
+      "tick": 4,
+      "x": 3411.686176437511,
+      "z": -339.66958986449094,
+      "aY": -0.09942957419932479,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6065.256910164266
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6065.25691016428
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4341.074166427986
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4341.074166428007
+        }
+      ]
+    },
+    {
+      "tick": 5,
+      "x": 3412.023414326144,
+      "z": -339.66961328745117,
+      "aY": -0.12810857843558052,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6178.341946748673
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6178.341946748695
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4192.533735966433
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4192.53373596645
+        }
+      ]
+    },
+    {
+      "tick": 6,
+      "x": 3412.3606532289505,
+      "z": -339.6696367104819,
+      "aY": -0.15640381549576612,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6295.741614998274
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6295.741614998278
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4041.4744665504886
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4041.4744665504895
+        }
+      ]
+    },
+    {
+      "tick": 7,
+      "x": 3412.697893073502,
+      "z": -339.66966013357796,
+      "aY": -0.18318337750434444,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6415.759185723209
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6415.7591857232355
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3890.55413725679
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3890.554137256815
+        }
+      ]
+    },
+    {
+      "tick": 8,
+      "x": 3413.035133520062,
+      "z": -339.6696835567159,
+      "aY": -0.20756328765892698,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6537.280950465275
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6537.280950465349
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3741.5864380962084
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3741.586438096283
+        }
+      ]
+    },
+    {
+      "tick": 9,
+      "x": 3413.3723732092576,
+      "z": -339.6697069798012,
+      "aY": -0.22902153937292835,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6659.682598118319
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6659.682598118383
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3595.630762034481
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3595.6307620345547
+        }
+      ]
+    },
+    {
+      "tick": 10,
+      "x": 3413.709608455651,
+      "z": -339.66973040257795,
+      "aY": -0.24752793288874206,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6782.910537870832
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6782.910537870895
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3452.8527666411637
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3452.8527666412324
+        }
+      ]
+    },
+    {
+      "tick": 11,
+      "x": 3414.046834271911,
+      "z": -339.66975382469974,
+      "aY": -0.26330749407243287,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6907.4647165229335
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6907.4647165230035
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3312.5726343876436
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3312.57263438772
+        }
+      ]
+    },
+    {
+      "tick": 12,
+      "x": 3414.3840540558544,
+      "z": -339.66977724640253,
+      "aY": -0.27547575709904604,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7033.350055288508
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7033.350055288585
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3174.8202372562364
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3174.8202372563105
+        }
+      ]
+    },
+    {
+      "tick": 13,
+      "x": 3414.721343950083,
+      "z": -339.6698006729749,
+      "aY": -0.27337006132643393,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7152.322514947339
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7152.322514947404
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3051.6675035628105
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3051.6675035628787
+        }
+      ]
+    },
+    {
+      "tick": 14,
+      "x": 3415.0587256790423,
+      "z": -339.6698241059256,
+      "aY": -0.2570575019934676,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7254.473414986196
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7254.473414986267
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2955.637179539943
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 16,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2955.6371795400055
+        }
+      ]
+    },
+    {
+      "tick": 15,
+      "x": 3415.3961476366626,
+      "z": -339.66984754167044,
+      "aY": -0.23561301218349373,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7337.516415501435
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7337.516415501521
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2888.2843540825043
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2888.284354082574
+        }
+      ]
+    },
+    {
+      "tick": 16,
+      "x": 3415.733584455896,
+      "z": -339.6698709784475,
+      "aY": -0.21091331701243804,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7403.341688366893
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7403.341688366979
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2846.552913112028
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2846.5529131121007
+        }
+      ]
+    },
+    {
+      "tick": 17,
+      "x": 3416.071026748523,
+      "z": -339.6698944156047,
+      "aY": -0.18265806577222432,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7454.778033133807
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7454.778033133925
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2825.936734615688
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2825.936734615794
+        }
+      ]
+    },
+    {
+      "tick": 18,
+      "x": 3416.4084710177276,
+      "z": -339.6699178528992,
+      "aY": -0.15074288842707867,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7494.505636721087
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7494.505636721196
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2822.0574958362813
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2822.057495836381
+        }
+      ]
+    },
+    {
+      "tick": 19,
+      "x": 3416.745915843077,
+      "z": -339.66994129023226,
+      "aY": -0.11559153969030053,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7524.691692985363
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7524.691692985459
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2831.221354902168
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2831.221354902263
+        }
+      ]
+    },
+    {
+      "tick": 20,
+      "x": 3417.0833605553153,
+      "z": -339.6699647275575,
+      "aY": -0.0779709376884033,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7546.9300778694305
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7546.930077869559
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2850.510599068699
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2850.5105990688157
+        }
+      ]
+    },
+    {
+      "tick": 21,
+      "x": 3417.420804778236,
+      "z": -339.66998816484875,
+      "aY": -0.038778655265726825,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7562.317473648035
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7562.317473648181
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2877.6960091710125
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2877.6960091711385
+        }
+      ]
+    },
+    {
+      "tick": 22,
+      "x": 3417.7582482659554,
+      "z": -339.67001160208895,
+      "aY": 0.0010957222170838998,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7571.576342275967
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7571.57634227609
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2911.0964014268343
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2911.09640142694
+        }
+      ]
+    },
+    {
+      "tick": 23,
+      "x": 3418.095690841054,
+      "z": -339.67003503926577,
+      "aY": 0.04084146930380422,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7575.177957784228
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7575.17795778437
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2949.4394072363243
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2949.439407236451
+        }
+      ]
+    },
+    {
+      "tick": 24,
+      "x": 3418.43313236829,
+      "z": -339.67005847636983,
+      "aY": 0.0797543914972941,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7573.4444014977225
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7573.444401497844
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2991.7441712364316
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 2991.7441712365385
+        }
+      ]
+    },
+    {
+      "tick": 25,
+      "x": 3418.7705727416055,
+      "z": -339.67008191339374,
+      "aY": 0.11724122724109318,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7566.6233636150655
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7566.623363615176
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3037.2310171920017
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3037.2310171920967
+        }
+      ]
+    },
+    {
+      "tick": 26,
+      "x": 3419.108011877167,
+      "z": -339.67010535033165,
+      "aY": 0.15281325692166683,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7554.937387262389
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7554.9373872625365
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3085.256258414087
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3085.256258414223
+        }
+      ]
+    },
+    {
+      "tick": 27,
+      "x": 3419.445449709053,
+      "z": -339.670128787179,
+      "aY": 0.18607575382746794,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7538.612602656739
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7538.612602656858
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3135.2676150446387
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3135.267615044757
+        }
+      ]
+    },
+    {
+      "tick": 28,
+      "x": 3419.78288618651,
+      "z": -339.6701522239323,
+      "aY": 0.2167166047156191,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7517.892721998659
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7517.892721998806
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3186.7752724880283
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3186.775272488172
+        }
+      ]
+    },
+    {
+      "tick": 29,
+      "x": 3420.1203212720056,
+      "z": -339.67017566058894,
+      "aY": 0.2444955197748376,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7493.043468534849
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7493.043468535027
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3239.3340931708317
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3239.3340931710077
+        }
+      ]
+    },
+    {
+      "tick": 30,
+      "x": 3420.4577549394567,
+      "z": -339.6701990971471,
+      "aY": 0.2692343410896744,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7464.351501883364
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7464.35150188356
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3292.533320945648
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3292.5333209458427
+        }
+      ]
+    },
+    {
+      "tick": 31,
+      "x": 3420.7951871712417,
+      "z": -339.6702225336055,
+      "aY": 0.29080842446253335,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7432.120819409015
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7432.12081940921
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3345.990839196675
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3345.9908391968665
+        }
+      ]
+    },
+    {
+      "tick": 32,
+      "x": 3421.1326179516677,
+      "z": -339.6702459699631,
+      "aY": 0.2958163874417894,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7396.6788531328075
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7396.678853133009
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3394.402539903558
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3394.4025399037514
+        }
+      ]
+    },
+    {
+      "tick": 33,
+      "x": 3421.4700473842686,
+      "z": -339.6702694062271,
+      "aY": 0.30148663954080945,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7358.33738753691
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7358.337387537125
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3439.381539629742
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3439.3815396299547
+        }
+      ]
+    },
+    {
+      "tick": 34,
+      "x": 3421.8074754683985,
+      "z": -339.67029284239743,
+      "aY": 0.2899955257507667,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7311.5752682465945
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7311.575268246823
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3482.176584711019
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3482.176584711232
+        }
+      ]
+    },
+    {
+      "tick": 35,
+      "x": 3422.144902045198,
+      "z": -339.6703162784631,
+      "aY": 0.2830160446534632,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7259.964659349493
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7259.964659349734
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3523.7633781328855
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3523.763378133098
+        }
+      ]
+    },
+    {
+      "tick": 36,
+      "x": 3422.4823267081465,
+      "z": -339.6703397143958,
+      "aY": 0.27428954442722514,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7205.231310985706
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7205.231310985963
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3564.731805679282
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3564.7318056795107
+        }
+      ]
+    },
+    {
+      "tick": 37,
+      "x": 3422.8197487378907,
+      "z": -339.67036315014565,
+      "aY": 0.26355089657970476,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7148.861953057687
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7148.861953057956
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3605.2902638602864
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3605.2902638605165
+        }
+      ]
+    },
+    {
+      "tick": 38,
+      "x": 3423.1571671653446,
+      "z": -339.6703865856453,
+      "aY": 0.25109348844377,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7092.1489645251
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7092.148964525387
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3645.3112757726376
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3645.3112757728763
+        }
+      ]
+    },
+    {
+      "tick": 39,
+      "x": 3423.4945811233497,
+      "z": -339.6704100208345,
+      "aY": 0.23740718042791517,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7036.204224913546
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 7036.204224913842
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3684.436250612221
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3684.436250612451
+        }
+      ]
+    },
+    {
+      "tick": 40,
+      "x": 3423.831990549466,
+      "z": -339.6704334557089,
+      "aY": 0.22297235830842702,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6981.883238372342
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6981.883238372655
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3722.254462531268
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3722.2544625315372
+        }
+      ]
+    },
+    {
+      "tick": 41,
+      "x": 3424.169396874742,
+      "z": -339.670456890368,
+      "aY": 0.20816293422667037,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6929.633233921848
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6929.633233922168
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3758.531102776272
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3758.5311027765447
+        }
+      ]
+    },
+    {
+      "tick": 42,
+      "x": 3424.506815345839,
+      "z": -339.67048032587064,
+      "aY": 0.1927323669763258,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6877.698744417178
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6877.698744417544
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3794.890608228779
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3794.890608229105
+        }
+      ]
+    },
+    {
+      "tick": 43,
+      "x": 3424.8442699479892,
+      "z": -339.6705037638828,
+      "aY": 0.17629744992836144,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6821.322834084706
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6821.32283408507
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3835.514404975331
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3835.5144049756445
+        }
+      ]
+    },
+    {
+      "tick": 44,
+      "x": 3425.1817557380855,
+      "z": -339.6705272040611,
+      "aY": 0.1597992975032153,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6757.427515842004
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6757.427515842365
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3883.135899853552
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3883.135899853865
+        }
+      ]
+    },
+    {
+      "tick": 45,
+      "x": 3425.519260539242,
+      "z": -339.67055064555984,
+      "aY": 0.1437317512073557,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6685.647863132134
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6685.647863132484
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3938.437384242188
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 3938.4373842425034
+        }
+      ]
+    },
+    {
+      "tick": 46,
+      "x": 3425.856775787392,
+      "z": -339.6705740877842,
+      "aY": 0.1280849326140776,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6607.167642418003
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6607.1676424183715
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4000.6603332110544
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4000.660333211384
+        }
+      ]
+    },
+    {
+      "tick": 47,
+      "x": 3426.194296593206,
+      "z": -339.67059753039456,
+      "aY": 0.11278198393903108,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6523.740296271984
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6523.740296272317
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4068.327814780867
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4068.327814781169
+        }
+      ]
+    },
+    {
+      "tick": 48,
+      "x": 3426.531820316958,
+      "z": -339.6706209732076,
+      "aY": 0.09784623681814063,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6437.163270684545
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6437.163270684908
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4139.779206809098
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4139.779206809426
+        }
+      ]
+    },
+    {
+      "tick": 49,
+      "x": 3426.8693455594857,
+      "z": -339.6706444161261,
+      "aY": 0.08339121292879281,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6349.039233359959
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6349.039233360335
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4213.4754776590935
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4213.475477659432
+        }
+      ]
+    },
+    {
+      "tick": 50,
+      "x": 3427.2068715864066,
+      "z": -339.67066785909907,
+      "aY": 0.06956694134046044,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6260.696070955486
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6260.696070955881
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4288.132431276586
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4288.132431276934
+        }
+      ]
+    },
+    {
+      "tick": 51,
+      "x": 3427.5443980156083,
+      "z": -339.6706913021,
+      "aY": 0.05651742124921699,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6173.187484512417
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6173.187484512838
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4362.747076798886
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4362.747076799258
+        }
+      ]
+    },
+    {
+      "tick": 52,
+      "x": 3427.8819246500934,
+      "z": -339.6707147451152,
+      "aY": 0.04435913822136102,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6087.32868558142
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6087.328685581843
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4436.56771470976
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4436.567714710136
+        }
+      ]
+    },
+    {
+      "tick": 53,
+      "x": 3428.219451389262,
+      "z": -339.67073818813765,
+      "aY": 0.03317516243958346,
+      "grounded": 4,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6003.742309917616
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 6003.742309918059
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4509.041694543331
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4509.041694543716
+        }
+      ]
+    },
+    {
+      "tick": 54,
+      "x": 3428.5569781822064,
+      "z": -339.6707616311638,
+      "aY": -2.3702113894806853,
+      "grounded": 2,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4581.163454134748
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4581.163454135149
+        }
+      ]
+    },
+    {
+      "tick": 55,
+      "x": 3428.8945074931075,
+      "z": -339.6707850743649,
+      "aY": -3.8165286463964527,
+      "grounded": 2,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4654.201557978189
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4654.201557978612
+        }
+      ]
+    },
+    {
+      "tick": 56,
+      "x": 3429.232036784813,
+      "z": -339.67080851756464,
+      "aY": -4.666788398366037,
+      "grounded": 2,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4727.628940092683
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4727.628940093154
+        }
+      ]
+    },
+    {
+      "tick": 57,
+      "x": 3429.569566051123,
+      "z": -339.6708319607626,
+      "aY": -5.146885747509386,
+      "grounded": 2,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4800.755966350002
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4800.7559663504735
+        }
+      ]
+    },
+    {
+      "tick": 58,
+      "x": 3429.9070952892566,
+      "z": -339.6708554039586,
+      "aY": -5.398180588316854,
+      "grounded": 2,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4872.868980295214
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4872.868980295726
+        }
+      ]
+    },
+    {
+      "tick": 59,
+      "x": 3430.244624498253,
+      "z": -339.6708788471526,
+      "aY": -5.5091386105643325,
+      "grounded": 2,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4943.305054311681
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 4943.30505431219
+        }
+      ]
+    },
+    {
+      "tick": 60,
+      "x": 3430.5821536781614,
+      "z": -339.6709022903446,
+      "aY": -5.5351222741153965,
+      "grounded": 2,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5011.488886386417
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5011.488886386966
+        }
+      ]
+    },
+    {
+      "tick": 61,
+      "x": 3430.9196828296185,
+      "z": -339.6709257335346,
+      "aY": -5.510769868842409,
+      "grounded": 2,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5076.943589471396
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 17,
+          "height": 0,
+          "supportValid": true,
+          "grounded": true,
+          "Fz": 5076.943589471954
+        }
+      ]
+    },
+    {
+      "tick": 62,
+      "x": 3431.2572119536285,
+      "z": -339.6709491767227,
+      "aY": -7.005894049328319,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 63,
+      "x": 3431.5947432124003,
+      "z": -339.67097262005905,
+      "aY": -8.610418422916446,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 64,
+      "x": 3431.932274471172,
+      "z": -339.6709960633954,
+      "aY": -9.348469547353488,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 65,
+      "x": 3432.269805729944,
+      "z": -339.6710195067318,
+      "aY": -9.795085700402662,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 66,
+      "x": 3432.607336988716,
+      "z": -339.67104295006817,
+      "aY": -10.056606378992443,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 67,
+      "x": 3432.9448682474876,
+      "z": -339.67106639340454,
+      "aY": -10.20125008387148,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 68,
+      "x": 3433.2823995062595,
+      "z": -339.6710898367409,
+      "aY": -10.272724601158304,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 69,
+      "x": 3433.6199307650313,
+      "z": -339.6711132800773,
+      "aY": -10.298981961394077,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 70,
+      "x": 3433.957462023803,
+      "z": -339.67113672341367,
+      "aY": -10.297850126213618,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 71,
+      "x": 3434.294993282575,
+      "z": -339.67116016675004,
+      "aY": -10.280655471976923,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 72,
+      "x": 3434.632524541347,
+      "z": -339.6711836100864,
+      "aY": -10.254552692179253,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 73,
+      "x": 3434.9700558001186,
+      "z": -339.6712070534228,
+      "aY": -10.224023113255942,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 74,
+      "x": 3435.3075870588905,
+      "z": -339.67123049675916,
+      "aY": -10.191837995562718,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 75,
+      "x": 3435.6451183176623,
+      "z": -339.67125394009554,
+      "aY": 19.83136883868732,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 76,
+      "x": 3435.982649576434,
+      "z": -339.6712773834319,
+      "aY": 71.74176479233844,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 77,
+      "x": 3436.320180835206,
+      "z": -339.6713008267683,
+      "aY": -4.938651871489683,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 78,
+      "x": 3436.657712093978,
+      "z": -339.67132427010466,
+      "aY": -4.476586129139077,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": false,
+          "rejection": "unreachable-layer-switch",
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 79,
+      "x": 3436.9952433527496,
+      "z": -339.67134771344104,
+      "aY": -4.470985567868051,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 80,
+      "x": 3437.3327746115215,
+      "z": -339.6713711567774,
+      "aY": -4.463627495502753,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 81,
+      "x": 3437.6703058702933,
+      "z": -339.6713946001138,
+      "aY": 38.63864847850299,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 82,
+      "x": 3438.007837129065,
+      "z": -339.67141804345016,
+      "aY": 50.32863545056203,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 83,
+      "x": 3438.345368387837,
+      "z": -339.67144148678653,
+      "aY": 0.6650512600147022,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 84,
+      "x": 3438.682899646609,
+      "z": -339.6714649301229,
+      "aY": 0.0014754282709466071,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 85,
+      "x": 3439.0204309053806,
+      "z": -339.6714883734593,
+      "aY": -0.000012077999400900923,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 86,
+      "x": 3439.3579621641525,
+      "z": -339.67151181679566,
+      "aY": -1.4667333205990978e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 87,
+      "x": 3439.6954934229243,
+      "z": -339.67153526013203,
+      "aY": 1.462833712874831e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 88,
+      "x": 3440.033024681696,
+      "z": -339.6715587034684,
+      "aY": 1.5989093004784946e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 89,
+      "x": 3440.370555940468,
+      "z": -339.6715821468048,
+      "aY": -1.5990442012623806e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 90,
+      "x": 3440.70808719924,
+      "z": -339.67160559014116,
+      "aY": -1.4674668429041764e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 91,
+      "x": 3441.0456184580116,
+      "z": -339.67162903347753,
+      "aY": 1.4652298251011522e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 92,
+      "x": 3441.3831497167835,
+      "z": -339.6716524768139,
+      "aY": 1.5987728506199574e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 93,
+      "x": 3441.7206809755553,
+      "z": -339.6716759201503,
+      "aY": -1.7450440297929235e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 94,
+      "x": 3442.058212234327,
+      "z": -339.67169936348665,
+      "aY": 1.459947606691559e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 95,
+      "x": 3442.395743493099,
+      "z": -339.671722806823,
+      "aY": -5.917835266072036e-17,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 96,
+      "x": 3442.733274751871,
+      "z": -339.6717462501594,
+      "aY": 1.45226179353958e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 97,
+      "x": 3443.0708060106426,
+      "z": -339.6717696934958,
+      "aY": -1.452243162590186e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 98,
+      "x": 3443.4083372694145,
+      "z": -339.67179313683215,
+      "aY": -5.524186094737476e-16,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 99,
+      "x": 3443.7458685281863,
+      "z": -339.6718165801685,
+      "aY": -1.4611408581377246e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 100,
+      "x": 3444.083399786958,
+      "z": -339.6718400235049,
+      "aY": 1.7450251552059907e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 101,
+      "x": 3444.42093104573,
+      "z": -339.6718634668413,
+      "aY": -1.5983447667702874e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 102,
+      "x": 3444.758462304502,
+      "z": -339.67188691017765,
+      "aY": -1.4724336735214667e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 103,
+      "x": 3445.0959935632736,
+      "z": -339.671910353514,
+      "aY": 1.4705807043976508e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 104,
+      "x": 3445.4335248220455,
+      "z": -339.6719337968504,
+      "aY": 1.598949947534534e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 105,
+      "x": 3445.7710560808173,
+      "z": -339.67195724018677,
+      "aY": -1.5991267391497162e-12,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    },
+    {
+      "tick": 106,
+      "x": 3446.108587339589,
+      "z": -339.67198068352315,
+      "aY": -1.4676537691572374e-13,
+      "grounded": 0,
+      "wheels": [
+        {
+          "id": "frontLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "frontRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 19,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearLeft",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        },
+        {
+          "id": "rearRight",
+          "road": "regional:G17:out:split306:lane64",
+          "segment": 18,
+          "height": 0,
+          "supportValid": true,
+          "grounded": false,
+          "Fz": 0
+        }
+      ]
+    }
+  ]
+}

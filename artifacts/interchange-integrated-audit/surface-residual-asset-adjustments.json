@@ -1,0 +1,499 @@
+{
+  "clusterId": "residual-intercity-curve",
+  "counts": {
+    "signs": 1,
+    "authoredProps": 11,
+    "roads": 15
+  },
+  "adjustments": [
+    {
+      "kind": "sign",
+      "id": "road-safety:intercity-eb-split-split:false:speed:65",
+      "roadId": "intercity-eb-split-split",
+      "reason": "Reproject explicit owning-road station, lane-facing heading and reading distance; resolve final-deck/asset envelopes",
+      "before": {
+        "id": "road-safety:intercity-eb-split-split:false:speed:65",
+        "type": "SPEED_LIMIT",
+        "template": "speed-limit",
+        "size": "small",
+        "roadId": "intercity-eb-split-split",
+        "position": {
+          "x": 3141.2557101811317,
+          "y": -1.958413954284369,
+          "z": 744.7548664641322
+        },
+        "heading": -1.896709850381605,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 65,
+        "speedLimitKmh": 110
+      },
+      "after": {
+        "id": "road-safety:intercity-eb-split-split:false:speed:65",
+        "type": "SPEED_LIMIT",
+        "template": "speed-limit",
+        "size": "small",
+        "roadId": "intercity-eb-split-split",
+        "position": {
+          "x": 3141.550262852465,
+          "y": -1.9546961464251975,
+          "z": 744.8544150487174
+        },
+        "heading": -1.896709850381605,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 64.95559822320666,
+        "speedLimitKmh": 110
+      }
+    }
+  ],
+  "checks": [
+    {
+      "kind": "sign",
+      "id": "road-safety:intercity-eb-split-split:false:speed:65",
+      "roadId": "intercity-eb-split-split",
+      "beforeSafe": true,
+      "afterSafe": true,
+      "objectConflicts": [],
+      "directionDot": 1
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v6-lamps-592",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v6-lamps-593",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v6-lamps-607",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v6-lamps-608",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v6-lamps-663",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v6-lamps-696",
+      "beforeSafe": false,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v61-road-lamp-50",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v61-road-lamp-51",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v61-road-lamp-52",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v61-road-lamp-53",
+      "beforeSafe": true,
+      "afterSafe": true
+    },
+    {
+      "kind": "authored-prop",
+      "id": "v61-road-lamp-54",
+      "beforeSafe": true,
+      "afterSafe": true
+    }
+  ],
+  "generated": [
+    {
+      "roadId": "regional:G4516:out",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 993.7672616837134,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -5.475,
+          "sections": 1
+        },
+        {
+          "offset": 5.475,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "regional:G4516:in:split178:split184:split198:split216:split482:split490:split498:split504",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 422.5564979198758,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -5.475,
+          "sections": 1
+        },
+        {
+          "offset": 5.475,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "regional:S68:out:split12:split30:split36:split232:split546",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 999.4234985228288,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -5.475,
+          "sections": 1
+        },
+        {
+          "offset": 5.475,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "intercity-wb",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 1038.4305461846652,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -5.475,
+          "sections": 1
+        },
+        {
+          "offset": 5.475,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "peripheral-interchange:S-to-E-right",
+      "piers": 6,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 1548.9045665940364,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -1.8,
+          "sections": 1
+        },
+        {
+          "offset": 1.8,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "intercity-eb-split-split",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 1036.9325277396565,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -5.475,
+          "sections": 1
+        },
+        {
+          "offset": 5.475,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "peripheral-interchange:E-to-N-right",
+      "piers": 7,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 1598.0064421307725,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -1.8,
+          "sections": 1
+        },
+        {
+          "offset": 1.8,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "v61-exhibition-road-split-split-split",
+      "piers": 7,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 1438.2709402736182,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -7.05,
+          "sections": 1
+        },
+        {
+          "offset": 7.05,
+          "sections": 1
+        },
+        {
+          "offset": -0.13,
+          "sections": 1
+        },
+        {
+          "offset": 0.13,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "v61-exhibition-road-split-split-split-split",
+      "piers": 1,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 249.21236587360767,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -7.05,
+          "sections": 1
+        },
+        {
+          "offset": 7.05,
+          "sections": 1
+        },
+        {
+          "offset": -0.13,
+          "sections": 1
+        },
+        {
+          "offset": 0.13,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "v9-chunhui-east-split-split-split",
+      "piers": 8,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 1400.711918285393,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -7.05,
+          "sections": 1
+        },
+        {
+          "offset": 7.05,
+          "sections": 1
+        },
+        {
+          "offset": -0.13,
+          "sections": 1
+        },
+        {
+          "offset": 0.13,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "v9-newcity-eight-split-split-split-split",
+      "piers": 1,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 527.9999336790412,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -3.0500000000000003,
+          "sections": 1
+        },
+        {
+          "offset": 3.0500000000000003,
+          "sections": 1
+        },
+        {
+          "offset": -0.13,
+          "sections": 1
+        },
+        {
+          "offset": 0.13,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "v9-newcity-ten-split-split-split",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 467.715137435628,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -3.0500000000000003,
+          "sections": 1
+        },
+        {
+          "offset": 3.0500000000000003,
+          "sections": 1
+        },
+        {
+          "offset": -0.13,
+          "sections": 1
+        },
+        {
+          "offset": 0.13,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "v9-newcity-eight-split-split-split-split-split",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 603.9999926001832,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -3.0500000000000003,
+          "sections": 1
+        },
+        {
+          "offset": 3.0500000000000003,
+          "sections": 1
+        },
+        {
+          "offset": -0.13,
+          "sections": 1
+        },
+        {
+          "offset": 0.13,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "v9-newcity-ten-split-split-split-split",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 0,
+      "barrierLength": 0,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -3.0500000000000003,
+          "sections": 0
+        },
+        {
+          "offset": 3.0500000000000003,
+          "sections": 0
+        },
+        {
+          "offset": -0.13,
+          "sections": 0
+        },
+        {
+          "offset": 0.13,
+          "sections": 0
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    },
+    {
+      "roadId": "v61-sports-road-c91",
+      "piers": 0,
+      "pierConflicts": [],
+      "barrierSections": 2,
+      "barrierLength": 657.027582556866,
+      "generatedLamps": 0,
+      "lampFootings": [],
+      "longitudinalMarkings": [
+        {
+          "offset": -7.05,
+          "sections": 1
+        },
+        {
+          "offset": 7.05,
+          "sections": 1
+        },
+        {
+          "offset": -0.13,
+          "sections": 1
+        },
+        {
+          "offset": 0.13,
+          "sections": 1
+        }
+      ],
+      "regeneratedFromFinalRoad": true
+    }
+  ],
+  "roadBuildingConflicts": [],
+  "newRoadBuildingConflicts": [],
+  "unresolved": [],
+  "pierConflicts": []
+}

@@ -1,0 +1,21 @@
+/** Shared visual calibration only; never used by road or vehicle physics. */
+export const VISUAL_ENVIRONMENT = Object.freeze({
+  exposure: 1.0,
+  sunIntensity: 2.8,
+  ambientIntensity: 1.45,
+  environmentIntensity: .45,
+  fogColor: 0xb7c5cc,
+  fogNear: 180,
+  fogFar: 1_100,
+  skyTop: 0x819eaf,
+  skyHorizon: 0xb7c5cc,
+  skyGround: 0x777d75,
+  sunColor: 0xfff3df,
+  ambientSky: 0xcbdbe5,
+  ambientGround: 0x72736b,
+  shadowHalfExtent: 48,
+  shadowMapSize: 2_048,
+  roadRoughness: .94,
+  roadBumpScale: .006,
+  markingRoughness: .76,
+});

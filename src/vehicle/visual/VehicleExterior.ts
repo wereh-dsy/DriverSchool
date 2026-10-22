@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { vehiclePaint, vehicleGlass } from './VehicleMaterials';
 
 import type { VehicleVisualConfig } from './VehicleVisualConfig';
 import { buildGolfGTIExterior } from './GolfGTIExterior';
@@ -1191,31 +1192,16 @@ const addSportsDetails = (
 };
 
 const createMaterials = (config: VehicleVisualConfig): ExteriorMaterials => ({
-  paint: new THREE.MeshStandardMaterial({
-    color: config.body.color,
-    roughness: 0.31,
-    metalness: 0.5,
-  }),
-  paintDark: new THREE.MeshStandardMaterial({
-    color: new THREE.Color(config.body.color).multiplyScalar(0.67),
-    roughness: 0.39,
-    metalness: 0.43,
-  }),
+  paint: vehiclePaint(config.body.color),
+  paintDark: vehiclePaint(new THREE.Color(config.body.color).multiplyScalar(0.67), { roughness: .39, clearcoat: .3 }),
   trim: new THREE.MeshStandardMaterial({
     color: config.body.trimColor,
     roughness: 0.73,
     metalness: 0.09,
   }),
-  glass: new THREE.MeshPhysicalMaterial({
-    color: config.windowGlass?.color ?? (config.body.profile === 'sport-coupe' ? 0x6d8794 : 0x89a8b4),
-    transparent: true,
-    opacity: config.windowGlass?.windowOpacity ?? (config.body.profile === 'sport-coupe' ? 0.32 : 0.25),
-    roughness: config.windowGlass ? .16 : 0.08,
-    metalness: 0.04,
-    transmission: config.windowGlass ? 0 : 0.17,
-    depthWrite: false,
-    side: config.windowGlass ? THREE.DoubleSide : THREE.FrontSide,
-  }),
+  glass: vehicleGlass(config.windowGlass?.color ?? (config.body.profile === 'sport-coupe' ? 0x6d8794 : 0x89a8b4),
+    config.windowGlass?.windowOpacity ?? (config.body.profile === 'sport-coupe' ? .32 : .25),
+    { side: config.windowGlass ? THREE.DoubleSide : THREE.FrontSide }),
   lamp: new THREE.MeshStandardMaterial({
     color: 0xeaf7ff,
     emissive: 0x8ab6ca,

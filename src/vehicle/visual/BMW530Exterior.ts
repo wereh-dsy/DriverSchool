@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { vehiclePaint, vehicleGlass } from './VehicleMaterials';
 import { beam, grid, label, loft, path, polygon, rounded, roundel, roofHeight, sideGlassX, sweep } from './BMW530Geometry';
 import { bmwWindshieldPoint, bmwAPillarRing, bmwFrontWindowCorners } from './BMW530FrontFrame';
 import { bmwExteriorUV, createBMW530ExteriorAtlas } from './BMW530ExteriorDetails';
@@ -20,8 +21,7 @@ const rearGlassPoint = (u: number, v: number): P => {
 
 export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig): void {
   const map = createBMW530ExteriorAtlas();
-  const paint = new T.MeshPhysicalMaterial({ color: config.body.color, metalness: .58, roughness: .25,
-    clearcoat: .95, clearcoatRoughness: .15, side: T.DoubleSide });
+  const paint = vehiclePaint(config.body.color, { side: T.DoubleSide });
   const sidePaint = paint.clone(); sidePaint.map = map;
   const rearPaint = paint.clone(); rearPaint.map = map;
   const details = new T.MeshStandardMaterial({ map, metalness: .58, roughness: .32, side: T.DoubleSide });
@@ -29,9 +29,7 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
   const black = new T.MeshStandardMaterial({ color: 0x0a0d13, roughness: .52, side: T.DoubleSide });
   const chrome = new T.MeshStandardMaterial({ color: 0xb4bfca, roughness: .24, metalness: .9, side: T.DoubleSide });
   const seal = new T.MeshStandardMaterial({ color: 0x11161b, roughness: .92, side: T.DoubleSide });
-  const glass = new T.MeshPhysicalMaterial({ color: config.windowGlass!.color, transparent: true,
-    opacity: config.windowGlass!.windowOpacity, roughness: .12, metalness: .12, clearcoat: 1,
-    side: T.DoubleSide, depthWrite: false });
+  const glass = vehicleGlass(config.windowGlass!.color, config.windowGlass!.windowOpacity);
   const windscreen = glass.clone(); windscreen.opacity = config.windowGlass!.windshieldOpacity;
   const lens = new T.MeshPhysicalMaterial({ color: 0xe2efff, transparent: true, opacity: .16,
     roughness: .06, metalness: .16, clearcoat: 1, side: T.DoubleSide, depthWrite: false });
@@ -314,7 +312,7 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
 export function buildBMW530SideMirror(root: T.Group, mirrorRoot: T.Group, side: 'left' | 'right', c: MirrorVisualConfig, paintColor: number): MirrorSurfaceMesh {
   const sign = side === 'left' ? -1 : 1, g = new T.Group(); g.name = side + ' mirror assembly';
   g.position.set(...c.position); g.rotation.set(...c.rotation);
-  const paint = new T.MeshPhysicalMaterial({ color: paintColor, metalness: .62, roughness: .3, clearcoat: .8, side: T.DoubleSide });
+  const paint = vehiclePaint(paintColor, { side: T.DoubleSide });
   const black = new T.MeshStandardMaterial({ color: 0x10151b, roughness: .55, side: T.DoubleSide });
   const outline: P[] = [];
   for (let i = 0; i < 40; i++) {

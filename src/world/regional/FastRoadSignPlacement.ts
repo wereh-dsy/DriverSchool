@@ -4,6 +4,7 @@ import { polylineLength, roadEdges, roadPoints, rotatePoint, sampleAt } from '..
 import { RoadClearance } from '../city/RoadClearance';
 import { ROAD_SIGN_POST_Z, signDimensions } from '../city/RoadSignTemplates';
 import { isControlledAccessRoad, roadFunction } from '../city/RoadClassification';
+import {roadCarriageways} from '../city/RoadCarriageway';
 
 export const isFastRoad = isControlledAccessRoad;
 export const isSafetySign = (sign: RoadSignDefinition) => sign.type === 'SPEED_LIMIT' || sign.type === 'CHEVRON';
@@ -25,7 +26,7 @@ export function signReadingConflict(a: RoadSignDefinition, b: RoadSignDefinition
   return ya < yb + db.height + .3 && yb < ya + da.height + .3;
 }
 
-class Placement {
+export class RoadSignPlacement {
   readonly roads: Map<string, CityRoad>;
   readonly paths: Map<string, ReturnType<typeof roadPoints>>;
   readonly lengths: Map<string, number>;
@@ -108,6 +109,11 @@ class Placement {
     const sign: RoadSignDefinition = { id, type, template: type === 'SPEED_LIMIT' ? 'speed-limit' : 'chevron', size: 'small', roadId: road.id,
       position: { x: frame.point.x + lateral.x, y: frame.point.y, z: frame.point.z + lateral.z }, heading, laneDirection: reverse ? 'reverse' : 'forward',
       destinations: [], language: 'zh-CN', stationMetres: station, ...(type === 'SPEED_LIMIT' ? { speedLimitKmh: road.speedLimit } : { chevronDirection: turn! }) };
+    // A graded/mitered shoulder is not necessarily at the centreline height.
+    // Use the same actual ribbon that supports the mounting strip.
+    const footing=roadCarriageways(this.map).pavedHeight(road.id,sign.position);
+    if(footing!==undefined)sign.position.y=footing;
+    else if((frame.point.y??0)>.5)return undefined;
     if (!this.safe(sign)) return undefined;
     if (this.map.objects.some(o => Math.abs((o.position.y ?? 0) - (sign.position.y ?? 0)) < 4 && Math.hypot(o.position.x - sign.position.x, o.position.z - sign.position.z) < 2.5)) return undefined;
     return sign;
@@ -148,7 +154,7 @@ export function auditFastRoadSigns(map: CityMapData) {
 
 /** Offline authoring only: no runtime scans or physics work. IDs and logical roads stay stable. */
 export function optimizeFastRoadSigns(map: CityMapData) {
-  const ctx = new Placement(map), before = auditFastRoadSigns(map), original = (map.signs ?? []).filter(s => !s.id.startsWith('road-safety:'));
+  const ctx = new RoadSignPlacement(map), before = auditFastRoadSigns(map), original = (map.signs ?? []).filter(s => !s.id.startsWith('road-safety:'));
   const fast = original.filter(s => isFastRoad(ctx.roads.get(s.roadId)!)), kept = original.filter(s => !isFastRoad(ctx.roads.get(s.roadId)!));
   const removed: string[] = [], moved: string[] = [], compacted: string[] = [], unresolved: string[] = [];
   const legacyMovements = new Set(map.regional?.structures.filter(s => s.kind === 'interchange').flatMap(s => s.roadIds));

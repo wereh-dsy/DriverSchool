@@ -1,4 +1,4 @@
-import { BoxGeometry,CanvasTexture,CylinderGeometry,Group,InstancedMesh,LinearFilter,LinearMipmapLinearFilter,Matrix4,MeshBasicMaterial,PlaneGeometry,Quaternion,SRGBColorSpace,Vector3,type BufferGeometry } from 'three';
+import { BoxGeometry,CanvasTexture,CylinderGeometry,Group,InstancedMesh,LinearFilter,LinearMipmapLinearFilter,Matrix4,MeshLambertMaterial,PlaneGeometry,Quaternion,SRGBColorSpace,Vector3,type BufferGeometry } from 'three';
 import { resolveSignContent,type RoadNameRegistry,type RoadSignDefinition } from './RoadSignData';
 import { ROAD_SIGN_POST_Z,signDimensions } from './RoadSignTemplates';
 type Content=ReturnType<typeof resolveSignContent>;
@@ -9,9 +9,9 @@ interface Part { geometry:BufferGeometry;matrix:Matrix4;face:boolean }
 /** Shared templates and content caches live for the map, independent of sector load/unload. */
 export class RoadSignRenderer {
   private readonly templates=new Map<string,Part[]>();
-  private readonly materials=new Map<string,MeshBasicMaterial>();
-  private readonly metal=new MeshBasicMaterial({color:0xa4acaf});
-  private readonly backs=new MeshBasicMaterial({color:0x627477});
+  private readonly materials=new Map<string,MeshLambertMaterial>();
+  private readonly metal=new MeshLambertMaterial({color:0xa4acaf});
+  private readonly backs=new MeshLambertMaterial({color:0x627477});
   private texturesCreated=0;
   private readonly unitBox=new BoxGeometry(1,1,1);
   constructor(readonly names:RoadNameRegistry,private readonly canvasFactory:SignCanvasFactory=()=>typeof document==='undefined'?null:document.createElement('canvas')){}
@@ -38,7 +38,7 @@ export class RoadSignRenderer {
     parts.push({geometry:new PlaneGeometry(t.width-0.08,t.height-0.08),matrix:new Matrix4().makeTranslation(0,t.bottom+t.height/2,0.101),face:true});
     this.templates.set(key,parts);return parts;
   }
-  materialFor(sign:RoadSignDefinition):MeshBasicMaterial {
+  materialFor(sign:RoadSignDefinition):MeshLambertMaterial {
     const key=this.contentKey(sign),old=this.materials.get(key);if(old)return old;
     const content=resolveSignContent(sign,this.names),canvas=this.canvasFactory();
     let texture:CanvasTexture|undefined;
@@ -46,7 +46,7 @@ export class RoadSignRenderer {
       canvas.width=sign.template==='speed-limit'?256:sign.template==='chevron'?384:sign.highwayLayout?2048:sign.urbanLayout?1536:sign.size==='large'?1536:sign.size==='medium'?1024:768;canvas.height=sign.template==='speed-limit'?256:sign.template==='chevron'?192:sign.template==='ceiling'?256:sign.highwayLayout?1024:sign.urbanLayout?584:sign.size==='large'?640:sign.size==='medium'?400:216;
       const ctx=canvas.getContext('2d');if(ctx){this.paint(ctx,canvas.width,canvas.height,content);texture=new CanvasTexture(canvas);texture.colorSpace=SRGBColorSpace;texture.anisotropy=8;texture.minFilter=LinearMipmapLinearFilter;texture.magFilter=LinearFilter;this.texturesCreated++;}
     }
-    const material=new MeshBasicMaterial({color:texture?0xffffff:content.color,map:texture??null,toneMapped:false,transparent:sign.type==='SPEED_LIMIT',alphaTest:sign.type==='SPEED_LIMIT'?.1:0});this.materials.set(key,material);return material;
+    const material=new MeshLambertMaterial({color:texture?0xffffff:content.color,map:texture??null,transparent:sign.type==='SPEED_LIMIT',alphaTest:sign.type==='SPEED_LIMIT'?.1:0});this.materials.set(key,material);return material;
   }
   private paint(ctx:CanvasRenderingContext2D,w:number,h:number,c:Content):void {
     if(c.type==='SPEED_LIMIT'){
@@ -145,7 +145,7 @@ export class RoadSignRenderer {
     }
   }
   buildInstances(signs:RoadSignDefinition[]):Group {
-    const root=new Group(),batches=new Map<BufferGeometry,Map<MeshBasicMaterial,{part:Part;material:MeshBasicMaterial;matrices:Matrix4[];ids:string[]}>>();
+    const root=new Group(),batches=new Map<BufferGeometry,Map<MeshLambertMaterial,{part:Part;material:MeshLambertMaterial;matrices:Matrix4[];ids:string[]}>>();
     for(const sign of signs) {
       const pose=new Matrix4().compose(new Vector3(sign.position.x,sign.position.y??0,sign.position.z),new Quaternion().setFromAxisAngle(new Vector3(0,1,0),sign.heading),new Vector3(1,1,1));
       const parts=this.parts(sign);

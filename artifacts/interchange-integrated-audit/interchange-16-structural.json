@@ -1,0 +1,3689 @@
+{
+  "designVersion": 4,
+  "accepted": false,
+  "plan": "structural",
+  "roadIds": [
+    "v91-ew-0-a-6",
+    "v91-ew-0-b-6",
+    "v91-ew-0-a-6-section",
+    "access-ew-west-eb-on",
+    "v91-ew-0-b-6-section",
+    "access-ew-west-wb-off"
+  ],
+  "variables": 35,
+  "constraints": 258,
+  "iterations": 600,
+  "residual": 5.207937965049557,
+  "worst": [
+    {
+      "residual": 5.207937965049557,
+      "label": "shared:access-ew-west-eb-on|v91-ew-0-a-6-section"
+    },
+    {
+      "residual": 4.2541381288541595,
+      "label": "shared:access-ew-west-eb-on|v91-ew-0-a-6-section"
+    },
+    {
+      "residual": 4.039457344592294,
+      "label": "shared:access-ew-west-eb-on|v91-ew-0-a-6-section"
+    },
+    {
+      "residual": 3.2198836905495667,
+      "label": "shared:access-ew-west-eb-on|v91-ew-0-a-6-section"
+    },
+    {
+      "residual": 3.03218339431821,
+      "label": "shared:access-ew-west-eb-on|ew-eb-split-4-split-split"
+    },
+    {
+      "residual": 2.9523045087684965,
+      "label": "shared:access-ew-west-eb-on|v91-ew-0-a-6-section"
+    },
+    {
+      "residual": 2.755483203081579,
+      "label": "shared:access-ew-west-eb-on|ew-eb-split-4-split-split"
+    },
+    {
+      "residual": 2.7420620349504423,
+      "label": "shared:access-ew-west-eb-on|ew-eb-split-4-split-split"
+    },
+    {
+      "residual": 2.255748512431799,
+      "label": "shared:access-ew-west-eb-on|ew-eb-split-4-split-split"
+    },
+    {
+      "residual": 2.248707508309078,
+      "label": "shared:access-ew-west-eb-on|ew-eb-split-4-split-split"
+    },
+    {
+      "residual": 2.2350334240459775,
+      "label": "shared:access-ew-west-eb-on|ew-eb-split-4-split-split"
+    },
+    {
+      "residual": 2.2280101451595247,
+      "label": "shared:access-ew-west-eb-on|ew-eb-split-4-split-split"
+    }
+  ],
+  "impossible": [],
+  "roads": [
+    {
+      "id": "v91-ew-0-a-6",
+      "centerline": [
+        {
+          "x": -795,
+          "y": 0,
+          "z": -102
+        },
+        {
+          "x": -775,
+          "y": 0,
+          "z": -102
+        }
+      ],
+      "laneCount": 2,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "forward",
+      "styleId": "urban_street_4",
+      "shoulders": {
+        "left": 0,
+        "right": 0
+      },
+      "sidewalk": {
+        "enabled": true,
+        "width": 2
+      },
+      "markings": true,
+      "curb": true,
+      "streetlights": true,
+      "elevationMode": "custom",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      },
+      "roadClass": "frontage",
+      "crossSection": "street",
+      "curve": "polyline",
+      "groupId": "v91-frontage-system",
+      "roadNameId": "v9-chengjing-road"
+    },
+    {
+      "id": "v91-ew-0-b-6",
+      "centerline": [
+        {
+          "x": -795,
+          "y": 0,
+          "z": -198
+        },
+        {
+          "x": -775,
+          "y": 0,
+          "z": -198
+        }
+      ],
+      "laneCount": 2,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "reverse",
+      "styleId": "urban_street_4",
+      "shoulders": {
+        "left": 0,
+        "right": 0
+      },
+      "sidewalk": {
+        "enabled": true,
+        "width": 2
+      },
+      "markings": true,
+      "curb": true,
+      "streetlights": true,
+      "elevationMode": "custom",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      },
+      "roadClass": "frontage",
+      "crossSection": "street",
+      "curve": "polyline",
+      "groupId": "v91-frontage-system",
+      "roadNameId": "v9-chengjing-road"
+    },
+    {
+      "id": "v91-ew-0-a-6-section",
+      "centerline": [
+        {
+          "x": -775,
+          "y": 0,
+          "z": -102
+        },
+        {
+          "x": -760,
+          "y": 0,
+          "z": -102
+        },
+        {
+          "x": -540,
+          "y": 0,
+          "z": -102
+        }
+      ],
+      "laneCount": 2,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "forward",
+      "styleId": "urban_street_4",
+      "shoulders": {
+        "left": 0,
+        "right": 0
+      },
+      "sidewalk": {
+        "enabled": true,
+        "width": 2
+      },
+      "markings": true,
+      "curb": true,
+      "streetlights": true,
+      "elevationMode": "custom",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      },
+      "roadClass": "frontage",
+      "crossSection": "street",
+      "curve": "polyline",
+      "groupId": "v91-frontage-system",
+      "roadNameId": "v9-chengjing-road"
+    },
+    {
+      "id": "access-ew-west-eb-on",
+      "centerline": [
+        {
+          "x": -775,
+          "y": 0,
+          "z": -102
+        },
+        {
+          "x": -771.160927593069,
+          "y": 0.00047992274449555947,
+          "z": -102.04875303193064
+        },
+        {
+          "x": -767.330178073216,
+          "y": 0.0009590977569999352,
+          "z": -102.19128177671519
+        },
+        {
+          "x": -767.0035543590518,
+          "y": 0.0010000000000000141,
+          "z": -102.21099299743545
+        },
+        {
+          "x": -763.5072282394614,
+          "y": -0.010572671385053575,
+          "z": -102.42199070784248
+        },
+        {
+          "x": -759.6915548908269,
+          "y": -0.023221854398503758,
+          "z": -102.73528429880153
+        },
+        {
+          "x": -759.026238971365,
+          "y": -0.025431528286902844,
+          "z": -102.80345619665118
+        },
+        {
+          "x": -755.8826348263331,
+          "y": -0.0017854243295203163,
+          "z": -103.12556702308119
+        },
+        {
+          "x": -752.0799448450005,
+          "y": 0.026878261969611246,
+          "z": -103.58724335417034
+        },
+        {
+          "x": -751.0802220584051,
+          "y": 0.03443081986492652,
+          "z": -103.7261241905186
+        },
+        {
+          "x": -748.2829617458506,
+          "y": -0.002124427026028091,
+          "z": -104.11471776555796
+        },
+        {
+          "x": -744.4911623279039,
+          "y": -0.05179119070177248,
+          "z": -104.70239473073295
+        },
+        {
+          "x": -743.1712036577769,
+          "y": -0.06912061335092982,
+          "z": -104.9262545728093
+        },
+        {
+          "x": -740.7040233901814,
+          "y": -0.17319733440024862,
+          "z": -105.34467872318416
+        },
+        {
+          "x": -736.9210217317042,
+          "y": -0.333140010085179,
+          "z": -106.03597421640058
+        },
+        {
+          "x": -735.2994344648222,
+          "y": -0.4018453359339995,
+          "z": -106.35121014687788
+        },
+        {
+          "x": -733.1416341514928,
+          "y": 0.8253802755203985,
+          "z": -106.77068568387104
+        },
+        {
+          "x": -729.3653374485682,
+          "y": 2.9773045087684964,
+          "z": -107.54321759908447
+        },
+        {
+          "x": -727.4608624260112,
+          "y": 4.064457344592294,
+          "z": -107.94935150097093
+        },
+        {
+          "x": -725.5916084219513,
+          "y": 5.232937965049557,
+          "z": -108.34797443552982
+        },
+        {
+          "x": -721.819923870663,
+          "y": 7.59414451190562,
+          "z": -109.17936066669596
+        },
+        {
+          "x": -719.6482528968692,
+          "y": 8.95532627341132,
+          "z": -109.67036751475912
+        },
+        {
+          "x": -718.0497605937244,
+          "y": 8.740672905890266,
+          "z": -110.03178076607185
+        },
+        {
+          "x": -714.2805953901565,
+          "y": 8.234074557530377,
+          "z": -110.89963920714636
+        },
+        {
+          "x": -711.8522107917154,
+          "y": 7.907495651203098,
+          "z": -111.46519276168145
+        },
+        {
+          "x": -710.5119050589796,
+          "y": 7.917038619184874,
+          "z": -111.7773404634084
+        },
+        {
+          "x": -706.7431663992148,
+          "y": 7.943878691635531,
+          "z": -112.65928900834686
+        },
+        {
+          "x": -704.0620938600995,
+          "y": 7.962970996909717,
+          "z": -113.28565117615011
+        },
+        {
+          "x": -702.9738562098831,
+          "y": 7.971821987287403,
+          "z": -113.5398893154507
+        },
+        {
+          "x": -699.2034512900055,
+          "y": 8.002474993733092,
+          "z": -114.4135458582088
+        },
+        {
+          "x": -696.2668444273992,
+          "y": 8.026331458601287,
+          "z": -115.08394551671076
+        },
+        {
+          "x": -695.4314284386028,
+          "y": 8.020832074605048,
+          "z": -115.27466311011007
+        },
+        {
+          "x": -691.6572644546958,
+          "y": 7.996013801030825,
+          "z": -116.11764554464344
+        },
+        {
+          "x": -688.4557870176528,
+          "y": 7.974989868354249,
+          "z": -116.81209518944289
+        },
+        {
+          "x": -687.8804361373054,
+          "y": 7.975001724890031,
+          "z": -116.93689763529781
+        },
+        {
+          "x": -684.1004202854526,
+          "y": 7.9750794956115145,
+          "z": -117.72682385556207
+        },
+        {
+          "x": -680.619445617442,
+          "y": 7.975150981448639,
+          "z": -118.42141755934026
+        },
+        {
+          "x": -680.3166936981584,
+          "y": 7.975145165522097,
+          "z": -118.48182867892515
+        },
+        {
+          "x": -676.5287331744432,
+          "y": 7.975072546479087,
+          "z": -119.19631657887595
+        },
+        {
+          "x": -672.7360155133283,
+          "y": 7.974999995166831,
+          "z": -119.86469202890339
+        },
+        {
+          "x": -668.9380175138347,
+          "y": 7.978497480239065,
+          "z": -120.48135950249637
+        },
+        {
+          "x": -665.1342159749828,
+          "y": 7.981992215229007,
+          "z": -121.04072347314381
+        },
+        {
+          "x": -664.8437521821684,
+          "y": 7.982258470706553,
+          "z": -121.07857130378126
+        },
+        {
+          "x": -661.3240876957939,
+          "y": 7.989686306335626,
+          "z": -121.53718841433462
+        },
+        {
+          "x": -657.5071094752889,
+          "y": 7.99772411532919,
+          "z": -121.9651587995577
+        },
+        {
+          "x": -656.9000168849722,
+          "y": 7.9990000001481665,
+          "z": -122.02133515190461
+        },
+        {
+          "x": -653.6827581124883,
+          "y": 7.9994568050361545,
+          "z": -122.31903910230196
+        },
+        {
+          "x": -649.8505104064134,
+          "y": 8,
+          "z": -122.59323379605631
+        }
+      ],
+      "laneCount": 1,
+      "laneWidth": 3.75,
+      "speedLimit": 40,
+      "travelDirection": "forward",
+      "styleId": "urban_street_4",
+      "shoulders": {
+        "left": 0.75,
+        "right": 1.75
+      },
+      "sidewalk": {
+        "enabled": false,
+        "width": 2
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 30
+      },
+      "roadClass": "ramp",
+      "crossSection": "shouldered",
+      "curve": "polyline",
+      "pavementSurface": "ribbon"
+    },
+    {
+      "id": "v91-ew-0-b-6-section",
+      "centerline": [
+        {
+          "x": -775,
+          "y": 0,
+          "z": -198
+        },
+        {
+          "x": -760,
+          "y": 0,
+          "z": -198
+        },
+        {
+          "x": -540,
+          "y": 0,
+          "z": -198
+        }
+      ],
+      "laneCount": 2,
+      "laneWidth": 3.6,
+      "speedLimit": 40,
+      "travelDirection": "reverse",
+      "styleId": "urban_street_4",
+      "shoulders": {
+        "left": 0,
+        "right": 0
+      },
+      "sidewalk": {
+        "enabled": true,
+        "width": 2
+      },
+      "markings": true,
+      "curb": true,
+      "streetlights": true,
+      "elevationMode": "custom",
+      "structure": {
+        "barrierEnabled": false,
+        "pierSpacing": 30,
+        "pierStyle": "round",
+        "piersEnabled": true,
+        "barrierOffset": 0
+      },
+      "roadClass": "frontage",
+      "crossSection": "street",
+      "curve": "polyline",
+      "groupId": "v91-frontage-system",
+      "roadNameId": "v9-chengjing-road"
+    },
+    {
+      "id": "access-ew-west-wb-off",
+      "centerline": [
+        {
+          "x": -649.8590392284631,
+          "y": 8,
+          "z": -143.7452429475302
+        },
+        {
+          "x": -653.2425637338833,
+          "y": 8.0002670146801,
+          "z": -143.65445400119518
+        },
+        {
+          "x": -656.5865617233966,
+          "y": 8.000530990100806,
+          "z": -143.77626811194588
+        },
+        {
+          "x": -657.8495734529901,
+          "y": 8.000631101935067,
+          "z": -143.89983272413545
+        },
+        {
+          "x": -659.8931213207843,
+          "y": 7.999990090585412,
+          "z": -144.0997597666627
+        },
+        {
+          "x": -663.1643306498281,
+          "y": 7.998956325637203,
+          "z": -144.61400345222611
+        },
+        {
+          "x": -665.7411091909518,
+          "y": 7.998133619852759,
+          "z": -145.16634884391254
+        },
+        {
+          "x": -666.4022778343094,
+          "y": 8.000429496763779,
+          "z": -145.3080736555166
+        },
+        {
+          "x": -669.6090509980103,
+          "y": 8.011704895335562,
+          "z": -146.17104486341464
+        },
+        {
+          "x": -672.786738264712,
+          "y": 8.023037361783743,
+          "z": -147.1919915628007
+        },
+        {
+          "x": -673.4105379616228,
+          "y": 8.025296216051016,
+          "z": -147.4232412543628
+        },
+        {
+          "x": -675.9374277581965,
+          "y": 8.028435127789388,
+          "z": -148.3599882405553
+        },
+        {
+          "x": -679.0632076022447,
+          "y": 8.032380028376146,
+          "z": -149.66410938355878
+        },
+        {
+          "x": -680.8054068261799,
+          "y": 8.034614180012449,
+          "z": -150.4666210852901
+        },
+        {
+          "x": -682.1661659206386,
+          "y": 7.970318770396359,
+          "z": -151.09342947869172
+        },
+        {
+          "x": -685.2483908371603,
+          "y": 7.822382669364471,
+          "z": -152.63702301283456
+        },
+        {
+          "x": -687.9389241973457,
+          "y": 7.691289583686477,
+          "z": -154.08341953698772
+        },
+        {
+          "x": -688.3119704755904,
+          "y": 7.653044337742551,
+          "z": -154.28396447286775
+        },
+        {
+          "x": -691.3589929597118,
+          "y": 7.336224341727658,
+          "z": -156.02332834567187
+        },
+        {
+          "x": -694.3915464133047,
+          "y": 7.016813130861361,
+          "z": -157.84418911812722
+        },
+        {
+          "x": -694.8413431242192,
+          "y": 6.968888714440064,
+          "z": -158.12588162106667
+        },
+        {
+          "x": -697.4117189601516,
+          "y": 6.59889198187534,
+          "z": -159.73562127711438
+        },
+        {
+          "x": -700.4215987240339,
+          "y": 6.161297208339985,
+          "z": -161.68669930951378
+        },
+        {
+          "x": -701.5702539656621,
+          "y": 5.9929131121574155,
+          "z": -162.45196497812975
+        },
+        {
+          "x": -703.423273828733,
+          "y": 5.716304136632286,
+          "z": -163.6864977022059
+        },
+        {
+          "x": -706.4188323980312,
+          "y": 5.266238292071396,
+          "z": -165.7240909420713
+        },
+        {
+          "x": -708.1888082767294,
+          "y": 4.999079265529335,
+          "z": -166.94555579975744
+        },
+        {
+          "x": -709.4103625557092,
+          "y": 4.814698644319663,
+          "z": -167.7885535159903
+        },
+        {
+          "x": -712.3999524255489,
+          "y": 4.362228935638134,
+          "z": -169.86895991084342
+        },
+        {
+          "x": -714.7568209899993,
+          "y": 4.005245418901254,
+          "z": -171.51294089142849
+        },
+        {
+          "x": -715.3896901313323,
+          "y": 3.909414303015486,
+          "z": -171.95438461351114
+        },
+        {
+          "x": -718.3816637968406,
+          "y": 3.4568897570354213,
+          "z": -174.033902110874
+        },
+        {
+          "x": -721.3779615458554,
+          "y": 3.005112817078049,
+          "z": -176.0965868898124
+        },
+        {
+          "x": -724.3806715021587,
+          "y": 2.5543717146748786,
+          "z": -178.1315134372068
+        },
+        {
+          "x": -727.3918817895317,
+          "y": 2.1054296793649514,
+          "z": -180.12775623993767
+        },
+        {
+          "x": -727.9862139683543,
+          "y": 2.0175777256450744,
+          "z": -180.51062321912187
+        },
+        {
+          "x": -730.4136805317561,
+          "y": 1.6648397459741249,
+          "z": -182.0743897848855
+        },
+        {
+          "x": -733.4481558526136,
+          "y": 1.2283845250119345,
+          "z": -183.96048855893082
+        },
+        {
+          "x": -734.7711761835379,
+          "y": 1.0403128002748807,
+          "z": -184.7478334702055
+        },
+        {
+          "x": -736.4973958758858,
+          "y": 0.8576254566938336,
+          "z": -185.77512704895398
+        },
+        {
+          "x": -739.5634887253542,
+          "y": 0.5373548937819366,
+          "z": -187.50737974183556
+        },
+        {
+          "x": -741.744455897931,
+          "y": 0.31275463867836517,
+          "z": -188.66603069532405
+        },
+        {
+          "x": -742.6485225248005,
+          "y": 0.26788059233970984,
+          "z": -189.14632112445597
+        },
+        {
+          "x": -745.7545853980064,
+          "y": 0.11601642630802433,
+          "z": -190.68102568369568
+        },
+        {
+          "x": -748.8837654687532,
+          "y": -0.03460222773523858,
+          "z": -192.1005679064352
+        },
+        {
+          "x": -752.0381508608227,
+          "y": -0.03198105758967513,
+          "z": -193.39402227955497
+        },
+        {
+          "x": -755.2198296979966,
+          "y": -0.029378301554554967,
+          "z": -194.55046328993544
+        },
+        {
+          "x": -756.4420001255515,
+          "y": -0.028393400666833966,
+          "z": -194.93431202806954
+        },
+        {
+          "x": -758.4308901040563,
+          "y": -0.020733935004564392,
+          "z": -195.55896542445714
+        },
+        {
+          "x": -761.6734202027836,
+          "y": -0.00841811013284788,
+          "z": -196.4086031700005
+        },
+        {
+          "x": -764.18327432591,
+          "y": 0.0009999999998748274,
+          "z": -196.92944356169627
+        },
+        {
+          "x": -764.94950811796,
+          "y": 0.0009281143875050695,
+          "z": -197.088451013446
+        },
+        {
+          "x": -768.2612419733672,
+          "y": 0.0006204635737547701,
+          "z": -197.5875834416741
+        },
+        {
+          "x": -771.6107098927866,
+          "y": 0.00031148848348217884,
+          "z": -197.89507494156527
+        },
+        {
+          "x": -775,
+          "y": 2.6645352587668555e-18,
+          "z": -198
+        }
+      ],
+      "laneCount": 1,
+      "laneWidth": 3.75,
+      "speedLimit": 40,
+      "travelDirection": "forward",
+      "styleId": "urban_street_4",
+      "shoulders": {
+        "left": 0.75,
+        "right": 1.75
+      },
+      "sidewalk": {
+        "enabled": false,
+        "width": 2
+      },
+      "markings": true,
+      "curb": false,
+      "streetlights": false,
+      "elevationMode": "custom",
+      "structure": {
+        "barrierEnabled": true,
+        "piersEnabled": true,
+        "pierSpacing": 30
+      },
+      "roadClass": "ramp",
+      "crossSection": "shouldered",
+      "curve": "polyline",
+      "pavementSurface": "ribbon"
+    }
+  ],
+  "changes": [
+    {
+      "roadId": "v91-ew-0-a-6",
+      "before": {
+        "roadId": "v91-ew-0-a-6",
+        "length": 35,
+        "start": {
+          "x": -795,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": -760,
+          "y": 0,
+          "z": -102
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 2,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "after": {
+        "roadId": "v91-ew-0-a-6",
+        "length": 20,
+        "start": {
+          "x": -795,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": -775,
+          "y": 0,
+          "z": -102
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 2,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "maxYChange": 0,
+      "maxXZChange": 0
+    },
+    {
+      "roadId": "v91-ew-0-b-6",
+      "before": {
+        "roadId": "v91-ew-0-b-6",
+        "length": 35,
+        "start": {
+          "x": -795,
+          "y": 0,
+          "z": -198
+        },
+        "end": {
+          "x": -760,
+          "y": 0,
+          "z": -198
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 2,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "after": {
+        "roadId": "v91-ew-0-b-6",
+        "length": 20,
+        "start": {
+          "x": -795,
+          "y": 0,
+          "z": -198
+        },
+        "end": {
+          "x": -775,
+          "y": 0,
+          "z": -198
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 2,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "maxYChange": 0,
+      "maxXZChange": 0
+    },
+    {
+      "roadId": "v91-ew-0-a-6-section",
+      "before": {
+        "roadId": "v91-ew-0-a-6-section",
+        "length": 220,
+        "start": {
+          "x": -760,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": -540,
+          "y": 0,
+          "z": -102
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 2,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "after": {
+        "roadId": "v91-ew-0-a-6-section",
+        "length": 235,
+        "start": {
+          "x": -775,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": -540,
+          "y": 0,
+          "z": -102
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 3,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "maxYChange": 0,
+      "maxXZChange": 15
+    },
+    {
+      "roadId": "access-ew-west-eb-on",
+      "before": {
+        "roadId": "access-ew-west-eb-on",
+        "length": 112.44473878920873,
+        "start": {
+          "x": -760,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": -649.8505104064134,
+          "y": 8,
+          "z": -122.59323379605631
+        },
+        "deltaY": 8,
+        "heightRange": 8,
+        "averageGrade": 0.07114605882091975,
+        "maxGrade": 0.11722443450962276,
+        "maxGradeBreak": 0.01190184437505365,
+        "maxGradeRate": 0.0028472444597548137,
+        "minRadius": 150.09580428019245,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 31,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "after": {
+        "roadId": "access-ew-west-eb-on",
+        "length": 127.07304760089531,
+        "start": {
+          "x": -775,
+          "y": 0,
+          "z": -102
+        },
+        "end": {
+          "x": -649.8505104064134,
+          "y": 8,
+          "z": -122.59323379605631
+        },
+        "deltaY": 8,
+        "heightRange": 9.357171609345318,
+        "averageGrade": 0.06295591512943013,
+        "maxGrade": 0.6113586161023794,
+        "maxGradeBreak": 0.7423374438784014,
+        "maxGradeRate": 0.3841007423310762,
+        "minRadius": 169.19297966651968,
+        "shortSegments": 7,
+        "extrema": [
+          8.000000000000039,
+          15.999999999999993,
+          24.000000000000018,
+          40,
+          55.999999999999986,
+          63.999999999999986,
+          80.00000000000001,
+          88.00000000000006,
+          96.00000000000003,
+          104.01463549276401
+        ],
+        "authoredNodes": 48,
+        "pavementSurface": "ribbon",
+        "curve": "polyline"
+      },
+      "maxYChange": 6.622822187571348,
+      "maxXZChange": 15
+    },
+    {
+      "roadId": "v91-ew-0-b-6-section",
+      "before": {
+        "roadId": "v91-ew-0-b-6-section",
+        "length": 220,
+        "start": {
+          "x": -760,
+          "y": 0,
+          "z": -198
+        },
+        "end": {
+          "x": -540,
+          "y": 0,
+          "z": -198
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 2,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "after": {
+        "roadId": "v91-ew-0-b-6-section",
+        "length": 235,
+        "start": {
+          "x": -775,
+          "y": 0,
+          "z": -198
+        },
+        "end": {
+          "x": -540,
+          "y": 0,
+          "z": -198
+        },
+        "deltaY": 0,
+        "heightRange": 0,
+        "averageGrade": 0,
+        "maxGrade": 0,
+        "maxGradeBreak": 0,
+        "maxGradeRate": 0,
+        "minRadius": null,
+        "shortSegments": 0,
+        "extrema": [],
+        "authoredNodes": 3,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "maxYChange": 0,
+      "maxXZChange": 15
+    },
+    {
+      "roadId": "access-ew-west-wb-off",
+      "before": {
+        "roadId": "access-ew-west-wb-off",
+        "length": 126.49108385887473,
+        "start": {
+          "x": -649.8590392284631,
+          "y": 8,
+          "z": -143.7452429475302
+        },
+        "end": {
+          "x": -760,
+          "y": -1.1579279202145187e-16,
+          "z": -198
+        },
+        "deltaY": -8,
+        "heightRange": 8,
+        "averageGrade": -0.06324556447729981,
+        "maxGrade": 0.11788012246964338,
+        "maxGradeBreak": 0.01688886252083069,
+        "maxGradeRate": 0.0175854430919521,
+        "minRadius": 49.50170617068547,
+        "shortSegments": 78,
+        "extrema": [
+          98.99999999999996,
+          100.99999999999994,
+          102.00000000000004,
+          103.00000000000001,
+          103.09544539449826,
+          104.00000000000001,
+          105.99999999999996,
+          106.2430958636862,
+          108,
+          108.99999999999994,
+          109.43138161761723,
+          110.00000000000001,
+          112.67333026442415,
+          115.98358053159959,
+          119.37822569872604,
+          119.99999999999994,
+          124.00000000000001,
+          125.00000000000003,
+          125.99999999999993
+        ],
+        "authoredNodes": 127,
+        "pavementSurface": "segment-plane",
+        "curve": "polyline"
+      },
+      "after": {
+        "roadId": "access-ew-west-wb-off",
+        "length": 138.88616120204935,
+        "start": {
+          "x": -649.8590392284631,
+          "y": 8,
+          "z": -143.7452429475302
+        },
+        "end": {
+          "x": -775,
+          "y": 2.6645352587668555e-18,
+          "z": -198
+        },
+        "deltaY": -8,
+        "heightRange": 8.069216407747687,
+        "averageGrade": -0.05760113124850307,
+        "maxGrade": 0.12426405963415325,
+        "maxGradeBreak": 0.0473845341150571,
+        "maxGradeRate": 0.027246515089521143,
+        "minRadius": 51.547460002377484,
+        "shortSegments": 7,
+        "extrema": [
+          7.999999999999997,
+          15.999999999999968,
+          32.00000000000002,
+          111.92436517157974,
+          128.00000000000003
+        ],
+        "authoredNodes": 55,
+        "pavementSurface": "ribbon",
+        "curve": "polyline"
+      },
+      "maxYChange": 1.629339902631485,
+      "maxXZChange": 15
+    }
+  ],
+  "endpointMoves": [
+    {
+      "roadId": "access-ew-west-eb-on",
+      "end": "start",
+      "parentRoadId": "v91-ew-0-a-6",
+      "parentEnd": "end",
+      "before": {
+        "x": -760,
+        "y": 0,
+        "z": -102
+      },
+      "after": {
+        "x": -775,
+        "y": 0,
+        "z": -102
+      },
+      "movedAlongExistingFrontage": 15,
+      "remainingFrontageLength": 20,
+      "connectionsPreserved": true,
+      "linkedEndpoints": [
+        {
+          "roadId": "v91-ew-0-a-6",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ew-0-a-6-section",
+          "end": "start"
+        },
+        {
+          "roadId": "access-ew-west-eb-on",
+          "end": "start"
+        }
+      ]
+    },
+    {
+      "roadId": "access-ew-west-wb-off",
+      "end": "end",
+      "parentRoadId": "v91-ew-0-b-6",
+      "parentEnd": "end",
+      "before": {
+        "x": -760,
+        "y": -1.1579279202145187e-16,
+        "z": -198
+      },
+      "after": {
+        "x": -775,
+        "y": 0,
+        "z": -198
+      },
+      "movedAlongExistingFrontage": 15,
+      "remainingFrontageLength": 20,
+      "connectionsPreserved": true,
+      "linkedEndpoints": [
+        {
+          "roadId": "v91-ew-0-b-6",
+          "end": "end"
+        },
+        {
+          "roadId": "v91-ew-0-b-6-section",
+          "end": "start"
+        },
+        {
+          "roadId": "access-ew-west-wb-off",
+          "end": "end"
+        }
+      ]
+    }
+  ],
+  "overlapConstraints": [
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -726.3039928959806,
+        "z": -110.8556139311115
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -726.1446958951932,
+        "z": -110.86391639134973
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -725.7378961764935,
+        "z": -110.9314606039888
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -723.9209036014383,
+        "z": -111.18573402769513
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -722.4238834189485,
+        "z": -111.271602791092
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -721.3037752813516,
+        "z": -111.5420453553276
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -720.191042812959,
+        "z": -111.51590397142546
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -719.3816469512933,
+        "z": -111.80723760221957
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -718.5473025488677,
+        "z": -111.6957393943664
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -716.8518763650547,
+        "z": -112.17775999337285
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -714.9521793023719,
+        "z": -112.11012771235478
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -714.295406420136,
+        "z": -112.51985372260958
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -713.2875138900179,
+        "z": -112.68334726017574
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -712.3855880292771,
+        "z": -112.39430254886224
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -711.6292738822198,
+        "z": -112.90323859362677
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -710.891447430388,
+        "z": -112.55604572393152
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -709.3582050697531,
+        "z": -113.25648248029911
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -707.4665895090475,
+        "z": -112.96959974334338
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -705.9879721051645,
+        "z": -113.73050368538372
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -704.606592987609,
+        "z": -113.28687994175887
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -703.8402520158677,
+        "z": -114.01726963040284
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -703.1900141308219,
+        "z": -113.42989476906543
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -702.835890032941,
+        "z": -114.16049821775312
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -701.581136911746,
+        "z": -114.39695079275646
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -699.977442684046,
+        "z": -113.83150259222909
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -698.354847637973,
+        "z": -114.83192246733925
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -696.8602491679111,
+        "z": -114.1760292024095
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -696.0211182769926,
+        "z": -115.12621857503987
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -695.4574184963736,
+        "z": -114.30347541469153
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -694.3470371776782,
+        "z": -115.41495753854616
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -692.154290261532,
+        "z": -114.3429913406757
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -691.5408911715463,
+        "z": -116.96080738712722
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -690.9862201994962,
+        "z": -112.94445201826716
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -690.6287876782231,
+        "z": -115.41809716173027
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -689.2800469016374,
+        "z": -114.57146131208516
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -688.3755808920573,
+        "z": -117.38375664719861
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -687.7466461252108,
+        "z": -115.38839950440628
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -686.7261140216209,
+        "z": -117.73148895639586
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -685.0420540459954,
+        "z": -115.9550771247793
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -683.0446097790592,
+        "z": -118.48984525926454
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -681.4727276910389,
+        "z": -116.679094890094
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -680.6200081539452,
+        "z": -118.97365028044207
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -680.0158354937669,
+        "z": -116.50529009972139
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -680.1721422399688,
+        "z": -119.1489148729629
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -679.6491179407908,
+        "z": -114.9916808053609
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -679.0792823148349,
+        "z": -118.26113146092362
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -677.5013523469303,
+        "z": -117.4440089094234
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -675.3507270586359,
+        "z": -119.95392513299585
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -673.7277699757469,
+        "z": -118.12449677697208
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -671.5481532144827,
+        "z": -120.60632118254559
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -669.9513628293544,
+        "z": -118.75497036840288
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -668.6768426103051,
+        "z": -120.0533726481797
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -668.3332296369301,
+        "z": -116.95828871549247
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -667.4923053732481,
+        "z": -121.29613354615803
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -666.684726631336,
+        "z": -118.76904666218647
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -665.1046665246871,
+        "z": -121.59081944907285
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -664.7315289458816,
+        "z": -119.53849501042195
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -663.7327466890682,
+        "z": -121.76958248553787
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -662.3010726851268,
+        "z": -119.85518679509306
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -660.1007205814234,
+        "z": -122.21941661397348
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -658.6001104159128,
+        "z": -120.29128149188494
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -657.3358234586324,
+        "z": -122.41663335839982
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -657.0652917021486,
+        "z": -119.61590327571645
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -657.1915956544079,
+        "z": -123.78887485078614
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -656.9406364407565,
+        "z": -120.88417011935337
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -655.8684259653118,
+        "z": -122.66077250168352
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -654.6165880557415,
+        "z": -120.68437581847517
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -652.4405341539597,
+        "z": -122.95097074913748
+      }
+    },
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -650.7264877682851,
+        "z": -121.37135239719565
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -775.0111108775914,
+        "z": -103.75000000568797
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -775.0270751279298,
+        "z": -195.42043047143827
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -775.0270751279298,
+        "z": -196.29584966537368
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -774.224006335486,
+        "z": -101.61966897127121
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -772.5611520594733,
+        "z": -99.97443554763066
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -769.9183234326902,
+        "z": -102.63702742934272
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -768.5607161260245,
+        "z": -100.60276439473569
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -767.2577737038495,
+        "z": -102.73830339136958
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -767.033483821508,
+        "z": -100.66471536558795
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -765.8801958263128,
+        "z": -102.82143802130015
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -764.5762005275593,
+        "z": -100.81300849703776
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -761.7358532306899,
+        "z": -103.6017314586098
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -761.0832317827903,
+        "z": -101.03179392421366
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -759.9775896434768,
+        "z": -105.30326291148458
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -759.8228046797369,
+        "z": -102.1910481860206
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -759.5283428464395,
+        "z": -103.29651066200255
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -759.1029986597483,
+        "z": -101.24585233592973
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -757.9156044428391,
+        "z": -103.95303024978068
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -756.6303467938985,
+        "z": -102.48006048421564
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -754.7762516376596,
+        "z": -103.57430151470415
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -753.0307859602672,
+        "z": -102.67883343947662
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -751.8049868193975,
+        "z": -103.73080973793138
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -751.2487542053236,
+        "z": -102.8320084542439
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -750.3035549157822,
+        "z": -103.77853486772716
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -748.9568184772638,
+        "z": -102.96593128061956
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -747.2936021595141,
+        "z": -103.90937350643225
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -745.4817223730981,
+        "z": -103.21305886802324
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -744.0824655622988,
+        "z": -104.10803831759871
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -743.3652774423832,
+        "z": -103.41910096255191
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -742.5026275838931,
+        "z": -104.18409629913718
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -741.261632898726,
+        "z": -103.58171617781177
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -739.8024952694137,
+        "z": -104.32485860461186
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -737.936652159893,
+        "z": -103.86206728991743
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -736.3733234269375,
+        "z": -104.55789778194467
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -735.5105605050512,
+        "z": -104.11662945414238
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -734.653559074921,
+        "z": -104.66427482357851
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -733.536964353967,
+        "z": -104.30212721087952
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -732.2994403267853,
+        "z": -104.80522812426089
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -730.3934090478942,
+        "z": -104.60261899283611
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -728.6853053085833,
+        "z": -105.06493053285392
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -727.6903037036968,
+        "z": -104.89971513574781
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -726.7557259416129,
+        "z": -105.20135631480976
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -725.7816208533147,
+        "z": -105.10233791350126
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": false,
+      "minimum": 6.162,
+      "point": {
+        "x": -724.7879943883007,
+        "z": -105.33509423652522
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "shared": false,
+      "minimum": 6.162,
+      "point": {
+        "x": -723.5287756759523,
+        "z": -105.33509423652521
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-eb-on",
+        "ew-eb-split-4-split-split-section-2"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -649.6911793395366,
+        "z": -120.18178922843536
+      }
+    },
+    {
+      "roadIds": [
+        "ew-wb-split-split-split-split-4-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -649.9587279490112,
+        "z": -146.0940233232134
+      }
+    },
+    {
+      "roadIds": [
+        "ew-wb-split-split-split-split-4-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -650.0298961845505,
+        "z": -147.300881940347
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -766.0999575459965,
+        "z": -196.71405833516215
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -766.904259404762,
+        "z": -198.94214213166356
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -769.3912046061392,
+        "z": -197.14737309254915
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -770.3284128233482,
+        "z": -199.32550558117308
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -773.2900456872577,
+        "z": -196.91844190775052
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -774.0827259248879,
+        "z": -199.64524629366292
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -760.5872799656677,
+        "z": -195.02921289613758
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -760.9503329459637,
+        "z": -196.94881851032102
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -762.5593879377471,
+        "z": -196.2463188186391
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -763.4221003273578,
+        "z": -197.3044451604694
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -764.6200717574308,
+        "z": -195.94558908591864
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -764.389828309227,
+        "z": -198.54681906850388
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -746.8386482893256,
+        "z": -194.743092922692
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -748.0186711855922,
+        "z": -194.743092922692
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -749.63623186427,
+        "z": -195.25128647429483
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -751.9328946510487,
+        "z": -195.19195570970112
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -753.3692996294176,
+        "z": -195.89017562536102
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -755.1438427048523,
+        "z": -195.59494512411365
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -755.531592366474,
+        "z": -196.29439664885257
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -756.7182468020309,
+        "z": -195.73091707435654
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -757.4343111948783,
+        "z": -196.55906390174533
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -759.0480791521442,
+        "z": -196.03278576808117
+      }
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -759.142598252,
+        "z": -198.34954682653316
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -650.4921984879365,
+        "z": -143.51287420398558
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -652.0029893603413,
+        "z": -142.18639583629997
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -650.8134949644842,
+        "z": -146.57653290066986
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -652.3994165843704,
+        "z": -145.02072702990236
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -654.4142112945821,
+        "z": -143.15510847439236
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -655.4437855335829,
+        "z": -145.27732862421212
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -657.0704468597951,
+        "z": -143.27935545873683
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -657.3152173183456,
+        "z": -145.39658191369992
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -658.6089348278416,
+        "z": -143.42987082187696
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -659.0521385369598,
+        "z": -145.5665106576325
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -661.3290708686445,
+        "z": -143.54340297336654
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -663.1003228284884,
+        "z": -142.33801737594789
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -661.9506457556386,
+        "z": -146.1112685237764
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -663.1690756368353,
+        "z": -143.53649669057037
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -662.8708933423055,
+        "z": -146.9843158193557
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -664.0100092060393,
+        "z": -144.3547990240076
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -662.9259599984921,
+        "z": -147.92994891499072
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -664.3849824854664,
+        "z": -146.73122833394237
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -666.097159242513,
+        "z": -144.6886987755631
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -665.8503337393844,
+        "z": -146.76644888048327
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -667.6405650997914,
+        "z": -145.0803702730528
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -668.1619602288121,
+        "z": -147.37813430550048
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -670.8599716861685,
+        "z": -146.00401136495074
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -670.9310331138447,
+        "z": -148.55066873040698
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -672.9509055437084,
+        "z": -147.34537115515803
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -672.9386322339844,
+        "z": -148.21108401702145
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -673.8132771262759,
+        "z": -147.5670727999768
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -675.3187731878417,
+        "z": -146.39729656182632
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -674.1634475262875,
+        "z": -149.24769015638597
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -675.4121724564092,
+        "z": -148.38416575588857
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -677.4363423273746,
+        "z": -148.09478692825675
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -678.8593483827345,
+        "z": -148.75057209716104
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -680.4931991020107,
+        "z": -148.53432836992874
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -681.3426213737113,
+        "z": -148.9183009171883
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -682.3600293453685,
+        "z": -148.84078675931525
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -683.089397051319,
+        "z": -149.0610388980183
+      }
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "shared": true,
+      "minimum": 6.162,
+      "point": {
+        "x": -683.5126444579522,
+        "z": -149.0371786177105
+      }
+    }
+  ],
+  "validation": [
+    {
+      "roadIds": [
+        "ew-eb-split-4-split-split",
+        "access-ew-west-eb-on"
+      ],
+      "stationRanges": [
+        [
+          147.87703621932116,
+          225.14654993270386
+        ],
+        [
+          49.429971281193076,
+          127.07304760089526
+        ]
+      ],
+      "minGap": 0,
+      "maxGap": 3.0571833943182103,
+      "signedMin": -0.9553262734113215,
+      "signedMax": 3.0571833943182103,
+      "area": 370.5198855895578,
+      "alignment": 0.9846975283309664,
+      "point": {
+        "x": -726.3039928959806,
+        "z": -110.8556139311115
+      },
+      "relation": "unlinked",
+      "minClearance": -0.65,
+      "segmentPairs": 69,
+      "expectedShared": true,
+      "valid": false
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6",
+        "access-ew-west-eb-on"
+      ],
+      "stationRanges": [
+        [
+          19.966667367225796,
+          20
+        ],
+        [
+          0,
+          0.03333532042451043
+        ]
+      ],
+      "minGap": 0,
+      "maxGap": 0.000004202097795930779,
+      "signedMin": -0.000004202097795930779,
+      "signedMax": 0,
+      "area": 0.043752608049544506,
+      "alignment": 0.9999193752962117,
+      "point": {
+        "x": -775.0111108775914,
+        "z": -103.75000000568797
+      },
+      "relation": "endpoint-linked",
+      "minClearance": -0.65,
+      "segmentPairs": 1,
+      "expectedShared": true,
+      "valid": true
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6",
+        "access-ew-west-wb-off"
+      ],
+      "stationRanges": [
+        [
+          19.918774616210612,
+          20
+        ],
+        [
+          138.804896904902,
+          138.88616120204935
+        ]
+      ],
+      "minGap": 2.6376605977498913e-18,
+      "maxGap": 0.000007644272816787937,
+      "signedMin": -0.000007644272816787937,
+      "signedMax": -2.6376605977498913e-18,
+      "area": 0.1066593900177395,
+      "alignment": 0.9995211506235303,
+      "point": {
+        "x": -775.0270751279298,
+        "z": -195.42043047143827
+      },
+      "relation": "endpoint-linked",
+      "minClearance": -0.65,
+      "segmentPairs": 2,
+      "expectedShared": true,
+      "valid": true
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-a-6-section",
+        "access-ew-west-eb-on"
+      ],
+      "stationRanges": [
+        [
+          0,
+          53.78191222978842
+        ],
+        [
+          0,
+          53.59074449924583
+        ]
+      ],
+      "minGap": 0,
+      "maxGap": 7.477097764481667,
+      "signedMin": -7.477097764481667,
+      "signedMax": 0.4018453359339995,
+      "area": 236.8355558587864,
+      "alignment": 0.9765566043853806,
+      "point": {
+        "x": -774.224006335486,
+        "z": -101.61966897127121
+      },
+      "relation": "unlinked",
+      "minClearance": -0.65,
+      "segmentPairs": 42,
+      "expectedShared": true,
+      "valid": false
+    },
+    {
+      "roadIds": [
+        "access-ew-west-eb-on",
+        "ew-eb-split-4-split-split-section-2"
+      ],
+      "stationRanges": [
+        [
+          127.03353021079543,
+          127.07304760089528
+        ],
+        [
+          0,
+          0.03951504219744989
+        ]
+      ],
+      "minGap": 0,
+      "maxGap": 0.000005642521600179862,
+      "signedMin": -0.000005642521600179862,
+      "signedMax": 0,
+      "area": 0.07162526956381043,
+      "alignment": 0.9999405855905932,
+      "point": {
+        "x": -649.6911793395366,
+        "z": -120.18178922843536
+      },
+      "relation": "endpoint-linked",
+      "minClearance": -0.65,
+      "segmentPairs": 1,
+      "expectedShared": true,
+      "valid": true
+    },
+    {
+      "roadIds": [
+        "ew-wb-split-split-split-split-4-section",
+        "access-ew-west-wb-off"
+      ],
+      "stationRanges": [
+        [
+          39.98708260828051,
+          40.10333595867845
+        ],
+        [
+          0,
+          0.11631317854757212
+        ]
+      ],
+      "minGap": 0,
+      "maxGap": 0.000009497404622749173,
+      "signedMin": -0.000009497404622749173,
+      "signedMax": 0,
+      "area": 0.21081763611437054,
+      "alignment": 0.9994856287963643,
+      "point": {
+        "x": -649.9587279490112,
+        "z": -146.0940233232134
+      },
+      "relation": "endpoint-linked",
+      "minClearance": -0.65,
+      "segmentPairs": 2,
+      "expectedShared": true,
+      "valid": true
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "stationRanges": [
+        [
+          0,
+          27.55315660588826
+        ],
+        [
+          111.92436517157974,
+          138.88616120204935
+        ]
+      ],
+      "minGap": 0,
+      "maxGap": 0.0346022277352386,
+      "signedMin": -0.0009999999998750132,
+      "signedMax": 0.0346022277352386,
+      "area": 133.95038224422024,
+      "alignment": 0.9252358063072483,
+      "point": {
+        "x": -766.0999575459965,
+        "z": -196.71405833516215
+      },
+      "relation": "unlinked",
+      "minClearance": -0.65,
+      "segmentPairs": 22,
+      "expectedShared": true,
+      "valid": true
+    },
+    {
+      "roadIds": [
+        "v91-ew-0-b-6-section",
+        "access-ew-west-wb-off"
+      ],
+      "stationRanges": [
+        [
+          27.108842442152536,
+          29.82205608398226
+        ],
+        [
+          109.49951954069228,
+          111.92436517157974
+        ]
+      ],
+      "minGap": 0,
+      "maxGap": 0.07073074323435355,
+      "signedMin": -0.07073074323435355,
+      "signedMax": 0.03460222773523858,
+      "area": 1.3963265973870875,
+      "alignment": 0.9106745524915134,
+      "point": {
+        "x": -746.8386482893256,
+        "z": -194.743092922692
+      },
+      "relation": "unlinked",
+      "minClearance": -0.65,
+      "segmentPairs": 1,
+      "expectedShared": true,
+      "valid": false
+    },
+    {
+      "roadIds": [
+        "access-ew-west-wb-off",
+        "ew-wb-split-split-split-split-4-section-section"
+      ],
+      "stationRanges": [
+        [
+          0,
+          34.42438309610841
+        ],
+        [
+          0,
+          33.95153534082216
+        ]
+      ],
+      "minGap": 0,
+      "maxGap": 0.07031465045065044,
+      "signedMin": -0.07031465045065044,
+      "signedMax": 0.034614180012450646,
+      "area": 176.03195164934732,
+      "alignment": 0.867517873920439,
+      "point": {
+        "x": -650.4921984879365,
+        "z": -143.51287420398558
+      },
+      "relation": "unlinked",
+      "minClearance": -0.65,
+      "segmentPairs": 37,
+      "expectedShared": true,
+      "valid": false
+    }
+  ]
+}

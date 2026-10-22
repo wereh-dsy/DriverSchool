@@ -27,7 +27,8 @@ const makeState = () => ({ reference: undefined as SurfaceReference | undefined,
   latchCount: 0, latchIds: new Array<string | undefined>(16),
   latchReasons: new Array<SupportRejectionReason | undefined>(16),
   confirmationIds: new Array<string | undefined>(16), confirmationTicks: new Int32Array(16).fill(-10),
-  confirmationCounts: new Uint8Array(16) });
+  confirmationCounts: new Uint8Array(16), anchorFootprintPresent: false,
+  anchorFootprintHeight: 0, anchorFootprintNx: 0, anchorFootprintNy: 1, anchorFootprintNz: 0 });
 
 /** Four outer-tick anchors; candidate qualification runs inside the map's one
  * footprint query. No candidate list allocation or topology search per sample. */
@@ -37,12 +38,22 @@ export class WheelSupportContinuity {
     predictedError: 0, continuityRank: 0, topologyRank: 0, normalDot: 1 };
   private readonly hint: SurfaceSupportHint = { height: 0, normal: { x: 0, y: 1, z: 0 },
     heightTolerance: .1, withinTick: false, previousReachable: false,
-    evaluateCandidate: (y, nx, ny, nz, ref) => this.evaluate(y, nx, ny, nz, ref) };
+    evaluateCandidate: (y, nx, ny, nz, ref) => {
+      // The ground only calls this for footprints containing the current query.
+      const s = this.states[this.current], d = this.evaluate(y, nx, ny, nz, ref, false);
+      if (ref?.surfaceId === s.anchorReference?.surfaceId && d.eligible && d.layerClass === 'SAME_LAYER') {
+        s.anchorFootprintPresent = true; s.anchorFootprintHeight = y;
+        s.anchorFootprintNx = nx; s.anchorFootprintNy = ny; s.anchorFootprintNz = nz;
+      }
+      return d;
+    } };
   private geometry?: SuspensionVerticalSnapshot;
   private radius = 0;
   private tick = 0;
   private current: WheelId = 'frontLeft';
   private layered = false;
+  private selectedCandidate = true;
+  private sameLayerContinuation = false;
   private dt = 1 / 120;
   private verticalVelocity = 0;
   public rejectedSamples = 0;
@@ -83,6 +94,9 @@ export class WheelSupportContinuity {
   private reject(reason: SupportRejectionReason, surface: string | undefined): SupportCandidateDecision {
     const s = this.states[this.current], d = this.decision;
     d.eligible = false; d.reason = reason;
+    // Ranking a rejected alternative must not poison the selected wheel support.
+    // Only the final selected/rejected sample commits a same-tick latch.
+    if (!this.selectedCandidate) return d;
     if (reason !== 'layer-switch-unconfirmed') for (let i = 0; i < 16; i++) {
       if (s.confirmationIds[i] === surface) s.confirmationCounts[i] = 0;
     }
@@ -97,7 +111,8 @@ export class WheelSupportContinuity {
     return d;
   }
 
-  private evaluate(height: number, nx: number, ny: number, nz: number, ref: SurfaceReference | undefined): SupportCandidateDecision {
+  private evaluate(height: number, nx: number, ny: number, nz: number, ref: SurfaceReference | undefined, selected = true): SupportCandidateDecision {
+    this.selectedCandidate = selected; this.sameLayerContinuation = false;
     const s = this.states[this.current], g = this.geometry!.wheels[this.current], d = this.decision;
     const axis = g.suspensionAxis, a = g.attachmentWorldPosition, travel = g.maxSuspensionLength - g.minSuspensionLength;
     const projection = -(axis.x * nx + axis.y * ny + axis.z * nz);
@@ -109,7 +124,7 @@ export class WheelSupportContinuity {
     const linked = !!(ref?.roadId && s.anchorReference?.connectedRoadIds?.has(ref.roadId) ||
       s.anchorReference?.roadId && ref?.connectedRoadIds?.has(s.anchorReference.roadId));
     const error = Math.abs(height - s.predictedSurfaceHeight);
-    s.rejectedThisOuterTick = false;
+    if (selected) s.rejectedThisOuterTick = false;
     const dot = nx * s.anchorNx + ny * s.anchorNy + nz * s.anchorNz;
     const sameEnvelope = Math.max(.025, Math.min(.055, travel * .28));
     d.predictedError = error; d.normalDot = dot; d.reason = undefined; d.eligible = true;
@@ -138,7 +153,22 @@ export class WheelSupportContinuity {
     if (required < g.minSuspensionLength - (changed ? .03 : Math.max(.06, travel * .7)))
       return this.reject('unreachable-layer-switch', ref?.surfaceId);
     for (let i = 0; i < s.latchCount; i++) if (s.latchIds[i] === ref?.surfaceId) {
-      s.rejectedThisOuterTick = true; d.eligible = false; d.reason = s.latchReasons[i]; return d;
+      if (selected) s.rejectedThisOuterTick = true;
+      d.eligible = false; d.reason = s.latchReasons[i]; return d;
+    }
+    // Both the old and adjacent candidate footprints contain this wheel query.
+    // Require continuous planes/normals and the existing suspension reach gate;
+    // a road ID alone never establishes continuity (foldbacks/gaps/steps fail).
+    const segment = ref?.segmentIndex, anchorSegment = s.anchorReference?.segmentIndex;
+    if (changed && sameRoad && ref?.kind === 'road' && s.anchorReference?.kind === 'road' &&
+      segment !== undefined && anchorSegment !== undefined && Math.abs(segment - anchorSegment) === 1 &&
+      s.anchorFootprintPresent && dot > .95 && error <= sameEnvelope &&
+      Math.abs(height - s.anchorFootprintHeight) <= sameEnvelope &&
+      nx * s.anchorFootprintNx + ny * s.anchorFootprintNy + nz * s.anchorFootprintNz > .95 &&
+      Math.abs(height - s.anchorHeight + (s.anchorNx * (s.xQuery - s.anchorX) +
+        s.anchorNz * (s.zQuery - s.anchorZ)) / Math.max(.1, s.anchorNy)) <= sameEnvelope &&
+      required >= g.minSuspensionLength - .03) {
+      d.layerClass = 'SAME_LAYER'; this.sameLayerContinuation = true; return d;
     }
     if (s.latchCount >= 16 && changed) return this.reject('unreachable-layer-switch', ref?.surfaceId);
     if (!this.layered) return d;
@@ -193,6 +223,7 @@ export class WheelSupportContinuity {
     h.reference = s.anchorReference; h.height = s.predictedSurfaceHeight; h.heightTolerance = s.tolerance;
     h.normal.x = s.anchorNx; h.normal.y = s.anchorNy; h.normal.z = s.anchorNz;
     h.withinTick = s.acceptedTick === this.tick;
+    s.anchorFootprintPresent = false;
     const candidate = ground.sampleRoadSurfaceForSupport?.(x, z, h) ?? ground.sampleRoadSurface(x, z);
     const d = this.evaluate(candidate.height, candidate.normal.x, candidate.normal.y, candidate.normal.z, candidate.reference);
     s.candidateLayerClass = d.layerClass; s.valid = d.eligible; this.reasons[id] = d.reason as SupportRejectionReason | undefined;
@@ -205,6 +236,7 @@ export class WheelSupportContinuity {
     }
     const changed = candidate.reference?.surfaceId !== s.reference?.surfaceId;
     s.supportSelectionReason = s.roadLost && candidate.reference?.surfaceId === 'terrain' ? 'terrain-support-acquired'
+      : this.sameLayerContinuation ? 'SAME_LAYER_CONTINUATION'
       : changed ? d.layerClass === 'POSSIBLE_LAYER_SWITCH' ? 'confirmed-layer-switch' : 'same-layer-continuity' : 'same-surface';
     s.roadLost = false;
     s.supportLost = false;

@@ -3,7 +3,8 @@ import { createStripGeometry, makeMarkingRibbon, sampleRibbonPolyline } from '..
 import type { Subject3Materials } from '../subject3/materials';
 import type { CityMapData, CityPoint, CityRoad } from './CityMapData';
 import { polylineLength, roadEdges, roadPoints, sampleAt } from './geometry';
-import { barrierSections, roadPiers, retainingWallHeight } from './RoadInfrastructure';
+import { barrierSections, centralBarrierSections, roadPiers, retainingWallHeight,roadLampAnchors } from './RoadInfrastructure';
+import {hasCentralBarrier,innerRoadSide} from './RoadCarriageway';
 
 import { barrierOffset, RoadClearance, runtimeRoadClearance } from './RoadClearance';
 import { MarkingOwnership } from './MarkingOwnership';
@@ -38,7 +39,7 @@ export class RoadBuilder {
       };
       if(this.ownership) {
         const boundary=Math.abs(Math.abs(offset)-(half-.15))<1e-6;
-        for(const section of this.ownership.sections(path,offset,road,'road',boundary))paint(section);
+        for(const section of this.ownership.sections(path,offset,road,'road',boundary,yellow))paint(section);
         if(road.gore)for(const section of this.ownership.sections(path,offset,road,'merge',boundary))paint(section,'merge');
         return;
       }
@@ -54,7 +55,10 @@ export class RoadBuilder {
       if(section.length>1) paint(section);
     };
     if (road.markings !== false&&!road.highwayTransition) {
-    if (road.travelDirection === 'two-way') { line(points, -0.13, true); line(points, 0.13, true); }
+    if (road.travelDirection === 'two-way') {
+      if(hasCentralBarrier(road)){line(points,-.27);line(points,.27);}
+      else {line(points,-.13,true);line(points,.13,true);}
+    }
     line(points, -half + 0.15); line(points, half - 0.15);
     const length = polylineLength(points);
     if (road.gore && road.shoulders && !this.map) {
@@ -112,7 +116,12 @@ export class RoadBuilder {
         mesh.castShadow = true; root.add(mesh);
       }
     }
-    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, 0.024, 1.1, road.structure?.barrierStyle==='concrete'||section.side<0&&road.structure?.medianBarrierStyle==='concrete'?this.materials.curb:this.materials.metal,'road barrier');
+    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, 0.024, 1.1, road.structure?.barrierStyle==='concrete'||road.travelDirection!=='two-way'&&section.side===innerRoadSide(road)&&road.structure?.medianBarrierStyle==='concrete'?this.materials.curb:this.materials.metal,'road barrier');
+    for(const section of centralBarrierSections(road,this.map,this.clearance)){
+      for(const side of [-.12,.12])this.wall(root,section,side,.024,1.1,this.materials.curb,'road central barrier');
+      const top=createStripGeometry(section,()=>0,{innerOffset:-.12,outerOffset:.12,yOffset:1.1,maximumSpacing:3});
+      if(top){const mesh=new Mesh(top,this.materials.curb);mesh.name='road central barrier';root.add(mesh);}
+    }
     const enclosure=road.structure?.enclosure;
     if(enclosure) {
       const walls=enclosure.kind==='cutting'?barrierSections(road,this.map,this.clearance,true):[-1,1].map(side=>({side,points:this.map?roadEdgeChains(this.map).barrierEdge(road,side):points}));
@@ -144,12 +153,13 @@ export class RoadBuilder {
     }
     if (road.streetlights) {
       const positions: { x: number; y: number; z: number }[] = [];
-      for (let d = this.map?roadEdgeChains(this.map).firstStation(road,50):25; d < length - 20; d += 50) {
+      if(this.map)for(const p of roadLampAnchors(road,this.map,this.clearance,(point,radius,height,roadId)=>this.placement?.permits(point,radius,height,roadId)??true))positions.push({...p,y:(p.y??0)+3.7});
+      else
+      for (let d = 25; d < length - 20; d += 50) {
         const s = sampleAt(points, d), offset = edges.right + (road.sidewalk?.enabled ? road.sidewalk.width : 0) + 0.8;
         const p = { x: s.point.x - s.tangent.z * offset, y: s.point.y ?? 0, z: s.point.z + s.tangent.x * offset };
         if (this.clearance && !this.clearance.permitsProp(p, 0.4, 7.5)) continue;
         if(this.placement&&!this.placement.permits(p,.4,7.5))continue;
-        if (this.map?.objects.some(o => Math.hypot(o.position.x - p.x, o.position.z - p.z) < 2)) continue;
         positions.push({ ...p, y: p.y + 3.7 });
       }
       if (positions.length) {

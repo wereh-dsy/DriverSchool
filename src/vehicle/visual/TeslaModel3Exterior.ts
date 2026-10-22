@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { vehiclePaint, vehicleGlass } from './VehicleMaterials';
 
 import type { MirrorVisualConfig, VehicleVisualConfig } from './VehicleVisualConfig';
 import type { MirrorSurfaceMesh } from './VehicleVisual';
@@ -150,29 +151,15 @@ interface ExteriorMaterials {
 }
 
 const createMaterials = (config: VehicleVisualConfig): ExteriorMaterials => ({
-  paint: new THREE.MeshPhysicalMaterial({
-    color: config.body.color, roughness: .30, metalness: .42,
-    clearcoat: .9, clearcoatRoughness: .13,
-  }),
-  paintDark: new THREE.MeshStandardMaterial({
-    color: new THREE.Color(config.body.color).multiplyScalar(.62), roughness: .38, metalness: .36,
-  }),
+  paint: vehiclePaint(config.body.color),
+  paintDark: vehiclePaint(new THREE.Color(config.body.color).multiplyScalar(.62), { roughness: .38, clearcoat: .3 }),
   trim: new THREE.MeshStandardMaterial({ color: config.body.trimColor, roughness: .62, metalness: .08 }),
-  gloss: new THREE.MeshStandardMaterial({ color: 0x06080a, roughness: .16, metalness: .34, side: THREE.DoubleSide }),
+  gloss: new THREE.MeshStandardMaterial({ color: 0x111418, roughness: .22, metalness: .08, side: THREE.DoubleSide }),
   underbody: new THREE.MeshStandardMaterial({ color: 0x07090b, roughness: .96, metalness: .02 }),
   liner: new THREE.MeshStandardMaterial({ color: 0x0a0d10, roughness: .98, metalness: .01, side: THREE.DoubleSide }),
-  glassWindshield: new THREE.MeshPhysicalMaterial({
-    color: 0x6f8797, transparent: true, opacity: config.windowGlass?.windshieldOpacity ?? .16,
-    roughness: .07, metalness: .08, clearcoat: 1, depthWrite: false, side: THREE.DoubleSide,
-  }),
-  glassSide: new THREE.MeshPhysicalMaterial({
-    color: 0x26323b, transparent: true, opacity: .44, roughness: .10, metalness: .12,
-    clearcoat: 1, depthWrite: false, side: THREE.DoubleSide,
-  }),
-  glassRoof: new THREE.MeshPhysicalMaterial({
-    color: 0x0d1419, transparent: true, opacity: .93, roughness: .05, metalness: .24,
-    clearcoat: 1, depthWrite: true, side: THREE.DoubleSide,
-  }),
+  glassWindshield: vehicleGlass(0x6f8797, config.windowGlass?.windshieldOpacity ?? .16),
+  glassSide: vehicleGlass(0x26323b, .44),
+  glassRoof: vehicleGlass(0x0d1419, .93, { depthWrite: true }),
   lens: new THREE.MeshPhysicalMaterial({
     color: 0x0b1117, roughness: .10, metalness: .30, clearcoat: 1, side: THREE.DoubleSide,
   }),
@@ -939,10 +926,7 @@ export function buildTeslaModel3SideMirror(
   assembly.position.set(...mirrorConfig.position);
   assembly.rotation.set(...mirrorConfig.rotation);
 
-  const capMaterial = new THREE.MeshPhysicalMaterial({
-    color: config.body.color, roughness: .28, metalness: .44, clearcoat: .8, clearcoatRoughness: .15,
-    side: THREE.DoubleSide,
-  });
+  const capMaterial = vehiclePaint(config.body.color, { side: THREE.DoubleSide });
   const blackMaterial = new THREE.MeshStandardMaterial({
     color: config.body.trimColor, roughness: .34, metalness: .22, side: THREE.DoubleSide,
   });

@@ -90,15 +90,111 @@ export function runWheelSupportContinuitySelfTest() {
   const oldBad = fixture(); height = .65; oldBad.continuity.sample(onlyB, 'frontLeft', 0, 0);
   assert(!oldBad.continuity.valid('frontLeft') && oldBad.continuity.rejectionReason('frontLeft') === 'unreachable-layer-switch',
     'old +0.65 m bad-layer fixture remains rejected');
-  const cached = fixture(); let faulty = false, refreshQueries = 0;
-  const refreshGround = { colliders: [], spawnPose: { position: new Vector3(0, .04, 0), yawRadians: 0 },
+  const continuationRef = { ...a, surfaceId: 'a:1', segmentIndex: 1 };
+  const ranked = fixture();
+  let rankQueries = 0;
+  const rankedGround = { sampleRoadSurface: () => sample(0, continuationRef),
+    sampleRoadSurfaceForSupport: (_x: number, _z: number, hint: import('../../world/SurfaceMaterial').SurfaceSupportHint) => {
+      rankQueries++;
+      // Real G17 has more rejected upper-deck footprints than latch capacity.
+      // Candidate order must not turn an otherwise reachable flat seam into air.
+      for (let i = 0; i < 32; i++) {
+        const d = hint.evaluateCandidate!(.65, 0, 1, 0, { ...b, surfaceId: 'upper:' + i });
+        assert(!d.eligible, 'overlapping bad layers are ineligible during ranking');
+      }
+      hint.evaluateCandidate!(0, 0, 1, 0, a);
+      hint.evaluateCandidate!(0, 0, 1, 0, continuationRef);
+      return sample(0, continuationRef);
+    } };
+  const continued = sampleWheelContacts(rankedGround, ranked.car.getSnapshot(), config, 0, 1, createWheelContactBuffer(), ranked.continuity);
+  assert(rankQueries === 4 && WHEEL_IDS.every(id => continued[id].supportValid && !continued[id].rejectedThisOuterTick &&
+    continued[id].supportSelectionReason === 'SAME_LAYER_CONTINUATION'), 'rejected alternatives cannot fill the latch or poison adjacent same-layer support');
+  assert(ranked.continuity.rejectedSamples === 0, 'candidate ranking never counts as a rejected selected support');
+  const noFootprint = fixture();
+  noFootprint.continuity.sample({ sampleRoadSurface: () => sample(0, continuationRef),
+    sampleRoadSurfaceForSupport: () => sample(0, continuationRef) }, 'frontLeft', 0, 0);
+  assert(noFootprint.continuity.diagnostics('frontLeft').supportSelectionReason !== 'SAME_LAYER_CONTINUATION',
+    'same road plus index alone cannot claim a continuous footprint');
+  const nonAdjacent = fixture();
+  const distant = { ...continuationRef, surfaceId: 'a:99', segmentIndex: 99 };
+  nonAdjacent.continuity.sample({ sampleRoadSurface: () => sample(0, distant), sampleRoadSurfaceForSupport: (_x, _z, hint) => {
+    hint.evaluateCandidate!(0, 0, 1, 0, a); return sample(0, distant);
+  } }, 'frontLeft', 0, 0);
+  assert(nonAdjacent.continuity.diagnostics('frontLeft').supportSelectionReason !== 'SAME_LAYER_CONTINUATION',
+    'a same-road foldback/non-adjacent segment cannot use the continuation fast path');
+  for (const step of [.25, .65]) {
+    const bad = fixture(); let candidateHeight = step;
+    const badGround = { sampleRoadSurface: () => sample(candidateHeight, continuationRef),
+      sampleRoadSurfaceForSupport: (_x: number, _z: number, hint: import('../../world/SurfaceMaterial').SurfaceSupportHint) => {
+        hint.evaluateCandidate!(0, 0, 1, 0, a); return sample(candidateHeight, continuationRef);
+      } };
+    bad.continuity.sample(badGround, 'frontLeft', 0, 0);
+    assert(!bad.continuity.valid('frontLeft'), 'adjacent road metadata cannot disguise a ' + step + 'm discontinuity');
+    candidateHeight = 0;
+    bad.continuity.sample(badGround, 'frontLeft', 0, 0);
+    assert(!bad.continuity.valid('frontLeft') && bad.continuity.diagnostics('frontLeft').rejectedThisOuterTick,
+      'a selected ' + step + 'm bad layer stays latched even if its geometry later looks continuous');
+    bad.continuity.beginStep(dt); bad.continuity.sample(badGround, 'frontLeft', 0, 0);
+    assert(bad.continuity.valid('frontLeft'), 'bad-layer latch only expires at the next outer tick');
+  }
+  const bridge = fixture(2), terrain = { surfaceId: 'terrain', kind: 'terrain' as const };
+  const terrainGround = { sampleRoadSurface: () => sample(0, terrain), sampleRoadSurfaceForSupport: () => sample(0, terrain) };
+  bridge.continuity.sample(terrainGround, 'frontLeft', 0, 0);
+  assert(!bridge.continuity.valid('frontLeft') && bridge.continuity.rejectionReason('frontLeft') === 'road-support-lost',
+    'bridge to terrain first loses road support rather than inventing a reachable layer');
+  const bridgeGeometry = bridge.car.suspension.getVerticalSnapshot(), bridgeCorner = bridgeGeometry.wheels.frontLeft;
+  const fallenGeometry = { ...bridgeGeometry, wheels: { ...bridgeGeometry.wheels, frontLeft: { ...bridgeCorner,
+    attachmentWorldPosition: { ...bridgeCorner.attachmentWorldPosition, y: bridgeCorner.attachmentWorldPosition.y - 2 },
+    wheelCenterWorld: { ...bridgeCorner.wheelCenterWorld, y: bridgeCorner.wheelCenterWorld.y - 2 } } } };
+  bridge.continuity.prepare(fallenGeometry, config.wheelRadius); bridge.continuity.beginStep(dt);
+  bridge.continuity.sample(terrainGround, 'frontLeft', 0, 0);
+  assert(bridge.continuity.valid('frontLeft') && bridge.continuity.diagnostics('frontLeft').supportSelectionReason === 'terrain-support-acquired',
+    'terrain support is reacquired only after the actual suspension becomes reachable');
+  const inverted = fixture();
+  const flatGround = { colliders: [], spawnPose: { position: new Vector3(0, .04, 0), yawRadians: 0 },
     worldBounds: { minX: -100, maxX: 100, minZ: -100, maxZ: 100 }, sampleRoadSurface: () => sample(0),
-    sampleRoadSurfaceForSupport: () => faulty ? sample(refreshQueries++ < 4 ? .65 : .015, b) : sample(0) } as unknown as DrivingGround;
-  const adapter = new VehicleContactSystem(refreshGround, config); adapter.synchronize(cached.car);
-  adapter.setWetness(.01); faulty = true;
-  const refreshed = adapter.step(dt, createNeutralVehicleInputState(), cached.car);
-  assert(WHEEL_IDS.every(id => adapter.wheelContacts![id].supportValid === false && !refreshed.wheels[id].grounded) &&
-    cached.car.chassisMotion.contactImpulses.every(v => v === 0), 'pre-step cache refresh and microsteps share one rejection latch epoch');
+    sampleRoadSurfaceForSupport: () => sample(0) } as unknown as DrivingGround;
+  const invertedAdapter = new VehicleContactSystem(flatGround, config); invertedAdapter.synchronize(inverted.car);
+  inverted.car.chassisMotion.roll = Math.PI;
+  const invertedState = invertedAdapter.step(dt, createNeutralVehicleInputState(), inverted.car);
+  assert(WHEEL_IDS.every(id => !invertedState.wheels[id].grounded && invertedAdapter.wheelContacts![id].supportValid === false),
+    'rollover invalid suspension projection cannot be treated as same-layer continuation');
+  assert(inverted.car.chassisMotion.contactImpulses.every(v => v === 0), 'rollover generates no artificial mechanical impulse');
+  const cacheRefreshCases: { height: number; rejectedSamples: number; impulse: number; safety: number }[] = [];
+  for (const height of [.25, .65]) {
+    const cached = fixture(); let faulty = false, refreshQueries = 0;
+    const refreshGround = { colliders: [], spawnPose: { position: new Vector3(0, .04, 0), yawRadians: 0 },
+      worldBounds: { minX: -100, maxX: 100, minZ: -100, maxZ: 100 }, sampleRoadSurface: () => sample(0),
+      sampleRoadSurfaceForSupport: () => faulty ? sample(refreshQueries++ < 4 ? height : .015, b) : sample(0) } as unknown as DrivingGround;
+    const adapter = new VehicleContactSystem(refreshGround, config); adapter.synchronize(cached.car);
+    adapter.setWetness(.01); faulty = true;
+    const refreshed = adapter.step(dt, createNeutralVehicleInputState(), cached.car);
+    assert(WHEEL_IDS.every(id => adapter.wheelContacts![id].supportValid === false && !refreshed.wheels[id].grounded) &&
+      cached.car.chassisMotion.contactImpulses.every(v => v === 0), 'pre-step ' + height + 'm rejection and microsteps share one latch epoch');
+    cacheRefreshCases.push({ height, rejectedSamples: adapter.supportContinuity.rejectedSamples,
+      impulse: Math.max(...cached.car.chassisMotion.contactImpulses), safety: cached.car.chassisMotion.safetyInterventions });
+  }
+  const falling = fixture(2); let bridgePresent = true;
+  const fallingGround = { colliders: [], spawnPose: { position: new Vector3(0, 2.04, 0), yawRadians: 0 },
+    worldBounds: { minX: -100, maxX: 100, minZ: -100, maxZ: 100 },
+    sampleRoadSurface: () => bridgePresent ? sample(2) : sample(0, terrain),
+    sampleRoadSurfaceForSupport: () => bridgePresent ? sample(2) : sample(0, terrain) } as unknown as DrivingGround;
+  const fallingAdapter = new VehicleContactSystem(fallingGround, config); fallingAdapter.synchronize(falling.car);
+  for (let tick = 0; tick < 120; tick++) fallingAdapter.step(dt, createNeutralVehicleInputState(), falling.car);
+  bridgePresent = false; let airborneTicks = 0, firstGroundedTick = -1, supportLost = false, terrainAcquired = false, peakLandingImpulse = 0;
+  for (let tick = 0; tick < 180; tick++) {
+    const state = fallingAdapter.step(dt, createNeutralVehicleInputState(), falling.car);
+    supportLost ||= WHEEL_IDS.some(id => fallingAdapter.wheelContacts![id].rejectionReason === 'road-support-lost');
+    const grounded = WHEEL_IDS.every(id => state.wheels[id].grounded);
+    if (!WHEEL_IDS.some(id => state.wheels[id].grounded)) airborneTicks++;
+    terrainAcquired ||= WHEEL_IDS.some(id => fallingAdapter.wheelContacts![id].supportSelectionReason === 'terrain-support-acquired');
+    peakLandingImpulse = Math.max(peakLandingImpulse, ...falling.car.chassisMotion.contactImpulses);
+    if (grounded) { firstGroundedTick = tick; break; }
+  }
+  assert(supportLost && airborneTicks > 0 && firstGroundedTick > 0 && terrainAcquired,
+    'integrated bridge departure stays airborne until falling suspension can really reach terrain');
+  assert(falling.car.chassisMotion.safetyInterventions === 0 && peakLandingImpulse < 6000,
+    'physical terrain landing requires no giant impulse or safety recovery');
   const g = f.car.suspension.getVerticalSnapshot().wheels.frontLeft;
   assert(wheelMechanicalRejectReason({ ...g, requiredLength: g.minSuspensionLength - .01 }, -.01, dt, -1) === undefined,
     'real small bump-stop constraint remains eligible');
@@ -138,5 +234,8 @@ export function runWheelSupportContinuitySelfTest() {
     'new support decision fields survive typed Black Box export');
   assert(box.allocatedFrameBytes < 1024 * 1024, 'typed frame memory remains below 1 MiB');
   return { assertions, queries, episodes: episodes.length, droppedEvents: trace.metadata.droppedEvents,
+    regressions: { cacheRefreshCases, bridgeTerrain: { supportLost, airborneTicks, firstGroundedTick, terrainAcquired, peakLandingImpulse,
+      safety: falling.car.chassisMotion.safetyInterventions }, rollover: { impulse: Math.max(...inverted.car.chassisMotion.contactImpulses),
+      allAirborne: WHEEL_IDS.every(id => !invertedState.wheels[id].grounded) } },
     allocatedFrameBytes: box.allocatedFrameBytes };
 }

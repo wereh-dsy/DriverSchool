@@ -1,0 +1,73 @@
+{
+  "directEvidence": {
+    "tick": 175,
+    "wheel": "frontLeft",
+    "anchor": {
+      "roadId": "regional:G17:out:split306:lane64",
+      "segmentId": "regional:G17:out:split306:lane64:17",
+      "segmentIndex": 17,
+      "kind": "road",
+      "connectedRoadIds": {},
+      "structureKind": "custom",
+      "surfaceId": "regional:G17:out:split306:lane64:17:road"
+    },
+    "candidate": {
+      "roadId": "regional:G17:out:split306:lane64",
+      "segmentId": "regional:G17:out:split306:lane64:18",
+      "segmentIndex": 18,
+      "kind": "road",
+      "connectedRoadIds": {},
+      "structureKind": "custom",
+      "surfaceId": "regional:G17:out:split306:lane64:18:road"
+    },
+    "height": 0,
+    "normal": {
+      "nx": 0,
+      "ny": 1,
+      "nz": 0
+    },
+    "predicted": -0.00018144583375222847,
+    "required": 0.2871972126120478,
+    "min": 0.19887697674418603,
+    "max": 0.428876976744186,
+    "travel": 0.22999999999999998,
+    "compression": 0.1428027873879522,
+    "effectiveRadius": 0.37394119915308704,
+    "attachment": {
+      "x": 3430.0040774300537,
+      "y": 0.6611001348856036,
+      "z": -340.50586214189684
+    },
+    "axis": {
+      "x": -0.016325958126700936,
+      "y": -0.9998667226635555,
+      "z": 0.0000011339243890587366
+    },
+    "latchCountBefore": 16,
+    "latchCountAfter": 16,
+    "reason": "unreachable-layer-switch",
+    "layerClass": "SAME_LAYER"
+  },
+  "cause": "Rejected alternatives during footprint enumeration committed latch entries. The 16-slot latch overflow guard then rejected the selected reachable adjacent SAME_LAYER surface when re-evaluated after ranking.",
+  "oldDecisionOrder": [
+    "classify candidate",
+    "reachability rejection writes latch during ranking",
+    "choose lowest score",
+    "re-evaluate selected candidate",
+    "changed surface plus latchCount>=16 → unreachable-layer-switch",
+    "outer tick latch propagates loss of support"
+  ],
+  "newDecisionOrder": [
+    "classify/rank all candidates without committing rejection latch",
+    "remember the actual eligible previous footprint height/normal",
+    "revalidate selected sample finite geometry/projection/requiredLength",
+    "preserve any previous real rejection of this same surface",
+    "verify strict same-road adjacent overlapping footprint + height/normal continuity + existing reach → SAME_LAYER_CONTINUATION",
+    "otherwise use existing layer change/confirmation/latch gates"
+  ],
+  "latchPreserved": true,
+  "thresholdsWidened": false,
+  "mechanicalGateUnchanged": true,
+  "extraMapQueries": 0,
+  "hotLoopNewObjectAllocations": 0
+}

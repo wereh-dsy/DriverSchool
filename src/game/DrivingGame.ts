@@ -79,6 +79,8 @@ import { LapTimer } from './lap/LapTimer';
 import { MirrorOverlayRenderer } from '../ui/MirrorOverlayRenderer';
 import { WeatherSystem, WEATHER_LABELS, WEATHER_SEQUENCE, type EnvironmentTime, type Weather } from '../world/environment/WeatherSystem';
 import { EnvironmentVisual } from '../world/environment/EnvironmentVisual';
+import { VISUAL_ENVIRONMENT as V } from '../world/environment/VisualEnvironmentConfig';
+import { createStaticEnvironmentMap } from '../world/environment/StaticEnvironmentMap';
 import { WindshieldRain } from '../camera/WindshieldRain';
 import { WiperController } from '../vehicle/control/WiperController';
 import {
@@ -177,14 +179,16 @@ export class DrivingGame {
   private readonly lightController = new VehicleLightingController();
   private readonly feedback = new VehicleFeedbackSystem();
   private readonly haptics = new GamepadHaptics({ getGamepad: () => this.input.gamepad?.getActiveGamepad() ?? null });
-  private readonly sun = new DirectionalLight(0xfff1cf, 3.4);
-  private readonly hemisphere = new HemisphereLight(0xd9edf2, 0x52613e, 2.1);
+  private readonly sun = new DirectionalLight(V.sunColor, V.sunIntensity);
+  private readonly hemisphere = new HemisphereLight(V.ambientSky, V.ambientGround, V.ambientIntensity);
   private readonly environment = new WeatherSystem();
   private readonly environmentVisual: EnvironmentVisual;
   private readonly wiperController = new WiperController();
   private windshieldRain: WindshieldRain;
   private skyGeometry: SphereGeometry | null = null;
   private skyMaterial: ShaderMaterial | null = null;
+  private skyDome: Mesh | null = null;
+  private environmentMap: ReturnType<typeof createStaticEnvironmentMap> | null = null;
   private readonly contacts: VehicleContactSystem;
   private readonly contactDebug: ContactDebugView;
   private readonly visualDebug: VehicleVisualDebugView;
@@ -280,8 +284,8 @@ export class DrivingGame {
     this.windshieldRain = new WindshieldRain(this.vehicleVisual);
     this.mirrorAdjustment = this.createMirrorAdjustment(this.vehicleVisual);
 
-    this.scene.background = new Color(0xaebfc0);
-    this.scene.fog = new Fog(0xaebfc0, 180, 1_100);
+    this.scene.background = new Color(V.fogColor);
+    this.scene.fog = new Fog(V.fogColor, V.fogNear, V.fogFar);
     this.scene.add(this.ground.root, this.vehicleVisual.root);
     this.addLightingAndSky();
     this.environmentVisual = new EnvironmentVisual(this.scene, this.environment, this.sun, this.hemisphere, this.skyMaterial!,
@@ -405,6 +409,10 @@ export class DrivingGame {
     this.skyMaterial?.dispose();
     this.skyGeometry = null;
     this.skyMaterial = null;
+    this.skyDome = null;
+    this.scene.environment = null;
+    this.environmentMap?.dispose();
+    this.environmentMap = null;
     this.renderer.dispose();
     this.engineAudio.dispose();
     this.electricDisplay?.dispose();
@@ -1812,7 +1820,7 @@ export class DrivingGame {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputColorSpace = SRGBColorSpace;
     renderer.toneMapping = ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = V.exposure;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = PCFSoftShadowMap;
     return renderer;
@@ -1822,23 +1830,24 @@ export class DrivingGame {
     this.scene.add(this.hemisphere);
 
     this.sun.castShadow = true;
-    this.sun.shadow.mapSize.set(2_048, 2_048);
-    this.sun.shadow.camera.left = -75;
-    this.sun.shadow.camera.right = 75;
-    this.sun.shadow.camera.top = 75;
-    this.sun.shadow.camera.bottom = -75;
+    this.sun.shadow.mapSize.set(V.shadowMapSize, V.shadowMapSize);
+    this.sun.shadow.camera.left = -V.shadowHalfExtent;
+    this.sun.shadow.camera.right = V.shadowHalfExtent;
+    this.sun.shadow.camera.top = V.shadowHalfExtent;
+    this.sun.shadow.camera.bottom = -V.shadowHalfExtent;
     this.sun.shadow.camera.near = 5;
     this.sun.shadow.camera.far = 320;
-    this.sun.shadow.bias = -0.00012;
+    this.sun.shadow.bias = -0.00007;
+    this.sun.shadow.normalBias = .018;
     this.scene.add(this.sun, this.sun.target);
 
     this.skyMaterial = new ShaderMaterial({
       side: BackSide,
       depthWrite: false,
       uniforms: {
-        topColor: { value: new Color(0x6f9fb0) },
-        horizonColor: { value: new Color(0xd4d8cf) },
-        groundColor: { value: new Color(0x8e9c84) },
+        topColor: { value: new Color(V.skyTop) },
+        horizonColor: { value: new Color(V.skyHorizon) },
+        groundColor: { value: new Color(V.skyGround) },
       },
       vertexShader: `
         varying vec3 vWorldPosition;
@@ -1867,10 +1876,16 @@ export class DrivingGame {
     this.skyGeometry = new SphereGeometry(1_900, 28, 16);
     const sky = new Mesh(this.skyGeometry, this.skyMaterial);
     sky.name = 'Atmospheric sky dome';
+    sky.frustumCulled = false;
+    this.skyDome = sky;
     this.scene.add(sky);
+    this.environmentMap = createStaticEnvironmentMap(this.renderer);
+    this.scene.environment = this.environmentMap.texture;
+    this.scene.environmentIntensity = V.environmentIntensity;
   }
 
   private updateSun(): void {
+    this.skyDome?.position.copy(this.driverCamera.camera.position);
     const { x, z } = this.snapshot;
     const y = this.ground.getRoadHeightAt(x, z);
     this.sun.position.set(x - 95, y + 145, z + 70);

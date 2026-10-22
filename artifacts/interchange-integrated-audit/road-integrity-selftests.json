@@ -1,0 +1,22 @@
+{
+  "valid": true,
+  "checks": [
+    "Road signs respond to scene lighting without emission or tone-mapping bypass",
+    "Lit sign faces retain the existing content material cache",
+    "Rendered sign faces, backs and support posts all use non-emissive lit materials",
+    "Opposing traffic with overlapping shoulders is classified from geometry",
+    "Baseline reproduces the missing median when both inner rails are clipped",
+    "Shared shoulders emit exactly one continuous separator in the real lane gap",
+    "Reversed centreline representation retains the physical traffic-left median",
+    "Cross-layer nearby roads are never paired as opposite carriageways",
+    "Parallel same-direction frontage is not classified as a median",
+    "An explicit shared-road median follows the true centre continuously",
+    "The rendered centre separator also has the intended 24cm collision footprint",
+    "A physical centre separator never carries yellow centre lines through its body",
+    "The actual renderer emits the configured central separator",
+    "Undivided shared pavement keeps its two continuous yellow centre lines",
+    "A real crossing retains its open traffic envelope",
+    "Safety-sign pole feet follow the actual graded/mitered shoulder mesh",
+    "The graded-shoulder fixture reproduces a real centreline-versus-footing height difference"
+  ]
+}

@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { vehiclePaint, vehicleGlass } from './VehicleMaterials';
 import {
   beam, grid, label, loft, mercedesAPillarRing, mercedesFrontWindowCorners, mercedesRearGlassPoint,
   mercedesRearWindowCorners, mercedesRoofHeight, mercedesSideGlassX, mercedesWindshieldPoint, path,
@@ -23,8 +24,7 @@ const STATIONS: readonly (readonly [number, number, number, number])[] = [
 
 export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualConfig): void {
   const atlas = createMercedesE300LAtlas();
-  const paint = new T.MeshPhysicalMaterial({ color: config.body.color, metalness: .62, roughness: .24,
-    clearcoat: .98, clearcoatRoughness: .13, side: T.DoubleSide });
+  const paint = vehiclePaint(config.body.color, { side: T.DoubleSide });
   const sidePaint = paint.clone(); sidePaint.map = atlas;
   const lowerPaint = paint.clone();
   const trim = new T.MeshStandardMaterial({ color: 0x0a0d11, roughness: .54, side: T.DoubleSide });
@@ -37,9 +37,7 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
   const optic = new T.MeshStandardMaterial({ color: 0x6a7784, metalness: .62, roughness: .19, side: T.DoubleSide });
   const detail = new T.MeshStandardMaterial({ map: atlas, metalness: .55, roughness: .34, side: T.DoubleSide });
   detail.name = 'Mercedes shared static exterior atlas material';
-  const glass = new T.MeshPhysicalMaterial({ color: config.windowGlass!.color, transparent: true,
-    opacity: config.windowGlass!.windowOpacity, roughness: .11, metalness: .12, clearcoat: 1,
-    side: T.DoubleSide, depthWrite: false });
+  const glass = vehicleGlass(config.windowGlass!.color, config.windowGlass!.windowOpacity);
   const windscreen = glass.clone(); windscreen.opacity = config.windowGlass!.windshieldOpacity;
 
   const sample = (z: number) => {
@@ -424,8 +422,7 @@ export function buildMercedesE300LSideMirror(root: T.Group, mirrorRoot: T.Group,
   const sign = side === 'left' ? -1 : 1, group = new T.Group();
   group.name = side + ' mirror assembly';
   group.position.set(...c.position); group.rotation.set(...c.rotation);
-  const paint = new T.MeshPhysicalMaterial({ color: paintColor, metalness: .62, roughness: .26,
-    clearcoat: .9, side: T.DoubleSide });
+  const paint = vehiclePaint(paintColor, { side: T.DoubleSide });
   const black = new T.MeshStandardMaterial({ color: 0x0d1116, roughness: .58, side: T.DoubleSide });
   const outline: P[] = [];
   for (let i = 0; i < 40; i++) {

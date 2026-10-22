@@ -131,9 +131,9 @@ export class Cockpit extends THREE.Group {
       side: THREE.DoubleSide,
     });
     const dark = new THREE.MeshStandardMaterial({
-      color: 0x0b0d10,
-      roughness: 0.74,
-      metalness: 0.05,
+      color: 0x171a1e,
+      roughness: 0.84,
+      metalness: 0.02,
       side: THREE.DoubleSide,
     });
     const softTrim = new THREE.MeshStandardMaterial({

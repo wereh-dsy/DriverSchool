@@ -3,6 +3,7 @@ import { junctionExtent, polylineLength, portsFor, roadEdges, roadPoints, rotate
 import { junctionSurfaceContains, junctionSurfaceHeight } from './JunctionSurface';
 import { roadEdgeChains } from './RoadEdgeChain';
 import { isControlledAccessRoad } from './RoadClassification';
+import {hasCentralBarrier} from './RoadCarriageway';
 
 /** Data migration/authoring only. Renderers consume approach data, never infer arrows. */
 export function populateIntersectionMarkingMetadata(map:CityMapData):void {
@@ -75,19 +76,19 @@ export class MarkingOwnership {
       }
     }
   }
-  ownerAt(p:CityPoint,margin=0.15):{kind:'intersection'|'merge';id:string}|undefined {
+  ownerAt(p:CityPoint,margin=0.15,mergeMargin=margin):{kind:'intersection'|'merge';id:string}|undefined {
     const j=this.intersectionBuckets.get(`${Math.floor(p.x/50)},${Math.floor(p.z/50)}`)?.find(e=>insideIntersectionMarkingFootprint(e.junction,this.map,p,margin,e.extent))?.junction;
     if(j)return {kind:'intersection',id:j.id};
     for(const s of this.mergeBuckets.get(`${Math.floor(p.x/50)},${Math.floor(p.z/50)}`)??[]) {
       const dx=s.b.x-s.a.x,dz=s.b.z-s.a.z,l=Math.hypot(dx,dz),t=((p.x-s.a.x)*dx+(p.z-s.a.z)*dz)/(l*l);
-      if(t<-margin/l||t>1+margin/l)continue;
+      if(t<-mergeMargin/l||t>1+mergeMargin/l)continue;
       const clamped=Math.max(0,Math.min(1,t)),y=(s.a.y??0)+clamped*((s.b.y??0)-(s.a.y??0)),offset=(-(p.x-s.a.x)*dz+(p.z-s.a.z)*dx)/l;
-      if(Math.abs((p.y??0)-y)<0.2&&offset>=s.left-margin&&offset<=s.right+margin)return {kind:'merge',id:s.roadId};
+      if(Math.abs((p.y??0)-y)<0.2&&offset>=s.left-mergeMargin&&offset<=s.right+mergeMargin)return {kind:'merge',id:s.roadId};
     }
     return undefined;
   }
   /** A joined paved area has no internal road edge; coincident paint has one owner. */
-  private permitsLongitudinal(p:CityPoint,tangent:CityPoint,road:CityRoad,boundary:boolean):boolean {
+  private permitsLongitudinal(p:CityPoint,tangent:CityPoint,road:CityRoad,boundary:boolean,centre:boolean):boolean {
     const continuations=roadEdgeChains(this.map).continuations(road.id);
     for(const s of this.pavementBuckets.get(`${Math.floor(p.x/50)},${Math.floor(p.z/50)}`)??[]) {
       if(continuations.has(s.roadId))continue;
@@ -98,27 +99,31 @@ export class MarkingOwnership {
       const offset=(-(p.x-s.a.x)*dz+(p.z-s.a.z)*dx)/l;
       // Auxiliary shoulders overlap the mainline before a new lane opens.
       const left=other.highwayTransition?-other.laneWidth/2:s.left,right=other.highwayTransition?other.laneWidth/2:s.right;
+      if(!centre&&other.travelDirection==='two-way'&&!hasCentralBarrier(other)&&Math.abs(Math.abs(offset)-.13)<.16)return false;
       if(boundary&&offset>left+.25&&offset<right-.25)return false;
       if(other.markings===false||other.highwayTransition||Math.abs((dx*tangent.x+dz*tangent.z)/l)<.98)continue;
       const priority=other.laneCount-road.laneCount||road.id.localeCompare(other.id);
+      // Shared two-way pavement owns its yellow centre; an overlapping
+      // one-way representation must not replace it with a white line.
+      if(centre&&other.travelDirection!=='two-way')continue;
       if(priority<=0)continue;
       const half=other.laneCount*other.laneWidth/2;
       if(Math.abs(Math.abs(offset)-(half-.15))<.16)return false;
-      if(other.travelDirection==='two-way'&&Math.abs(Math.abs(offset)-.13)<.16)return false;
+      if(other.travelDirection==='two-way'&&!hasCentralBarrier(other)&&Math.abs(Math.abs(offset)-.13)<.16)return false;
       for(let lane=1;lane<other.laneCount;lane++)if(!(other.travelDirection==='two-way'&&lane===other.laneCount/2)&&Math.abs(offset-(-half+lane*other.laneWidth))<.16)return false;
     }
     return true;
   }
-  sections(path:CityPoint[],offset:number,road:CityRoad,owner:'road'|'merge',boundary=false):CityPoint[][] {
+  sections(path:CityPoint[],offset:number,road:CityRoad,owner:'road'|'merge',boundary=false,centre=false):CityPoint[][] {
     const len=polylineLength(path),count=Math.max(1,Math.ceil(len/0.75)),sections:CityPoint[][]=[];let section:CityPoint[]=[];
     const flush=()=>{if(section.length>1)sections.push(section);section=[];};
     const permitted=(d:number)=>{
       // Stop lines and zebra crossings now sit just outside the pavement
       // boundary; suppress longitudinal road paint through that terminal strip
       // so lane markings never run through the crossing.
-      const s=sampleAt(path,d),p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset},mask=this.ownerAt(p,5.5);
+      const s=sampleAt(path,d),p={x:s.point.x-s.tangent.z*offset,y:s.point.y??0,z:s.point.z+s.tangent.x*offset},mask=this.ownerAt(p,5.5,centre?.15:5.5);
       const owned=owner==='road'?!mask:mask?.kind==='merge'&&mask.id===road.id;
-      return owned&&this.permitsLongitudinal(p,s.tangent,road,boundary);
+      return owned&&this.permitsLongitudinal(p,s.tangent,road,boundary,centre);
     };
     for(let i=0;i<count;i++) {
       const a=len*i/count,b=len*(i+1)/count;

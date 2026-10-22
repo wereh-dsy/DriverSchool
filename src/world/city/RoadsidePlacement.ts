@@ -13,9 +13,11 @@ export class RoadsidePlacement {
  constructor(private readonly map:CityMapData,clearance=new RoadClearance(map)) {
   this.clearance=clearance;this.piers=map.roads.flatMap(r=>roadPiers(r,map,clearance).map(p=>p.position));
  }
- permits(p:CityPoint,radius:number,height:number):boolean {
+ permits(p:CityPoint,radius:number,height:number,ownRoadId?:string):boolean {
   const y=p.y??0;
-  if(!this.clearance.permitsProp(p,radius,height))return false;
+  if(ownRoadId){
+   if(this.clearance.roadAt(p,radius,y-2,y+height+.65,ownRoadId)||this.clearance.roadAt(p,radius,y-2,y+height+.65,undefined,undefined,true)||this.clearance.junctionAt(p,radius,y-2,y+height+.65))return false;
+  }else if(!this.clearance.permitsProp(p,radius,height))return false;
   if(this.piers.some(q=>(q.y??0)>.5&&Math.hypot(p.x-q.x,p.z-q.z)<radius+.9&&y<(q.y??0)))return false;
   return !(this.map.signs??[]).some(s=>{
    const dims=signDimensions(s.template,s.size,s.postOffset,s.gantryPosts),base=s.position.y??0;if((s.postBaseY??base)>y+height||base+dims.poleTop<y)return false;

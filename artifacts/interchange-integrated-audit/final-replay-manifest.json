@@ -1,0 +1,89 @@
+[
+  {
+    "name": "interchange",
+    "path": "",
+    "plans": "replay-plans.json",
+    "refreshDirectory": "final-replays-interchange/",
+    "selectedRoadIds": [
+      "regional:v3:river-newcity:E-to-N-right",
+      "regional:v3:river-newcity:W-to-S-right",
+      "regional:v3:airport-south:E-to-N-right",
+      "regional:v3:airport-south:S-to-E-right",
+      "system-east:W-to-N-turbine"
+    ],
+    "unchangedRoadIds": [
+      "regional:v3:airport-distributor:W-to-N-turbine",
+      "regional:v3:airport-distributor:S-to-W-turbine",
+      "regional:v3:chenjiang-foldback",
+      "regional:v3:chenjiang-east:S-to-E-right",
+      "regional:logistics:S-to-W-star",
+      "regional:logistics:N-to-E-star",
+      "regional:v3:northeast-chenjiang:W-to-N-turbine",
+      "regional:v3:northeast-chenjiang:E-to-S-turbine",
+      "regional:lingang:E-to-N-right",
+      "regional:lingang:S-to-E-right",
+      "peripheral-interchange:S-to-E-right",
+      "system-east:E-to-S-turbine",
+      "ring-cw-3-split-2-split-split",
+      "v91-ns-nb-off",
+      "v91-ew-east-wb-off",
+      "v91-ew-west-wb-on",
+      "v91-ew-east-eb-off",
+      "access-ns-north-sb-on",
+      "v9-chunhui-east-split-split-split",
+      "direction-inner-sw-section-section",
+      "v4-access-5",
+      "v4-industrial-split-2-split-split-c91",
+      "v4-west-market-split-split-3-c91",
+      "v9-newcity-ten"
+    ],
+    "reason": "Only cases within 110m of changed road geometry or physical assets are rerun; unchanged local evidence is reused.",
+    "finalSourceHash": "ea12542fd1f3b4df3c67ee3bf6280c19e7a4f9be97a8b437d3d031d396e13db7"
+  },
+  {
+    "name": "surface",
+    "path": "surface-replays/",
+    "plans": "repair-plans.json",
+    "refreshDirectory": "final-replays-surface/",
+    "selectedRoadIds": [
+      "regional:dongnan:S-to-E-right",
+      "regional:S68:out:split12:split30:split36:split232:split546:split554:split562"
+    ],
+    "unchangedRoadIds": [
+      "regional:wuliuyuan:on:-1",
+      "regional:airport-service:on:1",
+      "ring-cw-1-split-split-2-split",
+      "regional:hewan:on:-1",
+      "ring-cw-2-split-4-split",
+      "regional:v3:G38-extension263:out:0"
+    ],
+    "reason": "Only cases within 110m of changed road geometry or physical assets are rerun; unchanged local evidence is reused.",
+    "finalSourceHash": "ea12542fd1f3b4df3c67ee3bf6280c19e7a4f9be97a8b437d3d031d396e13db7"
+  },
+  {
+    "name": "median",
+    "path": "median-reserve-replays/",
+    "plans": "repair-plans.json",
+    "refreshDirectory": "final-replays-median/",
+    "selectedRoadIds": [],
+    "unchangedRoadIds": [
+      "ring-cw-2-split-2",
+      "ring-ccw-1-split-split-2",
+      "system-south:N-to-E-semi"
+    ],
+    "reason": "Only cases within 110m of changed road geometry or physical assets are rerun; unchanged local evidence is reused.",
+    "finalSourceHash": "ea12542fd1f3b4df3c67ee3bf6280c19e7a4f9be97a8b437d3d031d396e13db7"
+  },
+  {
+    "name": "wheeltrace",
+    "path": "wheeltrace-replay/",
+    "plans": "repair-plans.json",
+    "refreshDirectory": "final-replays-wheeltrace/",
+    "selectedRoadIds": [],
+    "unchangedRoadIds": [
+      "intercity-wb"
+    ],
+    "reason": "Only cases within 110m of changed road geometry or physical assets are rerun; unchanged local evidence is reused.",
+    "finalSourceHash": "ea12542fd1f3b4df3c67ee3bf6280c19e7a4f9be97a8b437d3d031d396e13db7"
+  }
+]

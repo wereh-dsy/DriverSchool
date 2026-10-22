@@ -44,8 +44,8 @@ export function buildMercedesE300LCabin(root: T.Group, c: VehicleVisualConfig, s
     color: 0xd8bb95, side: T.DoubleSide });
   const carpet = new T.MeshStandardMaterial({ color: 0x121316, roughness: 1, side: T.DoubleSide });
   const trim = new T.MeshStandardMaterial({ color: 0x0d1014, roughness: .62, side: T.DoubleSide });
-  const piano = new T.MeshPhysicalMaterial({ color: 0x080b0f, metalness: .18, roughness: .16,
-    clearcoat: .95, clearcoatRoughness: .10, side: T.DoubleSide });
+  const piano = new T.MeshPhysicalMaterial({ color: 0x111418, metalness: .05, roughness: .22,
+    clearcoat: .5, clearcoatRoughness: .2, side: T.DoubleSide });
   const satin = new T.MeshStandardMaterial({ color: 0xb4bcc3, roughness: .30, metalness: .86, side: T.DoubleSide });
   const wood = new T.MeshPhysicalMaterial({ map: textures.wood, roughness: .42, metalness: .06,
     clearcoat: .40, clearcoatRoughness: .36, side: T.DoubleSide });
