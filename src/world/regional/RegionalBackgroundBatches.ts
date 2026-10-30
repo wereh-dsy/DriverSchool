@@ -8,7 +8,7 @@ export class RegionalBackgroundBatches {
   public get count(): number { return this.batches.size; }
   public append(key: string, role: number, data: VisualGeometryData, material: Material): void {
     if (!data.position.length) return;
-    const coordinates = key.split(',').map(Number), batchKey = `${Math.floor(coordinates[0]! / 8)},${Math.floor(coordinates[1]! / 8)}:${role}`;
+    const coordinates = key.split(',').map(Number), batchKey = `${Math.floor(coordinates[0]! / 8)},${Math.floor(coordinates[1]! / 8)}:${role}:${material.uuid}`;
     let b = this.batches.get(batchKey);
     if (!b) {
       const mesh = new Mesh(new BufferGeometry(), material); mesh.name = `Regional background batch ${batchKey}`;

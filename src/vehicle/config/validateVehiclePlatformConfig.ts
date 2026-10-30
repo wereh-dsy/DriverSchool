@@ -133,6 +133,26 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
     positive(tcs.response, 'TCS response'); positive(tcs.recoveryResponse, 'TCS recovery'); }
   for (const key of ['dragCoefficient', 'frontalArea', 'airDensity'] as const) nonnegative(config.aero[key], `aero.${key}`);
   for (const key of ['liftCoefficientFront', 'liftCoefficientRear'] as const) require(Number.isFinite(config.aero[key]), `aero.${key}`);
+  if(config.aero.activeSpoiler) {
+    const s=config.aero.activeSpoiler;
+    positive(s.deploySpeed,'spoiler deploy speed');nonnegative(s.retractSpeed,'spoiler retract speed');
+    require(s.retractSpeed<s.deploySpeed,'spoiler hysteresis');positive(s.responseRate,'spoiler response');
+    nonnegative(s.dragCoefficientDelta,'spoiler drag increment');
+    require(Number.isFinite(s.rearLiftCoefficientDelta)&&s.rearLiftCoefficientDelta<=0,'spoiler rear downforce increment');
+  }
+  if (config.aero.activeAero) {
+    const a = config.aero.activeAero;
+    require(!config.aero.activeSpoiler, 'active aero and legacy spoiler are alternatives');
+    nonnegative(a.deployStartSpeed, 'aero start speed'); require(a.deployFullSpeed > a.deployStartSpeed, 'aero deployment range');
+    positive(a.responseRate, 'aero response'); fraction(a.stowedLiftFraction, 'aero stowed fraction');
+    positive(a.maximumDownforceN, 'aero load ceiling'); nonnegative(a.brakingDragDelta, 'airbrake drag');
+    require(a.curve.length >= 2, 'aero curve samples');
+    a.curve.forEach((p, i) => {
+      positive(p.speed, 'aero sample speed'); nonnegative(p.cd, 'aero sample drag');
+      require(Number.isFinite(p.frontCl) && p.frontCl <= 0 && Number.isFinite(p.rearCl) && p.rearCl <= 0, 'aero sample downforce');
+      require(i === 0 || p.speed > a.curve[i - 1]!.speed, 'aero sample ordering');
+    });
+  }
   for (const key of ['wetLongitudinalGripRetention', 'wetLateralGripRetention'] as const)
     if (config.tires[key] !== undefined) fraction(config.tires[key], `tires.${key}`);
   const adaptive = config.suspension.adaptiveDamping;
@@ -170,10 +190,38 @@ export function validateVehiclePlatformConfig(config: VehicleChassisConfig, visu
   }
   const type = transmission?.type ?? 'MANUAL';
   if (transmission) {
-    require(['MANUAL', 'TORQUE_CONVERTER_AT', 'DCT', 'CVT'].includes(type), 'transmission type');
-    require(!transmission.supportsManualSelection || type === 'TORQUE_CONVERTER_AT' || type === 'DCT',
+    require(['MANUAL', 'TORQUE_CONVERTER_AT', 'DCT', 'CVT', 'LST'].includes(type), 'transmission type');
+    require(!transmission.supportsManualSelection || type === 'TORQUE_CONVERTER_AT' || type === 'DCT' || type === 'LST',
       'manual selection requires a stepped AT/DCT');
+    if (type === 'LST') {
+      const a = transmission.lst;
+      require(!!a && !transmission.dct && !transmission.automatic && !transmission.cvt, 'LST exclusive hardware calibration');
+      if (a) {
+        for (const key of ['clutchCapacity', 'couplingStiffness', 'launchTargetRPM', 'engagementRate', 'launchFullyEngagedSpeed', 'parkMaximumSpeed'] as const)
+          positive(a[key], `LST ${key}`);
+        if (a.shiftStrategy.minimumUpshiftRoadRPMFraction !== undefined)
+          fraction(a.shiftStrategy.minimumUpshiftRoadRPMFraction, 'LST coupled upshift fraction');
+      }
+      positive(transmission.shiftTime, 'LST handover time');
+      let previous = Infinity;
+      for (let gear = 1; gear <= 9; gear++) {
+        const ratio = transmission.gearRatios[gear as import('./VehiclePhysicsConfig').ForwardGear];
+        require(ratio !== undefined && ratio > 0 && ratio < previous, 'LST nine descending ratios');
+        previous = ratio ?? 0;
+      }
+    }
     if (type === 'CVT') require(Object.keys(transmission.gearRatios).length === 0, 'CVT cannot have fake stepped gears');
+  }
+  if ('engine' in config) {
+    const engine = (config as import('./VehiclePhysicsConfig').VehiclePhysicsConfig).engine;
+    if (engine.ratedNetPowerW !== undefined) positive(engine.ratedNetPowerW, 'engine net rating');
+    const t = engine.thermal;
+    if (t) {
+      for (const key of ['heatCapacityJPerK', 'coolingWPerK', 'airflowCoolingWPerKPerMps'] as const) positive(t[key], `ICE thermal ${key}`);
+      fraction(t.heatFraction, 'ICE heat fraction'); fraction(t.minimumTorqueFactor, 'ICE thermal torque floor');
+      require(Number.isFinite(t.initialTemperatureC) && Number.isFinite(t.derateStartC) &&
+        Number.isFinite(t.derateEndC) && t.derateEndC > t.derateStartC, 'ICE temperature range');
+    }
   }
   const parking = config.parkingBrake;
   if (parking) {

@@ -114,6 +114,7 @@ export class AutomaticShiftController {
     // is still accelerating normally. It must not trigger an early upshift.
     const upshiftRPM = context.engineRPM;
     const safeUpshift = gear < maxGear && nextRPM > minimumRPM && nextCrankRPM > minimumRPM &&
+      coupledRPM >= context.engineRPM * (this.config.minimumUpshiftRoadRPMFraction ?? 0) &&
       safeRPM(next) < context.redlineRPM * .97 &&
       Math.abs(context.vehicleSpeed) > (this.config.minimumUpshiftSpeeds[gear - 1] ?? 0);
     const automaticCeiling = Math.min(this.config.maximumAutomaticRPM ?? context.redlineRPM * .97,

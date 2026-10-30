@@ -12,6 +12,14 @@ export interface VehicleDimensions {
   readonly rearWheelWidth?: number;
 }
 
+/** 265/35 R20 front, 325/30 R21 rear. One .360 m effective rolling datum
+ * is shared by the current four-wheel solver and visuals (free radii differ). */
+export const JESKO_ATTACK_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 4.626, width: 2.030, height: 1.210, wheelBase: 2.700,
+  frontTrackWidth: 1.670, rearTrackWidth: 1.680, wheelRadius: .360,
+  wheelWidth: .325, frontWheelWidth: .265, rearWheelWidth: .325,
+});
+
 /** Mk7.5-inspired hot hatch envelope; simulation dimensions, body excludes mirrors. */
 export const GOLF_GTI_DIMENSIONS: VehicleDimensions = Object.freeze({
   length: 4.268, width: 1.799, height: 1.442, wheelBase: 2.631,

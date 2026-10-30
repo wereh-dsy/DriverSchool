@@ -1,3 +1,4 @@
+import { chassisForceFixture } from './physics/ChassisDynamics.selftest';
 import { Box3, Group, Mesh, Raycaster, Vector3 } from 'three';
 import { calculateEngineAudioMix } from '../audio/EngineAudio';
 import { VehicleInputSystem } from '../input/VehicleInputSystem';
@@ -7,7 +8,6 @@ import { createDefaultVehiclePhysicsConfig, createRoadSUVPhysicsConfig, createTe
   type ForwardGear, type VehiclePhysicsConfig } from './config';
 import { Engine } from './physics/Engine';
 import { Gearbox } from './physics/Gearbox';
-import { SuspensionSystem } from './physics/SuspensionSystem';
 import { VehicleDynamics } from './physics/VehicleDynamics';
 import { AutomaticShiftController } from './transmission/automatic/AutomaticShiftController';
 import type { TransmissionContext } from './transmission/TransmissionSystem';
@@ -21,8 +21,8 @@ export function runPowertrainLayoutSelfTest() {
   for (const car of ICE_VEHICLE_CATALOG) {
     const engine = new Engine(car.physicsConfig.engine);
     assert(engine.isRunning && Number.isFinite(engine.getTorqueSample().netCrankTorque), `${car.id}: valid engine`);
-    assert(car.physicsConfig.engine.layout === (car.id === 'road-suv-v6-8at' || car.id === 'ferrari-458-italia' ? 'V' : 'INLINE'), `${car.id}: explicit layout`);
-    assert(car.physicsConfig.engine.cylinderCount === (car.id === 'ferrari-458-italia' ? 8 : car.id === 'sport-coupe' || car.id === 'road-suv-v6-8at' ? 6 : 4), `${car.id}: cylinders`);
+    assert(car.physicsConfig.engine.layout === (car.id === 'road-suv-v6-8at' || car.id === 'ferrari-458-italia' || car.id === 'koenigsegg-jesko-attack' ? 'V' : 'INLINE'), `${car.id}: explicit layout`);
+    assert(car.physicsConfig.engine.cylinderCount === (car.id === 'ferrari-458-italia' || car.id === 'koenigsegg-jesko-attack' ? 8 : car.id === 'sport-coupe' || car.id === 'road-suv-v6-8at' ? 6 : 4), `${car.id}: cylinders`);
   }
   const reference = createDefaultVehiclePhysicsConfig().engine;
   for (const structure of [{ layout: 'INLINE' as const, cylinderCount: 4 },
@@ -152,9 +152,9 @@ export function runPowertrainLayoutSelfTest() {
   assert(cruise > 1700 && cruise < 2100, 'SUV eighth cruises at low RPM');
   const sedan = createTest6ATVehiclePhysicsConfig();
   const bodyRoll = (config: VehiclePhysicsConfig) => {
-    const suspension = new SuspensionSystem(config);
-    for (let i = 0; i < 120; i++) suspension.update(dt, { longitudinalAcceleration: -3, lateralAcceleration: 3 });
-    return suspension.getSnapshot().chassis.roll;
+    const body=chassisForceFixture(config,-config.mass*3/4,config.mass*3/4);
+    let state=body.getSnapshot();for(let n=0;n<600;n++)state=body.stepFixed(dt,createNeutralVehicleInputState());
+    return Math.abs(state.chassis.roll);
   };
   assert(suvConfig.centerOfMassHeight > sedan.centerOfMassHeight && suvConfig.mass > sedan.mass &&
     suvConfig.steering.steeringResponse < sedan.steering.steeringResponse && bodyRoll(suvConfig) > bodyRoll(sedan), 'SUV higher/heavier/slower rack with greater roll');

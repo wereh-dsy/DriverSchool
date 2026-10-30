@@ -1,0 +1,1361 @@
+{
+  "rows": [
+    {
+      "id": "regional:shangu:off:1",
+      "cluster": "regional:shangu",
+      "length": 225.38441456294078,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:shangu:off:1:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:shangu:off:1:deceleration",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:G38:out:split10:split24:split284",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split10:split24:lane20",
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split10:split24",
+            "regional:qingling:E-to-N-right:acceleration",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split10:split282",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split10",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356"
+          ],
+          "sharedLength": 59,
+          "maxSharedDeltaY": 0.04826302680688599,
+          "conflictRange": [
+            3,
+            3
+          ],
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.14919673701234165,
+          "topology": true,
+          "samples": [
+            {
+              "d": 3,
+              "station": 3,
+              "offset": -1.875,
+              "dy": 0.04826302680688599,
+              "point": {
+                "x": 2145.2593854479915,
+                "y": 25.020809065868473,
+                "z": -4226.906219266664
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 25.018862199647234
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:lane312",
+                  "y": 24.972546039061584
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 3,
+              "offset": -0.835,
+              "dy": 0.048263026806878884,
+              "point": {
+                "x": 2146.241416734953,
+                "y": 25.020809065868473,
+                "z": -4226.563853159362
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 25.019175269265894
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:lane312",
+                  "y": 24.972546039061584
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 3,
+              "offset": 0,
+              "dy": 0.048263026806882436,
+              "point": {
+                "x": 2147.0298745470805,
+                "y": 25.020809065868473,
+                "z": -4226.288972678981
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 25.01973888584104
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:lane312",
+                  "y": 24.972546039061584
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:shangu:local:1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:shangu:local:1"
+          ],
+          "sharedLength": 5,
+          "maxSharedDeltaY": 0.06780231714733986,
+          "conflictRange": [
+            4,
+            5
+          ],
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1295135202756297,
+          "topology": true,
+          "samples": [
+            {
+              "d": 4,
+              "station": 221.38441456294078,
+              "offset": -0.835,
+              "dy": 0.044481539201889575,
+              "point": {
+                "x": 2315.7459517550537,
+                "y": 33.288894006895454,
+                "z": -4348.395189413243
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 221.38441456294078,
+              "offset": 0,
+              "dy": 0.04448153920189668,
+              "point": {
+                "x": 2316.342588114621,
+                "y": 33.288894006895454,
+                "z": -4347.811023294367
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 221.38441456294078,
+              "offset": 0.835,
+              "dy": 0.044481539201903786,
+              "point": {
+                "x": 2316.939224474188,
+                "y": 33.288894006895454,
+                "z": -4347.226857175491
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 221.38441456294078,
+              "offset": 1.875,
+              "dy": 0.04448153920189668,
+              "point": {
+                "x": 2317.6823404190386,
+                "y": 33.288894006895454,
+                "z": -4346.499273027431
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            },
+            {
+              "d": 5,
+              "station": 220.38441456294078,
+              "offset": 0.835,
+              "dy": 0.06780231714733986,
+              "point": {
+                "x": 2316.2396243318217,
+                "y": 33.26557322895002,
+                "z": -4346.512322613135
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.06305979449322514,
+        "gradeBreaks": [],
+        "minRadius": 43.414981974591775,
+        "shortSegments": 8
+      },
+      "severity": "P1"
+    },
+    {
+      "id": "regional:shangu:on:1",
+      "cluster": "regional:shangu",
+      "length": 234.34112714407567,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:shangu:local:1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:shangu:local:1"
+          ],
+          "sharedLength": 5,
+          "maxSharedDeltaY": 0.054059567531595576,
+          "conflictRange": [
+            4,
+            5
+          ],
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.147013947788798,
+          "topology": true,
+          "samples": [
+            {
+              "d": 4,
+              "station": 4,
+              "offset": 0,
+              "dy": 0.04053481952366411,
+              "point": {
+                "x": 2400.423163334455,
+                "y": 33.37367117617009,
+                "z": -4444.316600656449
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 4,
+              "offset": 0.835,
+              "dy": 0.04075677921444054,
+              "point": {
+                "x": 2401.0840291354484,
+                "y": 33.37367117617009,
+                "z": -4443.806226878638
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 4,
+              "offset": 1.875,
+              "dy": 0.04103323200293829,
+              "point": {
+                "x": 2401.907143426506,
+                "y": 33.37367117617009,
+                "z": -4443.170551754179
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            },
+            {
+              "d": 5,
+              "station": 5,
+              "offset": 1.875,
+              "dy": 0.054059567531595576,
+              "point": {
+                "x": 2402.518369507717,
+                "y": 33.387012391200585,
+                "z": -4443.962007803272
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:1",
+                  "y": 33.33337554609735
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+            "end": "start"
+          },
+          "peers": [
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split10:split24:split284",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+            "regional:G38:out:split10:split24:lane20",
+            "regional:shangu:off:1:deceleration",
+            "regional:G38:out:split10:split24",
+            "regional:qingling:E-to-N-right:acceleration",
+            "regional:G38:out:split10:split282",
+            "regional:G38:out:split10"
+          ],
+          "sharedLength": 58,
+          "maxSharedDeltaY": 0.12914262194175308,
+          "conflictRange": [
+            2,
+            58
+          ],
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 7.754433775698627,
+          "topology": true,
+          "samples": [
+            {
+              "d": 2,
+              "station": 232.34112714407567,
+              "offset": -1.875,
+              "dy": 0.05777255796778746,
+              "point": {
+                "x": 2484.43115872209,
+                "y": 44.209897124002296,
+                "z": -4651.935706887349
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.218007031114425
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 232.34112714407567,
+              "offset": -0.835,
+              "dy": 0.0585322039382703,
+              "point": {
+                "x": 2484.9783048846903,
+                "y": 44.209897124002296,
+                "z": -4651.05126860417
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.2133724288443
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 232.34112714407567,
+              "offset": 0,
+              "dy": 0.05914211200112618,
+              "point": {
+                "x": 2485.4176001210085,
+                "y": 44.209897124002296,
+                "z": -4650.341166713349
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.20965137798318
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 232.34112714407567,
+              "offset": 0.835,
+              "dy": 0.05975202006397495,
+              "point": {
+                "x": 2485.8568953573267,
+                "y": 44.209897124002296,
+                "z": -4649.631064822527
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.20596559986344
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 232.34112714407567,
+              "offset": 1.875,
+              "dy": 0.06253068832094755,
+              "point": {
+                "x": 2486.404041519927,
+                "y": 44.209897124002296,
+                "z": -4648.746626539349
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.20139821669076
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 232.34112714407567,
+              "offset": 4.875,
+              "dy": 0.06423761863486277,
+              "point": {
+                "x": 2487.9823477581963,
+                "y": 44.209897124002296,
+                "z": -4646.195362260949
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.18822307292341
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 231.34112714407567,
+              "offset": -0.835,
+              "dy": 0.09392822755125252,
+              "point": {
+                "x": 2484.1278834585573,
+                "y": 44.177778314684865,
+                "z": -4650.525166524747
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.18135898252885
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 231.34112714407567,
+              "offset": 0,
+              "dy": 0.0945381356141084,
+              "point": {
+                "x": 2484.5671786948756,
+                "y": 44.177778314684865,
+                "z": -4649.815064633925
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.177637931667725
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 231.34112714407567,
+              "offset": 0.835,
+              "dy": 0.09514804367696428,
+              "point": {
+                "x": 2485.006473931194,
+                "y": 44.177778314684865,
+                "z": -4649.104962743104
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.1739168808066
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 231.34112714407567,
+              "offset": 1.875,
+              "dy": 0.09590768964744711,
+              "point": {
+                "x": 2485.553620093794,
+                "y": 44.177778314684865,
+                "z": -4648.220524459925
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.16928227853648
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 230.34112714407567,
+              "offset": 0.835,
+              "dy": 0.12914262194175308,
+              "point": {
+                "x": 2484.194957500359,
+                "y": 44.14528336323736,
+                "z": -4648.582169195632
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.142939669379864
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 230.34112714407567,
+              "offset": 1.875,
+              "dy": 0.1283920847302369,
+              "point": {
+                "x": 2484.7781246905265,
+                "y": 44.14528336323736,
+                "z": -4647.72105594622
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 44.1396825304142
+                },
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                  "y": 44.27413474263716
+                }
+              ]
+            },
+            {
+              "d": 36,
+              "station": 198.34112714407567,
+              "offset": 4.875,
+              "dy": 0.04144686801287634,
+              "point": {
+                "x": 2464.7984634390955,
+                "y": 43.061123775009165,
+                "z": -4624.313788875839
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 43.102082812563815
+                }
+              ]
+            },
+            {
+              "d": 37,
+              "station": 197.34112714407567,
+              "offset": 4.875,
+              "dy": 0.04353778218440851,
+              "point": {
+                "x": 2464.2129233716564,
+                "y": 43.02701917893528,
+                "z": -4623.503145409559
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 43.06825236007677
+                }
+              ]
+            },
+            {
+              "d": 54,
+              "station": 180.34112714407567,
+              "offset": -2.875,
+              "dy": 0.040563692863024414,
+              "point": {
+                "x": 2449.085644477848,
+                "y": 42.44859983156783,
+                "z": -4613.023440734608
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 42.40921848498458
+                }
+              ]
+            },
+            {
+              "d": 55,
+              "station": 179.34112714407567,
+              "offset": -2.875,
+              "dy": 0.041448385863567694,
+              "point": {
+                "x": 2448.619719591088,
+                "y": 42.41479913157652,
+                "z": -4612.0527801757735
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 42.3727253440377
+                }
+              ]
+            },
+            {
+              "d": 56,
+              "station": 178.34112714407567,
+              "offset": -2.875,
+              "dy": 0.04222809220928525,
+              "point": {
+                "x": 2448.1904306708907,
+                "y": 42.381014679497746,
+                "z": -4611.1496129581465
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 42.33888839914225
+                }
+              ]
+            },
+            {
+              "d": 57,
+              "station": 177.34112714407567,
+              "offset": -2.875,
+              "dy": 0.04300779855500281,
+              "point": {
+                "x": 2447.7611417506932,
+                "y": 42.34723022741897,
+                "z": -4610.24644574052
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 42.305051454246815
+                }
+              ]
+            },
+            {
+              "d": 58,
+              "station": 176.34112714407567,
+              "offset": -2.875,
+              "dy": 0.043814891468258566,
+              "point": {
+                "x": 2447.312800911459,
+                "y": 42.3136339709644,
+                "z": -4609.272198519012
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:out:split10:split24:split284:split354",
+                  "y": 42.268964127923276
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.062939263183827,
+        "gradeBreaks": [],
+        "minRadius": 79.13835548137192,
+        "shortSegments": 7
+      },
+      "severity": "P1"
+    },
+    {
+      "id": "regional:shangu:off:-1",
+      "cluster": "regional:shangu",
+      "length": 254.58005728691654,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G38:in:split442:split444",
+            "end": "end"
+          },
+          "peers": [
+            "regional:G38:in:split442:split444",
+            "regional:G38:in:split362",
+            "regional:G38:in:split442",
+            "regional:G38:in:split362:split364",
+            "regional:G38:in:split470",
+            "regional:G38:in:split362:split364:lane24",
+            "regional:qingling:N-to-E-turbine:deceleration",
+            "regional:G38:in",
+            "regional:G38:in:split28",
+            "regional:G65:in:11:revision224",
+            "regional:G38:in:split28:split288",
+            "regional:G65:in:11",
+            "regional:G38:in:split28:split286"
+          ],
+          "sharedLength": 36,
+          "maxSharedDeltaY": 0.15929497316635377,
+          "conflictRange": [
+            2,
+            5
+          ],
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 9.158825965927607,
+          "topology": true,
+          "samples": [
+            {
+              "d": 2,
+              "station": 2,
+              "offset": -2.875,
+              "dy": 0.06360209259383254,
+              "point": {
+                "x": 2475.8729053157567,
+                "y": 44.211187920711296,
+                "z": -4661.212928856239
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.19622291369769
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 2,
+              "offset": -1.875,
+              "dy": 0.06446198054291585,
+              "point": {
+                "x": 2475.3678036471006,
+                "y": 44.211187920711296,
+                "z": -4662.075988706029
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.201364790275555
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 2,
+              "offset": -0.835,
+              "dy": 0.059767220954718425,
+              "point": {
+                "x": 2474.842497911698,
+                "y": 44.211187920711296,
+                "z": -4662.973570949812
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.20671234191654
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 2,
+              "offset": 0,
+              "dy": 0.055997870708417,
+              "point": {
+                "x": 2474.4207380183702,
+                "y": 44.211187920711296,
+                "z": -4663.694225924387
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.21100580885906
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 2,
+              "offset": 0.835,
+              "dy": 0.05222852046212978,
+              "point": {
+                "x": 2473.9989781250424,
+                "y": 44.211187920711296,
+                "z": -4664.414880898962
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.21529927580159
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 2,
+              "offset": 1.875,
+              "dy": 0.04897476243461796,
+              "point": {
+                "x": 2473.47367238964,
+                "y": 44.211187920711296,
+                "z": -4665.3124631427445
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.22064682744258
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 2,
+              "station": 2,
+              "offset": 4.875,
+              "dy": 0.06360209259383254,
+              "point": {
+                "x": 2471.9583673836714,
+                "y": 44.211187920711296,
+                "z": -4667.901642692116
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.23618459700062
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 3,
+              "offset": -1.875,
+              "dy": 0.0924609158971279,
+              "point": {
+                "x": 2474.50474379731,
+                "y": 44.179386874414384,
+                "z": -4661.570887037373
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.16947268805252
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 3,
+              "offset": -0.835,
+              "dy": 0.08883760423498188,
+              "point": {
+                "x": 2473.9794380619073,
+                "y": 44.179386874414384,
+                "z": -4662.468469281155
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.174831546269374
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 3,
+              "offset": 0,
+              "dy": 0.08923638548337465,
+              "point": {
+                "x": 2473.5576781685795,
+                "y": 44.179386874414384,
+                "z": -4663.18912425573
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.17917408609413
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 3,
+              "offset": 0.835,
+              "dy": 0.08963516673176031,
+              "point": {
+                "x": 2473.1359182752517,
+                "y": 44.179386874414384,
+                "z": -4663.9097792303055
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.1835166259189
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 3,
+              "station": 3,
+              "offset": 1.875,
+              "dy": 0.0901318523585104,
+              "point": {
+                "x": 2472.610612539849,
+                "y": 44.179386874414384,
+                "z": -4664.807361474088
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.188925298275485
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 4,
+              "offset": -1.875,
+              "dy": 0.12789115296096298,
+              "point": {
+                "x": 2473.599962159653,
+                "y": 44.1473980603835,
+                "z": -4661.051117942955
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.136434811781335
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 4,
+              "offset": -0.835,
+              "dy": 0.127507540786155,
+              "point": {
+                "x": 2473.0956259565774,
+                "y": 44.1473980603835,
+                "z": -4661.960648038261
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.142606009797795
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 4,
+              "offset": 0,
+              "dy": 0.12719954447273096,
+              "point": {
+                "x": 2472.6907021781462,
+                "y": 44.1473980603835,
+                "z": -4662.690895759011
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.1475607697437
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 4,
+              "offset": 0.835,
+              "dy": 0.12689154815930692,
+              "point": {
+                "x": 2472.285778399715,
+                "y": 44.1473980603835,
+                "z": -4663.421143479762
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.152515529689595
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 4,
+              "station": 4,
+              "offset": 1.875,
+              "dy": 0.12650793598449184,
+              "point": {
+                "x": 2471.7814421966395,
+                "y": 44.1473980603835,
+                "z": -4664.3306735750675
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.15868672770605
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 5,
+              "station": 5,
+              "offset": -0.835,
+              "dy": 0.15929497316635377,
+              "point": {
+                "x": 2472.221077788014,
+                "y": 44.115046182086424,
+                "z": -4661.475709381457
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.11088753347309
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            },
+            {
+              "d": 5,
+              "station": 5,
+              "offset": 0,
+              "dy": 0.15898697685292973,
+              "point": {
+                "x": 2471.816154009583,
+                "y": 44.115046182086424,
+                "z": -4662.205957102207
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G38:in:split362",
+                  "y": 44.11603261391159
+                },
+                {
+                  "roadId": "regional:G38:in:split442:split444",
+                  "y": 44.27479001330513
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:shangu:local:-1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:shangu:local:-1"
+          ],
+          "sharedLength": 5,
+          "maxSharedDeltaY": 0.04548402770908666,
+          "conflictRange": [
+            5,
+            5
+          ],
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.133521748927399,
+          "topology": true,
+          "samples": [
+            {
+              "d": 5,
+              "station": 249.58005728691654,
+              "offset": 0.835,
+              "dy": 0.04548402770908666,
+              "point": {
+                "x": 2242.366740445342,
+                "y": 33.3790096317782,
+                "z": -4583.41248879813
+              },
+              "peers": [
+                {
+                  "roadId": "regional:shangu:local:-1",
+                  "y": 33.33337554609735
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.05246706976506435,
+        "gradeBreaks": [],
+        "minRadius": 81.72307623678239,
+        "shortSegments": 7
+      },
+      "severity": "P1"
+    },
+    {
+      "id": "regional:shangu:on:-1",
+      "cluster": "regional:shangu",
+      "length": 263.81813283124706,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:shangu:local:-1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:shangu:local:-1"
+          ],
+          "sharedLength": 5,
+          "maxSharedDeltaY": 0.03741128015781925,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.118564508073882,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G38:in:split362:split364",
+            "end": "start"
+          },
+          "peers": [
+            "regional:G38:in:split362:split364",
+            "regional:G38:in:split362",
+            "regional:G38:in:split362:split364:lane24",
+            "regional:qingling:N-to-E-turbine:deceleration",
+            "regional:G38:in:split442:split444",
+            "regional:G38:in:split28",
+            "regional:G38:in:split442",
+            "regional:G38:in:split28:split288",
+            "regional:G38:in:split470",
+            "regional:G38:in:split28:split286",
+            "regional:G38:in",
+            "regional:G65:in:11:revision224",
+            "regional:G65:in:11"
+          ],
+          "sharedLength": 37,
+          "maxSharedDeltaY": 0.032420354047832944,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 9.246852990427525,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.04698579181951291,
+        "gradeBreaks": [],
+        "minRadius": 83.29358182754396,
+        "shortSegments": 2
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:shangu:off:1:deceleration",
+      "cluster": "regional:shangu",
+      "length": 275.8893491688664,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:G38:out:split10:split24:split284:lane312",
+        "decisionId": "regional:shangu:off:1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G38:out:split10:split24:split284",
+            "end": "end"
+          },
+          "peers": [
+            "regional:G38:out:split10:split24:split284",
+            "regional:G38:out:split10:split24:lane20",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:G38:out:split10:split24",
+            "regional:qingling:E-to-N-right:acceleration",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split10:split282",
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split10",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356"
+          ],
+          "sharedLength": 132,
+          "maxSharedDeltaY": 0.0010445817975117677,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.40730692360593584,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:shangu:off:1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:shangu:off:1",
+            "regional:shangu:local:1"
+          ],
+          "sharedLength": 2,
+          "maxSharedDeltaY": 0.027935675968720375,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.14919673701234165,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.013967837984357972,
+        "gradeBreaks": [],
+        "minRadius": 301.67699401968537,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    }
+  ]
+}

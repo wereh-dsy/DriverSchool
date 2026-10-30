@@ -1,0 +1,111 @@
+{
+  "vehicleId": "tesla-model-3-rwd",
+  "displayName": "Tesla Model 3 RWD",
+  "researchDate": "2026-10-28",
+  "targetGeneration": "Tesla Model 3 RWD，Highland 2024+，18 英寸轮圈；非旧款或 Performance",
+  "units": {
+    "dimensions": "metres",
+    "rim": "inches",
+    "nominalTyreDiameter": "metres, calculated from marked size; not measured rolling radius"
+  },
+  "officialOrDocumentedSpecifications": {
+    "length": 4.72,
+    "width": 1.85,
+    "height": 1.44,
+    "wheelBase": 2.875,
+    "frontTrackWidth": 1.584,
+    "rearTrackWidth": 1.584,
+    "frontOverhang": 0.868,
+    "rearOverhang": 0.977,
+    "groundClearance": 0.138
+  },
+  "specificationProvenance": [
+    {
+      "type": "manufacturer owner manual",
+      "url": "https://www.tesla.com/ownersmanual/model3/en_us/GUID-56562137-FC31-4110-A13C-9A9FC6657BF0.html",
+      "scope": "RWD/Long Range 列，尺寸不含后视镜；数值随配置可变"
+    },
+    {
+      "type": "manufacturer owner manual",
+      "url": "https://www.tesla.com/ownersmanual/model3/es_cl/GUID-FDDB10EF-FFA9-46EB-B8CC-03614AE92B6B.html",
+      "scope": "18×8.5J，ET38，235/45R18"
+    }
+  ],
+  "tyres": {
+    "front": "235/45 R18",
+    "rear": "235/45 R18",
+    "rimInches": 18,
+    "nominalFrontDiameter": 0.6687,
+    "nominalRearDiameter": 0.6687,
+    "frontRimWidthInches": 8.5,
+    "rearRimWidthInches": 8.5,
+    "frontOffsetMetres": 0.038,
+    "rearOffsetMetres": 0.038,
+    "frontWidthMetres": 0.235,
+    "rearWidthMetres": 0.235,
+    "widthDifferenceMetres": 0
+  },
+  "photoReferences": [
+    {
+      "type": "automotive media photos",
+      "url": "https://www.carsguide.com.au/ev/tesla-model-3-91785",
+      "scope": "2024 RWD Highland 实拍，区分旧款灯形"
+    }
+  ],
+  "photoCoverageNote": "链接是指定代际图库/实拍参考；未取得每款完全一致的正侧/正前/正后/高低视角七张图。未确认的独立视角为 unavailable。",
+  "unavailablePhotoAngles": [
+    "matched orthographic side",
+    "matched straight front",
+    "matched straight rear",
+    "matched high angle",
+    "matched low angle"
+  ],
+  "qualitativePhotoObservations": [
+    "低发动机盖、封闭鼻部、连续玻璃弧顶、细前灯及外侧下折的后灯；没有贯穿式后灯。"
+  ],
+  "observationProvenance": "Qualitative photo/design observations. No photograph-derived number is labelled as an OEM specification.",
+  "gameConstraints": {
+    "declaredDimensions": {
+      "length": 4.72,
+      "width": 1.85,
+      "height": 1.44,
+      "wheelBase": 2.875,
+      "frontTrackWidth": 1.584,
+      "rearTrackWidth": 1.584,
+      "wheelDiameter": 0.67
+    },
+    "loadedModel": {
+      "length": 4.720000031542778,
+      "width": 1.846365213394165,
+      "height": 1.4352500438690186,
+      "wheelBase": 2.875,
+      "frontTrackWidth": 1.584,
+      "rearTrackWidth": 1.584,
+      "wheelDiameter": 0.6700000166893005,
+      "frontOverhang": 0.8680000305175781,
+      "rearOverhang": 0.9770000010251998
+    },
+    "physicalTyreWidths": [
+      {
+        "id": "frontLeft",
+        "width": 0.23499999940395355
+      },
+      {
+        "id": "frontRight",
+        "width": 0.23499999940395355
+      },
+      {
+        "id": "rearLeft",
+        "width": 0.23499999940395355
+      },
+      {
+        "id": "rearRight",
+        "width": 0.23499999940395355
+      }
+    ],
+    "note": "Physical hardpoints, rolling radii and chassis/collision declarations retained. Model values are measurements, not manufacturer data."
+  },
+  "unresolvedDifferences": [
+    "保持 670mm 物理胎径，与轮胎名义 668.7mm 有约 1.3mm 差异；没有将 Highland 换成旧款或 Performance。"
+  ]
+}

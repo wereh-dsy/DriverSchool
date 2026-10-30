@@ -1,4 +1,5 @@
-import { InstancedMesh, Mesh, MeshBasicMaterial } from 'three';
+import { roadCarriageways } from '../city/RoadCarriageway';
+import { InstancedMesh, Mesh, MeshLambertMaterial } from 'three';
 import type { CityMapData } from '../city/CityMapData';
 import { newCityMap } from '../city/CityMapData';
 import type { RoadSignDefinition } from '../city/RoadSignData';
@@ -62,7 +63,10 @@ export function runFastRoadSignPlacementSelfTest(maps: readonly CityMapData[]) {
       const road = roads.get(sign.roadId)!, path = roadPoints(road), frame = sampleAt(path, sign.stationMetres!), reverse = sign.laneDirection === 'reverse';
       const heading = Math.atan2(-frame.tangent.x, -frame.tangent.z) + (reverse ? Math.PI : 0);
       check(Math.abs(Math.atan2(Math.sin(sign.heading - heading), Math.cos(sign.heading - heading))) < 1e-7, 'face follows driver approach ' + sign.id);
-      check(Math.abs((sign.position.y ?? 0) - (frame.point.y ?? 0)) < 1e-7, 'footing follows physical road height ' + sign.id);
+      // Mountings follow the banked paved shoulder, whose Y differs from the
+      // centreline on grades/mitered carriageways.
+      const pavedHeight=roadCarriageways(map).pavedHeight(road.id,sign.position);
+      check(Math.abs((sign.position.y ?? 0) - (pavedHeight ?? frame.point.y ?? 0)) < 1e-7, 'footing follows physical road height ' + sign.id);
       const d = signDimensions(sign.template, sign.size);
       for (const x of [-d.width / 2, 0, d.width / 2]) {
         const q = rotatePoint({ x, z: 0 }, sign.heading), point = { x: sign.position.x + q.x, z: sign.position.z + q.z }, y = sign.position.y ?? 0;
@@ -85,7 +89,7 @@ export function runFastRoadSignPlacementSelfTest(maps: readonly CityMapData[]) {
     check(renderer.cacheStats.textures === unique && unique <= 30, 'all speed/chevron repeats share a bounded material cache');
     check(canvases.every(c => c.width <= 384 && c.height <= 256), 'safety boards never allocate large gantry textures');
     check(painted.some(s => /^\d+$/.test(s)), 'limit numerals were painted');
-    root.traverse(o => { if (o instanceof InstancedMesh) { check(o.count > 0 && o.material instanceof MeshBasicMaterial, 'batched safety geometry'); o.dispose(); } else if (o instanceof Mesh) o.geometry.dispose(); }); renderer.dispose();
+    root.traverse(o => { if (o instanceof InstancedMesh) { check(o.count > 0 && o.material instanceof MeshLambertMaterial, 'batched safety geometry'); o.dispose(); } else if (o instanceof Mesh) o.geometry.dispose(); }); renderer.dispose();
     results.push({ name: map.name, navigation: audit.navigation, speedLimits: audit.speedLimits, chevrons: audit.chevrons, readingConflicts: audit.conflicts.length, uniqueSafetyTextures: unique });
   }
   return { assertions, maps: results };

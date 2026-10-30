@@ -1,0 +1,10 @@
+import {analyze,context,pavement,roadPoints,sampleAt,polylineLength,project} from './common';
+import {fitLocalProfile} from '../system-central-ramp-repair/local-profile';
+import {stations} from '../../src/editor/MapAnalysis';
+const smooth=(t:number)=>{t=Math.max(0,Math.min(1,t));return t*t*t*(10+t*(-15+6*t));};
+export function fitProfile(map:any,r:any){const road=(id:string)=>map.roads.find((r:any)=>r.id===id);const points=roadPoints(r),ss=stations(points),length=ss.at(-1)!,row=analyze(map,[r],true).rows[0],pv=pavement(context(map,[r])),fixed=new Map<number,number>([[0,points[0]!.y!],[points.length-1,points.at(-1)!.y!]]),lower=points.map(()=>-50),upper=points.map(()=>100),start=row.interfaces[0].sharedLength+4,end=length-row.interfaces[1].sharedLength-4;
+ const ys=points.map((p,i)=>points[0]!.y!+(points.at(-1)!.y!-points[0]!.y!)*smooth((ss[i]!-start)/(end-start)));
+ for(const iface of row.interfaces){const peers=new Set(iface.peers);for(let i=1;i<points.length-1;i++){const d=iface.end==='start'?ss[i]!:length-ss[i]!;if(d>iface.sharedLength+3)continue;const f=sampleAt(points,ss[i]!),hits=pv.hit(points[i]).filter(h=>peers.has(h.road.id));const target=hits.length?hits.map(h=>h.surface.heightAt(points[i]!.x,points[i]!.z)).sort((a,b)=>Math.abs(a-ys[i]!)-Math.abs(b-ys[i]!))[0]!:iface.peers.map((id:string)=>project(roadPoints(road(id)),points[i]!)).sort((a:any,b:any)=>a.distance-b.distance)[0]?.point.y;if(target!==undefined){lower[i]=target-.005;upper[i]=target+.005;ys[i]=target;}}}
+ const fit=fitLocalProfile(ss,ys,fixed,24,{lower,upper},.12);r.centerline=points.map((p,i)=>({...p,y:fit[i]}));r.elevationMode='custom';r.curve='polyline';
+ return {independentLength:length-row.interfaces[0].sharedLength-row.interfaces[1].sharedLength,sharedLengths:row.interfaces.map((i:any)=>i.sharedLength),profileTransition:[start,end]};
+}

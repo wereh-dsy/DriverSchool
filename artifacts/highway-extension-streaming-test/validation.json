@@ -1,0 +1,177 @@
+{
+  "passed": true,
+  "version": 493,
+  "geometry": true,
+  "sectorSeams": true,
+  "navigation": true,
+  "coast": true,
+  "interchanges": true,
+  "facilities": true,
+  "streamingCases": 10,
+  "physicsReplayPass": 9,
+  "junctionReplayNotApplicable": 1,
+  "totalTerrainSharedEdgeComparisons": 954868,
+  "maximumSectorBuildLatencyMs": 4147,
+  "maximumMainThreadStepMs": 218.90000000596046,
+  "peakActiveSectors": 62,
+  "peakWorkerQueue": 45,
+  "terrainMisses": 0,
+  "roadMisses": 0,
+  "physicalSynchronousFallbacks": 0,
+  "knownLimitations": [
+    "Cold diagnostic preparation included a 218.9ms main-thread step. These CPU focus tests do not establish a stable rendered frame rate.",
+    "F10 full-map canvas measured 29.1–89.3ms in this run.",
+    "Compiled CPU road plans and inexpensive coarse far terrain remain cached; near meshes and collider residency unload. Heap trends are sampled without forced GC and do not prove absence of leaks.",
+    "Eight new outer ports are intentionally reserved. Browser dist only; external desktop release remains v492."
+  ],
+  "guard": {
+    "passed": true,
+    "baselineVersion": 492,
+    "version": 493,
+    "baselineSourceHash": "a43f960f228e7cb172bf5005d613886743c82e29c48c0f6045ba010e15557be1",
+    "candidateHash": "13067d83136320ad56f45ddda52df52390cae89c0b8b162d5275d16d28c6503f",
+    "runtimeHash": "b8ec666445f0dc6ebb25003fca45a7a5b7fb608a08ae04f6ea80abc853694852",
+    "expectedRuntimeAsset": "assets/city-main.runtime-b8ec666445f0.json",
+    "existingRecordsUnchanged": true,
+    "physicsUnchanged": true,
+    "physics": {
+      "src/vehicle/physics/VehicleContactSystem.ts": "64f35ad6a0edc51c2ea9b9f8174c431f1b65a5db04d29e7df79f8a47d24e75a2",
+      "src/vehicle/physics/WheelSupportContinuity.ts": "0c310e9b2a9945bf80141ed19f3a240cd0cc883eacb26997b261ebbec3eebce0",
+      "src/vehicle/physics/SuspensionSystem.ts": "359ab78317f471facebbff13e662aa56b6ed920a64f174c20a7be57f8c735fd4",
+      "src/vehicle/physics/VehicleDynamics.ts": "41536d94677bf9117f36f8c957d441c179e8dc8a424fb0831a957fc88b358eab",
+      "src/vehicle/physics/CollisionSystem.ts": "cd087714e82460b663a5a84d29e6ba7ac0328b994d875d05b922e5eb4f11d9d0"
+    },
+    "sourceFiles": {
+      "src/world/regional/RegionalData.ts": "bea08136c64b39efc907f6719cb4f10f6bb1ed0c47cc6abc692cd3aa6b5ff8eb",
+      "src/world/regional/RegionalTerrain.ts": "4440053c81bd00c7f386c8f32f079d0d968e57446a1aa9b17b4bd04ea37e6e65",
+      "src/world/regional/RegionalBackgroundBatches.ts": "dc001b29021b290807d84b46f2414d2e51f74d0da262b28f1b22e27f453e3f8c",
+      "src/world/city/CityMapValidation.ts": "de33432c6a7fed4e9434f6c11d8df41d41faf14106323a48c46d0bd8d32e28c2",
+      "src/world/city/SectorManager.ts": "e8de02f339894d0e08b7a6d426cd6a7263d7270716660672f5ae475b790f1175"
+    },
+    "counts": {
+      "roads": 3288,
+      "intersections": 306,
+      "objects": 7153,
+      "signs": 3137
+    },
+    "newRoads": 344,
+    "warningCount": 36
+  },
+  "build": {
+    "command": "pnpm run build -BasicValidation",
+    "exitCode": 0,
+    "startedAt": "2026-10-24T03:59:05.622Z",
+    "completedAt": "2026-10-24T03:59:37.793Z",
+    "buildCount": 1,
+    "desktopPackaged": false,
+    "published": true,
+    "version": 493,
+    "runtimeAsset": "assets/city-main.runtime-b8ec666445f0.json"
+  },
+  "distConsistency": {
+    "passed": true,
+    "version": 493,
+    "sourceHash": "13067d83136320ad56f45ddda52df52390cae89c0b8b162d5275d16d28c6503f",
+    "runtimeAsset": "assets/city-main.runtime-b8ec666445f0.json",
+    "runtimeHash": "b8ec666445f0dc6ebb25003fca45a7a5b7fb608a08ae04f6ea80abc853694852",
+    "applicationReferencesRuntime": [
+      "assets/city-alpha-DoOx9zIc.js",
+      "assets/DrivingGame-CHOmdfGd.js"
+    ],
+    "buildCount": 1,
+    "externalDesktopUpdated": false
+  },
+  "requiredArtifactsPresent": true,
+  "documentationLinksChecked": 41,
+  "frozenCollections": [
+    "roads",
+    "intersections",
+    "objects",
+    "signs",
+    "roadLinks"
+  ],
+  "existingPortPoseRefresh": {
+    "changedMetadataRecords": 15,
+    "maximumXYZDelta": 3.023543024153277e-12,
+    "maximumHeadingDelta": 0.0007469824348182996,
+    "referencesAndLabelsUnchanged": true,
+    "reason": "Existing Map API placePreset refreshes endpoint poses. One previously stale heading changes by 0.00074698rad; remaining deltas are floating-point scale. Road geometry and routing links remain strictly frozen.",
+    "records": [
+      {
+        "id": "system-north:S-to-W-star:port-end",
+        "maximumXYZDelta": 3.023543024153277e-12,
+        "headingDelta": 1.509903313490213e-14
+      },
+      {
+        "id": "system-north:S-to-E-right:port-end",
+        "maximumXYZDelta": 3.126388037344441e-13,
+        "headingDelta": 4.440892098500626e-16
+      },
+      {
+        "id": "system-north:E-to-S-star:port-end",
+        "maximumXYZDelta": 0,
+        "headingDelta": 1.7763568394002505e-15
+      },
+      {
+        "id": "system-north:E-to-N-right:port-start",
+        "maximumXYZDelta": 0,
+        "headingDelta": 0.0007469824348182996
+      },
+      {
+        "id": "system-north:E-to-N-right:port-end",
+        "maximumXYZDelta": 0,
+        "headingDelta": 2.983724378680108e-16
+      },
+      {
+        "id": "system-north:N-to-E-star:port-end",
+        "maximumXYZDelta": 7.958078640513122e-13,
+        "headingDelta": 0
+      },
+      {
+        "id": "system-north:N-to-W-right:port-end",
+        "maximumXYZDelta": 3.126388037344441e-13,
+        "headingDelta": 0
+      },
+      {
+        "id": "system-north:W-to-N-star:port-end",
+        "maximumXYZDelta": 1.819159398503002e-12,
+        "headingDelta": 7.781969513231957e-15
+      },
+      {
+        "id": "system-west:S-to-E-right:port-end",
+        "maximumXYZDelta": 0,
+        "headingDelta": 8.881784197001252e-16
+      },
+      {
+        "id": "system-west:E-to-N-right:port-end",
+        "maximumXYZDelta": 0,
+        "headingDelta": 1.249000902703301e-16
+      },
+      {
+        "id": "system-west:N-to-W-right:port-end",
+        "maximumXYZDelta": 1.865174681370263e-14,
+        "headingDelta": 1.3100631690576847e-14
+      },
+      {
+        "id": "system-west:W-to-S-right:port-start",
+        "maximumXYZDelta": 0,
+        "headingDelta": 1.1324274851176597e-14
+      },
+      {
+        "id": "system-west:W-to-S-right:port-end",
+        "maximumXYZDelta": 8.019692659049974e-34,
+        "headingDelta": 0
+      },
+      {
+        "id": "system-south:S-to-W-semi:port-end",
+        "maximumXYZDelta": 0,
+        "headingDelta": 1.5543122344752192e-15
+      },
+      {
+        "id": "system-south:W-to-S-right:port-end",
+        "maximumXYZDelta": 7.549516567451064e-15,
+        "headingDelta": 3.1086244689504383e-15
+      }
+    ]
+  }
+}

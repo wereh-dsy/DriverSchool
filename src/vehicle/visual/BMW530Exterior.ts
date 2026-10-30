@@ -10,7 +10,7 @@ import type { MirrorSurfaceMesh } from './VehicleVisual';
 const mix = T.MathUtils.lerp;
 const kidney = (sign: number): P[] => [[.026, .865, -2.548], [.095, .936, -2.540], [.383, .932, -2.516],
   [.491, .875, -2.495], [.484, .733, -2.502], [.389, .638, -2.522], [.096, .623, -2.548], [.026, .665, -2.551]]
-  .map(([x, y, z]) => [sign * x!, y!, z!] as P);
+  .map(([x, y, z]) => [sign * x!, .79 + (y! - .79) * .84, z!] as P);
 
 /** Convex rear glazing clears the existing long-wheelbase rear head restraints. */
 const rearGlassPoint = (u: number, v: number): P => {
@@ -63,7 +63,9 @@ export function buildBMW530Exterior(root: T.Group, config: VehicleVisualConfig):
       const s = sample(z);
       const f = (y - .24) / (s.y - .24);
       const waist = .018 * Math.exp(-(((f - .40) / .15) ** 2)) * Math.exp(-((z / 1.4) ** 6));
-      const width = (f < .80 ? s.width - .040 * (1 - f / .80) : mix(s.width, s.belt, (f - .80) / .20)) - waist;
+      // G38 keeps a crisp high shoulder over a convex lower door section.
+      const width = (f < .80 ? s.width - .055 * (1 - Math.sin(Math.max(0,f) / .80 * Math.PI / 2))
+        : mix(s.width, s.belt, ((f - .80) / .20) ** 1.35)) - waist;
       return [sign * width, y, cornerZ(width, z)];
     };
     let driverHingePosition: T.Vector3 | null = null;

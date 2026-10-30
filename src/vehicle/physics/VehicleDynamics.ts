@@ -13,6 +13,7 @@ import { WHEEL_IDS, createWheelContactBuffer, averageWheelGroundGeometry, type G
 import { centerOfMassOffsetZ, wheelLocalPosition } from '../VehicleDimensions';
 import { SuspensionSystem, type SuspensionVerticalSnapshot } from './SuspensionSystem';
 import { ChassisDynamics } from './ChassisDynamics';
+import { VehicleAerodynamics } from './VehicleAerodynamics';
 import { SurfaceInteraction, softSurfaceResistance } from './SurfaceInteraction';
 import { WheelRotationSystem } from './WheelRotationSystem';
 import type { Differential, DifferentialSnapshot } from './Differential';
@@ -42,6 +43,9 @@ export interface VehicleWorldBounds {
 
 /** Per-step road information supplied by the world/track system. */
 export interface VehicleEnvironment {
+  /** Air velocity along body forward (m/s); positive is a following wind. Default still air.
+   * Boundary only: no weather/map coupling or lateral wind-force model. */
+  airLongitudinalVelocity?: number;
   ambientTemperatureC?: number;
   /** Four independently queried tyre contacts; material coefficients are relative to asphalt. */
   wheelContacts?: WheelContactSet;
@@ -145,6 +149,7 @@ export interface VehicleSnapshot extends ICEVehicleTelemetry {
   trip: TripComputerSnapshot;
   frontAeroVerticalForce: number;
   rearAeroVerticalForce: number;
+  activeSpoilerDeployment?: number;
   powertrain: PowertrainSnapshot;
   vehicleOperational: boolean;
   driveAvailable: boolean;
@@ -248,6 +253,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public readonly powertrain: TPowertrain;
   public readonly tripComputer = new TripComputer();
   private frontAeroVerticalForce = 0;
+  public readonly aerodynamics: VehicleAerodynamics;
   private rearAeroVerticalForce = 0;
   private get icePowertrain(): ICEPowertrain | undefined { return this.powertrain instanceof ICEPowertrain ? this.powertrain : undefined; }
 
@@ -355,12 +361,13 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     injectedPowertrain?: TPowertrain,
   ) {
     validateVehiclePlatformConfig(config);
+    this.aerodynamics=new VehicleAerodynamics(config.aero);
     this.centerOfMassLocalZ = centerOfMassOffsetZ(config);
     if (injectedPowertrain === undefined && !('engine' in config) && !isElectricConfig(config)) throw new Error('A non-ICE chassis requires a Powertrain');
     this.powertrain = injectedPowertrain ?? ((isElectricConfig(config) ? new ElectricPowertrain(config)
       : new ICEPowertrain(config as VehiclePhysicsConfig)) as unknown as TPowertrain);
     if (config.transmission && (config.transmission.type ?? 'MANUAL') !== this.powertrain.transmission.type) throw new Error('Powertrain transmission disagrees with config');
-    if (this.powertrain.supportsManualSelection && this.powertrain.transmission.type !== 'TORQUE_CONVERTER_AT' && this.powertrain.transmission.type !== 'DCT') throw new Error('Manual selection requires stepped AT/DCT');
+    if (this.powertrain.supportsManualSelection && this.powertrain.transmission.type !== 'TORQUE_CONVERTER_AT' && this.powertrain.transmission.type !== 'DCT' && this.powertrain.transmission.type !== 'LST') throw new Error('Manual selection requires a stepped automatic transmission');
     if (config.transmission && (config.transmission.supportsManualSelection === true) !== this.powertrain.supportsManualSelection) throw new Error('Powertrain manual selection disagrees with config');
     if (config.autoHold && this.powertrain.transmission.type === 'MANUAL') throw new Error('Auto Hold requires a selector-based Powertrain');
     this.capabilities = resolveVehicleCapabilities(config, undefined, this.powertrain);
@@ -428,6 +435,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     );
     this.acceleration = 0;
     this.frontAeroVerticalForce = this.rearAeroVerticalForce = 0;
+    this.aerodynamics.reset();
     this.yawRate = 0;
     this.bodySlipAngle = 0;
     this.lateralVelocity = 0;
@@ -442,6 +450,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.verticalInitialized = false;
     this.groundedWheels = 4;
     this.suspension.reset();
+    this.suspension.setDriveMode(this.driveMode ?? 'NORMAL');
     this.wheelRotation.reset(this.speed);
     this.surfaceInteraction.reset();
     this.differential.distributeTorque(0);
@@ -661,6 +670,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
       ...powertrain.ice, powertrain, trip: this.tripComputer.getSnapshot(),
       tpmsState: this.tpms.state,
       frontAeroVerticalForce: this.frontAeroVerticalForce, rearAeroVerticalForce: this.rearAeroVerticalForce,
+      activeSpoilerDeployment: this.config.aero.activeSpoiler || this.config.aero.activeAero ? this.aerodynamics.spoilerDeployment : undefined,
       vehicleOperational: powertrain.vehicleOperational, driveAvailable: powertrain.driveAvailable,
       baseVehicleMass: this.config.mass,
       effectiveVehicleMass: this.effectiveVehicleMass,
@@ -814,13 +824,10 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const clutchTorque = transmissionOutput.inputLoadTorque;
     this.synchronizePowertrainMass();
 
-    const dragForce =
-      -0.5 *
-      this.config.aero.airDensity *
-      this.config.aero.dragCoefficient *
-      this.config.aero.frontalArea *
-      this.speed *
-      Math.abs(this.speed);
+    this.aerodynamics.update(dt,this.speed,environment.airLongitudinalVelocity??0,brakeCommand,this.lateralAcceleration);
+    const dragForce=this.aerodynamics.dragForce;
+    this.frontAeroVerticalForce=this.aerodynamics.frontVerticalForce;
+    this.rearAeroVerticalForce=this.aerodynamics.rearVerticalForce;
     const grade = this.getContactGrade(environment);
     const gradeForce = -this.effectiveVehicleMass * this.config.gravity * Math.sin(grade);
     const externalForce = this.finiteOr(environment.externalLongitudinalForce, 0);
@@ -1071,9 +1078,6 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     requestedDriveTorque: number,
     otherLongitudinalForce: number,
   ): TyreContactForces {
-    const dynamicPressureArea = .5 * this.config.aero.airDensity * this.config.aero.frontalArea * this.speed * this.speed;
-    this.frontAeroVerticalForce = dynamicPressureArea * this.config.aero.liftCoefficientFront;
-    this.rearAeroVerticalForce = dynamicPressureArea * this.config.aero.liftCoefficientRear;
     // Gate tyre loads at the current pose. Scene-backed heave is integrated
     // once, after planar motion, along its actual path rather than stale samples.
     if (environment.wheelContacts && !this.verticalInitialized) this.syncWheelContacts(environment.wheelContacts);
@@ -1226,13 +1230,14 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     // Solve that dry-contact constraint only near rest and only within actual
     // brake torque AND tyre grip. Moving/locked-wheel braking keeps real slip.
     let staticForces: FourWheelValues | undefined;
-    if ((vertical === undefined || vertical.groundedWheels === 4) &&
+    if ((vertical === undefined || vertical.groundedWheels >= 2) &&
       Math.hypot(this.speed, this.lateralVelocity) < 0.08 && Math.abs(this.yawRate) < 0.03 &&
       brakeTorques.some(b => b.appliedBrakeTorque + b.appliedHandbrakeTorque > 1) &&
       WHEEL_IDS.every(id => Math.abs(this.wheelRotation.getAngularVelocity(id) * this.config.wheelRadius) < 0.12)) {
       const minimum: FourWheelValues = [0, 0, 0, 0];
       const maximum: FourWheelValues = [0, 0, 0, 0];
       for (const i of [0, 1, 2, 3] as const) {
+        if(vertical && !vertical.wheels[WHEEL_IDS[i]].grounded)continue;
         const brake = brakeTorques[i]!;
         const capacity = brake.appliedBrakeTorque + brake.appliedHandbrakeTorque;
         const inertiaTorque = this.config.tires.wheelInertia *
@@ -1296,7 +1301,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
         corneringStiffness, lateralGripAvailability: lockedRearAvailability,
         staticLongitudinalForce: wheelGrounded ? staticForces?.[i] : undefined,
       });
-      staticSupported = staticSupported && wheelGrounded && rotation.staticContact;
+      staticSupported = staticSupported && (!wheelGrounded || rotation.staticContact);
       const tyreForce = wheelGrounded ? rotation.longitudinalForce : 0;
       usage[i] = wheelGrounded ? rotation.longitudinalUsage : 0;
       lateralLimits[i] = wheelGrounded ? rotation.lateralForceLimit : 0;
@@ -1688,6 +1693,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.differential.reset(); this.rearDifferential?.reset();
     this.steering.reset();
     this.suspension.reset();
+    this.suspension.setDriveMode(this.driveMode ?? 'NORMAL');
     this.wheelRotation.reset(this.speed);
     this.surfaceInteraction.reset();
     this.differential.distributeTorque(0);

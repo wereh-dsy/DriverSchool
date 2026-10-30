@@ -1,0 +1,482 @@
+{
+  "rows": [
+    {
+      "id": "regional:chenjiang-east:off:1",
+      "cluster": "regional:chenjiang-east",
+      "length": 315.38367038757053,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:chenjiang-east:off:1:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:chenjiang-east:off:1:deceleration",
+            "regional:G42:out:6:lane360",
+            "regional:G42:out:6",
+            "regional:G42:out:6:upgrade202",
+            "regional:G42:out:5:upgrade220:lane376",
+            "regional:G42:out:7",
+            "regional:G42:out:5:upgrade220",
+            "regional:G42:out:7:upgrade204",
+            "regional:G42:out:5",
+            "regional:G42:out:7:upgrade204:lane364",
+            "regional:G42:out:8",
+            "regional:chenjiang-east:on:1:acceleration",
+            "regional:v3:G17-extension185:out:0",
+            "regional:v3:G17-extension185:out:0:lane4638",
+            "regional:v3:chenjiang-east:W-to-N-turbine:deceleration"
+          ],
+          "sharedLength": 42,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.17969683106221448,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:chenjiang-east:local:1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:chenjiang-east:local:1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.515034654533458,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 49.749302895177124,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:chenjiang-east:on:1",
+      "cluster": "regional:chenjiang-east",
+      "length": 315.36422984835644,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:chenjiang-east:local:1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:chenjiang-east:local:1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.51503465453377,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:chenjiang-east:on:1:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:chenjiang-east:on:1:acceleration",
+            "regional:G42:out:7:upgrade204",
+            "regional:G42:out:7:upgrade204:lane364",
+            "regional:G42:out:7",
+            "regional:G42:out:8",
+            "regional:G42:out:6:upgrade202",
+            "regional:v3:G17-extension185:out:0",
+            "regional:G42:out:6:lane360",
+            "regional:v3:G17-extension185:out:0:lane4638",
+            "regional:v3:chenjiang-east:W-to-N-turbine:deceleration",
+            "regional:G42:out:6",
+            "regional:G42:out:5:upgrade220:lane376",
+            "regional:chenjiang-east:off:1:deceleration",
+            "regional:G42:out:5:upgrade220",
+            "regional:G42:out:5"
+          ],
+          "sharedLength": 42,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.16244350047775888,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 45.663242668980885,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:chenjiang-east:off:-1",
+      "cluster": "regional:chenjiang-east",
+      "length": 315.42345771387227,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:chenjiang-east:off:-1:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:chenjiang-east:off:-1:deceleration",
+            "regional:G42:in:3:lane368",
+            "regional:G42:in:3",
+            "regional:G42:in:3:upgrade210",
+            "regional:G42:in:2:revision183",
+            "regional:G42:in:4",
+            "regional:v3:G17-extension185:in:4:revision489:lane4594",
+            "regional:G42:in:4:upgrade212",
+            "regional:v3:G17-extension185:in:4:revision489",
+            "regional:v3:chenjiang-east:S-to-W-turbine:acceleration",
+            "regional:G42:in:5",
+            "regional:G42:in:5:lane380",
+            "regional:G42:in:5:upgrade226"
+          ],
+          "sharedLength": 43,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.21405408477102333,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:chenjiang-east:local:-1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:chenjiang-east:local:-1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.5150346545314872,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 50.215769766173295,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:chenjiang-east:on:-1",
+      "cluster": "regional:chenjiang-east",
+      "length": 317.4068584396877,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:chenjiang-east:local:-1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:chenjiang-east:local:-1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.515034654529205,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G42:in:4:upgrade212",
+            "end": "start"
+          },
+          "peers": [
+            "regional:G42:in:4:upgrade212",
+            "regional:G42:in:5",
+            "regional:G42:in:4",
+            "regional:G42:in:5:lane380",
+            "regional:G42:in:3:upgrade210",
+            "regional:G42:in:5:upgrade226",
+            "regional:G42:in:3:lane368",
+            "regional:G42:in:3",
+            "regional:G42:in:2:revision183",
+            "regional:chenjiang-east:off:-1:deceleration",
+            "regional:v3:G17-extension185:in:4:revision489:lane4594",
+            "regional:v3:G17-extension185:in:4:revision489",
+            "regional:v3:chenjiang-east:S-to-W-turbine:acceleration"
+          ],
+          "sharedLength": 53,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.51503465453377,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 45.66324266890602,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:chenjiang-east:off:1:deceleration",
+      "cluster": "regional:chenjiang-east",
+      "length": 130.99080067345466,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 130.73409644008936,
+        "mainRoadId": "regional:G42:out:6:lane360",
+        "decisionId": "regional:chenjiang-east:off:1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G42:out:6",
+            "end": "end"
+          },
+          "peers": [
+            "regional:G42:out:6",
+            "regional:G42:out:5:upgrade220:lane376",
+            "regional:G42:out:6:lane360",
+            "regional:G42:out:5:upgrade220",
+            "regional:G42:out:6:upgrade202",
+            "regional:G42:out:5",
+            "regional:G42:out:7",
+            "regional:G42:out:7:upgrade204",
+            "regional:G42:out:7:upgrade204:lane364",
+            "regional:G42:out:8",
+            "regional:chenjiang-east:on:1:acceleration",
+            "regional:v3:G17-extension185:out:0",
+            "regional:v3:G17-extension185:out:0:lane4638",
+            "regional:v3:chenjiang-east:W-to-N-turbine:deceleration"
+          ],
+          "sharedLength": 62,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.6707784535382835,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:chenjiang-east:off:1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:chenjiang-east:off:1",
+            "regional:chenjiang-east:local:1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.17969683106221448,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 273.558909718222,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:chenjiang-east:on:1:acceleration",
+      "cluster": "regional:chenjiang-east",
+      "length": 109.57205660040846,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 109.26590355991067,
+        "mainRoadId": "regional:G42:out:7:upgrade204",
+        "decisionId": "regional:chenjiang-east:on:1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:chenjiang-east:on:1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:chenjiang-east:on:1",
+            "regional:chenjiang-east:local:1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.16244350047775888,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G42:out:7:upgrade204:lane364",
+            "end": "start"
+          },
+          "peers": [
+            "regional:G42:out:7:upgrade204:lane364",
+            "regional:G42:out:8",
+            "regional:G42:out:7:upgrade204",
+            "regional:v3:G17-extension185:out:0",
+            "regional:G42:out:7",
+            "regional:v3:G17-extension185:out:0:lane4638",
+            "regional:v3:chenjiang-east:W-to-N-turbine:deceleration",
+            "regional:G42:out:6:upgrade202",
+            "regional:G42:out:6:lane360",
+            "regional:G42:out:6",
+            "regional:G42:out:5:upgrade220:lane376",
+            "regional:chenjiang-east:off:1:deceleration",
+            "regional:G42:out:5:upgrade220",
+            "regional:G42:out:5"
+          ],
+          "sharedLength": 52,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.0074669216004402,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 165.57831944471377,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:chenjiang-east:off:-1:deceleration",
+      "cluster": "regional:chenjiang-east",
+      "length": 202.88882181209044,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:G42:in:3:lane368",
+        "decisionId": "regional:chenjiang-east:off:-1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G42:in:3",
+            "end": "end"
+          },
+          "peers": [
+            "regional:G42:in:3",
+            "regional:G42:in:2:revision183",
+            "regional:G42:in:3:lane368",
+            "regional:v3:G17-extension185:in:4:revision489:lane4594",
+            "regional:G42:in:3:upgrade210",
+            "regional:v3:G17-extension185:in:4:revision489",
+            "regional:v3:chenjiang-east:S-to-W-turbine:acceleration",
+            "regional:G42:in:4",
+            "regional:G42:in:4:upgrade212",
+            "regional:G42:in:5",
+            "regional:G42:in:5:lane380",
+            "regional:G42:in:5:upgrade226"
+          ],
+          "sharedLength": 97,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5292127192715366,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:chenjiang-east:off:-1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:chenjiang-east:off:-1",
+            "regional:chenjiang-east:local:-1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.21405408477102333,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 315.54310704344164,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    }
+  ]
+}

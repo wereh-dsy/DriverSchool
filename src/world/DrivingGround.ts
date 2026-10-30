@@ -41,6 +41,10 @@ export interface DrivingGround {
   readonly lapCourse?: LapCourseDefinition;
   /** Authored solids, deliberately separate from the road surface query. */
   readonly colliders: readonly StaticCollider[];
+  /** Optional streamed solids revision; road support/topology remain globally queryable. */
+  readonly colliderRevision?: number;
+  /** Finish a bounded swept safety region before the contact adapter queries solids. */
+  preparePhysicsStep?(x:number,z:number,velocityX:number,velocityZ:number,dt:number,bodyRadius:number): void;
   sampleRoadSurface(
     x: number,
     z: number,

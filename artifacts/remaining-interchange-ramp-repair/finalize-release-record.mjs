@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const d='artifacts/remaining-interchange-ramp-repair/',read=f=>JSON.parse(fs.readFileSync(d+f,'utf8'));
+const release=read('release-result.json'),build=read('build-result.json'),smoke=read('external-release-smoke.json');
+assert(release.payloadExactMatch&&release.distConsistent&&smoke.passed);
+Object.assign(build,{launchCountScope:'Standalone Browser build command only; desktop:package separately runs one more Browser build',totalBrowserBuildsThisBatch:2,additionalBrowserBuildInDesktopPackage:true});
+fs.writeFileSync(d+'build-result.json',JSON.stringify(build,null,2)+'\n');
+release.smoke.initialHarnessIssue='First smoke reached cleanup but the diagnostic awaited a CDP reply after Browser.close had closed the connection. Corrected close handling and repeated the external executable smoke successfully; no product change.';
+fs.writeFileSync(d+'release-result.json',JSON.stringify(release,null,2)+'\n');
+const publication=read('publication.json');Object.assign(publication,{browserBuildsThisBatch:2,desktopPackageCommand:release.command,externalExecutable:release.executable,externalPackageExactMatch:true,externalStartupSmokePassed:true});
+fs.writeFileSync(d+'publication.json',JSON.stringify(publication,null,2)+'\n');
+let report=fs.readFileSync(d+'report.ts','utf8');
+report=report.replace('本轮启动 ${build.launchCount} 次','独立 Browser 命令启动 ${build.launchCount} 次（desktop:package 另外内含一次，合计 ${build.totalBrowserBuildsThisBatch??build.launchCount} 次）');
+const start=report.indexOf('if(release)report.push('),end=report.indexOf("report.push('## 修改文件",start);assert(start>=0&&end>start);
+const section='if(release)report.push(`## Windows 正式发布\n\n命令：`+"`pnpm run desktop:package`"+`。退出码 ${release.exitCode}；按用户最后指定的 build → desktop:package 流程，本轮共两次 Browser 构建。完整包发布至 ${release.externalDirectory}，正式入口 ${release.executable}。\n\n全部 ${release.payloadFileCount} 个应用文件与打包 payload 核对通过（package.json 按严格 JSON 内容比较，其余逐字节比较）；内外 app.asar 哈希相同。正式包 runtime map 与当前 dist/正常编译器哈希一致，版本 v${release.mapVersion}。正式 EXE 基本启动 smoke：${release.smoke?.passed?"PASS":"未通过"}，菜单可用、WebGL 展示就绪、桌面桥隔离正常；保留 Electron sandbox，没有自动驾驶。\n\n验证工具初次的 Windows ASAR 路径、manifest 格式比较和关闭等待问题已修正，结果保留在 release-result.json；无需修改或重构建产品。\n\n[release-result.json](release-result.json) · [dist-consistency.json](dist-consistency.json) · [external-release-smoke.json](external-release-smoke.json)`);\n';
+// Turn real newlines inside the generated template into normal source newlines;
+// a template literal permits them, and keep only the statement terminator literal.
+report=report.slice(0,start)+section.replace(/\\n$/, '\n')+report.slice(end);
+report=report.replace('stations、sharpStations 与 attempts','stations 与 attempts');
+report=report.replace('- 本目录：冻结基线、逐组候选/失败证据、定点验收与报告。','- README.md、docs/CURRENT_CODE_CONTEXT.md、docs/CHAT_HANDOFF.md、docs/DESKTOP_UI_PHASE1.md、docs/INTERCHANGE_REPAIR_2026-10-23.md：现地图、发布流程、实际验证和保留问题。\\n- 本目录：冻结基线、逐组候选/失败证据、定点验收与报告。');
+fs.writeFileSync(d+'report.ts',report);
+const handoff='docs/CHAT_HANDOFF.md';fs.writeFileSync(handoff,fs.readFileSync(handoff,'utf8').replace('其余历史专题仍需核对源码，后续状态需核对源码。','其余历史专题及后续状态仍需核对源码。'));
+console.log('Release and documentation records finalized.');

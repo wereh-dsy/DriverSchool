@@ -129,7 +129,7 @@ export class NavigationMapPanel {
   public update(dt:number,visible:boolean):void {
     this.elapsed+=dt;if(this.elapsed<.2)return;this.elapsed=0;
     const s=this.navigation.state;this.hud.hidden=!visible||!activeNavigation(s)||this.open;
-    if(this.lastVersion!==s.version){this.lastVersion=s.version;this.hud.textContent=`${s.symbol} ${s.status==='arrived'?s.instruction:`${navigationDistance(s.maneuverDistance)} ${s.instruction} ${s.nextRoad}`}\n${navigationSummary(s)}`;if(this.open)this.refresh();}
+    if(this.lastVersion!==s.version){this.lastVersion=s.version;this.hud.textContent=s.status==='arrived'?'已到达':`${s.symbol}  ${navigationDistance(s.maneuverDistance)}`;if(this.open)this.refresh();}
     if(this.open)this.draw();
   }
   private draw():void {

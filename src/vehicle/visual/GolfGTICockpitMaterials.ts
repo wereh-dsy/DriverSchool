@@ -24,9 +24,22 @@ export function gtiCockpitArtwork(kind:GTICockpitSurface):T.CanvasTexture {
   const base=kind==='soft'?43:kind==='leather'?32:kind==='technical'?39:29;
   c.fillStyle=`rgb(${base},${base+1},${base+2})`;c.fillRect(0,0,w,h);
   if(tile) {
-    for(let y=0;y<h;y+=2) for(let x=0;x<w;x+=2) {
-      const n=sample(x,y),value=base+Math.round((n-.5)*9);
-      c.fillStyle=`rgb(${value},${value+1},${value+2})`;c.fillRect(x,y,2,2);
+    // The same deterministic 2x2 grain, uploaded once instead of issuing
+    // 262,144 canvas state changes and draw commands for each upholstery map.
+    const image=c.createImageData(w,h);
+    if(image?.data?.length===w*h*4){
+      const pixels=image.data;
+      for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){
+        const value=base+Math.round((sample(x,y)-.5)*9);
+        for(let dy=0;dy<2;dy++)for(let dx=0;dx<2;dx++){
+          const index=((y+dy)*w+x+dx)*4;
+          pixels[index]=value;pixels[index+1]=value+1;pixels[index+2]=value+2;pixels[index+3]=255;
+        }
+      }
+      c.putImageData(image,0,0);
+    } else {
+      // Geometry-only Node tests use a canvas command stub, not pixel storage.
+      for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){const value=base+Math.round((sample(x,y)-.5)*9);c.fillStyle=`rgb(${value},${value+1},${value+2})`;c.fillRect(x,y,2,2);}
     }
   }
   if(kind==='technical') {
@@ -111,12 +124,15 @@ export function gtiMicroMaps(kind:GTICockpitSurface):{normal:T.DataTexture;orm:T
     if(kind==='rubber') h+=Math.max(0,Math.cos(x*Math.PI/4)*Math.cos(y*Math.PI/4))*.28;
     heights[y*size+x]=h;
     let rough=kind==='technical'?155:kind==='console-deck'||kind==='controls'||kind==='light-controls'?56:kind==='rubber'?235:kind==='tartan'?234:kind==='fascia'?205:205;
-    rough+=Math.round((n-.5)*(tile?24:5));orm.set([255,rough,kind==='technical'?44:0,255],(y*size+x)*4);
+    rough+=Math.round((n-.5)*(tile?24:5));const index=(y*size+x)*4;
+    orm[index]=255;orm[index+1]=rough;orm[index+2]=kind==='technical'?44:0;orm[index+3]=255;
   }
   for(let y=0;y<size;y++) for(let x=0;x<size;x++) {
     const dx=(heights[y*size+(x+1)%size]!-heights[y*size+(x+size-1)%size]!)*.75;
     const dy=(heights[((y+1)%size)*size+x]!-heights[((y+size-1)%size)*size+x]!)*.75;
-    const v=new T.Vector3(-dx,-dy,1).normalize();normal.set([Math.round(v.x*127+128),Math.round(v.y*127+128),Math.round(v.z*127+128),255],(y*size+x)*4);
+    const inverseLength=1/Math.sqrt(dx*dx+dy*dy+1),index=(y*size+x)*4;
+    normal[index]=Math.round(-dx*inverseLength*127+128);normal[index+1]=Math.round(-dy*inverseLength*127+128);
+    normal[index+2]=Math.round(inverseLength*127+128);normal[index+3]=255;
   }
   const make=(data:Uint8Array)=>{const t=new T.DataTexture(data,size,size);t.wrapS=t.wrapT=tile?T.RepeatWrapping:T.ClampToEdgeWrapping;t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.anisotropy=8;t.needsUpdate=true;return t;};
   const normalTexture=make(normal);if(tile)normalTexture.repeat.setScalar(kind==='rubber'?4:2);

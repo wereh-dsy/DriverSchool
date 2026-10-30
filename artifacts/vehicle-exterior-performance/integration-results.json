@@ -1,0 +1,83 @@
+{
+  "results": {
+    "executive": {
+      "assertions": 58,
+      "wheelMeshes": 16,
+      "atlasSize": 1024
+    },
+    "lighting": {
+      "assertions": 403,
+      "testedVehicles": 3,
+      "realLampMeshes": 108,
+      "maximumBodyLengthIncreaseMetres": 0.0030000946994874766
+    },
+    "dimensions": {
+      "assertions": 595,
+      "maximumWheelWorldErrorMetres": 3.985994439185401e-15,
+      "checkedWheelPoses": 32,
+      "exteriorViewsChecked": 12,
+      "collisionLengthAllowanceMetres": 0.12,
+      "collisionWidthAllowanceMetres": 0.06
+    },
+    "pose": {
+      "assertions": 2,
+      "maximumRenderError": 5.617333549722722e-15,
+      "maximumMountError": 3.972054645195637e-15
+    },
+    "tesla": {
+      "assertions": 26,
+      "physicalWheelPoses": 4,
+      "cockpitDisplay": "ev-center"
+    },
+    "ferrari": {
+      "assertions": 2264
+    },
+    "exterior": {
+      "sedan": {
+        "profile": "sedan",
+        "meshCount": 85,
+        "nonBoxMeshCount": 85,
+        "glassCount": 8,
+        "pillarCount": 10,
+        "wheelArchCount": 4,
+        "lampCount": 4,
+        "bumperCount": 2,
+        "shellVertexCount": 2353,
+        "renderedWidth": 1.8007992506027222,
+        "renderedLength": 4.502600193023682,
+        "renderedHeight": 1.4446578472852707,
+        "rooflineY": 1.644657850265503
+      },
+      "sportsCoupe": {
+        "profile": "sport-coupe",
+        "meshCount": 87,
+        "nonBoxMeshCount": 87,
+        "glassCount": 8,
+        "pillarCount": 10,
+        "wheelArchCount": 4,
+        "lampCount": 4,
+        "bumperCount": 2,
+        "shellVertexCount": 2353,
+        "renderedWidth": 1.881870150566101,
+        "renderedLength": 4.550000190734863,
+        "renderedHeight": 1.3278526663780212,
+        "rooflineY": 1.5078526735305786
+      }
+    },
+    "cachedExteriors": {
+      "vehicles": 13,
+      "golfStructure": {
+        "assertions": 171,
+        "closureRays": 6,
+        "wheelClearanceRays": 120
+      }
+    },
+    "envelopeOwnership": {
+      "fixedGeometryReused": true,
+      "sharedSourcePreserved": true
+    }
+  },
+  "errors": {
+    "stance": "Error: Suspension stance: executive-lwb-2t: static load is supported without bump stops"
+  }
+}

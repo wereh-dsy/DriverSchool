@@ -1,0 +1,4235 @@
+{
+  "passed": true,
+  "sourceHash": "a43f960f228e7cb172bf5005d613886743c82e29c48c0f6045ba010e15557be1",
+  "baselineVersion": 491,
+  "version": 492,
+  "counts": {
+    "PASS": 255,
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "scope": "Reuse 246 PASS from v491; validate only 9 remaining targets, four affected clusters, adjacent roads and central 8. Not a repeat 45-group audit.",
+  "baselineEvidence": "../remaining-interchange-ramp-repair/before-after-summary.json results[].after",
+  "sharedScan": "Final scan continues to actual separation (8m empty gap), capped at 600m, rather than old 48% road-length cap. Thresholds unchanged; final EB-on shared end extends to 154m.",
+  "results": [
+    {
+      "id": "system-south:E-to-S-loop",
+      "status": "PASS",
+      "beforeStatus": "P1",
+      "before": {
+        "id": "system-south:E-to-S-loop",
+        "cluster": "system-south",
+        "length": 164.1516984935842,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ring-cw-2-split-split-2",
+              "end": "end"
+            },
+            "peers": [
+              "ring-cw-2-split-split-2",
+              "ring-cw-2-split-split",
+              "ring-cw-2-split",
+              "ring-cw-3",
+              "ring-cw-2-split-2",
+              "ring-cw-3-split-3",
+              "ring-cw-2-split-3-split-split-section",
+              "ring-cw-3-split-2",
+              "ring-cw-2-split-3-split-split",
+              "ring-cw-3-split-2-split-2",
+              "system-south:feeder-cross--1",
+              "ring-cw-3-split-2-split",
+              "ring-cw-3-split-2-split-split-2",
+              "ring-cw-3-split-2-split-split-2-section"
+            ],
+            "sharedLength": 30,
+            "maxSharedDeltaY": 0.012,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 4.973799150320701e-14,
+            "deltaY": 0,
+            "tangentDegrees": 1.149066253215755,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ns-sb-split-split-split-split-split-split-split-2",
+              "end": "start"
+            },
+            "peers": [
+              "ns-sb-split-split-split-split-split-split-split-2",
+              "ns-sb-split-split-split-split-split-split",
+              "ns-sb-split-split-split-split-split-split-split-2-split",
+              "ns-sb-split-split-split-split-split-split-2-split-split",
+              "ns-sb-split-split-split-split-split-split-split",
+              "ns-sb-split-split-split-split-split-split-2-split",
+              "ns-sb-split-split-split-split-split-split-2-section",
+              "ns-sb-split-split-split-split-split-split-2",
+              "ns-sb-split-split-split-split-split-split-3-section"
+            ],
+            "sharedLength": 23,
+            "maxSharedDeltaY": 0.008661509913363119,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 3.552713678800501e-15,
+            "deltaY": 0,
+            "tangentDegrees": 1.867319827156726,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.11999999998973267,
+          "gradeBreaks": [],
+          "minRadius": 21.917677052649406,
+          "shortSegments": 55
+        },
+        "severity": "P1"
+      },
+      "after": {
+        "id": "system-south:E-to-S-loop",
+        "cluster": "system-south",
+        "length": 169.63392527576573,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ring-cw-2-split-split-2",
+              "end": "end"
+            },
+            "peers": [
+              "ring-cw-2-split-split-2",
+              "ring-cw-2-split-split",
+              "ring-cw-2-split",
+              "ring-cw-3",
+              "ring-cw-2-split-2",
+              "ring-cw-3-split-3",
+              "ring-cw-2-split-3-split-split-section",
+              "ring-cw-3-split-2",
+              "ring-cw-2-split-3-split-split",
+              "ring-cw-3-split-2-split-2",
+              "system-south:feeder-cross--1",
+              "ring-cw-3-split-2-split",
+              "ring-cw-3-split-2-split-split-2",
+              "ring-cw-3-split-2-split-split-2-section"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.184210526321663,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ns-sb-split-split-split-split-split-split-split-2",
+              "end": "start"
+            },
+            "peers": [
+              "ns-sb-split-split-split-split-split-split-split-2",
+              "ns-sb-split-split-split-split-split-split",
+              "ns-sb-split-split-split-split-split-split-split-2-split",
+              "ns-sb-split-split-split-split-split-split-2-split-split",
+              "ns-sb-split-split-split-split-split-split-split",
+              "ns-sb-split-split-split-split-split-split-2-split",
+              "ns-sb-split-split-split-split-split-split-2-section",
+              "ns-sb-split-split-split-split-split-split-2",
+              "ns-sb-split-split-split-split-split-split-3-section"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.004999908642035145,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.1842105263151992,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.1068616349304249,
+          "gradeBreaks": [],
+          "minRadius": 35.29217755927456,
+          "shortSegments": 0
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 111.1516984935842,
+        "after": 117.63392527576573
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "ring-cw-2-split-split-2",
+              "end": "end"
+            },
+            "hostLocalStation": 398.8797711647709,
+            "position": {
+              "x": -46.12499999999999,
+              "y": 0,
+              "z": 2117.900988321155
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ring-cw-2-split-split-2",
+              "end": "end"
+            },
+            "hostLocalStation": 396.87977116477094,
+            "position": {
+              "x": -44.125,
+              "y": 0,
+              "z": 2117.900988321155
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "ns-sb-split-split-split-split-split-split-split-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -8.124999999999996,
+              "y": -7.991331986070621,
+              "z": 2088.2607813670083
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ns-sb-split-split-split-split-split-split-split-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -8.125,
+              "y": -7.995958944497904,
+              "z": 2081.900988321155
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "system-south:E-to-S-loop",
+          "end": "start",
+          "incoming": "ring-cw-2-split-split-2",
+          "outgoing": "system-south:E-to-S-loop",
+          "contextRoadCount": 57,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 19.166666666666668,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.7438635854094677,
+          "peakPitchRate": 0.1821221355506751,
+          "peakRollRate": 0.030583165211220596,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 1479,
+            "outside-suspension-reach": 2370
+          },
+          "layers": {
+            "SAME_LAYER": 9204
+          },
+          "requiredLengthRange": [
+            0.2594055973158191,
+            0.3732797192087435
+          ],
+          "maxTrackingError": 0.13169117050286802,
+          "furthestStation": 147.21021824513488,
+          "joinStation": 40.20031960082168,
+          "completed": true,
+          "finalOwners": [
+            "system-south:E-to-S-loop"
+          ],
+          "expectedTarget": "system-south:E-to-S-loop",
+          "finalHeightError": -0.020735679757260428,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "system-south:E-to-S-loop"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "997d32c000995608bbacb889d61debd313132bf9020cdd9704dc6be5f3ade3a0",
+          "file": "replays/system-south_E-to-S-loop-start.json"
+        },
+        {
+          "rampId": "system-south:E-to-S-loop",
+          "end": "end",
+          "incoming": "system-south:E-to-S-loop",
+          "outgoing": "ns-sb-split-split-split-split-split-split-split-2",
+          "contextRoadCount": 57,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.55,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.7936194861261492,
+          "peakPitchRate": 0.1938275030605882,
+          "peakRollRate": 0.044635568908302545,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 1710,
+            "layer-switch-unconfirmed": 6
+          },
+          "layers": {
+            "SAME_LAYER": 5548
+          },
+          "requiredLengthRange": [
+            0.252278538611753,
+            0.3757397300453278
+          ],
+          "maxTrackingError": 0.1721010114372185,
+          "furthestStation": 82.24876603862711,
+          "joinStation": 39.997928098747956,
+          "completed": true,
+          "finalOwners": [
+            "ns-sb-split-split-split-split-split-split-split-2"
+          ],
+          "expectedTarget": "ns-sb-split-split-split-split-split-split-split-2",
+          "finalHeightError": -0.0008063707439616152,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "ns-sb-split-split-split-split-split-split-split-2",
+            "ns-sb-split-split-split-split-split-split",
+            "ns-sb-split-split-split-split-split-split-split-2-split",
+            "ns-sb-split-split-split-split-split-split-2-split-split",
+            "ns-sb-split-split-split-split-split-split-split",
+            "ns-sb-split-split-split-split-split-split-2-split",
+            "ns-sb-split-split-split-split-split-split-2-section",
+            "ns-sb-split-split-split-split-split-split-2",
+            "ns-sb-split-split-split-split-split-split-3-section",
+            "ns-sb-split-split-split-split-split-split-3",
+            "ns-sb-split-split-split-split-split",
+            "system-south:feeder--1",
+            "ns-tunnel:southbound-split-split",
+            "ns-tunnel:southbound-split",
+            "ns-tunnel:southbound",
+            "ns-sb-split-split-split-split-section-section",
+            "ns-sb-split-split-split-split-section",
+            "ns-sb-split-split-split-split",
+            "ns-sb-split-split-split-section",
+            "ns-sb-split-split-split",
+            "ns-sb-split-split-split-2",
+            "ns-sb-split-split-split-3-split",
+            "ns-sb-split-split-split-3",
+            "ns-sb-split-split",
+            "ns-sb-split",
+            "ns-sb-split-2-split-split",
+            "ns-sb-split-2-split-split-2",
+            "ns-sb-split-2-split",
+            "ns-sb-split-2",
+            "ns-sb-split-3-split-split-split-split",
+            "ns-sb-split-3-split-split-split-section",
+            "ns-sb-split-3-split-split-split-section-2",
+            "ns-sb-split-3-split-split-split",
+            "ns-sb-split-3-split-split-split-2",
+            "ns-sb-split-3-split-split-split-3",
+            "ns-sb-split-3-split-split-section-section",
+            "ns-sb-split-3-split-split-section",
+            "ns-sb-split-3-split-split",
+            "ns-sb-split-3-split-split-2-split-split",
+            "ns-sb-split-3-split-split-2-split",
+            "ns-sb-split-3-split-split-2",
+            "ns-sb-split-3-split",
+            "system-north:feeder--1",
+            "ns-sb"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "31722106b4a1310c5603766c202d63583d73ddc077165decb1860b91fe99f42d",
+          "file": "replays/system-south_E-to-S-loop-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "system-south:E-to-S-loop",
+        "end": "end",
+        "incoming": "system-south:E-to-S-loop",
+        "outgoing": "ns-sb-split-split-split-split-split-split-split-2",
+        "contextRoadCount": 57,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 27.266666666666666,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.7457643703821271,
+        "peakPitchRate": 0.18107402176878945,
+        "peakRollRate": 0.046641299840542064,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "unreachable-layer-switch": 2498,
+          "layer-switch-unconfirmed": 6
+        },
+        "layers": {
+          "SAME_LAYER": 13092
+        },
+        "requiredLengthRange": [
+          0.25450054275381656,
+          0.378243957847179
+        ],
+        "maxTrackingError": 0.1546304071193062,
+        "furthestStation": 211.86721116621035,
+        "joinStation": 169.6255807706411,
+        "completed": true,
+        "finalOwners": [
+          "ns-sb-split-split-split-split-split-split-split-2"
+        ],
+        "expectedTarget": "ns-sb-split-split-split-split-split-split-split-2",
+        "finalHeightError": -0.000820756925823396,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "ns-sb-split-split-split-split-split-split-split-2",
+          "ns-sb-split-split-split-split-split-split",
+          "ns-sb-split-split-split-split-split-split-split-2-split",
+          "ns-sb-split-split-split-split-split-split-2-split-split",
+          "ns-sb-split-split-split-split-split-split-split",
+          "ns-sb-split-split-split-split-split-split-2-split",
+          "ns-sb-split-split-split-split-split-split-2-section",
+          "ns-sb-split-split-split-split-split-split-2",
+          "ns-sb-split-split-split-split-split-split-3-section",
+          "ns-sb-split-split-split-split-split-split-3",
+          "ns-sb-split-split-split-split-split",
+          "system-south:feeder--1",
+          "ns-tunnel:southbound-split-split",
+          "ns-tunnel:southbound-split",
+          "ns-tunnel:southbound",
+          "ns-sb-split-split-split-split-section-section",
+          "ns-sb-split-split-split-split-section",
+          "ns-sb-split-split-split-split",
+          "ns-sb-split-split-split-section",
+          "ns-sb-split-split-split",
+          "ns-sb-split-split-split-2",
+          "ns-sb-split-split-split-3-split",
+          "ns-sb-split-split-split-3",
+          "ns-sb-split-split",
+          "ns-sb-split",
+          "ns-sb-split-2-split-split",
+          "ns-sb-split-2-split-split-2",
+          "ns-sb-split-2-split",
+          "ns-sb-split-2",
+          "ns-sb-split-3-split-split-split-split",
+          "ns-sb-split-3-split-split-split-section",
+          "ns-sb-split-3-split-split-split-section-2",
+          "ns-sb-split-3-split-split-split",
+          "ns-sb-split-3-split-split-split-2",
+          "ns-sb-split-3-split-split-split-3",
+          "ns-sb-split-3-split-split-section-section",
+          "ns-sb-split-3-split-split-section",
+          "ns-sb-split-3-split-split",
+          "ns-sb-split-3-split-split-2-split-split",
+          "ns-sb-split-3-split-split-2-split",
+          "ns-sb-split-3-split-split-2",
+          "ns-sb-split-3-split",
+          "system-north:feeder--1",
+          "ns-sb"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "9e0fba3fe16b1fd17228ea2f244008ddb080c2cc5fd0dc3a849e68ec14feaffc",
+        "file": "replays/system-south_E-to-S-loop-full-end.json"
+      }
+    },
+    {
+      "id": "system-south:W-to-N-loop",
+      "status": "PASS",
+      "beforeStatus": "P1",
+      "before": {
+        "id": "system-south:W-to-N-loop",
+        "cluster": "system-south",
+        "length": 161.07212995534638,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ring-ccw-1",
+              "end": "end"
+            },
+            "peers": [
+              "ring-ccw-1",
+              "ring-ccw-0-split-split-split-split",
+              "ring-ccw-1-split-3",
+              "ring-ccw-0-split-split-split",
+              "ring-ccw-1-split-2",
+              "ring-ccw-0-split-split-split-2",
+              "ring-ccw-1-split",
+              "ring-ccw-0-split-split-split-3-split-section",
+              "ring-ccw-1-split-split-2",
+              "ring-ccw-0-split-split-split-3-split",
+              "system-south:feeder-cross-1",
+              "ring-ccw-1-split-split",
+              "ring-ccw-1-split-split-section"
+            ],
+            "sharedLength": 30,
+            "maxSharedDeltaY": 1.2867488283544926e-15,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.147167641271911,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+              "end": "start"
+            },
+            "peers": [
+              "ns-nb-split-3-split-split-split-2-split-2",
+              "ns-nb-split-3-split-split-split-2-split",
+              "ns-nb-split-3-split-split-split-2",
+              "ns-nb-split-3-split-split-split-2-split-section",
+              "ns-nb-split-3-split-split-split-3-split",
+              "ns-nb-split-3-split-split-split-3",
+              "ns-nb-split-3-split-split",
+              "ns-nb-split-3-split",
+              "system-south:feeder-1",
+              "ns-nb"
+            ],
+            "sharedLength": 21,
+            "maxSharedDeltaY": 0.0603393745033145,
+            "conflictRange": [
+              10,
+              21
+            ],
+            "unsupportedWheelSamples": 0,
+            "xzGap": 8.881784197001252e-15,
+            "deltaY": -6.217248937900877e-15,
+            "tangentDegrees": 1.961220392739968,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.09229525712302467,
+          "gradeBreaks": [],
+          "minRadius": 18.431522733876353,
+          "shortSegments": 85
+        },
+        "severity": "P1"
+      },
+      "after": {
+        "id": "system-south:W-to-N-loop",
+        "cluster": "system-south",
+        "length": 169.63392527576568,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ring-ccw-1",
+              "end": "end"
+            },
+            "peers": [
+              "ring-ccw-1",
+              "ring-ccw-0-split-split-split-split",
+              "ring-ccw-1-split-3",
+              "ring-ccw-0-split-split-split",
+              "ring-ccw-1-split-2",
+              "ring-ccw-0-split-split-split-2",
+              "ring-ccw-1-split",
+              "ring-ccw-0-split-split-split-3-split-section",
+              "ring-ccw-1-split-split-2",
+              "ring-ccw-0-split-split-split-3-split",
+              "system-south:feeder-cross-1",
+              "ring-ccw-1-split-split",
+              "ring-ccw-1-split-split-section"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.184210526321663,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+              "end": "start"
+            },
+            "peers": [
+              "ns-nb-split-3-split-split-split-2-split-2",
+              "ns-nb-split-3-split-split-split-2-split",
+              "ns-nb-split-3-split-split-split-2",
+              "ns-nb-split-3-split-split-split-2-split-section",
+              "ns-nb-split-3-split-split-split-3-split",
+              "ns-nb-split-3-split-split-split-3",
+              "ns-nb-split-3-split-split",
+              "ns-nb-split-3-split",
+              "system-south:feeder-1",
+              "ns-nb"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.004999999999999893,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.1842105263151992,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.09674089755169617,
+          "gradeBreaks": [],
+          "minRadius": 35.29217755927184,
+          "shortSegments": 0
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 110.07212995534638,
+        "after": 117.63392527576568
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "ring-ccw-1",
+              "end": "end"
+            },
+            "hostLocalStation": 308.98214285714295,
+            "position": {
+              "x": 46.12499999999999,
+              "y": 0,
+              "z": 2130.3308823529414
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ring-ccw-1",
+              "end": "end"
+            },
+            "hostLocalStation": 306.98214285714295,
+            "position": {
+              "x": 44.125,
+              "y": 0,
+              "z": 2130.3308823529414
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": 8.124999999999991,
+              "y": -7.208715398488853,
+              "z": 2159.389705882353
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": 8.125,
+              "y": -7.25,
+              "z": 2166.3308823529414
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "system-south:W-to-N-loop",
+          "end": "start",
+          "incoming": "ring-ccw-1",
+          "outgoing": "system-south:W-to-N-loop",
+          "contextRoadCount": 57,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 19.216666666666665,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.6823259788214742,
+          "peakPitchRate": 0.18212213555067433,
+          "peakRollRate": 0.03053402298097743,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 1538,
+            "outside-suspension-reach": 20715
+          },
+          "layers": {
+            "SAME_LAYER": 9228
+          },
+          "requiredLengthRange": [
+            0.2594055973158193,
+            0.3732797192087432
+          ],
+          "maxTrackingError": 0.13169118146815376,
+          "furthestStation": 147.21211945199073,
+          "joinStation": 40.200319600821736,
+          "completed": true,
+          "finalOwners": [
+            "system-south:W-to-N-loop"
+          ],
+          "expectedTarget": "system-south:W-to-N-loop",
+          "finalHeightError": -0.0193335554409666,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "system-south:W-to-N-loop"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "5a40c805846845b73c13c8b3a4687b2b64b86f9cd7f3fb33cababc557521dba2",
+          "file": "replays/system-south_W-to-N-loop-start.json"
+        },
+        {
+          "rampId": "system-south:W-to-N-loop",
+          "end": "end",
+          "incoming": "system-south:W-to-N-loop",
+          "outgoing": "ns-nb-split-3-split-split-split-2-split-2",
+          "contextRoadCount": 57,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.408333333333333,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.7304717526077509,
+          "peakPitchRate": 0.19267163381687666,
+          "peakRollRate": 0.04502410615407016,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "layer-switch-unconfirmed": 296,
+            "impossible-height-discontinuity": 680,
+            "outside-suspension-reach": 3744,
+            "unreachable-layer-switch": 5637
+          },
+          "layers": {
+            "SAME_LAYER": 5480
+          },
+          "requiredLengthRange": [
+            0.2524248427621568,
+            0.37605562976843554
+          ],
+          "maxTrackingError": 0.17021848211879234,
+          "furthestStation": 82.23637171680669,
+          "joinStation": 39.997928098748005,
+          "completed": true,
+          "finalOwners": [
+            "ns-nb-split-3-split-split-split-2-split-2"
+          ],
+          "expectedTarget": "ns-nb-split-3-split-split-split-2-split-2",
+          "finalHeightError": -0.006077865787318615,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "ns-nb-split-3-split-split-split-2-split-2",
+            "ns-nb-split-3-split-split-split-2-split",
+            "ns-nb-split-3-split-split-split-2",
+            "ns-nb-split-3-split-split-split-2-split-section",
+            "ns-nb-split-3-split-split-split-3-split",
+            "ns-nb-split-3-split-split-split",
+            "ns-nb-split-3-split-split-split-3",
+            "ns-nb-split-3-split-split-split-section",
+            "ns-nb-split-3-split-split",
+            "ns-nb-split-3-split-split-split-split",
+            "ns-nb-split-3-split",
+            "ns-tunnel:northbound",
+            "system-south:feeder-1",
+            "ns-tunnel:northbound-split-2",
+            "ns-nb",
+            "ns-tunnel:northbound-split",
+            "ns-nb-split-3-split-split-split-split-split",
+            "ns-nb-split-3-split-split-split-split-split-section-2",
+            "ns-nb-split-3-split-split-split-split-split-section",
+            "ns-nb-split-3-split-split-split-split-split-split",
+            "ns-nb-split-3-split-split-split-split-split-split-section",
+            "ns-nb-split-2",
+            "ns-nb-split-2-split-2",
+            "ns-nb-split-2-split-2-split-2",
+            "ns-nb-split-2-split-2-split",
+            "ns-nb-split-2-split",
+            "ns-nb-split",
+            "ns-nb-split-split-2",
+            "ns-nb-split-split-2-split-2",
+            "ns-nb-split-split-2-split",
+            "ns-nb-split-split-2-split-v6",
+            "ns-nb-split-split",
+            "ns-nb-split-split-split",
+            "system-north:feeder-1",
+            "system-north:feeder-1-section",
+            "ns-nb-split-split-split-split",
+            "ns-nb-split-split-split-split-section",
+            "ns-nb-split-split-split-split-split",
+            "ns-nb-split-split-split-split-split-v6",
+            "ns-nb-split-split-split-split-split-split-3",
+            "ns-nb-split-split-split-split-split-split-3-split-2",
+            "ns-nb-split-split-split-split-split-split-3-split",
+            "ns-nb-split-split-split-split-split-split-2",
+            "ns-nb-split-split-split-split-split-split-2-section-2",
+            "ns-nb-split-split-split-split-split-split-2-section",
+            "ns-nb-split-split-split-split-split-split-2-split",
+            "ns-nb-split-split-split-split-split-split-2-split-split",
+            "ns-nb-split-split-split-split-split-split"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "835911b6f54a827b433f2dc6d8d083eafa0cfccfc4954e24d5e813aa431ae283",
+          "file": "replays/system-south_W-to-N-loop-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "system-south:W-to-N-loop",
+        "end": "end",
+        "incoming": "system-south:W-to-N-loop",
+        "outgoing": "ns-nb-split-3-split-split-split-2-split-2",
+        "contextRoadCount": 57,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 27.183333333333334,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.6942426310823224,
+        "peakPitchRate": 0.18107397704579553,
+        "peakRollRate": 0.04664126432042003,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "unreachable-layer-switch": 6438,
+          "layer-switch-unconfirmed": 296,
+          "outside-suspension-reach": 3751,
+          "impossible-height-discontinuity": 676
+        },
+        "layers": {
+          "SAME_LAYER": 13052
+        },
+        "requiredLengthRange": [
+          0.25450060904907695,
+          0.3782439962189601
+        ],
+        "maxTrackingError": 0.15525629766400417,
+        "furthestStation": 211.83890296251917,
+        "joinStation": 169.6255807706412,
+        "completed": true,
+        "finalOwners": [
+          "ns-nb-split-3-split-split-split-2-split-2"
+        ],
+        "expectedTarget": "ns-nb-split-3-split-split-split-2-split-2",
+        "finalHeightError": -0.006085054047617611,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "ns-nb-split-3-split-split-split-2-split-2",
+          "ns-nb-split-3-split-split-split-2-split",
+          "ns-nb-split-3-split-split-split-2",
+          "ns-nb-split-3-split-split-split-2-split-section",
+          "ns-nb-split-3-split-split-split-3-split",
+          "ns-nb-split-3-split-split-split",
+          "ns-nb-split-3-split-split-split-3",
+          "ns-nb-split-3-split-split-split-section",
+          "ns-nb-split-3-split-split",
+          "ns-nb-split-3-split-split-split-split",
+          "ns-nb-split-3-split",
+          "ns-tunnel:northbound",
+          "system-south:feeder-1",
+          "ns-tunnel:northbound-split-2",
+          "ns-nb",
+          "ns-tunnel:northbound-split",
+          "ns-nb-split-3-split-split-split-split-split",
+          "ns-nb-split-3-split-split-split-split-split-section-2",
+          "ns-nb-split-3-split-split-split-split-split-section",
+          "ns-nb-split-3-split-split-split-split-split-split",
+          "ns-nb-split-3-split-split-split-split-split-split-section",
+          "ns-nb-split-2",
+          "ns-nb-split-2-split-2",
+          "ns-nb-split-2-split-2-split-2",
+          "ns-nb-split-2-split-2-split",
+          "ns-nb-split-2-split",
+          "ns-nb-split",
+          "ns-nb-split-split-2",
+          "ns-nb-split-split-2-split-2",
+          "ns-nb-split-split-2-split",
+          "ns-nb-split-split-2-split-v6",
+          "ns-nb-split-split",
+          "ns-nb-split-split-split",
+          "system-north:feeder-1",
+          "system-north:feeder-1-section",
+          "ns-nb-split-split-split-split",
+          "ns-nb-split-split-split-split-section",
+          "ns-nb-split-split-split-split-split",
+          "ns-nb-split-split-split-split-split-v6",
+          "ns-nb-split-split-split-split-split-split-3",
+          "ns-nb-split-split-split-split-split-split-3-split-2",
+          "ns-nb-split-split-split-split-split-split-3-split",
+          "ns-nb-split-split-split-split-split-split-2",
+          "ns-nb-split-split-split-split-split-split-2-section-2",
+          "ns-nb-split-split-split-split-split-split-2-section",
+          "ns-nb-split-split-split-split-split-split-2-split",
+          "ns-nb-split-split-split-split-split-split-2-split-split",
+          "ns-nb-split-split-split-split-split-split"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "44f3f7ee8ec469884963ee392bec1a5dd22c8e9c98b7fbb29f2270ffbc346982",
+        "file": "replays/system-south_W-to-N-loop-full-end.json"
+      }
+    },
+    {
+      "id": "system-west:S-to-W-loop",
+      "status": "PASS",
+      "beforeStatus": "P1",
+      "before": {
+        "id": "system-west:S-to-W-loop",
+        "cluster": "system-west",
+        "length": 178.78323040800134,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ring-cw-0",
+              "end": "end"
+            },
+            "peers": [
+              "ring-cw-0",
+              "ring-cw-3-split-split-split",
+              "ring-cw-0-split-2",
+              "ring-cw-3-split-split",
+              "ring-cw-0-split",
+              "ring-cw-3-split-split-2",
+              "ring-cw-0-split-split-2",
+              "ring-cw-3-split",
+              "ring-cw-0-split-split",
+              "ring-cw-3-split-2-split-split-split-split-section",
+              "ring-cw-0-split-split-split-2",
+              "ring-cw-3-split-2-split-split-split-split",
+              "ring-cw-0-split-split-split-2-split",
+              "ring-cw-0-split-split-split-2-split-split"
+            ],
+            "sharedLength": 39,
+            "maxSharedDeltaY": 4.440892098501991e-16,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.7879797372681129,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-split-2",
+              "end": "start"
+            },
+            "peers": [
+              "ew-wb-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split",
+              "ew-wb-split-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-split",
+              "ew-wb-split-split-split-split-2-section",
+              "ew-wb-split-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split-2-section-2",
+              "ew-wb-split-split-split-split-split-split",
+              "ew-wb-split-split-split-split-2",
+              "ew-wb-split-split-split-split-3-split",
+              "ew-wb-split-split-split-split-3"
+            ],
+            "sharedLength": 18,
+            "maxSharedDeltaY": 2.6645352591003757e-14,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 1.9539925233402755e-14,
+            "tangentDegrees": 2.6788382463161695,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.08643471164087772,
+          "gradeBreaks": [],
+          "minRadius": 14.642098269933511,
+          "shortSegments": 95
+        },
+        "severity": "P1"
+      },
+      "after": {
+        "id": "system-west:S-to-W-loop",
+        "cluster": "system-west",
+        "length": 174.3466071721825,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ring-cw-0",
+              "end": "end"
+            },
+            "peers": [
+              "ring-cw-0",
+              "ring-cw-3-split-split-split",
+              "ring-cw-0-split-2",
+              "ring-cw-3-split-split",
+              "ring-cw-0-split",
+              "ring-cw-3-split-split-2",
+              "ring-cw-0-split-split-2",
+              "ring-cw-3-split",
+              "ring-cw-0-split-split",
+              "ring-cw-3-split-2-split-split-split-split-section",
+              "ring-cw-0-split-split-split-2",
+              "ring-cw-3-split-2-split-split-split-split",
+              "ring-cw-0-split-split-split-2-split",
+              "ring-cw-0-split-split-split-2-split-split"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.1538461538464377,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-split-2",
+              "end": "start"
+            },
+            "peers": [
+              "ew-wb-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split",
+              "ew-wb-split-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-split",
+              "ew-wb-split-split-split-split-2-section",
+              "ew-wb-split-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split-2-section-2",
+              "ew-wb-split-split-split-split-split-split",
+              "ew-wb-split-split-split-split-2",
+              "ew-wb-split-split-split-split-3-split",
+              "ew-wb-split-split-split-split-3"
+            ],
+            "sharedLength": 27,
+            "maxSharedDeltaY": 0.005000000000000782,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.7625113048623344,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.10435805917960306,
+          "gradeBreaks": [],
+          "minRadius": 36.314128395532705,
+          "shortSegments": 0
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 121.78323040800134,
+        "after": 121.3466071721825
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "ring-cw-0",
+              "end": "end"
+            },
+            "hostLocalStation": 57.16430580187091,
+            "position": {
+              "x": -1975.2152707251817,
+              "y": 0,
+              "z": -209.5576512331709
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ring-cw-0",
+              "end": "end"
+            },
+            "hostLocalStation": 47.4066680908069,
+            "position": {
+              "x": -1975.2152707251817,
+              "y": 0,
+              "z": -199.8000135221069
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-split-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -1949.941693278841,
+              "y": 8.00000000000002,
+              "z": -162.71681776347253
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-split-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -1938.2152707251817,
+              "y": 8,
+              "z": -162.8000135221069
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "system-west:S-to-W-loop",
+          "end": "start",
+          "incoming": "ring-cw-0",
+          "outgoing": "system-west:S-to-W-loop",
+          "contextRoadCount": 108,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 22.525,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.5810901438437188,
+          "peakPitchRate": 0.18212213555067716,
+          "peakRollRate": 0.029908959829404957,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 1673
+          },
+          "layers": {
+            "SAME_LAYER": 10816
+          },
+          "requiredLengthRange": [
+            0.25940559731581797,
+            0.37327971920874486
+          ],
+          "maxTrackingError": 0.13002670003066477,
+          "furthestStation": 147.21514805047443,
+          "joinStation": 40.20031960082182,
+          "completed": true,
+          "finalOwners": [
+            "system-west:S-to-W-loop"
+          ],
+          "expectedTarget": "system-west:S-to-W-loop",
+          "finalHeightError": 0.014643297807031885,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "system-west:S-to-W-loop"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "52e1b59c74950fc72767eead3d933007bec216613d8a8efde83a0fe2d1ae44fe",
+          "file": "replays/system-west_S-to-W-loop-start.json"
+        },
+        {
+          "rampId": "system-west:S-to-W-loop",
+          "end": "end",
+          "incoming": "system-west:S-to-W-loop",
+          "outgoing": "ew-wb-split-split-split-split-split-2",
+          "contextRoadCount": 108,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.625,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.5691222146686525,
+          "peakPitchRate": 0.1810697210926686,
+          "peakRollRate": 0.055238283647477265,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 2392
+          },
+          "layers": {
+            "SAME_LAYER": 5584
+          },
+          "requiredLengthRange": [
+            0.25573557065122954,
+            0.38149067974046674
+          ],
+          "maxTrackingError": 0.16236904674409405,
+          "furthestStation": 82.24947735396277,
+          "joinStation": 39.9981710921982,
+          "completed": true,
+          "finalOwners": [
+            "ew-wb-split-split-split-split-split-2"
+          ],
+          "expectedTarget": "ew-wb-split-split-split-split-split-2",
+          "finalHeightError": -0.003344355953400324,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "ew-wb-split-split-split-split-split-2",
+            "ew-wb-split-split-split-split",
+            "ew-wb-split-split-split-split-split-2-split",
+            "ew-wb-split-split-split-split-2-split",
+            "ew-wb-split-split-split-split-split",
+            "ew-wb-split-split-split-split-2-section",
+            "ew-wb-split-split-split-split-split-split-2",
+            "ew-wb-split-split-split-split-2-section-2",
+            "ew-wb-split-split-split-split-split-split",
+            "ew-wb-split-split-split-split-2",
+            "ew-wb-split-split-split-split-3-split",
+            "ew-wb-split-split-split-split-3",
+            "ew-wb-split-split-split-split-4-section-section",
+            "ew-wb-split-split-split-split-4-section",
+            "ew-wb-split-split-split-split-4",
+            "ew-wb-split-split-split",
+            "ew-wb-split-split-split-2-v6",
+            "ew-wb-split-split-split-2",
+            "ew-wb-split-split-split-3-split",
+            "ew-wb-split-split-split-3",
+            "ew-wb-split-split",
+            "ew-wb-split",
+            "ew-wb-split-2-split-split",
+            "ew-wb-split-2-split-split-2",
+            "ew-wb-split-2-split",
+            "ew-wb-split-2",
+            "ew-wb-split-3-split-split-split-split-split",
+            "ew-wb-split-3-split-split-split-split",
+            "ew-wb-split-3-split-split-split-split-2",
+            "ew-wb-split-3-split-split-split-section",
+            "ew-wb-split-3-split-split-split",
+            "ew-wb-split-3-split-split-split-2-section",
+            "ew-wb-split-3-split-split-split-2",
+            "ew-wb-split-3-split-split",
+            "ew-wb-split-3-split-split-2-section-section",
+            "ew-wb-split-3-split-split-2-section",
+            "ew-wb-split-3-split-split-2",
+            "ew-wb-split-3-split-split-3-section",
+            "ew-wb-split-3-split-split-3",
+            "ew-wb-split-3-split",
+            "ew-wb-split-3",
+            "ew-wb-split-4-split-split",
+            "ew-wb-split-4-split",
+            "ew-wb-split-4",
+            "ew-wb"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "10976d9266551480e9494eb442810527a4edb7f6fb4fa025ab0db93f49dd2709",
+          "file": "replays/system-west_S-to-W-loop-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "system-west:S-to-W-loop",
+        "end": "end",
+        "incoming": "system-west:S-to-W-loop",
+        "outgoing": "ew-wb-split-split-split-split-split-2",
+        "contextRoadCount": 108,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 32.90833333333333,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.5714882941115151,
+        "peakPitchRate": 0.18177614347901877,
+        "peakRollRate": 0.04534821891221263,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "outside-suspension-reach": 2396
+        },
+        "layers": {
+          "SAME_LAYER": 15800
+        },
+        "requiredLengthRange": [
+          0.25477026275313186,
+          0.37815893445897203
+        ],
+        "maxTrackingError": 0.14777381230827627,
+        "furthestStation": 216.59281868821432,
+        "joinStation": 174.33902361736438,
+        "completed": true,
+        "finalOwners": [
+          "ew-wb-split-split-split-split-split-2"
+        ],
+        "expectedTarget": "ew-wb-split-split-split-split-split-2",
+        "finalHeightError": -0.0033522484224333127,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "ew-wb-split-split-split-split-split-2",
+          "ew-wb-split-split-split-split",
+          "ew-wb-split-split-split-split-split-2-split",
+          "ew-wb-split-split-split-split-2-split",
+          "ew-wb-split-split-split-split-split",
+          "ew-wb-split-split-split-split-2-section",
+          "ew-wb-split-split-split-split-split-split-2",
+          "ew-wb-split-split-split-split-2-section-2",
+          "ew-wb-split-split-split-split-split-split",
+          "ew-wb-split-split-split-split-2",
+          "ew-wb-split-split-split-split-3-split",
+          "ew-wb-split-split-split-split-3",
+          "ew-wb-split-split-split-split-4-section-section",
+          "ew-wb-split-split-split-split-4-section",
+          "ew-wb-split-split-split-split-4",
+          "ew-wb-split-split-split",
+          "ew-wb-split-split-split-2-v6",
+          "ew-wb-split-split-split-2",
+          "ew-wb-split-split-split-3-split",
+          "ew-wb-split-split-split-3",
+          "ew-wb-split-split",
+          "ew-wb-split",
+          "ew-wb-split-2-split-split",
+          "ew-wb-split-2-split-split-2",
+          "ew-wb-split-2-split",
+          "ew-wb-split-2",
+          "ew-wb-split-3-split-split-split-split-split",
+          "ew-wb-split-3-split-split-split-split",
+          "ew-wb-split-3-split-split-split-split-2",
+          "ew-wb-split-3-split-split-split-section",
+          "ew-wb-split-3-split-split-split",
+          "ew-wb-split-3-split-split-split-2-section",
+          "ew-wb-split-3-split-split-split-2",
+          "ew-wb-split-3-split-split",
+          "ew-wb-split-3-split-split-2-section-section",
+          "ew-wb-split-3-split-split-2-section",
+          "ew-wb-split-3-split-split-2",
+          "ew-wb-split-3-split-split-3-section",
+          "ew-wb-split-3-split-split-3",
+          "ew-wb-split-3-split",
+          "ew-wb-split-3",
+          "ew-wb-split-4-split-split",
+          "ew-wb-split-4-split",
+          "ew-wb-split-4",
+          "ew-wb"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "10bafcf861faa6339da7a73b59c96b453f659ae4af403434fe8d4df578336676",
+        "file": "replays/system-west_S-to-W-loop-full-end.json"
+      }
+    },
+    {
+      "id": "system-west:E-to-S-loop",
+      "status": "PASS",
+      "beforeStatus": "P1",
+      "before": {
+        "id": "system-west:E-to-S-loop",
+        "cluster": "system-west",
+        "length": 193.3973771038618,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-split-2",
+              "end": "end"
+            },
+            "peers": [
+              "ew-wb-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split",
+              "ew-wb-split-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-split",
+              "ew-wb-split-split-split-split-2-section",
+              "ew-wb-split-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split-2-section-2",
+              "ew-wb-split-split-split-split-split-split",
+              "ew-wb-split-split-split-split-2",
+              "ew-wb-split-split-split-split-3-split",
+              "ew-wb-split-split-split-split-3"
+            ],
+            "sharedLength": 25,
+            "maxSharedDeltaY": 0,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.8038192394605255,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ring-ccw-3-split-split",
+              "end": "start"
+            },
+            "peers": [
+              "ring-ccw-3-split-split",
+              "ring-ccw-0",
+              "ring-ccw-3-split",
+              "ring-ccw-0-split-2",
+              "ring-ccw-3-split-2-split",
+              "ring-ccw-0-split",
+              "ring-ccw-3-split-2",
+              "ring-ccw-0-split-split-2",
+              "ring-ccw-3-split-3-split",
+              "ring-ccw-0-split-split",
+              "system-north:feeder-cross--1",
+              "ring-ccw-0-split-split-section"
+            ],
+            "sharedLength": 38,
+            "maxSharedDeltaY": 0,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.7920844725363789,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.10000000000007278,
+          "gradeBreaks": [],
+          "minRadius": 15.080542569096032,
+          "shortSegments": 108
+        },
+        "severity": "P1"
+      },
+      "after": {
+        "id": "system-west:E-to-S-loop",
+        "cluster": "system-west",
+        "length": 174.3466071721824,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-split-2",
+              "end": "end"
+            },
+            "peers": [
+              "ew-wb-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split",
+              "ew-wb-split-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-split",
+              "ew-wb-split-split-split-split-2-section",
+              "ew-wb-split-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split-2-section-2",
+              "ew-wb-split-split-split-split-split-split",
+              "ew-wb-split-split-split-split-2",
+              "ew-wb-split-split-split-split-3-split",
+              "ew-wb-split-split-split-split-3"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005000000000000782,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.7996029256471837,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ring-ccw-3-split-split",
+              "end": "start"
+            },
+            "peers": [
+              "ring-ccw-3-split-split",
+              "ring-ccw-0",
+              "ring-ccw-3-split",
+              "ring-ccw-0-split-2",
+              "ring-ccw-3-split-2-split",
+              "ring-ccw-0-split",
+              "ring-ccw-3-split-2",
+              "ring-ccw-0-split-split-2",
+              "ring-ccw-3-split-3-split",
+              "ring-ccw-0-split-split",
+              "system-north:feeder-cross--1",
+              "ring-ccw-0-split-split-section"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.153846153845806,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.10333830336344482,
+          "gradeBreaks": [],
+          "minRadius": 36.31412839552134,
+          "shortSegments": 0
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 130.3973771038618,
+        "after": 122.34660717218239
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-split-2",
+              "end": "end"
+            },
+            "hostLocalStation": 66.18787595057582,
+            "position": {
+              "x": -2016.125,
+              "y": 8,
+              "z": -161.94988965118188
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-split-2",
+              "end": "end"
+            },
+            "hostLocalStation": 84.57126756192778,
+            "position": {
+              "x": -2022.78125,
+              "y": 8,
+              "z": -161.87486666419215
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "ring-ccw-3-split-split",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -1985.78125,
+              "y": 0,
+              "z": -209.13890479704554
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ring-ccw-3-split-split",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -1985.78125,
+              "y": 0,
+              "z": -198.87486666419215
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "system-west:E-to-S-loop",
+          "end": "start",
+          "incoming": "ew-wb-split-split-split-split-split-2",
+          "outgoing": "system-west:E-to-S-loop",
+          "contextRoadCount": 76,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 19.191666666666666,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.7016719869242882,
+          "peakPitchRate": 0.18212234674795982,
+          "peakRollRate": 0.03247417920098983,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 2528
+          },
+          "layers": {
+            "SAME_LAYER": 9216
+          },
+          "requiredLengthRange": [
+            0.2594055973158247,
+            0.37327971920874087
+          ],
+          "maxTrackingError": 0.13625505032426846,
+          "furthestStation": 147.2205112690724,
+          "joinStation": 40.195085014781775,
+          "completed": true,
+          "finalOwners": [
+            "system-west:E-to-S-loop"
+          ],
+          "expectedTarget": "system-west:E-to-S-loop",
+          "finalHeightError": -0.021106705405211645,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "system-west:E-to-S-loop"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "120eb7976f4fd550e3b15efce9902803a099584c440715f7de71367898e4edbf",
+          "file": "replays/system-west_E-to-S-loop-start.json"
+        },
+        {
+          "rampId": "system-west:E-to-S-loop",
+          "end": "end",
+          "incoming": "system-west:E-to-S-loop",
+          "outgoing": "ring-ccw-3-split-split",
+          "contextRoadCount": 76,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.508333333333333,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.7391073401735149,
+          "peakPitchRate": 0.193139378832792,
+          "peakRollRate": 0.045462112367028136,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 1585
+          },
+          "layers": {
+            "SAME_LAYER": 5528
+          },
+          "requiredLengthRange": [
+            0.25226733374062377,
+            0.37569685271240066
+          ],
+          "maxTrackingError": 0.16861620528168958,
+          "furthestStation": 82.22390625616674,
+          "joinStation": 39.99817109219832,
+          "completed": true,
+          "finalOwners": [
+            "ring-ccw-3-split-split"
+          ],
+          "expectedTarget": "ring-ccw-3-split-split",
+          "finalHeightError": -0.0033412769898582446,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "ring-ccw-3-split-split",
+            "ring-ccw-0",
+            "ring-ccw-3-split",
+            "ring-ccw-0-split-2",
+            "ring-ccw-3-split-2-split",
+            "ring-ccw-0-split",
+            "ring-ccw-3-split-2",
+            "ring-ccw-0-split-split-2",
+            "ring-ccw-3-split-3-split",
+            "ring-ccw-0-split-split",
+            "system-north:feeder-cross--1",
+            "ring-ccw-0-split-split-section",
+            "ring-ccw-3-split-3-split-2",
+            "ring-ccw-0-split-split-split-3",
+            "ring-ccw-3-split-3-split-3",
+            "ring-ccw-0-split-split-split-3-split",
+            "ring-ccw-3-split-3",
+            "ring-ccw-0-split-split-split-3-split-section",
+            "ring-ccw-3-split-4",
+            "ring-ccw-0-split-split-split-2",
+            "ring-ccw-3",
+            "ring-ccw-0-split-split-split",
+            "ring-ccw-2-split-split-split-split-split",
+            "ring-ccw-0-split-split-split-split",
+            "ring-ccw-2-split-split-split-split",
+            "ring-ccw-1",
+            "ring-ccw-2-split-split-split-split-2-split-section",
+            "ring-ccw-1-split-3",
+            "ring-ccw-2-split-split-split-split-2-split",
+            "ring-ccw-1-split-2",
+            "ring-ccw-2-split-split-split-split-2",
+            "ring-ccw-1-split",
+            "ring-ccw-2-split-split-split-section",
+            "ring-ccw-1-split-split-2",
+            "ring-ccw-2-split-split-split",
+            "system-south:feeder-cross-1",
+            "ring-ccw-2-split-split-split-2",
+            "ring-ccw-1-split-split",
+            "ring-ccw-2-split-split",
+            "ring-ccw-1-split-split-section",
+            "ring-ccw-2-split-split-2-split",
+            "ring-ccw-1-split-split-split",
+            "ring-ccw-2-split-split-2",
+            "ring-ccw-1-split-split-split-split",
+            "ring-ccw-2-split",
+            "ring-ccw-1-split-split-split-split-section",
+            "ring-ccw-2-split-2-split",
+            "ring-ccw-1-split-split-split-split-split",
+            "ring-ccw-2-split-2",
+            "ring-ccw-1-split-split-split-split-split-split-2",
+            "ring-ccw-2",
+            "ring-ccw-1-split-split-split-split-split-split"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "56a4d59d3b605a65edeb02d97eb5b0ae81dfd90bdf0d3b0c730902647d4532df",
+          "file": "replays/system-west_E-to-S-loop-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "system-west:E-to-S-loop",
+        "end": "end",
+        "incoming": "system-west:E-to-S-loop",
+        "outgoing": "ring-ccw-3-split-split",
+        "contextRoadCount": 76,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 27.8,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.7074332950868056,
+        "peakPitchRate": 0.18114886669501098,
+        "peakRollRate": 0.04533889435630069,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "unreachable-layer-switch": 1587
+        },
+        "layers": {
+          "SAME_LAYER": 13348
+        },
+        "requiredLengthRange": [
+          0.25470699122315976,
+          0.37803316924012315
+        ],
+        "maxTrackingError": 0.15441263127895857,
+        "furthestStation": 216.57743539089282,
+        "joinStation": 174.33902361736423,
+        "completed": true,
+        "finalOwners": [
+          "ring-ccw-3-split-split"
+        ],
+        "expectedTarget": "ring-ccw-3-split-split",
+        "finalHeightError": -0.0033523443549601678,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "ring-ccw-3-split-split",
+          "ring-ccw-0",
+          "ring-ccw-3-split",
+          "ring-ccw-0-split-2",
+          "ring-ccw-3-split-2-split",
+          "ring-ccw-0-split",
+          "ring-ccw-3-split-2",
+          "ring-ccw-0-split-split-2",
+          "ring-ccw-3-split-3-split",
+          "ring-ccw-0-split-split",
+          "system-north:feeder-cross--1",
+          "ring-ccw-0-split-split-section",
+          "ring-ccw-3-split-3-split-2",
+          "ring-ccw-0-split-split-split-3",
+          "ring-ccw-3-split-3-split-3",
+          "ring-ccw-0-split-split-split-3-split",
+          "ring-ccw-3-split-3",
+          "ring-ccw-0-split-split-split-3-split-section",
+          "ring-ccw-3-split-4",
+          "ring-ccw-0-split-split-split-2",
+          "ring-ccw-3",
+          "ring-ccw-0-split-split-split",
+          "ring-ccw-2-split-split-split-split-split",
+          "ring-ccw-0-split-split-split-split",
+          "ring-ccw-2-split-split-split-split",
+          "ring-ccw-1",
+          "ring-ccw-2-split-split-split-split-2-split-section",
+          "ring-ccw-1-split-3",
+          "ring-ccw-2-split-split-split-split-2-split",
+          "ring-ccw-1-split-2",
+          "ring-ccw-2-split-split-split-split-2",
+          "ring-ccw-1-split",
+          "ring-ccw-2-split-split-split-section",
+          "ring-ccw-1-split-split-2",
+          "ring-ccw-2-split-split-split",
+          "system-south:feeder-cross-1",
+          "ring-ccw-2-split-split-split-2",
+          "ring-ccw-1-split-split",
+          "ring-ccw-2-split-split",
+          "ring-ccw-1-split-split-section",
+          "ring-ccw-2-split-split-2-split",
+          "ring-ccw-1-split-split-split",
+          "ring-ccw-2-split-split-2",
+          "ring-ccw-1-split-split-split-split",
+          "ring-ccw-2-split",
+          "ring-ccw-1-split-split-split-split-section",
+          "ring-ccw-2-split-2-split",
+          "ring-ccw-1-split-split-split-split-split",
+          "ring-ccw-2-split-2",
+          "ring-ccw-1-split-split-split-split-split-split-2",
+          "ring-ccw-2",
+          "ring-ccw-1-split-split-split-split-split-split"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "4940e780611552b0910b7dd39ec12b8de3bbf554c59cfe0297f607dcd9957990",
+        "file": "replays/system-west_E-to-S-loop-full-end.json"
+      }
+    },
+    {
+      "id": "system-west:N-to-E-loop",
+      "status": "PASS",
+      "beforeStatus": "P1",
+      "before": {
+        "id": "system-west:N-to-E-loop",
+        "cluster": "system-west",
+        "length": 196.73813784837125,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ring-ccw-0",
+              "end": "end"
+            },
+            "peers": [
+              "ring-ccw-0",
+              "ring-ccw-3-split-split",
+              "ring-ccw-0-split-2",
+              "ring-ccw-3-split",
+              "ring-ccw-0-split",
+              "ring-ccw-3-split-2-split",
+              "ring-ccw-0-split-split-2",
+              "ring-ccw-3-split-2",
+              "ring-ccw-0-split-split",
+              "ring-ccw-3-split-3-split",
+              "ring-ccw-0-split-split-section",
+              "system-north:feeder-cross--1"
+            ],
+            "sharedLength": 39,
+            "maxSharedDeltaY": 1.44328993201266e-15,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.7687086811108306,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ew-eb-split-5-split-2",
+              "end": "start"
+            },
+            "peers": [
+              "ew-eb-split-5-split-2",
+              "ew-eb-split-5",
+              "ew-eb-split-5-split-2-split",
+              "ew-eb-split-6-split",
+              "ew-eb-split-5-split",
+              "ew-eb-split-6",
+              "ew-eb-split-5-split-split",
+              "ew-eb",
+              "ew-eb-split-5-split-split-section",
+              "ew-eb-split-5-split-split-section-section",
+              "ew-eb-split-4",
+              "ew-eb-split-4-split",
+              "ew-eb-split-4-split-split",
+              "ew-eb-split-4-split-split-section-2"
+            ],
+            "sharedLength": 25,
+            "maxSharedDeltaY": 3.730349362740526e-14,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.8164892393826317,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.07570194277722846,
+          "gradeBreaks": [],
+          "minRadius": 14.55950127013421,
+          "shortSegments": 84
+        },
+        "severity": "P1"
+      },
+      "after": {
+        "id": "system-west:N-to-E-loop",
+        "cluster": "system-west",
+        "length": 174.3466071721824,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ring-ccw-0",
+              "end": "end"
+            },
+            "peers": [
+              "ring-ccw-0",
+              "ring-ccw-3-split-split",
+              "ring-ccw-0-split-2",
+              "ring-ccw-3-split",
+              "ring-ccw-0-split",
+              "ring-ccw-3-split-2-split",
+              "ring-ccw-0-split-split-2",
+              "ring-ccw-3-split-2",
+              "ring-ccw-0-split-split",
+              "ring-ccw-3-split-3-split",
+              "ring-ccw-0-split-split-section",
+              "system-north:feeder-cross--1"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.153846153845806,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ew-eb-split-5-split-2",
+              "end": "start"
+            },
+            "peers": [
+              "ew-eb-split-5-split-2",
+              "ew-eb-split-5",
+              "ew-eb-split-5-split-2-split",
+              "ew-eb-split-6-split",
+              "ew-eb-split-5-split",
+              "ew-eb-split-6",
+              "ew-eb-split-5-split-split",
+              "ew-eb",
+              "ew-eb-split-5-split-split-section",
+              "ew-eb-split-5-split-split-section-section",
+              "ew-eb-split-4",
+              "ew-eb-split-4-split",
+              "ew-eb-split-4-split-split",
+              "ew-eb-split-4-split-split-section-2"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005000000000000782,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.0874009146977506,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.1033383033629373,
+          "gradeBreaks": [],
+          "minRadius": 36.31412839552654,
+          "shortSegments": 0
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 132.73813784837125,
+        "after": 122.34660717218239
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "ring-ccw-0",
+              "end": "end"
+            },
+            "hostLocalStation": 58.16638144699591,
+            "position": {
+              "x": -1985.78125,
+              "y": 0,
+              "z": -94.15235437430401
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ring-ccw-0",
+              "end": "end"
+            },
+            "hostLocalStation": 47.05577675953356,
+            "position": {
+              "x": -1985.78125,
+              "y": 0,
+              "z": -105.26295906176637
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "ew-eb-split-5-split-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -2016.125,
+              "y": 8,
+              "z": -142.27067823977745
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ew-eb-split-5-split-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -2022.78125,
+              "y": 8,
+              "z": -142.26295906176637
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "system-west:N-to-E-loop",
+          "end": "start",
+          "incoming": "ring-ccw-0",
+          "outgoing": "system-west:N-to-E-loop",
+          "contextRoadCount": 76,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 22.483333333333334,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.5773841826621462,
+          "peakPitchRate": 0.18212213555067785,
+          "peakRollRate": 0.029910174871226557,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 2107
+          },
+          "layers": {
+            "SAME_LAYER": 10796
+          },
+          "requiredLengthRange": [
+            0.25940559731581814,
+            0.3732797192087449
+          ],
+          "maxTrackingError": 0.13002658081132157,
+          "furthestStation": 147.21789174339452,
+          "joinStation": 40.20031960082182,
+          "completed": true,
+          "finalOwners": [
+            "system-west:N-to-E-loop"
+          ],
+          "expectedTarget": "system-west:N-to-E-loop",
+          "finalHeightError": 0.014706098606047213,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "system-west:N-to-E-loop"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "daff4c21baf1511c89f2199c2b9a547b15cb1a24ac85435c980ad19075d65f6f",
+          "file": "replays/system-west_N-to-E-loop-start.json"
+        },
+        {
+          "rampId": "system-west:N-to-E-loop",
+          "end": "end",
+          "incoming": "system-west:N-to-E-loop",
+          "outgoing": "ew-eb-split-5-split-2",
+          "contextRoadCount": 76,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.641666666666666,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.5918127668152984,
+          "peakPitchRate": 0.1811516193305195,
+          "peakRollRate": 0.05584188618996587,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 2367
+          },
+          "layers": {
+            "SAME_LAYER": 5592
+          },
+          "requiredLengthRange": [
+            0.25566915325089384,
+            0.381512432053276
+          ],
+          "maxTrackingError": 0.16561409489820939,
+          "furthestStation": 82.21981187320745,
+          "joinStation": 39.99817109219819,
+          "completed": true,
+          "finalOwners": [
+            "ew-eb-split-5-split-2"
+          ],
+          "expectedTarget": "ew-eb-split-5-split-2",
+          "finalHeightError": -0.0033438663014697667,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "ew-eb-split-5-split-2",
+            "ew-eb-split-5",
+            "ew-eb-split-5-split-2-split",
+            "ew-eb-split-6-split",
+            "ew-eb-split-5-split",
+            "ew-eb-split-6",
+            "ew-eb-split-5-split-split",
+            "ew-eb",
+            "ew-eb-split-5-split-split-section",
+            "ew-eb-split-5-split-split-section-section",
+            "ew-eb-split-4",
+            "ew-eb-split-4-split",
+            "ew-eb-split-4-split-split",
+            "ew-eb-split-4-split-split-section-2",
+            "ew-eb-split-4-split-split-section",
+            "ew-eb-split-4-split-split-split",
+            "ew-eb-split-3",
+            "ew-eb-split-3-split",
+            "ew-eb-split-3-split-split-4",
+            "ew-eb-split-3-split-split-3",
+            "ew-eb-split-3-split-split-2",
+            "ew-eb-split-3-split-split",
+            "ew-eb-split-2",
+            "ew-eb-split-2-split",
+            "ew-eb-split-2-split-split",
+            "ew-eb-split-2-split-split-split-2",
+            "ew-eb-split-2-split-split-split",
+            "ew-eb-split",
+            "ew-eb-split-split-5",
+            "ew-eb-split-split-4",
+            "ew-eb-split-split-4-split-2",
+            "ew-eb-split-split-4-split-2-section",
+            "ew-eb-split-split-4-split",
+            "ew-eb-split-split-4-split-section",
+            "ew-eb-split-split-4-split-split",
+            "ew-eb-split-split-3",
+            "ew-eb-split-split-3-section-2",
+            "ew-eb-split-split-3-section",
+            "ew-eb-split-split-3-split",
+            "ew-eb-split-split-3-split-section",
+            "ew-eb-split-split-3-split-split",
+            "ew-eb-split-split-2",
+            "ew-eb-split-split-2-split",
+            "ew-eb-split-split-2-split-split",
+            "ew-eb-split-split-2-split-split-split",
+            "ew-eb-split-split"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "07a5e730a45ad511b932afc0034a208d66ec999f480c13efbe10925cc903560e",
+          "file": "replays/system-west_N-to-E-loop-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "system-west:N-to-E-loop",
+        "end": "end",
+        "incoming": "system-west:N-to-E-loop",
+        "outgoing": "ew-eb-split-5-split-2",
+        "contextRoadCount": 76,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 32.891666666666666,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.5788604604522796,
+        "peakPitchRate": 0.18177461534063066,
+        "peakRollRate": 0.045348152407132816,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "outside-suspension-reach": 2364
+        },
+        "layers": {
+          "SAME_LAYER": 15792
+        },
+        "requiredLengthRange": [
+          0.2547701863009532,
+          0.37815868306802103
+        ],
+        "maxTrackingError": 0.15323919380841003,
+        "furthestStation": 216.54757011940526,
+        "joinStation": 174.3390236173641,
+        "completed": true,
+        "finalOwners": [
+          "ew-eb-split-5-split-2"
+        ],
+        "expectedTarget": "ew-eb-split-5-split-2",
+        "finalHeightError": -0.0033519801097430246,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "ew-eb-split-5-split-2",
+          "ew-eb-split-5",
+          "ew-eb-split-5-split-2-split",
+          "ew-eb-split-6-split",
+          "ew-eb-split-5-split",
+          "ew-eb-split-6",
+          "ew-eb-split-5-split-split",
+          "ew-eb",
+          "ew-eb-split-5-split-split-section",
+          "ew-eb-split-5-split-split-section-section",
+          "ew-eb-split-4",
+          "ew-eb-split-4-split",
+          "ew-eb-split-4-split-split",
+          "ew-eb-split-4-split-split-section-2",
+          "ew-eb-split-4-split-split-section",
+          "ew-eb-split-4-split-split-split",
+          "ew-eb-split-3",
+          "ew-eb-split-3-split",
+          "ew-eb-split-3-split-split-4",
+          "ew-eb-split-3-split-split-3",
+          "ew-eb-split-3-split-split-2",
+          "ew-eb-split-3-split-split",
+          "ew-eb-split-2",
+          "ew-eb-split-2-split",
+          "ew-eb-split-2-split-split",
+          "ew-eb-split-2-split-split-split-2",
+          "ew-eb-split-2-split-split-split",
+          "ew-eb-split",
+          "ew-eb-split-split-5",
+          "ew-eb-split-split-4",
+          "ew-eb-split-split-4-split-2",
+          "ew-eb-split-split-4-split-2-section",
+          "ew-eb-split-split-4-split",
+          "ew-eb-split-split-4-split-section",
+          "ew-eb-split-split-4-split-split",
+          "ew-eb-split-split-3",
+          "ew-eb-split-split-3-section-2",
+          "ew-eb-split-split-3-section",
+          "ew-eb-split-split-3-split",
+          "ew-eb-split-split-3-split-section",
+          "ew-eb-split-split-3-split-split",
+          "ew-eb-split-split-2",
+          "ew-eb-split-split-2-split",
+          "ew-eb-split-split-2-split-split",
+          "ew-eb-split-split-2-split-split-split",
+          "ew-eb-split-split"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "0266dc4b0528d2d8b068c4bfd9278188a14a014fd838d8680f3d23658e129ed9",
+        "file": "replays/system-west_N-to-E-loop-full-end.json"
+      }
+    },
+    {
+      "id": "system-west:W-to-N-loop",
+      "status": "PASS",
+      "beforeStatus": "P1",
+      "before": {
+        "id": "system-west:W-to-N-loop",
+        "cluster": "system-west",
+        "length": 182.7338306397109,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ew-eb-split-5-split-2",
+              "end": "end"
+            },
+            "peers": [
+              "ew-eb-split-5-split-2",
+              "ew-eb-split-5",
+              "ew-eb-split-5-split-2-split",
+              "ew-eb-split-6-split",
+              "ew-eb-split-5-split",
+              "ew-eb-split-6",
+              "ew-eb-split-5-split-split",
+              "ew-eb",
+              "ew-eb-split-5-split-split-section",
+              "ew-eb-split-5-split-split-section-section",
+              "ew-eb-split-4",
+              "ew-eb-split-4-split",
+              "ew-eb-split-4-split-split",
+              "ew-eb-split-4-split-split-section-2"
+            ],
+            "sharedLength": 18,
+            "maxSharedDeltaY": 0,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 2.737106563625661,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ring-cw-3-split-split-split",
+              "end": "start"
+            },
+            "peers": [
+              "ring-cw-3-split-split-split",
+              "ring-cw-0",
+              "ring-cw-3-split-split",
+              "ring-cw-0-split-2",
+              "ring-cw-3-split-split-2",
+              "ring-cw-0-split",
+              "ring-cw-3-split",
+              "ring-cw-0-split-split-2",
+              "ring-cw-3-split-2-split-split-split-split-section",
+              "ring-cw-0-split-split",
+              "ring-cw-3-split-2-split-split-split-split",
+              "ring-cw-0-split-split-split-2",
+              "ring-cw-0-split-split-split-2-split",
+              "ring-cw-0-split-split-split-2-split-split"
+            ],
+            "sharedLength": 40,
+            "maxSharedDeltaY": 0,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.7643685519810414,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.10000000000008918,
+          "gradeBreaks": [],
+          "minRadius": 14.419014693037976,
+          "shortSegments": 118
+        },
+        "severity": "P1"
+      },
+      "after": {
+        "id": "system-west:W-to-N-loop",
+        "cluster": "system-west",
+        "length": 174.34660717218236,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ew-eb-split-5-split-2",
+              "end": "end"
+            },
+            "peers": [
+              "ew-eb-split-5-split-2",
+              "ew-eb-split-5",
+              "ew-eb-split-5-split-2-split",
+              "ew-eb-split-6-split",
+              "ew-eb-split-5-split",
+              "ew-eb-split-6",
+              "ew-eb-split-5-split-split",
+              "ew-eb",
+              "ew-eb-split-5-split-split-section",
+              "ew-eb-split-5-split-split-section-section",
+              "ew-eb-split-4",
+              "ew-eb-split-4-split",
+              "ew-eb-split-4-split-split",
+              "ew-eb-split-4-split-split-section-2"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005000000000000782,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.1913723801042597,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ring-cw-3-split-split-split",
+              "end": "start"
+            },
+            "peers": [
+              "ring-cw-3-split-split-split",
+              "ring-cw-0",
+              "ring-cw-3-split-split",
+              "ring-cw-0-split-2",
+              "ring-cw-3-split-split-2",
+              "ring-cw-0-split",
+              "ring-cw-3-split",
+              "ring-cw-0-split-split-2",
+              "ring-cw-3-split-2-split-split-split-split-section",
+              "ring-cw-0-split-split",
+              "ring-cw-3-split-2-split-split-split-split",
+              "ring-cw-0-split-split-split-2",
+              "ring-cw-0-split-split-split-2-split",
+              "ring-cw-0-split-split-split-2-split-split"
+            ],
+            "sharedLength": 26,
+            "maxSharedDeltaY": 0.005,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.153846153845806,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.10333830336307546,
+          "gradeBreaks": [],
+          "minRadius": 36.31412839552012,
+          "shortSegments": 0
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 124.7338306397109,
+        "after": 122.34660717218236
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "ew-eb-split-5-split-2",
+              "end": "end"
+            },
+            "hostLocalStation": 66.1833552693742,
+            "position": {
+              "x": -1949.941693278841,
+              "y": 8,
+              "z": -142.35001563070406
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ew-eb-split-5-split-2",
+              "end": "end"
+            },
+            "hostLocalStation": 84.56603552340138,
+            "position": {
+              "x": -1938.2152707251817,
+              "y": 8,
+              "z": -142.35869954939116
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "ring-cw-3-split-split-split",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -1975.2152707251817,
+              "y": 0,
+              "z": -93.83951028415864
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ring-cw-3-split-split-split",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -1975.2152707251817,
+              "y": 0,
+              "z": -105.35869954939116
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "system-west:W-to-N-loop",
+          "end": "start",
+          "incoming": "ew-eb-split-5-split-2",
+          "outgoing": "system-west:W-to-N-loop",
+          "contextRoadCount": 108,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 19.191666666666666,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.7166402670152872,
+          "peakPitchRate": 0.18212323153345952,
+          "peakRollRate": 0.030267906474083672,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 2506
+          },
+          "layers": {
+            "SAME_LAYER": 9216
+          },
+          "requiredLengthRange": [
+            0.25940989530051817,
+            0.3732752863877227
+          ],
+          "maxTrackingError": 0.13034202746822915,
+          "furthestStation": 147.26199483797978,
+          "joinStation": 40.19894147746232,
+          "completed": true,
+          "finalOwners": [
+            "system-west:W-to-N-loop"
+          ],
+          "expectedTarget": "system-west:W-to-N-loop",
+          "finalHeightError": -0.021100103428207895,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "system-west:W-to-N-loop"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "dd159aed59e0ca6d7a2ea82c1e7666ee184be871c5e054f6b13c9046d5195b50",
+          "file": "replays/system-west_W-to-N-loop-start.json"
+        },
+        {
+          "rampId": "system-west:W-to-N-loop",
+          "end": "end",
+          "incoming": "system-west:W-to-N-loop",
+          "outgoing": "ring-cw-3-split-split-split",
+          "contextRoadCount": 108,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.508333333333333,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.7391073401837067,
+          "peakPitchRate": 0.19313937883143972,
+          "peakRollRate": 0.045462112366874356,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 1633
+          },
+          "layers": {
+            "SAME_LAYER": 5528
+          },
+          "requiredLengthRange": [
+            0.25226733374055066,
+            0.3756968527123991
+          ],
+          "maxTrackingError": 0.16861620526019586,
+          "furthestStation": 82.2239062561601,
+          "joinStation": 39.99817109219822,
+          "completed": true,
+          "finalOwners": [
+            "ring-cw-3-split-split-split"
+          ],
+          "expectedTarget": "ring-cw-3-split-split-split",
+          "finalHeightError": -0.0033412769887530887,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "ring-cw-3-split-split-split",
+            "ring-cw-0",
+            "ring-cw-3-split-split",
+            "ring-cw-0-split-2",
+            "ring-cw-3-split-split-2",
+            "ring-cw-0-split",
+            "ring-cw-3-split",
+            "ring-cw-0-split-split-2",
+            "ring-cw-3-split-2-split-split-split-split-section",
+            "ring-cw-0-split-split",
+            "ring-cw-3-split-2-split-split-split-split",
+            "ring-cw-0-split-split-split-2",
+            "ring-cw-3-split-2-split-split-split",
+            "ring-cw-0-split-split-split-2-split",
+            "ring-cw-3-split-2-split-split",
+            "ring-cw-0-split-split-split-2-split-split",
+            "ring-cw-3-split-2-split-split-2-section",
+            "ring-cw-0-split-split-split",
+            "ring-cw-3-split-2-split-split-2",
+            "ring-cw-0-split-split-split-split",
+            "ring-cw-3-split-2-split",
+            "ring-cw-1",
+            "system-south:feeder-cross--1",
+            "ring-cw-1-split-3",
+            "ring-cw-3-split-2-split-2",
+            "system-north:feeder-cross-1",
+            "ring-cw-3-split-2",
+            "ring-cw-1-split-3-split",
+            "ring-cw-3-split-3",
+            "ring-cw-1-split-3-split-split",
+            "ring-cw-3",
+            "ring-cw-1-split-3-split-split-split",
+            "ring-cw-2-split-split",
+            "ring-cw-1-split-3-split-split-split-split",
+            "ring-cw-2-split-split-2",
+            "ring-cw-1-split-2",
+            "ring-cw-2-split",
+            "ring-cw-1-split-2-split",
+            "ring-cw-2-split-2",
+            "ring-cw-1-split",
+            "ring-cw-2-split-3-split-split-section",
+            "ring-cw-1-split-split-2",
+            "ring-cw-2-split-3-split-split",
+            "ring-cw-1-split-split-2-split",
+            "ring-cw-2-split-3-split",
+            "ring-cw-1-split-split",
+            "ring-cw-2-split-3",
+            "ring-cw-1-split-split-split-2",
+            "ring-cw-2-split-4-split-split",
+            "ring-cw-1-split-split-split",
+            "ring-cw-2-split-4-split-section",
+            "ring-cw-2",
+            "ring-cw-2-split-4-split",
+            "ring-cw-2-split-4"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "8d86ac5ef4afa3be100633c6516f7607e3df2048deed5c9ec05a52d10a0eeedd",
+          "file": "replays/system-west_W-to-N-loop-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "system-west:W-to-N-loop",
+        "end": "end",
+        "incoming": "system-west:W-to-N-loop",
+        "outgoing": "ring-cw-3-split-split-split",
+        "contextRoadCount": 108,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 27.8,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.7072387592876028,
+        "peakPitchRate": 0.18114886672507594,
+        "peakRollRate": 0.045338894356434345,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "unreachable-layer-switch": 1635
+        },
+        "layers": {
+          "SAME_LAYER": 13348
+        },
+        "requiredLengthRange": [
+          0.2547069912220609,
+          0.37803316924121144
+        ],
+        "maxTrackingError": 0.15441339228201514,
+        "furthestStation": 216.5772891738462,
+        "joinStation": 174.33902361736423,
+        "completed": true,
+        "finalOwners": [
+          "ring-cw-3-split-split-split"
+        ],
+        "expectedTarget": "ring-cw-3-split-split-split",
+        "finalHeightError": -0.0033523442272292924,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "ring-cw-3-split-split-split",
+          "ring-cw-0",
+          "ring-cw-3-split-split",
+          "ring-cw-0-split-2",
+          "ring-cw-3-split-split-2",
+          "ring-cw-0-split",
+          "ring-cw-3-split",
+          "ring-cw-0-split-split-2",
+          "ring-cw-3-split-2-split-split-split-split-section",
+          "ring-cw-0-split-split",
+          "ring-cw-3-split-2-split-split-split-split",
+          "ring-cw-0-split-split-split-2",
+          "ring-cw-3-split-2-split-split-split",
+          "ring-cw-0-split-split-split-2-split",
+          "ring-cw-3-split-2-split-split",
+          "ring-cw-0-split-split-split-2-split-split",
+          "ring-cw-3-split-2-split-split-2-section",
+          "ring-cw-0-split-split-split",
+          "ring-cw-3-split-2-split-split-2",
+          "ring-cw-0-split-split-split-split",
+          "ring-cw-3-split-2-split",
+          "ring-cw-1",
+          "system-south:feeder-cross--1",
+          "ring-cw-1-split-3",
+          "ring-cw-3-split-2-split-2",
+          "system-north:feeder-cross-1",
+          "ring-cw-3-split-2",
+          "ring-cw-1-split-3-split",
+          "ring-cw-3-split-3",
+          "ring-cw-1-split-3-split-split",
+          "ring-cw-3",
+          "ring-cw-1-split-3-split-split-split",
+          "ring-cw-2-split-split",
+          "ring-cw-1-split-3-split-split-split-split",
+          "ring-cw-2-split-split-2",
+          "ring-cw-1-split-2",
+          "ring-cw-2-split",
+          "ring-cw-1-split-2-split",
+          "ring-cw-2-split-2",
+          "ring-cw-1-split",
+          "ring-cw-2-split-3-split-split-section",
+          "ring-cw-1-split-split-2",
+          "ring-cw-2-split-3-split-split",
+          "ring-cw-1-split-split-2-split",
+          "ring-cw-2-split-3-split",
+          "ring-cw-1-split-split",
+          "ring-cw-2-split-3",
+          "ring-cw-1-split-split-split-2",
+          "ring-cw-2-split-4-split-split",
+          "ring-cw-1-split-split-split",
+          "ring-cw-2-split-4-split-section",
+          "ring-cw-2",
+          "ring-cw-2-split-4-split",
+          "ring-cw-2-split-4"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "67fa4552a15806e4df4cc615eaf2997f137383a48fa492b81b1185403e204e3c",
+        "file": "replays/system-west_W-to-N-loop-full-end.json"
+      }
+    },
+    {
+      "id": "regional:shangu:on:1",
+      "status": "PASS",
+      "beforeStatus": "P1",
+      "before": {
+        "id": "regional:shangu:on:1",
+        "cluster": "regional:shangu",
+        "length": 234.34112714407567,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "regional:shangu:local:1",
+              "end": "end"
+            },
+            "peers": [
+              "regional:shangu:local:1"
+            ],
+            "sharedLength": 0,
+            "maxSharedDeltaY": 0,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.147013947788798,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+              "end": "start"
+            },
+            "peers": [
+              "regional:G38:out:split10:split24:split284:split354:split356",
+              "regional:G38:out:split10:split24:split284:split354",
+              "regional:G38:out:split10:split24:split284:split354:split356:split434",
+              "regional:G38:out:split10:split24:split284:lane312",
+              "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+              "regional:G38:out:split10:split24:split284",
+              "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+              "regional:G38:out:split10:split24:lane20",
+              "regional:shangu:off:1:deceleration",
+              "regional:G38:out:split10:split24",
+              "regional:qingling:E-to-N-right:acceleration",
+              "regional:G38:out:split10:split282",
+              "regional:G38:out:split10"
+            ],
+            "sharedLength": 58,
+            "maxSharedDeltaY": 0.043814891468258566,
+            "conflictRange": [
+              36,
+              58
+            ],
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 7.754433775698627,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.062939263183827,
+          "gradeBreaks": [],
+          "minRadius": 79.13835548137192,
+          "shortSegments": 7
+        },
+        "severity": "P1"
+      },
+      "after": {
+        "id": "regional:shangu:on:1",
+        "cluster": "regional:shangu",
+        "length": 234.34112714407559,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "regional:shangu:local:1",
+              "end": "end"
+            },
+            "peers": [
+              "regional:shangu:local:1"
+            ],
+            "sharedLength": 0,
+            "maxSharedDeltaY": 0,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.147013947788798,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+              "end": "start"
+            },
+            "peers": [
+              "regional:G38:out:split10:split24:split284:split354:split356",
+              "regional:G38:out:split10:split24:split284:split354",
+              "regional:G38:out:split10:split24:split284:split354:split356:split434",
+              "regional:G38:out:split10:split24:split284:lane312",
+              "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+              "regional:G38:out:split10:split24:split284",
+              "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+              "regional:G38:out:split10:split24:lane20",
+              "regional:shangu:off:1:deceleration",
+              "regional:G38:out:split10:split24",
+              "regional:qingling:E-to-N-right:acceleration",
+              "regional:G38:out:split10:split282",
+              "regional:G38:out:split10"
+            ],
+            "sharedLength": 58,
+            "maxSharedDeltaY": 0.03533546140802457,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 7.754433775697166,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.062939263183827,
+          "gradeBreaks": [],
+          "minRadius": 79.13835548137192,
+          "shortSegments": 45
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 176.34112714407567,
+        "after": 176.34112714407559
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "regional:shangu:local:1",
+              "end": "end"
+            },
+            "hostLocalStation": 120.00000000000055,
+            "position": {
+              "x": 2397.8841963350233,
+              "y": 33.33337554609735,
+              "z": -4441.226398410949
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "regional:shangu:local:1",
+              "end": "end"
+            },
+            "hostLocalStation": 120.00000000000055,
+            "position": {
+              "x": 2397.8841963350233,
+              "y": 33.33337554609735,
+              "z": -4441.226398410949
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": 2487.1184429732753,
+              "y": 44.27413474263716,
+              "z": -4651.393370872195
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": 2487.1184429732753,
+              "y": 44.27413474263716,
+              "z": -4651.393370872195
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "regional:shangu:on:1",
+          "end": "start",
+          "incoming": "regional:shangu:local:1",
+          "outgoing": "regional:shangu:on:1",
+          "contextRoadCount": 13,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 21.891666666666666,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.34264755164461147,
+          "peakPitchRate": 0.1823718925104017,
+          "peakRollRate": 0.018816421403679756,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {},
+          "layers": {
+            "SAME_LAYER": 10512
+          },
+          "requiredLengthRange": [
+            0.26054936753502705,
+            0.3721004306234602
+          ],
+          "maxTrackingError": 0.060631896136693356,
+          "furthestStation": 147.07748996370537,
+          "joinStation": 40.05018723202515,
+          "completed": true,
+          "finalOwners": [
+            "regional:shangu:on:1"
+          ],
+          "expectedTarget": "regional:shangu:on:1",
+          "finalHeightError": 0.010916932908237698,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "regional:shangu:on:1"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "33b720bf7e2265c2fd00458376a26a9b48bb36a1de0ac21b1d4270fdad5af591",
+          "file": "replays/regional_shangu_on_1-start.json"
+        },
+        {
+          "rampId": "regional:shangu:on:1",
+          "end": "end",
+          "incoming": "regional:shangu:on:1",
+          "outgoing": "regional:G38:out:split10:split24:split284:split354:split356",
+          "contextRoadCount": 17,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.525,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.5561863965187053,
+          "peakPitchRate": 0.18198943261126282,
+          "peakRollRate": 0.04686374724040099,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 169,
+            "impossible-height-discontinuity": 16,
+            "layer-switch-unconfirmed": 4
+          },
+          "layers": {
+            "SAME_LAYER": 5536
+          },
+          "requiredLengthRange": [
+            0.26184096039757787,
+            0.37600947841300814
+          ],
+          "maxTrackingError": 0.10302017876245377,
+          "furthestStation": 76.54494872887837,
+          "joinStation": 39.999419673573335,
+          "completed": true,
+          "finalOwners": [
+            "regional:G38:out:split10:split24:split284:split354:split356"
+          ],
+          "expectedTarget": "regional:G38:out:split10:split24:split284:split354:split356",
+          "finalHeightError": 0.0038971297982470787,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split10:split24:split284",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+            "regional:G38:out:split10:split24:lane20",
+            "regional:shangu:off:1:deceleration",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:split476",
+            "regional:G38:out:split10:split24",
+            "regional:qingling:E-to-N-right:acceleration",
+            "regional:G65:out:0",
+            "regional:G38:out:split10:split282",
+            "regional:G65:out:0:revision234",
+            "regional:G38:out:split10",
+            "regional:G65:out:1",
+            "regional:G38:out:split274:split276:lane0",
+            "regional:G65:out:1:revision218",
+            "regional:G38:out:split274:split276",
+            "regional:G65:out:1:revision218:lane3357",
+            "regional:G38:out:split274",
+            "regional:qingling:S-to-E-right:deceleration",
+            "regional:G65:out:1:revision218:revision228",
+            "regional:v2:northwest:E-to-S-loop:acceleration",
+            "regional:G38:out:split338:split340:split474",
+            "regional:G65:out:2",
+            "regional:G38:out:split338:split340:lane300",
+            "regional:G65:out:2:revision248",
+            "regional:G38:out:split338:split340",
+            "regional:G65:out:2:revision248:lane3377",
+            "regional:G38:out:split338",
+            "regional:G65:out:3",
+            "regional:v2:northwest:W-to-S-right:acceleration",
+            "regional:G38:out:lane296",
+            "regional:G65:out:3:upgrade315",
+            "regional:G38:out",
+            "regional:G65:out:4",
+            "regional:G65:out:4:upgrade317",
+            "regional:G65:out:5",
+            "regional:G65:out:5:upgrade323",
+            "regional:G65:out:6",
+            "regional:G65:out:6:lane388",
+            "regional:yunling-exit:off:1:deceleration",
+            "regional:G65:out:6:upgrade234",
+            "regional:G65:out:6:upgrade234:upgrade325",
+            "regional:G65:out:7",
+            "regional:G65:out:7:upgrade236",
+            "regional:G65:out:7:upgrade236:lane392",
+            "regional:G65:out:8",
+            "regional:yunling-exit:on:1:acceleration",
+            "regional:G65:out:9",
+            "regional:G65:out:9:revision475",
+            "regional:v3:G38-extension200:out:0",
+            "regional:v3:G38-extension200:out:0:lane4586",
+            "regional:v3:north-river:W-to-S-right:deceleration",
+            "regional:v3:G38-extension200:out:0:revision481",
+            "regional:v3:G38-extension200:out:1",
+            "regional:v3:G38-extension200:out:1:revision447",
+            "regional:v3:G38-extension200:out:1:revision447:lane4558",
+            "regional:v3:G38-extension200:out:1:revision447:revision465",
+            "regional:v3:north-river:S-to-E-right:acceleration",
+            "regional:v3:G38-extension200:out:1:revision447:revision465:lane4578",
+            "regional:v3:G38-extension200:out:2",
+            "regional:v3:north-river:N-to-E-turbine:acceleration",
+            "regional:v3:G38-extension200:out:2-split",
+            "regional:v3:G38-extension200:out:2-split-split",
+            "regional:v3:G38-extension200:out:3",
+            "regional:v3:G38-extension200:out:3:lane4774",
+            "regional:v3:northeast-north:N-to-E-turbine:deceleration",
+            "regional:v3:G38-extension200:out:3:revision655",
+            "regional:v3:G38-extension200:out:3:revision655:lane4782",
+            "regional:v3:northeast-north:N-to-W-right:deceleration",
+            "regional:v3:G38-extension200:out:3:revision655:revision661",
+            "regional:v3:G38-extension200:out:4",
+            "regional:v3:G38-extension200:out:4:revision675",
+            "regional:v3:G38-extension200:out:4:revision675:lane4802",
+            "regional:v3:G38-extension200:out:4:revision645",
+            "regional:v3:northeast-north:W-to-S-right:acceleration",
+            "regional:v3:G38-extension200:out:5",
+            "regional:v3:G38-extension200:out:6",
+            "regional:v3:G38-extension263:out:0",
+            "regional:v3:G38-extension263:out:1"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "67c53ac822920a2be1e4e44542f936ddd1468a1766e092c8eb500f61c7913cdd",
+          "file": "replays/regional_shangu_on_1-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "regional:shangu:on:1",
+        "end": "end",
+        "incoming": "regional:shangu:on:1",
+        "outgoing": "regional:G38:out:split10:split24:split284:split354:split356",
+        "contextRoadCount": 19,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 41.141666666666666,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.5799505548960182,
+        "peakPitchRate": 0.18616200247541326,
+        "peakRollRate": 0.039704255890147866,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "unreachable-layer-switch": 169,
+          "impossible-height-discontinuity": 16,
+          "layer-switch-unconfirmed": 4
+        },
+        "layers": {
+          "SAME_LAYER": 19752
+        },
+        "requiredLengthRange": [
+          0.2579817141270952,
+          0.3697185625620569
+        ],
+        "maxTrackingError": 0.09840674427466407,
+        "furthestStation": 270.8972031857828,
+        "joinStation": 234.3394815927216,
+        "completed": true,
+        "finalOwners": [
+          "regional:G38:out:split10:split24:split284:split354:split356"
+        ],
+        "expectedTarget": "regional:G38:out:split10:split24:split284:split354:split356",
+        "finalHeightError": 0.003908424617193873,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "regional:G38:out:split10:split24:split284:split354:split356",
+          "regional:G38:out:split10:split24:split284:split354",
+          "regional:G38:out:split10:split24:split284:split354:split356:split434",
+          "regional:G38:out:split10:split24:split284:lane312",
+          "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+          "regional:G38:out:split10:split24:split284",
+          "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+          "regional:G38:out:split10:split24:lane20",
+          "regional:shangu:off:1:deceleration",
+          "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:split476",
+          "regional:G38:out:split10:split24",
+          "regional:qingling:E-to-N-right:acceleration",
+          "regional:G65:out:0",
+          "regional:G38:out:split10:split282",
+          "regional:G65:out:0:revision234",
+          "regional:G38:out:split10",
+          "regional:G65:out:1",
+          "regional:G38:out:split274:split276:lane0",
+          "regional:G65:out:1:revision218",
+          "regional:G38:out:split274:split276",
+          "regional:G65:out:1:revision218:lane3357",
+          "regional:G38:out:split274",
+          "regional:qingling:S-to-E-right:deceleration",
+          "regional:G65:out:1:revision218:revision228",
+          "regional:v2:northwest:E-to-S-loop:acceleration",
+          "regional:G38:out:split338:split340:split474",
+          "regional:G65:out:2",
+          "regional:G38:out:split338:split340:lane300",
+          "regional:G65:out:2:revision248",
+          "regional:G38:out:split338:split340",
+          "regional:G65:out:2:revision248:lane3377",
+          "regional:G38:out:split338",
+          "regional:G65:out:3",
+          "regional:v2:northwest:W-to-S-right:acceleration",
+          "regional:G38:out:lane296",
+          "regional:G65:out:3:upgrade315",
+          "regional:G38:out",
+          "regional:G65:out:4",
+          "regional:G65:out:4:upgrade317",
+          "regional:G65:out:5",
+          "regional:G65:out:5:upgrade323",
+          "regional:G65:out:6",
+          "regional:G65:out:6:lane388",
+          "regional:yunling-exit:off:1:deceleration",
+          "regional:G65:out:6:upgrade234",
+          "regional:G65:out:6:upgrade234:upgrade325",
+          "regional:G65:out:7",
+          "regional:G65:out:7:upgrade236",
+          "regional:G65:out:7:upgrade236:lane392",
+          "regional:G65:out:8",
+          "regional:yunling-exit:on:1:acceleration",
+          "regional:G65:out:9",
+          "regional:G65:out:9:revision475",
+          "regional:v3:G38-extension200:out:0",
+          "regional:v3:G38-extension200:out:0:lane4586",
+          "regional:v3:north-river:W-to-S-right:deceleration",
+          "regional:v3:G38-extension200:out:0:revision481",
+          "regional:v3:G38-extension200:out:1",
+          "regional:v3:G38-extension200:out:1:revision447",
+          "regional:v3:G38-extension200:out:1:revision447:lane4558",
+          "regional:v3:G38-extension200:out:1:revision447:revision465",
+          "regional:v3:north-river:S-to-E-right:acceleration",
+          "regional:v3:G38-extension200:out:1:revision447:revision465:lane4578",
+          "regional:v3:G38-extension200:out:2",
+          "regional:v3:north-river:N-to-E-turbine:acceleration",
+          "regional:v3:G38-extension200:out:2-split",
+          "regional:v3:G38-extension200:out:2-split-split",
+          "regional:v3:G38-extension200:out:3",
+          "regional:v3:G38-extension200:out:3:lane4774",
+          "regional:v3:northeast-north:N-to-E-turbine:deceleration",
+          "regional:v3:G38-extension200:out:3:revision655",
+          "regional:v3:G38-extension200:out:3:revision655:lane4782",
+          "regional:v3:northeast-north:N-to-W-right:deceleration",
+          "regional:v3:G38-extension200:out:3:revision655:revision661",
+          "regional:v3:G38-extension200:out:4",
+          "regional:v3:G38-extension200:out:4:revision675",
+          "regional:v3:G38-extension200:out:4:revision675:lane4802",
+          "regional:v3:G38-extension200:out:4:revision645",
+          "regional:v3:northeast-north:W-to-S-right:acceleration",
+          "regional:v3:G38-extension200:out:5",
+          "regional:v3:G38-extension200:out:6",
+          "regional:v3:G38-extension263:out:0",
+          "regional:v3:G38-extension263:out:1"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "09e241acbac32c168d123c5a504882ac40b77d42d40eafc21deffde3a5396b4f",
+        "file": "replays/regional_shangu_on_1-full-end.json"
+      }
+    },
+    {
+      "id": "access-ew-west-eb-on",
+      "status": "PASS",
+      "beforeStatus": "P0",
+      "before": {
+        "id": "access-ew-west-eb-on",
+        "cluster": "v91-ew-west",
+        "length": 112.44473878920873,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "v91-ew-0-a-6",
+              "end": "end"
+            },
+            "peers": [
+              "v91-ew-0-a-6",
+              "v91-ew-0-a-6-section"
+            ],
+            "sharedLength": 48,
+            "maxSharedDeltaY": 3.058895949453812,
+            "conflictRange": [
+              6,
+              48
+            ],
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.7596212618039163,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ew-eb-split-4-split-split-section-2",
+              "end": "start"
+            },
+            "peers": [
+              "ew-eb-split-4-split-split-section-2",
+              "ew-eb-split-4-split-split-section",
+              "ew-eb-split-4-split-split",
+              "ew-eb-split-4-split-split-split",
+              "ew-eb-split-4-split",
+              "ew-eb-split-3",
+              "ew-eb-split-4",
+              "ew-eb-split-3-split",
+              "ew-eb-split-5-split-split-section-section",
+              "ew-eb-split-3-split-split-4",
+              "ew-eb-split-5-split-split-section",
+              "ew-eb-split-5-split-split",
+              "ew-eb-split-5-split",
+              "ew-eb-split-5-split-2-split",
+              "ew-eb-split-5-split-2"
+            ],
+            "sharedLength": 53,
+            "maxSharedDeltaY": 3.6087772825396662,
+            "conflictRange": [
+              6,
+              53
+            ],
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.7022781152473305,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.11722443450962276,
+          "gradeBreaks": [],
+          "minRadius": 150.09580428019245,
+          "shortSegments": 0
+        },
+        "severity": "P0"
+      },
+      "after": {
+        "id": "access-ew-west-eb-on",
+        "cluster": "v91-ew-west",
+        "length": 281.92001772540993,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "v91-ew-0-a-6",
+              "end": "end"
+            },
+            "peers": [
+              "v91-ew-0-a-6",
+              "v91-ew-0-a-6-section"
+            ],
+            "sharedLength": 28,
+            "maxSharedDeltaY": 0.005,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.0866346891548633,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "ew-eb-split-3",
+              "end": "start"
+            },
+            "peers": [
+              "ew-eb-split-3",
+              "ew-eb-split-4-split-split-split",
+              "ew-eb-split-3-split",
+              "ew-eb-split-4-split-split-section",
+              "ew-eb-split-3-split-split-4",
+              "ew-eb-split-4-split-split-section-2",
+              "ew-eb-split-4-split-split",
+              "ew-eb-split-4-split",
+              "ew-eb-split-4",
+              "ew-eb-split-5-split-split-section-section",
+              "ew-eb-split-5-split-split-section",
+              "ew-eb-split-5-split-split",
+              "ew-eb-split-5-split",
+              "ew-eb-split-5-split-2-split",
+              "ew-eb-split-5-split-2",
+              "ew-eb-split-5",
+              "ew-eb-split-6-split",
+              "ew-eb-split-6"
+            ],
+            "sharedLength": 154,
+            "maxSharedDeltaY": 0.005000000000000782,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.06775964182394581,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.1199999999644471,
+          "gradeBreaks": [],
+          "minRadius": 500.3098752538222,
+          "shortSegments": 0
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 11.444738789208728,
+        "after": 99.92001772540993
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "v91-ew-0-a-6",
+              "end": "end"
+            },
+            "hostLocalStation": 35,
+            "position": {
+              "x": -760,
+              "y": 0,
+              "z": -102
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "v91-ew-0-a-6",
+              "end": "end"
+            },
+            "hostLocalStation": 35,
+            "position": {
+              "x": -760,
+              "y": 0,
+              "z": -102
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "ew-eb-split-4-split-split-section-2",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -649.8505104064134,
+              "y": 8,
+              "z": -122.59323379605631
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ew-eb-split-3",
+              "end": "start"
+            },
+            "hostLocalStation": 0,
+            "position": {
+              "x": -480,
+              "y": 8,
+              "z": -132.9836973281134
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "access-ew-west-eb-on",
+          "end": "start",
+          "incoming": "v91-ew-0-a-6",
+          "outgoing": "access-ew-west-eb-on",
+          "contextRoadCount": 77,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 22.675,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.3945186247048549,
+          "peakPitchRate": 0.1824579147151282,
+          "peakRollRate": 0.021117177826362625,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {},
+          "layers": {
+            "SAME_LAYER": 10888
+          },
+          "requiredLengthRange": [
+            0.2616664527251126,
+            0.3709488608485736
+          ],
+          "maxTrackingError": 0.055900414367504356,
+          "furthestStation": 142.07455878357652,
+          "joinStation": 35.046255149444974,
+          "completed": true,
+          "finalOwners": [
+            "access-ew-west-eb-on"
+          ],
+          "expectedTarget": "access-ew-west-eb-on",
+          "finalHeightError": 0.0135995652361105,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "access-ew-west-eb-on"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "27c65e826b26560a449f92b4b8fb8ca2539a5f2c825ecf7e5bf02a5c6d615a38",
+          "file": "replays/access-ew-west-eb-on-start.json"
+        },
+        {
+          "rampId": "access-ew-west-eb-on",
+          "end": "end",
+          "incoming": "access-ew-west-eb-on",
+          "outgoing": "ew-eb-split-3",
+          "contextRoadCount": 84,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.458333333333334,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24137574334068929,
+          "peakPitchRate": 0.1824564562657176,
+          "peakRollRate": 0.02409510549718024,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 1567
+          },
+          "layers": {
+            "SAME_LAYER": 5504
+          },
+          "requiredLengthRange": [
+            0.2613603069705851,
+            0.37126209838753443
+          ],
+          "maxTrackingError": 0.11343907932507541,
+          "furthestStation": 82.20516472234026,
+          "joinStation": 39.99999569847544,
+          "completed": true,
+          "finalOwners": [
+            "ew-eb-split-3"
+          ],
+          "expectedTarget": "ew-eb-split-3",
+          "finalHeightError": -0.003412808985912008,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "ew-eb-split-3",
+            "ew-eb-split-4-split-split-split",
+            "ew-eb-split-3-split",
+            "ew-eb-split-4-split-split-section",
+            "ew-eb-split-3-split-split-4",
+            "ew-eb-split-4-split-split-section-2",
+            "ew-eb-split-3-split-split-3",
+            "ew-eb-split-4-split-split",
+            "ew-eb-split-3-split-split-2",
+            "ew-eb-split-4-split",
+            "ew-eb-split-3-split-split",
+            "ew-eb-split-4",
+            "ew-eb-split-2",
+            "ew-eb-split-5-split-split-section-section",
+            "ew-eb-split-2-split",
+            "ew-eb-split-5-split-split-section",
+            "ew-eb-split-2-split-split",
+            "ew-eb-split-5-split-split",
+            "ew-eb-split-2-split-split-split-2",
+            "ew-eb-split-5-split",
+            "ew-eb-split-2-split-split-split",
+            "ew-eb-split-5-split-2-split",
+            "ew-eb-split",
+            "ew-eb-split-5-split-2",
+            "ew-eb-split-split-5",
+            "ew-eb-split-5",
+            "ew-eb-split-split-4",
+            "ew-eb-split-6-split",
+            "ew-eb-split-split-4-split-2",
+            "ew-eb-split-6",
+            "ew-eb-split-split-4-split-2-section",
+            "ew-eb",
+            "ew-eb-split-split-4-split",
+            "ew-eb-split-split-4-split-section",
+            "ew-eb-split-split-4-split-split",
+            "ew-eb-split-split-3",
+            "ew-eb-split-split-3-section-2",
+            "ew-eb-split-split-3-section",
+            "ew-eb-split-split-3-split",
+            "ew-eb-split-split-3-split-section",
+            "ew-eb-split-split-3-split-split",
+            "ew-eb-split-split-2",
+            "ew-eb-split-split-2-split",
+            "ew-eb-split-split-2-split-split",
+            "ew-eb-split-split-2-split-split-split",
+            "ew-eb-split-split"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "d3a880da134c1379405516030e8984c745fc9d7b407515b32b2c1fcb8fde2bf7",
+          "file": "replays/access-ew-west-eb-on-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "access-ew-west-eb-on",
+        "end": "end",
+        "incoming": "access-ew-west-eb-on",
+        "outgoing": "ew-eb-split-3",
+        "contextRoadCount": 86,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 47.44166666666666,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.39325905802312655,
+        "peakPitchRate": 0.18303767460371564,
+        "peakRollRate": 0.02391706702153759,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "outside-suspension-reach": 2528
+        },
+        "layers": {
+          "SAME_LAYER": 22776
+        },
+        "requiredLengthRange": [
+          0.26117333323089503,
+          0.3715689197341873
+        ],
+        "maxTrackingError": 0.11330188513045272,
+        "furthestStation": 324.1624416324192,
+        "joinStation": 281.92000051971576,
+        "completed": true,
+        "finalOwners": [
+          "ew-eb-split-3"
+        ],
+        "expectedTarget": "ew-eb-split-3",
+        "finalHeightError": -0.0034076928958750585,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "ew-eb-split-3",
+          "ew-eb-split-4-split-split-split",
+          "ew-eb-split-3-split",
+          "ew-eb-split-4-split-split-section",
+          "ew-eb-split-3-split-split-4",
+          "ew-eb-split-4-split-split-section-2",
+          "ew-eb-split-3-split-split-3",
+          "ew-eb-split-4-split-split",
+          "ew-eb-split-3-split-split-2",
+          "ew-eb-split-4-split",
+          "ew-eb-split-3-split-split",
+          "ew-eb-split-4",
+          "ew-eb-split-2",
+          "ew-eb-split-5-split-split-section-section",
+          "ew-eb-split-2-split",
+          "ew-eb-split-5-split-split-section",
+          "ew-eb-split-2-split-split",
+          "ew-eb-split-5-split-split",
+          "ew-eb-split-2-split-split-split-2",
+          "ew-eb-split-5-split",
+          "ew-eb-split-2-split-split-split",
+          "ew-eb-split-5-split-2-split",
+          "ew-eb-split",
+          "ew-eb-split-5-split-2",
+          "ew-eb-split-split-5",
+          "ew-eb-split-5",
+          "ew-eb-split-split-4",
+          "ew-eb-split-6-split",
+          "ew-eb-split-split-4-split-2",
+          "ew-eb-split-6",
+          "ew-eb-split-split-4-split-2-section",
+          "ew-eb",
+          "ew-eb-split-split-4-split",
+          "ew-eb-split-split-4-split-section",
+          "ew-eb-split-split-4-split-split",
+          "ew-eb-split-split-3",
+          "ew-eb-split-split-3-section-2",
+          "ew-eb-split-split-3-section",
+          "ew-eb-split-split-3-split",
+          "ew-eb-split-split-3-split-section",
+          "ew-eb-split-split-3-split-split",
+          "ew-eb-split-split-2",
+          "ew-eb-split-split-2-split",
+          "ew-eb-split-split-2-split-split",
+          "ew-eb-split-split-2-split-split-split",
+          "ew-eb-split-split"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "03da4801537c4a713935aa10695145e0f72b7b44a2c6909cfb47cc3d9c2c948d",
+        "file": "replays/access-ew-west-eb-on-full-end.json"
+      }
+    },
+    {
+      "id": "access-ew-west-wb-off",
+      "status": "PASS",
+      "beforeStatus": "P0",
+      "before": {
+        "id": "access-ew-west-wb-off",
+        "cluster": "v91-ew-west",
+        "length": 126.49108385887473,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-4-section",
+              "end": "end"
+            },
+            "peers": [
+              "ew-wb-split-split-split-split-4-section",
+              "ew-wb-split-split-split-split-4",
+              "ew-wb-split-split-split-split-4-section-section",
+              "ew-wb-split-split-split",
+              "ew-wb-split-split-split-split-3",
+              "ew-wb-split-split-split-2-v6",
+              "ew-wb-split-split-split-split-3-split",
+              "ew-wb-split-split-split-2",
+              "ew-wb-split-split-split-split-2",
+              "ew-wb-split-split-split-split-2-section-2",
+              "ew-wb-split-split-split-split-2-section",
+              "ew-wb-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split",
+              "ew-wb-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split-split-2-split"
+            ],
+            "sharedLength": 33,
+            "maxSharedDeltaY": 1.3073323362905374,
+            "conflictRange": [
+              6,
+              33
+            ],
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 1.690864932652739,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "v91-ew-0-b-6",
+              "end": "end"
+            },
+            "peers": [
+              "v91-ew-0-b-6",
+              "v91-ew-0-b-6-section"
+            ],
+            "sharedLength": 28,
+            "maxSharedDeltaY": 9.70678345862452e-16,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": -1.1579279202145187e-16,
+            "tangentDegrees": 1.6687792522230185,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.11788012246964338,
+          "gradeBreaks": [],
+          "minRadius": 49.50170617068547,
+          "shortSegments": 78
+        },
+        "severity": "P0"
+      },
+      "after": {
+        "id": "access-ew-west-wb-off",
+        "cluster": "v91-ew-west",
+        "length": 284.3699141038193,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ew-wb-split-split-split-2-v6",
+              "end": "end"
+            },
+            "peers": [
+              "ew-wb-split-split-split-2-v6",
+              "ew-wb-split-split-split",
+              "ew-wb-split-split-split-2",
+              "ew-wb-split-split-split-split-4",
+              "ew-wb-split-split-split-3-split",
+              "ew-wb-split-split-split-split-4-section",
+              "ew-wb-split-split-split-3",
+              "ew-wb-split-split-split-split-4-section-section",
+              "ew-wb-split-split-split-split-3",
+              "ew-wb-split-split-split-split-3-split",
+              "ew-wb-split-split-split-split-2",
+              "ew-wb-split-split-split-split-2-section-2",
+              "ew-wb-split-split-split-split-2-section",
+              "ew-wb-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split",
+              "ew-wb-split-split-split-split-split-2",
+              "ew-wb-split-split-split-split-split-2-split",
+              "ew-wb-split-split-split-split-split",
+              "ew-wb-split-split-split-split-split-split-2"
+            ],
+            "sharedLength": 74,
+            "maxSharedDeltaY": 0.005000000000000782,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.18162161696382076,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "v91-ew-0-b-6",
+              "end": "end"
+            },
+            "peers": [
+              "v91-ew-0-b-6",
+              "v91-ew-0-b-6-section"
+            ],
+            "sharedLength": 67,
+            "maxSharedDeltaY": 0.005,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.16370996163407345,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.09041141218132441,
+          "gradeBreaks": [],
+          "minRadius": 238.4145703462065,
+          "shortSegments": 0
+        },
+        "severity": "PASS"
+      },
+      "independentLength": {
+        "before": 65.49108385887473,
+        "after": 143.36991410381933
+      },
+      "attachments": [
+        {
+          "end": "start",
+          "before": {
+            "host": {
+              "roadId": "ew-wb-split-split-split-split-4-section",
+              "end": "end"
+            },
+            "hostLocalStation": 40.10333595867846,
+            "position": {
+              "x": -649.8590392284631,
+              "y": 8,
+              "z": -143.7452429475302
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "ew-wb-split-split-split-2-v6",
+              "end": "end"
+            },
+            "hostLocalStation": 22.889806146491942,
+            "position": {
+              "x": -480,
+              "y": 8,
+              "z": -153.79665511252665
+            }
+          }
+        },
+        {
+          "end": "end",
+          "before": {
+            "host": {
+              "roadId": "v91-ew-0-b-6",
+              "end": "end"
+            },
+            "hostLocalStation": 35,
+            "position": {
+              "x": -760,
+              "y": -1.1579279202145187e-16,
+              "z": -198
+            }
+          },
+          "after": {
+            "host": {
+              "roadId": "v91-ew-0-b-6",
+              "end": "end"
+            },
+            "hostLocalStation": 35,
+            "position": {
+              "x": -760,
+              "y": 0,
+              "z": -198
+            }
+          }
+        }
+      ],
+      "replays": [
+        {
+          "rampId": "access-ew-west-wb-off",
+          "end": "start",
+          "incoming": "ew-wb-split-split-split-2-v6",
+          "outgoing": "access-ew-west-wb-off",
+          "contextRoadCount": 90,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 17.566666666666666,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.241354770342783,
+          "peakPitchRate": 0.18245791471509515,
+          "peakRollRate": 0.026316416781213648,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 2529
+          },
+          "layers": {
+            "SAME_LAYER": 8436
+          },
+          "requiredLengthRange": [
+            0.2616664527251061,
+            0.3709488608485778
+          ],
+          "maxTrackingError": 0.11608333525769542,
+          "furthestStation": 130.07086656657538,
+          "joinStation": 23.022438528465727,
+          "completed": true,
+          "finalOwners": [
+            "access-ew-west-wb-off"
+          ],
+          "expectedTarget": "access-ew-west-wb-off",
+          "finalHeightError": -0.016402474592543292,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "access-ew-west-wb-off"
+          ],
+          "ownershipPolicy": "ramp after physical separation",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "89a11eafcbd1e10f03fe8f1182d60e5e7e2bddc8207ae19a9d9911d7c9a561c7",
+          "file": "replays/access-ew-west-wb-off-start.json"
+        },
+        {
+          "rampId": "access-ew-west-wb-off",
+          "end": "end",
+          "incoming": "access-ew-west-wb-off",
+          "outgoing": "v91-ew-0-b-6",
+          "contextRoadCount": 68,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 10.116666666666667,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24207517925240987,
+          "peakPitchRate": 0.18244995550709625,
+          "peakRollRate": 0.012650980667356886,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {},
+          "layers": {
+            "SAME_LAYER": 4860
+          },
+          "requiredLengthRange": [
+            0.2609012376524966,
+            0.3717325162036366
+          ],
+          "maxTrackingError": 0.05437197205946361,
+          "furthestStation": 72.08918668845473,
+          "joinStation": 39.999973893892026,
+          "completed": true,
+          "finalOwners": [
+            "v91-ew-0-b-6"
+          ],
+          "expectedTarget": "v91-ew-0-b-6",
+          "finalHeightError": -0.0032160417823845354,
+          "targetFootprintCandidateObserved": true,
+          "targetOwnershipReached": true,
+          "acceptedTargetRoadIds": [
+            "v91-ew-0-b-6",
+            "v91-ew-0-b-6-section"
+          ],
+          "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "maxSeconds": 60,
+          "roadHash": "b285f80cc7dfd361c8046b680493cfd57192ff5613f8e299718a9b1fdf82a50d",
+          "file": "replays/access-ew-west-wb-off-end.json"
+        }
+      ],
+      "fullReplay": {
+        "rampId": "access-ew-west-wb-off",
+        "end": "end",
+        "incoming": "access-ew-west-wb-off",
+        "outgoing": "v91-ew-0-b-6",
+        "contextRoadCount": 99,
+        "vehicle": "roadSUV",
+        "dt": 0.008333333333333333,
+        "speedKph": 30,
+        "seconds": 40.40833333333333,
+        "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+        "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+        "stopReason": "route-end",
+        "peakAY": 0.245277411307542,
+        "peakPitchRate": 0.18242788532226037,
+        "peakRollRate": 0.013304314698615044,
+        "mechanicalImpulse": 0,
+        "minGrounded": 4,
+        "allAirTicks": 0,
+        "zeroCandidateSamples": 0,
+        "rejectedSamples": 0,
+        "supportRejections": 0,
+        "rejectionReasons": {},
+        "candidateRejections": {
+          "outside-suspension-reach": 2534
+        },
+        "layers": {
+          "SAME_LAYER": 19400
+        },
+        "requiredLengthRange": [
+          0.26056775066484494,
+          0.3720655412702026
+        ],
+        "maxTrackingError": 0.05395720935309265,
+        "furthestStation": 316.42238569653125,
+        "joinStation": 284.3698309545299,
+        "completed": true,
+        "finalOwners": [
+          "v91-ew-0-b-6"
+        ],
+        "expectedTarget": "v91-ew-0-b-6",
+        "finalHeightError": -0.003210249325343503,
+        "targetFootprintCandidateObserved": true,
+        "targetOwnershipReached": true,
+        "acceptedTargetRoadIds": [
+          "v91-ew-0-b-6",
+          "v91-ew-0-b-6-section"
+        ],
+        "ownershipPolicy": "explicitly linked receiving mainline/auxiliary family on the correct layer",
+        "collisionTicks": 0,
+        "maxCollisionDelta": 0,
+        "safetyInterventions": 0,
+        "maxSeconds": 60,
+        "roadHash": "5650b8ca3c0acb64178cfd98b550cdb4a545d579a2768cc3fbaac1423a9f3bdb",
+        "file": "replays/access-ew-west-wb-off-full-end.json"
+      }
+    }
+  ]
+}

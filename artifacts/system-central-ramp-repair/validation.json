@@ -1,0 +1,91 @@
+{
+  "geometry": {
+    "command": "node artifacts/system-central-ramp-repair/run.mjs --validate",
+    "exitCode": 0,
+    "passed": true,
+    "interfaces": 16,
+    "gradeBreaksAtLeast4pp": 0
+  },
+  "facilities": {
+    "command": "node artifacts/system-central-ramp-repair/run.mjs --facilities",
+    "exitCode": 0,
+    "passed": true,
+    "signsReprojected": 37,
+    "objectIds": [
+      "v6-lamps-806"
+    ],
+    "unsupportedPaint": 0,
+    "goreInTrafficLane": 0
+  },
+  "replays": {
+    "command": "node artifacts/system-central-ramp-repair/replay.mjs",
+    "exitCode": 0,
+    "passed": true,
+    "interfaces": 16,
+    "allGrounded": true,
+    "collisions": 0,
+    "supportRejections": 0,
+    "fullAirborne": 0,
+    "mechanicalImpulse": 0,
+    "safetyRecovery": 0
+  },
+  "firstBuild": {
+    "command": "pnpm run build -BasicValidation",
+    "launchCount": 1,
+    "exitCode": 0,
+    "published": true,
+    "startedAt": "2026-10-23T11:15:34.251Z",
+    "completedAt": "2026-10-23T11:16:06.271Z",
+    "log": "artifacts/system-central-ramp-repair/build.log",
+    "coreSelftestsSkippedByExplicitUserRequest": true
+  },
+  "distConsistency": {
+    "passed": true,
+    "source": "src/world/regional/regional-main.json",
+    "sourceHash": "e813aa68efb1bea4a26473f9d3f7e97e1f823b8e900becc2447f290717aa1d7e",
+    "runtime": "dist/assets/city-main.runtime-74009a1f4c04.json",
+    "runtimeHash": "74009a1f4c04ca21e754b9dc9adde8d875781d126a0c594b7b4bf584b2f3037b",
+    "version": 490,
+    "compared": [
+      "roads",
+      "roadLinks",
+      "connectionPorts",
+      "intersections",
+      "signs",
+      "objects"
+    ],
+    "applicationReferencesRuntime": [
+      "assets/city-alpha-Bfpwhuhz.js",
+      "assets/DrivingGame-CmDWrhgw.js"
+    ],
+    "secondBuildExplicitlyAuthorized": true,
+    "method": "Exact SHA-256 match against compileCityRuntimeData(source), including normal endpoint normalization"
+  },
+  "typecheck": {
+    "command": "pnpm run typecheck",
+    "exitCode": 0,
+    "passed": true
+  },
+  "build": {
+    "command": "pnpm run build -BasicValidation",
+    "launchCount": 2,
+    "thisInvocation": 1,
+    "extraBuildExplicitlyAuthorized": true,
+    "exitCode": 0,
+    "published": true,
+    "startedAt": "2026-10-23T11:24:10.179Z",
+    "completedAt": "2026-10-23T11:24:38.472Z",
+    "sourceHash": "e813aa68efb1bea4a26473f9d3f7e97e1f823b8e900becc2447f290717aa1d7e",
+    "log": "artifacts/system-central-ramp-repair/second-build.log",
+    "coreSelftestsSkippedByExplicitUserRequest": true
+  },
+  "notRun": [
+    "full core",
+    "all vehicles",
+    "editor full suite",
+    "other interchange audits",
+    "full map smoothness/median/facilities",
+    "long computer-use driving"
+  ],
+  "repairIterations": "Discarded infeasible fits and crossing-clearance regressions were not published. The first candidate replay found the existing v6-lamps-806 blocking E-to-N-right; final facility adaptation and all 16 replays pass. Marking checks initially found five unsupported gore triangles, eliminated by opt-in pavement clipping. One candidate file I/O attempt failed transiently and succeeded on retry. Post-build curvature review found a newly introduced 15.927m N-to-W-right S bend. A separately validated local refinement improved this to 37.847m; the user explicitly authorized one additional build, which succeeded and published the final candidate."
+}

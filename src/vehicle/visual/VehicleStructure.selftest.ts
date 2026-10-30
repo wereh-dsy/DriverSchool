@@ -54,6 +54,24 @@ export function runVehicleStructureSelfTest() {
             `${car.id}: dedicated cabin closure, steering anchors, visibility and optics`);
           continue;
         }
+        if(config.instrumentCluster.displayStyle==='su7-digital'||config.instrumentCluster.displayStyle==='jesko-digital'){
+          const screen=visual.root.getObjectByName(config.instrumentCluster.displayStyle==='su7-digital'?'SU7 driver display':'Jesko digital instrument face') as THREE.Mesh;
+          assert(!!screen,car.id+': independent live driver display');
+          const opaque:THREE.Mesh[]=[];
+          visual.root.traverse(o=>{if(o instanceof THREE.Mesh&&(Array.isArray(o.material)?o.material:[o.material]).every(m=>!m.transparent))opaque.push(o);});
+          const ray=new THREE.Raycaster();ray.layers.enableAll();const eye=new THREE.Vector3(...config.driverEyePosition);
+          screen.geometry.computeBoundingBox();const bounds=screen.geometry.boundingBox!;
+          for(const turn of [0,-.5,.5]){
+            visual.setSteeringWheelAngle(turn);visual.root.updateMatrixWorld(true);
+            for(const u of [.1,.3,.5,.7,.9])for(const v of [.15,.5,.85]){
+              const target=new THREE.Vector3(THREE.MathUtils.lerp(bounds.min.x,bounds.max.x,u),THREE.MathUtils.lerp(bounds.min.y,bounds.max.y,v),.0001).applyMatrix4(screen.matrixWorld);
+              ray.set(eye,target.clone().sub(eye).normalize());ray.far=target.distanceTo(eye)-.0005;
+              assert(ray.intersectObjects(opaque.filter(o=>o!==screen),false).length===0,car.id+': actual driver display visible through wheel');
+            }
+          }
+          assert(visual.wheelPivots.frontLeft.position.x<0&&visual.wheelPivots.frontRight.position.x>0,car.id+': independent front wheel anchors');
+          continue;
+        }
         const column = visual.root.getObjectByName('Steering column') as THREE.Mesh<THREE.CylinderGeometry>;
         assert(column !== undefined, `${car.id}: column exists`);
         const ends = [-1, 1].map(sign => new THREE.Vector3(0, sign * column.geometry.parameters.height / 2, 0).applyMatrix4(column.matrixWorld));
@@ -301,12 +319,13 @@ export function runVehicleStructureSelfTest() {
               assert(view.valid && view.worldNormal.dot(visual.getMirrorWorldTransform(side).normal) > .999999,
                 `${car.id}/${side}: reflection follows the actual adjusted glass`);
               assert(mirrors.getTexture(side) === view.texture, `${car.id}/${side}: preview shares the reflection target`);
+              housing.geometry.computeBoundingBox();const housingBounds=housing.geometry.boundingBox!;
               const inverse = housing.matrixWorld.clone().invert();
               for (const x of [-size[0] * .5, size[0] * .5]) for (const y of [-size[1] * .5, size[1] * .5]) {
                 const p = new THREE.Vector3(x, y, 0).applyMatrix4(glass.matrixWorld).applyMatrix4(inverse);
-                assert(Math.abs(p.x) < housing.geometry.parameters.width * .5 &&
-                  Math.abs(p.y) < housing.geometry.parameters.height * .5 &&
-                  p.z > -housing.geometry.parameters.depth * .5 + .002,
+                assert(p.x>housingBounds.min.x&&p.x<housingBounds.max.x&&
+                  p.y>housingBounds.min.y&&p.y<housingBounds.max.y&&
+                  p.z > housingBounds.min.z+.002,
                   `${car.id}/${side}: adjustable glass clears housing sides/back`);
               }
             }

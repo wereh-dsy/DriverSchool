@@ -1,4 +1,4 @@
-import { INTERSECTION_LANES, PREFAB_IDS, ROAD_LANES, type CityMapData, type CityPoint, type RoadEndpoint } from './CityMapData';
+import { INTERSECTION_LANES, PREFAB_IDS, ROAD_LANES, type CityMapData, type CityPoint, type CityRoad, type RoadEndpoint } from './CityMapData';
 import { directionalPortLabel, portsFor, roadPoints } from './geometry';
 import { ROAD_STYLES } from './RoadStyles';
 import { ROAD_CROSS_SECTIONS } from './RoadCrossSection';
@@ -23,6 +23,10 @@ export function validateMap(value: unknown): MapValidation {
   if (!Number.isInteger(m.version) || m.version < 1) issue('version.invalid', 'version', 'Expected positive integer.');
   if (m.schemaVersion !== undefined && ![1, 2].includes(m.schemaVersion)) issue('schema.invalid', 'schemaVersion', 'Supported schema versions: 1, 2.');
   if (!finite(m.sectorSize) || m.sectorSize < 50 || m.sectorSize > 2000) issue('sector.invalid', 'sectorSize', 'Expected 50–2000 metres.');
+  if(m.regional?.coast){const c=m.regional.coast;
+    if(![c.minX,c.maxX,c.seaLevel,c.landHeight,c.transitionWidth].every(finite)||c.minX>=c.maxX||c.transitionWidth<100||c.transitionWidth>5000||c.seaLevel<-40||c.seaLevel>50||c.landHeight<=c.seaLevel||c.landHeight>100||!Array.isArray(c.shoreline)||c.shoreline.length<2||c.shoreline.some((p,i)=>!p||!finite(p.x)||!finite(p.z)||i>0&&p.x<=c.shoreline[i-1]!.x)||c.shoreline[0]?.x!==c.minX||c.shoreline.at(-1)?.x!==c.maxX)
+      issue('coast.invalid','regional.coast','Coast requires ordered finite shoreline knots, matching X limits and a 100–5000m shore transition.');
+  }
   const b = m.bounds;
   if (!b || ![b.minX, b.maxX, b.minZ, b.maxZ].every(finite) || b.minX >= b.maxX || b.minZ >= b.maxZ || b.maxX - b.minX > 200000 || b.maxZ - b.minZ > 200000) issue('bounds.invalid', 'bounds', 'Finite ordered bounds, at most 200km per axis, required.');
   for (const key of ['roads', 'intersections', 'objects'] as const) if (!Array.isArray(m[key])) issue('array.required', key, 'Expected array.');
@@ -58,9 +62,11 @@ export function validateMap(value: unknown): MapValidation {
     if (r.shoulders && ![r.shoulders.left, r.shoulders.right].every(v=>finite(v)&&v>=0&&v<=5)) issue('shoulders.invalid',path,'Paved shoulder widths must be 0–5m.');
     if (r.structure?.barrierOffset !== undefined && (!finite(r.structure.barrierOffset)||r.structure.barrierOffset<0||r.structure.barrierOffset>2)) issue('barrier.offset',path,'Barrier offset must be 0–2m outside pavement.');
     if (r.gore && (typeof r.gore.start!=='boolean'||typeof r.gore.end!=='boolean'||!finite(r.gore.length)||r.gore.length<10||r.gore.length>300)) issue('gore.invalid',path,'Gore needs boolean endpoints and 10–300m length.');
+    if (r.gore?.clipToPavement !== undefined && typeof r.gore.clipToPavement !== 'boolean') issue('gore.invalid',path,'Gore pavement clipping must be boolean.');
     const s = r.structure;
     if(s&&[s.barrierStyle,s.medianBarrierStyle].some(style=>style!==undefined&&!['metal','concrete'].includes(style)))issue('barrier.style',path,'Expected metal or concrete barriers.');
     if (s?.enclosure && (!['tunnel','underpass','cutting'].includes(s.enclosure.kind) || !finite(s.enclosure.clearance) || s.enclosure.clearance < 5 || s.enclosure.clearance > 10)) issue('enclosure.invalid',path,'Enclosed roads require a known kind and 5–10m clear height.');
+    if (s?.enclosure?.branchOpenings !== undefined && (!Array.isArray(s.enclosure.branchOpenings) || s.enclosure.branchOpenings.some((id:unknown)=>typeof id!=='string'||id===r.id||!m.roads.some((road:CityRoad)=>road.id===id)))) issue('enclosure.branchOpenings',path,'Tunnel branch openings must reference other existing roads.');
     if (s && (s.pierSpacing !== undefined && (!finite(s.pierSpacing) || s.pierSpacing < 10 || s.pierSpacing > 100) || s.pierStyle !== undefined && !['round', 'rectangular'].includes(s.pierStyle) || s.barrierEnabled !== undefined && typeof s.barrierEnabled !== 'boolean' || s.piersEnabled !== undefined && typeof s.piersEnabled !== 'boolean')) issue('structure.invalid', path, 'Pier spacing 10–100m, style round/rectangular, flags boolean.');
     if (!Array.isArray(r.centerline) || r.centerline.length < 2 || !r.centerline.every(point)) { issue('elevation.node', path, 'Two finite {x,y?,z} nodes required; Y range -50–100m.'); continue; }
     const separation = (a: CityPoint, b: CityPoint) => Math.hypot(a.x - b.x, a.z - b.z);

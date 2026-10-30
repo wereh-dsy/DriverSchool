@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+const dir='artifacts/remaining-interchange-ramp-repair/',read=f=>JSON.parse(fs.readFileSync(f,'utf8')),hash=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex'),guard=read(dir+'scope-guard.json'),build=read(dir+'build-result.json');
+assert.equal(build.launchCount,1);assert.equal(build.exitCode,0);assert(build.published);
+assert.equal(hash('src/world/regional/regional-main.json'),guard.candidateHash);assert.equal(build.sourceHash,guard.candidateHash);
+const file='dist/'+guard.expectedRuntimeAsset,runtime=read(file),manifest=read('dist/.vite/manifest.json');assert.equal(hash(file),guard.compiledRuntimeHash);assert.equal(runtime.map.version,491);
+const references=Object.values(manifest).filter(e=>e.file.endsWith('.js')&&fs.readFileSync('dist/'+e.file,'utf8').includes(path.basename(file))).map(e=>e.file);assert(references.length>0);
+fs.writeFileSync(dir+'dist-consistency.json',JSON.stringify({passed:true,sourceHash:guard.candidateHash,runtime:file,runtimeHash:hash(file),exactMatchWithNormalCompiler:true,applicationReferencesRuntime:references,version:runtime.map.version,buildLaunchCount:1},null,2)+'\n');
+console.log(JSON.stringify({passed:true,version:491,runtime:file,buildLaunchCount:1}));

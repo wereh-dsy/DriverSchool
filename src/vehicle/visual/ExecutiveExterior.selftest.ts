@@ -43,7 +43,8 @@ export function runExecutiveExteriorSelfTest() {
     assert(wheelMeshes === 16, 'four complete wheels use sixteen meshes instead of sixty-four');
     const bounds = visual.getVisualBodyBounds(), size = bounds.getSize(new T.Vector3());
     assert(Math.abs(size.x - config.dimensions.width) < .02 && Math.abs(size.z - config.dimensions.length) < .02 &&
-      Math.abs(bounds.max.y - config.dimensions.height) < .02, 'exterior retains the collision envelope');
+      Math.abs(bounds.max.y + (config.staticBodyOffsetY ?? 0) - 1.475) < .002,
+    'loaded C8 roof is 1.475m while length/width retain the declared collision envelope');
     return map;
   };
   try {

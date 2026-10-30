@@ -8,6 +8,8 @@ import type { CabinAcousticState } from './VehicleCabinAcoustics';
 
 /** Additional telemetry used by the synthesized vehicle and road-noise layers. */
 export interface EngineAudioUpdateOptions {
+  boostPressureBar?: number;
+  shiftInProgress?: boolean;
   /** Vehicle speed in metres per second. */
   vehicleSpeed?: number;
   /** Estimated engine load from 0 (overrun) to 1 (full load). */
@@ -113,7 +115,9 @@ export const calculateEngineAudioMix = (
       (1 - (profile.overrunPresence ?? .55))
     : 1;
   const turbo = profile
-    ? (profile.turboPresence ?? 0) * smoothStep((load - .32) / .68) * smoothStep((safeRpm - 1_100) / 3_200)
+    ? (profile.turboPresence ?? 0) * (profile.physicalTurbo
+      ? smoothStep((options.boostPressureBar ?? 0) / Math.max(.1, (options.engineCharacter?.turbo?.maxPressureRatio ?? 2) - 1))
+      : smoothStep((load - .32) / .68)) * smoothStep((safeRpm - 1_100) / 3_200)
     : 0;
   const gear = typeof options.gear === 'number' ? Math.abs(options.gear)
     : Math.abs(Number(String(options.gear ?? '').replace(/[^\d.-]/g, '')));
@@ -121,10 +125,10 @@ export const calculateEngineAudioMix = (
     ? 1 + (profile.gearPresence ?? 0) * (1 - clamp((gear - 1) / 7)) : 1;
   const acceleration = profile
     ? clamp(options.accelerationLoad ?? 0, -1, 1) * (profile.accelerationPresence ?? 0) : 0;
-  const drivetrainBody = gearPresence * (1 + acceleration);
+  const drivetrainBody = gearPresence * (1 + acceleration) * (profile?.flatPlaneV8 && options.shiftInProgress ? .88 : 1);
   const character = options.engineCharacter;
-  const bodyPresence = character?.soundProfile === 'full-bodied' ? 1.45 : character?.cylinderCount === 6 ? 1.15 : 1;
-  const upperPresence = character?.soundProfile === 'full-bodied' ? .55 : character?.cylinderCount === 6 ? .8 : 1;
+  const bodyPresence = profile?.flatPlaneV8 ? 1.05 : character?.soundProfile === 'full-bodied' ? 1.45 : character?.cylinderCount === 6 ? 1.15 : 1;
+  const upperPresence = profile?.flatPlaneV8 ? 1.2 : character?.soundProfile === 'full-bodied' ? .55 : character?.cylinderCount === 6 ? .8 : 1;
   return {
     // Four-stroke firing rate: cylinder count / two crank revolutions.
     firingHz: clamp(safeRpm * (options.engineCharacter?.cylinderCount ?? 4) / 120, 18, 850),
@@ -162,6 +166,11 @@ export const calculateEngineAudioMix = (
  * intentionally compatible with the original implementation.
  */
 export class EngineAudio {
+  private menuDucked = false;
+  public setMenuDucked(ducked: boolean): void {
+    this.menuDucked = ducked;
+    if (this.context && this.master) this.master.gain.setTargetAtTime(ducked ? .10 : .58, this.context.currentTime, .12);
+  }
   private context: AudioContext | null = null;
   private master: GainNode | null = null;
   private compressor: DynamicsCompressorNode | null = null;
@@ -325,7 +334,7 @@ export class EngineAudio {
     this.engineBus?.gain.setTargetAtTime(options.ignitionPhase === 'STOPPING' && this.profile
       ? .42 * clamp(rpm / 750) : .70 * (this.profile?.engineBusLevel ?? 1), now, this.profile ? .055 : .14);
     this.exhaustPulse?.frequency.setTargetAtTime(mix.firingHz, now, 0.040);
-    this.exhaustBody?.frequency.setTargetAtTime(mix.firingHz * 0.502, now, 0.052);
+    this.exhaustBody?.frequency.setTargetAtTime(mix.firingHz * (this.profile?.flatPlaneV8 ? 1.003 : .502), now, 0.052);
     this.upperExhaust?.frequency.setTargetAtTime(mix.firingHz * 2.012, now, 0.038);
     this.mechanical?.frequency.setTargetAtTime(Math.max(105, mix.firingHz * 5.96), now, 0.055);
     this.roughnessLfo?.frequency.setTargetAtTime(5.3 + clamp(rpm / 6_500) * 2.2, now, 0.18);
@@ -525,7 +534,7 @@ export class EngineAudio {
     const now = context.currentTime;
 
     this.master = context.createGain();
-    this.master.gain.setValueAtTime(0.58, now);
+    this.master.gain.setValueAtTime(this.menuDucked ? .10 : .58, now);
     this.compressor = context.createDynamicsCompressor();
     this.compressor.threshold.value = -22;
     this.compressor.knee.value = 16;

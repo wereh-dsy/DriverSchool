@@ -12,7 +12,7 @@ export class Minimap {
     this.localMap=map;this.root.classList.toggle('navigation-enabled',!!map);
     this.root.setAttribute('role',map?'button':'img');this.root.tabIndex=map?0:-1;
     this.root.setAttribute('aria-label',map?'区域小地图，点击展开规划导航':'道路小地图');
-    this.root.querySelector('header')!.textContent=map?'区域地图 · 点击展开 · F10':'道路地图 · N ↑';
+    this.root.querySelector('header')!.textContent='N ↑';
   }
   private readonly root = document.createElement('section');
   private readonly canvas = document.createElement('canvas');
@@ -28,7 +28,7 @@ export class Minimap {
     this.root.className = 'hud-minimap';
     this.root.setAttribute('aria-label', '科目三小地图：道路、路口和车辆朝向');
     const label = document.createElement('header');
-    label.textContent = '道路地图 · N ↑';
+    label.textContent = 'N ↑';
     this.canvas.width = this.canvas.height = this.roadLayer.width = this.roadLayer.height = this.size * 2;
     this.drawing = this.canvas.getContext('2d');
     this.drawing?.scale(2, 2);
@@ -65,8 +65,8 @@ export class Minimap {
     if (this.elapsed < 1 / 20) return;
     this.elapsed = 0;
     const ctx = this.drawing;
-    if(this.localMap){this.localMap.draw(ctx,{x:0,y:0,width:this.size,height:this.size},x,z,yaw,650);return;}
     ctx.clearRect(0, 0, this.size, this.size);
+    if(this.localMap){this.localMap.draw(ctx,{x:0,y:0,width:this.size,height:this.size},x,z,yaw,650,'rgba(14,20,24,.72)');return;}
     ctx.drawImage(this.roadLayer, 0, 0, this.size, this.size);
     const point = this.mapPoint(x, z);
     ctx.save();

@@ -2,6 +2,9 @@ import type { VehicleCabinAcousticsProfile } from './VehicleCabinAcoustics';
 
 /** Opt-in timbre and cabin calibration; legacy cars keep their existing sound. */
 export interface VehicleAudioProfile {
+  /** Even-bank V8 character and physical turbo pressure, opt-in only. */
+  readonly flatPlaneV8?: boolean;
+  readonly physicalTurbo?: boolean;
   readonly loadSource?: 'transmission' | 'combustion-and-transmission';
   readonly pulseHarmonics: readonly number[];
   readonly exhaustCutoff: number;

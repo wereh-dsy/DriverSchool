@@ -53,6 +53,9 @@ export interface DriverAccessVisualConfig {
   readonly doorRearZ: number;
   /** Negative for the left-hand door (opens outward, -X). */
   readonly openAngleRadians: number;
+  /** Optional compound hinge pose for lifting doors; ordinary doors keep yaw. */
+  readonly openRotationRadians?: EulerTuple;
+  readonly openPositionOffset?: Vector3Tuple;
   readonly openSeconds: number;
   readonly closeSeconds: number;
   /** Seconds for the glass to travel from closed to fully open. */
@@ -156,7 +159,7 @@ export interface VehicleVisualConfig {
   };
   readonly body: {
     /** Optional independent exterior builder; presentation only. */
-    readonly exterior?: 'tesla-model-3';
+    readonly exterior?: 'tesla-model-3' | 'xiaomi-su7';
     /** Underfloor Y in the authored frame, before the shared chassis transform. */
     readonly groundClearance: number;
     /** Loaded tyre-to-arch gap; stance integration reserves compression travel. */
@@ -165,7 +168,7 @@ export interface VehicleVisualConfig {
     readonly wheelArchCenterY?: number;
     readonly profile: 'sedan' | 'sport-coupe' | 'suv' | 'hatchback';
     /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
-    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback' | 'bmw-g38' | 'golf-gti' | 'mercedes-v214';
+    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback' | 'bmw-g38' | 'golf-gti' | 'mercedes-v214' | 'jesko-attack';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;

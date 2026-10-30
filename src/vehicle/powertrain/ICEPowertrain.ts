@@ -1,6 +1,7 @@
 import type { VehicleControlMode } from '../../input/VehicleInputState';
 import type { DriveModeCalibration, DriveSelector, Gear, VehiclePhysicsConfig } from '../config';
 import { MildHybridSystem } from './MildHybridSystem';
+import { ICEHeatState } from './ICEHeatState';
 import { Engine } from '../physics/Engine';
 import { FuelSystem } from '../physics/FuelSystem';
 import { Clutch } from '../physics/Clutch';
@@ -18,6 +19,7 @@ export interface ICEPowertrainSnapshot extends PowertrainSnapshot { ice: ICEVehi
 
 /** Adapter for the existing ICE implementation; integration order is unchanged. */
 export class ICEPowertrain implements Powertrain {
+  public readonly thermal?: ICEHeatState;
   public readonly mildHybrid?: MildHybridSystem;
   private shaftContext?: TransmissionContext;
   private pendingDt = 0;
@@ -42,6 +44,7 @@ export class ICEPowertrain implements Powertrain {
   private readonly output: PowertrainOutput = { drivenWheelTorque: 0, inputLoadTorque: 0, couplingSlipAngularVelocity: 0, parkingLocked: false };
   public constructor(public readonly config: VehiclePhysicsConfig) {
     this.engine = new Engine(config.engine);
+    if (config.engine.thermal) this.thermal = new ICEHeatState(config.engine.thermal);
     if (config.mildHybrid) this.mildHybrid = new MildHybridSystem(config.mildHybrid);
     this.fuel = new FuelSystem(config.fuel, config.engine);
     this.clutch = new Clutch(config.clutch);
@@ -69,6 +72,7 @@ export class ICEPowertrain implements Powertrain {
   private synchronizeFuel(): void { this.engine.setFuelAvailable(this.fuel.hasFuel); }
   public setCurrentFuelL(litres: number): void { this.fuel.setCurrentFuelL(litres); this.synchronizeFuel(); }
   public reset(state: PowertrainInitialState, recovering = false): void {
+    if (!recovering) this.thermal?.reset();
     this.mildHybrid?.reset(state.ice?.mildHybridSOC);
     this.pendingDt = 0;
     this.startStopState = this.startStopEnabled ? 'READY' : 'DISABLED';
@@ -208,7 +212,7 @@ export class ICEPowertrain implements Powertrain {
       cutThrottle: false,
     };
     const isManual = this.transmission.type === 'MANUAL';
-    this.engine.setTorqueLimitFactor(context.torqueLimitFactor);
+    this.engine.setTorqueLimitFactor(context.torqueLimitFactor * (this.thermal?.torqueFactor ?? 1));
     let automaticThrottleScale = 1, automaticMinimumThrottle = 0;
     if (!isManual) {
       const preparation = this.transmission.prepare({
@@ -320,6 +324,9 @@ export class ICEPowertrain implements Powertrain {
     return this.output.drivenWheelTorque;
   }
   public finishStep(speed: number): void {
+    if (this.pendingDt > 0) this.thermal?.update(this.pendingDt,
+      (this.engine.lastTorqueSample?.combustionTorque ?? 0) * this.engine.angularVelocity,
+      speed, this.config.ambientTemperature ?? 20);
     if (this.pendingDt > 0) this.mildHybrid?.finish(this.pendingDt, this.engine.angularVelocity, speed);
     this.pendingDt = 0;
     this.upshiftAdvisor.update({
@@ -351,11 +358,12 @@ export class ICEPowertrain implements Powertrain {
   }
   public getSnapshot(): ICEPowertrainSnapshot {
     const upshift = this.upshiftAdvisor.getSample(), transmission = this.transmission.getSnapshot();
-    const automaticEngagement = transmission.dct === undefined ? 0 : transmission.dct.clutchAEngagement + transmission.dct.clutchBEngagement;
+    const automaticEngagement = transmission.couplingEngagement ?? (transmission.dct === undefined ? 0 : transmission.dct.clutchAEngagement + transmission.dct.clutchBEngagement);
     return { kind: 'ICE', vehicleOperational: this.vehicleOperational, driveAvailable: this.driveAvailable,
       inputShaftAngularVelocity: this.torqueSource.shaftAngularVelocity, sourceInertia: this.torqueSource.rotationalInertia,
       availableDriveTorque: this.torqueSource.availableDriveTorque, transmission,
       ice: {
+        thermal: this.thermal ? { temperatureC: this.thermal.temperatureC, torqueFactor: this.thermal.torqueFactor } : undefined,
         mildHybrid: this.mildHybrid?.getSnapshot(),
         startStop: { supported: this.config.startStop !== undefined && this.transmission.type !== 'MANUAL',
           enabled: this.startStopEnabled, state: this.startStopState },
@@ -386,7 +394,7 @@ export class ICEPowertrain implements Powertrain {
   public getShiftGear(direction: -1 | 1): Gear { return direction > 0 ? this.gearbox.getShiftUpGear() : this.gearbox.getShiftDownGear(); }
   public applyDriveMode(calibration: DriveModeCalibration): void {
     this.config.engine.throttleResponse = this.config.engine.throttleResponseRate = calibration.throttleResponse;
-    const strategy = this.config.transmission.dct?.shiftStrategy ?? this.config.transmission.automatic?.shiftStrategy;
+    const strategy = this.config.transmission.lst?.shiftStrategy ?? this.config.transmission.dct?.shiftStrategy ?? this.config.transmission.automatic?.shiftStrategy;
     if (strategy) Object.assign(strategy, calibration.shiftStrategy);
     if (this.config.transmission.dct && calibration.dctShiftTime !== undefined)
       this.config.transmission.shiftTime = calibration.dctShiftTime;

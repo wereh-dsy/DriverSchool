@@ -31,7 +31,7 @@ export function runFerrari458VisualSelfTest() {
     visual.root.updateMatrixWorld(true);
     const size = visual.getVisualBodyBounds().getSize(new THREE.Vector3());
     assert(size.x <= config.dimensions.width + .02 && size.z <= config.dimensions.length + .02 &&
-      size.y <= config.dimensions.height + .04, 'body and lighting stay within declared collision envelope');
+      size.y <= config.dimensions.height + .04, `body and lighting stay within declared collision envelope (${size.toArray()})`);
     assert(config.body.design === 'mid-supercar' && config.body.roofCenterZ < 0 && config.body.trunkLength > config.body.hoodLength, 'cab-forward mid-engine proportions');
     assert(visual.root.getObjectByName('Mid-engine glazed engine cover') !== undefined &&
       visual.root.getObjectByName('Mid-engine side intake') !== undefined, 'independent engine-bay geometry');

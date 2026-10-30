@@ -127,6 +127,19 @@ export function createDrivingGround(id: DrivingGroundId, resourceTiming?: CityRe
   return ground;
 }
 
+/** Async play entry; synchronous authoring/selftest APIs retain their exact output. */
+export async function createDrivingGroundAsync(id: DrivingGroundId, timing?: CityResourceTiming): Promise<DrivingGround> {
+  if (id !== 'city-main') return createDrivingGround(id, timing);
+  const runtime = cityMainRuntime();
+  const ground = new CityGround(runtime.map, { runtime, deferred: true,
+    spawnId: typeof location === 'undefined' ? undefined : new URLSearchParams(location.search).get('regionalSpawn') ?? undefined });
+  ground.resourceTiming = timing;
+  try { await ground.prepare(); } catch (error) { ground.dispose(); throw error; }
+  const descriptor = getDrivingGroundDescriptor(id);
+  Object.defineProperty(ground, 'metadata', {value: Object.freeze({...ground.metadata, id, displayName:descriptor.displayName, description:descriptor.description})});
+  return ground;
+}
+
 /** Existing URL shortcuts and saved IDs share the same catalog resolution. */
 export function getInitialDrivingGroundId(storedId: string | null, search: string): DrivingGroundId {
   const params = new URLSearchParams(search);

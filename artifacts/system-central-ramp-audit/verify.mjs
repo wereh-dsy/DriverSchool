@@ -1,0 +1,35 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+const dir='artifacts/system-central-ramp-audit/';
+const read=f=>JSON.parse(fs.readFileSync(dir+f,'utf8'));
+const required=['REPORT.md','ramp-inventory.json','connection-audit.json','elevation-audit.json','pavement-support-audit.json','runtime-short-replay.json','facility-followup.json'];
+for(const f of required)assert(fs.existsSync(dir+f),`Missing ${f}`);
+for(const f of fs.readdirSync(dir).filter(f=>f.endsWith('.json')))read(f);
+const inv=read('ramp-inventory.json'),connections=read('connection-audit.json'),runtime=read('runtime-short-replay.json'),conclusions=read('conclusions.json'),navigation=read('navigation-targeted.json'),mainline=read('mainline-context-geometry.json');
+assert.equal(conclusions.counts.total,inv.rampCount);
+assert.equal(conclusions.counts.PASS+conclusions.counts.P0+conclusions.counts.P1+conclusions.counts.P2,inv.rampCount);
+assert.equal(connections.interfaces.length,inv.rampCount*2);
+assert.equal(runtime.rows.length,inv.rampCount*2);
+assert.equal(new Set(runtime.rows.map(r=>r.rampId+':'+r.end)).size,runtime.rows.length);
+assert.equal(mainline.profiles.length,inv.derivedRoads.length);
+assert(navigation.passed);
+for(const ramp of inv.ramps)for(const end of ['start','end']){
+ assert(connections.interfaces.some(i=>i.rampId===ramp.id&&i.end===end&&i.topologyConnected));
+ const row=runtime.rows.find(i=>i.rampId===ramp.id&&i.end===end);
+ assert(row.samples.length>0);
+ assert(row.samples.every(s=>Object.keys(s.wheels).length===4));
+ assert(row.samples.every(s=>Object.values(s.wheels).every(w=>Number.isInteger(w.candidateCount))));
+ assert(row.initialization.includes('without snapping'));
+}
+const raw=fs.readFileSync(inv.source),currentHash=createHash('sha256').update(raw).digest('hex');
+assert.equal(currentHash,inv.hash,'Map changed during audit');
+const links=[...fs.readFileSync(dir+'REPORT.md','utf8').matchAll(/\]\(([^)]+)\)/g)].map(m=>m[1]);
+const sources=[inv.source,'src/world/city/CityGround.ts','src/world/city/geometry.ts','src/world/city/RoadEdgeChain.ts','src/world/city/RoadPavementSurface.ts','src/world/city/RoadInfrastructure.ts','src/world/city/RoadBuilder.ts','src/world/city/CityRoadNetwork.ts','src/vehicle/physics/VehicleContactSystem.ts','src/vehicle/physics/WheelSupportContinuity.ts','src/vehicle/physics/SuspensionSystem.ts','src/vehicle/physics/VehicleDynamics.ts','src/vehicle/config/roadSUVPhysicsConfig.ts'];
+const fingerprints=Object.fromEntries(sources.map(f=>[f,createHash('sha256').update(fs.readFileSync(f)).digest('hex')]));
+const validation={generatedAt:new Date().toISOString(),source:inv.source,mapHash:currentHash,mapUnchanged:true,productSourceOrMapEdits:false,scope:'system-central only; diagnostic artifact scripts are the only new code',commands:[{command:'node artifacts/system-central-ramp-audit/run.mjs',exitCode:0,result:'targeted diagnostics executed; findings retained',ramps:inv.rampCount,interfaces:runtime.rows.length,pathsCompleted:runtime.rows.filter(r=>r.completed).length,failedPaths:runtime.rows.filter(r=>!r.completed).map(r=>({rampId:r.rampId,end:r.end,reason:r.stopReason}))},{command:'node artifacts/system-central-ramp-audit/finalize.mjs',exitCode:0,result:'report, geometry and facility evidence generated'},{command:'targeted buildCityRoadNetwork routing/laneConnections + mainline child links',result:'PASS',interfaces:connections.interfaces.length,mainlineLinks:navigation.mainlineChildLinks.length},{command:'pnpm run typecheck',exitCode:0,result:'PASS',note:'Executed against the existing working tree before report generation; artifacts scripts are outside tsconfig include=src.'},{command:'node artifacts/system-central-ramp-audit/verify.mjs',exitCode:0,result:'PASS',checks:['all requested artifacts present','JSON parseable','every ramp has two unique interfaces/replays','all retained wheel samples have candidateCount','mainline profile coverage','source map SHA unchanged','report links resolve']}],counts:conclusions.counts,mainlineHardGradeBreaks:mainline.hardBreaks.length,notRun:['full-map ramp audit','full-map smoothness','full-map median','full-map facilities','full core','all vehicles','editor full suite','long computer-use driving','build'],buildReason:'No game source/map modification; diagnosis-only task explicitly excludes build.',limitations:['Full ramp bodies have static geometry/profile sampling, not continuous physics replay.','Short replay uses one vehicle and one controlled path per interface; no exhaustive steering/speed proof.','Graphics sector publication is suppressed in the diagnostic process; actual support, terrain, collision and physics logic is unchanged.','P2 facility associations/height outliers are retained for later visual review; P2=0 is mutually exclusive primary ramp severity, not facility certification.'],sourceFingerprints:fingerprints};
+fs.writeFileSync(dir+'validation.json',JSON.stringify(validation,null,2)+'\n');
+for(const link of links)assert(fs.existsSync(dir+link),`Broken report link ${link}`);
+validation.diagnosticHarnessHistory=[{command:'initial verify.mjs',exitCode:1,reason:'The harness checked its own output link validation.json before creating that file.',resolution:'Generate validation.json before checking all report links; rerun every assertion.'}];
+fs.writeFileSync(dir+'validation.json',JSON.stringify(validation,null,2)+'\n');
+console.log(JSON.stringify({artifactIntegrity:'PASS',mapUnchanged:true,ramps:inv.rampCount,interfaces:runtime.rows.length,mainlineRoads:mainline.profiles.length,navigationPassed:navigation.passed,counts:conclusions.counts}));

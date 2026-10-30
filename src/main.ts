@@ -1,5 +1,6 @@
 import './styles.css';
-import { DrivingGame } from './game/DrivingGame';
+import './ui/design/system.css';
+import { StartupApplication } from './game/startup/StartupApplication';
 
 const host = document.querySelector<HTMLElement>('#app');
 
@@ -13,13 +14,8 @@ if (new URLSearchParams(location.search).get('editor') === 'city') {
     window.addEventListener('pagehide', () => editor.dispose(), { once: true });
   }).catch(error => { console.error(error); host.textContent = `City Editor 无法启动：${String(error)}`; });
 } else void (async () => { try {
-  host.textContent = '正在加载驾驶场景…';
-  const game = await DrivingGame.create(host);
-  if (import.meta.env.DEV && new URLSearchParams(location.search).has('eastProbe')) {
-    const { installEastProbe } = await import('../.tmp-east-browser'); installEastProbe(game);
-  }
-  game.start();
-  window.addEventListener('beforeunload', () => game.dispose(), { once: true });
+  const application = new StartupApplication(host);
+  window.addEventListener('beforeunload', () => application.dispose(), { once: true });
 } catch (error) {
   console.error(error);
   host.innerHTML = `

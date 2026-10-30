@@ -1,4 +1,7 @@
 import { defineConfig } from 'vite';
+import { VEHICLE_CATALOG } from './src/vehicle/VehicleCatalog';
+import { DRIVING_GROUND_CATALOG } from './src/world/DrivingGroundCatalog';
+import { vehicleViewModel } from './src/game/GameUIViewModels';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { compileCityRuntimeData } from './src/world/city/CityRuntimeData';
@@ -15,9 +18,12 @@ const buildVersion = `${packageVersion}+physics.${physicsHash.digest('hex').slic
 
 // Only the editor Reload endpoint is public. Map recipes/selftests are source,
 // and small built-in maps travel in the runtime bundle. City Main is fetched on selection.
-export default defineConfig({ publicDir: false, define: { __CITY_MAIN_RUNTIME_URL__: JSON.stringify(`./${cityRuntimeName}`),
+export default defineConfig({ publicDir: false, cacheDir: '.vite/browser', server: { watch: { ignored: ['**/.desktop/**', '**/release/**', '**/.tmp-desktop-smoke-profile/**'] } },
+  optimizeDeps: { noDiscovery: true, include: ['three', 'three/addons/utils/BufferGeometryUtils.js', 'three/addons/controls/OrbitControls.js'], holdUntilCrawlEnd: false }, build: { manifest: true }, define: { __CITY_MAIN_RUNTIME_URL__: JSON.stringify(`./${cityRuntimeName}`),
   __DRIVERGAME_BUILD_VERSION__: JSON.stringify(buildVersion) }, plugins: [{
   name: 'editor-reload-map',
+  resolveId(id) { if (id === 'virtual:game-catalog') return '\0virtual:game-catalog'; },
+  load(id) { if (id === '\0virtual:game-catalog') return `export const vehicles = ${JSON.stringify(VEHICLE_CATALOG.map(vehicleViewModel))}; export const maps = ${JSON.stringify(DRIVING_GROUND_CATALOG.map(g => ({id:g.id,name:g.displayName,description:g.description})))};`; },
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
       if (req.url?.split('?')[0] !== `/${cityRuntimeName}`) return next();

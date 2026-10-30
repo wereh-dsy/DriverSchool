@@ -1,0 +1,1513 @@
+{
+  "counts": {
+    "total": 8,
+    "PASS": 1,
+    "P0": 4,
+    "P1": 3,
+    "P2": 0
+  },
+  "counting": "Mutually exclusive highest severity per ramp; P2 facility observations are listed separately and do not inflate ramp counts.",
+  "results": [
+    {
+      "id": "system-central:S-to-W-semi",
+      "from": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-split-4",
+        "end": "start"
+      },
+      "kind": "semi-direct",
+      "length": 1272.0113210724098,
+      "metadataParents": [
+        "corridor:east-west-expressway:ramp-2"
+      ],
+      "status": "BAD_GRADE_TRANSITION",
+      "severity": "P1",
+      "categories": [
+        "BAD_GRADE_TRANSITION"
+      ],
+      "parentMainlines": [
+        "ns-nb",
+        "ew-wb"
+      ],
+      "childSegments": [
+        "ns-nb-split-3-split-split-split-split-split-section",
+        "ns-nb-split-3-split-split-split-split-split-split",
+        "ew-wb-split-split-split",
+        "ew-wb-split-split-split-split-4"
+      ],
+      "entryExit": "start=exit/split; end=entry/merge",
+      "topologyConnected": true,
+      "geometryConnected": "endpoints PASS; body grade break",
+      "location": "主体 s=939.814m",
+      "problem": "两端连接和短回放通过；主体存在 6.665 个百分点硬坡折。",
+      "cause": "相邻线性高程段纵坡未连续；并非缺少 roadLink 或端点错位。",
+      "fix": "仅对该局部坡折设计纵向过渡，同时保持附近交叉净空；先保留端点。",
+      "interfaces": [
+        {
+          "end": "start",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 0.3952125105543916,
+          "extended": {
+            "maxOverlapHeightDelta": 0.0009963253727383048,
+            "conflictDistanceRange": null,
+            "wheelConflictCount": 0,
+            "firstWheelConflict": null
+          }
+        },
+        {
+          "end": "end",
+          "topologyConnected": true,
+          "xzGap": 2.280122671451361e-12,
+          "deltaY": 0,
+          "tangentAngle": 0.9306020118422068,
+          "extended": {
+            "maxOverlapHeightDelta": 9.14823772291129e-14,
+            "conflictDistanceRange": null,
+            "wheelConflictCount": 0,
+            "firstWheelConflict": null
+          }
+        }
+      ],
+      "runtime": [
+        {
+          "rampId": "system-central:S-to-W-semi",
+          "end": "start",
+          "incoming": "ns-nb-split-3-split-split-split-split-split-section",
+          "outgoing": "system-central:S-to-W-semi",
+          "contextRoadCount": 116,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 20.1,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24694009085267832,
+          "peakPitchRate": 0.18200018177282065,
+          "peakRollRate": 0.020456499619439617,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 5778
+          },
+          "layers": {
+            "SAME_LAYER": 9672
+          },
+          "requiredLengthRange": [
+            0.2594266009618459,
+            0.37322077857824354
+          ],
+          "maxTrackingError": 0.08720944595754965,
+          "furthestStation": 147.2122745594332,
+          "joinStation": 40.20031960082179,
+          "completed": true,
+          "finalOwners": [
+            "system-central:S-to-W-semi"
+          ],
+          "expectedTarget": "system-central:S-to-W-semi",
+          "finalHeightError": -0.002008015993805401,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        },
+        {
+          "rampId": "system-central:S-to-W-semi",
+          "end": "end",
+          "incoming": "system-central:S-to-W-semi",
+          "outgoing": "ew-wb-split-split-split-split-4",
+          "contextRoadCount": 90,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 10.5,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24135477034276343,
+          "peakPitchRate": 0.18245791206775863,
+          "peakRollRate": 0.024817618860673078,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 691
+          },
+          "layers": {
+            "SAME_LAYER": 5064
+          },
+          "requiredLengthRange": [
+            0.2616664527251062,
+            0.3709488608485776
+          ],
+          "maxTrackingError": 0.11911518199912575,
+          "furthestStation": 75.2203092891226,
+          "joinStation": 39.99994083580645,
+          "completed": true,
+          "finalOwners": [
+            "ew-wb-split-split-split-split-4"
+          ],
+          "expectedTarget": "ew-wb-split-split-split-split-4",
+          "finalHeightError": -0.0034072812037129196,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        }
+      ]
+    },
+    {
+      "id": "system-central:S-to-E-right",
+      "from": {
+        "roadId": "ns-nb-split-2-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "end": "start"
+      },
+      "kind": "right-turn",
+      "length": 517.6143146563568,
+      "metadataParents": [
+        "corridor:east-west-expressway:ramp-2"
+      ],
+      "status": "PASS",
+      "severity": null,
+      "categories": [],
+      "parentMainlines": [
+        "ns-nb",
+        "ew-eb"
+      ],
+      "childSegments": [
+        "ns-nb-split-2-split-2",
+        "ns-nb-split-2-split-2-split-2",
+        "ew-eb-split-2-split-split",
+        "ew-eb-split-2-split-split-split-2"
+      ],
+      "entryExit": "start=exit/split; end=entry/merge",
+      "topologyConnected": true,
+      "geometryConnected": "PASS",
+      "location": "分流、主体、合流",
+      "problem": "本轮定点检查未发现 P0/P1。两端短回放均完成并达到正确支撑归属；主体最大纵坡变化低于 4 个百分点阈值。",
+      "cause": "不适用。",
+      "fix": "不修改。",
+      "interfaces": [
+        {
+          "end": "start",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 0.3028653562979442,
+          "extended": {
+            "maxOverlapHeightDelta": 0.0006213862130364234,
+            "conflictDistanceRange": null,
+            "wheelConflictCount": 0,
+            "firstWheelConflict": null
+          }
+        },
+        {
+          "end": "end",
+          "topologyConnected": true,
+          "xzGap": 6.821210263296962e-13,
+          "deltaY": -4.440892098500626e-15,
+          "tangentAngle": 0.8038566173597554,
+          "extended": {
+            "maxOverlapHeightDelta": 4.440892098500626e-15,
+            "conflictDistanceRange": null,
+            "wheelConflictCount": 0,
+            "firstWheelConflict": null
+          }
+        }
+      ],
+      "runtime": [
+        {
+          "rampId": "system-central:S-to-E-right",
+          "end": "start",
+          "incoming": "ns-nb-split-2-split-2",
+          "outgoing": "system-central:S-to-E-right",
+          "contextRoadCount": 109,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 20,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.27266231654838924,
+          "peakPitchRate": 0.18260811748234798,
+          "peakRollRate": 0.02055472578130824,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {},
+          "layers": {
+            "SAME_LAYER": 9640
+          },
+          "requiredLengthRange": [
+            0.25937286650501384,
+            0.37338343982435035
+          ],
+          "maxTrackingError": 0.09843798443579099,
+          "furthestStation": 147.24811546881074,
+          "joinStation": 40.20031960082179,
+          "completed": true,
+          "finalOwners": [
+            "system-central:S-to-E-right"
+          ],
+          "expectedTarget": "system-central:S-to-E-right",
+          "finalHeightError": -0.003897531998554804,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        },
+        {
+          "rampId": "system-central:S-to-E-right",
+          "end": "end",
+          "incoming": "system-central:S-to-E-right",
+          "outgoing": "ew-eb-split-2-split-split-split-2",
+          "contextRoadCount": 63,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.4,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24135575953706323,
+          "peakPitchRate": 0.18240705082578235,
+          "peakRollRate": 0.023520507037581736,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {},
+          "layers": {
+            "SAME_LAYER": 5508
+          },
+          "requiredLengthRange": [
+            0.2598776236211667,
+            0.37277631793095645
+          ],
+          "maxTrackingError": 0.1130070850512687,
+          "furthestStation": 82.25684687280885,
+          "joinStation": 39.999844617451046,
+          "completed": true,
+          "finalOwners": [
+            "ew-eb-split-2-split-split-split-2"
+          ],
+          "expectedTarget": "ew-eb-split-2-split-split-split-2",
+          "finalHeightError": -0.003417165101940789,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        }
+      ]
+    },
+    {
+      "id": "system-central:E-to-S-semi",
+      "from": {
+        "roadId": "ew-wb-split-3-split-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-split",
+        "end": "start"
+      },
+      "kind": "semi-direct",
+      "length": 1313.6553496025049,
+      "metadataParents": [
+        "corridor:north-south-expressway:ramp-2"
+      ],
+      "status": "COMPLEX",
+      "severity": "P0",
+      "categories": [
+        "BAD_PAVEMENT_JOIN",
+        "BROKEN_Y_CONNECTION",
+        "WRONG_SUPPORT_OWNERSHIP",
+        "BAD_GRADE_TRANSITION"
+      ],
+      "parentMainlines": [
+        "ew-wb",
+        "ns-sb"
+      ],
+      "childSegments": [
+        "ew-wb-split-3-split-split-split-split",
+        "ew-wb-split-3-split-split-split-split-split",
+        "ns-sb-split-split-split-section",
+        "ns-sb-split-split-split-split"
+      ],
+      "entryExit": "start=exit/split; end=entry/merge",
+      "topologyConnected": true,
+      "geometryConnected": "endpoint aligned; shared pavement conflict",
+      "location": "分流后 s≈18–110m；另有主体坡折",
+      "problem": "端点相同，但匝道下坡时仍与 +8m 主线铺装重叠。车辆留在上层主线并撞主线护栏；未进入匝道支撑。",
+      "cause": "高程下降先于平面分离，共享区域出现多个相差数米的铺装；现有支撑延续和护栏开口因此对应上层主线。",
+      "fix": "局部联合复核分流喉部 XZ、Y 和共享铺装边界，在真正分离之前保持同一支撑层；随后重生成护栏开口。不要只补端点或调整支撑阈值。",
+      "interfaces": [
+        {
+          "end": "start",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 0.5244402254037906,
+          "extended": {
+            "maxOverlapHeightDelta": 5.990793955159244,
+            "conflictDistanceRange": [
+              8,
+              116
+            ],
+            "wheelConflictCount": 93,
+            "firstWheelConflict": {
+              "distanceFromJoin": 8,
+              "station": 8,
+              "trace": "left-wheel",
+              "point": {
+                "x": 616.9761729002057,
+                "y": 7.958761449852876,
+                "z": -162.2171768355165
+              },
+              "peers": [
+                {
+                  "roadId": "ew-wb-split-3-split-split-split-split-split",
+                  "segment": 1,
+                  "surfaceY": 8,
+                  "deltaY": -0.04123855014712419
+                }
+              ]
+            }
+          }
+        },
+        {
+          "end": "end",
+          "topologyConnected": true,
+          "xzGap": 2.2740142932498854e-13,
+          "deltaY": 0,
+          "tangentAngle": 0.644107604380128,
+          "extended": {
+            "maxOverlapHeightDelta": 0.5701524937327811,
+            "conflictDistanceRange": [
+              16,
+              138
+            ],
+            "wheelConflictCount": 103,
+            "firstWheelConflict": {
+              "distanceFromJoin": 16,
+              "station": 1297.6553496025049,
+              "trace": "left-wheel",
+              "point": {
+                "x": -7.58041440121298,
+                "y": -7.8703826738114016,
+                "z": 485.6450765780627
+              },
+              "peers": [
+                {
+                  "roadId": "ns-sb-split-split-split-section",
+                  "segment": 5,
+                  "surfaceY": -7.825546226591823,
+                  "deltaY": -0.0448364472195788
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "runtime": [
+        {
+          "rampId": "system-central:E-to-S-semi",
+          "end": "start",
+          "incoming": "ew-wb-split-3-split-split-split-split",
+          "outgoing": "system-central:E-to-S-semi",
+          "contextRoadCount": 69,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 23.991666666666667,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "time-limit",
+          "peakAY": 1.7225025017777231,
+          "peakPitchRate": 0.18212213555067547,
+          "peakRollRate": 0.6968303888992091,
+          "mechanicalImpulse": 0,
+          "minGrounded": 2,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "layer-switch-unconfirmed": 12,
+            "impossible-height-discontinuity": 8,
+            "outside-suspension-reach": 7482
+          },
+          "layers": {
+            "SAME_LAYER": 11520
+          },
+          "requiredLengthRange": [
+            0.22633324414269987,
+            0.4163276912139542
+          ],
+          "maxTrackingError": 1.3642666195121176,
+          "furthestStation": 139.97168136604944,
+          "joinStation": 40.20031960082183,
+          "completed": false,
+          "finalOwners": [
+            "ew-wb-split-2",
+            "ew-wb-split-3-split-split-split-split-split"
+          ],
+          "expectedTarget": "system-central:E-to-S-semi",
+          "finalHeightError": 5.9807530712149735,
+          "targetOwnershipReached": false,
+          "collisionTicks": 203,
+          "maxCollisionDelta": 0.820827502720227,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": false
+        },
+        {
+          "rampId": "system-central:E-to-S-semi",
+          "end": "end",
+          "incoming": "system-central:E-to-S-semi",
+          "outgoing": "ns-sb-split-split-split-split",
+          "contextRoadCount": 116,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.4,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24135477034264788,
+          "peakPitchRate": 0.18245791471509468,
+          "peakRollRate": 0.023287794224258952,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 6009,
+            "impossible-height-discontinuity": 82,
+            "layer-switch-unconfirmed": 16
+          },
+          "layers": {
+            "SAME_LAYER": 5492
+          },
+          "requiredLengthRange": [
+            0.26166645272510747,
+            0.37094886084857676
+          ],
+          "maxTrackingError": 0.11182657844211422,
+          "furthestStation": 82.20301224702351,
+          "joinStation": 39.999981086714314,
+          "completed": true,
+          "finalOwners": [
+            "ns-sb-split-split-split-split"
+          ],
+          "expectedTarget": "ns-sb-split-split-split-split",
+          "finalHeightError": -0.0037982871092259174,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        }
+      ]
+    },
+    {
+      "id": "system-central:E-to-N-right",
+      "from": {
+        "roadId": "ew-wb-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-2-split-2",
+        "end": "start"
+      },
+      "kind": "right-turn",
+      "length": 505.36119408228416,
+      "metadataParents": [
+        "corridor:north-south-expressway:ramp-2"
+      ],
+      "status": "COMPLEX",
+      "severity": "P0",
+      "categories": [
+        "BAD_PAVEMENT_JOIN",
+        "BROKEN_Y_CONNECTION",
+        "WRONG_SUPPORT_OWNERSHIP",
+        "BAD_GRADE_TRANSITION"
+      ],
+      "parentMainlines": [
+        "ew-wb",
+        "ns-nb"
+      ],
+      "childSegments": [
+        "ew-wb-split-2-split",
+        "ew-wb-split-2-split-split-2",
+        "ns-nb-split-split-2",
+        "ns-nb-split-split-2-split-2"
+      ],
+      "entryExit": "start=exit/split; end=entry/merge",
+      "topologyConnected": true,
+      "geometryConnected": "endpoint aligned; shared pavement conflict",
+      "location": "出口 s≈19–110m",
+      "problem": "先短暂上拱再下降；尚未脱离主线 footprint 就形成米级高差。回放车辆仍在主线上，被主线外侧护栏阻挡。",
+      "cause": "分流平面重叠长度与纵向下降位置不匹配；s=19.336m 另有 4.636 个百分点坡折。",
+      "fix": "对单一出口喉部联合校核平面分离与纵断面，在共享区域给出一致高程，再处理 gore/护栏。",
+      "interfaces": [
+        {
+          "end": "start",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 0.8038566173597554,
+          "extended": {
+            "maxOverlapHeightDelta": 3.5384841123878683,
+            "conflictDistanceRange": [
+              4,
+              78
+            ],
+            "wheelConflictCount": 66,
+            "firstWheelConflict": {
+              "distanceFromJoin": 4,
+              "station": 4,
+              "trace": "left-wheel",
+              "point": {
+                "x": 320.9886790527499,
+                "y": 8.064487818528642,
+                "z": -162.1795334500818
+              },
+              "peers": [
+                {
+                  "roadId": "ew-wb-split-2-split-split-2",
+                  "segment": 0,
+                  "surfaceY": 8,
+                  "deltaY": 0.06448781852864194
+                }
+              ]
+            }
+          }
+        },
+        {
+          "end": "end",
+          "topologyConnected": true,
+          "xzGap": 3.412270059808006e-13,
+          "deltaY": 0,
+          "tangentAngle": 0.30436239170012247,
+          "extended": {
+            "maxOverlapHeightDelta": 0,
+            "conflictDistanceRange": null,
+            "wheelConflictCount": 0,
+            "firstWheelConflict": null
+          }
+        }
+      ],
+      "runtime": [
+        {
+          "rampId": "system-central:E-to-N-right",
+          "end": "start",
+          "incoming": "ew-wb-split-2-split",
+          "outgoing": "system-central:E-to-N-right",
+          "contextRoadCount": 69,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 23.991666666666667,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "time-limit",
+          "peakAY": 2.247960009215147,
+          "peakPitchRate": 0.1821221355506892,
+          "peakRollRate": 0.7171238615117889,
+          "mechanicalImpulse": 0,
+          "minGrounded": 2,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "layer-switch-unconfirmed": 20,
+            "unreachable-layer-switch": 2714,
+            "impossible-height-discontinuity": 49,
+            "outside-suspension-reach": 10700
+          },
+          "layers": {
+            "SAME_LAYER": 11520
+          },
+          "requiredLengthRange": [
+            0.22196058092115484,
+            0.43741237314068254
+          ],
+          "maxTrackingError": 1.72612140978933,
+          "furthestStation": 111.39293945143102,
+          "joinStation": 40.20031960082183,
+          "completed": false,
+          "finalOwners": [
+            "ew-wb-split-2-split-split-2"
+          ],
+          "expectedTarget": "system-central:E-to-N-right",
+          "finalHeightError": 2.8345064212509605,
+          "targetOwnershipReached": false,
+          "collisionTicks": 365,
+          "maxCollisionDelta": 1.462854296987275,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": false
+        },
+        {
+          "rampId": "system-central:E-to-N-right",
+          "end": "end",
+          "incoming": "system-central:E-to-N-right",
+          "outgoing": "ns-nb-split-split-2-split-2",
+          "contextRoadCount": 64,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.4,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24135539153872745,
+          "peakPitchRate": 0.18240277523094506,
+          "peakRollRate": 0.025416194725470364,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {},
+          "layers": {
+            "SAME_LAYER": 5508
+          },
+          "requiredLengthRange": [
+            0.26022248333994125,
+            0.37242724351943757
+          ],
+          "maxTrackingError": 0.12128337144579052,
+          "furthestStation": 82.2337889625402,
+          "joinStation": 39.999927558272354,
+          "completed": true,
+          "finalOwners": [
+            "ns-nb-split-split-2-split-2"
+          ],
+          "expectedTarget": "ns-nb-split-split-2-split-2",
+          "finalHeightError": -0.0034036815736468995,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        }
+      ]
+    },
+    {
+      "id": "system-central:N-to-E-semi",
+      "from": {
+        "roadId": "ns-sb-split-3-split-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-split-5",
+        "end": "start"
+      },
+      "kind": "semi-direct",
+      "length": 1292.1461251730293,
+      "metadataParents": [
+        "corridor:east-west-expressway:ramp-2"
+      ],
+      "status": "COMPLEX",
+      "severity": "P0",
+      "categories": [
+        "BAD_PAVEMENT_JOIN",
+        "BROKEN_Y_CONNECTION",
+        "WRONG_SUPPORT_OWNERSHIP",
+        "WRONG_LAYER_CONNECTION",
+        "BAD_GRADE_TRANSITION"
+      ],
+      "parentMainlines": [
+        "ns-sb",
+        "ew-eb"
+      ],
+      "childSegments": [
+        "ns-sb-split-3-split-split-split-section",
+        "ns-sb-split-3-split-split-split-split",
+        "ew-eb-split",
+        "ew-eb-split-split-5"
+      ],
+      "entryExit": "start=exit/split; end=entry/merge",
+      "topologyConnected": true,
+      "geometryConnected": "endpoint aligned; shared pavement conflict",
+      "location": "分流后 s≈0–100m，约 s=75m 触发拒绝",
+      "problem": "一侧轮迹转入匝道、另一侧继续沿南向主线，随后面对约 0.726m 上跳被 unreachable-layer-switch 拒绝，最终全轮失去接地。",
+      "cause": "匝道与继续下降的主线在共享区域纵断面分离，轮间所有权不一致。拒绝是已有机械可达性检查的结果，不能通过放宽 Support Selection 修复。",
+      "fix": "先解决出口共享 footprint 的同层高程和分离时序，消除左右轮跨层，再局部修纵坡；保留合法主线下穿关系。",
+      "interfaces": [
+        {
+          "end": "start",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 0.7402837042477789,
+          "extended": {
+            "maxOverlapHeightDelta": 0.7716878844485757,
+            "conflictDistanceRange": [
+              36,
+              82
+            ],
+            "wheelConflictCount": 38,
+            "firstWheelConflict": {
+              "distanceFromJoin": 36,
+              "station": 36,
+              "trace": "left-wheel",
+              "point": {
+                "x": 8.099713126460154,
+                "y": -5.699696435588839,
+                "z": -749.9770799154351
+              },
+              "peers": [
+                {
+                  "roadId": "ns-sb-split-3-split-split-split-split",
+                  "segment": 0,
+                  "surfaceY": -5.759696892072597,
+                  "deltaY": 0.06000045648375796
+                }
+              ]
+            }
+          }
+        },
+        {
+          "end": "end",
+          "topologyConnected": true,
+          "xzGap": 6.821210263296962e-13,
+          "deltaY": 1.0658141036401503e-14,
+          "tangentAngle": 0.5838450748378275,
+          "extended": {
+            "maxOverlapHeightDelta": 0.00008313847092455973,
+            "conflictDistanceRange": null,
+            "wheelConflictCount": 0,
+            "firstWheelConflict": null
+          }
+        }
+      ],
+      "runtime": [
+        {
+          "rampId": "system-central:N-to-E-semi",
+          "end": "start",
+          "incoming": "ns-sb-split-3-split-split-split-section",
+          "outgoing": "system-central:N-to-E-semi",
+          "contextRoadCount": 73,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 16.916666666666668,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "sustained-support-loss",
+          "peakAY": 44.714121099845556,
+          "peakPitchRate": 0.649766519354722,
+          "peakRollRate": 3.632387751249788,
+          "mechanicalImpulse": 766.3220800665671,
+          "minGrounded": 0,
+          "allAirTicks": 61,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 408,
+          "supportRejections": 2036,
+          "rejectionReasons": {
+            "unreachable-layer-switch": 127,
+            "outside-suspension-reach": 37,
+            "invalid-suspension-projection": 244
+          },
+          "candidateRejections": {
+            "layer-switch-unconfirmed": 96,
+            "outside-suspension-reach": 1427,
+            "unreachable-layer-switch": 1288,
+            "impossible-height-discontinuity": 21,
+            "invalid-suspension-projection": 244
+          },
+          "layers": {
+            "SAME_LAYER": 7851,
+            "GRADE_SEPARATED": 249,
+            "POSSIBLE_LAYER_SWITCH": 24
+          },
+          "requiredLengthRange": [
+            -14.092536102587053,
+            "Infinity"
+          ],
+          "maxTrackingError": 0.1018704011878332,
+          "furthestStation": 123.0993406171308,
+          "joinStation": 40.19104754378609,
+          "completed": false,
+          "finalOwners": [
+            "system-central:N-to-E-semi"
+          ],
+          "expectedTarget": "system-central:N-to-E-semi",
+          "finalHeightError": -3.462914444720168,
+          "targetOwnershipReached": false,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        },
+        {
+          "rampId": "system-central:N-to-E-semi",
+          "end": "end",
+          "incoming": "system-central:N-to-E-semi",
+          "outgoing": "ew-eb-split-split-5",
+          "contextRoadCount": 61,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.4,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.2413547703424955,
+          "peakPitchRate": 0.182457914715072,
+          "peakRollRate": 0.024119955218585655,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {},
+          "layers": {
+            "SAME_LAYER": 5508
+          },
+          "requiredLengthRange": [
+            0.26166645272511124,
+            0.370948860848573
+          ],
+          "maxTrackingError": 0.11553193230177514,
+          "furthestStation": 82.25760785261949,
+          "joinStation": 39.99994015272754,
+          "completed": true,
+          "finalOwners": [
+            "ew-eb-split-split-5"
+          ],
+          "expectedTarget": "ew-eb-split-split-5",
+          "finalHeightError": -0.003412393652898693,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        }
+      ]
+    },
+    {
+      "id": "system-central:N-to-W-right",
+      "from": {
+        "roadId": "ns-sb-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-3-split",
+        "end": "start"
+      },
+      "kind": "right-turn",
+      "length": 488.22671623050775,
+      "metadataParents": [
+        "corridor:east-west-expressway:ramp-2"
+      ],
+      "status": "COMPLEX",
+      "severity": "P1",
+      "categories": [
+        "BAD_PAVEMENT_JOIN",
+        "BAD_GRADE_TRANSITION"
+      ],
+      "parentMainlines": [
+        "ns-sb",
+        "ew-wb"
+      ],
+      "childSegments": [
+        "ns-sb-split-2-split",
+        "ns-sb-split-2-split-split-2",
+        "ew-wb-split-split-split-3",
+        "ew-wb-split-split-split-3-split"
+      ],
+      "entryExit": "start=exit/split; end=entry/merge",
+      "topologyConnected": true,
+      "geometryConnected": "endpoint aligned; shared pavement conflict",
+      "location": "合流前约 72m 至端点；主体 s=290.247/470.530m",
+      "problem": "合流端点对齐，但接近区仍有最高 6.263m 的上下铺装重叠，形成逐渐插入桥面式几何。此次从合流前 40m 开始的短回放可通过，不能据重叠高度直接声称断路。主体另有 4.818/6.278 个百分点坡折。",
+      "cause": "抬升阶段与主线平面重叠；端点同高掩盖了连接区几何问题。",
+      "fix": "在单条合流喉部复核抬升位置、平面分离及桥面净空，局部处理坡折。保持当前能通过的端点。",
+      "interfaces": [
+        {
+          "end": "start",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 0.32128834205377793,
+          "extended": {
+            "maxOverlapHeightDelta": 0,
+            "conflictDistanceRange": null,
+            "wheelConflictCount": 0,
+            "firstWheelConflict": null
+          }
+        },
+        {
+          "end": "end",
+          "topologyConnected": true,
+          "xzGap": 5.684341886080802e-14,
+          "deltaY": -8.881784197001252e-16,
+          "tangentAngle": 0.349946426508507,
+          "extended": {
+            "maxOverlapHeightDelta": 6.263434231447442,
+            "conflictDistanceRange": [
+              4,
+              72
+            ],
+            "wheelConflictCount": 62,
+            "firstWheelConflict": {
+              "distanceFromJoin": 4,
+              "station": 484.22671623050775,
+              "trace": "left-wheel",
+              "point": {
+                "x": -293.1185709285331,
+                "y": 7.957112399452394,
+                "z": -160.5724913857983
+              },
+              "peers": [
+                {
+                  "roadId": "ew-wb-split-split-split-3",
+                  "segment": 9,
+                  "surfaceY": 8,
+                  "deltaY": -0.042887600547605764
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "runtime": [
+        {
+          "rampId": "system-central:N-to-W-right",
+          "end": "start",
+          "incoming": "ns-sb-split-2-split",
+          "outgoing": "system-central:N-to-W-right",
+          "contextRoadCount": 71,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 19.9,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24135500386518585,
+          "peakPitchRate": 0.1821237493298341,
+          "peakRollRate": 0.020204582933806902,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {},
+          "layers": {
+            "SAME_LAYER": 9592
+          },
+          "requiredLengthRange": [
+            0.25941452741760895,
+            0.37327058593039314
+          ],
+          "maxTrackingError": 0.089200918446293,
+          "furthestStation": 147.23195949922106,
+          "joinStation": 40.19872133649775,
+          "completed": true,
+          "finalOwners": [
+            "system-central:N-to-W-right"
+          ],
+          "expectedTarget": "system-central:N-to-W-right",
+          "finalHeightError": -0.0032006081547573118,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        },
+        {
+          "rampId": "system-central:N-to-W-right",
+          "end": "end",
+          "incoming": "system-central:N-to-W-right",
+          "outgoing": "ew-wb-split-split-split-3-split",
+          "contextRoadCount": 127,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 12.4,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 1.7106128319470137,
+          "peakPitchRate": 0.20409706958906307,
+          "peakRollRate": 0.0227990618606441,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "unreachable-layer-switch": 6241,
+            "outside-suspension-reach": 4291,
+            "impossible-height-discontinuity": 185,
+            "layer-switch-unconfirmed": 64
+          },
+          "layers": {
+            "SAME_LAYER": 5972
+          },
+          "requiredLengthRange": [
+            0.26044046357148537,
+            0.37502405300955194
+          ],
+          "maxTrackingError": 0.10788763080925251,
+          "furthestStation": 82.25802295201117,
+          "joinStation": 39.99992120904497,
+          "completed": true,
+          "finalOwners": [
+            "ew-wb-split-split-split-3-split"
+          ],
+          "expectedTarget": "ew-wb-split-split-split-3-split",
+          "finalHeightError": -0.0034048107108599623,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        }
+      ]
+    },
+    {
+      "id": "system-central:W-to-N-semi",
+      "from": {
+        "roadId": "ew-eb-split-4-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-split",
+        "end": "start"
+      },
+      "kind": "semi-direct",
+      "length": 1236.5923075219662,
+      "metadataParents": [
+        "corridor:north-south-expressway:ramp-2"
+      ],
+      "status": "COMPLEX",
+      "severity": "P1",
+      "categories": [
+        "BAD_PAVEMENT_JOIN",
+        "BAD_GRADE_TRANSITION"
+      ],
+      "parentMainlines": [
+        "ew-eb",
+        "ns-nb"
+      ],
+      "childSegments": [
+        "ew-eb-split-4-split-split-section",
+        "ew-eb-split-4-split-split-split",
+        "ns-nb-split-split",
+        "ns-nb-split-split-split"
+      ],
+      "entryExit": "start=exit/split; end=entry/merge",
+      "topologyConnected": true,
+      "geometryConnected": "endpoint aligned; shared pavement conflict",
+      "location": "合流前约 20–70m；主体 s≈215.799–843.566m",
+      "problem": "接近合流时匝道与北向主线同 XZ 区域高程不同；两端短回放可通过。主体存在 8 处 ≥4 个百分点坡折，最大 8.770 个百分点；短采样段需与真实曲率分开解释。",
+      "cause": "主线下降/匝道局部高程平台与大量线性高程控制段叠加；不是 connectionPort 缺失。",
+      "fix": "单独评估合流前共享高程及主体局部坡折，保留主线和所有合法跨越净空；不全匝道重拟合。",
+      "interfaces": [
+        {
+          "end": "start",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 0.5912079143528406,
+          "extended": {
+            "maxOverlapHeightDelta": 4.440892098500626e-15,
+            "conflictDistanceRange": null,
+            "wheelConflictCount": 0,
+            "firstWheelConflict": null
+          }
+        },
+        {
+          "end": "end",
+          "topologyConnected": true,
+          "xzGap": 5.684452907299082e-13,
+          "deltaY": -6.217248937900877e-15,
+          "tangentAngle": 0.3320006471442193,
+          "extended": {
+            "maxOverlapHeightDelta": 1.0104894866674305,
+            "conflictDistanceRange": [
+              8,
+              138
+            ],
+            "wheelConflictCount": 111,
+            "firstWheelConflict": {
+              "distanceFromJoin": 8,
+              "station": 1228.5923075219662,
+              "trace": "left-wheel",
+              "point": {
+                "x": 24.30900137684291,
+                "y": -5.388329317620354,
+                "z": -777.9916376289702
+              },
+              "peers": [
+                {
+                  "roadId": "ns-nb-split-split",
+                  "segment": 1,
+                  "surfaceY": -5.446084970744906,
+                  "deltaY": 0.057755653124552
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "runtime": [
+        {
+          "rampId": "system-central:W-to-N-semi",
+          "end": "start",
+          "incoming": "ew-eb-split-4-split-split-section",
+          "outgoing": "system-central:W-to-N-semi",
+          "contextRoadCount": 84,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 19.7,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.2413586443603339,
+          "peakPitchRate": 0.18179417261739136,
+          "peakRollRate": 0.03225892667661516,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 2520,
+            "layer-switch-unconfirmed": 1
+          },
+          "layers": {
+            "SAME_LAYER": 9500
+          },
+          "requiredLengthRange": [
+            0.2567764947109223,
+            0.3759654782804263
+          ],
+          "maxTrackingError": 0.09555168354478451,
+          "furthestStation": 145.73171492174737,
+          "joinStation": 38.72605130210521,
+          "completed": true,
+          "finalOwners": [
+            "system-central:W-to-N-semi"
+          ],
+          "expectedTarget": "system-central:W-to-N-semi",
+          "finalHeightError": -0.004055702496147617,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        },
+        {
+          "rampId": "system-central:W-to-N-semi",
+          "end": "end",
+          "incoming": "system-central:W-to-N-semi",
+          "outgoing": "ns-nb-split-split-split",
+          "contextRoadCount": 73,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.3,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.6836134324184395,
+          "peakPitchRate": 0.18245791471509273,
+          "peakRollRate": 0.026280640610995526,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 1962,
+            "impossible-height-discontinuity": 25,
+            "layer-switch-unconfirmed": 112
+          },
+          "layers": {
+            "SAME_LAYER": 5436
+          },
+          "requiredLengthRange": [
+            0.2616664527251102,
+            0.3709488608485739
+          ],
+          "maxTrackingError": 0.12222438332389422,
+          "furthestStation": 82.26335998638974,
+          "joinStation": 39.99997008940096,
+          "completed": true,
+          "finalOwners": [
+            "ns-nb-split-split-split"
+          ],
+          "expectedTarget": "ns-nb-split-split-split",
+          "finalHeightError": -0.008445248332626498,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        }
+      ]
+    },
+    {
+      "id": "system-central:W-to-S-right",
+      "from": {
+        "roadId": "ew-eb-split-3-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-3-split",
+        "end": "start"
+      },
+      "kind": "right-turn",
+      "length": 553.2775107836002,
+      "metadataParents": [
+        "corridor:north-south-expressway:ramp-2"
+      ],
+      "status": "COMPLEX",
+      "severity": "P0",
+      "categories": [
+        "BAD_PAVEMENT_JOIN",
+        "BROKEN_Y_CONNECTION",
+        "WRONG_SUPPORT_OWNERSHIP",
+        "BAD_GRADE_TRANSITION"
+      ],
+      "parentMainlines": [
+        "ew-eb",
+        "ns-sb"
+      ],
+      "childSegments": [
+        "ew-eb-split-3-split",
+        "ew-eb-split-3-split-split-4",
+        "ns-sb-split-split-split-3",
+        "ns-sb-split-split-split-3-split"
+      ],
+      "entryExit": "start=exit/split; end=entry/merge",
+      "topologyConnected": true,
+      "geometryConnected": "endpoint aligned; shared pavement conflict",
+      "location": "出口 s≈18–110m",
+      "problem": "前 60m 初始统计仅显示较小重叠高差，但扩大到后续主线子段后，车辆仍被上层主线支撑并撞外侧护栏，未正常转入下降匝道。",
+      "cause": "只看直连父段会漏掉后续 split 子段。匝道下降与主线延续铺装冲突，s=17.942/62.944/68.476m 还有硬坡折。",
+      "fix": "按完整 split 子段链联合复核该出口共享区；先解决下降与平面分离，再随道路重生成设施。",
+      "interfaces": [
+        {
+          "end": "start",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 1.151496752768788,
+          "extended": {
+            "maxOverlapHeightDelta": 4.929068653438527,
+            "conflictDistanceRange": [
+              12,
+              84
+            ],
+            "wheelConflictCount": 63,
+            "firstWheelConflict": {
+              "distanceFromJoin": 12,
+              "station": 12,
+              "trace": "left-wheel",
+              "point": {
+                "x": -345.06825291964617,
+                "y": 7.952921521782044,
+                "z": -139.76371219795777
+              },
+              "peers": [
+                {
+                  "roadId": "ew-eb-split-3-split-split-4",
+                  "segment": 1,
+                  "surfaceY": 8,
+                  "deltaY": -0.047078478217955855
+                }
+              ]
+            }
+          }
+        },
+        {
+          "end": "end",
+          "topologyConnected": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentAngle": 0.3028653562979442,
+          "extended": {
+            "maxOverlapHeightDelta": 0.12508151271477352,
+            "conflictDistanceRange": [
+              18,
+              92
+            ],
+            "wheelConflictCount": 66,
+            "firstWheelConflict": {
+              "distanceFromJoin": 18,
+              "station": 535.2775107836002,
+              "trace": "left-wheel",
+              "point": {
+                "x": -7.635199970781252,
+                "y": -6.529617326188599,
+                "z": 169.35433539461533
+              },
+              "peers": [
+                {
+                  "roadId": "ns-sb-split-split-split-3",
+                  "segment": 17,
+                  "surfaceY": -6.487925332758186,
+                  "deltaY": -0.041691993430412744
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "runtime": [
+        {
+          "rampId": "system-central:W-to-S-right",
+          "end": "start",
+          "incoming": "ew-eb-split-3-split",
+          "outgoing": "system-central:W-to-S-right",
+          "contextRoadCount": 127,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 23.991666666666667,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "time-limit",
+          "peakAY": 2.5189227418300915,
+          "peakPitchRate": 0.1824579147151018,
+          "peakRollRate": 0.7432940904943814,
+          "mechanicalImpulse": 0,
+          "minGrounded": 2,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "outside-suspension-reach": 18424,
+            "layer-switch-unconfirmed": 12,
+            "impossible-height-discontinuity": 6
+          },
+          "layers": {
+            "SAME_LAYER": 11520
+          },
+          "requiredLengthRange": [
+            0.22049758981875706,
+            0.4433682721069627
+          ],
+          "maxTrackingError": 1.722340279818355,
+          "furthestStation": 95.25306302281861,
+          "joinStation": 20.19690594535607,
+          "completed": false,
+          "finalOwners": [
+            "ew-eb-split-3-split-split-2"
+          ],
+          "expectedTarget": "system-central:W-to-S-right",
+          "finalHeightError": 4.210009080014503,
+          "targetOwnershipReached": false,
+          "collisionTicks": 389,
+          "maxCollisionDelta": 1.2411311206696738,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": false
+        },
+        {
+          "rampId": "system-central:W-to-S-right",
+          "end": "end",
+          "incoming": "system-central:W-to-S-right",
+          "outgoing": "ns-sb-split-split-split-3-split",
+          "contextRoadCount": 105,
+          "vehicle": "roadSUV",
+          "dt": 0.008333333333333333,
+          "speedKph": 30,
+          "seconds": 11.4,
+          "initialization": "1s stationary settling in D with brake; initial longitudinal and grade velocity once; all subsequent pose, speed, height, pitch and roll integrated without snapping",
+          "colliders": "authored objects/signs and generated road structure colliders included; original regional terrain and landforms preserved",
+          "stopReason": "route-end",
+          "peakAY": 0.24135477535217256,
+          "peakPitchRate": 0.1824540197328653,
+          "peakRollRate": 0.024158842741895406,
+          "mechanicalImpulse": 0,
+          "minGrounded": 4,
+          "allAirTicks": 0,
+          "zeroCandidateSamples": 0,
+          "rejectedSamples": 0,
+          "supportRejections": 0,
+          "rejectionReasons": {},
+          "candidateRejections": {
+            "layer-switch-unconfirmed": 6
+          },
+          "layers": {
+            "SAME_LAYER": 5488
+          },
+          "requiredLengthRange": [
+            0.26140707217794334,
+            0.3712166455799001
+          ],
+          "maxTrackingError": 0.11544832359026255,
+          "furthestStation": 82.20520816693455,
+          "joinStation": 39.99995371464937,
+          "completed": true,
+          "finalOwners": [
+            "ns-sb-split-split-split-3-split"
+          ],
+          "expectedTarget": "ns-sb-split-split-split-3-split",
+          "finalHeightError": -0.004306296945570942,
+          "targetOwnershipReached": true,
+          "collisionTicks": 0,
+          "maxCollisionDelta": 0,
+          "safetyInterventions": 0,
+          "targetFootprintCandidateObserved": true
+        }
+      ]
+    }
+  ]
+}

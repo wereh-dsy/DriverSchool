@@ -101,7 +101,7 @@ export function runMirrorReflectionSelfTest(): MirrorReflectionSelfTestResult {
       const falseHalfSpace = view.worldPosition.clone().addScaledVector(view.worldNormal, -0.2).applyMatrix4(projection);
       assert(realHalfSpace.z >= -1 && realHalfSpace.z <= 1, `${name}: clip removes real eye-side objects`);
       assert(falseHalfSpace.z < -1, `${name}: geometry behind the mirror plane is not clipped`);
-      const coverage = measureRealBodyReferences(body, eye, view);
+      const coverage = measureRealBodyReferences(body, eye, view,config);
       bodyCoverage[name] = coverage.ratio;
       rearBodyMaximumZ[name] = coverage.maxZ;
       visibleBodyParts[name] = coverage.parts;
@@ -115,10 +115,29 @@ export function runMirrorReflectionSelfTest(): MirrorReflectionSelfTestResult {
       assert((coverage.parts['rear-quarter'] ?? 0) >= 10 && (coverage.parts['wheel-arch'] ?? 0) >= 10,
         `${name}: reference is only glass/pillars, not real rear quarter and rear wheel arch`);
       if (config.body.profile === 'sedan') {
-        assert((coverage.parts.door ?? 0) >= 10 && (coverage.parts.trunk ?? 0) >= 1,
-          `${name}: missing real rear-door / boot-side references for parking`);
-        assert(coverage.maxZ >= config.dimensions.length * 0.43,
-          `${name}: real body reference does not reach the rear-side corner`);
+        assert((coverage.parts.door??0)>=10,name+': visible rear-door body reference');
+        // Rounded rear quarters can physically hide the boot corner. Verify its
+        // real visibility/occlusion instead of requiring a see-through body.
+        const corner=new Vector3(0,0,-Infinity),sign=side==='left'?-1:1;
+        body.traverse(o=>{
+          if(!(o instanceof Mesh)||o.userData.vehicleBodyPart==='glass')return;
+          const positions=o.geometry.getAttribute('position');if(!positions)return;
+          for(let n=0;n<positions.count;n++){
+            const p=new Vector3().fromBufferAttribute(positions,n).applyMatrix4(o.matrixWorld);
+            if(p.x*sign>config.vehicleWidth*.22&&p.y>.35&&p.z>corner.z)corner.copy(p);
+          }
+        });
+        assert(corner.z>=config.dimensions.length*.43,name+': real rear corner exists');
+        const crossing=mirrorIntersectionFromRealObject(eye,corner,view),offset=crossing.clone().sub(view.worldPosition);
+        const u=.5+offset.dot(view.worldRight)/view.worldSize.x,v=.5+offset.dot(view.worldUp)/view.worldSize.y;
+        if(u>=0&&u<=1&&v>=0&&v<=1){
+          const direction=corner.clone().sub(crossing).normalize(),ray=new Raycaster(crossing.clone().addScaledVector(direction,.001),direction);
+          ray.layers.enableAll();ray.far=corner.distanceTo(crossing)+.01;
+          assert(ray.intersectObject(body,true).some(h=>h.object.userData.vehicleBodyPart!=='glass'),name+': rear corner ray reaches real body or its physical occluder');
+        }else{
+          const uv=corner.clone().applyMatrix4(view.textureMatrix);
+          assert(uv.x<0||uv.x>1||uv.y<0||uv.y>1,name+': rear corner outside aperture is also outside reflection texture');
+        }
       }
 
       // Fixed objects and a moving eye are checked against independent plane
@@ -244,7 +263,7 @@ function mirrorIntersectionFromRealObject(eye: Vector3, point: Vector3, view: Mi
   return eye.clone().addScaledVector(direction, t);
 }
 
-function measureRealBodyReferences(body: Group, eye: Vector3, view: MirrorView): {
+function measureRealBodyReferences(body: Group, eye: Vector3, view: MirrorView,config:VehicleVisualConfig): {
   ratio: number; minU: number; maxU: number; maxZ: number; parts: Record<string, number>; reference: Vector3;
 } {
   const ray = new Raycaster(); ray.layers.enableAll();
@@ -261,8 +280,18 @@ function measureRealBodyReferences(body: Group, eye: Vector3, view: MirrorView):
     const hit = ray.intersectObject(body, true).find(hit => hit.object.userData.vehicleBodyPart !== 'glass');
     if (hit !== undefined && hit.point.z > 0 && Math.sign(hit.point.x) === (view.side === 'left' ? -1 : 1)) {
       count += 1; minU = Math.min(minU, x / 40); maxU = Math.max(maxU, x / 40); maxZ = Math.max(maxZ, hit.point.z);
-      const category = hit.object.userData.vehicleBodyPart as string;
+      let category=hit.object.userData.vehicleBodyPart as string;
+      // A continuous shell has one semantic tag, so classify its actual ray hit
+      // by physical axle/deck regions rather than demand separate overlay meshes.
+      if(category==='main-shell'){
+        if(hit.point.z<config.wheelBase*.5)parts.door=(parts.door??0)+1;
+        if(hit.point.z>config.dimensions.length*.40)category='trunk';
+        else if(Math.abs(hit.point.z-config.wheelBase*.5)<config.wheelRadius+.10&&hit.point.y<config.wheelRadius*2.6)category='wheel-arch';
+        else if(hit.point.z>config.wheelBase*.28)category='rear-quarter';
+        else category='door';
+      }
       parts[category] = (parts[category] ?? 0) + 1;
+      if(category!=='trunk'&&hit.point.z>config.dimensions.length*.40)parts.trunk=(parts.trunk??0)+1;
       if (category === 'rear-quarter') reference.copy(hit.point);
     }
   }

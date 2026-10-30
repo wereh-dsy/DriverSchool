@@ -15,7 +15,7 @@ export function buildTeslaModel3Wheels(
   const radius = config.wheelRadius;
   const width = config.dimensions.wheelWidth;
   const halfWidth = width * .5;
-  const rimRadius = radius * .682;
+  const rimRadius = 18 * .0254 / 2;
 
   const rubber = new THREE.MeshStandardMaterial({ color: 0x101214, roughness: .90, metalness: .01 });
   const darkAlloy = new THREE.MeshStandardMaterial({

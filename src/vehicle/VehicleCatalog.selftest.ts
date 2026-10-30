@@ -298,8 +298,8 @@ const accelerationSample = (id: ICEVehicleId): AccelerationSample => {
 };
 
 export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
-  assert(VEHICLE_CATALOG.length === 13 && isVehicleId('porsche-taycan-4s') && isVehicleId('volkswagen-golf-gti') &&
-    isVehicleId('mercedes-e300l-v214'), 'thirteen official player vehicles including Taycan 4S, Golf GTI and E 300 L');
+  assert(VEHICLE_CATALOG.length === 15 && isVehicleId('koenigsegg-jesko-attack') && isVehicleId('xiaomi-su7-max-2026') && isVehicleId('porsche-taycan-4s') && isVehicleId('volkswagen-golf-gti') &&
+    isVehicleId('mercedes-e300l-v214'), 'fifteen official vehicles including Jesko, SU7 Max, Taycan, Golf and E 300 L');
   assert(!isVehicleId('test-awd-full-time') && !isVehicleId('test-awd-on-demand'), 'AWD fixtures must not be selectable');
   assert(isVehicleId(DEFAULT_VEHICLE_ID), 'default vehicle must resolve by stable ID');
   assert(VEHICLE_CATALOG.length === VEHICLE_IDS.length, 'catalog/order length mismatch');
@@ -315,7 +315,7 @@ export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
     const engineLabel = `${engine.displacementL!.toFixed(1)}${engine.turbo?.enabled ? 'T' : ' NA'} ${engine.layout === 'V' ? 'V' : 'INLINE'}${engine.cylinderCount}`;
     const gearCount = Object.keys(config.transmission.gearRatios).length;
     const transmissionLabel = config.transmission.type === 'CVT' ? 'CVT'
-      : `${gearCount}${config.transmission.type === 'DCT' ? 'DCT' : config.transmission.type === 'TORQUE_CONVERTER_AT' ? 'AT' : 'MT'}`;
+      : `${gearCount}${config.transmission.type === 'LST' ? 'LST' : config.transmission.type === 'DCT' ? 'DCT' : config.transmission.type === 'TORQUE_CONVERTER_AT' ? 'AT' : 'MT'}`;
     assert(descriptor.description.includes(engineLabel) && descriptor.description.includes(transmissionLabel)
       && descriptor.description.includes(config.drivetrainType), `${id}: metadata matches actual powertrain`);
     const car = new VehicleDynamics(config);

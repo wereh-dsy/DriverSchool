@@ -44,10 +44,12 @@ export function buildGolfGTIExterior(root: T.Group, c: VehicleVisualConfig, asse
   };
   for (const sign of [-1, 1]) {
     const label = sign < 0 ? 'Left' : 'Right';
-    const flank = surfaceGrid(label + ' GTI arch-cut door and fender skin', 120, 6, (u, v) => {
+    const flank = surfaceGrid(label + ' GTI arch-cut door and fender skin', 160, 12, (u, v) => {
       const z = T.MathUtils.lerp(-h, h, u), top = belt(z), bottom = archY(z);
       const y = T.MathUtils.lerp(bottom, top, v);
-      return [sign * skinWidth(z) * (1 - .07 * (1 - v) ** 3), y, z];
+      const roll = .035 * T.MathUtils.smoothstep(y, .72, .88);
+      const tuck = .055 * Math.exp(-(((y-.22)/.15)**2));
+      return [sign * (skinWidth(z) - roll - tuck), y, z];
     }, side);
     // Atlas U runs along the car, V runs down the doors independently of arch cuts.
     const p = flank.geometry.getAttribute('position'), uv = flank.geometry.getAttribute('uv');
@@ -63,7 +65,8 @@ export function buildGolfGTIExterior(root: T.Group, c: VehicleVisualConfig, asse
   }
   root.add(surfaceGrid('GTI crowned short bonnet', 16, 24, (u, v) => {
     const z = T.MathUtils.lerp(-h, c.cabin.windshieldBottomZ, u), x = (v * 2 - 1) * skinWidth(z);
-    return [x, belt(z) - .035 + .026 * Math.sin(v * Math.PI), z];
+    const crease=.014*Math.exp(-(((Math.abs(v*2-1)-.66)/.09)**2))*Math.sin(u*Math.PI);
+    return [x, belt(z) - .035 + .026 * Math.sin(v * Math.PI)+crease, z];
   }, paint));
   root.add(surfaceGrid('GTI continuous roof', 24, 24, (u, v) => {
     const z = T.MathUtils.lerp(-.50, 1.25, u), x = (v * 2 - 1) * c.body.roofWidth / 2;

@@ -26,7 +26,14 @@ export class RegionalTerrainSampler {
       }
     }
   }
+  /** Smooth, low-frequency shoreline shared by terrain, water tiles and diagnostics. */
+  shoreAt(x:number):number|undefined {
+    const coast=this.map.regional?.coast;if(!coast||x<coast.minX||x>coast.maxX)return undefined;
+    for(let i=1;i<coast.shoreline.length;i++){const a=coast.shoreline[i-1]!,b=coast.shoreline[i]!;if(x<=b.x){const t=blend((x-a.x)/(b.x-a.x));return a.z+(b.z-a.z)*t;}}
+    return coast.shoreline.at(-1)?.z;
+  }
   waterAt(x:number,z:number):boolean {
+    const shore=this.shoreAt(x);if(shore!==undefined)return z>shore;
     const east=6250+z*.08+80*Math.sin(z/1300);
     const a=this.westCrossings[0],b=this.westCrossings[1],t=a&&b?(z-a.z)/(b.z-a.z):0;
     const west=a&&b?a.x+(b.x-a.x)*t+220*Math.sin(t*Math.PI*2):-3450-500*Math.sin(z/850);
@@ -40,6 +47,11 @@ export class RegionalTerrainSampler {
     let height=north*(ridge+valley)+blend((-x-2500)/1600)*10*(.6+.4*Math.sin(z/780));
     if(this.map.regional?.highways&&x>4500&&z<-5300)height+=55*Math.exp(-(((x-5350)/1500)**2)-(((z+6500)/650)**2));
     if(this.waterAt(x,z))height=-7;
+    const coast=this.map.regional?.coast,shore=this.shoreAt(x);
+    if(coast&&shore!==undefined){const distance=z-shore,width=coast.transitionWidth/2;
+      const coastal=coast.seaLevel+(distance<0?coast.landHeight-coast.seaLevel:8)*Math.tanh(-distance/width);
+      height+=(coastal-height)*blend((x-coast.minX)/1000);
+    }
     return height-.04;
   }
   private projection(x:number,z:number,s:EarthworkSegment) {
@@ -76,9 +88,11 @@ export class RegionalTerrainSampler {
 export class RegionalTerrain {
   private readonly land=new MeshLambertMaterial({vertexColors:true});
   private readonly water=new MeshLambertMaterial({color:0x507d87,transparent:true,opacity:.92});
+  private readonly ocean=new MeshLambertMaterial({color:0x365f79});
   readonly farLand:MeshLambertMaterial;
   readonly farRoad:MeshLambertMaterial;
   private readonly farWater:MeshLambertMaterial;
+  private readonly farOcean:MeshLambertMaterial;
   private readonly mask:DataTexture;
   private readonly maskData:Uint8Array;
   private readonly origin:Vector2;
@@ -92,8 +106,8 @@ export class RegionalTerrain {
     this.origin=new Vector2(Math.floor(b.minX/size),Math.floor(b.minZ/size));
     this.maskSize=new Vector2(Math.ceil(b.maxX/size)-this.origin.x,Math.ceil(b.maxZ/size)-this.origin.y);
     this.maskData=new Uint8Array(this.maskSize.x*this.maskSize.y*4);this.mask=new DataTexture(this.maskData,this.maskSize.x,this.maskSize.y);this.mask.magFilter=this.mask.minFilter=NearestFilter;this.mask.needsUpdate=true;
-    this.farLand=this.land.clone();this.farWater=this.water.clone();
-    for(const material of [this.farLand,this.farWater]) {
+    this.farLand=this.land.clone();this.farWater=this.water.clone();this.farOcean=this.ocean.clone();
+    for(const material of [this.farLand,this.farWater,this.farOcean]) {
       material.customProgramCacheKey=()=> 'regional-sector-mask-v1';
       material.onBeforeCompile=shader=>{
         shader.uniforms.regionalMask={value:this.mask};shader.uniforms.regionalOrigin={value:this.origin};shader.uniforms.regionalMaskSize={value:this.maskSize};shader.uniforms.regionalSectorSize={value:size};
@@ -121,7 +135,9 @@ export class RegionalTerrain {
   }
   build(key:string,tier:'near'|'mid'|'far'):Group {
     const [sx,sz]=key.split(',').map(Number),size=this.map.sectorSize,x=sx!*size,z=sz!*size;
-    const steps=tier==='near'?40:tier==='mid'?8:3,step=size/steps,positions:number[]=[],colors:number[]=[],water:number[]=[];
+    const coast=this.map.regional?.coast,shoreA=this.sampler.shoreAt(x),shoreB=this.sampler.shoreAt(x+size);
+    const oceanOnly=shoreA!==undefined&&shoreB!==undefined&&z>Math.max(shoreA,shoreB)+coast!.transitionWidth;
+    const steps=oceanOnly?1:tier==='near'?40:tier==='mid'?8:3,step=size/steps,positions:number[]=[],colors:number[]=[],water:number[]=[];
     // Adjacent triangles share grid corners. Evaluate earthworks once per
     // corner instead of six times per cell; keep the existing triangulation.
     const heights=new Float64Array((steps+1)**2);heights.fill(NaN);
@@ -144,21 +160,36 @@ export class RegionalTerrain {
         for(const polygon of this.clearance.clip(original))for(let k=1;k+1<polygon.length;k++)for(const p of [polygon[0]!,polygon[k]!,polygon[k+1]!])vertex(p.x,p.z,p.y??0);
       };
       triangle(a,b,a,b1,a1,b1);triangle(a,b,a1,b1,a1,b);
-      if(this.sampler.waterAt((a+a1)/2,(b+b1)/2))water.push(a,-1,b,a,-1,b1,a1,-1,b1,a,-1,b,a1,-1,b1,a1,-1,b);
+      // Existing rivers retain their old footprint; ocean geometry is authored below.
+      if(this.sampler.shoreAt((a+a1)/2)===undefined&&this.sampler.waterAt((a+a1)/2,(b+b1)/2))water.push(a,-1,b,a,-1,b1,a1,-1,b1,a,-1,b,a1,-1,b1,a1,-1,b);
+    }
+    if(coast&&x+size>coast.minX&&x<coast.maxX){
+      const bounds=this.map.regional!.terrainBounds,sea=coast.seaLevel;
+      const minX=Math.max(x,coast.minX),maxX=Math.min(x+size,coast.maxX),minZ=Math.max(z,bounds.minZ),maxZ=Math.min(z+size,bounds.maxZ);
+      // Two triangles on open sea; at most eight near the broad shoreline.
+      const strips=oceanOnly?1:4;
+      for(let i=0;i<strips;i++){const a=minX+(maxX-minX)*i/strips,b=minX+(maxX-minX)*(i+1)/strips;
+        const sa=this.sampler.shoreAt(a)!,sb=this.sampler.shoreAt(b)!;
+        const polygon=[{x:a,z:minZ,d:minZ-sa},{x:a,z:maxZ,d:maxZ-sa},{x:b,z:maxZ,d:maxZ-sb},{x:b,z:minZ,d:minZ-sb}],clipped:{x:number;z:number}[]=[];
+        for(let j=0;j<polygon.length;j++){const p=polygon[j]!,q=polygon[(j+1)%polygon.length]!;if(p.d>=0)clipped.push(p);if((p.d>=0)!==(q.d>=0)){const t=p.d/(p.d-q.d);clipped.push({x:p.x+(q.x-p.x)*t,z:p.z+(q.z-p.z)*t});}}
+        for(let k=1;k+1<clipped.length;k++)for(const p of [clipped[0]!,clipped[k]!,clipped[k+1]!])water.push(p.x,sea,p.z);
+      }
     }
     const root=new Group();root.name=`Regional terrain ${key} ${tier}`;
     const geometry=new BufferGeometry();geometry.setAttribute('position',new Float32BufferAttribute(positions,3));geometry.setAttribute('color',new Float32BufferAttribute(colors,3));geometry.computeVertexNormals();
     const mesh=new Mesh(geometry,tier==='far'?this.farLand:this.land);mesh.receiveShadow=true;root.add(mesh);
-    if(water.length){const g=new BufferGeometry();g.setAttribute('position',new Float32BufferAttribute(water,3));g.computeVertexNormals();root.add(new Mesh(g,tier==='far'?this.farWater:this.water));}
+    if(water.length){const g=new BufferGeometry();g.setAttribute('position',new Float32BufferAttribute(water,3));g.computeVertexNormals();root.add(new Mesh(g,this.materialFor(tier,1,key)));}
     return root;
   }
-  public materialFor(tier: 'near' | 'mid' | 'far', index: number) {
-    return index === 0 ? tier === 'far' ? this.farLand : this.land : tier === 'far' ? this.farWater : this.water;
+  public materialFor(tier: 'near' | 'mid' | 'far', index: number, key?:string) {
+    const x=key?Number(key.split(',')[0])*this.map.sectorSize+this.map.sectorSize/2:undefined;
+    const ocean=x!==undefined&&this.sampler.shoreAt(x)!==undefined;
+    return index === 0 ? tier === 'far' ? this.farLand : this.land : ocean?tier==='far'?this.farOcean:this.ocean:tier === 'far' ? this.farWater : this.water;
   }
   public fromCompiled(data: TerrainVisualData): Group {
     const root = new Group(); root.name = `Regional terrain ${data.key} ${data.tier}`;
-    data.geometries.forEach((g, i) => { const mesh = new Mesh(importVisualGeometry(g), this.materialFor(data.tier, i)); mesh.receiveShadow = i === 0; root.add(mesh); });
+    data.geometries.forEach((g, i) => { const mesh = new Mesh(importVisualGeometry(g), this.materialFor(data.tier, i,data.key)); mesh.receiveShadow = i === 0; root.add(mesh); });
     return root;
   }
-  dispose(){this.land.dispose();this.water.dispose();this.farLand.dispose();this.farRoad.dispose();this.farWater.dispose();this.mask.dispose();}
+  dispose(){this.land.dispose();this.water.dispose();this.ocean.dispose();this.farLand.dispose();this.farRoad.dispose();this.farWater.dispose();this.farOcean.dispose();this.mask.dispose();}
 }

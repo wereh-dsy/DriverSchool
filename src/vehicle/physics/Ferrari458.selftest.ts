@@ -27,8 +27,8 @@ export function runFerrari458SelfTest() {
   const curve = JSON.stringify(c.engine.torqueCurve);
   assert(car.driveMode === 'SPORT', 'default SPORT');
   car.cycleDriveMode(); assert(car.driveMode === 'RACE' && c.transmission.shiftTime === .08 && c.driverAids.stabilityControlEnabled, 'RACE later intervention stays enabled');
-  const raceSlip = c.driverAids.tcs!.slipThresholdMultiplier;
-  car.cycleDriveMode(); assert(car.driveMode === 'WET' && c.driverAids.tcs!.slipThresholdMultiplier < raceSlip, 'WET earlier intervention');
+  const raceSlip = car.driverAssists.calibration.tcs.slipMultiplier;
+  car.cycleDriveMode(); assert(car.driveMode === 'WET' && car.driverAssists.calibration.tcs.slipMultiplier < raceSlip, 'WET earlier intervention');
   car.reset(); assert(car.driveMode === 'SPORT' && c.transmission.shiftTime === .11 && JSON.stringify(c.engine.torqueCurve) === curve, 'reset and modes preserve peak power');
   const context = (gear: 3 | 4, rpm: number, brake = 0): TransmissionContext => {
     const speed = rpm * Math.PI / 30 * c.wheelRadius / (c.transmission.gearRatios[gear]! * c.transmission.finalDriveRatio);

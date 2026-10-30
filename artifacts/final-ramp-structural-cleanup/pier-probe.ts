@@ -1,0 +1,1 @@
+import {read,dir} from './common';import {roadPiers} from '../../src/world/city/RoadInfrastructure';const m=read(dir+'candidate-map.json'),r=m.roads.find((r:any)=>r.id==='system-south:N-to-E-semi');console.log(JSON.stringify(roadPiers(r,m).map((p,i)=>({i,...p})).filter(p=>p.i===3)));

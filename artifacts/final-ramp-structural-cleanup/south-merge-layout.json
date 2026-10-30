@@ -1,0 +1,134 @@
+{
+  "profile": {
+    "independentLength": 205.61046450725286,
+    "sharedLengths": [
+      26,
+      60
+    ],
+    "profileTransition": [
+      30,
+      227.61046450725286
+    ]
+  },
+  "row": {
+    "id": "system-south:W-to-N-loop",
+    "cluster": "system-south",
+    "length": 291.61046450725286,
+    "transition": null,
+    "interfaces": [
+      {
+        "end": "start",
+        "host": {
+          "roadId": "ring-ccw-1",
+          "end": "end"
+        },
+        "peers": [
+          "ring-ccw-1",
+          "ring-ccw-0-split-split-split-split",
+          "ring-ccw-1-split-3",
+          "ring-ccw-0-split-split-split",
+          "ring-ccw-1-split-2"
+        ],
+        "sharedLength": 26,
+        "maxSharedDeltaY": 0.004996156482055519,
+        "conflictRange": null,
+        "unsupportedWheelSamples": 0,
+        "xzGap": 0,
+        "deltaY": 0,
+        "tangentDegrees": 1.184210526321663,
+        "topology": true,
+        "samples": []
+      },
+      {
+        "end": "end",
+        "host": {
+          "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+          "end": "start"
+        },
+        "peers": [
+          "ns-nb-split-3-split-split-split-2-split-2",
+          "ns-nb-split-3-split-split-split-2-split",
+          "ns-nb-split-3-split-split-split-2",
+          "ns-nb-split-3-split-split-split-2-split-section",
+          "ns-nb-split-3-split-split-split-3-split",
+          "ns-nb-split-3-split-split-split-3",
+          "ns-nb-split-3-split-split"
+        ],
+        "sharedLength": 60,
+        "maxSharedDeltaY": 0.007093296384108605,
+        "conflictRange": null,
+        "unsupportedWheelSamples": 0,
+        "xzGap": 0,
+        "deltaY": 0,
+        "tangentDegrees": 0.35510991973645684,
+        "topology": true,
+        "samples": []
+      }
+    ],
+    "profile": {
+      "maxGrade": 0.06901087454576109,
+      "gradeBreaks": [],
+      "minRadius": 35.292177559272325,
+      "shortSegments": 0
+    },
+    "severity": "PASS"
+  },
+  "pairs": [
+    {
+      "key": "ring-ccw-1-split-3|system-south:W-to-N-loop",
+      "lo": -0.005,
+      "hi": 0.001183837382321948,
+      "stationMin": 0,
+      "stationMax": 26.78430399091028,
+      "area": 142.90193615216413
+    },
+    {
+      "key": "system-south:N-to-E-semi|system-south:W-to-N-loop",
+      "lo": 5.88974155060946,
+      "hi": 14.251972722686997,
+      "stationMin": 46.12852353990104,
+      "stationMax": 210.56244110233587,
+      "area": 98.38477798003805
+    },
+    {
+      "key": "system-south:S-to-E-right|system-south:W-to-N-loop",
+      "lo": -2.255728520890391,
+      "hi": -0.18241839968390705,
+      "stationMin": 65.4727430888922,
+      "stationMax": 117.55333418232884,
+      "area": 160.39661251395592
+    },
+    {
+      "key": "system-south:S-to-W-semi|system-south:W-to-N-loop",
+      "lo": 7.783914188926976,
+      "hi": 13.125880936516117,
+      "stationMin": 122.01738484748054,
+      "stationMax": 186.17561336803166,
+      "area": 121.07419157889308
+    },
+    {
+      "key": "ring-ccw-1|system-south:W-to-N-loop",
+      "lo": 7.540937314482626,
+      "hi": 7.80363879326287,
+      "stationMin": 196.79091108034933,
+      "stationMax": 213.63906637647258,
+      "area": 89.87083897070625
+    },
+    {
+      "key": "ring-cw-2-split-split-2|system-south:W-to-N-loop",
+      "lo": 7.781660395714988,
+      "hi": 7.918434494891431,
+      "stationMin": 210.56244110233587,
+      "stationMax": 227.53001716417097,
+      "area": 90.50013597752331
+    },
+    {
+      "key": "ns-nb-split-3-split-split-split-2|system-south:W-to-N-loop",
+      "lo": 0,
+      "hi": 0.007129271095003276,
+      "stationMin": 230.62219489150922,
+      "stationMax": 291.61046450725286,
+      "area": 304.9185390685616
+    }
+  ]
+}

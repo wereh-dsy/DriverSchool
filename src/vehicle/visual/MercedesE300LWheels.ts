@@ -3,6 +3,7 @@ import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../
 import type { VehicleVisualConfig } from './VehicleVisualConfig';
 import { mesh, rounded } from './MercedesE300LGeometry';
 import { mercedesExteriorUV } from './MercedesE300LExteriorDetails';
+import { tyreDetailTexture } from './TyreDetailTexture';
 
 /**
  * 20-inch luxury multi-spoke wheels. The rear axle carries the wider 275 section
@@ -11,7 +12,6 @@ import { mercedesExteriorUV } from './MercedesE300LExteriorDetails';
 export function buildMercedesE300LWheels(root: T.Group, c: VehicleVisualConfig, atlas: T.Texture): {
   pivots: Record<VehicleWheelId, T.Group>; wheels: T.Mesh[];
 } {
-  const rubber = new T.MeshStandardMaterial({ color: 0x14171a, roughness: .89 });
   const alloy = new T.MeshStandardMaterial({ color: 0xbcc3c9, metalness: .86, roughness: .25 });
   const inner = new T.MeshStandardMaterial({ color: 0x232830, metalness: .58, roughness: .40 });
   const steel = new T.MeshStandardMaterial({ color: 0x7f868d, metalness: .76, roughness: .46 });
@@ -23,6 +23,9 @@ export function buildMercedesE300LWheels(root: T.Group, c: VehicleVisualConfig, 
 
   const radius = c.wheelRadius;
   const positions = localWheelPositions(c.dimensions);
+  const sections=new Map<number,{tyre:T.BufferGeometry;barrel:T.BufferGeometry;rubber:T.Material}>();
+  const discGeometry = new T.CylinderGeometry(.190, .190, .013, 48); discGeometry.rotateZ(Math.PI / 2);
+  const lipGeometry = new T.TorusGeometry(.2525, .0085, 8, 64); lipGeometry.rotateY(Math.PI / 2);
   const pivots = {} as Record<VehicleWheelId, T.Group>, wheels: T.Mesh[] = [];
   for (const id of VEHICLE_WHEEL_IDS) {
     const anchor = positions[id], sign = id.endsWith('Left') ? -1 : 1;
@@ -35,28 +38,26 @@ export function buildMercedesE300LWheels(root: T.Group, c: VehicleVisualConfig, 
       [radius, -width * .26], [radius, width * .26], [radius - .014, width * .40],
       [.286, width / 2], [.253, width / 2], [.253, -width / 2]]
       .map(([r, z]) => new T.Vector2(r!, z!));
-    const tyreGeometry = new T.LatheGeometry(profile, 64); tyreGeometry.rotateZ(Math.PI / 2);
-    const barrelGeometry = new T.CylinderGeometry(.2545, .2545, width * .90, 48, 1, true);
-    barrelGeometry.rotateZ(Math.PI / 2);
-    const discGeometry = new T.CylinderGeometry(.190, .190, .013, 48); discGeometry.rotateZ(Math.PI / 2);
-    const lipGeometry = new T.TorusGeometry(.2525, .0085, 8, 64); lipGeometry.rotateY(Math.PI / 2);
+    let section=sections.get(width);
+    if(!section){
+      const tyre=new T.LatheGeometry(profile,64);tyre.rotateZ(Math.PI/2);
+      const barrel=new T.CylinderGeometry(.2545,.2545,width*.90,48,1,true);barrel.rotateZ(Math.PI/2);
+      const rubber=new T.MeshStandardMaterial({map:tyreDetailTexture(width,0x14171a),roughness:.89});
+      section={tyre,barrel,rubber};sections.set(width,section);
+    }
 
     const pivot = new T.Group();
     pivot.name = id + ' Mercedes wheel mount'; pivot.userData.wheelId = id;
     pivot.position.set(anchor.x, anchor.y - (c.staticBodyOffsetY ?? 0), anchor.z);
     pivots[id] = pivot;
-    const tyre = mesh(front ? '245/40 R20 front tyre' : '275/35 R20 rear tyre', tyreGeometry, rubber);
+    const tyre = mesh(front ? '245/40 R20 front tyre' : '275/35 R20 rear tyre', section.tyre, section.rubber);
     const face = sign * (width / 2 - .011);
-    tyre.add(mesh('20 inch alloy barrel', barrelGeometry, inner));
+    tyre.add(mesh('20 inch alloy barrel', section.barrel, inner));
     const disc = mesh('Ventilated road brake disc', discGeometry, steel);
     disc.position.x = sign * .058; tyre.add(disc);
     const lip = mesh('20 inch polished rim lip', lipGeometry, alloy); lip.position.x = face; tyre.add(lip);
     const spokes = mesh('Twenty-spoke luxury wheel face', faceGeometry, machined);
     spokes.position.x = face + sign * .0035; tyre.add(spokes);
-    for (const x of [-.062, 0, .062]) {
-      const groove = mesh('Tyre tread groove', new T.TorusGeometry(radius + .0005, .0013, 4, 64), inner);
-      groove.rotation.y = Math.PI / 2; groove.position.x = x; tyre.add(groove);
-    }
     const caliper = rounded('Front brake caliper', [Math.max(.058, shoulder * .9), .112, .066],
       [sign * .054, .034, .150], inner);
     pivot.add(tyre, caliper); root.add(pivot); wheels.push(tyre);

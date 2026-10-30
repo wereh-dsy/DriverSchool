@@ -1,0 +1,953 @@
+{
+  "cluster": "regional:qingling",
+  "plans": [],
+  "attempts": [],
+  "after": [
+    {
+      "id": "regional:qingling:S-to-E-right",
+      "cluster": "regional:qingling",
+      "length": 397.4763261405065,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:qingling:S-to-E-right:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:qingling:S-to-E-right:deceleration",
+            "regional:G38:out:split274:split276:lane0",
+            "regional:G38:out:split274:split276",
+            "regional:G38:out:split10",
+            "regional:G38:out:split274",
+            "regional:G38:out:split10:split282",
+            "regional:G38:out:split338:split340:split474",
+            "regional:G38:out:split10:split24",
+            "regional:G38:out:split338:split340:lane300",
+            "regional:G38:out:split10:split24:lane20",
+            "regional:G38:out:split338:split340",
+            "regional:G38:out:split10:split24:split284",
+            "regional:qingling:E-to-N-right:acceleration",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:shangu:off:1:deceleration",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356"
+          ],
+          "sharedLength": 56,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.1712526231900552,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:qingling:S-to-E-right:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:qingling:S-to-E-right:acceleration",
+            "regional:S68:out:split12",
+            "regional:S68:out:split12:lane4",
+            "regional:S68:out",
+            "regional:S68:out:split12:split30",
+            "regional:S68:out:split12:split30:lane28",
+            "regional:S68:out:split12:split30:split226",
+            "regional:qingling:N-to-E-turbine:acceleration",
+            "regional:S68:out:split12:split30:split226:split544",
+            "regional:S68:out:split12:split30:split226:split544:split552",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568:split576"
+          ],
+          "sharedLength": 54,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18969097830484224,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.039793662643489436,
+        "gradeBreaks": [],
+        "minRadius": 151.86674435304474,
+        "shortSegments": 13
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:E-to-S-turbine",
+      "cluster": "regional:qingling",
+      "length": 1303.1121941160568,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:qingling:E-to-S-turbine:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:qingling:E-to-S-turbine:deceleration",
+            "regional:S68:in:split42:split60:split228:lane8",
+            "regional:S68:in:split42:split60:split228",
+            "regional:S68:in:split16",
+            "regional:S68:in:split42:split60:split234:split548:split556:split564:split572:split580",
+            "regional:S68:in:split16:lane16",
+            "regional:qingling:E-to-N-right:deceleration",
+            "regional:S68:in:split42:split60:split234:split548:split556:split564:split572",
+            "regional:S68:in:split16:split22"
+          ],
+          "sharedLength": 61,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.13761533690520683,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:qingling:E-to-S-turbine:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:qingling:E-to-S-turbine:acceleration",
+            "regional:G38:in:split18",
+            "regional:G38:in:split18:lane12",
+            "regional:G38:in:split28:split286",
+            "regional:G38:in:split18:split280",
+            "regional:G38:in:split28:split288",
+            "regional:G38:in:split18:split278",
+            "regional:G38:in:split28",
+            "regional:G38:in:split18:split278:split472",
+            "regional:G38:in:split362:split364:lane24",
+            "regional:G38:in:split18:split278:split472:lane304",
+            "regional:G38:in:split362:split364",
+            "regional:G38:in:split362",
+            "regional:qingling:N-to-E-turbine:deceleration",
+            "regional:G38:in:split442:split444",
+            "regional:G38:in:split442"
+          ],
+          "sharedLength": 53,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.23800060490308625,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.04590206722277503,
+        "gradeBreaks": [],
+        "minRadius": 119.21254023408738,
+        "shortSegments": 16
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:E-to-N-right",
+      "cluster": "regional:qingling",
+      "length": 397.4763261405064,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:qingling:E-to-N-right:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:qingling:E-to-N-right:deceleration",
+            "regional:S68:in:split16:lane16",
+            "regional:S68:in:split16",
+            "regional:S68:in:split16:split22",
+            "regional:S68:in:split42:split60:split228:lane8",
+            "regional:S68:in:split42:split60:split228",
+            "regional:S68:in:split42:split60:split234:split548:split556:split564:split572:split580",
+            "regional:qingling:E-to-S-turbine:deceleration",
+            "regional:S68:in:split42:split60:split234:split548:split556:split564:split572"
+          ],
+          "sharedLength": 54,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18969097830099954,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:qingling:E-to-N-right:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:qingling:E-to-N-right:acceleration",
+            "regional:G38:out:split10:split24",
+            "regional:G38:out:split10:split24:lane20",
+            "regional:G38:out:split10:split282",
+            "regional:G38:out:split10:split24:split284",
+            "regional:G38:out:split10",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:shangu:off:1:deceleration",
+            "regional:G38:out:split274:split276:lane0",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split274:split276",
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split274",
+            "regional:qingling:S-to-E-right:deceleration",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split338:split340:split474",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split338:split340:lane300",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+            "regional:G38:out:split338:split340"
+          ],
+          "sharedLength": 56,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.17125262319856813,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0388615632802247,
+        "gradeBreaks": [],
+        "minRadius": 161.04428685369794,
+        "shortSegments": 9
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:N-to-E-turbine",
+      "cluster": "regional:qingling",
+      "length": 1302.9757930347596,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:qingling:N-to-E-turbine:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:qingling:N-to-E-turbine:deceleration",
+            "regional:G38:in:split362:split364:lane24",
+            "regional:G38:in:split362:split364",
+            "regional:G38:in:split28",
+            "regional:G38:in:split362",
+            "regional:G38:in:split28:split288",
+            "regional:G38:in:split442:split444",
+            "regional:G38:in:split28:split286",
+            "regional:G38:in:split442",
+            "regional:G38:in:split18",
+            "regional:G38:in:split18:lane12",
+            "regional:G38:in:split18:split280",
+            "regional:qingling:E-to-S-turbine:acceleration",
+            "regional:G38:in:split18:split278",
+            "regional:G38:in:split18:split278:split472",
+            "regional:G38:in:split18:split278:split472:lane304"
+          ],
+          "sharedLength": 66,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.13919293728834684,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:qingling:N-to-E-turbine:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:qingling:N-to-E-turbine:acceleration",
+            "regional:S68:out:split12:split30",
+            "regional:S68:out:split12:split30:lane28",
+            "regional:S68:out:split12:lane4",
+            "regional:S68:out:split12:split30:split226",
+            "regional:S68:out:split12",
+            "regional:qingling:S-to-E-right:acceleration",
+            "regional:S68:out:split12:split30:split226:split544",
+            "regional:S68:out",
+            "regional:S68:out:split12:split30:split226:split544:split552",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568:split576"
+          ],
+          "sharedLength": 50,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.20146485112735157,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.047019915200836926,
+        "gradeBreaks": [],
+        "minRadius": 119.39661774194887,
+        "shortSegments": 2
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:S-to-E-right:deceleration",
+      "cluster": "regional:qingling",
+      "length": 300.1260197475806,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:G38:out:split274:split276:lane0",
+        "decisionId": "regional:qingling:S-to-E-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G38:out:split274:split276",
+            "end": "end"
+          },
+          "peers": [
+            "regional:G38:out:split274:split276",
+            "regional:G38:out:split274",
+            "regional:G38:out:split274:split276:lane0",
+            "regional:G38:out:split338:split340:split474",
+            "regional:G38:out:split10",
+            "regional:G38:out:split338:split340:lane300",
+            "regional:G38:out:split10:split282",
+            "regional:G38:out:split338:split340",
+            "regional:G38:out:split10:split24",
+            "regional:G38:out:split10:split24:lane20",
+            "regional:G38:out:split10:split24:split284",
+            "regional:qingling:E-to-N-right:acceleration",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:shangu:off:1:deceleration",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.41061272343296157,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:qingling:S-to-E-right",
+            "end": "start"
+          },
+          "peers": [
+            "regional:qingling:S-to-E-right",
+            "regional:qingling:S-to-E-right:acceleration",
+            "regional:S68:out:split12:lane4",
+            "regional:S68:out:split12:split30",
+            "regional:S68:out:split12",
+            "regional:S68:out:split12:split30:lane28",
+            "regional:S68:out",
+            "regional:S68:out:split12:split30:split226",
+            "regional:qingling:N-to-E-turbine:acceleration",
+            "regional:S68:out:split12:split30:split226:split544",
+            "regional:S68:out:split12:split30:split226:split544:split552",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568:split576"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.1712526231900552,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 384.71510005724565,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:S-to-E-right:acceleration",
+      "cluster": "regional:qingling",
+      "length": 224.62897148909272,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S68:out:split12",
+        "decisionId": "regional:qingling:S-to-E-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:qingling:S-to-E-right",
+            "end": "end"
+          },
+          "peers": [
+            "regional:qingling:S-to-E-right"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18969097830484224,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S68:out:split12:lane4",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S68:out:split12:lane4",
+            "regional:S68:out:split12:split30",
+            "regional:S68:out:split12",
+            "regional:S68:out:split12:split30:lane28",
+            "regional:S68:out",
+            "regional:S68:out:split12:split30:split226",
+            "regional:qingling:N-to-E-turbine:acceleration",
+            "regional:S68:out:split12:split30:split226:split544",
+            "regional:S68:out:split12:split30:split226:split544:split552",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568:split576"
+          ],
+          "sharedLength": 107,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5347395365497267,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 302.3912984032844,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:E-to-S-turbine:deceleration",
+      "cluster": "regional:qingling",
+      "length": 125.0683539240284,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 124.79469925996995,
+        "mainRoadId": "regional:S68:in:split42:split60:split228:lane8",
+        "decisionId": "regional:qingling:E-to-S-turbine"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S68:in:split42:split60:split228",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S68:in:split42:split60:split228",
+            "regional:S68:in:split42:split60:split234:split548:split556:split564:split572:split580",
+            "regional:S68:in:split42:split60:split228:lane8",
+            "regional:S68:in:split42:split60:split234:split548:split556:split564:split572",
+            "regional:S68:in:split16",
+            "regional:S68:in:split16:lane16",
+            "regional:qingling:E-to-N-right:deceleration",
+            "regional:S68:in:split16:split22"
+          ],
+          "sharedLength": 60,
+          "maxSharedDeltaY": 0.00003133729441273658,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4231933904916058,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:qingling:E-to-S-turbine",
+            "end": "start"
+          },
+          "peers": [
+            "regional:qingling:E-to-S-turbine",
+            "regional:qingling:E-to-S-turbine:acceleration",
+            "regional:G38:in:split18:lane12",
+            "regional:G38:in:split18:split280",
+            "regional:G38:in:split18",
+            "regional:G38:in:split18:split278",
+            "regional:G38:in:split28:split286",
+            "regional:G38:in:split18:split278:split472",
+            "regional:G38:in:split28:split288",
+            "regional:G38:in:split18:split278:split472:lane304",
+            "regional:G38:in:split28",
+            "regional:G38:in:split362:split364:lane24",
+            "regional:G38:in:split362:split364",
+            "regional:G38:in:split362",
+            "regional:qingling:N-to-E-turbine:deceleration",
+            "regional:G38:in:split442:split444",
+            "regional:G38:in:split442"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.13761533690520683,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.000010806316452337456,
+        "gradeBreaks": [],
+        "minRadius": 235.18526223067641,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:E-to-S-turbine:acceleration",
+      "cluster": "regional:qingling",
+      "length": 168.08959362343674,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:G38:in:split18",
+        "decisionId": "regional:qingling:E-to-S-turbine"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:qingling:E-to-S-turbine",
+            "end": "end"
+          },
+          "peers": [
+            "regional:qingling:E-to-S-turbine"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.23800060490308625,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G38:in:split18:lane12",
+            "end": "start"
+          },
+          "peers": [
+            "regional:G38:in:split18:lane12",
+            "regional:G38:in:split18:split280",
+            "regional:G38:in:split18",
+            "regional:G38:in:split18:split278",
+            "regional:G38:in:split28:split286",
+            "regional:G38:in:split18:split278:split472",
+            "regional:G38:in:split28:split288",
+            "regional:G38:in:split18:split278:split472:lane304",
+            "regional:G38:in:split28",
+            "regional:G38:in:split362:split364:lane24",
+            "regional:G38:in:split362:split364",
+            "regional:G38:in:split362",
+            "regional:qingling:N-to-E-turbine:deceleration",
+            "regional:G38:in:split442:split444",
+            "regional:G38:in:split442"
+          ],
+          "sharedLength": 80,
+          "maxSharedDeltaY": 0.0004784502012640246,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.0647419507895712,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.000288328984659492,
+        "gradeBreaks": [],
+        "minRadius": 169.81479962525503,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:E-to-N-right:deceleration",
+      "cluster": "regional:qingling",
+      "length": 224.62897148909238,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S68:in:split16:lane16",
+        "decisionId": "regional:qingling:E-to-N-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S68:in:split16",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S68:in:split16",
+            "regional:S68:in:split42:split60:split228:lane8",
+            "regional:S68:in:split16:lane16",
+            "regional:S68:in:split42:split60:split228",
+            "regional:S68:in:split16:split22",
+            "regional:S68:in:split42:split60:split234:split548:split556:split564:split572:split580",
+            "regional:qingling:E-to-S-turbine:deceleration",
+            "regional:S68:in:split42:split60:split234:split548:split556:split564:split572"
+          ],
+          "sharedLength": 107,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5347395365497267,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:qingling:E-to-N-right",
+            "end": "start"
+          },
+          "peers": [
+            "regional:qingling:E-to-N-right",
+            "regional:qingling:E-to-N-right:acceleration",
+            "regional:G38:out:split10:split24:lane20",
+            "regional:G38:out:split10:split24:split284",
+            "regional:G38:out:split10:split24",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:shangu:off:1:deceleration",
+            "regional:G38:out:split10:split282",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split10",
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split274:split276:lane0",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split274:split276",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split274",
+            "regional:qingling:S-to-E-right:deceleration",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+            "regional:G38:out:split338:split340:split474",
+            "regional:G38:out:split338:split340:lane300",
+            "regional:G38:out:split338:split340"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18969097830099954,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 309.73666219907483,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:E-to-N-right:acceleration",
+      "cluster": "regional:qingling",
+      "length": 174.65323817044893,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:G38:out:split10:split24",
+        "decisionId": "regional:qingling:E-to-N-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:qingling:E-to-N-right",
+            "end": "end"
+          },
+          "peers": [
+            "regional:qingling:E-to-N-right"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.17125262319856813,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G38:out:split10:split24:lane20",
+            "end": "start"
+          },
+          "peers": [
+            "regional:G38:out:split10:split24:lane20",
+            "regional:G38:out:split10:split24:split284",
+            "regional:G38:out:split10:split24",
+            "regional:G38:out:split10:split24:split284:lane312",
+            "regional:shangu:off:1:deceleration",
+            "regional:G38:out:split10:split282",
+            "regional:G38:out:split10:split24:split284:split354",
+            "regional:G38:out:split10",
+            "regional:G38:out:split10:split24:split284:split354:split356",
+            "regional:G38:out:split274:split276:lane0",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434",
+            "regional:G38:out:split274:split276",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+            "regional:G38:out:split274",
+            "regional:qingling:S-to-E-right:deceleration",
+            "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+            "regional:G38:out:split338:split340:split474",
+            "regional:G38:out:split338:split340:lane300",
+            "regional:G38:out:split338:split340"
+          ],
+          "sharedLength": 83,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.398691624336157,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 398.32837509720554,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:N-to-E-turbine:deceleration",
+      "cluster": "regional:qingling",
+      "length": 233.19599989030908,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:G38:in:split362:split364:lane24",
+        "decisionId": "regional:qingling:N-to-E-turbine"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G38:in:split362:split364",
+            "end": "end"
+          },
+          "peers": [
+            "regional:G38:in:split362:split364",
+            "regional:G38:in:split362",
+            "regional:G38:in:split362:split364:lane24",
+            "regional:G38:in:split442:split444",
+            "regional:G38:in:split28",
+            "regional:G38:in:split442",
+            "regional:G38:in:split28:split288",
+            "regional:G38:in:split28:split286",
+            "regional:G38:in:split18",
+            "regional:G38:in:split18:lane12",
+            "regional:G38:in:split18:split280",
+            "regional:qingling:E-to-S-turbine:acceleration",
+            "regional:G38:in:split18:split278",
+            "regional:G38:in:split18:split278:split472",
+            "regional:G38:in:split18:split278:split472:lane304"
+          ],
+          "sharedLength": 111,
+          "maxSharedDeltaY": 0.016057989017568275,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.39834409564839734,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:qingling:N-to-E-turbine",
+            "end": "start"
+          },
+          "peers": [
+            "regional:qingling:N-to-E-turbine",
+            "regional:qingling:N-to-E-turbine:acceleration",
+            "regional:S68:out:split12:split30:lane28",
+            "regional:S68:out:split12:split30:split226",
+            "regional:S68:out:split12:split30",
+            "regional:S68:out:split12:split30:split226:split544",
+            "regional:S68:out:split12:lane4",
+            "regional:S68:out:split12:split30:split226:split544:split552",
+            "regional:S68:out:split12",
+            "regional:qingling:S-to-E-right:acceleration",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560",
+            "regional:S68:out",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568:split576"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.13919293728834684,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0070787848500226055,
+        "gradeBreaks": [],
+        "minRadius": 292.6538689193981,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:qingling:N-to-E-turbine:acceleration",
+      "cluster": "regional:qingling",
+      "length": 124.27045011013227,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 124.00530074344566,
+        "mainRoadId": "regional:S68:out:split12:split30",
+        "decisionId": "regional:qingling:N-to-E-turbine"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:qingling:N-to-E-turbine",
+            "end": "end"
+          },
+          "peers": [
+            "regional:qingling:N-to-E-turbine"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.20146485112735157,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S68:out:split12:split30:lane28",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S68:out:split12:split30:lane28",
+            "regional:S68:out:split12:split30:split226",
+            "regional:S68:out:split12:split30",
+            "regional:S68:out:split12:split30:split226:split544",
+            "regional:S68:out:split12:lane4",
+            "regional:S68:out:split12:split30:split226:split544:split552",
+            "regional:S68:out:split12",
+            "regional:qingling:S-to-E-right:acceleration",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560",
+            "regional:S68:out",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568",
+            "regional:S68:out:split12:split30:split226:split544:split552:split560:split568:split576"
+          ],
+          "sharedLength": 59,
+          "maxSharedDeltaY": 0.00002870758836692744,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.135992868954787,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.000010374024790222713,
+        "gradeBreaks": [],
+        "minRadius": 156.265983818532,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    }
+  ]
+}

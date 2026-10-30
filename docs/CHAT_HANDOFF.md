@@ -1,16 +1,16 @@
 # 可直接交给 Chat 的项目指示文本
 
-以下正文可整体复制到新 Chat。若对方能读取仓库，附上 AGENTS.md、README.md、CURRENT_CODE_CONTEXT.md 和 FIXES_2026-10-13.md；若不能读取，应明确说明它只掌握这份 2026-10-16 快照。新增需求写在正文末尾。
+以下正文可整体复制到新 Chat。若对方能读取仓库，附上 AGENTS.md、README.md、CURRENT_CODE_CONTEXT.md 和 FIXES_2026-10-13.md；若不能读取，应明确说明它只掌握这份 2026-10-24 快照（本次更新地图与发布流程）。新增需求写在正文末尾。
 
 ---
 
 你现在为 DriverGame 提供后续设计与代码指导。请先建立下面的项目事实，不要用旧版本的认知建议重复造轮子，也不要把当前简化仿真说成原厂精确模型。
 
-项目位于 `D:\dsy\drivergame`，是 TypeScript strict + Three.js + Vite + pnpm 的浏览器第一人称 3D 驾驶模拟。没有后端/前端框架/多人服务。物理固定 120 Hz，SI 单位，坐标 +X 右、+Y 上、-Z 前；显示车速和地图限速 km/h，内部角度/JSON 旋转弧度，CLI rotation 为度。源码优先于 README 和历史报告。这里的信息是 2026-10-16 的快照，后续状态需核对源码。
+项目位于 `D:\dsy\drivergame`，是 TypeScript strict + Three.js + Vite + pnpm 的浏览器第一人称 3D 驾驶模拟。没有后端/前端框架/多人服务。物理固定 120 Hz，SI 单位，坐标 +X 右、+Y 上、-Z 前；显示车速和地图限速 km/h，内部角度/JSON 旋转弧度，CLI rotation 为度。源码优先于 README 和历史报告。地图与发布信息更新至 2026-10-24，其余历史专题及后续状态仍需核对源码。
 
 当前有 12 辆正式车：Haiteng S1（family-sedan，5MT FWD）、GT（sport-coupe，7MT RWD）、Mazda CX-4（test-6at-sedan，6AT FWD）、Sagitar（test-7dct-sedan，7DCT FWD）、Sylphy（cvt-family-sedan，CVT FWD）、A6L（executive-lwb-2t，7DCT 适时 AWD）、Touareg（road-suv-v6-8at，8AT 适时 AWD）、Ferrari 458（ferrari-458-italia，7DCT 中置 RWD）、Tesla Model 3（tesla-model-3-rwd，单后电机固定减速）、BMW 530Li（bmw-530li-g38，8AT RWD）、Taycan 4S（porsche-taycan-4s，双电机 AWD，前单速后两速）。另有 Volkswagen Golf GTI（volkswagen-golf-gti，2.0T L4 / 7DCT 前驱 / 制动式 eDiff）。Tesla 为游戏标定 60 kWh 可用电池；Taycan 105/97 kWh、常规峰值 380 kW、Launch Control 440 kW。现实车型只是参考原型。
 
-11 个场地 ID 是 road-course、mixed-surface-proving-ground、tsukuba-tc2000、subject-2-training-ground、subject-3-shared-city-map、simple-circuit、mountain-proving-ground、city-alpha、city-main、preset-showcase、city-editor-map。默认海腾 S1 + 综合道路测试场。科目二/三、山地、赛道各自手工构造，城市/区域使用 CityMap JSON。菜单 city-main 加载 `src/world/regional/regional-main.json`（version 14，2557 道路），CLI 可用 regional-main；城市基础图是 `src/world/city/maps/city-main.json`（version 10，623 道路），CLI 可用 city-main-city。兼容别名 city-main 仍指向城市基础图并打印提示，两份文件 id 相同但不能混用。
+11 个场地 ID 是 road-course、mixed-surface-proving-ground、tsukuba-tc2000、subject-2-training-ground、subject-3-shared-city-map、simple-circuit、mountain-proving-ground、city-alpha、city-main、preset-showcase、city-editor-map。默认海腾 S1 + 综合道路测试场。科目二/三、山地、赛道各自手工构造，城市/区域使用 CityMap JSON。菜单 city-main 加载 `src/world/regional/regional-main.json`（version 493，3288 道路），CLI 可用 regional-main；城市基础图是 `src/world/city/maps/city-main.json`（version 11，623 道路），CLI 可用 city-main-city。兼容别名 city-main 仍指向城市基础图并打印提示，两份文件 id 相同但不能混用。
 
 架构主链：KeyboardInput/GamepadInput → VehicleInputSystem/VehicleInputState → DrivingGame → Cruise/横向控制仲裁 → VehicleContactSystem → VehicleDynamics → Powertrain/制动/轮胎/悬架 → RuntimeSnapshot → 可视/HUD/相机/声音/震动。车辆在 VehicleCatalog 注册，能力由 VehicleCapabilities 从真实配置/拓扑解析；subsystem config 拥有标定，显示风格不能决定动力拓扑。DriverGame 负责编排和生命周期，不应继续塞入燃油或电驱算法。
 
@@ -30,6 +30,12 @@ VehicleAssetRegistry 拥有共享不可变几何/静态纹理，各实例拥有�
 
 CityMap schema 2 使用显式 XYZ endpoint links、路口路面与标线所有权、支持高度区分上下层。区域地图有 highway 元数据、路牌、桥隧围护/照明、地形与按方向/车速预加载；视觉可卸载但 road graph、surface、colliders 保持常驻。编辑器支持预设、API 显式拆路、撤销和浏览器草稿/JSON 导出，Play 不覆盖源码。预设目录 34 项（31 生产、3 兼容街区），已含 Backbone/Compact 互通、隧道/下穿等；showcase 只展出原 V1 的 16 项。旧 build-city-main.mjs 运行 V3 recipe，现在要求 --out 独立文件或明确 --revision-v3 才可覆盖 city-only JSON，不能拿它重建当前区域图。服务区 fuel/charging 仅为元数据，没有交互式补能。仍未实现 AI 交通/行人/考试评分/多人比赛/ACC/BSD/Hybrid/完整刚体或损伤/主动空气动力/专用越野模式。
 
+2026-10-24 v493 外围扩展：G17 滨海延伸 32.34km、G42 内陆延伸 30.40km、S32 联络高速 11.64km，覆盖 71/75/25 个 sector，新增 4 节点/24 匝道；旧道路/连接/物件/路牌记录保持。轻量水面 tile 跟随现有 sector 驻留，10 组加载焦点压力测试、370 处道路 seam、实际地形共享边、9 个代表性物理接口及 5 条长距离导航通过。冷准备最大单步 218.9ms、F10 全图绘制 29.1–89.3ms；不宣称稳定帧率或内存平坦。仅执行一次 build -BasicValidation，Browser dist 为 v493，外部 EXE 仍为 v492；本轮明确不需要 desktop:package。详见 docs/HIGHWAY_EXTENSION_STREAMING_2026-10-24.md 和 artifacts/highway-extension-streaming-test/REPORT.md。
+
+2026-10-24 v492 结构收尾基线：在此前 45 组、255 主匝道及 265 加减速段的 v491 证据上冻结 246 PASS，仅修复剩余 9 条，累计 255 PASS / 0 P0 / 0 P1 / 0 P2。两条 access-ew-west 独立段增至 99.92/143.37m，六条 loop 最小半径增至 35.29–36.31m，shangu 共享残差降至 3.53cm。66 个接口与 9 个全匝道回放通过，中央立交 8 条完整记录保持基线；南北快速路中央附近主辅路连接与两处隧道墙开口沿用先前修复。详见 docs/FINAL_RAMP_CLEANUP_2026-10-24.md 与 artifacts/final-ramp-structural-cleanup/REPORT.md；没有重做全图审计。
+
+Windows 正式发布入口固定为 `D:\DriverSchoolRelease\DriverSchool-win32-x64\DriverSchool.exe`，必须保留完整目录。项目内 release/ 是临时产物；整目录发布，避免旧 runtime/resources 混用，不改 ACL，不关闭 Electron sandbox、Defender 或 SmartScreen。开发/构建仍在 D:\dsy\drivergame。
+
 2026-10-13 已实施的修复：
 
 1. RoadEdgeChains 仅合并双向一致的端点邻居，修复环岛/分叉空链崩溃；增加直路、歧义分叉和闭环回归。长直护栏先细分再裁剪出口，避免端点/中点漏检中间匝道，同时保留精确接缝端点。
@@ -42,7 +48,7 @@ CityMap schema 2 使用显式 XYZ endpoint links、路口路面与标线所有�
 
 赛道后续修复：simple-circuit 布局 version 3 长约 1,536 m、宽 11.5 m，远端回头弯由 45 m 放缓到 90 m，相邻左弯位置调整以保留直道；没有增加沥青或轮胎抓地倍率。起终点/检查点判定线总宽 25.9 m，包含近侧缓冲区，仍检查顺序、正向和异常瞬移。圈时以可选布局 revision 隔离，旧记录保留。具体通过速度与验证边界见 CIRCUIT_FIXES_2026-10-13.md。
 
-验证规则：代码修改先跑相关 selftests，重大车辆系统修改加 `pnpm run selftest:systems` 和完整 core，最后正常 `pnpm run build`，不能只 typecheck。build 使用 Windows PowerShell，类型检查→core→暂存 Vite→源码指纹校验→原子发布入口；失败保留上次 dist。tsconfig 只检查 src，不覆盖 scripts。systems 不改历史 artifacts；其他专项脚本有的会覆盖 artifacts JSON，先读脚本，避免改历史基线。
+当前用户指定的交付规则：代码修改先跑直接相关轻量专项，再 `pnpm run build -BasicValidation`，随后 `pnpm run desktop:package`，确认 dist 更新、外部正式包更新，并对正式 EXE 做一次基本启动 smoke。desktop:package 内含额外一次 BasicValidation Browser 构建。除任务明确要求，不例行运行全核心/全系统；不能只 typecheck 或把跳过的测试写成通过。build 使用 PowerShell，类型检查→可选 core→暂存 Vite→源码指纹校验→原子发布入口，失败保留上次 dist。tsconfig 只检查 src，不覆盖 scripts。systems 不改历史 artifacts；其他专项脚本有的会覆盖 artifacts JSON，先读脚本，避免改历史基线。
 
 2026-10-15 后续整理：区域流式扇区先完成异步 shader 预热再可见，取消/切图等待预热借用结束再释放资源；环境材质按可视根节点增删登记；路牌绘制/上传分帧、支架合批；修复跨扇区缓存签名与 Worker 近景优先级。ContactSystem 无碰撞步减少重复快照。生产构建不再复制地图 recipe/selftest 源码。selftest:systems 扩充为 24 组，含 Golf、TCS、路面、加速计时/诊断与轨迹。clean:generated 清理衍生产物，保留当前/last-good 入口依赖、最近两份暂存与历史基线。最新实际结果见 docs/RUNTIME_CLEANUP_2026-10-15.md；早期结果不代表当前快照。
 

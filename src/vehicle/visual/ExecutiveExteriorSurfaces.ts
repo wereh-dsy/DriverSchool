@@ -10,7 +10,10 @@ const regions = { front: [0, 0, 1024, 384], rear: [0, 384, 1024, 384], wheel: [0
 /** Rounded nose in metres. Shared by paint, trim and the real lamp optics. */
 export function executiveNoseZ(config: VehicleVisualConfig, x: number, y: number, z: number): number {
   const halfLength = (config.dimensions.length - .0226) / 2, halfWidth = (config.dimensions.width - .01) / 2;
-  const fade = T.MathUtils.clamp((-config.wheelBase / 2 - z) / (halfLength - config.wheelBase / 2), 0, 1);
+  // Corner rounding belongs to the bumper. Warping the whole overhang also
+  // bends the front half of the wheel opening into the tyre at full bump.
+  const fixed = config.wheelBase / 2 + config.wheelRadius + .12;
+  const fade = T.MathUtils.clamp((-fixed - z) / (halfLength - fixed), 0, 1);
   const lower = T.MathUtils.clamp((.76 - y) / .51, 0, 1);
   return z + fade * (.22 * (x / halfWidth) ** 2 + .085 * lower * lower);
 }

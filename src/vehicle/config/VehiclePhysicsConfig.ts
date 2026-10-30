@@ -14,7 +14,7 @@ export type ForwardGearRatios = Readonly<Partial<Record<ForwardGear, number>>>;
 /** Public gear identifier used by input, transmission, and HUD code. */
 export type Gear = 'R' | 'N' | ForwardGear;
 
-export type TransmissionType = 'MANUAL' | 'TORQUE_CONVERTER_AT' | 'DCT' | 'CVT';
+export type TransmissionType = 'MANUAL' | 'TORQUE_CONVERTER_AT' | 'DCT' | 'CVT' | 'LST';
 export type DriveSelector = 'P' | 'R' | 'N' | 'D';
 
 export interface AutomaticShiftMapPoint {
@@ -24,6 +24,8 @@ export interface AutomaticShiftMapPoint {
 }
 
 export interface AutomaticShiftConfig {
+  /** Optional launch-spin protection: road-coupled RPM / actual crank RPM. */
+  minimumUpshiftRoadRPMFraction?: number;
   /** Automatic protection only; manual redline policy remains on TransmissionConfig. */
   maximumAutomaticRPM?: number;
   minimumPostShiftRPM?: number;
@@ -141,6 +143,12 @@ export interface CVTConfig {
 }
 
 export interface EngineConfig {
+  /** Optional published net rating for menus, W; never an extra torque source. */
+  ratedNetPowerW?: number;
+  /** Optional lumped coolant/oil heat budget, owned by ICEPowertrain. */
+  thermal?: { initialTemperatureC: number; heatCapacityJPerK: number; heatFraction: number;
+    coolingWPerK: number; airflowCoolingWPerKPerMps: number; derateStartC: number;
+    derateEndC: number; minimumTorqueFactor: number };
   layout: 'INLINE' | 'V' | 'W';
   cylinderCount: number;
   /** Radians; bank separation for V/W engines. */
@@ -211,6 +219,9 @@ export interface TransmissionConfig {
   type?: TransmissionType;
   automatic?: AutomaticTransmissionConfig;
   dct?: DualClutchTransmissionConfig;
+  /** Multi-clutch compound gearset, independent of odd/even DCT shafts. */
+  lst?: { shiftStrategy: AutomaticShiftConfig; clutchCapacity: number; couplingStiffness: number;
+    launchTargetRPM: number; engagementRate: number; launchFullyEngagedSpeed: number; parkMaximumSpeed: number };
   cvt?: CVTConfig;
   /** Reverse is negative so wheel torque naturally points backwards. */
   reverseRatio: number;
@@ -341,6 +352,13 @@ export interface AeroConfig {
   /** Positive is lift (upwards); negative is downforce, per axle. */
   liftCoefficientFront: number;
   liftCoefficientRear: number;
+  /** Optional physical actuator. Speeds m/s, response s^-1, coefficients dimensionless. */
+  activeSpoiler?: { deploySpeed:number; retractSpeed:number; responseRate:number;
+    dragCoefficientDelta:number; rearLiftCoefficientDelta:number };
+  /** Alternative to activeSpoiler; coefficients include ALL aero surfaces once. */
+  activeAero?: { deployStartSpeed: number; deployFullSpeed: number; responseRate: number;
+    stowedLiftFraction: number; maximumDownforceN: number; brakingDragDelta: number;
+    curve: readonly { speed: number; frontCl: number; rearCl: number; cd: number }[] };
 }
 
 export interface TireConfig {

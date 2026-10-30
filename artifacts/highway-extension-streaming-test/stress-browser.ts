@@ -1,0 +1,53 @@
+import {SectorManager} from '../../src/world/city/SectorManager';
+import {PrefabRegistry} from '../../src/world/city/PrefabRegistry';
+import {createSubject3Materials} from '../../src/world/subject3/materials';
+import {polylineLength,sampleAt} from '../../src/world/city/geometry';
+import {loadCityMap} from '../../src/world/city/CityMapLoader';
+import {CityPhysicsSectors} from '../../src/world/city/CityPhysicsSectors';
+import {buildCityRoadNetwork} from '../../src/world/city/CityRoadNetwork';
+import {NavigationController} from '../../src/world/navigation/NavigationController';
+import {NavigationMapPanel} from '../../src/ui/NavigationMapPanel';
+const state:any={status:'loading',results:[],progress:''};(window as any).highwayStressState=state;
+const pause=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
+function assert(test:any,message:string){if(!test)throw Error(message);}
+const memory=()=>{const m=(performance as any).memory;return m?{usedJSHeapSize:m.usedJSHeapSize,totalJSHeapSize:m.totalJSHeapSize,jsHeapSizeLimit:m.jsHeapSizeLimit}:null;};
+async function run(map:any,route:any,speedKph:number,reverse=false){
+ const materials=createSubject3Materials(),prefabs=new PrefabRegistry(materials),started=performance.now(),manager=new SectorManager(map,materials,prefabs,{deferred:true});
+ const p=reverse?route.reverse.flatMap((id:string,i:number)=>roadPointsFor(id).slice(i?1:0)):route.points,L=polylineLength(p),v=speedKph/3.6;
+ function roadPointsFor(id:string){return map.roads.find((r:any)=>r.id===id).centerline;}
+ const result:any={route:route.id,reverse,speedKph,lengthMetres:L,startupMs:0,observationSteps:0,sectorCrossings:0,sectorRequested:0,sectorReady:0,roadPublishCount:0,terrainPublishCount:0,objectPublishCount:0,unloadCount:0,workerTaskCount:0,maxWorkerQueue:0,peakActiveSectors:0,maxQueuedSectors:0,maxSectorBuildLatencyMs:0,maxMainThreadStepMs:0,maxWorkerTaskMs:0,lateArrivals:[],budgetOverruns:[],samples:[],memory:[],initialWholeMapPrebuilt:false,physicalSupport:'Logical roads and terrain sampler remain independent of visual residency. Representative physics replay is separate.',clock:'Actual browser Worker and main-thread publication. Each 100m interval receives its real speed-derived wall-time budget. Only unused idle slack is fast-forwarded; focus is never held past that budget to hide late publication. No vehicle simulation or GPU frame benchmark.'};
+ const preparation=manager.prepareSteps();let next:IteratorResult<void>;do {const t=performance.now();next=preparation.next();result.maxMainThreadStepMs=Math.max(result.maxMainThreadStepMs,performance.now()-t);if(performance.now()-started>30000)throw Error('Preparation timed out');}while(!next.done);
+ const internal=manager as any,physics=new CityPhysicsSectors(manager,()=>{}),requested=new Map<string,number>(),visited=new Set<string>(),unloaded=new Set<string>(),seen=new Set<string>(),terrainEdges=new Map<string,number>();
+ result.terrainSharedEdgeVertices=0;result.terrainSharedEdgeMismatches=[];
+ manager.setVisualObserver((root,added)=>{const key=root.name.replace('City sector ','');if(added){result.sectorReady++;result.objectPublishCount+=(internal.plans.get(key)?.objects.length??0);if(requested.has(key))result.maxSectorBuildLatencyMs=Math.max(result.maxSectorBuildLatencyMs,performance.now()-requested.get(key)!);}else{result.unloadCount++;unloaded.add(key);}});
+ const worker=internal.visualWorker;assert(worker,'Real browser Worker required');const originalReply=worker.worker.onmessage;
+ worker.worker.onmessage=(e:any)=>{result.workerTaskCount++;result.maxWorkerTaskMs=Math.max(result.maxWorkerTaskMs,e.data.cpuMs??0);if(e.data.kind==='road')result.roadPublishCount++;if(e.data.kind==='terrain'){result.terrainPublishCount++;const d=e.data.data;if(d.tier==='near'){const p=d.geometries[0].position;for(let i=0;i<p.length;i+=3){const x=p[i],y=p[i+1],z=p[i+2];if(Math.abs(x/500-Math.round(x/500))>1e-6&&Math.abs(z/500-Math.round(z/500))>1e-6)continue;const key=x.toFixed(3)+','+z.toFixed(3),old=terrainEdges.get(key);if(old!==undefined){result.terrainSharedEdgeVertices++;if(Math.abs(old-y)>.001&&result.terrainSharedEdgeMismatches.length<100)result.terrainSharedEdgeMismatches.push({key,before:old,after:y});}else terrainEdges.set(key,y);}}}if(e.data.kind==='background')result.terrainPublishCount+=e.data.data.length;originalReply(e);};
+ function update(s:number){const f=sampleAt(p,Math.min(L,s)),yaw=Math.atan2(-f.tangent.x,-f.tangent.z),t=performance.now();manager.updatePosition(f.point.x,f.point.z,yaw,v);physics.select(f.point.x,f.point.z,f.tangent.x*v,f.tangent.z*v);physics.advance(2);result.maxMainThreadStepMs=Math.max(result.maxMainThreadStepMs,performance.now()-t);if(manager.loadingError)throw manager.loadingError;const selection=manager.debugState!;for(const [key,tier]of selection.tiers)if(tier!=='far'&&!seen.has(key+':'+tier)){seen.add(key+':'+tier);requested.set(key,performance.now());result.sectorRequested++;}result.peakActiveSectors=Math.max(result.peakActiveSectors,manager.active.size);result.maxWorkerQueue=Math.max(result.maxWorkerQueue,worker.queued.size+(worker.inFlight?1:0));result.maxQueuedSectors=Math.max(result.maxQueuedSectors,internal.pending.filter((key:string)=>internal.activeTiers.get(key)!==selection.tiers.get(key)).length);return selection.currentSector;}
+ function ready(s:number){const f=sampleAt(p,Math.min(L,s)),key=manager.sectorKey(f.point.x,f.point.z);return internal.activeTiers.get(key)==='near';}
+ function forwardReady(s:number){if(!ready(s)||(physics as any).wanted.some((r:any)=>!(physics as any).jobs.get(r)?.ready))return false;for(let d=250;d<=1500;d+=250){const f=sampleAt(p,Math.min(L,s+d)),key=manager.sectorKey(f.point.x,f.point.z);if(manager.debugState!.tiers.get(key)==='near'&&!ready(Math.min(L,s+d)))return false;}return true;}
+ try {
+  update(0);const coldDeadline=performance.now()+45000;
+  while(!forwardReady(0)){assert(performance.now()<coldDeadline,'Spawn plus 1.5km lookahead not ready');update(0);await pause();}
+  result.startupMs=performance.now()-started;result.initialWholeMapPrebuilt=internal.compiled.size>=map.roads.length;
+  result.memory.push({station:0,...memory()});let lastKey='';
+  for(let s=0;s<=L;s=Math.min(L,s+100)){
+    const key=update(s);if(key!==lastKey){result.sectorCrossings++;visited.add(key);lastKey=key;}
+    if(!ready(s))result.lateArrivals.push({station:s,key,roadReady:internal.compiled.has(route.out?.[0]),terrainAndPavementPublished:false});
+    const f=sampleAt(p,s);physics.ensure(f.point.x,f.point.z,f.tangent.x*v,f.tangent.z*v,1/120,2.7);
+    result.observationSteps++;
+    if(s%1000===0||s===L){result.samples.push({station:s,activeSectors:manager.active.size,queuedSectors:internal.pending.filter((k:string)=>!manager.active.has(k)).length,workerQueue:worker.queued.size+(worker.inFlight?1:0),compiledRoads:internal.compiled.size,terrainCache:internal.terrainData.size,backgroundSectors:internal.backgroundBuilt,unloads:result.unloadCount});result.memory.push({station:s,...memory()});state.progress=`${route.id} ${speedKph}km/h${reverse?' reverse':''} ${Math.round(s/1000)}/${Math.round(L/1000)}km`;document.querySelector('#status')!.textContent=state.progress;}
+    if(s===L)break;
+    const nextStation=Math.min(L,s+100),budget=(nextStation-s)/v*1000,windowStart=performance.now();
+    // Move only on schedule; preparation never receives more than the driving interval.
+    do {update(s);await pause();}while(!forwardReady(nextStation)&&performance.now()-windowStart<budget);
+    if(!ready(nextStation)&&performance.now()-windowStart>=budget)result.budgetOverruns.push({station:s,budgetMs:budget,workMs:performance.now()-windowStart,nextSectorReady:false});
+  }
+  result.unloadCountDuringTraversal=result.unloadCount;result.physics=physics.statistics;
+  const idleStarted=performance.now();while(performance.now()-idleStarted<2000){update(L);await pause();}result.backgroundSectorsAfterIdle=internal.backgroundBuilt;result.postTraversalIdleMs=performance.now()-idleStarted;
+  result.visitedSectorCount=visited.size;result.leftSectorsUnloaded=[...visited].filter(k=>unloaded.has(k)).length;result.finalActiveSectors=manager.active.size;result.finalCompiledRoadCount=internal.compiled.size;result.totalMapRoads=map.roads.length;result.totalMapSectors=manager.streaming!.sectors.size;result.elapsedWallMs=performance.now()-started;result.simulatedDrivingSeconds=L/v;
+  result.passed=!result.initialWholeMapPrebuilt&&!result.lateArrivals.length&&!result.budgetOverruns.length&&!result.terrainSharedEdgeMismatches.length&&result.physics.synchronousFallbacks===0&&result.unloadCountDuringTraversal>0&&result.leftSectorsUnloaded>0;
+  return result;
+ } finally {physics.dispose();manager.dispose();prefabs.dispose();for(const m of Object.values(materials))m.dispose();await pause();}
+}
+function checkF10(map:any){const nav=new NavigationController();nav.configure(buildCityRoadNetwork(map));const host=document.createElement('div');host.innerHTML='<div class="game-ui"></div>';document.body.append(host);const panel=new NavigationMapPanel(host,nav),internal=panel as any;internal.canvas.style.width='1100px';internal.canvas.style.height='650px';panel.show();const bounds=nav.planner!.network.bounds;internal.center={x:(bounds.minimumX+bounds.maximumX)/2,z:(bounds.minimumZ+bounds.maximumZ)/2};internal.scale=Math.min(1000/(bounds.maximumX-bounds.minimumX),550/(bounds.maximumZ-bounds.minimumZ));const durations=[];for(let i=0;i<6;i++){const t=performance.now();internal.draw();durations.push(performance.now()-t);}const result={passed:bounds.maximumX>=52000&&bounds.minimumZ<=-16500,bounds,drawMs:durations,newRoadPoints:map.roads.filter((r:any)=>r.id.startsWith('regional:long:')).reduce((n:number,r:any)=>n+r.centerline.length,0),note:'Actual F10 canvas renderer and labels at full-map fit; no game driving or screenshot-based subjective approval.'};panel.dispose();host.remove();return result;}
+try {const [raw,plan]=await Promise.all([fetch('./candidate-map.json').then(r=>r.json()),fetch('./highway-plan.json').then(r=>r.json())]);const map=loadCityMap(raw);state.f10=checkF10(map);state.status='running';outer:for(const speed of [80,120,160])for(const route of plan.routes){const result=await run(map,route,speed);state.results.push(result);if(!result.passed){state.status='failed';state.error='Streaming missed a readiness/deadline/unload/seam/physics criterion';break outer;}}if(state.status==='running'){state.results.push(await run(map,plan.routes[0],160,true));state.status=state.results.every((r:any)=>r.passed)&&state.f10.passed?'passed':'failed';}state.completedAt=new Date().toISOString();}catch(e){state.status='failed';state.error=String(e);}

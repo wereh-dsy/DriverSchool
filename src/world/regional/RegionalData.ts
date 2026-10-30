@@ -11,6 +11,8 @@ export interface RegionalStructure {
   form: string; reference: string;
 }
 export interface RegionalData {
+  /** Optional broad south-facing coast. Coordinates and elevations are metres. */
+  coast?: { minX:number; maxX:number; seaLevel:number; landHeight:number; transitionWidth:number; shoreline:{x:number;z:number}[] };
   highways?: import('./HighwayData').HighwaySystem;
   version: 1;
   terrainBounds: { minX: number; maxX: number; minZ: number; maxZ: number };

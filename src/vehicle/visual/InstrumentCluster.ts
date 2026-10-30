@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { JeskoAttackInstruments } from './JeskoAttackInstruments';
+import { SU7MaxInstruments } from './SU7MaxInstruments';
 import { lateralBoundaryColor } from './LateralAssistDisplay';
 import { activeNavigation, drawCompactNavigationGuidance, drawNavigationBanner } from '../../ui/NavigationDisplay';
 import { drawLaneAssistSelection } from './LaneAssistSelectionDisplay';
@@ -64,6 +66,8 @@ export interface InstrumentIndicatorState {
  * current longitudinal vehicle model.
  */
 export interface InstrumentTelemetry {
+  /** Borrowed physical actuator state; rendering never selects active aero. */
+  readonly activeSpoilerDeployment?: number;
   readonly tpmsState?: import('../TPMSState').TPMSState;
   readonly laneAssist?: import('../control/LaneAssistState').LaneAssistState;
   readonly tyres?: readonly import('../SharedVehicleData').LegacyTyreReading[];
@@ -106,6 +110,7 @@ export type InstrumentDisplayStyle =
   | 'sport-tft'
   | 'cx4-tach-wing'
   | 'supercar-tach'
+  | 'jesko-digital'
   | 'jetta-twin-dial'
   | 'executive-virtual'
   | 'suv-virtual'
@@ -113,7 +118,8 @@ export type InstrumentDisplayStyle =
   | 'ev-premium'
   | 'bmw-live'
   | 'gti-digital'
-  | 'mercedes-mbux';
+  | 'mercedes-mbux'
+  | 'su7-digital';
 
 export interface InstrumentClusterConfig {
   readonly featureClass?: 'standard' | 'advanced';
@@ -1583,6 +1589,8 @@ export class InstrumentCluster extends THREE.Group {
   private evTexture: THREE.CanvasTexture | null = null;
   private readonly electricFace: ElectricCenterDisplay | null;
   public readonly premiumEVFace: PremiumEVInstruments | null = null;
+  private readonly su7Face?: SU7MaxInstruments;
+  private readonly jeskoFace?: JeskoAttackInstruments;
   private readonly config: InstrumentClusterConfig;
   private readonly tachometerNeedle: THREE.Group;
   private readonly speedometerNeedle: THREE.Group;
@@ -1655,10 +1663,24 @@ export class InstrumentCluster extends THREE.Group {
 
   public constructor(config: Partial<InstrumentClusterConfig> = {}, private readonly assets?: import('./VehicleAssetRegistry').VehicleAssetRegistry) {
     super();
-    this.electricFace = config.displayStyle === 'ev-premium' || config.displayStyle === 'gti-digital' ? null : new ElectricCenterDisplay(assets);
+    this.electricFace = config.displayStyle === 'ev-premium' || config.displayStyle === 'gti-digital' || config.displayStyle === 'su7-digital' || config.displayStyle === 'jesko-digital' ? null : new ElectricCenterDisplay(assets);
     this.name = 'Functional instrument cluster';
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.suvScales = getSuvInstrumentScales(this.config);
+    if (this.config.displayStyle === 'jesko-digital') {
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas); this.informationTexture.dispose();
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.jeskoFace = new JeskoAttackInstruments(); this.add(this.jeskoFace); return;
+    }
+    if (this.config.displayStyle === 'su7-digital') {
+      this.tachometerNeedle=new THREE.Group();this.speedometerNeedle=new THREE.Group();
+      this.fuelNeedle=new THREE.Group();this.temperatureNeedle=new THREE.Group();
+      this.informationTexture=new THREE.CanvasTexture(this.informationCanvas);this.informationTexture.dispose();
+      this.sportDisplayCanvas=null;this.sportDisplayTexture=null;
+      this.su7Face=new SU7MaxInstruments();this.add(this.su7Face);return;
+    }
     if (this.config.displayStyle === 'gti-digital') {
       this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
       this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
@@ -2074,7 +2096,12 @@ export class InstrumentCluster extends THREE.Group {
     this.redrawJettaFace(0, 'N', 'N', null, 0.72, 90, {}, this.getIndicatorKey({}));
   }
 
+  /** Optional physical screen orientation; other instrument faces stay unchanged. */
+  public setDisplaySteeringAngle(angle: number): void { this.jeskoFace?.setSteeringAngle(angle); }
+
   public update(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
+    if (this.jeskoFace) { this.jeskoFace.update(telemetry, deltaTime); return; }
+    if (this.su7Face) {this.su7Face.update(telemetry,deltaTime);return;}
     if (this.gtiFace) { this.gtiFace.update(telemetry, deltaTime); return; }
     if (this.premiumEVFace) { this.premiumEVFace.update(telemetry, deltaTime); return; }
     if (this.bmwFace) { this.bmwFace.update(telemetry, deltaTime); return; }

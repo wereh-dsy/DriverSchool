@@ -71,11 +71,12 @@ export function runVehiclePlatformSelfTest() {
   brakes.setTractionRequests(aids.differentialBrakeTorques);
   brakes.setDriverAidState(.65, [1, 1, 1, 1], [500, 0, 0, 0]);
   brakes.prepareRequests();
-  Object.assign(wheels.frontLeft, { slipRatio: -.6 });
+  Object.assign(wheels.frontLeft, { slipRatio: -.6,angularVelocity:10/luxury.wheelRadius*.4 });
+  aids.esc.brakeTorques[0]=500;
   for (let n = 0; n < 60; n++) aids.updateBrakes(dt, 10, 0, wheels, [4000, 4000, 4000, 4000], brakes.coordinator);
   brakes.setDriverAidState(aids.frontBrakeBias, aids.pressures, [500, 0, 0, 0]);
   const merged = brakes.getWheelTorques('frontLeft');
-  assert(merged.requestedBrakeTorque === 500 && merged.appliedBrakeTorque < 100, 'ABS reduces merged ESC/eDiff demand without double counting');
+  assert(Math.abs(merged.requestedBrakeTorque - (500+aids.differentialBrakeTorques[0]!))<1e-8 && merged.appliedBrakeTorque < 100, 'ABS reduces merged ESC/eDiff demand without double counting');
   brakes.setHoldingRequests(.6, .5, luxury.parkingBrake, .8);
   const held = brakes.getWheelTorques('rearLeft');
   assert(held.requestedBrakeTorque > 0 && held.appliedHandbrakeTorque > 0, 'hold and parking use distinct actuators through one coordinator');

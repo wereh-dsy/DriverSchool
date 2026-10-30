@@ -80,7 +80,7 @@ export const KEYBOARD_BINDING_DEFINITIONS: readonly KeyboardBindingDefinition[] 
   { action: 'selectorNeutral', label: '自动挡 N 空挡', group: '车辆附件' },
   { action: 'selectorDrive', label: '自动挡 D 前进', group: '车辆附件' },
   { action: 'engineStart', label: '发动机开关（点火/熄火）', group: '车辆附件' },
-  { action: 'cycleDriveMode', label: '驾驶模式 ECO→NORMAL→SPORT（支持车型）', group: '车辆附件' },
+  { action: 'cycleDriveMode', label: '切换驾驶模式（支持车型）', group: '车辆附件' },
   { action: 'cruiseToggle', label: '定速巡航开关', group: '车辆附件' },
   { action: 'lccToggle', label: '车道居中 SET / CANCEL', group: '车辆附件' },
   { action: 'enterExitVehicle', label: '上车 / 下车', group: '上下车' },

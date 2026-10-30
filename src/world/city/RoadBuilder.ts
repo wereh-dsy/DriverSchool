@@ -1,15 +1,16 @@
+import { drain } from '../../loading/Loading';
 import { BoxGeometry, BufferGeometry, CylinderGeometry, Float32BufferAttribute, Group, InstancedMesh, Matrix4, Mesh, type MeshBasicMaterial } from 'three';
 import { createStripGeometry, makeMarkingRibbon, sampleRibbonPolyline } from '../subject3/geometry';
 import type { Subject3Materials } from '../subject3/materials';
 import type { CityMapData, CityPoint, CityRoad } from './CityMapData';
 import { polylineLength, roadEdges, roadPoints, sampleAt } from './geometry';
-import { barrierSections, centralBarrierSections, roadPiers, retainingWallHeight,roadLampAnchors } from './RoadInfrastructure';
+import { barrierSectionSteps, centralBarrierSectionSteps, roadPierSteps, retainingWallHeight,roadLampAnchors,enclosureWallSectionSteps } from './RoadInfrastructure';
 import {hasCentralBarrier,innerRoadSide} from './RoadCarriageway';
 
 import { barrierOffset, RoadClearance, runtimeRoadClearance } from './RoadClearance';
 import { MarkingOwnership } from './MarkingOwnership';
 import {clipRoadJunctionPavement} from './JunctionSurface';
-import {roadEdgeChains,roadEdgeStrip} from './RoadEdgeChain';
+import {roadEdgeStrip} from './RoadEdgeChain';
 import {RoadsidePlacement} from './RoadsidePlacement';
 import {buildHighwayLaneMarkings,buildHighwayGoreMarkings} from '../regional/HighwayLaneRenderer';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
@@ -22,7 +23,8 @@ export class RoadBuilder {
   private readonly sharedGeometry=new Map<string,BufferGeometry>();
   private geometry(key:string,create:()=>BufferGeometry):BufferGeometry {let geometry=this.sharedGeometry.get(key);if(!geometry){geometry=create();this.sharedGeometry.set(key,geometry);}return geometry;}
   constructor(private readonly materials: Subject3Materials & {tunnelLight?:MeshBasicMaterial}, private readonly map?: CityMapData) { this.clearance = map ? runtimeRoadClearance(map) : undefined;this.ownership=map?new MarkingOwnership(map):undefined;this.placement=map?new RoadsidePlacement(map,this.clearance):undefined; }
-  build(road: CityRoad): Group {
+  build(road: CityRoad): Group { return drain(this.buildSteps(road)); }
+  *buildSteps(road: CityRoad): Generator<void,Group> {
     const root = new Group(), points = roadPoints(road), half = road.laneCount * road.laneWidth / 2;
     const edges = roadEdges(road);
     root.name = road.id;
@@ -31,6 +33,7 @@ export class RoadBuilder {
     const add = (mesh: Mesh | null) => { if (mesh) root.add(mesh); };
     const pavement = this.map?roadEdgeStrip(road,this.map,edges.left,edges.right,.024):createStripGeometry(points, () => 0, { innerOffset: edges.left, outerOffset: edges.right, yOffset: 0.024, maximumSpacing: 3 });
     if (pavement) { const mesh = new Mesh(this.map?clipRoadJunctionPavement(pavement,road,this.map):pavement, this.materials.asphalt); mesh.name='road pavement';mesh.userData.pavementOwner=road.id;mesh.receiveShadow = true; add(mesh); }
+    yield;
     const mergePaint = !!road.gore || !!this.map?.roads.some(r=>r.groupId===road.groupId && r.gore);
     const line = (path: CityPoint[], offset: number, yellow = false) => {
       const paint = (section: CityPoint[],owner:'road'|'merge'='road') => {
@@ -79,6 +82,7 @@ export class RoadBuilder {
     for (let lane = 1; lane < road.laneCount; lane++) {
       if (road.travelDirection === 'two-way' && lane === road.laneCount / 2) continue;
       for (let d = 0; d < length; d += 9) {
+        yield;
         const end = Math.min(d + 3, length), path: CityPoint[] = [sampleAt(points, d).point];
         // Include bends inside a dash, rather than drawing a chord through them.
         for (let s = d + 0.75; s < end; s += 0.75) path.push(sampleAt(points, s).point);
@@ -107,8 +111,8 @@ export class RoadBuilder {
     if (elevated) {
       const bottom = this.map?roadEdgeStrip(road,this.map,barrierOffset(road,-1),barrierOffset(road,1),-.65):createStripGeometry(points, () => 0, { innerOffset: barrierOffset(road, -1), outerOffset: barrierOffset(road, 1), yOffset: -0.65, maximumSpacing: 3 });
       if (bottom) { const index = bottom.getIndex()!; for (let i = 0; i < index.count; i += 3) { const a = index.getX(i); index.setX(i, index.getX(i + 2)); index.setX(i + 2, a); } bottom.computeVertexNormals(); root.add(new Mesh(bottom, this.materials.curb)); }
-      for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, -0.65, 0.024, this.materials.curb);
-      const piers = roadPiers(road, this.map, this.clearance);
+      for (const section of (yield* barrierSectionSteps(road, this.map, this.clearance))) yield* this.wallSteps(root, section.points, 0, -0.65, 0.024, this.materials.curb);
+      const piers = (yield* roadPierSteps(road, this.map, this.clearance));
       if (piers.length) {
         const geometry = road.structure?.pierStyle === 'rectangular' ? this.geometry('pier-rectangular',()=>new BoxGeometry(1.2, 1, 1.2)) : this.geometry('pier-round',()=>new CylinderGeometry(0.6, 0.6, 1, 8));
         const mesh = new InstancedMesh(geometry, this.materials.curb, piers.length), matrix = new Matrix4(); mesh.name = `${road.id}:piers`;
@@ -116,16 +120,16 @@ export class RoadBuilder {
         mesh.castShadow = true; root.add(mesh);
       }
     }
-    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of barrierSections(road, this.map, this.clearance)) this.wall(root, section.points, 0, 0.024, 1.1, road.structure?.barrierStyle==='concrete'||road.travelDirection!=='two-way'&&section.side===innerRoadSide(road)&&road.structure?.medianBarrierStyle==='concrete'?this.materials.curb:this.materials.metal,'road barrier');
-    for(const section of centralBarrierSections(road,this.map,this.clearance)){
-      for(const side of [-.12,.12])this.wall(root,section,side,.024,1.1,this.materials.curb,'road central barrier');
+    if (road.structure?.barrierEnabled === true || elevated && road.structure?.barrierEnabled !== false) for (const section of (yield* barrierSectionSteps(road, this.map, this.clearance))) yield* this.wallSteps(root, section.points, 0, 0.024, 1.1, road.structure?.barrierStyle==='concrete'||road.travelDirection!=='two-way'&&section.side===innerRoadSide(road)&&road.structure?.medianBarrierStyle==='concrete'?this.materials.curb:this.materials.metal,'road barrier');
+    for(const section of (yield* centralBarrierSectionSteps(road,this.map,this.clearance))){
+      for(const side of [-.12,.12])yield* this.wallSteps(root,section,side,.024,1.1,this.materials.curb,'road central barrier');
       const top=createStripGeometry(section,()=>0,{innerOffset:-.12,outerOffset:.12,yOffset:1.1,maximumSpacing:3});
       if(top){const mesh=new Mesh(top,this.materials.curb);mesh.name='road central barrier';root.add(mesh);}
     }
     const enclosure=road.structure?.enclosure;
     if(enclosure) {
-      const walls=enclosure.kind==='cutting'?barrierSections(road,this.map,this.clearance,true):[-1,1].map(side=>({side,points:this.map?roadEdgeChains(this.map).barrierEdge(road,side):points}));
-      for(const {side,points:wallPoints} of walls)this.wall(root,wallPoints,enclosure.kind==='cutting'||this.map?0:barrierOffset(road,side),0,enclosure.kind==='cutting'?p=>retainingWallHeight(road,p,this.clearance):enclosure.clearance,this.materials.wall);
+      const walls=yield* enclosureWallSectionSteps(road,this.map,this.clearance);
+      for(const {side,points:wallPoints} of walls)yield* this.wallSteps(root,wallPoints,enclosure.kind==='cutting'||this.map?0:barrierOffset(road,side),0,enclosure.kind==='cutting'?p=>retainingWallHeight(road,p,this.clearance):enclosure.clearance,this.materials.wall);
       if(enclosure.kind!=='cutting') {
         const shell:BufferGeometry[]=[];
         for(const underside of [true,false]) {
@@ -170,7 +174,7 @@ export class RoadBuilder {
     }
     if(road.id.startsWith('regional:')&&road.laneCount>1&&!road.structure?.enclosure){
       const positions:CityPoint[]=[];
-      for(const section of barrierSections(road,this.map,this.clearance)){
+      for(const section of (yield* barrierSectionSteps(road,this.map,this.clearance))){
         const length=polylineLength(section.points);
         for(let d=8;d<length;d+=50)positions.push(sampleAt(section.points,d).point);
       }
@@ -182,11 +186,12 @@ export class RoadBuilder {
     }
     return root;
   }
-  private wall(root: Group, points: CityPoint[], offset: number, bottom: number, top: number | ((p:CityPoint)=>number), material: Subject3Materials['curb'],name?:string): void {
+  private *wallSteps(root: Group, points: CityPoint[], offset: number, bottom: number, top: number | ((p:CityPoint)=>number), material: Subject3Materials['curb'],name?:string): Generator<void> {
     const positions: number[] = [], indices: number[] = [];
     // Dense longitudinal samples keep curved side walls and barriers attached to the ribbon.
     const fine=sampleRibbonPolyline(points,3);
     for (let i = 0; i < fine.length; i++) {
+      if(i%128===0) yield;
       const s = fine[i]!, x = s.point.x - s.tangent.z * offset, z = s.point.z + s.tangent.x * offset;
       positions.push(x, (s.point.y ?? 0) + bottom, z, x, (s.point.y ?? 0) + (typeof top==='number'?top:top({x,y:s.point.y,z})), z);
       if (i < fine.length-1) { const b = i * 2; indices.push(b, b + 1, b + 2, b + 1, b + 3, b + 2, b + 2, b + 1, b, b + 2, b + 3, b + 1); }

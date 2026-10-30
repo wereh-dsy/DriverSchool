@@ -58,6 +58,7 @@ export class Engine implements DriveTorqueSource {
   public get shaftAngularVelocity(): number { return this.angularVelocity; }
   public get availableDriveTorque(): number { return this.getTorqueSample().netCrankTorque + this.externalShaftTorque; }
   public get canDeliverTorque(): boolean { return this.isRunning && this.fuelAvailable; }
+  public get boostPressureBar(): number { return (this.turbo?.manifoldPressure ?? 1) - 1; }
   private revHangContext: RevHangContext | undefined;
   public setRevHangContext(context: RevHangContext): void { this.revHangContext = context; }
   public requestDrive(demand: number, dt: number): void {

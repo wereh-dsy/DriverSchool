@@ -1,3 +1,4 @@
+import { drain, runBatched } from '../../loading/Loading';
 import { Group, Mesh, MeshBasicMaterial, Vector2, Vector3 } from 'three';
 import type { DrivingGround } from '../DrivingGround';
 import { SURFACE_MATERIALS, surfaceResponseAliases, type RoadSurfaceSample } from '../SurfaceMaterial';
@@ -12,13 +13,15 @@ import { roadStructureColliders } from './RoadInfrastructure';
 import { roadSignColliders } from './RoadSignTemplates';
 
 import { runtimeRoadClearance } from './RoadClearance';
-import { cityGroundGeometry } from './CityGroundGeometry';
+import { cityGroundGeometrySteps } from './CityGroundGeometry';
 import {junctionSurfaceContains,junctionSurfaceHeight,compileJunctionSurface} from './JunctionSurface';
 import { roadPavementSurface,roadPavementTriangle } from './RoadPavementSurface';
 import {roadEdgeChains} from './RoadEdgeChain';
 import { createStaticOBBCollider } from '../../vehicle/physics/CollisionSystem';
 import { RegionalDebug } from '../regional/RegionalDebug';
 import type { CityResourceTiming, CityRuntimeData } from './CityRuntimeData';
+import { CityPhysicsSectors } from './CityPhysicsSectors';
+import { prepareRoadCarriagewaysSteps } from './RoadCarriageway';
 
 interface SurfaceArea { junctionId?: string; reference?: import('../SurfaceMaterial').SurfaceReference; contains(x: number, z: number): boolean; pavement: boolean; heightAt(x: number, z: number): number; extensionAt?: (x: number, z: number) => number; gx: number; gz: number; roadId?: string; segmentIndex?: number }
 export interface SurfaceQueryDebug {
@@ -33,8 +36,11 @@ export class CityGround implements DrivingGround {
   readonly worldBounds;
   readonly spawnPose;
   readonly roadNetwork;
-  readonly colliders;
+  readonly colliders: DrivingGround['colliders'][number][] = [];
   readonly sectors: SectorManager;
+  private physics?: CityPhysicsSectors;
+  colliderRevision = 0;
+  get physicsStatistics() { return this.physics?.statistics; }
   get trafficSignals(): import('../navigation/TrafficSignalState').TrafficSignalProvider { return this.sectors.signals; }
   private readonly materials = { ...createSubject3Materials(), tunnelLight: new MeshBasicMaterial({color:0xffefd0}) };
   private readonly prefabs = new PrefabRegistry(this.materials);
@@ -47,7 +53,7 @@ export class CityGround implements DrivingGround {
   private readonly supportStructures = new Map<string, string>();
   /** Optional diagnostics only; normal sampling allocates no candidate records. */
   public surfaceQueryObserver?: (query: SurfaceQueryDebug) => void;
-  private readonly regionalDebug?:RegionalDebug;
+  private regionalDebug?:RegionalDebug;
   private readonly loadStarted=performance.now();
   readonly initializationMs: Record<string, number> = {};
   resourceTiming?: CityResourceTiming;
@@ -66,7 +72,7 @@ export class CityGround implements DrivingGround {
     warmup?: (root: Group) => Promise<unknown>): void { this.sectors.setResourcePreparation(prepare, warmup); }
   setVisualObserver(observer: (root: import('three').Object3D, added: boolean) => void): void { this.sectors.setVisualObserver(observer); }
   updateVisualVisibility(eye: Vector3, fogFar: number, cameras: readonly import('three').Camera[]): void { this.sectors.updateVisibility(eye, fogFar, cameras); }
-  get loadStatistics(){const stats=this.sectors.loadStatistics;return {...stats,initializationMs:this.initializationMs,resource:this.resourceTiming,milestones:this.milestones,firstVisibleMs:stats.firstVisibleMs===undefined?undefined:this.sectorStartOffset+stats.firstVisibleMs,firstLoadMs:stats.firstLoadMs===undefined?undefined:this.sectorStartOffset+stats.firstLoadMs};}
+  get loadStatistics(){const stats=this.sectors.loadStatistics;return {...stats,physics:this.physicsStatistics,ground:this.sectors.groundStatistics,initializationMs:this.initializationMs,resource:this.resourceTiming,milestones:this.milestones,firstVisibleMs:stats.firstVisibleMs===undefined?undefined:this.sectorStartOffset+stats.firstVisibleMs,firstLoadMs:stats.firstLoadMs===undefined?undefined:this.sectorStartOffset+stats.firstLoadMs};}
   constructor(data: unknown, options: SectorOptions & { spawnId?: string; runtime?: CityRuntimeData } = {}) {
     let stage = performance.now();
     const measured = (name: string) => { const now = performance.now(); this.initializationMs[name] = now - stage; performance.measure(`city:${name}`, {start:stage,end:now}); stage = now; };
@@ -77,6 +83,19 @@ export class CityGround implements DrivingGround {
     this.metadata = { id: this.data.id, version: this.data.version, displayName: this.data.name, description: 'Data-driven City Map' };
     this.roadNetwork = options.runtime?.roadNetwork ?? buildCityRoadNetwork(this.data);
     measured('roadNetwork');
+    const spawn = this.data.environment.spawnPoints.find(s => s.id === options.spawnId) ?? this.data.environment.spawnPoints[0]!;
+    this.spawnPose = { position: new Vector3(spawn.position.x, spawn.position.y ?? 0, spawn.position.z), yawRadians: spawn.rotation };
+    this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options);
+    measured('sectorSetup');
+    this.initialization = this.initialize(options, measured);
+    if (!options.deferred) drain(this.initialization);
+  }
+  private readonly initialization: Generator<void>;
+  public async prepare(): Promise<void> {
+    await runBatched(this.initialization);
+    await this.physics?.prepareSpawn(this.spawnPose.position.x,this.spawnPose.position.z,this.spawnPose.yawRadians);
+  }
+  private *initialize(options: SectorOptions & { spawnId?: string }, measured: (name: string) => void): Generator<void> {
     const link = (a: string, b: string) => {
       if (!this.supportLinks.has(a)) this.supportLinks.set(a, new Set());
       this.supportLinks.get(a)!.add(b);
@@ -88,24 +107,41 @@ export class CityGround implements DrivingGround {
     }
     this.root.name = this.data.name; this.root.userData.renderCategory = 'WORLD';
     const groundAreas=this.data.regional?[this.data.regional.cityBounds,...this.data.regional.cityExtensions??[]]:[this.data.bounds];
-    for(const bounds of groundAreas){const base = new Mesh(cityGroundGeometry(this.data,bounds), this.materials.grass);base.receiveShadow = true;this.root.add(base);}
+    if(!this.sectors.streamsGround) for(const bounds of groundAreas){const base = new Mesh((yield* cityGroundGeometrySteps(this.data,bounds)), this.materials.grass);base.receiveShadow = true;this.root.add(base);}
     measured('groundGeometry');
     this.sectorStartOffset=performance.now()-this.loadStarted;
-    this.sectors = new SectorManager(this.data, this.materials, this.prefabs, options); this.root.add(this.sectors.root);
+    yield* this.sectors.prepareSteps(); this.root.add(this.sectors.root);
     measured('sectorManager');
     const clearance = runtimeRoadClearance(this.data);
     measured('clearanceIndex');
-    this.colliders = [...this.data.objects.flatMap(o => { const c = this.prefabs.collider(o); return c ? [c] : []; }), ...this.data.roads.flatMap(r => roadStructureColliders(r, this.data, clearance)),...(this.data.signs??[]).flatMap(roadSignColliders)];
+    for (const object of this.data.objects) { const collider = this.prefabs.collider(object); if (collider) this.colliders.push(collider); yield; }
+    const objectColliderCount=this.colliders.length;
+    const streamingPhysics=!!this.data.regional && !!options.deferred && !this.editor;
+    if(!streamingPhysics) for (const road of this.data.roads) { for (const collider of roadStructureColliders(road, this.data, clearance)) this.colliders.push(collider); yield; }
+    for (const sign of this.data.signs ?? []) { this.colliders.push(...roadSignColliders(sign)); yield; }
+
     for(const j of this.data.intersections.filter(j=>j.channelized))for(const sign of [-1,1]) {
       const h=junctionExtent(j,this.data),q=rotatePoint({x:sign*(h-2.5),z:sign*(h-2.5)},j.rotation);
       this.colliders.push(createStaticOBBCollider({id:j.id+':island:'+sign,x:j.position.x+q.x,z:j.position.z+q.z,width:2,length:2,yaw:j.rotation,minHeight:j.position.y??0,maxHeight:(j.position.y??0)+0.18,type:'obstacle'}));
     }
     measured('colliders');
+    if(streamingPhysics) {
+      yield* prepareRoadCarriagewaysSteps(this.data);
+      measured('physicsPreparation');
+      const tail=this.colliders.slice(objectColliderCount);
+      this.physics=new CityPhysicsSectors(this.sectors,roads=>{
+        this.colliders.length=objectColliderCount;
+        for(const colliders of roads) for(const collider of colliders) this.colliders.push(collider);
+        for(const collider of tail) this.colliders.push(collider);
+        this.colliderRevision++;
+      });
+    }
     const junctionMasks=new Map(this.data.intersections.filter(j=>j.pavementFootprint).map(j=>[j.id,compileJunctionSurface(j)]));
     const sourceRoads = new Map(this.data.roads.map(r => [r.id, r]));
     for (const road of this.data.roads) this.supportStructures.set(road.id,
       road.structure?.enclosure?.kind ?? road.elevationMode ?? 'ground');
     for (const road of this.roadNetwork.segments) {
+      yield;
       const source = sourceRoads.get(road.id)!;
       const edges = roadEdges(source);
       const sidewalk = source.sidewalk?.enabled ? source.sidewalk.width : 0;
@@ -115,6 +151,7 @@ export class CityGround implements DrivingGround {
         for(const extra of sidewalk?[0,sidewalk]:[0]){
         const left=chain.edge(source,edges.left-extra),right=chain.edge(source,edges.right+extra);
         for(let i=1;i<left.length;i++)for(const [k,triangle]of [[left[i-1]!,right[i-1]!,left[i]!],[right[i-1]!,right[i]!,left[i]!]].entries()){
+          if(i%32===0&&k===0) yield;
           const [a,b,c]=triangle as [CityPoint,CityPoint,CityPoint];if(Math.abs((b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x))<1e-8)continue;
           const plane=roadPavementTriangle(a,b,c,Math.hypot(left[i]!.x-left[i-1]!.x,left[i]!.z-left[i-1]!.z),masks);
           this.addArea({minX:Math.min(a.x,b.x,c.x),maxX:Math.max(a.x,b.x,c.x),minZ:Math.min(a.z,b.z,c.z),maxZ:Math.max(a.z,b.z,c.z)},
@@ -123,6 +160,7 @@ export class CityGround implements DrivingGround {
         continue;
       }
       for (let i = 1; i < road.centerline.length; i++) {
+        if(i%32===0) yield;
         const a = road.centerline[i - 1]!, c = road.centerline[i]!;
         const {heightAt,extensionAt,contains,gx,gz}=roadPavementSurface(a,c,edges,
           i===1&&!!road.startIntersectionId,i===road.centerline.length-1&&!!road.endIntersectionId,masks);
@@ -133,6 +171,7 @@ export class CityGround implements DrivingGround {
       }
     }
     for (const j of this.data.intersections) {
+      yield;
       if(j.pavementFootprint){
         const outline=j.pavementFootprint.map(p=>rotatePoint(p,j.rotation)),base=j.position.y??0;
         for(let i=0;i<outline.length;i++){
@@ -163,11 +202,12 @@ export class CityGround implements DrivingGround {
       spawn = { x: (a.x + c.x) / 2 - dz / length * road.laneWidth / 2, y: ((a.y ?? 0) + (c.y ?? 0)) / 2, z: (a.z + c.z) / 2 + dx / length * road.laneWidth / 2 };
       this.referenceHeight = spawn.y ?? 0;
     }
-    this.spawnPose = { position: new Vector3(spawn.x, this.getRoadHeightAt(spawn.x, spawn.z) + 0.04, spawn.z), yawRadians: authored.rotation };
+    this.spawnPose.position.set(spawn.x, this.getRoadHeightAt(spawn.x, spawn.z) + 0.04, spawn.z);
     if (!this.editor) this.sectors.updatePosition(spawn.x, spawn.z);
     if(this.data.regional&&typeof location!=='undefined'&&new URLSearchParams(location.search).get('regionalDebug')==='1')this.regionalDebug=new RegionalDebug(this.sectors);
     measured('spawnPreparation');
   }
+
   private addArea(b: DrivingGround['worldBounds'], area: SurfaceArea): void {
     const segmentId = area.roadId === undefined ? undefined : `${area.roadId}:${area.segmentIndex ?? 0}`;
     area.reference = { roadId: area.roadId, segmentId, segmentIndex: area.segmentIndex,
@@ -242,11 +282,16 @@ export class CityGround implements DrivingGround {
   getRoadHeightAt(x: number, z: number): number { return this.sampleRoadSurface(x, z).height; }
   getRoadPitchAt(x: number, z: number, yaw: number): number { return Math.atan(this.sampleRoadSurface(x, z, { x: -Math.sin(yaw), y: -Math.cos(yaw) }).grade); }
   setSurfaceReferenceHeight(height: number): void { this.referenceHeight = height; }
-  update(dt: number): void { this.sectors.update(dt); }
+  update(dt: number): void { this.sectors.update(dt); this.physics?.advance(); }
+  preparePhysicsStep(x:number,z:number,vx:number,vz:number,dt:number,bodyRadius:number): void {
+    this.physics?.ensure(x,z,vx,vz,dt,bodyRadius);
+  }
   updatePlayerPosition(x: number, z: number,yaw=0,speed=0): boolean {
+    this.physics?.select(x,z,-Math.sin(yaw)*speed,-Math.cos(yaw)*speed);
     const changed=!this.editor&&this.sectors.updatePosition(x,z,yaw,speed);this.regionalDebug?.update();return changed;
   }
   dispose(): void {
+    this.physics?.dispose();
     this.regionalDebug?.dispose();
     this.sectors.dispose(() => {
       this.prefabs.dispose();

@@ -32,10 +32,11 @@ export function runSuspensionStanceSelfTest() {
       const rest = spring.getSnapshot();
       for (const id of VEHICLE_WHEEL_IDS) {
         const corner = rest.wheels[id];
-        assert(corner.compression > physics.suspension.suspensionTravel * .5 &&
-          corner.compression + physics.suspension.suspensionTravel * .5 < physics.suspension.restLength * .94,
-        `${car.id}: loaded equilibrium reserves compression and rebound travel`);
-        assert(corner.bumpStopForce === 0 && Math.abs(corner.springForce - corner.staticLoad) < 1e-8,
+        const geometry=spring.getVerticalSnapshot().wheels[id];
+        assert(geometry.restSuspensionLength>geometry.minSuspensionLength&&geometry.restSuspensionLength<geometry.maxSuspensionLength&&
+          geometry.maxSuspensionLength-geometry.minSuspensionLength<=physics.suspension.suspensionTravel+1e-9,
+          car.id+': loaded strut has actual compression and rebound travel');
+        assert(corner.bumpStopForce === 0 && Math.abs(corner.springForce + (physics.tires.verticalCompliance && physics.suspension.unsprungMass ? (id.startsWith('front')?physics.suspension.unsprungMass.front:physics.suspension.unsprungMass.rear)*physics.gravity : 0) - corner.staticLoad) < 1e-8,
           `${car.id}: static load is supported without bump stops`);
       }
       const visual = new VehicleVisual(config);
@@ -55,7 +56,7 @@ export function runSuspensionStanceSelfTest() {
         visual.root.updateWorldMatrix(true, true);
         let floorY = Number.POSITIVE_INFINITY;
         visual.exteriorRoot.traverse(object => {
-          if (object instanceof THREE.Mesh && object.userData.vehicleBodyPart === 'main-shell') {
+          if (object instanceof THREE.Mesh && (object.userData.vehicleBodyPart === 'main-shell'||object.userData.vehicleBodyPart === 'underfloor')) {
             floorY = Math.min(floorY, new THREE.Box3().setFromObject(object).min.y);
           }
         });

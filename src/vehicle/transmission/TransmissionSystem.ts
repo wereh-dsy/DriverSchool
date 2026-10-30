@@ -5,6 +5,7 @@ export interface TransmissionSnapshot {
   selectedMode: DriveSelector | null;
   currentPhysicalGear: Gear | null;
   manualSelectionActive?: boolean;
+  couplingEngagement?: number;
   manualSelectionRejectedReason?: string | null;
   cvt?: { ratio: number; targetRatio: number; targetRPM: number };
   /** Signed mechanical ratio before final drive; zero in neutral. */

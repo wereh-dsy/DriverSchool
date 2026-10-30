@@ -183,10 +183,10 @@ export function runEVPlatformV2SelfTest() {
   const absCar = vehicle(createVehiclePhysicsConfig('porsche-taycan-4s'), 25);
   for (let i = 0; i < 90; i++) absCar.stepFixed(dt, { ...input, brake: .25 });
   absCar.wheelRotation.constrainAngularVelocity('frontLeft', 0, 20, 0); absCar.wheelRotation.constrainAngularVelocity('frontRight', 0, 20, 0);
-  absCar.stepFixed(dt, input); const frontABS = absCar.stepFixed(dt, { ...input, brake: .25 });
+  absCar.stepFixed(dt, input); absCar.stepFixed(dt, { ...input, brake: .25 }); const frontABS = absCar.stepFixed(dt, { ...input, brake: .25 });
   assert(frontABS.driverAssists.absActive && absCar.powertrain.frontDriveUnit!.motor.deliveredDriveTorque === 0, 'front ABS cancels front regen');
   absCar.wheelRotation.constrainAngularVelocity('rearLeft', 0, 20, 0); absCar.wheelRotation.constrainAngularVelocity('rearRight', 0, 20, 0);
-  absCar.stepFixed(dt, input); const rearABS = absCar.stepFixed(dt, { ...input, brake: .25 });
+  absCar.stepFixed(dt, input); absCar.stepFixed(dt, { ...input, brake: .25 }); const rearABS = absCar.stepFixed(dt, { ...input, brake: .25 });
   assert(rearABS.driverAssists.absActive && absCar.powertrain.rearDriveUnit!.motor.deliveredDriveTorque === 0, 'rear ABS cancels rear regen');
 
   const thermalRun = (config: ElectricVehiclePhysicsConfig) => {

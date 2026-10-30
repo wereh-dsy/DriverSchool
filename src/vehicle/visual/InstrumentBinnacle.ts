@@ -13,6 +13,7 @@ interface BinnacleShape {
 // Apertures surround the existing artwork. Shape differences belong to the
 // vehicle's visual design, never to its name or its telemetry.
 const SHAPES: Readonly<Record<string, BinnacleShape>> = {
+  'jesko-attack': { halfWidth: .071, halfHeight: .057, crown: .002, border: .003 },
   'mid-supercar': { halfWidth: .247, halfHeight: .106, crown: .021, border: .007 },
   traditional: { halfWidth: .247, halfHeight: .115, crown: .008, border: .010 },
   flow: { halfWidth: .247, halfHeight: .103, crown: .027, border: .009 },
@@ -24,7 +25,7 @@ const SHAPES: Readonly<Record<string, BinnacleShape>> = {
 };
 
 export const instrumentBinnacleShape = (config: VehicleVisualConfig): BinnacleShape =>
-  SHAPES[config.body.design === 'mid-supercar' ? 'mid-supercar' : config.body.profile === 'sport-coupe' ? 'sport' : config.body.design ?? 'traditional'] ?? SHAPES.traditional!;
+  SHAPES[config.body.design === 'jesko-attack' ? 'jesko-attack' : config.body.design === 'mid-supercar' ? 'mid-supercar' : config.body.profile === 'sport-coupe' ? 'sport' : config.body.design ?? 'traditional'] ?? SHAPES.traditional!;
 
 export function instrumentBinnacleOpening(config: VehicleVisualConfig): readonly (readonly [number, number])[] {
   const { halfWidth: w, halfHeight: h, crown } = instrumentBinnacleShape(config);

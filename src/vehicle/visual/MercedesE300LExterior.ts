@@ -3,9 +3,9 @@ import { vehiclePaint, vehicleGlass } from './VehicleMaterials';
 import {
   beam, grid, label, loft, mercedesAPillarRing, mercedesFrontWindowCorners, mercedesRearGlassPoint,
   mercedesRearWindowCorners, mercedesRoofHeight, mercedesSideGlassX, mercedesWindshieldPoint, path,
-  polygon, rounded, starEmblem, sweep, threePointedStar,
+  polygon, rounded, starEmblem, sweep,
 } from './MercedesE300LGeometry';
-import { createMercedesE300LAtlas, mercedesExteriorUV } from './MercedesE300LExteriorDetails';
+import { createMercedesE300LAtlas, createMercedesTailLightMask, mercedesExteriorUV } from './MercedesE300LExteriorDetails';
 import { splitSideBodyForDoor } from './DoorSideSplit';
 import type { MirrorVisualConfig, VehicleVisualConfig, Vector3Tuple as P } from './VehicleVisualConfig';
 import type { MirrorSurfaceMesh } from './VehicleVisual';
@@ -64,8 +64,11 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
     const sidePoint = (z: number, y: number): P => {
       const s = sample(z);
       const f = (y - rockerY) / Math.max(.001, s.y - rockerY);
-      const crease = .014 * Math.exp(-(((f - .46) / .13) ** 2)) * Math.exp(-((z / 1.6) ** 6));
-      const width = (f < .80 ? s.width - .036 * (1 - f / .80) : mix(s.width, s.belt, (f - .80) / .20)) - crease;
+      // V214 has a softer, fuller door and a broad rolled shoulder, distinct
+      // from the G38's higher, sharper crease. Glass/door-frame anchors stay fixed.
+      const crease = .006 * Math.exp(-(((f - .46) / .18) ** 2)) * Math.exp(-((z / 1.6) ** 6));
+      const width = (f < .70 ? s.width - .052 * (1 - Math.sin(Math.max(0,f) / .70 * Math.PI / 2))
+        : mix(s.width, s.belt, ((f - .70) / .30) ** 1.65)) - crease;
       return [sign * width, y, cornerZ(width, z)];
     };
     let driverHingePosition: T.Vector3 | null = null;
@@ -285,6 +288,7 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
   };
 
   // ---- Standing star, traditional grille, digital-LED headlamps -------------
+  const tailOptic=new T.MeshStandardMaterial({color:0x101418,alphaMap:createMercedesTailLightMask(),alphaTest:.25,side:T.DoubleSide});
   const grilleOutline: P[] = [[-.336, .582, -2.500], [-.418, .674, -2.494], [-.430, .840, -2.490],
     [-.372, .920, -2.486], [.372, .920, -2.486], [.430, .840, -2.490], [.418, .674, -2.494],
     [.336, .582, -2.500]];
@@ -292,12 +296,7 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
   root.add(path('Traditional chrome grille frame', grilleOutline, .011, bright, true));
   root.add(path('Grille inner satin frame', grilleOutline.map(([x, y, z]) => [x * .93, .751 + (y - .751) * .91, z + .006] as P),
     .006, satin, true));
-  for (const y of [.632, .690, .748, .806, .864]) {
-    const halfWidth = mix(.345, .424, (y - .582) / (.920 - .582));
-    root.add(path('Grille horizontal chrome slat', [[-halfWidth, y, -2.489], [0, y - .004, -2.484],
-      [halfWidth, y, -2.489]], .0055, bright));
-  }
-  root.add(path('Grille central vertical divider', [[0, .588, -2.497], [0, .918, -2.484]], .0045, bright));
+  // Chrome slats and the centre divider are in the existing grille atlas.
 
   const hoodStar = new T.Group(); hoodStar.name = 'Bonnet standing star';
   hoodStar.position.set(0, .945, -2.302);
@@ -344,12 +343,9 @@ export function buildMercedesE300LExterior(root: T.Group, config: VehicleVisualC
     const tailZ = (x: number): number => 2.512 - Math.abs(x - .200) * .132;
     for (let i = 0; i < 3; i++) {
       const x = .300 + i * .216, y = .866 + i * .012, radius = .030 - i * .002;
-      const star = threePointedStar(radius, .010, optic);
+      const star = new T.Mesh(new T.PlaneGeometry(radius*2.2,radius*2.2),tailOptic);
       star.name = side + ' tail star light guide ' + i;
-      star.position.set(sign * x, y, tailZ(x)); star.userData.lightingKey = 'tail'; root.add(star);
-      const ring = new T.Mesh(new T.TorusGeometry(radius, .0026, 5, 24), optic);
-      ring.name = side + ' tail star ring ' + i; ring.position.set(sign * x, y, tailZ(x));
-      ring.userData.lightingKey = 'tail'; root.add(ring);
+      star.position.set(sign * x, y, tailZ(x)); star.userData.lightingKey = 'tail';star.userData.textureMaskedLight=true;root.add(star);
     }
     output(side + ' brake light blade', 'brake',
       [[sign * .250, .846, 2.512], [sign * .560, .852, 2.492], [sign * .868, .846, 2.404]], .005);

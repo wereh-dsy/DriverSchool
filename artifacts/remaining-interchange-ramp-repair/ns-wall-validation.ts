@@ -1,0 +1,15 @@
+import {dir,read,write,context,roadPoints,sampleAt,polylineLength,pavement} from './common';
+import {roadStructureColliders,enclosureWallSectionSteps} from '../../src/world/city/RoadInfrastructure';
+import {RoadClearance} from '../../src/world/city/RoadClearance';
+import {VehicleCollisionSystem} from '../../src/vehicle/physics/CollisionSystem';
+import {createRoadSUVPhysicsConfig} from '../../src/vehicle/config/roadSUVPhysicsConfig';
+import {drain} from '../../src/loading/Loading';
+const before=read(dir+'baseline-map.json'),after=read(dir+'candidate-map.json'),pairs=read(dir+'tunnel-wall-openings.json').updates,car=createRoadSUVPhysicsConfig();
+function inspect(map:any){const seeds=map.roads.filter((r:any)=>['v91-ns-sb-off','v91-ns-nb-on'].includes(r.id)),local=context(map,seeds),clearance=new RoadClearance(local),pv=pavement(local),results=[];
+ for(const pair of pairs){const road=local.roads.find((r:any)=>r.id===pair.roadId),branch=seeds.find((r:any)=>r.id===pair.branchRoadId),path=roadPoints(branch),length=polylineLength(path),sections=drain(enclosureWallSectionSteps(road,local,clearance)),wallHits:any[]=[],colliders=roadStructureColliders(road,local,clearance).filter(c=>c.id.includes(':wall:')||c.id.includes(':ceiling:')),collision=new VehicleCollisionSystem(colliders),collisions:any[]=[];
+  for(const section of sections)for(let i=1;i<section.points.length;i++){const a=section.points[i-1]!,b=section.points[i]!,steps=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.z-a.z)));for(let k=0;k<=steps;k++){const t=k/steps,p={x:a.x+(b.x-a.x)*t,y:(a.y??0)+((b.y??0)-(a.y??0))*t,z:a.z+(b.z-a.z)*t};for(const h of pv.hit(p))if(h.road.id===branch.id){const y=h.surface.heightAt(p.x,p.z);if(y>=p.y-.03&&y<=p.y+road.structure.enclosure.clearance+.03)wallHits.push({side:section.side,point:p,pavementY:y});}}}
+  for(let s=0;s<=length;s+=.5){const f=sampleAt(path,s),pose={x:f.point.x,y:f.point.y,z:f.point.z,yaw:Math.atan2(-f.tangent.x,-f.tangent.z)},hit=collision.resolve({previousPose:pose,pose,velocity:{x:0,z:0},dimensions:car,dt:1/120});for(const c of hit.contacts)if(!collisions.some(q=>q.id===c.colliderId))collisions.push({id:c.colliderId,station:s,point:pose});}
+  results.push({roadId:road.id,branchRoadId:branch.id,wallSections:sections.length,wallPavementIntersections:wallHits,vehicleEnvelopeContacts:collisions,renderAndCollisionUse:'enclosureWallSectionSteps (shared clipped XYZ wall polylines)'});
+ }return results;
+}
+const result={before:inspect(before),after:inspect(after),passed:false};result.passed=result.after.every(r=>!r.wallPavementIntersections.length&&!r.vehicleEnvelopeContacts.length);write('ns-main-frontage-wall-validation.json',result);console.log(JSON.stringify({passed:result.passed,before:result.before.map(r=>({id:r.roadId,paintIntersections:r.wallPavementIntersections.length,colliders:r.vehicleEnvelopeContacts.length})),after:result.after.map(r=>({id:r.roadId,paintIntersections:r.wallPavementIntersections.length,colliders:r.vehicleEnvelopeContacts.length}))}));if(!result.passed)process.exitCode=1;

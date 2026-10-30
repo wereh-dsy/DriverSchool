@@ -1,0 +1,5357 @@
+{
+  "source": "src/world/regional/regional-main.json",
+  "sourceHash": "e813aa68efb1bea4a26473f9d3f7e97e1f823b8e900becc2447f290717aa1d7e",
+  "mapVersion": 490,
+  "clusterCount": 4,
+  "rampCount": 255,
+  "transitionCount": 265,
+  "totalRoads": 520,
+  "selection": "Road type ramp_1 OR roadClass ramp OR highwayTransition, independent of ID. Cluster context additionally includes explicit split/merge links, continuous mainline children, local/frontage/service connectors and adjoining arterial endpoints.",
+  "clusters": [
+    {
+      "id": "system-south",
+      "file": "system-south",
+      "ramps": [
+        {
+          "id": "system-south:S-to-W-semi",
+          "cluster": "system-south",
+          "length": 660.1332384260334,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.06719897558510615,
+            "gradeBreaks": [],
+            "minRadius": 44.17690375244317,
+            "shortSegments": 17
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split",
+                "ns-nb-split-3-split",
+                "ns-nb-split-3-split-split-split-3",
+                "system-south:feeder-1",
+                "ns-nb-split-3-split-split-split-3-split",
+                "ns-nb",
+                "ns-nb-split-3-split-split-split-2",
+                "ns-nb-split-3-split-split-split-2-split-2",
+                "ns-nb-split-3-split-split-split-2-split",
+                "ns-nb-split-3-split-split-split-2-split-section"
+              ],
+              "sharedLength": 52,
+              "maxSharedDeltaY": 0.017223887117942205,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.7239335534030191,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-3-split-2-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-3-split-2-split-2",
+                "system-south:feeder-cross--1",
+                "ring-cw-3-split-2",
+                "ring-cw-3-split-2-split",
+                "ring-cw-3-split-3",
+                "ring-cw-3-split-2-split-split-2",
+                "ring-cw-3",
+                "ring-cw-3-split-2-split-split-2-section",
+                "ring-cw-2-split-split",
+                "ring-cw-2-split-split-2",
+                "ring-cw-2-split",
+                "ring-cw-2-split-2",
+                "ring-cw-2-split-3-split-split-section",
+                "ring-cw-2-split-3-split-split"
+              ],
+              "sharedLength": 95,
+              "maxSharedDeltaY": 1.3550752089511343e-14,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.3382500563469962,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-south:S-to-E-right",
+          "cluster": "system-south",
+          "length": 449.6929246677475,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.05158786683264314,
+            "gradeBreaks": [],
+            "minRadius": 95.3452676520536,
+            "shortSegments": 25
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-3",
+                "end": "end"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-3",
+                "ns-nb-split-3-split-split",
+                "ns-nb-split-3-split-split-split-3-split",
+                "ns-nb-split-3-split",
+                "ns-nb-split-3-split-split-split-2",
+                "system-south:feeder-1",
+                "ns-nb-split-3-split-split-split-2-split-2",
+                "ns-nb",
+                "ns-nb-split-3-split-split-split-2-split",
+                "ns-nb-split-3-split-split-split-2-split-section"
+              ],
+              "sharedLength": 67,
+              "maxSharedDeltaY": 0.03719507923654941,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.3803991333334826,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-1-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-1-split-2",
+                "ring-ccw-1-split",
+                "ring-ccw-1-split-3",
+                "ring-ccw-1-split-split-2",
+                "ring-ccw-1",
+                "system-south:feeder-cross-1",
+                "ring-ccw-0-split-split-split-split",
+                "ring-ccw-1-split-split",
+                "ring-ccw-0-split-split-split",
+                "ring-ccw-1-split-split-section",
+                "ring-ccw-0-split-split-split-2",
+                "ring-ccw-0-split-split-split-3-split-section",
+                "ring-ccw-0-split-split-split-3-split"
+              ],
+              "sharedLength": 119,
+              "maxSharedDeltaY": 2.383189319278986e-30,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0.002248954508763758,
+              "deltaY": 0,
+              "tangentDegrees": 1.4872097890459133,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-south:E-to-S-loop",
+          "cluster": "system-south",
+          "length": 164.15169849358415,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.11950000000000013,
+            "gradeBreaks": [
+              {
+                "station": 19.546145577136688,
+                "gradeBreak": 0.1195,
+                "gradeRate": 0.06304556556989403,
+                "radius": 43.89731269899828,
+                "crestSag": false
+              },
+              {
+                "station": 85.87965659747456,
+                "gradeBreak": 0.08602876739462004,
+                "gradeRate": 0.04474524528632722,
+                "radius": 42.996798006468005,
+                "crestSag": false
+              }
+            ],
+            "minRadius": 21.917677052650628,
+            "shortSegments": 0
+          },
+          "severity": "P0",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-2-split-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-2-split-split-2",
+                "ring-cw-2-split-split",
+                "ring-cw-2-split",
+                "ring-cw-3",
+                "ring-cw-2-split-2",
+                "ring-cw-3-split-3",
+                "ring-cw-2-split-3-split-split-section",
+                "ring-cw-3-split-2",
+                "ring-cw-2-split-3-split-split",
+                "ring-cw-3-split-2-split-2",
+                "system-south:feeder-cross--1",
+                "ring-cw-3-split-2-split",
+                "ring-cw-3-split-2-split-split-2",
+                "ring-cw-3-split-2-split-split-2-section"
+              ],
+              "sharedLength": 30,
+              "maxSharedDeltaY": 1.2492356035321668,
+              "conflictRange": [
+                20,
+                30
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 4.973799150320701e-14,
+              "deltaY": 0,
+              "tangentDegrees": 1.149066253215755,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-sb-split-split-split-split-split-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ns-sb-split-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split",
+                "ns-sb-split-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-2-split-split",
+                "ns-sb-split-split-split-split-split-split-split",
+                "ns-sb-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-2-section",
+                "ns-sb-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split-3-section"
+              ],
+              "sharedLength": 23,
+              "maxSharedDeltaY": 0.008661509913363119,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 3.552713678800501e-15,
+              "deltaY": 0,
+              "tangentDegrees": 1.867319827156726,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-south:E-to-N-right",
+          "cluster": "system-south",
+          "length": 516.3845070884836,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.04205192646600489,
+            "gradeBreaks": [],
+            "minRadius": 100.31368871419565,
+            "shortSegments": 16
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-2-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-2-split",
+                "ring-cw-2-split-2",
+                "ring-cw-2-split-split-2",
+                "ring-cw-2-split-3-split-split-section",
+                "ring-cw-2-split-split",
+                "ring-cw-2-split-3-split-split",
+                "ring-cw-3",
+                "ring-cw-3-split-3",
+                "ring-cw-3-split-2",
+                "ring-cw-3-split-2-split-2",
+                "system-south:feeder-cross--1",
+                "ring-cw-3-split-2-split",
+                "ring-cw-3-split-2-split-split-2",
+                "ring-cw-3-split-2-split-split-2-section"
+              ],
+              "sharedLength": 125,
+              "maxSharedDeltaY": 2.00504605251564e-15,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0.00221477090169751,
+              "deltaY": 0,
+              "tangentDegrees": 0.4646832242261526,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-2-split",
+                "end": "start"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-2-split",
+                "ns-nb-split-3-split-split-split-2-split-2",
+                "ns-nb-split-3-split-split-split-2-split-section",
+                "ns-nb-split-3-split-split-split-2",
+                "ns-nb-split-3-split-split-split-3-split",
+                "ns-nb-split-3-split-split-split-3",
+                "ns-nb-split-3-split-split",
+                "ns-nb-split-3-split",
+                "system-south:feeder-1",
+                "ns-nb"
+              ],
+              "sharedLength": 98,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 1.5987211554602254e-14,
+              "deltaY": 0,
+              "tangentDegrees": 0.26808334146787505,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-south:N-to-E-semi",
+          "cluster": "system-south",
+          "length": 839.9136491067305,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.07711018355796984,
+            "gradeBreaks": [],
+            "minRadius": 60.37460766123738,
+            "shortSegments": 131
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-sb-split-split-split-split-split-split-2-section",
+                "end": "end"
+              },
+              "peers": [
+                "ns-sb-split-split-split-split-split-split-2-section",
+                "ns-sb-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split-2-split-split",
+                "ns-sb-split-split-split-split-split-split-3-section",
+                "ns-sb-split-split-split-split-split-split",
+                "ns-sb-split-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-split"
+              ],
+              "sharedLength": 109,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 4.085620730620576e-14,
+              "deltaY": 0,
+              "tangentDegrees": 0.28563255361864576,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-1-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-1-split-split-2",
+                "system-south:feeder-cross-1",
+                "ring-ccw-1-split",
+                "ring-ccw-1-split-split",
+                "ring-ccw-1-split-2",
+                "ring-ccw-1-split-split-section",
+                "ring-ccw-1-split-3",
+                "ring-ccw-1",
+                "ring-ccw-0-split-split-split-split",
+                "ring-ccw-0-split-split-split",
+                "ring-ccw-0-split-split-split-2",
+                "ring-ccw-0-split-split-split-3-split-section",
+                "ring-ccw-0-split-split-split-3-split"
+              ],
+              "sharedLength": 62,
+              "maxSharedDeltaY": 0.0011440646652703097,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.138393145438392,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-south:N-to-W-right",
+          "cluster": "system-south",
+          "length": 470.22915789259275,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.049119606568397194,
+            "gradeBreaks": [],
+            "minRadius": 122.51044645757263,
+            "shortSegments": 22
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-sb-split-split-split-split-split-split-2-split",
+                "end": "end"
+              },
+              "peers": [
+                "ns-sb-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-2-section",
+                "ns-sb-split-split-split-split-split-split-2-split-split",
+                "ns-sb-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split",
+                "ns-sb-split-split-split-split-split-split-3-section",
+                "ns-sb-split-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-split"
+              ],
+              "sharedLength": 98,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 3.375077994860476e-14,
+              "deltaY": 0,
+              "tangentDegrees": 0.26808334146787505,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-3-split-3",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-3-split-3",
+                "ring-cw-3-split-2",
+                "ring-cw-3",
+                "ring-cw-3-split-2-split-2",
+                "ring-cw-2-split-split",
+                "system-south:feeder-cross--1",
+                "ring-cw-2-split-split-2",
+                "ring-cw-3-split-2-split",
+                "ring-cw-2-split",
+                "ring-cw-3-split-2-split-split-2",
+                "ring-cw-2-split-2",
+                "ring-cw-3-split-2-split-split-2-section",
+                "ring-cw-2-split-3-split-split-section",
+                "ring-cw-2-split-3-split-split"
+              ],
+              "sharedLength": 97,
+              "maxSharedDeltaY": 8.86812730515049e-15,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.25495385824501315,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-south:W-to-N-loop",
+          "cluster": "system-south",
+          "length": 161.07212995534638,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.09229525712302467,
+            "gradeBreaks": [],
+            "minRadius": 18.431522733876353,
+            "shortSegments": 85
+          },
+          "severity": "P1",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-1",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-1",
+                "ring-ccw-0-split-split-split-split",
+                "ring-ccw-1-split-3",
+                "ring-ccw-0-split-split-split",
+                "ring-ccw-1-split-2",
+                "ring-ccw-0-split-split-split-2",
+                "ring-ccw-1-split",
+                "ring-ccw-0-split-split-split-3-split-section",
+                "ring-ccw-1-split-split-2",
+                "ring-ccw-0-split-split-split-3-split",
+                "system-south:feeder-cross-1",
+                "ring-ccw-1-split-split",
+                "ring-ccw-1-split-split-section"
+              ],
+              "sharedLength": 30,
+              "maxSharedDeltaY": 1.2867488283544926e-15,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.147167641271911,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-2-split-2",
+                "ns-nb-split-3-split-split-split-2-split",
+                "ns-nb-split-3-split-split-split-2",
+                "ns-nb-split-3-split-split-split-2-split-section",
+                "ns-nb-split-3-split-split-split-3-split",
+                "ns-nb-split-3-split-split-split-3",
+                "ns-nb-split-3-split-split",
+                "ns-nb-split-3-split",
+                "system-south:feeder-1",
+                "ns-nb"
+              ],
+              "sharedLength": 21,
+              "maxSharedDeltaY": 0.0603393745033145,
+              "conflictRange": [
+                10,
+                21
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 8.881784197001252e-15,
+              "deltaY": -6.217248937900877e-15,
+              "tangentDegrees": 1.961220392739968,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-south:W-to-S-right",
+          "cluster": "system-south",
+          "length": 411.553748878009,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.037982591352290145,
+            "gradeBreaks": [],
+            "minRadius": 84.47764994230619,
+            "shortSegments": 95
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-0-split-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-0-split-split-split",
+                "ring-ccw-0-split-split-split-2",
+                "ring-ccw-0-split-split-split-split",
+                "ring-ccw-0-split-split-split-3-split-section",
+                "ring-ccw-1",
+                "ring-ccw-0-split-split-split-3-split",
+                "ring-ccw-1-split-3",
+                "ring-ccw-1-split-2",
+                "ring-ccw-1-split",
+                "ring-ccw-1-split-split-2",
+                "system-south:feeder-cross-1",
+                "ring-ccw-1-split-split",
+                "ring-ccw-1-split-split-section"
+              ],
+              "sharedLength": 97,
+              "maxSharedDeltaY": 4.691740468255144e-15,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.25453383850158895,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-sb-split-split-split-split-split-split-split-2-split",
+                "end": "start"
+              },
+              "peers": [
+                "ns-sb-split-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-split",
+                "ns-sb-split-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split",
+                "ns-sb-split-split-split-split-split-split-2-split-split",
+                "ns-sb-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-2-section",
+                "ns-sb-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split-3-section"
+              ],
+              "sharedLength": 67,
+              "maxSharedDeltaY": 0.03575492178106243,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 4.973799150320701e-14,
+              "deltaY": 7.549516567451064e-15,
+              "tangentDegrees": 0.38039913333444064,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "ring-ccw-1",
+          "cluster": "ring-ccw-1",
+          "length": 306.98214285714295,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-0-split-split-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-0-split-split-split-split",
+                "ring-ccw-0-split-split-split",
+                "ring-ccw-0-split-split-split-2",
+                "ring-ccw-0-split-split-split-3-split-section",
+                "ring-ccw-0-split-split-split-3-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-1-split-3",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-1-split-3",
+                "ring-ccw-1-split-2",
+                "ring-ccw-1-split",
+                "ring-ccw-1-split-split-2",
+                "system-south:feeder-cross-1",
+                "ring-ccw-1-split-split",
+                "ring-ccw-1-split-split-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split",
+          "cluster": "ns",
+          "length": 9.069694376880761,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-sb-split-split-split-split-split-split-2-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ns-sb-split-split-split-split-split-split-2-split-split",
+                "ns-sb-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-2-section",
+                "ns-sb-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split-3-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-sb-split-split-split-split-split-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ns-sb-split-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0.0004434699493989813,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-2",
+          "cluster": "ns",
+          "length": 7.492647058823422,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-3-split",
+                "end": "end"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-3-split",
+                "ns-nb-split-3-split-split-split-3",
+                "ns-nb-split-3-split-split",
+                "ns-nb-split-3-split",
+                "system-south:feeder-1",
+                "ns-nb"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-2-split-2",
+                "ns-nb-split-3-split-split-split-2-split",
+                "ns-nb-split-3-split-split-split-2-split-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-3-split",
+          "cluster": "ns",
+          "length": 166.17647058823513,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-3",
+                "end": "end"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-3",
+                "ns-nb-split-3-split-split",
+                "ns-nb-split-3-split",
+                "system-south:feeder-1",
+                "ns-nb"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-2",
+                "ns-nb-split-3-split-split-split-2-split-2",
+                "ns-nb-split-3-split-split-split-2-split",
+                "ns-nb-split-3-split-split-split-2-split-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0.09825545803382123,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 13
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-cw-2-split-split",
+          "cluster": "ring-cw-2-split-split",
+          "length": 218.7321428571429,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-2-split-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-2-split-split-2",
+                "ring-cw-2-split",
+                "ring-cw-2-split-2",
+                "ring-cw-2-split-3-split-split-section",
+                "ring-cw-2-split-3-split-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-3",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-3",
+                "ring-cw-3-split-3",
+                "ring-cw-3-split-2",
+                "ring-cw-3-split-2-split-2",
+                "system-south:feeder-cross--1",
+                "ring-cw-3-split-2-split",
+                "ring-cw-3-split-2-split-split-2",
+                "ring-cw-3-split-2-split-split-2-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-split-2",
+          "cluster": "ns",
+          "length": 258.0990116788448,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-sb-split-split-split-split-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ns-sb-split-split-split-split-split-split",
+                "ns-sb-split-split-split-split-split-split-2-split-split",
+                "ns-sb-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-2-section",
+                "ns-sb-split-split-split-split-split-split-2",
+                "ns-sb-split-split-split-split-split-split-3-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-sb-split-split-split-split-split-split-split-2-split",
+                "end": "start"
+              },
+              "peers": [
+                "ns-sb-split-split-split-split-split-split-split-2-split",
+                "ns-sb-split-split-split-split-split-split-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0.041366774024188736,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-cw-2-split-split-2",
+          "cluster": "ring-cw-2-split-split-2",
+          "length": 396.87977116477094,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-2-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-2-split",
+                "ring-cw-2-split-2",
+                "ring-cw-2-split-3-split-split-section",
+                "ring-cw-2-split-3-split-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0.00221477090169751,
+              "deltaY": 0,
+              "tangentDegrees": 0.7111511146168179,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-2-split-split",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-2-split-split",
+                "ring-cw-3",
+                "ring-cw-3-split-3",
+                "ring-cw-3-split-2",
+                "ring-cw-3-split-2-split-2",
+                "system-south:feeder-cross--1",
+                "ring-cw-3-split-2-split",
+                "ring-cw-3-split-2-split-split-2",
+                "ring-cw-3-split-2-split-split-2-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 141.61955307118643,
+            "shortSegments": 13
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-ccw-1-split-3",
+          "cluster": "ring-ccw-1-split-3",
+          "length": 307.66337798565786,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-1",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-1",
+                "ring-ccw-0-split-split-split-split",
+                "ring-ccw-0-split-split-split",
+                "ring-ccw-0-split-split-split-2",
+                "ring-ccw-0-split-split-split-3-split-section",
+                "ring-ccw-0-split-split-split-3-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-1-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-1-split-2",
+                "ring-ccw-1-split",
+                "ring-ccw-1-split-split-2",
+                "system-south:feeder-cross-1",
+                "ring-ccw-1-split-split",
+                "ring-ccw-1-split-split-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0.0022489545094836858,
+              "deltaY": 0,
+              "tangentDegrees": 1.1983075463716788,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 140.75460998159016,
+            "shortSegments": 11
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-2-split-2",
+          "cluster": "ns",
+          "length": 323.1221495287866,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-2",
+                "ns-nb-split-3-split-split-split-3-split",
+                "ns-nb-split-3-split-split-split-3",
+                "ns-nb-split-3-split-split",
+                "ns-nb-split-3-split",
+                "system-south:feeder-1",
+                "ns-nb"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ns-nb-split-3-split-split-split-2-split",
+                "end": "start"
+              },
+              "peers": [
+                "ns-nb-split-3-split-split-split-2-split",
+                "ns-nb-split-3-split-split-split-2-split-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0.04274398151423026,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 6
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        }
+      ],
+      "mainlines": [
+        {
+          "id": "regional:S26:out",
+          "roadClass": "expressway",
+          "roadNameId": "S26",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S89:out:split114:split138:split156",
+          "roadClass": "expressway",
+          "roadNameId": "S89",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S26:in:split82:split96:split130:split136:split150:split168",
+          "roadClass": "expressway",
+          "roadNameId": "S26",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S26:out:split370",
+          "roadClass": "expressway",
+          "roadNameId": "S26",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S26:in:split82:split96:split130:split136:split150:split168:split380",
+          "roadClass": "expressway",
+          "roadNameId": "S26",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S26:out:split370:lane188",
+          "roadClass": "expressway",
+          "roadNameId": "S26",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S89:out:split114:split138:split156:lane192",
+          "roadClass": "expressway",
+          "roadNameId": "S89",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S26:in:split82:split96:split130:split136:split150:split168:lane208",
+          "roadClass": "expressway",
+          "roadNameId": "S26",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S26:out:lane316",
+          "roadClass": "expressway",
+          "roadNameId": "S26",
+          "lanes": 3
+        },
+        {
+          "id": "regional:S26:in:split82:split96:split130:split136:split150:split168:split380:lane320",
+          "roadClass": "expressway",
+          "roadNameId": "S26",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-1",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "system-south:feeder-1",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "system-south:feeder-cross-1",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "system-south:feeder-cross--1",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-1-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-1-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-2-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split-split-split-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-3",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-2-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-1-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-2-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-2-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-1-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-3",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-1-split-3",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-2-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v4-south-split-2-split-split-2",
+          "roadClass": "arterial",
+          "roadNameId": "south-avenue",
+          "lanes": 4
+        },
+        {
+          "id": "v4-south-split-2-split-split-3",
+          "roadClass": "arterial",
+          "roadNameId": "south-avenue",
+          "lanes": 4
+        },
+        {
+          "id": "v8-beijing-road-split-split-split",
+          "roadClass": "collector",
+          "roadNameId": "v8-beijing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ring-cw-3-split-2-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-2-split-3-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v4-south-split-2-split-split-2-split-v91",
+          "roadClass": "arterial",
+          "roadNameId": "south-avenue",
+          "lanes": 4
+        },
+        {
+          "id": "v4-south-split-2-split-split-2-split-split-v91",
+          "roadClass": "arterial",
+          "roadNameId": "south-avenue",
+          "lanes": 4
+        },
+        {
+          "id": "v91-ns-1-a-3",
+          "roadClass": "frontage",
+          "roadNameId": "v9-wangchuan-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ns-1-b-3",
+          "roadClass": "frontage",
+          "roadNameId": "v9-wangchuan-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ns-1-a-3-section",
+          "roadClass": "frontage",
+          "roadNameId": "v9-wangchuan-road",
+          "lanes": 2
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-2-section",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-2-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v91-ns-1-b-3-section",
+          "roadClass": "frontage",
+          "roadNameId": "v9-wangchuan-road",
+          "lanes": 2
+        },
+        {
+          "id": "ring-cw-3-split-2-split-split-2-section",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v8-beijing-road-split-split-split-section",
+          "roadClass": "collector",
+          "roadNameId": "v8-beijing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ring-ccw-0-split-split-split-3-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-2-split-3-split-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-1-split-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v91-ring-south-outer-cd-section-2",
+          "roadClass": "frontage",
+          "roadNameId": "v8-ring-south-cross",
+          "lanes": 2
+        },
+        {
+          "id": "v4-south-split-2-split-section",
+          "roadClass": "arterial",
+          "roadNameId": "south-avenue",
+          "lanes": 4
+        },
+        {
+          "id": "v4-south-split-2-split-split-2-split-split-v91-section",
+          "roadClass": "arterial",
+          "roadNameId": "south-avenue",
+          "lanes": 4
+        },
+        {
+          "id": "direction-south-east-collector-section",
+          "roadClass": "collector",
+          "roadNameId": "direction-south-east-collector",
+          "lanes": 2
+        },
+        {
+          "id": "ns-sb-split-split-split-split-split-split-3-section",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        }
+      ],
+      "transitions": [],
+      "nearbyFrontageServiceRoads": [
+        "v4-south-split-2-split-split-2",
+        "v4-south-split-2-split-split-3",
+        "v8-beijing-road-split-split-split",
+        "v4-south-split-2-split-split-2-split-v91",
+        "v4-south-split-2-split-split-2-split-split-v91",
+        "v91-ns-1-a-3",
+        "v91-ns-1-b-3",
+        "v91-ns-1-a-3-section",
+        "v91-ns-1-b-3-section",
+        "v8-beijing-road-split-split-split-section",
+        "v91-ring-south-outer-cd-section-2",
+        "v4-south-split-2-split-section",
+        "v4-south-split-2-split-split-2-split-split-v91-section",
+        "direction-south-east-collector-section"
+      ],
+      "originalRoadIds": [
+        "system-south:S-to-W-semi",
+        "system-south:S-to-E-right",
+        "system-south:E-to-S-loop",
+        "system-south:E-to-N-right",
+        "system-south:N-to-E-semi",
+        "system-south:N-to-W-right",
+        "system-south:W-to-N-loop",
+        "system-south:W-to-S-right"
+      ]
+    },
+    {
+      "id": "system-west",
+      "file": "system-west",
+      "ramps": [
+        {
+          "id": "system-west:S-to-W-loop",
+          "cluster": "system-west",
+          "length": 178.78323040800134,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.08643471164087772,
+            "gradeBreaks": [],
+            "minRadius": 14.642098269933511,
+            "shortSegments": 95
+          },
+          "severity": "P1",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-0",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-0",
+                "ring-cw-3-split-split-split",
+                "ring-cw-0-split-2",
+                "ring-cw-3-split-split",
+                "ring-cw-0-split",
+                "ring-cw-3-split-split-2",
+                "ring-cw-0-split-split-2",
+                "ring-cw-3-split",
+                "ring-cw-0-split-split",
+                "ring-cw-3-split-2-split-split-split-split-section",
+                "ring-cw-0-split-split-split-2",
+                "ring-cw-3-split-2-split-split-split-split",
+                "ring-cw-0-split-split-split-2-split",
+                "ring-cw-0-split-split-split-2-split-split"
+              ],
+              "sharedLength": 39,
+              "maxSharedDeltaY": 4.440892098501991e-16,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.7879797372681129,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-split-split",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-split-3"
+              ],
+              "sharedLength": 18,
+              "maxSharedDeltaY": 2.6645352591003757e-14,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 1.9539925233402755e-14,
+              "tangentDegrees": 2.6788382463161695,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-west:S-to-E-right",
+          "cluster": "system-west",
+          "length": 457.03199204036866,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.04769764917122739,
+            "gradeBreaks": [],
+            "minRadius": 156.6460491882559,
+            "shortSegments": 23
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-3-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-3-split",
+                "ring-cw-3-split-2-split-split-split-split-section",
+                "ring-cw-3-split-split-2",
+                "ring-cw-3-split-2-split-split-split-split",
+                "ring-cw-3-split-split",
+                "ring-cw-3-split-split-split",
+                "ring-cw-0",
+                "ring-cw-0-split-2",
+                "ring-cw-0-split",
+                "ring-cw-0-split-split-2",
+                "ring-cw-0-split-split",
+                "ring-cw-0-split-split-split-2",
+                "ring-cw-0-split-split-split-2-split",
+                "ring-cw-0-split-split-split-2-split-split"
+              ],
+              "sharedLength": 115,
+              "maxSharedDeltaY": 1.1168367942834724e-28,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.19401653487881027,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-eb-split-5-split-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-5-split-split-section-section",
+                "ew-eb-split-5-split-2",
+                "ew-eb-split-4",
+                "ew-eb-split-5",
+                "ew-eb-split-4-split",
+                "ew-eb-split-6-split",
+                "ew-eb-split-4-split-split",
+                "ew-eb-split-6",
+                "ew-eb-split-4-split-split-section-2",
+                "ew-eb"
+              ],
+              "sharedLength": 69,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.5095157475478015,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-west:E-to-S-loop",
+          "cluster": "system-west",
+          "length": 193.3973771038618,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.10000000000007278,
+            "gradeBreaks": [],
+            "minRadius": 15.080542569096032,
+            "shortSegments": 108
+          },
+          "severity": "P1",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-split-split",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-split-3"
+              ],
+              "sharedLength": 25,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.8038192394605255,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-3-split-split",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-3-split-split",
+                "ring-ccw-0",
+                "ring-ccw-3-split",
+                "ring-ccw-0-split-2",
+                "ring-ccw-3-split-2-split",
+                "ring-ccw-0-split",
+                "ring-ccw-3-split-2",
+                "ring-ccw-0-split-split-2",
+                "ring-ccw-3-split-3-split",
+                "ring-ccw-0-split-split",
+                "system-north:feeder-cross--1",
+                "ring-ccw-0-split-split-section"
+              ],
+              "sharedLength": 38,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.7920844725363789,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-west:E-to-N-right",
+          "cluster": "system-west",
+          "length": 448.1369290946419,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.046645762535583876,
+            "gradeBreaks": [],
+            "minRadius": 160.17886601280384,
+            "shortSegments": 5
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-2-section",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-3",
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-split-split"
+              ],
+              "sharedLength": 70,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.38946298135541796,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-0-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-0-split-split-2",
+                "ring-cw-0-split-split",
+                "ring-cw-0-split",
+                "ring-cw-0-split-split-split-2",
+                "ring-cw-0-split-2",
+                "ring-cw-0-split-split-split-2-split",
+                "ring-cw-0",
+                "ring-cw-0-split-split-split-2-split-split",
+                "ring-cw-3-split-split-split",
+                "ring-cw-3-split-split",
+                "ring-cw-3-split-split-2",
+                "ring-cw-3-split",
+                "ring-cw-3-split-2-split-split-split-split-section",
+                "ring-cw-3-split-2-split-split-split-split"
+              ],
+              "sharedLength": 112,
+              "maxSharedDeltaY": 2.2291564055052053e-28,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.4003542872300657,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-west:N-to-E-loop",
+          "cluster": "system-west",
+          "length": 196.73813784837125,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.07570194277722846,
+            "gradeBreaks": [],
+            "minRadius": 14.55950127013421,
+            "shortSegments": 84
+          },
+          "severity": "P1",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-0",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-0",
+                "ring-ccw-3-split-split",
+                "ring-ccw-0-split-2",
+                "ring-ccw-3-split",
+                "ring-ccw-0-split",
+                "ring-ccw-3-split-2-split",
+                "ring-ccw-0-split-split-2",
+                "ring-ccw-3-split-2",
+                "ring-ccw-0-split-split",
+                "ring-ccw-3-split-3-split",
+                "ring-ccw-0-split-split-section",
+                "system-north:feeder-cross--1"
+              ],
+              "sharedLength": 39,
+              "maxSharedDeltaY": 1.44328993201266e-15,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.7687086811108306,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-eb-split-5-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ew-eb-split-5-split-2",
+                "ew-eb-split-5",
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-6-split",
+                "ew-eb-split-5-split",
+                "ew-eb-split-6",
+                "ew-eb-split-5-split-split",
+                "ew-eb",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split-section-section",
+                "ew-eb-split-4",
+                "ew-eb-split-4-split",
+                "ew-eb-split-4-split-split",
+                "ew-eb-split-4-split-split-section-2"
+              ],
+              "sharedLength": 25,
+              "maxSharedDeltaY": 3.730349362740526e-14,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.8164892393826317,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-west:N-to-W-right",
+          "cluster": "system-west",
+          "length": 464.45856207569193,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.1157087804513452,
+            "gradeBreaks": [],
+            "minRadius": 49.59259049315619,
+            "shortSegments": 135
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-3-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-3-split-2",
+                "ring-ccw-3-split-3-split",
+                "ring-ccw-3-split-2-split",
+                "system-north:feeder-cross--1",
+                "ring-ccw-3-split",
+                "ring-ccw-3-split-split",
+                "ring-ccw-0",
+                "ring-ccw-0-split-2",
+                "ring-ccw-0-split",
+                "ring-ccw-0-split-split-2",
+                "ring-ccw-0-split-split",
+                "ring-ccw-0-split-split-section"
+              ],
+              "sharedLength": 114,
+              "maxSharedDeltaY": 0.00006239356392658831,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.2005749015724167,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-split-3"
+              ],
+              "sharedLength": 71,
+              "maxSharedDeltaY": 0.0012910380331963012,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 2.842170943040401e-14,
+              "deltaY": 1.9539925233402755e-14,
+              "tangentDegrees": 0.42232420929787456,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-west:W-to-N-loop",
+          "cluster": "system-west",
+          "length": 182.7338306397109,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.10000000000008918,
+            "gradeBreaks": [],
+            "minRadius": 14.419014693037976,
+            "shortSegments": 118
+          },
+          "severity": "P1",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-eb-split-5-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ew-eb-split-5-split-2",
+                "ew-eb-split-5",
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-6-split",
+                "ew-eb-split-5-split",
+                "ew-eb-split-6",
+                "ew-eb-split-5-split-split",
+                "ew-eb",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split-section-section",
+                "ew-eb-split-4",
+                "ew-eb-split-4-split",
+                "ew-eb-split-4-split-split",
+                "ew-eb-split-4-split-split-section-2"
+              ],
+              "sharedLength": 18,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 2.737106563625661,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-3-split-split-split",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-3-split-split-split",
+                "ring-cw-0",
+                "ring-cw-3-split-split",
+                "ring-cw-0-split-2",
+                "ring-cw-3-split-split-2",
+                "ring-cw-0-split",
+                "ring-cw-3-split",
+                "ring-cw-0-split-split-2",
+                "ring-cw-3-split-2-split-split-split-split-section",
+                "ring-cw-0-split-split",
+                "ring-cw-3-split-2-split-split-split-split",
+                "ring-cw-0-split-split-split-2",
+                "ring-cw-0-split-split-split-2-split",
+                "ring-cw-0-split-split-split-2-split-split"
+              ],
+              "sharedLength": 40,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.7643685519810414,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "system-west:W-to-S-right",
+          "cluster": "system-west",
+          "length": 470.9592292957017,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.11568521837781458,
+            "gradeBreaks": [],
+            "minRadius": 57.229534324482074,
+            "shortSegments": 137
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-eb-split-6",
+                "end": "end"
+              },
+              "peers": [
+                "ew-eb-split-6",
+                "ew-eb",
+                "ew-eb-split-6-split",
+                "ew-eb-split-5",
+                "ew-eb-split-5-split-2",
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-5-split",
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split-section-section",
+                "ew-eb-split-4",
+                "ew-eb-split-4-split",
+                "ew-eb-split-4-split-split",
+                "ew-eb-split-4-split-split-section-2"
+              ],
+              "sharedLength": 71,
+              "maxSharedDeltaY": 0.0013400694694274407,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 5.684341886080802e-14,
+              "deltaY": 0,
+              "tangentDegrees": 0.39883811799626134,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-0-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-0-split-split-2",
+                "ring-ccw-0-split-split",
+                "ring-ccw-0-split",
+                "ring-ccw-0-split-split-section",
+                "ring-ccw-0-split-2",
+                "ring-ccw-0",
+                "ring-ccw-3-split-split",
+                "ring-ccw-3-split",
+                "ring-ccw-3-split-2-split",
+                "ring-ccw-3-split-2",
+                "ring-ccw-3-split-3-split",
+                "system-north:feeder-cross--1"
+              ],
+              "sharedLength": 118,
+              "maxSharedDeltaY": 0.00006403829834672571,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 8.019692659049974e-34,
+              "tangentDegrees": 0.1946791676550089,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "ring-cw-0",
+          "cluster": "ring-cw-0",
+          "length": 47.4066680908069,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-3-split-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-3-split-split-split",
+                "ring-cw-3-split-split",
+                "ring-cw-3-split-split-2",
+                "ring-cw-3-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-0-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-0-split-2",
+                "ring-cw-0-split",
+                "ring-cw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-ccw-0",
+          "cluster": "ring-ccw-0",
+          "length": 47.05577675953356,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-3-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-3-split-split",
+                "ring-ccw-3-split",
+                "ring-ccw-3-split-2-split",
+                "ring-ccw-3-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-0-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-0-split-2",
+                "ring-ccw-0-split",
+                "ring-ccw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-wb-split-split-split-split",
+          "cluster": "ew",
+          "length": 1.5007831611380877,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-2-split",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.05883263359489677,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.0000012074182697257333,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-ccw-3-split",
+          "cluster": "ring-ccw-3-split",
+          "length": 33.51565199555685,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-3-split-2-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-3-split-2-split",
+                "ring-ccw-3-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-3-split-split",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-3-split-split",
+                "ring-ccw-0",
+                "ring-ccw-0-split-2",
+                "ring-ccw-0-split",
+                "ring-ccw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-eb-split-5",
+          "cluster": "ew",
+          "length": 12.21875876651197,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-eb-split-6-split",
+                "end": "end"
+              },
+              "peers": [
+                "ew-eb-split-6-split",
+                "ew-eb-split-6"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.0019797665170311293,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-eb-split-5-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ew-eb-split-5-split-2",
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-5-split",
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split-section-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-cw-3-split-split",
+          "cluster": "ring-cw-3-split-split",
+          "length": 35.63764582956486,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-3-split-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-3-split-split-2",
+                "ring-cw-3-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-3-split-split-split",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-3-split-split-split",
+                "ring-cw-0",
+                "ring-cw-0-split-2",
+                "ring-cw-0-split",
+                "ring-cw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-cw-0-split-2",
+          "cluster": "ring-cw-0-split-2",
+          "length": 33.1500772126426,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-0",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-0",
+                "ring-cw-3-split-split-split",
+                "ring-cw-3-split-split",
+                "ring-cw-3-split-split-2",
+                "ring-cw-3-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-0-split",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-0-split",
+                "ring-cw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-2",
+          "cluster": "ew",
+          "length": 84.57126756192778,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.0000012074182697257333,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-2-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 1732.504747718215,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-2-split",
+          "cluster": "ew",
+          "length": 12.219564586245433,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.021814340551814037,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 11864.474156664282,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-ccw-3-split-split",
+          "cluster": "ring-ccw-3-split-split",
+          "length": 46.55613084289223,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-3-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-3-split",
+                "ring-ccw-3-split-2-split",
+                "ring-ccw-3-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-0",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-0",
+                "ring-ccw-0-split-2",
+                "ring-ccw-0-split",
+                "ring-ccw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-ccw-0-split-2",
+          "cluster": "ring-ccw-0-split-2",
+          "length": 35.0656029209575,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-0",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-0",
+                "ring-ccw-3-split-split",
+                "ring-ccw-3-split",
+                "ring-ccw-3-split-2-split",
+                "ring-ccw-3-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-0-split",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-0-split",
+                "ring-ccw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-eb-split-5-split-2",
+          "cluster": "ew",
+          "length": 84.56603552340138,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-eb-split-5",
+                "end": "end"
+              },
+              "peers": [
+                "ew-eb-split-5",
+                "ew-eb-split-6-split",
+                "ew-eb-split-6"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-eb-split-5-split-2-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-5-split",
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split-section-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 35817.37499486228,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-eb-split-5-split-2-split",
+          "cluster": "ew",
+          "length": 1.5007484773822588,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-eb-split-5-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ew-eb-split-5-split-2",
+                "ew-eb-split-5",
+                "ew-eb-split-6-split",
+                "ew-eb-split-6"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-eb-split-5-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-eb-split-5-split",
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split-section-section"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.006267433652850562,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-cw-3-split-split-split",
+          "cluster": "ring-cw-3-split-split-split",
+          "length": 47.03464588190883,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-3-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-3-split-split",
+                "ring-cw-3-split-split-2",
+                "ring-cw-3-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-0",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-0",
+                "ring-cw-0-split-2",
+                "ring-cw-0-split",
+                "ring-cw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        }
+      ],
+      "mainlines": [
+        {
+          "id": "ring-cw-0",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-0-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-0-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-3-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-6",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "system-north:feeder-cross--1",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-3-split-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-0-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-3",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-0-split-split-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-split-split-split-split-split-2-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-0-split-split-split-2-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-sb-split-3-split-split-split-3",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-0-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-3-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-0-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-3-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-6-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-2-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v8-beijing-road-split-v91",
+          "roadClass": "collector",
+          "roadNameId": "v8-beijing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-0",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-1",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-0",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-1",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ew-eb-split-5-split-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v91-ew-0-a-1-section",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-1-section",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ew-wb-split-split-split-split-2-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v8-beijing-road-split-split-section",
+          "roadClass": "collector",
+          "roadNameId": "v8-beijing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ring-cw-3-split-2-split-split-split-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-0-split-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v91-ring-west-distributor-section-2",
+          "roadClass": "frontage",
+          "roadNameId": "v8-ring-west-cross",
+          "lanes": 2
+        },
+        {
+          "id": "v8-nanjing-road-m91",
+          "roadClass": "collector",
+          "roadNameId": "v8-nanjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v8-shanghai-road-split-2-v91-m91",
+          "roadClass": "collector",
+          "roadNameId": "v8-shanghai-road",
+          "lanes": 2
+        },
+        {
+          "id": "v8-shanghai-road-split-2-split-v91-m91",
+          "roadClass": "collector",
+          "roadNameId": "v8-shanghai-road",
+          "lanes": 2
+        },
+        {
+          "id": "v8-beijing-road-split-2-v91-c91",
+          "roadClass": "collector",
+          "roadNameId": "v8-beijing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v8-beijing-road-c91-section",
+          "roadClass": "collector",
+          "roadNameId": "v8-beijing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v8-shanghai-road-split-2-v91-m91-section",
+          "roadClass": "collector",
+          "roadNameId": "v8-shanghai-road",
+          "lanes": 2
+        },
+        {
+          "id": "v8-nanjing-road-m91-section-2",
+          "roadClass": "collector",
+          "roadNameId": "v8-nanjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ew-eb-split-5-split-split-section-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-2-section-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4-split-split-section-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        }
+      ],
+      "transitions": [],
+      "nearbyFrontageServiceRoads": [
+        "v8-beijing-road-split-v91",
+        "v91-ew-0-a-0",
+        "v91-ew-0-a-1",
+        "v91-ew-0-b-0",
+        "v91-ew-0-b-1",
+        "v91-ew-0-a-1-section",
+        "v91-ew-0-b-1-section",
+        "v8-beijing-road-split-split-section",
+        "v91-ring-west-distributor-section-2",
+        "v8-nanjing-road-m91",
+        "v8-shanghai-road-split-2-v91-m91",
+        "v8-shanghai-road-split-2-split-v91-m91",
+        "v8-beijing-road-split-2-v91-c91",
+        "v8-beijing-road-c91-section",
+        "v8-shanghai-road-split-2-v91-m91-section",
+        "v8-nanjing-road-m91-section-2"
+      ],
+      "originalRoadIds": [
+        "system-west:S-to-W-loop",
+        "system-west:S-to-E-right",
+        "system-west:E-to-S-loop",
+        "system-west:E-to-N-right",
+        "system-west:N-to-E-loop",
+        "system-west:N-to-W-right",
+        "system-west:W-to-N-loop",
+        "system-west:W-to-S-right"
+      ]
+    },
+    {
+      "id": "regional:shangu",
+      "file": "regional_shangu",
+      "ramps": [
+        {
+          "id": "regional:shangu:off:1",
+          "cluster": "regional:shangu",
+          "length": 225.38441456294078,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.06305979449322514,
+            "gradeBreaks": [],
+            "minRadius": 43.414981974591775,
+            "shortSegments": 8
+          },
+          "severity": "P1",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "regional:shangu:off:1:deceleration",
+                "end": "end"
+              },
+              "peers": [
+                "regional:shangu:off:1:deceleration",
+                "regional:G38:out:split10:split24:split284:lane312",
+                "regional:G38:out:split10:split24:split284",
+                "regional:G38:out:split10:split24:split284:split354",
+                "regional:G38:out:split10:split24:lane20",
+                "regional:G38:out:split10:split24:split284:split354:split356",
+                "regional:G38:out:split10:split24",
+                "regional:qingling:E-to-N-right:acceleration",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434",
+                "regional:G38:out:split10:split282",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+                "regional:G38:out:split10",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356"
+              ],
+              "sharedLength": 59,
+              "maxSharedDeltaY": 0.04826302680688599,
+              "conflictRange": [
+                3,
+                3
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.14919673701234165,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "regional:shangu:local:1",
+                "end": "start"
+              },
+              "peers": [
+                "regional:shangu:local:1"
+              ],
+              "sharedLength": 5,
+              "maxSharedDeltaY": 0.06780231714733986,
+              "conflictRange": [
+                4,
+                5
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.1295135202756297,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "regional:shangu:on:1",
+          "cluster": "regional:shangu",
+          "length": 234.34112714407567,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.062939263183827,
+            "gradeBreaks": [],
+            "minRadius": 79.13835548137192,
+            "shortSegments": 7
+          },
+          "severity": "P1",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "regional:shangu:local:1",
+                "end": "end"
+              },
+              "peers": [
+                "regional:shangu:local:1"
+              ],
+              "sharedLength": 5,
+              "maxSharedDeltaY": 0.054059567531595576,
+              "conflictRange": [
+                4,
+                5
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.147013947788798,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+                "end": "start"
+              },
+              "peers": [
+                "regional:G38:out:split10:split24:split284:split354:split356",
+                "regional:G38:out:split10:split24:split284:split354",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434",
+                "regional:G38:out:split10:split24:split284:lane312",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+                "regional:G38:out:split10:split24:split284",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+                "regional:G38:out:split10:split24:lane20",
+                "regional:shangu:off:1:deceleration",
+                "regional:G38:out:split10:split24",
+                "regional:qingling:E-to-N-right:acceleration",
+                "regional:G38:out:split10:split282",
+                "regional:G38:out:split10"
+              ],
+              "sharedLength": 58,
+              "maxSharedDeltaY": 0.12914262194175308,
+              "conflictRange": [
+                2,
+                58
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 7.754433775698627,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "regional:shangu:off:-1",
+          "cluster": "regional:shangu",
+          "length": 254.58005728691654,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.05246706976506435,
+            "gradeBreaks": [],
+            "minRadius": 81.72307623678239,
+            "shortSegments": 7
+          },
+          "severity": "P1",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "regional:G38:in:split442:split444",
+                "end": "end"
+              },
+              "peers": [
+                "regional:G38:in:split442:split444",
+                "regional:G38:in:split362",
+                "regional:G38:in:split442",
+                "regional:G38:in:split362:split364",
+                "regional:G38:in:split470",
+                "regional:G38:in:split362:split364:lane24",
+                "regional:qingling:N-to-E-turbine:deceleration",
+                "regional:G38:in",
+                "regional:G38:in:split28",
+                "regional:G65:in:11:revision224",
+                "regional:G38:in:split28:split288",
+                "regional:G65:in:11",
+                "regional:G38:in:split28:split286"
+              ],
+              "sharedLength": 36,
+              "maxSharedDeltaY": 0.15929497316635377,
+              "conflictRange": [
+                2,
+                5
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 9.158825965927607,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "regional:shangu:local:-1",
+                "end": "start"
+              },
+              "peers": [
+                "regional:shangu:local:-1"
+              ],
+              "sharedLength": 5,
+              "maxSharedDeltaY": 0.04548402770908666,
+              "conflictRange": [
+                5,
+                5
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.133521748927399,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "regional:shangu:on:-1",
+          "cluster": "regional:shangu",
+          "length": 263.81813283124706,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.04698579181951291,
+            "gradeBreaks": [],
+            "minRadius": 83.29358182754396,
+            "shortSegments": 2
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "regional:shangu:local:-1",
+                "end": "end"
+              },
+              "peers": [
+                "regional:shangu:local:-1"
+              ],
+              "sharedLength": 5,
+              "maxSharedDeltaY": 0.03741128015781925,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.118564508073882,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "regional:G38:in:split362:split364",
+                "end": "start"
+              },
+              "peers": [
+                "regional:G38:in:split362:split364",
+                "regional:G38:in:split362",
+                "regional:G38:in:split362:split364:lane24",
+                "regional:qingling:N-to-E-turbine:deceleration",
+                "regional:G38:in:split442:split444",
+                "regional:G38:in:split28",
+                "regional:G38:in:split442",
+                "regional:G38:in:split28:split288",
+                "regional:G38:in:split470",
+                "regional:G38:in:split28:split286",
+                "regional:G38:in",
+                "regional:G65:in:11:revision224",
+                "regional:G65:in:11"
+              ],
+              "sharedLength": 37,
+              "maxSharedDeltaY": 0.032420354047832944,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 9.246852990427525,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "regional:shangu:off:1:deceleration",
+          "cluster": "regional:shangu",
+          "length": 275.8893491688664,
+          "transition": {
+            "kind": "deceleration",
+            "taperMetres": 150,
+            "mainRoadId": "regional:G38:out:split10:split24:split284:lane312",
+            "decisionId": "regional:shangu:off:1"
+          },
+          "profile": {
+            "maxGrade": 0.013967837984357972,
+            "gradeBreaks": [],
+            "minRadius": 301.67699401968537,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "regional:G38:out:split10:split24:split284",
+                "end": "end"
+              },
+              "peers": [
+                "regional:G38:out:split10:split24:split284",
+                "regional:G38:out:split10:split24:lane20",
+                "regional:G38:out:split10:split24:split284:lane312",
+                "regional:G38:out:split10:split24",
+                "regional:qingling:E-to-N-right:acceleration",
+                "regional:G38:out:split10:split24:split284:split354",
+                "regional:G38:out:split10:split282",
+                "regional:G38:out:split10:split24:split284:split354:split356",
+                "regional:G38:out:split10",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+                "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356"
+              ],
+              "sharedLength": 132,
+              "maxSharedDeltaY": 0.0010445817975117677,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.40730692360593584,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "regional:shangu:off:1",
+                "end": "start"
+              },
+              "peers": [
+                "regional:shangu:off:1",
+                "regional:shangu:local:1"
+              ],
+              "sharedLength": 2,
+              "maxSharedDeltaY": 0.027935675968720375,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.14919673701234165,
+              "topology": true
+            }
+          ]
+        }
+      ],
+      "mainlines": [
+        {
+          "id": "regional:G38:in",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10:split24",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split28",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:S68:out:split12:split30",
+          "roadClass": "expressway",
+          "roadNameId": "S68",
+          "lanes": 3
+        },
+        {
+          "id": "regional:G38:out:split10:split282",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10:split24:split284",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split28:split286",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split28:split288",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10:split24:split284:split354",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10:split24:split284:split354:split356",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:shangu:local:1",
+          "roadClass": "local",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split362",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split362:split364",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:shangu:local:-1",
+          "roadClass": "local",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10:split24:split284:split354:split356:split434",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10:split24:split284:split354:split356:split434:split436",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split442",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split442:split444",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split470",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G65:in:11",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10:split24:lane20",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:in:split362:split364:lane24",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:S68:out:split12:split30:lane28",
+          "roadClass": "expressway",
+          "roadNameId": "S68",
+          "lanes": 3
+        },
+        {
+          "id": "regional:G38:out:split10:split24:split284:lane312",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G38:out:split10:split24:split284:split354:split356:split434:split436:lane356",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:G65:in:11:revision224",
+          "roadClass": "expressway",
+          "roadNameId": "G38",
+          "lanes": 2
+        },
+        {
+          "id": "regional:v2:G42:out:16:lane3361",
+          "roadClass": "expressway",
+          "roadNameId": "G42",
+          "lanes": 2
+        }
+      ],
+      "transitions": [
+        {
+          "id": "regional:shangu:off:1:deceleration",
+          "kind": "deceleration",
+          "taperMetres": 150,
+          "mainRoadId": "regional:G38:out:split10:split24:split284:lane312",
+          "decisionId": "regional:shangu:off:1"
+        }
+      ],
+      "nearbyFrontageServiceRoads": [
+        "regional:shangu:local:1",
+        "regional:shangu:local:-1"
+      ],
+      "originalRoadIds": [
+        "regional:shangu:off:1",
+        "regional:shangu:on:1",
+        "regional:shangu:off:-1",
+        "regional:shangu:on:-1",
+        "regional:shangu:off:1:deceleration"
+      ]
+    },
+    {
+      "id": "v91-ew-west",
+      "file": "v91-ew-west",
+      "ramps": [
+        {
+          "id": "v91-ew-west-eb-off",
+          "cluster": "v91-ew-west",
+          "length": 265.0681829199024,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.11900023564058794,
+            "gradeBreaks": [],
+            "minRadius": 335.99369870414336,
+            "shortSegments": 22
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-eb-split-5-split-split-section",
+                "end": "end"
+              },
+              "peers": [
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split-split-section-section",
+                "ew-eb-split-5-split",
+                "ew-eb-split-4",
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-4-split",
+                "ew-eb-split-5-split-2",
+                "ew-eb-split-4-split-split",
+                "ew-eb-split-4-split-split-section-2",
+                "ew-eb-split-4-split-split-section",
+                "ew-eb-split-4-split-split-split",
+                "ew-eb-split-3",
+                "ew-eb-split-3-split",
+                "ew-eb-split-3-split-split-4"
+              ],
+              "sharedLength": 91,
+              "maxSharedDeltaY": 0.02500000000008562,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.8572205473277598,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "v91-ew-0-a-1-section",
+                "end": "start"
+              },
+              "peers": [
+                "v91-ew-0-a-1-section",
+                "v91-ew-0-a-1-section-2"
+              ],
+              "sharedLength": 74,
+              "maxSharedDeltaY": 0.02499999999757358,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 1.249764855300004e-16,
+              "tangentDegrees": 0.3491667250117114,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "v91-ew-west-wb-on",
+          "cluster": "v91-ew-west",
+          "length": 264.7962967280278,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.11899996318508847,
+            "gradeBreaks": [],
+            "minRadius": 313.2185179007985,
+            "shortSegments": 24
+          },
+          "severity": "PASS",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "v91-ew-0-b-1-section",
+                "end": "start"
+              },
+              "peers": [
+                "v91-ew-0-b-1-section",
+                "v91-ew-0-b-1-section-2"
+              ],
+              "sharedLength": 73,
+              "maxSharedDeltaY": 0.025000000000000577,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.36518850057341246,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-2-section-2",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-3",
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-4-section-section",
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-4-section",
+                "ew-wb-split-split-split-split-4",
+                "ew-wb-split-split-split",
+                "ew-wb-split-split-split-2-v6",
+                "ew-wb-split-split-split-2"
+              ],
+              "sharedLength": 86,
+              "maxSharedDeltaY": 0.02499999999986713,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.16683014608510183,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "access-ew-west-eb-on",
+          "cluster": "v91-ew-west",
+          "length": 112.44473878920873,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.11722443450962276,
+            "gradeBreaks": [],
+            "minRadius": 150.09580428019245,
+            "shortSegments": 0
+          },
+          "severity": "P0",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "v91-ew-0-a-6",
+                "end": "end"
+              },
+              "peers": [
+                "v91-ew-0-a-6",
+                "v91-ew-0-a-6-section"
+              ],
+              "sharedLength": 48,
+              "maxSharedDeltaY": 3.059111940078627,
+              "conflictRange": [
+                6,
+                48
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.7596212618039163,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-eb-split-4-split-split-section-2",
+                "end": "start"
+              },
+              "peers": [
+                "ew-eb-split-4-split-split-section-2",
+                "ew-eb-split-4-split-split-section",
+                "ew-eb-split-4-split-split",
+                "ew-eb-split-4-split-split-split",
+                "ew-eb-split-4-split",
+                "ew-eb-split-3",
+                "ew-eb-split-4",
+                "ew-eb-split-3-split",
+                "ew-eb-split-5-split-split-section-section",
+                "ew-eb-split-3-split-split-4",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split",
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-5-split-2"
+              ],
+              "sharedLength": 53,
+              "maxSharedDeltaY": 3.6087100410679946,
+              "conflictRange": [
+                6,
+                53
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.7022781152473305,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "access-ew-west-wb-off",
+          "cluster": "v91-ew-west",
+          "length": 126.49108385887473,
+          "transition": null,
+          "profile": {
+            "maxGrade": 0.11788012246964338,
+            "gradeBreaks": [],
+            "minRadius": 49.50170617068547,
+            "shortSegments": 78
+          },
+          "severity": "P0",
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-4-section",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-4-section",
+                "ew-wb-split-split-split-split-4",
+                "ew-wb-split-split-split-split-4-section-section",
+                "ew-wb-split-split-split",
+                "ew-wb-split-split-split-split-3",
+                "ew-wb-split-split-split-2-v6",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-2",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-split-2-split"
+              ],
+              "sharedLength": 33,
+              "maxSharedDeltaY": 1.3049585628662275,
+              "conflictRange": [
+                6,
+                33
+              ],
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 1.690864932652739,
+              "topology": true
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "v91-ew-0-b-6",
+                "end": "end"
+              },
+              "peers": [
+                "v91-ew-0-b-6",
+                "v91-ew-0-b-6-section"
+              ],
+              "sharedLength": 28,
+              "maxSharedDeltaY": 1.0048948857747704e-15,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": -1.1579279202145187e-16,
+              "tangentDegrees": 1.6687792522230185,
+              "topology": true
+            }
+          ]
+        },
+        {
+          "id": "ew-wb-split-split-split-split",
+          "cluster": "ew",
+          "length": 1.5007831611380877,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-2-split",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-split-3",
+                "ew-wb-split-split-split-split-4-section-section",
+                "ew-wb-split-split-split-split-4-section",
+                "ew-wb-split-split-split-split-4",
+                "ew-wb-split-split-split",
+                "ew-wb-split-split-split-2-v6",
+                "ew-wb-split-split-split-2",
+                "ew-wb-split-split-split-3-split",
+                "ew-wb-split-split-split-3"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.05883263359489677,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-2",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.0000012074182697257333,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-2",
+          "cluster": "ew",
+          "length": 84.57126756192778,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-split-3",
+                "ew-wb-split-split-split-split-4-section-section",
+                "ew-wb-split-split-split-split-4-section",
+                "ew-wb-split-split-split-split-4",
+                "ew-wb-split-split-split",
+                "ew-wb-split-split-split-2-v6",
+                "ew-wb-split-split-split-2",
+                "ew-wb-split-split-split-3-split",
+                "ew-wb-split-split-split-3"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.0000012074182697257333,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-2-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 1732.504747718215,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-2-split",
+          "cluster": "ew",
+          "length": 12.219564586245433,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split-2",
+                "ew-wb-split-split-split-split",
+                "ew-wb-split-split-split-split-2-split",
+                "ew-wb-split-split-split-split-2-section",
+                "ew-wb-split-split-split-split-2-section-2",
+                "ew-wb-split-split-split-split-2",
+                "ew-wb-split-split-split-split-3-split",
+                "ew-wb-split-split-split-split-3",
+                "ew-wb-split-split-split-split-4-section-section",
+                "ew-wb-split-split-split-split-4-section",
+                "ew-wb-split-split-split-split-4",
+                "ew-wb-split-split-split",
+                "ew-wb-split-split-split-2-v6",
+                "ew-wb-split-split-split-2",
+                "ew-wb-split-split-split-3-split",
+                "ew-wb-split-split-split-3"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-wb-split-split-split-split-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-wb-split-split-split-split-split",
+                "ew-wb-split-split-split-split-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.021814340551814037,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 11864.474156664282,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-ccw-3-split-split",
+          "cluster": "ring-ccw-3-split-split",
+          "length": 46.55613084289223,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-ccw-3-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-ccw-3-split",
+                "ring-ccw-3-split-2-split",
+                "ring-ccw-3-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-ccw-0",
+                "end": "start"
+              },
+              "peers": [
+                "ring-ccw-0",
+                "ring-ccw-0-split-2",
+                "ring-ccw-0-split",
+                "ring-ccw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-eb-split-5-split-2",
+          "cluster": "ew",
+          "length": 84.56603552340138,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-eb-split-5",
+                "end": "end"
+              },
+              "peers": [
+                "ew-eb-split-5",
+                "ew-eb-split-6-split",
+                "ew-eb-split-6"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-eb-split-5-split-2-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-eb-split-5-split-2-split",
+                "ew-eb-split-5-split",
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split-section-section",
+                "ew-eb-split-4",
+                "ew-eb-split-4-split",
+                "ew-eb-split-4-split-split",
+                "ew-eb-split-4-split-split-section-2",
+                "ew-eb-split-4-split-split-section",
+                "ew-eb-split-4-split-split-split",
+                "ew-eb-split-3",
+                "ew-eb-split-3-split",
+                "ew-eb-split-3-split-split-4"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 35817.37499486228,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ew-eb-split-5-split-2-split",
+          "cluster": "ew",
+          "length": 1.5007484773822588,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ew-eb-split-5-split-2",
+                "end": "end"
+              },
+              "peers": [
+                "ew-eb-split-5-split-2",
+                "ew-eb-split-5",
+                "ew-eb-split-6-split",
+                "ew-eb-split-6"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ew-eb-split-5-split",
+                "end": "start"
+              },
+              "peers": [
+                "ew-eb-split-5-split",
+                "ew-eb-split-5-split-split",
+                "ew-eb-split-5-split-split-section",
+                "ew-eb-split-5-split-split-section-section",
+                "ew-eb-split-4",
+                "ew-eb-split-4-split",
+                "ew-eb-split-4-split-split",
+                "ew-eb-split-4-split-split-section-2",
+                "ew-eb-split-4-split-split-section",
+                "ew-eb-split-4-split-split-split",
+                "ew-eb-split-3",
+                "ew-eb-split-3-split",
+                "ew-eb-split-3-split-split-4"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.006267433652850562,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "ring-cw-3-split-split-split",
+          "cluster": "ring-cw-3-split-split-split",
+          "length": 47.03464588190883,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "ring-cw-3-split-split",
+                "end": "end"
+              },
+              "peers": [
+                "ring-cw-3-split-split",
+                "ring-cw-3-split-split-2",
+                "ring-cw-3-split"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "ring-cw-0",
+                "end": "start"
+              },
+              "peers": [
+                "ring-cw-0",
+                "ring-cw-0-split-2",
+                "ring-cw-0-split",
+                "ring-cw-0-split-split-2"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": null,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        },
+        {
+          "id": "v91-ew-0-a-6-section",
+          "cluster": "v91-frontage-system",
+          "length": 230.8984404847261,
+          "transition": null,
+          "interfaces": [
+            {
+              "end": "start",
+              "host": {
+                "roadId": "v91-ew-0-a-6",
+                "end": "end"
+              },
+              "peers": [
+                "v91-ew-0-a-6"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0.12066288249871839,
+              "topology": true,
+              "samples": []
+            },
+            {
+              "end": "end",
+              "host": {
+                "roadId": "v5-civic-avenue-split-split-3-v91-m91",
+                "end": "end",
+                "junctionId": "urban-junction-4"
+              },
+              "peers": [
+                "v5-civic-avenue-split-split-3-v91-m91",
+                "v5-civic-avenue-split-m91"
+              ],
+              "sharedLength": 0,
+              "maxSharedDeltaY": 0,
+              "conflictRange": null,
+              "unsupportedWheelSamples": 0,
+              "xzGap": 0,
+              "deltaY": 0,
+              "tangentDegrees": 0,
+              "topology": true,
+              "samples": []
+            }
+          ],
+          "profile": {
+            "maxGrade": 0,
+            "gradeBreaks": [],
+            "minRadius": 45.145139936489464,
+            "shortSegments": 0
+          },
+          "severity": "PASS",
+          "directMainlineOrFrontage": true
+        }
+      ],
+      "mainlines": [
+        {
+          "id": "ew-wb-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-3",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "system-north:feeder-1",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-3",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-3-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-ccw-3-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-0-split-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split-2-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ring-cw-3-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "ring-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-2-v6",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-4",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-split-split",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-3-split-split-4",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v91-ew-0-a-0",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-1",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-2",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-3",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-4",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-5",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-6",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-0",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-1",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-2",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-3",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-4",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-5",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-6",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ew-eb-split-5-split-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v91-ew-0-a-1-section",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-1-section",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ew-wb-split-split-split-split-2-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v5-civic-west-split-split-2-m91",
+          "roadClass": "collector",
+          "roadNameId": "v5-civic-west",
+          "lanes": 2
+        },
+        {
+          "id": "v5-west-lane-split-2-split-2-m91",
+          "roadClass": "local",
+          "roadNameId": "v5-west-lane",
+          "lanes": 2
+        },
+        {
+          "id": "v5-west-lane-split-2-split-2-split-m91",
+          "roadClass": "local",
+          "roadNameId": "v5-west-lane",
+          "lanes": 2
+        },
+        {
+          "id": "v5-civic-west-split-split-2-split-2-split-m91",
+          "roadClass": "collector",
+          "roadNameId": "v5-civic-west",
+          "lanes": 2
+        },
+        {
+          "id": "v4-inner-0-v91-m91",
+          "roadClass": "arterial",
+          "roadNameId": "inner-boulevard",
+          "lanes": 4
+        },
+        {
+          "id": "v4-inner-0-split-2-v91-m91",
+          "roadClass": "arterial",
+          "roadNameId": "inner-boulevard",
+          "lanes": 4
+        },
+        {
+          "id": "v4-west-split-2-split-split-2-v91-m91",
+          "roadClass": "arterial",
+          "roadNameId": "west-avenue",
+          "lanes": 4
+        },
+        {
+          "id": "v4-west-split-2-split-split-2-split-v91-m91",
+          "roadClass": "arterial",
+          "roadNameId": "west-avenue",
+          "lanes": 4
+        },
+        {
+          "id": "v5-west-east-road-split-2-split-2-split-3-v91-m91",
+          "roadClass": "arterial",
+          "roadNameId": "v5-west-east-road",
+          "lanes": 4
+        },
+        {
+          "id": "v5-west-east-road-split-2-split-2-split-v91-m91",
+          "roadClass": "arterial",
+          "roadNameId": "v5-west-east-road",
+          "lanes": 4
+        },
+        {
+          "id": "v5-civic-west-split-split-2-split-2-v91-m91",
+          "roadClass": "collector",
+          "roadNameId": "v5-civic-west",
+          "lanes": 2
+        },
+        {
+          "id": "v5-civic-west-split-split-2-split-2-split-2-v91-m91",
+          "roadClass": "collector",
+          "roadNameId": "v5-civic-west",
+          "lanes": 2
+        },
+        {
+          "id": "v8-shanghai-road-split-2-split-v91-m91",
+          "roadClass": "collector",
+          "roadNameId": "v8-shanghai-road",
+          "lanes": 2
+        },
+        {
+          "id": "v8-gongren-street-split-split-2-split-2-v91-m91",
+          "roadClass": "arterial",
+          "roadNameId": "v8-gongren-street",
+          "lanes": 4
+        },
+        {
+          "id": "v8-gongren-street-split-split-2-split-v91-m91",
+          "roadClass": "arterial",
+          "roadNameId": "v8-gongren-street",
+          "lanes": 4
+        },
+        {
+          "id": "v5-west-lane-split-2-split-2-m91-section",
+          "roadClass": "local",
+          "roadNameId": "v5-west-lane",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-1-section-2",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-b-1-section-2",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "v8-shanghai-road-split-2-v91-m91-section",
+          "roadClass": "collector",
+          "roadNameId": "v8-shanghai-road",
+          "lanes": 2
+        },
+        {
+          "id": "v91-ew-0-a-6-section",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "ew-eb-split-4-split-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-4-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "v91-ew-0-b-6-section",
+          "roadClass": "frontage",
+          "roadNameId": "v9-chengjing-road",
+          "lanes": 2
+        },
+        {
+          "id": "system-north:feeder-1-section",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-split-split-section",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-5-split-split-section-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-2-section-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-eb-split-4-split-split-section-2",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ew-wb-split-split-split-split-4-section-section",
+          "roadClass": "expressway",
+          "roadNameId": "east-west-expressway",
+          "lanes": 3
+        },
+        {
+          "id": "ns-nb-split-3-split-split-split-split-split-section-2",
+          "roadClass": "expressway",
+          "roadNameId": "north-south-expressway",
+          "lanes": 3
+        }
+      ],
+      "transitions": [],
+      "nearbyFrontageServiceRoads": [
+        "v91-ew-0-a-0",
+        "v91-ew-0-a-1",
+        "v91-ew-0-a-2",
+        "v91-ew-0-a-3",
+        "v91-ew-0-a-4",
+        "v91-ew-0-a-5",
+        "v91-ew-0-a-6",
+        "v91-ew-0-b-0",
+        "v91-ew-0-b-1",
+        "v91-ew-0-b-2",
+        "v91-ew-0-b-3",
+        "v91-ew-0-b-4",
+        "v91-ew-0-b-5",
+        "v91-ew-0-b-6",
+        "v91-ew-0-a-1-section",
+        "v91-ew-0-b-1-section",
+        "v5-civic-west-split-split-2-m91",
+        "v5-west-lane-split-2-split-2-m91",
+        "v5-west-lane-split-2-split-2-split-m91",
+        "v5-civic-west-split-split-2-split-2-split-m91",
+        "v4-inner-0-v91-m91",
+        "v4-inner-0-split-2-v91-m91",
+        "v4-west-split-2-split-split-2-v91-m91",
+        "v4-west-split-2-split-split-2-split-v91-m91",
+        "v5-west-east-road-split-2-split-2-split-3-v91-m91",
+        "v5-west-east-road-split-2-split-2-split-v91-m91",
+        "v5-civic-west-split-split-2-split-2-v91-m91",
+        "v5-civic-west-split-split-2-split-2-split-2-v91-m91",
+        "v8-shanghai-road-split-2-split-v91-m91",
+        "v8-gongren-street-split-split-2-split-2-v91-m91",
+        "v8-gongren-street-split-split-2-split-v91-m91",
+        "v5-west-lane-split-2-split-2-m91-section",
+        "v91-ew-0-a-1-section-2",
+        "v91-ew-0-b-1-section-2",
+        "v8-shanghai-road-split-2-v91-m91-section",
+        "v91-ew-0-a-6-section",
+        "v91-ew-0-b-6-section"
+      ],
+      "originalRoadIds": [
+        "v91-ew-west-eb-off",
+        "v91-ew-west-wb-on",
+        "access-ew-west-eb-on",
+        "access-ew-west-wb-off"
+      ]
+    }
+  ]
+}

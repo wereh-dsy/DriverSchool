@@ -1,0 +1,116 @@
+{
+  "vehicleId": "test-7dct-sedan",
+  "displayName": "Volkswagen Sagitar 280TSI DSG",
+  "researchDate": "2026-10-28",
+  "targetGeneration": "Volkswagen Sagitar 280TSI；2019 中国第三代长轴车身作为可核查参照，原游戏长度设定仍有冲突",
+  "units": {
+    "dimensions": "metres",
+    "rim": "inches",
+    "nominalTyreDiameter": "metres, calculated from marked size; not measured rolling radius"
+  },
+  "officialOrDocumentedSpecifications": {
+    "length": 4.753,
+    "width": 1.8,
+    "height": 1.462,
+    "wheelBase": 2.73,
+    "frontTrackWidth": "unavailable",
+    "rearTrackWidth": "unavailable",
+    "frontOverhang": "unavailable",
+    "rearOverhang": "unavailable",
+    "groundClearance": "unavailable"
+  },
+  "specificationProvenance": [
+    {
+      "type": "manufacturer newsroom",
+      "url": "https://www.volkswagen-newsroom.com/en/press-releases/market-overview-compact-notchback-models-are-one-of-volkswagens-key-segments-in-china-5954",
+      "scope": "中国 Sagitar 2.73m 轴距，区分美国 Jetta"
+    },
+    {
+      "type": "automotive media",
+      "url": "https://motor1.uol.com.br/news/301914/volkswagen-jetta-2019-alongado-china/",
+      "scope": "2019 中国车型长宽高；其轴距精确到 2731mm，厂家新闻采用 2.73m"
+    }
+  ],
+  "tyres": {
+    "front": "unavailable",
+    "rear": "unavailable",
+    "rimInches": "unavailable",
+    "nominalFrontDiameter": "unavailable",
+    "nominalRearDiameter": "unavailable",
+    "frontRimWidthInches": "unavailable",
+    "rearRimWidthInches": "unavailable",
+    "frontOffsetMetres": "unavailable",
+    "rearOffsetMetres": "unavailable",
+    "frontWidthMetres": "unavailable",
+    "rearWidthMetres": "unavailable",
+    "widthDifferenceMetres": "unavailable"
+  },
+  "photoReferences": [
+    {
+      "type": "manufacturer photos",
+      "url": "https://www.volkswagen-newsroom.com/en/images/detail/volkswagen-press-conference-at-shanghai-auto-show-2019-28492",
+      "scope": "2019 Sagitar 发布照片"
+    },
+    {
+      "type": "automotive media photos",
+      "url": "https://motor1.uol.com.br/news/301914/volkswagen-jetta-2019-alongado-china/",
+      "scope": "中国长轴车身参考"
+    }
+  ],
+  "photoCoverageNote": "链接是指定代际图库/实拍参考；未取得每款完全一致的正侧/正前/正后/高低视角七张图。未确认的独立视角为 unavailable。",
+  "unavailablePhotoAngles": [
+    "matched orthographic side",
+    "matched straight front",
+    "matched straight rear",
+    "matched high angle",
+    "matched low angle"
+  ],
+  "qualitativePhotoObservations": [
+    "平直肩线、独立后备厢、四门长轴侧窗和横向格栅，不借用 Golf 两厢或美国标准轴距车壳。"
+  ],
+  "observationProvenance": "Qualitative photo/design observations. No photograph-derived number is labelled as an OEM specification.",
+  "gameConstraints": {
+    "declaredDimensions": {
+      "length": 4.67,
+      "width": 1.8,
+      "height": 1.5,
+      "wheelBase": 2.73,
+      "frontTrackWidth": 1.54,
+      "rearTrackWidth": 1.535,
+      "wheelDiameter": 0.632
+    },
+    "loadedModel": {
+      "length": 4.670000076293945,
+      "width": 1.8004316091537476,
+      "height": 1.4996964406967164,
+      "wheelBase": 2.73,
+      "frontTrackWidth": 1.54,
+      "rearTrackWidth": 1.535,
+      "wheelDiameter": 0.6320000290870667,
+      "frontOverhang": 0.9700000381469727,
+      "rearOverhang": 0.9700000381469727
+    },
+    "physicalTyreWidths": [
+      {
+        "id": "frontLeft",
+        "width": 0.20549999929219487
+      },
+      {
+        "id": "frontRight",
+        "width": 0.20549999929219487
+      },
+      {
+        "id": "rearLeft",
+        "width": 0.20549999929219487
+      },
+      {
+        "id": "rearRight",
+        "width": 0.20549999929219487
+      }
+    ],
+    "note": "Physical hardpoints, rolling radii and chassis/collision declarations retained. Model values are measurements, not manufacturer data."
+  },
+  "unresolvedDifferences": [
+    "游戏 4670mm 长、1500mm 高与 2019 中国第三代规格不符；目标年款不能唯一锁定。保留目录和物理轮位，未静默换成另一代。"
+  ]
+}

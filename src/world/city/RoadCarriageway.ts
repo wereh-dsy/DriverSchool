@@ -4,6 +4,7 @@ import {roadFunction} from './RoadClassification';
 import {roadEdgeChains} from './RoadEdgeChain';
 import {roadPavementTriangle} from './RoadPavementSurface';
 import {compileJunctionSurface} from './JunctionSurface';
+import { drain } from '../../loading/Loading';
 
 export const innerRoadSide=(road:CityRoad):number=>road.travelDirection==='reverse'?1:-1;
 export const hasCentralBarrier=(road:CityRoad):boolean=>road.travelDirection==='two-way'&&road.structure?.medianBarrierStyle==='concrete'&&road.structure.barrierEnabled!==false;
@@ -16,17 +17,31 @@ const cache=new WeakMap<CityMapData,RoadCarriageways>();
 export function roadCarriageways(map:CityMapData):RoadCarriageways {
   let index=cache.get(map);if(!index){index=new RoadCarriageways(map);cache.set(map,index);}return index;
 }
+/** Publish only the completed global index; queries and ordering stay unchanged. */
+export function* prepareRoadCarriagewaysSteps(map:CityMapData):Generator<void,RoadCarriageways> {
+  let index=cache.get(map);
+  if(!index){index=new RoadCarriageways(map,true);yield* index.prepareSteps();cache.set(map,index);}
+  return index;
+}
 /** Geometry/direction index used by paint, physical barriers and authoring audits.
  * It does not infer a shared carriageway from a road name or identifier. */
 export class RoadCarriageways {
   private readonly buckets=new Map<string,Segment[]>();
   private readonly paving=new Map<string,ReturnType<typeof roadPavementTriangle>[]>();
-  constructor(private readonly map:CityMapData){
+  private readonly initialization:Generator<void>;
+  constructor(private readonly map:CityMapData,deferred=false){
+    this.initialization=this.initialize();if(!deferred)drain(this.initialization);
+  }
+  prepareSteps():Generator<void>{return this.initialization;}
+  private *initialize():Generator<void>{
+    const map=this.map;let work=0;
     for(const road of map.roads){
+      yield;
       if(road.travelDirection==='two-way'||road.laneCount<2||road.highwayTransition)continue;
       const kind=roadFunction(road);if(kind!=='expressway'&&kind!=='arterial'&&road.designProfile!=='motorway')continue;
       const points=roadPoints(road),margin=road.laneCount*road.laneWidth/2+36;
       for(let i=1;i<points.length;i++){
+        if(++work%32===0)yield;
         const a=points[i-1]!,b=points[i]!,length=Math.hypot(b.x-a.x,b.z-a.z);if(length<1e-6)continue;
         const entry={road,a,b,length,tx:(b.x-a.x)/length,tz:(b.z-a.z)/length};
         for(let x=Math.floor((Math.min(a.x,b.x)-margin)/64);x<=Math.floor((Math.max(a.x,b.x)+margin)/64);x++)for(let z=Math.floor((Math.min(a.z,b.z)-margin)/64);z<=Math.floor((Math.max(a.z,b.z)+margin)/64);z++){

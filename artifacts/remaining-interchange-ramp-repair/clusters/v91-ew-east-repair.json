@@ -1,0 +1,408 @@
+{
+  "cluster": "v91-ew-east",
+  "plans": [
+    {
+      "roadId": "v91-ew-east-wb-off",
+      "windows": [
+        [
+          0,
+          153
+        ]
+      ],
+      "shift": 0,
+      "shared": [
+        {
+          "end": "start",
+          "length": 80,
+          "peers": [
+            "ew-wb-split-3-split-split-2-section",
+            "ew-wb-split-3-split-split-2",
+            "ew-wb-split-3-split-split-2-section-section",
+            "ew-wb-split-3-split-split-3-section",
+            "ew-wb-split-3-split-split",
+            "ew-wb-split-3-split-split-3",
+            "ew-wb-split-3-split-split-split-2",
+            "ew-wb-split-3-split",
+            "ew-wb-split-3-split-split-split-2-section"
+          ]
+        }
+      ],
+      "crossingConstraints": [],
+      "maxYChange": 0.03593204071963463,
+      "maxXZShift": 0,
+      "before": {
+        "maxGrade": 0.12026402056827669,
+        "gradeBreaks": [],
+        "minRadius": 257.03096507656846,
+        "shortSegments": 22
+      },
+      "after": {
+        "maxGrade": 0.11999999999147018,
+        "gradeBreaks": [],
+        "minRadius": 257.03096507656846,
+        "shortSegments": 43
+      }
+    }
+  ],
+  "attempts": [
+    {
+      "roadId": "v91-ew-east-wb-off",
+      "shift": 0,
+      "plan": {
+        "roadId": "v91-ew-east-wb-off",
+        "windows": [
+          [
+            0,
+            153
+          ]
+        ],
+        "shift": 0,
+        "shared": [
+          {
+            "end": "start",
+            "length": 80,
+            "peers": [
+              "ew-wb-split-3-split-split-2-section",
+              "ew-wb-split-3-split-split-2",
+              "ew-wb-split-3-split-split-2-section-section",
+              "ew-wb-split-3-split-split-3-section",
+              "ew-wb-split-3-split-split",
+              "ew-wb-split-3-split-split-3",
+              "ew-wb-split-3-split-split-split-2",
+              "ew-wb-split-3-split",
+              "ew-wb-split-3-split-split-split-2-section"
+            ]
+          }
+        ],
+        "crossingConstraints": [],
+        "maxYChange": 0.03593204071963463,
+        "maxXZShift": 0,
+        "before": {
+          "maxGrade": 0.12026402056827669,
+          "gradeBreaks": [],
+          "minRadius": 257.03096507656846,
+          "shortSegments": 22
+        }
+      },
+      "after": {
+        "id": "v91-ew-east-wb-off",
+        "cluster": "v91-ew-east",
+        "length": 224.38720990283292,
+        "transition": null,
+        "interfaces": [
+          {
+            "end": "start",
+            "host": {
+              "roadId": "ew-wb-split-3-split-split-2-section",
+              "end": "end"
+            },
+            "peers": [
+              "ew-wb-split-3-split-split-2-section",
+              "ew-wb-split-3-split-split-2",
+              "ew-wb-split-3-split-split-2-section-section",
+              "ew-wb-split-3-split-split-3-section",
+              "ew-wb-split-3-split-split",
+              "ew-wb-split-3-split-split-3",
+              "ew-wb-split-3-split-split-split-2",
+              "ew-wb-split-3-split",
+              "ew-wb-split-3-split-split-split-2-section"
+            ],
+            "sharedLength": 78,
+            "maxSharedDeltaY": 0.012000000000000455,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.4588901900572561,
+            "topology": true
+          },
+          {
+            "end": "end",
+            "host": {
+              "roadId": "v91-ew-1-b-4",
+              "end": "end"
+            },
+            "peers": [
+              "v91-ew-1-b-4",
+              "v91-ew-1-b-4-section"
+            ],
+            "sharedLength": 64,
+            "maxSharedDeltaY": 0.03331078511251863,
+            "conflictRange": null,
+            "unsupportedWheelSamples": 0,
+            "xzGap": 0,
+            "deltaY": 0,
+            "tangentDegrees": 0.4588901900580503,
+            "topology": true
+          }
+        ],
+        "profile": {
+          "maxGrade": 0.11999999999147018,
+          "gradeBreaks": [],
+          "minRadius": 257.03096507656846,
+          "shortSegments": 43
+        },
+        "severity": "PASS"
+      },
+      "failures": []
+    }
+  ],
+  "after": [
+    {
+      "id": "v91-ew-east-eb-off",
+      "cluster": "v91-ew-east",
+      "length": 288.4119103321091,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-eb-split-split-4-split",
+            "end": "end"
+          },
+          "peers": [
+            "ew-eb-split-split-4-split",
+            "ew-eb-split-split-4-split-2-section",
+            "ew-eb-split-split-4-split-section",
+            "ew-eb-split-split-4-split-2",
+            "ew-eb-split-split-4-split-split",
+            "ew-eb-split-split-3",
+            "ew-eb-split-split-3-section-2",
+            "ew-eb-split-split-3-section",
+            "ew-eb-split-split-3-split",
+            "ew-eb-split-split-3-split-section",
+            "ew-eb-split-split-3-split-split"
+          ],
+          "sharedLength": 93,
+          "maxSharedDeltaY": 0.025000175706264116,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.3230000623602332,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "v91-ew-1-a-3-section",
+            "end": "start"
+          },
+          "peers": [
+            "v91-ew-1-a-3-section",
+            "v91-ew-1-a-3-section-2-section"
+          ],
+          "sharedLength": 77,
+          "maxSharedDeltaY": 0.025000001236518802,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 6.7723404729528315e-18,
+          "tangentDegrees": 0.3230000623613616,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.10967832067069704,
+        "gradeBreaks": [],
+        "minRadius": 353.46692468162223,
+        "shortSegments": 13
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "v91-ew-east-wb-on",
+      "cluster": "v91-ew-east",
+      "length": 287.57362342991814,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "v91-ew-1-b-3-section",
+            "end": "start"
+          },
+          "peers": [
+            "v91-ew-1-b-3-section",
+            "v91-ew-1-b-3-section-2-section"
+          ],
+          "sharedLength": 83,
+          "maxSharedDeltaY": 0.02500645622738446,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.28480460350716813,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-wb-split-3-split-split-split-2-section",
+            "end": "start"
+          },
+          "peers": [
+            "ew-wb-split-3-split-split-split-2-section",
+            "ew-wb-split-3-split-split-split",
+            "ew-wb-split-3-split-split-split-2",
+            "ew-wb-split-3-split-split-split-section",
+            "ew-wb-split-3-split-split",
+            "ew-wb-split-3-split-split-2-section-section",
+            "ew-wb-split-3-split-split-2-section",
+            "ew-wb-split-3-split-split-2",
+            "ew-wb-split-3-split-split-3-section",
+            "ew-wb-split-3-split-split-3",
+            "ew-wb-split-3-split"
+          ],
+          "sharedLength": 101,
+          "maxSharedDeltaY": 0.02500000225963106,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.28480460350716813,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.11900029056769687,
+        "gradeBreaks": [],
+        "minRadius": 383.20190153575965,
+        "shortSegments": 12
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "v91-ew-east-eb-on",
+      "cluster": "v91-ew-east",
+      "length": 225.4607885337178,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "v91-ew-1-a-4",
+            "end": "end"
+          },
+          "peers": [
+            "v91-ew-1-a-4",
+            "v91-ew-1-a-4-section"
+          ],
+          "sharedLength": 60,
+          "maxSharedDeltaY": 0.02541011509439269,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5267262095483893,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-eb-split-split-3-section-2",
+            "end": "start"
+          },
+          "peers": [
+            "ew-eb-split-split-3-section-2",
+            "ew-eb-split-split-3-section",
+            "ew-eb-split-split-3",
+            "ew-eb-split-split-3-split",
+            "ew-eb-split-split-4-split-split",
+            "ew-eb-split-split-3-split-section",
+            "ew-eb-split-split-4-split-section",
+            "ew-eb-split-split-3-split-split",
+            "ew-eb-split-split-4-split",
+            "ew-eb-split-split-4-split-2-section",
+            "ew-eb-split-split-4-split-2"
+          ],
+          "sharedLength": 72,
+          "maxSharedDeltaY": 0.024999999999109512,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5267262095470056,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.11905336771393131,
+        "gradeBreaks": [],
+        "minRadius": 212.74267127006024,
+        "shortSegments": 21
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "v91-ew-east-wb-off",
+      "cluster": "v91-ew-east",
+      "length": 224.38720990283292,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-wb-split-3-split-split-2-section",
+            "end": "end"
+          },
+          "peers": [
+            "ew-wb-split-3-split-split-2-section",
+            "ew-wb-split-3-split-split-2",
+            "ew-wb-split-3-split-split-2-section-section",
+            "ew-wb-split-3-split-split-3-section",
+            "ew-wb-split-3-split-split",
+            "ew-wb-split-3-split-split-3",
+            "ew-wb-split-3-split-split-split-2",
+            "ew-wb-split-3-split",
+            "ew-wb-split-3-split-split-split-2-section",
+            "ew-wb-split-3-split-split-split",
+            "ew-wb-split-3-split-split-split-section"
+          ],
+          "sharedLength": 78,
+          "maxSharedDeltaY": 0.012000000000000455,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4588901900572561,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "v91-ew-1-b-4",
+            "end": "end"
+          },
+          "peers": [
+            "v91-ew-1-b-4",
+            "v91-ew-1-b-4-section"
+          ],
+          "sharedLength": 64,
+          "maxSharedDeltaY": 0.03331078511251863,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4588901900580503,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.11999999999147018,
+        "gradeBreaks": [],
+        "minRadius": 257.03096507656846,
+        "shortSegments": 43
+      },
+      "severity": "PASS"
+    }
+  ]
+}

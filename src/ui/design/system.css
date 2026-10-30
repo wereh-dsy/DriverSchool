@@ -1,0 +1,165 @@
+:root {
+  --ds-bg: #111315; --ds-panel: #191c1f; --ds-primary: #f1f2f2; --ds-secondary: #adb2b6;
+  --ds-muted: #777e84; --ds-disabled: #52585d; --ds-line: #ffffff25; --ds-accent: #b6d6dc;
+  --ds-warning: #e0bd79; --ds-space: 8px; --ds-radius: 3px; --ds-duration: 180ms;
+  --ds-edge: clamp(28px, 4vw, 84px);
+  --ds-panel-soft: #20262acc; --ds-shadow: 0 14px 42px #0004;
+  --ds-blur: 5px; --ds-transition-fast: 120ms; --ds-transition-medium: 220ms;
+  font-family: "Segoe UI Variable", "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+[hidden] { display: none !important; }
+.ds-shell { position: fixed; inset: 0; z-index: 30; color: var(--ds-primary); background: #0003; user-select: none; }
+.ds-shell button, .vehicle-settings-panel button { font: inherit; cursor: pointer; }
+.ds-shell button { color: inherit; background: #ffffff08; border: 1px solid transparent; border-radius: 0; padding: 12px 20px; transition: color var(--ds-duration), background var(--ds-duration); }
+.ds-shell button:hover { background: #30363a; }
+.ds-shell button:focus-visible, .vehicle-settings-panel button:focus-visible, .vehicle-settings-panel input:focus-visible { outline: 2px solid var(--ds-accent); outline-offset: 4px; }
+.ds-shell button:disabled { color: var(--ds-disabled); cursor: default; }
+.ds-shell .ds-primary { color: #141a1c; background: var(--ds-accent); border-color: var(--ds-accent); }
+.ds-shell .ds-primary:hover { background: #d0e4e8; }
+.ds-eyebrow { color: var(--ds-secondary); font-size: 11px; letter-spacing: .2em; font-weight: 500; }
+.ds-screen { position: absolute; inset: 0 0 56px; padding: var(--ds-edge); animation: ds-enter var(--ds-duration) ease-out; overflow: auto; }
+@keyframes ds-enter { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.ds-screen h1 { margin: 20px 0 32px; font-size: clamp(28px, 3vw, 56px); font-weight: 400; letter-spacing: -.035em; line-height: 1.12; }
+.ds-main { background: linear-gradient(90deg, #0c0f11f0, #0c0f11a0 28%, transparent 65%); }
+.ds-brand h1 { font-size: clamp(34px, 3.7vw, 68px); font-weight: 650; line-height: .94; letter-spacing: -.04em; }
+.ds-brand h1 span { display: block; margin-top: 20px; color: var(--ds-secondary); font-size: 13px; font-weight: 400; letter-spacing: .14em; }
+.ds-menu { display: flex; flex-direction: column; width: clamp(245px, 25vw, 360px); gap: 2px; }
+.ds-menu button { display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; border: 0; border-left: 2px solid transparent; border-radius: 0; padding: 13px 16px; font-size: clamp(16px, 1.2vw, 21px); }
+.ds-menu button small { color: var(--ds-muted); font-size: 9px; letter-spacing: .15em; }
+.ds-menu button:hover, .ds-menu button:focus-visible { outline: none; background: #ffffff0c; border-left-color: var(--ds-accent); color: var(--ds-accent); }
+.ds-menu button[data-action="start"], .ds-pause button[data-action="resume"] { color: var(--ds-accent); border-left-color: var(--ds-accent); }
+.ds-current { position: absolute; right: var(--ds-edge); bottom: 44px; text-align: right; max-width: 48%; text-shadow: 0 2px 8px #000; }
+.ds-current h2 { margin: 12px 0; font-size: clamp(18px, 2vw, 32px); font-weight: 400; }
+.ds-current p, .ds-current small { color: var(--ds-secondary); font-size: 12px; }
+.ds-footer { position: absolute; inset: auto 0 0; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--ds-edge); background: transparent; color: var(--ds-secondary); font-size: 10px; letter-spacing: .09em; }
+.ds-footer i { margin: 0 12px; color: var(--ds-muted); }
+.ds-footer button { padding: 6px 10px; background: transparent; }
+.ds-page-header { display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-bottom: 36px; }
+.ds-page-header button { background: #111518c9; }
+.ds-vehicles { background: linear-gradient(0deg, #101315f5, #101315a0 20%, transparent 55%); }
+.ds-vehicle-heading { pointer-events: none; }
+.ds-vehicle-heading h1 { max-width: 70%; text-shadow: 0 2px 8px #000; }
+.ds-shell .ds-cycle { position: absolute; top: 46%; font-size: 26px; background: #101315c9; width: 60px; height: 60px; padding: 8px; }
+.ds-prev { left: var(--ds-edge); } .ds-next { right: var(--ds-edge); }
+.ds-vehicle-details { position: absolute; bottom: 30px; left: var(--ds-edge); right: var(--ds-edge); }
+.ds-vehicle-details dl { display: flex; gap: 0; margin: 0 0 16px; }
+.ds-vehicle-details dl div { min-width: 130px; padding: 0 24px; }
+.ds-vehicle-details dl div:first-child { border: 0; padding-left: 0; }
+.ds-vehicle-details dt { color: var(--ds-secondary); font-size: 11px; margin-bottom: 8px; }
+.ds-vehicle-details dd { margin: 0; font-size: 22px; font-variant-numeric: tabular-nums; }
+.ds-vehicle-details p { max-width: 760px; color: var(--ds-secondary); font-size: 12px; line-height: 1.7; }
+.ds-actions { display: flex; gap: 12px; margin-top: 22px; }
+.ds-maps, .ds-training { background: #101315e8; }
+.ds-map-list { max-width: 940px; display: flex; flex-direction: column; gap: 0; }
+.ds-map-list button { display: flex; text-align: left; gap: 24px; padding: 18px 12px; background: transparent; border: 0; border-bottom: 1px solid var(--ds-line); border-radius: 0; }
+.ds-map-list strong { min-width: 220px; font-weight: 400; }
+.ds-map-list span { color: var(--ds-secondary); font-size: 12px; line-height: 1.7; }
+.ds-map-list [aria-pressed="true"] { color: var(--ds-accent); box-shadow: inset 2px 0 var(--ds-accent); }
+.ds-training p, .ds-lesson { color: var(--ds-secondary); font-size: 14px; line-height: 1.8; max-width: 800px; }
+.ds-lesson > div { display: flex; padding: 16px 0; border-bottom: 1px solid var(--ds-line); }
+.ds-lesson dt { min-width: 90px; color: var(--ds-primary); } .ds-lesson dd { margin: 0; }
+.ds-pause { background: #080b0ed0; padding-top: clamp(32px, 7vh, 96px); }
+.ds-pause h1 { margin-bottom: 30px; }
+.ds-profile { border: 0; padding: 24px 0 0; margin: 20px 0 0; display: flex; gap: 8px; flex-wrap: wrap; max-width: 700px; }
+.ds-profile legend { font-size: 10px; color: var(--ds-secondary); letter-spacing: .16em; }
+.ds-profile button { font-size: 12px; padding: 10px 14px; background: transparent; }
+.ds-profile [aria-pressed="true"] { border-color: var(--ds-accent); color: var(--ds-accent); }
+/* Existing settings remain the command adapter for installed vehicle functions. */
+.vehicle-settings-panel { background: var(--ds-bg); border: 0; border-radius: 0; box-shadow: none; backdrop-filter: none; }
+.vehicle-settings-panel .settings-group { background: transparent; border: 0; border-bottom: 1px solid var(--ds-line); border-radius: 0; padding: 18px 0; }
+.vehicle-settings-panel input { accent-color: var(--ds-accent); }
+.vehicle-settings-panel button { border-radius: 3px; }
+.vehicle-settings-panel .settings-tabs button[aria-selected="true"] { color: var(--ds-accent); border-color: var(--ds-accent); background: #ffffff09; }
+.vehicle-settings-panel .settings-tabs { border-bottom: 1px solid var(--ds-line); }
+.vehicle-settings-panel .settings-note { color: var(--ds-secondary); }
+.vehicle-settings-toggle { display: none; }
+/* Profiles affect presentation only. Sensors and navigation remain game owned. */
+#app[data-menu-open="true"] .game-ui { display: none; }
+.game-ui .control-ribbon, .game-ui .clutch-meter { display: none; }
+.game-ui .drive-readout { top: auto; right: auto; bottom: 38px; left: 48px; width: 180px; min-width: 0; display: grid; grid-template-columns: 1fr 36px; gap: 8px; align-items: end; padding: 0; background: transparent; border: 0; border-radius: 0; backdrop-filter: none; box-shadow: none; text-shadow: 0 2px 12px #0009; }
+.game-ui .gear-readout { grid-column: 2; grid-row: 1; color: var(--ds-primary); font: 400 23px/1 "Segoe UI", sans-serif; padding-bottom: 25px; text-align: right; }
+.game-ui .speed-readout { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 0; border: 0; }
+.game-ui .speed-readout strong { font-size: 78px; font-weight: 350; line-height: .9; min-width: 0; text-align: left; font-variant-numeric: tabular-nums; }
+.game-ui .speed-readout span { font-size: 10px; font-weight: 500; letter-spacing: .14em; color: #ffffffa8; }
+.game-ui .rpm-meta { display: none; }
+.game-ui .rpm-strip { grid-column: 1 / -1; height: 2px; border-radius: 0; margin: 5px 0 0; background: #ffffff2b; }
+.game-ui .rpm-strip i { background: #e7eeee; box-shadow: none; }
+.game-ui .rpm-strip.critical i { background: var(--ds-warning); box-shadow: none; }
+.game-ui .hud-minimap[data-position] { top: auto; left: auto; bottom: 36px; right: 48px; width: clamp(180px, 15vw, 230px); border: 0; border-radius: 0; background: #10171996; box-shadow: none; backdrop-filter: none; }
+.game-ui .hud-minimap header { position: absolute; right: 10px; top: 8px; padding: 0; font-size: 9px; color: #eff4f4b0; }
+.game-ui .navigation-hud { top: auto; bottom: calc(52px + clamp(180px, 15vw, 230px)); left: auto; right: 48px; transform: none; width: auto; max-width: 230px; border: 0; border-radius: 0; background: #10171980; font-size: 22px; padding: 7px 12px; line-height: 1.2; text-shadow: 0 1px 8px #0009; }
+.ds-speed-limit { position: absolute; bottom: 64px; left: 254px; background: #eeeeeb; color: #17191c; border: 2px solid #bd6059; border-radius: 50%; width: 34px; height: 34px; display: grid; place-items: center; font: 600 15px/1 "Segoe UI", sans-serif; }
+.ds-training-hud { position: absolute; bottom: 180px; left: 48px; width: 180px; padding: 0; background: transparent; font: 10px/1.9 "Segoe UI", sans-serif; text-shadow: 0 1px 6px #000; }
+.ds-training-hud .ds-input { display: grid; grid-template-columns: 28px 1fr 32px; align-items: center; gap: 10px; color: #e8ededb0; }
+.ds-input-track { height: 3px; background: #ffffff2b; overflow: hidden; }
+.ds-input-track > i { display: block; height: 100%; background: #d7e6e8; transform: scaleX(var(--input,0)); transform-origin: left; transition: transform 100ms linear; }
+.ds-training-hud b { font-weight: 400; color: var(--ds-primary); text-align: right; font-variant-numeric: tabular-nums; }
+.ds-training-hud .ds-aids { display: flex; gap: 16px; margin: 10px 0 0; font-size: 9px; letter-spacing: .08em; }
+.ds-aids span { color: #ffffff40; transition: color 120ms linear; }
+.ds-aids .active { color: var(--ds-warning); }
+#app:not([data-hud-profile="training"]) .ds-training-hud { display: none; }
+#app[data-hud-profile="realistic"] .drive-readout, #app[data-hud-profile="realistic"] .hud-minimap,
+#app[data-hud-profile="realistic"] .lap-hud, #app[data-hud-profile="realistic"] .ds-speed-limit,
+#app[data-hud-profile="realistic"] .navigation-hud { display: none; }
+#app[data-hud-profile="realistic"] .mirror-pod { display: none; }
+#app[data-hud-profile="off"] .game-ui { display: none; }
+@media (max-height: 720px) {
+  .ds-brand h1 { font-size: 36px; margin: 14px 0 22px; } .ds-brand h1 span { margin-top: 12px; }
+  .ds-menu button { padding: 9px 14px; font-size: 16px; }
+  .ds-vehicle-heading h1 { font-size: 30px; } .ds-vehicle-details p { max-width: 90%; font-size: 11px; margin: 8px 0; }
+  .ds-vehicle-details dd { font-size: 18px; } .ds-vehicle-details { bottom: 20px; }
+  .ds-pause h1 { margin: 14px 0 22px; } .ds-profile { margin-top: 14px; padding-top: 14px; }
+}
+@media (max-width: 1100px) {
+  .ds-vehicle-details dl div { min-width: 100px; padding: 0 18px; }
+  .ds-vehicle-details p { max-width: 700px; } .ds-map-list strong { min-width: 180px; }
+  .ds-vehicle-heading h1 { max-width: 85%; }
+}
+@media (prefers-reduced-motion: reduce) { .ds-screen { animation: none; } .ds-shell button { transition: none; } }
+
+.ds-loading { background: #111315ed; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.ds-loading p { color: var(--ds-secondary); font-size: 14px; margin-bottom: 28px; }
+
+/* Presentation effects are gated by phase; loading and live HUD never blur. */
+#app[data-ui-phase="menu"] .ds-main { background: linear-gradient(90deg,#0b0f12ed,#10161b8c 32%,transparent 70%); }
+#app[data-ui-phase="menu"] .ds-menu button { transition: color var(--ds-transition-fast), background var(--ds-transition-fast), border-color var(--ds-transition-fast); }
+#app[data-ui-phase="menu"] .ds-menu button:focus-visible,
+#app[data-ui-phase="menu"] .ds-menu button:hover { background: linear-gradient(90deg,#c3e0e214,transparent); }
+.ds-brand h1 { margin-bottom: clamp(36px,6vh,72px); }
+.ds-current h2 { font-weight: 350; letter-spacing: -.025em; }
+.ds-current p { margin-bottom: 18px; letter-spacing: .035em; }
+.ds-current small { font-size: 11px; letter-spacing: .08em; color: var(--ds-muted); }
+.ds-vehicle-details dl { gap: 12px; }
+.ds-vehicle-details dt { font-size: 10px; letter-spacing: .08em; color: var(--ds-muted); }
+.ds-vehicle-details dd { font-size: clamp(16px,1.55vw,25px); font-weight: 350; }
+.ds-shell .ds-cycle { border-radius: 50%; background: #11191b94; transition: background var(--ds-transition-fast); }
+#app[data-ui-phase="paused"] .ds-pause { background: #080d10ae; backdrop-filter: blur(var(--ds-blur)); }
+#app[data-ui-phase="menu"] .vehicle-settings-panel,
+#app[data-ui-phase="paused"] .vehicle-settings-panel { background: #151b20f5; box-shadow: var(--ds-shadow); }
+.vehicle-settings-panel .settings-group { padding: 22px 0; }
+.vehicle-settings-panel .settings-group h3 { font-size: 12px; font-weight: 500; letter-spacing: .05em; }
+.vehicle-settings-panel input[type="range"] { height: 4px; }
+.vehicle-settings-panel .settings-note { font-size: 11px; line-height: 1.65; }
+#app[data-ui-phase="loading"] .ds-screen { animation: ds-loading-enter 120ms ease-out; backdrop-filter: none; }
+#app[data-ui-phase="loading"] .ds-footer { display: none; }
+@keyframes ds-loading-enter { from { opacity: 0; } to { opacity: 1; } }
+.game-ui .gear-readout { transition: color 160ms linear; }
+.game-ui .gear-readout.shifting { color: var(--ds-accent); }
+.game-ui .rpm-strip i { transition: transform 100ms linear, background 120ms linear; }
+.game-ui .hud-minimap[data-position] { border-radius: 8px; overflow: hidden; box-shadow: 0 5px 18px #0003; }
+.game-ui .hud-minimap::after { content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; background: radial-gradient(ellipse at 50% 55%,transparent 50%,#050b1238); }
+.game-ui .hud-minimap header { z-index: 1; font-size: 10px; letter-spacing: .1em; }
+.game-ui .navigation-hud { border-radius: 4px; background: linear-gradient(90deg,#11191dcc,#11191d80); padding: 9px 12px; font-size: 20px; font-variant-numeric: tabular-nums; }
+.ds-aids span { opacity: .3; transition: opacity 120ms linear,color 120ms linear; }
+.ds-aids span.active { opacity: 1; }
+@media (max-width: 1100px) {
+  .ds-vehicle-details dl { gap: 4px; flex-wrap: wrap; row-gap: 14px; }
+  .game-ui .drive-readout, .ds-training-hud { left: 28px; }
+  .game-ui .hud-minimap[data-position], .game-ui .navigation-hud { right: 28px; }
+  .ds-speed-limit { left: 232px; }
+}
+@media (max-height: 720px) { .ds-brand h1 { margin-bottom: 26px; } }
+@media (prefers-reduced-motion: reduce) {
+  #app .ds-screen { animation: none; }
+  #app .gear-readout, #app .rpm-strip i, #app .ds-input-track > i { transition: none; }
+}

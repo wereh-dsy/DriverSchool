@@ -1,0 +1,131 @@
+{
+  "cluster": "v91-ring-north",
+  "plans": [],
+  "attempts": [],
+  "after": [
+    {
+      "id": "v91-ring-north-outer-off",
+      "cluster": "v91-ring-north",
+      "length": 340.82018011797174,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-2-split-split-split",
+            "end": "end"
+          },
+          "peers": [
+            "ring-ccw-2-split-split-split",
+            "ring-ccw-2-split-split-split-2",
+            "ring-ccw-2-split-split-split-section",
+            "ring-ccw-2-split-split",
+            "ring-ccw-2-split-split-split-split-2",
+            "ring-ccw-2-split-split-split-split-2-split",
+            "ring-ccw-2-split-split-split-split-2-split-section",
+            "ring-ccw-2-split-split-split-split",
+            "ring-ccw-2-split-split-split-split-split"
+          ],
+          "sharedLength": 78,
+          "maxSharedDeltaY": 8.881784197001252e-16,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 5.084229945850415e-13,
+          "deltaY": 0,
+          "tangentDegrees": 0.2569273015690487,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "v91-ring-north-outer-cd-section",
+            "end": "end"
+          },
+          "peers": [
+            "v91-ring-north-outer-cd-section",
+            "v91-ring-north-outer-cd-section-section"
+          ],
+          "sharedLength": 70,
+          "maxSharedDeltaY": 9.687335641253168e-15,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": -3.211406834902064e-16,
+          "tangentDegrees": 0.21680351138573326,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.06340137963883129,
+        "gradeBreaks": [],
+        "minRadius": 162.57675307168077,
+        "shortSegments": 190
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "v91-ring-north-outer-on",
+      "cluster": "v91-ring-north",
+      "length": 266.4167022740087,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "v91-ring-north-outer-cd-section-2",
+            "end": "start"
+          },
+          "peers": [
+            "v91-ring-north-outer-cd-section-2",
+            "v91-ring-north-outer-cd"
+          ],
+          "sharedLength": 59,
+          "maxSharedDeltaY": 4.440892098500532e-16,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.19844572886165732,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-2-split-split-split-split-2-split-section",
+            "end": "start"
+          },
+          "peers": [
+            "ring-ccw-2-split-split-split-split-2-split-section",
+            "ring-ccw-2-split-split-split-split",
+            "ring-ccw-2-split-split-split-split-2-split",
+            "ring-ccw-2-split-split-split-split-split",
+            "ring-ccw-2-split-split-split-split-2",
+            "ring-ccw-2-split-split-split-section",
+            "ring-ccw-2-split-split-split",
+            "ring-ccw-2-split-split-split-2",
+            "ring-ccw-2-split-split"
+          ],
+          "sharedLength": 91,
+          "maxSharedDeltaY": 1.0658141036401503e-14,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.1182965090764658,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.09773414679043166,
+        "gradeBreaks": [],
+        "minRadius": 147.4322745397663,
+        "shortSegments": 218
+      },
+      "severity": "PASS"
+    }
+  ]
+}

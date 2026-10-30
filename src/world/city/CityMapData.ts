@@ -28,7 +28,7 @@ export interface CityRoad extends CityElementMetadata {
   /** Paved shoulders relative to centerline order (negative/positive ribbon offset). */
   shoulders?: { left: number; right: number };
   /** Hatched triangular inner-shoulder refuge at merge/diverge mouths. */
-  gore?: { start: boolean; end: boolean; length: number };
+  gore?: { start: boolean; end: boolean; length: number; clipToPavement?: boolean };
   elevationMode?: 'ground' | 'elevated' | 'custom';
   /** Ground: optional flat terrain-relative base (legacy default 0). Elevated:
    * designed absolute deck level. Custom: authored bridge/ramp/depressed profile. */
@@ -36,7 +36,9 @@ export interface CityRoad extends CityElementMetadata {
   structure?: { pierSpacing?: number; pierStyle?: 'round' | 'rectangular'; barrierEnabled?: boolean; piersEnabled?: boolean; barrierOffset?: number;
     barrierStyle?: 'metal' | 'concrete'; medianBarrierStyle?: 'metal' | 'concrete';
     /** Floor-relative clear height. Cutting has retaining walls but no roof. */
-    enclosure?: { kind: 'tunnel' | 'underpass' | 'cutting'; clearance: number } };
+    enclosure?: { kind: 'tunnel' | 'underpass' | 'cutting'; clearance: number;
+      /** Explicit branch pavements allowed to open a tunnel's side walls. */
+      branchOpenings?: string[] } };
   markings?: boolean; curb?: boolean; streetlights?: boolean;
   highwayTransition?: { kind: 'deceleration' | 'acceleration'; taperMetres: number; mainRoadId: string; decisionId: string };
 }

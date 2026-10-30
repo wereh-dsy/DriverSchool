@@ -1,4 +1,9 @@
 import { createTeslaModel3PhysicsConfig } from './config/teslaModel3PhysicsConfig';
+import { createJeskoAttackPhysicsConfig } from './config/jeskoAttackPhysicsConfig';
+import { JESKO_ATTACK_VISUAL_CONFIG } from './visual/JeskoAttackVisualConfig';
+import { JESKO_ATTACK_AUDIO_PROFILE } from '../audio/JeskoAttackAudioProfile';
+import { createSU7MaxPhysicsConfig } from './config/su7MaxPhysicsConfig';
+import { SU7_MAX_VISUAL_CONFIG } from './visual/su7MaxVisualConfig';
 import { createGolfGTIPhysicsConfig } from './config/golfGTIPhysicsConfig';
 import { GOLF_GTI_VISUAL_CONFIG } from './visual/golfGTIVisualConfig';
 import { createTaycan4SPhysicsConfig } from './config/taycan4SPhysicsConfig';
@@ -32,16 +37,16 @@ import {
   CVT_SEDAN_VISUAL_CONFIG,
   EXECUTIVE_SEDAN_VISUAL_CONFIG,
   ROAD_SUV_VISUAL_CONFIG,
-  FERRARI_458_VISUAL_CONFIG,
   type VehicleVisualConfig,
-} from './visual';
+} from './visual/VehicleVisualConfig';
+import { FERRARI_458_VISUAL_CONFIG } from './visual/Ferrari458VisualConfig';
 import { withSuspensionStance } from './visual/VehicleVisualConfig';
 
 export const VEHICLE_IDS = ['family-sedan', 'sport-coupe', 'test-6at-sedan', 'test-7dct-sedan', 'cvt-family-sedan',
   'executive-lwb-2t', 'road-suv-v6-8at', 'ferrari-458-italia', 'tesla-model-3-rwd', 'bmw-530li-g38', 'porsche-taycan-4s', 'volkswagen-golf-gti',
-  'mercedes-e300l-v214'] as const;
+  'mercedes-e300l-v214', 'xiaomi-su7-max-2026', 'koenigsegg-jesko-attack'] as const;
 export type VehicleId = (typeof VEHICLE_IDS)[number];
-export type ICEVehicleId = Exclude<VehicleId, 'tesla-model-3-rwd' | 'porsche-taycan-4s'>;
+export type ICEVehicleId = Exclude<VehicleId, 'tesla-model-3-rwd' | 'porsche-taycan-4s' | 'xiaomi-su7-max-2026'>;
 export type PlayerVehiclePhysicsConfig = VehiclePhysicsConfig | ElectricVehiclePhysicsConfig;
 
 export type { VehicleCapabilities } from './VehicleCapabilities';
@@ -103,6 +108,14 @@ const TEST_7DCT_DESCRIPTOR: AuthoredVehicleDescriptor = Object.freeze({
 });
 
 const AUTHORED_VEHICLE_BY_ID: Readonly<Record<VehicleId, AuthoredVehicleDescriptor>> = Object.freeze({
+  'koenigsegg-jesko-attack': Object.freeze({ id: 'koenigsegg-jesko-attack', version: 1, displayName: 'Koenigsegg Jesko Attack',
+    description: '5.0T V8 · 5.0L flat-plane twin-turbo · 1280 hp / 1500 N·m 工程标定 · RWD · 独立 9LST 简化模型 · 主动前翼/大型双层尾翼，250/290 km/h 约 700/1000 kgf 下压力。',
+    capabilities: Object.freeze({ advancedInstrument: true }), physicsConfig: createJeskoAttackPhysicsConfig(),
+    visualConfig: JESKO_ATTACK_VISUAL_CONFIG, audioProfile: JESKO_ATTACK_AUDIO_PROFILE }),
+  'xiaomi-su7-max-2026': Object.freeze({ id: 'xiaomi-su7-max-2026', version: 1, displayName: 'Xiaomi SU7 Max (2026)',
+    description: '2026 新一代小米 SU7 Max · 前异步/后永磁双电机 AWD · 双轴单速 · 508 kW / 866 N·m · 101.7 kWh。独立工程标定，舒适/运动响应、空气悬架和 CDC 简化模型，专属水滴前灯、光环尾灯与电动尾翼。',
+    capabilities: Object.freeze({ cruiseControl: true, advancedInstrument: true, navigation: true, laneDisplay: true, parkingRadar: true, parking360: true, tpms: true }),
+    physicsConfig: createSU7MaxPhysicsConfig(), visualConfig: SU7_MAX_VISUAL_CONFIG }),
   'volkswagen-golf-gti': Object.freeze({ id: 'volkswagen-golf-gti', version: 1, displayName: 'Volkswagen Golf GTI',
     description: 'Mk7.5-inspired · 2.0T INLINE4 (L4) / 7DCT / FWD，350 Nm、约 175 kW 游戏标定。紧凑型 hot hatch，运动化底盘与前轴制动式 eDiff，轻快紧致、出弯前轴负担鲜明；Eco / Normal / Sport，非 Golf R。',
     capabilities: Object.freeze({ cruiseControl: true, navigation: true, laneDisplay: true, parkingRadar: true, tpms: true }),
@@ -189,6 +202,7 @@ export function getNextVehicleId(currentId: VehicleId): VehicleId {
 export function createVehiclePhysicsConfig(id: ICEVehicleId): VehiclePhysicsConfig;
 export function createVehiclePhysicsConfig(id: 'tesla-model-3-rwd'): ElectricVehiclePhysicsConfig;
 export function createVehiclePhysicsConfig(id: 'porsche-taycan-4s'): ElectricVehiclePhysicsConfig;
+export function createVehiclePhysicsConfig(id: 'xiaomi-su7-max-2026'): ElectricVehiclePhysicsConfig;
 export function createVehiclePhysicsConfig(id: VehicleId): PlayerVehiclePhysicsConfig;
 export function createVehiclePhysicsConfig(id: VehicleId): PlayerVehiclePhysicsConfig {
   const descriptor = getVehicleDescriptor(id);

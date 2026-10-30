@@ -1,0 +1,111 @@
+{
+  "vehicleId": "executive-lwb-2t",
+  "displayName": "Audi A6L 45 TFSI quattro",
+  "researchDate": "2026-10-28",
+  "targetGeneration": "Audi A6L C8，中国长轴距 45 TFSI quattro，2023 动感车身；非欧洲 A6 Sedan",
+  "units": {
+    "dimensions": "metres",
+    "rim": "inches",
+    "nominalTyreDiameter": "metres, calculated from marked size; not measured rolling radius"
+  },
+  "officialOrDocumentedSpecifications": {
+    "length": 5.05,
+    "width": 1.886,
+    "height": 1.475,
+    "wheelBase": 3.024,
+    "frontTrackWidth": "unavailable",
+    "rearTrackWidth": "unavailable",
+    "frontOverhang": "unavailable",
+    "rearOverhang": "unavailable",
+    "groundClearance": 0.117
+  },
+  "specificationProvenance": [
+    {
+      "type": "manufacturer specification table",
+      "url": "https://contact.audi.cn/contact/performanceequipment_exportEquipment.htm?carStyleId=10218&cnname=A6&is_publish=4&isen=0&typeId_0=2023&typeId_1=2024",
+      "scope": "2023 C8 A6L 车身规格；5038 致雅 / 5050 动感，1475 普通悬架 /1460 空气悬架"
+    },
+    {
+      "type": "manufacturer brochure, search indexed",
+      "url": "https://www.audi.cn/content/dam/OneWeb/faw_vw/pdf/2024%E6%9B%B4%E6%96%B0%E8%BD%A6%E5%9E%8B/a6l/Audi_A6L_2023_Q4.pdf",
+      "scope": "官方装备表含 45 TFSI quattro；PDF 直接抓取不可用，搜索索引可核对车身尺寸"
+    }
+  ],
+  "tyres": {
+    "front": "unavailable",
+    "rear": "unavailable",
+    "rimInches": "unavailable",
+    "nominalFrontDiameter": "unavailable",
+    "nominalRearDiameter": "unavailable",
+    "frontRimWidthInches": "unavailable",
+    "rearRimWidthInches": "unavailable",
+    "frontOffsetMetres": "unavailable",
+    "rearOffsetMetres": "unavailable",
+    "frontWidthMetres": "unavailable",
+    "rearWidthMetres": "unavailable",
+    "widthDifferenceMetres": "unavailable"
+  },
+  "photoReferences": [
+    {
+      "type": "manufacturer photo reproduction",
+      "url": "https://www.dailyrevs.com/cars/2023-audi-a6l",
+      "scope": "2023 中国 A6L 多角度；部分为 55 TFSI，限共享车体观察，不替换 45 的配置"
+    }
+  ],
+  "photoCoverageNote": "链接是指定代际图库/实拍参考；未取得每款完全一致的正侧/正前/正后/高低视角七张图。未确认的独立视角为 unavailable。",
+  "unavailablePhotoAngles": [
+    "matched orthographic side",
+    "matched straight front",
+    "matched straight rear",
+    "matched high angle",
+    "matched low angle"
+  ],
+  "qualitativePhotoObservations": [
+    "较平长车顶、长后门和较平直腰线；宽 Singleframe 与横向灯组保持行政轿车体量。"
+  ],
+  "observationProvenance": "Qualitative photo/design observations. No photograph-derived number is labelled as an OEM specification.",
+  "gameConstraints": {
+    "declaredDimensions": {
+      "length": 5.05,
+      "width": 1.89,
+      "height": 1.5,
+      "wheelBase": 3.025,
+      "frontTrackWidth": 1.63,
+      "rearTrackWidth": 1.62,
+      "wheelDiameter": 0.69
+    },
+    "loadedModel": {
+      "length": 5.039899826049805,
+      "width": 1.8899999982118605,
+      "height": 1.4749999713897706,
+      "wheelBase": 3.025,
+      "frontTrackWidth": 1.63,
+      "rearTrackWidth": 1.62,
+      "wheelDiameter": 0.6899999976158142,
+      "frontOverhang": 1.005699920654297,
+      "rearOverhang": 1.0091999053955079
+    },
+    "physicalTyreWidths": [
+      {
+        "id": "frontLeft",
+        "width": 0.24500000476837158
+      },
+      {
+        "id": "frontRight",
+        "width": 0.24500000476837158
+      },
+      {
+        "id": "rearLeft",
+        "width": 0.24500000476837158
+      },
+      {
+        "id": "rearRight",
+        "width": 0.24500000476837158
+      }
+    ],
+    "note": "Physical hardpoints, rolling radii and chassis/collision declarations retained. Model values are measurements, not manufacturer data."
+  },
+  "unresolvedDifferences": [
+    "游戏物理宽 1890mm、轴距 3025mm，而厂家为 1886/3024mm；物理保持原值。游戏支持空气悬架，1475mm 为普通车高参考，未把 1460mm 配置高度当作固定物理高度。轮距/精确轮胎选装未核实。"
+  ]
+}

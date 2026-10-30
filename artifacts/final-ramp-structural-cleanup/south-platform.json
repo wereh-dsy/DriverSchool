@@ -1,0 +1,145 @@
+{
+  "row": {
+    "id": "system-south:W-to-N-loop",
+    "cluster": "system-south",
+    "length": 169.63392527576568,
+    "transition": null,
+    "interfaces": [
+      {
+        "end": "start",
+        "host": {
+          "roadId": "ring-ccw-1",
+          "end": "end"
+        },
+        "peers": [
+          "ring-ccw-1",
+          "ring-ccw-0-split-split-split-split",
+          "ring-ccw-1-split-3",
+          "ring-ccw-0-split-split-split",
+          "ring-ccw-1-split-2"
+        ],
+        "sharedLength": 26,
+        "maxSharedDeltaY": 0.005,
+        "conflictRange": null,
+        "unsupportedWheelSamples": 0,
+        "xzGap": 0,
+        "deltaY": 0,
+        "tangentDegrees": 1.184210526321663,
+        "topology": true,
+        "samples": []
+      },
+      {
+        "end": "end",
+        "host": {
+          "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+          "end": "start"
+        },
+        "peers": [
+          "ns-nb-split-3-split-split-split-2-split-2",
+          "ns-nb-split-3-split-split-split-2-split",
+          "ns-nb-split-3-split-split-split-2",
+          "ns-nb-split-3-split-split-split-2-split-section",
+          "ns-nb-split-3-split-split-split-3-split",
+          "ns-nb-split-3-split-split-split-3",
+          "ns-nb-split-3-split-split"
+        ],
+        "sharedLength": 26,
+        "maxSharedDeltaY": 0.004999999999999893,
+        "conflictRange": null,
+        "unsupportedWheelSamples": 0,
+        "xzGap": 0,
+        "deltaY": 0,
+        "tangentDegrees": 1.1842105263151992,
+        "topology": true,
+        "samples": []
+      }
+    ],
+    "profile": {
+      "maxGrade": 0.09674089755169617,
+      "gradeBreaks": [],
+      "minRadius": 35.29217755927184,
+      "shortSegments": 0
+    },
+    "severity": "PASS"
+  },
+  "pairs": [
+    {
+      "key": "ring-ccw-1-split-3|system-south:W-to-N-loop",
+      "lo": -0.005,
+      "hi": 0,
+      "stationMin": 0,
+      "stationMax": 26.78430399091028,
+      "area": 142.901886440035
+    },
+    {
+      "key": "system-south:N-to-E-semi|system-south:W-to-N-loop",
+      "lo": 6.447608051022988,
+      "hi": 6.875291089802595,
+      "stationMin": 40.17645598636566,
+      "stationMax": 53.56860798182085,
+      "area": 46.6264047378063
+    },
+    {
+      "key": "system-south:S-to-W-semi|system-south:W-to-N-loop",
+      "lo": 9.580884904311699,
+      "hi": 10.367698987355604,
+      "stationMin": 102.6731652984898,
+      "stationMax": 111.60126662879324,
+      "area": 41.03314514820522
+    },
+    {
+      "key": "ns-nb-split-3-split-split-split-3-split|system-south:W-to-N-loop",
+      "lo": 0.002162298719947664,
+      "hi": 0.004999999999999893,
+      "stationMin": 142.8496212848554,
+      "stationMax": 163.68185772223,
+      "area": 94.57642515597581
+    },
+    {
+      "key": "ns-nb-split-3-split-split-split-2|system-south:W-to-N-loop",
+      "lo": 0,
+      "hi": 0.0025637973149592597,
+      "stationMin": 160.70582394546204,
+      "stationMax": 169.63392527576568,
+      "area": 48.321662491093775
+    }
+  ],
+  "changes": [
+    {
+      "roadId": "ns-nb-split-3-split-split-split-2",
+      "stationWindow": [
+        2130,
+        2290
+      ],
+      "axis": "z",
+      "platformY": -7.25,
+      "maxYChange": 0,
+      "maxGrade": 0,
+      "maxGradeBreak": 0
+    },
+    {
+      "roadId": "ns-nb-split-3-split-split-split-3-split",
+      "stationWindow": [
+        2130,
+        2290
+      ],
+      "axis": "z",
+      "platformY": -7.25,
+      "maxYChange": 0,
+      "maxGrade": 0.0975739024392346,
+      "maxGradeBreak": 0.009934395191491686
+    },
+    {
+      "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+      "stationWindow": [
+        2130,
+        2290
+      ],
+      "axis": "z",
+      "platformY": -7.25,
+      "maxYChange": 0,
+      "maxGrade": 0.04274398151423026,
+      "maxGradeBreak": 0.002768565051130878
+    }
+  ]
+}

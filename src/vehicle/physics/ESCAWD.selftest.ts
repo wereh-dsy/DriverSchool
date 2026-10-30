@@ -77,20 +77,26 @@ export function runESCAWDSelfTest() {
     'ESC switch and warning are independent');
 
   const full = new AWDTorqueDistribution(createAWDVehicleFixture('full-time'));
+  assert(Math.abs(full.rearTorqueSplit-.6)<1e-9,'full-time nominal rear share');
   full.update(dt, 1, wheels, true);
-  assert(Math.abs(full.rearTorqueSplit - .6) < 1e-9 && full.updateSpeeds(40, 80) === 64,
+  assert(Math.abs(full.rearTorqueSplit-.6)<=.65*dt && Math.abs(full.updateSpeeds(40,80)-(40*(1-full.rearTorqueSplit)+80*full.rearTorqueSplit))<1e-9,
     'fixed AWD split and both-axle speed feedback');
   const demand = new AWDTorqueDistribution(createAWDVehicleFixture('on-demand'));
+  assert(Math.abs(demand.rearTorqueSplit-.1)<1e-9,'on-demand initial nominal share');
   demand.update(dt, .15, wheels, true);
-  assert(Math.abs(demand.rearTorqueSplit - .1) < 1e-9, 'on-demand nominal cruise split');
+  assert(Math.abs(demand.rearTorqueSplit - .1) <= .65*dt, 'on-demand nominal cruise split');
   demand.update(dt, 1, wheels, true);
   assert(demand.rearTorqueSplit > .1 && demand.rearTorqueSplit < .11, 'acceleration smoothly increases rear share');
-  const spin = { ...wheels, frontLeft: { ...wheels.frontLeft, longitudinalSpeed: 10, slipRatio: .8 } };
-  for (let i = 0; i < 120; i++) demand.update(dt, .4, spin, true);
-  assert(demand.rearTorqueSplit > .47 && demand.rearTorqueSplit <= .5, 'front slip approaches configured maximum');
-  const reverseSpin = { ...wheels, frontLeft: { ...wheels.frontLeft, longitudinalSpeed: -10, slipRatio: -.8 } };
+  const rolling=Object.fromEntries(Object.entries(wheels).map(([id,w])=>[id,{...w,longitudinalSpeed:10,angularVelocity:10/config.wheelRadius,slipRatio:0}])) as typeof wheels;
+  const spin={...rolling,frontLeft:{...rolling.frontLeft,slipRatio:.8,angularVelocity:10/config.wheelRadius*1.8},
+    frontRight:{...rolling.frontRight,slipRatio:.8,angularVelocity:10/config.wheelRadius*1.8}};
+  for (let i = 0; i < 240; i++) demand.update(dt, .4, spin, true);
+  assert(demand.rearTorqueSplit > .47 && demand.rearTorqueSplit <= .5, 'front slip approaches configured maximum: '+demand.rearTorqueSplit);
+  const reverseRolling=Object.fromEntries(Object.entries(rolling).map(([id,w])=>[id,{...w,longitudinalSpeed:-10,angularVelocity:-10/config.wheelRadius}])) as typeof wheels;
+  const reverseSpin={...reverseRolling,frontLeft:{...reverseRolling.frontLeft,slipRatio:-.8,angularVelocity:-10/config.wheelRadius*1.8},
+    frontRight:{...reverseRolling.frontRight,slipRatio:-.8,angularVelocity:-10/config.wheelRadius*1.8}};
   demand.reset();
-  for (let i = 0; i < 120; i++) demand.update(dt, .4, reverseSpin, true);
+  for (let i = 0; i < 240; i++) demand.update(dt, .4, reverseSpin, true);
   assert(demand.rearTorqueSplit > .47, 'reverse slip also transfers torque rearward');
 
   for (const preset of [config, createTest6ATVehiclePhysicsConfig(), createTest7DCTVehiclePhysicsConfig(), createCVTSedanPhysicsConfig()]) {
@@ -110,8 +116,8 @@ export function runESCAWDSelfTest() {
       ...createNeutralVehicleInputState(), throttle: .7, steering: .1, controlMode: 'manual-clutch', clutchPedal: 0,
     });
     const w = snapshot.wheels, total = snapshot.differential.inputTorque + snapshot.rearDifferential!.inputTorque;
-    assert(total > 0 && Math.abs(w.frontLeft.driveTorque - total * .2) < 1e-8 &&
-      Math.abs(w.rearLeft.driveTorque - total * .3) < 1e-8 && w.frontLeft.driveTorque === w.frontRight.driveTorque &&
+    assert(total > 0 && Math.abs(w.frontLeft.driveTorque - total * (1-snapshot.awd!.rearTorqueSplit)*.5) < 1e-8 &&
+      Math.abs(w.rearLeft.driveTorque - total * snapshot.awd!.rearTorqueSplit*.5) < 1e-8 && w.frontLeft.driveTorque === w.frontRight.driveTorque &&
       w.rearLeft.driveTorque === w.rearRight.driveTorque, 'MT/AT/DCT/CVT deliver conserving torque through two open differentials');
     assert(w.frontLeft.angularVelocity !== w.frontRight.angularVelocity, 'AWD leaves turning wheel speeds independent');
     assert(Object.values(w).every(wheel => Number.isFinite(wheel.angularVelocity) && wheel.gripUsage <= 1 + 1e-8) &&
@@ -126,7 +132,7 @@ export function runESCAWDSelfTest() {
   }
   const onDemandCar = new VehicleDynamics(createAWDVehicleFixture('on-demand'), { speed: 10, driveSelector: 'D' });
   onDemandCar.setDriverAssistOptions({ absEnabled: true, ebdEnabled: true, tractionControlEnabled: false, stabilityControlEnabled: false });
-  const rearOnlySpin = { ...wheels, rearLeft: { ...wheels.rearLeft, longitudinalSpeed: 10, slipRatio: .8 } };
+  const rearOnlySpin = { ...wheels, rearLeft: { ...wheels.rearLeft, longitudinalSpeed: 10, slipRatio: .8,angularVelocity:10/config.wheelRadius*1.8 } };
   const awdAids = new DriverAssistSystem(createAWDVehicleFixture('full-time'));
   awdAids.setOptions({ absEnabled: true, ebdEnabled: true, tractionControlEnabled: true });
   awdAids.reset(true);

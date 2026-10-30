@@ -1,6 +1,6 @@
 # DriverGame 当前代码说明
 
-更新日期：2026-10-16。面向接手代码的开发者与 Chat；功能、标定和测试结果均以当前源码及实际运行结果为准。本文不是原厂车辆规格或完整仿真认证。历史 `*_REPORT.md` 和 `artifacts/` 报告保留为各轮实现记录；最新整理见 [一致性、性能与清理记录](RUNTIME_CLEANUP_2026-10-15.md)，早期修复见 [修复与验证记录](FIXES_2026-10-13.md)。
+更新日期：2026-10-24（本次核对地图及正式发布流程，其余历史专项需按当前源码确认）。面向接手代码的开发者与 Chat；功能、标定和测试结果均以当前源码及实际运行结果为准。本文不是原厂车辆规格或完整仿真认证。历史 `*_REPORT.md` 和 `artifacts/` 报告保留为各轮实现记录；最新整理见 [一致性、性能与清理记录](RUNTIME_CLEANUP_2026-10-15.md)，早期修复见 [修复与验证记录](FIXES_2026-10-13.md)。
 
 相关文档：[操作与启动](../README.md)、[代理约束](../AGENTS.md)、[审阅报告](CODE_REVIEW_2026-10-12.md)、[可复制的 Chat 指示文本](CHAT_HANDOFF.md)、[地图作者指南](../src/world/city/AGENT_GUIDE.md)。
 
@@ -92,8 +92,12 @@ DrivingGroundCatalog 有 11 个入口，默认 `road-course`：`road-course`、`
 
 | 使用者 | 文件 | 当前 version | 道路/路口/物件/路牌数 |
 | --- | --- | --- | --- |
-| 游戏菜单 `city-main`；CLI `regional-main` | `src/world/regional/regional-main.json` | 14 | 2557 / 155 / 5358 / 3235 |
-| CLI `city-main-city` 或兼容的 `city-main` | `src/world/city/maps/city-main.json` | 10 | 623 / 155 / 2436 / 677 |
+| 游戏菜单 `city-main`；CLI `regional-main` | `src/world/regional/regional-main.json` | 493 | 3288 / 306 / 7153 / 3137 |
+| CLI `city-main-city` 或兼容的 `city-main` | `src/world/city/maps/city-main.json` | 11 | 623 / 155 / 2436 / 677 |
+
+最新扩展见 [2026-10-24 长距离高速与加载专项](HIGHWAY_EXTENSION_STREAMING_2026-10-24.md)：从 G17/G42 现有东侧终点增加约 32.34/30.40km 延伸，并由新 S32 联络高速连接（11.64km）；静态覆盖 71/75/25 个 500m sector，新增 4 个互通/出口。轻量海岸和水面 tile 复用现有地形/Worker 生命周期。10 组速度/方向加载焦点测试、370 处道路 seam、实际地形共享边及长距离导航通过；最大冷准备单步约 218.9ms、F10 绘制 29.1–89.3ms 和 CPU/远景缓存增长仍需留意。本轮只更新 Browser dist，外部正式 EXE 保持 v492。
+
+匝道修复基线见 [2026-10-24 结构收尾与发布记录](FINAL_RAMP_CLEANUP_2026-10-24.md)：复用 v491 的 246 PASS，仅修复剩余 9 条并回归邻近道路及中央立交，累计 255 PASS，剩余 P0 / P1 / P2 均为 0。66 个接口及 9 个全匝道回放通过；未重跑全图审计。中央立交 8 条完整记录保持已修复基线；南立交一条既有 PASS 道路仅经授权调整桥墩间距 45→46m，其几何不变。南北快速路两处隧道 `structure.enclosure.branchOpenings` 显式引用支路，可视墙及碰撞墙共享开口；导流线按需启用 `gore.clipToPavement`。
 
 两文件 id 都是 `city-main`，不是相互替换的同一数据。数量是本次盘点快照。`city-alpha.json` 为 43 道路/12 路口/288 物件；`preset-showcase.json` 为 133 道路/7 路口/15 物件。菜单区域地图包含保留城市、高速网络、机场、服务区、桥隧、近/中/远视觉调度和行进方向预加载。
 
@@ -151,7 +155,7 @@ BrakeTorqueCoordinator 对脚刹/hold/巡航/ESC/eDiff/动态 EPB 合并服务�
 | 传动需求回归 | `scripts/run-transmission-demand-selftests.ts`、`transmission-review.validation.ts` |
 | 地图 API/生产预设 | `pnpm map validate <实际文件>`、`pnpm map validate-presets`、`node scripts/validate-city-toolchain.mjs` |
 | 区域/高速 | `node scripts/test-regional-world.mjs`、`node scripts/test-highway-system.mjs`、`node scripts/validate-regional-double-c.mjs` |
-| 最终可玩发布 | `pnpm run build` |
+| 当前轻量可玩交付 | 相关专项 → `pnpm run build -BasicValidation` → `pnpm run desktop:package` → 外部正式 EXE 启动 smoke |
 
 独立 TS runner 一般通过项目已有 esbuild 打包后运行，例如：
 
@@ -162,7 +166,9 @@ node .tmp-vehicle-loading-selftests.mjs
 
 部分 runner 会改写 `artifacts/` 下的历史 JSON 结果；先读脚本，整体审阅可用忽略目录中的临时 runner 直接调用现有自测函数，把新结果保留在本次审阅记录中。不要误运行生成/升级地图的脚本来“验证”，不要静默覆盖地图或历史基线。旧 City V3/V4/V5 检查面向对应版本，不应盲目要求所有历史版本同时成立。
 
-`build` 会记录源码指纹→typecheck→核心 selftest→暂存 Vite 产物→校验指纹→资源复制→原子替换 `dist/index.html`。它不是所有 standalone runner 的全集；重大车辆/平台任务还运行 selftest:systems。失败时保留上一可玩入口，不能用 BasicValidation/单独 vite build 冒充完整发布成功。原始审阅记录修复前失败，当前状态见修复记录。
+`build` 记录源码指纹→typecheck→（无 BasicValidation 时运行核心 selftest）→暂存 Vite 产物→校验指纹→资源复制→原子替换 `dist/index.html`。当前用户指定日常交付使用 BasicValidation 和直接相关专项，不例行运行全核心/全系统；明确要求的重大专项仍按任务执行。报告必须说明实际验证范围，不能把轻量构建写成完整核心通过，不能以单独 vite build 替代发布。
+
+`desktop:package` 内含一次 BasicValidation Browser 构建、desktop 构建及完整 Windows 包发布。项目内 `release/` 仅为中间目录，正式入口为 `D:\DriverSchoolRelease\DriverSchool-win32-x64\DriverSchool.exe`；整目录替换并保留 runtime/resources，不单拷 EXE、不改 ACL、不关闭 Electron sandbox/Defender/SmartScreen。最终同时确认 dist、外部包及正式 EXE 的基本启动 smoke。
 
 `node scripts/clean-generated.mjs` 预览，`pnpm run clean:generated` 执行清理。仅清理可重新生成的旧暂存目录、临时 bundle/log、过期发布资源和误复制的地图源码；递归确认当前与 last-good 入口的 JS/CSS/Worker/动态编辑器依赖，保留最近两份暂存构建。历史 artifacts、生成器源码、作者地图与附件保留；旧标签页清理后应刷新。
 
@@ -170,4 +176,4 @@ node .tmp-vehicle-loading-selftests.mjs
 
 ## 交付与后续指导约束
 
-只改用户授权范围；保留现有行为、稳定 ID、存储兼容与物理/显示/输入/编排分层。不新增依赖、不按车型名加物理分支、不加假抓地/假胎压、不放宽验证以隐藏错误。新增标定优先扩展已有配置；120 Hz 路径避免新增遍历全地图/大量分配。代码修改先相关测试，重大车辆系统修改加核心和平台验证，最后必须正常 build。未授权不 commit/push/reset/discard；主观手感与最终视觉由用户判断。
+只改用户授权范围；保留现有行为、稳定 ID、存储兼容与物理/显示/输入/编排分层。不新增依赖、不按车型名加物理分支、不加假抓地/假胎压、不放宽验证以隐藏错误。新增标定优先扩展已有配置；120 Hz 路径避免新增遍历全地图/大量分配。代码修改先相关专项；当前日常交付按上文轻量 build、desktop:package 和正式 EXE smoke 流程完成，额外核心/系统检查依具体任务要求。未授权不 commit/push/reset/discard；主观手感与最终视觉由用户判断。

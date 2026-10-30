@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import {dir,read,write,hash,central,analyze,roadPoints,roadEdges,sampleAt,polylineLength,context,pavement,ramp} from './common';
+import {roadCarriageways} from '../../src/world/city/RoadCarriageway';
+const map=read(dir+'candidate-map.json'),base=read(dir+'baseline-map.json'),inventory=read(dir+'interchange-inventory.json'),baseline=read(dir+'baseline.json'),physics=read('artifacts/remaining-interchange-ramp-repair/baseline.json').physics;
+baseline.physics=Object.fromEntries(Object.keys(physics).map(file=>[file,hash(fs.readFileSync(file,'utf8'))]));baseline.centralHash=hash(base.roads.filter(central));baseline.sourceHash=baseline.hash;write('baseline.json',baseline);
+const changed=map.roads.filter((r:any)=>hash(r)!==hash(base.roads.find((q:any)=>q.id===r.id))),proof:any[]=[];
+for(const r of changed){const old=base.roads.find((q:any)=>q.id===r.id);if(old.pavementSurface==='ribbon')continue;
+ const test=structuredClone(map),q=test.roads.find((q:any)=>q.id===r.id);delete q.pavementSurface;const local=context(test,[q]),pv=pavement(local),visual=roadCarriageways(local),p=roadPoints(q),L=polylineLength(p);let worst=0,outside=0,samples:any[]=[];
+ for(let s=.5;s<L;s+=2){const f=sampleAt(p,s);for(const offset of [roadEdges(q).left+.02,-.835,0,.835,roadEdges(q).right-.02]){const pt={x:f.point.x-f.tangent.z*offset,y:f.point.y,z:f.point.z+f.tangent.x*offset},y=visual.pavedHeight(q.id,pt),hits=pv.hit(pt).filter(h=>h.road.id===q.id);for(const h of hits){const delta=y===undefined?0:Math.abs(h.surface.heightAt(pt.x,pt.z)-y);worst=Math.max(worst,delta);if(y===undefined)outside++;if(delta>.04&&samples.length<10)samples.push({station:s,offset,delta});}}}
+ if(worst>.04||outside){r.pavementSurface='ribbon';proof.push({roadId:r.id,maximumPhysicalVisualMismatch:worst,outsideVisualSamples:outside,samples,action:'per-road ribbon for this directly modified road'});}else if(r.pavementSurface==='ribbon')delete r.pavementSurface;
+}
+write('support-representation-evidence.json',proof);
+for(const c of inventory.clusters){if(!c.originalRoadIds)c.originalRoadIds=c.ramps.map((r:any)=>r.id);c.ramps=c.ramps.filter((r:any)=>c.originalRoadIds.includes(r.id));const nearby=new Set(context(map,map.roads.filter((r:any)=>c.originalRoadIds.includes(r.id))).roads.map((r:any)=>r.id));const related=changed.filter((r:any)=>!ramp(r)&&nearby.has(r.id)&&!central(r));const added=analyze(map,related).rows;for(const r of added)c.ramps.push({...r,directMainlineOrFrontage:true});}
+write('interchange-inventory.json',inventory);write('candidate-map.json',map);console.log(JSON.stringify({clusters:inventory.clusters.map((c:any)=>({id:c.id,originalRoads:c.originalRoadIds.length,directRoads:c.ramps.length-c.originalRoadIds.length})),ribbonProof:proof.map(p=>({id:p.roadId,delta:p.maximumPhysicalVisualMismatch}))}));

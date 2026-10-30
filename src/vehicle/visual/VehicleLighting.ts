@@ -1,6 +1,7 @@
 import {
   BoxGeometry, BufferGeometry, Color, DoubleSide, Float32BufferAttribute,
   Mesh, MeshStandardMaterial, Object3D, PointLight, SpotLight,
+  type Material, type Texture,
 } from 'three';
 
 import type { VehicleVisual } from './VehicleVisual';
@@ -26,6 +27,8 @@ export class VehicleLighting {
   private readonly foglamps: readonly [SpotLight, SpotLight, SpotLight];
   private readonly fogTargets: readonly [Object3D, Object3D, Object3D];
   private readonly lampMeshes: Mesh[] = [];
+  private readonly authoredMaterials=new Map<Mesh,Material|Material[]>();
+  private readonly maskedMaterials=new Map<MeshStandardMaterial,MeshStandardMaterial>();
   private readonly materials = new Map<string, MeshStandardMaterial>();
   private state = lightsOff();
   private ignitionOn: boolean | undefined;
@@ -50,7 +53,7 @@ export class VehicleLighting {
       for (const material of materials) if (material instanceof MeshStandardMaterial) {
         material.emissiveIntensity = 0;
         // A dark optical housing lets the separate LED modules read clearly.
-        if (profile && object.userData.vehicleBodyPart === 'headlamp') material.color.set(executive && material.map ? 0xffffff : 0x23313e);
+        if (profile && object.userData.vehicleBodyPart === 'headlamp') material.color.set((executive||object.userData.refinedOptics) && material.map ? 0xffffff : 0x23313e);
       }
     });
     for (const [key, color] of [
@@ -91,14 +94,29 @@ export class VehicleLighting {
       this.createFoglamp('Rear fog light spill', -0.29, rearZ + 0.012, true, this.fogTargets[2]),
     ];
     vehicle.root.add(...this.foglamps, ...this.fogTargets);
-    if (profile?.signature === 'double-l' || profile?.signature === 'authored-led') {
+    let refinedOptics = false;
+    vehicle.exteriorRoot.traverse(object => { if (object.userData.refinedOptics) refinedOptics = true; });
+    if (profile?.signature === 'double-l' || profile?.signature === 'authored-led' || refinedOptics) {
+      const variants=new Map<Texture,Map<string,MeshStandardMaterial>>();
       // BMW optics are modelled in their housings. Only the existing controller
       // owns output; no additional blink phase or brand-specific light state.
       vehicle.exteriorRoot.traverse(object => {
         if (!(object instanceof Mesh) || typeof object.userData.lightingKey !== 'string') return;
         const key = object.userData.lightingKey as string;
         const material = this.materials.get(key);
-        if (material) { object.material = material; this.addLens(object, key, object.name); }
+        if (material) {
+          this.authoredMaterials.set(object,object.material);
+          const source=object.material instanceof MeshStandardMaterial?object.material:undefined;
+          let output=material;
+          if(object.userData.textureMaskedLight&&source?.alphaMap){
+            let channels=variants.get(source.alphaMap);if(!channels){channels=new Map();variants.set(source.alphaMap,channels);}
+            let variant=channels.get(key);
+            if(!variant){variant=material.clone();variant.alphaMap=source.alphaMap;variant.alphaTest=.25;variant.side=DoubleSide;
+              channels.set(key,variant);this.maskedMaterials.set(variant,material);}
+            output=variant;
+          }
+          object.material=output;this.addLens(object,key,object.name);
+        }
       });
       this.applyState(this.state);
       return;
@@ -233,6 +251,7 @@ export class VehicleLighting {
     this.foglamps[0].intensity = powered && state.frontFogLightsEnabled ? 150 : 0;
     this.foglamps[1].intensity = powered && state.frontFogLightsEnabled ? 150 : 0;
     this.foglamps[2].intensity = powered && state.rearFogLightsEnabled ? 28 : 0;
+    for(const [masked,source]of this.maskedMaterials){masked.color.copy(source.color);masked.emissive.copy(source.emissive);masked.emissiveIntensity=source.emissiveIntensity;}
   }
 
   /** Compatibility during migration; the game's controller remains authoritative. */
@@ -261,7 +280,15 @@ export class VehicleLighting {
     for (const light of this.foglamps) light.removeFromParent();
     for (const target of this.fogTargets) target.removeFromParent();
     for (const spill of this.turnSpills) spill.light.removeFromParent();
-    for (const lens of this.lampMeshes) { lens.removeFromParent(); lens.geometry.dispose(); }
+    const generated=new Set<BufferGeometry>();
+    for (const lens of this.lampMeshes) {
+      const original=this.authoredMaterials.get(lens);
+      if(original)lens.material=original;
+      else {lens.removeFromParent();generated.add(lens.geometry);}
+    }
+    for(const geometry of generated)geometry.dispose();
+    this.authoredMaterials.clear();this.lampMeshes.length=0;
+    for(const material of this.maskedMaterials.keys())material.dispose();this.maskedMaterials.clear();
     for (const material of this.materials.values()) material.dispose();
     this.materials.clear();
   }

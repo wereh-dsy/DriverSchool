@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+const dir='artifacts/system-central-ramp-repair/';
+assert(!fs.existsSync(dir+'build-result.json'),'The requested single build already has a result');
+assert(JSON.parse(fs.readFileSync(dir+'acceptance-summary.json','utf8')).sourceAndCandidateIdentical,'Publish the accepted candidate before building');
+const startedAt=new Date().toISOString(),stream=fs.createWriteStream(dir+'build.log');let log='';
+const child=spawn('powershell.exe',['-NoLogo','-NoProfile','-Command','pnpm run build -BasicValidation'],{windowsHide:true,stdio:['ignore','pipe','pipe']});
+for(const pipe of [child.stdout,child.stderr])pipe.on('data',chunk=>{log+=chunk.toString();stream.write(chunk);process.stdout.write(chunk);});
+child.on('error',error=>{log+=error.message;});
+child.on('close',exitCode=>{stream.end();const result={command:'pnpm run build -BasicValidation',launchCount:1,exitCode,published:exitCode===0&&log.includes('Checkpoint published.'),startedAt,completedAt:new Date().toISOString(),log:dir+'build.log',coreSelftestsSkippedByExplicitUserRequest:true};fs.writeFileSync(dir+'build-result.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));process.exitCode=exitCode??1;});

@@ -29,8 +29,11 @@ export function runFuelSystemSelfTest() {
     assert(config.mass === baseMass && Math.abs(idle.effectiveVehicleMass - baseMass - idle.fuel.fuelMassKg) < 1e-9, 'one mass addition preserves base config');
     assert(idle.effectiveVehicleMass < initial.effectiveVehicleMass, 'burn lowers mass');
     assert(idle.fuel.instantConsumptionUnit === 'L/h' && idle.fuel.averageConsumptionLPer100km === null, 'idle metrics avoid division by tiny distance');
-    const wheelLoad = Object.values(idle.wheels).reduce((sum, wheel) => sum + wheel.normalLoad, 0);
-    assert(Math.abs(wheelLoad - idle.effectiveVehicleMass * config.gravity) < 1e-6, 'suspension shares effective mass');
+    const supported=new VehicleDynamics(createVehiclePhysicsConfig(descriptor.id),{engineRunning:false,vehicleOperational:false,driveAvailable:false,currentFuelL:idle.fuel.currentFuelL,gear:'N',driveSelector:'N'});
+    let support=supported.getSnapshot(),supportedMass=support.effectiveVehicleMass;
+    for(let n=0;n<2400;n++){supportedMass=supported.effectiveVehicleMass;support=supported.stepFixed(dt,input);}
+    const wheelLoad=Object.values(support.wheels).reduce((sum,wheel)=>sum+wheel.normalLoad,0);
+    assert(Math.abs(wheelLoad - supportedMass * config.gravity) < 1e-6, 'suspension shares effective mass '+descriptor.id+' residual='+(wheelLoad-support.effectiveVehicleMass*config.gravity)+' acceleration='+support.chassis.verticalAcceleration);
     const tripUsed = idle.fuel.fuelUsedL;
     vehicle.setCurrentFuelL(config.fuel.tankCapacityL * 0.5);
     assert(vehicle.getSnapshot().fuel.fuelPercent === 50, 'settings-style edit accepts percentages converted to litres');

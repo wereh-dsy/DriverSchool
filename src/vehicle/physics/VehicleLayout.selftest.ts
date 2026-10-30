@@ -1,3 +1,4 @@
+import { chassisForceFixture, chassisGeometryValid } from './ChassisDynamics.selftest';
 import { cloneVehiclePhysicsConfig, createDefaultVehiclePhysicsConfig, type VehiclePhysicsConfig } from '../config';
 import { createVehiclePhysicsConfig, ICE_VEHICLE_CATALOG } from '../VehicleCatalog';
 import { centerOfMassOffsetZ, wheelLocalPosition } from '../VehicleDimensions';
@@ -10,7 +11,7 @@ import { sampleWheelContacts, WHEEL_IDS } from './WheelContact';
 import { SURFACE_MATERIALS } from '../../world/SurfaceMaterial';
 import { validateVehiclePlatformConfig } from '../config/validateVehiclePlatformConfig';
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
-import { SuspensionSystem } from './SuspensionSystem';
+import { SuspensionSystem, type SuspensionVerticalCorner } from './SuspensionSystem';
 import { TyreGripModel } from './TyreGripModel';
 import { VehicleDynamics } from './VehicleDynamics';
 import { VehicleContactSystem } from './VehicleContactSystem';
@@ -85,8 +86,11 @@ export function runVehicleLayoutSelfTest() {
       'scene collision adapter supplies body-origin velocity z');
     for (const id of WHEEL_IDS) {
       const wheel = contactPose.wheels[id];
-      near(wheel.worldPosition.y - c.wheelRadius, ground.getRoadHeightAt(wheel.worldPosition.x, wheel.worldPosition.z),
-        `${id}: final contact height follows derived wheel world position`);
+      const geometry=wheel.geometry as SuspensionVerticalCorner,surface=geometry.surfacePoint;
+      near(geometry.surfaceHeight,ground.getRoadHeightAt(surface.x,surface.z),id+': sampled physical surface height');
+      near(wheel.worldPosition.y,geometry.wheelCenterWorld.y,id+': derived physical wheel centre');
+      assert(Number.isFinite(geometry.effectiveRadius)&&Number.isFinite(geometry.tyreCompression),id+': finite tyre contact telemetry');
+      near(geometry.freeTyreRadius-geometry.effectiveRadius!,geometry.tyreCompression!,id+': actual tyre deflection');
     }
     // Collision velocities describe the body point, then convert back to CG.
     const bodySide = .8 - .35 * cgLocalZ, yaw = contactPose.yaw;
@@ -118,11 +122,17 @@ export function runVehicleLayoutSelfTest() {
   assert(front.front > front.rear && rear.rear > rear.front, 'FWD/MR static distribution');
   assert(Math.abs(front.front / (config.mass * config.gravity) - .62) < 1e-6, 'front share controls suspension initialization');
   assert(Math.abs(rear.front / (config.mass * config.gravity) - .42) < 1e-6, 'same geometry, rearward CG reduces front load');
-  assert(axleLoads(mr, 4).rear > rear.rear && axleLoads(mr, -4).front > rear.front, 'acceleration/reverse braking transfer directions');
-  const accelerated = axleLoads(mr, 4);
-  const transfer = config.mass * 4 * config.centerOfMassHeight / config.wheelBase;
-  assert(Math.abs(accelerated.rear - rear.rear - transfer) < transfer * .02, 'transfer is m*a*h/L');
-  const rr = { ...mr, enginePlacement: 'REAR' as const, frontWeightBias: .38, yawInertia: 2900 };
+  const physicalLoads=(acceleration:number)=>{
+    const body=chassisForceFixture(mr,mr.mass*acceleration/4);
+    let state=body.getSnapshot();
+    for(let n=0;n<600;n++)state=body.stepFixed(dt,neutral);
+    return {front:state.wheels.frontLeft.normalLoad+state.wheels.frontRight.normalLoad,
+      rear:state.wheels.rearLeft.normalLoad+state.wheels.rearRight.normalLoad};
+  };
+  const settledLoads=physicalLoads(0),accelerated=physicalLoads(4),braked=physicalLoads(-4);
+  assert(accelerated.rear>settledLoads.rear&&braked.front>settledLoads.front,'physical tyre forces transfer suspension load');
+  const transfer=mr.mass*4*mr.centerOfMassHeight/mr.wheelBase;
+  assert(Math.abs(accelerated.rear-settledLoads.rear-transfer)<transfer*.02,'ground force moment gives m*a*h/L transfer');  const rr = { ...mr, enginePlacement: 'REAR' as const, frontWeightBias: .38, yawInertia: 2900 };
   validateVehiclePlatformConfig(rr);
   assert(axleLoads(rr).rear > axleLoads(rr).front && rr.yawInertia > mr.yawInertia, 'RR supports independent polar inertia');
   const invalid = { ...mr, frontWeightBias: .65 };
@@ -159,9 +169,10 @@ export function runVehicleLayoutSelfTest() {
     const samples = sampleWheelContacts(slope, pose, dynamics.config);
     for (const id of WHEEL_IDS) {
       const local = wheelLocalPosition(car.visualConfig.dimensions, id);
-      near(pose.wheels[id].worldPosition.x, 12 + local.z, `${car.id}/${id}: visual wheel x matches physics`);
-      near(pose.wheels[id].worldPosition.z, -8 - local.x, `${car.id}/${id}: visual wheel z matches physics`);
-      near(samples[id].x, pose.wheels[id].worldPosition.x, `${car.id}/${id}: terrain sample x`);
+      const physicalLocal=wheelLocalPosition(dynamics.config,id);
+      near(local.x,physicalLocal.x,car.id+'/'+id+': visual lateral mount matches physics');
+      near(local.z,physicalLocal.z,car.id+'/'+id+': visual longitudinal mount matches physics');
+      assert(chassisGeometryValid(pose,dynamics.config),car.id+': wheel centres follow full chassis/strut pose');      near(samples[id].x, pose.wheels[id].worldPosition.x, `${car.id}/${id}: terrain sample x`);
       near(samples[id].z, pose.wheels[id].worldPosition.z, `${car.id}/${id}: terrain sample z`);
       near(samples[id].height, .06 * samples[id].x + .08 * samples[id].z, `${car.id}/${id}: slope at real wheel`);
     }
@@ -197,11 +208,11 @@ export function runVehicleLayoutSelfTest() {
   const awd = createVehiclePhysicsConfig('executive-lwb-2t');
   const awdCar = new VehicleDynamics(awd);
   awdCar.cycleDriveMode();
-  near(awd.awd!.accelerationRearTorqueSplit!, awd.driveModes!.SPORT!.accelerationRearTorqueSplit!, 'AWD mode split applied');
+  near(awdCar.driverAssists.calibration.drivetrain.accelerationRearRatio, awd.driveModes!.SPORT!.accelerationRearTorqueSplit!, 'AWD mode split applied');
   awd.driveModes = { ...awd.driveModes, NORMAL: { ...awd.driveModes!.NORMAL!, accelerationRearTorqueSplit: undefined } };
   awdCar.cycleDriveMode();
   const previousSplit = awd.awd!.accelerationRearTorqueSplit!;
   awdCar.cycleDriveMode();
-  near(awd.awd!.accelerationRearTorqueSplit!, previousSplit, 'omitted AWD mode split preserves current calibration');
+  near(awdCar.driverAssists.calibration.drivetrain.accelerationRearRatio, previousSplit, 'omitted AWD mode split restores the configured base calibration');
   return { assertions, front, rear, accelerated };
 }

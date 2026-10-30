@@ -1,0 +1,1437 @@
+{
+  "cluster": "regional:v2:airport-north",
+  "plans": [],
+  "attempts": [],
+  "after": [
+    {
+      "id": "regional:v2:airport-north:S-to-W-loop",
+      "cluster": "regional:v2:airport-north",
+      "length": 434.56105510488226,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:S-to-W-loop:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:S-to-W-loop:deceleration",
+            "regional:S18:out:13:revision194:lane3305",
+            "regional:S18:out:13:revision194",
+            "regional:S18:out:13:revision156",
+            "regional:S18:out:13",
+            "regional:S18:out:14",
+            "regional:S18:out:12:revision162",
+            "regional:S18:out:14:revision176",
+            "regional:S18:out:12",
+            "regional:S18:out:14:revision176:lane3325",
+            "regional:S18:out:11",
+            "regional:S18:out:15",
+            "regional:v2:airport-north:E-to-N-right:acceleration",
+            "regional:S18:out:10:upgrade252:lane408",
+            "regional:S18:out:10:upgrade252",
+            "regional:airport-exit:on:1:acceleration"
+          ],
+          "sharedLength": 24,
+          "maxSharedDeltaY": 0.0014404096589615278,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1189000792852082,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:S-to-W-loop:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:S-to-W-loop:acceleration",
+            "regional:v2:G42:in:20:revision158",
+            "regional:v2:G42:in:20:revision158:lane3309",
+            "regional:v2:G42:in:20",
+            "regional:v2:G42:in:20:revision158:revision168",
+            "regional:v2:G42:in:19:revision174",
+            "regional:v2:G42:in:20:revision158:revision168:revision188",
+            "regional:v2:G42:in:19:lane3321",
+            "regional:v2:G42:in:21",
+            "regional:v2:G42:in:19",
+            "regional:v2:G42:in:22",
+            "regional:v2:G42:in:18",
+            "regional:v2:airport-north:E-to-N-right:deceleration",
+            "regional:v2:G42:in:23",
+            "regional:v2:G42:in:23:lane3277",
+            "regional:v2:westgate:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 24,
+          "maxSharedDeltaY": 0.001369659740653617,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1257597865314624,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0521231965087396,
+        "gradeBreaks": [],
+        "minRadius": 66.52747614186573,
+        "shortSegments": 10
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:S-to-E-right",
+      "cluster": "regional:v2:airport-north",
+      "length": 996.9741438830061,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S18:out:12",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S18:out:12",
+            "regional:S18:out:11",
+            "regional:S18:out:12:revision162",
+            "regional:S18:out:10:upgrade252:lane408",
+            "regional:S18:out:13",
+            "regional:S18:out:10:upgrade252",
+            "regional:airport-exit:on:1:acceleration",
+            "regional:S18:out:13:revision194",
+            "regional:S18:out:13:revision194:lane3305",
+            "regional:v2:airport-north:S-to-W-loop:deceleration",
+            "regional:S18:out:13:revision156",
+            "regional:S18:out:14",
+            "regional:S18:out:14:revision176",
+            "regional:S18:out:14:revision176:lane3325",
+            "regional:S18:out:15",
+            "regional:v2:airport-north:E-to-N-right:acceleration"
+          ],
+          "sharedLength": 91,
+          "maxSharedDeltaY": 0.0011376412055632557,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.836316177281365,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:S-to-E-right:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:S-to-E-right:acceleration",
+            "regional:v2:G42:out:7:revision164",
+            "regional:v2:G42:out:7:revision164:lane3313",
+            "regional:v2:G42:out:7",
+            "regional:v2:G42:out:8",
+            "regional:v2:G42:out:6:revision182:revision192",
+            "regional:v2:G42:out:9",
+            "regional:v2:G42:out:6:revision182:lane3329",
+            "regional:v2:G42:out:10",
+            "regional:v2:G42:out:6:revision182",
+            "regional:v2:airport-north:N-to-E-loop:acceleration",
+            "regional:v2:G42:out:11",
+            "regional:v2:G42:out:6:revision198",
+            "regional:v2:G42:out:12",
+            "regional:v2:G42:out:6:lane3333",
+            "regional:v2:G42:out:13",
+            "regional:v2:G42:out:6",
+            "regional:v2:G42:out:14",
+            "regional:v2:G42:out:5",
+            "regional:v2:airport-north:W-to-S-right:deceleration",
+            "regional:v2:G42:out:15",
+            "regional:v2:G42:out:4:revision116:lane3269",
+            "regional:v2:G42:out:16",
+            "regional:v2:G42:out:4:revision116",
+            "regional:v2:westgate:S-to-E-right:acceleration",
+            "regional:v2:G42:out:16:lane3361",
+            "regional:v2:northwest:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 83,
+          "maxSharedDeltaY": 0.0017328120641550981,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.04552661470983064,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.04767911006930798,
+        "gradeBreaks": [],
+        "minRadius": 170.22196815902157,
+        "shortSegments": 5
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:E-to-S-loop",
+      "cluster": "regional:v2:airport-north",
+      "length": 438.4572200145874,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:G42:in:20:revision158:lane3309",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:G42:in:20:revision158:lane3309",
+            "regional:v2:G42:in:20:revision158:revision168",
+            "regional:v2:G42:in:20:revision158",
+            "regional:v2:airport-north:S-to-W-loop:acceleration",
+            "regional:v2:G42:in:20:revision158:revision168:revision188",
+            "regional:v2:G42:in:20",
+            "regional:v2:G42:in:21",
+            "regional:v2:G42:in:19:revision174",
+            "regional:v2:G42:in:22",
+            "regional:v2:G42:in:19:lane3321",
+            "regional:v2:G42:in:23",
+            "regional:v2:G42:in:19",
+            "regional:v2:G42:in:23:lane3277",
+            "regional:v2:westgate:E-to-N-right:deceleration",
+            "regional:v2:G42:in:18",
+            "regional:v2:airport-north:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 38,
+          "maxSharedDeltaY": 0.0031333730559026662,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 4.120182783955526,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:E-to-S-loop:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:E-to-S-loop:acceleration",
+            "regional:S18:in:2:revision170",
+            "regional:S18:in:2:revision170:lane3317",
+            "regional:S18:in:2",
+            "regional:S18:in:2:revision170:revision180",
+            "regional:S18:in:1:revision186",
+            "regional:S18:in:3",
+            "regional:S18:in:1",
+            "regional:S18:in:3:revision200",
+            "regional:S18:in:0",
+            "regional:S18:in:3:revision200:lane3337",
+            "regional:S18:in:4",
+            "regional:v2:airport-north:W-to-S-right:acceleration",
+            "regional:S18:in:5",
+            "regional:S18:in:5:upgrade258"
+          ],
+          "sharedLength": 24,
+          "maxSharedDeltaY": 0.0014404096589579751,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.118900079265663,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.05702897354446894,
+        "gradeBreaks": [],
+        "minRadius": 62.43170034065589,
+        "shortSegments": 6
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:E-to-N-right",
+      "cluster": "regional:v2:airport-north",
+      "length": 996.2473399415459,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:E-to-N-right:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:E-to-N-right:deceleration",
+            "regional:v2:G42:in:19:lane3321",
+            "regional:v2:G42:in:19",
+            "regional:v2:G42:in:19:revision174",
+            "regional:v2:G42:in:18",
+            "regional:v2:G42:in:20",
+            "regional:v2:G42:in:20:revision158",
+            "regional:v2:G42:in:20:revision158:lane3309",
+            "regional:v2:G42:in:20:revision158:revision168",
+            "regional:v2:airport-north:S-to-W-loop:acceleration",
+            "regional:v2:G42:in:20:revision158:revision168:revision188",
+            "regional:v2:G42:in:21",
+            "regional:v2:G42:in:22",
+            "regional:v2:G42:in:23",
+            "regional:v2:G42:in:23:lane3277",
+            "regional:v2:westgate:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 83,
+          "maxSharedDeltaY": 0.0017328120641622036,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.04552661469381957,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:E-to-N-right:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:E-to-N-right:acceleration",
+            "regional:S18:out:14:revision176",
+            "regional:S18:out:14:revision176:lane3325",
+            "regional:S18:out:14",
+            "regional:S18:out:15",
+            "regional:S18:out:13:revision156",
+            "regional:S18:out:13:revision194:lane3305",
+            "regional:S18:out:13:revision194",
+            "regional:S18:out:13",
+            "regional:v2:airport-north:S-to-W-loop:deceleration",
+            "regional:S18:out:12:revision162",
+            "regional:S18:out:12",
+            "regional:S18:out:11",
+            "regional:S18:out:10:upgrade252:lane408",
+            "regional:S18:out:10:upgrade252",
+            "regional:airport-exit:on:1:acceleration"
+          ],
+          "sharedLength": 86,
+          "maxSharedDeltaY": 0.0004326385900945695,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 1.8189894035458565e-12,
+          "deltaY": 0,
+          "tangentDegrees": 0.008479212474546971,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.05920761850953469,
+        "gradeBreaks": [],
+        "minRadius": 129.23295605093585,
+        "shortSegments": 3
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:N-to-E-loop",
+      "cluster": "regional:v2:airport-north",
+      "length": 439.5208430858434,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S18:in:2:revision170:lane3317",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S18:in:2:revision170:lane3317",
+            "regional:S18:in:2:revision170:revision180",
+            "regional:S18:in:2:revision170",
+            "regional:v2:airport-north:E-to-S-loop:acceleration",
+            "regional:S18:in:3",
+            "regional:S18:in:2",
+            "regional:S18:in:3:revision200",
+            "regional:S18:in:1:revision186",
+            "regional:S18:in:3:revision200:lane3337",
+            "regional:S18:in:1",
+            "regional:S18:in:4",
+            "regional:v2:airport-north:W-to-S-right:acceleration",
+            "regional:S18:in:0",
+            "regional:S18:in:5",
+            "regional:S18:in:5:upgrade258"
+          ],
+          "sharedLength": 40,
+          "maxSharedDeltaY": 0.0025821986263814267,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 4.950791186860202,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:N-to-E-loop:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:N-to-E-loop:acceleration",
+            "regional:v2:G42:out:6:revision182",
+            "regional:v2:G42:out:6:revision182:lane3329",
+            "regional:v2:G42:out:6:revision198",
+            "regional:v2:G42:out:6:revision182:revision192",
+            "regional:v2:G42:out:6:lane3333",
+            "regional:v2:G42:out:7",
+            "regional:v2:G42:out:6",
+            "regional:v2:G42:out:7:revision164",
+            "regional:v2:G42:out:5",
+            "regional:v2:airport-north:W-to-S-right:deceleration",
+            "regional:v2:G42:out:7:revision164:lane3313",
+            "regional:v2:G42:out:4:revision116:lane3269",
+            "regional:v2:G42:out:8",
+            "regional:v2:airport-north:S-to-E-right:acceleration",
+            "regional:v2:G42:out:4:revision116",
+            "regional:v2:westgate:S-to-E-right:acceleration",
+            "regional:v2:G42:out:9",
+            "regional:v2:G42:out:10",
+            "regional:v2:G42:out:11",
+            "regional:v2:G42:out:12",
+            "regional:v2:G42:out:13",
+            "regional:v2:G42:out:14",
+            "regional:v2:G42:out:15",
+            "regional:v2:G42:out:16",
+            "regional:v2:G42:out:16:lane3361",
+            "regional:v2:northwest:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 24,
+          "maxSharedDeltaY": 0.0019520536248407439,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1257597865256346,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.051985626341053554,
+        "gradeBreaks": [],
+        "minRadius": 66.5556091643374,
+        "shortSegments": 6
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:N-to-W-right",
+      "cluster": "regional:v2:airport-north",
+      "length": 997.47651910642,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S18:in:1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S18:in:1",
+            "regional:S18:in:0",
+            "regional:S18:in:1:revision186",
+            "regional:S18:in:2",
+            "regional:S18:in:2:revision170",
+            "regional:S18:in:2:revision170:lane3317",
+            "regional:S18:in:2:revision170:revision180",
+            "regional:v2:airport-north:E-to-S-loop:acceleration",
+            "regional:S18:in:3",
+            "regional:S18:in:3:revision200",
+            "regional:S18:in:3:revision200:lane3337",
+            "regional:S18:in:4",
+            "regional:v2:airport-north:W-to-S-right:acceleration",
+            "regional:S18:in:5",
+            "regional:S18:in:5:upgrade258"
+          ],
+          "sharedLength": 91,
+          "maxSharedDeltaY": 0.000670620673357547,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.836316177263871,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:G42:in:20:revision158:revision168:revision188",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:G42:in:20:revision158:revision168:revision188",
+            "regional:v2:G42:in:21",
+            "regional:v2:G42:in:20:revision158:revision168",
+            "regional:v2:G42:in:22",
+            "regional:v2:G42:in:20:revision158:lane3309",
+            "regional:v2:G42:in:23",
+            "regional:v2:G42:in:20:revision158",
+            "regional:v2:airport-north:S-to-W-loop:acceleration",
+            "regional:v2:G42:in:23:lane3277",
+            "regional:v2:westgate:E-to-N-right:deceleration",
+            "regional:v2:G42:in:20",
+            "regional:v2:G42:in:19:revision174",
+            "regional:v2:G42:in:19:lane3321",
+            "regional:v2:G42:in:19",
+            "regional:v2:G42:in:18",
+            "regional:v2:airport-north:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 87,
+          "maxSharedDeltaY": 0.0038840847301884196,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 2.842170943040401e-14,
+          "tangentDegrees": 3.010016131009962,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0589301433229027,
+        "gradeBreaks": [],
+        "minRadius": 170.22196815965447,
+        "shortSegments": 88
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:W-to-N-loop",
+      "cluster": "regional:v2:airport-north",
+      "length": 443.41700799555,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:G42:out:6:revision182:lane3329",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:G42:out:6:revision182:lane3329",
+            "regional:v2:G42:out:6:revision182:revision192",
+            "regional:v2:G42:out:6:revision182",
+            "regional:v2:airport-north:N-to-E-loop:acceleration",
+            "regional:v2:G42:out:7",
+            "regional:v2:G42:out:6:revision198",
+            "regional:v2:G42:out:7:revision164",
+            "regional:v2:G42:out:6:lane3333",
+            "regional:v2:G42:out:7:revision164:lane3313",
+            "regional:v2:G42:out:6",
+            "regional:v2:G42:out:8",
+            "regional:v2:airport-north:S-to-E-right:acceleration",
+            "regional:v2:G42:out:5",
+            "regional:v2:airport-north:W-to-S-right:deceleration",
+            "regional:v2:G42:out:9",
+            "regional:v2:G42:out:4:revision116:lane3269",
+            "regional:v2:G42:out:10",
+            "regional:v2:G42:out:4:revision116",
+            "regional:v2:westgate:S-to-E-right:acceleration",
+            "regional:v2:G42:out:11",
+            "regional:v2:G42:out:12",
+            "regional:v2:G42:out:13",
+            "regional:v2:G42:out:14",
+            "regional:v2:G42:out:15",
+            "regional:v2:G42:out:16",
+            "regional:v2:G42:out:16:lane3361",
+            "regional:v2:northwest:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 38,
+          "maxSharedDeltaY": 0.0021908641460299805,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 4.120182783955526,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S18:out:13:revision194",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S18:out:13:revision194",
+            "regional:S18:out:13",
+            "regional:S18:out:13:revision194:lane3305",
+            "regional:v2:airport-north:S-to-W-loop:deceleration",
+            "regional:S18:out:12:revision162",
+            "regional:S18:out:13:revision156",
+            "regional:S18:out:12",
+            "regional:S18:out:14",
+            "regional:S18:out:11",
+            "regional:S18:out:14:revision176",
+            "regional:S18:out:10:upgrade252:lane408",
+            "regional:S18:out:14:revision176:lane3325",
+            "regional:S18:out:10:upgrade252",
+            "regional:airport-exit:on:1:acceleration",
+            "regional:S18:out:15",
+            "regional:v2:airport-north:E-to-N-right:acceleration"
+          ],
+          "sharedLength": 40,
+          "maxSharedDeltaY": 0.002582198626377874,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 4.950791186860202,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.05389129792111273,
+        "gradeBreaks": [],
+        "minRadius": 75.33320776490547,
+        "shortSegments": 6
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:W-to-S-right",
+      "cluster": "regional:v2:airport-north",
+      "length": 996.2408809047981,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:W-to-S-right:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:W-to-S-right:deceleration",
+            "regional:v2:G42:out:6:lane3333",
+            "regional:v2:G42:out:6",
+            "regional:v2:G42:out:6:revision198",
+            "regional:v2:G42:out:5",
+            "regional:v2:G42:out:6:revision182",
+            "regional:v2:G42:out:4:revision116:lane3269",
+            "regional:v2:G42:out:6:revision182:lane3329",
+            "regional:v2:G42:out:4:revision116",
+            "regional:v2:westgate:S-to-E-right:acceleration",
+            "regional:v2:G42:out:6:revision182:revision192",
+            "regional:v2:airport-north:N-to-E-loop:acceleration",
+            "regional:v2:G42:out:7",
+            "regional:v2:G42:out:7:revision164",
+            "regional:v2:G42:out:7:revision164:lane3313",
+            "regional:v2:G42:out:8",
+            "regional:v2:airport-north:S-to-E-right:acceleration",
+            "regional:v2:G42:out:9",
+            "regional:v2:G42:out:10",
+            "regional:v2:G42:out:11",
+            "regional:v2:G42:out:12",
+            "regional:v2:G42:out:13",
+            "regional:v2:G42:out:14",
+            "regional:v2:G42:out:15",
+            "regional:v2:G42:out:16",
+            "regional:v2:G42:out:16:lane3361",
+            "regional:v2:northwest:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 83,
+          "maxSharedDeltaY": 0.0027874059498245174,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.0455266147258417,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:W-to-S-right:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:W-to-S-right:acceleration",
+            "regional:S18:in:3:revision200",
+            "regional:S18:in:3:revision200:lane3337",
+            "regional:S18:in:3",
+            "regional:S18:in:4",
+            "regional:S18:in:2:revision170:revision180",
+            "regional:S18:in:5",
+            "regional:S18:in:2:revision170:lane3317",
+            "regional:S18:in:5:upgrade258",
+            "regional:S18:in:2:revision170",
+            "regional:v2:airport-north:E-to-S-loop:acceleration",
+            "regional:S18:in:2",
+            "regional:S18:in:1:revision186",
+            "regional:S18:in:1",
+            "regional:S18:in:0"
+          ],
+          "sharedLength": 86,
+          "maxSharedDeltaY": 0.0007504407556417902,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.019125257593009808,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.05545107119859223,
+        "gradeBreaks": [],
+        "minRadius": 129.2329560505035,
+        "shortSegments": 3
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:S-to-W-loop:deceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 170.14393267303154,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S18:out:13:revision194:lane3305",
+        "decisionId": "regional:v2:airport-north:S-to-W-loop"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S18:out:13:revision194",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S18:out:13:revision194",
+            "regional:S18:out:13",
+            "regional:S18:out:13:revision194:lane3305",
+            "regional:S18:out:12:revision162",
+            "regional:S18:out:13:revision156",
+            "regional:S18:out:12",
+            "regional:S18:out:14",
+            "regional:S18:out:11",
+            "regional:S18:out:14:revision176",
+            "regional:S18:out:10:upgrade252:lane408",
+            "regional:S18:out:14:revision176:lane3325",
+            "regional:S18:out:10:upgrade252",
+            "regional:airport-exit:on:1:acceleration",
+            "regional:S18:out:15",
+            "regional:v2:airport-north:E-to-N-right:acceleration"
+          ],
+          "sharedLength": 81,
+          "maxSharedDeltaY": 0.0005121297592900476,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5472306979676304,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:S-to-W-loop",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:S-to-W-loop",
+            "regional:v2:airport-north:S-to-W-loop:acceleration",
+            "regional:v2:G42:in:20:revision158:lane3309",
+            "regional:v2:G42:in:20:revision158:revision168",
+            "regional:v2:G42:in:20:revision158",
+            "regional:v2:G42:in:20:revision158:revision168:revision188",
+            "regional:v2:G42:in:20",
+            "regional:v2:G42:in:21",
+            "regional:v2:G42:in:19:revision174",
+            "regional:v2:G42:in:22",
+            "regional:v2:G42:in:19:lane3321",
+            "regional:v2:G42:in:23",
+            "regional:v2:G42:in:19",
+            "regional:v2:G42:in:23:lane3277",
+            "regional:v2:westgate:E-to-N-right:deceleration",
+            "regional:v2:G42:in:18",
+            "regional:v2:airport-north:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00012848075876448206,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1189000792852082,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0018199862483432429,
+        "gradeBreaks": [],
+        "minRadius": 288.92856586942247,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:S-to-W-loop:acceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 177.24605144648126,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v2:G42:in:20:revision158",
+        "decisionId": "regional:v2:airport-north:S-to-W-loop"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:S-to-W-loop",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:S-to-W-loop"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00010353599117962631,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1257597865314624,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:G42:in:20:revision158:lane3309",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:G42:in:20:revision158:lane3309",
+            "regional:v2:G42:in:20:revision158:revision168",
+            "regional:v2:G42:in:20:revision158",
+            "regional:v2:G42:in:20:revision158:revision168:revision188",
+            "regional:v2:G42:in:20",
+            "regional:v2:G42:in:21",
+            "regional:v2:G42:in:19:revision174",
+            "regional:v2:G42:in:22",
+            "regional:v2:G42:in:19:lane3321",
+            "regional:v2:G42:in:23",
+            "regional:v2:G42:in:19",
+            "regional:v2:G42:in:23:lane3277",
+            "regional:v2:westgate:E-to-N-right:deceleration",
+            "regional:v2:G42:in:18",
+            "regional:v2:airport-north:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 85,
+          "maxSharedDeltaY": 0.0009324708303850571,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.40434381271787456,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0010749819673849766,
+        "gradeBreaks": [],
+        "minRadius": 464.3187949565197,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:S-to-E-right:acceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 300.1260197475815,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v2:G42:out:7:revision164",
+        "decisionId": "regional:v2:airport-north:S-to-E-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:S-to-E-right",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:S-to-E-right"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.000015384756345326878,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.04552661470983064,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:G42:out:7:revision164:lane3313",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:G42:out:7:revision164:lane3313",
+            "regional:v2:G42:out:8",
+            "regional:v2:G42:out:7:revision164",
+            "regional:v2:G42:out:9",
+            "regional:v2:G42:out:7",
+            "regional:v2:G42:out:10",
+            "regional:v2:G42:out:6:revision182:revision192",
+            "regional:v2:G42:out:11",
+            "regional:v2:G42:out:6:revision182:lane3329",
+            "regional:v2:G42:out:12",
+            "regional:v2:G42:out:6:revision182",
+            "regional:v2:airport-north:N-to-E-loop:acceleration",
+            "regional:v2:G42:out:13",
+            "regional:v2:G42:out:6:revision198",
+            "regional:v2:G42:out:14",
+            "regional:v2:G42:out:6:lane3333",
+            "regional:v2:G42:out:15",
+            "regional:v2:G42:out:6",
+            "regional:v2:G42:out:16",
+            "regional:v2:G42:out:5",
+            "regional:v2:airport-north:W-to-S-right:deceleration",
+            "regional:v2:G42:out:16:lane3361",
+            "regional:v2:northwest:E-to-N-right:deceleration",
+            "regional:v2:G42:out:4:revision116:lane3269",
+            "regional:v2:G42:out:4:revision116",
+            "regional:v2:westgate:S-to-E-right:acceleration"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0.0011588183077932968,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4106127234160968,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.00528788296560515,
+        "gradeBreaks": [],
+        "minRadius": 384.715100059938,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:E-to-S-loop:acceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 170.14393267303154,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S18:in:2:revision170",
+        "decisionId": "regional:v2:airport-north:E-to-S-loop"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:E-to-S-loop",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:E-to-S-loop"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00013097775420689572,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.118900079265663,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S18:in:2:revision170:lane3317",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S18:in:2:revision170:lane3317",
+            "regional:S18:in:2:revision170:revision180",
+            "regional:S18:in:2:revision170",
+            "regional:S18:in:3",
+            "regional:S18:in:2",
+            "regional:S18:in:3:revision200",
+            "regional:S18:in:1:revision186",
+            "regional:S18:in:3:revision200:lane3337",
+            "regional:S18:in:1",
+            "regional:S18:in:4",
+            "regional:v2:airport-north:W-to-S-right:acceleration",
+            "regional:S18:in:0",
+            "regional:S18:in:5",
+            "regional:S18:in:5:upgrade258"
+          ],
+          "sharedLength": 81,
+          "maxSharedDeltaY": 0.0005121297592900476,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5472306979889432,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0018199862483432422,
+        "gradeBreaks": [],
+        "minRadius": 289.7890556426172,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:E-to-N-right:deceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 300.1260197475797,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v2:G42:in:19:lane3321",
+        "decisionId": "regional:v2:airport-north:E-to-N-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:G42:in:19",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:G42:in:19",
+            "regional:v2:G42:in:18",
+            "regional:v2:G42:in:19:lane3321",
+            "regional:v2:G42:in:19:revision174",
+            "regional:v2:G42:in:20",
+            "regional:v2:G42:in:20:revision158",
+            "regional:v2:G42:in:20:revision158:lane3309",
+            "regional:v2:G42:in:20:revision158:revision168",
+            "regional:v2:airport-north:S-to-W-loop:acceleration",
+            "regional:v2:G42:in:20:revision158:revision168:revision188",
+            "regional:v2:G42:in:21",
+            "regional:v2:G42:in:22",
+            "regional:v2:G42:in:23",
+            "regional:v2:G42:in:23:lane3277",
+            "regional:v2:westgate:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0.0011588183077932968,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4106127234489387,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:E-to-N-right",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:E-to-N-right",
+            "regional:v2:airport-north:E-to-N-right:acceleration",
+            "regional:S18:out:14:revision176:lane3325",
+            "regional:S18:out:15",
+            "regional:S18:out:14:revision176",
+            "regional:S18:out:14",
+            "regional:S18:out:13:revision156",
+            "regional:S18:out:13:revision194:lane3305",
+            "regional:S18:out:13:revision194",
+            "regional:S18:out:13",
+            "regional:v2:airport-north:S-to-W-loop:deceleration",
+            "regional:S18:out:12:revision162",
+            "regional:S18:out:12",
+            "regional:S18:out:11",
+            "regional:S18:out:10:upgrade252:lane408",
+            "regional:S18:out:10:upgrade252",
+            "regional:airport-exit:on:1:acceleration"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.000015353690457686753,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.04552661469381957,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.005287882965604448,
+        "gradeBreaks": [],
+        "minRadius": 384.715100059938,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:E-to-N-right:acceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 146.91468668219227,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 146.68570748989296,
+        "mainRoadId": "regional:S18:out:14:revision176",
+        "decisionId": "regional:v2:airport-north:E-to-N-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:E-to-N-right",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:E-to-N-right"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 3.6076530562922926e-7,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 1.8189894035458565e-12,
+          "deltaY": 0,
+          "tangentDegrees": 0.008479212474546971,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S18:out:14:revision176:lane3325",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S18:out:14:revision176:lane3325",
+            "regional:S18:out:15",
+            "regional:S18:out:14:revision176",
+            "regional:S18:out:14",
+            "regional:S18:out:13:revision156",
+            "regional:S18:out:13:revision194:lane3305",
+            "regional:S18:out:13:revision194",
+            "regional:S18:out:13",
+            "regional:v2:airport-north:S-to-W-loop:deceleration",
+            "regional:S18:out:12:revision162",
+            "regional:S18:out:12",
+            "regional:S18:out:11",
+            "regional:S18:out:10:upgrade252:lane408",
+            "regional:S18:out:10:upgrade252",
+            "regional:airport-exit:on:1:acceleration"
+          ],
+          "sharedLength": 70,
+          "maxSharedDeltaY": 0.0002819775087772314,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5598455256504473,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0010210456179687907,
+        "gradeBreaks": [],
+        "minRadius": 295.2131394563281,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:N-to-E-loop:acceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 177.2460514464813,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v2:G42:out:6:revision182",
+        "decisionId": "regional:v2:airport-north:N-to-E-loop"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:N-to-E-loop",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:N-to-E-loop"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00014680549362822148,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1257597865256346,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:G42:out:6:revision182:lane3329",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:G42:out:6:revision182:lane3329",
+            "regional:v2:G42:out:6:revision182:revision192",
+            "regional:v2:G42:out:6:revision182",
+            "regional:v2:G42:out:7",
+            "regional:v2:G42:out:6:revision198",
+            "regional:v2:G42:out:7:revision164",
+            "regional:v2:G42:out:6:lane3333",
+            "regional:v2:G42:out:7:revision164:lane3313",
+            "regional:v2:G42:out:6",
+            "regional:v2:G42:out:8",
+            "regional:v2:airport-north:S-to-E-right:acceleration",
+            "regional:v2:G42:out:5",
+            "regional:v2:airport-north:W-to-S-right:deceleration",
+            "regional:v2:G42:out:9",
+            "regional:v2:G42:out:4:revision116:lane3269",
+            "regional:v2:G42:out:10",
+            "regional:v2:G42:out:4:revision116",
+            "regional:v2:westgate:S-to-E-right:acceleration",
+            "regional:v2:G42:out:11",
+            "regional:v2:G42:out:12",
+            "regional:v2:G42:out:13",
+            "regional:v2:G42:out:14",
+            "regional:v2:G42:out:15",
+            "regional:v2:G42:out:16",
+            "regional:v2:G42:out:16:lane3361",
+            "regional:v2:northwest:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 85,
+          "maxSharedDeltaY": 0.00035434386341393065,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4043438127133677,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0017438456680949953,
+        "gradeBreaks": [],
+        "minRadius": 464.3187949486796,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:W-to-S-right:deceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 281.72606296842815,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v2:G42:out:6:lane3333",
+        "decisionId": "regional:v2:airport-north:W-to-S-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:G42:out:6",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:G42:out:6",
+            "regional:v2:G42:out:5",
+            "regional:v2:G42:out:6:lane3333",
+            "regional:v2:G42:out:4:revision116:lane3269",
+            "regional:v2:G42:out:6:revision198",
+            "regional:v2:G42:out:4:revision116",
+            "regional:v2:westgate:S-to-E-right:acceleration",
+            "regional:v2:G42:out:6:revision182",
+            "regional:v2:G42:out:6:revision182:lane3329",
+            "regional:v2:G42:out:6:revision182:revision192",
+            "regional:v2:airport-north:N-to-E-loop:acceleration",
+            "regional:v2:G42:out:7",
+            "regional:v2:G42:out:7:revision164",
+            "regional:v2:G42:out:7:revision164:lane3313",
+            "regional:v2:G42:out:8",
+            "regional:v2:airport-north:S-to-E-right:acceleration",
+            "regional:v2:G42:out:9",
+            "regional:v2:G42:out:10",
+            "regional:v2:G42:out:11",
+            "regional:v2:G42:out:12",
+            "regional:v2:G42:out:13",
+            "regional:v2:G42:out:14",
+            "regional:v2:G42:out:15",
+            "regional:v2:G42:out:16",
+            "regional:v2:G42:out:16:lane3361",
+            "regional:v2:northwest:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 135,
+          "maxSharedDeltaY": 0.0021067925461508707,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.3992566540562799,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v2:airport-north:W-to-S-right",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v2:airport-north:W-to-S-right",
+            "regional:v2:airport-north:W-to-S-right:acceleration",
+            "regional:S18:in:3:revision200:lane3337",
+            "regional:S18:in:4",
+            "regional:S18:in:3:revision200",
+            "regional:S18:in:5",
+            "regional:S18:in:3",
+            "regional:S18:in:5:upgrade258",
+            "regional:S18:in:2:revision170:revision180",
+            "regional:S18:in:2:revision170:lane3317",
+            "regional:S18:in:2:revision170",
+            "regional:v2:airport-north:E-to-S-loop:acceleration",
+            "regional:S18:in:2",
+            "regional:S18:in:1:revision186",
+            "regional:S18:in:1",
+            "regional:S18:in:0"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00002552665389998765,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.0455266147258417,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.010072185897107141,
+        "gradeBreaks": [],
+        "minRadius": 418.6395998959586,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:v2:airport-north:W-to-S-right:acceleration",
+      "cluster": "regional:v2:airport-north",
+      "length": 121.87574033473659,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 121.59999999999928,
+        "mainRoadId": "regional:S18:in:3:revision200",
+        "decisionId": "regional:v2:airport-north:W-to-S-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v2:airport-north:W-to-S-right",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v2:airport-north:W-to-S-right"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.0000016063333632132526,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.019125257593009808,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S18:in:3:revision200:lane3337",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S18:in:3:revision200:lane3337",
+            "regional:S18:in:4",
+            "regional:S18:in:3:revision200",
+            "regional:S18:in:5",
+            "regional:S18:in:3",
+            "regional:S18:in:5:upgrade258",
+            "regional:S18:in:2:revision170:revision180",
+            "regional:S18:in:2:revision170:lane3317",
+            "regional:S18:in:2:revision170",
+            "regional:v2:airport-north:E-to-S-loop:acceleration",
+            "regional:S18:in:2",
+            "regional:S18:in:1:revision186",
+            "regional:S18:in:1",
+            "regional:S18:in:0"
+          ],
+          "sharedLength": 58,
+          "maxSharedDeltaY": 0.0007214248462936723,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.7736400525718764,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0020268311727608276,
+        "gradeBreaks": [],
+        "minRadius": 238.50533591992823,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    }
+  ]
+}

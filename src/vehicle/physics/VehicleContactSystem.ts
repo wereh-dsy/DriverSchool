@@ -25,6 +25,19 @@ export class VehicleContactSystem {
   private verticalContactBuffer = createWheelContactBuffer();
   public readonly supportContinuity = new WheelSupportContinuity();
   private wheelRadius = 0;
+  private colliderRevision = 0;
+  private preparePhysics(x:number,z:number,yaw:number,speed:number,lateral:number,dt:number): void {
+    if(!this.ground.preparePhysicsStep) return;
+    const sin=Math.sin(yaw),cos=Math.cos(yaw);
+    this.ground.preparePhysicsStep(x,z,-sin*speed+cos*lateral,-cos*speed-sin*lateral,dt,
+      Math.hypot(this.collisionDimensions.width,this.collisionDimensions.length));
+    const revision=this.ground.colliderRevision??0;
+    if(revision!==this.colliderRevision) {
+      const started=performance.now();
+      this.collisionSystem.setColliders(this.ground.colliders,true);this.colliderRevision=revision;
+      performance.measure('physics:contactIndex',{start:started,end:performance.now()});
+    }
+  }
   private readonly verticalPose = { x: 0, z: 0, yaw: 0, wheels: {
     frontLeft: { worldPosition: { x: 0, z: 0 } }, frontRight: { worldPosition: { x: 0, z: 0 } },
     rearLeft: { worldPosition: { x: 0, z: 0 } }, rearRight: { worldPosition: { x: 0, z: 0 } } } };
@@ -62,6 +75,7 @@ export class VehicleContactSystem {
 
   public constructor(private ground: DrivingGround, private collisionDimensions: CollisionDimensions) {
     this.collisionSystem = new VehicleCollisionSystem(ground.colliders);
+    this.colliderRevision=ground.colliderRevision??0;
   }
 
   public setCollisionDimensions(dimensions: CollisionDimensions): void {
@@ -72,6 +86,7 @@ export class VehicleContactSystem {
   public setGround(ground: DrivingGround): void {
     this.ground = ground;
     this.collisionSystem.setColliders(ground.colliders);
+    this.colliderRevision=ground.colliderRevision??0;
     this.reset();
   }
 
@@ -88,6 +103,7 @@ export class VehicleContactSystem {
   /** Spawn/reset contact initialization belongs to physics, never the renderer. */
   public synchronize<P extends Powertrain>(dynamics: VehicleDynamics<P>, reseed = true): VehicleSnapshotFor<P> {
     const before = dynamics.getSnapshot();
+    this.preparePhysics(before.x,before.z,before.yaw,before.speed,before.lateralVelocity,0);
     const anchored = !reseed && this.sampledPose !== null;
     if (anchored) this.supportContinuity.prepare(dynamics.suspension.getVerticalSnapshot(), dynamics.config.wheelRadius);
     this.ground.setSurfaceReferenceHeight?.(this.sampledPose === null ? this.ground.spawnPose.position.y - 0.04 : before.chassis.chassisY);
@@ -113,6 +129,7 @@ export class VehicleContactSystem {
       dynamics.diagnosticRecoveryObserver = recorder.recording ? recorder.observeRecovery : undefined;
     }
     let before = dynamics.getSnapshot();
+    this.preparePhysics(before.x,before.z,before.yaw,before.speed,before.lateralVelocity,dt);
     if (this.sampledPose === null) before = this.synchronize(dynamics);
     // One epoch includes cache refresh, all adaptive samples and collision
     // re-sampling. A refresh must not clear an earlier rejection in this tick.

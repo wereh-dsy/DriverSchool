@@ -290,11 +290,11 @@ export class VehicleCollisionSystem {
     return this.staticColliders;
   }
 
-  public setColliders(colliders: readonly StaticCollider[]): void {
+  public setColliders(colliders: readonly StaticCollider[], preserveContactClock = false): void {
     this.staticColliders = colliders;
     this.cells.clear();
     this.railContinuations.clear();
-    this.reset();
+    if (!preserveContactClock) this.reset();
     for (const collider of colliders) {
       const bounds = boundsOf(collider);
       for (let x = Math.floor(bounds.minX / this.cellSize); x <= Math.floor(bounds.maxX / this.cellSize); x += 1) {

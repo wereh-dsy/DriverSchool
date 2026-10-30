@@ -253,6 +253,7 @@ export function cloneVehiclePhysicsConfig(
     awd: config.awd === undefined ? undefined : { ...config.awd },
     engine: {
       ...config.engine,
+      thermal: config.engine.thermal && { ...config.engine.thermal },
       firingCharacter: config.engine.firingCharacter === undefined ? undefined : { ...config.engine.firingCharacter },
       startupCharacter: config.engine.startupCharacter === undefined ? undefined : { ...config.engine.startupCharacter },
       ignitionSequence: config.engine.ignitionSequence === undefined ? undefined : { ...config.engine.ignitionSequence },
@@ -268,6 +269,7 @@ export function cloneVehiclePhysicsConfig(
     },
     transmission: {
       ...config.transmission,
+      lst: config.transmission.lst && structuredClone(config.transmission.lst),
       drivetrainLash: config.transmission.drivetrainLash === undefined ? undefined : { ...config.transmission.drivetrainLash },
       gearRatios: { ...config.transmission.gearRatios },
       automatic: config.transmission.automatic === undefined ? undefined : {
@@ -298,7 +300,8 @@ export function cloneVehiclePhysicsConfig(
     autoClutch: { ...config.autoClutch },
     brakes: { ...config.brakes },
     steering: { ...config.steering, returnProfile: config.steering.returnProfile === undefined ? undefined : { ...config.steering.returnProfile } },
-    aero: { ...config.aero },
+    aero: { ...config.aero, activeSpoiler: config.aero.activeSpoiler && { ...config.aero.activeSpoiler },
+      activeAero: config.aero.activeAero && structuredClone(config.aero.activeAero) },
     tires: { ...config.tires,
       verticalCompliance: config.tires.verticalCompliance && { ...config.tires.verticalCompliance },
       thermalPressureFront: config.tires.thermalPressureFront && { ...config.tires.thermalPressureFront },

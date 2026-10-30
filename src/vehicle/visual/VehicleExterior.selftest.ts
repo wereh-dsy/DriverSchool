@@ -60,7 +60,7 @@ const testProfile = (config: VehicleVisualConfig): VehicleExteriorProfileSelfTes
     `${config.body.profile} body shell needs enough longitudinal sections`,
   );
   assert(meshes.length >= 30, `${config.body.profile} exterior is missing modeled parts`);
-  assert(categorized('glass').length === 6, `${config.body.profile} needs windshield, rear glass and four side panes`);
+  assert(categorized('glass').length === 8, `${config.body.profile} needs windshield, rear glass, four side panes and two fixed quarter panes`);
   assert(categorized('pillar').length >= 6, `${config.body.profile} needs A/B/C pillars`);
   assert(categorized('wheel-arch').length === 4, `${config.body.profile} needs four wheel-arch flares`);
   assert(
@@ -70,22 +70,36 @@ const testProfile = (config: VehicleVisualConfig): VehicleExteriorProfileSelfTes
   assert(categorized('bumper').length === 2, `${config.body.profile} needs two bumper fascias`);
   assert(named('hood').length + named('bonnet').length >= 1, `${config.body.profile} needs a bonnet`);
   assert(named('roof outer shell').length === 1, `${config.body.profile} needs a shaped roof`);
-  assert(categorized('front-fender').length === 2, `${config.body.profile} needs both front fenders`);
-  assert(categorized('rear-quarter').length === 2, `${config.body.profile} needs both rear quarter/tail corners`);
+  // Fender, doors and rear quarter now share each continuous side skin, so
+  // validate their real station coverage instead of requiring overlay meshes.
+  const flanks=categorized('main-shell').filter(mesh=>mesh.geometry.getAttribute('position').count>100);
+  assert(flanks.length===2,`${config.body.profile} needs two independently shaped continuous flanks`);
+  for(const flank of flanks) {
+    const p=flank.geometry.getAttribute('position');
+    const front:number[]=[],rear:number[]=[];
+    for(let i=0;i<p.count;i++){if(p.getZ(i)<-config.wheelBase/2)front.push(Math.abs(p.getX(i)));if(p.getZ(i)>config.wheelBase/2)rear.push(Math.abs(p.getX(i)));}
+    assert(front.length>30&&Math.max(...front)-Math.min(...front)>.08,`${flank.name}: front fender has multiple shaped transverse stations`);
+    assert(rear.length>30&&Math.max(...rear)-Math.min(...rear)>.08,`${flank.name}: rear quarter has multiple shaped transverse stations`);
+  }
   assert(categorized('sill').length === 2, `${config.body.profile} needs both side sills`);
   assert(meshes.every((mesh) => mesh.layers.mask === 1 << VEHICLE_RENDER_LAYERS.EXTERIOR),
     `${config.body.profile} exterior meshes must remain available to real mirror cameras`);
 
   if (config.body.profile === 'sedan') {
     assert(named('boot lid').length === 1, 'sedan needs a distinct boot lid');
-    assert(named('door shut line').length === 4, 'sedan needs visible four-door panel breaks');
+    assert(root.userData.exteriorDetailRegions.filter((name:string)=>name.includes('door shut line')).length===4,
+      'sedan atlas needs four-door panel breaks');
+    assert(flanks.every(mesh=>(mesh.material as THREE.MeshStandardMaterial).map?.image.width===1024),
+      'panel-break artwork must be mapped to both sculpted side skins');
+    assert(flanks.every(mesh=>(mesh.material as THREE.MeshStandardMaterial).color.equals(new THREE.Color(config.body.color))),
+      'white-backed detail atlas must retain the configured paint colour');
     assert(named('chrome framed grille').length === 1, 'sedan grille identity is missing');
-    assert(categorized('door').length === 4, 'sedan needs four actual shaped door skins');
+    assert(named('door handle').length===4,'sedan needs four handles over its continuously sculpted door skins');
     assert(named('rear door side window').length === 2, 'sedan needs visible rear door glass');
   } else {
     assert(named('power-dome bonnet').length === 1, 'sports coupe needs its power-dome bonnet');
     assert(named('fastback roof').length === 1, 'sports coupe needs a fastback roof');
-    assert(categorized('intake').length === 2, 'sports coupe needs brake intakes');
+    assert(named('brake intake').length === 2, 'sports coupe needs two distinct brake intakes');
     assert(named('diffuser').length === 1, 'sports coupe needs a rear diffuser');
     assert(categorized('exhaust').length === 2, 'sports coupe needs twin exhaust outlets');
   }

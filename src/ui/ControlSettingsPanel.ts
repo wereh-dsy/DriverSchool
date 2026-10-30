@@ -104,7 +104,7 @@ export class ControlSettingsPanel {
         aria-label="车辆设置" aria-expanded="false"><span>设置</span><kbd>F3</kbd></button>
       <section class="vehicle-settings-panel" data-settings-panel hidden aria-label="车辆与控制设置">
         <header>
-          <div><small>DRIVER SETUP</small><strong>驾驶设置</strong><p>调整车辆、环境与操作偏好</p></div>
+          <div><strong>驾驶设置</strong></div>
           <button type="button" class="settings-close" data-settings-close aria-label="关闭设置">×</button>
         </header>
         <nav class="settings-tabs" role="tablist" aria-label="设置分类">
@@ -116,7 +116,7 @@ export class ControlSettingsPanel {
         <div class="settings-scroll">
           <div id="settings-page-vehicle" class="settings-page" data-settings-page="vehicle" role="tabpanel" aria-labelledby="settings-tab-vehicle" tabindex="0">
             <section class="settings-group">
-              <div class="settings-group-title"><span>训练车辆</span><small>切换后以新车回到当前场地起点</small></div>
+              <div class="settings-group-title"><span>车辆</span></div>
               <details class="settings-catalog">
                 <summary><span data-current-vehicle>选择车辆</span><small>切换车型</small></summary>
                 <div class="map-selection-list" data-vehicle-buttons></div>
@@ -143,7 +143,7 @@ export class ControlSettingsPanel {
               </div>
             </section>
             <section class="settings-group">
-              <div class="settings-group-title"><span>驾驶辅助</span><small>独立开关 · 机械手刹不受 ABS 控制</small></div>
+              <div class="settings-group-title"><span>驾驶辅助</span></div>
               <div class="settings-segments settings-aids">
                 <button type="button" data-aid="absEnabled">ABS: ON</button>
                 <button type="button" data-aid="tractionControlEnabled">TCS: ON</button>
@@ -177,17 +177,15 @@ export class ControlSettingsPanel {
                 <button type="button" data-mirror-yaw="1" data-mirror-pitch="0" aria-label="镜面向右">→</button>
                 <button type="button" data-mirror-yaw="0" data-mirror-pitch="-1" aria-label="镜面向下">↓</button>
               </div>
-              <p class="settings-note">调节左镜时，右上预览会临时切换到左镜；关闭面板后恢复右镜。</p>
             </section>
           </div>
           <div id="settings-page-world" class="settings-page" data-settings-page="world" role="tabpanel" aria-labelledby="settings-tab-world" tabindex="0" hidden>
             <section class="settings-group">
               <div class="settings-group-title"><span>界面显示</span><small><kbd>F1</kbd> 快速切换</small></div>
               <label class="settings-switch"><span>沉浸模式</span><input type="checkbox" data-immersive-mode aria-label="沉浸模式"></label>
-              <p class="settings-note">隐藏全部驾驶界面叠加信息与实验可视化，保留车内仪表、实体后视镜和车载屏幕。按 F1 恢复界面；F3 仍可打开设置。</p>
             </section>
             <section class="settings-group">
-              <div class="settings-group-title"><span>训练场地</span><small>切换后车辆回到该场地起点</small></div>
+              <div class="settings-group-title"><span>场地</span></div>
               <details class="settings-catalog">
                 <summary><span data-current-map>选择场地</span><small>切换场地</small></summary>
                 <div class="map-selection-list" data-map-buttons></div>
@@ -243,7 +241,7 @@ export class ControlSettingsPanel {
           </div>
           <div id="settings-page-controls" class="settings-page" data-settings-page="controls" role="tabpanel" aria-labelledby="settings-tab-controls" tabindex="0" hidden>
             <section class="settings-group">
-              <div class="settings-group-title"><span>标准手柄</span><small>统一车辆输入</small></div>
+              <div class="settings-group-title"><span>手柄</span></div>
               <p class="settings-note">左摇杆：方向 · RT/LT：油门/制动<br>RB/LB：MT 升/降挡；AT/DCT/CVT 踩住 LT 后按 P→R→N→D 前后选挡<br>十字键 ←/→：转向灯 · ↑ 短按：关→示宽→近光→远光 · ↑ 长按：雾灯 OFF→前→前后 · ↓：双闪<br>A：驻车制动 · X：GT/自动挡定速巡航（键盘 V） · Y：Lane Assist OFF→LDW→LKA→LCC · B：驾驶模式 ECO→NORMAL→SPORT（键盘 T，支持车型）<br>L3 按住：闪远光 · R3：喇叭 · Start：点火/熄火<br>右摇杆：观察；键盘 M 进入手动离合后，右摇杆上下控制离合变化速度。</p>
               <label class="settings-switch"><span>手柄震动</span><input type="checkbox" data-vibration aria-label="手柄震动"></label>
             </section>
@@ -260,18 +258,17 @@ export class ControlSettingsPanel {
               <label class="settings-switch"><span>启用车辆物理黑匣子</span><input type="checkbox" data-black-box aria-label="车辆物理黑匣子"></label>
               <p class="settings-note" data-black-box-status role="status">OFF</p>
               <button type="button" data-black-box-save disabled>保存当前黑匣子</button>
-              <p class="settings-note">默认关闭。开启后按 F11 或点击保存，继续记录约 1.5 秒后下载事故 JSON。</p>
+              <p class="settings-note">F11 保存；包含触发后约 1.5 秒的记录。</p>
             </section>
             <section class="settings-group">
-              <div class="settings-group-title"><span>实验功能</span><small>按需开启</small></div>
+              <div class="settings-group-title"><span>实验功能</span></div>
               <label class="settings-switch"><span>轨迹预测</span><input type="checkbox" data-trajectory-prediction aria-label="轨迹预测"></label>
-              <p class="settings-note">按当前转向、运动与加减速趋势外推未来 2 秒。单条加粗轨迹由青色经黄色渐变至橙色，表示由近及远的预测时间。默认关闭；不预测碰撞或未来操作。</p>
               <label class="settings-switch"><span>百公里加速测试</span><input type="checkbox" data-acceleration-test aria-label="百公里加速测试"></label>
-              <p class="settings-note">停稳后开启，下次踩油门开始计时。面板可选择 0–100 或继续测到 200 km/h，同时记录本轮能耗和峰值纵向加速度；200 模式保留独立的 0–100 分段。</p>
+              <p class="settings-note">停稳后开启，踩油门开始计时。</p>
             </section>
           </div>
         </div>
-        <footer class="settings-footer"><span>调整即时生效</span><span><kbd>F3</kbd> / <kbd>Esc</kbd> 关闭</span></footer>
+        <footer class="settings-footer"><span><kbd>F3</kbd> / <kbd>Esc</kbd></span></footer>
       </section>`;
     host.append(shell);
 
@@ -443,6 +440,19 @@ export class ControlSettingsPanel {
     window.addEventListener('keydown', this.onWindowKeyDown, true);
   }
 
+  public openSection(section: 'vehicle' | 'world' | 'controls'): void {
+    this.selectSettingsTab(this.require<HTMLButtonElement>(this.panel, `[data-settings-tab="${section}"]`));
+    this.setVisible(true);
+  }
+
+  /** Before a drive exists, preferences are available but live vehicle commands are not. */
+  public setSessionAvailable(available: boolean): void {
+    this.panel.querySelector<HTMLButtonElement>('[data-lcc-toggle]')!.disabled = !available;
+    for (const selector of ['[data-fuel-group]', '[data-battery-group]', '[data-selector-group]', '[data-mirror-value]', '[data-trip-summary]', '[data-weather]', '[data-trajectory-prediction]']) {
+      this.panel.querySelector(selector)?.closest<HTMLElement>('.settings-group')?.toggleAttribute('hidden', !available);
+    }
+  }
+
   public get isVisible(): boolean {
     return this.visible;
   }
@@ -539,7 +549,7 @@ export class ControlSettingsPanel {
       const button = document.createElement('button');
       button.type = 'button';
       button.dataset.mapId = option.id;
-      button.innerHTML = `<strong>${this.escapeHtml(option.label)}</strong><small>${this.escapeHtml(option.description)}</small>`;
+      button.innerHTML = `<strong>${this.escapeHtml(option.label)}</strong>`;
       button.classList.toggle('active', option.id === activeMapId);
       button.addEventListener('click', () => this.onMapChange?.(option.id));
       this.mapButtons.set(option.id, button);
@@ -600,7 +610,7 @@ export class ControlSettingsPanel {
       const button = document.createElement('button');
       button.type = 'button';
       button.dataset.vehicleId = option.id;
-      button.innerHTML = `<strong>${this.escapeHtml(option.label)}</strong><small>${this.escapeHtml(option.description)}</small>`;
+      button.innerHTML = `<strong>${this.escapeHtml(option.label)}</strong>`;
       button.classList.toggle('active', option.id === activeVehicleId);
       button.addEventListener('click', () => this.onVehicleChange?.(option.id));
       this.vehicleButtons.set(option.id, button);

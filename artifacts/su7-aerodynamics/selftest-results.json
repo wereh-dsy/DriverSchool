@@ -1,0 +1,196 @@
+{
+  "aerodynamics": {
+    "assertions": 29,
+    "maxDeploymentStep": 0.020617818668759835,
+    "maxForceStepN": 1.2070238038705376,
+    "airbornePitchTorqueNm": 431.1000000000002
+  },
+  "comparisons": 21,
+  "candidates": [
+    {
+      "rearLiftCoefficientDelta": -0.03,
+      "rearAeroN": -231.99332837557156,
+      "dragN": -941.35946814425
+    },
+    {
+      "rearLiftCoefficientDelta": -0.045,
+      "rearAeroN": -298.9143752794067,
+      "dragN": -941.35946814425
+    },
+    {
+      "rearLiftCoefficientDelta": -0.06,
+      "rearAeroN": -365.8354221832419,
+      "dragN": -941.35946814425
+    }
+  ],
+  "su7": {
+    "assertions": 5818,
+    "zeroTo100Seconds": 3.075,
+    "topSpeedKmh": 265.91630103226845,
+    "maxRollRadians": 0.015413746798530846,
+    "shaftPowerKW": 507.9998154500765,
+    "packPowerKW": 554.1729527818256,
+    "accelerationEnergyKWh": 0.3381678311455521,
+    "triangles": 41418
+  },
+  "chassis": {
+    "assertions": 9,
+    "restLoad": 13793.595750124412,
+    "brakePitch": -0.011206232865509673,
+    "cornerRoll": 0.02187856149275498,
+    "noBarRoll": 0.034347759708294644,
+    "landingTorque": 88750.68449134906,
+    "maxAngleStep": 0.024717074286580987,
+    "ramps": [
+      {
+        "speedKmh": 80,
+        "valid": true,
+        "maximumCorrection": 0,
+        "totalCorrection": 0,
+        "integratedMotion": 2.7822892629091496,
+        "maxAcceleration": 598.2345416763189,
+        "maxForce": 449970.0271514836,
+        "maxVelocity": 8.700861834315289,
+        "maxMicrosteps": 2,
+        "safety": 0,
+        "finalY": 2.7822892629091496,
+        "finalVelocity": 7.219275619053228,
+        "finalPitchRate": -0.436055539449976
+      },
+      {
+        "speedKmh": 100,
+        "valid": true,
+        "maximumCorrection": 0,
+        "totalCorrection": 0,
+        "integratedMotion": 3.541594074276189,
+        "maxAcceleration": 552.1261720379795,
+        "maxForce": 411898.33275184984,
+        "maxVelocity": 10.753984411932091,
+        "maxMicrosteps": 3,
+        "safety": 0,
+        "finalY": 3.541594074276189,
+        "finalVelocity": 9.008964694937408,
+        "finalPitchRate": -0.3073950055779318
+      },
+      {
+        "speedKmh": 120,
+        "valid": true,
+        "maximumCorrection": 0,
+        "totalCorrection": 0,
+        "integratedMotion": 4.3254460344855845,
+        "maxAcceleration": 922.6527559716156,
+        "maxForce": 692599.1538617967,
+        "maxVelocity": 12.797306978048251,
+        "maxMicrosteps": 3,
+        "safety": 0,
+        "finalY": 4.3254460344855845,
+        "finalVelocity": 10.878591472436689,
+        "finalPitchRate": -0.2893902915443036
+      },
+      {
+        "speedKmh": 140,
+        "valid": true,
+        "maximumCorrection": 0,
+        "totalCorrection": 0,
+        "integratedMotion": 4.4366712157771895,
+        "maxAcceleration": 1076.3019032208883,
+        "maxForce": 788054.8643423878,
+        "maxVelocity": 13.479887242541542,
+        "maxMicrosteps": 4,
+        "safety": 0,
+        "finalY": 4.4366712157771895,
+        "finalVelocity": 10.498947475258054,
+        "finalPitchRate": -0.0992875758717965
+      }
+    ],
+    "convergence": {
+      "two": {
+        "speedKmh": 140,
+        "refinement": 2,
+        "valid": true,
+        "maximumCorrection": 0,
+        "totalCorrection": 0,
+        "integratedMotion": 4.413641948619749,
+        "maxAcceleration": 1074.27946356368,
+        "maxForce": 799987.3531207738,
+        "maxVelocity": 13.42180987430041,
+        "maxMicrosteps": 2,
+        "safety": 0,
+        "finalY": 4.413641948619749,
+        "finalVelocity": 10.440865986584518,
+        "finalPitchRate": -0.07553122146309675
+      },
+      "four": {
+        "speedKmh": 140,
+        "refinement": 4,
+        "valid": true,
+        "maximumCorrection": 0,
+        "totalCorrection": 0,
+        "integratedMotion": 4.436553564002024,
+        "maxAcceleration": 1078.3823807218141,
+        "maxForce": 791989.4272519556,
+        "maxVelocity": 13.479582035578407,
+        "maxMicrosteps": 4,
+        "safety": 0,
+        "finalY": 4.436553564002024,
+        "finalVelocity": 10.498640630438171,
+        "finalPitchRate": -0.09931950396422079
+      }
+    }
+  },
+  "unsprung": {
+    "assertions": 2824,
+    "maximumMomentumResidual": 6.981082378842984e-13,
+    "rest": [
+      {
+        "mass": 1745,
+        "sprungMass": 1565,
+        "y": -0.002684309497909321,
+        "fz": 17466.33585133801,
+        "maxY": 0.0038140896237183757
+      },
+      {
+        "mass": 1840,
+        "sprungMass": 1652,
+        "y": -0.0029087596423749695,
+        "fz": 18423.130066506405,
+        "maxY": 0.00401987407196154
+      },
+      {
+        "mass": 1950,
+        "sprungMass": 1758,
+        "y": -0.0027244976219391198,
+        "fz": 19465.680578276537,
+        "maxY": 0.0038973988835140903
+      },
+      {
+        "mass": 1765,
+        "sprungMass": 1587,
+        "y": -2.8869490564486126e-10,
+        "fz": 17314.650000001187,
+        "maxY": 2.2281008907772274e-9
+      },
+      {
+        "mass": 2250,
+        "sprungMass": 2024,
+        "y": -7.730742009817647e-10,
+        "fz": 22072.5000001916,
+        "maxY": 5.8421694335445476e-9
+      }
+    ],
+    "convergence": [
+      {
+        "microsteps": 2,
+        "peakAY": 14.854289351262493,
+        "y": -0.00016886418030680585,
+        "velocity": -0.0023231890157520614
+      },
+      {
+        "microsteps": 4,
+        "peakAY": 16.84182943674835,
+        "y": -0.00027338557308530237,
+        "velocity": -0.002523468356684181
+      }
+    ]
+  }
+}

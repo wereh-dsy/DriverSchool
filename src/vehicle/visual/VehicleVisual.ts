@@ -1,17 +1,16 @@
+import { buildVehicleStaticExterior, buildVehicleStaticWheels, prepareVehicleExterior } from './VehicleStaticAssets';
 import * as THREE from 'three';
 import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 
 import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
 
 import { Cockpit } from './Cockpit';
-import { buildBMW530Exterior, buildBMW530SideMirror } from './BMW530Exterior';import { buildBMW530Wheels } from './BMW530Wheels';
-import { buildMercedesE300LExterior, buildMercedesE300LSideMirror } from './MercedesE300LExterior';
-import { buildMercedesE300LWheels } from './MercedesE300LWheels';
-import { buildGolfGTIWheels } from './GolfGTIWheels';
-import { buildExecutiveWheels } from './ExecutiveWheels';
-import { buildVehicleExterior, frontDoorSkinAnchor } from './VehicleExterior';
-import { buildTeslaModel3Exterior, buildTeslaModel3SideMirror } from './TeslaModel3Exterior';
-import { buildTeslaModel3Wheels } from './TeslaModel3Wheels';
+import { SU7Spoiler } from './SU7MaxExterior';
+import { buildBMW530SideMirror } from './BMW530Exterior';
+import { buildMercedesE300LSideMirror } from './MercedesE300LExterior';
+import { frontDoorSkinAnchor } from './VehicleExterior';
+import { exteriorMirrorHousing } from './ExteriorMirrorGeometry';
+import { buildTeslaModel3SideMirror } from './TeslaModel3Exterior';
 import type { InstrumentTelemetry } from './InstrumentCluster';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
 import type { VehicleInteractionDefinition } from '../interaction/VehicleInteractionDefinition';
@@ -93,14 +92,7 @@ const buildSimplifiedSeats = (config: VehicleVisualConfig): THREE.Group => {
  */
 export class VehicleVisual {
   public static prepareAssets(config: VehicleVisualConfig, assets: VehicleAssetRegistry): void {
-    if (!config.assetCache) return;
-    // Registry templates never enter the live scene or carry dynamic state.
-    assets.prepareSection(config, 'exterior', root => {
-      if (config.body.exterior === 'tesla-model-3') buildTeslaModel3Exterior(root, config);
-      else if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
-      else if (config.body.design === 'mercedes-v214') buildMercedesE300LExterior(root, config);
-      else buildVehicleExterior(root, config, assets);
-    });
+    prepareVehicleExterior(config, assets);
   }
   public readonly root = new THREE.Group();
   public readonly exteriorRoot = new THREE.Group();
@@ -118,6 +110,9 @@ export class VehicleVisual {
 
   private readonly wheelMeshes: THREE.Mesh[] = [];
   private disposed = false;
+  private su7Spoiler?: SU7Spoiler;
+  private jeskoWing?: THREE.Object3D;
+  private jeskoFrontFlaps?: THREE.Object3D;
   public readonly wheelPivots = {} as Record<VehicleWheelId, THREE.Group>;
 
   public constructor(
@@ -129,21 +124,18 @@ export class VehicleVisual {
     this.root.rotation.order = 'YXZ';
     this.exteriorRoot.name = 'Car exterior';
     this.exteriorRoot.userData.renderCategory = 'CAR_EXTERIOR';
-    this.assets?.retain();
+    this.assets?.retain(config);
     this.cockpitRoot = new Cockpit(config, assets);
     this.cockpitRoot.userData.renderCategory = 'COCKPIT';
-    if (config.body.design !== 'bmw-g38' && config.body.design !== 'golf-gti' &&
-      config.body.design !== 'mercedes-v214') this.cockpitRoot.add(buildSimplifiedSeats(config));
+    if (config.body.exterior !== 'xiaomi-su7' && config.body.design !== 'bmw-g38' && config.body.design !== 'golf-gti' &&
+      config.body.design !== 'mercedes-v214' && config.body.design !== 'jesko-attack') this.cockpitRoot.add(buildSimplifiedSeats(config));
     this.mirrorSurfaceRoot.name = 'Mirror surfaces';
     this.mirrorSurfaceRoot.userData.renderCategory = 'MIRROR_SURFACE';
     this.root.add(this.exteriorRoot, this.cockpitRoot, this.mirrorSurfaceRoot);
 
-    if (assets && config.assetCache) {
+    if (assets) {
       this.exteriorRoot.add(assets.section(config, 'exterior', root => {
-        if (config.body.exterior === 'tesla-model-3') buildTeslaModel3Exterior(root, config);
-        else if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
-        else if (config.body.design === 'mercedes-v214') buildMercedesE300LExterior(root, config);
-        else buildVehicleExterior(root, config, assets);
+        buildVehicleStaticExterior(root, config, assets);
       }));
       this.exteriorRoot.add(assets.section(config, 'wheels', root => {
         this.buildWheels();
@@ -178,6 +170,10 @@ export class VehicleVisual {
       surface.position.add(new THREE.Vector3(0, 0, m.housingDepth / 2 + .002).applyEuler(surface.rotation));
       surface.renderOrder = 3; this.mirrorSurfaceRoot.add(surface); this.centerMirrorSurface = surface;
     }
+    const spoiler=this.exteriorRoot.getObjectByName('SU7 electric spoiler');
+    if (spoiler) this.su7Spoiler=new SU7Spoiler(spoiler);
+    this.jeskoWing=this.exteriorRoot.getObjectByName('Jesko active rear wing');
+    this.jeskoFrontFlaps=this.exteriorRoot.getObjectByName('Jesko active front flaps');
     this.exteriorRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.EXTERIOR));
     this.cockpitRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.INTERIOR));
     this.mirrorSurfaceRoot.traverse((object) => object.layers.set(VEHICLE_RENDER_LAYERS.MIRROR));
@@ -238,6 +234,10 @@ export class VehicleVisual {
   /** Feeds the physical cockpit cluster without exposing its mesh internals. */
   public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
     this.cockpitRoot.updateInstruments(telemetry, deltaTime);
+    this.su7Spoiler?.update(telemetry);
+    const deployment=telemetry.activeSpoilerDeployment??0;
+    if(this.jeskoWing)this.jeskoWing.rotation.x=-.04-deployment*.16;
+    if(this.jeskoFrontFlaps)this.jeskoFrontFlaps.rotation.x=-deployment*.12;
     const fold = this.config.automaticMirrorFold;
     if (fold) {
       const on = telemetry.ignitionOn ?? telemetry.engineRunning ?? true;
@@ -408,7 +408,7 @@ export class VehicleVisual {
     textures.forEach((texture) => { if (!this.assets?.owns(texture)) texture.dispose(); });
     materials.forEach((material) => { if (!this.assets?.owns(material)) material.dispose(); });
     geometries.forEach((geometry) => { if (!this.assets?.owns(geometry)) geometry.dispose(); });
-    this.assets?.release();
+    this.assets?.release(this.config);
   }
 
   /** Moves the driver-side cockpit trim and light ribbon onto the exterior hinge. */
@@ -471,8 +471,12 @@ export class VehicleVisual {
         hingeNode: hinge,
         closedTransform: { position: hingeClosedPosition, rotation: hingeClosedRotation },
         openTransform: {
-          position: hingeClosedPosition,
-          rotation: [hingeClosedRotation[0], hingeClosedRotation[1] + access.openAngleRadians,
+          position: [
+            hingeClosedPosition[0] + (access.openPositionOffset?.[0] ?? 0),
+            hingeClosedPosition[1] + (access.openPositionOffset?.[1] ?? 0),
+            hingeClosedPosition[2] + (access.openPositionOffset?.[2] ?? 0),
+          ],
+          rotation: access.openRotationRadians ?? [hingeClosedRotation[0], hingeClosedRotation[1] + access.openAngleRadians,
             hingeClosedRotation[2]] as const,
         },
         openSeconds: access.openSeconds,
@@ -495,155 +499,12 @@ export class VehicleVisual {
     };
   }
 
-  private buildExterior(): void {
-    if (this.config.body.exterior === 'tesla-model-3') { buildTeslaModel3Exterior(this.exteriorRoot, this.config); return; }
-    if (this.config.body.design === 'bmw-g38') { buildBMW530Exterior(this.exteriorRoot, this.config); return; }
-    if (this.config.body.design === 'mercedes-v214') { buildMercedesE300LExterior(this.exteriorRoot, this.config); return; }
-    buildVehicleExterior(this.exteriorRoot, this.config, this.assets);
-  }
+  private buildExterior(): void { buildVehicleStaticExterior(this.exteriorRoot, this.config, this.assets); }
 
   private buildWheels(): readonly [THREE.Group, THREE.Group] {
-    if (this.config.body.exterior === 'tesla-model-3') {
-      const { pivots, wheels } = buildTeslaModel3Wheels(this.exteriorRoot, this.config);
-      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
-      return [pivots.frontLeft, pivots.frontRight];
-    }
-    if (this.config.body.design === 'executive') {
-      const fascia = this.exteriorRoot.getObjectByName('Executive single-frame textured grille and intakes') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
-      const { pivots, wheels } = buildExecutiveWheels(this.exteriorRoot, this.config, fascia.material.map!);
-      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
-      return [pivots.frontLeft, pivots.frontRight];
-    }
-    if (this.config.body.design === 'golf-gti') {
-      const { pivots, wheels } = buildGolfGTIWheels(this.exteriorRoot, this.config);
-      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
-      return [pivots.frontLeft, pivots.frontRight];
-    }
-    if (this.config.body.design === 'bmw-g38') {
-      const grille = this.exteriorRoot.getObjectByName('Left inset kidney dark backing') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
-      const { pivots, wheels } = buildBMW530Wheels(this.exteriorRoot, this.config, grille.material.map!);
-      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
-      return [pivots.frontLeft, pivots.frontRight];
-    }
-    if (this.config.body.design === 'mercedes-v214') {
-      // The wheel faces borrow the already built exterior detail atlas.
-      const grille = this.exteriorRoot.getObjectByName('Traditional grille dark backing') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
-      const { pivots, wheels } = buildMercedesE300LWheels(this.exteriorRoot, this.config, grille.material.map!);
-      Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
-      return [pivots.frontLeft, pivots.frontRight];
-    }
-    const sport = this.config.body.profile === 'sport-coupe';
-    const design = this.config.body.design;
-    const rimFraction = design === 'road-suv' ? .64 : design === 'flow' ? .65 : design === 'formal' ? .61 : design === 'comfort' ? .58 : sport ? .64 : .59;
-    const tyreMaterial = new THREE.MeshStandardMaterial({
-      color: 0x111214,
-      roughness: 0.88,
-      metalness: 0.02,
-    });
-    const rimMaterial = new THREE.MeshStandardMaterial({
-      color: sport ? 0x565d64 : 0x9da4a8,
-      roughness: sport ? 0.24 : 0.31,
-      metalness: 0.78,
-    });
-    const brakeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x5f6264,
-      roughness: 0.48,
-      metalness: 0.66,
-    });
-    const tyreGeometry = new THREE.CylinderGeometry(
-      this.config.wheelRadius,
-      this.config.wheelRadius,
-      this.config.dimensions.wheelWidth,
-      24,
-    );
-    tyreGeometry.rotateZ(Math.PI / 2);
-    const rimGeometry = new THREE.CylinderGeometry(
-      this.config.wheelRadius * rimFraction,
-      this.config.wheelRadius * rimFraction,
-      this.config.dimensions.wheelWidth * 0.94,
-      sport ? 20 : 16,
-      1,
-      true,
-    );
-    rimGeometry.rotateZ(Math.PI / 2);
-    const brakeDiscGeometry = new THREE.CylinderGeometry(
-      this.config.wheelRadius * 0.43,
-      this.config.wheelRadius * 0.43,
-      this.config.dimensions.wheelWidth * 0.89,
-      20,
-    );
-    brakeDiscGeometry.rotateZ(Math.PI / 2);
-    const hubGeometry = new THREE.CylinderGeometry(
-      this.config.wheelRadius * 0.105,
-      this.config.wheelRadius * 0.105,
-      this.config.dimensions.wheelWidth * 0.98,
-      12,
-    );
-    hubGeometry.rotateZ(Math.PI / 2);
-    const rimLipGeometry = new THREE.TorusGeometry(
-      this.config.wheelRadius * (rimFraction - .07),
-      0.012,
-      6,
-      sport ? 20 : 16,
-    );
-    rimLipGeometry.rotateY(Math.PI / 2);
-    const spokeGeometry = new THREE.BoxGeometry(
-      this.config.dimensions.wheelWidth * 0.96,
-      design === 'comfort' ? .045 : design === 'flow' ? .019 : sport ? .024 : .028,
-      this.config.wheelRadius * (sport ? 0.42 : 0.38),
-    );
-    spokeGeometry.translate(0, 0, this.config.wheelRadius * (sport ? 0.27 : 0.25));
-
-    const frontPivots: THREE.Group[] = [];
-    const wheelPositions = localWheelPositions(this.config.dimensions);
-
-    VEHICLE_WHEEL_IDS.forEach((id, index) => {
-      const position = wheelPositions[id];
-      const pivot = new THREE.Group();
-      pivot.name = `${id} ${index < 2 ? 'steering pivot' : 'suspension mount'}`;
-      pivot.userData.wheelId = id;
-      pivot.position.set(position.x, position.y - (this.config.staticBodyOffsetY ?? 0), position.z);
-      this.wheelPivots[id] = pivot;
-
-      const wheel = new THREE.Mesh(tyreGeometry, tyreMaterial);
-      wheel.name = 'Tyre';
-      const width = index < 2 ? this.config.dimensions.frontWheelWidth : this.config.dimensions.rearWheelWidth;
-      wheel.scale.x = (width ?? this.config.dimensions.wheelWidth) / this.config.dimensions.wheelWidth;
-      wheel.castShadow = true;
-      wheel.receiveShadow = true;
-      const rim = new THREE.Mesh(rimGeometry, rimMaterial);
-      rim.name = sport ? 'Sports open wheel rim barrel' : 'Sedan open wheel rim barrel';
-      const brakeDisc = new THREE.Mesh(brakeDiscGeometry, brakeMaterial);
-      brakeDisc.name = 'Ventilated brake disc';
-      const hub = new THREE.Mesh(hubGeometry, rimMaterial);
-      hub.name = 'Wheel hub';
-      wheel.add(brakeDisc, rim, hub);
-
-      const lipOffset = this.config.dimensions.wheelWidth * 0.47;
-      for (const faceX of [-lipOffset, lipOffset]) {
-        const lip = new THREE.Mesh(rimLipGeometry, rimMaterial);
-        lip.name = 'Wheel rim lip';
-        lip.position.x = faceX;
-        wheel.add(lip);
-      }
-
-      const spokeCount = design === 'flow' ? 10 : design === 'formal' ? 5 : design === 'comfort' ? 7 : sport ? 5 : 6;
-      for (let spokeIndex = 0; spokeIndex < spokeCount; spokeIndex += 1) {
-        const spoke = new THREE.Mesh(spokeGeometry, rimMaterial);
-        spoke.name = sport ? 'Sports wheel spoke' : 'Sedan wheel spoke';
-        spoke.rotation.x = design === 'flow'
-          ? Math.floor(spokeIndex / 2) / 5 * Math.PI * 2 + (spokeIndex % 2 === 0 ? -.08 : .08)
-          : spokeIndex / spokeCount * Math.PI * 2;
-        wheel.add(spoke);
-      }
-      pivot.add(wheel);
-      this.exteriorRoot.add(pivot);
-      this.wheelMeshes.push(wheel);
-
-      if (index < 2) frontPivots.push(pivot);
-    });
-
-    return [frontPivots[0]!, frontPivots[1]!];
+    const { pivots, wheels } = buildVehicleStaticWheels(this.exteriorRoot, this.config);
+    Object.assign(this.wheelPivots, pivots); this.wheelMeshes.push(...wheels);
+    return [pivots.frontLeft, pivots.frontRight];
   }
 
   private buildMirror(side: MirrorSide, mirrorConfig: MirrorVisualConfig): MirrorSurfaceMesh {
@@ -665,28 +526,14 @@ export class VehicleVisual {
       metalness: 0.12,
       side: THREE.DoubleSide,
     });
-    // Keep the side mirror deliberately simple and legible.  The previous
-    // stretched sphere produced a half-oval/half-rectangle silhouette that
-    // did not match either an ordinary saloon mirror or a GT mirror.
+    // A rounded cap and open rim surround the unchanged reflection plane.
     const housingWidth = mirrorConfig.size[0] + 0.03;
     const housingHeight = mirrorConfig.size[1] + 0.028;
-    const housingGeometry = new THREE.BoxGeometry(
+    const housingGeometry = exteriorMirrorHousing(
       housingWidth,
       housingHeight,
       mirrorConfig.housingDepth,
     );
-    // Open the glass-facing side. The real adjustable plane can then pivot
-    // inside the shell without its edges disappearing into a solid front slab.
-    const vertices = housingGeometry.getAttribute('position');
-    const sourceIndices = housingGeometry.getIndex()!;
-    const shellIndices: number[] = [];
-    for (let i = 0; i < sourceIndices.count; i += 3) {
-      const triangle = [sourceIndices.getX(i), sourceIndices.getX(i + 1), sourceIndices.getX(i + 2)];
-      if (triangle.every(index => vertices.getZ(index) > mirrorConfig.housingDepth * .49)) continue;
-      shellIndices.push(...triangle);
-    }
-    housingGeometry.setIndex(shellIndices);
-    housingGeometry.clearGroups();
     const housing = new THREE.Mesh(housingGeometry, housingMaterial);
     housing.name = `${side} mirror housing`;
     housing.position.z = -mirrorConfig.housingDepth * 0.5;
@@ -749,7 +596,9 @@ export class VehicleVisual {
     const sign = side === 'left' ? -1 : 1;
     const mountZ = mirrorConfig.mountPosition?.[2] ?? this.config.cabin.windshieldBottomZ + .065;
     const doorEdge = frontDoorSkinAnchor(this.config, mountZ);
-    const mount = new THREE.Vector3(sign * (doorEdge.x + .004), doorEdge.y + .06, mountZ);
+    const mount = this.config.body.design === 'jesko-attack' && mirrorConfig.mountPosition
+      ? new THREE.Vector3(...mirrorConfig.mountPosition)
+      : new THREE.Vector3(sign * (doorEdge.x + .004), doorEdge.y + .06, mountZ);
     // Attach the sail to the actual upper front-door skin, rather than a
     // width-based point suspended outside the tapered body. Optical glass
     // position/orientation remains exactly the configured reflective plane.

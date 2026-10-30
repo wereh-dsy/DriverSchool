@@ -1,0 +1,133 @@
+{
+  "cluster": "peripheral-interchange",
+  "plans": [],
+  "attempts": [],
+  "after": [
+    {
+      "id": "peripheral-interchange:S-to-E-right",
+      "cluster": "peripheral-interchange",
+      "length": 830.9295185938548,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-1-split-split-split-split-split",
+            "end": "end"
+          },
+          "peers": [
+            "ring-ccw-1-split-split-split-split-split",
+            "ring-ccw-1-split-split-split-split-section",
+            "ring-ccw-1-split-split-split-split-split-split-2",
+            "ring-ccw-1-split-split-split-split",
+            "ring-ccw-1-split-split-split-split-split-split",
+            "ring-ccw-2",
+            "ring-ccw-2-split-2",
+            "ring-ccw-2-split-2-split",
+            "ring-ccw-2-split",
+            "ring-ccw-2-split-split-2",
+            "ring-ccw-2-split-split-2-split"
+          ],
+          "sharedLength": 65,
+          "maxSharedDeltaY": 0.005235978470853553,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0.0021827931623981897,
+          "deltaY": 0,
+          "tangentDegrees": 0.2447330254106101,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "intercity-eb-split-split",
+            "end": "start"
+          },
+          "peers": [
+            "intercity-eb-split-split"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.0012085735204165893,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 5.684341886080801e-13,
+          "deltaY": -1.4654943925052066e-14,
+          "tangentDegrees": 1.9384474475610052,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.044493586919946954,
+        "gradeBreaks": [],
+        "minRadius": 59.46565209326604,
+        "shortSegments": 41
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "peripheral-interchange:E-to-N-right",
+      "cluster": "peripheral-interchange",
+      "length": 856.9800635952257,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "intercity-wb",
+            "end": "end"
+          },
+          "peers": [
+            "intercity-wb"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.000002880865283216849,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 2.2737367544323206e-13,
+          "deltaY": -3.9968028886505635e-15,
+          "tangentDegrees": 0.45452052776838625,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-1-split-split-split-split-split-split",
+            "end": "start"
+          },
+          "peers": [
+            "ring-ccw-1-split-split-split-split-split-split",
+            "ring-ccw-2",
+            "ring-ccw-1-split-split-split-split-split-split-2",
+            "ring-ccw-2-split-2",
+            "ring-ccw-1-split-split-split-split-split",
+            "ring-ccw-2-split-2-split",
+            "ring-ccw-1-split-split-split-split-section",
+            "ring-ccw-2-split",
+            "ring-ccw-1-split-split-split-split",
+            "ring-ccw-2-split-split-2",
+            "ring-ccw-2-split-split-2-split"
+          ],
+          "sharedLength": 68,
+          "maxSharedDeltaY": 0.020572153011320538,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0.000569258525062721,
+          "deltaY": 0,
+          "tangentDegrees": 0.5127934011241183,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.05452928861009963,
+        "gradeBreaks": [],
+        "minRadius": 73.66051647968244,
+        "shortSegments": 7
+      },
+      "severity": "PASS"
+    }
+  ]
+}

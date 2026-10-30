@@ -1,0 +1,4 @@
+import {dir,read,analyze,context,pavement,roadPoints,project} from './common';
+import {roadCarriageways} from '../../src/world/city/RoadCarriageway';
+const map=read(dir+'candidate-map.json'),id=process.argv.at(-1),r=map.roads.find((r:any)=>r.id===id),result=analyze(map,[r],true).rows[0],local=context(map,[r]),visual=roadCarriageways(local),pv=pavement(local);
+for(const e of result.interfaces){const samples=e.samples.sort((a:any,b:any)=>b.dy-a.dy).slice(0,4);console.log(JSON.stringify({end:e.end,host:e.host,length:e.sharedLength,samples:samples.map((s:any)=>({...s,visualOwn:visual.pavedHeight(r.id,s.point),ownPhysical:pv.hit(s.point).filter(h=>h.road.id===r.id).map(h=>h.surface.heightAt(s.point.x,s.point.z)),peers:s.peers.map((p:any)=>({...p,visual:visual.pavedHeight(p.roadId,s.point),project:project(roadPoints(map.roads.find((r:any)=>r.id===p.roadId)),s.point)}))}))},null,2));}

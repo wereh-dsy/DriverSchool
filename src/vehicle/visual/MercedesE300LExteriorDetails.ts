@@ -7,6 +7,19 @@ const REGIONS = {
 } as const;
 export type MercedesAtlasRegion = keyof typeof REGIONS;
 
+/** A single small optical mask replaces six extruded stars plus six torus rings. */
+export function createMercedesTailLightMask():T.CanvasTexture {
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=64;
+  const texture=new T.CanvasTexture(canvas);texture.name='Shared tail star optical mask 64';
+  const c=canvas.getContext('2d');if(!c)return texture;
+  c.fillStyle='#000000';c.fillRect(0,0,64,64);c.fillStyle=c.strokeStyle='#ffffff';
+  c.beginPath();
+  for(let i=0;i<6;i++) {const a=-Math.PI/2+i*Math.PI/3,r=i%2?7.2:29;
+    const x=32+Math.cos(a)*r,y=32+Math.sin(a)*r;i?c.lineTo(x,y):c.moveTo(x,y);}
+  c.closePath();c.fill();c.beginPath();c.arc(32,32,29,0,Math.PI*2);c.lineWidth=2.6;c.stroke();
+  return texture;
+}
+
 /** Painted-modulation masks, fine grille slats and multi-spoke wheel faces. */
 export function createMercedesE300LAtlas(): T.CanvasTexture {
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1024;
@@ -30,12 +43,18 @@ export function createMercedesE300LAtlas(): T.CanvasTexture {
     const g = c.createLinearGradient(0, 0, 0, 256);
     g.addColorStop(0, '#1a1e22'); g.addColorStop(.45, '#070a0d'); g.addColorStop(1, '#030507');
     c.fillStyle = g; c.fillRect(0, 0, 512, 256);
-    // Horizontal slats are the recessed texture behind the modelled chrome bars.
+    // Recessed mesh and chrome bars share this surface; no duplicate bar meshes.
     for (let y = 16; y < 256; y += 21) {
       line([[0, y], [512, y]], '#39424a', 3);
       line([[0, y + 3], [512, y + 3]], '#0a0e12', 6);
     }
     for (let x = 24; x < 512; x += 42) line([[x, 0], [x - 10, 256]], '#151a1f', 2);
+    for(const y of [42,86,130,174,218]){
+      line([[0,y+3],[512,y+3]],'#151a20',5);
+      line([[0,y],[256,y+3],[512,y]],'#b0bac2',3.5);
+      line([[0,y-2],[256,y+1],[512,y-2]],'#e1e6ea',1);
+    }
+    line([[256,0],[256,256]],'#c3ccd3',3);
   });
   panel('head', () => {
     const g = c.createLinearGradient(0, 0, 0, 256);

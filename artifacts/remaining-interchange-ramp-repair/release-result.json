@@ -1,0 +1,57 @@
+{
+  "command": "pnpm run desktop:package",
+  "exitCode": 0,
+  "startedAt": "2026-10-23T14:09:54.674Z",
+  "completedAt": "2026-10-23T14:10:37.106Z",
+  "browserBuildsThisBatch": 2,
+  "browserBuildPublished": true,
+  "log": "artifacts/remaining-interchange-ramp-repair/release.log",
+  "initialVerificationFailure": "Verification harness initially passed POSIX separators to the Windows asar API; archive inventory confirmed the files existed. It also compared package.json formatting bytewise, although packager pretty-prints the same JSON. Corrected native paths and strict semantic manifest comparison; every other payload file remains byte-exact. No product rebuild required.",
+  "externalDirectory": "D:/DriverSchoolRelease/DriverSchool-win32-x64",
+  "executable": "D:/DriverSchoolRelease/DriverSchool-win32-x64/DriverSchool.exe",
+  "completeDirectoryPublished": true,
+  "payloadFileCount": 21,
+  "payloadExactMatch": true,
+  "asarHash": "8f9955ebc07bd526e38ea65448d4b59251a16c1efaedd856c0e3471cb6992893",
+  "runtimeAsset": "assets/city-main.runtime-772032b0ecb9.json",
+  "runtimeHash": "772032b0ecb97acb170f4a6c0220a014df774c84b7f1718a12b3219c52546f86",
+  "mapVersion": 491,
+  "distConsistent": true,
+  "applicationReferencesRuntime": [
+    "assets/city-alpha-9w86UxN5.js",
+    "assets/DrivingGame-BmUESc6i.js"
+  ],
+  "smoke": {
+    "passed": true,
+    "executable": "D:/DriverSchoolRelease/DriverSchool-win32-x64/DriverSchool.exe",
+    "pid": 25592,
+    "startedAt": "2026-10-23T14:12:34.308Z",
+    "completedAt": "2026-10-23T14:12:35.409Z",
+    "elapsedSeconds": 1.101,
+    "isolatedChromiumProfile": "D:\\dsy\\drivergame\\.desktop\\release-smoke-1792764754289",
+    "launchArgs": [
+      "--remote-debugging-port=0",
+      "--remote-debugging-address=127.0.0.1",
+      "--user-data-dir=D:\\dsy\\drivergame\\.desktop\\release-smoke-1792764754289"
+    ],
+    "state": {
+      "title": "DriverSchool · PC Driving Simulator",
+      "url": "driverschool://game/index.html",
+      "kind": "desktop",
+      "require": "undefined",
+      "process": "undefined",
+      "canvas": true,
+      "menuReady": true,
+      "menuSceneReady": true
+    },
+    "desktopDirectories": [
+      "config",
+      "logs",
+      "mods",
+      "saves"
+    ],
+    "sandboxUnchanged": true,
+    "noDriving": true,
+    "initialHarnessIssue": "First smoke reached cleanup but the diagnostic awaited a CDP reply after Browser.close had closed the connection. Corrected close handling and repeated the external executable smoke successfully; no product change."
+  }
+}

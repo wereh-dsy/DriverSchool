@@ -8,8 +8,9 @@ export interface CompiledRoadVisual {
   surfaces: { key: string; material: string; geometry: VisualGeometryData; barrierTriangles: number }[];
   instances: { key: string; material: string; geometryId: string; geometry?: VisualGeometryData; matrices: Float32Array; lamp: boolean }[];
 }
-export interface TerrainVisualData { key: string; tier: 'near' | 'mid' | 'far'; geometries: VisualGeometryData[]; roadSurface?: VisualGeometryData }
-export type VisualWorkerRequest = { kind: 'init'; map: import('./CityMapData').CityMapData }
+export interface TerrainVisualData { key: string; tier: 'near' | 'mid' | 'far'; geometries: VisualGeometryData[]; roadSurface?: VisualGeometryData;
+  ground?: VisualGeometryData[]; groundBuildMs?: number; maxGroundStepMs?: number }
+export type VisualWorkerRequest = { kind: 'init'; map?: import('./CityMapData').CityMapData }
   | { kind: 'road'; id: string } | { kind: 'terrain'; key: string; tier: 'near' | 'mid' | 'far'; roadIds?: string[] }
   | { kind: 'background'; keys: string[] };
 export type VisualWorkerReply = ({ kind: 'ready' } | { kind: 'road'; data: CompiledRoadVisual }
@@ -40,6 +41,6 @@ export function visualTransfers(data: CompiledRoadVisual | TerrainVisualData): T
   if ('surfaces' in data) {
     for (const p of data.surfaces) add(p.geometry);
     for (const p of data.instances) { if (p.geometry) add(p.geometry); result.push(p.matrices.buffer as ArrayBuffer); }
-  } else { for (const g of data.geometries) add(g); if (data.roadSurface) add(data.roadSurface); }
+  } else { for (const g of data.geometries) add(g); for(const g of data.ground??[]) add(g); if (data.roadSurface) add(data.roadSurface); }
   return result;
 }

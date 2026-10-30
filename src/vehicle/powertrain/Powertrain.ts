@@ -21,6 +21,7 @@ export type ShiftRejectionReason = 'clutch-not-disengaged' | 'engine-over-speed'
 
 /** Optional ICE compatibility telemetry, not required source components. */
 export interface ICEVehicleTelemetry {
+  thermal?: { temperatureC: number; torqueFactor: number };
   startStop?: { supported: boolean; enabled: boolean; state: 'DISABLED' | 'READY' | 'AUTO_STOPPED' | 'RESTARTING' };
   mildHybrid?: ReturnType<import('./MildHybridSystem').MildHybridSystem['getSnapshot']>;
   fuel: FuelSnapshot;

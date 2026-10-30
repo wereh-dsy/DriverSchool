@@ -8,6 +8,7 @@ import { executiveLampHousing } from './ExecutiveLampGeometry';
 import { teslaModel3DoorSkinAnchor } from './TeslaModel3Exterior';
 import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
+import { buildRefinedVehicleExterior } from './RefinedVehicleExterior';
 
 // The declared dimensions include the existing lamp lips / exhaust outlets.
 // Build the underlying loft inside that same envelope, rather than enlarging it
@@ -176,7 +177,7 @@ const createBodyGeometry = (
   for (let index = 0; index < stations.length - 1; index += 1) {
     const from = stations[index]!;
     const to = stations[index + 1]!;
-    const subdivisions = Math.ceil((to.z - from.z) / 0.085);
+    const subdivisions = Math.ceil((to.z - from.z) / (config.body.design === 'executive' ? .045 : .085));
     for (let sample = 0; sample < subdivisions; sample += 1) {
       const t = sample / subdivisions;
       dense.push({
@@ -210,11 +211,7 @@ const createBodyGeometry = (
   dense.sort((a, b) => a.z - b.z);
   const positions: number[] = [];
   const indices: number[] = [];
-  const clippedSide = (station: BodyStation, y: number): number => y < station.shoulderY
-    ? THREE.MathUtils.lerp(station.lowerHalfWidth, station.shoulderHalfWidth,
-      (y - station.bottomY) / (station.shoulderY - station.bottomY))
-    : THREE.MathUtils.lerp(station.shoulderHalfWidth, station.topHalfWidth,
-      (y - station.shoulderY) / (station.topY - station.shoulderY));
+  const clippedSide = stationHalfWidthAtY;
   for (const rawStation of dense) {
     const station = fitWheelArchStation(config, rawStation);
     const openingY = wheelArchBottom(config, station.z);
@@ -240,12 +237,19 @@ const createBodyGeometry = (
         const u = 1 - i / 4;
         top.push(new THREE.Vector3(station.topHalfWidth * u, station.topY + .018 * (1 - u * u), station.z));
       }
+      const flankPoint = (side: number, y: number) => new THREE.Vector3(side * clippedSide(station,y),y,station.z);
+      // Additional transverse stations round the flanks without scaling the
+      // wheel openings, door aperture or the long A6L glasshouse.
+      points.splice(7,0,flankPoint(-1,(sideBottomY+shoulderY)/2));
+      points.splice(6,0,flankPoint(-1,(shoulderY+station.topY)/2));
       points.splice(5, 0, ...top);
+      points.splice(4,0,flankPoint(1,(shoulderY+station.topY)/2));
+      points.splice(3,0,flankPoint(1,(sideBottomY+shoulderY)/2));
       for (const point of points) point.z = executiveNoseZ(config, point.x, point.y, point.z);
     }
     for (const point of points) positions.push(point.x, point.y, point.z);
   }
-  const executive = config.body.design === 'executive', ringSize = executive ? 15 : 8;
+  const executive = config.body.design === 'executive', ringSize = executive ? 19 : 8;
   for (let stationIndex = 0; stationIndex < dense.length - 1; stationIndex += 1) {
     const current = stationIndex * ringSize;
     const next = current + ringSize;
@@ -254,10 +258,10 @@ const createBodyGeometry = (
       dense[stationIndex + 1]!.z <= driverAccess.doorRearZ + 1e-8;
     // The left flank's top/shoulder strips are replaced by the hinged skin.
     // Only those two edges are removed; the sill, floor and roof stay closed.
-    const edges = executive ? [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] : [0, 2, 3, 4, 5, 6];
+    const edges = executive ? [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17] : [0, 2, 3, 4, 5, 6];
     for (const edge of edges) {
-      if (inDriverDoor && (edge === 12 || edge === 13)) continue;
-      if ((executive ? edge >= 4 && edge <= 11 : edge === 4) && dense[stationIndex]!.z >= cabinFrontZ - 1e-8 &&
+      if (inDriverDoor && edge >= 14 && edge <= 17) continue;
+      if ((executive ? edge >= 6 && edge <= 13 : edge === 4) && dense[stationIndex]!.z >= cabinFrontZ - 1e-8 &&
         dense[stationIndex + 1]!.z <= cabinRearZ + 1e-8) continue;
       const following = edge + 1;
       indices.push(current + edge, current + following, next + following,
@@ -657,7 +661,9 @@ const addRoof = (
     for (let row = 0; row <= along; row++) {
       const t = row / along, z = THREE.MathUtils.lerp(roofFront, roofRear, t);
       const edgeY = THREE.MathUtils.lerp(cabin.windshieldTopY, cabin.roofY - .055, t);
-      const crownY = config.dimensions.height - .035 * (2 * t - 1) ** 2;
+      // C8 A6L reference is 1.475m; height is measured on the loaded ground
+      // datum rather than accidentally subtracting stance a second time.
+      const crownY = 1.475 - (config.staticBodyOffsetY ?? 0) - .035 * (2 * t - 1) ** 2;
       const width = halfWidth - .045 + .045 * Math.sin(Math.PI * t);
       for (let column = 0; column <= across; column++) {
         const u = column / across * 2 - 1;
@@ -832,7 +838,7 @@ const addSedanDetails = (
         `${side < 0 ? 'Left' : 'Right'} sedan door shut line`,
         new THREE.Vector3(lowerX, 0.39, z + 0.02),
         new THREE.Vector3(upperX, gapTopY, z - 0.015),
-        0.008,
+        config.body.design === 'executive' ? .0016 : .008,
         materials.trim,
         'panel-gap',
       ));
@@ -934,9 +940,9 @@ const addAutomaticFascia = (root: THREE.Group, config: VehicleVisualConfig, mate
 
 const stationHalfWidthAtY = (station: BodyStation, y: number): number => y <= station.shoulderY
   ? THREE.MathUtils.lerp(station.lowerHalfWidth, station.shoulderHalfWidth,
-    THREE.MathUtils.clamp((y - station.bottomY) / (station.shoulderY - station.bottomY), 0, 1))
+    Math.sin(THREE.MathUtils.clamp((y - station.bottomY) / (station.shoulderY - station.bottomY), 0, 1)*Math.PI/2))
   : THREE.MathUtils.lerp(station.shoulderHalfWidth, station.topHalfWidth,
-    THREE.MathUtils.clamp((y - station.shoulderY) / (station.topY - station.shoulderY), 0, 1));
+    THREE.MathUtils.clamp((y - station.shoulderY) / (station.topY - station.shoulderY), 0, 1)**1.35);
 
 /** Low-resolution panel skins follow the shell exactly and retain real wheel openings. */
 const addFlankPanels = (root: THREE.Group, config: VehicleVisualConfig, materials: ExteriorMaterials): void => {
@@ -1429,17 +1435,17 @@ const addAuthoredDriverDoor = (
     const archBottom = wheelArchBottom(config, z);
     const bottomY = Math.min(station.topY - 0.012, Math.max(station.bottomY, archBottom));
     const middleY = Math.max(bottomY, station.shoulderY);
-    for (const y of [bottomY, middleY, station.topY - 0.008]) {
+    for (const y of [bottomY,(bottomY+middleY)/2,middleY,(middleY+station.topY)/2, station.topY - 0.008]) {
       positions.push(-(stationHalfWidthAtY(station, y) + 0.001) - hingePosition.x,
         y - hingePosition.y, z - hingePosition.z);
     }
   }
   for (let step = 0; step < steps; step += 1) {
-    for (let strip = 0; strip < 2; strip += 1) {
-      const a = step * 3 + strip;
+    for (let strip = 0; strip < 4; strip += 1) {
+      const a = step * 5 + strip;
       const b = a + 1;
-      const c = b + 3;
-      const d = a + 3;
+      const c = b + 5;
+      const d = a + 5;
       indices.push(a, c, b, a, d, c);
     }
   }
@@ -1521,6 +1527,7 @@ export function buildVehicleExterior(
   assets?: VehicleAssetRegistry,
 ): void {
   if (config.body.design === 'golf-gti') { buildGolfGTIExterior(root, config, assets); return; }
+  if (buildRefinedVehicleExterior(root, config)) return;
   const sport = config.body.profile === 'sport-coupe';
   const materials = createMaterials(config);
   const executiveMap = config.body.design === 'executive' ? executiveSurfaceMap(config, assets) : undefined;

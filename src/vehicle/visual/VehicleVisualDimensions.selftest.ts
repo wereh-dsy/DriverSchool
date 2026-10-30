@@ -145,10 +145,13 @@ export function runVehicleVisualDimensionsSelfTest(): VehicleVisualDimensionsSel
           const anchor = anchors[id];
           assert(actual.distanceTo(new THREE.Vector3(anchor.x, anchor.y, anchor.z)) < 1e-12,
             `${config.name}: initial ${id} visual wheel differs from shared geometry`);
-          const tyre = visual.wheelPivots[id].children[0] as THREE.Mesh<THREE.CylinderGeometry>;
-          assert(tyre.geometry.parameters.radiusTop === config.dimensions.wheelRadius,
+          const tyre = visual.wheelPivots[id].children[0] as THREE.Mesh;
+          tyre.geometry.computeBoundingBox();
+          const tyreSize=tyre.geometry.boundingBox!.getSize(new THREE.Vector3());
+          assert(Math.abs(tyreSize.y/2-config.dimensions.wheelRadius)<1e-6 &&
+            Math.abs(tyreSize.z/2-config.dimensions.wheelRadius)<1e-6,
             `${config.name}: ${id} visual tyre radius differs`);
-          assert(tyre.geometry.parameters.height === config.dimensions.wheelWidth,
+          assert(Math.abs(tyreSize.x-config.dimensions.wheelWidth)<1e-6,
             `${config.name}: ${id} visual tyre width differs`);
         }
         const ground = {
@@ -207,9 +210,11 @@ export function runVehicleVisualDimensionsSelfTest(): VehicleVisualDimensionsSel
           const eye = new THREE.Vector3(left ? -3 : 3, anchor.y, anchor.z);
           wheelCaster.set(eye, new THREE.Vector3(left ? 1 : -1, 0, 0));
           const hits = wheelCaster.intersectObject(visual.exteriorRoot, true);
-          assert(hits.some((hit) => hit.object.name === 'Tyre'),
+          const tyre=visual.wheelPivots[id].children[0]!;
+          const wheelHit=(hit:THREE.Intersection)=>tyre.getObjectById(hit.object.id)!==undefined;
+          assert(hits.some(wheelHit),
             `${config.name}: real ${id} tyre is hidden by an uninterrupted body flank`);
-          assert(hits[0]?.object.name === 'Tyre',
+          assert(hits[0]!==undefined&&wheelHit(hits[0]),
             `${config.name}: a body panel covers the middle of ${id} wheel opening`);
         }
         visual.setFrontWheelSteeringAngles(-0.22, -0.3);

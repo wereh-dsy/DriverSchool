@@ -1,0 +1,10 @@
+import {dir,read,write,analyze,crossingPairs,roadPoints,polylineLength} from './common';
+import {moveJoint} from './joints';
+import {fitProfile} from './profile';
+const map=read(dir+'candidate-map.json'),base=read(dir+'baseline-map.json'),plans=read(dir+'repair-plans.json'),id='system-south:W-to-N-loop',r=map.roads.find((r:any)=>r.id===id),R=36,cx=8.125+R+20;
+const a=moveJoint(map,base,plans,id,'start','x',cx),cz=a.z+R,b=moveJoint(map,base,plans,id,'end','z',cz-120),n=114;
+const arc=Array.from({length:n+1},(_,i)=>{const t=-Math.PI/2+Math.PI*1.5*i/n;return{x:cx+R*Math.cos(t),y:0,z:cz+R*Math.sin(t)};});arc[0]=a;
+const c=arc.at(-1)!,p1={x:c.x,z:c.z-40},p2={x:b.x,z:b.z+40},tail=Array.from({length:81},(_,i)=>{const t=i/80,u=1-t;return{x:u**3*c.x+3*u*u*t*p1.x+3*u*t*t*p2.x+t**3*b.x,y:b.y,z:u**3*c.z+3*u*u*t*p1.z+3*u*t*t*p2.z+t**3*b.z};});
+r.centerline=[...arc,...tail.slice(1)];r.centerline[r.centerline.length-1]=b;const profile=fitProfile(map,r);plans.push({roadId:id,kind:'parallel-merge-alignment',circleRadius:R,lateralLoopExpansion:20,alignmentLength:120,...profile});
+const row=analyze(map,[r]).rows[0],pairs=crossingPairs(map,[r]);write('candidate-map.json',map);write('repair-plans.json',plans);write('south-merge-layout.json',{profile,row,pairs});
+console.log(JSON.stringify({id,status:row.severity,radius:row.profile.minRadius,grade:row.profile.maxGrade,breaks:row.profile.gradeBreaks.length,shared:row.interfaces.map((i:any)=>({end:i.end,length:i.sharedLength,dy:i.maxSharedDeltaY})),pairs:pairs.filter((p:any)=>!row.interfaces.some((i:any)=>i.peers.some((id:string)=>p.key.includes(id))))}));

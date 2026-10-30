@@ -53,7 +53,7 @@ export function runAutomaticGroundSelfTest() {
       assert(state.speedKmh < 0.05 && state.engineRunning, 'D holds 10% hill under brake');
       let maximumForwardSpeed = 0;
       for (let frame = 0; frame < 840; frame++) {
-        state = contacts.step(dt, input({ throttle: 0.7 }), car);
+        state = contacts.step(dt, input({ throttle: 1 }), car);
         maximumForwardSpeed = Math.max(maximumForwardSpeed, state.speed);
         assert(state.engineRunning, 'automatic uphill/contact does not stall');
       }

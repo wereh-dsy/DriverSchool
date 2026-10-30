@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {spawn} from 'node:child_process';
+const d='artifacts/highway-extension-streaming-test/',R=f=>JSON.parse(fs.readFileSync(d+f,'utf8')),H=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex'),g=R('delivery-guard.json');
+assert(g.passed&&R('validation.json').passed);assert(!fs.existsSync(d+'build-started.json'),'Build already started; inspect actual result before retrying');
+assert.equal(H('src/world/regional/regional-main.json'),g.baselineSourceHash);assert.equal(H(d+'candidate-map.json'),g.candidateHash);
+for(const [f,h] of Object.entries({...g.sourceFiles,...g.physics}))assert.equal(H(f),h,'Source changed since validation: '+f);
+fs.copyFileSync(d+'candidate-map.json','src/world/regional/regional-main.json');
+const command='pnpm run build -BasicValidation',startedAt=new Date().toISOString(),log=fs.createWriteStream(d+'build.log');let output='';
+fs.writeFileSync(d+'build-started.json',JSON.stringify({command,startedAt,buildCount:1},null,2));
+const child=spawn('powershell.exe',['-NoLogo','-NoProfile','-Command',command],{windowsHide:true,stdio:['ignore','pipe','pipe']});
+for(const p of [child.stdout,child.stderr])p.on('data',b=>{output+=b.toString();log.write(b);process.stdout.write(b);});
+const exitCode=await new Promise((resolve,reject)=>{child.on('error',reject);child.on('close',resolve);});log.end();
+const result={command,exitCode,startedAt,completedAt:new Date().toISOString(),buildCount:1,desktopPackaged:false,published:output.includes('Checkpoint published.'),version:493,runtimeAsset:g.expectedRuntimeAsset};
+fs.writeFileSync(d+'build-result.json',JSON.stringify(result,null,2)+'\n');assert.equal(exitCode,0);assert(result.published);assert.equal(H('dist/'+g.expectedRuntimeAsset),g.runtimeHash);assert.equal(H('src/world/regional/regional-main.json'),g.candidateHash);
+const manifest=JSON.parse(fs.readFileSync('dist/.vite/manifest.json','utf8')),refs=Object.values(manifest).filter(e=>e.file.endsWith('.js')&&fs.readFileSync('dist/'+e.file,'utf8').includes(g.expectedRuntimeAsset.split('/').at(-1))).map(e=>e.file);assert(refs.length);
+fs.writeFileSync(d+'dist-consistency.json',JSON.stringify({passed:true,version:493,sourceHash:g.candidateHash,runtimeAsset:g.expectedRuntimeAsset,runtimeHash:g.runtimeHash,applicationReferencesRuntime:refs,buildCount:1,externalDesktopUpdated:false},null,2)+'\n');console.log('v493 published and dist hash verified.');

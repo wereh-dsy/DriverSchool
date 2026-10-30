@@ -1,3 +1,4 @@
+import { AdaptiveDriverLayer } from '../control/adaptive/AdaptiveDriverLayer';
 import { createNeutralVehicleInputState } from '../../input/VehicleInputState';
 import { Group, Vector2, Vector3 } from 'three';
 import { createVehiclePhysicsConfig, ICE_VEHICLE_CATALOG } from '../VehicleCatalog';
@@ -24,17 +25,24 @@ export function runVehicleExperienceSelfTest() {
   const dt = 1 / 120, input = createNeutralVehicleInputState();
   const flat = { longitudinalAcceleration: 0, lateralAcceleration: 0 };
   const base = createDefaultVehiclePhysicsConfig();
-  const lift = new SuspensionSystem(base);
-  const original = lift.getSnapshot();
-  for (let i = 0; i < 600; i++) lift.update(dt, { ...flat, frontAeroVerticalForce: -300, rearAeroVerticalForce: 100 });
-  const aerodynamic = lift.getSnapshot();
-  assert(close(aerodynamic.wheels.frontLeft.normalLoad + aerodynamic.wheels.frontRight.normalLoad,
-    base.mass * base.gravity * base.frontWeightBias + 300), 'front downforce adds front tyre normal load');
-  assert(close(aerodynamic.wheels.rearLeft.normalLoad + aerodynamic.wheels.rearRight.normalLoad,
-    base.mass * base.gravity * (1 - base.frontWeightBias) - 100), 'rear lift independently removes rear tyre normal load');
-  assert(aerodynamic.wheels.frontLeft.compression > original.wheels.frontLeft.compression &&
-    aerodynamic.wheels.rearLeft.compression < original.wheels.rearLeft.compression, 'aero changes physical spring compression');
-  const aeroAt = (speed: number) => {
+  // Exercise the actual sprung-body solver: hardware-only update intentionally
+  // cannot synthesize load from an acceleration/aero argument.
+  const supported=(front:number,rear:number)=>{
+    const car=new VehicleDynamics(cloneVehiclePhysicsConfig(base),{engineRunning:false,gear:'N',driveSelector:'N'});
+    const integrate=car.chassisMotion.integrate.bind(car.chassisMotion);
+    car.chassisMotion.integrate=(h,x,z,yaw,frame,tyres)=>integrate(h,x,z,yaw,frame,tyres,front,rear);
+    let state=car.getSnapshot();for(let n=0;n<2400;n++)state=car.stepFixed(dt,input);
+    return state;
+  };
+  const original=supported(0,0),aerodynamic=supported(-300,100);
+  const frontLoad=(s:typeof original)=>s.wheels.frontLeft.normalLoad+s.wheels.frontRight.normalLoad;
+  const rearLoad=(s:typeof original)=>s.wheels.rearLeft.normalLoad+s.wheels.rearRight.normalLoad;
+  assert(frontLoad(aerodynamic)>frontLoad(original),'front downforce loads the front tyre contacts');
+  assert(rearLoad(aerodynamic)<rearLoad(original),'rear lift unloads the rear tyre contacts');
+  assert(close(frontLoad(aerodynamic)+rearLoad(aerodynamic)-frontLoad(original)-rearLoad(original),200,1),
+    'physical axle reactions balance net aerodynamic load within one newton');
+  assert(aerodynamic.wheels.frontLeft.suspensionCompression>original.wheels.frontLeft.suspensionCompression&&
+    aerodynamic.wheels.rearLeft.suspensionCompression<original.wheels.rearLeft.suspensionCompression,'aero changes physical spring compression');  const aeroAt = (speed: number) => {
     const car = new VehicleDynamics(cloneVehiclePhysicsConfig(base), { speed, engineRunning: false, gear: 'N' });
     return car.stepFixed(dt, input);
   };
@@ -72,8 +80,12 @@ export function runVehicleExperienceSelfTest() {
     Math.abs(first.chassis.rideOffset) < .001, 'air rest geometry and chassis transition smoothly');
   for (let i = 0; i < 1200; i++) suvSuspension.update(dt, flat);
   const sport = suvSuspension.getSnapshot();
-  assert(close(sport.rideHeightOffset, -.02) && sport.dampingMultiplier > 1.39 && sport.chassis.rideOffset < -.019,
-    'SPORT lowers real rest geometry and settles to lower supported chassis');
+  assert(close(sport.rideHeightOffset, -.02) && sport.dampingMultiplier > 1.39,
+    'SPORT lowers hardware rest geometry and adjusts damping');
+  const supportedAir=new VehicleDynamics(cloneVehiclePhysicsConfig(suvConfig),{engineRunning:false,gear:'N',driveSelector:'N'});
+  supportedAir.suspension.setDriveMode('SPORT');
+  for(let n=0;n<2400;n++)supportedAir.stepFixed(dt,input);
+  assert(supportedAir.getSnapshot().chassis.chassisY<-.019,'SPORT rest adjustment lowers the physically supported chassis');
   suvSuspension.reset();
   for (let i = 0; i < 840; i++) suvSuspension.update(dt, { ...flat, speed: 35 });
   assert(suvSuspension.getSnapshot().rideHeightOffset === 0, 'high-speed lowering waits for delay');
@@ -184,21 +196,24 @@ export function runCruiseVehicleExperienceSelfTest() {
   const assert = (ok: boolean, message: string): void => { assertions++; if (!ok) throw new Error(`Cruise vehicle experience: ${message}`); };
   const dt = 1 / 120, baseInput = createNeutralVehicleInputState();
   const metrics: { vehicle: string; target: number; setSpeed: number; mode: string; actual: number; minimum: number; maximum: number; spread: number; mean: number; drift: number }[] = [];
+  let roadPlaneY=0,roadPlaneZ=0,roadGrade=0;
   const surface = { ...SURFACE_MATERIALS.asphalt, height: 0, normal: new Vector3(0, 1, 0), gradient: new Vector2(), grade: 0,
     gripMultiplier: 1, rollingResistanceMultiplier: 1 };
   const ground = { root: new Group(), colliders: [], spawnPose: { position: new Vector3() },
     worldBounds: { minX: -1e6, maxX: 1e6, minZ: -1e6, maxZ: 1e6 },
-    sampleRoadSurface: () => surface,
+    sampleRoadSurface: (_x:number,z:number) => ({...surface,height:roadPlaneY-Math.tan(roadGrade)*(z-roadPlaneZ),
+      normal:new Vector3(0,Math.cos(roadGrade),Math.sin(roadGrade)),gradient:new Vector2(0,-Math.tan(roadGrade)),grade:roadGrade}),
   } as unknown as DrivingGround;
   for (const descriptor of ICE_VEHICLE_CATALOG.filter(vehicle => vehicle.physicsConfig.driveModes)) {
     const car = new VehicleDynamics(createVehiclePhysicsConfig(descriptor.id), { speed: 20, gear: 4, driveSelector: 'D' });
+    const expectedDriver=new AdaptiveDriverLayer();
     let requestedThrottle = NaN;
     const prepare = car.powertrain.prepare.bind(car.powertrain);
     car.powertrain.prepare = context => { requestedThrottle = context.throttle; prepare(context); };
     for (let i = 0; i < 3; i++) {
       car.cycleDriveMode();
       for (const driver of [0, .9]) {
-        const expected = Math.max(car.driverThrottleCommand(driver), .55);
+        const expected = Math.max(expectedDriver.mapThrottle(dt,driver,car.driverAssists.calibration.throttle), .55);
         car.stepFixed(dt, { ...baseInput, throttle: driver, cruiseThrottle: .55 });
         assert(requestedThrottle === expected, `${descriptor.id}/${car.driveMode}: pedal shaping precedes max arbitration; cruise reaches Powertrain unchanged`);
       }
@@ -211,7 +226,8 @@ export function runCruiseVehicleExperienceSelfTest() {
       const gear = 5;
       const rpm = speed / config.wheelRadius * (config.transmission.gearRatios[gear] ?? 1) * config.transmission.finalDriveRatio * 60 / (2 * Math.PI);
       const car = new VehicleDynamics(config, { speed, gear, driveSelector: 'D', engineRPM: rpm, clutchEngagement: 1 });
-      const contacts = new VehicleContactSystem(ground, descriptor.visualConfig.dimensions);
+      roadPlaneY=0;roadPlaneZ=0;roadGrade=0;
+    const contacts = new VehicleContactSystem(ground, descriptor.visualConfig.dimensions);
       const cruise = new CruiseControlController(config.cruiseControl);
       const tick = (i: number, grade = 0, throttle = 0, brake = 0) => {
         const state = car.getSnapshot();
@@ -220,7 +236,8 @@ export function runCruiseVehicleExperienceSelfTest() {
           driveSelector: state.transmission.selectedMode ?? undefined, torqueLimitFactor: state.driverAssists.engineTorqueFactor,
           currentThrottle: state.throttle, driverThrottleCommand: car.driverThrottleCommand(throttle),
         });
-        return grade === 0 ? contacts.step(dt, controls, car) : car.stepFixed(dt, controls, { gradeRadians: grade });
+        roadPlaneY-=Math.tan(roadGrade)*(state.z-roadPlaneZ);roadPlaneZ=state.z;roadGrade=grade;
+        return contacts.step(dt,controls,car);
       };
       let minimum = Infinity, maximum = -Infinity;
       let sum = 0, firstSum = 0, lastSum = 0;
@@ -258,6 +275,7 @@ export function runCruiseVehicleExperienceSelfTest() {
     // This fixture exercises launch and cruise, not the ignition-off spawn.
     const car = new VehicleDynamics(config, { gear: 1, driveSelector: 'D', engineRunning: true, engineRPM: config.engine.idleRPM });
     for (let n = 0; n < order.length && car.driveMode !== mode; n++) car.cycleDriveMode();
+    roadPlaneY=0;roadPlaneZ=0;roadGrade=0;
     const contacts = new VehicleContactSystem(ground, descriptor.visualConfig.dimensions);
     let launchSteps = 0;
     // A fixed partial pedal can balance drag below 120 km/h in ECO. Request

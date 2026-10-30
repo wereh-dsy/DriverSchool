@@ -1,0 +1,27 @@
+import fs from 'node:fs';
+import {dir,read,write,hash,central,analyze,context,crossingPairs,roadPoints,roadEdges,sampleAt,polylineLength,pavement} from './common';
+import {RoadClearance} from '../../src/world/city/RoadClearance';
+import {roadStructureColliders} from '../../src/world/city/RoadInfrastructure';
+import {roadSignColliders} from '../../src/world/city/RoadSignTemplates';
+import {PrefabRegistry} from '../../src/world/city/PrefabRegistry';
+import {createSubject3Materials} from '../../src/world/subject3/materials';
+import {VehicleCollisionSystem} from '../../src/vehicle/physics/CollisionSystem';
+import {createRoadSUVPhysicsConfig} from '../../src/vehicle/config/roadSUVPhysicsConfig';
+import {roadCarriageways} from '../../src/world/city/RoadCarriageway';
+const map=read(dir+'candidate-map.json'),baseline=read(dir+'baseline-map.json'),inventory=read(dir+'interchange-inventory.json'),plans=read(dir+'repair-plans.json'),arg=process.argv.indexOf('--cluster'),clusters=arg<0?inventory.clusters:inventory.clusters.filter((c:any)=>c.id===process.argv[arg+1]);
+for(const c of clusters){const seeds=map.roads.filter((r:any)=>c.ramps.some((q:any)=>q.id===r.id)),local=context(map,seeds),rows=analyze(map,seeds,true).rows,clearance=new RoadClearance(local),pv=pavement(local),visual=roadCarriageways(local),materials=createSubject3Materials(),prefabs=new PrefabRegistry(materials),car=createRoadSUVPhysicsConfig(),roads=new Map<string,any>(map.roads.map((r:any)=>[r.id,r]));
+ const colliders=[...local.roads.flatMap((r:any)=>roadStructureColliders(r,local,clearance)),...(map.signs??[]).filter((s:any)=>local.roads.some((r:any)=>r.id===s.roadId)).flatMap(roadSignColliders),...map.objects.filter((o:any)=>local.roads.some((r:any)=>roadPoints(r).some(p=>Math.hypot(p.x-o.position.x,p.z-o.position.z)<60))).flatMap((o:any)=>{const collider=prefabs.collider(o);return collider?[collider]:[];})],collision=new VehicleCollisionSystem(colliders),sweeps:any[]=[],body:any[]=[];
+ for(const row of rows){const r=roads.get(row.id),path=roadPoints(r),length=polylineLength(path);let unsupported=0,mismatch=0;const bodyIssues:any[]=[];
+  for(let s=1;s<length;s+=5){const f=sampleAt(path,s);for(const offset of [-.835,0,.835]){const q={x:f.point.x-f.tangent.z*offset,y:f.point.y!,z:f.point.z+f.tangent.x*offset},hs=pv.hit(q),ys=hs.map(h=>h.surface.heightAt(q.x,q.z)),vy=visual.pavedHeight(r.id,q),junction=clearance.junctionAt(q,0,q.y-.2,q.y+.2);if(!ys.some(y=>Math.abs(y-q.y)<.15)&&!junction){unsupported++;if(bodyIssues.length<20)bodyIssues.push({station:s,offset,point:q,reason:'No support near nominal wheel trace'});}if(vy!==undefined&&!hs.some(h=>h.road.id===r.id&&Math.abs(h.surface.heightAt(q.x,q.z)-vy)<.04)){mismatch++;if(bodyIssues.length<20)bodyIssues.push({station:s,offset,point:q,visualY:vy,reason:'Visual and physical ramp pavement differ'});}}}
+  body.push({roadId:r.id,unsupportedWheelProbes:unsupported,visualSupportMismatch:mismatch,samples:bodyIssues});
+  for(const iface of row.interfaces){if(!iface.host||iface.host.junctionId){sweeps.push({roadId:r.id,end:iface.end,junction:iface.host?.junctionId,notDirectMouth:true});continue;}
+   const host=roads.get(iface.host.roadId),hp=roadPoints(host),oriented=iface.host.end===iface.end?[...hp].reverse():hp,incoming=iface.end==='start'?oriented:path,outgoing=iface.end==='start'?path:oriented,inRoad=iface.end==='start'?host:r,outRoad=iface.end==='start'?r:host,il=polylineLength(incoming),ol=polylineLength(outgoing),lane=(r:any)=>r.laneCount>1?(r.laneCount-1)*r.laneWidth/2:0,contacts:any[]=[];
+   for(const side of ['in','out']){const p=side==='in'?incoming:outgoing,l=side==='in'?il:ol,r=side==='in'?inRoad:outRoad,a=side==='in'?Math.max(1,l-40):1,b=side==='in'?l:Math.min(110,l-1);for(let s=a;s<b;s+=1.5){const f=sampleAt(p,s),offset=lane(r)*Math.min(1,(side==='in'?l-s:s)/35),pose={x:f.point.x-f.tangent.z*offset,y:f.point.y,z:f.point.z+f.tangent.x*offset,yaw:Math.atan2(-f.tangent.x,-f.tangent.z)},hit=collision.resolve({previousPose:pose,pose,velocity:{x:0,z:0},dimensions:car,dt:1/120});for(const contact of hit.contacts)if(!contacts.some(q=>q.id===contact.colliderId))contacts.push({id:contact.colliderId,side,station:s,point:pose});}}
+   sweeps.push({roadId:r.id,end:iface.end,contacts});
+  }
+ }
+ const edited=seeds.filter((r:any)=>plans.some((p:any)=>p.roadId===r.id)),oldPairs=edited.length?crossingPairs(baseline,edited):[],newPairs=edited.length?crossingPairs(map,edited):[],gap=(p:any)=>p.lo<=0&&p.hi>=0?0:Math.min(Math.abs(p.lo),Math.abs(p.hi)),crossingFailures=newPairs.flatMap((p:any)=>{const old=oldPairs.find((q:any)=>q.key===p.key);return old&&gap(old)>=5.5&&gap(p)<Math.min(6.15,gap(old))-.04?[{pair:p.key,before:gap(old),after:gap(p),stationMin:p.stationMin,stationMax:p.stationMax}]:!old&&gap(p)<2.5&&Math.max(Math.abs(p.lo),Math.abs(p.hi))>.04?[{pair:p.key,before:null,after:gap(p),stationMin:p.stationMin,stationMax:p.stationMax}]:[];});
+ prefabs.dispose();for(const m of Object.values(materials))if((m as any)?.dispose)(m as any).dispose();
+ write('clusters/'+c.file+'-validation.json',{cluster:c.id,mapHash:hash(map),geometry:rows,body,interfaceColliderSweeps:sweeps,crossingFailures,crossingPairs:newPairs});
+ console.log(JSON.stringify({cluster:c.id,roads:rows.length,geometryIssues:rows.filter((r:any)=>r.severity!=='PASS').map((r:any)=>({id:r.id,p:r.severity})),bodyIssues:body.filter(r=>r.unsupportedWheelProbes||r.visualSupportMismatch),colliderIssues:sweeps.filter(s=>s.contacts?.length),crossingFailures}));
+}

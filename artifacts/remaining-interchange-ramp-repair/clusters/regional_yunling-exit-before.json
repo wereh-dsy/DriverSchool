@@ -1,0 +1,589 @@
+{
+  "rows": [
+    {
+      "id": "regional:yunling-exit:off:1",
+      "cluster": "regional:yunling-exit",
+      "length": 312.45754449964926,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yunling-exit:off:1:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yunling-exit:off:1:deceleration",
+            "regional:G65:out:6:lane388",
+            "regional:G65:out:6",
+            "regional:G65:out:6:upgrade234",
+            "regional:G65:out:5:upgrade323",
+            "regional:G65:out:6:upgrade234:upgrade325",
+            "regional:G65:out:5",
+            "regional:G65:out:7",
+            "regional:G65:out:4:upgrade317",
+            "regional:G65:out:7:upgrade236",
+            "regional:G65:out:4",
+            "regional:G65:out:7:upgrade236:lane392",
+            "regional:G65:out:8",
+            "regional:yunling-exit:on:1:acceleration",
+            "regional:G65:out:9",
+            "regional:G65:out:9:revision475"
+          ],
+          "sharedLength": 35,
+          "maxSharedDeltaY": 0.01261852823471088,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.3517208065703852,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yunling-exit:local:1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yunling-exit:local:1"
+          ],
+          "sharedLength": 5,
+          "maxSharedDeltaY": 0.00304713224726072,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.388164739887489,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.006167098425997368,
+        "gradeBreaks": [],
+        "minRadius": 66.46813152210733,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yunling-exit:on:1",
+      "cluster": "regional:yunling-exit",
+      "length": 308.4096439566647,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yunling-exit:local:1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yunling-exit:local:1"
+          ],
+          "sharedLength": 5,
+          "maxSharedDeltaY": 0.004215632983516571,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.2439222846630145,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yunling-exit:on:1:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yunling-exit:on:1:acceleration",
+            "regional:G65:out:7:upgrade236",
+            "regional:G65:out:7:upgrade236:lane392",
+            "regional:G65:out:7",
+            "regional:G65:out:8",
+            "regional:G65:out:6:upgrade234:upgrade325",
+            "regional:G65:out:9",
+            "regional:G65:out:6:upgrade234",
+            "regional:G65:out:9:revision475",
+            "regional:G65:out:6:lane388",
+            "regional:G65:out:6",
+            "regional:G65:out:5:upgrade323",
+            "regional:yunling-exit:off:1:deceleration",
+            "regional:G65:out:5",
+            "regional:G65:out:4:upgrade317",
+            "regional:G65:out:4"
+          ],
+          "sharedLength": 31,
+          "maxSharedDeltaY": 0.040538864867357916,
+          "conflictRange": [
+            31,
+            31
+          ],
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4991192468997958,
+          "topology": true,
+          "samples": [
+            {
+              "d": 31,
+              "station": 277.4096439566647,
+              "offset": -2.9,
+              "dy": 0.040538864867357916,
+              "point": {
+                "x": 5978.4828584743345,
+                "y": 68.54713506309261,
+                "z": -7537.327684315693
+              },
+              "peers": [
+                {
+                  "roadId": "regional:G65:out:7",
+                  "y": 68.58767392795997
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.008513689070764788,
+        "gradeBreaks": [],
+        "minRadius": 52.79201394411166,
+        "shortSegments": 0
+      },
+      "severity": "P1"
+    },
+    {
+      "id": "regional:yunling-exit:off:-1",
+      "cluster": "regional:yunling-exit",
+      "length": 324.7532298240792,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yunling-exit:off:-1:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yunling-exit:off:-1:deceleration",
+            "regional:G65:in:3:lane396",
+            "regional:G65:in:3",
+            "regional:G65:in:3:upgrade242",
+            "regional:G65:in:2:revision441:lane4550",
+            "regional:G65:in:4",
+            "regional:G65:in:2:revision441",
+            "regional:v3:north-river:S-to-W-turbine:acceleration",
+            "regional:G65:in:4:upgrade329",
+            "regional:G65:in:5",
+            "regional:G65:in:5:upgrade244",
+            "regional:G65:in:5:upgrade244:lane400",
+            "regional:G65:in:5:upgrade244:upgrade327",
+            "regional:yunling-exit:on:-1:acceleration",
+            "regional:G65:in:6",
+            "regional:G65:in:6:upgrade321"
+          ],
+          "sharedLength": 45,
+          "maxSharedDeltaY": 0.029738885893308975,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.20137323273976251,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yunling-exit:local:-1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yunling-exit:local:-1"
+          ],
+          "sharedLength": 5,
+          "maxSharedDeltaY": 0.0004950588912464582,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.6866233412858413,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.008050063009696816,
+        "gradeBreaks": [],
+        "minRadius": 44.08785137316093,
+        "shortSegments": 1
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yunling-exit:on:-1",
+      "cluster": "regional:yunling-exit",
+      "length": 320.88760181444997,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yunling-exit:local:-1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yunling-exit:local:-1"
+          ],
+          "sharedLength": 5,
+          "maxSharedDeltaY": 0.0029780421163110304,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.5534292077325214,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yunling-exit:on:-1:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yunling-exit:on:-1:acceleration",
+            "regional:G65:in:5:upgrade244",
+            "regional:G65:in:5:upgrade244:lane400",
+            "regional:G65:in:5",
+            "regional:G65:in:5:upgrade244:upgrade327",
+            "regional:G65:in:4:upgrade329",
+            "regional:G65:in:6",
+            "regional:G65:in:4",
+            "regional:G65:in:6:upgrade321",
+            "regional:G65:in:3:upgrade242",
+            "regional:G65:in:3:lane396",
+            "regional:G65:in:3",
+            "regional:G65:in:2:revision441:lane4550",
+            "regional:yunling-exit:off:-1:deceleration",
+            "regional:G65:in:2:revision441",
+            "regional:v3:north-river:S-to-W-turbine:acceleration"
+          ],
+          "sharedLength": 39,
+          "maxSharedDeltaY": 0.015305207346145266,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.35076173747401007,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0059369079405791015,
+        "gradeBreaks": [],
+        "minRadius": 50.00542869367672,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yunling-exit:off:1:deceleration",
+      "cluster": "regional:yunling-exit",
+      "length": 124.44139869113715,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 124.28977364331998,
+        "mainRoadId": "regional:G65:out:6:lane388",
+        "decisionId": "regional:yunling-exit:off:1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G65:out:6",
+            "end": "end"
+          },
+          "peers": [
+            "regional:G65:out:6",
+            "regional:G65:out:5:upgrade323",
+            "regional:G65:out:6:lane388",
+            "regional:G65:out:5",
+            "regional:G65:out:6:upgrade234",
+            "regional:G65:out:4:upgrade317",
+            "regional:G65:out:6:upgrade234:upgrade325",
+            "regional:G65:out:4",
+            "regional:G65:out:7",
+            "regional:G65:out:7:upgrade236",
+            "regional:G65:out:7:upgrade236:lane392",
+            "regional:G65:out:8",
+            "regional:yunling-exit:on:1:acceleration",
+            "regional:G65:out:9",
+            "regional:G65:out:9:revision475"
+          ],
+          "sharedLength": 59,
+          "maxSharedDeltaY": 0.010328336900812474,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5676891185658933,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yunling-exit:off:1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yunling-exit:off:1",
+            "regional:yunling-exit:local:1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00007575301796691747,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.3517208065703852,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0026997978904250396,
+        "gradeBreaks": [],
+        "minRadius": 292.3171299380761,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yunling-exit:on:1:acceleration",
+      "cluster": "regional:yunling-exit",
+      "length": 116.45030545828625,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 116.4202005394031,
+        "mainRoadId": "regional:G65:out:7:upgrade236",
+        "decisionId": "regional:yunling-exit:on:1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yunling-exit:on:1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yunling-exit:on:1",
+            "regional:yunling-exit:local:1"
+          ],
+          "sharedLength": 3,
+          "maxSharedDeltaY": 0.016714355172723572,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4991192468997958,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G65:out:7:upgrade236:lane392",
+            "end": "start"
+          },
+          "peers": [
+            "regional:G65:out:7:upgrade236:lane392",
+            "regional:G65:out:8",
+            "regional:G65:out:7:upgrade236",
+            "regional:G65:out:9",
+            "regional:G65:out:7",
+            "regional:G65:out:9:revision475",
+            "regional:G65:out:6:upgrade234:upgrade325",
+            "regional:G65:out:6:upgrade234",
+            "regional:G65:out:6:lane388",
+            "regional:G65:out:6",
+            "regional:G65:out:5:upgrade323",
+            "regional:yunling-exit:off:1:deceleration",
+            "regional:G65:out:5",
+            "regional:G65:out:4:upgrade317",
+            "regional:G65:out:4"
+          ],
+          "sharedLength": 55,
+          "maxSharedDeltaY": 0.02834349456770724,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.0615421625567856,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.005571451724242737,
+        "gradeBreaks": [],
+        "minRadius": 334.481090268375,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yunling-exit:off:-1:deceleration",
+      "cluster": "regional:yunling-exit",
+      "length": 300.7069518507063,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:G65:in:3:lane396",
+        "decisionId": "regional:yunling-exit:off:-1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G65:in:3",
+            "end": "end"
+          },
+          "peers": [
+            "regional:G65:in:3",
+            "regional:G65:in:2:revision441:lane4550",
+            "regional:G65:in:3:lane396",
+            "regional:G65:in:2:revision441",
+            "regional:v3:north-river:S-to-W-turbine:acceleration",
+            "regional:G65:in:3:upgrade242",
+            "regional:G65:in:4",
+            "regional:G65:in:4:upgrade329",
+            "regional:G65:in:5",
+            "regional:G65:in:5:upgrade244",
+            "regional:G65:in:5:upgrade244:lane400",
+            "regional:G65:in:5:upgrade244:upgrade327",
+            "regional:yunling-exit:on:-1:acceleration",
+            "regional:G65:in:6",
+            "regional:G65:in:6:upgrade321"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0.02670687093036861,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4106127234542644,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yunling-exit:off:-1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yunling-exit:off:-1",
+            "regional:yunling-exit:local:-1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00006113439343380378,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.20137323273976251,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.005528233182697448,
+        "gradeBreaks": [],
+        "minRadius": 298.8278971503227,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yunling-exit:on:-1:acceleration",
+      "cluster": "regional:yunling-exit",
+      "length": 200.04525150777388,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:G65:in:5:upgrade244",
+        "decisionId": "regional:yunling-exit:on:-1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yunling-exit:on:-1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yunling-exit:on:-1",
+            "regional:yunling-exit:local:-1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00008022151074271733,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.35076173747401007,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G65:in:5:upgrade244:lane400",
+            "end": "start"
+          },
+          "peers": [
+            "regional:G65:in:5:upgrade244:lane400",
+            "regional:G65:in:5:upgrade244:upgrade327",
+            "regional:G65:in:5:upgrade244",
+            "regional:G65:in:6",
+            "regional:G65:in:5",
+            "regional:G65:in:6:upgrade321",
+            "regional:G65:in:4:upgrade329",
+            "regional:G65:in:4",
+            "regional:G65:in:3:upgrade242",
+            "regional:G65:in:3:lane396",
+            "regional:G65:in:3",
+            "regional:G65:in:2:revision441:lane4550",
+            "regional:yunling-exit:off:-1:deceleration",
+            "regional:G65:in:2:revision441",
+            "regional:v3:north-river:S-to-W-turbine:acceleration"
+          ],
+          "sharedLength": 96,
+          "maxSharedDeltaY": 0.008701492560987845,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4104756941252726,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0026953665444673673,
+        "gradeBreaks": [],
+        "minRadius": 355.18200067642624,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    }
+  ]
+}

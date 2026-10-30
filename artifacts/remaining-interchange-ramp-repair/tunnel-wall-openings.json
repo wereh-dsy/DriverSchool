@@ -1,0 +1,62 @@
+{
+  "updates": [
+    {
+      "roadId": "ns-tunnel:southbound",
+      "branchRoadId": "v91-ns-sb-off",
+      "before": {
+        "barrierEnabled": false,
+        "piersEnabled": false,
+        "pierSpacing": 55,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "tunnel",
+          "clearance": 6
+        }
+      },
+      "after": {
+        "barrierEnabled": false,
+        "piersEnabled": false,
+        "pierSpacing": 55,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "tunnel",
+          "clearance": 6,
+          "branchOpenings": [
+            "v91-ns-sb-off"
+          ]
+        }
+      },
+      "reason": "Verified side wall crosses the explicit NS main/frontage ramp around z=633–644m; render and collision use shared clipped wall sections."
+    },
+    {
+      "roadId": "ns-tunnel:northbound-split",
+      "branchRoadId": "v91-ns-nb-on",
+      "before": {
+        "barrierEnabled": false,
+        "piersEnabled": false,
+        "pierSpacing": 55,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "tunnel",
+          "clearance": 6
+        }
+      },
+      "after": {
+        "barrierEnabled": false,
+        "piersEnabled": false,
+        "pierSpacing": 55,
+        "barrierOffset": 0.25,
+        "enclosure": {
+          "kind": "tunnel",
+          "clearance": 6,
+          "branchOpenings": [
+            "v91-ns-nb-on"
+          ]
+        }
+      },
+      "reason": "Verified side wall crosses the explicit NS main/frontage ramp around z=633–644m; render and collision use shared clipped wall sections."
+    }
+  ],
+  "mainlineCenterlinesUnchanged": true,
+  "centralGeometryUnchanged": true
+}

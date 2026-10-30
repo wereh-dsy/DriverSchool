@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-10-23T09:00:13.934Z",
+  "source": "src/world/regional/regional-main.json",
+  "mapHash": "94a9be105430175c0b95c416ec4ab9824da2c4b8a8851ef017478e39ade5ecdb",
+  "mapUnchanged": true,
+  "productSourceOrMapEdits": false,
+  "scope": "system-central only; diagnostic artifact scripts are the only new code",
+  "commands": [
+    {
+      "command": "node artifacts/system-central-ramp-audit/run.mjs",
+      "exitCode": 0,
+      "result": "targeted diagnostics executed; findings retained",
+      "ramps": 8,
+      "interfaces": 16,
+      "pathsCompleted": 12,
+      "failedPaths": [
+        {
+          "rampId": "system-central:E-to-S-semi",
+          "end": "start",
+          "reason": "time-limit"
+        },
+        {
+          "rampId": "system-central:E-to-N-right",
+          "end": "start",
+          "reason": "time-limit"
+        },
+        {
+          "rampId": "system-central:N-to-E-semi",
+          "end": "start",
+          "reason": "sustained-support-loss"
+        },
+        {
+          "rampId": "system-central:W-to-S-right",
+          "end": "start",
+          "reason": "time-limit"
+        }
+      ]
+    },
+    {
+      "command": "node artifacts/system-central-ramp-audit/finalize.mjs",
+      "exitCode": 0,
+      "result": "report, geometry and facility evidence generated"
+    },
+    {
+      "command": "targeted buildCityRoadNetwork routing/laneConnections + mainline child links",
+      "result": "PASS",
+      "interfaces": 16,
+      "mainlineLinks": 58
+    },
+    {
+      "command": "pnpm run typecheck",
+      "exitCode": 0,
+      "result": "PASS",
+      "note": "Executed against the existing working tree before report generation; artifacts scripts are outside tsconfig include=src."
+    },
+    {
+      "command": "node artifacts/system-central-ramp-audit/verify.mjs",
+      "exitCode": 0,
+      "result": "PASS",
+      "checks": [
+        "all requested artifacts present",
+        "JSON parseable",
+        "every ramp has two unique interfaces/replays",
+        "all retained wheel samples have candidateCount",
+        "mainline profile coverage",
+        "source map SHA unchanged",
+        "report links resolve"
+      ]
+    }
+  ],
+  "counts": {
+    "total": 8,
+    "PASS": 1,
+    "P0": 4,
+    "P1": 3,
+    "P2": 0
+  },
+  "mainlineHardGradeBreaks": 0,
+  "notRun": [
+    "full-map ramp audit",
+    "full-map smoothness",
+    "full-map median",
+    "full-map facilities",
+    "full core",
+    "all vehicles",
+    "editor full suite",
+    "long computer-use driving",
+    "build"
+  ],
+  "buildReason": "No game source/map modification; diagnosis-only task explicitly excludes build.",
+  "limitations": [
+    "Full ramp bodies have static geometry/profile sampling, not continuous physics replay.",
+    "Short replay uses one vehicle and one controlled path per interface; no exhaustive steering/speed proof.",
+    "Graphics sector publication is suppressed in the diagnostic process; actual support, terrain, collision and physics logic is unchanged.",
+    "P2 facility associations/height outliers are retained for later visual review; P2=0 is mutually exclusive primary ramp severity, not facility certification."
+  ],
+  "sourceFingerprints": {
+    "src/world/regional/regional-main.json": "94a9be105430175c0b95c416ec4ab9824da2c4b8a8851ef017478e39ade5ecdb",
+    "src/world/city/CityGround.ts": "23a9938a3ab5fac245d3158d2af4062551dd0cdaba95256c3e806ba961834cab",
+    "src/world/city/geometry.ts": "7d7e767502dfada7261bdfbdbadf331e21dd14a634719ee3d179372bb8a450c2",
+    "src/world/city/RoadEdgeChain.ts": "c3df55134864eea15aaaf75138803bc6f60d778cf8dcd96fb288b54f54bf78fb",
+    "src/world/city/RoadPavementSurface.ts": "bd2a784978bf8d7f1c3a00627893d962af7b6203c6ee8f4af26aeff4b02152ec",
+    "src/world/city/RoadInfrastructure.ts": "87d9162064381268a6c736cf286480218e6c9490b5d2776d17251fb627da3629",
+    "src/world/city/RoadBuilder.ts": "0b7a4b96898243a5bab9a0be48bf812c5b05dcd032bac7158fc98698a2b48f9d",
+    "src/world/city/CityRoadNetwork.ts": "33a43deda57b132e4e06f400373b64337c0f9e61971e916e7330f42977bfec1b",
+    "src/vehicle/physics/VehicleContactSystem.ts": "64f35ad6a0edc51c2ea9b9f8174c431f1b65a5db04d29e7df79f8a47d24e75a2",
+    "src/vehicle/physics/WheelSupportContinuity.ts": "0c310e9b2a9945bf80141ed19f3a240cd0cc883eacb26997b261ebbec3eebce0",
+    "src/vehicle/physics/SuspensionSystem.ts": "359ab78317f471facebbff13e662aa56b6ed920a64f174c20a7be57f8c735fd4",
+    "src/vehicle/physics/VehicleDynamics.ts": "41536d94677bf9117f36f8c957d441c179e8dc8a424fb0831a957fc88b358eab",
+    "src/vehicle/config/roadSUVPhysicsConfig.ts": "574cf8d9cf069eb9a9ff538ebf5cb879d83b32f745957adb85bd05cfadf164e4"
+  },
+  "diagnosticHarnessHistory": [
+    {
+      "command": "initial verify.mjs",
+      "exitCode": 1,
+      "reason": "The harness checked its own output link validation.json before creating that file.",
+      "resolution": "Generate validation.json before checking all report links; rerun every assertion."
+    }
+  ]
+}

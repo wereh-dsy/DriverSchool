@@ -1,0 +1,653 @@
+{
+  "rows": [
+    {
+      "id": "regional:yanjiang-exit:off:1",
+      "cluster": "regional:yanjiang-exit",
+      "length": 328.91452467649697,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yanjiang-exit:off:1:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yanjiang-exit:off:1:deceleration",
+            "regional:v3:S31-extension130:out:8:lane4446",
+            "regional:v3:S31-extension130:out:8",
+            "regional:v3:S31-extension130:out:8:revision889",
+            "regional:v3:S31-extension130:out:7",
+            "regional:v3:S31-extension130:out:9",
+            "regional:v3:S31-extension130:out:9:revision892",
+            "regional:v3:S31-extension130:out:9:revision892:lane4450",
+            "regional:v3:S31-extension130:out:10",
+            "regional:yanjiang-exit:on:1:acceleration",
+            "regional:v3:S31-extension130:out:11",
+            "regional:v3:S31-extension130:out:12",
+            "regional:v3:S31-extension130:out:13",
+            "regional:v3:S31-extension130:out:14",
+            "regional:v3:S31-extension130:out:14:lane4622",
+            "regional:v3:chenjiang-east:N-to-E-turbine:deceleration"
+          ],
+          "sharedLength": 50,
+          "maxSharedDeltaY": 0.042831951776204136,
+          "conflictRange": [
+            46,
+            50
+          ],
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.09855399177667486,
+          "topology": true,
+          "samples": [
+            {
+              "d": 46,
+              "station": 46,
+              "offset": -2.9,
+              "dy": 0.04002654910562953,
+              "point": {
+                "x": 8774.357855195116,
+                "y": 17.898918491992927,
+                "z": -3112.0010774872035
+              },
+              "peers": [
+                {
+                  "roadId": "regional:v3:S31-extension130:out:8:revision889",
+                  "y": 17.938945041098556
+                }
+              ]
+            },
+            {
+              "d": 47,
+              "station": 47,
+              "offset": -2.9,
+              "dy": 0.04069910662921927,
+              "point": {
+                "x": 8775.003141337795,
+                "y": 17.897206846176026,
+                "z": -3111.1905703831726
+              },
+              "peers": [
+                {
+                  "roadId": "regional:v3:S31-extension130:out:8:revision889",
+                  "y": 17.93790595280525
+                }
+              ]
+            },
+            {
+              "d": 48,
+              "station": 48,
+              "offset": -2.9,
+              "dy": 0.04141098261162668,
+              "point": {
+                "x": 8775.618829524172,
+                "y": 17.89549355105237,
+                "z": -3110.4025804992557
+              },
+              "peers": [
+                {
+                  "roadId": "regional:v3:S31-extension130:out:8:revision889",
+                  "y": 17.936904533663995
+                }
+              ]
+            },
+            {
+              "d": 49,
+              "station": 49,
+              "offset": -2.9,
+              "dy": 0.042122858594034085,
+              "point": {
+                "x": 8776.234517710549,
+                "y": 17.893780255928707,
+                "z": -3109.6145906153383
+              },
+              "peers": [
+                {
+                  "roadId": "regional:v3:S31-extension130:out:8:revision889",
+                  "y": 17.93590311452274
+                }
+              ]
+            },
+            {
+              "d": 50,
+              "station": 50,
+              "offset": -2.9,
+              "dy": 0.042831951776204136,
+              "point": {
+                "x": 8776.865025572577,
+                "y": 17.892064995668786,
+                "z": -3108.790504918475
+              },
+              "peers": [
+                {
+                  "roadId": "regional:v3:S31-extension130:out:8:revision889",
+                  "y": 17.93489694744499
+                },
+                {
+                  "roadId": "regional:v3:S31-extension130:out:8:revision889",
+                  "y": 17.93489694744499
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yanjiang-exit:local:1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yanjiang-exit:local:1"
+          ],
+          "sharedLength": 4,
+          "maxSharedDeltaY": 0.0012039422801670696,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.8323607890107025,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0030646547070410954,
+        "gradeBreaks": [],
+        "minRadius": 43.09558441274309,
+        "shortSegments": 0
+      },
+      "severity": "P1"
+    },
+    {
+      "id": "regional:yanjiang-exit:on:1",
+      "cluster": "regional:yanjiang-exit",
+      "length": 325.29677496092825,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yanjiang-exit:local:1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yanjiang-exit:local:1"
+          ],
+          "sharedLength": 4,
+          "maxSharedDeltaY": 0.00101208024032573,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.7072853023356918,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yanjiang-exit:on:1:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yanjiang-exit:on:1:acceleration",
+            "regional:v3:S31-extension130:out:9:revision892",
+            "regional:v3:S31-extension130:out:9:revision892:lane4450",
+            "regional:v3:S31-extension130:out:9",
+            "regional:v3:S31-extension130:out:10",
+            "regional:v3:S31-extension130:out:8:revision889",
+            "regional:v3:S31-extension130:out:11",
+            "regional:v3:S31-extension130:out:8:lane4446",
+            "regional:v3:S31-extension130:out:12",
+            "regional:v3:S31-extension130:out:8",
+            "regional:v3:S31-extension130:out:13",
+            "regional:v3:S31-extension130:out:7",
+            "regional:yanjiang-exit:off:1:deceleration",
+            "regional:v3:S31-extension130:out:14",
+            "regional:v3:S31-extension130:out:14:lane4622",
+            "regional:v3:chenjiang-east:N-to-E-turbine:deceleration"
+          ],
+          "sharedLength": 44,
+          "maxSharedDeltaY": 0.023363901031348888,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.21729454762284942,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0067759872884626225,
+        "gradeBreaks": [],
+        "minRadius": 46.15582436851242,
+        "shortSegments": 1
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yanjiang-exit:off:-1",
+      "cluster": "regional:yanjiang-exit",
+      "length": 308.22303522926353,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yanjiang-exit:off:-1:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yanjiang-exit:off:-1:deceleration",
+            "regional:v3:S31-extension130:in:15:lane4454",
+            "regional:v3:S31-extension130:in:15",
+            "regional:v3:S31-extension130:in:15:revision895",
+            "regional:v3:S31-extension130:in:14",
+            "regional:v3:S31-extension130:in:16",
+            "regional:v3:S31-extension130:in:16:revision898",
+            "regional:v3:S31-extension130:in:16:revision898:lane4458",
+            "regional:v3:S31-extension130:in:17",
+            "regional:yanjiang-exit:on:-1:acceleration",
+            "regional:v3:S31-extension130:in:18",
+            "regional:v3:S31-extension130:in:19",
+            "regional:v3:S31-extension130:in:19:lane4546",
+            "regional:v3:north-river:S-to-W-turbine:deceleration"
+          ],
+          "sharedLength": 33,
+          "maxSharedDeltaY": 0.02496192881045367,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.45148671179026584,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yanjiang-exit:local:-1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yanjiang-exit:local:-1"
+          ],
+          "sharedLength": 4,
+          "maxSharedDeltaY": 0.0005545018736512475,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.21978782148554,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.008734155133299521,
+        "gradeBreaks": [],
+        "minRadius": 55.4523408613821,
+        "shortSegments": 1
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yanjiang-exit:on:-1",
+      "cluster": "regional:yanjiang-exit",
+      "length": 304.4185446602461,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yanjiang-exit:local:-1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yanjiang-exit:local:-1"
+          ],
+          "sharedLength": 4,
+          "maxSharedDeltaY": 0.0013405895238705057,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 3.080517850682042,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yanjiang-exit:on:-1:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yanjiang-exit:on:-1:acceleration",
+            "regional:v3:S31-extension130:in:16:revision898",
+            "regional:v3:S31-extension130:in:16:revision898:lane4458",
+            "regional:v3:S31-extension130:in:16",
+            "regional:v3:S31-extension130:in:17",
+            "regional:v3:S31-extension130:in:15:revision895",
+            "regional:v3:S31-extension130:in:18",
+            "regional:v3:S31-extension130:in:15:lane4454",
+            "regional:v3:S31-extension130:in:19",
+            "regional:v3:S31-extension130:in:15",
+            "regional:v3:S31-extension130:in:19:lane4546",
+            "regional:v3:north-river:S-to-W-turbine:deceleration",
+            "regional:v3:S31-extension130:in:14",
+            "regional:yanjiang-exit:off:-1:deceleration"
+          ],
+          "sharedLength": 30,
+          "maxSharedDeltaY": 0.02784333965086816,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5721697797791989,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.003407218785032073,
+        "gradeBreaks": [],
+        "minRadius": 57.82090099238631,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yanjiang-exit:off:1:deceleration",
+      "cluster": "regional:yanjiang-exit",
+      "length": 300.58462700921274,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v3:S31-extension130:out:8:lane4446",
+        "decisionId": "regional:yanjiang-exit:off:1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v3:S31-extension130:out:8",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v3:S31-extension130:out:8",
+            "regional:v3:S31-extension130:out:7",
+            "regional:v3:S31-extension130:out:8:lane4446",
+            "regional:v3:S31-extension130:out:8:revision889",
+            "regional:v3:S31-extension130:out:9",
+            "regional:v3:S31-extension130:out:9:revision892",
+            "regional:v3:S31-extension130:out:9:revision892:lane4450",
+            "regional:v3:S31-extension130:out:10",
+            "regional:yanjiang-exit:on:1:acceleration",
+            "regional:v3:S31-extension130:out:11",
+            "regional:v3:S31-extension130:out:12",
+            "regional:v3:S31-extension130:out:13",
+            "regional:v3:S31-extension130:out:14",
+            "regional:v3:S31-extension130:out:14:lane4622",
+            "regional:v3:chenjiang-east:N-to-E-turbine:deceleration"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0.012582439016938451,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.3521114755432466,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yanjiang-exit:off:1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yanjiang-exit:off:1",
+            "regional:yanjiang-exit:local:1"
+          ],
+          "sharedLength": 3,
+          "maxSharedDeltaY": 0.004219309070791155,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.09855399177667486,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0025164878033872105,
+        "gradeBreaks": [],
+        "minRadius": 314.0139887789344,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yanjiang-exit:on:1:acceleration",
+      "cluster": "regional:yanjiang-exit",
+      "length": 300.29591327736443,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v3:S31-extension130:out:9:revision892",
+        "decisionId": "regional:yanjiang-exit:on:1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yanjiang-exit:on:1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yanjiang-exit:on:1",
+            "regional:yanjiang-exit:local:1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.0000526218973995185,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.21729454762284942,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v3:S31-extension130:out:9:revision892:lane4450",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v3:S31-extension130:out:9:revision892:lane4450",
+            "regional:v3:S31-extension130:out:10",
+            "regional:v3:S31-extension130:out:9:revision892",
+            "regional:v3:S31-extension130:out:11",
+            "regional:v3:S31-extension130:out:9",
+            "regional:v3:S31-extension130:out:12",
+            "regional:v3:S31-extension130:out:8:revision889",
+            "regional:v3:S31-extension130:out:13",
+            "regional:v3:S31-extension130:out:8:lane4446",
+            "regional:v3:S31-extension130:out:14",
+            "regional:v3:S31-extension130:out:8",
+            "regional:v3:S31-extension130:out:14:lane4622",
+            "regional:v3:chenjiang-east:N-to-E-turbine:deceleration",
+            "regional:v3:S31-extension130:out:7",
+            "regional:yanjiang-exit:off:1:deceleration"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0.027188275465597656,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.3897998766625672,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.005692244034476532,
+        "gradeBreaks": [],
+        "minRadius": 361.67312402411767,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yanjiang-exit:off:-1:deceleration",
+      "cluster": "regional:yanjiang-exit",
+      "length": 299.95579124872387,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v3:S31-extension130:in:15:lane4454",
+        "decisionId": "regional:yanjiang-exit:off:-1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:v3:S31-extension130:in:15",
+            "end": "end"
+          },
+          "peers": [
+            "regional:v3:S31-extension130:in:15",
+            "regional:v3:S31-extension130:in:14",
+            "regional:v3:S31-extension130:in:15:lane4454",
+            "regional:v3:S31-extension130:in:15:revision895",
+            "regional:v3:S31-extension130:in:16",
+            "regional:v3:S31-extension130:in:16:revision898",
+            "regional:v3:S31-extension130:in:16:revision898:lane4458",
+            "regional:v3:S31-extension130:in:17",
+            "regional:yanjiang-exit:on:-1:acceleration",
+            "regional:v3:S31-extension130:in:18",
+            "regional:v3:S31-extension130:in:19",
+            "regional:v3:S31-extension130:in:19:lane4546",
+            "regional:v3:north-river:S-to-W-turbine:deceleration"
+          ],
+          "sharedLength": 143,
+          "maxSharedDeltaY": 0.028011350611095054,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.428462798672334,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:yanjiang-exit:off:-1",
+            "end": "start"
+          },
+          "peers": [
+            "regional:yanjiang-exit:off:-1",
+            "regional:yanjiang-exit:local:-1"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0.00010841095301294956,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.45148671179026584,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.005698614235877542,
+        "gradeBreaks": [],
+        "minRadius": 363.66551809850824,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:yanjiang-exit:on:-1:acceleration",
+      "cluster": "regional:yanjiang-exit",
+      "length": 299.66448676629193,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:v3:S31-extension130:in:16:revision898",
+        "decisionId": "regional:yanjiang-exit:on:-1"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:yanjiang-exit:on:-1",
+            "end": "end"
+          },
+          "peers": [
+            "regional:yanjiang-exit:on:-1",
+            "regional:yanjiang-exit:local:-1"
+          ],
+          "sharedLength": 3,
+          "maxSharedDeltaY": 0.004199426295862452,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5721697797791989,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:v3:S31-extension130:in:16:revision898:lane4458",
+            "end": "start"
+          },
+          "peers": [
+            "regional:v3:S31-extension130:in:16:revision898:lane4458",
+            "regional:v3:S31-extension130:in:17",
+            "regional:v3:S31-extension130:in:16:revision898",
+            "regional:v3:S31-extension130:in:18",
+            "regional:v3:S31-extension130:in:16",
+            "regional:v3:S31-extension130:in:19",
+            "regional:v3:S31-extension130:in:15:revision895",
+            "regional:v3:S31-extension130:in:19:lane4546",
+            "regional:v3:north-river:S-to-W-turbine:deceleration",
+            "regional:v3:S31-extension130:in:15:lane4454",
+            "regional:v3:S31-extension130:in:15",
+            "regional:v3:S31-extension130:in:14",
+            "regional:yanjiang-exit:off:-1:deceleration"
+          ],
+          "sharedLength": 143,
+          "maxSharedDeltaY": 0.01470080903810711,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4321239426082676,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0025481030175268375,
+        "gradeBreaks": [],
+        "minRadius": 310.25113040778365,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    }
+  ]
+}

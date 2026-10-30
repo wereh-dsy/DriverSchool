@@ -1,0 +1,56 @@
+{
+  "geometry": {
+    "command": "node artifacts/system-central-ramp-repair/run.mjs --validate",
+    "exitCode": 0,
+    "passed": true,
+    "interfaces": 16,
+    "gradeBreaksAtLeast4pp": 0
+  },
+  "facilities": {
+    "command": "node artifacts/system-central-ramp-repair/run.mjs --facilities",
+    "exitCode": 0,
+    "passed": true,
+    "signsReprojected": 37,
+    "objectIds": [
+      "v6-lamps-806"
+    ],
+    "unsupportedPaint": 0,
+    "goreInTrafficLane": 0
+  },
+  "replays": {
+    "command": "node artifacts/system-central-ramp-repair/replay.mjs",
+    "exitCode": 0,
+    "passed": true,
+    "interfaces": 16,
+    "allGrounded": true,
+    "collisions": 0,
+    "supportRejections": 0,
+    "fullAirborne": 0,
+    "mechanicalImpulse": 0,
+    "safetyRecovery": 0
+  },
+  "typecheck": {
+    "command": "pnpm run typecheck",
+    "exitCode": 0,
+    "passed": true
+  },
+  "build": {
+    "command": "pnpm run build -BasicValidation",
+    "launchCount": 1,
+    "exitCode": 0,
+    "published": true,
+    "startedAt": "2026-10-23T11:15:34.251Z",
+    "completedAt": "2026-10-23T11:16:06.271Z",
+    "log": "artifacts/system-central-ramp-repair/build.log",
+    "coreSelftestsSkippedByExplicitUserRequest": true
+  },
+  "notRun": [
+    "full core",
+    "all vehicles",
+    "editor full suite",
+    "other interchange audits",
+    "full map smoothness/median/facilities",
+    "long computer-use driving"
+  ],
+  "repairIterations": "Discarded infeasible fits and crossing-clearance regressions were not published. The first candidate replay found the existing v6-lamps-806 blocking E-to-N-right; final facility adaptation and all 16 replays pass. Marking checks initially found five unsupported gore triangles, eliminated by opt-in pavement clipping. One candidate file I/O attempt failed transiently and succeeded on retry."
+}

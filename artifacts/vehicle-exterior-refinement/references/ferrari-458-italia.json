@@ -1,0 +1,116 @@
+{
+  "vehicleId": "ferrari-458-italia",
+  "displayName": "Ferrari 458 Italia",
+  "researchDate": "2026-10-28",
+  "targetGeneration": "Ferrari 458 Italia F142 berlinetta，2009–2015；不是 Spider 或 488",
+  "units": {
+    "dimensions": "metres",
+    "rim": "inches",
+    "nominalTyreDiameter": "metres, calculated from marked size; not measured rolling radius"
+  },
+  "officialOrDocumentedSpecifications": {
+    "length": 4.527,
+    "width": 1.937,
+    "height": 1.213,
+    "wheelBase": 2.65,
+    "frontTrackWidth": 1.672,
+    "rearTrackWidth": 1.606,
+    "frontOverhang": 1.107,
+    "rearOverhang": 0.77,
+    "groundClearance": "unavailable"
+  },
+  "specificationProvenance": [
+    {
+      "type": "manufacturer owner manual, dealer hosted",
+      "url": "https://di-uploads-pod31.s3.us-east-1.amazonaws.com/ferrarioffortlauderdale/uploads/2020/05/458spider.pdf",
+      "scope": "458 Italia/Spider 共用手册的 Italia 尺寸列与轮胎表；区分 Italia 1213mm 车高"
+    },
+    {
+      "type": "manufacturer product page, inaccessible",
+      "url": "https://www.ferrari.com/en-EN/auto/458-italia",
+      "scope": "官网访问被拦截；未把不可读页面当作独立核验证据"
+    }
+  ],
+  "tyres": {
+    "front": "235/35 R20",
+    "rear": "295/35 R20",
+    "rimInches": 20,
+    "nominalFrontDiameter": 0.6725,
+    "nominalRearDiameter": 0.7145,
+    "frontRimWidthInches": "unavailable",
+    "rearRimWidthInches": "unavailable",
+    "frontOffsetMetres": "unavailable",
+    "rearOffsetMetres": "unavailable",
+    "frontWidthMetres": 0.235,
+    "rearWidthMetres": 0.295,
+    "widthDifferenceMetres": 0.06
+  },
+  "photoReferences": [
+    {
+      "type": "manufacturer photo reproduction",
+      "url": "https://www.automobilesreview.com/auto-news/ferrari-458-italia/16642/",
+      "scope": "458 Italia 发布图库"
+    },
+    {
+      "type": "automotive media",
+      "url": "https://www.carsales.com.au/editorial/details/ferrari-458-italia-in-detail-16027/",
+      "scope": "458 Italia 外形与比例"
+    }
+  ],
+  "photoCoverageNote": "链接是指定代际图库/实拍参考；未取得每款完全一致的正侧/正前/正后/高低视角七张图。未确认的独立视角为 unavailable。",
+  "unavailablePhotoAngles": [
+    "matched orthographic side",
+    "matched straight front",
+    "matched straight rear",
+    "matched high angle",
+    "matched low angle"
+  ],
+  "qualitativePhotoObservations": [
+    "前移座舱、低鼻和高翼子板、短弧顶、后置发动机玻璃、竖向前灯、圆尾灯和中央三排气。"
+  ],
+  "observationProvenance": "Qualitative photo/design observations. No photograph-derived number is labelled as an OEM specification.",
+  "gameConstraints": {
+    "declaredDimensions": {
+      "length": 4.527,
+      "width": 1.937,
+      "height": 1.213,
+      "wheelBase": 2.65,
+      "frontTrackWidth": 1.672,
+      "rearTrackWidth": 1.606,
+      "wheelDiameter": 0.674
+    },
+    "loadedModel": {
+      "length": 4.5269999504089355,
+      "width": 1.9379395246505737,
+      "height": 1.2130000591278076,
+      "wheelBase": 2.65,
+      "frontTrackWidth": 1.672,
+      "rearTrackWidth": 1.606,
+      "wheelDiameter": 0.6740000247955322,
+      "frontOverhang": 1.106999921798706,
+      "rearOverhang": 0.7700000286102295
+    },
+    "physicalTyreWidths": [
+      {
+        "id": "frontLeft",
+        "width": 0.23549999988824133
+      },
+      {
+        "id": "frontRight",
+        "width": 0.23549999988824133
+      },
+      {
+        "id": "rearLeft",
+        "width": 0.29549999362975354
+      },
+      {
+        "id": "rearRight",
+        "width": 0.29549999362975354
+      }
+    ],
+    "note": "Physical hardpoints, rolling radii and chassis/collision declarations retained. Model values are measurements, not manufacturer data."
+  },
+  "unresolvedDifferences": [
+    "物理系统前后使用同一 337mm 滚动半径；现实 295/35R20 后胎名义直径 714.5mm 更大。保留硬点和物理半径，未擅自改变后轮滚动几何。"
+  ]
+}

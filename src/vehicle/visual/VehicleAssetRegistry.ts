@@ -8,11 +8,31 @@ export class VehicleAssetRegistry {
   private readonly resources = new Set<T.BufferGeometry | T.Material | T.Texture>();
   private readonly canvases = new Map<string, HTMLCanvasElement>();
   private instances = 0;
-  public retain(): void { this.instances++; }
-  public release(): void { this.instances--; }
+  private readonly borrowers = new Map<object, number>();
+  public retain(owner?: object): void { this.instances++; if (owner) this.borrowers.set(owner, (this.borrowers.get(owner) ?? 0) + 1); }
+  public release(owner?: object): void { this.instances--; if (owner) { const count = (this.borrowers.get(owner) ?? 1) - 1; if (count) this.borrowers.set(owner, count); else this.borrowers.delete(owner); } }
+  /** Keep at most three recent owners, plus any still borrowed by live visuals. */
+  public prune(maxOwners = 3): void {
+    const capacity = maxOwners + (this.sections.has(this) ? 1 : 0);
+    for (const owner of this.sections.keys()) {
+      if (this.sections.size <= capacity) break;
+      if (owner !== this && !this.borrowers.has(owner)) this.sections.delete(owner);
+    }
+    const retained = new Set<T.BufferGeometry | T.Material | T.Texture>();
+    for (const sections of this.sections.values()) for (const root of sections.values()) root.traverse(o => {
+      if (!(o instanceof T.Mesh)) return;
+      retained.add(o.geometry);
+      for (const material of Array.isArray(o.material) ? o.material : [o.material]) {
+        retained.add(material); for (const value of Object.values(material)) if (value instanceof T.Texture) retained.add(value);
+      }
+    });
+    for (const resource of this.resources) if (!retained.has(resource)) { resource.dispose(); this.resources.delete(resource); }
+    while (this.canvases.size > 8) this.canvases.delete(this.canvases.keys().next().value!);
+  }
   public owns(resource: T.BufferGeometry | T.Material | T.Texture): boolean { return this.resources.has(resource); }
   public prepareSection(owner: object, key: string, build: (root: T.Group) => void): void {
     let entries = this.sections.get(owner);
+    if (entries) { this.sections.delete(owner); this.sections.set(owner, entries); }
     if (!entries) { entries = new Map(); this.sections.set(owner, entries); }
     let template = entries.get(key);
     if (!template) {

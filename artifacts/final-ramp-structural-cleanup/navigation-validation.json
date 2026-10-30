@@ -1,0 +1,1386 @@
+{
+  "passed": true,
+  "sourceHash": "a43f960f228e7cb172bf5005d613886743c82e29c48c0f6045ba010e15557be1",
+  "roadIDsUnchanged": true,
+  "linkIDsUnchanged": true,
+  "unchangedLinkCount": 2577,
+  "changedLinks": [
+    {
+      "before": {
+        "id": "link-349",
+        "from": {
+          "roadId": "access-ew-west-eb-on",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ew-eb-split-4-split-split-section-2",
+          "end": "start"
+        }
+      },
+      "after": {
+        "id": "link-349",
+        "from": {
+          "roadId": "access-ew-west-eb-on",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "ew-eb-split-3",
+          "end": "start"
+        }
+      }
+    },
+    {
+      "before": {
+        "id": "link-379",
+        "from": {
+          "roadId": "ew-wb-split-split-split-split-4-section",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "access-ew-west-wb-off",
+          "end": "start"
+        }
+      },
+      "after": {
+        "id": "link-379",
+        "from": {
+          "roadId": "ew-wb-split-split-split-2-v6",
+          "end": "end"
+        },
+        "to": {
+          "roadId": "access-ew-west-wb-off",
+          "end": "start"
+        }
+      }
+    }
+  ],
+  "sameDirectedEWCorridorIntent": true,
+  "loopLinksUnchanged": true,
+  "interfaces": [
+    {
+      "id": "ring-ccw-1",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-0-split-split-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-1-split-3",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ns-sb-split-split-split-split-split-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-sb-split-split-split-split-split-split-2-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-sb-split-split-split-split-split-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ns-nb-split-3-split-split-split-2",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-3-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "system-south:S-to-W-semi",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.7239335534030191
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-3-split-2-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.3382500563469962
+        }
+      ]
+    },
+    {
+      "id": "system-south:S-to-E-right",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-3",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.3803991333334826
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-1-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0.002248954508763758,
+          "deltaY": 0,
+          "tangentDegrees": 1.4872097890459133
+        }
+      ]
+    },
+    {
+      "id": "system-south:E-to-S-loop",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-2-split-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.184210526321663
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-sb-split-split-split-split-split-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1842105263151992
+        }
+      ]
+    },
+    {
+      "id": "system-south:E-to-N-right",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-2-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0.00221477090169751,
+          "deltaY": 0,
+          "tangentDegrees": 0.4646832242261526
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-2-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 1.5987211554602254e-14,
+          "deltaY": 0,
+          "tangentDegrees": 0.26808334146787505
+        }
+      ]
+    },
+    {
+      "id": "system-south:N-to-E-semi",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-sb-split-split-split-split-split-split-2-section",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 4.085620730620576e-14,
+          "deltaY": 0,
+          "tangentDegrees": 0.28563255361864576
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-1-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.138393145438392
+        }
+      ]
+    },
+    {
+      "id": "system-south:N-to-W-right",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-sb-split-split-split-split-split-split-2-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 3.375077994860476e-14,
+          "deltaY": 0,
+          "tangentDegrees": 0.26808334146787505
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-3-split-3",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.25495385824501315
+        }
+      ]
+    },
+    {
+      "id": "system-south:W-to-N-loop",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-1",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.184210526321663
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-2-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1842105263151992
+        }
+      ]
+    },
+    {
+      "id": "system-south:W-to-S-right",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-0-split-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.25453383850158895
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-sb-split-split-split-split-split-split-split-2-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 4.973799150320701e-14,
+          "deltaY": 7.549516567451064e-15,
+          "tangentDegrees": 0.38039913333444064
+        }
+      ]
+    },
+    {
+      "id": "ns-nb-split-3-split-split-split-3-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-3",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ring-cw-2-split-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-2-split-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-3",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ns-sb-split-split-split-split-split-split-split-2",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-sb-split-split-split-split-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-sb-split-split-split-split-split-split-split-2-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ring-cw-2-split-split-2",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-2-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0.00221477090169751,
+          "deltaY": 0,
+          "tangentDegrees": 0.7111511146168179
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-2-split-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ring-ccw-1-split-3",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-1",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-1-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0.0022489545094836858,
+          "deltaY": 0,
+          "tangentDegrees": 1.1983075463716788
+        }
+      ]
+    },
+    {
+      "id": "ns-nb-split-3-split-split-split-2-split-2",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ns-nb-split-3-split-split-split-2-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ring-cw-0",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-3-split-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-0-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ring-ccw-0",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-3-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-0-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ew-wb-split-split-split-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-2-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.05883263359489677
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.0000012074182697257333
+        }
+      ]
+    },
+    {
+      "id": "ring-ccw-3-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-3-split-2-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-3-split-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ew-eb-split-5",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-eb-split-6-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.0019797665170311293
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-eb-split-5-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ring-cw-3-split-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-3-split-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-3-split-split-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "system-west:S-to-W-loop",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-0",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1538461538464377
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.7625113048623344
+        }
+      ]
+    },
+    {
+      "id": "system-west:S-to-E-right",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-3-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.19401653487881027
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-eb-split-5-split-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5095157475478015
+        }
+      ]
+    },
+    {
+      "id": "system-west:E-to-S-loop",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.7996029256471837
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-3-split-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.153846153845806
+        }
+      ]
+    },
+    {
+      "id": "system-west:E-to-N-right",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-2-section",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.38946298135541796
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-0-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4003542872300657
+        }
+      ]
+    },
+    {
+      "id": "system-west:N-to-E-loop",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-0",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.153846153845806
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-eb-split-5-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.0874009146977506
+        }
+      ]
+    },
+    {
+      "id": "system-west:N-to-W-right",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-3-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.2005749015724167
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 2.842170943040401e-14,
+          "deltaY": 1.9539925233402755e-14,
+          "tangentDegrees": 0.42232420929787456
+        }
+      ]
+    },
+    {
+      "id": "system-west:W-to-N-loop",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-eb-split-5-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1913723801042597
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-3-split-split-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.153846153845806
+        }
+      ]
+    },
+    {
+      "id": "system-west:W-to-S-right",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-eb-split-6",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 5.684341886080802e-14,
+          "deltaY": 0,
+          "tangentDegrees": 0.39883811799626134
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-0-split-split-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 8.019692659049974e-34,
+          "tangentDegrees": 0.1946791676550089
+        }
+      ]
+    },
+    {
+      "id": "ring-cw-0-split-2",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-0",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-0-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ew-wb-split-split-split-split-split-2",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.0000012074182697257333
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-split-2-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ew-wb-split-split-split-split-split-2-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.021814340551814037
+        }
+      ]
+    },
+    {
+      "id": "ring-ccw-3-split-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-3-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-0",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ring-ccw-0-split-2",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-ccw-0",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-ccw-0-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ew-eb-split-5-split-2",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-eb-split-5",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-eb-split-5-split-2-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "ew-eb-split-5-split-2-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-eb-split-5-split-2",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-eb-split-5-split",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.006267433652850562
+        }
+      ]
+    },
+    {
+      "id": "ring-cw-3-split-split-split",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ring-cw-3-split-split",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ring-cw-0",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "regional:shangu:off:1",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:shangu:off:1:deceleration",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.14919673701234165
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:shangu:local:1",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.1295135202756297
+        }
+      ]
+    },
+    {
+      "id": "regional:shangu:on:1",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:shangu:local:1",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.147013947788798
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G38:out:split10:split24:split284:split354:split356",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 7.754433775697166
+        }
+      ]
+    },
+    {
+      "id": "regional:shangu:off:-1",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G38:in:split442:split444",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 9.158825965927607
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:shangu:local:-1",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.133521748927399
+        }
+      ]
+    },
+    {
+      "id": "regional:shangu:on:-1",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:shangu:local:-1",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 1.118564508073882
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:G38:in:split362:split364",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 9.246852990427525
+        }
+      ]
+    },
+    {
+      "id": "regional:shangu:off:1:deceleration",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:G38:out:split10:split24:split284",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.40730692360593584
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:shangu:off:1",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.14919673701234165
+        }
+      ]
+    },
+    {
+      "id": "v91-ew-west-eb-off",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-eb-split-5-split-split-section",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.8572205473277598
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "v91-ew-0-a-1-section",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 1.249764855300004e-16,
+          "tangentDegrees": 0.3491667250117114
+        }
+      ]
+    },
+    {
+      "id": "v91-ew-west-wb-on",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "v91-ew-0-b-1-section",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.36518850057341246
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-wb-split-split-split-split-2-section-2",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.16683014608510183
+        }
+      ]
+    },
+    {
+      "id": "v91-ew-0-a-6-section",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "v91-ew-0-a-6",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.12066288249871839
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "v5-civic-avenue-split-split-3-v91-m91",
+            "end": "end",
+            "junctionId": "urban-junction-4"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0
+        }
+      ]
+    },
+    {
+      "id": "access-ew-west-eb-on",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "v91-ew-0-a-6",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.0866346891548633
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "ew-eb-split-3",
+            "end": "start"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.06775964182394581
+        }
+      ]
+    },
+    {
+      "id": "access-ew-west-wb-off",
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "ew-wb-split-split-split-2-v6",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18162161696382076
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "v91-ew-0-b-6",
+            "end": "end"
+          },
+          "topology": true,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.16370996163407345
+        }
+      ]
+    }
+  ],
+  "central": true
+}

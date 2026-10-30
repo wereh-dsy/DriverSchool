@@ -1,0 +1,955 @@
+{
+  "cluster": "regional:xichuan",
+  "plans": [],
+  "attempts": [],
+  "after": [
+    {
+      "id": "regional:xichuan:S-to-E-right",
+      "cluster": "regional:xichuan",
+      "length": 397.47606713085224,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:xichuan:S-to-E-right:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:xichuan:S-to-E-right:deceleration",
+            "regional:S89:in:split132:split248:lane124",
+            "regional:S89:in:split132:split248",
+            "regional:S89:in:split106",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648:split656",
+            "regional:S89:in:split106:split120",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648",
+            "regional:S89:in:split106:split120:lane144",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640",
+            "regional:S89:in:split106:split120:split246",
+            "regional:xichuan:E-to-N-right:acceleration",
+            "regional:v3:S89-extension2:in:0",
+            "regional:v3:S89-extension2:in:0:lane4462"
+          ],
+          "sharedLength": 55,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18118418478987747,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:xichuan:S-to-E-right:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:xichuan:S-to-E-right:acceleration",
+            "regional:S37:in:split108",
+            "regional:S37:in:split108:lane128",
+            "regional:S37:in",
+            "regional:S37:in:split108:split126",
+            "regional:v2:S27-extension:in:8",
+            "regional:S37:in:split108:split126:lane152",
+            "regional:v2:S27-extension:in:7",
+            "regional:S37:in:split108:split126:split530",
+            "regional:xichuan:N-to-E-turbine:acceleration",
+            "regional:S37:in:split108:split126:split530:split536",
+            "regional:S37:in:split108:split126:split530:split536:split540"
+          ],
+          "sharedLength": 56,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.17959980033350068,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.03888496027133957,
+        "gradeBreaks": [],
+        "minRadius": 162.31466190081747,
+        "shortSegments": 8
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:E-to-S-turbine",
+      "cluster": "regional:xichuan",
+      "length": 1303.0883206227538,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:xichuan:E-to-S-turbine:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:xichuan:E-to-S-turbine:deceleration",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538:split542:lane132",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538:split542",
+            "regional:S37:out:split112",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538",
+            "regional:S37:out:split112:lane140",
+            "regional:xichuan:E-to-N-right:deceleration",
+            "regional:S37:out:split290:split292:split298:split300:split534",
+            "regional:S37:out:split112:split118",
+            "regional:v2:S27-extension:out:0",
+            "regional:v2:S27-extension:out:1",
+            "regional:v2:S27-extension:out:2",
+            "regional:v2:S27-extension:out:3",
+            "regional:v2:S27-extension:out:4",
+            "regional:v2:S27-extension:out:4:lane3397",
+            "regional:v2:westlink:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 66,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.13919293728834684,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:xichuan:E-to-S-turbine:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:xichuan:E-to-S-turbine:acceleration",
+            "regional:S89:out:split114",
+            "regional:S89:out:split114:lane136",
+            "regional:S89:out:split124:split590",
+            "regional:S89:out:split114:split244",
+            "regional:S89:out:split124",
+            "regional:S89:out:split114:split244:split598",
+            "regional:S89:out:split242:lane148",
+            "regional:S89:out:split114:split244:split598:split610",
+            "regional:S89:out:split242",
+            "regional:S89:out:split114:split244:split598:split610:split620",
+            "regional:S89:out:split588:split606",
+            "regional:xichuan:N-to-E-turbine:deceleration",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628",
+            "regional:v3:S89-extension2:out:12:revision375:lane4474",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636",
+            "regional:v3:S89-extension2:out:12:revision375",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644:split652"
+          ],
+          "sharedLength": 45,
+          "maxSharedDeltaY": 0.00009131329241895969,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.10051491241928233,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.047019914970262325,
+        "gradeBreaks": [],
+        "minRadius": 119.39661774152171,
+        "shortSegments": 12
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:E-to-N-right",
+      "cluster": "regional:xichuan",
+      "length": 397.4760671308515,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:xichuan:E-to-N-right:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:xichuan:E-to-N-right:deceleration",
+            "regional:S37:out:split112:lane140",
+            "regional:S37:out:split112",
+            "regional:S37:out:split112:split118",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538:split542:lane132",
+            "regional:v2:S27-extension:out:0",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538:split542",
+            "regional:v2:S27-extension:out:1",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538",
+            "regional:xichuan:E-to-S-turbine:deceleration",
+            "regional:v2:S27-extension:out:2",
+            "regional:S37:out:split290:split292:split298:split300:split534",
+            "regional:v2:S27-extension:out:3",
+            "regional:v2:S27-extension:out:4",
+            "regional:v2:S27-extension:out:4:lane3397",
+            "regional:v2:westlink:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 56,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.17959980033350068,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:xichuan:E-to-N-right:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:xichuan:E-to-N-right:acceleration",
+            "regional:S89:in:split106:split120",
+            "regional:S89:in:split106:split120:lane144",
+            "regional:S89:in:split106",
+            "regional:S89:in:split106:split120:split246",
+            "regional:S89:in:split132:split248:lane124",
+            "regional:v3:S89-extension2:in:0",
+            "regional:S89:in:split132:split248",
+            "regional:v3:S89-extension2:in:0:lane4462",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648:split656",
+            "regional:xichuan:S-to-E-right:deceleration",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640"
+          ],
+          "sharedLength": 55,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18118418478987747,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.03879705303488516,
+        "gradeBreaks": [],
+        "minRadius": 153.87487128819217,
+        "shortSegments": 10
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:N-to-E-turbine",
+      "cluster": "regional:xichuan",
+      "length": 1303.11210392371,
+      "transition": null,
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:xichuan:N-to-E-turbine:deceleration",
+            "end": "end"
+          },
+          "peers": [
+            "regional:xichuan:N-to-E-turbine:deceleration",
+            "regional:S89:out:split242:lane148",
+            "regional:S89:out:split242",
+            "regional:S89:out:split124",
+            "regional:S89:out:split588:split606",
+            "regional:S89:out:split124:split590",
+            "regional:v3:S89-extension2:out:12:revision375:lane4474",
+            "regional:S89:out:split114",
+            "regional:v3:S89-extension2:out:12:revision375",
+            "regional:S89:out:split114:lane136",
+            "regional:S89:out:split114:split244",
+            "regional:xichuan:E-to-S-turbine:acceleration",
+            "regional:S89:out:split114:split244:split598",
+            "regional:S89:out:split114:split244:split598:split610",
+            "regional:S89:out:split114:split244:split598:split610:split620",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644:split652"
+          ],
+          "sharedLength": 61,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.13749675827980953,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:xichuan:N-to-E-turbine:acceleration",
+            "end": "start"
+          },
+          "peers": [
+            "regional:xichuan:N-to-E-turbine:acceleration",
+            "regional:S37:in:split108:split126",
+            "regional:S37:in:split108:split126:lane152",
+            "regional:S37:in:split108:lane128",
+            "regional:S37:in:split108:split126:split530",
+            "regional:S37:in:split108",
+            "regional:xichuan:S-to-E-right:acceleration",
+            "regional:S37:in:split108:split126:split530:split536",
+            "regional:S37:in",
+            "regional:S37:in:split108:split126:split530:split536:split540",
+            "regional:v2:S27-extension:in:8",
+            "regional:v2:S27-extension:in:7"
+          ],
+          "sharedLength": 53,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.23800060490308625,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.047678688945684986,
+        "gradeBreaks": [],
+        "minRadius": 119.21126286050314,
+        "shortSegments": 10
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:S-to-E-right:deceleration",
+      "cluster": "regional:xichuan",
+      "length": 300.00141562327644,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S89:in:split132:split248:lane124",
+        "decisionId": "regional:xichuan:S-to-E-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S89:in:split132:split248",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S89:in:split132:split248",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648:split656",
+            "regional:S89:in:split132:split248:lane124",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648",
+            "regional:S89:in:split106",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640",
+            "regional:S89:in:split106:split120",
+            "regional:S89:in:split106:split120:lane144",
+            "regional:S89:in:split106:split120:split246",
+            "regional:xichuan:E-to-N-right:acceleration",
+            "regional:v3:S89-extension2:in:0",
+            "regional:v3:S89-extension2:in:0:lane4462"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0.00047161232770065453,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.9834894746947569,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:xichuan:S-to-E-right",
+            "end": "start"
+          },
+          "peers": [
+            "regional:xichuan:S-to-E-right",
+            "regional:xichuan:S-to-E-right:acceleration",
+            "regional:S37:in:split108:lane128",
+            "regional:S37:in:split108:split126",
+            "regional:S37:in:split108",
+            "regional:S37:in:split108:split126:lane152",
+            "regional:S37:in",
+            "regional:S37:in:split108:split126:split530",
+            "regional:xichuan:N-to-E-turbine:acceleration",
+            "regional:v2:S27-extension:in:8",
+            "regional:S37:in:split108:split126:split530:split536",
+            "regional:v2:S27-extension:in:7",
+            "regional:S37:in:split108:split126:split530:split536:split540"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18118418478987747,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.0002412184476716567,
+        "gradeBreaks": [],
+        "minRadius": 88.66655366531373,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:S-to-E-right:acceleration",
+      "cluster": "regional:xichuan",
+      "length": 224.53190202406896,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S37:in:split108",
+        "decisionId": "regional:xichuan:S-to-E-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:xichuan:S-to-E-right",
+            "end": "end"
+          },
+          "peers": [
+            "regional:xichuan:S-to-E-right"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.17959980033350068,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S37:in:split108:lane128",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S37:in:split108:lane128",
+            "regional:S37:in:split108:split126",
+            "regional:S37:in:split108",
+            "regional:S37:in:split108:split126:lane152",
+            "regional:S37:in",
+            "regional:S37:in:split108:split126:split530",
+            "regional:xichuan:N-to-E-turbine:acceleration",
+            "regional:v2:S27-extension:in:8",
+            "regional:S37:in:split108:split126:split530:split536",
+            "regional:v2:S27-extension:in:7",
+            "regional:S37:in:split108:split126:split530:split536:split540"
+          ],
+          "sharedLength": 107,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.40106577740997423,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 411.3125132341814,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:E-to-S-turbine:deceleration",
+      "cluster": "regional:xichuan",
+      "length": 174.65138406835953,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S37:out:split290:split292:split298:split300:split534:split538:split542:lane132",
+        "decisionId": "regional:xichuan:E-to-S-turbine"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S37:out:split290:split292:split298:split300:split534:split538:split542",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S37:out:split290:split292:split298:split300:split534:split538:split542",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538:split542:lane132",
+            "regional:S37:out:split290:split292:split298:split300:split534",
+            "regional:S37:out:split112",
+            "regional:S37:out:split112:lane140",
+            "regional:xichuan:E-to-N-right:deceleration",
+            "regional:S37:out:split112:split118",
+            "regional:v2:S27-extension:out:0",
+            "regional:v2:S27-extension:out:1",
+            "regional:v2:S27-extension:out:2",
+            "regional:v2:S27-extension:out:3",
+            "regional:v2:S27-extension:out:4",
+            "regional:v2:S27-extension:out:4:lane3397",
+            "regional:v2:westlink:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 83,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.9835049343743832,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:xichuan:E-to-S-turbine",
+            "end": "start"
+          },
+          "peers": [
+            "regional:xichuan:E-to-S-turbine",
+            "regional:xichuan:E-to-S-turbine:acceleration",
+            "regional:S89:out:split114:lane136",
+            "regional:S89:out:split114:split244",
+            "regional:S89:out:split114",
+            "regional:S89:out:split114:split244:split598",
+            "regional:S89:out:split124:split590",
+            "regional:S89:out:split114:split244:split598:split610",
+            "regional:S89:out:split124",
+            "regional:S89:out:split114:split244:split598:split610:split620",
+            "regional:S89:out:split242:lane148",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628",
+            "regional:S89:out:split242",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636",
+            "regional:S89:out:split588:split606",
+            "regional:xichuan:N-to-E-turbine:deceleration",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644",
+            "regional:v3:S89-extension2:out:12:revision375:lane4474",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644:split652",
+            "regional:v3:S89-extension2:out:12:revision375"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.13919293728834684,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 142.45317659533632,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:E-to-S-turbine:acceleration",
+      "cluster": "regional:xichuan",
+      "length": 133.16143557225388,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 130.8882166956053,
+        "mainRoadId": "regional:S89:out:split114",
+        "decisionId": "regional:xichuan:E-to-S-turbine"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:xichuan:E-to-S-turbine",
+            "end": "end"
+          },
+          "peers": [
+            "regional:xichuan:E-to-S-turbine"
+          ],
+          "sharedLength": 1,
+          "maxSharedDeltaY": 0.00013081120753000164,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.10051491241928233,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S89:out:split114:lane136",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S89:out:split114:lane136",
+            "regional:S89:out:split114:split244",
+            "regional:S89:out:split114",
+            "regional:S89:out:split114:split244:split598",
+            "regional:S89:out:split124:split590",
+            "regional:S89:out:split114:split244:split598:split610",
+            "regional:S89:out:split124",
+            "regional:S89:out:split114:split244:split598:split610:split620",
+            "regional:S89:out:split242:lane148",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628",
+            "regional:S89:out:split242",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636",
+            "regional:S89:out:split588:split606",
+            "regional:xichuan:N-to-E-turbine:deceleration",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644",
+            "regional:v3:S89-extension2:out:12:revision375:lane4474",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644:split652",
+            "regional:v3:S89-extension2:out:12:revision375"
+          ],
+          "sharedLength": 63,
+          "maxSharedDeltaY": 0.011833968812316797,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.06802590870019205,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0.001809950430850508,
+        "gradeBreaks": [],
+        "minRadius": 101.93003136275803,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:E-to-N-right:deceleration",
+      "cluster": "regional:xichuan",
+      "length": 224.53190202406986,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S37:out:split112:lane140",
+        "decisionId": "regional:xichuan:E-to-N-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S37:out:split112",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S37:out:split112",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538:split542:lane132",
+            "regional:S37:out:split112:lane140",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538:split542",
+            "regional:S37:out:split112:split118",
+            "regional:S37:out:split290:split292:split298:split300:split534:split538",
+            "regional:xichuan:E-to-S-turbine:deceleration",
+            "regional:v2:S27-extension:out:0",
+            "regional:S37:out:split290:split292:split298:split300:split534",
+            "regional:v2:S27-extension:out:1",
+            "regional:v2:S27-extension:out:2",
+            "regional:v2:S27-extension:out:3",
+            "regional:v2:S27-extension:out:4",
+            "regional:v2:S27-extension:out:4:lane3397",
+            "regional:v2:westlink:E-to-N-right:deceleration"
+          ],
+          "sharedLength": 107,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.4010657774045218,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:xichuan:E-to-N-right",
+            "end": "start"
+          },
+          "peers": [
+            "regional:xichuan:E-to-N-right",
+            "regional:xichuan:E-to-N-right:acceleration",
+            "regional:S89:in:split106:split120:lane144",
+            "regional:S89:in:split106:split120:split246",
+            "regional:S89:in:split106:split120",
+            "regional:v3:S89-extension2:in:0",
+            "regional:S89:in:split106",
+            "regional:v3:S89-extension2:in:0:lane4462",
+            "regional:S89:in:split132:split248:lane124",
+            "regional:S89:in:split132:split248",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648:split656",
+            "regional:xichuan:S-to-E-right:deceleration",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.17959980033350068,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 412.91681958036656,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:E-to-N-right:acceleration",
+      "cluster": "regional:xichuan",
+      "length": 300.2239307233029,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S89:in:split106:split120",
+        "decisionId": "regional:xichuan:E-to-N-right"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:xichuan:E-to-N-right",
+            "end": "end"
+          },
+          "peers": [
+            "regional:xichuan:E-to-N-right"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.18118418478987747,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S89:in:split106:split120:lane144",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S89:in:split106:split120:lane144",
+            "regional:S89:in:split106:split120:split246",
+            "regional:S89:in:split106:split120",
+            "regional:v3:S89-extension2:in:0",
+            "regional:S89:in:split106",
+            "regional:v3:S89-extension2:in:0:lane4462",
+            "regional:S89:in:split132:split248:lane124",
+            "regional:S89:in:split132:split248",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648:split656",
+            "regional:xichuan:S-to-E-right:deceleration",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640:split648",
+            "regional:S89:in:split132:split254:split604:split616:split624:split632:split640"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.5474763415352929,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 288.59449089916893,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:N-to-E-turbine:deceleration",
+      "cluster": "regional:xichuan",
+      "length": 124.6695533380935,
+      "transition": {
+        "kind": "deceleration",
+        "taperMetres": 124.40000000000038,
+        "mainRoadId": "regional:S89:out:split242:lane148",
+        "decisionId": "regional:xichuan:N-to-E-turbine"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:S89:out:split242",
+            "end": "end"
+          },
+          "peers": [
+            "regional:S89:out:split242",
+            "regional:S89:out:split588:split606",
+            "regional:S89:out:split242:lane148",
+            "regional:v3:S89-extension2:out:12:revision375:lane4474",
+            "regional:S89:out:split124",
+            "regional:v3:S89-extension2:out:12:revision375",
+            "regional:S89:out:split124:split590",
+            "regional:S89:out:split114",
+            "regional:S89:out:split114:lane136",
+            "regional:S89:out:split114:split244",
+            "regional:xichuan:E-to-S-turbine:acceleration",
+            "regional:S89:out:split114:split244:split598",
+            "regional:S89:out:split114:split244:split598:split610",
+            "regional:S89:out:split114:split244:split598:split610:split620",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644",
+            "regional:S89:out:split114:split244:split598:split610:split620:split628:split636:split644:split652"
+          ],
+          "sharedLength": 59,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.7562289779275551,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:xichuan:N-to-E-turbine",
+            "end": "start"
+          },
+          "peers": [
+            "regional:xichuan:N-to-E-turbine",
+            "regional:xichuan:N-to-E-turbine:acceleration",
+            "regional:S37:in:split108:split126:lane152",
+            "regional:S37:in:split108:split126:split530",
+            "regional:S37:in:split108:split126",
+            "regional:S37:in:split108:split126:split530:split536",
+            "regional:S37:in:split108:lane128",
+            "regional:S37:in:split108:split126:split530:split536:split540",
+            "regional:S37:in:split108",
+            "regional:xichuan:S-to-E-right:acceleration",
+            "regional:S37:in",
+            "regional:v2:S27-extension:in:8",
+            "regional:v2:S27-extension:in:7"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.13749675827980953,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 216.81980644225857,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    },
+    {
+      "id": "regional:xichuan:N-to-E-turbine:acceleration",
+      "cluster": "regional:xichuan",
+      "length": 301.52525215800216,
+      "transition": {
+        "kind": "acceleration",
+        "taperMetres": 150,
+        "mainRoadId": "regional:S37:in:split108:split126",
+        "decisionId": "regional:xichuan:N-to-E-turbine"
+      },
+      "interfaces": [
+        {
+          "end": "start",
+          "host": {
+            "roadId": "regional:xichuan:N-to-E-turbine",
+            "end": "end"
+          },
+          "peers": [
+            "regional:xichuan:N-to-E-turbine"
+          ],
+          "sharedLength": 0,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.23800060490308625,
+          "topology": true,
+          "samples": []
+        },
+        {
+          "end": "end",
+          "host": {
+            "roadId": "regional:S37:in:split108:split126:lane152",
+            "end": "start"
+          },
+          "peers": [
+            "regional:S37:in:split108:split126:lane152",
+            "regional:S37:in:split108:split126:split530",
+            "regional:S37:in:split108:split126",
+            "regional:S37:in:split108:split126:split530:split536",
+            "regional:S37:in:split108:lane128",
+            "regional:S37:in:split108:split126:split530:split536:split540",
+            "regional:S37:in:split108",
+            "regional:xichuan:S-to-E-right:acceleration",
+            "regional:S37:in",
+            "regional:v2:S27-extension:in:8",
+            "regional:v2:S27-extension:in:7"
+          ],
+          "sharedLength": 144,
+          "maxSharedDeltaY": 0,
+          "conflictRange": null,
+          "unsupportedWheelSamples": 0,
+          "xzGap": 0,
+          "deltaY": 0,
+          "tangentDegrees": 0.794548471544037,
+          "topology": true,
+          "samples": []
+        }
+      ],
+      "profile": {
+        "maxGrade": 0,
+        "gradeBreaks": [],
+        "minRadius": 159.8144330060784,
+        "shortSegments": 0
+      },
+      "severity": "PASS"
+    }
+  ]
+}

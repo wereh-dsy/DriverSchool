@@ -4,7 +4,7 @@
 
 物理以固定 **120 Hz** 更新，内部使用 SI 单位：距离为米、速度为 m/s、角度为弧度；坐标系为 `+X` 向右、`+Y` 向上、`-Z` 向前。仪表车速显示为 km/h。具体参数和行为以当前源码为准，测试车型与品牌风格车型不代表原厂精确数据。
 
-文档更新至 **2026-10-16**。开发或向 Chat 请求下一步指导时，请阅读 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md)、[可直接复制给 Chat 的指示文本](docs/CHAT_HANDOFF.md) 和 [本轮整理、性能与验证记录](docs/RUNTIME_CLEANUP_2026-10-15.md)。[原始审阅报告](docs/CODE_REVIEW_2026-10-12.md) 与 [早期修复记录](docs/FIXES_2026-10-13.md) 保留对应修订的证据。
+文档更新至 **2026-10-24**（本次更新 City Main 与发布流程）。最新 [长距离高速与分块加载记录](docs/HIGHWAY_EXTENSION_STREAMING_2026-10-24.md) 包含 Browser v493：32.34km 滨海、30.40km 内陆延伸和 11.64km 联络高速，80/120/160km/h 加载焦点专项通过；正式 Windows EXE 仍为 v492。本轮未重新打包。先前 [匝道结构收尾记录](docs/FINAL_RAMP_CLEANUP_2026-10-24.md) 的 255 PASS 基线保持。开发或向 Chat 请求下一步指导时，请阅读 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md)、[可直接复制给 Chat 的指示文本](docs/CHAT_HANDOFF.md) 和 [本轮整理、性能与验证记录](docs/RUNTIME_CLEANUP_2026-10-15.md)。[原始审阅报告](docs/CODE_REVIEW_2026-10-12.md) 与 [早期修复记录](docs/FIXES_2026-10-13.md) 保留对应修订的证据。
 
 ## 内容导航
 
@@ -49,9 +49,30 @@ pnpm start
 
 开发服务运行当前源码并支持热更新；普通 `start-game.cmd` 始终运行最近一次成功发布的 `dist/`。
 
+### Electron 桌面模式（UI 第一阶段）
+
+```powershell
+pnpm run dev               # Vite / Browser
+pnpm run desktop:dev       # Electron + 独立 Vite 缓存，源码热更新
+pnpm run desktop:build     # 桌面 TypeScript 检查 + main/preload 构建
+pnpm run desktop:package   # 轻量游戏构建 + 桌面构建 + Windows x64 目录包
+```
+
+桌面开发与打包需要 Node 22.12+；首次安装需下载 Electron 官方运行时。桌面壳源码改动后重新执行 `desktop:dev`。项目内 `release/` 仅为临时打包目录；完整正式包发布到 `D:\DriverSchoolRelease\DriverSchool-win32-x64`，入口为该目录的 `DriverSchool.exe`，必须保留整个目录。发布采用完整目录替换，不覆盖混用旧 runtime/resources。此阶段是未签名目录包，没有安装器或自动更新。
+
+启动时先显示可操作菜单，再准备当前车辆的轻量 3D 展示；完整驾驶场地在点击“开始驾驶”后加载。车辆页用左右箭头切车，驾驶资源就绪后进入场景。`Esc` 打开暂停菜单，冻结仿真并降低音量；从暂停进入设置后仍保持暂停。驾驶中直接 `F3` 保留原有设置的制动输入/物理策略。`F1` 切换 HUD 整体开关，暂停菜单提供 Realistic / Standard / Assisted–Training / Off。拖动鼠标观察，双击驾驶画面进入 Pointer Lock，`Esc` 退出并暂停。菜单支持鼠标、Tab、上下方向键和 Enter。
+
+交付可玩版本时，先做相关轻量专项检查，执行 `pnpm run build -BasicValidation`，再执行 `pnpm run desktop:package`，确认 `dist/`、外部正式目录及正式 EXE 启动 smoke。`desktop:package` 本身会再做一次 Browser 构建。除任务明确要求，不例行运行全核心/全系统。不要修改 ACL 或关闭 Electron sandbox、Defender、SmartScreen。
+
+新增架构与保留边界见 [桌面化与 UI 第一阶段](docs/DESKTOP_UI_PHASE1.md)。
+
+后续启动分阶段、地图 Worker、车辆资源复用、实测和构建结果见 [加载与启动优化](docs/LOADING_PERFORMANCE_PHASE2.md)。
+
+大型地图出生区域物理加载、安全兜底和简化驾驶 HUD 见 [Physics sectors / HUD](docs/PHYSICS_SECTORS_HUD_PHASE3.md)。
+
 ### 第一次起步
 
-1. 在欢迎界面选择场地和车辆，点击“进入练习场”或按 `Enter`。
+1. 从主菜单的“车辆”和“地图”选择内容，返回后点击“开始驾驶”；也可用键盘聚焦按钮后按 Enter。
 2. 若发动机未运行，先在满足启动条件时按 `I` 或手柄 Start；A6L 初次进入时需要手动启动。
 3. **MT：**默认普通模式由自动离合协助操作，按 `1` 挂入一挡，再逐渐给油。自动离合不代替驾驶员选择前进挡位。
 4. **AT / DCT / CVT：**停车踩住脚刹，在 F3 选择 D，或用 `Q` / `E`、手柄 `LB` / `RB` 依次选到 D，再松刹车并给油。

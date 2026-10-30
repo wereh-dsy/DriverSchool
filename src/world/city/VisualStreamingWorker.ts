@@ -1,3 +1,4 @@
+import { takePreparedCityWorker } from './CityMainResource';
 import type { CityMapData } from './CityMapData';
 import type { CompiledRoadVisual, TerrainVisualData, VisualWorkerReply, VisualWorkerRequest } from './VisualStreamingData';
 /** One bounded in-flight job: near-road requests outrank terrain/background work. */
@@ -13,7 +14,8 @@ export class VisualStreamingWorker {
   public error: Error | undefined;
   public constructor(map: CityMapData, private readonly roadReady: (data: CompiledRoadVisual) => void,
     private readonly terrainReady: (data: TerrainVisualData) => void) {
-    this.worker = new Worker(new URL('./VisualStreaming.worker.ts', import.meta.url), { type: 'module' });
+    const prepared = takePreparedCityWorker(map);
+    this.worker = prepared ?? new Worker(new URL('./VisualStreaming.worker.ts', import.meta.url), { type: 'module' });
     this.worker.onmessage = (e: MessageEvent<VisualWorkerReply>) => {
       if (this.disposed) return;
       this.inFlight = false;
@@ -28,7 +30,7 @@ export class VisualStreamingWorker {
       else if (e.data.kind === 'background') this.timings.backgroundCompileMs += e.data.cpuMs ?? 0;
     };
     this.worker.onerror = e => { this.error = new Error(`Visual streaming worker: ${e.message}`); this.inFlight = false; };
-    this.worker.postMessage({ kind: 'init', map } satisfies VisualWorkerRequest);
+    this.worker.postMessage({ kind: 'init', map: prepared ? undefined : map } satisfies VisualWorkerRequest);
   }
   public request(key: string, request: VisualWorkerRequest, priority: number): void {
     if (this.disposed || this.error || this.inFlightKey === key) return;

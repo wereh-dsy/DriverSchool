@@ -33,9 +33,9 @@ export function runElectricPowertrainSelfTest() {
   motor.setShaftSpeed(config.motor.maxRPM * Math.PI / 30); assert(motor.driveLimit(1e6) === 0, 'maximum motor speed removes propulsion');
   const battery = new BatteryPack(config.battery), initialEnergy = battery.remainingEnergyKWh;
   battery.integrate(60, 60000);
-  assert(close(initialEnergy - battery.remainingEnergyKWh, 1 / config.battery.dischargeEfficiency), 'W seconds converted to kWh with discharge loss');
+  assert(close(initialEnergy - battery.remainingEnergyKWh, (60000 + battery.resistiveLoss) * 60 / 3600000 / config.battery.dischargeEfficiency), 'terminal work plus internal heat converted to chemical kWh');
   const beforeCharge = battery.remainingEnergyKWh; battery.integrate(60, -30000);
-  assert(close(battery.remainingEnergyKWh - beforeCharge, .5 * config.battery.chargeEfficiency), 'recovery uses charge efficiency');
+  assert(close(battery.remainingEnergyKWh - beforeCharge, (30000 - battery.resistiveLoss) * 60 / 3600000 * config.battery.chargeEfficiency), 'charge efficiency applies after internal heat loss');
   battery.setStateOfCharge(1); assert(battery.chargeLimit(dt) === 0 && battery.integrate(dt, -50000) === 0, 'full battery rejects energy');
   battery.setStateOfCharge(0); assert(battery.dischargeLimit(dt) === 0 && battery.integrate(dt, 1e6) === 0, 'empty battery cannot create energy');
   battery.setStateOfCharge(2); assert(battery.stateOfCharge === 1, 'SOC upper clamp');
@@ -56,7 +56,7 @@ export function runElectricPowertrainSelfTest() {
   ev.reset({ driveSelector: 'D' });
   const startEnergy = ev.battery.remainingEnergyKWh; let work = 0;
   for (let i = 0; i < 240; i++) { ev.prepare(context); ev.update(context); ev.finishStep(15);
-    work += (ev.rearDriveUnit!.electricalPower + (config.auxiliaryPower ?? 0)) * dt / 3600000 / config.battery.dischargeEfficiency; }
+    work += (ev.rearDriveUnit!.electricalPower + (config.auxiliaryPower ?? 0) + ev.battery.resistiveLoss) * dt / 3600000 / config.battery.dischargeEfficiency; }
   assert(close(startEnergy - ev.battery.remainingEnergyKWh, work, 1e-7), 'drive battery loss includes motor map, inverter, copper and auxiliary load');
   const regainStart = ev.battery.remainingEnergyKWh; let recoveredWork = 0;
   context.throttle = 0;
@@ -110,8 +110,10 @@ export function runElectricPowertrainSelfTest() {
   assert(blended.powertrain.ev!.regenerativeBrakeTorque > 0 && close(totalFriction + blended.powertrain.ev!.regenerativeBrakeTorque, blended.powertrain.ev!.requestedBrakeTorque, .5), 'pedal brake allocation subtracts actual regeneration instead of stacking');
   const abs = create(20); for (let i = 0; i < 60; i++) abs.stepFixed(dt, input);
   abs.wheelRotation.constrainAngularVelocity('rearLeft', 0, 20, 0); abs.wheelRotation.constrainAngularVelocity('rearRight', 0, 20, 0);
-  abs.stepFixed(dt, input); // expose physical slip to the shared observer
-  const absResult = abs.stepFixed(dt, input);
+  abs.stepFixed(dt,input); // publish the imposed physical wheel slip
+  const rawLock=abs.stepFixed(dt,input);
+  assert(rawLock.powertrain.ev!.regenerativeBrakeTorque===0,'raw lock cuts regeneration before ABS confirmation');
+  const absResult = abs.stepFixed(dt, input); // 16 ms contact confirmation
   assert(absResult.driverAssists.absActive && absResult.powertrain.ev!.regenerativeBrakeTorque === 0, 'same-step driven-wheel ABS immediately cuts motor recovery without pedal braking');
   const tcs = create(); let tcsSeen = false;
   for (let i = 0; i < 180; i++) { const s = tcs.stepFixed(dt, { ...input, throttle: 1 }, { surfaceGripMultiplier: .15 }); tcsSeen ||= s.driverAssists.tcsActive; }

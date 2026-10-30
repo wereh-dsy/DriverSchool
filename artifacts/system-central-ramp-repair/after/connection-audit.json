@@ -1,0 +1,2624 @@
+{
+  "source": "artifacts/system-central-ramp-repair/refinement/candidate-map.json",
+  "hash": "e813aa68efb1bea4a26473f9d3f7e97e1f823b8e900becc2447f290717aa1d7e",
+  "area": {
+    "minX": -631.4285714285714,
+    "maxX": 685,
+    "minZ": -846,
+    "maxZ": 561.6666666666667
+  },
+  "interfaces": [
+    {
+      "rampId": "system-central:S-to-W-semi",
+      "end": "start",
+      "kind": "exit/split",
+      "linkIds": [
+        "link-16"
+      ],
+      "hostEndpoint": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-section",
+        "end": "end"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ns-nb-split-3-split-split-split-split-split-section",
+          "end": "end"
+        },
+        {
+          "roadId": "ns-nb-split-3-split-split-split-split-split-split",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 8.125,
+        "y": -7.8703826738114016,
+        "z": 501.66666666666674
+      },
+      "rampPoint": {
+        "x": 8.125,
+        "y": -7.8703826738114016,
+        "z": 501.66666666666674
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.3952125105543916,
+      "laneEdgeGap": 0,
+      "pavementEdgeGap": 1.7763568394002505e-15,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "ns-nb-split-3-split-split-split-split-split-section",
+          "fromEnd": "end",
+          "toRoadId": "system-central:S-to-W-semi",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:system-central:S-to-W-semi:end",
+          "fromLaneId": "system-central:S-to-W-semi:lane:0",
+          "toLaneId": "ew-wb-split-split-split-split-4:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-W-semi:end",
+          "fromLaneId": "system-central:S-to-W-semi:lane:0",
+          "toLaneId": "ew-wb-split-split-split-split-4:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-W-semi:end",
+          "fromLaneId": "system-central:S-to-W-semi:lane:0",
+          "toLaneId": "ew-wb-split-split-split-split-4:lane:2"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-3-split-split-split-split-split-section:end",
+          "fromLaneId": "ns-nb-split-3-split-split-split-split-split-section:lane:0",
+          "toLaneId": "system-central:S-to-W-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-3-split-split-split-split-split-section:end",
+          "fromLaneId": "ns-nb-split-3-split-split-split-split-split-section:lane:1",
+          "toLaneId": "system-central:S-to-W-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-3-split-split-split-split-split-section:end",
+          "fromLaneId": "ns-nb-split-3-split-split-split-split-split-section:lane:2",
+          "toLaneId": "system-central:S-to-W-semi:lane:0"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0.002678981990326612,
+          "host": 0.0024785024645989752,
+          "break": 0.0002004795257276367
+        },
+        {
+          "distance": 10,
+          "ramp": 0.002721622694545278,
+          "host": 0.0024156531985598307,
+          "break": 0.0003059694959854473
+        },
+        {
+          "distance": 20,
+          "ramp": 0.0028503573586488697,
+          "host": 0.0022900029554620005,
+          "break": 0.0005603544031868692
+        },
+        {
+          "distance": 40,
+          "ramp": 0.0031182948826810053,
+          "host": 0.002014793842456464,
+          "break": 0.0011035010402245414
+        }
+      ],
+      "verticalTangentBreak": 0.00020047952572775076,
+      "overlapSummary": {
+        "area": 330.92462828141834,
+        "maxHeightConflict": 0.0011480790561497756,
+        "stationMin": 0,
+        "stationMax": 44.70292919370607
+      }
+    },
+    {
+      "rampId": "system-central:S-to-W-semi",
+      "end": "end",
+      "kind": "entry/merge",
+      "linkIds": [
+        "link-24"
+      ],
+      "hostEndpoint": {
+        "roadId": "ew-wb-split-split-split-split-4",
+        "end": "start"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ew-wb-split-split-split",
+          "end": "end"
+        },
+        {
+          "roadId": "ew-wb-split-split-split-split-4",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": -571.4285714285714,
+        "y": 8,
+        "z": -148.46270294175088
+      },
+      "rampPoint": {
+        "x": -571.4285714285692,
+        "y": 8,
+        "z": -148.46270294175105
+      },
+      "xzGap": 2.280122671451361e-12,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.9306020118422068,
+      "laneEdgeGap": 2.2781733181718378e-12,
+      "pavementEdgeGap": 2.3916492735237886e-12,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "system-central:S-to-W-semi",
+          "fromEnd": "end",
+          "toRoadId": "ew-wb-split-split-split-split-4",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:system-central:S-to-W-semi:end",
+          "fromLaneId": "system-central:S-to-W-semi:lane:0",
+          "toLaneId": "ew-wb-split-split-split-split-4:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-W-semi:end",
+          "fromLaneId": "system-central:S-to-W-semi:lane:0",
+          "toLaneId": "ew-wb-split-split-split-split-4:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-W-semi:end",
+          "fromLaneId": "system-central:S-to-W-semi:lane:0",
+          "toLaneId": "ew-wb-split-split-split-split-4:lane:2"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-3-split-split-split-split-split-section:end",
+          "fromLaneId": "ns-nb-split-3-split-split-split-split-split-section:lane:0",
+          "toLaneId": "system-central:S-to-W-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-3-split-split-split-split-split-section:end",
+          "fromLaneId": "ns-nb-split-3-split-split-split-split-split-section:lane:1",
+          "toLaneId": "system-central:S-to-W-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-3-split-split-split-split-split-section:end",
+          "fromLaneId": "ns-nb-split-3-split-split-split-split-split-section:lane:2",
+          "toLaneId": "system-central:S-to-W-semi:lane:0"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 10,
+          "ramp": -1.7763568394002506e-16,
+          "host": 0,
+          "break": 1.7763568394002506e-16
+        },
+        {
+          "distance": 20,
+          "ramp": -7.993605777301127e-16,
+          "host": 0,
+          "break": 7.993605777301127e-16
+        },
+        {
+          "distance": 40,
+          "ramp": 2.242650509742816e-15,
+          "host": 0,
+          "break": 2.242650509742816e-15
+        }
+      ],
+      "verticalTangentBreak": 0,
+      "overlapSummary": {
+        "area": 413.6395605029902,
+        "maxHeightConflict": 9.14823772291129e-14,
+        "stationMin": 1206.6178422406163,
+        "stationMax": 1263.2109915595495
+      }
+    },
+    {
+      "rampId": "system-central:S-to-E-right",
+      "end": "start",
+      "kind": "exit/split",
+      "linkIds": [
+        "link-32"
+      ],
+      "hostEndpoint": {
+        "roadId": "ns-nb-split-2-split-2",
+        "end": "end"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ns-nb-split-2-split-2",
+          "end": "end"
+        },
+        {
+          "roadId": "ns-nb-split-2-split-2-split-2",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 8.125,
+        "y": -6.529617326188599,
+        "z": 187.38095238095235
+      },
+      "rampPoint": {
+        "x": 8.125,
+        "y": -6.529617326188599,
+        "z": 187.38095238095235
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.3028653562979442,
+      "laneEdgeGap": 0,
+      "pavementEdgeGap": 1.7763568394002505e-15,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "ns-nb-split-2-split-2",
+          "fromEnd": "end",
+          "toRoadId": "system-central:S-to-E-right",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ns-nb-split-2-split-2:end",
+          "fromLaneId": "ns-nb-split-2-split-2:lane:0",
+          "toLaneId": "system-central:S-to-E-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-2-split-2:end",
+          "fromLaneId": "ns-nb-split-2-split-2:lane:1",
+          "toLaneId": "system-central:S-to-E-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-2-split-2:end",
+          "fromLaneId": "ns-nb-split-2-split-2:lane:2",
+          "toLaneId": "system-central:S-to-E-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-E-right:end",
+          "fromLaneId": "system-central:S-to-E-right:lane:0",
+          "toLaneId": "ew-eb-split-2-split-split-split-2:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-E-right:end",
+          "fromLaneId": "system-central:S-to-E-right:lane:0",
+          "toLaneId": "ew-eb-split-2-split-split-split-2:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-E-right:end",
+          "fromLaneId": "system-central:S-to-E-right:lane:0",
+          "toLaneId": "ew-eb-split-2-split-split-split-2:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0.002478467837805276,
+          "host": 0.0026598012598423536,
+          "break": 0.0001813334220370777
+        },
+        {
+          "distance": 10,
+          "ramp": 0.0023830345260083875,
+          "host": 0.0027218582558511174,
+          "break": 0.0003388237298427299
+        },
+        {
+          "distance": 20,
+          "ramp": 0.0022683811268275457,
+          "host": 0.0028450775125898886,
+          "break": 0.0005766963857623429
+        },
+        {
+          "distance": 40,
+          "ramp": 0.002012575035777209,
+          "host": 0.0031101962957871265,
+          "break": 0.0010976212600099177
+        }
+      ],
+      "verticalTangentBreak": 0.0001813334220370894,
+      "overlapSummary": {
+        "area": 436.2404136756588,
+        "maxHeightConflict": 0.0007540455428083348,
+        "stationMin": 0,
+        "stationMax": 59.72396980747579
+      }
+    },
+    {
+      "rampId": "system-central:S-to-E-right",
+      "end": "end",
+      "kind": "entry/merge",
+      "linkIds": [
+        "link-40"
+      ],
+      "hostEndpoint": {
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "end": "start"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ew-eb-split-2-split-split",
+          "end": "end"
+        },
+        {
+          "roadId": "ew-eb-split-2-split-split-split-2",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 325,
+        "y": 8,
+        "z": -142.375
+      },
+      "rampPoint": {
+        "x": 324.9999999999993,
+        "y": 7.999999999999996,
+        "z": -142.375
+      },
+      "xzGap": 6.821210263296962e-13,
+      "deltaY": -4.440892098500626e-15,
+      "tangentAngleDegrees": 0.8038566173597554,
+      "laneEdgeGap": 6.821210263296962e-13,
+      "pavementEdgeGap": 6.821210263296962e-13,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "system-central:S-to-E-right",
+          "fromEnd": "end",
+          "toRoadId": "ew-eb-split-2-split-split-split-2",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ns-nb-split-2-split-2:end",
+          "fromLaneId": "ns-nb-split-2-split-2:lane:0",
+          "toLaneId": "system-central:S-to-E-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-2-split-2:end",
+          "fromLaneId": "ns-nb-split-2-split-2:lane:1",
+          "toLaneId": "system-central:S-to-E-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-nb-split-2-split-2:end",
+          "fromLaneId": "ns-nb-split-2-split-2:lane:2",
+          "toLaneId": "system-central:S-to-E-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-E-right:end",
+          "fromLaneId": "system-central:S-to-E-right:lane:0",
+          "toLaneId": "ew-eb-split-2-split-split-split-2:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-E-right:end",
+          "fromLaneId": "system-central:S-to-E-right:lane:0",
+          "toLaneId": "ew-eb-split-2-split-split-split-2:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:S-to-E-right:end",
+          "fromLaneId": "system-central:S-to-E-right:lane:0",
+          "toLaneId": "ew-eb-split-2-split-split-split-2:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": -5.329070518200751e-16,
+          "host": 0,
+          "break": 5.329070518200751e-16
+        },
+        {
+          "distance": 10,
+          "ramp": -4.440892098500626e-16,
+          "host": 0,
+          "break": 4.440892098500626e-16
+        },
+        {
+          "distance": 20,
+          "ramp": -2.220446049250313e-16,
+          "host": 0,
+          "break": 2.220446049250313e-16
+        },
+        {
+          "distance": 40,
+          "ramp": -1.1102230246251565e-16,
+          "host": 0,
+          "break": 1.1102230246251565e-16
+        }
+      ],
+      "verticalTangentBreak": 4.57442405407973e-16,
+      "overlapSummary": {
+        "area": 383.3127787508929,
+        "maxHeightConflict": 4.440892098500626e-15,
+        "stationMin": 455.8209198316259,
+        "stationMax": 507.9062245317869
+      }
+    },
+    {
+      "rampId": "system-central:E-to-S-semi",
+      "end": "start",
+      "kind": "exit/split",
+      "linkIds": [
+        "link-48"
+      ],
+      "hostEndpoint": {
+        "roadId": "ew-wb-split-3-split-split-split-split",
+        "end": "end"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ew-wb-split-3-split-split-split-split",
+          "end": "end"
+        },
+        {
+          "roadId": "ew-wb-split-3-split-split-split-split-split",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 625,
+        "y": 8,
+        "z": -162.95833333333326
+      },
+      "rampPoint": {
+        "x": 625,
+        "y": 8,
+        "z": -162.95833333333326
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.5244402254030958,
+      "laneEdgeGap": 0,
+      "pavementEdgeGap": 0,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "ew-wb-split-3-split-split-split-split",
+          "fromEnd": "end",
+          "toRoadId": "system-central:E-to-S-semi",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ew-wb-split-3-split-split-split-split:end",
+          "fromLaneId": "ew-wb-split-3-split-split-split-split:lane:0",
+          "toLaneId": "system-central:E-to-S-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-wb-split-3-split-split-split-split:end",
+          "fromLaneId": "ew-wb-split-3-split-split-split-split:lane:1",
+          "toLaneId": "system-central:E-to-S-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-wb-split-3-split-split-split-split:end",
+          "fromLaneId": "ew-wb-split-3-split-split-split-split:lane:2",
+          "toLaneId": "system-central:E-to-S-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-S-semi:end",
+          "fromLaneId": "system-central:E-to-S-semi:lane:0",
+          "toLaneId": "ns-sb-split-split-split-split:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-S-semi:end",
+          "fromLaneId": "system-central:E-to-S-semi:lane:0",
+          "toLaneId": "ns-sb-split-split-split-split:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-S-semi:end",
+          "fromLaneId": "system-central:E-to-S-semi:lane:0",
+          "toLaneId": "ns-sb-split-split-split-split:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 10,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 20,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 40,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        }
+      ],
+      "verticalTangentBreak": 0,
+      "overlapSummary": {
+        "area": 396.5238839258818,
+        "maxHeightConflict": 0,
+        "stationMin": 0,
+        "stationMax": 59.99999999999996
+      }
+    },
+    {
+      "rampId": "system-central:E-to-S-semi",
+      "end": "end",
+      "kind": "entry/merge",
+      "linkIds": [
+        "link-56"
+      ],
+      "hostEndpoint": {
+        "roadId": "ns-sb-split-split-split-split",
+        "end": "start"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ns-sb-split-split-split-section",
+          "end": "end"
+        },
+        {
+          "roadId": "ns-sb-split-split-split-split",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": -8.125,
+        "y": -7.8703826738114016,
+        "z": 501.66666666666674
+      },
+      "rampPoint": {
+        "x": -8.125000000000004,
+        "y": -7.8703826738114016,
+        "z": 501.6666666666665
+      },
+      "xzGap": 2.2740142932498854e-13,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.644107604380128,
+      "laneEdgeGap": 2.2737541016009064e-13,
+      "pavementEdgeGap": 2.2737541016009064e-13,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "system-central:E-to-S-semi",
+          "fromEnd": "end",
+          "toRoadId": "ns-sb-split-split-split-split",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ew-wb-split-3-split-split-split-split:end",
+          "fromLaneId": "ew-wb-split-3-split-split-split-split:lane:0",
+          "toLaneId": "system-central:E-to-S-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-wb-split-3-split-split-split-split:end",
+          "fromLaneId": "ew-wb-split-3-split-split-split-split:lane:1",
+          "toLaneId": "system-central:E-to-S-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-wb-split-3-split-split-split-split:end",
+          "fromLaneId": "ew-wb-split-3-split-split-split-split:lane:2",
+          "toLaneId": "system-central:E-to-S-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-S-semi:end",
+          "fromLaneId": "system-central:E-to-S-semi:lane:0",
+          "toLaneId": "ns-sb-split-split-split-split:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-S-semi:end",
+          "fromLaneId": "system-central:E-to-S-semi:lane:0",
+          "toLaneId": "ns-sb-split-split-split-split:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-S-semi:end",
+          "fromLaneId": "system-central:E-to-S-semi:lane:0",
+          "toLaneId": "ns-sb-split-split-split-split:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": -0.0026596331913880888,
+          "host": -0.0024785024645989752,
+          "break": 0.00018113072678911353
+        },
+        {
+          "distance": 10,
+          "ramp": -0.002721678829208596,
+          "host": -0.0024156531985598307,
+          "break": 0.0003060256306487651
+        },
+        {
+          "distance": 20,
+          "ramp": -0.002844272571235429,
+          "host": -0.0022900029554620005,
+          "break": 0.0005542696157734284
+        },
+        {
+          "distance": 40,
+          "ramp": -0.003107563099911359,
+          "host": -0.002014793842456464,
+          "break": 0.001092769257454895
+        }
+      ],
+      "verticalTangentBreak": 0.00018113072678904892,
+      "overlapSummary": {
+        "area": 330.9793232379975,
+        "maxHeightConflict": 0.0009066008931295499,
+        "stationMin": 1261.655349602504,
+        "stationMax": 1311.6553496025037
+      }
+    },
+    {
+      "rampId": "system-central:E-to-N-right",
+      "end": "start",
+      "kind": "exit/split",
+      "linkIds": [
+        "link-64"
+      ],
+      "hostEndpoint": {
+        "roadId": "ew-wb-split-2-split",
+        "end": "end"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ew-wb-split-2-split",
+          "end": "end"
+        },
+        {
+          "roadId": "ew-wb-split-2-split-split-2",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 325,
+        "y": 8,
+        "z": -162.95833333333326
+      },
+      "rampPoint": {
+        "x": 325,
+        "y": 8,
+        "z": -162.95833333333326
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 2.045600483378804,
+      "laneEdgeGap": 0,
+      "pavementEdgeGap": 0,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "ew-wb-split-2-split",
+          "fromEnd": "end",
+          "toRoadId": "system-central:E-to-N-right",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ew-wb-split-2-split:end",
+          "fromLaneId": "ew-wb-split-2-split:lane:0",
+          "toLaneId": "system-central:E-to-N-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-wb-split-2-split:end",
+          "fromLaneId": "ew-wb-split-2-split:lane:1",
+          "toLaneId": "system-central:E-to-N-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-wb-split-2-split:end",
+          "fromLaneId": "ew-wb-split-2-split:lane:2",
+          "toLaneId": "system-central:E-to-N-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-N-right:end",
+          "fromLaneId": "system-central:E-to-N-right:lane:0",
+          "toLaneId": "ns-nb-split-split-2-split-2:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-N-right:end",
+          "fromLaneId": "system-central:E-to-N-right:lane:0",
+          "toLaneId": "ns-nb-split-split-2-split-2:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-N-right:end",
+          "fromLaneId": "system-central:E-to-N-right:lane:0",
+          "toLaneId": "ns-nb-split-split-2-split-2:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 10,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 20,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 40,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        }
+      ],
+      "verticalTangentBreak": 0,
+      "overlapSummary": {
+        "area": 235.84953838749425,
+        "maxHeightConflict": 0.015734781965190514,
+        "stationMin": 0,
+        "stationMax": 46.00000000000002
+      }
+    },
+    {
+      "rampId": "system-central:E-to-N-right",
+      "end": "end",
+      "kind": "entry/merge",
+      "linkIds": [
+        "link-72"
+      ],
+      "hostEndpoint": {
+        "roadId": "ns-nb-split-split-2-split-2",
+        "end": "start"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ns-nb-split-split-2",
+          "end": "end"
+        },
+        {
+          "roadId": "ns-nb-split-split-2-split-2",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 17.950541654389138,
+        "y": -6.4,
+        "z": -481.99999999999994
+      },
+      "rampPoint": {
+        "x": 17.950541654389127,
+        "y": -6.4,
+        "z": -481.9999999999996
+      },
+      "xzGap": 3.412270059808006e-13,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.30436239170012247,
+      "laneEdgeGap": 3.412270059808006e-13,
+      "pavementEdgeGap": 3.411761417959814e-13,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "system-central:E-to-N-right",
+          "fromEnd": "end",
+          "toRoadId": "ns-nb-split-split-2-split-2",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ew-wb-split-2-split:end",
+          "fromLaneId": "ew-wb-split-2-split:lane:0",
+          "toLaneId": "system-central:E-to-N-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-wb-split-2-split:end",
+          "fromLaneId": "ew-wb-split-2-split:lane:1",
+          "toLaneId": "system-central:E-to-N-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-wb-split-2-split:end",
+          "fromLaneId": "ew-wb-split-2-split:lane:2",
+          "toLaneId": "system-central:E-to-N-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-N-right:end",
+          "fromLaneId": "system-central:E-to-N-right:lane:0",
+          "toLaneId": "ns-nb-split-split-2-split-2:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-N-right:end",
+          "fromLaneId": "system-central:E-to-N-right:lane:0",
+          "toLaneId": "ns-nb-split-split-2-split-2:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:E-to-N-right:end",
+          "fromLaneId": "system-central:E-to-N-right:lane:0",
+          "toLaneId": "ns-nb-split-split-2-split-2:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 10,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 20,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 40,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        }
+      ],
+      "verticalTangentBreak": 0,
+      "overlapSummary": {
+        "area": 422.1038691464073,
+        "maxHeightConflict": 0,
+        "stationMin": 435.9491825935284,
+        "stationMax": 498.0153415433515
+      }
+    },
+    {
+      "rampId": "system-central:N-to-E-semi",
+      "end": "start",
+      "kind": "exit/split",
+      "linkIds": [
+        "link-80"
+      ],
+      "hostEndpoint": {
+        "roadId": "ns-sb-split-3-split-split-split-section",
+        "end": "end"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ns-sb-split-3-split-split-split-section",
+          "end": "end"
+        },
+        {
+          "roadId": "ns-sb-split-3-split-split-split-split",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 8.91188141229792,
+        "y": -5.356287999999999,
+        "z": -786
+      },
+      "rampPoint": {
+        "x": 8.91188141229792,
+        "y": -5.356287999999999,
+        "z": -786
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.7402837042472864,
+      "laneEdgeGap": 8.881784197001252e-16,
+      "pavementEdgeGap": 1.7763568394002505e-15,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "ns-sb-split-3-split-split-split-section",
+          "fromEnd": "end",
+          "toRoadId": "system-central:N-to-E-semi",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:system-central:N-to-E-semi:end",
+          "fromLaneId": "system-central:N-to-E-semi:lane:0",
+          "toLaneId": "ew-eb-split-split-5:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-E-semi:end",
+          "fromLaneId": "system-central:N-to-E-semi:lane:0",
+          "toLaneId": "ew-eb-split-split-5:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-E-semi:end",
+          "fromLaneId": "system-central:N-to-E-semi:lane:0",
+          "toLaneId": "ew-eb-split-split-5:lane:2"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-3-split-split-split-section:end",
+          "fromLaneId": "ns-sb-split-3-split-split-split-section:lane:0",
+          "toLaneId": "system-central:N-to-E-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-3-split-split-split-section:end",
+          "fromLaneId": "ns-sb-split-3-split-split-split-section:lane:1",
+          "toLaneId": "system-central:N-to-E-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-3-split-split-split-section:end",
+          "fromLaneId": "ns-sb-split-3-split-split-split-section:lane:2",
+          "toLaneId": "system-central:N-to-E-semi:lane:0"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": -0.011195680411429442,
+          "host": 0.012691155755583949,
+          "break": 0.02388683616701339
+        },
+        {
+          "distance": 10,
+          "ramp": -0.011195680411429442,
+          "host": 0.012691155755584127,
+          "break": 0.02388683616701357
+        },
+        {
+          "distance": 20,
+          "ramp": -0.01119377055040669,
+          "host": 0.013100801124689277,
+          "break": 0.024294571675095966
+        },
+        {
+          "distance": 40,
+          "ramp": -0.01118676699824075,
+          "host": 0.014719015669351387,
+          "break": 0.025905782667592137
+        }
+      ],
+      "verticalTangentBreak": 0.023886836167013793,
+      "overlapSummary": {
+        "area": 392.5521087578703,
+        "maxHeightConflict": 0.006846866070407742,
+        "stationMin": 0,
+        "stationMax": 59.999999999999986
+      }
+    },
+    {
+      "rampId": "system-central:N-to-E-semi",
+      "end": "end",
+      "kind": "entry/merge",
+      "linkIds": [
+        "link-88"
+      ],
+      "hostEndpoint": {
+        "roadId": "ew-eb-split-split-5",
+        "end": "start"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ew-eb-split",
+          "end": "end"
+        },
+        {
+          "roadId": "ew-eb-split-split-5",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 625,
+        "y": 8,
+        "z": -142.375
+      },
+      "rampPoint": {
+        "x": 624.9999999999993,
+        "y": 8.00000000000001,
+        "z": -142.375
+      },
+      "xzGap": 6.821210263296962e-13,
+      "deltaY": 1.0658141036401503e-14,
+      "tangentAngleDegrees": 0.5838450748378275,
+      "laneEdgeGap": 6.821210263296962e-13,
+      "pavementEdgeGap": 6.821210263296962e-13,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "system-central:N-to-E-semi",
+          "fromEnd": "end",
+          "toRoadId": "ew-eb-split-split-5",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:system-central:N-to-E-semi:end",
+          "fromLaneId": "system-central:N-to-E-semi:lane:0",
+          "toLaneId": "ew-eb-split-split-5:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-E-semi:end",
+          "fromLaneId": "system-central:N-to-E-semi:lane:0",
+          "toLaneId": "ew-eb-split-split-5:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-E-semi:end",
+          "fromLaneId": "system-central:N-to-E-semi:lane:0",
+          "toLaneId": "ew-eb-split-split-5:lane:2"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-3-split-split-split-section:end",
+          "fromLaneId": "ns-sb-split-3-split-split-split-section:lane:0",
+          "toLaneId": "system-central:N-to-E-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-3-split-split-split-section:end",
+          "fromLaneId": "ns-sb-split-3-split-split-split-section:lane:1",
+          "toLaneId": "system-central:N-to-E-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-3-split-split-split-section:end",
+          "fromLaneId": "ns-sb-split-3-split-split-split-section:lane:2",
+          "toLaneId": "system-central:N-to-E-semi:lane:0"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 1.4210854715202005e-15,
+          "host": 0,
+          "break": 1.4210854715202005e-15
+        },
+        {
+          "distance": 10,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 20,
+          "ramp": -1.7763568394002505e-15,
+          "host": 0,
+          "break": 1.7763568394002505e-15
+        },
+        {
+          "distance": 40,
+          "ramp": -2.3092638912203257e-15,
+          "host": 0,
+          "break": 2.3092638912203257e-15
+        }
+      ],
+      "verticalTangentBreak": 1.412630242156204e-15,
+      "overlapSummary": {
+        "area": 422.9969813728603,
+        "maxHeightConflict": 1.0658141036401503e-13,
+        "stationMin": 1225.7844517999886,
+        "stationMax": 1285.8587161030912
+      }
+    },
+    {
+      "rampId": "system-central:N-to-W-right",
+      "end": "start",
+      "kind": "exit/split",
+      "linkIds": [
+        "link-96"
+      ],
+      "hostEndpoint": {
+        "roadId": "ns-sb-split-2-split",
+        "end": "end"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ns-sb-split-2-split",
+          "end": "end"
+        },
+        {
+          "roadId": "ns-sb-split-2-split-split-2",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 1.7005416543891378,
+        "y": -6.4,
+        "z": -481.99999999999994
+      },
+      "rampPoint": {
+        "x": 1.7005416543891378,
+        "y": -6.4,
+        "z": -481.99999999999994
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.32128834205377793,
+      "laneEdgeGap": 1.1102230246251565e-15,
+      "pavementEdgeGap": 2.6645352591003757e-15,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "ns-sb-split-2-split",
+          "fromEnd": "end",
+          "toRoadId": "system-central:N-to-W-right",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ns-sb-split-2-split:end",
+          "fromLaneId": "ns-sb-split-2-split:lane:0",
+          "toLaneId": "system-central:N-to-W-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-2-split:end",
+          "fromLaneId": "ns-sb-split-2-split:lane:1",
+          "toLaneId": "system-central:N-to-W-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-2-split:end",
+          "fromLaneId": "ns-sb-split-2-split:lane:2",
+          "toLaneId": "system-central:N-to-W-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-W-right:end",
+          "fromLaneId": "system-central:N-to-W-right:lane:0",
+          "toLaneId": "ew-wb-split-split-split-3-split:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-W-right:end",
+          "fromLaneId": "system-central:N-to-W-right:lane:0",
+          "toLaneId": "ew-wb-split-split-split-3-split:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-W-right:end",
+          "fromLaneId": "system-central:N-to-W-right:lane:0",
+          "toLaneId": "ew-wb-split-split-split-3-split:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 10,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 20,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 40,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        }
+      ],
+      "verticalTangentBreak": 0,
+      "overlapSummary": {
+        "area": 398.05017413885173,
+        "maxHeightConflict": 0,
+        "stationMin": 0,
+        "stationMax": 57.929311524936345
+      }
+    },
+    {
+      "rampId": "system-central:N-to-W-right",
+      "end": "end",
+      "kind": "entry/merge",
+      "linkIds": [
+        "link-104"
+      ],
+      "hostEndpoint": {
+        "roadId": "ew-wb-split-split-split-3-split",
+        "end": "start"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ew-wb-split-split-split-3",
+          "end": "end"
+        },
+        {
+          "roadId": "ew-wb-split-split-split-3-split",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": -297.14285714285717,
+        "y": 8,
+        "z": -161.28125472091153
+      },
+      "rampPoint": {
+        "x": -297.1428571428571,
+        "y": 7.999999999999999,
+        "z": -161.28125472091153
+      },
+      "xzGap": 5.684341886080802e-14,
+      "deltaY": -8.881784197001252e-16,
+      "tangentAngleDegrees": 0.6474020275498298,
+      "laneEdgeGap": 5.684341886080802e-14,
+      "pavementEdgeGap": 5.684341886080802e-14,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "system-central:N-to-W-right",
+          "fromEnd": "end",
+          "toRoadId": "ew-wb-split-split-split-3-split",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ns-sb-split-2-split:end",
+          "fromLaneId": "ns-sb-split-2-split:lane:0",
+          "toLaneId": "system-central:N-to-W-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-2-split:end",
+          "fromLaneId": "ns-sb-split-2-split:lane:1",
+          "toLaneId": "system-central:N-to-W-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ns-sb-split-2-split:end",
+          "fromLaneId": "ns-sb-split-2-split:lane:2",
+          "toLaneId": "system-central:N-to-W-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-W-right:end",
+          "fromLaneId": "system-central:N-to-W-right:lane:0",
+          "toLaneId": "ew-wb-split-split-split-3-split:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-W-right:end",
+          "fromLaneId": "system-central:N-to-W-right:lane:0",
+          "toLaneId": "ew-wb-split-split-split-3-split:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:N-to-W-right:end",
+          "fromLaneId": "system-central:N-to-W-right:lane:0",
+          "toLaneId": "ew-wb-split-split-split-3-split:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": -1.7763568394002506e-16,
+          "host": 0,
+          "break": 1.7763568394002506e-16
+        },
+        {
+          "distance": 10,
+          "ramp": -8.881784197001253e-17,
+          "host": 0,
+          "break": 8.881784197001253e-17
+        },
+        {
+          "distance": 20,
+          "ramp": -4.4408920985006264e-17,
+          "host": 0,
+          "break": 4.4408920985006264e-17
+        },
+        {
+          "distance": 40,
+          "ramp": -2.2204460492503132e-17,
+          "host": 0,
+          "break": 2.2204460492503132e-17
+        }
+      ],
+      "verticalTangentBreak": 4.4408920985006055e-16,
+      "overlapSummary": {
+        "area": 228.2383240977215,
+        "maxHeightConflict": 8.881784197001252e-16,
+        "stationMin": 454.52372303623713,
+        "stationMax": 498.52372303623713
+      }
+    },
+    {
+      "rampId": "system-central:W-to-N-semi",
+      "end": "start",
+      "kind": "exit/split",
+      "linkIds": [
+        "link-120"
+      ],
+      "hostEndpoint": {
+        "roadId": "ew-eb-split-4-split-split-section",
+        "end": "end"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ew-eb-split-4-split-split-section",
+          "end": "end"
+        },
+        {
+          "roadId": "ew-eb-split-4-split-split-split",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": -571.4285714285714,
+        "y": 8,
+        "z": -127.46927309140918
+      },
+      "rampPoint": {
+        "x": -571.4285714285714,
+        "y": 8,
+        "z": -127.46927309140918
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.5912079143528406,
+      "laneEdgeGap": 0,
+      "pavementEdgeGap": 0,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "ew-eb-split-4-split-split-section",
+          "fromEnd": "end",
+          "toRoadId": "system-central:W-to-N-semi",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:system-central:W-to-N-semi:end",
+          "fromLaneId": "system-central:W-to-N-semi:lane:0",
+          "toLaneId": "ns-nb-split-split-split:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-N-semi:end",
+          "fromLaneId": "system-central:W-to-N-semi:lane:0",
+          "toLaneId": "ns-nb-split-split-split:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-N-semi:end",
+          "fromLaneId": "system-central:W-to-N-semi:lane:0",
+          "toLaneId": "ns-nb-split-split-split:lane:2"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-4-split-split-section:end",
+          "fromLaneId": "ew-eb-split-4-split-split-section:lane:0",
+          "toLaneId": "system-central:W-to-N-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-4-split-split-section:end",
+          "fromLaneId": "ew-eb-split-4-split-split-section:lane:1",
+          "toLaneId": "system-central:W-to-N-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-4-split-split-section:end",
+          "fromLaneId": "ew-eb-split-4-split-split-section:lane:2",
+          "toLaneId": "system-central:W-to-N-semi:lane:0"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 10,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 20,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 40,
+          "ramp": 4.4408920985006264e-17,
+          "host": 0,
+          "break": 4.4408920985006264e-17
+        }
+      ],
+      "verticalTangentBreak": 0,
+      "overlapSummary": {
+        "area": 383.5417804004719,
+        "maxHeightConflict": 1.7763568394002505e-15,
+        "stationMin": 0,
+        "stationMax": 59.000000000000206
+      }
+    },
+    {
+      "rampId": "system-central:W-to-N-semi",
+      "end": "end",
+      "kind": "entry/merge",
+      "linkIds": [
+        "link-128"
+      ],
+      "hostEndpoint": {
+        "roadId": "ns-nb-split-split-split",
+        "end": "start"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ns-nb-split-split",
+          "end": "end"
+        },
+        {
+          "roadId": "ns-nb-split-split-split",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": 25.16188141229792,
+        "y": -5.356287999999999,
+        "z": -786
+      },
+      "rampPoint": {
+        "x": 25.161881412297916,
+        "y": -5.3562880000000055,
+        "z": -785.9999999999994
+      },
+      "xzGap": 5.684452907299082e-13,
+      "deltaY": -6.217248937900877e-15,
+      "tangentAngleDegrees": 0.3320006471442193,
+      "laneEdgeGap": 5.684785957944773e-13,
+      "pavementEdgeGap": 5.684785957944773e-13,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "system-central:W-to-N-semi",
+          "fromEnd": "end",
+          "toRoadId": "ns-nb-split-split-split",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:system-central:W-to-N-semi:end",
+          "fromLaneId": "system-central:W-to-N-semi:lane:0",
+          "toLaneId": "ns-nb-split-split-split:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-N-semi:end",
+          "fromLaneId": "system-central:W-to-N-semi:lane:0",
+          "toLaneId": "ns-nb-split-split-split:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-N-semi:end",
+          "fromLaneId": "system-central:W-to-N-semi:lane:0",
+          "toLaneId": "ns-nb-split-split-split:lane:2"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-4-split-split-section:end",
+          "fromLaneId": "ew-eb-split-4-split-split-section:lane:0",
+          "toLaneId": "system-central:W-to-N-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-4-split-split-section:end",
+          "fromLaneId": "ew-eb-split-4-split-split-section:lane:1",
+          "toLaneId": "system-central:W-to-N-semi:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-4-split-split-section:end",
+          "fromLaneId": "ew-eb-split-4-split-split-section:lane:2",
+          "toLaneId": "system-central:W-to-N-semi:lane:0"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0.01119560684603691,
+          "host": -0.012637261130655553,
+          "break": 0.023832867976692464
+        },
+        {
+          "distance": 10,
+          "ramp": 0.011194491143879404,
+          "host": -0.01273998785214383,
+          "break": 0.023934478996023235
+        },
+        {
+          "distance": 20,
+          "ramp": 0.011192794097072056,
+          "host": -0.013119558168055745,
+          "break": 0.0243123522651278
+        },
+        {
+          "distance": 40,
+          "ramp": 0.011188182751440068,
+          "host": -0.014741414324329228,
+          "break": 0.025929597075769296
+        }
+      ],
+      "verticalTangentBreak": 0.02383286797669277,
+      "overlapSummary": {
+        "area": 390.1186959569477,
+        "maxHeightConflict": 0.0030522873963123587,
+        "stationMin": 1175.5923075219655,
+        "stationMax": 1235.999999999999
+      }
+    },
+    {
+      "rampId": "system-central:W-to-S-right",
+      "end": "start",
+      "kind": "exit/split",
+      "linkIds": [
+        "link-471"
+      ],
+      "hostEndpoint": {
+        "roadId": "ew-eb-split-3-split",
+        "end": "end"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ew-eb-split-3-split",
+          "end": "end"
+        },
+        {
+          "roadId": "ew-eb-split-3-split-split-4",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": -357.0743460227738,
+        "y": 8,
+        "z": -138.8542365225849
+      },
+      "rampPoint": {
+        "x": -357.0743460227738,
+        "y": 8,
+        "z": -138.8542365225849
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 1.4493367670142552,
+      "laneEdgeGap": 0,
+      "pavementEdgeGap": 5.684341886080802e-14,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "ew-eb-split-3-split",
+          "fromEnd": "end",
+          "toRoadId": "system-central:W-to-S-right",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ew-eb-split-3-split:end",
+          "fromLaneId": "ew-eb-split-3-split:lane:0",
+          "toLaneId": "system-central:W-to-S-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-3-split:end",
+          "fromLaneId": "ew-eb-split-3-split:lane:1",
+          "toLaneId": "system-central:W-to-S-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-3-split:end",
+          "fromLaneId": "ew-eb-split-3-split:lane:2",
+          "toLaneId": "system-central:W-to-S-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-S-right:end",
+          "fromLaneId": "system-central:W-to-S-right:lane:0",
+          "toLaneId": "ns-sb-split-split-split-3-split:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-S-right:end",
+          "fromLaneId": "system-central:W-to-S-right:lane:0",
+          "toLaneId": "ns-sb-split-split-split-3-split:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-S-right:end",
+          "fromLaneId": "system-central:W-to-S-right:lane:0",
+          "toLaneId": "ns-sb-split-split-split-3-split:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 10,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 20,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        },
+        {
+          "distance": 40,
+          "ramp": 0,
+          "host": 0,
+          "break": 0
+        }
+      ],
+      "verticalTangentBreak": 0,
+      "overlapSummary": {
+        "area": 91.40778603946092,
+        "maxHeightConflict": 0,
+        "stationMin": 0,
+        "stationMax": 13.999999999999982
+      }
+    },
+    {
+      "rampId": "system-central:W-to-S-right",
+      "end": "end",
+      "kind": "entry/merge",
+      "linkIds": [
+        "link-152"
+      ],
+      "hostEndpoint": {
+        "roadId": "ns-sb-split-split-split-3-split",
+        "end": "start"
+      },
+      "endpointCluster": [
+        {
+          "roadId": "ns-sb-split-split-split-3",
+          "end": "end"
+        },
+        {
+          "roadId": "ns-sb-split-split-split-3-split",
+          "end": "start"
+        }
+      ],
+      "mainlinePoint": {
+        "x": -8.125,
+        "y": -6.529617326188599,
+        "z": 187.38095238095235
+      },
+      "rampPoint": {
+        "x": -8.125,
+        "y": -6.529617326188599,
+        "z": 187.38095238095235
+      },
+      "xzGap": 0,
+      "deltaY": 0,
+      "tangentAngleDegrees": 0.3028653562979442,
+      "laneEdgeGap": 0,
+      "pavementEdgeGap": 1.7763568394002505e-15,
+      "topologyConnected": true,
+      "routingEdges": [
+        {
+          "fromRoadId": "system-central:W-to-S-right",
+          "fromEnd": "end",
+          "toRoadId": "ns-sb-split-split-split-3-split",
+          "toEnd": "start"
+        }
+      ],
+      "laneConnections": [
+        {
+          "intersectionId": "endpoint:ew-eb-split-3-split:end",
+          "fromLaneId": "ew-eb-split-3-split:lane:0",
+          "toLaneId": "system-central:W-to-S-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-3-split:end",
+          "fromLaneId": "ew-eb-split-3-split:lane:1",
+          "toLaneId": "system-central:W-to-S-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:ew-eb-split-3-split:end",
+          "fromLaneId": "ew-eb-split-3-split:lane:2",
+          "toLaneId": "system-central:W-to-S-right:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-S-right:end",
+          "fromLaneId": "system-central:W-to-S-right:lane:0",
+          "toLaneId": "ns-sb-split-split-split-3-split:lane:0"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-S-right:end",
+          "fromLaneId": "system-central:W-to-S-right:lane:0",
+          "toLaneId": "ns-sb-split-split-split-3-split:lane:1"
+        },
+        {
+          "intersectionId": "endpoint:system-central:W-to-S-right:end",
+          "fromLaneId": "system-central:W-to-S-right:lane:0",
+          "toLaneId": "ns-sb-split-split-split-3-split:lane:2"
+        }
+      ],
+      "connectionPorts": [],
+      "grades": [
+        {
+          "distance": 5,
+          "ramp": -0.002478467837805276,
+          "host": -0.0026598012598423536,
+          "break": 0.0001813334220370777
+        },
+        {
+          "distance": 10,
+          "ramp": -0.002415494799547879,
+          "host": -0.0027218582558511174,
+          "break": 0.0003063634563032383
+        },
+        {
+          "distance": 20,
+          "ramp": -0.0022894437752113196,
+          "host": -0.0028450775125898886,
+          "break": 0.000555633737378569
+        },
+        {
+          "distance": 40,
+          "ramp": -0.002013125745812583,
+          "host": -0.0031101962957871265,
+          "break": 0.0010970705499745437
+        }
+      ],
+      "verticalTangentBreak": 0.00018133342203692374,
+      "overlapSummary": {
+        "area": 395.8047037822964,
+        "maxHeightConflict": 0.0005143241467742143,
+        "stationMin": 489.14033357515166,
+        "stationMax": 549.1403335751514
+      }
+    }
+  ],
+  "scopedLinks": [
+    {
+      "id": "link-9",
+      "from": {
+        "roadId": "ns-nb-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-11",
+      "from": {
+        "roadId": "ew-wb-split-2-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-13",
+      "from": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-15",
+      "from": {
+        "roadId": "ew-eb-split-2-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-17",
+      "from": {
+        "roadId": "ew-wb-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-19",
+      "from": {
+        "roadId": "ns-sb-split-2-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-21",
+      "from": {
+        "roadId": "ew-wb-split-3-split-split-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-23",
+      "from": {
+        "roadId": "ns-nb-split-split-2-split-v6",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-25",
+      "from": {
+        "roadId": "ns-sb-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-27",
+      "from": {
+        "roadId": "ew-eb-split-3-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-29",
+      "from": {
+        "roadId": "ns-sb-split-3-split-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-31",
+      "from": {
+        "roadId": "ew-wb-split-split-split-2-v6",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-33",
+      "from": {
+        "roadId": "ew-eb-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-2-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-35",
+      "from": {
+        "roadId": "ns-nb-split-2-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-2-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-37",
+      "from": {
+        "roadId": "ew-eb-split-4-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-3",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-39",
+      "from": {
+        "roadId": "ns-sb-split-split-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-10",
+      "from": {
+        "roadId": "ns-nb-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-2-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-14",
+      "from": {
+        "roadId": "ew-wb-split-split-split-3-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-18",
+      "from": {
+        "roadId": "ns-nb-split-2-split-2-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-2-split-2-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-22",
+      "from": {
+        "roadId": "ew-eb-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-2-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-26",
+      "from": {
+        "roadId": "ew-wb-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-2-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-30",
+      "from": {
+        "roadId": "ns-sb-split-split-split-3-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-34",
+      "from": {
+        "roadId": "ew-wb-split-2-split-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-2-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-38",
+      "from": {
+        "roadId": "ns-nb-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-42",
+      "from": {
+        "roadId": "ns-sb-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-2-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-46",
+      "from": {
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-2-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-50",
+      "from": {
+        "roadId": "ns-sb-split-2-split-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-2-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-54",
+      "from": {
+        "roadId": "ew-wb-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-3",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-58",
+      "from": {
+        "roadId": "ew-eb-split-3",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-3-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-62",
+      "from": {
+        "roadId": "ns-nb-split-split-2-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-2-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-66",
+      "from": {
+        "roadId": "ew-eb-split-3-split-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-3-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-70",
+      "from": {
+        "roadId": "ns-sb-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-3",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-350",
+      "from": {
+        "roadId": "ns-nb-split-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-2-split-v6",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-354",
+      "from": {
+        "roadId": "ew-wb-split-split-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-2-v6",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-12",
+      "from": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-16",
+      "from": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "system-central:S-to-W-semi",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-20",
+      "from": {
+        "roadId": "ew-wb-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-split-4",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-24",
+      "from": {
+        "roadId": "system-central:S-to-W-semi",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-split-4",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-28",
+      "from": {
+        "roadId": "ns-nb-split-2-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-2-split-2-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-32",
+      "from": {
+        "roadId": "ns-nb-split-2-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "system-central:S-to-E-right",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-36",
+      "from": {
+        "roadId": "ew-eb-split-2-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-40",
+      "from": {
+        "roadId": "system-central:S-to-E-right",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-2-split-split-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-44",
+      "from": {
+        "roadId": "ew-wb-split-3-split-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-3-split-split-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-48",
+      "from": {
+        "roadId": "ew-wb-split-3-split-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "system-central:E-to-S-semi",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-52",
+      "from": {
+        "roadId": "ns-sb-split-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-56",
+      "from": {
+        "roadId": "system-central:E-to-S-semi",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-60",
+      "from": {
+        "roadId": "ew-wb-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-2-split-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-64",
+      "from": {
+        "roadId": "ew-wb-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "system-central:E-to-N-right",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-68",
+      "from": {
+        "roadId": "ns-nb-split-split-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-2-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-72",
+      "from": {
+        "roadId": "system-central:E-to-N-right",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-2-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-76",
+      "from": {
+        "roadId": "ns-sb-split-3-split-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-3-split-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-80",
+      "from": {
+        "roadId": "ns-sb-split-3-split-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "system-central:N-to-E-semi",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-84",
+      "from": {
+        "roadId": "ew-eb-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-split-5",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-88",
+      "from": {
+        "roadId": "system-central:N-to-E-semi",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-split-5",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-92",
+      "from": {
+        "roadId": "ns-sb-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-2-split-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-96",
+      "from": {
+        "roadId": "ns-sb-split-2-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "system-central:N-to-W-right",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-100",
+      "from": {
+        "roadId": "ew-wb-split-split-split-3",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-3-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-104",
+      "from": {
+        "roadId": "system-central:N-to-W-right",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-3-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-116",
+      "from": {
+        "roadId": "ew-eb-split-4-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-4-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-120",
+      "from": {
+        "roadId": "ew-eb-split-4-split-split-section",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "system-central:W-to-N-semi",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-124",
+      "from": {
+        "roadId": "ns-nb-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-128",
+      "from": {
+        "roadId": "system-central:W-to-N-semi",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-split-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-132",
+      "from": {
+        "roadId": "ew-eb-split-3-split-split-3",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-3-split-split-2",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-148",
+      "from": {
+        "roadId": "ns-sb-split-split-split-3",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-3-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-152",
+      "from": {
+        "roadId": "system-central:W-to-S-right",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-3-split",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-376",
+      "from": {
+        "roadId": "ew-eb-split-3-split-split-4",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-3-split-split-3",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-144",
+      "from": {
+        "roadId": "ew-eb-split-3-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-3-split-split-4",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-471",
+      "from": {
+        "roadId": "ew-eb-split-3-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "system-central:W-to-S-right",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-380",
+      "from": {
+        "roadId": "ns-sb-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-section",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-475",
+      "from": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-split-section",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-393",
+      "from": {
+        "roadId": "ew-eb-split-4-split-split-section-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-eb-split-4-split-split-section",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-398",
+      "from": {
+        "roadId": "ew-wb-split-split-split-split-4",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ew-wb-split-split-split-split-4-section",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-343",
+      "from": {
+        "roadId": "ns-sb-split-split-split-split",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-sb-split-split-split-split-section",
+        "end": "start"
+      }
+    },
+    {
+      "id": "link-539",
+      "from": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-section-2",
+        "end": "end"
+      },
+      "to": {
+        "roadId": "ns-nb-split-3-split-split-split-split-split-section",
+        "end": "start"
+      }
+    }
+  ],
+  "targetedNavigation": {
+    "passed": true,
+    "edgesChecked": 16
+  }
+}

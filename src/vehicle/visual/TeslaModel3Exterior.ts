@@ -351,10 +351,10 @@ const addTrunk = (root: THREE.Group, config: VehicleVisualConfig, m: ExteriorMat
     return [x, section.top + crown * (1 - across * across), endAdjustedZ(z, x)];
   }, m.paint, 'trunk');
   root.add(deck);
-  const lip = new THREE.BoxGeometry(1.24, .012, .12);
-  const blade = addMesh(root, 'Tesla integrated boot lip', lip, m.paint, 'trunk');
-  blade.position.set(0, sectionAt(2.28).top + .010, 2.28);
-  blade.rotation.x = -.02;
+  root.add(gridMesh('Tesla integrated boot lip', 4, 24, (u,v) => {
+    const x=(v*2-1)*.66, z=lerp(2.22,2.32,u);
+    return [x,sectionAt(z).top+.008*Math.sin(u*Math.PI)*(1-(x/.68)**2),endAdjustedZ(z,x)];
+  },m.paint,'trunk'));
   const rear = sectionAt(rearGlassBottomZ);
   for (const sign of [-1, 1] as const) {
     const edge: Point[] = [];
@@ -409,8 +409,8 @@ const addFascias = (root: THREE.Group, config: VehicleVisualConfig, m: ExteriorM
   for (const sign of [-1, 1] as const) {
     const duct = gridMesh(`${sign < 0 ? 'Left' : 'Right'} Tesla air curtain`,
       5, 4, (u, v) => {
-        const y = lerp(.345, .585, u);
-        const x = sign * lerp(.545, .625, v);
+        const y = lerp(.315, .425, u);
+        const x = sign * lerp(.65 + u * .025, .76 - u * .02, v);
         return [x, y, frontZ(x) - .003];
       }, m.trim, 'intake', sign < 0);
     root.add(duct);
@@ -778,7 +778,7 @@ const addLamps = (root: THREE.Group, config: VehicleVisualConfig, m: ExteriorMat
     { kind: 'side', at: -2.100, y: .758 },
   ];
   const rearColumns: LampColumn[] = [
-    { kind: 'rear', at: .300, y: .858 },
+    { kind: 'rear', at: .300, y: .850 },
     { kind: 'rear', at: .460, y: .862 },
     { kind: 'rear', at: .610, y: .866 },
     { kind: 'rear', at: .735, y: .870 },
@@ -806,6 +806,11 @@ const addLamps = (root: THREE.Group, config: VehicleVisualConfig, m: ExteriorMat
       .006, m.redLens, 'lamp-lens', 'tail', rearOrigin);
     lampRibbon(root, config, `${side} brake lamp`, sign, shifted(rearColumns, -.011),
       .006, m.redLens, 'lamp-lens', 'brake', rearOrigin);
+    // Highland's hooked outer return descends from the horizontal guide.
+    const hook = [.0, .25, .5, .75, 1].map(t => ({ kind: 'side' as const,
+      at: lerp(2.16, 2.20, t), y: lerp(.874, .778, t) }));
+    lampRibbon(root, config, `${side} Highland tail return housing`, sign, hook, .018, m.redLens, 'tail-lamp');
+    lampRibbon(root, config, `${side} Highland tail return guide`, sign, hook, .005, m.redLens, 'lamp-lens', 'tail', rearOrigin);
     lampRibbon(root, config, `${side} rear turn signal`, sign, shifted(rearColumns.slice(4), .014),
       .007, m.redLens, 'lamp-lens', sign < 0 ? 'left' : 'right', rearOrigin);
     lampRibbon(root, config, `${side} reverse lamp`, sign, shifted(rearColumns.slice(0, 2), -.023),
@@ -848,7 +853,7 @@ const addTrimDetails = (root: THREE.Group, m: ExteriorMaterials): void => {
         const x = widthAt(gapZ, y) + .0015;
         points.push([sign * x, y, endAdjustedZ(gapZ, x)]);
       }
-      addTube(root, `${side} door shut line`, points, .0028, m.gloss, 'panel-gap');
+      addTube(root, `${side} door shut line`, points, .0016, m.gloss, 'panel-gap');
     }
     for (const handleZ of [.15, .82]) {
       const y = .895;
@@ -865,10 +870,10 @@ const addTrimDetails = (root: THREE.Group, m: ExteriorMaterials): void => {
     }
     addTube(root, `${side} beltline trim`, belt, .003, m.gloss, 'window-trim');
   }
-  // Charge flap on the left rear quarter, flat and flush.
+  // Highland port is concealed in the left rear lamp, not on the rear door.
   const flap = gridMesh('Left charge port flap', 2, 2, (u, v) => {
-    const z = lerp(.78, .94, v);
-    const y = lerp(.73, .83, u);
+    const z = lerp(2.15, 2.25, v);
+    const y = lerp(.81, .88, u);
     return [-widthAt(z, y) - .0015, y, z];
   }, m.paintDark, 'charge-port', true);
   root.add(flap);

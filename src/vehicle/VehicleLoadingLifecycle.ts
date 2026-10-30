@@ -26,5 +26,6 @@ export class VehicleLoadingLifecycle {
       }
     } catch (error) { this.error = error; this.mark('Failed'); }
   }
+  public reset(): void { this.generation++; this.tasks = []; this.pending = false; this.error = undefined; this.mark('Ready'); }
   public dispose(): void { this.generation++; this.tasks = []; }
 }

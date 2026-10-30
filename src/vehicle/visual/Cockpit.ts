@@ -1,4 +1,7 @@
+import { addJeskoInteriorCanopy } from './JeskoCanopy';
 import * as THREE from 'three';
+import { addJeskoAttackCabin } from './JeskoAttackCabin';
+import { buildSU7MaxCabin, type SU7MaxCabinState } from './SU7MaxCabin';
 import { VehicleAssetRegistry } from './VehicleAssetRegistry';
 import { TaycanCabinDisplays } from './TaycanCabinDisplays';
 import { createPrancingHorseBadge } from './PrancingHorseBadge';
@@ -91,6 +94,8 @@ export class Cockpit extends THREE.Group {
   private ambientLevel = 0;
   private readonly ambientSpills: THREE.PointLight[] = [];
   private bmwCabin: BMW530CabinState | null = null;
+  private su7Cabin?: SU7MaxCabinState;
+  private jeskoCabin?: ReturnType<typeof addJeskoAttackCabin>;
   private mercedesCabin: MercedesE300LCabinState | null = null;
   public readonly gtiCabin?: GolfGTICabinState;
   public readonly taycanDisplays?: TaycanCabinDisplays;
@@ -109,6 +114,10 @@ export class Cockpit extends THREE.Group {
     this.consoleWidth = this.layout.consoleWidth;
     this.floorY = this.layout.floorHeight;
 
+    if (config.body.exterior === 'xiaomi-su7') {
+      this.su7Cabin=buildSU7MaxCabin(this,config,this);
+      this.instrumentCluster=this.su7Cabin.instrument;return;
+    }
     if (config.body.design === 'golf-gti') {
       this.gtiCabin = buildGolfGTICabin(this, config, this, assets);
       this.instrumentCluster = this.gtiCabin.instrument; return;
@@ -155,14 +164,17 @@ export class Cockpit extends THREE.Group {
       side: THREE.DoubleSide,
     });
 
-    this.addDashboard(config, interior, dark, softTrim, satin);
+    const jesko = config.body.design === 'jesko-attack';
+    if (!jesko) this.addDashboard(config, interior, dark, softTrim, satin);
     this.instrumentCluster = this.addInstrumentCluster(config);
     this.addSteeringAssembly(config, dark, satin);
-    this.addCentreConsole(config, interior, dark, satin);
+    if (!jesko) this.addCentreConsole(config, interior, dark, satin);
+    else { this.gearLever.name = 'LST compact selector panel'; this.add(this.gearLever); }
     if (this.instrumentCluster.premiumEVFace) this.taycanDisplays = new TaycanCabinDisplays(this, this.displayAssets!, this.instrumentCluster.premiumEVFace);
     this.addFootwells(config, dark);
     this.addDoors(config, interior, softTrim, satin);
     this.addWindshieldFrame(config, dark, headliner);
+    if (config.body.design === 'jesko-attack') this.jeskoCabin = addJeskoAttackCabin(this, config, this.instrumentCluster);
     if (config.body.design === 'executive') this.addExecutiveCabinCompletion(config, interior, softTrim, satin, dark);
     if (config.interiorAmbientLighting) this.addAmbientLighting(config);
     if (config.body.design === 'executive') applyExecutiveCabinAppearance(this, config, assets);
@@ -235,6 +247,7 @@ export class Cockpit extends THREE.Group {
     this.steeringWheelRotationGroup.rotation.z = Number.isFinite(angleRadians)
       ? angleRadians
       : 0;
+    this.instrumentCluster.setDisplaySteeringAngle(this.steeringWheelRotationGroup.rotation.z);
   }
 
   /** Alias used by game loops that update normalized steering every frame. */
@@ -258,6 +271,8 @@ export class Cockpit extends THREE.Group {
   /** Updates every cockpit instrument from one render-facing state object. */
   public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
     this.instrumentCluster.update(telemetry, deltaTime);
+    this.jeskoCabin?.update(telemetry, deltaTime);
+    this.su7Cabin?.update(telemetry,deltaTime);
     this.gtiCabin?.update(telemetry, deltaTime);
     this.bmwCabin?.update(telemetry, deltaTime);
     this.mercedesCabin?.update(telemetry, deltaTime);
@@ -572,7 +587,7 @@ export class Cockpit extends THREE.Group {
 
   private addInstrumentCluster(config: VehicleVisualConfig): InstrumentCluster {
     const cluster = new InstrumentCluster(config.instrumentCluster, this.displayAssets);
-    if (config.instrumentCluster.displayStyle !== 'ev-center' && config.instrumentCluster.displayStyle !== 'ev-premium') fitInstrumentBinnacle(cluster, config, this.layout);
+    if (config.instrumentCluster.displayStyle !== 'ev-center' && config.instrumentCluster.displayStyle !== 'ev-premium' && config.instrumentCluster.displayStyle !== 'jesko-digital') fitInstrumentBinnacle(cluster, config, this.layout);
     // The existing artwork/needles retain their local coordinates and updates.
     setPosition(cluster, config.instrumentClusterTransform.position);
     cluster.rotation.set(...config.instrumentClusterTransform.rotation);
@@ -699,9 +714,11 @@ export class Cockpit extends THREE.Group {
     }
 
     this.steeringWheelBase.add(this.steeringWheelRotationGroup);
-    if (config.body.design === 'mid-supercar') {
-      const badge = createPrancingHorseBadge(); badge.position.set(0, .005, .038);
-      this.steeringWheelRotationGroup.add(badge);
+    if (config.body.design === 'mid-supercar' || config.body.design === 'jesko-attack') {
+      if (config.body.design === 'mid-supercar') {
+        const badge = createPrancingHorseBadge(); badge.position.set(0, .005, .038);
+        this.steeringWheelRotationGroup.add(badge);
+      }
       for (const side of [-1, 1]) {
         // Column-mounted paddles stay fixed while the rim turns.
         const paddle = makeBox(side < 0 ? 'Fixed downshift paddle' : 'Fixed upshift paddle',
@@ -802,9 +819,9 @@ export class Cockpit extends THREE.Group {
       panel.name = 'Executive centre control surround';
       face.add(panel);
     }
-    if (design !== 'executive') face.add(makeBox('Infotainment display', [stackWidth - .055, design === 'formal' ? .10 : .085, .008],
+    if (design !== 'executive' && design !== 'jesko-attack') face.add(makeBox('Infotainment display', [stackWidth - .055, design === 'formal' ? .10 : .085, .008],
       [0, -.018, .005], dark));
-    for (const sign of [-1, 1]) {
+    for (const sign of design === 'jesko-attack' ? [] : [-1, 1]) {
       face.add(makeBox('Centre air vent', [(stackWidth - .065) * .5, .033, .008],
         [sign * stackWidth * .24, faceHeight * .5 - .037, .005], dark));
     }
@@ -849,11 +866,11 @@ export class Cockpit extends THREE.Group {
     this.gearLever.name = 'Gear lever';
     setPosition(this.gearLever, config.gearLeverPosition);
     this.gearLever.rotation.set(...config.gearLeverRotation);
-    if (design === 'mid-supercar') {
-      this.gearLever.name = 'DCT compact selector panel';
-      for (const z of [-.065, 0, .065]) this.gearLever.add(makeBox('DCT selector button', [.085, .014, .035], [0, .012, z], satin));
+    if (design === 'mid-supercar' || design === 'jesko-attack') {
+      this.gearLever.name = design === 'jesko-attack' ? 'LST compact selector panel' : 'DCT compact selector panel';
+      for (const z of [-.065, 0, .065]) this.gearLever.add(makeBox('Automatic selector button', [.085, .014, .035], [0, .012, z], satin));
       this.add(this.gearLever);
-      this.add(makeBox('Mid-engine cabin rear bulkhead', [config.cabin.width, .70, .025],
+      if (design !== 'jesko-attack') this.add(makeBox('Mid-engine cabin rear bulkhead', [config.cabin.width, .70, .025],
         [0, this.floorY + .35, .73], interior));
       return;
     }
@@ -978,6 +995,10 @@ export class Cockpit extends THREE.Group {
     dark: THREE.Material,
     headlinerMaterial: THREE.Material,
   ): void {
+    if(config.body.design==='jesko-attack'){
+      addJeskoInteriorCanopy(this,headlinerMaterial,dark);
+      return;
+    }
     const bottomY = config.cabin.windshieldBottomY;
     const topY = config.cabin.windshieldTopY;
     const bottomZ = config.cabin.windshieldBottomZ;

@@ -26,13 +26,24 @@
     "selftest:grounds": "esbuild scripts/run-ground-catalog-selftest.ts --bundle --platform=node --format=esm --outfile=.tmp-ground-catalog-selftest.mjs && node .tmp-ground-catalog-selftest.mjs",
     "selftest:experience": "esbuild scripts/run-vehicle-experience-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-vehicle-experience-selftests.mjs && node .tmp-vehicle-experience-selftests.mjs",
     "selftest:systems": "esbuild scripts/run-system-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-system-selftests.mjs && node .tmp-system-selftests.mjs",
-    "selftest:navigation": "esbuild scripts/run-navigation-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-navigation-selftests.mjs && node .tmp-navigation-selftests.mjs"
+    "selftest:navigation": "esbuild scripts/run-navigation-selftests.ts --bundle --platform=node --format=esm --outfile=.tmp-navigation-selftests.mjs && node .tmp-navigation-selftests.mjs",
+    "desktop:dev": "node scripts/desktop-dev.mjs",
+    "desktop:build": "tsc -p desktop/tsconfig.json && node scripts/desktop-build.mjs",
+    "desktop:start": "electron .desktop/main.cjs",
+    "desktop:package": "pnpm run build -BasicValidation && pnpm run desktop:build && node scripts/desktop-package.mjs",
+    "selftest:ui": "node scripts/run-ui-selftests.mjs",
+    "selftest:loading": "node scripts/run-loading-selftests.mjs",
+    "selftest:physics-streaming": "node scripts/run-physics-sector-selftests.mjs"
   },
   "dependencies": {
     "three": "^0.180.0"
   },
   "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "@types/node": "^26.6.5",
     "@types/three": "^0.180.0",
+    "electron": "^45.0.0",
+    "esbuild": "^0.28.2",
     "typescript": "^5.9.2",
     "vite": "^7.1.7"
   }

@@ -1,0 +1,4776 @@
+{
+  "cluster": "v8-ring-north",
+  "passed": true,
+  "scopeRoads": 9,
+  "signUpdates": [
+    {
+      "id": "road-safety:v8-ring-north:off--1:false:guide:130",
+      "roadId": "v8-ring-north:off--1",
+      "before": {
+        "id": "road-safety:v8-ring-north:off--1:false:guide:130",
+        "type": "CHEVRON",
+        "template": "chevron",
+        "size": "small",
+        "roadId": "v8-ring-north:off--1",
+        "position": {
+          "x": 1046.3205866501178,
+          "y": 7.08902124770964,
+          "z": -1778.516071458699
+        },
+        "heading": -2.225732945950564,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 130.00000000000017,
+        "chevronDirection": "right"
+      },
+      "after": {
+        "id": "road-safety:v8-ring-north:off--1:false:guide:130",
+        "type": "CHEVRON",
+        "template": "chevron",
+        "size": "small",
+        "roadId": "v8-ring-north:off--1",
+        "position": {
+          "x": 1046.3205866501178,
+          "y": 7.08902124770964,
+          "z": -1778.516071458699
+        },
+        "heading": -2.225732945950564,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 130.00000000000017,
+        "chevronDirection": "right"
+      },
+      "reason": "Existing base-Y outlier",
+      "foundation": null
+    },
+    {
+      "id": "road-safety:v8-ring-north:off--1:false:speed:65",
+      "roadId": "v8-ring-north:off--1",
+      "before": {
+        "id": "road-safety:v8-ring-north:off--1:false:speed:65",
+        "type": "SPEED_LIMIT",
+        "template": "speed-limit",
+        "size": "small",
+        "roadId": "v8-ring-north:off--1",
+        "position": {
+          "x": 974.312428135898,
+          "y": 7.999999999999998,
+          "z": -1804.1783246100981
+        },
+        "heading": -1.8288175712225454,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 52.99999999999976,
+        "speedLimitKmh": 45
+      },
+      "after": {
+        "id": "road-safety:v8-ring-north:off--1:false:speed:65",
+        "type": "SPEED_LIMIT",
+        "template": "speed-limit",
+        "size": "small",
+        "roadId": "v8-ring-north:off--1",
+        "position": {
+          "x": 974.312428135898,
+          "y": 7.999999999999998,
+          "z": -1804.1783246100981
+        },
+        "heading": -1.8288175712225454,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 52.99999999999976,
+        "speedLimitKmh": 45
+      },
+      "reason": "Existing base-Y outlier",
+      "foundation": null
+    },
+    {
+      "id": "road-safety:v8-ring-north:on--1:false:guide:130",
+      "roadId": "v8-ring-north:on--1",
+      "before": {
+        "id": "road-safety:v8-ring-north:on--1:false:guide:130",
+        "type": "CHEVRON",
+        "template": "chevron",
+        "size": "small",
+        "roadId": "v8-ring-north:on--1",
+        "position": {
+          "x": 1274.1302894525347,
+          "y": 2.9562240604534398,
+          "z": -1593.1940731228292
+        },
+        "heading": -2.028971705209809,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 121.78484574765446,
+        "chevronDirection": "left"
+      },
+      "after": {
+        "id": "road-safety:v8-ring-north:on--1:false:guide:130",
+        "type": "CHEVRON",
+        "template": "chevron",
+        "size": "small",
+        "roadId": "v8-ring-north:on--1",
+        "position": {
+          "x": 1274.1302894525347,
+          "y": 2.9562240604534398,
+          "z": -1593.1940731228292
+        },
+        "heading": -2.028971705209809,
+        "laneDirection": "forward",
+        "destinations": [],
+        "language": "zh-CN",
+        "stationMetres": 121.78484574765446,
+        "chevronDirection": "left"
+      },
+      "reason": "Existing base-Y outlier",
+      "foundation": null
+    },
+    {
+      "id": "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+      "roadId": "v8-ring-north:off--1",
+      "before": {
+        "id": "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+        "type": "EXPRESSWAY_ADVANCE",
+        "template": "gantry",
+        "size": "large",
+        "roadId": "v8-ring-north:off--1",
+        "position": {
+          "x": 1077.945611666905,
+          "y": 2.423334184244486,
+          "z": -1746.740100844299
+        },
+        "heading": -2.3268138780413357,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "v8-ring-north-cross",
+            "arrow": "left"
+          },
+          {
+            "roadNameId": "v8-ring-north-cross",
+            "arrow": "right"
+          },
+          {
+            "roadNameId": "ring-expressway",
+            "directionId": "east-ring",
+            "arrow": "straight"
+          }
+        ],
+        "language": "zh-CN",
+        "advanceMetres": 120,
+        "stationMetres": 174.5353860214956,
+        "decisionIds": [
+          "endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end"
+        ],
+        "incomingRoadId": "v8-ring-north:off--1",
+        "outgoingRoadIds": [
+          "v8-ring-north-cross",
+          "v8-ring-north-cross-split-2",
+          "v8-ring-north:on--1"
+        ],
+        "postOffset": 4.7,
+        "approachRoadNameId": "ring-expressway"
+      },
+      "after": {
+        "id": "topology-sign:endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end:EXPRESSWAY_ADVANCE",
+        "type": "EXPRESSWAY_ADVANCE",
+        "template": "gantry",
+        "size": "large",
+        "roadId": "v8-ring-north:off--1",
+        "position": {
+          "x": 1077.945611666905,
+          "y": 2.423334184244486,
+          "z": -1746.740100844299
+        },
+        "heading": -2.3268138780413357,
+        "laneDirection": "forward",
+        "destinations": [
+          {
+            "roadNameId": "v8-ring-north-cross",
+            "arrow": "left"
+          },
+          {
+            "roadNameId": "v8-ring-north-cross",
+            "arrow": "right"
+          },
+          {
+            "roadNameId": "ring-expressway",
+            "directionId": "east-ring",
+            "arrow": "straight"
+          }
+        ],
+        "language": "zh-CN",
+        "advanceMetres": 120,
+        "stationMetres": 174.5353860214956,
+        "decisionIds": [
+          "endpoint:v8-ring-north:off--1:end|v8-ring-north:off--1|end"
+        ],
+        "incomingRoadId": "v8-ring-north:off--1",
+        "outgoingRoadIds": [
+          "v8-ring-north-cross",
+          "v8-ring-north-cross-split-2",
+          "v8-ring-north:on--1"
+        ],
+        "postOffset": 4.7,
+        "approachRoadNameId": "ring-expressway"
+      },
+      "reason": "Existing base-Y outlier",
+      "foundation": null
+    }
+  ],
+  "objectUpdates": [],
+  "clipped": [],
+  "unsupportedPaint": [],
+  "goreIntrusions": [],
+  "signOutliers": [],
+  "unresolvedObjects": [],
+  "generated": [
+    {
+      "roadId": "v8-ring-north:off--1",
+      "markings": [
+        {
+          "name": "gore triangle outline",
+          "owner": "merge",
+          "triangles": 34,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "gore triangle hatch",
+          "owner": "merge",
+          "triangles": 2,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "gore triangle hatch",
+          "owner": "merge",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 204,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "merge divider",
+          "owner": "merge",
+          "triangles": 258,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 206,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "merge divider",
+          "owner": "merge",
+          "triangles": 70,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "merge divider",
+          "owner": "merge",
+          "triangles": 258,
+          "unsupported": 0,
+          "inLiveLane": 0
+        }
+      ],
+      "colliders": 222,
+      "lamps": [],
+      "piers": [
+        {
+          "position": {
+            "x": 950.7971938306463,
+            "y": 8,
+            "z": -1814.8155191415171
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1003.7217217181901,
+            "y": 7.999999999999999,
+            "z": -1800.398606771997
+          },
+          "height": 7.349999999999999,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1050.197145822098,
+            "y": 6.343237787292825,
+            "z": -1771.2509885254112
+          },
+          "height": 5.693237787292825,
+          "baseY": 0
+        }
+      ]
+    },
+    {
+      "roadId": "v8-ring-north:on--1",
+      "markings": [
+        {
+          "name": "gore triangle outline",
+          "owner": "merge",
+          "triangles": 30,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 128,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "merge divider",
+          "owner": "merge",
+          "triangles": 288,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "merge divider",
+          "owner": "merge",
+          "triangles": 42,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 128,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "merge divider",
+          "owner": "merge",
+          "triangles": 288,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "merge divider",
+          "owner": "merge",
+          "triangles": 116,
+          "unsupported": 0,
+          "inLiveLane": 0
+        }
+      ],
+      "colliders": 203,
+      "lamps": [],
+      "piers": [
+        {
+          "position": {
+            "x": 1289.7623301947149,
+            "y": 4.60999510544158,
+            "z": -1589.3628206484627
+          },
+          "height": 3.9599951054415805,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1339.9628614755477,
+            "y": 8.000000000000004,
+            "z": -1566.9015144942152
+          },
+          "height": 7.350000000000003,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1390.656088366147,
+            "y": 8.000000000000002,
+            "z": -1545.5664854313645
+          },
+          "height": 7.350000000000001,
+          "baseY": 0
+        }
+      ]
+    },
+    {
+      "roadId": "ring-cw-1-split-3-split",
+      "markings": [
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 880,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 880,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        }
+      ],
+      "colliders": 325,
+      "lamps": [],
+      "piers": [
+        {
+          "position": {
+            "x": 617.5,
+            "y": 8,
+            "z": -1818.1532423481544
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 677.5,
+            "y": 8,
+            "z": -1818.1532423481544
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 737.5,
+            "y": 8,
+            "z": -1818.1532423481544
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 797.5,
+            "y": 8,
+            "z": -1818.1532423481544
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 857.5,
+            "y": 8,
+            "z": -1818.1532423481544
+          },
+          "height": 7.35,
+          "baseY": 0
+        }
+      ]
+    },
+    {
+      "roadId": "system-north:feeder-cross-1",
+      "markings": [
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 168,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 168,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        }
+      ],
+      "colliders": 53,
+      "lamps": [],
+      "piers": [
+        {
+          "position": {
+            "x": 552.5,
+            "y": 8,
+            "z": -1818.1532423481544
+          },
+          "height": 7.35,
+          "baseY": 0
+        }
+      ]
+    },
+    {
+      "roadId": "ring-cw-1-split-3-split-split",
+      "markings": [
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 1062,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 924,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        }
+      ],
+      "colliders": 371,
+      "lamps": [],
+      "piers": [
+        {
+          "position": {
+            "x": 953.3548122563647,
+            "y": 8,
+            "z": -1815.2616026614864
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1012.0981900577666,
+            "y": 8,
+            "z": -1803.7506722490286
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1066.0328636721829,
+            "y": 8,
+            "z": -1777.7360710108421
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1115.1246747333741,
+            "y": 8,
+            "z": -1743.2877025085597
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1162.0651712425042,
+            "y": 8,
+            "z": -1705.919409358407
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1208.8840784135687,
+            "y": 8,
+            "z": -1668.397178648591
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1256.662407554672,
+            "y": 8,
+            "z": -1632.1090545361608
+          },
+          "height": 7.35,
+          "baseY": 0
+        }
+      ]
+    },
+    {
+      "roadId": "ring-cw-1-split-3-split-split-split",
+      "markings": [
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 236,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 52,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 6,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 2,
+          "unsupported": 0,
+          "inLiveLane": 0
+        }
+      ],
+      "colliders": 97,
+      "lamps": [],
+      "piers": [
+        {
+          "position": {
+            "x": 1333.921054791618,
+            "y": 8,
+            "z": -1580.161173916094
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1386.018045708946,
+            "y": 8,
+            "z": -1550.4168171910703
+          },
+          "height": 7.35,
+          "baseY": 0
+        }
+      ]
+    },
+    {
+      "roadId": "ring-cw-1-split-3-split-split-split-split",
+      "markings": [
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 4196,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 4196,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 10,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        }
+      ],
+      "colliders": 1063,
+      "lamps": [],
+      "piers": [
+        {
+          "position": {
+            "x": 1463.2315169972119,
+            "y": 8,
+            "z": -1514.2100736895768
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1519.5305675730901,
+            "y": 8,
+            "z": -1493.5019440608942
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1577.1839977841955,
+            "y": 8,
+            "z": -1476.9340517797466
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1635.570776427139,
+            "y": 8,
+            "z": -1463.1382485421457
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1694.8241692901042,
+            "y": 8,
+            "z": -1453.8405999173274
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1754.6491492931398,
+            "y": 8,
+            "z": -1449.4305343128128
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1814.6299685242284,
+            "y": 8,
+            "z": -1447.9520360077458
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1874.5634041909211,
+            "y": 8,
+            "z": -1445.2247010589585
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1934.3039602126541,
+            "y": 8,
+            "z": -1439.7209631201163
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 1993.4693707611145,
+            "y": 8,
+            "z": -1429.9119351647394
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2050.949980449176,
+            "y": 8,
+            "z": -1412.8838997411747
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2105.3584661203695,
+            "y": 8,
+            "z": -1387.7230594260243
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2155.5473038753717,
+            "y": 8,
+            "z": -1354.938512978989
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2200.5322434173954,
+            "y": 8,
+            "z": -1315.3124986271862
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2239.3745446162015,
+            "y": 8,
+            "z": -1269.6507884072485
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2271.309630936239,
+            "y": 8,
+            "z": -1218.9141178054247
+          },
+          "height": 7.35,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2296.139221224818,
+            "y": 8.000000053519225,
+            "z": -1164.3390160422464
+          },
+          "height": 7.350000053519224,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2314.090740574047,
+            "y": 8.033399586376529,
+            "z": -1107.1241669931276
+          },
+          "height": 7.3833995863765285,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2325.3858171000898,
+            "y": 8.283432043837925,
+            "z": -1048.2295078463926
+          },
+          "height": 7.633432043837924,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2329.991464360419,
+            "y": 8.89498580820836,
+            "z": -988.4389987072929
+          },
+          "height": 8.24498580820836,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2330.085995224792,
+            "y": 9.873041423583537,
+            "z": -928.4395531251962
+          },
+          "height": 9.223041423583537,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2330.085995224792,
+            "y": 11.048139659178485,
+            "z": -868.4395531251963
+          },
+          "height": 10.398139659178485,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2330.085995224792,
+            "y": 12.248214847768917,
+            "z": -808.4395531251967
+          },
+          "height": 11.598214847768917,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2330.085995224792,
+            "y": 13.277214125646289,
+            "z": -748.4395531251964
+          },
+          "height": 12.627214125646288,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2330.085995224792,
+            "y": 13.97082998586123,
+            "z": -688.4395531251964
+          },
+          "height": 13.320829985861229,
+          "baseY": 0
+        },
+        {
+          "position": {
+            "x": 2330.085995224792,
+            "y": 14.320940968010502,
+            "z": -628.4395531251967
+          },
+          "height": 13.670940968010502,
+          "baseY": 0
+        }
+      ]
+    },
+    {
+      "roadId": "ring-cw-1-split-2",
+      "markings": [
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 230,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 230,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        },
+        {
+          "name": "road paint",
+          "owner": "road",
+          "triangles": 8,
+          "unsupported": 0,
+          "inLiveLane": 0
+        }
+      ],
+      "colliders": 72,
+      "lamps": [],
+      "piers": [
+        {
+          "position": {
+            "x": 2330.085995224792,
+            "y": 14.4,
+            "z": -549.3549509417962
+          },
+          "height": 13.75,
+          "baseY": 0
+        }
+      ]
+    },
+    {
+      "roadId": "ring-cw-1-split-2-split",
+      "markings": [],
+      "colliders": 24,
+      "lamps": [],
+      "piers": []
+    }
+  ]
+}

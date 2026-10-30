@@ -3,11 +3,12 @@ import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../
 import type { VehicleVisualConfig } from './VehicleVisualConfig';
 import { mesh, rounded } from './BMW530Geometry';
 import { bmwExteriorUV } from './BMW530ExteriorDetails';
+import { tyreDetailTexture } from './TyreDetailTexture';
 
 export function buildBMW530Wheels(root: T.Group, c: VehicleVisualConfig, map: T.Texture): {
   pivots: Record<VehicleWheelId, T.Group>; wheels: T.Mesh[];
 } {
-  const rubber = new T.MeshStandardMaterial({ color: 0x14171b, roughness: .88 });
+  const rubber = new T.MeshStandardMaterial({ map:tyreDetailTexture(c.dimensions.wheelWidth,0x14171b), roughness: .88 });
   const alloy = new T.MeshStandardMaterial({ color: 0xb2b9c0, metalness: .85, roughness: .27 });
   const dark = new T.MeshStandardMaterial({ color: 0x242932, metalness: .6, roughness: .38 });
   const steel = new T.MeshStandardMaterial({ color: 0x7e858d, metalness: .78, roughness: .45 });
@@ -33,11 +34,6 @@ export function buildBMW530Wheels(root: T.Group, c: VehicleVisualConfig, map: T.
     const lip = mesh('18 inch polished rim lip', lipGeometry, alloy); lip.position.x = face; tyre.add(lip);
     const spokes = mesh('BMW diamond-cut split-spoke atlas face', faceGeometry, machined);
     spokes.position.x = face + sign * .003; tyre.add(spokes);
-    // Shallow circumferential tread grooves and raised sidewall bead.
-    for (const x of [-.065, 0, .065]) {
-      const groove = mesh('Tyre tread groove', new T.TorusGeometry(r + .0005, .0014, 4, 64), dark);
-      groove.rotation.y = Math.PI / 2; groove.position.x = x; tyre.add(groove);
-    }
     const caliper = rounded('Road brake caliper', [.062, .105, .064], [sign * .052, .03, .141], dark);
     pivot.add(tyre, caliper); root.add(pivot); wheels.push(tyre);
   }

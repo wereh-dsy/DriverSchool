@@ -6,10 +6,23 @@ import { makeDirectionArrow, makeMarkingRibbon } from '../subject3/geometry';
 import type { Subject3Materials } from '../subject3/materials';
 import { runtimeRoadClearance } from '../city/RoadClearance';
 import { roadEdgeChains } from '../city/RoadEdgeChain';
+import { roadCarriageways } from '../city/RoadCarriageway';
 
 const pathBetween=(at:(d:number)=>CityPoint,start:number,end:number):CityPoint[]=>{
   const points:CityPoint[]=[];for(let d=start;d<end;d+=1.5)points.push(at(d));points.push(at(end));return points;
 };
+
+function clipGoreMesh(mesh:NonNullable<ReturnType<typeof makeMarkingRibbon>>,map:CityMapData,roadIds:Iterable<string>):boolean {
+  const pavement=roadCarriageways(map),ids=[...roadIds],position=mesh.geometry.getAttribute('position'),source=mesh.geometry.index,kept:number[]=[];
+  const supported=(p:CityPoint)=>ids.some(id=>pavement.pavedHeight(id,p)!==undefined);
+  for(let i=0;i<(source?.count??position.count);i+=3){
+    const indices=[0,1,2].map(k=>source?source.getX(i+k):i+k),vertices=indices.map(k=>({x:position.getX(k),y:position.getY(k),z:position.getZ(k)}));
+    const center={x:vertices.reduce((v,p)=>v+p.x,0)/3,y:vertices.reduce((v,p)=>v+p.y,0)/3,z:vertices.reduce((v,p)=>v+p.z,0)/3};
+    if(vertices.every(supported)&&supported(center))kept.push(...indices);
+  }
+  if(!kept.length){mesh.geometry.dispose();return false;}
+  mesh.geometry.setIndex(kept);return true;
+}
 
 /** Topology-owned markings for the added, physically drivable auxiliary lanes. */
 export function buildHighwayLaneMarkings(road: CityRoad, map: CityMapData, materials: Subject3Materials): Group {
@@ -18,7 +31,11 @@ export function buildHighwayLaneMarkings(road: CityRoad, map: CityMapData, mater
   const main=map.roads.find(r=>r.id===transition.mainRoadId)!,chains=roadEdgeChains(map),mainIds=chains.continuations(main.id),clearance=runtimeRoadClearance(map);
   const mainPaths=map.roads.filter(r=>mainIds.has(r.id)).map(r=>({road:r,points:roadPoints(r)}));
   const at = (distance: number, offset = 0): CityPoint => { const s = sampleAt(points, distance); return { x: s.point.x - s.tangent.z * offset, y: s.point.y, z: s.point.z + s.tangent.x * offset }; };
-  const paint:Paint = (name, points, width = .15) => { const mesh = makeMarkingRibbon(name, points, width, materials.whitePaint, () => 0, .008); if(mesh){mesh.userData.markingSource=road.id;mesh.userData.markingOwner='merge';root.add(mesh);} };
+  const decision=map.roads.find(r=>r.id===transition.decisionId)!;
+  const paint:Paint = (name, points, width = .15) => { const mesh = makeMarkingRibbon(name, points, width, materials.whitePaint, () => 0, .008); if(mesh){
+    if(name.startsWith('gore triangle')&&decision.gore?.clipToPavement&&!clipGoreMesh(mesh,map,new Set([decision.id,road.id,...mainIds])))return;
+    mesh.userData.markingSource=road.id;mesh.userData.markingOwner='merge';root.add(mesh);
+  } };
   // During the taper the auxiliary centreline overlaps the mainline. Its
   // separator follows the existing mainline edge, never cuts across through lanes.
   const inner=(distance:number):CityPoint=>{
@@ -49,7 +66,7 @@ export function buildHighwayLaneMarkings(road: CityRoad, map: CityMapData, mater
   for(const p of pathBetween(d=>at(d,half-.15),0,length)){
     if(clearance.roadAt(p,.2,(p.y??0)-.2,(p.y??0)+.2,road.id,undefined,true)||clearance.junctionAt(p,.2,(p.y??0)-.2,(p.y??0)+.2))flush();else outer.push(p);
   }flush();
-  paintGore(map.roads.find(r=>r.id===transition.decisionId)!,map,map.roads.find(r=>r.id===transition.mainRoadId)!,off,paint);
+  paintGore(decision,map,main,off,paint);
   // Mainline arrows share the highway decision, rather than arbitrary world positions.
   const mainPoints=roadPoints(main),mainLength=polylineLength(mainPoints);
   const arrowFrame=sampleAt(mainPoints,mainLength-Math.min(85,mainLength*.65));
@@ -99,11 +116,21 @@ function paintGore(decision:CityRoad,map:CityMapData,owner:CityRoad,off:boolean,
     if(mainEdge&&best>.6&&best<(owner.shoulders?.right??3)+(decision.shoulders?.left??1)&&Math.abs((mainEdge.y??0)-(rampEdge.y??0))<.6)wedge.push({a:mainEdge,b:rampEdge});
   }
   if(wedge.length>1){
+    const pavement=decision.gore?.clipToPavement?roadCarriageways(map):undefined;
+    const paved=(p:CityPoint)=>!pavement||[decision,...mainlines].some(road=>pavement.pavedHeight(road.id,p)!==undefined);
     const safePaint=(name:string,path:CityPoint[],width:number)=>{
       let run:CityPoint[]=[];const flush=()=>{if(run.length>1)paint(name,run,width);run=[];};
       const length=polylineLength(path);
-      for(const p of pathBetween(d=>sampleAt(path,d).point,0,length)){
-        if(clearance.roadAt(p,width/2+.05,(p.y??0)-.2,(p.y??0)+.2,undefined,undefined,true)||clearance.junctionAt(p,width/2+.05,(p.y??0)-.2,(p.y??0)+.2))flush();else run.push(p);
+      if(!pavement){
+        for(const p of pathBetween(d=>sampleAt(path,d).point,0,length)){
+          if(clearance.roadAt(p,width/2+.05,(p.y??0)-.2,(p.y??0)+.2,undefined,undefined,true)||clearance.junctionAt(p,width/2+.05,(p.y??0)-.2,(p.y??0)+.2))flush();else run.push(p);
+        }flush();return;
+      }
+      const steps=Math.max(1,Math.ceil(length/.5));
+      for(let i=0;i<=steps;i++){
+        const frame=sampleAt(path,length*i/steps),p=frame.point;
+        const supported=paved(p)&&[-1,1].every(side=>paved({x:p.x-frame.tangent.z*side*(width/2+.03),y:p.y,z:p.z+frame.tangent.x*side*(width/2+.03)}));
+        if(!supported||clearance.roadAt(p,width/2+.05,(p.y??0)-.2,(p.y??0)+.2,undefined,undefined,true)||clearance.junctionAt(p,width/2+.05,(p.y??0)-.2,(p.y??0)+.2))flush();else run.push(p);
       }flush();
     };
     safePaint('gore triangle outline',[...wedge.map(v=>v.a),...wedge.map(v=>v.b).reverse(),wedge[0]!.a],.2);
@@ -114,13 +141,23 @@ function paintGore(decision:CityRoad,map:CityMapData,owner:CityRoad,off:boolean,
 /** Direct mouths without auxiliary lanes use the same bounded island rule. */
 export function buildHighwayGoreMarkings(decision:CityRoad,map:CityMapData,materials:Subject3Materials):Group {
   const root=new Group();
-  const paint:Paint=(name,points,width=.2)=>{const mesh=makeMarkingRibbon(name,points,width,materials.whitePaint,()=>0,.008);if(mesh){mesh.userData.markingSource=decision.id;mesh.userData.markingOwner='merge';root.add(mesh);}};
+  const clipRoadIds=new Set([decision.id]),pavement=decision.gore?.clipToPavement?roadCarriageways(map):undefined;
+  const paint:Paint=(name,points,width=.2)=>{
+    const mesh=makeMarkingRibbon(name,points,width,materials.whitePaint,()=>0,.008);
+    if(!mesh)return;
+    // Include emitted miter corners, which can protrude beyond sampled edges.
+    if(pavement&&!clipGoreMesh(mesh,map,clipRoadIds))return;
+    mesh.userData.markingSource=decision.id;mesh.userData.markingOwner='merge';root.add(mesh);
+  };
   for(const off of [true,false]){
     if(!(off?decision.gore?.start:decision.gore?.end))continue;
     if(map.roads.some(r=>r.highwayTransition?.decisionId===decision.id&&r.highwayTransition.kind===(off?'deceleration':'acceleration')))continue;
     const link=map.roadLinks!.find(l=>off?l.to.roadId===decision.id&&l.to.end==='start':l.from.roadId===decision.id&&l.from.end==='end');
     const owner=link&&map.roads.find(r=>r.id===(off?link.from:link.to).roadId);
-    if(owner&&roadFunction(owner)==='expressway')paintGore(decision,map,owner,off,paint);
+    if(owner&&roadFunction(owner)==='expressway'){
+      if(pavement)for(const road of map.roads)if(road.id===owner.id||owner.roadNameId!==undefined&&road.roadNameId===owner.roadNameId&&roadFunction(road)==='expressway')clipRoadIds.add(road.id);
+      paintGore(decision,map,owner,off,paint);
+    }
   }
   return root;
 }

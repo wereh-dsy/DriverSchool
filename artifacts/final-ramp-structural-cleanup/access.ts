@@ -1,0 +1,21 @@
+import {dir,read,write,analyze,crossingPairs,roadPoints,sampleAt,polylineLength,rampProfile} from './common';
+import {fitProfile} from './profile';
+const map=read(dir+'candidate-map.json'),base=read(dir+'baseline-map.json'),plans=read(dir+'repair-plans.json'),road=(id:string)=>map.roads.find((r:any)=>r.id===id);
+const smooth=(t:number)=>{t=Math.max(0,Math.min(1,t));return t*t*t*(10+t*(-15+6*t));};
+const bell=(t:number)=>smooth(t/.35)*(1-smooth((t-.65)/.35));
+for(const id of (process.argv.includes('--adjust-right')?['system-south:N-to-W-right','system-south:S-to-E-right']:[])){const r=road(id),old=base.roads.find((r:any)=>r.id===id),p=roadPoints(old),L=polylineLength(p),n=Math.ceil(L/1.5),shift=Number(process.env.RIGHT_SPACING??55);r.centerline=Array.from({length:n+1},(_,i)=>{const s=L*i/n,f=sampleAt(p,s),d=shift*smooth((s-85)/55)*(1-smooth((s-(L-145))/85)),sign=id.includes('N-to-W')?-1:1;return{x:f.point.x+sign*d,y:f.point.y,z:f.point.z};});r.centerline[0]=structuredClone(p[0]);r.centerline[n]=structuredClone(p.at(-1));plans.push({roadId:id,kind:'adjacent-right-turn-spacing',maxOffset:shift,endpointLinksUnchanged:true});}
+// Widen the north frontage locally, between its two existing fixed joints.
+const frontage=road('v91-ew-0-a-6-section'),first=frontage.centerline[0],last=frontage.centerline.at(-1),n=110,frontageShift=Number(process.env.FRONTAGE_SHIFT??25);
+frontage.centerline=Array.from({length:n+1},(_,i)=>{const t=i/n;return{x:first.x+(last.x-first.x)*t,y:0,z:first.z+(last.z-first.z)*t+frontageShift*bell(t)};});
+plans.push({roadId:frontage.id,kind:'local-frontage-corridor-spacing',maxOffset:frontageShift,endpointsUnchanged:true});
+function bezier(a:any,b:any,c:any,d:any,n=190){return Array.from({length:n+1},(_,i)=>{const t=i/n,u=1-t;return{x:u**3*a.x+3*u*u*t*b.x+3*u*t*t*c.x+t**3*d.x,y:a.y+(d.y-a.y)*smooth(t),z:u**3*a.z+3*u*u*t*b.z+3*u*t*t*c.z+t**3*d.z};});}
+const incoming='ew-wb-split-split-split-2-v6',receiving='ew-eb-split-3',on=road('access-ew-west-eb-on'),off=road('access-ew-west-wb-off'),start=base.roads.find((r:any)=>r.id===on.id).centerline[0],end=road(receiving).centerline[0],offStart=road(incoming).centerline.at(-1),offEnd=base.roads.find((r:any)=>r.id===off.id).centerline.at(-1);
+const ep=roadPoints(road(receiving)),et=sampleAt(ep,0).tangent,op=roadPoints(road(incoming)),ot=sampleAt(op,polylineLength(op)).tangent;
+on.centerline=bezier(start,{x:start.x+90,y:0,z:start.z},{x:end.x-et.x*90,y:8,z:end.z-et.z*90},end);
+off.centerline=bezier(offStart,{x:offStart.x+ot.x*90,y:8,z:offStart.z+ot.z*90},{x:offEnd.x+90,y:0,z:offEnd.z},offEnd);
+const onLink=map.roadLinks.find((l:any)=>l.id==='link-349'),offLink=map.roadLinks.find((l:any)=>l.id==='link-379');
+const oldLinks=[structuredClone(onLink),structuredClone(offLink)];onLink.to={roadId:receiving,end:'start'};offLink.from={roadId:incoming,end:'end'};
+for(const r of [on,off]){const p=fitProfile(map,r);plans.push({roadId:r.id,kind:'lengthened-access-corridor',...p,attachmentBefore:oldLinks.find((l:any)=>l.from.roadId===r.id||l.to.roadId===r.id),attachmentAfter:structuredClone(r===on?onLink:offLink),mainlineXYZUnchanged:true});}
+write('candidate-map.json',map);write('repair-plans.json',plans);write('structural-layout.json',{baselineVersion:491,candidateVersion:492,plans});
+const ids=[...read(dir+'targets.json').filter((id:string)=>id.includes('loop')),'system-south:N-to-W-right','system-south:S-to-E-right',on.id,off.id];
+for(const row of analyze(map,ids.map(road)).rows){const pairs=crossingPairs(map,[road(row.id)]),oldPairs=crossingPairs(base,[base.roads.find((r:any)=>r.id===row.id)]),gap=(p:any)=>p.lo<=0&&p.hi>=0?0:Math.min(Math.abs(p.lo),Math.abs(p.hi));console.log(JSON.stringify({id:row.id,status:row.severity,radius:row.profile.minRadius,grade:row.profile.maxGrade,breaks:row.profile.gradeBreaks.length,shared:row.interfaces.map((i:any)=>({end:i.end,length:i.sharedLength,dy:i.maxSharedDeltaY,unsupported:i.unsupportedWheelSamples})),crossings:pairs.filter((p:any)=>{const old=oldPairs.find((q:any)=>q.key===p.key);return gap(p)<5.5&&(old?gap(old)>=5.5||Math.max(Math.abs(p.lo),Math.abs(p.hi))>Math.max(Math.abs(old.lo),Math.abs(old.hi))+.2:Math.max(Math.abs(p.lo),Math.abs(p.hi))>.04);})}));}

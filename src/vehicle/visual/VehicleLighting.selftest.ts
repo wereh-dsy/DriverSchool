@@ -152,13 +152,26 @@ export function runVehicleLightingSelfTest(): VehicleLightingSelfTestResult {
         caster.layers.set(VEHICLE_RENDER_LAYERS.EXTERIOR);
         for (const key of keys) {
           const mesh = all.find((object) => object.userData.lightingOutput === key && !object.name.includes('corner lens'))!;
-          const centre = mesh.getWorldPosition(new THREE.Vector3());
-          const eye = centre.clone().add(new THREE.Vector3(0, 0, centre.z < 0 ? -3 : 3));
-          caster.set(eye, centre.clone().sub(eye).normalize());
-          assert(caster.intersectObject(mesh).length > 0, `${config.name}: ${key} geometry is optically accessible from outside`);
-          const first = caster.intersectObject(visual.exteriorRoot, true)
-            .find((hit) => hit.object.userData.vehicleBodyPart !== 'glass');
-          assert(first?.object.userData.lightingOutput === key,
+          const origin = mesh.getWorldPosition(new THREE.Vector3()), direction=origin.z<0?-1:1;
+          const p=mesh.geometry.getAttribute('position'),index=mesh.geometry.index;
+          let outward=false,accessible=false,visible=false;
+          // Curved LED guides have an empty bounding-box centre. Probe a real
+          // outward-facing triangle instead of assuming every optic is a box.
+          for(let i=0;i<(index?.count??p.count);i+=3) {
+            const v=[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?index.getX(i+j):i+j).applyMatrix4(mesh.matrixWorld));
+            const normal=v[1]!.clone().sub(v[0]!).cross(v[2]!.clone().sub(v[0]!)).normalize();
+            if(normal.z*direction<=.5)continue;
+            outward=true;
+            const centre=v[0]!.clone().add(v[1]!).add(v[2]!).multiplyScalar(1/3);
+            const eye=centre.clone().add(new THREE.Vector3(0,0,direction*3));
+            caster.set(eye,centre.clone().sub(eye).normalize());
+            accessible ||= caster.intersectObject(mesh).length>0;
+            const first=caster.intersectObject(visual.exteriorRoot,true).find(hit=>hit.object.userData.vehicleBodyPart!=='glass');
+            if(first?.object.userData.lightingOutput===key){visible=true;break;}
+          }
+          assert(outward,`${config.name}: ${key} has a physical outward-facing optical surface`);
+          assert(accessible,`${config.name}: ${key} geometry is optically accessible from outside`);
+          assert(visible,
             `${config.name}: the actual body must not cover the ${key} output lens`);
         }
         const growth = visual.getVisualBodyBounds().getSize(new THREE.Vector3()).z - baselineLength;

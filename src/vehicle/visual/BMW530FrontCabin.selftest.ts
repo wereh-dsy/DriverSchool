@@ -59,7 +59,10 @@ export function runBMW530FrontCabinSelfTest() {
     assert(config.driverEyePosition.join(',')==='-0.4,1.225,0.3','normal driver eye retained');
     const eye = new T.Vector3(...config.driverEyePosition), ray = new T.Raycaster(); ray.layers.enableAll();
     const frontOpaque:T.Object3D[] = [];
-    cabin.traverse(object=>{if(object instanceof T.Mesh && !(object.material instanceof T.MeshBasicMaterial)) frontOpaque.push(object);});
+    visual.root.traverse(object=>{
+      if(object instanceof T.Mesh && !(object.material instanceof T.MeshBasicMaterial) &&
+        (cabin.getObjectById(object.id)!==undefined || object.userData.vehicleInteractionInterior===true))frontOpaque.push(object);
+    });
     const closure = (point:readonly [number,number,number],label:string) => {
       const target = new T.Vector3(...point); ray.set(eye,target.clone().sub(eye).normalize());
       const hit = ray.intersectObjects(frontOpaque,false)[0]; closureSamples++;

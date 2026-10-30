@@ -82,9 +82,9 @@ export class LocalRoadMap {
     if (this.tiles.size > 24) this.tiles.delete(this.tiles.keys().next().value!);
     return canvas;
   }
-  public draw(ctx: CanvasRenderingContext2D, rect: { x: number; y: number; width: number; height: number }, x: number, z: number, yaw: number, viewMetres: number): void {
+  public draw(ctx: CanvasRenderingContext2D, rect: { x: number; y: number; width: number; height: number }, x: number, z: number, yaw: number, viewMetres: number, background = '#f2f3ef'): void {
     ctx.save(); ctx.beginPath(); ctx.rect(rect.x, rect.y, rect.width, rect.height); ctx.clip();
-    ctx.fillStyle = '#f2f3ef'; ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+    ctx.fillStyle = background; ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
     if (this.network) {
       const p = this.point(x, z), scale = rect.width / viewMetres, halfH = rect.height / scale / 2;
       const left = p.x - viewMetres / 2, top = p.y - halfH;

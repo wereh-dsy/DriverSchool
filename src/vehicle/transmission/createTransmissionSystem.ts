@@ -7,9 +7,14 @@ import { ManualTransmissionSystem } from './manual/ManualTransmissionSystem';
 import { AutomaticTransmissionSystem } from './automatic/AutomaticTransmissionSystem';
 import { DualClutchTransmissionSystem } from './dct/DualClutchTransmissionSystem';
 import { CVTTransmissionSystem } from './cvt/CVTTransmissionSystem';
+import { LightSpeedTransmission } from './LightSpeedTransmission';
 
 export function createTransmissionSystem(config: TransmissionConfig, gearbox: Gearbox,
   clutch: Clutch, autoClutch: AutoClutchController, wheelRadius = 0.315): TransmissionSystem {
+  if (config.type === 'LST') {
+    if (!config.lst) throw new Error('LST requires multi-clutch calibration.');
+    return new LightSpeedTransmission(gearbox, wheelRadius);
+  }
   if (config.type === 'TORQUE_CONVERTER_AT') {
     if (config.automatic === undefined) throw new Error('TORQUE_CONVERTER_AT requires automatic calibration.');
     return new AutomaticTransmissionSystem(gearbox, config.automatic, wheelRadius);
