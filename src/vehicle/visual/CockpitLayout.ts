@@ -3,6 +3,7 @@ import type { VehicleVisualConfig, Vector3Tuple } from './VehicleVisualConfig';
 // Geometry calibration only. Each family keeps its own cross-section, stack
 // angle and passenger volume; these are not uniformly scaled cabin meshes.
 const STRUCTURES = {
+  'maybach-z223': { upperRise: .03, thickness: .065, cowlDepth: .22, consoleWidth: .31, consoleFrontZ: -.18, shoulder: .10, recessLip: .11, pillarRadius: .025 },
   'jesko-attack': { upperRise: .010, thickness: .034, cowlDepth: .12, consoleWidth: .22, consoleFrontZ: -.20, shoulder: .05, recessLip: .105, pillarRadius: .017 },
   'golf-gti': { upperRise: .02, thickness: .05, cowlDepth: .14, consoleWidth: .34, consoleFrontZ: -.25, shoulder: .08, recessLip: .11, pillarRadius: .022 },
   'bmw-g38': { upperRise: .02, thickness: .045, cowlDepth: .18, consoleWidth: .30, consoleFrontZ: -.20, shoulder: .085, recessLip: .095, pillarRadius: .022 },
@@ -32,7 +33,7 @@ const DRIVER_VIEW: Readonly<Record<string, {
 
 export function cockpitStructuralAnchors(config: VehicleVisualConfig) {
   const family = config.body.design === 'jesko-attack' ? 'jesko-attack' : config.body.design === 'mid-supercar' ? 'mid-supercar' : config.body.profile === 'sport-coupe' ? 'sport' : config.body.design ?? 'traditional';
-  const structure = STRUCTURES[family];
+  const structure = STRUCTURES[family === 'tank-500' ? 'road-suv' : family];
   const driverView = DRIVER_VIEW[family] ?? null;
   const floorHeight = config.body.sillY - .10;
   const rearZ = config.dashboard.position[2] + config.dashboard.dimensions[2] * .5;

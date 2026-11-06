@@ -18,7 +18,7 @@ export class GameShell {
         <aside class="ds-current"><h2 data-current-name></h2><p data-current-spec></p><small data-current-map></small></aside>
       </section>
       <section class="ds-screen ds-vehicles" data-screen="vehicles" aria-label="车辆选择" hidden>
-        <header class="ds-page-header">${button('back', '← 返回')}<span class="ds-eyebrow">VEHICLES</span><span data-vehicle-count></span></header>
+        <header class="ds-page-header">${button('back', '← 返回')}<span class="ds-eyebrow">VEHICLES</span><span data-vehicle-count></span><label class="ds-vehicle-picker"><span>全部车辆</span><select data-vehicle-picker aria-label="选择车辆"></select></label></header>
         <div class="ds-vehicle-heading"><h1 data-vehicle-name></h1></div>
         ${button('previous', '←', 'class="ds-cycle ds-prev" aria-label="上一辆车"')}${button('next', '→', 'class="ds-cycle ds-next" aria-label="下一辆车"')}
         <div class="ds-vehicle-details"><dl data-vehicle-spec></dl><div class="ds-actions">${button('vehicle-settings', '车辆设置')}${button('confirm-vehicle', '选择车辆 →', 'class="ds-primary"')}</div></div>
@@ -39,6 +39,9 @@ export class GameShell {
       <section class="ds-screen ds-loading" data-screen="loading" aria-label="加载驾驶场景" hidden><span class="ds-eyebrow">DRIVER SCHOOL / LOADING</span><h1 data-loading-title>正在准备驾驶</h1><p data-loading-message role="status"></p>${button('back', '返回主菜单', 'data-loading-back hidden')}</section>
       <footer class="ds-footer"><span data-shell-status role="status"></span>${button('fullscreen', '全屏 / 窗口', 'title="切换显示模式"')}</footer>`;
     host.append(this.root);
+    const vehiclePicker=this.find<HTMLSelectElement>('[data-vehicle-picker]');
+    for(const vehicle of vehicles) {const option=document.createElement('option');option.value=vehicle.id;option.textContent=vehicle.name;vehiclePicker.append(option);}
+    vehiclePicker.addEventListener('change',()=>this.ui.selectVehicle(vehiclePicker.value),{signal:this.abort.signal});
     for (const map of maps) {
       const item = document.createElement('button'); item.type = 'button'; item.dataset.map = map.id;
       const name = document.createElement('strong');
@@ -85,6 +88,7 @@ export class GameShell {
     this.root.dataset.activeScreen = state.screen;
     this.root.querySelectorAll<HTMLElement>('[data-screen]').forEach(screen => { screen.hidden = screen.dataset.screen !== state.screen; });
     const vehicle = this.vehicles.find(v => v.id === state.vehicleId)!;
+    const picker=this.find<HTMLSelectElement>('[data-vehicle-picker]');picker.value=vehicle.id;picker.disabled=state.busy;
     this.find('[data-current-name]').textContent = this.find('[data-vehicle-name]').textContent = vehicle.name;
     this.find('[data-current-spec]').textContent = `${vehicle.powertrain} · ${vehicle.transmission} · ${vehicle.drive}`;
     this.find('[data-vehicle-count]').textContent = `${String(this.vehicles.indexOf(vehicle) + 1).padStart(2, '0')} / ${this.vehicles.length}`;
@@ -114,6 +118,7 @@ export class GameShell {
   private readonly onKeyDown = (event: KeyboardEvent): void => {
     const screen = this.ui.state.screen;
     if (screen === 'settings') return;
+    if(event.target instanceof HTMLSelectElement&&event.code!=='F3'){event.stopImmediatePropagation();return;}
     if (screen === 'loading' && this.ui.state.loading.phase !== 'error') { event.preventDefault(); event.stopImmediatePropagation(); return; }
     if (event.code === 'Escape' && !event.repeat) {
       event.preventDefault(); event.stopImmediatePropagation();

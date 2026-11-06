@@ -24,6 +24,8 @@ export interface AutomaticShiftMapPoint {
 }
 
 export interface AutomaticShiftConfig {
+  /** Optional comfortable automatic launch gear; kickdown/manual remain available. */
+  launchGear?: ForwardGear;
   /** Optional launch-spin protection: road-coupled RPM / actual crank RPM. */
   minimumUpshiftRoadRPMFraction?: number;
   /** Automatic protection only; manual redline policy remains on TransmissionConfig. */
@@ -48,6 +50,8 @@ export interface AutomaticShiftConfig {
 }
 
 export interface TorqueConverterConfig {
+  /** Optional hydraulic fill/drain response, s^-1; both shaft torques share it. */
+  hydraulicResponseRate?: number;
   /** Hydrodynamic pump torque = coefficient * pump rad/s squared * slip fraction. */
   pumpTorqueCoefficient: number;
   torqueRatioCurve: readonly { speedRatio: number; torqueRatio: number }[];
@@ -63,6 +67,13 @@ export interface TorqueConverterConfig {
 }
 
 export interface AutomaticTransmissionConfig {
+  /** Remaining engine throttle request at shift midpoint; legacy default .55. */
+  shiftThrottleFactor?: number;
+  /** Finite clutch-overlap ratio transition; legacy ATs keep the discrete swap. */
+  smoothRatioShift?: boolean;
+  /** Optional lumped ATF loss budget; omitted keeps existing AT behaviour. */
+  thermal?: { initialTemperatureC: number; heatCapacityJPerK: number; coolingWPerK: number;
+    airflowCoolingWPerKPerMps: number; derateStartC: number; derateEndC: number; minimumTorqueFactor: number };
   converter: TorqueConverterConfig;
   shiftStrategy: AutomaticShiftConfig;
   /** Remaining driveline capacity during a ratio change. */
@@ -143,6 +154,9 @@ export interface CVTConfig {
 }
 
 export interface EngineConfig {
+  /** Published net crank curve already includes internal mechanical friction.
+   * Gross combustion restores that loss before the ordinary friction subtraction. */
+  torqueCurveIsNet?: boolean;
   /** Optional published net rating for menus, W; never an extra torque source. */
   ratedNetPowerW?: number;
   /** Optional lumped coolant/oil heat budget, owned by ICEPowertrain. */
@@ -311,6 +325,9 @@ export interface BrakeConfig {
 }
 
 export interface SteeringConfig {
+  /** Optional physical rear rack, same-phase at speed, counter-phase in parking. */
+  rearAxle?: { maximumAngle: number; lowSpeedRatio: number; highSpeedRatio: number;
+    transitionStartSpeed: number; transitionEndSpeed: number; response: number };
   returnProfile?: { lowSpeedRate: number; highSpeedRate: number; speedReference: number };
   /** Canonical maximum road-wheel centre angle at parking speed, in radians. */
   maxRoadWheelAngle: number;
@@ -476,7 +493,7 @@ export interface SimulationSafetyConfig {
  * All handling-affecting data for a vehicle. Values use SI units unless noted.
  * Visual/cockpit measurements intentionally live in a separate visual config.
  */
-export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'SPORT' | 'WET' | 'RACE' | 'RANGE' | 'SPORT_PLUS';
+export type VehicleDriveMode = 'ECO' | 'NORMAL' | 'SPORT' | 'WET' | 'RACE' | 'RANGE' | 'SPORT_PLUS' | 'MAYBACH';
 /** Optional calibration only; existing engine, rack, shift controller and AWD own behavior. */
 export interface DriveModeCalibration {
   throttleExponent: number;
@@ -561,6 +578,7 @@ export interface VehicleChassisConfig {
 
 /** Compatibility configuration for every currently authored ICE vehicle. */
 export interface VehiclePhysicsConfig extends VehicleChassisConfig {
+  hybrid?: import('./P2HybridConfig').P2HybridConfig;
   mildHybrid?: import('./MildHybridConfig').MildHybridConfig;
   startStop?: StartStopConfig;
   fuel: FuelConfig;

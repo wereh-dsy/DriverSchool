@@ -128,7 +128,7 @@ export class VehicleVisual {
     this.cockpitRoot = new Cockpit(config, assets);
     this.cockpitRoot.userData.renderCategory = 'COCKPIT';
     if (config.body.exterior !== 'xiaomi-su7' && config.body.design !== 'bmw-g38' && config.body.design !== 'golf-gti' &&
-      config.body.design !== 'mercedes-v214' && config.body.design !== 'jesko-attack') this.cockpitRoot.add(buildSimplifiedSeats(config));
+      config.body.design !== 'mercedes-v214' && config.body.design !== 'maybach-z223' && config.body.design !== 'jesko-attack' && config.body.design !== 'tank-500') this.cockpitRoot.add(buildSimplifiedSeats(config));
     this.mirrorSurfaceRoot.name = 'Mirror surfaces';
     this.mirrorSurfaceRoot.userData.renderCategory = 'MIRROR_SURFACE';
     this.root.add(this.exteriorRoot, this.cockpitRoot, this.mirrorSurfaceRoot);
@@ -337,7 +337,7 @@ export class VehicleVisual {
     this.root.updateWorldMatrix(true, true);
     target.makeEmpty();
     this.exteriorRoot.traverse((object) => {
-      if (!(object instanceof THREE.Mesh) || object.userData.vehicleBodyPart === 'mirror-housing') return;
+      if (!(object instanceof THREE.Mesh) || object.userData.vehicleBodyPart === 'mirror-housing' || object.userData.mirrorSide !== undefined) return;
       if (object.geometry.boundingBox === null) object.geometry.computeBoundingBox();
       if (object.geometry.boundingBox !== null) {
         target.union(object.geometry.boundingBox.clone().applyMatrix4(object.matrixWorld));
@@ -434,6 +434,13 @@ export class VehicleVisual {
       const part = this.cockpitRoot.getObjectByName(name);
       if (part !== undefined) move(part);
     }
+    for (const name of access.doorMountedExteriorPartNames ?? []) {
+      const part = this.root.getObjectByName(name);
+      if (part !== undefined) {
+        part.position.sub(hinge.position);
+        target.add(part);
+      }
+    }
 
     const ambientName = access.doorAmbientTrimName;
     if (ambientName === undefined) return;
@@ -458,8 +465,19 @@ export class VehicleVisual {
     const door = this.driverDoorGroup;
     const windowMount = this.driverWindowMount;
     if (access === undefined || hinge === null || door === null || windowMount === null) return null;
-    const clipPlane = windowMount.userData.driverWindowClipPlane;
-    const clipPlaneLocal = windowMount.userData.driverWindowClipPlaneLocal;
+    let clipPlane = windowMount.userData.driverWindowClipPlane;
+    let clipPlaneLocal = windowMount.userData.driverWindowClipPlaneLocal;
+    // Numeric belt datum survives asset-template cloning. Rebind a plane per
+    // instance rather than relying on Object3D.userData to clone class objects.
+    if (typeof windowMount.userData.driverWindowBeltHeight === 'number') {
+      clipPlaneLocal = new THREE.Plane(new THREE.Vector3(0, 1, 0), -windowMount.userData.driverWindowBeltHeight);
+      clipPlane = clipPlaneLocal.clone();
+      windowMount.traverse(object => {
+        if (object instanceof THREE.Mesh) for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+          material.clippingPlanes = [clipPlane];
+        }
+      });
+    }
     const hingeClosedPosition = [hinge.position.x, hinge.position.y, hinge.position.z] as const;
     const hingeClosedRotation = [hinge.rotation.x, hinge.rotation.y, hinge.rotation.z] as const;
     const windowClosedPosition = [windowMount.position.x, windowMount.position.y, windowMount.position.z] as const;
@@ -481,6 +499,7 @@ export class VehicleVisual {
         },
         openSeconds: access.openSeconds,
         closeSeconds: access.closeSeconds,
+        softClose: access.softClose,
       },
       driverWindow: {
         node: windowMount,

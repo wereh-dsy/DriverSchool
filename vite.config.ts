@@ -18,7 +18,7 @@ const buildVersion = `${packageVersion}+physics.${physicsHash.digest('hex').slic
 
 // Only the editor Reload endpoint is public. Map recipes/selftests are source,
 // and small built-in maps travel in the runtime bundle. City Main is fetched on selection.
-export default defineConfig({ publicDir: false, cacheDir: '.vite/browser', server: { watch: { ignored: ['**/.desktop/**', '**/release/**', '**/.tmp-desktop-smoke-profile/**'] } },
+export default defineConfig({ publicDir: false, cacheDir: '.vite/browser', server: { watch: { ignored: ['**/.desktop/**', '**/release/**', '**/.tmp-*/**', '**/.checkpoint-builds/**'] } },
   optimizeDeps: { noDiscovery: true, include: ['three', 'three/addons/utils/BufferGeometryUtils.js', 'three/addons/controls/OrbitControls.js'], holdUntilCrawlEnd: false }, build: { manifest: true }, define: { __CITY_MAIN_RUNTIME_URL__: JSON.stringify(`./${cityRuntimeName}`),
   __DRIVERGAME_BUILD_VERSION__: JSON.stringify(buildVersion) }, plugins: [{
   name: 'editor-reload-map',

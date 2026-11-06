@@ -1,0 +1,403 @@
+{
+  "completedDate": "2026-11-06",
+  "build": {
+    "command": "pnpm run build",
+    "coreGroups": 75,
+    "published": true,
+    "entry": "2026-11-05T16:04:23.324Z",
+    "runtimeAsset": "dist/assets/city-main.runtime-42bae861e95e.json",
+    "manifestAssets": 17,
+    "allManifestAssetsPresent": true,
+    "completed": true
+  },
+  "systems": {
+    "command": "pnpm run selftest:systems",
+    "groups": 30,
+    "recentVehicles": {
+      "p2": {
+        "assertions": 9018,
+        "results": {
+          "ev": {
+            "speed": 17.765401513974943,
+            "soc": 0.7440160039201654,
+            "fuelL": 0
+          },
+          "lowSOC": {
+            "speed": 33.29523203275533,
+            "rpm": 3253.1777547741767,
+            "clutch": 1,
+            "soc": 0.13053384379127045
+          },
+          "HYBRID": {
+            "mode": "HYBRID",
+            "state": "BOOST",
+            "holdSOC": 0.5,
+            "engineRequested": true,
+            "enginePhase": "RUNNING",
+            "clutchEngagement": 1,
+            "clutchSlipRPM": 27.509405622856182,
+            "clutchTorque": 326.73825400841525,
+            "enginePowerW": 130719.66340484706,
+            "motorPowerW": 120000,
+            "generationPowerW": 0,
+            "wheelPowerW": 227747.9478179769,
+            "clutchLossW": 941.2604458905038,
+            "transmissionLossW": 22030.455140980077,
+            "electricalLossW": 12919.90427968296,
+            "battery": {
+              "soc": 0.7392691524231559,
+              "energyKWh": 27.426885554899087,
+              "temperatureC": 20.290393817419872,
+              "voltage": 348.17714765271376,
+              "current": 383.62628098990314,
+              "internalResistance": 0.055,
+              "dischargePowerW": 150000,
+              "chargePowerW": 70000,
+              "connector": null,
+              "state": "DISCONNECTED",
+              "gridPowerW": 0,
+              "gridEnergyKWh": 0,
+              "chargerLossKWh": 0,
+              "thermalCapability": 1
+            },
+            "transfer": {
+              "mode": "AWD",
+              "ratio": 1,
+              "frontShare": 0.35,
+              "rearShare": 0.65,
+              "centerCoupling": "VARIABLE",
+              "rejectedReason": null,
+              "axleLocks": "NOT_SIMULATED"
+            }
+          },
+          "SPORT": {
+            "mode": "SPORT",
+            "state": "BOOST",
+            "holdSOC": 0.5,
+            "engineRequested": true,
+            "enginePhase": "RUNNING",
+            "clutchEngagement": 1,
+            "clutchSlipRPM": 34.81799259710044,
+            "clutchTorque": 369.301613023785,
+            "enginePowerW": 148030.82682000645,
+            "motorPowerW": 106526.73175221497,
+            "generationPowerW": 0,
+            "wheelPowerW": 230877.82287046636,
+            "clutchLossW": 1346.5223027909196,
+            "transmissionLossW": 22333.213398963766,
+            "electricalLossW": 11338.51519416504,
+            "battery": {
+              "soc": 0.7402515258505228,
+              "energyKWh": 27.463331609054396,
+              "temperatureC": 20.245187939589233,
+              "voltage": 350.78390779157786,
+              "current": 337.8582777428809,
+              "internalResistance": 0.055,
+              "dischargePowerW": 150000,
+              "chargePowerW": 70000,
+              "connector": null,
+              "state": "DISCONNECTED",
+              "gridPowerW": 0,
+              "gridEnergyKWh": 0,
+              "chargerLossKWh": 0,
+              "thermalCapability": 1
+            },
+            "transfer": {
+              "mode": "AWD",
+              "ratio": 1,
+              "frontShare": 0.35,
+              "rearShare": 0.65,
+              "centerCoupling": "VARIABLE",
+              "rejectedReason": null,
+              "axleLocks": "NOT_SIMULATED"
+            }
+          },
+          "charge": {
+            "gainedKWh": 0.3768556431118295,
+            "fuelL": 0.16790179033376249,
+            "generatorW": 27777.846711121758
+          },
+          "plugAC": {
+            "gainKWh": 0.9939954245346634,
+            "inputKWh": 1.100000000000009
+          },
+          "plugDC": {
+            "gainKWh": 7.716655552293949,
+            "inputKWh": 8.333333333333444
+          },
+          "driveEnergyResidualW": 0,
+          "regenEnergyResidualW": 0,
+          "braking": {
+            "regenSamples": 398,
+            "hydraulicSamples": 400,
+            "finalSpeed": 1.3289642845671765
+          },
+          "shifts": {
+            "samples": 288,
+            "maximumWheelTorqueStep": 110.40893628887352,
+            "speed": 45.054000485155335
+          },
+          "climb": {
+            "speed": 10.165954402615455,
+            "soc": 0.1349237086625785,
+            "rpm": 2716.6733275562574
+          },
+          "mud": {
+            "speed": 2.4929966605312295,
+            "frontShare": 0.19702711012449733
+          },
+          "gravel": {
+            "speed": 12.749757529568798,
+            "frontShare": 0.24761239886422357
+          },
+          "wet-asphalt": {
+            "speed": 14.188963337057556,
+            "frontShare": 0.2589283351118987
+          },
+          "sand": {
+            "speed": 4.606305335966083,
+            "frontShare": 0.15004052039968638
+          },
+          "sustained": {
+            "soc": 0.03153376880039543,
+            "batteryTemperature": 21.87075247769326,
+            "motorTemperature": 28.492764333686903,
+            "engineTemperature": 54.320888503066385,
+            "fuelL": 6.283331150805342
+          },
+          "mercedes-e300l-v214": {
+            "speed": 7.46843580193357,
+            "kind": "ICE"
+          },
+          "tesla-model-3-rwd": {
+            "speed": 8.92853634116487,
+            "kind": "EV"
+          },
+          "porsche-taycan-4s": {
+            "speed": 12.287771578571451,
+            "kind": "EV"
+          },
+          "xiaomi-su7-max-2026": {
+            "speed": 14.839253066752256,
+            "kind": "EV"
+          }
+        }
+      },
+      "maybach": {
+        "checks": 50,
+        "coldIdleRPM": 650.0000000013915,
+        "creepPeakMps": 1.389620387896774,
+        "modes": {
+          "NORMAL": {
+            "speedKmh": 56.33262512291426,
+            "shifts": 3,
+            "shiftSpeeds": [
+              21.067635648001417,
+              33.8345761589534,
+              47.052051460120026
+            ],
+            "maximumJerk": 9.093773504575076
+          },
+          "SPORT": {
+            "speedKmh": 86.09729053691674,
+            "shifts": 3,
+            "shiftSpeeds": [
+              33.92617362236824,
+              55.90951966727171,
+              78.6699563044756
+            ],
+            "maximumJerk": 15.23319835312476
+          },
+          "MAYBACH": {
+            "speedKmh": 43.396332791650316,
+            "shifts": 3,
+            "shiftSpeeds": [
+              0.41045483322132814,
+              27.474908943213986,
+              37.720965283319174
+            ],
+            "maximumJerk": 7.361872614945425
+          }
+        },
+        "bumps": {
+          "NORMAL": {
+            "peakAcceleration": 0.7921965830527108,
+            "peakPitch": 0.013773496930942472,
+            "peakRoll": 0.006507779081814228,
+            "rideOffset": 0,
+            "load": 25260.228962619563
+          },
+          "SPORT": {
+            "peakAcceleration": 0.7935188820680326,
+            "peakPitch": 0.013363323022655355,
+            "peakRoll": 0.006420488333737841,
+            "rideOffset": -0.012,
+            "load": 25260.227492629634
+          },
+          "MAYBACH": {
+            "peakAcceleration": 0.7950226273258483,
+            "peakPitch": 0.01408083634870374,
+            "peakRoll": 0.0065383079038281965,
+            "rideOffset": 0.008,
+            "load": 25260.22911887415
+          }
+        },
+        "performance": {
+          "zeroTo100": 4.583333333333333,
+          "fullModeTimes": {
+            "NORMAL": 4.583333333333333,
+            "SPORT": 4.458333333333333,
+            "MAYBACH": 4.908333333333333
+          },
+          "dyno": {
+            "2000": 899.9972637678793,
+            "4000": 899.9972637224702,
+            "5500": 780.9976119322367
+          },
+          "maximumAcceleration": 9.263133721593055,
+          "brakePitch": 0.03474346111826536
+        },
+        "rearSteering": {
+          "low": -0.07853975945341898,
+          "high": 0.020296901339612268,
+          "radius": 5.776615791764714,
+          "withoutRear": 6.669470974004348
+        },
+        "highway": {
+          "maxRoll": 0.006794620056120724,
+          "maxPitch": 0.0008465592259750542
+        },
+        "audio": {
+          "inside": {
+            "exhaustCutoffHz": 311.24,
+            "intakeCutoffHz": 344.71999999999997,
+            "firingHz": 200,
+            "exhaust": 0.004078155520548175,
+            "exhaustBody": 0.003298928804883182,
+            "upperExhaust": 0.00005480000232998452,
+            "intake": 0.000444096,
+            "mechanical": 0.00002890981275091488,
+            "combustionNoise": 0.0016314932354709211,
+            "turbo": 0,
+            "road": 0.0027099125364431482,
+            "wind": 0.0018463320226940938,
+            "cabinLowpassHz": 1350,
+            "load": 0.4,
+            "speed": 30
+          },
+          "outside": {
+            "exhaustCutoffHz": 502,
+            "intakeCutoffHz": 556,
+            "firingHz": 200,
+            "exhaust": 0.030149787895103235,
+            "exhaustBody": 0.02438896781820251,
+            "upperExhaust": 0.0004051362039959945,
+            "intake": 0.0032831999999999996,
+            "mechanical": 0.0002137301331779699,
+            "combustionNoise": 0.012061623141613813,
+            "turbo": 0,
+            "road": 0.010839650145772593,
+            "wind": 0.008392418284973153,
+            "cabinLowpassHz": 20000,
+            "load": 0.4,
+            "speed": 30
+          }
+        },
+        "geometry": {
+          "meshes": 309,
+          "vertices": 173393
+        }
+      },
+      "maybachAccess": {
+        "checks": 47,
+        "isolation": {
+          "closed": 0.006314829159574451,
+          "half": 0.01326114123510635,
+          "open": 0.020207453310638245
+        },
+        "beamMaps": "256×256 projected angular intensity; RHT cutoff"
+      },
+      "su7Presentation": {
+        "assertions": 40,
+        "triangles": 55180,
+        "textures": 7,
+        "dashboardSeamGapMeters": 0,
+        "clusterPixelsAt720p": {
+          "width": 266.76951750954,
+          "height": 78.34833126435825
+        },
+        "steeringStalkClearanceMeters": 0.055686734148466865,
+        "driverAccess": true,
+        "independentElectricVoice": true
+      },
+      "su7Exterior": {
+        "assertions": 30,
+        "triangles": 55180,
+        "textures": 7,
+        "bodySizeMeters": [
+          1.9703855514526367,
+          1.4455000030398368,
+          4.997000000107391
+        ],
+        "windscreenWrapMeters": 0.03200000524520874,
+        "rearSeamGapMeters": 0,
+        "bumperSeamGapMeters": 0,
+        "deckEndGapMeters": 0,
+        "rearTrimClearanceMeters": 0.016109153959083855,
+        "paintRGB": "#406858",
+        "detailAtlas": [
+          1024,
+          512
+        ],
+        "driverAccess": true,
+        "maskedProjectors": true
+      },
+      "golfAccess": {
+        "assertions": 26,
+        "scope": "driver-front door / window / existing exit and re-entry"
+      },
+      "tankDisplays": {
+        "assertions": 7
+      }
+    },
+    "regionalChecks": 81,
+    "highwayChecks": 17,
+    "traction": {
+      "assertions": 2393,
+      "lowSpeedBinsKmh": [
+        0,
+        2,
+        5,
+        10
+      ],
+      "signReversals": 0,
+      "zeroTo100": 3.9,
+      "serviceDrag": 1872.5813151270972,
+      "baseBrakeTorque": 0
+    },
+    "accelerationDiagnostics": {
+      "assertions": 913,
+      "samples": 76,
+      "writes": 1,
+      "zeroTo100": 3.7500060467852134,
+      "passive": true
+    },
+    "completed": true
+  },
+  "vehicles": {
+    "command": "pnpm run selftest:vehicles",
+    "exitCode": 0,
+    "count": 17
+  },
+  "map": {
+    "version": 494,
+    "roads": 3290,
+    "signs": 3399,
+    "schemaErrors": 0,
+    "schemaWarnings": 36
+  },
+  "docs": {
+    "checked": 4,
+    "missingLinks": 0
+  }
+}

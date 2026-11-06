@@ -5,6 +5,7 @@ import { angularVelocityToRPM, limitAutomaticEngineLoad, type TransmissionContex
 
 /** Hydrodynamic pump/turbine pair plus a separately actuated friction lockup. */
 export class TorqueConverter {
+  private hydraulicEngagement = 0;
   public lockupEngagement = 0;
   public speedRatio = 0;
   public torqueRatio = 1;
@@ -12,7 +13,7 @@ export class TorqueConverter {
   public pumpRPM = 0;
   public turbineRPM = 0;
   public constructor(private readonly config: TorqueConverterConfig) {}
-  public reset(): void { this.lockupEngagement = 0; this.speedRatio = 0; this.torqueRatio = 1; this.slipRPM = 0; this.pumpRPM = 0; this.turbineRPM = 0; }
+  public reset(): void { this.hydraulicEngagement = 0; this.lockupEngagement = 0; this.speedRatio = 0; this.torqueRatio = 1; this.slipRPM = 0; this.pumpRPM = 0; this.turbineRPM = 0; }
   public prepare(context: TransmissionContext, turbineOmega: number, shifting: boolean, driving: boolean): void {
     const ratio = Math.max(0, turbineOmega) / Math.max(1, context.engineAngularVelocity);
     const slip = Math.abs(angularVelocityToRPM(context.engineAngularVelocity - turbineOmega));
@@ -24,6 +25,12 @@ export class TorqueConverter {
       context.dt * (canLock ? this.config.lockupApplyRate : this.config.lockupReleaseRate));
   }
   public update(context: TransmissionContext, turbineOmega: number, torqueCapacityScale: number, ratio = 1, efficiency = 1): { load: number; turbineTorque: number } {
+    if (this.config.hydraulicResponseRate !== undefined) {
+      const target = context.engineRunning && !context.holdingBrake && torqueCapacityScale > 0 ? 1 : 0;
+      this.hydraulicEngagement += (target - this.hydraulicEngagement) *
+        (1 - Math.exp(-this.config.hydraulicResponseRate * context.dt));
+      torqueCapacityScale *= this.hydraulicEngagement;
+    }
     const pump = Math.max(0, context.engineAngularVelocity);
     this.pumpRPM = context.engineRPM;
     this.turbineRPM = angularVelocityToRPM(turbineOmega);

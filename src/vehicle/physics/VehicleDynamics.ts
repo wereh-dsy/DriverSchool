@@ -26,6 +26,8 @@ import { AWDTorqueDistribution, type AWDTorqueDistributionSnapshot } from './AWD
 import type { ChassisPhysicsState, WheelGeometryState, WheelPhysicsState, WheelPhysicsStateSet } from './WheelPhysicsState';
 import { clamp, clamp01, wrapAngle } from './math';
 import { ICEPowertrain } from '../powertrain/ICEPowertrain';
+import { P2HybridPowertrain } from '../powertrain/P2HybridPowertrain';
+import { isP2HybridConfig } from '../config/P2HybridConfig';
 import { ElectricPowertrain } from '../powertrain/ElectricPowertrain';
 import { isElectricConfig } from '../config/ElectricVehiclePhysicsConfig';
 import { TripComputer, type TripComputerSnapshot } from '../control/TripComputer';
@@ -365,7 +367,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     this.centerOfMassLocalZ = centerOfMassOffsetZ(config);
     if (injectedPowertrain === undefined && !('engine' in config) && !isElectricConfig(config)) throw new Error('A non-ICE chassis requires a Powertrain');
     this.powertrain = injectedPowertrain ?? ((isElectricConfig(config) ? new ElectricPowertrain(config)
-      : new ICEPowertrain(config as VehiclePhysicsConfig)) as unknown as TPowertrain);
+      : isP2HybridConfig(config) ? new P2HybridPowertrain(config) : new ICEPowertrain(config as VehiclePhysicsConfig)) as unknown as TPowertrain);
     if (config.transmission && (config.transmission.type ?? 'MANUAL') !== this.powertrain.transmission.type) throw new Error('Powertrain transmission disagrees with config');
     if (this.powertrain.supportsManualSelection && this.powertrain.transmission.type !== 'TORQUE_CONVERTER_AT' && this.powertrain.transmission.type !== 'DCT' && this.powertrain.transmission.type !== 'LST') throw new Error('Manual selection requires a stepped automatic transmission');
     if (config.transmission && (config.transmission.supportsManualSelection === true) !== this.powertrain.supportsManualSelection) throw new Error('Powertrain manual selection disagrees with config');
@@ -573,7 +575,7 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
   public requestEngineToggle(): EngineToggleResult {
     // Legacy ICE toggle restarts a stall, but still stops a fuel-starved coasting engine.
     const ice = this.icePowertrain;
-    const running = ice ? ice.engine.isRunning || ice.engine.isStarting || ice.getSnapshot().ice.startStop?.state === 'AUTO_STOPPED' ||
+    const running = ice && !this.powertrain.ignitionToggleUsesOperationalState ? ice.engine.isRunning || ice.engine.isStarting || ice.getSnapshot().ice.startStop?.state === 'AUTO_STOPPED' ||
       ice.getSnapshot().ice.startStop?.state === 'RESTARTING' : this.powertrain.vehicleOperational;
     if (running) {
       this.requestEngineStop();
@@ -1223,7 +1225,8 @@ export class VehicleDynamics<TPowertrain extends Powertrain = ICEPowertrain> {
     const lateralLimits: FourWheelValues = [0, 0, 0, 0];
     const angles: FourWheelValues = [this.steering.leftRoadWheelAngle + suspension.wheels.frontLeft.toeAngle,
       this.steering.rightRoadWheelAngle - suspension.wheels.frontRight.toeAngle,
-      suspension.wheels.rearLeft.toeAngle, -suspension.wheels.rearRight.toeAngle];
+      this.steering.rearRoadWheelAngle + suspension.wheels.rearLeft.toeAngle,
+      this.steering.rearRoadWheelAngle - suspension.wheels.rearRight.toeAngle];
     const brakeTorques = WHEEL_IDS.map(id => this.brakes.getWheelTorques(id));
     control.arbitrator.captureBrakes(this.brakes.coordinator);
     // A stopped tyre supports static shear on a hill even with zero slip.

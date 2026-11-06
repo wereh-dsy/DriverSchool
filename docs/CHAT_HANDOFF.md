@@ -1,20 +1,20 @@
 # 可直接交给 Chat 的项目指示文本
 
-以下正文可整体复制到新 Chat。若对方能读取仓库，附上 AGENTS.md、README.md、CURRENT_CODE_CONTEXT.md 和 FIXES_2026-10-13.md；若不能读取，应明确说明它只掌握这份 2026-10-24 快照（本次更新地图与发布流程）。新增需求写在正文末尾。
+以下正文可整体复制到新 Chat。若对方能读取仓库，附上 AGENTS.md、README.md、CURRENT_CODE_CONTEXT.md 和 FIXES_2026-10-13.md；若不能读取，应明确说明它只掌握这份 2026-11-06 快照（车辆、地图与验证规则）。新增需求写在正文末尾。
 
 ---
 
 你现在为 DriverGame 提供后续设计与代码指导。请先建立下面的项目事实，不要用旧版本的认知建议重复造轮子，也不要把当前简化仿真说成原厂精确模型。
 
-项目位于 `D:\dsy\drivergame`，是 TypeScript strict + Three.js + Vite + pnpm 的浏览器第一人称 3D 驾驶模拟。没有后端/前端框架/多人服务。物理固定 120 Hz，SI 单位，坐标 +X 右、+Y 上、-Z 前；显示车速和地图限速 km/h，内部角度/JSON 旋转弧度，CLI rotation 为度。源码优先于 README 和历史报告。地图与发布信息更新至 2026-10-24，其余历史专题及后续状态仍需核对源码。
+项目位于 `D:\dsy\drivergame`，是 TypeScript strict + Three.js + Vite + pnpm 的浏览器第一人称 3D 驾驶模拟。没有后端/前端框架/多人服务。物理固定 120 Hz，SI 单位，坐标 +X 右、+Y 上、-Z 前；显示车速和地图限速 km/h，内部角度/JSON 旋转弧度，CLI rotation 为度。源码优先于 README 和历史报告。车辆与验证规则更新至 2026-11-06；历史专项记录只代表其自身修订。
 
-当前有 12 辆正式车：Haiteng S1（family-sedan，5MT FWD）、GT（sport-coupe，7MT RWD）、Mazda CX-4（test-6at-sedan，6AT FWD）、Sagitar（test-7dct-sedan，7DCT FWD）、Sylphy（cvt-family-sedan，CVT FWD）、A6L（executive-lwb-2t，7DCT 适时 AWD）、Touareg（road-suv-v6-8at，8AT 适时 AWD）、Ferrari 458（ferrari-458-italia，7DCT 中置 RWD）、Tesla Model 3（tesla-model-3-rwd，单后电机固定减速）、BMW 530Li（bmw-530li-g38，8AT RWD）、Taycan 4S（porsche-taycan-4s，双电机 AWD，前单速后两速）。另有 Volkswagen Golf GTI（volkswagen-golf-gti，2.0T L4 / 7DCT 前驱 / 制动式 eDiff）。Tesla 为游戏标定 60 kWh 可用电池；Taycan 105/97 kWh、常规峰值 380 kW、Launch Control 440 kW。现实车型只是参考原型。
+当前有 17 辆正式车：Haiteng S1（family-sedan，5MT FWD）、GT（sport-coupe，7MT RWD）、Mazda CX-4（test-6at-sedan，6AT FWD）、Sagitar（test-7dct-sedan，7DCT FWD）、Sylphy（cvt-family-sedan，CVT FWD）、A6L（executive-lwb-2t，7DCT 适时 AWD）、Touareg（road-suv-v6-8at，8AT 适时 AWD）、Ferrari 458（ferrari-458-italia，7DCT 中置 RWD）、Tesla Model 3（tesla-model-3-rwd，单后电机固定减速）、BMW 530Li（bmw-530li-g38，8AT RWD）、Taycan 4S（porsche-taycan-4s，双电机 AWD，前单速后两速）。另有 Volkswagen Golf GTI（volkswagen-golf-gti，2.0T L4 / 7DCT 前驱 / 制动式 eDiff）。另有 E 300 L（mercedes-e300l-v214，9AT RWD）、Maybach S 680（mercedes-maybach-s680-z223，V12 / 9AT / AWD / 后轮转向）、SU7 Max（xiaomi-su7-max-2026，双电机 AWD）、Jesko Attack（koenigsegg-jesko-attack，9LST RWD / 主动气动）、Tank 500 Hi4-T（tank-500-hi4-t，单 P2 电机 / 9HAT / 机械四驱）。Tesla 为游戏标定 60 kWh 可用电池；Taycan 105/97 kWh、常规峰值 380 kW、Launch Control 440 kW。现实车型只是参考原型。
 
-11 个场地 ID 是 road-course、mixed-surface-proving-ground、tsukuba-tc2000、subject-2-training-ground、subject-3-shared-city-map、simple-circuit、mountain-proving-ground、city-alpha、city-main、preset-showcase、city-editor-map。默认海腾 S1 + 综合道路测试场。科目二/三、山地、赛道各自手工构造，城市/区域使用 CityMap JSON。菜单 city-main 加载 `src/world/regional/regional-main.json`（version 493，3288 道路），CLI 可用 regional-main；城市基础图是 `src/world/city/maps/city-main.json`（version 11，623 道路），CLI 可用 city-main-city。兼容别名 city-main 仍指向城市基础图并打印提示，两份文件 id 相同但不能混用。
+11 个场地 ID 是 road-course、mixed-surface-proving-ground、tsukuba-tc2000、subject-2-training-ground、subject-3-shared-city-map、simple-circuit、mountain-proving-ground、city-alpha、city-main、preset-showcase、city-editor-map。默认海腾 S1 + 综合道路测试场。科目二/三、山地、赛道各自手工构造，城市/区域使用 CityMap JSON。菜单 city-main 加载 `src/world/regional/regional-main.json`（version 494，3290 道路），CLI 可用 regional-main；城市基础图是 `src/world/city/maps/city-main.json`（version 11，623 道路），CLI 可用 city-main-city。兼容别名 city-main 仍指向城市基础图并打印提示，两份文件 id 相同但不能混用。
 
 架构主链：KeyboardInput/GamepadInput → VehicleInputSystem/VehicleInputState → DrivingGame → Cruise/横向控制仲裁 → VehicleContactSystem → VehicleDynamics → Powertrain/制动/轮胎/悬架 → RuntimeSnapshot → 可视/HUD/相机/声音/震动。车辆在 VehicleCatalog 注册，能力由 VehicleCapabilities 从真实配置/拓扑解析；subsystem config 拥有标定，显示风格不能决定动力拓扑。DriverGame 负责编排和生命周期，不应继续塞入燃油或电驱算法。
 
-Powertrain 已有 ICEPowertrain 与 ElectricPowertrain。ICE 拥有发动机/燃油/离合/传动与点火、自动启停。EV 拥有 BatteryPack、前/后 ElectricDriveUnit、电机、逆变器、EVPowerCoordinator、热状态和配置化 Launch Control。双电机共享一个电池端口预算，计算效率和辅助负载，不能每轴拿全电池功率。功率 W，能量 kWh。EV 不需要 Engine/FuelSystem/Clutch，generic snapshot 中 ICE telemetry 可缺失。PRND 与机械挡位/传动比不同，自动挡驾驶员选挡要脚刹联锁。AT 蠕行来自变矩器，DCT 来自离合，EV 行为由配置决定。
+Powertrain 已有 ICEPowertrain、ElectricPowertrain 和 P2HybridPowertrain。P2 复用燃油与电驱组件，共用单电池预算；I 控制 READY，正常 EMS 停机通过源端 automaticEngineStop 标记与真正熄火区分。ICE 拥有发动机/燃油/离合/传动与点火、自动启停。EV 拥有 BatteryPack、前/后 ElectricDriveUnit、电机、逆变器、EVPowerCoordinator、热状态和配置化 Launch Control。双电机共享一个电池端口预算，计算效率和辅助负载，不能每轴拿全电池功率。功率 W，能量 kWh。EV 不需要 Engine/FuelSystem/Clutch，generic snapshot 中 ICE telemetry 可缺失。PRND 与机械挡位/传动比不同，自动挡驾驶员选挡要脚刹联锁。AT 蠕行来自变矩器，DCT 来自离合，EV 行为由配置决定。
 
 已实现四轮持续轮速/旋转、联合滑移与载荷敏感性、开放差速器/LSD/eDiff、AWD、ABS/EBD/TCS/ESC、EPB/Auto Hold、燃油 Start-Stop、空气悬架/自适应阻尼、轴级 camber/toe 与 anti-dive/anti-squat 标定。所有服务制动请求经 BrakeTorqueCoordinator，ABS 最终调制；EV 回收是电机真实扭矩，受同一步 ABS 限制并与液压融合。空气动力进前后轴法向载荷，不能直接乘抓地。空气悬架平滑改 rest geometry，物理轮位/外观/碰撞需一致。它仍是平面底盘+轻量四角悬架，不是完整六自由度/连杆求解器。
 
@@ -28,7 +28,7 @@ SharedVehicleData 是地图/车道/接近检测/TPMS 的共享源，各仪表皮
 
 VehicleAssetRegistry 拥有共享不可变几何/静态纹理，各实例拥有动态材质/显示/状态；VehicleLoadingLifecycle 分帧准备、实例构造、动态初始化、纹理/shader/镜面预热，Ready 前不运行驾驶。切车/切图/复位清理辅助和接触状态。Trip 距离按 abs(speed)*dt，燃油来自 FuelSystem；ODO/Trip A/B/油量/SOC 每约 10 仿真秒及退出/换车保存，localStorage 按 origin 隔离。EV 自己累计能量，不要假设燃油 Trip A/B 已支持独立持久化电耗。F3 不完全暂停物理，车辆可滑行。
 
-CityMap schema 2 使用显式 XYZ endpoint links、路口路面与标线所有权、支持高度区分上下层。区域地图有 highway 元数据、路牌、桥隧围护/照明、地形与按方向/车速预加载；视觉可卸载但 road graph、surface、colliders 保持常驻。编辑器支持预设、API 显式拆路、撤销和浏览器草稿/JSON 导出，Play 不覆盖源码。预设目录 34 项（31 生产、3 兼容街区），已含 Backbone/Compact 互通、隧道/下穿等；showcase 只展出原 V1 的 16 项。旧 build-city-main.mjs 运行 V3 recipe，现在要求 --out 独立文件或明确 --revision-v3 才可覆盖 city-only JSON，不能拿它重建当前区域图。服务区 fuel/charging 仅为元数据，没有交互式补能。仍未实现 AI 交通/行人/考试评分/多人比赛/ACC/BSD/Hybrid/完整刚体或损伤/主动空气动力/专用越野模式。
+CityMap schema 2 使用显式 XYZ endpoint links、路口路面与标线所有权、支持高度区分上下层。区域地图有 highway 元数据、路牌、桥隧围护/照明、地形与按方向/车速预加载；视觉可卸载但 road graph、surface、colliders 保持常驻。编辑器支持预设、API 显式拆路、撤销和浏览器草稿/JSON 导出，Play 不覆盖源码。预设目录 34 项（31 生产、3 兼容街区），已含 Backbone/Compact 互通、隧道/下穿等；showcase 只展出原 V1 的 16 项。旧 build-city-main.mjs 运行 V3 recipe，现在要求 --out 独立文件或明确 --revision-v3 才可覆盖 city-only JSON，不能拿它重建当前区域图。服务区 fuel/charging 仅为元数据，没有交互式补能。仍未实现 AI 交通/行人/考试评分/多人比赛/ACC/BSD/完整刚体或损伤/完整机械桥锁与整体后桥求解。
 
 2026-10-24 v493 外围扩展：G17 滨海延伸 32.34km、G42 内陆延伸 30.40km、S32 联络高速 11.64km，覆盖 71/75/25 个 sector，新增 4 节点/24 匝道；旧道路/连接/物件/路牌记录保持。轻量水面 tile 跟随现有 sector 驻留，10 组加载焦点压力测试、370 处道路 seam、实际地形共享边、9 个代表性物理接口及 5 条长距离导航通过。冷准备最大单步 218.9ms、F10 全图绘制 29.1–89.3ms；不宣称稳定帧率或内存平坦。仅执行一次 build -BasicValidation，Browser dist 为 v493，外部 EXE 仍为 v492；本轮明确不需要 desktop:package。详见 docs/HIGHWAY_EXTENSION_STREAMING_2026-10-24.md 和 artifacts/highway-extension-streaming-test/REPORT.md。
 
@@ -48,9 +48,9 @@ Windows 正式发布入口固定为 `D:\DriverSchoolRelease\DriverSchool-win32-x
 
 赛道后续修复：simple-circuit 布局 version 3 长约 1,536 m、宽 11.5 m，远端回头弯由 45 m 放缓到 90 m，相邻左弯位置调整以保留直道；没有增加沥青或轮胎抓地倍率。起终点/检查点判定线总宽 25.9 m，包含近侧缓冲区，仍检查顺序、正向和异常瞬移。圈时以可选布局 revision 隔离，旧记录保留。具体通过速度与验证边界见 CIRCUIT_FIXES_2026-10-13.md。
 
-当前用户指定的交付规则：代码修改先跑直接相关轻量专项，再 `pnpm run build -BasicValidation`，随后 `pnpm run desktop:package`，确认 dist 更新、外部正式包更新，并对正式 EXE 做一次基本启动 smoke。desktop:package 内含额外一次 BasicValidation Browser 构建。除任务明确要求，不例行运行全核心/全系统；不能只 typecheck 或把跳过的测试写成通过。build 使用 PowerShell，类型检查→可选 core→暂存 Vite→源码指纹校验→原子发布入口，失败保留上次 dist。tsconfig 只检查 src，不覆盖 scripts。systems 不改历史 artifacts；其他专项脚本有的会覆盖 artifacts JSON，先读脚本，避免改历史基线。
+当前交付规则以 AGENTS.md 为准：代码修改先相关专项；车辆系统改动还需完整核心、平台/车辆回归，最后 `pnpm run build`。禁止默认使用 `-BasicValidation`，减量验证必须有用户明确授权。桌面交付使用 `pnpm run desktop:package`（内含完整 Browser 构建），随后确认外部正式包和 EXE smoke。build 的类型检查、核心自测、暂存 Vite、源码指纹和原子发布都必须通过。近期 P2、迈巴赫、SU7、Golf 车门、坦克 HMI 专项已纳入核心和 systems，默认不改历史报告。tsconfig 只检查 src，不覆盖 scripts。
 
-2026-10-15 后续整理：区域流式扇区先完成异步 shader 预热再可见，取消/切图等待预热借用结束再释放资源；环境材质按可视根节点增删登记；路牌绘制/上传分帧、支架合批；修复跨扇区缓存签名与 Worker 近景优先级。ContactSystem 无碰撞步减少重复快照。生产构建不再复制地图 recipe/selftest 源码。selftest:systems 扩充为 24 组，含 Golf、TCS、路面、加速计时/诊断与轨迹。clean:generated 清理衍生产物，保留当前/last-good 入口依赖、最近两份暂存与历史基线。最新实际结果见 docs/RUNTIME_CLEANUP_2026-10-15.md；早期结果不代表当前快照。
+2026-10-15 后续整理：区域流式扇区先完成异步 shader 预热再可见，取消/切图等待预热借用结束再释放资源；环境材质按可视根节点增删登记；路牌绘制/上传分帧、支架合批；修复跨扇区缓存签名与 Worker 近景优先级。ContactSystem 无碰撞步减少重复快照。生产构建不再复制地图 recipe/selftest 源码。selftest:systems 已扩充，含 Golf、TCS、路面、加速计时/诊断与轨迹。clean:generated 清理衍生产物，保留当前/last-good 入口依赖、最近两份暂存与历史基线。最新实际结果见 docs/RUNTIME_CLEANUP_2026-10-15.md；早期结果不代表当前快照。
 
 2026-10-16 标牌整理：区域地图大牌由 1845 减至 1689，同向阅读带冲突归零；补充与道路真实限速一致的圆牌及弯道/分流导向牌，使用小纹理和共享几何。城市地图也整理快速路标牌并补小牌。FastRoadSignPlacement 是离线作者逻辑，地图 JSON 承载结果；没有在物理循环中生成或扫描标牌。必备出口/200 m 覆盖和原有 ±30 m 精度检查保留。新验证 `node scripts/test-road-signs.mjs`，最终结果及截图见 docs/ROAD_SIGNS_2026-10-16.md。
 

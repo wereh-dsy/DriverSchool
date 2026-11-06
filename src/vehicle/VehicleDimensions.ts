@@ -12,6 +12,13 @@ export interface VehicleDimensions {
   readonly rearWheelWidth?: number;
 }
 
+/** Z223 V12, 20-inch 255/45 front and 285/40 rear touring tyres. */
+export const MAYBACH_S680_DIMENSIONS: VehicleDimensions = Object.freeze({
+  length: 5.469, width: 1.921, height: 1.510, wheelBase: 3.396,
+  frontTrackWidth: 1.655, rearTrackWidth: 1.688, wheelRadius: .369,
+  wheelWidth: .255, frontWheelWidth: .255, rearWheelWidth: .285,
+});
+
 /** 265/35 R20 front, 325/30 R21 rear. One .360 m effective rolling datum
  * is shared by the current four-wheel solver and visuals (free radii differ). */
 export const JESKO_ATTACK_DIMENSIONS: VehicleDimensions = Object.freeze({

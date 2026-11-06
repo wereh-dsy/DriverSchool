@@ -1,3 +1,5 @@
+import { runRegionalReleaseBaselineSelfTest } from '../src/world/regional/RegionalReleaseBaseline.selftest';
+import { runRecentVehicleSystemsSelfTest } from '../src/vehicle/RecentVehicleSystems.selftest';
 import { runCityRoadModelSelfTest } from '../src/world/city/CityRoadModel.selftest';
 import { prepareDrivingGround } from '../src/world/DrivingGroundCatalog';
 import { compileCityRuntimeData } from '../src/world/city/CityRuntimeData';
@@ -77,6 +79,8 @@ import { runFuelSystemSelfTest } from '../src/vehicle/physics/FuelSystem.selftes
 await prepareDrivingGround('city-main', compileCityRuntimeData(regionalMain));
 
 const results = {
+  regionalBaseline: runRegionalReleaseBaselineSelfTest(regionalMain as CityMapData),
+  recentVehicles: runRecentVehicleSystemsSelfTest(),
   cityRoadModel: runCityRoadModelSelfTest(),
   roadEdgeChains: runRoadEdgeChainSelfTest(),
   cityV5: runCityMainV5SelfTest(cityMain, cityV41),

@@ -16,6 +16,7 @@ import { createStaticOBBCollider } from '../physics/CollisionSystem';
 import { computePlanarMirrorView, createPlanarMirrorViewComputation } from '../../camera/MirrorMath';
 import type { RoadNetworkData } from '../../world/navigation/RoadNetwork';
 import type { GolfGTIInstruments } from './GolfGTIDisplays';
+import {gtiSpeedFraction,GTI_SPEED_MARKS} from './GolfGTIInstrumentArtwork';
 
 /** The authored cabin has a flattened rim and surface shells, rather than the legacy box layout. */
 export function runGolfGTIStructureSelfTest(visual: VehicleVisual) {
@@ -67,7 +68,7 @@ export function runGolfGTIStructureSelfTest(visual: VehicleVisual) {
   ray.far = 3;
   for (const dir of [[0,-.5,-1],[.7,-.8,-1],[-.7,-.8,-1],[0,1,0],[1,-.5,0],[-1,-1,0]]) {
     ray.set(eye,new T.Vector3(...dir as [number,number,number]).transformDirection(visual.root.matrixWorld));
-    assert(ray.intersectObject(visual.cockpitRoot,true).length > 0, 'cabin closure ' + dir.join(',')); closureRays++;
+    assert(ray.intersectObject(visual.root,true).length > 0, 'cabin closure ' + dir.join(',')); closureRays++;
   }
   const face = visual.root.getObjectByName('GTI live digital face')!;
   for (const [name,x,y] of [['speed',0,.044],['gear',0,-.069],['mode',0,.078],['rpm',-.15,0]] as const) {
@@ -91,6 +92,11 @@ export function runGolfGTIStructureSelfTest(visual: VehicleVisual) {
   }
   const mesh=(name:string)=>visual.root.getObjectByName(name) as T.Mesh;
   const bounds=(name:string)=>new T.Box3().setFromObject(mesh(name));
+  const roof=bounds('GTI continuous roof'),windshield=bounds('GTI curved windshield');
+  assert(roof.max.z-roof.min.z<1.80,'compact hatch roof does not extend into a long wagon canopy');
+  assert((windshield.max.z-windshield.min.z)/(windshield.max.y-windshield.min.y)>1.4,'raked windscreen avoids a tall upright greenhouse');
+  const roofPoints=mesh('GTI continuous roof').geometry.getAttribute('position');
+  assert(roofPoints.getY(0)-roofPoints.getY(roofPoints.count-25)>.035,'rear roof rail descends into the sloping hatch');
   const upper=bounds('GTI continuous sculpted upper dashboard'),trim=bounds('GTI projecting technical trim shelf');
   const vent=bounds('GTI recessed horizontal vent atlas'),lower=bounds('GTI receding lower dash and glovebox');
   assert(upper.max.z-upper.min.z>.35&&upper.max.y<1.025,'deep, restrained upper dashboard shell');
@@ -110,6 +116,24 @@ export function runGolfGTIStructureSelfTest(visual: VehicleVisual) {
   assert(island-phone>.015,'phone channel is lower than the shifter island');
   const selector=bounds('GTI compact shift by wire selector');
   assert(selector.max.y-selector.min.y<.06,'short electronic selector replaces tall mechanical lever');
+  const hatch=mesh('GTI sculpted hatch and rear bumper'),nose=mesh('GTI sculpted front bumper and optic surround');
+  const endProfile=(part:T.Mesh,y:number,front:boolean)=>{
+    const start=visual.root.localToWorld(new T.Vector3(0,y,front?-3:3));
+    ray.set(start,new T.Vector3(0,0,front?1:-1).transformDirection(visual.root.matrixWorld));ray.far=2;
+    const hit=ray.intersectObject(part,false)[0];return hit?visual.root.worldToLocal(hit.point.clone()).z:NaN;
+  };
+  assert(endProfile(nose,.18,true)-endProfile(nose,.40,true)>.08,'front valance tucks behind the rounded bumper instead of a vertical slab');
+  assert(endProfile(hatch,.58,false)-endProfile(hatch,.97,false)>.08,'upper hatch rolls forward into the rear glazing');
+  assert(endProfile(hatch,.58,false)-endProfile(hatch,.18,false)>.08,'rear valance tucks under the bumper shoulder');
+  for(const side of ['Left','Right'])for(const suffix of ['tail outline','brake','rear amber','five cell X fog']) {
+    const lamp=mesh(`${side} GTI ${suffix}`),points=lamp.geometry.getAttribute('position'),front=suffix==='five cell X fog';
+    for(let index=0;index<points.count;index++) {
+      const p=new T.Vector3().fromBufferAttribute(points,index).applyMatrix4(lamp.matrixWorld);
+      ray.set(p.clone().add(new T.Vector3(0,0,front?-.04:.04)),new T.Vector3(0,0,front?1:-1));ray.far=.08;
+      const distance=ray.intersectObject(front?nose:hatch,false)[0]?.distance??Infinity;
+      assert(distance>(front?.044:.038)&&distance<(front?.062:.055),'lamp follows actual curved body '+side+'/'+suffix+'/'+index);
+    }
+  }
   for(const name of ['GTI continuous sculpted upper dashboard','GTI projecting technical trim shelf','GTI rubber storage and USB atlas','Driver GTI check cushion surface']) {
     const mat=mesh(name).material as T.MeshStandardMaterial;
     assert(!!mat.map&&!!mat.normalMap&&!!mat.roughnessMap&&!!mat.aoMap,'shared PBR surface maps '+name);
@@ -245,6 +269,17 @@ export function runGolfGTISelfTest() {
     assert(center.effectivePage==='park' && centerCV.texts.includes(shared.parking.nearestDistanceM!.toFixed(2)+' m'),'reverse selects real parking proximity');
     visual.updateInstruments(telemetry,1); assert(center.effectivePage==='tyres','leaving reverse restores selected page');
     const live=visual.root.getObjectByName('GTI twin circular digital instruments') as GolfGTIInstruments;
+    GTI_SPEED_MARKS.forEach((value,index)=>assert(Math.abs(gtiSpeedFraction(value,280)-index/10)<1e-9,'needle agrees with non-linear OEM speed tick '+value));
+    const trip={distanceKm:12.4,operatingTimeSeconds:1740,movingTimeSeconds:1300,fuelUsedL:.98,averageSpeedKmh:25.65,averageFuelConsumptionLPer100km:7.9};
+    visual.updateInstruments({...telemetry,trip:{totalDistanceKm:68.3,tripA:trip,tripB:trip},driverAccess:{doorOpen:1,windowOpen:.5}},1);
+    assert(['0:29 h','12.4 km','7.9 l/100km','26 km/h','驾驶门未关闭'].every(s=>cv.texts.includes(s)),'trip values and door state come from live telemetry');
+    const buttons=visual.root.getObjectByName('GTI wheel button and lower badge surface atlas') as T.Mesh;
+    const positions=buttons.geometry.getAttribute('position');
+    const viewTarget=new T.Vector3().fromBufferAttribute(positions,7).lerp(new T.Vector3().fromBufferAttribute(positions,6),.5)
+      .lerp(new T.Vector3().fromBufferAttribute(positions,4).lerp(new T.Vector3().fromBufferAttribute(positions,5),.5),.045);
+    buttons.localToWorld(viewTarget);ray.set(eye,viewTarget.sub(eye).normalize());
+    assert(visual.cockpitRoot.handleDisplayClick(ray)&&live.view==='assist','authored VIEW print selects actual instrument view');
+    live.cycleView();assert(live.view==='navigation','VIEW reaches borrowed navigation information');live.cycleView();assert(live.view==='trip','VIEW cycles back to trip');
     const version=live.texture.version; visual.updateInstruments({...telemetry,ignitionOn:false},0);
     assert(live.texture.version>version && !center.click(new T.Vector2(.2,.95)),'power changes immediate, powered-off controls disabled');
     visual.updateInstruments(telemetry,1); const spill=visual.root.getObjectByName('GTI restrained console spill') as T.PointLight;

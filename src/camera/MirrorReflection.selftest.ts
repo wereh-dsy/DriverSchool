@@ -11,6 +11,10 @@ import { computePlanarMirrorView, writeMirrorApertureUvs } from './MirrorMath';
 import { MirrorSystem, type MirrorSide, type MirrorView } from './MirrorSystem';
 import { MirrorGeometryDebug } from './MirrorGeometryDebug';
 
+const REFERENCE_SAMPLES_X=81,REFERENCE_SAMPLES_Y=41;
+// Preserve the original 10 / (41 × 21) area requirement at finer sampling.
+const MINIMUM_PART_SAMPLES=Math.ceil(10*REFERENCE_SAMPLES_X*REFERENCE_SAMPLES_Y/(41*21));
+
 export interface MirrorReflectionSelfTestResult {
   readonly assertions: number;
   readonly bodyCoverage: Readonly<Record<string, number>>;
@@ -112,10 +116,10 @@ export function runMirrorReflectionSelfTest(): MirrorReflectionSelfTestResult {
       assert(side === 'left' ? coverage.minU > 0.55 : coverage.maxU < 0.4,
         `${name}: car body reference is not on the inner edge`);
       assert(coverage.maxZ > 1, `${name}: cannot see any real rear-side exterior`);
-      assert((coverage.parts['rear-quarter'] ?? 0) >= 10 && (coverage.parts['wheel-arch'] ?? 0) >= 10,
-        `${name}: reference is only glass/pillars, not real rear quarter and rear wheel arch`);
+      assert((coverage.parts['rear-quarter'] ?? 0) >= MINIMUM_PART_SAMPLES && (coverage.parts['wheel-arch'] ?? 0) >= MINIMUM_PART_SAMPLES,
+        `${name}: reference is only glass/pillars, not real rear quarter and rear wheel arch ${JSON.stringify(coverage.parts)}`);
       if (config.body.profile === 'sedan') {
-        assert((coverage.parts.door??0)>=10,name+': visible rear-door body reference');
+        assert((coverage.parts.door??0)>=MINIMUM_PART_SAMPLES,name+': visible rear-door body reference');
         // Rounded rear quarters can physically hide the boot corner. Verify its
         // real visibility/occlusion instead of requiring a see-through body.
         const corner=new Vector3(0,0,-Infinity),sign=side==='left'?-1:1;
@@ -270,17 +274,20 @@ function measureRealBodyReferences(body: Group, eye: Vector3, view: MirrorView,c
   let count = 0; let minU = 1; let maxU = 0; let maxZ = -Infinity;
   const parts: Record<string, number> = {};
   const reference = new Vector3();
-  for (let x = 0; x < 41; x += 1) for (let y = 0; y < 21; y += 1) {
+  for (let x = 0; x < REFERENCE_SAMPLES_X; x += 1) for (let y = 0; y < REFERENCE_SAMPLES_Y; y += 1) {
     const point = view.worldPosition.clone()
-      .addScaledVector(view.worldRight, (x / 40 - 0.5) * view.worldSize.x)
-      .addScaledVector(view.worldUp, (y / 20 - 0.5) * view.worldSize.y);
+      .addScaledVector(view.worldRight, (x / (REFERENCE_SAMPLES_X-1) - 0.5) * view.worldSize.x)
+      .addScaledVector(view.worldUp, (y / (REFERENCE_SAMPLES_Y-1) - 0.5) * view.worldSize.y);
     const incoming = point.clone().sub(eye).normalize();
     const direction = incoming.clone().addScaledVector(view.worldNormal, -2 * incoming.dot(view.worldNormal));
     ray.set(point.clone().addScaledVector(direction, 0.001), direction);
     const hit = ray.intersectObject(body, true).find(hit => hit.object.userData.vehicleBodyPart !== 'glass');
     if (hit !== undefined && hit.point.z > 0 && Math.sign(hit.point.x) === (view.side === 'left' ? -1 : 1)) {
-      count += 1; minU = Math.min(minU, x / 40); maxU = Math.max(maxU, x / 40); maxZ = Math.max(maxZ, hit.point.z);
+      count += 1; minU = Math.min(minU, x / (REFERENCE_SAMPLES_X-1)); maxU = Math.max(maxU, x / (REFERENCE_SAMPLES_X-1)); maxZ = Math.max(maxZ, hit.point.z);
       let category=hit.object.userData.vehicleBodyPart as string;
+      // The refined shell has a real recessed arch liner. It is a physical
+      // wheel-arch reference too, rather than glass or an ornamental overlay.
+      if(category==='wheelhouse')category='wheel-arch';
       // A continuous shell has one semantic tag, so classify its actual ray hit
       // by physical axle/deck regions rather than demand separate overlay meshes.
       if(category==='main-shell'){
@@ -295,5 +302,5 @@ function measureRealBodyReferences(body: Group, eye: Vector3, view: MirrorView,c
       if (category === 'rear-quarter') reference.copy(hit.point);
     }
   }
-  return { ratio: count / (41 * 21), minU, maxU, maxZ, parts, reference };
+  return { ratio: count / (REFERENCE_SAMPLES_X * REFERENCE_SAMPLES_Y), minU, maxU, maxZ, parts, reference };
 }

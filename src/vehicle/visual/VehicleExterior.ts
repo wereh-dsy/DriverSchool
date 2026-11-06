@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { su7DoorSkinAnchor } from './SU7MaxExterior';
 import { vehiclePaint, vehicleGlass } from './VehicleMaterials';
 
 import type { VehicleVisualConfig } from './VehicleVisualConfig';
@@ -47,6 +48,7 @@ export const frontWindowAnchors = (config: VehicleVisualConfig) => ({
 
 /** Actual top of the door skin, interpolated rather than snapped to mesh vertices. */
 export const frontDoorSkinAnchor = (config: VehicleVisualConfig, z: number): THREE.Vector3 => {
+  if(config.body.exterior==='xiaomi-su7')return su7DoorSkinAnchor(z);
   if (config.body.exterior === 'tesla-model-3') return teslaModel3DoorSkinAnchor(z);
   const stations = config.body.profile === 'sport-coupe' ? createSportsStations(config) : createSedanStations(config);
   const station = sampleStation(stations, z);

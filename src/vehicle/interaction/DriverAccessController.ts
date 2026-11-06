@@ -6,6 +6,7 @@ export type DriverDoorState = 'CLOSED' | 'OPENING' | 'OPEN' | 'CLOSING';
 export interface DriverDoorConfig {
   readonly openSeconds: number;
   readonly closeSeconds: number;
+  readonly softClose?: { readonly captureFraction: number; readonly latchSeconds: number };
 }
 
 export interface DriverWindowConfig {
@@ -32,6 +33,7 @@ export class DriverDoorController {
   private targetOpen = false;
   private openSeconds = 0.55;
   private closeSeconds = 0.65;
+  private softClose: DriverDoorConfig['softClose'];
 
   public get state(): DriverDoorState {
     return this.stateValue;
@@ -49,6 +51,7 @@ export class DriverDoorController {
   public configure(config: DriverDoorConfig): void {
     this.openSeconds = Math.max(0.05, config.openSeconds);
     this.closeSeconds = Math.max(0.05, config.closeSeconds);
+    this.softClose = config.softClose;
   }
 
   public reset(): void {
@@ -83,7 +86,16 @@ export class DriverDoorController {
         this.stateValue = 'OPEN';
       }
     } else if (this.stateValue === 'CLOSING') {
-      this.fraction = Math.max(0, this.fraction - dt / this.closeSeconds);
+      if (this.softClose) {
+        const {captureFraction, latchSeconds} = this.softClose;
+        let remaining = dt;
+        if (this.fraction > captureFraction) {
+          const rate = (1 - captureFraction) / (this.closeSeconds - latchSeconds);
+          const step = Math.min(remaining, (this.fraction - captureFraction) / rate);
+          this.fraction = Math.max(captureFraction, this.fraction - step * rate); remaining -= step;
+        }
+        this.fraction = Math.max(0, this.fraction - remaining * captureFraction / latchSeconds);
+      } else this.fraction = Math.max(0, this.fraction - dt / this.closeSeconds);
       if (this.fraction <= 0) {
         this.fraction = 0;
         this.stateValue = 'CLOSED';

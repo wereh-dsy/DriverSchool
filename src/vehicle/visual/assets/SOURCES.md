@@ -1,5 +1,7 @@
 # Volkswagen badge
 
+2026-11-04 Golf refinement: `GolfGTIInstrumentArtwork.ts` and `GolfGTIExteriorDetails.ts` add original procedural LCD scale, lamp-mask, honeycomb and fascia artwork based on the official VW documentation linked in [the refinement report](../../../../docs/GOLF_GTI_2026-11-04.md). No manual photograph is cropped onto the model. The existing exact Volkswagen SVG path is retained inside an original satin/graphite circular surround. VIEW is now connected to the Golf instrument information cycle; the other decorative wheel labels do not add new phone/cruise functions.
+
 - Source: [Simple Icons Volkswagen SVG](https://github.com/simple-icons/simple-icons/blob/develop/icons/volkswagen.svg)
 - Downloaded: 2026-10-14. The SVG path is retained unchanged in `volkswagen.svg`.
 - Icon collection license: [CC0 1.0](https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md).

@@ -21,6 +21,8 @@ export type ShiftRejectionReason = 'clutch-not-disengaged' | 'engine-over-speed'
 
 /** Optional ICE compatibility telemetry, not required source components. */
 export interface ICEVehicleTelemetry {
+  /** Source-owned lifecycle state: a commanded combustion stop is not a stall. */
+  automaticEngineStop?: boolean;
   thermal?: { temperatureC: number; torqueFactor: number };
   startStop?: { supported: boolean; enabled: boolean; state: 'DISABLED' | 'READY' | 'AUTO_STOPPED' | 'RESTARTING' };
   mildHybrid?: ReturnType<import('./MildHybridSystem').MildHybridSystem['getSnapshot']>;
@@ -48,6 +50,7 @@ export interface ICEVehicleTelemetry {
   revHang: RevHangSnapshot;
 }
 export interface PowertrainSnapshot {
+  hybrid?: import('./P2HybridPowertrain').HybridTelemetry;
   kind: string;
   vehicleOperational: boolean;
   driveAvailable: boolean;
@@ -79,6 +82,8 @@ export interface EVTelemetry {
   requestedBrakeTorque: number; regenerativeBrakeTorque: number;
 }
 export interface PowertrainInitialState {
+  hybrid?: { mode?: import('../config/P2HybridConfig').HybridMode; holdSOC?: number;
+    transferMode?: import('../config/P2HybridConfig').TransferMode; freeShaftOmega?: number };
   vehicleOperational?: boolean;
   driveAvailable?: boolean;
   shaftAngularVelocity?: number;
@@ -122,6 +127,8 @@ export interface PowertrainOutput {
 }
 /** Owns source, coupling and transmission lifecycle without requiring ICE components. */
 export interface Powertrain {
+  /** READY systems can be operational while their combustion engine is stopped. */
+  readonly ignitionToggleUsesOperationalState?: boolean;
   readonly serviceBrakeDemand?: number;
   /** Rotor inertia reflected to EACH driven wheel, kg m². */
   readonly drivenWheelInertia?: number;

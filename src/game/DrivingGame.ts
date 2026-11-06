@@ -55,6 +55,8 @@ import {
   Vector2,
 } from 'three';
 import { EngineAudio } from '../audio/EngineAudio';
+import { P2HybridPowertrain } from '../vehicle/powertrain/P2HybridPowertrain';
+import { HybridControlPanel } from '../ui/HybridControlPanel';
 import type { VehicleAudioProfile } from '../audio/VehicleAudioProfile';
 import { evaluateCabinAcoustics, type CabinAcousticState } from '../audio/VehicleCabinAcoustics';
 import {
@@ -164,6 +166,9 @@ export class DrivingGame {
   private readonly hud: Hud;
   private readonly lapTimer = new LapTimer();
   private readonly engineAudio = new EngineAudio();
+  private readonly hybridControls = new HybridControlPanel(
+    () => this.dynamics?.powertrain instanceof P2HybridPowertrain ? this.dynamics.powertrain : undefined,
+    () => this.snapshot?.speed ?? 0, () => this.snapshot?.brake ?? 0);
   private executiveDisplay: ExecutiveDisplayContext | null = null;
   private electricDisplay: ElectricDisplayContext | null = null;
   private drivingSceneDisplay: DrivingSceneDisplayContext | null = null;
@@ -472,6 +477,7 @@ export class DrivingGame {
     this.environmentMap = null;
     this.renderer.dispose();
     this.engineAudio.dispose();
+    this.hybridControls.dispose();
     this.electricDisplay?.dispose();
     this.drivingSceneDisplay?.dispose();
     this.sharedVehicleData?.dispose();
@@ -953,7 +959,7 @@ export class DrivingGame {
     const combustionEngine = this.dynamics.engine;
     if (combustionEngine) this.engineAudio.update(
       this.snapshot.rpm ?? 0,
-      this.snapshot.throttle,
+      this.snapshot.powertrain.hybrid ? combustionEngine.throttle : this.snapshot.throttle,
       this.snapshot.engineRunning ?? false,
       {
         engineCharacter: combustionEngine.config,
@@ -967,6 +973,8 @@ export class DrivingGame {
         roadRoughness: this.latestRoadRoughness,
         cockpit: this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
         cabinAcoustics: this.cabinAcoustics ?? undefined,
+        driverAccess: this.interactionDefinition ? { doorOpen: this.vehicleInteraction.driverDoorOpenFraction,
+          windowOpen: this.vehicleInteraction.driverWindowOpenFraction } : undefined,
         driveMode: this.snapshot.driveMode,
         gear: this.snapshot.gear ?? undefined,
         acceleration: this.snapshot.acceleration,
@@ -977,10 +985,16 @@ export class DrivingGame {
       },
     );
     const cruiseStatus = this.cruiseControl.status;
-    if (!combustionEngine && this.snapshot.powertrain.ev) {
+    this.hybridControls.update(frameDt, this.gameUI.state.screen === 'driving' && !this.settingsOpen && !this.hud.immersiveMode);
+    if ((!combustionEngine || this.snapshot.powertrain.hybrid) && this.snapshot.powertrain.ev) {
       const ev = this.snapshot.powertrain.ev;
       const powertrain = this.dynamics.powertrain;
       this.engineAudio.updateElectric(ev.motorRPM, ev.motorTorque, {
+        hybridLayer: this.snapshot.powertrain.hybrid !== undefined,
+        frontMotorRPM:ev.frontMotorRPM,driveMode:this.snapshot.driveMode,
+        cabinAcoustics:this.cabinAcoustics??undefined,
+        driverAccess:this.interactionDefinition?{doorOpen:this.vehicleInteraction.driverDoorOpenFraction,
+          windowOpen:this.vehicleInteraction.driverWindowOpenFraction}:undefined,
         vehicleSpeed: this.snapshot.speed, roadRoughness: this.latestRoadRoughness,
         cockpit: this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
         operational: this.snapshot.vehicleOperational,
@@ -991,7 +1005,7 @@ export class DrivingGame {
           presence: powertrain instanceof ElectricPowertrain ? powertrain.config.audioPresence : undefined,
       });
     }
-    this.engineAudio.updateTurnSignal(this.lightController.state);
+    this.engineAudio.updateTurnSignal(this.lightController.state, this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving');
     this.engineAudio.updateWeather(frameDt, this.environment.rainIntensity,
       this.environment.windIntensity, this.environment.stormIntensity,
       this.visualDebug.renderCamera === null && this.playerMode.mode === 'Driving',
@@ -1110,10 +1124,13 @@ export class DrivingGame {
     }
     this.sharedVehicleData?.publishTPMS(this.snapshot.tpmsState);
     this.vehicleVisual.updateInstruments({
+      driverAccess: this.interactionDefinition ? { doorOpen: this.vehicleInteraction.driverDoorOpenFraction,
+        windowOpen: this.vehicleInteraction.driverWindowOpenFraction } : undefined,
       activeSpoilerDeployment: this.snapshot.activeSpoilerDeployment,
       speedKmh: Math.abs(this.snapshot.speed) * 3.6,
       rpm: this.snapshot.rpm ?? 0,
       ev: this.snapshot.powertrain.ev,
+      hybrid: this.snapshot.powertrain.hybrid,
       driveAvailable: this.snapshot.driveAvailable,
       gear: this.snapshot.transmission.type !== 'MANUAL'
         ? this.snapshot.transmission.selectedMode === 'D' && this.snapshot.transmission.currentPhysicalGear !== null ? `D${this.snapshot.transmission.currentPhysicalGear}` : this.snapshot.transmission.selectedMode ?? 'N'
@@ -1122,8 +1139,7 @@ export class DrivingGame {
       driveMode: this.snapshot.driveMode,
       startStopState: this.snapshot.startStop,
       cruiseTargetSpeedKmh: this.cruiseControl.status.targetSpeedKmh ?? undefined,
-      fuelLevel: this.drivingSceneDisplay ? (this.snapshot.fuel?.fuelPercent ?? this.fuelLevel * 100) / 100
-        : this.executiveDisplay ? (this.snapshot.fuel?.fuelPercent ?? 0) / 100 : this.fuelLevel,
+      fuelLevel: (this.snapshot.fuel?.fuelPercent ?? this.fuelLevel * 100) / 100,
       ignitionOn: this.ignitionOn,
       executive: this.executiveDisplay?.data,
       electricDisplay: this.electricDisplay?.data,
@@ -1132,7 +1148,7 @@ export class DrivingGame {
       sharedVehicle: this.sharedVehicleData ?? undefined,
       trip: this.snapshot.trip,
       assistCapabilities: this.dynamics.capabilities,
-      chassisStatus: this.snapshot.powertrain.ev ? { rideHeight: this.dynamics.config.suspension.rideHeight + this.snapshot.chassis.rideOffset,
+      chassisStatus: this.snapshot.powertrain.ev || this.dynamics.config.suspension.airSuspension ? { rideHeight: this.dynamics.config.suspension.rideHeight + this.snapshot.chassis.rideOffset,
         targetHeight: this.dynamics.suspension.rideHeightTarget, nominalHeight: this.dynamics.config.suspension.rideHeight,
         dampingMode: this.snapshot.driveMode ?? 'NORMAL',
         electricSoundPresence: this.dynamics.powertrain instanceof ElectricPowertrain ? this.dynamics.powertrain.config.audioPresence ?? 1 : 1 } : undefined,
@@ -1140,6 +1156,7 @@ export class DrivingGame {
       laneAssist: this.laneAssistSelection.state,
       ambientDaylight: this.ambientDaylight,
       coolantTemperatureC: this.snapshot.powertrain.ice?.thermal?.temperatureC ?? this.coolantTemperatureC,
+      transmissionTemperatureC: this.snapshot.transmission?.thermal?.temperatureC,
       handbrake: this.snapshot.handbrake,
       upshiftRecommended: this.snapshot.upshiftRecommended,
       indicators: {
@@ -1728,6 +1745,7 @@ export class DrivingGame {
   private queueVehicleWarmup(): void {
     if (this.integration) this.gameUI.setLoading('warmingRenderer', '正在准备车辆显示');
     this.vehicleLoading.mark('Visual warmup');
+    this.vehicleLoading.enqueue('Visual warmup',()=>document.fonts.ready);
     const textures = new Set<Texture>();
     this.vehicleVisual.root.traverse(object => {
       if (!(object instanceof Mesh)) return;
@@ -2076,6 +2094,10 @@ export class DrivingGame {
     if (this.snapshot.powertrain.kind === 'EV') return;
     if (this.snapshot.engineRunning === this.lastEngineRunning) return;
     this.lastEngineRunning = this.snapshot.engineRunning ?? false;
+    if (!this.snapshot.engineRunning && this.snapshot.automaticEngineStop && !this.snapshot.startStop?.supported) {
+      this.hud.showMessage('动力系统 · 发动机自动停机，车辆电源保持', 1.8);
+      return;
+    }
     if (this.snapshot.startStop?.state === 'AUTO_STOPPED' || this.snapshot.startStop?.state === 'RESTARTING') {
       this.hud.showMessage(this.snapshot.startStop.state === 'AUTO_STOPPED' ? 'START/STOP · 自动停机，车辆电源保持' : 'START/STOP · 正在重新启动', 1.8);
       return;

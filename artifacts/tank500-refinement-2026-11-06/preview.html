@@ -1,0 +1,34 @@
+<!doctype html><meta charset="utf-8"><title>Tank 500 Hi4-T · refinement review</title>
+<style>body{margin:0;background:#98a4ab;font:13px system-ui}canvas{display:block}nav{position:absolute;top:8px;left:8px}button{padding:7px;margin:3px;background:#152027;color:#fff;border:1px solid #56676b}pre{position:absolute;bottom:8px;left:8px;color:#eef;background:#101820cc;padding:8px}</style>
+<nav><button data-view="driver">Driver</button><button data-view="cabin">Cabin</button><button data-view="front">Front</button><button data-view="side">Side</button><button data-view="rear">Rear</button><button id="door">Door/window</button><button id="night">Night</button></nav><pre id="stats"></pre>
+<script type="module">
+import * as T from 'three';
+import {VehicleVisual} from '/src/vehicle/visual/VehicleVisual.ts';
+import {VehicleAssetRegistry} from '/src/vehicle/visual/VehicleAssetRegistry.ts';
+import {VehicleLighting} from '/src/vehicle/visual/VehicleLighting.ts';
+import {TANK500_HI4T_VISUAL_CONFIG as config} from '/src/vehicle/visual/Tank500VisualConfig.ts';
+import {createTank500Hi4TPhysicsConfig} from '/src/vehicle/config/tank500Hi4TPhysicsConfig.ts';
+import {VehicleDynamics} from '/src/vehicle/physics/VehicleDynamics.ts';
+import {applyVehicleInteractionVisual} from '/src/vehicle/interaction/VehicleInteractionDefinition.ts';
+import {createTPMSState} from '/src/vehicle/TPMSState.ts';
+const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(1);renderer.setSize(innerWidth,innerHeight);renderer.localClippingEnabled=true;renderer.toneMapping=T.ACESFilmicToneMapping;document.body.prepend(renderer.domElement);
+const scene=new T.Scene();scene.background=new T.Color('#aeb9bd');
+const hemi=new T.HemisphereLight(0xd8eafa,0x5a5647,2.1);hemi.layers.enableAll();scene.add(hemi);
+const sun=new T.DirectionalLight(0xffe7cd,3);sun.position.set(-3,6,-4);sun.layers.enableAll();scene.add(sun);
+const assets=new VehicleAssetRegistry();VehicleVisual.prepareAssets(config,assets);const car=new VehicleVisual(config,assets);scene.add(car.root);
+const floor=new T.Mesh(new T.PlaneGeometry(40,40),new T.MeshStandardMaterial({color:0x6e7775,roughness:.9}));floor.rotation.x=-Math.PI/2;floor.position.y=-.01;floor.layers.enableAll();scene.add(floor);
+const lighting=new VehicleLighting(car),camera=new T.PerspectiveCamera(62,innerWidth/innerHeight,.015,100);camera.layers.enableAll();
+const dynamics=new VehicleDynamics(createTank500Hi4TPhysicsConfig());const snapshot=dynamics.getSnapshot(),tpms=createTPMSState(true);
+for(const id of ['frontLeft','frontRight','rearLeft','rearRight'])Object.assign(tpms[id],{valid:true,pressureKPa:260,temperatureC:20,pressureState:'NORMAL'});
+const telemetry={ignitionOn:true,engineRunning:false,driveAvailable:true,speedKmh:48,rpm:0,gear:'D4',driveMode:'NORMAL',fuelLevel:.70,ambientDaylight:1,hybrid:snapshot.powertrain.hybrid,tpmsState:tpms,indicators:{headlights:true,positionLights:true}};
+telemetry.hybrid.motorPowerW=32000;telemetry.hybrid.state='EV';
+const views={driver:{eye:config.driverEyePosition,target:[-.43,1.54,-1],fov:62},cabin:{eye:[.08,1.63,1.1],target:[0,1.04,-.51],fov:68},front:{eye:[-4.8,2.6,-6.3],target:[0,.96,-.12],fov:40},side:{eye:[-11,1.20,0],target:[0,1.0,0],fov:30},rear:{eye:[4.4,2.3,6.3],target:[0,.99,.1],fov:40},cluster:{eye:[-.43,1.36,-.04],target:[-.43,1.21,-.62],fov:34}};
+let view='driver',night=false,open=false,glass=0;
+function render(){const v=views[view];camera.position.set(...v.eye);camera.lookAt(...v.target);camera.fov=v.fov;camera.updateProjectionMatrix();
+telemetry.ambientDaylight=night?.02:1;telemetry.driverAccess={doorOpen:open?1:0,windowOpen:glass};hemi.intensity=night?.10:2.1;sun.intensity=night?0:3;scene.background.set(night?'#071017':'#aeb9bd');
+for(let i=0;i<90;i++)car.updateInstruments(telemetry,1/60);applyVehicleInteractionVisual(car.interactionDefinition,open?1:0,glass);lighting.setMode('low');car.root.updateMatrixWorld(true);renderer.render(scene,camera);
+let meshes=0,vertices=0;const materials=new Set(),textures=new Set();car.root.traverse(o=>{if(!o.isMesh)return;meshes++;vertices+=o.geometry.getAttribute('position').count;for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);Object.values(m).forEach(t=>{if(t?.isTexture)textures.add(t)})}});
+const stats={view,night,open,glass,meshes,vertices,materials:materials.size,textures:textures.size,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles};document.querySelector('#stats').textContent=JSON.stringify(stats,null,1);return stats;}
+window.captureTank=(selected,dark=false,opened=false,window=0)=>{view=selected;night=dark;open=opened;glass=window;const stats=render();return{stats,png:renderer.domElement.toDataURL(),instrument:car.root.getObjectByName('Tank Hi4-T digital instruments').canvas.toDataURL(),center:car.root.getObjectByName('Tank Hi4-T centre energy / off-road display').canvas.toDataURL()}};
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{view=b.dataset.view;render()});document.querySelector('#door').onclick=()=>{open=!open;glass=open?.5:0;render()};document.querySelector('#night').onclick=()=>{night=!night;render()};render();
+</script>

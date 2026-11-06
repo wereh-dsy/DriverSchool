@@ -1,7 +1,22 @@
 import type { VehicleCabinAcousticsProfile } from './VehicleCabinAcoustics';
 
+export type VehicleChimeKind = 'startup' | 'mode' | 'cruise' | 'fuel' | 'parking' | 'door';
+export interface VehicleChimeVoice {
+  readonly notes: readonly number[];
+  readonly duration: number;
+  readonly spacing: number;
+  readonly gain: number;
+  /** Quiet second partial, for a soft struck-glass rather than a pure beep. */
+  readonly partial?: number;
+}
+
 /** Opt-in timbre and cabin calibration; legacy cars keep their existing sound. */
 export interface VehicleAudioProfile {
+  readonly electric?:import('./ElectricAudioMix').ElectricVoiceProfile;
+  /** Closed-cabin road/wind bus cutoff when no movable door/window is installed. */
+  readonly closedCabinCutoffHz?: number;
+  /** Optional cockpit engine/intake low-pass scale; exterior keeps full timbre. */
+  readonly cabinEngineFilterScale?: number;
   /** Even-bank V8 character and physical turbo pressure, opt-in only. */
   readonly flatPlaneV8?: boolean;
   readonly physicalTurbo?: boolean;
@@ -15,6 +30,16 @@ export interface VehicleAudioProfile {
   readonly sportPresence: number;
   readonly starterLevel: number;
   readonly chimeLevel: number;
+  readonly chimes?: Readonly<Record<VehicleChimeKind, VehicleChimeVoice>>;
+  readonly turnSignalFrequencies?: readonly [on: number, off: number];
+  readonly accessSounds?: { readonly windowLevel: number; readonly latchLevel: number; readonly closeLevel: number;
+    readonly windowUpHz?:number;readonly windowDownHz?:number;readonly closeBodyHz?:number;readonly latchHz?:number };
+  /** Harmonic orders are relative to the four-stroke firing frequency. */
+  readonly combustionTimbre?: { readonly bodyOrder: number; readonly upperOrder: number;
+    readonly roughnessCents: number; readonly catchLevel: number; readonly shutdownLevel: number;
+    readonly bodyGain?: number; readonly upperGain?: number; readonly mechanicalGain?: number;
+    readonly bodyHarmonics?: readonly number[]; readonly pulseNoiseGain?: number;
+    readonly exhaustRpmSlope?: number; readonly exhaustLoadCutoff?: number };
   /** Optional four-stage engine-layer calibration; omitted values stay neutral. */
   readonly idlePresence?: number;
   readonly lowPresence?: number;

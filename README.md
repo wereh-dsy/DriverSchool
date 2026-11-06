@@ -1,10 +1,10 @@
 # DriverGame
 
-基于 TypeScript、Three.js 和 Vite 的浏览器第一人称 3D 驾驶模拟项目。当前目录提供 **12 辆可切换车辆、11 个场地入口**，包含燃油 MT / AT / DCT / CVT、纯电固定减速与双电机前单速/后两速动力链、键盘与标准手柄操作，以及数据驱动的城市地图编辑器和区域高速网。车辆系统包含燃油/电量与行程信息、定速巡航、支持车型的 LDW / LKA / LCC、EPB、Auto Hold、自动启停、可变悬架和胎温胎压；闭环测试场提供圈速计时，混合路面试验场提供逐轮低附着与松软路面响应。
+基于 TypeScript、Three.js 和 Vite 的浏览器第一人称 3D 驾驶模拟项目。当前目录提供 **17 辆可切换车辆、11 个场地入口**，包含燃油 MT / AT / DCT / CVT、纯电固定减速与双电机前单速/后两速、P2 插混与机械分动动力链、键盘与标准手柄操作，以及数据驱动的城市地图编辑器和区域高速网。车辆系统包含燃油/电量与行程信息、定速巡航、支持车型的 LDW / LKA / LCC、EPB、Auto Hold、自动启停、可变悬架和胎温胎压；闭环测试场提供圈速计时，混合路面试验场提供逐轮低附着与松软路面响应。
 
 物理以固定 **120 Hz** 更新，内部使用 SI 单位：距离为米、速度为 m/s、角度为弧度；坐标系为 `+X` 向右、`+Y` 向上、`-Z` 向前。仪表车速显示为 km/h。具体参数和行为以当前源码为准，测试车型与品牌风格车型不代表原厂精确数据。
 
-文档更新至 **2026-10-24**（本次更新 City Main 与发布流程）。最新 [长距离高速与分块加载记录](docs/HIGHWAY_EXTENSION_STREAMING_2026-10-24.md) 包含 Browser v493：32.34km 滨海、30.40km 内陆延伸和 11.64km 联络高速，80/120/160km/h 加载焦点专项通过；正式 Windows EXE 仍为 v492。本轮未重新打包。先前 [匝道结构收尾记录](docs/FINAL_RAMP_CLEANUP_2026-10-24.md) 的 255 PASS 基线保持。开发或向 Chat 请求下一步指导时，请阅读 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md)、[可直接复制给 Chat 的指示文本](docs/CHAT_HANDOFF.md) 和 [本轮整理、性能与验证记录](docs/RUNTIME_CLEANUP_2026-10-15.md)。[原始审阅报告](docs/CODE_REVIEW_2026-10-12.md) 与 [早期修复记录](docs/FIXES_2026-10-13.md) 保留对应修订的证据。
+文档更新至 **2026-11-06**，车辆目录、P2 插混、当前地图及验证流程已同步；本轮修复见 [项目一致性修复](docs/REVIEW_FIXES_2026-11-05.md)。以下 2026-10-24 发布记录仅代表当时修订。最新 [长距离高速与分块加载记录](docs/HIGHWAY_EXTENSION_STREAMING_2026-10-24.md) 包含 Browser v493：32.34km 滨海、30.40km 内陆延伸和 11.64km 联络高速，80/120/160km/h 加载焦点专项通过；该次正式 Windows EXE 保持 v492，不能作为当前安装包版本依据。先前 [匝道结构收尾记录](docs/FINAL_RAMP_CLEANUP_2026-10-24.md) 的 255 PASS 基线保持。开发或向 Chat 请求下一步指导时，请阅读 [当前代码说明](docs/CURRENT_CODE_CONTEXT.md)、[可直接复制给 Chat 的指示文本](docs/CHAT_HANDOFF.md) 和 [本轮整理、性能与验证记录](docs/RUNTIME_CLEANUP_2026-10-15.md)。[原始审阅报告](docs/CODE_REVIEW_2026-10-12.md) 与 [早期修复记录](docs/FIXES_2026-10-13.md) 保留对应修订的证据。
 
 ## 内容导航
 
@@ -55,14 +55,14 @@ pnpm start
 pnpm run dev               # Vite / Browser
 pnpm run desktop:dev       # Electron + 独立 Vite 缓存，源码热更新
 pnpm run desktop:build     # 桌面 TypeScript 检查 + main/preload 构建
-pnpm run desktop:package   # 轻量游戏构建 + 桌面构建 + Windows x64 目录包
+pnpm run desktop:package   # 完整游戏构建 + 桌面构建 + Windows x64 目录包
 ```
 
 桌面开发与打包需要 Node 22.12+；首次安装需下载 Electron 官方运行时。桌面壳源码改动后重新执行 `desktop:dev`。项目内 `release/` 仅为临时打包目录；完整正式包发布到 `D:\DriverSchoolRelease\DriverSchool-win32-x64`，入口为该目录的 `DriverSchool.exe`，必须保留整个目录。发布采用完整目录替换，不覆盖混用旧 runtime/resources。此阶段是未签名目录包，没有安装器或自动更新。
 
 启动时先显示可操作菜单，再准备当前车辆的轻量 3D 展示；完整驾驶场地在点击“开始驾驶”后加载。车辆页用左右箭头切车，驾驶资源就绪后进入场景。`Esc` 打开暂停菜单，冻结仿真并降低音量；从暂停进入设置后仍保持暂停。驾驶中直接 `F3` 保留原有设置的制动输入/物理策略。`F1` 切换 HUD 整体开关，暂停菜单提供 Realistic / Standard / Assisted–Training / Off。拖动鼠标观察，双击驾驶画面进入 Pointer Lock，`Esc` 退出并暂停。菜单支持鼠标、Tab、上下方向键和 Enter。
 
-交付可玩版本时，先做相关轻量专项检查，执行 `pnpm run build -BasicValidation`，再执行 `pnpm run desktop:package`，确认 `dist/`、外部正式目录及正式 EXE 启动 smoke。`desktop:package` 本身会再做一次 Browser 构建。除任务明确要求，不例行运行全核心/全系统。不要修改 ACL 或关闭 Electron sandbox、Defender、SmartScreen。
+代码修改后先运行相关专项；车辆系统改动还需完整核心及平台/车辆回归，最后执行 `pnpm run build`（类型检查、核心自测、Vite 暂存与正式 dist 发布）。只有用户明确授权时才能使用 `-BasicValidation`。需要桌面交付时再运行 `pnpm run desktop:package`，其内部同样执行完整 Browser 构建，并检查外部正式包和 EXE 启动。不要修改 ACL 或关闭 Electron sandbox、Defender、SmartScreen。
 
 新增架构与保留边界见 [桌面化与 UI 第一阶段](docs/DESKTOP_UI_PHASE1.md)。
 
@@ -101,9 +101,14 @@ pnpm run desktop:package   # 轻量游戏构建 + 桌面构建 + Windows x64 目
 | Tesla Model 3 RWD | `tesla-model-3-rwd` | 单后轴永磁电机、固定减速、60 kWh 可用电池；松电门回收、制动融合、无怠速蠕行 | 有 |
 | BMW 530Li | `bmw-530li-g38` | G38 LCI 长轴版、2.0T INLINE4、350 Nm、8AT、RWD、3.105 m 轴距；独立座舱与仪表、EPB / Auto Hold / Start-Stop | 有 |
 | Porsche Taycan 4S | `porsche-taycan-4s` | 双 PSM AWD、105/97 kWh 电池、前单速/后两速；常规峰值 380 kW、Launch Control 440 kW、空气悬架 | 有 |
-| Volkswagen Golf GTI | `volkswagen-golf-gti` | Mk7.5 风格、2.0T L4、350 Nm、7DCT、前驱与制动式 eDiff，独立前舱与四页中控 | 有 |
+| Volkswagen Golf GTI | `volkswagen-golf-gti` | Mk8 内外饰、2.0T L4、350 Nm、7DCT、前驱与制动式 eDiff，独立前舱与四页中控 | 有 |
+| Mercedes-Benz E 300 L | `mercedes-e300l-v214` | 2.0T L4、9AT、后驱，V214 专用座舱 | 有 |
+| Mercedes-Maybach S 680 | `mercedes-maybach-s680-z223` | 6.0T V12、9AT、全时 AWD、空气悬架、后轮转向 | 有 |
+| Xiaomi SU7 Max (2026) | `xiaomi-su7-max-2026` | 双电机 AWD、双轴单速、101.7 kWh，专用仪表和中控 | 有 |
+| Koenigsegg Jesko Attack | `koenigsegg-jesko-attack` | 5.0T V8、9LST 简化模型、后驱、主动气动 | 无 |
+| Tank 500 Hi4-T | `tank-500-hi4-t` | 2.0T + 单 P2 电机、9HAT、37.1 kWh、机械四驱 | 有 |
 
-正式目录共 12 辆车（10 辆燃油、2 辆纯电）。现实车型名表示原型，车身与参数采用当前游戏实现，并非生产车型的完整复刻；Mazda 以 CX-4 仪表为原型，现有车身仍为简化轿车。GT 的现实原型尚未唯一确认。458 为首轮公路标定，不代表原厂悬架或 E-Diff 数据。全时与适时 AWD 试验车保留在 `src/vehicle/fixtures/awdVehicleFixture.ts`，供 selftest 使用，不进入车辆菜单。
+正式目录共 17 辆车（13 辆燃油、3 辆纯电、1 辆 P2 插混）。现实车型名表示原型，车身与参数采用当前游戏实现，并非生产车型的完整复刻；Mazda 以 CX-4 仪表为原型，现有车身仍为简化轿车。GT 的现实原型尚未唯一确认。458 为首轮公路标定，不代表原厂悬架或 E-Diff 数据。全时与适时 AWD 试验车保留在 `src/vehicle/fixtures/awdVehicleFixture.ts`，供 selftest 使用，不进入车辆菜单。
 
 458 默认 SPORT，通过 `T` 或手柄 B 循环 WET / SPORT / RACE，改变油门响应、换挡速度与策略、TCS / ESC 介入阈值和自适应阻尼，保留辅助系统保护。D 挡支持临时手动选挡与超转保护。中央黄色转速表、侧信息屏和方向盘跃马徽章采用程序化视觉。
 
@@ -435,7 +440,7 @@ MapAPI 的 `splitRoadAtPoint` 可显式拆路并保留或重映射外部连接�
 
 ## 当前范围与常见问题
 
-当前物理采用平面底盘与轻量四角悬挂，已有悬架运动学标定、纯电单/双轴动力链、回收制动、简化电驱热状态、胎温胎压和 LKA/LCC。尚未模拟完整六自由度刚体、离地飞行、车辆损伤、完整连杆/液压系统、轮胎磨损/漏气/水滑、温度峰值抓地、Hybrid、ACC、BSD、主动空气动力或专用越野模式。AT/DCT 临时手动选挡与 EV 后轴两速已实现，没有独立 S / M 选择器位置。
+当前物理采用平面底盘与轻量四角悬挂，已有悬架运动学标定、P2 插混与分动模式、配置化主动气动、纯电单/双轴动力链、回收制动、简化电驱热状态、胎温胎压和 LKA/LCC。尚未模拟完整六自由度刚体、离地飞行、车辆损伤、完整连杆/液压系统、轮胎磨损/漏气/水滑、温度峰值抓地、ACC、BSD 或完整桥锁/整体后桥求解。AT/DCT 临时手动选挡与 EV 后轴两速已实现，没有独立 S / M 选择器位置。
 
 城市道路提供信号灯与路网元数据，区域地图有桥隧、简化围护结构/隧道照明和高速设施，闭环测试场提供单车圈速记录；尚无 AI 交通、行人、自动寻路、考试评分、比赛或多人模式。城市编辑器支持道路高程、基础设施预设和 API 显式拆路，尚无 GUI 自动拆路、完整 CAD/地形开挖或 GUI 直接覆盖本地文件的流程。倒车提示和影像不执行自动泊车或避障制动。
 

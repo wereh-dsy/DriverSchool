@@ -18,7 +18,9 @@ function artwork(kind:GTISurface):T.CanvasTexture {
     c.fillStyle='#0c1014';c.fillRect(0,0,768,512);
     line(c,[[22,20],[745,20]],'#525b62',2);line(c,[[24,490],[744,490]],'#747b80',2);
   } else if (kind === 'badge') {
-    c.clearRect(0, 0, 512, 512); c.save();
+    c.clearRect(0,0,512,512);const rim=c.createRadialGradient(214,180,40,256,256,250);
+    rim.addColorStop(0,'#515c64');rim.addColorStop(.91,'#10171e');rim.addColorStop(.94,'#aab6be');rim.addColorStop(.97,'#e1e7eb');rim.addColorStop(1,'#4a5761');
+    c.fillStyle=rim;c.beginPath();c.arc(256,256,250,0,Math.PI*2);c.fill();c.save();
     c.translate(24,24); c.scale(464/24,464/24); c.fillStyle = '#d7dddf';
     // Browser-native vector rasterization, synchronously ready for staged warmup.
     // Node geometry tests have no Path2D; their canvas stub does not render pixels.
@@ -36,10 +38,10 @@ function artwork(kind:GTISurface):T.CanvasTexture {
     line(c, [[80, 70], [80, 470], [944, 470], [944, 70]], '#55585a', 3);
     c.fillStyle = '#14181b'; c.fillRect(340, 265, 344, 90); text('GOLF GTI', 512, 328, 36, '#d7d9da'); text('GTI', 190, 210, 36, '#ad2734');
   } else {
-    for (const x of [382, 724]) {
+    for (const x of [320,581,870]) {
       line(c, [[x, 18], [x, 442]], '#727575', 2);
-      c.fillStyle = '#999c9a'; c.fillRect(x - 85, 83, 70, 9); c.fillStyle = '#3d4245'; c.fillRect(x - 83, 91, 65, 3);
     }
+    for(const x of [598,828]){c.fillStyle='#a2a6a8';c.fillRect(x-85,83,70,9);c.fillStyle='#3d4245';c.fillRect(x-83,91,65,3);}
     line(c, [[0, 470], [1024, 470]], '#1c2023', 28); text('GTI', 205, 130, 29, '#b21c32');
   }
   const t = new T.CanvasTexture(cv); t.colorSpace = T.SRGBColorSpace; t.anisotropy = 8;
@@ -54,7 +56,7 @@ function reflection(assets?:VehicleAssetRegistry):T.Texture {
 }
 
 function microSurface(kind:GTICockpitSurface,assets?:VehicleAssetRegistry) {
-  const key=['console-deck','controls','light-controls'].includes(kind)?'console-deck':kind;
+  const key=['console-deck','controls','light-controls','door-controls'].includes(kind)?'console-deck':kind;
   if(!assets)return gtiMicroMaps(key);
   const holder=assets.mesh(assets,'gti-micro/'+key,()=>{
     const maps=gtiMicroMaps(key);
@@ -66,7 +68,7 @@ function microSurface(kind:GTICockpitSurface,assets?:VehicleAssetRegistry) {
 export function gtiMaterial(kind: GTISurface, owner: object, assets?: VehicleAssetRegistry): T.MeshStandardMaterial {
   const build = () => {
     const map = artwork(kind);
-    const gloss=['display-trim','console-deck','controls','light-controls'].includes(kind);
+    const gloss=['display-trim','console-deck','controls','light-controls','door-controls'].includes(kind);
     const Constructor=gloss?T.MeshPhysicalMaterial:T.MeshStandardMaterial;
     const material = new Constructor({ color: 0xffffff, map, side: T.DoubleSide,
       roughness: kind==='display-trim'?.65:(GTI_COCKPIT_SURFACES as readonly string[]).includes(kind)?1:.88, metalness:0,
@@ -79,6 +81,7 @@ export function gtiMaterial(kind: GTISurface, owner: object, assets?: VehicleAss
       if(kind==='technical') {material.metalness=.35;material.metalnessMap=micro.orm;}
     }
     if(material instanceof T.MeshPhysicalMaterial) {material.specularIntensity=.30;material.clearcoat=.10;material.clearcoatRoughness=.18;}
+    if(kind==='badge'){material.roughness=.26;material.metalness=.55;material.alphaTest=.02;material.envMap=reflection(assets);material.envMapIntensity=.5;}
     if(['display-trim','console-deck','controls','light-controls','technical'].includes(kind)) {
       material.envMap=reflection(assets);material.envMapIntensity=kind==='technical'?.22:.65;
     }

@@ -1,0 +1,169 @@
+{
+  "assertions": 9018,
+  "results": {
+    "ev": {
+      "speed": 17.765401513974943,
+      "soc": 0.7440160039201654,
+      "fuelL": 0
+    },
+    "lowSOC": {
+      "speed": 33.29523203275533,
+      "rpm": 3253.1777547741767,
+      "clutch": 1,
+      "soc": 0.13053384379127045
+    },
+    "HYBRID": {
+      "mode": "HYBRID",
+      "state": "BOOST",
+      "holdSOC": 0.5,
+      "engineRequested": true,
+      "enginePhase": "RUNNING",
+      "clutchEngagement": 1,
+      "clutchSlipRPM": 27.509405622856182,
+      "clutchTorque": 326.73825400841525,
+      "enginePowerW": 130719.66340484706,
+      "motorPowerW": 120000,
+      "generationPowerW": 0,
+      "wheelPowerW": 227747.9478179769,
+      "clutchLossW": 941.2604458905038,
+      "transmissionLossW": 22030.455140980077,
+      "electricalLossW": 12919.90427968296,
+      "battery": {
+        "soc": 0.7392691524231559,
+        "energyKWh": 27.426885554899087,
+        "temperatureC": 20.290393817419872,
+        "voltage": 348.17714765271376,
+        "current": 383.62628098990314,
+        "internalResistance": 0.055,
+        "dischargePowerW": 150000,
+        "chargePowerW": 70000,
+        "connector": null,
+        "state": "DISCONNECTED",
+        "gridPowerW": 0,
+        "gridEnergyKWh": 0,
+        "chargerLossKWh": 0,
+        "thermalCapability": 1
+      },
+      "transfer": {
+        "mode": "AWD",
+        "ratio": 1,
+        "frontShare": 0.35,
+        "rearShare": 0.65,
+        "centerCoupling": "VARIABLE",
+        "rejectedReason": null,
+        "axleLocks": "NOT_SIMULATED"
+      }
+    },
+    "SPORT": {
+      "mode": "SPORT",
+      "state": "BOOST",
+      "holdSOC": 0.5,
+      "engineRequested": true,
+      "enginePhase": "RUNNING",
+      "clutchEngagement": 1,
+      "clutchSlipRPM": 34.81799259710044,
+      "clutchTorque": 369.301613023785,
+      "enginePowerW": 148030.82682000645,
+      "motorPowerW": 106526.73175221497,
+      "generationPowerW": 0,
+      "wheelPowerW": 230877.82287046636,
+      "clutchLossW": 1346.5223027909196,
+      "transmissionLossW": 22333.213398963766,
+      "electricalLossW": 11338.51519416504,
+      "battery": {
+        "soc": 0.7402515258505228,
+        "energyKWh": 27.463331609054396,
+        "temperatureC": 20.245187939589233,
+        "voltage": 350.78390779157786,
+        "current": 337.8582777428809,
+        "internalResistance": 0.055,
+        "dischargePowerW": 150000,
+        "chargePowerW": 70000,
+        "connector": null,
+        "state": "DISCONNECTED",
+        "gridPowerW": 0,
+        "gridEnergyKWh": 0,
+        "chargerLossKWh": 0,
+        "thermalCapability": 1
+      },
+      "transfer": {
+        "mode": "AWD",
+        "ratio": 1,
+        "frontShare": 0.35,
+        "rearShare": 0.65,
+        "centerCoupling": "VARIABLE",
+        "rejectedReason": null,
+        "axleLocks": "NOT_SIMULATED"
+      }
+    },
+    "charge": {
+      "gainedKWh": 0.3768556431118295,
+      "fuelL": 0.16790179033376249,
+      "generatorW": 27777.846711121758
+    },
+    "plugAC": {
+      "gainKWh": 0.9939954245346634,
+      "inputKWh": 1.100000000000009
+    },
+    "plugDC": {
+      "gainKWh": 7.716655552293949,
+      "inputKWh": 8.333333333333444
+    },
+    "driveEnergyResidualW": 0,
+    "regenEnergyResidualW": 0,
+    "braking": {
+      "regenSamples": 398,
+      "hydraulicSamples": 400,
+      "finalSpeed": 1.3289642845671765
+    },
+    "shifts": {
+      "samples": 288,
+      "maximumWheelTorqueStep": 110.40893628887352,
+      "speed": 45.054000485155335
+    },
+    "climb": {
+      "speed": 10.165954402615455,
+      "soc": 0.1349237086625785,
+      "rpm": 2716.6733275562574
+    },
+    "mud": {
+      "speed": 2.4929966605312295,
+      "frontShare": 0.19702711012449733
+    },
+    "gravel": {
+      "speed": 12.749757529568798,
+      "frontShare": 0.24761239886422357
+    },
+    "wet-asphalt": {
+      "speed": 14.188963337057556,
+      "frontShare": 0.2589283351118987
+    },
+    "sand": {
+      "speed": 4.606305335966083,
+      "frontShare": 0.15004052039968638
+    },
+    "sustained": {
+      "soc": 0.03153376880039543,
+      "batteryTemperature": 21.87075247769326,
+      "motorTemperature": 28.492764333686903,
+      "engineTemperature": 54.320888503066385,
+      "fuelL": 6.283331150805342
+    },
+    "mercedes-e300l-v214": {
+      "speed": 7.46843580193357,
+      "kind": "ICE"
+    },
+    "tesla-model-3-rwd": {
+      "speed": 8.92853634116487,
+      "kind": "EV"
+    },
+    "porsche-taycan-4s": {
+      "speed": 12.287771578571451,
+      "kind": "EV"
+    },
+    "xiaomi-su7-max-2026": {
+      "speed": 14.839253066752256,
+      "kind": "EV"
+    }
+  }
+}

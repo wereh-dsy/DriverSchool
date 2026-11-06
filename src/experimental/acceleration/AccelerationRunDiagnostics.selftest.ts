@@ -37,7 +37,14 @@ export function runAccelerationRunDiagnosticsSelfTest() {
   const report = JSON.parse(recorder.serialize()!);
   assert(report.measurement.to100.elapsedSeconds === test.state.to100!.elapsedSeconds, 'exports the real passive-meter result');
   assert(report.initial.driveMode === 'SPORT_PLUS' && report.initial.driver.throttle === 1, 'captures actual mode and pedal');
-  assert(report.summary.throttleBelow95Seconds === 0 && report.summary.serviceBrakeSeconds === 0, 'full pedal without brake drag');
+  assert(report.summary.throttleBelow95Seconds === 0 && report.samples.every((s: {
+    driver: { brake: number }; actuator: { brake: number };
+  }) => s.driver.brake === 0 && s.actuator.brake === 0), 'full pedal without driver/assistance pedal overlap');
+  // serviceBrakeSeconds deliberately records all physical hydraulic work,
+  // including wheel TCS. It must not hide that work to imply a brake-free run.
+  assert(report.summary.serviceBrakeSeconds > 0 && report.summary.tcsSeconds > 0 &&
+    report.samples.some((s: { assists: { tcsActive: boolean }; wheels: { brakeTorque: number }[] }) =>
+      s.assists.tcsActive && s.wheels.some(w => w.brakeTorque > 1)), 'captures real TCS braking during full-pedal acceleration');
   assert(report.summary.surfaces.join() === 'asphalt' && report.summary.peakThermalDerate === 0, 'captures surface and thermal state');
   const sample = report.samples.find((s: { speedKmh: number }) => s.speedKmh > 30);
   assert(sample.powertrain.ev.frontDriveUnit.requestedTorque > 0 && sample.powertrain.ev.rearDriveUnit.deliveredTorque > 0,

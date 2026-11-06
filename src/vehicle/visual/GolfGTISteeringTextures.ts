@@ -5,7 +5,7 @@ export const GTI_STEERING_ATLAS = {
   left: [0, .625, .5, .375], right: [.5, .625, .5, .375], lower: [.15, .5, .2, .125], hub: [.5, .125, .5, .375],
 } as const;
 
-/** Static artwork based on the supplied VW steering reference. No button/input logic. */
+/** Shared printed wheel artwork; the VIEW region is bound by the Golf cabin. */
 function canvas(fill: string, height = 1024): HTMLCanvasElement {
   const cv = document.createElement('canvas'); cv.width = 1024; cv.height = height;
   const c = cv.getContext('2d')!; c.fillStyle = fill; c.fillRect(0, 0, cv.width, cv.height); return cv;
@@ -79,6 +79,7 @@ function buildMaterials(): { rim: T.MeshStandardMaterial; controls: T.MeshStanda
   // Volume marks sit beside the cruise key, following the physical reference layout.
   icon(ctx=>{path(ctx,[[53,235],[65,235],[77,225],[77,254],[65,244],[53,244],[53,235]],4,'#d6dce0');});
   label('OK',768,267,35);
+  label('VIEW',768,358,22);
   icon(ctx=>{
     path(ctx,[[751,215],[768,202],[785,215]],5,'#d6dce0');path(ctx,[[751,312],[768,325],[785,312]],5,'#d6dce0');
     path(ctx,[[702,251],[686,265],[702,279]],5,'#d6dce0');path(ctx,[[835,251],[851,265],[835,279]],5,'#d6dce0');

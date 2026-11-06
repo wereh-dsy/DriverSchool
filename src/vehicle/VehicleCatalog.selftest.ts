@@ -298,8 +298,8 @@ const accelerationSample = (id: ICEVehicleId): AccelerationSample => {
 };
 
 export function runVehicleCatalogSelfTest(): VehicleCatalogSelfTestResult {
-  assert(VEHICLE_CATALOG.length === 15 && isVehicleId('koenigsegg-jesko-attack') && isVehicleId('xiaomi-su7-max-2026') && isVehicleId('porsche-taycan-4s') && isVehicleId('volkswagen-golf-gti') &&
-    isVehicleId('mercedes-e300l-v214'), 'fifteen official vehicles including Jesko, SU7 Max, Taycan, Golf and E 300 L');
+  assert(VEHICLE_CATALOG.length === 17 && isVehicleId('tank-500-hi4-t') && isVehicleId('mercedes-maybach-s680-z223') && isVehicleId('koenigsegg-jesko-attack') && isVehicleId('xiaomi-su7-max-2026') && isVehicleId('porsche-taycan-4s') && isVehicleId('volkswagen-golf-gti') &&
+    isVehicleId('mercedes-e300l-v214'), 'seventeen official vehicles including Tank 500, Maybach, Jesko, SU7 Max, Taycan, Golf and E 300 L');
   assert(!isVehicleId('test-awd-full-time') && !isVehicleId('test-awd-on-demand'), 'AWD fixtures must not be selectable');
   assert(isVehicleId(DEFAULT_VEHICLE_ID), 'default vehicle must resolve by stable ID');
   assert(VEHICLE_CATALOG.length === VEHICLE_IDS.length, 'catalog/order length mismatch');

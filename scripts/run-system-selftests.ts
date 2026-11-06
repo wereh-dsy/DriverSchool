@@ -1,3 +1,5 @@
+import { runRegionalReleaseBaselineSelfTest } from '../src/world/regional/RegionalReleaseBaseline.selftest';
+import { runRecentVehicleSystemsSelfTest } from '../src/vehicle/RecentVehicleSystems.selftest';
 import { runVehiclePlatformFoundationSelfTest } from '../src/vehicle/VehiclePlatformFoundation.selftest';
 import { runNavigationSelfTest } from '../src/world/navigation/Navigation.selftest';
 import { runNavigationDisplaysSelfTest } from '../src/vehicle/visual/NavigationDisplays.selftest';
@@ -21,8 +23,8 @@ import { runRegionalWorldSelfTest } from '../src/world/regional/RegionalWorld.se
 import { runHighwaySystemSelfTest } from '../src/world/regional/HighwaySystem.selftest';
 import type { CityMapData } from '../src/world/city/CityMapData';
 import regional from '../src/world/regional/regional-main.json';
-import city from '../src/world/city/maps/city-main.json';
-import highwayBaseline from '../artifacts/highway-system/baseline.json';
+
+
 import { runGolfGTISelfTest } from '../src/vehicle/visual/GolfGTI.selftest';
 import { runTractionPerformanceSelfTest } from '../src/vehicle/physics/TractionPerformance.selftest';
 import { runSurfaceInteractionSelfTest } from '../src/vehicle/physics/SurfaceInteraction.selftest';
@@ -33,6 +35,8 @@ import { runVehicleInteractionSelfTest } from '../src/vehicle/interaction/Vehicl
 
 // Read-only integration runner: historical artifacts and map sources are inputs.
 const results = {
+  regionalBaseline: runRegionalReleaseBaselineSelfTest(regional as CityMapData),
+  recentVehicles: runRecentVehicleSystemsSelfTest(),
   navigation: runNavigationSelfTest(regional as CityMapData),
   navigationDisplays: runNavigationDisplaysSelfTest(),
   platform: await runVehiclePlatformFoundationSelfTest(),
@@ -52,8 +56,8 @@ const results = {
   weatherAudio: runWeatherAudioMixSelfTest(),
   selection: runLaneAssistStateSelfTest(),
   selectionDisplay: runLaneAssistSelectionDisplaySelfTest(),
-  regional: runRegionalWorldSelfTest(regional as CityMapData, city as CityMapData),
-  highway: runHighwaySystemSelfTest(regional as CityMapData, highwayBaseline),
+  regional: runRegionalWorldSelfTest(regional as CityMapData),
+  highway: runHighwaySystemSelfTest(regional as CityMapData),
   golf: runGolfGTISelfTest(),
   traction: runTractionPerformanceSelfTest(),
   surface: runSurfaceInteractionSelfTest(),

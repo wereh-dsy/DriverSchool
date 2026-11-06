@@ -25,6 +25,8 @@ export interface VehicleCabinAcousticsProfile {
   readonly openLowpassHz: number;
   /** Extra wind/road exposure from vehicle speed once open. */
   readonly speedExposure: number;
+  /** Open-door exposure replaces the window contribution instead of multiplying it. */
+  readonly openingMix?: 'door-dominant';
 }
 
 /**
@@ -73,14 +75,16 @@ export function evaluateCabinAcoustics(
     (1 - profile.doorOpenLoss * doorOpenAmount),
   );
   const speedGain = 1 + profile.speedExposure * openness * speed;
-  const windScale = (1 + (profile.windowWindScale - 1) * windowPosition) *
-    (1 + (profile.doorWindScale - 1) * doorOpenAmount) * speedGain;
-  const roadScale = (1 + (profile.windowRoadScale - 1) * windowPosition) *
-    (1 + (profile.doorRoadScale - 1) * doorOpenAmount) * (1 + profile.speedExposure * .6 * openness * speed);
-  const engineScale = (1 + (profile.windowEngineScale - 1) * windowPosition) *
-    (1 + (profile.doorEngineScale - 1) * doorOpenAmount);
-  const ambienceScale = (1 + (profile.windowAmbienceScale - 1) * windowPosition) *
-    (1 + (profile.doorAmbienceScale - 1) * doorOpenAmount);
+  const exposure = (window: number, door: number): number => {
+    const throughWindow = 1 + (window - 1) * windowPosition;
+    return profile.openingMix === 'door-dominant'
+      ? throughWindow + (door - throughWindow) * doorOpenAmount
+      : throughWindow * (1 + (door - 1) * doorOpenAmount);
+  };
+  const windScale = exposure(profile.windowWindScale, profile.doorWindScale) * speedGain;
+  const roadScale = exposure(profile.windowRoadScale, profile.doorRoadScale) * (1 + profile.speedExposure * .6 * openness * speed);
+  const engineScale = exposure(profile.windowEngineScale, profile.doorEngineScale);
+  const ambienceScale = exposure(profile.windowAmbienceScale, profile.doorAmbienceScale);
   const lowpassHz = (profile.closedLowpassHz +
     (profile.openLowpassHz - profile.closedLowpassHz) * openness) *
     (1 + profile.speedExposure * .15 * openness * speed);

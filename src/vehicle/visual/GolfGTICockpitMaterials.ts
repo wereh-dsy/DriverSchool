@@ -1,6 +1,6 @@
 import * as T from 'three';
 
-export const GTI_COCKPIT_SURFACES=['soft','leather','tartan','technical','rubber','lower','fascia','controls','console-deck','light-controls'] as const;
+export const GTI_COCKPIT_SURFACES=['soft','leather','tartan','technical','rubber','lower','fascia','controls','console-deck','light-controls','door-controls'] as const;
 export type GTICockpitSurface=typeof GTI_COCKPIT_SURFACES[number];
 const label=(c:CanvasRenderingContext2D,s:string,x:number,y:number,size=24,color='#d4d6d7')=>{
   c.font=`500 ${size}px Segoe UI, Microsoft YaHei, sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillStyle=color;c.fillText(s,x,y);
@@ -94,6 +94,13 @@ export function gtiCockpitArtwork(kind:GTICockpitSurface):T.CanvasTexture {
     c.fillStyle='#101316';c.fillRect(0,0,w,h);
     label(c,'ASSIST',270,172,64);label(c,'CLIMA',752,172,64);label(c,'MENU',270,784,64);label(c,'MODE',752,784,64);
     c.strokeStyle='#c3313e';c.lineWidth=11;c.beginPath();c.moveTo(512,390);c.lineTo(621,592);c.lineTo(403,592);c.closePath();c.stroke();label(c,'!',512,538,110,'#c3313e');
+  } else if(kind==='door-controls') {
+    c.fillStyle='#171b1e';c.fillRect(0,0,w,h);
+    for(const [x,y] of [[260,290],[690,290],[260,580],[690,580]]) {
+      c.fillStyle='#0a0e11';c.fillRect(x!-150,y!-110,300,225);c.strokeStyle='#69747d';c.lineWidth=4;c.strokeRect(x!-58,y!-38,116,76);
+      stroke(c,x!-53,y!+18,106,'#d0d6db',4);stroke(c,x!-140,y!+112,280,'#424b53',3);
+    }
+    label(c,'L  ·  R',512,116,40,'#c0c9d1');label(c,'▣',512,861,45,'#bfc7cd');
   } else if(kind==='light-controls') {
     c.fillStyle='#0a0e12';c.fillRect(0,0,w,h);label(c,'AUTO',512,170,63,'#d8a561');
     for(const [s,x,y] of [['FRONT',265,390],['MODE',740,390],['REAR',265,690],['MAX',740,690]] as const) {

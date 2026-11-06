@@ -10,14 +10,14 @@ const STYLES = {
 
 /** Mode selection artwork; subdued styling does not claim controller engagement. */
 export function drawLaneAssistSelection(c: CanvasRenderingContext2D, state: LaneAssistState | undefined,
-  skin: LaneAssistSkin, x: number, y: number, scale = 1): void {
+  skin: LaneAssistSkin, x: number, y: number, scale = 1, fontFamily?:string): void {
   if (!state || state.mode === LaneAssistMode.OFF && !state.notificationVisible) return;
   const style = STYLES[skin], popup = state.notificationVisible;
   c.save(); c.translate(x, y); c.scale(scale, scale);
   if (popup) {
     c.fillStyle = style.background; c.strokeStyle = style.edge; c.lineWidth = 1;
     c.beginPath(); c.roundRect(-112, -35, 224, 70, skin === 'audi' ? 3 : 9); c.fill(); c.stroke();
-    c.fillStyle = style.foreground; c.font = `18px ${style.font}`;
+    c.fillStyle = style.foreground; c.font = `18px ${fontFamily??style.font}`;
     c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('Lane Assist', 0, -16);
   }
   c.translate(0, popup ? 14 : 0);
@@ -28,6 +28,6 @@ export function drawLaneAssistSelection(c: CanvasRenderingContext2D, state: Lane
     c.beginPath(); c.arc(-36, 0, 7, 0, Math.PI * 2); c.moveTo(-43, 0); c.lineTo(-29, 0);
     c.moveTo(-36, 0); c.lineTo(-36, 7); c.stroke();
   }
-  c.font = `500 23px ${style.font}`; c.textAlign = 'left'; c.textBaseline = 'middle';
+  c.font = `500 23px ${fontFamily??style.font}`; c.textAlign = 'left'; c.textBaseline = 'middle';
   c.fillText(LANE_ASSIST_LABELS[state.mode], -4, 0); c.restore();
 }

@@ -8,6 +8,7 @@ export class SteeringSystem {
   public steeringWheelAngle = 0;
   public leftRoadWheelAngle = 0;
   public rightRoadWheelAngle = 0;
+  public rearRoadWheelAngle = 0;
   /** Diagnostic neutral-input rack return rate, in s^-1. */
   public selfCenteringRate = 0;
   private returnSurfaceGrip = 1;
@@ -24,6 +25,7 @@ export class SteeringSystem {
     this.steeringWheelAngle = 0;
     this.leftRoadWheelAngle = 0;
     this.rightRoadWheelAngle = 0;
+    this.rearRoadWheelAngle = 0;
     this.selfCenteringRate = 0;
     this.returnSurfaceGrip = 1;
   }
@@ -62,6 +64,14 @@ export class SteeringSystem {
       -roadLimit, roadLimit);
 
     this.updateAckermannAngles();
+    const rear = this.config.rearAxle;
+    if (rear) {
+      const blend = smoothUnit((safeSpeed - rear.transitionStartSpeed) /
+        (rear.transitionEndSpeed - rear.transitionStartSpeed));
+      const ratio = rear.lowSpeedRatio + (rear.highSpeedRatio - rear.lowSpeedRatio) * blend;
+      this.rearRoadWheelAngle = damp(this.rearRoadWheelAngle,
+        clamp(this.steeringAngle * ratio, -rear.maximumAngle, rear.maximumAngle), rear.response, safeDt);
+    }
 
     if (!Number.isFinite(this.steeringAngle)) this.reset();
   }

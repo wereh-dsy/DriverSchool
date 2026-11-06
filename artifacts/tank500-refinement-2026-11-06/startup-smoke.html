@@ -1,0 +1,30 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Tank startup and access smoke</title>
+<link rel="stylesheet" href="/src/styles.css"><link rel="stylesheet" href="/src/ui/design/system.css"><div id="app"></div>
+<script type="module">
+import {StartupApplication} from '/src/game/startup/StartupApplication.ts';
+const app=new StartupApplication(document.querySelector('#app'));
+const check=(ok,message)=>{if(!ok)throw Error(message)};
+const wait=async(test,limit=60000)=>{const begin=performance.now();while(!test()){if(performance.now()-begin>limit)throw Error('Tank startup/access timeout');if(app.ui.state.loading.phase==='error')throw Error(app.ui.state.loading.message);await new Promise(r=>setTimeout(r,30));}};
+const painted=async()=>{for(let i=0;i<4;i++)await new Promise(requestAnimationFrame);};
+const key=(code,down=true)=>window.dispatchEvent(new KeyboardEvent(down?'keydown':'keyup',{code,bubbles:true}));
+const tap=async(code)=>{key(code);await painted();key(code,false);};
+window.runTankStartup=async()=>{
+ await wait(()=>performance.getEntriesByName('loading:menuSceneReady').length>0);app.ui.navigate('vehicles');
+ const picker=document.querySelector('[data-vehicle-picker]');picker.value='tank-500-hi4-t';picker.dispatchEvent(new Event('change',{bubbles:true}));
+ await wait(()=>app.menu?.owner?.body.design==='tank-500'&&app.menu.visual?.getObjectByName('Tank bonnet leading return'));
+ app.ui.startDrive();await wait(()=>app.ui.state.screen==='driving'&&document.querySelector('[data-screen="loading"]').hidden,90000);await painted();
+ const game=app.game;check(game.vehicleVisual.root.getObjectByName('Tank bonnet leading return'),'refined body missing from real driving instance');
+ check(game.vehicleVisual.interactionDefinition,'Tank access contract missing');
+ await tap('Digit0');await wait(()=>game.vehicleInteraction.driverDoorOpenFraction>.99);
+ await tap('Digit0');await wait(()=>game.vehicleInteraction.driverDoorOpenFraction<.01);
+ key('Digit9');await wait(()=>game.vehicleInteraction.driverWindowOpenFraction>.35);key('Digit9',false);await painted();
+ const halfWindow=game.vehicleInteraction.driverWindowOpenFraction;check(halfWindow<.85,'window did not stop on release');
+ await tap('Tab');await wait(()=>game.playerMode.mode==='OnFoot'&&!game.playerMode.transitioning);await painted();
+ check(game.vehicleInteraction.driverDoorOpenFraction>.9,'exit did not open driver door');
+ const walker={x:game.walker.position.x,z:game.walker.position.z};
+ await tap('Tab');await wait(()=>game.playerMode.mode==='Driving'&&!game.playerMode.transitioning&&game.vehicleInteraction.driverDoorOpenFraction<.01);await painted();
+ check(Math.abs(game.vehicleInteraction.driverWindowOpenFraction-halfWindow)<.001,'entry changed window state');
+ return {vehicle:app.ui.state.vehicleId,screen:app.ui.state.screen,doorOpenClose:true,windowHoldRelease:halfWindow,exit:true,entry:true,walker,hybridMode:game.snapshot.powertrain.hybrid.mode};
+};
+window.addEventListener('beforeunload',()=>app.dispose());
+</script></html>

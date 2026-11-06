@@ -1,3 +1,5 @@
+import { buildMaybachS680Exterior, buildMaybachS680Wheels } from './MaybachS680Exterior';
+import { buildTank500Exterior, buildTank500Wheels } from './Tank500Exterior';
 import * as THREE from 'three';
 import { buildJeskoAttackExterior, buildJeskoAttackWheels } from './JeskoAttackExterior';
 import { localWheelPositions, VEHICLE_WHEEL_IDS, type VehicleWheelId } from '../VehicleDimensions';
@@ -17,7 +19,9 @@ import { exteriorShapeProfile } from './ExteriorShapeProfiles';
 import { buildRefinedWheels } from './RefinedVehicleExterior';
 import { fitExteriorOverhangs } from './ExteriorEnvelope';
 export function buildVehicleStaticExterior(root: THREE.Group, config: VehicleVisualConfig, assets?: VehicleAssetRegistry): void {
-  if (config.body.design === 'jesko-attack') buildJeskoAttackExterior(root, config);
+  if (config.body.design === 'tank-500') buildTank500Exterior(root, config);
+  else if (config.body.design === 'maybach-z223') buildMaybachS680Exterior(root, config);
+  else if (config.body.design === 'jesko-attack') buildJeskoAttackExterior(root, config);
   else if (config.body.exterior === 'xiaomi-su7') buildSU7MaxExterior(root, config);
   else if (config.body.exterior === 'tesla-model-3') buildTeslaModel3Exterior(root, config);
   else if (config.body.design === 'bmw-g38') buildBMW530Exterior(root, config);
@@ -36,6 +40,8 @@ export function prepareVehicleExterior(config: VehicleVisualConfig, assets: Vehi
   assets.prepareSection(config, 'exterior', root => buildVehicleStaticExterior(root, config, assets));
 }
 export function buildVehicleStaticWheels(root: THREE.Group, config: VehicleVisualConfig): { pivots: Record<VehicleWheelId, THREE.Group>; wheels: THREE.Mesh[] } {
+    if (config.body.design === 'tank-500') return buildTank500Wheels(root, config);
+    if (config.body.design === 'maybach-z223') return buildMaybachS680Wheels(root, config);
     if (config.body.design === 'jesko-attack') return buildJeskoAttackWheels(root, config);
     if (config.body.exterior === 'xiaomi-su7') return buildSU7MaxWheels(root,config);
     const wheelPivots = {} as Record<VehicleWheelId, THREE.Group>, wheelMeshes: THREE.Mesh[] = [];

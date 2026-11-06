@@ -1,3 +1,5 @@
+import { buildMaybachS680Cabin } from './MaybachS680Cabin';
+import { buildTank500Cabin } from './Tank500Cabin';
 import { addJeskoInteriorCanopy } from './JeskoCanopy';
 import * as THREE from 'three';
 import { addJeskoAttackCabin } from './JeskoAttackCabin';
@@ -96,6 +98,7 @@ export class Cockpit extends THREE.Group {
   private bmwCabin: BMW530CabinState | null = null;
   private su7Cabin?: SU7MaxCabinState;
   private jeskoCabin?: ReturnType<typeof addJeskoAttackCabin>;
+  private tankCabin?: ReturnType<typeof buildTank500Cabin>;
   private mercedesCabin: MercedesE300LCabinState | null = null;
   public readonly gtiCabin?: GolfGTICabinState;
   public readonly taycanDisplays?: TaycanCabinDisplays;
@@ -114,6 +117,11 @@ export class Cockpit extends THREE.Group {
     this.consoleWidth = this.layout.consoleWidth;
     this.floorY = this.layout.floorHeight;
 
+    if (config.body.design === 'tank-500') {
+      this.tankCabin = buildTank500Cabin(this, config, this);
+      this.instrumentCluster = this.tankCabin.instrument; return;
+    }
+
     if (config.body.exterior === 'xiaomi-su7') {
       this.su7Cabin=buildSU7MaxCabin(this,config,this);
       this.instrumentCluster=this.su7Cabin.instrument;return;
@@ -126,6 +134,10 @@ export class Cockpit extends THREE.Group {
       this.bmwCabin = buildBMW530Cabin(this, config, this, assets);
       this.instrumentCluster = this.bmwCabin.instrument;
       return;
+    }
+    if (config.body.design === 'maybach-z223') {
+      this.mercedesCabin = buildMaybachS680Cabin(this, config, this, assets);
+      this.instrumentCluster = this.mercedesCabin.instrument; return;
     }
     if (config.body.design === 'mercedes-v214') {
       this.mercedesCabin = buildMercedesE300LCabin(this, config, this, assets);
@@ -257,10 +269,12 @@ export class Cockpit extends THREE.Group {
 
   /** Updates every cockpit instrument from one render-facing state object. */
   public handleDisplayClick(raycaster: THREE.Raycaster): boolean {
+    if (this.tankCabin) return this.tankCabin.click(raycaster);
     return this.gtiCabin?.click(raycaster) ?? this.taycanDisplays?.click(raycaster) ?? this.bmwCabin?.click(raycaster) ?? this.mercedesCabin?.click(raycaster) ?? false;
   }
 
   public cycleCenterDisplayPage(): boolean {
+    if (this.tankCabin) { this.tankCabin.cyclePage(); return true; }
     if (this.gtiCabin) { this.gtiCabin.cyclePage(); return true; }
     if (this.taycanDisplays) { this.taycanDisplays.center.cyclePage(); return true; }
     if (this.mercedesCabin) { this.mercedesCabin.cyclePage(); return true; }
@@ -272,6 +286,7 @@ export class Cockpit extends THREE.Group {
   public updateInstruments(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
     this.instrumentCluster.update(telemetry, deltaTime);
     this.jeskoCabin?.update(telemetry, deltaTime);
+    this.tankCabin?.update(telemetry, deltaTime);
     this.su7Cabin?.update(telemetry,deltaTime);
     this.gtiCabin?.update(telemetry, deltaTime);
     this.bmwCabin?.update(telemetry, deltaTime);

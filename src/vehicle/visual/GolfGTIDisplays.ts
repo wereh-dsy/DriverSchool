@@ -1,5 +1,5 @@
 import * as T from 'three';
-import { drawNavigationBanner } from '../../ui/NavigationDisplay';
+import { activeNavigation, drawCompactNavigationGuidance, drawNavigationBanner } from '../../ui/NavigationDisplay';
 import { drawStatusLamp, type InstrumentTelemetry, type InstrumentClusterConfig } from './InstrumentCluster';
 import { lateralBoundaryColor } from './LateralAssistDisplay';
 import { PROXIMITY_COLORS } from '../control/RearParkingProximity';
@@ -7,6 +7,7 @@ import { AdaptiveMapZoom } from '../../ui/LocalRoadMap';
 import { gtiInstrumentRecess } from './GolfGTIDashboard';
 import { gtiMaterial } from './GolfGTISurfaces';
 import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
+import { drawGTIDialArtwork,drawGTINeedle,drawGTIFuel,gtiSpeedFraction } from './GolfGTIInstrumentArtwork';
 
 const FONT = 'Segoe UI, Microsoft YaHei, sans-serif';
 function text(c: CanvasRenderingContext2D, s: string, x: number, y: number, size: number, color = '#ebedee') {
@@ -31,35 +32,13 @@ function drawGTICar(c:CanvasRenderingContext2D,x:number,y:number,scale:number):v
   c.strokeStyle='#596b78';c.lineWidth=2;c.strokeRect(-36,-17,72,84);
   c.fillStyle='#cc3545';c.fillRect(-48,106,27,5);c.fillRect(21,106,27,5);c.restore();
 }
-function drawGTIDialArtwork(c:CanvasRenderingContext2D,config:InstrumentClusterConfig):void {
-  const background=c.createLinearGradient(0,0,0,480);background.addColorStop(0,'#101114');background.addColorStop(.5,'#050608');background.addColorStop(1,'#090a0c');
-  c.fillStyle=background;c.fillRect(0,0,1280,480);
-  for(const [x,maximum,step,redline] of [[248,config.maximumRPM/1000,1,config.redlineRPM/1000],[1032,config.maximumSpeedKmh,40,Infinity]] as const) {
-    c.fillStyle='#090a0c';c.beginPath();c.arc(x!,239,184,0,Math.PI*2);c.fill();
-    // Flat illuminated scale bands, rather than a painted chrome bevel on a digital panel.
-    c.strokeStyle='#222428';c.lineWidth=17;c.beginPath();c.arc(x!,239,170,.77*Math.PI,2.23*Math.PI);c.stroke();
-    for(const [radius,width,color] of [[180,1.5,'#babcc0'],[159,1,'#64676c'],[114,1,'#202226']] as const) {
-      c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.arc(x!,239,radius,.77*Math.PI,2.23*Math.PI);c.stroke();
-    }
-    const count=Math.round(maximum!/step!)*5;
-    for(let i=0;i<=count;i++) {
-      const a=.77*Math.PI+i/count*1.46*Math.PI,major=i%5===0,inside=major?157:167;
-      c.strokeStyle=i/count*maximum!>=redline!?'#e34046':major?'#f0f0ee':'#929498';c.lineWidth=major?3:1.5;
-      c.beginPath();c.moveTo(x!+Math.cos(a)*inside,239+Math.sin(a)*inside);c.lineTo(x!+Math.cos(a)*175,239+Math.sin(a)*175);c.stroke();
-      if(major) text(c,String(Math.round(i/count*maximum!)),x!+Math.cos(a)*137,239+Math.sin(a)*137,26);
-    }
-    if(Number.isFinite(redline)) {c.strokeStyle='#c12c40';c.lineWidth=5;c.beginPath();c.arc(x!,239,181,.77*Math.PI+redline!/maximum!*1.46*Math.PI,2.23*Math.PI);c.stroke();}
-  }
-  c.strokeStyle='#303236';c.lineWidth=1;c.beginPath();c.moveTo(480,68);c.lineTo(800,68);c.moveTo(492,392);c.lineTo(788,392);c.stroke();
-  text(c,'rpm × 1000',248,317,23,'#adafb2');text(c,'km/h',1032,317,23,'#adafb2');
-}
 export function gtiScreenMaterial(texture: T.Texture): T.MeshPhysicalMaterial {
   // Pixels emit their own color; diffuse lighting must not add a second, washed-out image.
   return new T.MeshPhysicalMaterial({ color: 0x000000, emissive: 0xffffff, emissiveMap: texture,
     emissiveIntensity: .9, roughness: .14, metalness: 0, clearcoat: .06, clearcoatRoughness: .1,
     specularIntensity: .15, envMapIntensity: .15, toneMapped: false, side: T.DoubleSide });
 }
-const lampKey = (t: InstrumentTelemetry) => JSON.stringify([t.ignitionOn ?? t.engineRunning ?? true, t.indicators, t.tpmsState?.warning, t.gear]);
+const lampKey = (t: InstrumentTelemetry) => JSON.stringify([t.ignitionOn ?? t.engineRunning ?? true, t.indicators, t.tpmsState?.warning, t.gear,!!t.driverAccess?.doorOpen]);
 
 /** Twin circular scales and central large speed, following the supplied VW references. */
 export class GolfGTIInstruments extends T.Group {
@@ -68,6 +47,9 @@ export class GolfGTIInstruments extends T.Group {
   private elapsed = Infinity;
   private immediate = '';
   private rpm = 0;
+  private speed = 0;
+  public view: 'trip'|'assist'|'navigation' = 'trip';
+  public cycleView():void {this.view=this.view==='trip'?'assist':this.view==='assist'?'navigation':'trip';this.elapsed=Infinity;}
   private readonly scaleArtwork:HTMLCanvasElement;
   public constructor(private readonly config: InstrumentClusterConfig,assets?:VehicleAssetRegistry) {
     super(); this.name = 'GTI twin circular digital instruments';
@@ -81,37 +63,55 @@ export class GolfGTIInstruments extends T.Group {
   public update(t: InstrumentTelemetry, dt = 1 / 60): void {
     const safeDt = Math.max(0, dt), immediate = lampKey(t); this.elapsed += safeDt;
     this.rpm = T.MathUtils.damp(this.rpm, Math.max(0, t.rpm), this.config.needleResponse, safeDt);
+    this.speed = T.MathUtils.damp(this.speed, Math.abs(t.speedKmh), this.config.needleResponse, safeDt);
     if (this.elapsed < .05 && immediate === this.immediate) return;
     this.elapsed = 0; this.immediate = immediate;
     const c = this.canvas.getContext('2d')!; c.fillStyle = '#05080c'; c.fillRect(0, 0, 1280, 480);
     if (!(t.ignitionOn ?? t.engineRunning ?? true)) { this.texture.needsUpdate = true; return; }
     c.drawImage(this.scaleArtwork,0,0);
-    const needle = (x: number, maximum: number, value: number) => {
-      const a = .77 * Math.PI + T.MathUtils.clamp(value / maximum, 0, 1) * 1.46 * Math.PI;
-      c.save();c.translate(x,239);c.rotate(a);c.fillStyle='#e32e3e';c.shadowColor='#ac1f39';c.shadowBlur=2;
-      c.beginPath();c.moveTo(89,-3);c.lineTo(168,0);c.lineTo(89,3);c.closePath();c.fill();c.shadowBlur=0;
-      c.strokeStyle='#ffc8cd';c.lineWidth=1;c.beginPath();c.moveTo(100,0);c.lineTo(163,0);c.stroke();c.restore();
-    };
-    needle(248, this.config.maximumRPM / 1000, this.rpm / 1000);
-    needle(1032, this.config.maximumSpeedKmh, Math.abs(t.speedKmh));
-    text(c, 'GTI', 248, 218, 43, '#d93949');
-    text(c, t.driveMode ?? 'NORMAL', 640, 35, 24, t.driveMode === 'SPORT' ? '#e25561' : '#bcc2c8');
+    drawGTINeedle(c,248,this.rpm/this.config.maximumRPM);
+    drawGTINeedle(c,1032,gtiSpeedFraction(this.speed,this.config.maximumSpeedKmh));
+    const trip=t.trip?.tripA;
+    drawGTIFuel(c,248,192,'#d5d5de');
+    text(c,trip?.averageFuelConsumptionLPer100km==null?'Ø — l/100km':`Ø ${trip.averageFuelConsumptionLPer100km.toFixed(1)} l/100km`,248,263,22);
+    text(c,'行程 A',248,299,21,'#b7b5c0');
+    c.strokeStyle='#777680';c.lineWidth=1;c.beginPath();c.moveTo(154,235);c.lineTo(342,235);c.stroke();
+    text(c, 'GTI', 640, 34, 23, '#cf3343');
     const now=new Date();text(c,`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,495,43,23,'#c8cbce');
     text(c,t.outsideTemperatureC===undefined?'— °C':`${t.outsideTemperatureC.toFixed(1)} °C`,785,43,23,'#c8cbce');
     text(c, String(Math.round(Math.abs(t.speedKmh))), 640, 125, 82); text(c, 'km/h', 640, 177, 23, '#b3bcc3');
     const scene = t.drivingScene;
-    c.save(); c.beginPath(); c.rect(465, 220, 350, 154); c.clip();
-    scene?.lanes.forEach((lane, i) => {
+    c.save(); c.beginPath(); c.rect(465, 200, 350, 174); c.clip();
+    if(this.view==='assist')scene?.lanes.forEach((lane, i) => {
       c.setLineDash(scene.laneMarkings?.[i] === 'dashed' ? [8,9] : []);
       c.strokeStyle = lateralBoundaryColor(scene.lateralAssist, i, '#bdc4ca'); c.lineWidth = 3; c.beginPath();
       lane.forEach((p, j) => { const depth = 1 + Math.max(0, p.forward) / 8, x = 640 + p.x * 47 / depth, y = 366 - Math.max(0, p.forward) * 4;
         j ? c.lineTo(x, y) : c.moveTo(x, y); }); c.stroke();
     });
-    c.setLineDash([]);drawGTICar(c,640,349,.18);c.restore();
-    if(!String(t.gear).startsWith('R'))drawNavigationBanner(c,t.sharedVehicle?.navigation.guidance,{x:470,y:242,width:340,height:123},true);
+    c.setLineDash([]);
+    if(this.view==='assist') {drawGTICar(c,640,349,.18);if(!scene?.lanes.length)text(c,'暂无车道信息',640,257,21,'#a6a4b1');}
+    else if(this.view==='trip') {
+      const minutes=trip?Math.floor(trip.operatingTimeSeconds/60):null;
+      c.strokeStyle='#d9d7e1';c.lineWidth=2;c.beginPath();c.arc(553,220,12,0,Math.PI*2);c.moveTo(553,211);c.lineTo(553,220);c.lineTo(546,220);c.stroke();
+      drawGTIFuel(c,732,220,'#d9d7e1');
+      c.beginPath();c.arc(542,288,3,0,Math.PI*2);c.moveTo(546,288);c.lineTo(560,288);c.moveTo(566,288);c.arc(564,288,3,0,Math.PI*2);c.stroke();
+      drawStatusLamp(c,'CRUISE','#d9d7e1',732,288,24);
+      text(c,minutes===null?'— h':`${Math.floor(minutes/60)}:${String(minutes%60).padStart(2,'0')} h`,553,253,27);
+      text(c,trip?`${trip.distanceKm.toFixed(1)} km`:'— km',553,319,25);
+      text(c,trip?.averageFuelConsumptionLPer100km==null?'— l/100km':`${trip.averageFuelConsumptionLPer100km.toFixed(1)} l/100km`,732,253,23);
+      text(c,trip?.averageSpeedKmh==null?'— km/h':`${Math.round(trip.averageSpeedKmh)} km/h`,732,319,24);
+      text(c,'行程 A',640,361,22,'#aaa8b4');
+    } else if(!activeNavigation(t.sharedVehicle?.navigation.guidance))text(c,'未开启路线引导',640,291,24,'#b7b4c0');
+    c.restore();
+    if(this.view==='navigation'&&!String(t.gear).startsWith('R'))drawNavigationBanner(c,t.sharedVehicle?.navigation.guidance,{x:470,y:242,width:340,height:123},true);
+    else if(!String(t.gear).startsWith('R'))drawCompactNavigationGuidance(c,t.sharedVehicle?.navigation.guidance,{x:470,y:380,width:340,height:22});
+    drawGTICar(c,1032,239,.35);
+    if((t.driverAccess?.doorOpen??0)>.01){c.strokeStyle='#ed4555';c.lineWidth=4;c.beginPath();c.moveTo(1011,217);c.lineTo(992,204);c.lineTo(992,235);c.stroke();text(c,'驾驶门未关闭',1032,305,20,'#ef6370');}
+    else text(c,t.driveMode??'NORMAL',1032,305,21,'#cfccd6');
     text(c, String(t.gear), 640, 420, 40);
     const fuel = t.fuelLevel === undefined ? '—' : String(Math.round(t.fuelLevel * 100));
     text(c, fuel + ' %', 1032, 373, 29);
+    drawGTIFuel(c,968,374,'#d2c6a3');
     text(c, t.coolantTemperatureC === undefined ? '— °C' : Math.round(t.coolantTemperatureC) + ' °C', 248, 373, 27);
     if (t.indicators?.cruise) {
       drawStatusLamp(c, 'CRUISE', '#80c8a6', 537, 205, 24);
@@ -138,6 +138,7 @@ export class GolfGTIInstruments extends T.Group {
     });
     const assist = scene?.lateralAssist;
     if (assist?.lccActive || assist?.lkaActive) text(c, assist.lccActive ? 'LCC' : 'LKA', 1032, 216, 27, '#80c8a6');
+    if(t.trip)text(c,`${t.trip.totalDistanceKm.toFixed(0)} km`,1090,452,18,'#a5a2ad');
     const daylight = T.MathUtils.clamp(t.ambientDaylight ?? 1, 0, 1);
     (this.children[1] as T.Mesh<T.PlaneGeometry,T.MeshPhysicalMaterial>).material.emissiveIntensity = .72 + .23 * daylight;
     (this.children[0] as T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>).material.envMapIntensity=.06+.42*daylight;
@@ -168,7 +169,7 @@ export class GolfGTICenterDisplay {
   private on = false;
   public constructor() {
     const c=this.background.getContext('2d')!,grad=c.createLinearGradient(0,0,1024,600);
-    grad.addColorStop(0,'#202c37');grad.addColorStop(.45,'#101b27');grad.addColorStop(1,'#080e17');c.fillStyle=grad;c.fillRect(0,0,1024,600);
+    grad.addColorStop(0,'#242428');grad.addColorStop(.45,'#15151a');grad.addColorStop(1,'#09090e');c.fillStyle=grad;c.fillRect(0,0,1024,600);
     for(let y=1;y<600;y+=4) {c.fillStyle='rgba(172,189,203,.025)';c.fillRect(0,y,1024,1);}
   }
   public cyclePage(): void { this.page = GTI_CENTER_PAGES[(GTI_CENTER_PAGES.indexOf(this.page) + 1) % 4]!; this.elapsed = Infinity; }
@@ -228,8 +229,9 @@ export class GolfGTICenterDisplay {
       });
       text(c, parking?.active ? parking.nearestDistanceM === null ? '周围空旷' : parking.nearestDistanceM.toFixed(2) + ' m' : '感知未激活', 512, 570, 26, '#b4c0c8');
     }
-    if(this.effectivePage!=='park') {c.fillStyle='#0d1721';c.fillRect(0,551,1024,49);text(c,'GTI',63,576,22,'#ce5866');text(c,t.driveMode??'NORMAL',888,576,21,'#bdcbd4');}
-    const header=c.createLinearGradient(0,0,0,78);header.addColorStop(0,'#2c3945');header.addColorStop(1,'#101c28');c.fillStyle=header;c.fillRect(0,0,1024,78);
+    if(this.effectivePage!=='park') {c.fillStyle='#0d0d12';c.fillRect(0,551,1024,49);text(c,'GTI',63,576,22,'#ce5866');text(c,t.driveMode??'NORMAL',888,576,21,'#bdcbd4');
+      const now=new Date();text(c,`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,512,576,23,'#d8d7dc');}
+    const header=c.createLinearGradient(0,0,0,78);header.addColorStop(0,'#303035');header.addColorStop(1,'#15151b');c.fillStyle=header;c.fillRect(0,0,1024,78);
     GTI_CENTER_PAGES.forEach((p, n) => {
       const color=p===this.effectivePage?'#ffffff':'#9aafbe';pageIcon(c,p,n*256+79,36,color);
       text(c, ['地图', '车辆', '胎压', '泊车'][n]!, n * 256 + 145, 38, 28,color);

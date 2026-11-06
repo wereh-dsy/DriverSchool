@@ -32,8 +32,15 @@ export function runFuelSystemSelfTest() {
     const supported=new VehicleDynamics(createVehiclePhysicsConfig(descriptor.id),{engineRunning:false,vehicleOperational:false,driveAvailable:false,currentFuelL:idle.fuel.currentFuelL,gear:'N',driveSelector:'N'});
     let support=supported.getSnapshot(),supportedMass=support.effectiveVehicleMass;
     for(let n=0;n<2400;n++){supportedMass=supported.effectiveVehicleMass;support=supported.stepFixed(dt,input);}
-    const wheelLoad=Object.values(support.wheels).reduce((sum,wheel)=>sum+wheel.normalLoad,0);
-    assert(Math.abs(wheelLoad - supportedMass * config.gravity) < 1e-6, 'suspension shares effective mass '+descriptor.id+' residual='+(wheelLoad-support.effectiveVehicleMass*config.gravity)+' acceleration='+support.chassis.verticalAcceleration);
+    const unsprung=config.tires.verticalCompliance&&config.suspension.unsprungMass;
+    // Hub-equipped suspensions deliver an inclined spring force to the sprung
+    // body. Its world-vertical component, plus hub weight, balances total mass;
+    // adding scalar tyre loads ignores that projection when fuel induces pitch.
+    const verticalSupport=Object.values(support.wheels).reduce((sum,wheel)=>sum+(unsprung
+      ? wheel.supportForce! : wheel.normalLoad*wheel.groundNormal.y),0)
+      +(unsprung?2*(unsprung.front+unsprung.rear)*config.gravity:0);
+    assert(support.fuel.currentFuelFlowLPerHour===0,'static mass fixture has no combustion fuel flow '+descriptor.id);
+    assert(Math.abs(verticalSupport - supportedMass * config.gravity) < 1e-6, 'suspension shares effective mass '+descriptor.id+' residual='+(verticalSupport-supportedMass*config.gravity)+' acceleration='+support.chassis.verticalAcceleration);
     const tripUsed = idle.fuel.fuelUsedL;
     vehicle.setCurrentFuelL(config.fuel.tankCapacityL * 0.5);
     assert(vehicle.getSnapshot().fuel.fuelPercent === 50, 'settings-style edit accepts percentages converted to litres');

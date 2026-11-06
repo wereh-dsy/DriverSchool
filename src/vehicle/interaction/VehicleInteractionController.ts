@@ -55,6 +55,7 @@ export class VehicleInteractionController {
     this.door.configure({
       openSeconds: definition.driverDoor.openSeconds,
       closeSeconds: definition.driverDoor.closeSeconds,
+      softClose: definition.driverDoor.softClose,
     });
     this.window.configure({ travelSeconds: definition.driverWindow.movementSeconds });
   }

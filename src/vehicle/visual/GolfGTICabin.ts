@@ -1,11 +1,13 @@
 import * as T from 'three';
 import { InstrumentCluster, type InstrumentTelemetry } from './InstrumentCluster';
-import { GolfGTICenterDisplay, gtiScreenMaterial } from './GolfGTIDisplays';
+import { GolfGTICenterDisplay, GolfGTIInstruments, gtiScreenMaterial } from './GolfGTIDisplays';
 import { gtiMaterial } from './GolfGTISurfaces';
 import { GTI_CENTER_SCREEN, gtiCenterDisplayMount } from './GolfGTIDashboard';
 import { gtiUpperDashboard,gtiTrimShelf,gtiVentBand,gtiLowerDashboard,gtiConsoleShell,gtiStorageSurfaces } from './GolfGTICockpitGeometry';
 import { createGolfGTISteeringMaterials, GTI_STEERING_ATLAS, mapGolfGTISteeringAtlas } from './GolfGTISteeringTextures';
 import { gtiWindowFrame } from './GolfGTIExterior';
+import {gtiRoofPoint,gtiSidePoint} from './GolfGTIBodyShape';
+import { gtiJoin } from './GolfGTIExteriorDetails';
 import { surfaceGrid, surfaceLoft, surfaceQuad, surfaceRounded, surfaceMesh } from './SurfaceVehicleGeometry';
 import { cabinAmbientTarget } from './CabinLightResponse';
 import type { VehicleAssetRegistry } from './VehicleAssetRegistry';
@@ -23,6 +25,7 @@ export function buildGolfGTICabin(root: T.Group, c: VehicleVisualConfig, steerin
   const fascia = gtiMaterial('fascia', c, assets), controls = gtiMaterial('controls', c, assets), badge = gtiMaterial('badge', c, assets);
   const displayTrim = gtiMaterial('display-trim', assets ?? c, assets), consoleDeck = gtiMaterial('console-deck', c, assets);
   const technical=gtiMaterial('technical',c,assets),lower=gtiMaterial('lower',c,assets),rubber=gtiMaterial('rubber',c,assets),lightPanel=gtiMaterial('light-controls',c,assets);
+  const doorControls=gtiMaterial('door-controls',c,assets);
   const carpet = new T.MeshStandardMaterial({ color: 0x15191c, roughness: 1, side: T.DoubleSide });
   const piano = gtiMaterial('display-trim',assets ?? c,assets);
   const satin = new T.MeshStandardMaterial({ color: 0xa0a5a9, metalness: .65, roughness: .43, side: T.DoubleSide });
@@ -41,22 +44,30 @@ export function buildGolfGTICabin(root: T.Group, c: VehicleVisualConfig, steerin
   add(()=>gtiLowerDashboard(width-.01,lower),'lower-dash',lower);
   const lightControls=add(()=>surfaceRounded('GTI inset light control panel',[.112,.079,.009],[-.695,.844,-.555],lightPanel,.012),'light-panel',lightPanel);
   lightControls.rotation.set(-.10,.15,0);
-  add(() => surfaceQuad('GTI footwell firewall', [[-.82, floor, -.88], [.82, floor, -.88], [.79, .86, -.91], [-.79, .86, -.91]], carpet), 'firewall', carpet);
+  add(() => surfaceQuad('GTI footwell firewall', [[-.82, floor, -.88], [.82, floor, -.88], [.79, .915, -.91], [-.79, .915, -.91]], carpet), 'firewall', carpet);
   add(() => surfaceQuad('GTI continuous carpet floor', [[-.83,floor,-.90],[.83,floor,-.90],[.83,floor,1.69],[-.83,floor,1.69]], carpet), 'floor', carpet);
   for (const sign of [-1, 1]) {
     const label = sign < 0 ? 'Left' : 'Right';
-    add(() => surfaceLoft(label + ' GTI shaped door card', [-.85, .2, 1.5, 1.70].map(z => ({ at: z,
-      ring: [[sign * .803,.875],[sign * .772,.843],[sign * .760,.69],[sign * .715,.59],
-        [sign * .772,.37],[sign * .846,.33],[sign * .850,.76]] as [number,number][] })), leather), 'door' + sign, leather);
-    add(() => surfaceRounded(label + ' GTI door armrest', [.10,.045,.58], [sign * .736,.625,.20], soft, .015), 'armrest' + sign, soft);
+    const card=(name:string,zs:number[])=>surfaceLoft(name,zs.map(z=>({at:z,
+      ring: [[sign * .803,.935],[sign * .772,.903],[sign * .760,.69],[sign * .715,.59],
+        [sign * .772,.37],[sign * .846,.33],[sign * .850,.82]].map(([x,y])=>[x!+sign*(Math.abs(gtiSidePoint(c,sign,z,.935)[0])-.805),y!]) as [number,number][]})),leather);
+    add(()=>card(label+' GTI shaped door card',sign<0?[-.78,-.25,.27]:[-.85,.2,1.5,1.70]),'door'+sign,leather);
+    if(sign<0)add(()=>card('Left GTI fixed rear door card',[.32,1.15,1.70]),'rear-door-left',leather);
+    const armMaterial=sign<0?doorControls:soft;
+    add(()=>{
+      const arm=surfaceRounded(label+' GTI door armrest',[.10,.045,.46],[sign*.736,.625,-.04],armMaterial,.015);
+      if(sign<0){const p=arm.geometry.getAttribute('position'),uv=arm.geometry.getAttribute('uv');for(let i=0;i<p.count;i++)uv.setXY(i,p.getX(i)/.10+.5,.5-p.getZ(i)/.46);}
+      return arm;
+    },'armrest'+sign,armMaterial);
     add(() => gtiWindowFrame(c, sign, headliner, .018), 'frame' + sign, headliner);
     add(() => surfaceQuad(label + ' GTI B pillar liner', [
-      [sign*.782,.86,.27],[sign*.65,1.378,.25],[sign*.65,1.378,.32],[sign*.782,.86,.34]], headliner), 'bpillar' + sign, headliner);
-    add(() => surfaceQuad(label + ' GTI door ambient surface', [
-      [sign*.764,.828,-.78],[sign*.764,.831,-.78],[sign*.764,.831,.93],[sign*.764,.828,.93]], ambient), 'doorambient' + sign, ambient);
+      [.27,.93],[.25,1.361],[.32,1.361],[.34,.93]].map(([z,y])=>{const p=gtiSidePoint(c,sign,z!,y!);return [p[0]-sign*.018,p[1],p[2]];}) as [[number,number,number],[number,number,number],[number,number,number],[number,number,number]],headliner),'bpillar'+sign,headliner);
+    add(()=>{
+      const strip=(s:number,z0:number,z1:number)=>surfaceQuad(label+' GTI door ambient surface',[[s*.764,.828,z0],[s*.764,.831,z0],[s*.764,.831,z1],[s*.764,.828,z1]],ambient);
+      return sign<0?strip(-1,-.78,.27):gtiJoin('Right GTI door ambient surface',[strip(1,-.78,.93),strip(-1,.32,.93)],ambient);
+    },'doorambient'+sign,ambient);
   }
-  add(() => surfaceGrid('GTI continuous dark headliner', 14, 16, (u, v) => [
-    (v * 2 - 1) * .666, 1.385 + .026 * Math.sin(v * Math.PI) + .013 * Math.sin(u * Math.PI), T.MathUtils.lerp(-.47,1.23,u)], headliner), 'roof', headliner);
+  add(()=>surfaceGrid('GTI continuous dark headliner',14,16,(u,v)=>gtiRoofPoint(c,u,v,.018),headliner),'roof',headliner);
   add(() => surfaceRounded('GTI center mirror housing', [.226,.085,.023], [0,1.255,-.445], piano,.018), 'mirror', piano);
   const instrument = new InstrumentCluster(c.instrumentCluster, assets); instrument.position.set(...c.instrumentClusterTransform.position);
   instrument.rotation.set(...c.instrumentClusterTransform.rotation); root.add(instrument);
@@ -150,7 +161,14 @@ export function buildGolfGTICabin(root: T.Group, c: VehicleVisualConfig, steerin
       const reflectionLevel=.08+.57*T.MathUtils.clamp(t.ambientDaylight??1,0,1);
       for(const material of reflectiveMaterials) material.envMapIntensity=reflectionLevel;
     },
-    click(raycaster) { const hit = raycaster.intersectObject(screen,false)[0]; return hit?.uv ? center.click(hit.uv) : false; },
+    click(raycaster) {
+      const face=raycaster.intersectObject(screen,false)[0];if(face?.uv&&center.click(face.uv))return true;
+      const hit=raycaster.intersectObject(wheel.getObjectByName('GTI wheel button and lower badge surface atlas')!,false)[0];
+      if(hit?.uv&&hit.uv.x>.60&&hit.uv.x<.90&&hit.uv.y>.625&&hit.uv.y<.67) {
+        (instrument.getObjectByName('GTI twin circular digital instruments') as GolfGTIInstruments).cycleView();return true;
+      }
+      return false;
+    },
     cyclePage() { center.cyclePage(); },
   };
 }

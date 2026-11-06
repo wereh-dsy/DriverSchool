@@ -1,6 +1,7 @@
 import type { DriveSelector, Gear, TransmissionType } from '../config';
 
 export interface TransmissionSnapshot {
+  thermal?: { temperatureC: number; torqueFactor: number };
   type: TransmissionType;
   selectedMode: DriveSelector | null;
   currentPhysicalGear: Gear | null;

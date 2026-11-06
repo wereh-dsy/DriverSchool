@@ -79,7 +79,8 @@ export class AutomaticShiftController {
       if (this.manualElapsed >= (this.gearbox.config.manualSelectionTimeout ?? 8) && stable) this.returnToAuto();
       else return null;
     }
-    if (Math.abs(context.vehicleSpeed) < 0.65 && gear !== 1) return { gear: 1, kickdown: false };
+    const launchGear = throttle >= this.config.kickdownThrottle ? 1 : this.config.launchGear ?? 1;
+    if (Math.abs(context.vehicleSpeed) < 0.65 && gear !== launchGear) return { gear: launchGear, kickdown: false };
     if (this.mapSource !== this.config.map) {
       this.mapSource = this.config.map;
       this.map = [...this.config.map].sort((a, b) => a.throttle - b.throttle);
@@ -154,7 +155,7 @@ export class AutomaticShiftController {
       if (target < gear && safeRPM(target) > coupledRPM + this.config.hysteresisRPM)
         return { gear: target, kickdown: true };
     }
-    if (gear > 1) {
+    if (gear > launchGear) {
       const lower = (gear - 1) as ForwardGear;
       // A steady pedal must not undo the previous upshift. Keep the downshift
       // boundary below the road RPM that the previous gear's schedule produces.

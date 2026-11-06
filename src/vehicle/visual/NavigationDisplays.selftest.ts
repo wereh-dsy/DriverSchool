@@ -14,6 +14,12 @@ import type { InstrumentTelemetry } from './InstrumentCluster';
 export function runNavigationDisplaysSelfTest() {
   let assertions=0;const assert=(ok:unknown,message:string)=>{assertions++;if(!ok)throw new Error(`Navigation displays: ${message}`);};
   const original=Object.getOwnPropertyDescriptor(globalThis,'document'),texts:string[]=[];
+  const originalPath=Object.getOwnPropertyDescriptor(globalThis,'Path2D');
+  // This test already uses a command-only canvas. Supply its missing browser path
+  // constructor as well; production SU7 numeral rendering still uses native Path2D.
+  if(typeof Path2D==='undefined')Object.defineProperty(globalThis,'Path2D',{configurable:true,value:class {
+    constructor(public readonly source:string){if(!source)throw new Error('Empty test canvas path');}
+  }});
   const makeCanvas=()=>{const values:Record<string,unknown>={};const ctx=new Proxy({} as CanvasRenderingContext2D,{get:(_t,key:string)=>key==='fillText'?(value:string)=>texts.push(value):key==='measureText'?(value:string)=>({width:value.length*12}):key.startsWith('create')?()=>({addColorStop:()=>{}}):values[key]??(()=>{}),set:(_t,key:string,value)=>{values[key]=value;return true;}});return {width:1,height:1,getContext:()=>ctx};};
   Object.defineProperty(globalThis,'document',{configurable:true,value:{createElement:makeCanvas}});
   try {
@@ -72,5 +78,8 @@ export function runNavigationDisplaysSelfTest() {
       visual.dispose();shared.dispose();assets.dispose();
     }
     return {assertions,equippedDisplays:equipped.length};
-  } finally {if(original)Object.defineProperty(globalThis,'document',original);else Reflect.deleteProperty(globalThis,'document');}
+  } finally {
+    if(original)Object.defineProperty(globalThis,'document',original);else Reflect.deleteProperty(globalThis,'document');
+    if(originalPath)Object.defineProperty(globalThis,'Path2D',originalPath);else Reflect.deleteProperty(globalThis,'Path2D');
+  }
 }

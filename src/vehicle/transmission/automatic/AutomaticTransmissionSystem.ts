@@ -13,6 +13,12 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
   private readonly selector: SelectorSafety;
   private readonly controller: AutomaticShiftController;
   private shiftElapsed = 0;
+  private shiftStartRatio = 0;
+  private get effectiveRatio(): number {
+    if (!this.config.smoothRatioShift || this.shiftTarget === null) return this.gearbox.getRatio();
+    const t = this.shiftProgress, blend = t * t * (3 - 2 * t);
+    return this.shiftStartRatio + (this.gearbox.getRatio(this.shiftTarget) - this.shiftStartRatio) * blend;
+  }
   private shiftTarget: ForwardGear | null = null;
   private shiftChanged = false;
   private kickdown = false;
@@ -21,14 +27,23 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
   private torque = 0;
   private inputRPM = 0;
   private outputRPM = 0;
+  private temperatureC = 20;
+  private get thermalTorqueFactor(): number {
+    const t = this.config.thermal;
+    if (!t) return 1;
+    const fraction = clamp01((this.temperatureC - t.derateStartC) / (t.derateEndC - t.derateStartC));
+    return 1 - fraction * fraction * (3 - 2 * fraction) * (1 - t.minimumTorqueFactor);
+  }
   public constructor(private readonly gearbox: Gearbox, private readonly config: AutomaticTransmissionConfig, wheelRadius: number) {
     this.selector = new SelectorSafety(gearbox, config.parkMaximumSpeed, wheelRadius,
       config.shiftStrategy.kickdownMaximumRPM, config.shiftStrategy.map[0]?.upshiftRPM ?? 1700);
     this.controller = new AutomaticShiftController(config.shiftStrategy, gearbox, wheelRadius);
     this.converter = new TorqueConverter(config.converter);
+    this.temperatureC = config.thermal?.initialTemperatureC ?? 20;
   }
   public reset(gear: Gear = 'N', selector?: DriveSelector): void {
     this.selector.reset(gear, selector); this.controller.reset(); this.converter.reset();
+    this.temperatureC = this.config.thermal?.initialTemperatureC ?? 20;
     this.shiftTarget = null; this.shiftElapsed = 0; this.shiftChanged = false;
     this.outputTorque = 0; this.load = 0; this.torque = 0; this.inputRPM = 0; this.outputRPM = 0; this.kickdown = false;
   }
@@ -58,24 +73,36 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     if (this.selector.mode === 'D') {
       const decision = this.controller.decide(context, this.shiftTarget !== null);
       if (decision !== null && decision.gear !== this.gearbox.currentGear) {
+        this.shiftStartRatio = this.gearbox.getRatio();
         this.shiftTarget = decision.gear; this.shiftElapsed = 0; this.shiftChanged = false; this.kickdown = decision.kickdown;
       }
     }
-    const turbine = context.drivenWheelAngularVelocity * this.gearbox.config.finalDriveRatio * this.gearbox.getRatio();
+    const turbine = context.drivenWheelAngularVelocity * this.gearbox.config.finalDriveRatio * this.effectiveRatio;
     this.converter.prepare(context, turbine, this.shiftTarget !== null, this.selector.driving);
     // Engine torque reduction has a real load consequence; never force RPM to a target.
-    const reduction = this.shiftTarget === null ? 1 : 0.55 + 0.45 * Math.abs(2 * this.shiftProgress - 1);
-    return { throttleScale: reduction };
+    const shiftFloor = this.config.shiftThrottleFactor ?? .55;
+    const reduction = this.shiftTarget === null ? 1 : shiftFloor + (1 - shiftFloor) * Math.abs(2 * this.shiftProgress - 1);
+    return { throttleScale: reduction * this.thermalTorqueFactor };
   }
   public update(context: TransmissionContext): TransmissionOutput {
     const outputOmega = context.drivenWheelAngularVelocity * this.gearbox.config.finalDriveRatio;
-    const turbine = outputOmega * this.gearbox.getRatio();
+    const ratio = this.effectiveRatio;
+    const turbine = outputOmega * ratio;
     this.inputRPM = angularVelocityToRPM(turbine); this.outputRPM = angularVelocityToRPM(outputOmega);
     const shiftScale = this.shiftTarget === null ? 1 :
       this.config.shiftTorqueFactor + (1 - this.config.shiftTorqueFactor) * Math.abs(2 * this.shiftProgress - 1);
-    const converter = this.converter.update(context, turbine, this.selector.driving ? shiftScale : 0, this.gearbox.getRatio() * this.gearbox.config.finalDriveRatio, this.gearbox.config.drivetrainEfficiency);
+    const converter = this.converter.update(context, turbine, this.selector.driving ? shiftScale : 0, ratio * this.gearbox.config.finalDriveRatio, this.gearbox.config.drivetrainEfficiency);
     this.load = converter.load; this.torque = converter.turbineTorque;
-    const outputTorque = this.torque * this.gearbox.getRatio() * this.gearbox.config.drivetrainEfficiency;
+    const thermal = this.config.thermal;
+    if (thermal) {
+      // Actual pump/input and turbine/output power difference, plus gear losses.
+      const loss = Math.max(0, this.load * context.engineAngularVelocity - this.torque * turbine) +
+        Math.abs(this.torque * turbine) * (1 - this.gearbox.config.drivetrainEfficiency);
+      const cooling = thermal.coolingWPerK + thermal.airflowCoolingWPerKPerMps * Math.abs(context.vehicleSpeed);
+      const target = 20 + loss / cooling;
+      this.temperatureC = target + (this.temperatureC - target) * Math.exp(-cooling * context.dt / thermal.heatCapacityJPerK);
+    }
+    const outputTorque = this.torque * ratio * this.gearbox.config.drivetrainEfficiency;
     this.outputTorque = outputTorque;
     return { engineLoadTorque: this.load, transmittedTorque: this.torque, outputTorque,
       drivenWheelTorque: outputTorque * this.gearbox.config.finalDriveRatio, parkingLocked: this.selector.parkingLocked };
@@ -85,10 +112,11 @@ export class AutomaticTransmissionSystem implements TransmissionSystem {
     const progress = this.shiftTarget === null ? 0 : this.shiftProgress;
     const state = this.shiftTarget === null ? 'IDLE' : progress < 0.2 ? 'PREPARE' :
       progress < 0.5 ? 'TORQUE_REDUCTION' : progress < 0.7 ? 'GEAR_CHANGE' : 'TORQUE_RESTORE';
-    return { manualSelectionActive: this.controller.manualSelectionActive,
+    return { thermal: this.config.thermal ? { temperatureC: this.temperatureC, torqueFactor: this.thermalTorqueFactor } : undefined,
+      manualSelectionActive: this.controller.manualSelectionActive,
       manualSelectionRejectedReason: this.controller.manualSelectionRejectedReason,
       type: this.type, selectedMode: this.selector.mode, currentPhysicalGear: this.gearbox.currentGear,
-      currentRatio: this.gearbox.getRatio(), outputTorque: this.outputTorque,
+      currentRatio: this.effectiveRatio, outputTorque: this.outputTorque,
       inputRPM: this.inputRPM, outputRPM: this.outputRPM, engineLoadTorque: this.load, transmittedTorque: this.torque,
       shiftInProgress: this.shiftTarget !== null, shiftState: state, shiftProgress: progress,
       kickdown: this.shiftTarget !== null && this.kickdown, selectorRejectedReason: this.selector.rejectedReason,

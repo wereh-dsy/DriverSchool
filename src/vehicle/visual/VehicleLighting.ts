@@ -8,6 +8,7 @@ import type { VehicleVisual } from './VehicleVisual';
 import { executiveNoseZ } from './ExecutiveExteriorSurfaces';
 import { executiveDRLHeight, executiveTurnHeight, executiveTailSignature } from './ExecutiveLampGeometry';
 import { VEHICLE_RENDER_LAYERS } from './VehicleRenderLayers';
+import { createHeadlampBeamTexture } from './HeadlampBeamTexture';
 import type { VehicleLightingState, VehicleLightMode } from '../control/VehicleLightingController';
 export type { VehicleLightingState, VehicleLightMode } from '../control/VehicleLightingController';
 
@@ -37,6 +38,7 @@ export class VehicleLighting {
   private readonly blinkAge = [0, 0];
   private readonly previousBlink = [false, false];
   private readonly turnSpills: { light: PointLight; left: boolean }[] = [];
+  private readonly beamMaps: readonly [Texture, Texture] | null;
 
   public constructor(private readonly vehicle: VehicleVisual) {
     const sport = vehicle.config.body.profile === 'sport-coupe';
@@ -44,6 +46,7 @@ export class VehicleLighting {
     const halfWidth = vehicle.config.dimensions.width * 0.5 - 0.005;
     const executive = vehicle.config.body.design === 'executive';
     const profile = vehicle.config.exteriorLighting;
+    this.beamMaps = profile?.beamPattern ? [createHeadlampBeamTexture(false), createHeadlampBeamTexture(true)] : null;
     const frontZ = vehicle.config.lampLayout ? -vehicle.config.dimensions.length / 2 - .012 : -halfLength - 0.01;
     const rearZ = vehicle.config.lampLayout ? vehicle.config.dimensions.length / 2 + .012 : halfLength + 0.009;
     // Authored lenses remain housings, not permanently glowing outputs.
@@ -77,12 +80,14 @@ export class VehicleLighting {
     this.headlamps = [this.createHeadlamp(executive ? -halfWidth * .66 : -0.55, frontZ + 0.025, leftTarget),
       this.createHeadlamp(executive ? halfWidth * .66 : 0.55, frontZ + 0.025, rightTarget)];
     vehicle.root.add(...this.headlamps, ...this.targets);
+    if (this.beamMaps) for (const light of this.headlamps) light.map = this.beamMaps[0];
     if (profile?.retainLowBeamOnHigh) {
       for (const side of [-1, 1]) {
         const target = new Object3D(), x = side * halfWidth * .66;
         const light = this.createHeadlamp(x, frontZ + .025, target);
         light.name = side < 0 ? 'Left high-beam near fill' : 'Right high-beam near fill';
         light.distance = profile.low.distance; light.angle = profile.low.angle;
+        if (this.beamMaps) light.map = this.beamMaps[0];
         target.position.set(x * .82, profile.low.targetY, profile.low.targetZ);
         this.nearFill.push(light); this.nearFillTargets.push(target); vehicle.root.add(light, target);
       }
@@ -111,7 +116,8 @@ export class VehicleLighting {
           if(object.userData.textureMaskedLight&&source?.alphaMap){
             let channels=variants.get(source.alphaMap);if(!channels){channels=new Map();variants.set(source.alphaMap,channels);}
             let variant=channels.get(key);
-            if(!variant){variant=material.clone();variant.alphaMap=source.alphaMap;variant.alphaTest=.25;variant.side=DoubleSide;
+            if(!variant){variant=material.clone();variant.alphaMap=source.alphaMap;variant.alphaTest=source.alphaTest;variant.side=DoubleSide;
+              variant.emissiveMap=source.emissiveMap;
               channels.set(key,variant);this.maskedMaterials.set(variant,material);}
             output=variant;
           }
@@ -239,6 +245,7 @@ export class VehicleLighting {
     const beam = profile && (state.effectiveHighBeam ? profile.high : profile.low);
     const mainBeam = powered && (state.lowBeam || state.effectiveHighBeam);
     for (const light of this.headlamps) {
+      if (this.beamMaps) light.map = this.beamMaps[state.effectiveHighBeam ? 1 : 0];
       light.intensity = mainBeam ? beam?.intensity ?? (state.effectiveHighBeam ? 850 : 380) : 0;
       light.distance = beam?.distance ?? (state.effectiveHighBeam ? 130 : 65);
       light.angle = beam?.angle ?? (state.effectiveHighBeam ? Math.PI / 12 : Math.PI / 5.5);
@@ -273,6 +280,7 @@ export class VehicleLighting {
   }
 
   public dispose(): void {
+    if (this.beamMaps) for (const texture of this.beamMaps) texture.dispose();
     for (const light of this.headlamps) light.removeFromParent();
     for (const target of this.targets) target.removeFromParent();
     for (const light of this.nearFill) light.removeFromParent();

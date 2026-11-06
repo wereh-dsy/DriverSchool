@@ -1,5 +1,5 @@
 import type { EngineConfig } from '../vehicle/config';
-import type { VehicleAudioProfile } from './VehicleAudioProfile';
+import type { VehicleAudioProfile, VehicleChimeKind } from './VehicleAudioProfile';
 import { calculateElectricAudioMix, TurnSignalClickTracker, type ElectricAudioOptions } from './ElectricAudioMix';
 import type { VehicleLightingState } from '../vehicle/control/VehicleLightingController';
 import { playLaneDepartureWarningSound } from './LaneDepartureWarningSound';
@@ -34,15 +34,20 @@ export interface EngineAudioUpdateOptions {
   cruiseActive?: boolean;
   lowFuel?: boolean;
   parkingDistance?: number | null;
+  /** Actual access fractions; no input-derived or synthetic door state. */
+  driverAccess?: { readonly doorOpen: number; readonly windowOpen: number };
 }
 
 interface EngineMix {
   firingHz: number;
+  exhaustCutoffHz: number;
+  intakeCutoffHz: number;
   exhaust: number;
   exhaustBody: number;
   upperExhaust: number;
   intake: number;
   mechanical: number;
+  combustionNoise: number;
   turbo: number;
   road: number;
   wind: number;
@@ -129,18 +134,24 @@ export const calculateEngineAudioMix = (
   const character = options.engineCharacter;
   const bodyPresence = profile?.flatPlaneV8 ? 1.05 : character?.soundProfile === 'full-bodied' ? 1.45 : character?.cylinderCount === 6 ? 1.15 : 1;
   const upperPresence = profile?.flatPlaneV8 ? 1.2 : character?.soundProfile === 'full-bodied' ? .55 : character?.cylinderCount === 6 ? .8 : 1;
+  const closedFilter = profile?.cabinEngineFilterScale ?? 1;
+  const cabinFilter = cockpit ? closedFilter + (1 - closedFilter) * (cabinAcoustics?.openness ?? 0) : 1;
   return {
+    exhaustCutoffHz: (profile ? profile.exhaustCutoff + rpm * (profile.combustionTimbre?.exhaustRpmSlope ?? .055) + load * (profile.combustionTimbre?.exhaustLoadCutoff ?? 185)
+      : (235 + rpm * .145 + load * 390) * (character?.soundProfile === 'full-bodied' ? .72 : 1)) * cabinFilter,
+    intakeCutoffHz: (profile ? 300 + rpm * .082 + load * 230 + turbo * 1500
+      : 430 + rpm * .21 + load * 430) * cabinFilter,
     // Four-stroke firing rate: cylinder count / two crank revolutions.
     firingHz: clamp(safeRpm * (options.engineCharacter?.cylinderCount ?? 4) / 120, 18, 850),
     exhaust: profile
       ? (0.007 + Math.pow(load, 1.35) * 0.064 * (profile.loadDepth ?? 1) + rpmNormal * load * 0.009) *
         presence * layerPresence * overrun * drivetrainBody
       : 0.030 + load * 0.026 + rpmNormal * 0.009,
-    exhaustBody: bodyPresence * (profile
+    exhaustBody: bodyPresence * (profile?.combustionTimbre?.bodyGain ?? 1) * (profile
       ? (0.010 + Math.pow(load, 1.15) * 0.047 * (profile.loadDepth ?? 1)) * (1 - rpmNormal * .32) *
         presence * layerPresence * overrun * drivetrainBody
       : (1 - rpmNormal * 0.72) * (0.018 + load * 0.009)),
-    upperExhaust: upperPresence * (profile
+    upperExhaust: upperPresence * (profile?.combustionTimbre?.upperGain ?? 1) * (profile
       ? (0.0012 + rpmNormal * load * 0.0055 * (profile.highPresence ?? 1)) *
         presence * layerPresence * overrun
       : 0.006 + rpmNormal * 0.015 + load * 0.006),
@@ -148,14 +159,16 @@ export const calculateEngineAudioMix = (
       ? (.0006 + Math.pow(load, 2) * .015 + turbo * .012) * presence * layerPresence
       : 0.0015 + Math.pow(load, 1.35) * 0.031 + rpmNormal * safeThrottle * 0.006,
     mechanical: profile
-      ? (.0008 + rpmNormal * .0031 * (profile.highPresence ?? 1)) * presence * layerPresence
+      ? (.0008 + rpmNormal * .0031 * (profile.highPresence ?? 1)) * presence * layerPresence * (profile.combustionTimbre?.mechanicalGain ?? 1)
       : 0.0025 + rpmNormal * 0.010 + (1 - load) * rpmNormal * 0.002,
+    combustionNoise: (profile?.combustionTimbre?.pulseNoiseGain ?? 0) * (.18 + Math.pow(load, 1.25) * .82) * presence * layerPresence * overrun,
     turbo,
     road: speedNormal * (0.011 + roadRoughness * 0.021) *
       (profile && cockpit ? profile.cabinRoad * (cabinAcoustics?.roadScale ?? 1) : 1),
     wind: Math.pow(clamp(speed / 50), 1.7) * 0.020 *
       (profile && cockpit ? profile.cabinWind * (cabinAcoustics?.windScale ?? 1) : 1),
-    cabinLowpassHz: cabinAcoustics !== undefined ? cabinAcoustics.lowpassHz : 20_000,
+    cabinLowpassHz: cabinAcoustics !== undefined ? cabinAcoustics.lowpassHz
+      : cockpit ? (profile?.closedCabinCutoffHz ?? 20_000) : 20_000,
     load,
     speed,
   };
@@ -189,6 +202,8 @@ export class EngineAudio {
   private exhaustBodyGain: GainNode | null = null;
   private upperExhaustGain: GainNode | null = null;
   private mechanicalGain: GainNode | null = null;
+  private combustionNoise: AudioBufferSourceNode | null = null;
+  private combustionNoiseGain: GainNode | null = null;
   private intakeGain: GainNode | null = null;
   private roadGain: GainNode | null = null;
   private windGain: GainNode | null = null;
@@ -217,6 +232,12 @@ export class EngineAudio {
   private lastCruise = false;
   private lastLowFuel = false;
   private nextParkingChime = 0;
+  private nextDoorChime = 0;
+  private accessMotor: OscillatorNode | null = null;
+  private accessMotorGain: GainNode | null = null;
+  private previousDoor = 0;
+  private previousWindow = 0;
+  private accessSampled = false;
   private accelerationLoad = 0;
   private lastUpdateTime = 0;
   private electricMotor: OscillatorNode | null = null;
@@ -243,11 +264,18 @@ export class EngineAudio {
     this.profile = profile;
     this.lastPhase = 'OFF'; this.lastRunning = false; this.lastMode = '';
     this.lastCruise = false; this.lastLowFuel = false;
+    this.nextParkingChime = 0; this.nextDoorChime = 0; this.accessSampled = false;
     this.accelerationLoad = 0; this.lastUpdateTime = 0;
     calculateWeatherAudioMix(this.weatherMix, 0, 0, 0, true, 0, this.profile);
     this.signalClicks.reset();
     if (this.context) {
+      if(this.electricMotor)this.electricMotor.type=profile?.electric?.rearWave??'sine';
+      if(this.electricHarmonic)this.electricHarmonic.type=profile?.electric?.frontWave??'sine';
+      this.accessMotorGain?.gain.setTargetAtTime(SILENCE, this.context.currentTime, .04);
       this.setPulseWave(this.context);
+      this.configureBodyWave(this.context);
+      this.createCombustionTexture(this.context);
+      this.combustionNoiseGain?.gain.setTargetAtTime(SILENCE, this.context.currentTime, .04);
       this.starterGain?.gain.setTargetAtTime(SILENCE, this.context.currentTime, .04);
     }
   }
@@ -299,23 +327,28 @@ export class EngineAudio {
     this.harmonicGain?.gain.setTargetAtTime(SILENCE, now, .06);
     this.pedestrianGain?.gain.setTargetAtTime(SILENCE, now, .06);
     this.updateRoadNoise(mix, now);
+    this.updateAccessSounds(options, now);
 
     if (this.profile) {
       const phase = options.ignitionPhase ?? (running ? 'RUNNING' : 'OFF');
       if (phase !== this.lastPhase) {
-        if (phase === 'CRANKING') this.playChime('startup');
+        if (phase === 'CRANKING' && (!this.profile.chimes || options.cockpit !== false)) this.playChime('startup');
         if (phase === 'CATCH') this.playEngineCatchTransient();
         if (phase === 'STOPPING') this.playShutdownTransient();
         this.lastPhase = phase;
       }
       this.starterGain?.gain.setTargetAtTime(phase === 'CRANKING' ? this.profile.starterLevel : SILENCE, now, .035);
       this.starter?.frequency.setTargetAtTime(64 + clamp(rpm / 300) * 38, now, .025);
-      if (this.lastMode && options.driveMode !== this.lastMode) this.playChime('mode');
-      if ((options.cruiseActive ?? false) !== this.lastCruise) this.playChime('cruise');
-      if (options.lowFuel && !this.lastLowFuel) this.playChime('fuel');
+      const cabinPowered = !this.profile.chimes || (options.cockpit !== false && phase !== 'OFF' && phase !== 'STOPPING');
+      if (cabinPowered && this.lastMode && options.driveMode !== this.lastMode) this.playChime('mode');
+      if (cabinPowered && (options.cruiseActive ?? false) !== this.lastCruise) this.playChime('cruise');
+      if (cabinPowered && options.lowFuel && !this.lastLowFuel) this.playChime('fuel');
       const proximity = options.parkingDistance;
-      if (proximity != null && proximity < 1.8 && now >= this.nextParkingChime) {
-        this.playChime('parking'); this.nextParkingChime = now + .45 + clamp(proximity / 1.8) * 1.25;
+      if (cabinPowered && proximity != null && proximity < 1.8 && now >= this.nextParkingChime) {
+        this.playChime('parking'); this.nextParkingChime = now + (this.profile.chimes ? .15 + clamp(proximity / 1.8) ** 1.4 * .95 : .45 + clamp(proximity / 1.8) * 1.25);
+      }
+      if (cabinPowered && this.profile.chimes && (options.driverAccess?.doorOpen ?? 0) > .025 && mix.speed > .5 && now >= this.nextDoorChime) {
+        this.playChime('door'); this.nextDoorChime = now + 4;
       }
       this.lastMode = options.driveMode ?? ''; this.lastCruise = options.cruiseActive ?? false;
       this.lastLowFuel = options.lowFuel ?? false;
@@ -334,25 +367,26 @@ export class EngineAudio {
     this.engineBus?.gain.setTargetAtTime(options.ignitionPhase === 'STOPPING' && this.profile
       ? .42 * clamp(rpm / 750) : .70 * (this.profile?.engineBusLevel ?? 1), now, this.profile ? .055 : .14);
     this.exhaustPulse?.frequency.setTargetAtTime(mix.firingHz, now, 0.040);
-    this.exhaustBody?.frequency.setTargetAtTime(mix.firingHz * (this.profile?.flatPlaneV8 ? 1.003 : .502), now, 0.052);
-    this.upperExhaust?.frequency.setTargetAtTime(mix.firingHz * 2.012, now, 0.038);
+    this.exhaustBody?.frequency.setTargetAtTime(mix.firingHz * (this.profile?.combustionTimbre?.bodyOrder ?? (this.profile?.flatPlaneV8 ? 1.003 : .502)), now, 0.052);
+    this.upperExhaust?.frequency.setTargetAtTime(mix.firingHz * (this.profile?.combustionTimbre?.upperOrder ?? 2.012), now, 0.038);
     this.mechanical?.frequency.setTargetAtTime(Math.max(105, mix.firingHz * 5.96), now, 0.055);
     this.roughnessLfo?.frequency.setTargetAtTime(5.3 + clamp(rpm / 6_500) * 2.2, now, 0.18);
-    this.roughnessDepth?.gain.setTargetAtTime(this.profile ? .7 : (4.2 - clamp(rpm / 6_500) * 2.4) * 4 / (options.engineCharacter?.cylinderCount ?? 4), now, 0.20);
+    this.roughnessDepth?.gain.setTargetAtTime(this.profile?.combustionTimbre?.roughnessCents ?? (this.profile ? .7 : (4.2 - clamp(rpm / 6_500) * 2.4) * 4 / (options.engineCharacter?.cylinderCount ?? 4)), now, 0.20);
 
     this.exhaustGain?.gain.setTargetAtTime(mix.exhaust, now, 0.075);
     this.exhaustBodyGain?.gain.setTargetAtTime(mix.exhaustBody, now, 0.095);
     this.upperExhaustGain?.gain.setTargetAtTime(mix.upperExhaust, now, 0.075);
     this.intakeGain?.gain.setTargetAtTime(mix.intake, now, 0.10);
     this.mechanicalGain?.gain.setTargetAtTime(mix.mechanical, now, 0.10);
+    this.combustionNoiseGain?.gain.setTargetAtTime(mix.combustionNoise, now, .09);
 
     this.exhaustFilter?.frequency.setTargetAtTime(
-      this.profile ? this.profile.exhaustCutoff + rpm * .055 + mix.load * 185 : (235 + rpm * 0.145 + mix.load * 390) * (options.engineCharacter?.soundProfile === 'full-bodied' ? .72 : 1),
+      mix.exhaustCutoffHz,
       now,
       0.075,
     );
     this.intakeFilter?.frequency.setTargetAtTime(
-      this.profile ? 300 + rpm * .082 + mix.load * 230 + mix.turbo * 1_500 : 430 + rpm * 0.21 + mix.load * 430,
+      mix.intakeCutoffHz,
       now,
       0.085,
     );
@@ -362,23 +396,36 @@ export class EngineAudio {
   public updateElectric(rpm: number, torque: number, options: ElectricAudioOptions): void {
     const context = this.context; if (!context) return;
     if (context.state === 'suspended' && document.visibilityState === 'visible') void this.resume();
+    options={...options,voice:this.profile?.electric};
     const now = context.currentTime, mix = calculateElectricAudioMix(rpm, torque, options);
-    this.engineBus?.gain.setTargetAtTime(SILENCE, now, .035);
-    this.starterGain?.gain.setTargetAtTime(SILENCE, now, .035);
-    this.lastRunning = false;
+    if(this.profile?.electric && !options.hybridLayer){
+      this.updateAccessSounds(options,now);
+      const on=options.operational!==false;
+      if(on&&this.lastPhase==='OFF'&&options.cockpit!==false)this.playChime('startup');
+      if(on&&this.lastMode&&options.driveMode!==this.lastMode&&options.cockpit!==false)this.playChime('mode');
+      this.lastPhase=on?'RUNNING':'OFF';this.lastMode=options.driveMode??'';
+    }
+    if (!options.hybridLayer) {
+      this.engineBus?.gain.setTargetAtTime(SILENCE, now, .035);
+      this.starterGain?.gain.setTargetAtTime(SILENCE, now, .035);
+      this.lastRunning = false;
+    }
     this.electricMotor?.frequency.setTargetAtTime(mix.frequency, now, .10);
-    this.electricHarmonic?.frequency.setTargetAtTime(mix.frequency * 1.51, now, .13);
+    this.electricHarmonic?.frequency.setTargetAtTime(mix.harmonicFrequency, now, .13);
+    this.pedestrianHum?.frequency.setTargetAtTime(mix.pedestrianFrequency,now,.15);
     this.electricGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.motor), now, .09);
     this.harmonicGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.motor * mix.harmonic), now, .12);
     this.pedestrianGain?.gain.setTargetAtTime(Math.max(SILENCE, mix.pedestrian), now, .18);
-    this.updateRoadNoise(mix, now);
+    if (!options.hybridLayer) this.updateRoadNoise(mix, now);
   }
 
-  public updateTurnSignal(state: Readonly<VehicleLightingState>): void {
+  public updateTurnSignal(state: Readonly<VehicleLightingState>, cockpit = true): void {
     const edge = this.signalClicks.update(state), context = this.context;
     if (!edge || !context || context.state !== 'running' || !this.transientBus) return;
+    if (!cockpit && this.profile?.turnSignalFrequencies) return;
     const now = context.currentTime, tone = context.createOscillator(); tone.type = 'triangle';
-    tone.frequency.setValueAtTime(edge === 'on' ? 1250 : 920, now);
+    const frequencies = this.profile?.turnSignalFrequencies ?? [1250, 920];
+    tone.frequency.setValueAtTime(frequencies[edge === 'on' ? 0 : 1]!, now);
     const envelope = this.createOneShotEnvelope(context, now, .035,
       this.profile?.turnSignalLevel ?? .024, .002, .025);
     tone.connect(envelope).connect(this.transientBus); tone.start(now); tone.stop(now + .04);
@@ -507,6 +554,8 @@ export class EngineAudio {
       this.roadNoise,
       this.windNoise,
       this.starter,
+      this.accessMotor,
+      this.combustionNoise,
       this.electricMotor, this.electricHarmonic, this.pedestrianHum,
     ];
     for (const source of sources) {
@@ -524,6 +573,8 @@ export class EngineAudio {
     this.engineBus = null;
     this.roadBus = null;
     this.transientBus = null;
+    this.accessMotor = null; this.accessMotorGain = null;
+    this.combustionNoise = null; this.combustionNoiseGain = null;
     this.cabinLowpass = null;
     this.lastRunning = false;
   }
@@ -560,8 +611,8 @@ export class EngineAudio {
     this.createEngineLayers(context, now);
     this.createNoiseLayers(context, now);
     this.createWeatherLayers(context, now);
-    this.electricMotor = context.createOscillator(); this.electricMotor.type = 'sine';
-    this.electricHarmonic = context.createOscillator(); this.electricHarmonic.type = 'sine';
+    this.electricMotor = context.createOscillator(); this.electricMotor.type = this.profile?.electric?.rearWave??'sine';
+    this.electricHarmonic = context.createOscillator(); this.electricHarmonic.type = this.profile?.electric?.frontWave??'sine';
     this.pedestrianHum = context.createOscillator(); this.pedestrianHum.type = 'sine'; this.pedestrianHum.frequency.value = 135;
     this.electricGain = this.createSilentGain(context, now); this.harmonicGain = this.createSilentGain(context, now); this.pedestrianGain = this.createSilentGain(context, now);
     this.electricMotor.connect(this.electricGain).connect(this.master);
@@ -585,7 +636,7 @@ export class EngineAudio {
     this.starter.connect(starterFilter).connect(this.starterGain).connect(this.transientBus!);
     this.starter.start();
     this.exhaustBody = context.createOscillator();
-    this.exhaustBody.type = 'sine';
+    this.configureBodyWave(context);
     this.upperExhaust = context.createOscillator();
     this.upperExhaust.type = 'triangle';
     this.mechanical = context.createOscillator();
@@ -620,6 +671,28 @@ export class EngineAudio {
     this.upperExhaust.start();
     this.mechanical.start();
     this.roughnessLfo.start();
+    this.createCombustionTexture(context);
+  }
+
+  private configureBodyWave(context: AudioContext): void {
+    const harmonics = this.profile?.combustionTimbre?.bodyHarmonics;
+    if (harmonics) this.exhaustBody?.setPeriodicWave(context.createPeriodicWave(new Float32Array(harmonics.length), new Float32Array(harmonics)));
+    else if (this.exhaustBody) this.exhaustBody.type = 'sine';
+  }
+
+  /** Combustion gas texture follows the actual firing oscillator. Its broad
+   * spectrum breaks the former sine-wave hum without adding random backfires. */
+  private createCombustionTexture(context: AudioContext): void {
+    if (!this.profile?.combustionTimbre?.pulseNoiseGain || this.combustionNoise || !this.exhaustFilter || !this.exhaustPulse) return;
+    this.combustionNoise = context.createBufferSource();
+    this.combustionNoise.buffer = this.createNoiseBuffer(context, false); this.combustionNoise.loop = true;
+    const filter = context.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 680; filter.Q.value = .55;
+    const envelope = context.createGain(); envelope.gain.value = .64;
+    const pulses = context.createGain(); pulses.gain.value = .30;
+    this.exhaustPulse.connect(pulses).connect(envelope.gain);
+    this.combustionNoiseGain = this.createSilentGain(context, context.currentTime);
+    this.combustionNoise.connect(filter).connect(envelope).connect(this.combustionNoiseGain).connect(this.exhaustFilter);
+    this.combustionNoise.start();
   }
 
   private createNoiseLayers(context: AudioContext, now: number): void {
@@ -746,7 +819,7 @@ export class EngineAudio {
     const bus = this.transientBus;
     if (!context || !bus) return;
     const now = context.currentTime;
-    const envelope = this.createOneShotEnvelope(context, now, 0.28, this.profile ? .017 : .032, 0.012, 0.11);
+    const envelope = this.createOneShotEnvelope(context, now, 0.28, this.profile?.combustionTimbre?.catchLevel ?? (this.profile ? .017 : .032), 0.012, 0.11);
     const catchPulse = context.createOscillator();
     catchPulse.type = 'triangle';
     catchPulse.frequency.setValueAtTime(49, now);
@@ -758,6 +831,7 @@ export class EngineAudio {
     catchPulse.connect(filter).connect(envelope).connect(bus);
     catchPulse.start(now);
     catchPulse.stop(now + 0.28);
+    catchPulse.onended = () => { catchPulse.disconnect(); filter.disconnect(); envelope.disconnect(); };
   }
 
   private playShutdownTransient(): void {
@@ -769,7 +843,7 @@ export class EngineAudio {
       this.engineBus?.gain.cancelScheduledValues(now);
       this.engineBus?.gain.setTargetAtTime(SILENCE, now, 0.19);
     }
-    const envelope = this.createOneShotEnvelope(context, now, 0.46, this.profile ? .006 : .026, 0.006, 0.25);
+    const envelope = this.createOneShotEnvelope(context, now, 0.46, this.profile?.combustionTimbre?.shutdownLevel ?? (this.profile ? .006 : .026), 0.006, 0.25);
     const tail = context.createOscillator();
     tail.type = 'triangle';
     tail.frequency.setValueAtTime(clamp(this.lastFiringHz, 24, 170), now);
@@ -781,6 +855,7 @@ export class EngineAudio {
     tail.connect(filter).connect(envelope).connect(bus);
     tail.start(now);
     tail.stop(now + 0.46);
+    tail.onended = () => { tail.disconnect(); filter.disconnect(); envelope.disconnect(); };
   }
 
   private setPulseWave(context: AudioContext): void {
@@ -789,16 +864,65 @@ export class EngineAudio {
       new Float32Array(harmonics.length), new Float32Array(harmonics)));
   }
 
-  private playChime(kind: 'startup' | 'mode' | 'cruise' | 'fuel' | 'parking'): void {
+  private playChime(kind: VehicleChimeKind): void {
     const context = this.context, bus = this.transientBus;
     if (!context || !bus || !this.profile) return;
-    const notes = kind === 'startup' ? [392, 523] : kind === 'fuel' ? [440, 349] : [440];
+    const voice = this.profile.chimes?.[kind];
+    const notes = voice?.notes ?? (kind === 'startup' ? [392, 523] : kind === 'fuel' ? [440, 349] : [440]);
     notes.forEach((frequency, index) => {
-      const now = context.currentTime + index * .13;
+      const duration = voice?.duration ?? .32, now = context.currentTime + index * (voice?.spacing ?? .13);
       const tone = context.createOscillator(); tone.type = 'sine'; tone.frequency.value = frequency;
-      const envelope = this.createOneShotEnvelope(context, now, .32, this.profile!.chimeLevel, .025, .24);
-      tone.connect(envelope).connect(bus); tone.start(now); tone.stop(now + .32);
+      const envelope = this.createOneShotEnvelope(context, now, duration, this.profile!.chimeLevel * (voice?.gain ?? 1), voice ? Math.min(.018, duration * .12) : .025, voice ? duration * .82 : .24);
+      tone.connect(envelope).connect(bus); tone.start(now); tone.stop(now + duration);
+      if (voice?.partial) {
+        const partial = context.createOscillator(), gain = context.createGain();
+        partial.frequency.value = frequency * 2.002; gain.gain.value = voice.partial;
+        partial.connect(gain).connect(envelope); partial.start(now); partial.stop(now + duration);
+        partial.onended = () => { partial.disconnect(); gain.disconnect(); };
+      }
+      tone.onended = () => { tone.disconnect(); envelope.disconnect(); };
     });
+  }
+
+  private updateAccessSounds(options: EngineAudioUpdateOptions, now: number): void {
+    const voice = this.profile?.accessSounds, context = this.context, bus = this.transientBus;
+    if (!voice || !context || !bus || !options.driverAccess) {
+      this.accessMotorGain?.gain.setTargetAtTime(SILENCE, now, .05);
+      return;
+    }
+    const {doorOpen, windowOpen} = options.driverAccess;
+    if (!this.accessMotor) {
+      this.accessMotor = context.createOscillator(); this.accessMotor.type = 'triangle';
+      this.accessMotorGain = this.createSilentGain(context, now);
+      const filter = context.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 650;
+      this.accessMotor.connect(filter).connect(this.accessMotorGain).connect(bus); this.accessMotor.start();
+    }
+    const moving = this.accessSampled && Math.abs(windowOpen - this.previousWindow) > .0001;
+    const drawingLatch = doorOpen > .001 && doorOpen < .08 && doorOpen < this.previousDoor;
+    this.accessMotor.frequency.setTargetAtTime(moving ? (windowOpen < this.previousWindow ? voice.windowUpHz??205 : voice.windowDownHz??184) : 112, now, .04);
+    this.accessMotorGain!.gain.setTargetAtTime(moving || drawingLatch ? voice.windowLevel * (drawingLatch && !moving ? .55 : 1) * (options.cockpit === false ? .60 : 1) : SILENCE, now, .035);
+    if (this.accessSampled && this.previousDoor <= .001 && doorOpen > .001) this.playAccessLatch(false, voice.latchLevel);
+    if (this.accessSampled && this.previousDoor > .001 && doorOpen <= .001) this.playAccessLatch(true, voice.closeLevel);
+    this.previousDoor = doorOpen; this.previousWindow = windowOpen; this.accessSampled = true;
+  }
+
+  private playAccessLatch(closing: boolean, level: number): void {
+    const context = this.context!, bus = this.transientBus!, now = context.currentTime;
+    const duration = closing ? .22 : .055;
+    const body = context.createOscillator(); body.type = 'sine';
+    const base=closing?this.profile?.accessSounds?.closeBodyHz??94:this.profile?.accessSounds?.latchHz??430;
+    body.frequency.setValueAtTime(base, now);
+    body.frequency.exponentialRampToValueAtTime(base*(closing?.5:250/430), now + duration);
+    const envelope = this.createOneShotEnvelope(context, now, duration, level, .003, duration * .93);
+    body.connect(envelope).connect(bus); body.start(now); body.stop(now + duration);
+    body.onended = () => { body.disconnect(); envelope.disconnect(); };
+    if (this.weatherNoiseBuffer) {
+      const latch = context.createBufferSource(), filter = context.createBiquadFilter();
+      latch.buffer = this.weatherNoiseBuffer; filter.type = 'bandpass'; filter.frequency.value = closing ? 560 : 1550; filter.Q.value = .65;
+      const gain = this.createOneShotEnvelope(context, now, .065, level * .65, .002, .060);
+      latch.connect(filter).connect(gain).connect(bus); latch.start(now); latch.stop(now + .07);
+      latch.onended = () => { latch.disconnect(); filter.disconnect(); gain.disconnect(); };
+    }
   }
 
   private createOneShotEnvelope(

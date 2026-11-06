@@ -52,6 +52,8 @@ for (const descriptor of VEHICLE_CATALOG) {
   assert.ok(Number.parseFloat(model.power) > 0); assert.ok(model.transmission.length > 0);
   assert.equal(JSON.stringify(model).includes('visualConfig'), false);
 }
+const tankModel=vehicleViewModel(VEHICLE_CATALOG.find(vehicle=>vehicle.id==='tank-500-hi4-t')!);
+assert.match(tankModel.name,/Tank 500/);assert.match(tankModel.powertrain,/P2/);assert.equal(tankModel.transmission,'9HAT');
 console.log('UI controller / desktop storage / serializable vehicle models: PASS');
 const gainTargets: number[] = [];
 const audio = Object.assign(new EngineAudio(), {

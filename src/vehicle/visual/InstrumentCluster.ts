@@ -1,3 +1,5 @@
+import { MaybachS680Instruments } from './MaybachS680Displays';
+import { Tank500Display } from './Tank500Displays';
 import * as THREE from 'three';
 import { JeskoAttackInstruments } from './JeskoAttackInstruments';
 import { SU7MaxInstruments } from './SU7MaxInstruments';
@@ -66,6 +68,7 @@ export interface InstrumentIndicatorState {
  * current longitudinal vehicle model.
  */
 export interface InstrumentTelemetry {
+  readonly hybrid?: import('../powertrain/P2HybridPowertrain').HybridTelemetry;
   /** Borrowed physical actuator state; rendering never selects active aero. */
   readonly activeSpoilerDeployment?: number;
   readonly tpmsState?: import('../TPMSState').TPMSState;
@@ -85,6 +88,8 @@ export interface InstrumentTelemetry {
   readonly ev?: import('../powertrain/Powertrain').EVTelemetry;
   readonly startStopState?: import('../powertrain/Powertrain').ICEVehicleTelemetry['startStop'];
   readonly ignitionOn?: boolean;
+  /** Actual access actuator fractions, supplied by the shared interaction runtime. */
+  readonly driverAccess?: { readonly doorOpen: number; readonly windowOpen: number };
   /** Optional environment reading; unavailable temperature stays explicitly blank. */
   readonly outsideTemperatureC?: number;
   /** Optional measured status readings; BMW defaults remain explicitly marked when absent. */
@@ -97,6 +102,8 @@ export interface InstrumentTelemetry {
   readonly cruiseTargetSpeedKmh?: number;
   readonly fuelLevel?: number;
   readonly coolantTemperatureC?: number;
+  /** Optional measured ATF state from the installed transmission. */
+  readonly transmissionTemperatureC?: number;
   readonly handbrake?: number;
   readonly upshiftRecommended?: boolean;
   /** When supplied, engine/battery lamps are forced off while the engine runs. */
@@ -118,8 +125,10 @@ export type InstrumentDisplayStyle =
   | 'ev-premium'
   | 'bmw-live'
   | 'gti-digital'
+  | 'maybach-mbux'
   | 'mercedes-mbux'
-  | 'su7-digital';
+  | 'su7-digital'
+  | 'tank-hybrid';
 
 export interface InstrumentClusterConfig {
   readonly featureClass?: 'standard' | 'advanced';
@@ -1584,6 +1593,7 @@ const parseGearSelector = (gear: InstrumentGear): string => {
 export class InstrumentCluster extends THREE.Group {
   private gtiFace: GolfGTIInstruments | null = null;
   private bmwFace: BMW530Instruments | null = null;
+  private maybachFace: MaybachS680Instruments | null = null;
   private mercedesFace: MercedesE300LInstruments | null = null;
   private evCanvas: HTMLCanvasElement | null = null;
   private evTexture: THREE.CanvasTexture | null = null;
@@ -1591,6 +1601,7 @@ export class InstrumentCluster extends THREE.Group {
   public readonly premiumEVFace: PremiumEVInstruments | null = null;
   private readonly su7Face?: SU7MaxInstruments;
   private readonly jeskoFace?: JeskoAttackInstruments;
+  private readonly tankFace?: Tank500Display;
   private readonly config: InstrumentClusterConfig;
   private readonly tachometerNeedle: THREE.Group;
   private readonly speedometerNeedle: THREE.Group;
@@ -1667,6 +1678,13 @@ export class InstrumentCluster extends THREE.Group {
     this.name = 'Functional instrument cluster';
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.suvScales = getSuvInstrumentScales(this.config);
+    if (this.config.displayStyle === 'tank-hybrid') {
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas); this.informationTexture.dispose();
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.tankFace = new Tank500Display(); this.add(this.tankFace); return;
+    }
     if (this.config.displayStyle === 'jesko-digital') {
       this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
       this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
@@ -1695,6 +1713,15 @@ export class InstrumentCluster extends THREE.Group {
       this.informationTexture.dispose();
       this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
       this.bmwFace = new BMW530Instruments(this.config, assets); this.add(this.bmwFace);
+      return;
+    }
+    if (this.config.displayStyle === 'maybach-mbux') {
+      this.tachometerNeedle = new THREE.Group(); this.speedometerNeedle = new THREE.Group();
+      this.fuelNeedle = new THREE.Group(); this.temperatureNeedle = new THREE.Group();
+      this.informationTexture = new THREE.CanvasTexture(this.informationCanvas);
+      this.informationTexture.dispose();
+      this.sportDisplayCanvas = null; this.sportDisplayTexture = null;
+      this.maybachFace = new MaybachS680Instruments(this.config); this.add(this.maybachFace);
       return;
     }
     if (this.config.displayStyle === 'mercedes-mbux') {
@@ -2100,11 +2127,13 @@ export class InstrumentCluster extends THREE.Group {
   public setDisplaySteeringAngle(angle: number): void { this.jeskoFace?.setSteeringAngle(angle); }
 
   public update(telemetry: InstrumentTelemetry, deltaTime = 1 / 60): void {
+    if (this.tankFace) { this.tankFace.update(telemetry, deltaTime); return; }
     if (this.jeskoFace) { this.jeskoFace.update(telemetry, deltaTime); return; }
     if (this.su7Face) {this.su7Face.update(telemetry,deltaTime);return;}
     if (this.gtiFace) { this.gtiFace.update(telemetry, deltaTime); return; }
     if (this.premiumEVFace) { this.premiumEVFace.update(telemetry, deltaTime); return; }
     if (this.bmwFace) { this.bmwFace.update(telemetry, deltaTime); return; }
+    if (this.maybachFace) { this.maybachFace.update(telemetry, deltaTime); return; }
     if (this.mercedesFace) { this.mercedesFace.update(telemetry, deltaTime); return; }
     if (this.evCanvas && this.evTexture) {
       if (this.electricFace?.update(this.evCanvas, telemetry, deltaTime)) this.evTexture.needsUpdate = true;

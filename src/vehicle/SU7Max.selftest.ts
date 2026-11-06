@@ -119,7 +119,7 @@ export function runSU7MaxSelfTest() {
     const anchors=localWheelPositions(c),offset=descriptor.visualConfig.staticBodyOffsetY??0;
     for(const wheel of VEHICLE_WHEEL_IDS){const pos=visual.wheelPivots[wheel].position,a=anchors[wheel];
       assert(Math.hypot(pos.x-a.x,pos.y+offset-a.y,pos.z-a.z)<1e-7,'wheel/collision datum '+wheel);}
-    for(const name of ['SU7 panoramic glass roof','SU7 continuous halo tail lamp','Left SU7 waterdrop DRL','SU7 7.1 inch driver instrument','SU7 16.1 inch centre display','SU7 steering wheel rim'])
+    for(const name of ['SU7 panoramic glass roof','SU7 continuous halo tail lamp','Left SU7 waterdrop DRL','SU7 game-adapted driver instrument','SU7 16.1 inch centre display','SU7 steering wheel rim'])
       assert(!!visual.root.getObjectByName(name),'dedicated exterior/cabin '+name);
     const mesh=(v:VehicleVisual,name:string)=>v.root.getObjectByName(name) as T.Mesh;
     const map=mesh(visual,'SU7 isolated navigation display').material;

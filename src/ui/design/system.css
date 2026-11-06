@@ -38,6 +38,9 @@
 .ds-page-header button { background: #111518c9; }
 .ds-vehicles { background: linear-gradient(0deg, #101315f5, #101315a0 20%, transparent 55%); }
 .ds-vehicle-heading { pointer-events: none; }
+.ds-vehicle-picker { margin-left: auto; display: inline-flex; align-items: center; gap: 10px; color: var(--ds-secondary); font-size: 12px; }
+.ds-vehicle-picker select { max-width: min(36vw, 360px); padding: 10px 12px; border: 1px solid var(--ds-line); border-radius: 5px; background: #151b20; color: var(--ds-primary); font: inherit; font-size: 14px; cursor: pointer; }
+.ds-vehicle-picker select:focus-visible { outline: 2px solid var(--ds-accent); outline-offset: 3px; }
 .ds-vehicle-heading h1 { max-width: 70%; text-shadow: 0 2px 8px #000; }
 .ds-shell .ds-cycle { position: absolute; top: 46%; font-size: 26px; background: #101315c9; width: 60px; height: 60px; padding: 8px; }
 .ds-prev { left: var(--ds-edge); } .ds-next { right: var(--ds-edge); }

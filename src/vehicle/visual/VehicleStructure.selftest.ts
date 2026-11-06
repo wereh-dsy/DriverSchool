@@ -43,6 +43,45 @@ export function runVehicleStructureSelfTest() {
       try {
         visual.root.updateMatrixWorld(true);
         const config = car.visualConfig;
+        if(config.body.design==='maybach-z223'||config.body.design==='tank-500') {
+          // These independently authored cabins have different part names and
+          // (Maybach) a split wood/leather rim; verify their actual structures.
+          const maybach=config.body.design==='maybach-z223';
+          const column=visual.root.getObjectByName(maybach?'Maybach enclosed steering column':'Tank enclosed steering column') as THREE.Mesh<THREE.CylinderGeometry>;
+          assert(column?.geometry instanceof THREE.CylinderGeometry,`${car.id}: authored physical column exists`);
+          const hub=new THREE.Vector3(...config.steeringWheelPosition),mount=new THREE.Vector3(...config.steeringColumnMountPosition!);
+          const ends=[-1,1].map(s=>new THREE.Vector3(0,s*column.geometry.parameters.height/2,0).applyMatrix4(column.matrixWorld));
+          assert(Math.min(...ends.map(p=>p.distanceTo(hub)))<.03&&Math.min(...ends.map(p=>p.distanceTo(mount)))<1e-8,`${car.id}: column joins configured hub and dashboard`);
+          assert(mount.clone().sub(hub).normalize().dot(new THREE.Vector3(0,0,-1).transformDirection(visual.cockpitRoot.steeringWheelBase.matrixWorld))>.999,`${car.id}: column follows wheel axis`);
+          const rims=(maybach?['Maybach ivory leather steering rim','Maybach polished upper steering wood']:['Tank leather steering rim'])
+            .map(name=>visual.root.getObjectByName(name) as THREE.Mesh<THREE.TorusGeometry>);
+          assert(rims.every(r=>r?.geometry instanceof THREE.TorusGeometry),`${car.id}: physical rim sections`);
+          assert(Math.abs(rims.reduce((sum,r)=>sum+r.geometry.parameters.arc,0)-Math.PI*2)<1e-8,`${car.id}: complete closed rim`);
+          for(const r of rims){const p=r.geometry.parameters;assert((p.radius+p.tube)*2>=.35&&(p.radius+p.tube)*2<=.39,`${car.id}: full size rim`);}
+          if(maybach)for(const i of [0,1]) {
+            const a=rims[i]!,b=rims[1-i]!,p=a.geometry.parameters;
+            const end=new THREE.Vector3(Math.cos(p.arc)*p.radius,Math.sin(p.arc)*p.radius,0).applyMatrix4(a.matrixWorld);
+            const start=new THREE.Vector3(b.geometry.parameters.radius,0,0).applyMatrix4(b.matrixWorld);
+            assert(end.distanceTo(start)<1e-7,`${car.id}: wood and leather rim ends meet`);
+          }
+          const screen=visual.root.getObjectByName(maybach?'Maybach live instrument face':'Tank instrument screen') as THREE.Mesh;
+          assert(!!screen,`${car.id}: live instrument screen`);
+          const opaque:THREE.Mesh[]=[];visual.root.traverse(o=>{if(o instanceof THREE.Mesh&&o!==screen&&(Array.isArray(o.material)?o.material:[o.material]).every(m=>!m.transparent))opaque.push(o);});
+          const eye=new THREE.Vector3(...config.driverEyePosition),ray=new THREE.Raycaster();ray.layers.enableAll();
+          for(const angle of [0,-.5,.5]) {
+            visual.setSteeringWheelAngle(angle);visual.root.updateMatrixWorld(true);
+            for(const x of [-.10,0,.10])for(const y of [.025,.055]) {
+              const target=screen.localToWorld(new THREE.Vector3(x,y,.0001));ray.set(eye,target.clone().sub(eye).normalize());ray.far=target.distanceTo(eye)-.0005;
+              assert(ray.intersectObjects(opaque,false).length===0,`${car.id}: authored primary instrument readout visible`);
+            }
+            for(const r of rims)for(let step=0;step<=24;step++) {
+              const theta=r.geometry.parameters.arc*step/24,target=r.localToWorld(new THREE.Vector3(Math.cos(theta)*r.geometry.parameters.radius,Math.sin(theta)*r.geometry.parameters.radius,0));
+              ray.set(eye,target.clone().sub(eye).normalize());ray.far=target.distanceTo(eye)-.002;
+              assert(ray.intersectObjects(opaque.filter(o=>!visual.cockpitRoot.steeringWheelBase.getObjectById(o.id)),false).length===0,`${car.id}: authored rim clears cabin`);
+            }
+          }
+          continue;
+        }
         if (config.instrumentCluster.displayStyle === 'ev-center') {
           assert(visual.root.getObjectByName('Electric centre touchscreen') !== undefined &&
             visual.root.getObjectByName('Instrument binnacle back') === undefined, `${car.id}: EV cabin has centre screen without binnacle`);

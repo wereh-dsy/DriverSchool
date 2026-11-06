@@ -348,7 +348,9 @@ function runHairpinAcceptance(ground: CircuitGround) {
       const targetYaw=Math.atan2(-(target.x-state.x),-(target.z-state.z));
       const speedError=85-state.speedKmh;
       const after=contacts.step(1/120,makeInput({
-        steering:clamp(-wrapAngle(targetYaw-(state.yaw-state.bodySlipAngle))*1.55,-1,1),
+        // The same bounded test driver must also track slower steering racks
+        // on the newly registered large SUV; no vehicle calibration is changed.
+        steering:clamp(-wrapAngle(targetYaw-(state.yaw-state.bodySlipAngle))*1.8,-1,1),
         throttle:clamp(.28+speedError*.11,0,1),brake:clamp((-speedError-2)*.06,0,.3),
       }),car);
       if(contacts.collision?.collided)collisions++;

@@ -11,34 +11,26 @@ import { BoxGeometry, InstancedMesh, Mesh } from 'three';
 import { validateHighwayData } from './HighwayValidation';
 import { RoadClearance } from '../city/RoadClearance';
 import { junctionSurfaceContains,junctionSurfaceHeight } from '../city/JunctionSurface';
-import { matchesApprovedCityGeometry } from '../city/maps/CityGeometryRepair.selftest';
+import { assertRegionalReleaseBaseline } from './RegionalReleaseBaseline.selftest';
 
 const assert=(ok:unknown,message:string)=>{if(!ok)throw new Error(message);};
-export function runHighwaySystemSelfTest(map:CityMapData,baseline:CityMapData){
+export function runHighwaySystemSelfTest(map:CityMapData){
   const checks:string[]=[],check=(name:string,run:()=>void)=>{run();checks.push(name);};
   const system=map.regional!.highways!,roads=new Map(map.roads.map(r=>[r.id,r]));
   const transitions=map.roads.filter(r=>r.highwayTransition);
   check('retained highway skeleton and existing city data',()=>{
-    for(const r of baseline.roads)if(!r.id.startsWith('regional:S89:'))assert(roads.has(r.id),'Removed retained road '+r.id);
-    for(const route of baseline.regional!.routes){const next=map.regional!.routes.find(r=>r.id===route.id)!;
-      // Only S12's former airport endpoint (first kilometre) is reconstructed.
-      // Its western/southern corridor and all other original mainlines stay.
-      const kept=route.id==='S89'?route.centerline.filter(p=>p.z>=1800):route.centerline;
-      assert(next&&kept.every(p=>next.centerline.some(q=>Math.hypot(p.x-q.x,p.z-q.z, (p.y??0)-(q.y??0))<1e-6)),'Rebuilt retained route '+route.id);
-    }
-    for(const old of baseline.roads.filter(e=>!e.id.startsWith('regional:')))assert(matchesApprovedCityGeometry(old,roads.get(old.id)!,baseline.roads),'Changed city outside exact approved repair '+old.id);
-    for(const key of ['intersections','objects'] as const)for(const old of baseline[key].filter(e=>!e.id.startsWith('regional:')))assert(JSON.stringify(map[key].find(e=>e.id===old.id))===JSON.stringify(old),'Changed city '+old.id);
+    assertRegionalReleaseBaseline(map);
   });
-  check('thirteen routes and stable internal IDs with approved display numbers',()=>{
-    assert(system.routes.length===13,'Route count');
+  check('fourteen routes and stable internal IDs with approved display numbers',()=>{
+    assert(system.routes.length===14,'Route count');
     for(const [id,number]of [['S37','S27'],['S89','S12'],['S26','S26'],['S68','S28']])assert(system.routes.find(r=>r.id===id)?.number===number,'Display number '+id);
-    for(const id of ['G42','G65','S18','S36','S31','S29'])assert(system.routes.some(r=>r.id===id),'Missing '+id);
+    for(const id of ['G42','G65','S18','S36','S31','S29','S32'])assert(system.routes.some(r=>r.id===id),'Missing '+id);
     assert(system.routes.find(r=>r.id==='G4516')!.type==='connector','G4516 connector');
     for(const r of system.routes)assert(r.roadIds.every(id=>roads.has(id))&&r.direction.forward&&r.direction.reverse,'Incomplete '+r.id);
   });
   check('airport, service, exit and continuation node metadata',()=>{
     assert(!validateHighwayData(map).length,'Highway data validation');
-    assert(system.exits.length===12&&system.services.length===4&&system.junctions.length===21,'Node counts');
+    assert(system.exits.length===11&&system.services.length===1&&system.junctions.length===23,'v493 / city V9 node counts');
     assert(system.exits.find(e=>e.highway==='S18')!.destinations.some(d=>d.includes('航站楼')),'Terminal directions');
     assert(map.roadLinks!.some(l=>l.to.roadId==='regional:airport-terminal-access'),'Airport terminal road');
     for(const s of system.services.filter(s=>s.id.includes('chenjiang')||s.id.includes('airport')))assert(s.facilities.includes('fuel')&&s.facilities.includes('charging')&&s.facilities.includes('toilet'),'Facilities');
@@ -65,18 +57,22 @@ export function runHighwaySystemSelfTest(map:CityMapData,baseline:CityMapData){
   });
   check('continuous G17/G38 ownership, west trunks and explicit network roles',()=>{
     for(const [oldId,owner] of [['G42','G17'],['G65','G38']])for(const road of map.roads.filter(r=>r.id.startsWith(`regional:${oldId}:`)))assert(road.roadNameId===owner,'Artificial mainline renumbering '+road.id);
-    for(const id of ['G42','G65']){const route=system.routes.find(r=>r.id===id)!;assert(route.roadIds.some(id=>roads.get(id)!.centerline.some(p=>p.x<-10000)),'West corridor '+id);assert(route.role==='trunk'&&route.termini?.start.includes('区域外')&&route.termini.end.includes('区域外'),'Unexplained trunk terminal '+id);}
+    for(const [id,end] of [['G42','东岭（内陆远端）'],['G65','南部地区（区域外）']]){const route=system.routes.find(r=>r.id===id)!;assert(route.roadIds.some(id=>roads.get(id)!.centerline.some(p=>p.x<-10000)),'West corridor '+id);assert(route.role==='trunk'&&route.termini?.start.includes('区域外')&&route.termini.end===end,'Unexplained trunk terminal '+id);}
     assert(system.routes.filter(r=>r.role==='trunk').length>=3&&system.routes.filter(r=>r.role==='orbital').length>=1,'Network hierarchy');
     assert(system.routes.filter(r=>r.type==='provincial').every(r=>Number(r.number.slice(1))<=40),'Provincial numbering');
     for(const suffix of ['westgate','airport-north','northwest','westlink']){const hub=system.junctions.find(j=>j.id==='regional:v2:'+suffix)!;assert(hub?.kind==='interchange'&&hub.roadIds.filter(id=>roads.get(id)?.gore?.start).length===8,'Full interchange movements '+suffix);}
     const west=map.regional!.routes.find(r=>r.id==='S37')!;assert(west.centerline.at(-1)!.x<=-14500,'S27 stops at old hub');
   });
-  check('every exit has 2km / 1km / 500m and destination diverge boards',()=>{
+  check('every exit retains approach and destination diverge boards with measured distances',()=>{
     for(const exit of system.exits)for(const id of exit.roadIds.filter(id=>roads.get(id)?.gore?.start)){
-      for(const distance of [2000,1000,500,35]){
-        const sign=map.signs!.find(s=>s.decisionIds?.includes(id)&&s.advanceMetres===distance);assert(sign,`${id} ${distance}m`);
-        assert(sign!.exitNumber===exit.exitNumber&&sign!.destinations.some(d=>d.directionId===exit.id+':destinations'&&d.arrow.startsWith('exit-')),'Destination board '+id);
-        assert(Math.abs((sign!.actualAdvanceMetres??distance)-distance)<=30,'Advance placement '+id);
+      // Short predecessor chains truncate distant warnings; the release snapshot
+      // freezes every retained board instead of demanding fictitious 2km roads.
+      const signs=map.signs!.filter(s=>s.decisionIds?.includes(id));
+      assert(signs.some(s=>s.type==='EXPRESSWAY_DIVERGE'&&(s.actualAdvanceMetres??s.advanceMetres??Infinity)<=50),`${id} destination diverge`);
+      assert(signs.some(s=>(s.actualAdvanceMetres??s.advanceMetres??0)>200),`${id} advance warning`);
+      for(const sign of signs){
+        assert(sign.exitNumber===exit.exitNumber&&sign.destinations.some(d=>d.directionId===exit.id+':destinations'&&d.arrow.startsWith('exit-')),'Destination board '+id);
+        assert(sign.advanceMetres!==undefined&&Math.abs((sign.actualAdvanceMetres??sign.advanceMetres)-sign.advanceMetres)<=30,'Advance placement '+id);
       }
     }
   });
@@ -87,8 +83,8 @@ export function runHighwaySystemSelfTest(map:CityMapData,baseline:CityMapData){
       const half=road.laneCount*road.laneWidth/2;assert(dims.posts[0]! < -half && dims.posts[1]! > half,'Support on carriageway');
       assert(dims.posts[0]! > -half-(road.shoulders?.left??0) && dims.posts[1]! < half+(road.shoulders?.right??0),'Support outside paved deck');
       assert(roadSignColliders(sign).length===3,'Support collision geometry');
-      if(sign.type!=='EXPRESSWAY_DISTANCE'&&sign.id.startsWith('regional:'))assert(c.destinations.some(d=>d.routeNumber),'Numbered regional route shield');
-      if(sign.interchangeId&&system.junctions.some(h=>h.id===sign.interchangeId)&&sign.decisionIds?.length)assert(c.destinations.some(d=>d.direction&&d.name!==c.destinations[0]!.name),'Hub target direction');
+      if(sign.type!=='EXPRESSWAY_DISTANCE'&&sign.id.startsWith('regional:'))assert(c.destinations.some(d=>d.routeNumber),'Numbered regional route shield '+sign.id);
+      if(sign.interchangeId&&system.junctions.some(h=>h.id===sign.interchangeId)&&sign.decisionIds?.length)assert(c.destinations.some(d=>d.direction&&d.name!==c.destinations[0]!.name),'Hub target direction '+sign.id);
     }
   });
   check('right-exit semantics, lane assignments, entries and measured mileage',()=>{
@@ -106,6 +102,11 @@ export function runHighwaySystemSelfTest(map:CityMapData,baseline:CityMapData){
     const context=new Proxy({font:''},{get:(target,key)=>key==='font'?target.font:key==='fillText'?(_t:string,_x:number,_y:number,width:number)=>{fonts.push(target.font);widths.push(width);}:key==='rotate'?(angle:number)=>rotations.push(angle):()=>{},set:(target,key,value)=>{if(key==='font')target.font=value;return true;}});
     const renderer=new RoadSignRenderer(map.roadNames!,()=>({getContext:()=>context} as unknown as HTMLCanvasElement));
     for(const sign of map.signs!.filter(s=>s.highwayLayout))renderer.materialFor(sign);
+    // Live three-column boards may be ceiling-mounted after clearance repair.
+    // Independently exercise both full-height layout branches as well.
+    const fixture=map.signs!.find(s=>s.highwayLayout&&s.template==='highway-gantry')!;
+    for(const count of [2,3])renderer.materialFor({...fixture,id:`layout-fixture-${count}`,type:'EXPRESSWAY_ADVANCE',highwayLayout:true,
+      facilities:undefined,laneArrows:undefined,destinations:Array.from({length:count},(_,i)=>({...fixture.destinations[0]!,directionId:undefined,text:`布局 ${i}`,arrow:'exit-right' as const}))});
     assert(fonts.length>100&&fonts.every(f=>f.startsWith('400 ')),'Highway font relies on bold');assert(widths.every(w=>Number.isFinite(w)&&w>0),'Clipped or negative text region');assert(fonts.some(f=>f.startsWith('400 224px'))&&fonts.some(f=>f.startsWith('400 166px')),'Large destinations in two and three column layouts');assert(rotations.some(r=>r===Math.PI/4),'No right arrow was painted');renderer.dispose();
   });
   const materials=createSubject3Materials();

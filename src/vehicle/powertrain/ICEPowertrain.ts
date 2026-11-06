@@ -1,4 +1,5 @@
 import type { VehicleControlMode } from '../../input/VehicleInputState';
+import type { DriveTorqueSource } from '../physics/DriveTorqueSource';
 import type { DriveModeCalibration, DriveSelector, Gear, VehiclePhysicsConfig } from '../config';
 import { MildHybridSystem } from './MildHybridSystem';
 import { ICEHeatState } from './ICEHeatState';
@@ -55,7 +56,7 @@ export class ICEPowertrain implements Powertrain {
     this.upshiftAdvisor = new UpshiftAdvisor(config.engine.shiftRecommendation, this.gearbox.getMaximumForwardGear());
     this.setStartStopEnabled(config.startStop?.enabledByDefault ?? false);
   }
-  public get torqueSource(): Engine { return this.engine; }
+  public get torqueSource(): DriveTorqueSource { return this.engine; }
   public get vehicleOperational(): boolean { return this.engine.ignitionOn; }
   public get driveAvailable(): boolean { return this.startStopState !== 'AUTO_STOPPED' && this.startStopState !== 'RESTARTING' && this.torqueSource.canDeliverTorque; }
   public get supportsManualSelection(): boolean { return this.config.transmission.supportsManualSelection === true; }
@@ -364,6 +365,7 @@ export class ICEPowertrain implements Powertrain {
       availableDriveTorque: this.torqueSource.availableDriveTorque, transmission,
       ice: {
         thermal: this.thermal ? { temperatureC: this.thermal.temperatureC, torqueFactor: this.thermal.torqueFactor } : undefined,
+        automaticEngineStop: this.startStopState === 'AUTO_STOPPED' || this.startStopState === 'RESTARTING',
         mildHybrid: this.mildHybrid?.getSnapshot(),
         startStop: { supported: this.config.startStop !== undefined && this.transmission.type !== 'MANUAL',
           enabled: this.startStopEnabled, state: this.startStopState },

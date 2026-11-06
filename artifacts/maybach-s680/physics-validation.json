@@ -1,0 +1,175 @@
+{
+  "maybach": {
+    "checks": 50,
+    "coldIdleRPM": 650.0000000013915,
+    "creepPeakMps": 1.389620387896774,
+    "modes": {
+      "NORMAL": {
+        "speedKmh": 56.33262512291426,
+        "shifts": 3,
+        "shiftSpeeds": [
+          21.067635648001417,
+          33.8345761589534,
+          47.052051460120026
+        ],
+        "maximumJerk": 9.093773504575076
+      },
+      "SPORT": {
+        "speedKmh": 86.09729053691674,
+        "shifts": 3,
+        "shiftSpeeds": [
+          33.92617362236824,
+          55.90951966727171,
+          78.6699563044756
+        ],
+        "maximumJerk": 15.23319835312476
+      },
+      "MAYBACH": {
+        "speedKmh": 43.396332791650316,
+        "shifts": 3,
+        "shiftSpeeds": [
+          0.41045483322132814,
+          27.474908943213986,
+          37.720965283319174
+        ],
+        "maximumJerk": 7.361872614945425
+      }
+    },
+    "bumps": {
+      "NORMAL": {
+        "peakAcceleration": 0.7921965830527108,
+        "peakPitch": 0.013773496930942472,
+        "peakRoll": 0.006507779081814228,
+        "rideOffset": 0,
+        "load": 25260.228962619563
+      },
+      "SPORT": {
+        "peakAcceleration": 0.7935188820680326,
+        "peakPitch": 0.013363323022655355,
+        "peakRoll": 0.006420488333737841,
+        "rideOffset": -0.012,
+        "load": 25260.227492629634
+      },
+      "MAYBACH": {
+        "peakAcceleration": 0.7950226273258483,
+        "peakPitch": 0.01408083634870374,
+        "peakRoll": 0.0065383079038281965,
+        "rideOffset": 0.008,
+        "load": 25260.22911887415
+      }
+    },
+    "performance": {
+      "zeroTo100": 4.583333333333333,
+      "fullModeTimes": {
+        "NORMAL": 4.583333333333333,
+        "SPORT": 4.458333333333333,
+        "MAYBACH": 4.908333333333333
+      },
+      "dyno": {
+        "2000": 899.9972637678793,
+        "4000": 899.9972637224702,
+        "5500": 780.9976119322367
+      },
+      "maximumAcceleration": 9.263133721593055,
+      "brakePitch": 0.03474346111826536
+    },
+    "rearSteering": {
+      "low": -0.07853975945341898,
+      "high": 0.020296901339612268,
+      "radius": 5.776615791764714,
+      "withoutRear": 6.669470974004348
+    },
+    "highway": {
+      "maxRoll": 0.006794620056120724,
+      "maxPitch": 0.0008465592259750542
+    },
+    "audio": {
+      "inside": {
+        "exhaustCutoffHz": 183.52,
+        "intakeCutoffHz": 344.71999999999997,
+        "firingHz": 200,
+        "exhaust": 0.00391316164667359,
+        "exhaustBody": 0.005485908387170992,
+        "upperExhaust": 0.00011222954781247156,
+        "intake": 0.000444096,
+        "mechanical": 0.00015564719191624944,
+        "turbo": 0,
+        "road": 0.0027099125364431482,
+        "wind": 0.0018463320226940938,
+        "cabinLowpassHz": 1350,
+        "load": 0.4,
+        "speed": 30
+      },
+      "outside": {
+        "exhaustCutoffHz": 296,
+        "intakeCutoffHz": 556,
+        "firingHz": 200,
+        "exhaust": 0.028929988827547937,
+        "exhaustBody": 0.0405572993604081,
+        "upperExhaust": 0.0008297126102867546,
+        "intake": 0.0032831999999999996,
+        "mechanical": 0.001150699084205735,
+        "turbo": 0,
+        "road": 0.010839650145772593,
+        "wind": 0.008392418284973153,
+        "cabinLowpassHz": 20000,
+        "load": 0.4,
+        "speed": 30
+      }
+    },
+    "geometry": {
+      "meshes": 238,
+      "vertices": 110705
+    }
+  },
+  "e300lRegression": {
+    "assertions": 157493,
+    "meshes": 354,
+    "vertices": 141416,
+    "materials": 62,
+    "zeroTo100Seconds": 7.533333333333333,
+    "topSpeedKmh": 263.6876187562787,
+    "closureRays": 10
+  },
+  "transmissionBackend": {
+    "assertions": 2440,
+    "converterRatios": [
+      2.05,
+      1.5,
+      1.13,
+      1
+    ],
+    "atCreepTorque": 489.95136075861353,
+    "dctCreepTorque": 342.51515008276374
+  },
+  "transmissionShifts": {
+    "assertions": 37167,
+    "scenarios": [
+      {
+        "type": "TORQUE_CONVERTER_AT",
+        "firstShiftRPM": 2395.277863738454,
+        "firstShiftDuration": 0.5250000000000004,
+        "firstShiftMinWheelTorque": 194.21221218001338,
+        "fullThrottleFirstShiftRPM": 6267.862357575601,
+        "maximumRPMStep": 32.95621221800684,
+        "gearChanges": 3,
+        "overlapSeen": false,
+        "shaftSwitches": 0,
+        "maximumLowSpeedStep": 0.01590539481107668
+      },
+      {
+        "type": "DCT",
+        "firstShiftRPM": 2078.9836613651673,
+        "firstShiftDuration": 0.20833333333333393,
+        "firstShiftMinWheelTorque": 328.03088694153325,
+        "fullThrottleFirstShiftRPM": 5976.8165026513525,
+        "maximumRPMStep": 40.265913852274934,
+        "gearChanges": 4,
+        "overlapSeen": true,
+        "shaftSwitches": 3,
+        "maximumLowSpeedStep": 0.020033660409103773
+      }
+    ]
+  },
+  "validationScope": "Powertrain/ride/audio/E300L/AT checks before the final visual-only refinement; no full suites. Final visual refinement verified separately with native WebGL captures."
+}

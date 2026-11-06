@@ -30,7 +30,7 @@
     "desktop:dev": "node scripts/desktop-dev.mjs",
     "desktop:build": "tsc -p desktop/tsconfig.json && node scripts/desktop-build.mjs",
     "desktop:start": "electron .desktop/main.cjs",
-    "desktop:package": "pnpm run build -BasicValidation && pnpm run desktop:build && node scripts/desktop-package.mjs",
+    "desktop:package": "pnpm run build && pnpm run desktop:build && node scripts/desktop-package.mjs",
     "selftest:ui": "node scripts/run-ui-selftests.mjs",
     "selftest:loading": "node scripts/run-loading-selftests.mjs",
     "selftest:physics-streaming": "node scripts/run-physics-sector-selftests.mjs"

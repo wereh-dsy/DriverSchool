@@ -22,6 +22,7 @@ export interface DriverDoorDefinition {
   readonly openTransform: VehicleInteractionTransform;
   readonly openSeconds: number;
   readonly closeSeconds: number;
+  readonly softClose?: { readonly captureFraction: number; readonly latchSeconds: number };
 }
 
 /** Vehicle-provided driver-window visual and travel definition. */

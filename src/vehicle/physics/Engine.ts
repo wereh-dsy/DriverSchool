@@ -300,7 +300,8 @@ export class Engine implements DriveTorqueSource {
     // at wide-open throttle. Legacy configurations retain the linear mapping.
     const combustionThrottle = clamp01(this.throttle) ** Math.max(0.1, this.config.partThrottleExponent ?? 1);
     const combustionTorque =
-      this.availableTorque * combustionThrottle * limiterMultiplier * this.torqueLimitFactor *
+      (this.availableTorque + (this.config.torqueCurveIsNet ? this.config.engineFrictionTorque : 0)) *
+      combustionThrottle * limiterMultiplier * this.torqueLimitFactor *
       (1 + this.rippleWave * (this.config.torqueRipple ?? .018) * 4 / this.config.cylinderCount);
 
     // Mechanical drag is independent of pedal position. The existing

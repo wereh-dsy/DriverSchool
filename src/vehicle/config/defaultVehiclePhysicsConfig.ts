@@ -246,6 +246,7 @@ export function cloneVehiclePhysicsConfig(
     parkingBrake: config.parkingBrake === undefined ? undefined : { ...config.parkingBrake },
     autoHold: config.autoHold === undefined ? undefined : { ...config.autoHold },
     mildHybrid: config.mildHybrid ? structuredClone(config.mildHybrid) : undefined,
+    hybrid: config.hybrid ? structuredClone(config.hybrid) : undefined,
     fuel: { ...config.fuel },
     driveModeOrder: config.driveModeOrder?.slice(),
     driveModes: config.driveModes === undefined ? undefined : Object.fromEntries(
@@ -274,6 +275,7 @@ export function cloneVehiclePhysicsConfig(
       gearRatios: { ...config.transmission.gearRatios },
       automatic: config.transmission.automatic === undefined ? undefined : {
         ...config.transmission.automatic,
+        thermal: config.transmission.automatic.thermal && { ...config.transmission.automatic.thermal },
         converter: { ...config.transmission.automatic.converter,
           torqueRatioCurve: config.transmission.automatic.converter.torqueRatioCurve.map((point) => ({ ...point })) },
         shiftStrategy: { ...config.transmission.automatic.shiftStrategy,
@@ -299,7 +301,7 @@ export function cloneVehiclePhysicsConfig(
     clutch: { ...config.clutch },
     autoClutch: { ...config.autoClutch },
     brakes: { ...config.brakes },
-    steering: { ...config.steering, returnProfile: config.steering.returnProfile === undefined ? undefined : { ...config.steering.returnProfile } },
+    steering: { ...config.steering, rearAxle: config.steering.rearAxle && { ...config.steering.rearAxle }, returnProfile: config.steering.returnProfile === undefined ? undefined : { ...config.steering.returnProfile } },
     aero: { ...config.aero, activeSpoiler: config.aero.activeSpoiler && { ...config.aero.activeSpoiler },
       activeAero: config.aero.activeAero && structuredClone(config.aero.activeAero) },
     tires: { ...config.tires,

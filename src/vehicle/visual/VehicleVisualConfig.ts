@@ -58,6 +58,8 @@ export interface DriverAccessVisualConfig {
   readonly openPositionOffset?: Vector3Tuple;
   readonly openSeconds: number;
   readonly closeSeconds: number;
+  /** Slow final latch travel, within closeSeconds. */
+  readonly softClose?: { readonly captureFraction: number; readonly latchSeconds: number };
   /** Seconds for the glass to travel from closed to fully open. */
   readonly windowTravelSeconds: number;
   /** Unit direction of the glass travel in the door's local frame. */
@@ -78,6 +80,8 @@ export interface DriverAccessVisualConfig {
   };
   /** Exact cockpit node names that belong to the driver door. */
   readonly doorMountedPartNames?: readonly string[];
+  /** Authored exterior/mirror nodes that share the door hinge; retain their render layers. */
+  readonly doorMountedExteriorPartNames?: readonly string[];
   /** Exact cockpit node name of the driver-door ambient ribbon. */
   readonly doorAmbientTrimName?: string;
   /** A6L uses the same ribbon name on all doors; select by local position. */
@@ -168,7 +172,7 @@ export interface VehicleVisualConfig {
     readonly wheelArchCenterY?: number;
     readonly profile: 'sedan' | 'sport-coupe' | 'suv' | 'hatchback';
     /** Optional saloon shape family; omitted preserves the original MT/GT geometry. */
-    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback' | 'bmw-g38' | 'golf-gti' | 'mercedes-v214' | 'jesko-attack';
+    readonly design?: 'flow' | 'formal' | 'comfort' | 'executive' | 'road-suv' | 'mid-supercar' | 'electric-fastback' | 'bmw-g38' | 'golf-gti' | 'mercedes-v214' | 'maybach-z223' | 'jesko-attack' | 'tank-500';
     readonly sillY: number;
     readonly hoodTopY: number;
     readonly hoodLength: number;
@@ -240,7 +244,7 @@ export const DEFAULT_SEDAN_VISUAL_CONFIG: VehicleVisualConfig = {
     mountPosition: [FAMILY_SEDAN_DIMENSIONS.width * 0.48, 0.875, -0.655],
     // The far mirror needs its own calibrated pitch, not a copy of the left.
     // ~19% real body reference; the rest shows the adjacent parking ground.
-    rotation: [degrees(-2.7), degrees(-27.5), 0],
+    rotation: [degrees(-2.7), degrees(-27.0), 0],
     size: [0.215, 0.112],
     housingDepth: 0.045,
   },
